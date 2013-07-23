@@ -29,8 +29,14 @@ public abstract class BaseActivity extends Activity {
 	/** The left menu , centerview , right settings. */
 	protected View leftMenu, centerView, rightSettings;
 	
-	/** The menu out. */
-	protected boolean menuOut ;
+	
+	/**
+	 * Menu must NOT be out/shown to start with.
+	 */
+	static boolean menuOut = false;
+	
+	/** The settings out. */
+	static boolean settingsOut = false;
 	
 	/** The inflater. */
 	protected LayoutInflater inflater;
@@ -85,7 +91,31 @@ public abstract class BaseActivity extends Activity {
 				getApplicationContext()));
 
 	}
-
+	
+	/**
+	 * Back button handler
+	 */
+	@Override
+	public void onBackPressed() {
+		if(menuOut) 
+		{
+			int left= leftMenu.getMeasuredWidth();
+			scrollView.smoothScrollTo(left, 0);
+			menuOut= !menuOut;
+		}
+		else if(settingsOut)
+		{
+			int left= leftMenu.getMeasuredWidth();
+			scrollView.smoothScrollTo(left, 0);
+			settingsOut=!settingsOut;
+		}
+		else
+		{
+			super.onBackPressed();
+		}
+	}
+	
+	
 	/**
 	 * Gets the center view.
 	 *
@@ -106,12 +136,12 @@ public abstract class BaseActivity extends Activity {
 		View menu;
 		/**
 		 * Menu must NOT be out/shown to start with.
-		 */
+		 *//*
 		boolean menuOut = false;
 		
-		/** The settings out. */
+		*//** The settings out. *//*
 		boolean settingsOut = false;
-
+*/
 		/**
 		 * Instantiates a new click listener for scrolling.
 		 *
