@@ -11,15 +11,13 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ListView;
-import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
-import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.interfaces.SizeCallback;
-import com.philips.cl.di.dev.pa.interfaces.TaskGetSensorDataInterface;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomHorizontalScrollView;
 import com.philips.cl.di.dev.pa.utils.Utils;
@@ -29,7 +27,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * The Class BaseActivity.
  * This class contains all the base / common functionalities.
  */
-public abstract class BaseActivity extends Activity implements OnCheckedChangeListener,TaskGetSensorDataInterface{
+public abstract class BaseActivity extends Activity implements OnCheckedChangeListener,ServerResponseListener{
 
 	/** The scroll view. */
 	protected CustomHorizontalScrollView scrollView;
@@ -177,21 +175,13 @@ public abstract class BaseActivity extends Activity implements OnCheckedChangeLi
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.interfaces.TaskGetSensorDataInterface#sensorDataReceived(com.philips.cl.di.dev.pa.dto.AirPurifierEventDto)
-	 */
+	
 	@Override
-	public void sensorDataReceived(AirPurifierEventDto event) { 
-		//		Log.d(TAG, "Sensor data recieved");
-		if(event!=null) {
-			//updateAirQualityUIPart(event);
-			//updateViewConnected(true);
-		} else {
-			Log.d(TAG, "Sensor data null");
-			//updateViewConnected(false);
-		}
+	public void receiveServerResponse(int responseCode, String responseData) {
+		// TODO Auto-generated method stub
+		
 	}
-
+	
 	
 	/**
 	 * Gets the center view.
