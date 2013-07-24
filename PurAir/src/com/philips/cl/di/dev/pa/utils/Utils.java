@@ -2,17 +2,23 @@ package com.philips.cl.di.dev.pa.utils;
 
 import java.util.ArrayList;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.philips.cl.di.dev.pa.constants.AppConstants;
+
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Utils.
+ */
 public class Utils {
 	
 	/**
-	 * Populates the image names  for the left menu
+	 * Populates the image names  for the left menu.
+	 *
+	 * @return the icon array
 	 */
 
 	public static ArrayList<String> getIconArray() {
@@ -28,7 +34,9 @@ public class Utils {
 	}
 
 	/**
-	 * Populates the Labels  for the left menu
+	 * Populates the Labels  for the left menu.
+	 *
+	 * @return the label array
 	 */
 
 	public static ArrayList<String> getLabelArray() {
@@ -45,7 +53,8 @@ public class Utils {
 
 	/**
 	 * Create a new typeface from the specified font data.
-	 * @param context
+	 *
+	 * @param context the context
 	 * @return The new Typeface
 	 */
 	public static Typeface getTypeFace(Context context) {
@@ -54,8 +63,9 @@ public class Utils {
 	}
 
 	/**
-	 * Returns the screen width of the device
-	 * @param context
+	 * Returns the screen width of the device.
+	 *
+	 * @param context the context
 	 * @return screen width
 	 */
 	@SuppressWarnings("deprecation")
@@ -64,6 +74,17 @@ public class Utils {
 				.getSystemService(Context.WINDOW_SERVICE);
 		Display display = wm.getDefaultDisplay();
 		return display.getWidth();
+	}
+	
+	/**
+	 * Gets the iP address of the air purifier
+	 *
+	 * @param context the context
+	 * @return the iP address
+	 */
+	public static String getIPAddress(Context context) {
+		String ipAddress = context.getSharedPreferences("sharedPreferences",0).getString("ipAddress", AppConstants.defaultIPAddress);
+		return ipAddress;
 	}
 
 }
