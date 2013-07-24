@@ -7,21 +7,29 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ListView;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.controller.AirPurifierController;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SizeCallback;
+import com.philips.cl.di.dev.pa.interfaces.TaskGetSensorDataInterface;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomHorizontalScrollView;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class BaseActivity.
  * This class contains all the base / common functionalities.
  */
-public abstract class BaseActivity extends Activity {
+public abstract class BaseActivity extends Activity implements OnCheckedChangeListener,TaskGetSensorDataInterface{
 
 	/** The scroll view. */
 	protected CustomHorizontalScrollView scrollView;
@@ -47,6 +55,12 @@ public abstract class BaseActivity extends Activity {
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
 	
+	/** The sw power. */
+	private Switch swPower ; 
+	
+	/** The airpurifier controller. */
+	private AirPurifierController airpurifierController;
+	
 	/* (non-Javadoc)
 	 * @see android.app.Activity#onCreate(android.os.Bundle)
 	 */
@@ -54,6 +68,7 @@ public abstract class BaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "--BaseActivity.onCreate--");
+		airpurifierController = new AirPurifierController(this, getApplicationContext());
 		inflater = LayoutInflater.from(this);
 		scrollView = (CustomHorizontalScrollView) inflater.inflate(
 				R.layout.horz_scroll_with_list_menu, null);
@@ -62,6 +77,7 @@ public abstract class BaseActivity extends Activity {
 		initializeLeftAndRightNavigationalViews();
 		centerView = getCenterView();
 		populateScrollView();
+		initializeControls();
 
 	}
 
@@ -78,8 +94,41 @@ public abstract class BaseActivity extends Activity {
 				.getIconArray(), Utils.getLabelArray()));
 		// Settings Page - Common
 		rightSettings = inflater.inflate(R.layout.activity_settings, null);
+		
 
 	}
+	
+	/**
+	 * Initialize controls.
+	 */
+	void initializeControls()
+	{
+		swPower = (Switch) findViewById(R.id.sw_power);
+		swPower.setOnCheckedChangeListener(this);
+	}
+	
+	/**
+	 * Sets the device power state.
+	 *
+	 * @param deviceState the new device power state
+	 */
+	private void setDevicePowerState(boolean deviceState) {
+		Log.e(TAG, "setDevicePowerState:"+deviceState);
+		airpurifierController.setDevicePowerState(deviceState);
+		// TODO
+		
+		/*switchDeviceMode.setEnabled(deviceState);
+		switchDeviceMode.setChecked(false); //On power state change machine will be in manual mode
+		RadioGroup radioGroup = (RadioGroup)findViewById(R.id.radioGroupFanSpeed);
+		if (!deviceState) {
+			radioGroup.clearCheck();
+		} else {
+			radioGroup.check(R.id.radioButtonFanSpeed1);
+		}
+		setChildViewsEnabledForLayout(linearLayoutDeviceFanSpeed, deviceState);
+*/	}
+	
+	
 
 	/**
 	 * Populate scroll view.
@@ -92,8 +141,21 @@ public abstract class BaseActivity extends Activity {
 
 	}
 	
+	/* (non-Javadoc)
+	 * @see android.widget.CompoundButton.OnCheckedChangeListener#onCheckedChanged(android.widget.CompoundButton, boolean)
+	 */
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		switch (buttonView.getId()) {
+		case R.id.sw_power:
+			Log.i(TAG, "On Checked Change Power button : "+isChecked);
+			setDevicePowerState(isChecked);
+			break;
+		}
+		
+    }
+	
 	/**
-	 * Back button handler
+	 * Back button handler.
 	 */
 	@Override
 	public void onBackPressed() {
@@ -115,6 +177,21 @@ public abstract class BaseActivity extends Activity {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see com.philips.cl.di.dev.pa.interfaces.TaskGetSensorDataInterface#sensorDataReceived(com.philips.cl.di.dev.pa.dto.AirPurifierEventDto)
+	 */
+	@Override
+	public void sensorDataReceived(AirPurifierEventDto event) { 
+		//		Log.d(TAG, "Sensor data recieved");
+		if(event!=null) {
+			//updateAirQualityUIPart(event);
+			//updateViewConnected(true);
+		} else {
+			Log.d(TAG, "Sensor data null");
+			//updateViewConnected(false);
+		}
+	}
+
 	
 	/**
 	 * Gets the center view.
@@ -134,8 +211,12 @@ public abstract class BaseActivity extends Activity {
 		
 		/** The menu. */
 		View menu;
+		
 		/**
 		 * Menu must NOT be out/shown to start with.
+		 *
+		 * @param scrollView the scroll view
+		 * @param menu the menu
 		 *//*
 		boolean menuOut = false;
 		
