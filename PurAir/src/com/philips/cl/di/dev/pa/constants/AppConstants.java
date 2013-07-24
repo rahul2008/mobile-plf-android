@@ -79,5 +79,23 @@ public class AppConstants {
 	/** The Constant defaultIPAddress. */
 	public static final String defaultIPAddress = "192.168.10.198";
 	
+	public static final String MESSAGE_INCORRECT_IP = "Incorrect IP Address";
+	
+	public static final String MESSAGE_OK = "OK";
+	
+	public static final String MESSAGE_ENTER_IP_ADDRESS = "Enter IP Address :";
+
+	public static final int HOME = 0;
+
+	public static final int MYCITIES = 1;
+
+	public static final int ABOUTAQI = 2;
+
+	public static final int PRODUCTREG = 3;
+
+	public static final int HELP = 4;
+
+	public static final int SETTINGS = 5;
+	
 	
 }
