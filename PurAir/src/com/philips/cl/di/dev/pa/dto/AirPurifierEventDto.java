@@ -17,6 +17,7 @@ public class AirPurifierEventDto {
 	private double particleSensor;
 	private double gasSensor;
 	private int motorSpeed;
+	private String powerMode; 
 
 	private int outdoorAirQuality;
 	private String machineMode;
@@ -74,6 +75,14 @@ public class AirPurifierEventDto {
 	}
 	public void setMachineMode(String machineMode) {
 		this.machineMode = machineMode;
+	}
+	
+	public String getPowerMode() {
+		return powerMode;
+	}
+
+	public void setPowerMode(String powerMode) {
+		this.powerMode = powerMode;
 	}
 	
 	
