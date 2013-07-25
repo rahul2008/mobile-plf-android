@@ -26,8 +26,6 @@
 	       android:src="@drawable/top_leftindicator"
 	       android:layout_alignParentLeft="true"
 	       android:layout_centerVertical="true"
-	       
-	       
 		/>
     
 	    <TextView 
@@ -448,19 +446,19 @@
          android:stretchColumns="*"
          >
          <TableRow android:layout_marginBottom="2dp">
-         <ImageButton android:id="@+id/ib_fanspeed_auto" 
+         <ImageButton android:id="@+id/ib_fanspeed_one" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
              android:background="@drawable/fan_speed_control_bg" 
              android:src="@drawable/fan_speed_auto"
              android:contentDescription="@string/separator"/>
-         <ImageButton android:id="@+id/ib_fanspeed_silent" 
+         <ImageButton android:id="@+id/ib_fanspeed_two" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
              android:background="@drawable/fan_speed_control_bg" 
              android:src="@drawable/fan_speed_silent"
              android:contentDescription="@string/separator"/>
-         <ImageButton android:id="@+id/ib_fanspeed_turbo" 
+         <ImageButton android:id="@+id/ib_fanspeed_three" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
              android:background="@drawable/fan_speed_control_bg" 
