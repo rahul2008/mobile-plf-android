@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.screens;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,32 +11,37 @@ import android.view.View.OnClickListener;
 import android.widget.CompoundButton;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+
+import android.widget.Button;
 import android.widget.AdapterView;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
-import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
+import com.philips.cl.di.dev.pa.controller.AirPurifierController.DeviceMode;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SizeCallback;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomHorizontalScrollView;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BaseActivity. This class contains all the base / common
  * functionalities.
  */
 public abstract class BaseActivity extends Activity implements
-		OnItemClickListener, OnCheckedChangeListener, ServerResponseListener {
-
+		OnItemClickListener, OnCheckedChangeListener, AirPurifierEventListener, OnClickListener {
 	/** The scroll view. */
 	protected CustomHorizontalScrollView scrollView;
 
-	/** The left menu , centerview , right settings. */
+	/** The left menu , center view , right settings. */
 	protected View leftMenu, centerView, rightSettings;
 
 	/**
@@ -49,18 +55,29 @@ public abstract class BaseActivity extends Activity implements
 	/** The inflater. */
 	protected LayoutInflater inflater;
 
-	/** The screenwidth. */
+	/** The screen width. */
 	private static int screenwidth;
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
 
-	/** The sw power. */
+	/** The power. */
 	private Switch swPower;
 
-	/** The airpurifier controller. */
+	/** The air purifier controller. */
 	private AirPurifierController airpurifierController;
-
+	
+	private ImageButton imageButtonOne ;
+	private ImageButton imageButtonSpeedTwo ;
+	private ImageButton imageButtonSpeedThree ;
+	
+	private Button buttonSilent ;
+	private Button buttonTurbo ;
+	private Button buttonAuto ;
+	
+	private ImageView backButton ;
+	
+	private TextView airQualityStatusView;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -71,7 +88,8 @@ public abstract class BaseActivity extends Activity implements
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "--BaseActivity.onCreate--");
 		airpurifierController = new AirPurifierController(this,
-				getApplicationContext());
+				this,AppConstants.GET_SENSOR_DATA_REQUEST_TYPE);
+	//	airpurifierController.startPolling() ;
 		inflater = LayoutInflater.from(this);
 		scrollView = (CustomHorizontalScrollView) inflater.inflate(
 				R.layout.horz_scroll_with_list_menu, null);
@@ -152,6 +170,60 @@ public abstract class BaseActivity extends Activity implements
 	void initializeControls() {
 		swPower = (Switch) findViewById(R.id.sw_power);
 		swPower.setOnCheckedChangeListener(this);
+		
+		imageButtonOne = (ImageButton) findViewById(R.id.ib_fanspeed_one) ;
+		imageButtonOne.setOnClickListener(this) ;
+		
+		imageButtonSpeedTwo = (ImageButton) findViewById(R.id.ib_fanspeed_two) ;
+		imageButtonSpeedTwo.setOnClickListener(this) ;
+		
+		imageButtonSpeedThree = (ImageButton) findViewById(R.id.ib_fanspeed_three) ;
+		imageButtonSpeedThree.setOnClickListener(this) ;
+		
+		buttonSilent = (Button) findViewById(R.id.btn_fanspeed_silent) ;
+		buttonSilent.setOnClickListener(this) ;
+		
+		buttonTurbo = (Button) findViewById(R.id.btn_fanspeed_turbo) ;
+		buttonTurbo.setOnClickListener(this) ;
+		
+		buttonAuto = (Button) findViewById(R.id.btn_fanspeed_auto) ;
+		buttonAuto.setOnClickListener(this) ;
+		
+		backButton = (ImageView) findViewById(R.id.iv_back) ;
+		backButton.setOnClickListener(this) ;
+		
+		airQualityStatusView = (TextView) findViewById(R.id.tv_airquality_status) ;
+		
+		disableSettingsControls() ;
+	}
+	
+	/**
+	 * Enable all Setting controls.
+	 * This gets enabled only if the power switch is on
+	 */
+	private void enableSettingsControls() {
+		imageButtonOne.setEnabled(true) ;
+		imageButtonSpeedTwo.setEnabled(true) ;
+		imageButtonSpeedThree.setEnabled(true) ;
+		buttonAuto.setEnabled(true) ;
+		buttonSilent.setEnabled(true) ;
+		buttonTurbo.setEnabled(true) ;
+	}
+	
+	/**
+	 * Disable all Setting controls.
+	 * This gets disabled if the power switch is off
+	 */
+	private void disableSettingsControls() {
+		imageButtonOne.setEnabled(false) ;
+		imageButtonSpeedTwo.setEnabled(false) ;
+		imageButtonSpeedThree.setEnabled(false) ;
+		buttonAuto.setEnabled(false) ;
+		buttonSilent.setEnabled(false) ;
+		buttonTurbo.setEnabled(false) ;
+		
+		airQualityStatusView.setText(getString(R.string.na)) ;
+		airQualityStatusView.setTextColor(Color.WHITE) ;
 	}
 
 	/**
@@ -163,23 +235,19 @@ public abstract class BaseActivity extends Activity implements
 	private void setDevicePowerState(boolean deviceState) {
 		Log.e(TAG, "setDevicePowerState:" + deviceState);
 		airpurifierController.setDevicePowerState(deviceState);
-		// TODO
-
-		/*
-		 * switchDeviceMode.setEnabled(deviceState);
-		 * switchDeviceMode.setChecked(false); //On power state change machine
-		 * will be in manual mode RadioGroup radioGroup =
-		 * (RadioGroup)findViewById(R.id.radioGroupFanSpeed); if (!deviceState)
-		 * { radioGroup.clearCheck(); } else {
-		 * radioGroup.check(R.id.radioButtonFanSpeed1); }
-		 * setChildViewsEnabledForLayout(linearLayoutDeviceFanSpeed,
-		 * deviceState);
-		 */}
+		
+		if( deviceState ) {
+			enableSettingsControls() ;
+		}
+		else {
+			disableSettingsControls() ;
+		}
+	}
 
 	/**
 	 * Populate scroll view.
 	 */
-	void populateScrollView() {
+	private void populateScrollView() {
 		final View[] children = new View[] { leftMenu, centerView,
 				rightSettings };
 		scrollView.initViews(children, AppConstants.SCROLLTOVIEWID,
@@ -204,6 +272,40 @@ public abstract class BaseActivity extends Activity implements
 
 	}
 
+	@Override
+	public void onClick(View v) {
+		// TODO Auto-generated method stub
+		switch (v.getId()) {
+		case R.id.btn_fanspeed_auto:
+			airpurifierController.setDeviceMode(DeviceMode.auto) ;
+			break;
+
+		case R.id.btn_fanspeed_silent:
+			airpurifierController.setDeviceMotorSpeed(1) ;
+			break;
+		
+		case R.id.btn_fanspeed_turbo:
+			airpurifierController.setDeviceMotorSpeed(5) ;
+			break;
+		
+		case R.id.ib_fanspeed_one:
+			airpurifierController.setDeviceMotorSpeed(2) ;
+			break;
+		
+		case R.id.ib_fanspeed_two:
+			airpurifierController.setDeviceMotorSpeed(3) ;
+			break;
+		
+		case R.id.ib_fanspeed_three:
+			airpurifierController.setDeviceMotorSpeed(4) ;
+			break;
+		case R.id.iv_back:			
+			scrollView.smoothScrollTo(leftMenu.getMeasuredWidth(), 0);
+			settingsOut = !settingsOut;
+			break ;
+		}
+	}
+	
 	/**
 	 * Back button handler.
 	 */
@@ -226,10 +328,65 @@ public abstract class BaseActivity extends Activity implements
 	 * @see com.philips.cl.di.dev.pa.interfaces.ServerResponseListener#receiveServerResponse(int, java.lang.String)
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
-		// TODO Auto-generated method stub
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+		Log.i(TAG, "Sensor Data Received") ;
+		if( airPurifierEventDto != null ) {			
+			if( settingsOut)
+				updateSettingsUI(airPurifierEventDto) ;
+		}
 
 	}
+	
+	/**
+	 * This will update the Settings User Interface
+	 * @param airPurifierEventDto
+	 */
+	private void updateSettingsUI(AirPurifierEventDto airPurifierEventDto) {
+		updateAQIStatus(airPurifierEventDto.getIndoorAQI()) ;
+		//TODO update other fields also
+	}
+	
+	/**
+	 * Depending on the AQI value set the status and the color of the Text.
+	 * @param aqi
+	 */
+	private void updateAQIStatus(int aqi) {
+			int textColor = getResources().getColor(R.color.green) ;
+			Log.i(TAG, "AQI: "+aqi) ;
+			String aqiMessage = "" ;
+			if( aqi  <= 50 ) {
+				aqiMessage = getString(R.string.good) ;
+			}
+			
+			else if( aqi  >= 51 && aqi <=100 ) {
+				aqiMessage = getString(R.string.moderate) ;
+				textColor = getResources().getColor(R.color.yellow) ;
+			}
+			
+			else if( aqi  >= 101 && aqi <= 150 ) {
+				aqiMessage = getString(R.string.unhealthy_for_sensitive_groups) ;
+				textColor = getResources().getColor(R.color.orange) ;
+			}
+			
+			else if( aqi  >= 151 && aqi <= 200 ) {
+				aqiMessage = getString(R.string.unhealthy) ;
+				textColor = getResources().getColor(R.color.red) ;
+			}
+			
+			else if( aqi  >= 201 && aqi <= 300 ) {
+				aqiMessage = getString(R.string.very_unhealthy) ;
+				textColor = getResources().getColor(R.color.purple) ;
+			}
+			
+			else if( aqi  > 300 ) {
+				aqiMessage = getString(R.string.hazardous) ;
+				textColor = getResources().getColor(R.color.maroon) ;
+			}
+			
+			airQualityStatusView.setText(aqiMessage);
+			airQualityStatusView.setTextColor(textColor) ;
+		}
+	
 
 	/**
 	 * Gets the center view.
@@ -363,5 +520,4 @@ public abstract class BaseActivity extends Activity implements
 			}
 		}
 	}
-
 }
