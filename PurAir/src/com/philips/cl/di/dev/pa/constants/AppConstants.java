@@ -105,6 +105,10 @@ public class AppConstants {
 
 	/** The Constant SETTINGS. */
 	public static final int SETTINGS = 5;
+	
+	/** Server Request Type **/
+	public static final int GET_SENSOR_DATA_REQUEST_TYPE = 1 ;
+	
 
 	/** The Constant TABLENAME. */
 	public static final String TABLENAME = "CityDetails";
