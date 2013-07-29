@@ -1,0 +1,16 @@
+<resources>
+
+    <string-array name="cities">
+        <item name="Beijing">Beijing</item>
+        <item name="Shanghai">Second</item>
+        <item name="Third">Third</item>
+        <item name="Fourth">Fourth</item>
+    </string-array>
+    <string-array name="countries">
+        <item name="Province1">First</item>
+        <item name="Province2">Second</item>
+        <item name="Province3">Third</item>
+        <item name="Province4">Fourth</item>
+    </string-array>
+
+</resources>
