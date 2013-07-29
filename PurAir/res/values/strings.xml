@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Error messages -->
+    <string name="warning">Warning</string>
+    <string name="ok">OK</string>
     <string name="app_name">PurAir</string>
     <string name="action_settings">Settings</string>
     <string name="connection_status">Connection Status</string>
@@ -28,4 +31,18 @@
 	
 	<string name="replace_immediately">Replace immediately</string>
 	<string name="clean_filter">Clean within 4 days</string>
+	
+	<!-- Network Error Messages -->
+	<string name="network_error">Network Error</string>
+	
+	<!-- AQI Status Messages -->
+	<string name="good">Good</string>
+	<string name="moderate">Moderate</string>
+	<string name="unhealthy_for_sensitive_groups">Unhealthy for Sensitive Groups</string>
+	<string name="unhealthy">Unhealthy</string>
+	<string name="very_unhealthy">Very Unhealthy</string>
+	<string name="hazardous">Hazardous</string>
+	<string name="na">Not Available</string>
+	
+	
 </resources>
