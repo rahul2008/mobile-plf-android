@@ -1,13 +1,19 @@
 package com.philips.cl.di.dev.pa.network;
  
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
@@ -39,14 +45,16 @@ public class Server extends AsyncTask<String, Void, String> {
        
        @Override
        protected String doInBackground(String... url) {
-              String result = "-";
+              String result = "";
               // Create a new HttpClient and Post Header
               HttpParams httpParameters = new BasicHttpParams();
               int timeoutSocket = 3500;
               HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
  
-              HttpClient httpclient = new DefaultHttpClient(httpParameters);    
+              HttpClient httpclient = new DefaultHttpClient(httpParameters);  
+              Log.d(TAG, url[0]) ;
               HttpPost httppost = new HttpPost(url[0]);
+              
               try {        
                      // Add your data                
                      httppost.setEntity(new UrlEncodedFormEntity(nameValuePair));
@@ -59,7 +67,16 @@ public class Server extends AsyncTask<String, Void, String> {
                      }
                      responseCode = response.getStatusLine().getStatusCode() ;
                      Log.e(TAG, "responseCode "+response.getStatusLine().getStatusCode() + " for post:" + nameValuePairs);
-                     result = response.toString();
+                     if( responseCode == HttpsURLConnection.HTTP_OK) {
+	                     BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+	         			 String line = "";
+	         		    StringBuilder builder = new StringBuilder() ;
+	         	        while ((line = rd.readLine()) != null) {
+	         	    	  builder.append(line) ;
+	         	        }
+	         	       result = builder.toString() ;
+              		}
+         	        
                      return result;
               } catch (ClientProtocolException e) {
               } catch (IOException e) {        
