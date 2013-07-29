@@ -18,6 +18,15 @@ public class AirPurifierEventDto {
 	private double gasSensor;
 	private int motorSpeed;
 	private String powerMode; 
+	public int getIndoorAQI() {
+		return indoorAQI;
+	}
+	public void setIndoorAQI(int indoorAQI) {
+		this.indoorAQI = indoorAQI;
+	}
+
+
+	private int indoorAQI ;
 
 	private int outdoorAirQuality;
 	private String machineMode;
