@@ -4,48 +4,10 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_bg" >
 
-    <RelativeLayout
-        android:id="@+id/rlTopNavigation"
-        android:layout_width="wrap_content"
-        android:layout_height="70dp"
-        android:gravity="center_vertical" >
-
-        <ImageView
-            android:id="@+id/ivMenu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/menu" />
-
-        <ImageView
-            android:id="@+id/ivAppName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:src="@drawable/title" />
-
-        <ImageView
-            android:id="@+id/ivSettings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/settings" />
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/ivLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlTopNavigation"
-        android:src="@drawable/horizontal_line" />
-
     <com.philips.cl.di.dev.pa.screens.customviews.AQIndicator
         android:id="@+id/rlIndoorAirSection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ivLine"
         android:background="@drawable/airquality_bg" >
 
         <LinearLayout
