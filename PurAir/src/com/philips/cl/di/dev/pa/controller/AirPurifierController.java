@@ -145,14 +145,14 @@ public class AirPurifierController implements ServerResponseListener
 		Log.d(TAG, "Send device power state : " + deviceState);
 		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(1);        
 		nameValuePair.add(new BasicNameValuePair("status[power_mode]", deviceState ? "on" : "off"));
-		nameValuePair.add(new BasicNameValuePair("status[machine_mode]", DeviceMode.manual.name()));
+		/**nameValuePair.add(new BasicNameValuePair("status[machine_mode]", DeviceMode.manual.name()));
 		if (deviceState) {
 			nameValuePair.add(new BasicNameValuePair("status[motor_speed]", ""+2));
 			nameValuePair.add(new BasicNameValuePair("status[ring_color]", ""+RingColor.good.getValue()));
 		} else {
 			nameValuePair.add(new BasicNameValuePair("status[motor_speed]", ""+0));
 			nameValuePair.add(new BasicNameValuePair("status[ring_color]", ""+RingColor.off.getValue()));
-		}
+		}**/
 		
 		startServerTask(nameValuePair) ;
 	}
