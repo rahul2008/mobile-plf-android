@@ -50,7 +50,7 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		// TODO Auto-generated method stub
 		Log.i(TAG, "Oncreate") ;
 		super.onCreate(savedInstanceState);
-		
+		overridePendingTransition(R.anim.in, R.anim.out);
 		setContentView(R.layout.activity_settings) ;
 		
 		initializeControls() ;
@@ -168,6 +168,7 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	protected void onPause() {
 		Log.i(TAG, "onPause") ;
 		super.onPause();
+		overridePendingTransition(R.anim.in, R.anim.out);
 		sensorDataController.unRegisterListener(this) ;
 	}
 	
