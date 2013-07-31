@@ -22,6 +22,9 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.controller.SensorDataController;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.fragments.AddCityFragment;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
@@ -34,7 +37,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener {
+		OnItemClickListener, OnClickListener, SensorEventListener {
 
 	private LayoutInflater inflater;
 	private FragmentTransaction transaction;
@@ -52,9 +55,13 @@ public class BaseActivity extends FragmentActivity implements
 	LinearLayout.LayoutParams listViewParameters;
 	private ImageView ivMenu;
 	private ImageView ivSettings;
+	
+	private SensorDataController sensorDataController ;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i(TAG, "onCreate") ;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -91,8 +98,42 @@ public class BaseActivity extends FragmentActivity implements
 		initializeMenuList();
 		getSupportFragmentManager().beginTransaction().add(R.id.slidingPanel,new HomeFragment()).commit();
 
+		sensorDataController = SensorDataController.getInstance(this) ;
+		sensorDataController.startPolling() ;
+	}
+	
+	
+	/**
+	 * OnPause of this Activity unRegister the listener
+	 */
+	@Override
+	protected void onPause() {
+		super.onPause();
+		sensorDataController.unRegisterListener(this) ;
+		
+	}
+	
+	/**
+	 * OnDestroy of the Activity stop polling the Air Purifier
+	 */
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		sensorDataController.stopPolling() ;
 	}
 
+	
+	/**
+	 * OnResume of BaseActivity register the listener
+	 */
+	@Override
+	protected void onResume() {
+		super.onResume();		
+		sensorDataController.registerListener(this) ;
+	}
+	
+	
 	public void initializeMenuList() {
 		ListView lvMenu = (ListView) findViewById(R.id.lvMenu);
 		lvMenu.setOnItemClickListener(this);
@@ -175,6 +216,16 @@ public class BaseActivity extends FragmentActivity implements
 			break;
 		}
 
+	}
+
+	/**
+	 * OnSensor Event Callback update the User Interface
+	 */
+	@Override
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+		
+		Log.i(TAG, "BaseActivity SensorDataReceived") ;
+		
 	}
 	
 	
