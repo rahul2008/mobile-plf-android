@@ -55,6 +55,8 @@ public class BaseActivity extends FragmentActivity implements
 	LinearLayout.LayoutParams listViewParameters;
 	private ImageView ivMenu;
 	private ImageView ivSettings;
+
+	ListView lvMenu;
 	
 	private SensorDataController sensorDataController ;
 	
@@ -135,7 +137,7 @@ public class BaseActivity extends FragmentActivity implements
 	
 	
 	public void initializeMenuList() {
-		ListView lvMenu = (ListView) findViewById(R.id.lvMenu);
+		lvMenu = (ListView) findViewById(R.id.lvMenu);
 		lvMenu.setOnItemClickListener(this);
 		Utils.getIconArray();
 		Utils.getLabelArray();
@@ -227,6 +229,18 @@ public class BaseActivity extends FragmentActivity implements
 		Log.i(TAG, "BaseActivity SensorDataReceived") ;
 		
 	}
-	
+
+	@Override
+	public void onBackPressed() {
+		if (isExpanded) {
+			new CollapseAnimation(slidingPanel, menuWidth,
+					TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
+					TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+			isExpanded = !isExpanded;
+		} else
+			super.onBackPressed();
+	}
+
+
 	
 }
