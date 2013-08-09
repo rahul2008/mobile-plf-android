@@ -57,6 +57,8 @@ public class AppConstants {
 	/** The scaleleftmenu. */
 	public static float SCALELEFTMENU = .75f;
 
+	
+
 	// Network related data
 	/** The Constant UPDATE_INTERVAL. */
 	public static final long UPDATE_INTERVAL = 10 * 1000;
@@ -137,5 +139,11 @@ public class AppConstants {
 
 	/** The Constant DB_VERS. */
 	public static final int DB_VERS = 1;
+	
+	public static String sCityNameQuery = "Select distinct "+AppConstants.KEY_CITY + " from "+ AppConstants.TABLENAME;
+	
+	public static final float SWIPE_THRESHOLD = 100;
+	
+	public static final float SWIPE_VELOCITY_THRESHOLD = 100;
 
 }
