@@ -28,9 +28,12 @@
 	<string name="filter_status">Filter Status</string>
 	<string name="pre_filter">Pre Filter:</string>
 	<string name="hepa_filter">HEPA Filter:</string>
+	<string name="activecarbonfilter">Active Carbon Filter: </string>
+	<string name="multicarefilter">Multi-care Filter: </string>
 	
 	<string name="replace_immediately">Replace immediately</string>
 	<string name="clean_filter">Clean within 4 days</string>
+	
 	
 	<!-- Network Error Messages -->
 	<string name="network_error">Network Error</string>
@@ -43,6 +46,8 @@
 	<string name="very_unhealthy">Very Unhealthy</string>
 	<string name="hazardous">Hazardous</string>
 	<string name="na">Not Available</string>
+	<string name="fair">Fair</string>
+	<string name="bad">Bad</string>
 	
 	
 </resources>
