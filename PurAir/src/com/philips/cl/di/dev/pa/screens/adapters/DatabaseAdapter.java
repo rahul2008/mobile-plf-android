@@ -1,30 +1,35 @@
 package com.philips.cl.di.dev.pa.screens.adapters;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.utils.DBHelper;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.utils.DBHelper;
 
 /**
  * The Class DatabaseAdapter.
  */
 public class DatabaseAdapter {
-	
+
 	/** The context. */
 	Context context;
-	
+
 	/** The db helper. */
 	DBHelper dbHelper;
-	
+
 	/** The db. */
 	SQLiteDatabase db;
 
 	/**
 	 * Instantiates a new database adapter.
-	 *
-	 * @param context the context
+	 * 
+	 * @param context
+	 *            the context
 	 */
 	public DatabaseAdapter(Context context) {
 		this.context = context;
@@ -32,7 +37,7 @@ public class DatabaseAdapter {
 
 	/**
 	 * Open.
-	 *
+	 * 
 	 * @return the SQlite database
 	 */
 	public SQLiteDatabase open() {
@@ -51,12 +56,17 @@ public class DatabaseAdapter {
 
 	/**
 	 * Insert into database.
-	 *
-	 * @param sCityName the  city name
-	 * @param iAQI the  aqi
-	 * @param sProvinceName the  province name
-	 * @param sDate the  date
-	 * @param sTime the  time
+	 * 
+	 * @param sCityName
+	 *            the city name
+	 * @param iAQI
+	 *            the aqi
+	 * @param sProvinceName
+	 *            the province name
+	 * @param sDate
+	 *            the date
+	 * @param sTime
+	 *            the time
 	 * @return true, if successful
 	 */
 	public boolean insertIntoDatabase(String sCityName, int iAQI,
@@ -78,6 +88,16 @@ public class DatabaseAdapter {
 		}
 		// return true if insert or update is successful
 		return (iRowAffected > 0) ? true : false;
+	}
+
+	public List<String> getCityNames() {
+		List<String> alCitiNames = new ArrayList<String>();
+		Cursor curCityNames = db.rawQuery(AppConstants.sCityNameQuery, null);
+		while (curCityNames.moveToNext()) {
+			alCitiNames.add(curCityNames.getString(0));
+		}
+
+		return alCitiNames;
 	}
 
 }
