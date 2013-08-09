@@ -8,13 +8,13 @@ import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
-
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -23,10 +23,14 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-public class SettingsActivity extends Activity implements OnClickListener,OnCheckedChangeListener,AirPurifierEventListener,SensorEventListener {
+public class SettingsActivity extends Activity implements OnClickListener,OnCheckedChangeListener,AirPurifierEventListener,SensorEventListener,OnFocusChangeListener {
 	private final static String TAG = "SettingsActivity" ;
 	
 	private Switch swPower;
+	
+	private Switch swChildLock ;
+	
+	private Switch swIndicatorLight ;
 
 	/** The air purifier controller. */
 	private AirPurifierController airpurifierController;
@@ -41,9 +45,13 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	private Button buttonTurbo ;
 	private Button buttonAuto ;
 	
+	private Button buttonTimer ;
+	
 	private ImageView backButton ;
 	
+	
 	private TextView airQualityStatusView;
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +60,6 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.in, R.anim.out);
 		setContentView(R.layout.activity_settings) ;
-		
 		initializeControls() ;
 		
 		airpurifierController = new AirPurifierController(this,
@@ -65,29 +72,44 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	private void initializeControls() {
 		swPower = (Switch) findViewById(R.id.sw_power);
 		swPower.setOnCheckedChangeListener(this);
+		swPower.setOnFocusChangeListener(this) ;
+		
+		swChildLock = (Switch) findViewById(R.id.sw_child_settings) ;
+		
+		swIndicatorLight = (Switch) findViewById(R.id.sw_indicator_light) ;
 		
 		imageButtonOne = (ImageButton) findViewById(R.id.ib_fanspeed_one) ;
 		imageButtonOne.setOnClickListener(this) ;
+		imageButtonOne.setOnFocusChangeListener(this) ;
 		
 		imageButtonSpeedTwo = (ImageButton) findViewById(R.id.ib_fanspeed_two) ;
 		imageButtonSpeedTwo.setOnClickListener(this) ;
+		imageButtonSpeedTwo.setOnFocusChangeListener(this) ;
 		
 		imageButtonSpeedThree = (ImageButton) findViewById(R.id.ib_fanspeed_three) ;
 		imageButtonSpeedThree.setOnClickListener(this) ;
+		imageButtonSpeedThree.setOnFocusChangeListener(this) ;
 		
 		buttonSilent = (Button) findViewById(R.id.btn_fanspeed_silent) ;
 		buttonSilent.setOnClickListener(this) ;
+		buttonSilent.setOnFocusChangeListener(this) ;
 		
 		buttonTurbo = (Button) findViewById(R.id.btn_fanspeed_turbo) ;
 		buttonTurbo.setOnClickListener(this) ;
+		buttonTurbo.setOnFocusChangeListener(this) ;
 		
 		buttonAuto = (Button) findViewById(R.id.btn_fanspeed_auto) ;
 		buttonAuto.setOnClickListener(this) ;
+		buttonAuto.setOnFocusChangeListener(this) ;
+		
+		buttonTimer = (Button) findViewById(R.id.btn_timer) ;
+		buttonTimer.setOnClickListener(this) ;
 		
 		backButton = (ImageView) findViewById(R.id.iv_back) ;
 		backButton.setOnClickListener(this) ;
 		
 		airQualityStatusView = (TextView) findViewById(R.id.tv_airquality_status) ;
+		airQualityStatusView.setOnFocusChangeListener(this) ;
 		
 		disableSettingsControls() ;
 	}
@@ -103,6 +125,11 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		buttonAuto.setEnabled(true) ;
 		buttonSilent.setEnabled(true) ;
 		buttonTurbo.setEnabled(true) ;
+		
+		swChildLock.setEnabled(true) ;
+		swIndicatorLight.setEnabled(true) ;
+		
+		buttonTimer.setEnabled(true) ;
 	}
 	
 	/**
@@ -111,22 +138,33 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	 */
 	private void disableSettingsControls() {
 		imageButtonOne.setEnabled(false) ;
+		imageButtonOne.setColorFilter(Color.GRAY) ;
+		
 		imageButtonSpeedTwo.setEnabled(false) ;
 		imageButtonSpeedThree.setEnabled(false) ;
 		buttonAuto.setEnabled(false) ;
 		buttonSilent.setEnabled(false) ;
+		buttonSilent.setAlpha(10.0f) ;
+		
 		buttonTurbo.setEnabled(false) ;
 		
 		airQualityStatusView.setText(getString(R.string.na)) ;
-		airQualityStatusView.setTextColor(Color.WHITE) ;
+		airQualityStatusView.setTextColor(Color.BLACK) ;
+		
+		swChildLock.setEnabled(false) ;
+		swIndicatorLight.setEnabled(false) ;
+		
+		buttonTimer.setEnabled(false) ;
 	}
-
+	
+	
 	@Override
 	public void onClick(View v) {
+		Log.i(TAG, "OnClick") ;
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_fanspeed_auto:
-			airpurifierController.setDeviceMode(DeviceMode.auto) ;
+			airpurifierController.setDeviceMode(DeviceMode.auto) ;	
 			break;
 
 		case R.id.btn_fanspeed_silent:
@@ -158,8 +196,10 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		switch (buttonView.getId()) {
 		case R.id.sw_power:
-			Log.i(TAG, "On Checked Change Power button : " + isChecked);
-			setDevicePowerState(isChecked);
+			if(!isSwitchControlled) {
+				Log.i(TAG, "On Checked Change Power button : " + isChecked);
+				setDevicePowerState(isChecked);				
+			}
 			break;
 		}
 	}
@@ -199,9 +239,9 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	 */
 	private void setDevicePowerState(boolean deviceState) {
 		Log.e(TAG, "setDevicePowerState:" + deviceState);
-		airpurifierController.setDevicePowerState(deviceState);
-		
+		airpurifierController.setDevicePowerState(deviceState);		
 		if( deviceState ) {
+			imageButtonSpeedTwo.setAlpha(2.0f) ;
 			enableSettingsControls() ;
 		}
 		else {
@@ -214,59 +254,117 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	 * @param airPurifierEventDto
 	 */
 	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
-		updateAQIStatus(airPurifierEventDto.getIndoorAQI()) ;
+		
+		updateAQIStatus(airPurifierEventDto) ;
 		updatePowerOnOff(airPurifierEventDto.getPowerMode()) ;
 		//TODO update other fields also
 	}
 	
+	private boolean isSwitchControlled ;
 	private void updatePowerOnOff(String powerOnOff) {
-		if(powerOnOff.equals("on")) {
-			swPower.setSelected(true) ;
+		isSwitchControlled = true ;
+		Log.i(TAG, ""+powerOnOff) ;
+		if(powerOnOff.equalsIgnoreCase("on")) {			
+			swPower.setChecked(true) ;
+			enableSettingsControls() ;
 		}
-		else {
-			swPower.setSelected(false) ;
+		else if(powerOnOff.equalsIgnoreCase("off")) {
+			swPower.setChecked(false) ;
 		}
+		isSwitchControlled = false ;
 	}
 	
 	/**
 	 * Depending on the AQI value set the status and the color of the Text.
 	 * @param aqi
 	 */
-	private void updateAQIStatus(int aqi) {
-			int textColor = getResources().getColor(R.color.green) ;
+	private void updateAQIStatus(AirPurifierEventDto airPurifierEventDto) {
+			int aqi = airPurifierEventDto.getIndoorAQI() ;
 			Log.i(TAG, "AQI: "+aqi) ;
-			String aqiMessage = "" ;
-			if( aqi  <= 50 ) {
-				aqiMessage = getString(R.string.good) ;
-			}
+			int textColor = getResources().getColor(R.color.black) ;			
+			String aqiMessage = getString(R.string.na) ;			
 			
-			else if( aqi  >= 51 && aqi <=100 ) {
-				aqiMessage = getString(R.string.moderate) ;
-				textColor = getResources().getColor(R.color.yellow) ;
-			}
-			
-			else if( aqi  >= 101 && aqi <= 150 ) {
-				aqiMessage = getString(R.string.unhealthy_for_sensitive_groups) ;
-				textColor = getResources().getColor(R.color.orange) ;
-			}
-			
-			else if( aqi  >= 151 && aqi <= 200 ) {
-				aqiMessage = getString(R.string.unhealthy) ;
-				textColor = getResources().getColor(R.color.red) ;
-			}
-			
-			else if( aqi  >= 201 && aqi <= 300 ) {
-				aqiMessage = getString(R.string.very_unhealthy) ;
-				textColor = getResources().getColor(R.color.purple) ;
-			}
-			
-			else if( aqi  > 300 ) {
-				aqiMessage = getString(R.string.hazardous) ;
-				textColor = getResources().getColor(R.color.maroon) ;
+			if( airPurifierEventDto.getPowerMode().equals("on")) {
+				if( aqi  <= 125 ) {
+					aqiMessage = getString(R.string.very_good) ;
+					textColor = getResources().getColor(R.color.aqi_very_good) ;
+				}
+				
+				else if( aqi  >= 126 && aqi <=250 ) {
+					aqiMessage = getString(R.string.good) ;
+					textColor = getResources().getColor(R.color.aqi_good) ;
+				}
+				
+				else if( aqi  >= 251 && aqi <= 375 ) {
+					aqiMessage = getString(R.string.fair) ;
+					textColor = getResources().getColor(R.color.aqi_fair) ;
+				}
+				
+				else if( aqi  >= 376 && aqi <= 500 ) {
+					aqiMessage = getString(R.string.bad) ;
+					textColor = getResources().getColor(R.color.aqi_bad) ;
+				}
 			}
 			
 			airQualityStatusView.setText(aqiMessage);
 			airQualityStatusView.setTextColor(textColor) ;
 		}
-	
+
+	@Override
+	public void onFocusChange(View v, boolean isFocused) {
+		// TODO Auto-generated method stub
+		Log.d(TAG, "OnFocusChanged: "+isFocused) ;
+			switch(v.getId()) {
+			case R.id.sw_power:
+				break ;
+			case  R.id.btn_fanspeed_auto:
+					if( isFocused ) {
+						buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
+						buttonAuto.callOnClick() ;
+					}
+					else 
+						buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+					break ;
+			case  R.id.ib_fanspeed_one:
+				if( isFocused ) {
+					imageButtonOne.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
+					imageButtonOne.callOnClick() ;
+				}
+				else 
+					imageButtonOne.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				break ;
+			case  R.id.ib_fanspeed_three:
+				if( isFocused ) {
+					imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
+					imageButtonSpeedThree.callOnClick() ;
+				}
+				else 
+					imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				break ;
+			case  R.id.ib_fanspeed_two:
+				if( isFocused ) {
+					imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
+					imageButtonSpeedTwo.callOnClick() ;
+				}
+				else 
+					imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				break ;
+			case  R.id.btn_fanspeed_silent:
+					if( isFocused ) {
+						buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1) ;
+						buttonSilent.callOnClick() ;
+					}
+					else
+						buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+					break ;
+			case  R.id.btn_fanspeed_turbo:
+				if( isFocused ) {
+					buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1) ;	
+					buttonTurbo.callOnClick() ;
+				}
+				else
+					buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+				break ;
+			}
+	}
 }
