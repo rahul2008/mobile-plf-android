@@ -1,216 +1,53 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/rlMain"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/main_bg" >
-
-    <com.philips.cl.di.dev.pa.screens.customviews.AQIndicator
-        android:id="@+id/rlIndoorAirSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/airquality_bg" >
-
-        <LinearLayout
-            android:id="@+id/llIndoorAQI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" >
-
-            <TextView
-                android:id="@+id/tvIndoorLocation"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="MY HOME"
-                android:textColor="@color/black"
-                android:textSize="26px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvSeparator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" / "
-                android:textColor="@color/black"
-                android:textSize="26px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvIndoorCity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SHANGHAI"
-                android:textColor="@color/black"
-                android:textSize="26px" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvDateTime_Local"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llIndoorAQI"
-            android:layout_centerHorizontal="true"
-            android:text="2013-07-16 22:10"
-            android:textColor="@color/black"
-            android:textSize="20px" />
-
-        <TextView
-            android:id="@+id/tvAQINumber_Indoor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/rlIndoorAirSection"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="457"
-            android:textColor="@color/black"
-            android:textSize="72px" />
-
-        <TextView
-            android:id="@+id/tvIndoorAQIStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="100dp"
-            android:layout_marginTop="200dp"
-            android:text="BAD"
-            android:textColor="@color/red"
-            android:textSize="28px" />
-    </com.philips.cl.di.dev.pa.screens.customviews.AQIndicator>
-
-    <ImageView
-        android:id="@+id/ivLineTwo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/rlIndoorAirSection"
-        android:src="@drawable/horizontal_line" />
-
-    <com.philips.cl.di.dev.pa.screens.customviews.AQIndicator
-        android:id="@+id/rlOutdoorAirSection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivLineTwo"
-        android:background="@drawable/airquality_bg" >
-
-        <LinearLayout
-            android:id="@+id/llOutdoorAQI"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp" >
-
-            <TextView
-                android:id="@+id/tvOutdoorCity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BEIJING"
-                android:textColor="@color/black"
-                android:textSize="26px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvSeparator"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" / "
-                android:textColor="@color/black"
-                android:textSize="26px"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvOutdoorCountry"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="CHINA"
-                android:textColor="@color/black"
-                android:textSize="26px" />
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/tvDateTime_City"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/llOutdoorAQI"
-            android:layout_centerHorizontal="true"
-            android:text="2013-07-16 22:10"
-            android:textColor="@color/black"
-            android:textSize="20px" />
-
-        <ImageView
-            android:id="@+id/ivAddCities"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:src="@drawable/add_city" />
-
-        <TextView
-            android:id="@+id/tvAQINumber_Outdoor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/rlIndoorAirSection"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:text="420"
-            android:textColor="@color/black"
-            android:textSize="72px" />
-
-        <TextView
-            android:id="@+id/tvOutdoorAQIStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="100dp"
-            android:layout_marginTop="200dp"
-            android:text="BAD"
-            android:textColor="@color/red"
-            android:textSize="28px" />
-    </com.philips.cl.di.dev.pa.screens.customviews.AQIndicator>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
 
     <RelativeLayout
-        android:id="@+id/rlFooter"
+        android:id="@+id/rlContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rlOutdoorAirSection" >
+        android:background="@drawable/home_bg" >
 
         <RelativeLayout
-            android:id="@+id/ivMap_bg"
+            android:id="@+id/rlIndoorSection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_indoor_bad_large" >
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlOutdoorSection"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/rlIndoorSection"
+            android:background="@drawable/home_outdoor_verygood_large" >
+        </RelativeLayout>
+    </RelativeLayout>
+ 
+
+    <RelativeLayout
+        android:id="@+id/rlBottomBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/top_bar" >
+
+        <ImageView
+            android:id="@+id/ivMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/half_bg"
-            android:gravity="center" >
-
-            <ImageView
-                android:id="@+id/ivMap"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/map" />
-        </RelativeLayout>
+            android:layout_centerVertical="true"
+            android:background="@drawable/map_icon" />
 
         <ImageView
-            android:id="@+id/ivPartition"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/center_partition" />
-
-        <RelativeLayout
-            android:id="@+id/ivTrend_bg"
+            android:id="@+id/ivTrend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:background="@drawable/half_bg"
-            android:gravity="center" >
-
-            <ImageView
-                android:id="@+id/ivTrend"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/trend" />
-        </RelativeLayout>
+            android:layout_centerVertical="true"
+            android:background="@drawable/trend_icon" />
     </RelativeLayout>
 
+  
 </RelativeLayout>
