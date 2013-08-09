@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:background="@drawable/background_settings"
+	android:background="@color/whitesmoke"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -35,94 +35,52 @@
 	        android:text="@string/app_name"
     		android:layout_centerInParent="true"
     		android:layout_centerVertical="true"
+    		android:textColor="@color/black"
 	        android:textAppearance="?android:attr/textAppearanceLarge"
         />
+
     </RelativeLayout>
     
-    
+     <ImageView
+        android:id="@+id/iv_headerseparator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/separator"
+        android:contentDescription="@string/separator"
+        android:layout_below="@id/rl_settings_header"/>
 
 <ScrollView 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_below="@id/rl_settings_header"
+    android:layout_below="@id/iv_headerseparator"
     android:scrollbars="none"
     >
     
 <LinearLayout
     android:id="@+id/rl_main_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"    
-    
+    android:layout_height="wrap_content"        
     android:orientation="vertical">
-    
-	<ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/separator"
-        android:contentDescription="@string/separator"
-     />
-	
-    <TextView
-        android:id="@+id/tv_connection_status"
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:text="@string/connection_status"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/white"
-        android:gravity="center_vertical"
-        android:layout_marginBottom="@dimen/field_vertical_margin_top"        
-         />
-    
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/separator"
-        android:contentDescription="@string/separator"
-      />
      
-     <!-- Device Wifi connection status layout -->
-     <RelativeLayout android:id="@+id/rl_wifi_status"
-         android:layout_height="50dp"
-         android:layout_width="match_parent"
-          android:layout_marginTop="2dp"
-          android:layout_marginBottom="2dp"
-          >
-
-     <ImageView
-         android:id="@+id/iv_wifi_status"
-         android:layout_width="50dp"
-         android:layout_height="wrap_content"
-         android:src="@drawable/wifi_connected" 
-         android:layout_centerVertical="true"
-         android:contentDescription="@string/connection_status"
-         />
-
-     <TextView
-         android:id="@+id/tv_wifi_status"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_alignParentBottom="true"
-         android:layout_alignParentRight="true"
-         android:layout_alignParentTop="true"         
-         android:layout_toRightOf="@id/iv_wifi_status"
-         android:text="@string/connected"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:textColor="@color/white"          
-         android:gravity="center_vertical"
-         />
-
-     </RelativeLayout>     
-     
-     <!-- Separator -->
-     <ImageView
-        android:id="@+id/iv_separator3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/separator"
-        android:contentDescription="@string/separator"/>
-     
-     
-     <!-- Power Settings Layout -->
+      
+      <!-- Air Purifier Control Layout starts -->
+	     <TextView
+	        android:id="@+id/tv_airpurifiercontrol"
+	        android:layout_width="wrap_content"
+	        android:layout_height="50dp"
+	        android:text="@string/airpurifiercontrol"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textColor="@color/black"
+	        android:gravity="center_vertical"
+	        android:layout_marginBottom="@dimen/field_vertical_margin_top"  
+	         />
+	      <!-- Separator -->
+	     <ImageView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/horizontal_line"
+	        android:contentDescription="@string/separator"/>	
+	 <!-- Power Settings Layout -->
      <RelativeLayout
          android:id="@+id/rl_power_settings"
          android:layout_width="match_parent"
@@ -148,7 +106,7 @@
 	         android:text="@string/power"
 	         android:textAppearance="?android:attr/textAppearanceMedium"
     		 android:layout_centerVertical="true"
-	         android:textColor="@color/white"
+	         android:textColor="@color/black"
           />
 
 		<Switch
@@ -163,251 +121,20 @@
     			android:layout_centerVertical="true"
                 android:thumb="@drawable/on_off_circle"
                 android:track="@drawable/on_off_bg"
+                android:textStyle="bold"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 />  
 
      </RelativeLayout>
+
+      <!-- Separator -->
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/horizontal_line"
+        android:contentDescription="@string/separator"/>
      
-      <ImageView
-	        android:id="@+id/iv_separator4"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/separator"
-	        android:contentDescription="@string/separator"/>
-      
-      <!-- Air Purifier Status Layout starts -->
-      
-      <TextView
-	        android:id="@+id/tv_airpurifierstatus"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:text="@string/air_purifier_status"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textColor="@color/white"
-	        android:gravity="center_vertical"
-	        android:layout_marginBottom="@dimen/field_vertical_margin_top"        
-	         />
-	      <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/separator"
-	        android:contentDescription="@string/separator"/>
-      
-	     <RelativeLayout android:id="@+id/rl_airpurifier_status"
-	         android:layout_height="50dp"
-	         android:layout_width="match_parent"
-	          android:layout_marginTop="2dp"
-	          android:layout_marginBottom="2dp"
-	          >
-	
-	     <ImageView
-	         android:id="@+id/iv_airpurifier_status"
-	         android:layout_width="50dp"
-	         android:layout_height="wrap_content"
-	         android:src="@drawable/icon_air_quality" 
-	         android:layout_centerVertical="true"
-	         android:contentDescription="@string/connection_status"
-	         />
-	
-	     <TextView
-	         android:id="@+id/tv_air_quality"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"   
-	         android:layout_toRightOf="@id/iv_airpurifier_status"
-	         android:text="@string/airquality"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/white"          
-	         android:gravity="center_vertical"
-	         android:layout_alignParentBottom="true"
-	         android:layout_alignParentTop="true"      
-	         android:layout_marginRight="10dp"
-	         />
-	     
-	     <TextView
-	         android:id="@+id/tv_airquality_status"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_toRightOf="@id/tv_air_quality"
-	         android:text="@string/very_good"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/filter_good"          
-	         android:gravity="center_vertical"
-	         android:layout_alignParentBottom="true"
-	         android:layout_alignParentRight="true"
-	         android:layout_alignParentTop="true"      
-	         />	
-	     </RelativeLayout>     
-	     
-	      <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/separator"
-	        android:contentDescription="@string/separator"/>
-	     
-	     
-     <!-- Filter status layout -->
-
-	     <RelativeLayout
-	         android:id="@+id/rl_filter_status"
-	         android:layout_width="match_parent"
-	         android:layout_height="50dp"
-	         android:layout_marginBottom="2dp"
-	         android:layout_marginTop="2dp" >
-
-	         <ImageView
-	             android:id="@+id/iv_filter_status"
-	             android:layout_width="50dp"
-	             android:layout_height="wrap_content"
-	             android:layout_centerVertical="true"
-	             android:contentDescription="@string/connection_status"
-	             android:src="@drawable/icon_air_quality" />
-
-	         <TextView
-	             android:id="@+id/tv_filterstatus"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_alignParentBottom="true"
-	             android:layout_alignParentTop="true"
-	             android:layout_marginRight="10dp"
-	             android:layout_toRightOf="@id/iv_filter_status"
-	             android:gravity="center_vertical"
-	             android:text="@string/filter_status"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/white" />
-
-	         <ImageView
-	             android:id="@+id/iv_arrow_right"
-	             android:layout_width="wrap_content"
-	             android:layout_height="25dp"
-	             android:layout_alignParentBottom="true"
-	             android:layout_alignParentTop="true"
-	             android:layout_alignParentRight="true"
-	             android:src="@drawable/right_indicator" />
-	     </RelativeLayout>
-	     
-	       <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/separator"
-	        android:contentDescription="@string/separator"/>
-	     
-	     <!-- Multiple Filters -->
-	       <LinearLayout
-	         android:id="@+id/ll_prefilterstatus"
-	         android:layout_width="match_parent"
-	         android:layout_height="50dp"
-	         android:layout_marginBottom="2dp"
-	         android:layout_marginTop="2dp" 
-	         android:orientation="horizontal"
-	         android:layout_gravity="center">
-
-	         <View
-	             android:layout_width="50dp"
-	             android:layout_height="wrap_content"
-             />
-	         <ImageView
-		        android:layout_width="20dp"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/status_one"
-		        android:contentDescription="@string/separator"
-		        android:layout_marginRight="10dp"
-		        android:layout_gravity="center_vertical"/>	
-
-	         <TextView
-	             android:id="@+id/tv_prefilter"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="10dp"
-	             android:gravity="center_vertical"
-	             android:text="@string/pre_filter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/white" 
-	             android:layout_gravity="center_vertical"/>
-
-	         <TextView
-	             android:id="@+id/tv_prefilter_status"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="10dp"
-	             android:gravity="center_vertical"
-	             android:text="@string/clean_filter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:layout_gravity="center_vertical"
-	             android:textColor="@color/filter_good" />
-
-	         </LinearLayout>
-	         
-	       <LinearLayout
-	         android:id="@+id/ll_hepafilterstatus"
-	         android:layout_width="match_parent"
-	         android:layout_height="50dp"
-	         android:layout_marginBottom="2dp"
-	         android:layout_marginTop="2dp" 
-	         android:orientation="horizontal"
-	         android:layout_gravity="center">
-
-	         <View
-	             android:layout_width="50dp"
-	             android:layout_height="wrap_content"
-             />
-	         <ImageView
-	             android:id="@+id/iv_hepafilter_status"
-		        android:layout_width="20dp"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/status_four"
-		        android:contentDescription="@string/separator"
-		        android:layout_marginRight="10dp"
-		        android:layout_gravity="center_vertical"/>	
-
-	         <TextView
-	             android:id="@+id/tv_hepafilter"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="10dp"
-	             android:gravity="center_vertical"
-	             android:text="@string/hepa_filter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/white" 
-	             android:layout_gravity="center_vertical"/>
-
-	         <TextView
-	             android:id="@+id/tv_hepafilter_status"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="10dp"
-	             android:gravity="center_vertical"
-	             android:text="@string/replace_immediately"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:layout_gravity="center_vertical"
-	             android:textColor="@color/filter_bad" />
-	         </LinearLayout>
-	         
-	       <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/separator"
-	        android:contentDescription="@string/separator"/>
-	       
-	<!-- Air Purifier Control Layout starts -->
-	     <TextView
-	        android:id="@+id/tv_airpurifiercontrol"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:text="@string/airpurifiercontrol"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textColor="@color/white"
-	        android:gravity="center_vertical"
-	        android:layout_marginBottom="@dimen/field_vertical_margin_top"  
-	         />
-	      <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/separator"
-	        android:contentDescription="@string/separator"/>	
-
      <!-- Fan Control status layout -->
 
      <RelativeLayout
@@ -433,7 +160,7 @@
          android:layout_toRightOf="@+id/iv_fan_speed"
          android:text="@string/fan_speed"
          android:textAppearance="?android:attr/textAppearanceMedium"
-         android:textColor="@color/white"          
+         android:textColor="@color/black"          
          android:gravity="center_vertical"
          />
 
@@ -446,58 +173,77 @@
          android:stretchColumns="*"
          >
          <TableRow android:layout_marginBottom="2dp">
+         <Button 
+             android:id="@+id/btn_fanspeed_auto" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content" 
+             android:background="@drawable/fan_speed_control_bg"
+             android:text="@string/auto"
+             android:textColor="@color/white"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:contentDescription="@string/separator"/>   
          <ImageButton android:id="@+id/ib_fanspeed_one" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
+             android:background="@drawable/fan_button_selection" 
              android:src="@drawable/fan_speed_auto"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
              android:contentDescription="@string/separator"/>
          <ImageButton android:id="@+id/ib_fanspeed_two" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
              android:background="@drawable/fan_speed_control_bg" 
              android:src="@drawable/fan_speed_silent"
+             android:focusable="true"
+             android:focusableInTouchMode="true"
              android:contentDescription="@string/separator"/>
          <ImageButton android:id="@+id/ib_fanspeed_three" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
              android:background="@drawable/fan_speed_control_bg" 
              android:src="@drawable/fan_speed_turbo"
-             android:contentDescription="@string/separator"/>
+             android:focusable="true"
+             android:focusableInTouchMode="true"
+             android:contentDescription="@string/separator"/>        
          </TableRow>
+     </TableLayout>
+     <!-- Fan Speed ICON Layout -->
+     <TableLayout android:id="@+id/tl_fan_speed_icon1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content" 
+         android:stretchColumns="*"
+         >
+         <TableRow>
          
-         <TableRow android:layout_marginBottom="2dp">
-         <Button 
-             android:id="@+id/btn_fanspeed_auto" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
-             android:text="@string/auto"
-             android:textColor="@color/white"
-             android:contentDescription="@string/separator"/>
          <Button 
              android:id="@+id/btn_fanspeed_silent" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
+             android:background="@drawable/fan_speed_control_bg1" 
              android:text="@string/silent"
+             android:focusable="true"
+	         android:focusableInTouchMode="true"   
              android:textColor="@color/white"
              android:contentDescription="@string/separator"/>
          <Button 
              android:id="@+id/btn_fanspeed_turbo" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
+             android:background="@drawable/fan_speed_control_bg1" 
              android:text="@string/turbo"
              android:textColor="@color/white"
+             android:focusable="true"
+	         android:focusableInTouchMode="true"   
              android:contentDescription="@string/separator"/>
          </TableRow>
-     </TableLayout>"
+     </TableLayout>
      
      <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/separator"
+        android:src="@drawable/horizontal_line"
         android:contentDescription="@string/separator"
         /> 
         
@@ -523,7 +269,7 @@
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
 	         android:layout_toRightOf="@id/iv_timer"
-	         android:textColor="@color/white"
+	         android:textColor="@color/black"
 	         android:gravity="center_vertical"
 	         android:text="@string/timer"
 	         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -546,7 +292,7 @@
      <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/separator"
+        android:src="@drawable/horizontal_line"
         android:contentDescription="@string/separator"
         /> 
      
@@ -576,7 +322,7 @@
 	         android:layout_toRightOf="@id/iv_child_lock"
 	         android:text="@string/child_lock"
 	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/white"
+	         android:textColor="@color/black"
 	          android:layout_centerVertical="true"
 	          />
 
@@ -599,7 +345,7 @@
      <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/separator"
+        android:src="@drawable/horizontal_line"
         android:contentDescription="@string/separator"
         /> 
      
@@ -629,7 +375,7 @@
 	         android:layout_toRightOf="@id/iv_indicator_light"
 	         android:text="@string/indicator_light"
 	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/white"
+	         android:textColor="@color/black"
 	         android:layout_centerVertical="true"
          />
 
@@ -649,11 +395,317 @@
      	
 	</RelativeLayout>
 	
+      <!-- Separator -->
+     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/horizontal_line"
+        android:contentDescription="@string/separator"/>
+     
+      <!-- Air Purifier Status Layout starts -->
+      
+      <TextView
+	        android:id="@+id/tv_airpurifierstatus"
+	        android:layout_width="wrap_content"
+	        android:layout_height="50dp"
+	        android:text="@string/air_purifier_status"
+	        android:textAppearance="?android:attr/textAppearanceMedium"
+	        android:textColor="@color/black"
+	        android:gravity="center_vertical"
+	        android:layout_marginBottom="@dimen/field_vertical_margin_top"        
+	         />
+	      <!-- Separator -->
+	     <ImageView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/horizontal_line"
+	        android:contentDescription="@string/separator"/>
+      
+	     <RelativeLayout android:id="@+id/rl_airpurifier_status"
+	         android:layout_height="50dp"
+	         android:layout_width="match_parent"
+	          android:layout_marginTop="2dp"
+	          android:layout_marginBottom="2dp"
+	          >
+	
+	     <ImageView
+	         android:id="@+id/iv_airpurifier_status"
+	         android:layout_width="50dp"
+	         android:layout_height="wrap_content"
+	         android:src="@drawable/icon_air_quality" 
+	         android:layout_centerVertical="true"
+	         android:contentDescription="@string/connection_status"
+	         />
+	
+	     <TextView
+	         android:id="@+id/tv_air_quality"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"   
+	         android:layout_toRightOf="@id/iv_airpurifier_status"
+	         android:text="@string/airquality"
+	         android:textAppearance="?android:attr/textAppearanceMedium"
+	         android:textColor="@color/black"          
+	         android:gravity="center_vertical"
+	         android:layout_alignParentBottom="true"
+	         android:layout_alignParentTop="true"      
+	         android:layout_marginRight="10dp"
+	         />
+	     
+	     <TextView
+	         android:id="@+id/tv_airquality_status"
+	         android:layout_width="wrap_content"
+	         android:layout_height="wrap_content"
+	         android:layout_toRightOf="@id/tv_air_quality"
+	         android:text="@string/very_good"
+	         android:textAppearance="?android:attr/textAppearanceMedium"
+	         android:textColor="@color/filter_good"
+	         android:gravity="center_vertical"
+	         android:layout_alignParentBottom="true"
+	         android:layout_alignParentRight="true"
+	         android:layout_alignParentTop="true" 
+	         android:focusable="true"
+	         android:focusableInTouchMode="true"     
+	         />	
+	     </RelativeLayout>     
+	     
+	      <!-- Separator -->
+	     <ImageView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/horizontal_line"
+	        android:contentDescription="@string/separator"/>
+	     
+	     
+     <!-- Filter status layout -->
+
+	     <RelativeLayout
+	         android:id="@+id/rl_filter_status"
+	         android:layout_width="match_parent"
+	         android:layout_height="50dp"
+	         android:layout_marginBottom="2dp"
+	         android:layout_marginTop="2dp" >
+
+	         <ImageView
+	             android:id="@+id/iv_filter_status"
+	             android:layout_width="50dp"
+	             android:layout_height="wrap_content"
+	             android:layout_centerVertical="true"
+	             android:contentDescription="@string/connection_status"
+	             android:src="@drawable/icon_filter" />
+
+	         <TextView
+	             android:id="@+id/tv_filterstatus"
+	             android:layout_width="wrap_content"
+	             android:layout_height="wrap_content"
+	             android:layout_alignParentBottom="true"
+	             android:layout_alignParentTop="true"
+	             android:layout_marginRight="10dp"
+	             android:layout_toRightOf="@id/iv_filter_status"
+	             android:gravity="center_vertical"
+	             android:text="@string/filter_status"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/black" />
+
+	         
+	     </RelativeLayout>
+	     
+	       <!-- Separator -->
+	     <ImageView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:src="@drawable/horizontal_line"
+	        android:contentDescription="@string/separator"/>
+	     
+	     <!-- Multiple Filters -->
+	      <TableLayout android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:layout_gravity="center_vertical"
+	           android:stretchColumns="*">
+			<TableRow android:id="@+id/row1">
+			 <View android:layout_width="30dp"
+			     android:layout_height="match_parent"
+			     android:id="@+id/empty_view1"/>
+	         <ImageView
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/status_one"
+		        android:layout_marginRight="4dp"
+		        android:layout_gravity="center_vertical"
+		      />
+
+	         <TextView
+	             android:id="@+id/tv_prefilter"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"	             
+	             android:text="@string/pre_filter"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/black" 
+	             android:layout_gravity="center_vertical"/>
+
+	         <TextView
+	             android:id="@+id/tv_prefilter_status"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="10dp"
+	             android:text="Clean 10 days"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/lightgrey"
+	             
+	              />
+	         <ImageView
+	             android:layout_width="wrap_content"
+	             android:layout_height="match_parent"
+	             android:layout_gravity="right"	            
+	             android:src="@drawable/right_indicator" 
+	             />
+	         </TableRow> 
+	        <ImageView
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/horizontal_line"
+		        android:contentDescription="@string/separator"
+		        /> 
+			<TableRow>
+			 <View android:layout_width="30dp"
+			     android:layout_height="match_parent"
+			     android:id="@+id/empty_view3"/>
+	         <ImageView
+	             android:id="@+id/iv_multicarefilter_status"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/status_two"
+		        android:layout_gravity="center_vertical"
+		        android:layout_marginRight="4dp"
+		        />	
+
+	         <TextView
+	             android:id="@+id/tv_multicarefilter"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"	             
+	             android:text="@string/multicarefilter"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/black" 
+	             android:layout_gravity="center_vertical"/>
+
+	         <TextView
+	             android:id="@+id/tv_multicarefilter_status"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"
+	             android:text="Replace in 3 weeks"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/pink"
+	             
+	              />
+	         <ImageView
+	             android:layout_width="wrap_content"
+	             android:layout_height="match_parent"
+	             android:layout_gravity="right"	            
+	             android:src="@drawable/right_indicator" 
+	             />
+	         </TableRow>
+			<ImageView
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/horizontal_line"
+		        android:contentDescription="@string/separator"
+		        /> 
+			<TableRow>
+			 <View android:layout_width="30dp"
+			     android:layout_height="match_parent"
+			     />
+	         <ImageView
+	             android:id="@+id/iv_activecarbonfilter_status"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/status_three"
+		        android:layout_gravity="center_vertical"
+		        android:layout_marginRight="4dp"
+		        />	
+
+	         <TextView
+	             android:id="@+id/tv_activecarbonfilter"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"	             
+	             android:text="@string/activecarbonfilter"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/black" 
+	             android:layout_gravity="center_vertical"/>
+
+	         <TextView
+	             android:id="@+id/tv_hepafilter_status"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"
+	             android:text="Replace in 1.5 months"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/lightblue"
+	             
+	              />
+	         <ImageView
+	             android:layout_width="wrap_content"
+	             android:layout_height="match_parent"
+	             android:layout_gravity="right"	            
+	             android:src="@drawable/right_indicator" 
+	             />
+			</TableRow>
+			<ImageView
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/horizontal_line"
+		        android:contentDescription="@string/separator"
+		        /> 
+			<TableRow>
+			 <View android:layout_width="30dp"
+			     android:layout_height="match_parent"
+			     />
+	         <ImageView
+	             android:id="@+id/iv_hepafilter_status"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:src="@drawable/status_four"
+		        android:layout_gravity="center_vertical"
+		        android:layout_marginRight="4dp"
+		        />	
+
+	         <TextView
+	             android:id="@+id/tv_hepafilter"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"	             
+	             android:text="@string/hepa_filter"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/black" 
+	             android:layout_gravity="center_vertical"/>
+
+	         <TextView
+	             android:id="@+id/tv_hepafilter_status"
+	             android:layout_width="100dp"
+	             android:layout_height="wrap_content"
+	             android:layout_marginRight="4dp"
+	             android:text="@string/replace_immediately"
+	             android:textAppearance="?android:attr/textAppearanceMedium"
+	             android:textColor="@color/filter_bad"
+	             
+	              />
+	         <ImageView
+	             android:layout_width="wrap_content"
+	             android:layout_height="match_parent"
+	             android:layout_gravity="right"	            
+	             android:src="@drawable/right_indicator" 
+	             />
+	         </TableRow>
+         </TableLayout>
+	
+	
      <!-- Field Separator -->
      <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/separator"
+        android:src="@drawable/horizontal_line"
         android:contentDescription="@string/separator"
         /> 
      
