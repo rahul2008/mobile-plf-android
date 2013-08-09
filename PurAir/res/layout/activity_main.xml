@@ -22,14 +22,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
-        android:background="@drawable/top_bar"
-        android:orientation="vertical" >
+        >
 
         <RelativeLayout
             android:id="@+id/rlTopNavigation"
             android:layout_width="wrap_content"
-            android:layout_height="70dp"
-            android:gravity="center_vertical" >
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_bar"
+             >
 
             <ImageView
                 android:id="@+id/ivLeftMenu"
