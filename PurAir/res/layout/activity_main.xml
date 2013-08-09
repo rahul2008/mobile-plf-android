@@ -2,8 +2,14 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/flMain"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
+    
+      <LinearLayout android:id="@+id/llContainer"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        >
+        
+    </LinearLayout>
 
     <!-- Menu Panel -->
 
@@ -13,10 +19,10 @@
 
     <LinearLayout
         android:id="@+id/slidingPanel"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@android:color/white"
-        android:gravity="left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@drawable/top_bar"
         android:orientation="vertical" >
 
         <RelativeLayout
@@ -26,35 +32,31 @@
             android:gravity="center_vertical" >
 
             <ImageView
-                android:id="@+id/ivMenu"
+                android:id="@+id/ivLeftMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_marginLeft="10dp"
-                android:src="@drawable/menu" />
+                android:layout_centerVertical="true"
+                android:background="@drawable/menu_icon" />
 
             <ImageView
-                android:id="@+id/ivAppName"
+                android:id="@+id/ivCenterLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/title" />
+                android:layout_centerVertical="true"
+                android:background="@drawable/label_my_iaq" />
 
             <ImageView
-                android:id="@+id/ivSettings"
+                android:id="@+id/ivRightDeviceIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/settings" />
+                android:layout_centerVertical="true"
+                android:background="@drawable/device_icon" />
         </RelativeLayout>
-
-        <ImageView
-            android:id="@+id/ivLine"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/rlTopNavigation"
-            android:src="@drawable/horizontal_line" />
     </LinearLayout>
+    
+  
 
 </FrameLayout>
