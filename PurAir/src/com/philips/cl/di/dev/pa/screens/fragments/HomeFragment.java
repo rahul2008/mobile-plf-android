@@ -32,10 +32,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	/** The scaling animation variables. */
 	private ObjectAnimator scaleUpIndoor, scaleDownIndoor, scaleUpOutdoor,
 			scaleDownOutdoor, scaleUpIndoorRing, scaleUpOutdoorRing,
-			scaleDownIndoorRing, scaleDownOutdoorRing,translateUpOutdoorInfo,translateDownOutdoorInfo;
+			scaleDownIndoorRing, scaleDownOutdoorRing, translateUpOutdoorInfo,
+			translateDownOutdoorInfo;
 
 	/** The relative layouts outdoor/indoor section. */
-	private RelativeLayout rlIndoorSection, rlOutdoorSection,rlOutdoorInfo;
+	private RelativeLayout rlIndoorSection, rlOutdoorSection, rlOutdoorInfo;
 
 	/** The framelayout outdoor ring. */
 	private FrameLayout flIndoorRing, flOutdoorRing;
@@ -60,7 +61,6 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The main view. */
 	View vMain;
-	
 
 	/*
 	 * (non-Javadoc)
@@ -155,54 +155,57 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 		scaleDownIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", 1f,
 				.40f);
-		scaleDownIndoor.setDuration(2000);
+		scaleDownIndoor.setDuration(AppConstants.DURATION);
 
 		scaleDownIndoorRing = ObjectAnimator.ofFloat(flIndoorRing, "scaleX",
 				1f, .40f);
-		scaleDownIndoorRing.setDuration(2000);
+		scaleDownIndoorRing.setDuration(AppConstants.DURATION);
 
 		scaleUpOutdoor = ObjectAnimator.ofFloat(rlOutdoorSection, "scaleY", 1f,
 				2.5f);
-		scaleUpOutdoor.setDuration(2000);
+		scaleUpOutdoor.setDuration(AppConstants.DURATION);
 
 		scaleDownOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
 				1f, .40f);
-		scaleDownOutdoorRing.setDuration(2000);
+		scaleDownOutdoorRing.setDuration(AppConstants.DURATION);
 
 		scaleUpIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", .40f,
 				1f);
-		scaleUpIndoor.setDuration(2000);
+		scaleUpIndoor.setDuration(AppConstants.DURATION);
 
 		scaleUpIndoorRing = ObjectAnimator.ofFloat(flIndoorRing, "scaleX",
 				.40f, 1f);
-		scaleUpIndoorRing.setDuration(2000);
+		scaleUpIndoorRing.setDuration(AppConstants.DURATION);
 
 		scaleUpOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
 				.40f, 1f);
-		scaleUpOutdoorRing.setDuration(2000);
+		scaleUpOutdoorRing.setDuration(AppConstants.DURATION);
 
 		scaleDownOutdoor = ObjectAnimator.ofFloat(rlOutdoorSection, "scaleY",
 				2.5f, 1f);
-		scaleDownOutdoor.setDuration(2000);
-		
-		translateDownOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo, "translationY",-540f , 0f);
-		
-		translateDownOutdoorInfo.setDuration(2000);
-		
-		translateUpOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo, "translationY",
-				0f, -540f);
-		translateUpOutdoorInfo.setDuration(2000);
-	
-		// Animation Sets 
+		scaleDownOutdoor.setDuration(AppConstants.DURATION);
+
+		translateDownOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo,
+				"translationY", -540f, 0f);
+
+		translateDownOutdoorInfo.setDuration(AppConstants.DURATION);
+
+		translateUpOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo,
+				"translationY", 0f, -540f);
+		translateUpOutdoorInfo.setDuration(AppConstants.DURATION);
+
+		// Animation Sets
 		scaleDownIndoorAnimatorSet = new AnimatorSet();
-		scaleDownIndoorAnimatorSet.setDuration(2000);
+		scaleDownIndoorAnimatorSet.setDuration(AppConstants.DURATION);
 		scaleDownIndoorAnimatorSet.playTogether(scaleDownIndoor,
-				scaleDownIndoorRing, scaleUpOutdoor, scaleUpOutdoorRing,translateUpOutdoorInfo);
-		
+				scaleDownIndoorRing, scaleUpOutdoor, scaleUpOutdoorRing,
+				translateUpOutdoorInfo);
+
 		scaleDownOutdoorAnimatorSet = new AnimatorSet();
-		scaleDownOutdoorAnimatorSet.setDuration(2000);
+		scaleDownOutdoorAnimatorSet.setDuration(AppConstants.DURATION);
 		scaleDownOutdoorAnimatorSet.playTogether(scaleUpIndoor,
-				scaleUpIndoorRing, scaleDownOutdoor, scaleDownOutdoorRing,translateDownOutdoorInfo);
+				scaleUpIndoorRing, scaleDownOutdoor, scaleDownOutdoorRing,
+				translateDownOutdoorInfo);
 
 	}
 
