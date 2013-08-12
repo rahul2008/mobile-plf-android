@@ -520,7 +520,8 @@
 	      <TableLayout android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
 	           android:layout_gravity="center_vertical"
-	           android:stretchColumns="*">
+	           android:stretchColumns="*"
+	           android:id="@+id/tb_filterstatus" >"
 			<TableRow android:id="@+id/row1">
 			 <View android:layout_width="30dp"
 			     android:layout_height="match_parent"
