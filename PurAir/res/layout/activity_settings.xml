@@ -186,7 +186,7 @@
          <ImageButton android:id="@+id/ib_fanspeed_one" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/fan_button_selection" 
+             android:background="@drawable/fan_speed_control_bg" 
              android:src="@drawable/fan_speed_auto"
              android:focusable="true"
              android:focusableInTouchMode="true"
