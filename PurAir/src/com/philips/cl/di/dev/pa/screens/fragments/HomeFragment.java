@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The main view. */
 	View vMain;
+	
 
 	/*
 	 * (non-Javadoc)
