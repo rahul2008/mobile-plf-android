@@ -1,0 +1,408 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/filter_details_bg" >
+
+    <RelativeLayout
+        android:id="@+id/rlHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/filter_details_header" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Filter Status"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/ivBackIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/filter_details_back" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlHeader"
+        android:background="@drawable/filter_details_desc" >
+
+        <TextView
+            android:id="@+id/tvHeadingInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Philips Filtration System"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvHeadingInfo"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:text="Our superior filtration system cleans air of harmful agents in 4 stages. Please clean and replace filters as indicated  below to ensure best air purification performance."
+            android:textColor="@android:color/black"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlRow1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlInfo"
+        android:background="@drawable/filter_details_row" >
+
+        <ImageView
+            android:id="@+id/ivNumber1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/number_one" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvPreFilterLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivPreFilterBase"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/ivPreFilterBase"
+            android:text="Pre-Filter /" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvPreFilterInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvPreFilterLabel"
+            android:text="Clean every 3 months" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/ivPreFilterBase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivNumber1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/filter_details_base" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivPreFilterBase"
+            android:layout_below="@+id/ivPreFilterBase"
+            android:layout_marginTop="10dp"
+            android:text="Status:" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvPreFilterStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivPreFilterBase"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvStatusLabel"
+            android:text="Clean in 10 days"
+            android:textColor="@android:color/holo_blue_bright" >
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlRow2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlRow1"
+        android:background="@drawable/filter_details_row" >
+
+        <TextView
+            android:id="@+id/tvMultiCareLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivMulticareBase"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/ivMulticareBase"
+            android:text="Multi Care Filter /" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvMultiCareInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvMultiCareLabel"
+            android:text="Clean every 2 months" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/ivNumber2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/number_two" >
+        </ImageView>
+
+        <ImageView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ivMulticareBase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivNumber2"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/filter_details_base" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivMulticareBase"
+            android:layout_below="@+id/ivMulticareBase"
+            android:layout_marginTop="10dp"
+            android:text="Status:" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvMultiCareFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivMulticareBase"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvStatusLabel"
+            android:text="Replace in 3 weeks"
+            android:textColor="@android:color/holo_green_dark" >
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlRow3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlRow2"
+        android:background="@drawable/filter_details_row" >
+
+        <TextView
+            android:id="@+id/tvActiveCarbonLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivActiveFilterBase"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/ivActiveFilterBase"
+            android:text="Active Carbon Filter /" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvActivCarbonInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvActiveCarbonLabel"
+            android:text="Clean every 2 months" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/ivNumber3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/number_three" >
+        </ImageView>
+
+        <ImageView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ivActiveFilterBase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivNumber3"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/filter_details_base" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivActiveFilterBase"
+            android:layout_below="@+id/ivActiveFilterBase"
+            android:layout_marginTop="10dp"
+            android:text="Status:" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvMultiCareFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivActiveFilterBase"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvStatusLabel"
+            android:text="Replace in 1.5 months"
+            android:textColor="@android:color/holo_orange_light" >
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlRow4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlRow3"
+        android:background="@drawable/filter_details_row" >
+
+        <TextView
+            android:id="@+id/tvHepaLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivHepaBase"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/ivHepaBase"
+            android:text="Active Carbon Filter /" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvHepaInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvHepaLabel"
+            android:text="Clean every 2 months" >
+        </TextView>
+
+        <ImageView
+            android:id="@+id/ivNumber4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/number_four" >
+        </ImageView>
+
+        <ImageView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/ivHepaBase"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivNumber4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/filter_details_base" >
+        </ImageView>
+
+        <TextView
+            android:id="@+id/tvStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/ivHepaBase"
+            android:layout_below="@+id/ivHepaBase"
+            android:layout_marginTop="10dp"
+            android:text="Status:" >
+        </TextView>
+
+        <TextView
+            android:id="@+id/tvMultiCareFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivHepaBase"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/tvStatusLabel"
+            android:text="Replace immediately"
+            android:textColor="@android:color/holo_red_dark" >
+        </TextView>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rlRow5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlRow4"
+        android:background="@drawable/filter_details_row" >
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/filter_details_button" >
+
+            <TextView
+                android:id="@+id/tvSetTimer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Set Timer" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp" >
+
+            <ImageView
+                android:id="@+id/ivResetFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/filter_details_reset" >
+            </ImageView>
+
+            <TextView
+                android:id="@+id/tvReSetFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/ivResetFilter"
+                android:text="Reset Filter"
+                android:textColor="@android:color/black" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
