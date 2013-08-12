@@ -145,5 +145,7 @@ public class AppConstants {
 	public static final float SWIPE_THRESHOLD = 100;
 	
 	public static final float SWIPE_VELOCITY_THRESHOLD = 100;
+	
+	public static final long DURATION = 1000;
 
 }
