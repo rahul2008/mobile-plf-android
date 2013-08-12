@@ -1,53 +1,43 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@drawable/home_bg" >
 
-    <RelativeLayout
-        android:id="@+id/rlContainer"
+    <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/home_bg" >
+        android:layout_gravity="top"
+        layout="@layout/activity_indoor" />
 
-        <RelativeLayout
-            android:id="@+id/rlIndoorSection"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/home_indoor_bad_large" >
-        </RelativeLayout>
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="356px"
+        android:layout_gravity="bottom"
+        layout="@layout/activity_outdoor" />
 
-        <RelativeLayout
-            android:id="@+id/rlOutdoorSection"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/rlIndoorSection"
-            android:background="@drawable/home_outdoor_verygood_large" >
-        </RelativeLayout>
-    </RelativeLayout>
- 
-
-    <RelativeLayout
-        android:id="@+id/rlBottomBar"
+    <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/top_bar" >
+        android:layout_gravity="bottom"
+        layout="@layout/activity_bottombar" />
 
-        <ImageView
-            android:id="@+id/ivMap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/map_icon" />
+    <!-- <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        layout="@layout/activity_topbar" /> -->
 
-        <ImageView
-            android:id="@+id/ivTrend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/trend_icon" />
-    </RelativeLayout>
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        layout="@layout/activity_indoor_info" />
+    
+     <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="880px"
+        layout="@layout/activity_outdoor_info" />
+    
 
-  
-</RelativeLayout>
+</FrameLayout>
