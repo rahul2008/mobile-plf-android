@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <TextView
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         android:id="@+id/tvHome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -10,9 +10,9 @@
         android:text="Home"
         android:textColor="@android:color/white"
         android:textSize="20sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-    <TextView
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         android:id="@+id/tvDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,9 +21,9 @@
         android:text="Today"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-    <TextView
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,9 +31,9 @@
         android:text="4:10"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
     
-     <TextView
+     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         android:id="@+id/tvLastUpdated"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +42,6 @@
         android:text="Last updated"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-        </TextView>
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
 </RelativeLayout>

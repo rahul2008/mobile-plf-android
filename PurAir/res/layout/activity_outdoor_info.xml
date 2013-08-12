@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/rlOutdoorInfo" >
 
-    <TextView
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         android:id="@+id/tvCityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -11,9 +11,9 @@
         android:text="Home"
         android:textColor="@android:color/white"
         android:textSize="20sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-    <TextView
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         android:id="@+id/tvSource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,38 +22,38 @@
         android:text="US Consulate"
         android:textColor="@android:color/white"
         android:textSize="20sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-    <TextView
-        android:id="@+id/tvDay"
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        android:id="@+id/tvDayOutdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
-        android:layout_toLeftOf="@+id/tvTime"
+        android:layout_toLeftOf="@+id/tvTimeOutdoor"
         android:text="Today"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-    <TextView
-        android:id="@+id/tvTime"
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        android:id="@+id/tvTimeOutdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="4:10"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-    <TextView
-        android:id="@+id/tvLastUpdated"
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        android:id="@+id/tvLastUpdatedOutdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvTime"
+        android:layout_below="@+id/tvTimeOutdoor"
         android:text="Last updated"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </TextView>
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
 </RelativeLayout>
