@@ -9,6 +9,7 @@ import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 public class SettingsActivity extends Activity implements OnClickListener,OnCheckedChangeListener,AirPurifierEventListener,SensorEventListener,OnFocusChangeListener {
@@ -51,6 +53,8 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	
 	
 	private TextView airQualityStatusView;
+	
+	private TableLayout tbLayout ;
 	
 	
 	@Override
@@ -111,6 +115,10 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		airQualityStatusView = (TextView) findViewById(R.id.tv_airquality_status) ;
 		airQualityStatusView.setOnFocusChangeListener(this) ;
 		
+		tbLayout = (TableLayout) findViewById(R.id.tb_filterstatus) ;
+		tbLayout.setOnClickListener(this) ;
+		
+		
 		disableSettingsControls() ;
 	}
 	
@@ -130,6 +138,7 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		swIndicatorLight.setEnabled(true) ;
 		
 		buttonTimer.setEnabled(true) ;
+		tbLayout.setEnabled(true) ;
 	}
 	
 	/**
@@ -155,6 +164,8 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		swIndicatorLight.setEnabled(false) ;
 		
 		buttonTimer.setEnabled(false) ;
+		
+		tbLayout.setEnabled(false) ;
 	}
 	
 	
@@ -164,7 +175,7 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_fanspeed_auto:
-			airpurifierController.setDeviceMode(DeviceMode.auto) ;	
+			airpurifierController.setDeviceMode(DeviceMode.auto) ;
 			break;
 
 		case R.id.btn_fanspeed_silent:
@@ -187,9 +198,17 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 			airpurifierController.setDeviceMotorSpeed(4) ;
 			break;
 		case R.id.iv_back:			
-			//finish() ;
+			finish() ;
 			break ;
+		case R.id.tb_filterstatus:
+			showFilterDetailsScreen() ;
+			break;
 		}
+	}
+	
+	private void showFilterDetailsScreen() {
+		Intent intent = new Intent(this,FilterDetailsActivity.class) ;
+		startActivity(intent) ;
 	}
 
 	@Override
