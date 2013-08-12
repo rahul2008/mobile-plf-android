@@ -2,9 +2,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-   
-
-   
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
@@ -40,21 +37,37 @@
             android:layout_alignParentTop="true"
             android:background="@drawable/quadrant4" />
     </RelativeLayout>
-     <ImageView
+
+    <ImageView
         android:id="@+id/ivIndoorFullCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/indoorcircle" />
-    
-     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-        android:id="@+id/tvIndoorAQI"
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="400"
-        android:textColor="@android:color/white"
-        android:textSize="100sp" />
+        android:layout_gravity="center" >
 
-    
-    </FrameLayout>
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            android:id="@+id/tvIndoorAQI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="400"
+            android:textColor="@android:color/white"
+            android:textSize="100sp" />
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            android:id="@+id/tvIndoorPM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvIndoorAQI"
+            android:layout_centerHorizontal="true"
+            android:text="PM2.5"
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+</FrameLayout>
