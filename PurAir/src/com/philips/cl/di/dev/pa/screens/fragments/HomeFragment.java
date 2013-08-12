@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.screens.fragments;
 
+import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,48 +10,54 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class HomeFragment.
  */
 public class HomeFragment extends Fragment implements OnClickListener,
 		OnGestureListener {
 
+	/** The scale down/up outdoor animator set. */
+	private AnimatorSet scaleDownIndoorAnimatorSet,
+			scaleDownOutdoorAnimatorSet;
 	/** The scaling animation variables. */
 	private ObjectAnimator scaleUpIndoor, scaleDownIndoor, scaleUpOutdoor,
-			scaleDownOutdoor;
-	
+			scaleDownOutdoor, scaleUpIndoorRing, scaleUpOutdoorRing,
+			scaleDownIndoorRing, scaleDownOutdoorRing,translateUpOutdoorInfo,translateDownOutdoorInfo;
+
 	/** The relative layouts outdoor/indoor section. */
-	private RelativeLayout rlIndoorSection, rlOutdoorSection;
-	
+	private RelativeLayout rlIndoorSection, rlOutdoorSection,rlOutdoorInfo;
+
+	/** The framelayout outdoor ring. */
+	private FrameLayout flIndoorRing, flOutdoorRing;
+
 	/** The view id. */
 	private int viewId;
-	
+
 	/** The is indoor expanded. */
 	private boolean isIndoorExpanded = true;
-	
+
 	/** The Constant TAG. */
 	public final static String TAG = HomeFragment.class.getSimpleName();
-	
+
 	/** The gesture detector. */
 	private GestureDetector gestureDetector;
-	
+
 	/** The i outdoor compressed height. */
 	private int iOutdoorCompressedHeight;
-	
+
 	/** The params outdoor. */
-	RelativeLayout.LayoutParams paramsIndoor, paramsOutdoor;
-	
+	FrameLayout.LayoutParams paramsIndoor, paramsOutdoor;
+
 	/** The main view. */
 	View vMain;
 
@@ -63,10 +70,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 */
 	/**
 	 * On create view.
-	 *
-	 * @param inflater the inflater
-	 * @param container the container
-	 * @param savedInstanceState the saved instance state
+	 * 
+	 * @param inflater
+	 *            the inflater
+	 * @param container
+	 *            the container
+	 * @param savedInstanceState
+	 *            the saved instance state
 	 * @return the view
 	 */
 	@SuppressWarnings("deprecation")
@@ -92,7 +102,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 			@Override
 			public void onGlobalLayout() {
-				paramsIndoor = (LayoutParams) rlIndoorSection.getLayoutParams();
+				paramsIndoor = (android.widget.FrameLayout.LayoutParams) rlIndoorSection
+						.getLayoutParams();
 				rlIndoorSection.getMeasuredHeight();
 				rlIndoorSection.setPivotX(0f);
 				rlIndoorSection.setPivotY(0f);
@@ -114,7 +125,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 			@Override
 			public void onGlobalLayout() {
-				paramsOutdoor = (LayoutParams) rlOutdoorSection
+				paramsOutdoor = (android.widget.FrameLayout.LayoutParams) rlOutdoorSection
 						.getLayoutParams();
 				iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
 				rlOutdoorSection.setPivotX(0f);
@@ -130,6 +141,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				return gestureDetector.onTouchEvent(event);
 			}
 		});
+
+		flIndoorRing = (FrameLayout) vMain.findViewById(R.id.flIndoorRing);
+		flOutdoorRing = (FrameLayout) vMain.findViewById(R.id.flOutdoorRing);
+		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
 	}
 
 	/**
@@ -138,20 +153,55 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	private void initialiseAnimations() {
 
 		scaleDownIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", 1f,
-				.45f);
+				.40f);
 		scaleDownIndoor.setDuration(2000);
 
+		scaleDownIndoorRing = ObjectAnimator.ofFloat(flIndoorRing, "scaleX",
+				1f, .40f);
+		scaleDownIndoorRing.setDuration(2000);
+
 		scaleUpOutdoor = ObjectAnimator.ofFloat(rlOutdoorSection, "scaleY", 1f,
-				2.6f);
+				2.5f);
 		scaleUpOutdoor.setDuration(2000);
 
-		scaleUpIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", .45f,
+		scaleDownOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
+				1f, .40f);
+		scaleDownOutdoorRing.setDuration(2000);
+
+		scaleUpIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", .40f,
 				1f);
 		scaleUpIndoor.setDuration(2000);
 
+		scaleUpIndoorRing = ObjectAnimator.ofFloat(flIndoorRing, "scaleX",
+				.40f, 1f);
+		scaleUpIndoorRing.setDuration(2000);
+
+		scaleUpOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
+				.40f, 1f);
+		scaleUpOutdoorRing.setDuration(2000);
+
 		scaleDownOutdoor = ObjectAnimator.ofFloat(rlOutdoorSection, "scaleY",
-				2.6f, 1f);
+				2.5f, 1f);
 		scaleDownOutdoor.setDuration(2000);
+		
+		translateDownOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo, "translationY",-540f , 0f);
+		
+		translateDownOutdoorInfo.setDuration(2000);
+		
+		translateUpOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo, "translationY",
+				0f, -540f);
+		translateUpOutdoorInfo.setDuration(2000);
+	
+		// Animation Sets 
+		scaleDownIndoorAnimatorSet = new AnimatorSet();
+		scaleDownIndoorAnimatorSet.setDuration(2000);
+		scaleDownIndoorAnimatorSet.playTogether(scaleDownIndoor,
+				scaleDownIndoorRing, scaleUpOutdoor, scaleUpOutdoorRing,translateUpOutdoorInfo);
+		
+		scaleDownOutdoorAnimatorSet = new AnimatorSet();
+		scaleDownOutdoorAnimatorSet.setDuration(2000);
+		scaleDownOutdoorAnimatorSet.playTogether(scaleUpIndoor,
+				scaleUpIndoorRing, scaleDownOutdoor, scaleDownOutdoorRing,translateDownOutdoorInfo);
 
 	}
 
@@ -162,8 +212,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 */
 	/**
 	 * On click.
-	 *
-	 * @param v the v
+	 * 
+	 * @param v
+	 *            the v
 	 */
 	@Override
 	public void onClick(View v) {
@@ -172,8 +223,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/**
 	 * On down.
-	 *
-	 * @param e the e
+	 * 
+	 * @param e
+	 *            the e
 	 * @return true, if successful
 	 */
 	@Override
@@ -183,11 +235,15 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/**
 	 * On fling.
-	 *
-	 * @param e1 the e1
-	 * @param e2 the e2
-	 * @param velocityX the velocity x
-	 * @param velocityY the velocity y
+	 * 
+	 * @param e1
+	 *            the e1
+	 * @param e2
+	 *            the e2
+	 * @param velocityX
+	 *            the velocity x
+	 * @param velocityY
+	 *            the velocity y
 	 * @return true, if successful
 	 */
 	@Override
@@ -202,15 +258,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				if (differenceY > 0) {
 					Log.i(TAG, "SWIPE DOWN" + viewId);
 					if (!isIndoorExpanded) {
-						scaleUpIndoor.start();
-						scaleDownOutdoor.start();
+						scaleDownOutdoorAnimatorSet.start();
 						isIndoorExpanded = !isIndoorExpanded;
 					}
 				} else {
 					Log.i(TAG, "SWIPE UP" + viewId);
 					if (isIndoorExpanded) {
-						scaleDownIndoor.start();
-						scaleUpOutdoor.start();
+						scaleDownIndoorAnimatorSet.start();
 						isIndoorExpanded = !isIndoorExpanded;
 					}
 
@@ -225,15 +279,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				if (differenceY > 0) {
 					Log.i(TAG, "SWIPE DOWN" + viewId);
 					if (!isIndoorExpanded) {
-						scaleUpIndoor.start();
-						scaleDownOutdoor.start();
+						scaleDownOutdoorAnimatorSet.start();
 						isIndoorExpanded = !isIndoorExpanded;
 					}
 				} else {
 					Log.i(TAG, "SWIPE UP" + viewId);
 					if (isIndoorExpanded) {
-						scaleDownIndoor.start();
-						scaleUpOutdoor.start();
+						scaleDownIndoorAnimatorSet.start();
 						isIndoorExpanded = !isIndoorExpanded;
 					}
 				}
@@ -247,8 +299,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/**
 	 * On long press.
-	 *
-	 * @param e the e
+	 * 
+	 * @param e
+	 *            the e
 	 */
 	@Override
 	public void onLongPress(MotionEvent e) {
@@ -258,11 +311,15 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/**
 	 * On scroll.
-	 *
-	 * @param e1 the e1
-	 * @param e2 the e2
-	 * @param distanceX the distance x
-	 * @param distanceY the distance y
+	 * 
+	 * @param e1
+	 *            the e1
+	 * @param e2
+	 *            the e2
+	 * @param distanceX
+	 *            the distance x
+	 * @param distanceY
+	 *            the distance y
 	 * @return true, if successful
 	 */
 	@Override
@@ -273,8 +330,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/**
 	 * On show press.
-	 *
-	 * @param e the e
+	 * 
+	 * @param e
+	 *            the e
 	 */
 	@Override
 	public void onShowPress(MotionEvent e) {
@@ -283,8 +341,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/**
 	 * On single tap up.
-	 *
-	 * @param e the e
+	 * 
+	 * @param e
+	 *            the e
 	 * @return true, if successful
 	 */
 	@Override
