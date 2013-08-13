@@ -1,8 +1,18 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
+    
+    <ImageView
+        android:id="@+id/ivIndoorRing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:src="@drawable/outdoor_verygood_ring" 
+        android:adjustViewBounds="true"
+        >
+        </ImageView>
 
-    <RelativeLayout
+   <!--  <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -11,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivQuad1"
-            android:background="@drawable/quadrant3" />
+            android:src="@drawable/quadrant3" />
 
         <ImageView
             android:id="@+id/ivQuad2"
@@ -19,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/ivQuad3"
             android:layout_toRightOf="@+id/ivQuad3"
-            android:background="@drawable/quadrant2" />
+            android:src="@drawable/quadrant2" />
 
         <ImageView
             android:id="@+id/ivQuad1"
@@ -27,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/ivQuad3"
-            android:background="@drawable/quadrant1" />
+            android:src="@drawable/quadrant1" />
 
         <ImageView
             android:id="@+id/ivQuad4"
@@ -35,15 +45,16 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/quadrant4" />
-    </RelativeLayout>
+            android:src="@drawable/quadrant4" />
+    </RelativeLayout> -->
 
     <ImageView
         android:id="@+id/ivIndoorFullCircle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/indoorcircle" />
+        android:adjustViewBounds="true"
+        android:src="@drawable/indoorcircle" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

@@ -5,13 +5,13 @@
 
     <include
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="878px"
         android:layout_gravity="top"
         layout="@layout/activity_indoor" />
 
     <include
         android:layout_width="wrap_content"
-        android:layout_height="356px"
+        android:layout_height="400px"
         android:layout_gravity="bottom"
         layout="@layout/activity_outdoor" />
 
@@ -36,7 +36,7 @@
      <include
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="880px"
+        android:layout_marginTop="825px"
         layout="@layout/activity_outdoor_info" />
     
 
