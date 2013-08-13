@@ -24,7 +24,9 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
  * The Class Utils.
  */
 public class Utils {
-	
+
+	private static final String TAG = "Utils" ;
+
 	/**
 	 * Populates the image names  for the left menu.
 	 *
@@ -85,7 +87,7 @@ public class Utils {
 		Display display = wm.getDefaultDisplay();
 		return display.getWidth();
 	}
-	
+
 	/**
 	 * Gets the iP address of the air purifier.
 	 *
@@ -96,7 +98,7 @@ public class Utils {
 		String ipAddress = context.getSharedPreferences("sharedPreferences",0).getString("ipAddress", AppConstants.defaultIPAddress);
 		return ipAddress;
 	}
-	
+
 
 	/**
 	 * Sets the ip address.
@@ -105,14 +107,14 @@ public class Utils {
 	 * @param context the context
 	 */
 	public static void setIPAddress(String ipAddress, Context context) {
-		
+
 		SharedPreferences settings = context.getSharedPreferences("sharedPreferences",0);
-	    SharedPreferences.Editor editor = settings.edit();
-	    editor.putString("ipAddress", ipAddress);
-	    editor.commit();
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("ipAddress", ipAddress);
+		editor.commit();
 	}
 
-	
+
 	/**
 	 * Show incorrect ip dialog.(This method will be removed after IFA)
 	 *
@@ -125,8 +127,8 @@ public class Utils {
 		dialogBuilder.show();
 
 	}
-	
-	
+
+
 	/**
 	 * Shows IP Address dialog.
 	 *
@@ -196,7 +198,7 @@ public class Utils {
 							showIncorrectIpDialog(context);
 
 						}
-						
+
 					}
 				});
 
@@ -206,7 +208,70 @@ public class Utils {
 		dialog.show();
 	}
 
+	public static String getTimeRemaining(int filterValue) {
+		String timeRemaining = "" ;        
+		if(filterValue >= 360) { 
+			timeRemaining = "> 1 year left";
+		} 
+		else if(filterValue >= 180) { 
+			timeRemaining = "1 year left";
+		} 
+		else if (filterValue >= 90) {
+			timeRemaining = "6 months left";                                            
+		} 
+		else if (filterValue >= 75) {
+			timeRemaining = "3 months left";
+		} 
+		else if (filterValue >= 60) {
+			timeRemaining = "2.5 months left";
+		} 
+		else if (filterValue >= 45) {
+			timeRemaining = "2 months left";
+		} 
+		else if (filterValue >= 28) {
+			timeRemaining = "1.5 months left";
+		}        
+		else if(filterValue >= 21) { 
+			timeRemaining = "4 weeks left";
+		} 
+		else if (filterValue >= 14) {
+			timeRemaining = "3 weeks left";
+		} 
+		else if (filterValue >= 10) {
+			timeRemaining = "2 weeks left";
+		} 
+		else if (filterValue >= 7) {
+			timeRemaining = "1.5 weeks left";
+		} 
+		else if (filterValue >= 5) {
+			timeRemaining = "1 weeks left";
+		} 
+		else if(filterValue >= 3) { 
+			timeRemaining = "5 days left";
+		} 
+		else if (filterValue > 2) {
+			timeRemaining = "3 days left";
+		} 
+		else if (filterValue > 1) {
+			timeRemaining = "2 days left";
+		}
+		else if (filterValue > 0) {
+			timeRemaining = "1 days left";
+		}
+		else if (filterValue < 1)  {
+			timeRemaining = "overdue"; 
+		}
 
 
+		return timeRemaining ;
+	}
+	
+	public static boolean isJson(String result) {
+		if(result == null ) return false;
+		if( result.length() < 2) return false;
+		if(result.charAt(0) != '{'  && result.charAt(0) != '[' ) return false;
+		return true;
+	}
+		
 
 }
