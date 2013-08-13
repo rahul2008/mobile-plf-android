@@ -46,7 +46,6 @@ public class TaskGetFilterStatus extends AsyncTask<String, Void, String> {
 		// onPostExecute displays the results of the AsyncTask.
 		@Override
 		protected void onPostExecute(String response) {
-			Log.i(TAG, response) ;
 			if ( response != null && Utils.isJson(response)) {
 				FilterStatusDto filterStatusDto = new DataParser(response).parseFilterStatusData() ;
 				SessionDto.getInstance().setFilterStatusDto(filterStatusDto) ;
