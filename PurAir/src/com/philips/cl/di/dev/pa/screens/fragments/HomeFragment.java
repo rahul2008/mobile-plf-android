@@ -17,15 +17,19 @@ import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.controller.SensorDataController;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 
 /**
  * The Class HomeFragment.
  */
 public class HomeFragment extends Fragment implements OnClickListener,
-		OnGestureListener {
+		OnGestureListener, SensorEventListener {
 
 	/** The scale down/up outdoor animator set. */
 	private AnimatorSet scaleDownIndoorAnimatorSet,
@@ -56,6 +60,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The i outdoor compressed height. */
 	private int iOutdoorCompressedHeight;
+	
+	private TextView tvIndoorAQI ;
 
 	/** The params outdoor. */
 	FrameLayout.LayoutParams paramsIndoor, paramsOutdoor;
@@ -105,9 +111,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
 		Log.i(TAG, "Outdoot  height :"+iOutdoorCompressedHeight);
 		
-		
+		SensorDataController.getInstance(getActivity()).registerListener(this) ;
 	}
-
 	/**
 	 * Initialize views.
 	 */
@@ -165,6 +170,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		flIndoorRing = (FrameLayout) vMain.findViewById(R.id.flIndoorRing);
 		flOutdoorRing = (FrameLayout) vMain.findViewById(R.id.flOutdoorRing);
 		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
+		
+		
+		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvIndoorAQI) ;
+		
 		
 		ivOutdoorRing = (ImageView) vMain.findViewById(R.id.ivOutdoorRing);
 		ViewTreeObserver vtoOutdoorRing = ivOutdoorRing.getViewTreeObserver();
@@ -398,4 +407,29 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	public boolean onSingleTapUp(MotionEvent e) {
 		return false;
 	}
+
+	@Override
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+		// TODO Auto-generated method stub
+		updateUI(airPurifierEventDto) ;
+	}
+	
+	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
+		if( airPurifierEventDto != null ) {
+			updateIndoorAQI(airPurifierEventDto.getIndoorAQI()) ;
+		}
+	}
+	
+	private void updateIndoorAQI(int indoorAQI) {
+		tvIndoorAQI.setText(String.valueOf(indoorAQI)) ;
+	}
+	
+	@Override
+	public void onPause() {
+		// TODO Auto-generated method stub
+		Log.i(TAG, "OnPause") ;
+		super.onPause();
+		SensorDataController.getInstance(getActivity()).unRegisterListener(this) ;
+	}
+	
 }
