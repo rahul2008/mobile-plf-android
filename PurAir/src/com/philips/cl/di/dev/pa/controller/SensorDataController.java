@@ -89,8 +89,10 @@ public class SensorDataController implements ServerResponseListener {
 	 * Remove all listeners
 	 */
 	public void removeAllListeners() {
-		for ( int index = 0 ; index < sensorEventListeners.size() ; index ++ ) {
-			sensorEventListeners.remove(index) ;
+		if( sensorEventListeners != null ) {
+			for ( int index = 0 ; index < sensorEventListeners.size() ; index ++ ) {
+				sensorEventListeners.remove(index) ;
+			}
 		}
 	}
 	
