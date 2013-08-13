@@ -141,9 +141,16 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		FilterStatusDto filterStatusDto = SessionDto.getInstance().getFilterStatusDto() ;
 		if( filterStatusDto != null ) {
 			tvActiveCarbonFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getActiveCarbonFilterStatus()));
+			tvActiveCarbonFilterStatus.setTextColor(Utils.getFilterStatusColor(filterStatusDto.getActiveCarbonFilterStatus())) ;
+			
 			tvHepaFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getHepaFilterStatus())) ;
+			tvHepaFilterStatus.setTextColor(Utils.getFilterStatusColor(filterStatusDto.getHepaFilterStatus())) ;			
+			
 			tvMultiCareFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getMultiCareFilterStatus())) ;
+			tvMultiCareFilterStatus.setTextColor(Utils.getFilterStatusColor(filterStatusDto.getMultiCareFilterStatus())) ;
+			
 			tvPreFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getPreFilterStatus())) ;
+			tvPreFilterStatus.setTextColor(Utils.getFilterStatusColor(filterStatusDto.getPreFilterStatus())) ;
 		}
 	}
 	
@@ -163,7 +170,7 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		swIndicatorLight.setEnabled(true) ;
 		
 		buttonTimer.setEnabled(true) ;
-		tbLayout.setEnabled(true) ;
+		//tbLayout.setEnabled(true) ;
 	}
 	
 	/**
@@ -190,7 +197,7 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		
 		buttonTimer.setEnabled(false) ;
 		
-		tbLayout.setEnabled(false) ;
+		//tbLayout.setEnabled(false) ;
 	}
 	
 	

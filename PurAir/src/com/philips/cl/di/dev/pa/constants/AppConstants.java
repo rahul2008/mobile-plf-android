@@ -149,7 +149,7 @@ public class AppConstants {
 	public static final long DURATION = 1000;
 
 	public static final float MINIMUNFILTER = 0;
-	public static final float MAXIMUMFILTER = 360;
+	public static final float MAXIMUMFILTER = 1000;
 
 	public static final int MAXWIDTH = 516;
 
