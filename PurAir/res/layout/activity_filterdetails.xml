@@ -195,7 +195,7 @@
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-            android:id="@+id/tvMultiCareFilter"
+            android:id="@+id/tvMultiCareFilterStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivMulticareBase"
@@ -268,7 +268,7 @@
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-            android:id="@+id/tvMultiCareFilter"
+            android:id="@+id/tvActiveFilterStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivActiveFilterBase"
@@ -341,7 +341,7 @@
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-            android:id="@+id/tvMultiCareFilter"
+            android:id="@+id/tvHepaFilterStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ivHepaBase"
