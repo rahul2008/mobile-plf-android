@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 
 
+
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -12,6 +13,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 import com.philips.cl.di.dev.pa.R;
@@ -20,6 +22,7 @@ import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.Server;
+import com.philips.cl.di.dev.pa.network.TaskGetFilterStatus;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -40,6 +43,7 @@ public class AirPurifierController implements ServerResponseListener
 	
 	/** The sensor data handler. */
 	private AirPurifierEventListener airPurifierEventListener;
+	
 	
 	/** The tag. */
 	private String TAG = getClass().getName();
@@ -136,6 +140,10 @@ public class AirPurifierController implements ServerResponseListener
 		handler.postDelayed(getSensorDataRunnable, 0);
 	}
 	
+	public AirPurifierController(Context context) {
+		this.ipAddress = Utils.getIPAddress(context);
+	}
+	
 	/**
 	 * Sets the device power state.
 	 *
@@ -193,6 +201,9 @@ public class AirPurifierController implements ServerResponseListener
 		Server statusUpdateTask = new Server(nameValuePair, this);
 		statusUpdateTask.execute(String.format(AppConstants.URL, ipAddress));
 	}
+	
+	
+	
 
 	/**
 	 * (non-Javadoc)
@@ -230,5 +241,15 @@ public class AirPurifierController implements ServerResponseListener
 			airPurifierEvent = new DataParser(dataToParse).parseAirPurifierEventData() ;
 		}
 		airPurifierEventListener.sensorDataReceived(airPurifierEvent) ;
+	}
+	
+	public void getFilterStatus() {
+		Log.i(TAG, "Get Filter Status") ;
+		TaskGetFilterStatus filterStatusTask = new TaskGetFilterStatus();
+		executeTask(filterStatusTask, AppConstants.URL_FILTER_STATUS);
+	}	
+	
+	private void executeTask(AsyncTask<String, ?, ?> task, String url) {
+		task.execute((String.format(AppConstants.URL_FILTER_STATUS, ipAddress)));
 	}
 }
