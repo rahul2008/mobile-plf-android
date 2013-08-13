@@ -1,36 +1,47 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:scaleX=".45"
-    android:scaleY=".45" >
+     >
+
+    <ImageView
+        android:id="@+id/ivOutdoorRing"
+        android:layout_width="223px"
+        android:layout_height="223px"
+        android:layout_gravity="center"
+        android:adjustViewBounds="true"
+        android:src="@drawable/outdoor_verygood_ring" >
+    </ImageView>
 
     <ImageView
         android:id="@+id/ivOutdoorFullCircle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="144px"
+        android:layout_height="144px"
         android:layout_gravity="center"
-        android:background="@drawable/indoorcircle" />
-    <RelativeLayout  android:layout_width="wrap_content"
+        android:src="@drawable/indoorcircle" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-        android:id="@+id/tvOutdoorAQI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="400"
-        android:layout_centerInParent="true"
-        android:textColor="@android:color/white"
-        android:textSize="100sp" />
-     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-        android:id="@+id/tvOutdoorPM"
-        android:layout_below="@+id/tvOutdoorAQI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="PM2.5"
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
-     </RelativeLayout>
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            android:id="@+id/tvOutdoorAQI"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="400"
+            android:textColor="@android:color/white"
+            android:textSize="45sp" />
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            android:id="@+id/tvOutdoorPM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvOutdoorAQI"
+            android:layout_centerHorizontal="true"
+            android:text="PM2.5"
+            android:textColor="@android:color/white"
+            android:textSize="9sp" />
+    </RelativeLayout>
 
 </FrameLayout>
