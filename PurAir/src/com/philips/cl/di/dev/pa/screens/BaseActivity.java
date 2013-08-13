@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.screens;
 
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -23,8 +24,6 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
-import com.philips.cl.di.dev.pa.interfaces.FilterStatusInterface;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
@@ -37,7 +36,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener, SensorEventListener, FilterStatusInterface {
+		OnItemClickListener, OnClickListener, SensorEventListener {
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -283,12 +282,6 @@ public class BaseActivity extends FragmentActivity implements
 			isExpanded = !isExpanded;
 		} else
 			super.onBackPressed();
-	}
-
-	@Override
-	public void filterStatusUpdated(FilterStatusDto filterStatusData) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }
