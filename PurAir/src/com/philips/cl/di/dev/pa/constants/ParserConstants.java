@@ -19,4 +19,10 @@ public class ParserConstants {
 	public static final String EWS_LED = "ews_led" ;
 	public static final String OUTDOOR_AQI = "outdoor_aqi" ;
 	public static final String TIMESTAMP = "time_stamp" ;
+	
+	
+	public static final String PRE_FILTER = "pre_filter" ;
+	public static final String MULTI_CARE_FILTER = "multi_care_filter" ;
+	public static final String ACTIVE_CARBON_FILTER = "active_carbon_filter" ;
+	public static final String HEPA_FILTER = "hepa_filter" ;
 }
