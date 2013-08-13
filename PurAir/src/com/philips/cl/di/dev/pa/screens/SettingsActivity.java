@@ -6,8 +6,13 @@ import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController.DeviceMode;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.utils.Utils;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,7 +28,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TableLayout;
-import android.widget.TextView;
 
 public class SettingsActivity extends Activity implements OnClickListener,OnCheckedChangeListener,AirPurifierEventListener,SensorEventListener,OnFocusChangeListener {
 	private final static String TAG = "SettingsActivity" ;
@@ -52,9 +56,15 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 	private ImageView backButton ;
 	
 	
-	private TextView airQualityStatusView;
+	private CustomTextView airQualityStatusView;
 	
 	private TableLayout tbLayout ;
+	
+	/** Filter Status TextViews**/
+	private CustomTextView tvPreFilterStatus ;
+	private CustomTextView tvHepaFilterStatus ;
+	private CustomTextView tvActiveCarbonFilterStatus ;
+	private CustomTextView tvMultiCareFilterStatus ;
 	
 	
 	@Override
@@ -112,14 +122,29 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		backButton = (ImageView) findViewById(R.id.iv_back) ;
 		backButton.setOnClickListener(this) ;
 		
-		airQualityStatusView = (TextView) findViewById(R.id.tv_airquality_status) ;
+		airQualityStatusView = (CustomTextView) findViewById(R.id.tv_airquality_status) ;
 		airQualityStatusView.setOnFocusChangeListener(this) ;
 		
 		tbLayout = (TableLayout) findViewById(R.id.tb_filterstatus) ;
 		tbLayout.setOnClickListener(this) ;
 		
+		tvActiveCarbonFilterStatus = (CustomTextView)findViewById(R.id.tv_activecarbonfilterstatus) ;
+		tvHepaFilterStatus = (CustomTextView) findViewById(R.id.tv_hepafilter_status) ;
+		tvMultiCareFilterStatus = (CustomTextView) findViewById(R.id.tv_multicarefilter_status) ;
+		tvPreFilterStatus = (CustomTextView) findViewById(R.id.tv_prefilter_status) ;
 		
+		updateFilterStatus() ;
 		disableSettingsControls() ;
+	}
+	
+	private void updateFilterStatus() {
+		FilterStatusDto filterStatusDto = SessionDto.getInstance().getFilterStatusDto() ;
+		if( filterStatusDto != null ) {
+			tvActiveCarbonFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getActiveCarbonFilterStatus()));
+			tvHepaFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getHepaFilterStatus())) ;
+			tvMultiCareFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getMultiCareFilterStatus())) ;
+			tvPreFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto.getPreFilterStatus())) ;
+		}
 	}
 	
 	/**
