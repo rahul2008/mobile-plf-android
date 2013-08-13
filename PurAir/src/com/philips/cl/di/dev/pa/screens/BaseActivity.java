@@ -20,8 +20,11 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
+import com.philips.cl.di.dev.pa.interfaces.FilterStatusInterface;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
@@ -34,7 +37,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener, SensorEventListener {
+		OnItemClickListener, OnClickListener, SensorEventListener, FilterStatusInterface {
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -71,6 +74,8 @@ public class BaseActivity extends FragmentActivity implements
 	
 	/** The sensor data controller. */
 	private SensorDataController sensorDataController;
+	
+	private AirPurifierController airPurifierController ;
 
 	/* (non-Javadoc)
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
@@ -117,6 +122,8 @@ public class BaseActivity extends FragmentActivity implements
 		sensorDataController = SensorDataController.getInstance(this);
 		sensorDataController.startPolling();
 
+		airPurifierController = new AirPurifierController(this) ;
+		airPurifierController.getFilterStatus() ;
 	}
 
 	/**
@@ -125,7 +132,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		sensorDataController.unRegisterListener(this);
+		//sensorDataController.unRegisterListener(this);
 
 	}
 
@@ -144,7 +151,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		sensorDataController.registerListener(this);
+		//sensorDataController.registerListener(this);
 	}
 
 	/**
@@ -210,6 +217,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.ivLeftMenu:
 		/*case R.id.ivLeftMenu:
 			if (!isExpanded) {
 				isExpanded = true;
@@ -259,8 +267,7 @@ public class BaseActivity extends FragmentActivity implements
 	 * @param airPurifierEventDto the air purifier event dto
 	 */
 	@Override
-	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "BaseActivity SensorDataReceived");
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {		
 
 	}
 
@@ -276,6 +283,12 @@ public class BaseActivity extends FragmentActivity implements
 			isExpanded = !isExpanded;
 		} else
 			super.onBackPressed();
+	}
+
+	@Override
+	public void filterStatusUpdated(FilterStatusDto filterStatusData) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
