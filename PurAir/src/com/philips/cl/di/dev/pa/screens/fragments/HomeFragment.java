@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
@@ -31,7 +32,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			scaleDownOutdoorAnimatorSet;
 	/** The scaling animation variables. */
 	private ObjectAnimator scaleUpIndoor, scaleDownIndoor, scaleUpOutdoor,
-			scaleDownOutdoor, scaleUpIndoorRing, scaleUpOutdoorRing,
+			scaleDownOutdoor, scaleUpIndoorRing,scaleUpOutdoorRing,
 			scaleDownIndoorRing, scaleDownOutdoorRing, translateUpOutdoorInfo,
 			translateDownOutdoorInfo;
 
@@ -61,6 +62,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The main view. */
 	View vMain;
+	
+	private ImageView ivOutdoorRing,ivIndoorRing ; 
 
 	/*
 	 * (non-Javadoc)
@@ -90,6 +93,20 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		initialiseAnimations();
 		return vMain;
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		// Calculate heights 
+		int height = rlIndoorSection.getMeasuredHeight();
+		Log.i(TAG, "Indoor height :"+height);
+		
+		iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
+		Log.i(TAG, "Outdoot  height :"+iOutdoorCompressedHeight);
+		
+		
+	}
 
 	/**
 	 * Initialize views.
@@ -105,7 +122,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			public void onGlobalLayout() {
 				paramsIndoor = (android.widget.FrameLayout.LayoutParams) rlIndoorSection
 						.getLayoutParams();
-				rlIndoorSection.getMeasuredHeight();
+				int height = rlIndoorSection.getMeasuredHeight();
+				Log.i(TAG, "Indoor height :"+height);
 				rlIndoorSection.setPivotX(0f);
 				rlIndoorSection.setPivotY(0f);
 
@@ -129,6 +147,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				paramsOutdoor = (android.widget.FrameLayout.LayoutParams) rlOutdoorSection
 						.getLayoutParams();
 				iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
+				Log.i(TAG, "Indoor height :"+iOutdoorCompressedHeight);
 				rlOutdoorSection.setPivotX(0f);
 				rlOutdoorSection.setPivotY(iOutdoorCompressedHeight);
 
@@ -146,6 +165,28 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		flIndoorRing = (FrameLayout) vMain.findViewById(R.id.flIndoorRing);
 		flOutdoorRing = (FrameLayout) vMain.findViewById(R.id.flOutdoorRing);
 		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
+		
+		ivOutdoorRing = (ImageView) vMain.findViewById(R.id.ivOutdoorRing);
+		ViewTreeObserver vtoOutdoorRing = ivOutdoorRing.getViewTreeObserver();
+		vtoOutdoorRing.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@Override
+			public void onGlobalLayout() {
+				Log.i(TAG, "Ring Compressed height :"+ivOutdoorRing.getMeasuredHeight());
+
+			}
+		});
+		
+		ivIndoorRing = (ImageView) vMain.findViewById(R.id.ivIndoorRing);
+		ViewTreeObserver vtoIndoorRing = ivOutdoorRing.getViewTreeObserver();
+		vtoIndoorRing.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@Override
+			public void onGlobalLayout() {
+				Log.i(TAG, "Ring Compressed height :"+ivIndoorRing.getMeasuredHeight());
+
+			}
+		});
 	}
 
 	/**
@@ -154,44 +195,47 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	private void initialiseAnimations() {
 
 		scaleDownIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", 1f,
-				.40f);
+				.45f);
 		scaleDownIndoor.setDuration(AppConstants.DURATION);
 
 		scaleDownIndoorRing = ObjectAnimator.ofFloat(flIndoorRing, "scaleX",
-				1f, .40f);
+				1f, .45f);
 		scaleDownIndoorRing.setDuration(AppConstants.DURATION);
 
 		scaleUpOutdoor = ObjectAnimator.ofFloat(rlOutdoorSection, "scaleY", 1f,
-				2.5f);
+				2.2f);
 		scaleUpOutdoor.setDuration(AppConstants.DURATION);
 
 		scaleDownOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
-				1f, .40f);
+				2.2f, 1f);
 		scaleDownOutdoorRing.setDuration(AppConstants.DURATION);
+		
+		
 
-		scaleUpIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", .40f,
+		scaleUpIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", .45f,
 				1f);
 		scaleUpIndoor.setDuration(AppConstants.DURATION);
 
 		scaleUpIndoorRing = ObjectAnimator.ofFloat(flIndoorRing, "scaleX",
-				.40f, 1f);
+				.45f, 1f);
 		scaleUpIndoorRing.setDuration(AppConstants.DURATION);
 
+		
 		scaleUpOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
-				.40f, 1f);
+				1f, 2.2f);
 		scaleUpOutdoorRing.setDuration(AppConstants.DURATION);
 
 		scaleDownOutdoor = ObjectAnimator.ofFloat(rlOutdoorSection, "scaleY",
-				2.5f, 1f);
+				2.2f, 1f);
 		scaleDownOutdoor.setDuration(AppConstants.DURATION);
 
 		translateDownOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo,
-				"translationY", -540f, 0f);
+				"translationY", -480f, 0f);
 
 		translateDownOutdoorInfo.setDuration(AppConstants.DURATION);
 
 		translateUpOutdoorInfo = ObjectAnimator.ofFloat(rlOutdoorInfo,
-				"translationY", 0f, -540f);
+				"translationY", 0f, -480f);
 		translateUpOutdoorInfo.setDuration(AppConstants.DURATION);
 
 		// Animation Sets
