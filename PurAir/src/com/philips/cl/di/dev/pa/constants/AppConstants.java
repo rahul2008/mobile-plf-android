@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.constants;
 
+import android.graphics.Color;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class AppConstants.
@@ -57,8 +59,6 @@ public class AppConstants {
 	/** The scaleleftmenu. */
 	public static float SCALELEFTMENU = .75f;
 
-	
-
 	// Network related data
 	/** The Constant UPDATE_INTERVAL. */
 	public static final long UPDATE_INTERVAL = 10 * 1000;
@@ -107,10 +107,9 @@ public class AppConstants {
 
 	/** The Constant SETTINGS. */
 	public static final int SETTINGS = 5;
-	
+
 	/** Server Request Type **/
-	public static final int GET_SENSOR_DATA_REQUEST_TYPE = 1 ;
-	
+	public static final int GET_SENSOR_DATA_REQUEST_TYPE = 1;
 
 	/** The Constant TABLENAME. */
 	public static final String TABLENAME = "CityDetails";
@@ -139,13 +138,25 @@ public class AppConstants {
 
 	/** The Constant DB_VERS. */
 	public static final int DB_VERS = 1;
-	
-	public static String sCityNameQuery = "Select distinct "+AppConstants.KEY_CITY + " from "+ AppConstants.TABLENAME;
-	
+
+	public static String sCityNameQuery = "Select distinct "
+			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
+
 	public static final float SWIPE_THRESHOLD = 100;
-	
+
 	public static final float SWIPE_VELOCITY_THRESHOLD = 100;
-	
+
 	public static final long DURATION = 1000;
+
+	public static final float MINIMUNFILTER = 0;
+	public static final float MAXIMUMFILTER = 360;
+
+	public static final int MAXWIDTH = 516;
+
+	// Colors for each category
+	public static final int COLOR_VGOOD = Color.rgb(0, 169, 231);
+	public static final int COLOR_GOOD = Color.rgb(129, 107, 172);
+	public static final int COLOR_FAIR = Color.rgb(222, 74, 138);
+	public static final int COLOR_BAD = Color.rgb(255, 0, 0);
 
 }
