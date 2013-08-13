@@ -101,7 +101,7 @@
             android:text="Clean every 3 months" >
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
-        <ImageView
+        <com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView
             android:id="@+id/ivPreFilterBase"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -109,7 +109,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:src="@drawable/filter_details_base" >
-        </ImageView>
+        </com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
             android:id="@+id/tvStatusLabel"
@@ -173,7 +173,7 @@
             android:background="@drawable/number_two" >
         </ImageView>
 
-        <ImageView
+        <com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ivMulticareBase"
             android:layout_width="wrap_content"
@@ -182,7 +182,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/filter_details_base" >
-        </ImageView>
+        </com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
             android:id="@+id/tvStatusLabel"
@@ -246,7 +246,7 @@
             android:background="@drawable/number_three" >
         </ImageView>
 
-        <ImageView
+        <com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ivActiveFilterBase"
             android:layout_width="wrap_content"
@@ -255,7 +255,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/filter_details_base" >
-        </ImageView>
+        </com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
             android:id="@+id/tvStatusLabel"
@@ -295,7 +295,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/ivHepaBase"
-            android:text="Active Carbon Filter /" >
+            android:text="HEPA Filter /" >
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
@@ -319,7 +319,7 @@
             android:background="@drawable/number_four" >
         </ImageView>
 
-        <ImageView
+        <com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/ivHepaBase"
             android:layout_width="wrap_content"
@@ -328,7 +328,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="10dp"
             android:background="@drawable/filter_details_base" >
-        </ImageView>
+        </com.philips.cl.di.dev.pa.screens.customviews.FilterStatusView>
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
             android:id="@+id/tvStatusLabel"
