@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.screens;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -217,6 +218,7 @@ public class BaseActivity extends FragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ivLeftMenu:
+			showTemporaryAlert();
 		/*case R.id.ivLeftMenu:
 			if (!isExpanded) {
 				isExpanded = true;
@@ -227,12 +229,23 @@ public class BaseActivity extends FragmentActivity implements
 
 			}
 			break;*/
+			break;
 
 		case R.id.ivRightDeviceIcon:
 			startActivity(new Intent(this, SettingsActivity.class));
 			break;
 		}
 
+	}
+	
+	private void showTemporaryAlert()
+	{
+		new AlertDialog.Builder(this)
+		.setTitle("Left Menu")
+		.setMessage("Coming soon!!")
+		.setPositiveButton(
+				this.getResources().getString(R.string.ok), null)
+		.show();
 	}
 
 	/**
