@@ -1,12 +1,14 @@
 package com.philips.cl.di.dev.pa.utils;
 
 import org.json.JSONException;
+
 import org.json.JSONObject;
 
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
 import com.philips.cl.di.dev.pa.interfaces.DataParserInterface;
 
 /***
@@ -15,11 +17,11 @@ import com.philips.cl.di.dev.pa.interfaces.DataParserInterface;
  *
  */
 public class DataParser implements DataParserInterface {
-	private static final String TAG = "DataParser" ;
+	private static final String TAG = DataParser.class.getSimpleName() ;
 	private String dataToParse ;
 	
 	public DataParser(String dataToParse) {
-		Log.i(TAG, "Data to parse: " +dataToParse) ;
+		Log.i(TAG, "DataParser") ;
 		this.dataToParse = dataToParse ;
 	}
 
@@ -48,5 +50,26 @@ public class DataParser implements DataParserInterface {
 	@Override
 	public void parseHistoryData() {
 		
+	}
+
+	/**
+	 * Parse the filter Status Data
+	 */
+	@Override
+	public FilterStatusDto parseFilterStatusData() {
+		Log.i(TAG, dataToParse) ;
+		FilterStatusDto filterStatusData = null ;
+		try {
+			JSONObject jsonObj = new JSONObject(dataToParse) ;
+			filterStatusData = new FilterStatusDto() ;
+			filterStatusData.setPreFilterStatus(jsonObj.optInt(ParserConstants.PRE_FILTER)) ;
+			filterStatusData.setActiveCarbonFilterStatus(jsonObj.optInt(ParserConstants.ACTIVE_CARBON_FILTER)) ;
+			filterStatusData.setHepaFilterStatus(jsonObj.optInt(ParserConstants.HEPA_FILTER)) ;
+			filterStatusData.setMultiCareFilterStatus(jsonObj.optInt(ParserConstants.MULTI_CARE_FILTER)) ;
+			
+		} catch (JSONException e) {
+			return null ;
+		}
+		return filterStatusData;
 	}
 }
