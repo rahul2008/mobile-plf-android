@@ -1,19 +1,17 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import android.app.AlertDialog;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
@@ -21,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
@@ -29,9 +28,8 @@ import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
+import com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
-import com.philips.cl.di.dev.pa.utils.CollapseAnimation;
-import com.philips.cl.di.dev.pa.utils.ExpandAnimation;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
@@ -43,7 +41,7 @@ public class BaseActivity extends FragmentActivity implements
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
-	
+
 	/** The is expanded. */
 	private boolean isExpanded;
 
@@ -54,19 +52,19 @@ public class BaseActivity extends FragmentActivity implements
 	private int menuWidth;
 
 	/** The menu panel. */
-	private RelativeLayout headerPanel, menuPanel;
+	private RelativeLayout headerPanel/* , menuPanel */, rlHeaderLeftMenu;
 
 	/** The sliding panel. */
-	private LinearLayout slidingPanel;
+	/* private LinearLayout slidingPanel; */
 
 	/** The sliding panel parameters. */
-	FrameLayout.LayoutParams menuPanelParameters, slidingPanelParameters;
+	FrameLayout.LayoutParams /* menuPanelParameters, */slidingPanelParameters;
 
 	/** The list view parameters. */
 	LinearLayout.LayoutParams headerPanelParameters, listViewParameters;
 
 	/** The iv settings. */
-	private ImageView ivMenu, ivSettings;
+	private ImageView ivMenu, ivSettings, ivHeader;
 
 	/** The ll container. */
 	private LinearLayout llContainer;
@@ -77,7 +75,27 @@ public class BaseActivity extends FragmentActivity implements
 	/** The sensor data controller. */
 	private SensorDataController sensorDataController;
 
+	/** The air purifier controller. */
 	private AirPurifierController airPurifierController;
+
+	/** The fl main. */
+	private FrameLayout flMain;
+
+	/** The show left menu. */
+	private ObjectAnimator translateHomeAway, translateHomeOriginal,
+			hideLeftMenu, showLeftMenu;
+
+	/** The lv left menu. */
+	private LeftMenuView lvLeftMenu;
+
+	/** The inflater. */
+	private LayoutInflater inflater;
+
+	/** The rl main. */
+	private RelativeLayout rlMain;
+
+	/** The params left menu. */
+	private RelativeLayout.LayoutParams paramsLeftMenu;
 
 	/*
 	 * (non-Javadoc)
@@ -89,37 +107,10 @@ public class BaseActivity extends FragmentActivity implements
 		Log.i(TAG, "onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		llContainer = (LinearLayout) findViewById(R.id.llContainer);
 
-		// Initialize
-		metrics = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(metrics);
-		menuWidth = (int) ((metrics.widthPixels) * 0.75);
+		initializeViews();
+		initializeAnimations();
 
-		headerPanel = (RelativeLayout) findViewById(R.id.rlTopNavigation);
-		headerPanelParameters = (LinearLayout.LayoutParams) headerPanel
-				.getLayoutParams();
-		headerPanelParameters.width = metrics.widthPixels;
-		headerPanel.setLayoutParams(headerPanelParameters);
-
-		menuPanel = (RelativeLayout) findViewById(R.id.menu);
-		menuPanelParameters = (FrameLayout.LayoutParams) menuPanel
-				.getLayoutParams();
-		menuPanelParameters.width = menuWidth;
-		menuPanel.setLayoutParams(menuPanelParameters);
-
-		slidingPanel = (LinearLayout) findViewById(R.id.slidingPanel);
-		slidingPanelParameters = (FrameLayout.LayoutParams) slidingPanel
-				.getLayoutParams();
-		slidingPanelParameters.width = metrics.widthPixels;
-		slidingPanel.setLayoutParams(slidingPanelParameters);
-
-		// Slide the Panel
-		ivMenu = (ImageView) findViewById(R.id.ivLeftMenu);
-		ivMenu.setOnClickListener(this);
-		ivSettings = (ImageView) findViewById(R.id.ivRightDeviceIcon);
-		ivSettings.setOnClickListener(this);
-		initializeMenuList();
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.llContainer, new HomeFragment(), HomeFragment.TAG)
 				.commit();
@@ -128,6 +119,67 @@ public class BaseActivity extends FragmentActivity implements
 
 		airPurifierController = new AirPurifierController(this);
 		airPurifierController.getFilterStatus();
+
+	}
+
+	/**
+	 * Initialize views.
+	 */
+	private void initializeViews() {
+		llContainer = (LinearLayout) findViewById(R.id.llContainer);
+		metrics = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(metrics);
+		menuWidth = (int) ((metrics.widthPixels) * 0.75);
+		inflater = LayoutInflater.from(this);
+		flMain = (FrameLayout) findViewById(R.id.flMain);
+		lvLeftMenu = (LeftMenuView) inflater.inflate(
+				R.layout.activity_leftmenu, null);
+		rlHeaderLeftMenu = (RelativeLayout) inflater.inflate(
+				R.layout.activity_header_left_menu, lvLeftMenu, false);
+		rlHeaderLeftMenu.setClickable(false);
+		lvLeftMenu.setOnItemClickListener(this);
+		lvLeftMenu.addHeaderView(rlHeaderLeftMenu, null, false);
+		lvLeftMenu.setWidth(menuWidth);
+		Utils.getIconArray();
+		Utils.getLabelArray();
+		lvLeftMenu.setAdapter(new MenuListAdapter(getApplicationContext(), 0,
+				Utils.getIconArray(), Utils.getLabelArray()));
+		lvLeftMenu.setOnItemClickListener(this);
+
+		// Slide the Panel
+		ivMenu = (ImageView) findViewById(R.id.ivLeftMenu);
+		ivMenu.setOnClickListener(this);
+		ivSettings = (ImageView) findViewById(R.id.ivRightDeviceIcon);
+		ivSettings.setOnClickListener(this);
+
+		paramsLeftMenu = new RelativeLayout.LayoutParams(
+				LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+		paramsLeftMenu.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+		paramsLeftMenu.width = menuWidth;
+		rlMain = (RelativeLayout) findViewById(R.id.rlMain);
+
+	}
+
+	/**
+	 * Initialize animations.
+	 */
+	private void initializeAnimations() {
+		translateHomeAway = ObjectAnimator.ofFloat(flMain, "translationX", 0f,
+				menuWidth);
+		translateHomeAway.setDuration(AppConstants.DURATION);
+
+		translateHomeOriginal = ObjectAnimator.ofFloat(flMain, "translationX",
+				menuWidth, 0f);
+		translateHomeOriginal.setDuration(AppConstants.DURATION);
+
+		hideLeftMenu = ObjectAnimator.ofFloat(lvLeftMenu, "translationX", 0f,
+				-menuWidth);
+		hideLeftMenu.setDuration(AppConstants.DURATION);
+
+		showLeftMenu = ObjectAnimator.ofFloat(lvLeftMenu, "translationX",
+				-menuWidth, 0f);
+		showLeftMenu.setDuration(AppConstants.DURATION);
+
 	}
 
 	/**
@@ -158,18 +210,6 @@ public class BaseActivity extends FragmentActivity implements
 		// sensorDataController.registerListener(this);
 	}
 
-	/**
-	 * Initialize menu list.
-	 */
-	public void initializeMenuList() {
-		lvMenu = (ListView) findViewById(R.id.lvMenu);
-		lvMenu.setOnItemClickListener(this);
-		Utils.getIconArray();
-		Utils.getLabelArray();
-		lvMenu.setAdapter(new MenuListAdapter(getApplicationContext(), 0, Utils
-				.getIconArray(), Utils.getLabelArray()));
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -181,30 +221,14 @@ public class BaseActivity extends FragmentActivity implements
 	public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
 		switch (position) {
 		case AppConstants.HOME:
-			FragmentTransaction ftHome = getSupportFragmentManager()
-					.beginTransaction();
 			Log.i(TAG, "On Item Click --- HOME ");
 			collapse();
 			isExpanded = false;
-			ftHome.replace(R.id.slidingPanel, new HomeFragment(),
-					HomeFragment.TAG);
-			// ftHome.addToBackStack(null);
-			ftHome.commit();
 			break;
 		case AppConstants.MYCITIES:
-			FragmentTransaction ftCity = getSupportFragmentManager()
-					.beginTransaction();
 			Log.i(TAG, "On Item Click --- CITY");
-			collapse();
-			// ftCity.replace(R.id.slidingPanel, new CityListFragment());
-			// ftCity.addToBackStack(null);
-			ftCity.commit();
-			isExpanded = false;
 			break;
 		case AppConstants.ABOUTAQI:
-			Log.i(TAG, "On Item Click --- ABout AQI ");
-			collapse();
-			isExpanded = false;
 			break;
 		case AppConstants.PRODUCTREG:
 			Log.i(TAG, "On Item Click --- Product Reg ");
@@ -219,6 +243,15 @@ public class BaseActivity extends FragmentActivity implements
 		}
 	}
 
+	/**
+	 * Collapse.
+	 */
+	private void collapse() {
+		translateHomeOriginal.start();
+		hideLeftMenu.start();
+		isExpanded = !isExpanded;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -228,13 +261,19 @@ public class BaseActivity extends FragmentActivity implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ivLeftMenu:
-			showTemporaryAlert();
-			/*
-			 * case R.id.ivLeftMenu: if (!isExpanded) { isExpanded = true;
-			 * expand(); } else { isExpanded = false; collapse();
-			 * 
-			 * } break;
-			 */
+			if (!isExpanded) {
+				translateHomeAway.start();
+				if (lvLeftMenu != null && lvLeftMenu.getParent() == rlMain) {
+					showLeftMenu.start();
+				} else {
+					rlMain.addView(lvLeftMenu, paramsLeftMenu);
+				}
+				isExpanded = !isExpanded;
+			} else {
+				translateHomeOriginal.start();
+				hideLeftMenu.start();
+				isExpanded = !isExpanded;
+			}
 			break;
 
 		case R.id.ivRightDeviceIcon:
@@ -244,13 +283,19 @@ public class BaseActivity extends FragmentActivity implements
 
 	}
 
-	// For Ip address settings 
+	// For Ip address settings
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.activity_menu, menu);
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -259,39 +304,6 @@ public class BaseActivity extends FragmentActivity implements
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	private void showTemporaryAlert() {
-		new AlertDialog.Builder(this)
-				.setTitle("Left Menu")
-				.setMessage("Coming soon!!")
-				.setPositiveButton(this.getResources().getString(R.string.ok),
-						null).show();
-	}
-
-	/**
-	 * Collapse.
-	 */
-	private void collapse() {
-		// Collapse
-		new CollapseAnimation(slidingPanel, menuWidth,
-				TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-				TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-		new CollapseAnimation(llContainer, menuWidth,
-				TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-				TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
-	}
-
-	/**
-	 * Expand.
-	 */
-	private void expand() {
-		// Expand
-		new ExpandAnimation(slidingPanel, menuWidth,
-				Animation.RELATIVE_TO_SELF, 0.0f, Animation.RELATIVE_TO_SELF,
-				0.75f, 0, 0.0f, 0, 0.0f);
-		new ExpandAnimation(llContainer, menuWidth, Animation.RELATIVE_TO_SELF,
-				0.0f, Animation.RELATIVE_TO_SELF, 0.75f, 0, 0.0f, 0, 0.0f);
 	}
 
 	/**
@@ -313,9 +325,8 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	public void onBackPressed() {
 		if (isExpanded) {
-			new CollapseAnimation(slidingPanel, menuWidth,
-					TranslateAnimation.RELATIVE_TO_SELF, 0.75f,
-					TranslateAnimation.RELATIVE_TO_SELF, 0.0f, 0, 0.0f, 0, 0.0f);
+			translateHomeOriginal.start();
+			hideLeftMenu.start();
 			isExpanded = !isExpanded;
 		} else
 			super.onBackPressed();
