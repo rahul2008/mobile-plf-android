@@ -1,62 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/flMain"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlMain"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" >
-    
-      <LinearLayout android:id="@+id/llContainer"
-        android:layout_height="fill_parent"
-        android:layout_width="wrap_content"
-        >
-        
-    </LinearLayout>
 
-    <!-- Menu Panel -->
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/flMain"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" >
 
-    <include layout="@layout/left_menu" />
+        <LinearLayout
+            android:id="@+id/llContainer"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent" >
+        </LinearLayout>
 
-    <!-- Sliding Panel -->
-
-    <LinearLayout
-        android:id="@+id/slidingPanel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        >
-
-        <RelativeLayout
-            android:id="@+id/rlTopNavigation"
+        <LinearLayout
+            android:id="@+id/slidingPanel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/top_bar"
-             >
+            android:layout_gravity="top" >
 
-            <ImageView
-                android:id="@+id/ivLeftMenu"
+            <RelativeLayout
+                android:id="@+id/rlTopNavigation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/menu_icon" />
+                android:background="@drawable/top_bar" >
 
-            <ImageView
-                android:id="@+id/ivCenterLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/label_my_iaq" />
+                <ImageView
+                    android:id="@+id/ivLeftMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/menu_icon" />
 
-            <ImageView
-                android:id="@+id/ivRightDeviceIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:background="@drawable/device_icon" />
-        </RelativeLayout>
-    </LinearLayout>
-    
-  
+                <ImageView
+                    android:id="@+id/ivCenterLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/label_my_iaq" />
 
-</FrameLayout>
+                <ImageView
+                    android:id="@+id/ivRightDeviceIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/device_icon" />
+            </RelativeLayout>
+        </LinearLayout>
+    </FrameLayout>
+</RelativeLayout>
