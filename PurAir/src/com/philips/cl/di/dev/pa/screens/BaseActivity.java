@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -44,40 +46,42 @@ public class BaseActivity extends FragmentActivity implements
 	
 	/** The is expanded. */
 	private boolean isExpanded;
-	
+
 	/** The metrics. */
 	private DisplayMetrics metrics;
-	
+
 	/** The menu width. */
 	private int menuWidth;
-	
+
 	/** The menu panel. */
 	private RelativeLayout headerPanel, menuPanel;
-	
+
 	/** The sliding panel. */
 	private LinearLayout slidingPanel;
-	
+
 	/** The sliding panel parameters. */
 	FrameLayout.LayoutParams menuPanelParameters, slidingPanelParameters;
-	
+
 	/** The list view parameters. */
 	LinearLayout.LayoutParams headerPanelParameters, listViewParameters;
-	
+
 	/** The iv settings. */
-	private ImageView ivMenu,ivSettings;
-	
+	private ImageView ivMenu, ivSettings;
+
 	/** The ll container. */
 	private LinearLayout llContainer;
-	
+
 	/** The lv menu. */
 	ListView lvMenu;
-	
+
 	/** The sensor data controller. */
 	private SensorDataController sensorDataController;
-	
-	private AirPurifierController airPurifierController ;
 
-	/* (non-Javadoc)
+	private AirPurifierController airPurifierController;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.support.v4.app.FragmentActivity#onCreate(android.os.Bundle)
 	 */
 	@Override
@@ -122,8 +126,8 @@ public class BaseActivity extends FragmentActivity implements
 		sensorDataController = SensorDataController.getInstance(this);
 		sensorDataController.startPolling();
 
-		airPurifierController = new AirPurifierController(this) ;
-		airPurifierController.getFilterStatus() ;
+		airPurifierController = new AirPurifierController(this);
+		airPurifierController.getFilterStatus();
 	}
 
 	/**
@@ -132,7 +136,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		//sensorDataController.unRegisterListener(this);
+		// sensorDataController.unRegisterListener(this);
 
 	}
 
@@ -151,7 +155,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		//sensorDataController.registerListener(this);
+		// sensorDataController.registerListener(this);
 	}
 
 	/**
@@ -166,8 +170,12 @@ public class BaseActivity extends FragmentActivity implements
 				.getIconArray(), Utils.getLabelArray()));
 	}
 
-	/* (non-Javadoc)
-	 * @see android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget.AdapterView, android.view.View, int, long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * android.widget.AdapterView.OnItemClickListener#onItemClick(android.widget
+	 * .AdapterView, android.view.View, int, long)
 	 */
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View v, int position, long arg3) {
@@ -211,7 +219,9 @@ public class BaseActivity extends FragmentActivity implements
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.view.View.OnClickListener#onClick(android.view.View)
 	 */
 	@Override
@@ -219,16 +229,12 @@ public class BaseActivity extends FragmentActivity implements
 		switch (v.getId()) {
 		case R.id.ivLeftMenu:
 			showTemporaryAlert();
-		/*case R.id.ivLeftMenu:
-			if (!isExpanded) {
-				isExpanded = true;
-				expand();
-			} else {
-				isExpanded = false;
-				collapse();
-
-			}
-			break;*/
+			/*
+			 * case R.id.ivLeftMenu: if (!isExpanded) { isExpanded = true;
+			 * expand(); } else { isExpanded = false; collapse();
+			 * 
+			 * } break;
+			 */
 			break;
 
 		case R.id.ivRightDeviceIcon:
@@ -237,15 +243,30 @@ public class BaseActivity extends FragmentActivity implements
 		}
 
 	}
-	
-	private void showTemporaryAlert()
-	{
+
+	// For Ip address settings 
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.activity_menu, menu);
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.actionItemSettings:
+			Utils.showIpDialog(this);
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void showTemporaryAlert() {
 		new AlertDialog.Builder(this)
-		.setTitle("Left Menu")
-		.setMessage("Coming soon!!")
-		.setPositiveButton(
-				this.getResources().getString(R.string.ok), null)
-		.show();
+				.setTitle("Left Menu")
+				.setMessage("Coming soon!!")
+				.setPositiveButton(this.getResources().getString(R.string.ok),
+						null).show();
 	}
 
 	/**
@@ -275,15 +296,18 @@ public class BaseActivity extends FragmentActivity implements
 
 	/**
 	 * OnSensor Event Callback update the User Interface.
-	 *
-	 * @param airPurifierEventDto the air purifier event dto
+	 * 
+	 * @param airPurifierEventDto
+	 *            the air purifier event dto
 	 */
 	@Override
-	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {		
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.support.v4.app.FragmentActivity#onBackPressed()
 	 */
 	@Override
