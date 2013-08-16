@@ -119,15 +119,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
-		// Calculate heights
-		int height = rlIndoorSection.getMeasuredHeight();
-		Log.i(TAG, "Indoor height :" + height);
-
-		iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
-		Log.i(TAG, "Outdoot  height :" + iOutdoorCompressedHeight);
-
 		SensorDataController.getInstance(getActivity()).registerListener(this);
 	}
 
@@ -297,26 +289,23 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			
 			@Override
 			public void onAnimationStart(Animator animation) {
-				// TODO Auto-generated method stub
-				
+				Log.i(TAG,"Animation started : Fade OUT");
 			}
 			
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				// TODO Auto-generated method stub
-				
+				Log.i(TAG,"Animation Repat : Fade OUT");				
 			}
 			
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				// TODO Auto-generated method stub
 				fadeInAnimatorSet.start();
 				
 			}
 			
 			@Override
 			public void onAnimationCancel(Animator animation) {
-				// TODO Auto-generated method stub
+				Log.i(TAG,"Animation Canceled : Fade OUT");
 				
 			}
 		});
@@ -350,27 +339,23 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			
 			@Override
 			public void onAnimationStart(Animator animation) {
-				// TODO Auto-generated method stub
-				
+				Log.i(TAG,"Animation started : Fade IN");				
 			}
 			
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				// TODO Auto-generated method stub
-				
+				Log.i(TAG,"Animation repeated : Fade IN");				
 			}
 			
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				// TODO Auto-generated method stub
 				fadeOutAnimatorSet.start();
 				
 			}
 			
 			@Override
 			public void onAnimationCancel(Animator animation) {
-				// TODO Auto-generated method stub
-				
+				Log.i(TAG,"Animation canceled : Fade IN");				
 			}
 		});
 		
@@ -526,7 +511,6 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-		// TODO Auto-generated method stub
 		updateUI(airPurifierEventDto);
 	}
 
