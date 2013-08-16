@@ -49,5 +49,11 @@
 	<string name="fair">Fair</string>
 	<string name="bad">Bad</string>
 	
+	<string name="onehour">1 Hour</string>
+	<string name="fourhour">4 Hour</string>
+	<string name="eighthour">8 Hour</string>
+	<string name="off">OFF</string>
 	
+	<string name="set_timer">Set Timer</string>
+	    
 </resources>
