@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -301,7 +303,11 @@ public class Utils {
 		}
 		return 0;
 	}
-
+	public static String getCurrentDateTime() {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss") ;		
+		Date now = new Date(System.currentTimeMillis()) ;
+		return sdf.format(now) ;
+	}
 	/**
 	 * Gets the indoor ring array for images.
 	 *
