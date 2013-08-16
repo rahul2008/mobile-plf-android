@@ -91,22 +91,22 @@ public class AppConstants {
 	public static final String MESSAGE_ENTER_IP_ADDRESS = "Enter IP Address :";
 
 	/** The Constant HOME. */
-	public static final int HOME = 0;
+	public static final int HOME = 1;
 
 	/** The Constant MYCITIES. */
-	public static final int MYCITIES = 1;
+	public static final int MYCITIES = 2;
 
 	/** The Constant ABOUTAQI. */
-	public static final int ABOUTAQI = 2;
+	public static final int ABOUTAQI = 3;
 
 	/** The Constant PRODUCTREG. */
-	public static final int PRODUCTREG = 3;
+	public static final int PRODUCTREG = 4;
 
 	/** The Constant HELP. */
-	public static final int HELP = 4;
+	public static final int HELP = 5;
 
 	/** The Constant SETTINGS. */
-	public static final int SETTINGS = 5;
+	public static final int SETTINGS = 6;
 
 	/** Server Request Type **/
 	public static final int GET_SENSOR_DATA_REQUEST_TYPE = 1;
