@@ -1,7 +1,10 @@
 package com.philips.cl.di.dev.pa.screens.fragments;
 
+import android.animation.Animator;
+import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -24,6 +27,7 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
  * The Class HomeFragment.
@@ -33,12 +37,16 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The scale down/up outdoor animator set. */
 	private AnimatorSet scaleDownIndoorAnimatorSet,
-			scaleDownOutdoorAnimatorSet;
+			scaleDownOutdoorAnimatorSet,fadeInAnimatorSet,fadeOutAnimatorSet;
 	/** The scaling animation variables. */
 	private ObjectAnimator scaleUpIndoor, scaleDownIndoor, scaleUpOutdoor,
-			scaleDownOutdoor, scaleUpIndoorRing,scaleUpOutdoorRing,
+			scaleDownOutdoor, scaleUpIndoorRing, scaleUpOutdoorRing,
 			scaleDownIndoorRing, scaleDownOutdoorRing, translateUpOutdoorInfo,
-			translateDownOutdoorInfo;
+			translateDownOutdoorInfo, fadeInIndoorRingQuad1,
+			fadeOutIndoorRingQuad1, fadeInIndoorRingQuad2,
+			fadeOutIndoorRingQuad2, fadeInIndoorRingQuad3,
+			fadeOutIndoorRingQuad3, fadeInIndoorRingQuad4,
+			fadeOutIndoorRingQuad4;
 
 	/** The relative layouts outdoor/indoor section. */
 	private RelativeLayout rlIndoorSection, rlOutdoorSection, rlOutdoorInfo;
@@ -60,16 +68,17 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The i outdoor compressed height. */
 	private int iOutdoorCompressedHeight;
-	
-	private TextView tvIndoorAQI ;
+
+	private TextView tvIndoorAQI;
 
 	/** The params outdoor. */
 	FrameLayout.LayoutParams paramsIndoor, paramsOutdoor;
 
 	/** The main view. */
 	View vMain;
-	
-	private ImageView ivOutdoorRing,ivIndoorRing ; 
+
+	private ImageView ivIndoorQuad1, ivIndoorQuad2, ivIndoorQuad3,
+			ivIndoorQuad4;
 
 	/*
 	 * (non-Javadoc)
@@ -99,20 +108,21 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		initialiseAnimations();
 		return vMain;
 	}
-	
+
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		// Calculate heights 
+		// Calculate heights
 		int height = rlIndoorSection.getMeasuredHeight();
-		Log.i(TAG, "Indoor height :"+height);
-		
+		Log.i(TAG, "Indoor height :" + height);
+
 		iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
-		Log.i(TAG, "Outdoot  height :"+iOutdoorCompressedHeight);
-		
-		SensorDataController.getInstance(getActivity()).registerListener(this) ;
+		Log.i(TAG, "Outdoot  height :" + iOutdoorCompressedHeight);
+
+		SensorDataController.getInstance(getActivity()).registerListener(this);
 	}
+
 	/**
 	 * Initialize views.
 	 */
@@ -128,7 +138,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				paramsIndoor = (android.widget.FrameLayout.LayoutParams) rlIndoorSection
 						.getLayoutParams();
 				int height = rlIndoorSection.getMeasuredHeight();
-				Log.i(TAG, "Indoor height :"+height);
+				Log.i(TAG, "Indoor height :" + height);
 				rlIndoorSection.setPivotX(0f);
 				rlIndoorSection.setPivotY(0f);
 
@@ -152,7 +162,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				paramsOutdoor = (android.widget.FrameLayout.LayoutParams) rlOutdoorSection
 						.getLayoutParams();
 				iOutdoorCompressedHeight = rlOutdoorSection.getMeasuredHeight();
-				Log.i(TAG, "Indoor height :"+iOutdoorCompressedHeight);
+				Log.i(TAG, "Indoor height :" + iOutdoorCompressedHeight);
 				rlOutdoorSection.setPivotX(0f);
 				rlOutdoorSection.setPivotY(iOutdoorCompressedHeight);
 
@@ -170,32 +180,14 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		flIndoorRing = (FrameLayout) vMain.findViewById(R.id.flIndoorRing);
 		flOutdoorRing = (FrameLayout) vMain.findViewById(R.id.flOutdoorRing);
 		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
-		
-		
-		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvIndoorAQI) ;
-		
-		
-		ivOutdoorRing = (ImageView) vMain.findViewById(R.id.ivOutdoorRing);
-		ViewTreeObserver vtoOutdoorRing = ivOutdoorRing.getViewTreeObserver();
-		vtoOutdoorRing.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 
-			@Override
-			public void onGlobalLayout() {
-				Log.i(TAG, "Ring Compressed height :"+ivOutdoorRing.getMeasuredHeight());
+		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvIndoorAQI);
 
-			}
-		});
-		
-		ivIndoorRing = (ImageView) vMain.findViewById(R.id.ivIndoorRing);
-		ViewTreeObserver vtoIndoorRing = ivOutdoorRing.getViewTreeObserver();
-		vtoIndoorRing.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+		ivIndoorQuad1 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad1);
+		ivIndoorQuad2 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad2);
+		ivIndoorQuad3 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad3);
+		ivIndoorQuad4 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad4);
 
-			@Override
-			public void onGlobalLayout() {
-				Log.i(TAG, "Ring Compressed height :"+ivIndoorRing.getMeasuredHeight());
-
-			}
-		});
 	}
 
 	/**
@@ -218,8 +210,6 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		scaleDownOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
 				2.2f, 1f);
 		scaleDownOutdoorRing.setDuration(AppConstants.DURATION);
-		
-		
 
 		scaleUpIndoor = ObjectAnimator.ofFloat(rlIndoorSection, "scaleY", .45f,
 				1f);
@@ -229,7 +219,6 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				.45f, 1f);
 		scaleUpIndoorRing.setDuration(AppConstants.DURATION);
 
-		
 		scaleUpOutdoorRing = ObjectAnimator.ofFloat(flOutdoorRing, "scaleX",
 				1f, 2.2f);
 		scaleUpOutdoorRing.setDuration(AppConstants.DURATION);
@@ -259,6 +248,110 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		scaleDownOutdoorAnimatorSet.playTogether(scaleUpIndoor,
 				scaleUpIndoorRing, scaleDownOutdoor, scaleDownOutdoorRing,
 				translateDownOutdoorInfo);
+		
+		fadeOutIndoorRingQuad1 = ObjectAnimator.ofFloat(ivIndoorQuad1, "alpha",
+				0.1f, 1f);
+		fadeOutIndoorRingQuad1.setDuration(AppConstants.FADEDURATION);
+		
+		fadeOutIndoorRingQuad2 = ObjectAnimator.ofFloat(ivIndoorQuad2, "alpha",
+				0.1f, 1f);
+		fadeOutIndoorRingQuad2.setDuration(AppConstants.FADEDURATION);
+		fadeOutIndoorRingQuad2.setStartDelay(AppConstants.FADEDELAY);
+		
+		fadeOutIndoorRingQuad3 = ObjectAnimator.ofFloat(ivIndoorQuad3, "alpha",
+				0.1f, 1f);
+		fadeOutIndoorRingQuad3.setDuration(AppConstants.FADEDURATION);
+		fadeOutIndoorRingQuad3.setStartDelay(AppConstants.FADEDELAY*2);
+		
+		fadeOutIndoorRingQuad4 = ObjectAnimator.ofFloat(ivIndoorQuad4, "alpha",
+				0.1f, 1f);
+		fadeOutIndoorRingQuad4.setDuration(AppConstants.DURATION);
+		fadeOutIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY*3);
+		
+		fadeOutAnimatorSet = new AnimatorSet();
+		fadeOutAnimatorSet.playTogether(fadeOutIndoorRingQuad1,fadeOutIndoorRingQuad2,fadeOutIndoorRingQuad3,fadeOutIndoorRingQuad4);
+		fadeOutAnimatorSet.addListener(new AnimatorListener() {
+			
+			@Override
+			public void onAnimationStart(Animator animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				// TODO Auto-generated method stub
+				fadeInAnimatorSet.start();
+				
+			}
+			
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+
+		fadeInIndoorRingQuad1 = ObjectAnimator.ofFloat(ivIndoorQuad1, "alpha",
+				1f, 0.1f);
+		fadeInIndoorRingQuad1.setDuration(AppConstants.FADEDURATION);
+		
+		
+		fadeInIndoorRingQuad2 = ObjectAnimator.ofFloat(ivIndoorQuad2, "alpha",
+				1f, 0.1f);
+		fadeInIndoorRingQuad2.setDuration(AppConstants.FADEDURATION);
+		fadeInIndoorRingQuad2.setStartDelay(AppConstants.FADEDELAY);
+		
+		
+		fadeInIndoorRingQuad3 = ObjectAnimator.ofFloat(ivIndoorQuad3, "alpha",
+				1f, 0.1f);
+		fadeInIndoorRingQuad3.setDuration(AppConstants.FADEDURATION);
+		fadeInIndoorRingQuad3.setStartDelay(AppConstants.FADEDELAY*2);
+		
+		fadeInIndoorRingQuad4 = ObjectAnimator.ofFloat(ivIndoorQuad4, "alpha",
+				1f, 0.1f);
+		fadeInIndoorRingQuad4.setDuration(AppConstants.FADEDURATION);
+		fadeInIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY*3);
+		
+		fadeInAnimatorSet = new AnimatorSet();
+		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,fadeInIndoorRingQuad2,fadeInIndoorRingQuad3,fadeInIndoorRingQuad4);
+		fadeInAnimatorSet.start();
+		fadeInAnimatorSet.addListener(new AnimatorListener() {
+			
+			@Override
+			public void onAnimationStart(Animator animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				// TODO Auto-generated method stub
+				fadeOutAnimatorSet.start();
+				
+			}
+			
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		
 
 	}
 
@@ -411,25 +504,48 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
 		// TODO Auto-generated method stub
-		updateUI(airPurifierEventDto) ;
+		updateUI(airPurifierEventDto);
 	}
-	
+
 	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
-		if( airPurifierEventDto != null ) {
-			updateIndoorAQI(airPurifierEventDto.getIndoorAQI()) ;
+		if (airPurifierEventDto != null) {
+			int iIndoorAQI = airPurifierEventDto.getIndoorAQI();
+			updateIndoorBackground(iIndoorAQI);
+			updateIndoorAQIRing(iIndoorAQI);
+			updateIndoorAQI(iIndoorAQI);
+			
+			
 		}
 	}
-	
+
 	private void updateIndoorAQI(int indoorAQI) {
-		tvIndoorAQI.setText(String.valueOf(indoorAQI)) ;
+		tvIndoorAQI.setText(String.valueOf(indoorAQI));
+	}
+
+	private void updateIndoorAQIRing(int iAQI) {
+		String[] INDOOR_RING = Utils.getIndoorRing(iAQI);
+		ivIndoorQuad1.setImageResource(Utils.getResourceID(INDOOR_RING[0],
+				getActivity()));
+		ivIndoorQuad2.setImageResource(Utils.getResourceID(INDOOR_RING[1],
+				getActivity()));
+		ivIndoorQuad3.setImageResource(Utils.getResourceID(INDOOR_RING[2],
+				getActivity()));
+		ivIndoorQuad4.setImageResource(Utils.getResourceID(INDOOR_RING[3],
+				getActivity()));
+
 	}
 	
+	private void updateIndoorBackground(int iIndoorAqi)
+	{
+		rlIndoorSection.setBackgroundResource(Utils.getResourceID(Utils.getIndoorBG(iIndoorAqi), getActivity()));
+	}
+
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
-		Log.i(TAG, "OnPause") ;
+		Log.i(TAG, "OnPause");
 		super.onPause();
-		SensorDataController.getInstance(getActivity()).unRegisterListener(this) ;
+		SensorDataController.getInstance(getActivity())
+				.unRegisterListener(this);
 	}
-	
+
 }
