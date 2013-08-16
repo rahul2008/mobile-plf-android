@@ -7,9 +7,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.nfc.Tag;
+import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.utils.DBHelper;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
  * The Class DatabaseAdapter.
@@ -100,4 +104,42 @@ public class DatabaseAdapter {
 		return alCitiNames;
 	}
 
+	
+	/**
+	 * Insert into database.
+	 * 
+	 * @param aqi
+	 *            Air Quality Index
+	 * @return true, if successful
+	 */
+	public boolean insertAirPurifierEvent(int aqi) {
+		ContentValues cvInsert = new ContentValues();
+		cvInsert.put(AppConstants.INDOOR_AQI,aqi);
+		cvInsert.put(AppConstants.LAST_SYNC_DATETIME, Utils.getCurrentDateTime()) ;
+		
+		db.delete(AppConstants.TABLE_AIRPURIFIER_EVENT, null, null) ;
+		// Insert
+		int iRowAffected = (int) db.insert(AppConstants.TABLE_AIRPURIFIER_EVENT, null,
+				cvInsert);
+		
+		// return true if insert or update is successful
+		return (iRowAffected > 0) ? true : false;
+	}
+	
+	
+	/**
+	 * This will return the last updated Air Purifier Event
+	 * @return
+	 */
+	public AirPurifierEventDto getLastUpdatedEvent() {
+		AirPurifierEventDto dto = null ;
+		Cursor event = db.rawQuery(AppConstants.airPurifierEventQuery, null);
+		if (event.moveToNext()) {
+			
+			dto = new AirPurifierEventDto() ;	
+			dto.setIndoorAQI(event.getInt(0)) ;
+			dto.setTimeStamp(event.getString(1)) ;
+		}
+		return dto ;
+	}
 }

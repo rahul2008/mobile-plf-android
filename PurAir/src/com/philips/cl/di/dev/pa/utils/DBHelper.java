@@ -59,8 +59,12 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ " TEXT," + AppConstants.KEY_AQI + " NUMERIC,"
 				+ AppConstants.KEY_DATE + " TEXT," + AppConstants.KEY_TIME
 				+ " TEXT" + ")";
-		Log.d(TAG, "SQL QUERY -" + createSQL);
+		String createTableAirPurifierEvent = "CREATE TABLE "+ AppConstants.TABLE_AIRPURIFIER_EVENT + "(" 
+				+ AppConstants.INDOOR_AQI + " INTEGER ," + 
+				AppConstants.LAST_SYNC_DATETIME + " TEXT )";
+		
 		db.execSQL(createSQL);
+		db.execSQL(createTableAirPurifierEvent) ;
 
 	}
 
@@ -76,6 +80,8 @@ public class DBHelper extends SQLiteOpenHelper {
 		Log.d(TAG, "ON UPGRADE for DATABASE");
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
 				AppConstants.TABLENAME));
+		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
+				AppConstants.TABLE_AIRPURIFIER_EVENT));
 		this.onCreate(db);
 
 	}
