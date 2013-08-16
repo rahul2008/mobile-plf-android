@@ -286,33 +286,6 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		fadeOutIndoorRingQuad4.setDuration(AppConstants.DURATION);
 		fadeOutIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY*3);
 		
-		fadeOutAnimatorSet = new AnimatorSet();
-		fadeOutAnimatorSet.playTogether(fadeOutIndoorRingQuad1,fadeOutIndoorRingQuad2,fadeOutIndoorRingQuad3,fadeOutIndoorRingQuad4);
-		fadeOutAnimatorSet.addListener(new AnimatorListener() {
-			
-			@Override
-			public void onAnimationStart(Animator animation) {
-				Log.i(TAG,"Animation started : Fade OUT");
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-				Log.i(TAG,"Animation Repat : Fade OUT");				
-			}
-			
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				if(fadeInAnimatorSet!=null)
-				fadeInAnimatorSet.start();
-				
-			}
-			
-			@Override
-			public void onAnimationCancel(Animator animation) {
-				Log.i(TAG,"Animation Canceled : Fade OUT");
-				
-			}
-		});
 		
 
 		fadeInIndoorRingQuad1 = ObjectAnimator.ofFloat(ivIndoorQuad1, "alpha",
@@ -335,34 +308,6 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				1f, 0.1f);
 		fadeInIndoorRingQuad4.setDuration(AppConstants.FADEDURATION);
 		fadeInIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY*3);
-		
-		fadeInAnimatorSet = new AnimatorSet();
-		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,fadeInIndoorRingQuad2,fadeInIndoorRingQuad3,fadeInIndoorRingQuad4);
-		//fadeInAnimatorSet.start();
-		fadeInAnimatorSet.addListener(new AnimatorListener() {
-			
-			@Override
-			public void onAnimationStart(Animator animation) {
-				Log.i(TAG,"Animation started : Fade IN");				
-			}
-			
-			@Override
-			public void onAnimationRepeat(Animator animation) {
-				Log.i(TAG,"Animation repeated : Fade IN");				
-			}
-			
-			@Override
-			public void onAnimationEnd(Animator animation) {
-				if(fadeOutAnimatorSet!=null)
-				fadeOutAnimatorSet.start();
-				
-			}
-			
-			@Override
-			public void onAnimationCancel(Animator animation) {
-				Log.i(TAG,"Animation canceled : Fade IN");				
-			}
-		});
 		
 		
 
@@ -565,6 +510,64 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	
 	private void startAnimations()
 	{
+		fadeInAnimatorSet = new AnimatorSet();
+		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,fadeInIndoorRingQuad2,fadeInIndoorRingQuad3,fadeInIndoorRingQuad4);
+		//fadeInAnimatorSet.start();
+		fadeInAnimatorSet.addListener(new AnimatorListener() {
+			
+			@Override
+			public void onAnimationStart(Animator animation) {
+				Log.i(TAG,"Animation started : Fade IN");				
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				Log.i(TAG,"Animation repeated : Fade IN");				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				if(fadeOutAnimatorSet!=null)
+				fadeOutAnimatorSet.start();
+				
+			}
+			
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				Log.i(TAG,"Animation canceled : Fade IN");				
+			}
+		});
+		
+		fadeOutAnimatorSet = new AnimatorSet();
+		fadeOutAnimatorSet.playTogether(fadeOutIndoorRingQuad1,fadeOutIndoorRingQuad2,fadeOutIndoorRingQuad3,fadeOutIndoorRingQuad4);
+		fadeOutAnimatorSet.addListener(new AnimatorListener() {
+			
+			@Override
+			public void onAnimationStart(Animator animation) {
+				Log.i(TAG,"Animation started : Fade OUT");
+			}
+			
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				Log.i(TAG,"Animation Repat : Fade OUT");				
+			}
+			
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				if(fadeInAnimatorSet!=null)
+				fadeInAnimatorSet.start();
+				
+			}
+			
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				Log.i(TAG,"Animation Canceled : Fade OUT");
+				
+			}
+		});
+		
+		
+		
 		if(fadeInAnimatorSet!=null && !fadeInAnimatorSet.isRunning())
 		{
 			fadeInAnimatorSet.start();
@@ -576,10 +579,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		if(fadeInAnimatorSet!=null && fadeInAnimatorSet.isRunning())
 		{
 			fadeInAnimatorSet.end();
+			fadeInAnimatorSet=null;
 		}
 		if(fadeOutAnimatorSet!=null && fadeOutAnimatorSet.isRunning())
 		{
 			fadeOutAnimatorSet.end();
+			fadeInAnimatorSet= null ; 
 		}
 	}
 
