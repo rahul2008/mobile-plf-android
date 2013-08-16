@@ -12,7 +12,7 @@ public class AirPurifierEventDto {
 	
 	private boolean isValid;
 	private int id;
-	private int timeStamp;
+	private String timeStamp;
 	private int lightSensor;
 	private double particleSensor;
 	private double gasSensor;
@@ -43,10 +43,10 @@ public class AirPurifierEventDto {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getTimeStamp() {
+	public String getTimeStamp() {
 		return timeStamp;
 	}
-	public void setTimeStamp(int timeStamp) {
+	public void setTimeStamp(String timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 	public int getLightSensor() {
