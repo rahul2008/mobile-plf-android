@@ -14,13 +14,16 @@ import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -235,7 +238,20 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 		case R.id.tb_filterstatus:
 			showFilterDetailsScreen() ;
 			break;
+		case R.id.btn_timer:
+			showTimerDialog() ;
+			break ;
 		}
+	}
+	
+	private void showTimerDialog() {
+		final Dialog dialog = new Dialog(this) ;
+		dialog.getWindow().setBackgroundDrawableResource(R.color.whitesmoke) ;
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE) ;
+		dialog.getWindow().setGravity(Gravity.CENTER) ;
+		dialog.setContentView(R.layout.dialog_timer) ;
+		
+		dialog.show() ;
 	}
 	
 	private void showFilterDetailsScreen() {
@@ -355,6 +371,8 @@ public class SettingsActivity extends Activity implements OnClickListener,OnChec
 					aqiMessage = getString(R.string.bad) ;
 					textColor = getResources().getColor(R.color.aqi_bad) ;
 				}
+				
+				aqiMessage = aqi + " ( " + aqiMessage + " )" ;
 			}
 			
 			airQualityStatusView.setText(aqiMessage);
