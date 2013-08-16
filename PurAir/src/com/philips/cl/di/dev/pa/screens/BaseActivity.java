@@ -4,7 +4,6 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,7 +51,7 @@ public class BaseActivity extends FragmentActivity implements
 	private int menuWidth;
 
 	/** The menu panel. */
-	private RelativeLayout headerPanel/* , menuPanel */, rlHeaderLeftMenu;
+	private RelativeLayout  rlHeaderLeftMenu;
 
 	/** The sliding panel. */
 	/* private LinearLayout slidingPanel; */
@@ -64,10 +63,7 @@ public class BaseActivity extends FragmentActivity implements
 	LinearLayout.LayoutParams headerPanelParameters, listViewParameters;
 
 	/** The iv settings. */
-	private ImageView ivMenu, ivSettings, ivHeader;
-
-	/** The ll container. */
-	private LinearLayout llContainer;
+	private ImageView ivMenu, ivSettings;
 
 	/** The lv menu. */
 	ListView lvMenu;
@@ -126,7 +122,6 @@ public class BaseActivity extends FragmentActivity implements
 	 * Initialize views.
 	 */
 	private void initializeViews() {
-		llContainer = (LinearLayout) findViewById(R.id.llContainer);
 		metrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(metrics);
 		menuWidth = (int) ((metrics.widthPixels) * 0.75);
