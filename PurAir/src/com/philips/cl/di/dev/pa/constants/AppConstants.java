@@ -147,6 +147,10 @@ public class AppConstants {
 	public static final float SWIPE_VELOCITY_THRESHOLD = 100;
 
 	public static final long DURATION = 1000;
+	
+	public static final long FADEDURATION = 600;
+	
+	public static final long FADEDELAY = 100;
 
 	public static final float MINIMUNFILTER = 0;
 	public static final float MAXIMUMFILTER = 1000;
@@ -158,5 +162,19 @@ public class AppConstants {
 	public static final int COLOR_GOOD = Color.rgb(129, 107, 172);
 	public static final int COLOR_FAIR = Color.rgb(222, 74, 138);
 	public static final int COLOR_BAD = Color.rgb(255, 0, 0);
+
+	public static final String[] BAD_RING = { "bad_quadrant1",
+			"bad_quadrant2", "bad_quadrant3", "bad_quadrant4" };
+	public static final String[] GOOD_RING = { "good_quadrant1",
+			"good_quadrant2", "good_quadrant3", "good_quadrant4" };
+	public static final String[] FAIR_RING = { "fair_quadrant1",
+			"fair_quadrant2", "fair_quadrant3", "fair_quadrant4" };
+	public static final String[] VGOOD_RING = { "vgood_quadrant1",
+			"vgood_quadrant2", "vgood_quadrant3", "vgood_quadrant4" };
+	
+	public static final String HOME_INDOOR_GOOD = "home_indoor_good";
+	public static final String HOME_INDOOR_VGOOD = "home_indoor_vgood";
+	public static final String HOME_INDOOR_BAD = "home_indoor_bad";
+	public static final String HOME_INDOOR_FAIR = "home_indoor_fair";
 
 }
