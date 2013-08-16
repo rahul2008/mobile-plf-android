@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
     
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/ivIndoorRing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -10,43 +10,43 @@
         android:src="@drawable/outdoor_verygood_ring" 
         android:adjustViewBounds="true"
         >
-        </ImageView>
+        </ImageView> -->
 
-   <!--  <RelativeLayout
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
         <ImageView
-            android:id="@+id/ivQuad3"
+            android:id="@+id/ivIndoorQuad3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ivQuad1"
+            android:layout_below="@+id/ivIndoorQuad1"
             android:src="@drawable/quadrant3" />
 
         <ImageView
-            android:id="@+id/ivQuad2"
+            android:id="@+id/ivIndoorQuad2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/ivQuad3"
-            android:layout_toRightOf="@+id/ivQuad3"
+            android:layout_alignTop="@+id/ivIndoorQuad3"
+            android:layout_toRightOf="@+id/ivIndoorQuad3"
             android:src="@drawable/quadrant2" />
 
         <ImageView
-            android:id="@+id/ivQuad1"
+            android:id="@+id/ivIndoorQuad1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/ivQuad3"
+            android:layout_toRightOf="@+id/ivIndoorQuad3"
             android:src="@drawable/quadrant1" />
 
         <ImageView
-            android:id="@+id/ivQuad4"
+            android:id="@+id/ivIndoorQuad4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/quadrant4" />
-    </RelativeLayout> -->
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/ivIndoorFullCircle"

@@ -2,7 +2,7 @@
     android:id="@+id/rlIndoorSection"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/home_indoor_bad_large" >
+    android:background="@drawable/home_indoor_bad" >
 
 
     <include
