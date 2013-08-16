@@ -113,6 +113,10 @@ public class AppConstants {
 
 	/** The Constant TABLENAME. */
 	public static final String TABLENAME = "CityDetails";
+	
+	public static final String TABLE_AIRPURIFIER_EVENT = "AirPurifierEvent" ;
+	
+	public static final String LAST_SYNC_DATETIME = "lastsyncdatetime" ;
 
 	// Contacts Table Columns names
 	/** The Constant KEY_ID. */
@@ -141,6 +145,10 @@ public class AppConstants {
 
 	public static String sCityNameQuery = "Select distinct "
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
+	
+	public static String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
+	
+	public static final String INDOOR_AQI = "aqi" ;
 
 	public static final float SWIPE_THRESHOLD = 100;
 
