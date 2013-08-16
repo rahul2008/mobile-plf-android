@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -27,7 +26,12 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+
+import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
+import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
+
 import com.philips.cl.di.dev.pa.utils.Utils;
+
 
 /**
  * The Class HomeFragment.
@@ -68,6 +72,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The i outdoor compressed height. */
 	private int iOutdoorCompressedHeight;
+	
+	private CustomTextView tvDay, tvTime ;
 
 	private TextView tvIndoorAQI;
 
@@ -76,6 +82,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The main view. */
 	View vMain;
+	
+	private DatabaseAdapter dbAdapter ;
 
 	private ImageView ivIndoorQuad1, ivIndoorQuad2, ivIndoorQuad3,
 			ivIndoorQuad4;
@@ -188,6 +196,21 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		ivIndoorQuad3 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad3);
 		ivIndoorQuad4 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad4);
 
+		
+		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay) ;
+		
+		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime) ;
+		
+		dbAdapter = new DatabaseAdapter(getActivity()) ;
+		dbAdapter.open() ;
+		
+		AirPurifierEventDto dto = dbAdapter.getLastUpdatedEvent() ;
+		
+		if ( dto != null ) {
+			tvIndoorAQI.setText(String.valueOf(dto.getIndoorAQI())) ;
+			tvDay.setText(dto.getTimeStamp().substring(0, 10)) ;
+			tvTime.setText(dto.getTimeStamp().substring(11,16)) ;
+		}
 	}
 
 	/**
@@ -512,14 +535,16 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			int iIndoorAQI = airPurifierEventDto.getIndoorAQI();
 			updateIndoorBackground(iIndoorAQI);
 			updateIndoorAQIRing(iIndoorAQI);
-			updateIndoorAQI(iIndoorAQI);
-			
-			
+			updateIndoorInfo(iIndoorAQI);			
 		}
 	}
 
-	private void updateIndoorAQI(int indoorAQI) {
+	private void updateIndoorInfo(int indoorAQI) {
+		String currentDateTime = Utils.getCurrentDateTime() ;
+		
 		tvIndoorAQI.setText(String.valueOf(indoorAQI));
+		tvDay.setText(currentDateTime.substring(0, 10)) ;
+		tvTime.setText(currentDateTime.substring(11,16)) ;
 	}
 
 	private void updateIndoorAQIRing(int iAQI) {
@@ -548,4 +573,16 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				.unRegisterListener(this);
 	}
 
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		Log.i(TAG, "OnDestroy") ;
+		storeLastEvent() ;
+		super.onDestroy();
+	}
+	
+	private void storeLastEvent() {
+		dbAdapter.insertAirPurifierEvent(Integer.parseInt(tvIndoorAQI.getText().toString())) ;
+		dbAdapter.close() ;
+	}
 }
