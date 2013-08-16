@@ -119,8 +119,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onResume() {
+		
 		super.onResume();
 		SensorDataController.getInstance(getActivity()).registerListener(this);
+		startAnimations();
+		
 	}
 
 	/**
@@ -299,6 +302,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			
 			@Override
 			public void onAnimationEnd(Animator animation) {
+				if(fadeInAnimatorSet!=null)
 				fadeInAnimatorSet.start();
 				
 			}
@@ -334,7 +338,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		
 		fadeInAnimatorSet = new AnimatorSet();
 		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,fadeInIndoorRingQuad2,fadeInIndoorRingQuad3,fadeInIndoorRingQuad4);
-		fadeInAnimatorSet.start();
+		//fadeInAnimatorSet.start();
 		fadeInAnimatorSet.addListener(new AnimatorListener() {
 			
 			@Override
@@ -349,6 +353,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			
 			@Override
 			public void onAnimationEnd(Animator animation) {
+				if(fadeOutAnimatorSet!=null)
 				fadeOutAnimatorSet.start();
 				
 			}
@@ -552,9 +557,30 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onPause() {
 		Log.i(TAG, "OnPause");
-		super.onPause();
 		SensorDataController.getInstance(getActivity())
 				.unRegisterListener(this);
+		stopAnimations();
+		super.onPause();
+	}
+	
+	private void startAnimations()
+	{
+		if(fadeInAnimatorSet!=null && !fadeInAnimatorSet.isRunning())
+		{
+			fadeInAnimatorSet.start();
+		}
+	}
+	
+	private void stopAnimations()
+	{
+		if(fadeInAnimatorSet!=null && fadeInAnimatorSet.isRunning())
+		{
+			fadeInAnimatorSet.end();
+		}
+		if(fadeOutAnimatorSet!=null && fadeOutAnimatorSet.isRunning())
+		{
+			fadeOutAnimatorSet.end();
+		}
 	}
 
 	@Override
