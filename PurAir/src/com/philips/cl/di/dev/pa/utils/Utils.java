@@ -315,7 +315,7 @@ public class Utils {
 	 * @return the indoor ring
 	 */
 	public static String[] getIndoorRing(int iAQI) {
-		if (iAQI > 0 && iAQI <= 125) {
+		if (iAQI >= 0 && iAQI <= 125) {
 			return AppConstants.VGOOD_RING;
 		} else if (iAQI > 125 && iAQI <= 250) {
 			return AppConstants.GOOD_RING;
@@ -341,7 +341,7 @@ public class Utils {
 	}
 
 	public static String getIndoorBG(int iAQI) {
-		if (iAQI > 0 && iAQI <= 125) {
+		if (iAQI >=0  && iAQI <= 125) {
 			return AppConstants.HOME_INDOOR_VGOOD;
 		} else if (iAQI > 125 && iAQI <= 250) {
 			return AppConstants.HOME_INDOOR_GOOD;
