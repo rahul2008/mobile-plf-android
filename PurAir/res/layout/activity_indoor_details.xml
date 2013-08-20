@@ -1,0 +1,484 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/rlMain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/home_bg" >
+
+        <RelativeLayout
+            android:id="@+id/rlTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rlInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvHome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="Home"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="20dp"
+                    android:layout_toLeftOf="@+id/tvTime"
+                    android:text="NA"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:text="--:--"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvLastUpdated"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvTime"
+                    android:layout_marginRight="10dp"
+                    android:text="Last updated"
+                    android:textColor="@android:color/black"
+                    android:textSize="15sp" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </RelativeLayout>
+
+            <RelativeLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlInfo" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvAqi"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="125"
+                    android:textColor="@color/aqua"
+                    android:textSize="60sp" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvPMLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/tvAqi"
+                    android:layout_marginLeft="10dp"
+                    android:text="PM2.5"
+                    android:textColor="@color/black"
+                    android:textSize="10sp" />
+
+                <LinearLayout
+                    xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/llRank"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="20dp"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rlRow1"
+                        android:layout_marginBottom="5dp" >
+
+                        <ImageView
+                            android:id="@+id/ivHigh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/high" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tvHigh"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_toRightOf="@+id/ivHigh"
+                            android:text="High"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tvHighValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_toRightOf="@+id/tvHigh"
+                            android:text="---"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rlRow2"
+                        android:layout_marginBottom="5dp" >
+
+                        <ImageView
+                            android:id="@+id/ivLow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/low" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tvLow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_toRightOf="@+id/ivLow"
+                            android:text="Low"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tvLowValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_toRightOf="@+id/tvLow"
+                            android:text="---"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/rlRow3" >
+
+                        <ImageView
+                            android:id="@+id/ivRank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/rank" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tvRank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_toRightOf="@+id/ivRank"
+                            android:text="Rank"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tvRankValue"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:layout_marginRight="50dp"
+                            android:layout_toRightOf="@+id/tvRank"
+                            android:text="---"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ivSeparator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlTop"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/separator" />
+
+        <RelativeLayout
+            android:id="@+id/rlTrends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivSeparator" >
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                android:id="@+id/tvTrendsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Trends"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                android:id="@+id/tvQuestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvTrendsLabel"
+                android:layout_marginLeft="10dp"
+                android:text="How much good air did you have today?"
+                android:textColor="@android:color/black"
+                android:textSize="10sp" />
+
+            <RelativeLayout
+                android:id="@+id/rlOneDayDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvQuestion"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/one_day_trend_base" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvPercent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="57%"
+                    android:textColor="@android:color/black"
+                    android:textSize="40sp" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvAVGPM"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/tvAVGPMValue"
+                    android:text="Avg PM2.5"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvAVGPMValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:text="243"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvOnTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvAVGPM"
+                    android:layout_toLeftOf="@+id/tvOnTimeValue"
+                    android:text="On Time"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvOnTimeValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/tvAVGPM"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="20dp"
+                    android:text="13 Hrs"
+                    android:textColor="@color/gray"
+                    android:textSize="15sp" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.BarOneDayView
+                    android:id="@+id/ivGraph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/one_day_trend_graph" />
+
+                <RelativeLayout
+                    android:id="@+id/rlGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/grid" >
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:id="@+id/tvDayLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="10dp"
+                        android:text="| Aug 8"
+                        android:textColor="@color/black"
+                        android:textSize="10sp" />
+
+                    <LinearLayout
+                        android:id="@+id/llTime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="10dp"
+                        android:orientation="horizontal"
+                        android:weightSum="4" >
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tv12Am"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="12am"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tv6Am"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="6am"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tv12Pm"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="12pm"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+
+                        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            android:id="@+id/tv6Pm"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="6pm"
+                            android:textColor="@color/black"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlDetailView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/rlOneDayDetail"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/filter_details_button" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    android:id="@+id/tvDetailView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="Detail View"
+                    android:textColor="@android:color/white" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- TODO -->
+
+        <ImageView
+            android:id="@+id/ivSeparatorTwo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlTrends"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/separator" />
+
+        <RelativeLayout
+            android:id="@+id/rlIndoorAirQualityCondition"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivSeparatorTwo" >
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                android:id="@+id/tvIndoortAirConditionLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Indoor Air Quality Condition"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                android:id="@+id/tvSuggestion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/tvIndoortAirConditionLabel"
+                android:layout_marginLeft="10dp"
+                android:text="Your indoor air quality today is fair. You had 30% healthy air today.Please take care and be aware of what you can do to increase air quality at home."
+                android:textColor="@android:color/black"
+                android:textSize="10sp" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ivSeparatorThree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlIndoorAirQualityCondition"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/separator" />
+
+        <RelativeLayout
+            android:id="@+id/rlAboutAirQuality"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivSeparatorThree" >
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                android:id="@+id/tvAboutAirQuality"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:text="About Air Quality"
+                android:textColor="@android:color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/ivGoTo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/about_air_quality_goto" />
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/ivSeparatorFour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rlAboutAirQuality"
+            android:src="@drawable/separator" />
+    </RelativeLayout>
+
+</ScrollView>
