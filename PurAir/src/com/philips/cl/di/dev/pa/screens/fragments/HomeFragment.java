@@ -32,7 +32,6 @@ import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-
 /**
  * The Class HomeFragment.
  */
@@ -41,7 +40,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The scale down/up outdoor animator set. */
 	private AnimatorSet scaleDownIndoorAnimatorSet,
-			scaleDownOutdoorAnimatorSet,fadeInAnimatorSet,fadeOutAnimatorSet;
+			scaleDownOutdoorAnimatorSet, fadeInAnimatorSet, fadeOutAnimatorSet;
 	/** The scaling animation variables. */
 	private ObjectAnimator scaleUpIndoor, scaleDownIndoor, scaleUpOutdoor,
 			scaleDownOutdoor, scaleUpIndoorRing, scaleUpOutdoorRing,
@@ -72,8 +71,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The i outdoor compressed height. */
 	private int iOutdoorCompressedHeight;
-	
-	private CustomTextView tvDay, tvTime ;
+
+	private CustomTextView tvDay, tvTime;
 
 	private TextView tvIndoorAQI;
 
@@ -82,11 +81,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The main view. */
 	View vMain;
-	
-	private DatabaseAdapter dbAdapter ;
+
+	private DatabaseAdapter dbAdapter;
 
 	private ImageView ivIndoorQuad1, ivIndoorQuad2, ivIndoorQuad3,
 			ivIndoorQuad4;
+
+	private ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon;
 
 	/*
 	 * (non-Javadoc)
@@ -112,6 +113,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			Bundle savedInstanceState) {
 		vMain = inflater.inflate(R.layout.activity_home, container, false);
 		gestureDetector = new GestureDetector(this);
+		initialiseNavigationBar();
 		initialiseViews();
 		initialiseAnimations();
 		return vMain;
@@ -119,11 +121,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public void onResume() {
-		
+
 		super.onResume();
 		SensorDataController.getInstance(getActivity()).registerListener(this);
 		startAnimations();
-		
+
 	}
 
 	/**
@@ -181,7 +183,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		});
 
 		flIndoorRing = (FrameLayout) vMain.findViewById(R.id.flIndoorRing);
+		flIndoorRing.setOnClickListener(this);
 		flOutdoorRing = (FrameLayout) vMain.findViewById(R.id.flOutdoorRing);
+		flOutdoorRing.setOnClickListener(this);
 		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
 
 		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvIndoorAQI);
@@ -191,20 +195,19 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		ivIndoorQuad3 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad3);
 		ivIndoorQuad4 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad4);
 
-		
-		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay) ;
-		
-		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime) ;
-		
-		dbAdapter = new DatabaseAdapter(getActivity()) ;
-		dbAdapter.open() ;
-		
-		AirPurifierEventDto dto = dbAdapter.getLastUpdatedEvent() ;
-		
-		if ( dto != null ) {
-			tvIndoorAQI.setText(String.valueOf(dto.getIndoorAQI())) ;
-			tvDay.setText(dto.getTimeStamp().substring(0, 10)) ;
-			tvTime.setText(dto.getTimeStamp().substring(11,16)) ;
+		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
+
+		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime);
+
+		dbAdapter = new DatabaseAdapter(getActivity());
+		dbAdapter.open();
+
+		AirPurifierEventDto dto = dbAdapter.getLastUpdatedEvent();
+
+		if (dto != null) {
+			tvIndoorAQI.setText(String.valueOf(dto.getIndoorAQI()));
+			tvDay.setText(dto.getTimeStamp().substring(0, 10));
+			tvTime.setText(dto.getTimeStamp().substring(11, 16));
 		}
 	}
 
@@ -266,50 +269,44 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		scaleDownOutdoorAnimatorSet.playTogether(scaleUpIndoor,
 				scaleUpIndoorRing, scaleDownOutdoor, scaleDownOutdoorRing,
 				translateDownOutdoorInfo);
-		
+
 		fadeOutIndoorRingQuad1 = ObjectAnimator.ofFloat(ivIndoorQuad1, "alpha",
 				0.1f, 1f);
 		fadeOutIndoorRingQuad1.setDuration(AppConstants.FADEDURATION);
-		
+
 		fadeOutIndoorRingQuad2 = ObjectAnimator.ofFloat(ivIndoorQuad2, "alpha",
 				0.1f, 1f);
 		fadeOutIndoorRingQuad2.setDuration(AppConstants.FADEDURATION);
 		fadeOutIndoorRingQuad2.setStartDelay(AppConstants.FADEDELAY);
-		
+
 		fadeOutIndoorRingQuad3 = ObjectAnimator.ofFloat(ivIndoorQuad3, "alpha",
 				0.1f, 1f);
 		fadeOutIndoorRingQuad3.setDuration(AppConstants.FADEDURATION);
-		fadeOutIndoorRingQuad3.setStartDelay(AppConstants.FADEDELAY*2);
-		
+		fadeOutIndoorRingQuad3.setStartDelay(AppConstants.FADEDELAY * 2);
+
 		fadeOutIndoorRingQuad4 = ObjectAnimator.ofFloat(ivIndoorQuad4, "alpha",
 				0.1f, 1f);
 		fadeOutIndoorRingQuad4.setDuration(AppConstants.DURATION);
-		fadeOutIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY*3);
-		
-		
+		fadeOutIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY * 3);
 
 		fadeInIndoorRingQuad1 = ObjectAnimator.ofFloat(ivIndoorQuad1, "alpha",
 				1f, 0.1f);
 		fadeInIndoorRingQuad1.setDuration(AppConstants.FADEDURATION);
-		
-		
+
 		fadeInIndoorRingQuad2 = ObjectAnimator.ofFloat(ivIndoorQuad2, "alpha",
 				1f, 0.1f);
 		fadeInIndoorRingQuad2.setDuration(AppConstants.FADEDURATION);
 		fadeInIndoorRingQuad2.setStartDelay(AppConstants.FADEDELAY);
-		
-		
+
 		fadeInIndoorRingQuad3 = ObjectAnimator.ofFloat(ivIndoorQuad3, "alpha",
 				1f, 0.1f);
 		fadeInIndoorRingQuad3.setDuration(AppConstants.FADEDURATION);
-		fadeInIndoorRingQuad3.setStartDelay(AppConstants.FADEDELAY*2);
-		
+		fadeInIndoorRingQuad3.setStartDelay(AppConstants.FADEDELAY * 2);
+
 		fadeInIndoorRingQuad4 = ObjectAnimator.ofFloat(ivIndoorQuad4, "alpha",
 				1f, 0.1f);
 		fadeInIndoorRingQuad4.setDuration(AppConstants.FADEDURATION);
-		fadeInIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY*3);
-		
-		
+		fadeInIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY * 3);
 
 	}
 
@@ -327,6 +324,28 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	@Override
 	public void onClick(View v) {
 		Log.i(TAG, "On Click");
+		switch (v.getId()) {
+		case R.id.flIndoorRing:
+			Log.i(TAG, "On Indoor Ring click!!!");
+			getActivity()
+					.getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.llContainer, new IndoorDetailsFragment(),
+							IndoorDetailsFragment.TAG).commit();
+			break;
+			
+		case R.id.flOutdoorRing:
+			Log.i(TAG, "On Outdoor Ring click!!!");
+			getActivity()
+					.getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.llContainer, new OutdoorDetailsFragment(),
+							OutdoorDetailsFragment.TAG).commit();
+			break;
+
+		default:
+			break;
+		}
 	}
 
 	/**
@@ -469,16 +488,16 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			int iIndoorAQI = airPurifierEventDto.getIndoorAQI();
 			updateIndoorBackground(iIndoorAQI);
 			updateIndoorAQIRing(iIndoorAQI);
-			updateIndoorInfo(iIndoorAQI);			
+			updateIndoorInfo(iIndoorAQI);
 		}
 	}
 
 	private void updateIndoorInfo(int indoorAQI) {
-		String currentDateTime = Utils.getCurrentDateTime() ;
-		
+		String currentDateTime = Utils.getCurrentDateTime();
+
 		tvIndoorAQI.setText(String.valueOf(indoorAQI));
-		tvDay.setText(currentDateTime.substring(0, 10)) ;
-		tvTime.setText(currentDateTime.substring(11,16)) ;
+		tvDay.setText(currentDateTime.substring(0, 10));
+		tvTime.setText(currentDateTime.substring(11, 16));
 	}
 
 	private void updateIndoorAQIRing(int iAQI) {
@@ -493,10 +512,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				getActivity()));
 
 	}
-	
-	private void updateIndoorBackground(int iIndoorAqi)
-	{
-		rlIndoorSection.setBackgroundResource(Utils.getResourceID(Utils.getIndoorBG(iIndoorAqi), getActivity()));
+
+	private void updateIndoorBackground(int iIndoorAqi) {
+		rlIndoorSection.setBackgroundResource(Utils.getResourceID(
+				Utils.getIndoorBG(iIndoorAqi), getActivity()));
 	}
 
 	@Override
@@ -507,97 +526,107 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		stopAnimations();
 		super.onPause();
 	}
-	
-	private void startAnimations()
-	{
+
+	private void startAnimations() {
 		fadeInAnimatorSet = new AnimatorSet();
-		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,fadeInIndoorRingQuad2,fadeInIndoorRingQuad3,fadeInIndoorRingQuad4);
-		//fadeInAnimatorSet.start();
+		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,
+				fadeInIndoorRingQuad2, fadeInIndoorRingQuad3,
+				fadeInIndoorRingQuad4);
+		// fadeInAnimatorSet.start();
 		fadeInAnimatorSet.addListener(new AnimatorListener() {
-			
+
 			@Override
 			public void onAnimationStart(Animator animation) {
-				Log.i(TAG,"Animation started : Fade IN");				
+				Log.i(TAG, "Animation started : Fade IN");
 			}
-			
+
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				Log.i(TAG,"Animation repeated : Fade IN");				
+				Log.i(TAG, "Animation repeated : Fade IN");
 			}
-			
+
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if(fadeOutAnimatorSet!=null)
-				fadeOutAnimatorSet.start();
-				
+				if (fadeOutAnimatorSet != null)
+					fadeOutAnimatorSet.start();
+
 			}
-			
+
 			@Override
 			public void onAnimationCancel(Animator animation) {
-				Log.i(TAG,"Animation canceled : Fade IN");				
+				Log.i(TAG, "Animation canceled : Fade IN");
 			}
 		});
-		
+
 		fadeOutAnimatorSet = new AnimatorSet();
-		fadeOutAnimatorSet.playTogether(fadeOutIndoorRingQuad1,fadeOutIndoorRingQuad2,fadeOutIndoorRingQuad3,fadeOutIndoorRingQuad4);
+		fadeOutAnimatorSet.playTogether(fadeOutIndoorRingQuad1,
+				fadeOutIndoorRingQuad2, fadeOutIndoorRingQuad3,
+				fadeOutIndoorRingQuad4);
 		fadeOutAnimatorSet.addListener(new AnimatorListener() {
-			
+
 			@Override
 			public void onAnimationStart(Animator animation) {
-				Log.i(TAG,"Animation started : Fade OUT");
+				Log.i(TAG, "Animation started : Fade OUT");
 			}
-			
+
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				Log.i(TAG,"Animation Repat : Fade OUT");				
+				Log.i(TAG, "Animation Repat : Fade OUT");
 			}
-			
+
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if(fadeInAnimatorSet!=null)
-				fadeInAnimatorSet.start();
-				
+				if (fadeInAnimatorSet != null)
+					fadeInAnimatorSet.start();
+
 			}
-			
+
 			@Override
 			public void onAnimationCancel(Animator animation) {
-				Log.i(TAG,"Animation Canceled : Fade OUT");
-				
+				Log.i(TAG, "Animation Canceled : Fade OUT");
+
 			}
 		});
-		
-		
-		
-		if(fadeInAnimatorSet!=null && !fadeInAnimatorSet.isRunning())
-		{
+
+		if (fadeInAnimatorSet != null && !fadeInAnimatorSet.isRunning()) {
 			fadeInAnimatorSet.start();
 		}
 	}
-	
-	private void stopAnimations()
-	{
-		if(fadeInAnimatorSet!=null && fadeInAnimatorSet.isRunning())
-		{
+
+	private void stopAnimations() {
+		if (fadeInAnimatorSet != null && fadeInAnimatorSet.isRunning()) {
 			fadeInAnimatorSet.end();
-			fadeInAnimatorSet=null;
+			fadeInAnimatorSet = null;
 		}
-		if(fadeOutAnimatorSet!=null && fadeOutAnimatorSet.isRunning())
-		{
+		if (fadeOutAnimatorSet != null && fadeOutAnimatorSet.isRunning()) {
 			fadeOutAnimatorSet.end();
-			fadeInAnimatorSet= null ; 
+			fadeInAnimatorSet = null;
 		}
 	}
 
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
-		Log.i(TAG, "OnDestroy") ;
-		storeLastEvent() ;
+		Log.i(TAG, "OnDestroy");
+		storeLastEvent();
 		super.onDestroy();
 	}
-	
+
 	private void storeLastEvent() {
-		dbAdapter.insertAirPurifierEvent(Integer.parseInt(tvIndoorAQI.getText().toString())) ;
-		dbAdapter.close() ;
+		dbAdapter.insertAirPurifierEvent(Integer.parseInt(tvIndoorAQI.getText()
+				.toString()));
+		dbAdapter.close();
 	}
+
+	private void initialiseNavigationBar() {
+		ivLeftMenu = (ImageView) getActivity().findViewById(R.id.ivLeftMenu);
+		ivRightDeviceIcon = (ImageView) getActivity().findViewById(
+				R.id.ivRightDeviceIcon);
+		ivCenterLabel = (ImageView) getActivity().findViewById(
+				R.id.ivCenterLabel);
+
+		ivLeftMenu.setBackgroundResource(R.drawable.menu_icon);
+		ivRightDeviceIcon.setBackgroundResource(R.drawable.device_icon);
+		ivCenterLabel.setBackgroundResource(R.drawable.label_my_iaq);
+	}
+
 }
