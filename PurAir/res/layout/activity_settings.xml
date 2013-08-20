@@ -3,27 +3,27 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:background="@color/whitesmoke"
+	android:background="@drawable/filter_details_bg"
     xmlns:tools="http://schemas.android.com/tools"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" 
     >
     
     <RelativeLayout 
         android:id="@+id/rl_settings_header"
-        android:layout_height="30dp"
-        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
+        android:background="@drawable/filter_details_header"
         >
         
        <ImageView android:id="@+id/iv_back"
 	       android:layout_width="wrap_content"
 	       android:layout_height="wrap_content"
 	       android:contentDescription="@string/separator"
-	       android:src="@drawable/top_leftindicator"
+	       android:src="@drawable/filter_details_back"
 	       android:layout_alignParentLeft="true"
 	       android:layout_centerVertical="true"
 		/>
