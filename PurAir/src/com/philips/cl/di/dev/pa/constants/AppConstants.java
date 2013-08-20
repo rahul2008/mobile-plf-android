@@ -185,4 +185,5 @@ public class AppConstants {
 	public static final String HOME_INDOOR_BAD = "home_indoor_bad";
 	public static final String HOME_INDOOR_FAIR = "home_indoor_fair";
 
+	public static final float  DAYWIDTH = 680;
 }

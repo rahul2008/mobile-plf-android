@@ -353,5 +353,18 @@ public class Utils {
 
 		return null;
 	}
+	
+	public static int getAQIColor(int AQI) {
+		if (AQI >= 0 && AQI <= 125) {
+			return AppConstants.COLOR_VGOOD;
+		} else if (AQI > 125 && AQI <= 250) {
+			return AppConstants.COLOR_GOOD;
+		} else if (AQI > 250 && AQI <= 375) {
+			return AppConstants.COLOR_FAIR;
+		} else if (AQI > 375 && AQI <= 500) {
+			return AppConstants.COLOR_BAD;
+		}
+		return 0;
+	}
 
 }

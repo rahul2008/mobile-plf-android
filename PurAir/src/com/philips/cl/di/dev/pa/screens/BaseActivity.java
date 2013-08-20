@@ -219,6 +219,9 @@ public class BaseActivity extends FragmentActivity implements
 			Log.i(TAG, "On Item Click --- HOME ");
 			collapse();
 			isExpanded = false;
+			getSupportFragmentManager().beginTransaction()
+			.replace(R.id.llContainer, new HomeFragment(), HomeFragment.TAG)
+			.commit();
 			break;
 		case AppConstants.MYCITIES:
 			Log.i(TAG, "On Item Click --- CITY");
