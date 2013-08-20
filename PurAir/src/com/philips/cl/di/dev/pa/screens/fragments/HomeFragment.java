@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -88,6 +89,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			ivIndoorQuad4;
 
 	private ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon;
+
+	OnIndoorRingClick mCallback;
+
+	// Container Activity must implement this interface
+	public interface OnIndoorRingClick {
+		public void onRingClicked(int aqi);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -208,6 +216,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			tvIndoorAQI.setText(String.valueOf(dto.getIndoorAQI()));
 			tvDay.setText(dto.getTimeStamp().substring(0, 10));
 			tvTime.setText(dto.getTimeStamp().substring(11, 16));
+			updateIndoorAQIRing(dto.getIndoorAQI());
+			updateIndoorBackground(dto.getIndoorAQI());
 		}
 	}
 
@@ -327,20 +337,23 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.flIndoorRing:
 			Log.i(TAG, "On Indoor Ring click!!!");
-			getActivity()
-					.getSupportFragmentManager()
-					.beginTransaction()
-					.replace(R.id.llContainer, new IndoorDetailsFragment(),
-							IndoorDetailsFragment.TAG).commit();
+			int iAQI = Integer.parseInt(tvIndoorAQI.getText().toString());
+			mCallback.onRingClicked(iAQI);
+			/*
+			 * getActivity() .getSupportFragmentManager() .beginTransaction()
+			 * .replace(R.id.llContainer, new IndoorDetailsFragment(),
+			 * IndoorDetailsFragment.TAG).commit();
+			 */
 			break;
-			
+
 		case R.id.flOutdoorRing:
 			Log.i(TAG, "On Outdoor Ring click!!!");
 			getActivity()
 					.getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.llContainer, new OutdoorDetailsFragment(),
-							OutdoorDetailsFragment.TAG).commit();
+							OutdoorDetailsFragment.TAG).addToBackStack(null)
+					.commit();
 			break;
 
 		default:
@@ -627,6 +640,20 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		ivLeftMenu.setBackgroundResource(R.drawable.menu_icon);
 		ivRightDeviceIcon.setBackgroundResource(R.drawable.device_icon);
 		ivCenterLabel.setBackgroundResource(R.drawable.label_my_iaq);
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		// This makes sure that the container activity has implemented
+		// the callback interface. If not, it throws an exception
+		try {
+			mCallback = (OnIndoorRingClick) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement OnHeadlineSelectedListener");
+		}
 	}
 
 }

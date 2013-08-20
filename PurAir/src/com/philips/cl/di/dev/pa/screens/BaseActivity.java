@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,6 +30,8 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.screens.fragments.IndoorDetailsFragment;
+import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment.OnIndoorRingClick;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
@@ -36,7 +39,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener, SensorEventListener {
+		OnItemClickListener, OnClickListener, SensorEventListener,OnIndoorRingClick {
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -328,6 +331,26 @@ public class BaseActivity extends FragmentActivity implements
 			isExpanded = !isExpanded;
 		} else
 			super.onBackPressed();
+	}
+
+	@Override
+	public void onRingClicked(int aqi) {
+		
+		IndoorDetailsFragment newFragment = new IndoorDetailsFragment();
+        Bundle args = new Bundle();
+        args.putInt(AppConstants.INDOOR_AQI, aqi);
+        newFragment.setArguments(args);
+        
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.llContainer, newFragment);
+        transaction.addToBackStack(null);
+
+        // Commit the transaction
+        transaction.commit();
+		
 	}
 
 }
