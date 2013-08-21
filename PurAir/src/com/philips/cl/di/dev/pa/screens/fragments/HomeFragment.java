@@ -6,6 +6,8 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -26,7 +28,10 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
+import com.philips.cl.di.dev.pa.interfaces.OutdoorAQIListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 
 import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
@@ -37,7 +42,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * The Class HomeFragment.
  */
 public class HomeFragment extends Fragment implements OnClickListener,
-		OnGestureListener, SensorEventListener {
+		OnGestureListener, SensorEventListener,OutdoorAQIListener {
 
 	/** The scale down/up outdoor animator set. */
 	private AnimatorSet scaleDownIndoorAnimatorSet,
@@ -74,8 +79,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	private int iOutdoorCompressedHeight;
 
 	private CustomTextView tvDay, tvTime;
+	
+	private CustomTextView tvOutdoorDay,tvOutdoorTime ;
 
 	private TextView tvIndoorAQI;
+	
+	private TextView outdoorAQI ;
 
 	/** The params outdoor. */
 	FrameLayout.LayoutParams paramsIndoor, paramsOutdoor;
@@ -124,7 +133,17 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		initialiseNavigationBar();
 		initialiseViews();
 		initialiseAnimations();
+		startOutdoorAQITask() ;
 		return vMain;
+	}
+	
+	/**
+	 * Starts the Outdoor AQI task.
+	 * This method calls a webservice and fetches the Outdoor AQI from the same
+	 */
+	private void startOutdoorAQITask() {
+		TaskGetHttp chinaAQI = new TaskGetHttp("http://www.stateair.net/web/rss/1/4.xml", 2,getActivity(),this) ;
+		chinaAQI.start() ;
 	}
 
 	@Override
@@ -133,7 +152,22 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		super.onResume();
 		SensorDataController.getInstance(getActivity()).registerListener(this);
 		startAnimations();
-
+		
+		updateOutdoorAQIFields() ;
+	}
+	
+	/**
+	 * Updates the outdoor AQI index
+	 */
+	private void updateOutdoorAQIFields() {
+		OutdoorAQIEventDto outdoorAQIDto = dbAdapter.getLastOutdoorAQI() ;
+		if( outdoorAQIDto != null ) {
+			Log.i(TAG, ""+outdoorAQIDto.getOutdoorAQI()) ;
+			outdoorAQI.setText(String.valueOf(outdoorAQIDto.getOutdoorAQI())) ;
+			Log.i(TAG, outdoorAQIDto.getSyncDateTime()) ;
+			tvOutdoorDay.setText(outdoorAQIDto.getSyncDateTime().substring(0, 10));
+			tvOutdoorTime.setText(outdoorAQIDto.getSyncDateTime().substring(11, 16));
+		}
 	}
 
 	/**
@@ -197,6 +231,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
 
 		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvIndoorAQI);
+		
+		outdoorAQI = (TextView) vMain.findViewById(R.id.tvOutdoorAQI) ;
 
 		ivIndoorQuad1 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad1);
 		ivIndoorQuad2 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad2);
@@ -204,6 +240,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		ivIndoorQuad4 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad4);
 
 		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
+		
+		tvOutdoorDay = (CustomTextView) vMain.findViewById(R.id.tvDayOutdoor) ;
+		tvOutdoorTime = (CustomTextView) vMain.findViewById(R.id.tvTimeOutdoor) ;
 
 		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime);
 
@@ -579,12 +618,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 			@Override
 			public void onAnimationStart(Animator animation) {
-				Log.i(TAG, "Animation started : Fade OUT");
+				//Log.i(TAG, "Animation started : Fade OUT");
 			}
 
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				Log.i(TAG, "Animation Repat : Fade OUT");
+				//Log.i(TAG, "Animation Repat : Fade OUT");
 			}
 
 			@Override
@@ -624,6 +663,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		super.onDestroy();
 	}
 
+	/**
+	 * This method stores the latest air purifier event on application exit.
+	 */
 	private void storeLastEvent() {
 		dbAdapter.insertAirPurifierEvent(Integer.parseInt(tvIndoorAQI.getText()
 				.toString()));
@@ -654,6 +696,44 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnHeadlineSelectedListener");
 		}
+	}
+	
+	/**
+	 * This runnable will be called by the handler after every one hour to get the latest outdoor AQI
+	 */
+	private final Runnable getOutdoorAQIRunnable = new Runnable() {
+		@Override
+		public void run() {
+			startOutdoorAQITask() ;
+		}
+	};
+	
+	/**
+	 * This will start a timer for 1 hour to fetch the latest data
+	 */
+	private void startOutdoorAQITimer() {
+		outdoorAQIHandler.postDelayed(getOutdoorAQIRunnable, AppConstants.OUTDOOR_AQI_UPDATE_DURATION) ;
+	}
+
+	
+	private Handler outdoorAQIHandler = new Handler() ;
+	/**
+	 * Handler to update the User Interface
+	 */
+	 private final Handler handler = new Handler() {
+         public void handleMessage(Message msg) {
+              updateOutdoorAQIFields();
+         };
+	  } ;
+	  
+	/**
+	 * Callback from outdoorAQI class
+	 */
+	@Override
+	public void updateOutdoorAQI() {
+		handler.sendEmptyMessage(0) ;
+		startOutdoorAQITimer() ;
+		
 	}
 
 }
