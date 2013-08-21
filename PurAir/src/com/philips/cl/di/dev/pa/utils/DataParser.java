@@ -1,14 +1,24 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.List;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.json.JSONException;
 
 import org.json.JSONObject;
+import org.xml.sax.SAXException;
 
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.interfaces.DataParserInterface;
 
 /***
@@ -71,5 +81,31 @@ public class DataParser implements DataParserInterface {
 			return null ;
 		}
 		return filterStatusData;
+	}
+
+	@Override
+	public List<OutdoorAQIEventDto> parseOutdoorAQIData() {
+		List<OutdoorAQIEventDto> outdoorList = null ;
+		try {
+			OutdoorAQIParser parser = new OutdoorAQIParser() ;
+			SAXParserFactory factory = SAXParserFactory.newInstance() ;
+			SAXParser saxParser = factory.newSAXParser();
+			
+			ByteArrayInputStream bis = new ByteArrayInputStream(dataToParse.getBytes()) ;
+			
+			saxParser.parse(bis, parser) ;
+			outdoorList =  parser.list ;
+			
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return outdoorList ;
 	}
 }

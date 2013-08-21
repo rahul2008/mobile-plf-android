@@ -1,7 +1,11 @@
 package com.philips.cl.di.dev.pa.interfaces;
 
+
+import java.util.List;
+
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 
 /**
  * This interface will be implemented by DataParser to parse all types of response data from Server
@@ -17,4 +21,6 @@ public interface DataParserInterface {
 	public void parseHistoryData() ;
 	
 	public FilterStatusDto parseFilterStatusData() ;
+	
+	public List<OutdoorAQIEventDto> parseOutdoorAQIData() ;
 }
