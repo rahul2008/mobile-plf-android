@@ -74,6 +74,8 @@ public class AppConstants {
 
 	/** The Constant URL_FILTER_STATUS. */
 	public static final String URL_FILTER_STATUS = "http://%s/di/v1/device/current";
+	
+	public static final String URL_OUTDOOR_AQI = "http://www.stateair.net/web/rss/1/%s.xml" ;
 
 	/** The Constant URL_FILTER. */
 	public static final String URL_FILTER = "http://%s/di/v1/device";
@@ -140,6 +142,12 @@ public class AppConstants {
 	/** The Constant DB_NAME. */
 	public static final String DB_NAME = "City.db";
 
+	public static final String TABLE_OUTDOOR_AQI = "OutdoorAQITable" ;
+	public static final String ID = "ID" ;
+	public static final String OUTDOOR_AQI = "Aqi" ;
+	public static final String LOG_DATETIME = "Datetime" ;
+	public static final String CITY_ID = "CityID" ;
+	
 	/** The Constant DB_VERS. */
 	public static final int DB_VERS = 1;
 
@@ -147,6 +155,11 @@ public class AppConstants {
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
 	
 	public static String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
+	
+	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.TABLE_OUTDOOR_AQI + " where Aqi > 0 order by " + LOG_DATETIME + " DESC"  ;
+	
+	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.TABLE_OUTDOOR_AQI + " where " + AppConstants.LOG_DATETIME + "= '%s'" ;
+	
 	
 	public static final String INDOOR_AQI = "aqi" ;
 
@@ -185,5 +198,11 @@ public class AppConstants {
 	public static final String HOME_INDOOR_BAD = "home_indoor_bad";
 	public static final String HOME_INDOOR_FAIR = "home_indoor_fair";
 
+	
+	
+	
 	public static final float  DAYWIDTH = 680;
+	
+	public static final int OUTDOOR_AQI_UPDATE_DURATION = 60 * 60 * 1000 ;
+
 }
