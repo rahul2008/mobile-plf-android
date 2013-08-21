@@ -1,17 +1,18 @@
 package com.philips.cl.di.dev.pa.screens.adapters;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.nfc.Tag;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.utils.DBHelper;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -19,6 +20,8 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * The Class DatabaseAdapter.
  */
 public class DatabaseAdapter {
+	
+	private static final String TAG = DatabaseAdapter.class.getSimpleName() ;
 
 	/** The context. */
 	Context context;
@@ -94,6 +97,10 @@ public class DatabaseAdapter {
 		return (iRowAffected > 0) ? true : false;
 	}
 
+	/**
+	 * This will return the list of city names
+	 * @return
+	 */
 	public List<String> getCityNames() {
 		List<String> alCitiNames = new ArrayList<String>();
 		Cursor curCityNames = db.rawQuery(AppConstants.sCityNameQuery, null);
@@ -141,5 +148,74 @@ public class DatabaseAdapter {
 			dto.setTimeStamp(event.getString(1)) ;
 		}
 		return dto ;
+	}
+	
+	/**
+	 * This will insert the outdoor AQI values to the database
+	 * @param outdoorAQI
+	 * @param cityID
+	 */
+	public void insertOutdoorAQI(List<OutdoorAQIEventDto> outdoorAQI, int cityID) {
+		if( outdoorAQI != null ) {
+			int length = outdoorAQI.size() ;
+			for ( int index = 0 ; index < length ; index ++ ) {
+				OutdoorAQIEventDto outdoorAQIEventDtoObj = outdoorAQI.get(index) ;
+				Cursor event = 
+						db.rawQuery(String.format(AppConstants.selectOutdoorAQIOnLogDateTime,
+								Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime())),null );
+				
+				if( event.moveToNext() ) {
+					Log.i(TAG, "Update") ;
+				}
+				else {
+					Log.i(TAG, "insert") ;
+					ContentValues cvInsert = new ContentValues();
+					cvInsert.put(AppConstants.OUTDOOR_AQI,outdoorAQIEventDtoObj.getOutdoorAQI() ) ;
+					cvInsert.put(AppConstants.CITY_ID, cityID) ;
+					cvInsert.put(AppConstants.LOG_DATETIME, Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime())) ;
+					
+					db.insert(AppConstants.TABLE_OUTDOOR_AQI, null,
+							cvInsert);
+				}				
+			}
+		}
+	}
+	
+	/**
+	 * This will return the last updated Air Purifier Event
+	 * @return
+	 */
+	public OutdoorAQIEventDto getLastOutdoorAQI() {
+		OutdoorAQIEventDto dto = null ;
+		
+		Cursor event = db.rawQuery(AppConstants.selectLatestOutdoorAQI, null);
+		if (event.moveToNext()) {
+			
+			dto = new OutdoorAQIEventDto() ;	
+			dto.setOutdoorAQI(event.getInt(1)) ;
+			dto.setSyncDateTime(event.getString(3)) ;
+		}
+		return dto ;
+	}
+	
+	
+	/**
+	 * This will return the list of Outdoor AQI's
+	 * @return
+	 */
+	// TO DO - Modify the query depending on the condition
+	public List<OutdoorAQIEventDto> getOutdoorValues() {
+		OutdoorAQIEventDto outdoorAQIEventDtoObj = null ;
+		List<OutdoorAQIEventDto> outdoorAQIList = new ArrayList<OutdoorAQIEventDto>();
+		Cursor outdoorAQICursor = db.rawQuery(AppConstants.selectLatestOutdoorAQI, null);
+		while (outdoorAQICursor.moveToNext()) {
+			outdoorAQIEventDtoObj = new OutdoorAQIEventDto() ;
+			outdoorAQIEventDtoObj.setOutdoorAQI(outdoorAQICursor.getInt(1)) ;
+			outdoorAQIEventDtoObj.setSyncDateTime(outdoorAQICursor.getString(3)) ;
+			
+			outdoorAQIList.add(outdoorAQIEventDtoObj) ;
+		}
+
+		return outdoorAQIList;
 	}
 }

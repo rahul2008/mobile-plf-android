@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -365,6 +366,23 @@ public class Utils {
 			return AppConstants.COLOR_BAD;
 		}
 		return 0;
+	}
+	
+	public static String getOutdoorAQIDateTime(String datetime) {
+		String dateToReturn = null ;
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a") ;
+		try {
+			Date startDate = sdf.parse(datetime);
+			
+			sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss") ;
+			
+			dateToReturn = sdf.format(startDate);
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return dateToReturn ;
 	}
 
 }
