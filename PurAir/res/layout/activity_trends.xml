@@ -37,13 +37,13 @@
         <RelativeLayout
             android:id="@+id/rlMain"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:background="@drawable/trend_bg" >
 
             <RelativeLayout
                 android:id="@+id/rlTopBg"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/trend_top_bg" >
+                android:layout_height="wrap_content" >
 
                 <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                     android:id="@+id/tvDayLabel"
@@ -51,7 +51,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="12dp"
                     android:text="July 7"
                     android:textColor="@color/white"
                     android:textSize="30sp" />
@@ -87,7 +87,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:layout_weight="1"
-                        android:background="@drawable/trend_day_normal" >
+                        android:background="@drawable/trend_day_normal"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true" >
 
                         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                             android:id="@+id/tvDay"
@@ -105,7 +107,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:layout_weight="1"
-                        android:background="@drawable/trend_day_normal" >
+                        android:background="@drawable/trend_day_normal"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true" >
 
                         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                             android:id="@+id/tvWeek"
@@ -123,7 +127,9 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="20dp"
                         android:layout_weight="1"
-                        android:background="@drawable/trend_day_normal" >
+                        android:background="@drawable/trend_day_normal"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true" >
 
                         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                             android:id="@+id/tvMonth"
@@ -148,6 +154,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/trend_info_box" >
 
@@ -157,11 +164,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
                         android:text="Home"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvOn"
@@ -169,7 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tvHome"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_marginTop="5dp"
                         android:text="On:"
                         android:textColor="@color/black"
@@ -190,23 +197,22 @@
                         android:id="@+id/tvAVGPM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_below="@+id/tvOn"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginLeft="8dp"
                         android:text="Avg PM2.5:"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvAVGPMValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="5dp"
                         android:layout_toRightOf="@+id/tvAVGPM"
+                         android:layout_alignBottom="@+id/tvAVGPM"
                         android:text="123"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvHomePercent"
@@ -218,12 +224,13 @@
                         android:layout_marginTop="5dp"
                         android:text="72%"
                         android:textColor="@color/black"
-                        android:textSize="40sp" />
+                        android:textSize="30sp" />
                 </RelativeLayout>
 
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/trend_info_box" >
 
@@ -233,11 +240,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
-                        android:layout_marginLeft="5dp"
-                        android:layout_marginTop="5dp"
+                         android:layout_marginLeft="8dp"
+                        android:layout_marginTop="8dp"
                         android:text="Shanghai"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvSource"
@@ -245,33 +252,32 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tvCity"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_marginTop="5dp"
                         android:text="US Consulate"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
-                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                   <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvAVGPMOutdoor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_below="@+id/tvSource"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginLeft="8dp"
                         android:text="Avg PM2.5:"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvAVGPMValueOutdoor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginBottom="5dp"
                         android:layout_toRightOf="@+id/tvAVGPMOutdoor"
-                        android:text="290"
+                         android:layout_alignBottom="@+id/tvAVGPMOutdoor"
+                        android:text="129"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="15sp" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                         android:id="@+id/tvOutdoorPercent"
@@ -283,18 +289,48 @@
                         android:layout_marginTop="5dp"
                         android:text="12%"
                         android:textColor="@color/black"
-                        android:textSize="40sp" />
+                        android:textSize="30sp" />
                 </RelativeLayout>
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rlGraph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rlLegend"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/trend_graph_bg" >
+
+                <LinearLayout
+                    android:id="@+id/llYAxis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:background="@drawable/trend_y_axis" >
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rlXGrid"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llYAxis"
+                    android:background="@drawable/grid" >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/trend_x_axis_start" />
+                </RelativeLayout>
+            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rlLegend"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/llCenter"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp" >
+                android:layout_alignRight="@+id/rlGraph"
+                android:layout_below="@+id/llCenter" >
 
                 <ImageView
                     android:id="@+id/ivHomeLegend"
@@ -331,37 +367,6 @@
                     android:textSize="15sp" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rlGraph"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/rlLegend"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/trend_graph_bg" >
-
-                <LinearLayout
-                    android:id="@+id/llYAxis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:background="@drawable/trend_y_axis" >
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rlXGrid"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/llYAxis"
-                    android:background="@drawable/grid" >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:src="@drawable/trend_x_axis_start" />
-                </RelativeLayout>
-            </RelativeLayout>
         </RelativeLayout>
     </ScrollView>
 
