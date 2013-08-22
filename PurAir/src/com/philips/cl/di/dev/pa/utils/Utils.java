@@ -385,4 +385,31 @@ public class Utils {
 		return dateToReturn ;
 	}
 
+	public static String getOutdoorBG(int iOutdoorAQI) {
+		if (iOutdoorAQI >=0  && iOutdoorAQI <= 125) {
+			return AppConstants.SHANGHAI_VGOOD;
+		} else if (iOutdoorAQI > 125 && iOutdoorAQI <= 250) {
+			return AppConstants.SHANGHAI_GOOD;
+		} else if (iOutdoorAQI > 250 && iOutdoorAQI <= 375) {
+			return AppConstants.SHANGHAI_FAIR;
+		} else if (iOutdoorAQI > 375 && iOutdoorAQI <= 500) {
+			return AppConstants.SHANGHAI_BAD;
+		}
+
+		return null;
+	}
+
+	public static String getFanIndicator(int iAQI) {
+		if (iAQI >=0  && iAQI <= 125) {
+			return AppConstants.WARNING_VGOOD;
+		} else if (iAQI > 125 && iAQI <= 250) {
+			return AppConstants.WARNING_GOOD;
+		} else if (iAQI > 250 && iAQI <= 375) {
+			return AppConstants.WARNING_FAIR;
+		} else if (iAQI > 375 && iAQI <= 500) {
+			return AppConstants.WARNING_FAIR;
+		}
+		return null;
+	}
+
 }
