@@ -96,7 +96,13 @@ public class DataParser implements DataParserInterface {
 			saxParser.parse(bis, parser) ;
 			outdoorList =  parser.list ;
 			
-		} catch (ParserConfigurationException e) {
+		}
+		catch(NullPointerException e)
+		{
+			// TODO
+			e.printStackTrace();
+		}
+		catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
