@@ -202,7 +202,19 @@ public class AppConstants {
 	
 	
 	public static final float  DAYWIDTH = 680;
+
+	// Shanghai
+	public static final String SHANGHAI_GOOD = "shanghai_good";
+	public static final String SHANGHAI_VGOOD = "shanghai_vgood";
+	public static final String SHANGHAI_BAD = "shanghai_bad";
+	public static final String SHANGHAI_FAIR = "shanghai_fair";
+
 	
 	public static final int OUTDOOR_AQI_UPDATE_DURATION = 60 * 60 * 1000 ;
+
+	public static final String WARNING_VGOOD = "warning_vgood";
+	public static final String WARNING_GOOD = "warning_good";
+	public static final String WARNING_FAIR = "warning_fair";
+	public static final String WARNING_BAD = "warning_bad";
 
 }
