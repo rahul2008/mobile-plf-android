@@ -5,6 +5,7 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -33,6 +34,7 @@ import com.philips.cl.di.dev.pa.interfaces.OutdoorAQIListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 
+import com.philips.cl.di.dev.pa.screens.TrendsActivity;
 import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 
@@ -46,7 +48,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	/** The scale down/up outdoor animator set. */
 	private AnimatorSet scaleDownIndoorAnimatorSet,
-			scaleDownOutdoorAnimatorSet, fadeInAnimatorSet, fadeOutAnimatorSet;
+			scaleDownOutdoorAnimatorSet, fadeInAnimatorSetIndoor,
+			fadeOutAnimatorSetIndoor, fadeInAnimatorSetOutdoor,
+			fadeOutAnimatorSetOutdoor;
 	/** The scaling animation variables. */
 	private ObjectAnimator scaleUpIndoor, scaleDownIndoor, scaleUpOutdoor,
 			scaleDownOutdoor, scaleUpIndoorRing, scaleUpOutdoorRing,
@@ -55,7 +59,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			fadeOutIndoorRingQuad1, fadeInIndoorRingQuad2,
 			fadeOutIndoorRingQuad2, fadeInIndoorRingQuad3,
 			fadeOutIndoorRingQuad3, fadeInIndoorRingQuad4,
-			fadeOutIndoorRingQuad4;
+			fadeOutIndoorRingQuad4, fadeInOutdoorRingQuad1,
+			fadeOutOutdoorRingQuad1, fadeInOutdoorRingQuad2,
+			fadeOutOutdoorRingQuad2, fadeInOutdoorRingQuad3,
+			fadeOutOutdoorRingQuad3, fadeInOutdoorRingQuad4,
+			fadeOutOutdoorRingQuad4;
 
 	/** The relative layouts outdoor/indoor section. */
 	private RelativeLayout rlIndoorSection, rlOutdoorSection, rlOutdoorInfo;
@@ -78,11 +86,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	/** The i outdoor compressed height. */
 	private int iOutdoorCompressedHeight;
 
-	private CustomTextView tvDay, tvTime;
+	private CustomTextView tvDay, tvTime, tvCityName, tvDayOutdoor,
+			tvTimeOutdoor;
 	
 	private CustomTextView tvOutdoorDay,tvOutdoorTime ;
 
-	private TextView tvIndoorAQI;
+	private TextView tvIndoorAQI, tvOutdoorAQI;
 	
 	private TextView outdoorAQI ;
 
@@ -95,9 +104,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	private DatabaseAdapter dbAdapter;
 
 	private ImageView ivIndoorQuad1, ivIndoorQuad2, ivIndoorQuad3,
-			ivIndoorQuad4;
+			ivIndoorQuad4, ivOutdoorQuad1, ivOutdoorQuad2, ivOutdoorQuad3,
+			ivOutdoorQuad4;
 
-	private ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon;
+	private ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon, ivMap,
+			ivTrend,ivFanIndicator;
 
 	OnIndoorRingClick mCallback;
 
@@ -151,7 +162,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 		super.onResume();
 		SensorDataController.getInstance(getActivity()).registerListener(this);
-		startAnimations();
+		if (isIndoorExpanded)
+			startAnimationsIndoor();
+		else
+			startAnimationsOutdoor();
 		
 		updateOutdoorAQIFields() ;
 	}
@@ -239,12 +253,29 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		ivIndoorQuad3 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad3);
 		ivIndoorQuad4 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad4);
 
+		ivOutdoorQuad1 = (ImageView) vMain.findViewById(R.id.ivOutdoorQuad1);
+		ivOutdoorQuad2 = (ImageView) vMain.findViewById(R.id.ivOutdoorQuad2);
+		ivOutdoorQuad3 = (ImageView) vMain.findViewById(R.id.ivOutdoorQuad3);
+		ivOutdoorQuad4 = (ImageView) vMain.findViewById(R.id.ivOutdoorQuad4);
+
 		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
 		
 		tvOutdoorDay = (CustomTextView) vMain.findViewById(R.id.tvDayOutdoor) ;
 		tvOutdoorTime = (CustomTextView) vMain.findViewById(R.id.tvTimeOutdoor) ;
 
 		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime);
+
+		ivMap = (ImageView) vMain.findViewById(R.id.ivMap);
+		ivMap.setOnClickListener(this);
+		ivTrend = (ImageView) vMain.findViewById(R.id.ivTrend);
+		ivTrend.setOnClickListener(this);
+
+		tvCityName = (CustomTextView) vMain.findViewById(R.id.tvCityName);
+		tvDayOutdoor = (CustomTextView) vMain.findViewById(R.id.tvDayOutdoor);
+		tvTimeOutdoor = (CustomTextView) vMain.findViewById(R.id.tvTimeOutdoor);
+		tvOutdoorAQI = (TextView) vMain.findViewById(R.id.tvOutdoorAQI);
+		
+		ivFanIndicator = (ImageView) vMain.findViewById(R.id.ivIndicator);
 
 		dbAdapter = new DatabaseAdapter(getActivity());
 		dbAdapter.open();
@@ -312,13 +343,62 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		scaleDownIndoorAnimatorSet.playTogether(scaleDownIndoor,
 				scaleDownIndoorRing, scaleUpOutdoor, scaleUpOutdoorRing,
 				translateUpOutdoorInfo);
+		scaleDownIndoorAnimatorSet.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				stopAnimationsIndoor();
+				stopAnimationsOutdoor();
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				startAnimationsOutdoor();
+
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+
+			}
+		});
 
 		scaleDownOutdoorAnimatorSet = new AnimatorSet();
 		scaleDownOutdoorAnimatorSet.setDuration(AppConstants.DURATION);
 		scaleDownOutdoorAnimatorSet.playTogether(scaleUpIndoor,
 				scaleUpIndoorRing, scaleDownOutdoor, scaleDownOutdoorRing,
 				translateDownOutdoorInfo);
+		scaleDownOutdoorAnimatorSet.addListener(new AnimatorListener() {
 
+			@Override
+			public void onAnimationStart(Animator animation) {
+				stopAnimationsIndoor();
+				stopAnimationsOutdoor();
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				startAnimationsIndoor();
+
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+
+			}
+		});
+
+		// Indoor Ring Fade in Fade out
 		fadeOutIndoorRingQuad1 = ObjectAnimator.ofFloat(ivIndoorQuad1, "alpha",
 				0.1f, 1f);
 		fadeOutIndoorRingQuad1.setDuration(AppConstants.FADEDURATION);
@@ -357,6 +437,45 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		fadeInIndoorRingQuad4.setDuration(AppConstants.FADEDURATION);
 		fadeInIndoorRingQuad4.setStartDelay(AppConstants.FADEDELAY * 3);
 
+		// Outdoor Ring fade in fade out
+		fadeOutOutdoorRingQuad1 = ObjectAnimator.ofFloat(ivOutdoorQuad1,
+				"alpha", 0.1f, 1f);
+		fadeOutOutdoorRingQuad1.setDuration(AppConstants.FADEDURATION);
+
+		fadeOutOutdoorRingQuad2 = ObjectAnimator.ofFloat(ivOutdoorQuad2,
+				"alpha", 0.1f, 1f);
+		fadeOutOutdoorRingQuad2.setDuration(AppConstants.FADEDURATION);
+		fadeOutOutdoorRingQuad2.setStartDelay(AppConstants.FADEDELAY);
+
+		fadeOutOutdoorRingQuad3 = ObjectAnimator.ofFloat(ivOutdoorQuad3,
+				"alpha", 0.1f, 1f);
+		fadeOutOutdoorRingQuad3.setDuration(AppConstants.FADEDURATION);
+		fadeOutOutdoorRingQuad3.setStartDelay(AppConstants.FADEDELAY * 2);
+
+		fadeOutOutdoorRingQuad4 = ObjectAnimator.ofFloat(ivOutdoorQuad4,
+				"alpha", 0.1f, 1f);
+		fadeOutOutdoorRingQuad4.setDuration(AppConstants.DURATION);
+		fadeOutOutdoorRingQuad4.setStartDelay(AppConstants.FADEDELAY * 3);
+
+		fadeInOutdoorRingQuad1 = ObjectAnimator.ofFloat(ivOutdoorQuad1,
+				"alpha", 1f, 0.1f);
+		fadeInOutdoorRingQuad1.setDuration(AppConstants.FADEDURATION);
+
+		fadeInOutdoorRingQuad2 = ObjectAnimator.ofFloat(ivOutdoorQuad2,
+				"alpha", 1f, 0.1f);
+		fadeInOutdoorRingQuad2.setDuration(AppConstants.FADEDURATION);
+		fadeInOutdoorRingQuad2.setStartDelay(AppConstants.FADEDELAY);
+
+		fadeInOutdoorRingQuad3 = ObjectAnimator.ofFloat(ivOutdoorQuad3,
+				"alpha", 1f, 0.1f);
+		fadeInOutdoorRingQuad3.setDuration(AppConstants.FADEDURATION);
+		fadeInOutdoorRingQuad3.setStartDelay(AppConstants.FADEDELAY * 2);
+
+		fadeInOutdoorRingQuad4 = ObjectAnimator.ofFloat(ivOutdoorQuad4,
+				"alpha", 1f, 0.1f);
+		fadeInOutdoorRingQuad4.setDuration(AppConstants.FADEDURATION);
+		fadeInOutdoorRingQuad4.setStartDelay(AppConstants.FADEDELAY * 3);
+
 	}
 
 	/*
@@ -393,6 +512,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 					.replace(R.id.llContainer, new OutdoorDetailsFragment(),
 							OutdoorDetailsFragment.TAG).addToBackStack(null)
 					.commit();
+			break;
+
+		case R.id.ivTrend:
+			Log.i(TAG, "On Trend click!!!");
+			getActivity().startActivity(
+					new Intent(getActivity(), TrendsActivity.class));
 			break;
 
 		default:
@@ -538,18 +663,31 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
 		if (airPurifierEventDto != null) {
 			int iIndoorAQI = airPurifierEventDto.getIndoorAQI();
+			//int iIndoorAQI = (int) (Math.random() * 500);
 			updateIndoorBackground(iIndoorAQI);
 			updateIndoorAQIRing(iIndoorAQI);
 			updateIndoorInfo(iIndoorAQI);
+			int iOutdoorAQI = (int) (Math.random() * 500);
+			updateOutdoorBackground(iOutdoorAQI);
+			updateOutdoorAQIRing(iOutdoorAQI);
+			updateOutdoorInfo(iOutdoorAQI);
 		}
 	}
 
 	private void updateIndoorInfo(int indoorAQI) {
 		String currentDateTime = Utils.getCurrentDateTime();
-
 		tvIndoorAQI.setText(String.valueOf(indoorAQI));
 		tvDay.setText(currentDateTime.substring(0, 10));
 		tvTime.setText(currentDateTime.substring(11, 16));
+	}
+
+	private void updateOutdoorInfo(int outdoorAQI) {
+		String currentDateTime = Utils.getCurrentDateTime();
+		tvOutdoorAQI.setText(String.valueOf(outdoorAQI));
+		tvCityName.setText("Shanghai");
+		tvDayOutdoor.setText(currentDateTime.substring(0, 10));
+		tvTimeOutdoor.setText(currentDateTime.substring(11, 16));
+
 	}
 
 	private void updateIndoorAQIRing(int iAQI) {
@@ -562,6 +700,21 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				getActivity()));
 		ivIndoorQuad4.setImageResource(Utils.getResourceID(INDOOR_RING[3],
 				getActivity()));
+		
+		ivFanIndicator.setImageResource(Utils.getResourceID(Utils.getFanIndicator(iAQI), getActivity()));
+
+	}
+
+	private void updateOutdoorAQIRing(int iAQI) {
+		String[] INDOOR_RING = Utils.getIndoorRing(iAQI);
+		ivOutdoorQuad1.setImageResource(Utils.getResourceID(INDOOR_RING[0],
+				getActivity()));
+		ivOutdoorQuad2.setImageResource(Utils.getResourceID(INDOOR_RING[1],
+				getActivity()));
+		ivOutdoorQuad3.setImageResource(Utils.getResourceID(INDOOR_RING[2],
+				getActivity()));
+		ivOutdoorQuad4.setImageResource(Utils.getResourceID(INDOOR_RING[3],
+				getActivity()));
 
 	}
 
@@ -570,22 +723,28 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				Utils.getIndoorBG(iIndoorAqi), getActivity()));
 	}
 
+	private void updateOutdoorBackground(int iOutdoorAQI) {
+		rlOutdoorSection.setBackgroundResource(Utils.getResourceID(
+				Utils.getOutdoorBG(iOutdoorAQI), getActivity()));
+	}
+
 	@Override
 	public void onPause() {
 		Log.i(TAG, "OnPause");
 		SensorDataController.getInstance(getActivity())
 				.unRegisterListener(this);
-		stopAnimations();
+		stopAnimationsIndoor();
+		stopAnimationsOutdoor();
 		super.onPause();
 	}
 
-	private void startAnimations() {
-		fadeInAnimatorSet = new AnimatorSet();
-		fadeInAnimatorSet.playTogether(fadeInIndoorRingQuad1,
+	private void startAnimationsIndoor() {
+		fadeInAnimatorSetIndoor = new AnimatorSet();
+		fadeInAnimatorSetIndoor.playTogether(fadeInIndoorRingQuad1,
 				fadeInIndoorRingQuad2, fadeInIndoorRingQuad3,
 				fadeInIndoorRingQuad4);
 		// fadeInAnimatorSet.start();
-		fadeInAnimatorSet.addListener(new AnimatorListener() {
+		fadeInAnimatorSetIndoor.addListener(new AnimatorListener() {
 
 			@Override
 			public void onAnimationStart(Animator animation) {
@@ -599,8 +758,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if (fadeOutAnimatorSet != null)
-					fadeOutAnimatorSet.start();
+				if (fadeOutAnimatorSetIndoor != null)
+					fadeOutAnimatorSetIndoor.start();
 
 			}
 
@@ -610,11 +769,11 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			}
 		});
 
-		fadeOutAnimatorSet = new AnimatorSet();
-		fadeOutAnimatorSet.playTogether(fadeOutIndoorRingQuad1,
+		fadeOutAnimatorSetIndoor = new AnimatorSet();
+		fadeOutAnimatorSetIndoor.playTogether(fadeOutIndoorRingQuad1,
 				fadeOutIndoorRingQuad2, fadeOutIndoorRingQuad3,
 				fadeOutIndoorRingQuad4);
-		fadeOutAnimatorSet.addListener(new AnimatorListener() {
+		fadeOutAnimatorSetIndoor.addListener(new AnimatorListener() {
 
 			@Override
 			public void onAnimationStart(Animator animation) {
@@ -628,8 +787,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 			@Override
 			public void onAnimationEnd(Animator animation) {
-				if (fadeInAnimatorSet != null)
-					fadeInAnimatorSet.start();
+				if (fadeInAnimatorSetIndoor != null)
+					fadeInAnimatorSetIndoor.start();
 
 			}
 
@@ -640,19 +799,102 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			}
 		});
 
-		if (fadeInAnimatorSet != null && !fadeInAnimatorSet.isRunning()) {
-			fadeInAnimatorSet.start();
+		if (fadeInAnimatorSetIndoor != null
+				&& !fadeInAnimatorSetIndoor.isRunning()) {
+			fadeInAnimatorSetIndoor.start();
 		}
 	}
 
-	private void stopAnimations() {
-		if (fadeInAnimatorSet != null && fadeInAnimatorSet.isRunning()) {
-			fadeInAnimatorSet.end();
-			fadeInAnimatorSet = null;
+	private void startAnimationsOutdoor() {
+		fadeInAnimatorSetOutdoor = new AnimatorSet();
+		fadeInAnimatorSetOutdoor.playTogether(fadeInOutdoorRingQuad1,
+				fadeInOutdoorRingQuad2, fadeInOutdoorRingQuad3,
+				fadeInOutdoorRingQuad4);
+		// fadeInAnimatorSet.start();
+		fadeInAnimatorSetOutdoor.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				Log.i(TAG, "Animation started : Fade IN");
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				Log.i(TAG, "Animation repeated : Fade IN");
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				if (fadeOutAnimatorSetOutdoor != null)
+					fadeOutAnimatorSetOutdoor.start();
+
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				Log.i(TAG, "Animation canceled : Fade IN");
+			}
+		});
+
+		fadeOutAnimatorSetOutdoor = new AnimatorSet();
+		fadeOutAnimatorSetOutdoor.playTogether(fadeOutOutdoorRingQuad1,
+				fadeOutOutdoorRingQuad2, fadeOutOutdoorRingQuad3,
+				fadeOutOutdoorRingQuad4);
+		fadeOutAnimatorSetOutdoor.addListener(new AnimatorListener() {
+
+			@Override
+			public void onAnimationStart(Animator animation) {
+				Log.i(TAG, "Animation started : Fade OUT");
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animation) {
+				Log.i(TAG, "Animation Repat : Fade OUT");
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				if (fadeInAnimatorSetOutdoor != null)
+					fadeInAnimatorSetOutdoor.start();
+
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animation) {
+				Log.i(TAG, "Animation Canceled : Fade OUT");
+
+			}
+		});
+
+		if (fadeInAnimatorSetOutdoor != null
+				&& !fadeInAnimatorSetOutdoor.isRunning()) {
+			fadeInAnimatorSetOutdoor.start();
 		}
-		if (fadeOutAnimatorSet != null && fadeOutAnimatorSet.isRunning()) {
-			fadeOutAnimatorSet.end();
-			fadeInAnimatorSet = null;
+	}
+
+	private void stopAnimationsIndoor() {
+		if (fadeInAnimatorSetIndoor != null
+				&& fadeInAnimatorSetIndoor.isRunning()) {
+			fadeInAnimatorSetIndoor.end();
+			fadeInAnimatorSetIndoor = null;
+		}
+		if (fadeOutAnimatorSetIndoor != null
+				&& fadeOutAnimatorSetIndoor.isRunning()) {
+			fadeOutAnimatorSetIndoor.end();
+			fadeInAnimatorSetIndoor = null;
+		}
+	}
+
+	private void stopAnimationsOutdoor() {
+		if (fadeInAnimatorSetOutdoor != null
+				&& fadeInAnimatorSetOutdoor.isRunning()) {
+			fadeInAnimatorSetOutdoor.end();
+			fadeInAnimatorSetOutdoor = null;
+		}
+		if (fadeOutAnimatorSetOutdoor != null
+				&& fadeOutAnimatorSetOutdoor.isRunning()) {
+			fadeOutAnimatorSetOutdoor.end();
+			fadeOutAnimatorSetOutdoor = null;
 		}
 	}
 
