@@ -33,6 +33,11 @@
             android:name="com.philips.cl.di.dev.pa.screens.FilterDetailsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        
+         <activity
+            android:name="com.philips.cl.di.dev.pa.screens.TrendsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
