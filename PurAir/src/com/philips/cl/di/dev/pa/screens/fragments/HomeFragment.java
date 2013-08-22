@@ -167,7 +167,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		else
 			startAnimationsOutdoor();
 		
-		updateOutdoorAQIFields() ;
+		//updateOutdoorAQIFields() ;
 	}
 	
 	/**
@@ -191,20 +191,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 		rlIndoorSection = (RelativeLayout) vMain
 				.findViewById(R.id.rlIndoorSection);
-		ViewTreeObserver vtoIndoor = rlIndoorSection.getViewTreeObserver();
-		vtoIndoor.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-
-			@Override
-			public void onGlobalLayout() {
-				paramsIndoor = (android.widget.FrameLayout.LayoutParams) rlIndoorSection
-						.getLayoutParams();
-				int height = rlIndoorSection.getMeasuredHeight();
-				Log.i(TAG, "Indoor height :" + height);
-				rlIndoorSection.setPivotX(0f);
-				rlIndoorSection.setPivotY(0f);
-
-			}
-		});
+		rlIndoorSection.setPivotX(0f);
+		rlIndoorSection.setPivotY(0f);
+		
+		
 		rlIndoorSection.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -964,7 +954,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 */
 	 private final Handler handler = new Handler() {
          public void handleMessage(Message msg) {
-              updateOutdoorAQIFields();
+              //updateOutdoorAQIFields();
          };
 	  } ;
 	  
