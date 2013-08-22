@@ -11,7 +11,7 @@
         android:src="@drawable/outdoor_verygood_ring" 
         android:adjustViewBounds="true"
         >
-        </ImageView>
+        </ImageView>
     -->
 
     <RelativeLayout
@@ -81,6 +81,14 @@
             android:text="PM2.5"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
+
+        <ImageView
+            android:id="@+id/ivIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:adjustViewBounds="true"
+            android:src="@drawable/warning_good" />
     </RelativeLayout>
 
 </FrameLayout>

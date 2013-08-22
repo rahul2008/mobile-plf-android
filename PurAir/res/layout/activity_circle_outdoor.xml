@@ -3,14 +3,51 @@
     android:layout_height="wrap_content"
      >
 
-    <ImageView
+    <!-- <ImageView
         android:id="@+id/ivOutdoorRing"
         android:layout_width="223px"
         android:layout_height="223px"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/outdoor_verygood_ring" >
-    </ImageView>
+    </ImageView> -->
+    
+     <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/ivOutdoorQuad3"
+            android:layout_width="108.9px"
+            android:layout_height="108.9px"
+            android:layout_below="@+id/ivOutdoorQuad1"
+            android:src="@drawable/quadrant3" />
+
+        <ImageView
+            android:id="@+id/ivOutdoorQuad2"
+            android:layout_width="108.9px"
+            android:layout_height="108.9px"
+            android:layout_alignTop="@+id/ivOutdoorQuad3"
+            android:layout_toRightOf="@+id/ivOutdoorQuad3"
+            android:src="@drawable/quadrant2" />
+
+        <ImageView
+            android:id="@+id/ivOutdoorQuad1"
+             android:layout_width="108.9px"
+            android:layout_height="108.9px"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/ivOutdoorQuad3"
+            android:src="@drawable/quadrant1" />
+
+        <ImageView
+            android:id="@+id/ivOutdoorQuad4"
+             android:layout_width="108.9px"
+            android:layout_height="108.9px"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/quadrant4" />
+    </RelativeLayout>
+    
 
     <ImageView
         android:id="@+id/ivOutdoorFullCircle"
