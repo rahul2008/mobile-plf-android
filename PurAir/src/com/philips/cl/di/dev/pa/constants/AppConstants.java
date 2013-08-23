@@ -28,7 +28,7 @@ public class AppConstants {
 
 	// Label for left menu
 	/** The label home. */
-	public static String LABEL_HOME = "HOME";
+	public static String LABEL_HOME = "Home";
 
 	/** The label mycity. */
 	public static String LABEL_MYCITY = "My Cities";
