@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 public class CustomTextView extends TextView {
 	private static final String TAG = CustomTextView.class.getSimpleName();
+	private String sFontName;
 
 	public CustomTextView(Context context) {
 		super(context);
@@ -30,15 +31,24 @@ public class CustomTextView extends TextView {
 	private void applyAttributes(Context context, AttributeSet attrs) {
 		TypedArray a = context.obtainStyledAttributes(attrs,
 				R.styleable.CustomTextView);
-		try {
-			Typeface font = Typeface.createFromAsset(
-					getResources().getAssets(), AppConstants.FONT);
-			if (font != null) {
-				this.setTypeface(font);
-			}
-		} catch (RuntimeException e) {
-			Log.e(TAG, e.getMessage());
+		final int N = a.getIndexCount();
+		for (int i = 0; i < N; i++) {
+			int attr = a.getIndex(i);
+			switch (attr) {
+			case R.styleable.CustomTextView_fontAssetName:
+				try {
+					Typeface font = Typeface.createFromAsset(getResources()
+							.getAssets(), a.getString(attr));
+					if (font != null) {
+						this.setTypeface(font);
+					}
+				} catch (RuntimeException e) {
+					Log.e(TAG, e.getMessage());
+				}
+				
+				break;
 
+			}
 		}
 	}
 }
