@@ -12,13 +12,15 @@
         android:background="@drawable/filter_details_header" >
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="Trends"
             android:textColor="@android:color/black"
             android:textSize="25sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <ImageView
             android:id="@+id/ivBackIcon"
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content" >
 
                 <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tvDayLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -54,7 +57,8 @@
                     android:layout_marginTop="12dp"
                     android:text="July 7"
                     android:textColor="@color/white"
-                    android:textSize="30sp" />
+                    android:textSize="30sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
                 <ImageView
                     android:id="@+id/ivHighlight"
@@ -65,6 +69,7 @@
                     android:src="@drawable/trend_highlight" />
 
                 <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tvQuestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -72,7 +77,8 @@
                     android:layout_centerHorizontal="true"
                     android:text="How much good air did you have?"
                     android:textColor="@color/white"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -92,13 +98,15 @@
                         android:focusableInTouchMode="true" >
 
                         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                             android:id="@+id/tvDay"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="Day"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            custom:fontAssetName="fonts/gillsanslight.ttf" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -112,13 +120,15 @@
                         android:focusableInTouchMode="true" >
 
                         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                             android:id="@+id/tvWeek"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="Week"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            custom:fontAssetName="fonts/gillsanslight.ttf" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -132,13 +142,15 @@
                         android:focusableInTouchMode="true" >
 
                         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                             android:id="@+id/tvMonth"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
                             android:text="Month"
                             android:textColor="@color/black"
-                            android:textSize="15sp" />
+                            android:textSize="15sp"
+                            custom:fontAssetName="fonts/gillsanslight.ttf" />
                     </RelativeLayout>
                 </LinearLayout>
             </RelativeLayout>
@@ -159,6 +171,7 @@
                     android:background="@drawable/trend_info_box" >
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvHome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -168,9 +181,11 @@
                         android:layout_marginTop="8dp"
                         android:text="Home"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsans.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvOn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,9 +195,11 @@
                         android:layout_marginTop="5dp"
                         android:text="On:"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvOnValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -191,30 +208,36 @@
                         android:layout_toRightOf="@+id/tvOn"
                         android:text="13Hrs"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvAVGPM"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvOn"
-                        android:layout_marginTop="18dp"
                         android:layout_marginLeft="8dp"
+                        android:layout_marginTop="18dp"
                         android:text="Avg PM2.5:"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvAVGPMValue"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tvAVGPM"
                         android:layout_toRightOf="@+id/tvAVGPM"
-                         android:layout_alignBottom="@+id/tvAVGPM"
                         android:text="123"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsans.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvHomePercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -224,7 +247,8 @@
                         android:layout_marginTop="5dp"
                         android:text="72%"
                         android:textColor="@color/black"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
                 </RelativeLayout>
 
                 <RelativeLayout
@@ -235,18 +259,21 @@
                     android:background="@drawable/trend_info_box" >
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvCity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_alignParentTop="true"
-                         android:layout_marginLeft="8dp"
+                        android:layout_marginLeft="8dp"
                         android:layout_marginTop="8dp"
                         android:text="Shanghai"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsans.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvSource"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -256,30 +283,36 @@
                         android:layout_marginTop="5dp"
                         android:text="US Consulate"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                   <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvAVGPMOutdoor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tvSource"
-                        android:layout_marginTop="18dp"
                         android:layout_marginLeft="8dp"
+                        android:layout_marginTop="18dp"
                         android:text="Avg PM2.5:"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvAVGPMValueOutdoor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tvAVGPMOutdoor"
                         android:layout_toRightOf="@+id/tvAVGPMOutdoor"
-                         android:layout_alignBottom="@+id/tvAVGPMOutdoor"
                         android:text="129"
                         android:textColor="@color/black"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        custom:fontAssetName="fonts/gillsans.ttf" />
 
                     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                         android:id="@+id/tvOutdoorPercent"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -289,7 +322,8 @@
                         android:layout_marginTop="5dp"
                         android:text="12%"
                         android:textColor="@color/black"
-                        android:textSize="30sp" />
+                        android:textSize="30sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -340,13 +374,15 @@
                     android:src="@drawable/trend_legend_home" />
 
                 <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tvHomeLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/ivHomeLegend"
                     android:text="Home"
                     android:textColor="@color/gray"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
                 <ImageView
                     android:id="@+id/ivCityLegend"
@@ -358,15 +394,16 @@
                     android:src="@drawable/trend_legend_city" />
 
                 <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tvCityLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/ivCityLegend"
                     android:text="Shanghai"
                     android:textColor="@color/gray"
-                    android:textSize="15sp" />
+                    android:textSize="15sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </RelativeLayout>
-
         </RelativeLayout>
     </ScrollView>
 
