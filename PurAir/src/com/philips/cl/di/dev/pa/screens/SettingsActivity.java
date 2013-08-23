@@ -224,27 +224,33 @@ public class SettingsActivity extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_fanspeed_auto:
-			airpurifierController.setDeviceMode(DeviceMode.auto);
+			airpurifierController.setDeviceMode(DeviceMode.auto);		
+			updateMotorSpeed(0,"auto") ;
 			break;
 
 		case R.id.btn_fanspeed_silent:
 			airpurifierController.setDeviceMotorSpeed(1);
+			updateMotorSpeed(1,"") ;
 			break;
 
 		case R.id.btn_fanspeed_turbo:
 			airpurifierController.setDeviceMotorSpeed(5);
+			updateMotorSpeed(5,"") ;
 			break;
 
 		case R.id.ib_fanspeed_one:
 			airpurifierController.setDeviceMotorSpeed(2);
+			updateMotorSpeed(2,"") ;
 			break;
 
 		case R.id.ib_fanspeed_two:
 			airpurifierController.setDeviceMotorSpeed(3);
+			updateMotorSpeed(3,"") ;
 			break;
 
 		case R.id.ib_fanspeed_three:
 			airpurifierController.setDeviceMotorSpeed(4);
+			updateMotorSpeed(4,"") ;
 			break;
 		case R.id.iv_back:
 			finish();
@@ -340,9 +346,75 @@ public class SettingsActivity extends Activity implements OnClickListener,
 
 		updateAQIStatus(airPurifierEventDto);
 		updatePowerOnOff(airPurifierEventDto.getPowerMode());
+		updateMotorSpeed(airPurifierEventDto.getMotorSpeed(), airPurifierEventDto.getMachineMode()) ;
 		// TODO update other fields also
 	}
 
+	
+	private void updateMotorSpeed(int motorSpeed, String mode) {
+		switch (motorSpeed) {
+		case 1:	
+				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1) ;
+				imageButtonOne
+						.setBackgroundResource(R.drawable.fan_speed_control_bg);
+				imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+			break;
+		case 2:
+				imageButtonOne
+						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
+				imageButtonSpeedTwo
+						.setBackgroundResource(R.drawable.fan_speed_control_bg);
+				imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+				
+			break;
+		case 3:
+				imageButtonSpeedTwo
+				.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
+				imageButtonOne
+						.setBackgroundResource(R.drawable.fan_speed_control_bg);
+				imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+			break;
+		case 4 :
+				imageButtonSpeedThree
+				.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
+				imageButtonOne
+						.setBackgroundResource(R.drawable.fan_speed_control_bg);
+				imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+			break;
+		case 5:
+				buttonTurbo
+						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1);
+				imageButtonSpeedThree
+				.setBackgroundResource(R.drawable.fan_speed_control_bg);
+				imageButtonOne
+						.setBackgroundResource(R.drawable.fan_speed_control_bg);
+				imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+			break;
+		}
+		if ( mode.equals("auto")) {
+			buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
+			imageButtonSpeedThree
+			.setBackgroundResource(R.drawable.fan_speed_control_bg);
+			imageButtonOne
+					.setBackgroundResource(R.drawable.fan_speed_control_bg);
+			imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+			buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+			buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+		}
+		else {
+			buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		}
+	} 
+	
 	private boolean isSwitchControlled;
 
 	private void updatePowerOnOff(String powerOnOff) {
@@ -399,64 +471,6 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	@Override
 	public void onFocusChange(View v, boolean isFocused) {
 		// TODO Auto-generated method stub
-		Log.d(TAG, "OnFocusChanged: " + isFocused);
-		switch (v.getId()) {
-		case R.id.sw_power:
-			break;
-		case R.id.btn_fanspeed_auto:
-			if (isFocused) {
-				buttonAuto
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				buttonAuto.callOnClick();
-			} else
-				buttonAuto
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-			break;
-		case R.id.ib_fanspeed_one:
-			if (isFocused) {
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				imageButtonOne.callOnClick();
-			} else
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-			break;
-		case R.id.ib_fanspeed_three:
-			if (isFocused) {
-				imageButtonSpeedThree
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				imageButtonSpeedThree.callOnClick();
-			} else
-				imageButtonSpeedThree
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-			break;
-		case R.id.ib_fanspeed_two:
-			if (isFocused) {
-				imageButtonSpeedTwo
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				imageButtonSpeedTwo.callOnClick();
-			} else
-				imageButtonSpeedTwo
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-			break;
-		case R.id.btn_fanspeed_silent:
-			if (isFocused) {
-				buttonSilent
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1);
-				buttonSilent.callOnClick();
-			} else
-				buttonSilent
-						.setBackgroundResource(R.drawable.fan_speed_control_bg1);
-			break;
-		case R.id.btn_fanspeed_turbo:
-			if (isFocused) {
-				buttonTurbo
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1);
-				buttonTurbo.callOnClick();
-			} else
-				buttonTurbo
-						.setBackgroundResource(R.drawable.fan_speed_control_bg1);
-			break;
-		}
+		
 	}
 }
