@@ -8,709 +8,741 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    >
-    
-    <RelativeLayout 
+    ><RelativeLayout
         android:id="@+id/rl_settings_header"
-        android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:layout_height="wrap_content"
         android:background="@drawable/filter_details_header"
-        >
-        
-       <ImageView android:id="@+id/iv_back"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:contentDescription="@string/separator"
-	       android:src="@drawable/filter_details_back"
-	       android:layout_alignParentLeft="true"
-	       android:layout_centerVertical="true"
-		/>
-    
-	    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	        android:id="@+id/tv_header"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:text="@string/app_name"
-    		android:layout_centerInParent="true"
-    		android:layout_centerVertical="true"
-    		android:textColor="@color/black"
-	        android:textAppearance="?android:attr/textAppearanceLarge"
-        />
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
 
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/separator"
+            android:src="@drawable/filter_details_back" />
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
+            android:text="@string/app_name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
-    
-     <ImageView
+
+    <ImageView
         android:id="@+id/iv_headerseparator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/separator"
+        android:layout_below="@id/rl_settings_header"
         android:contentDescription="@string/separator"
-        android:layout_below="@id/rl_settings_header"/>
+        android:src="@drawable/separator" />
 
-<ScrollView 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_below="@id/iv_headerseparator"
-    android:scrollbars="none"
-    >
-    
-<LinearLayout
-    android:id="@+id/rl_main_layout"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"        
-    android:orientation="vertical">
-     
-      
-      <!-- Air Purifier Control Layout starts -->
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	        android:id="@+id/tv_airpurifiercontrol"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:text="@string/airpurifiercontrol"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textColor="@color/black"
-	        android:gravity="center_vertical"
-	        android:layout_marginBottom="@dimen/field_vertical_margin_top"  
-	         />
-	      <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/horizontal_line"
-	        android:contentDescription="@string/separator"/>	
-	 <!-- Power Settings Layout -->
-     <RelativeLayout
-         android:id="@+id/rl_power_settings"
-         android:layout_width="match_parent"
-         android:layout_height="50dp" 
-          android:layout_marginTop="2dp"
-          android:layout_marginBottom="2dp"
-          android:gravity="center_vertical">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/iv_headerseparator"
+        android:scrollbars="none" >
 
-	     <ImageView
-	         android:id="@+id/iv_power"
-	         android:layout_width="50dp"
-	         android:layout_height="wrap_content"
-	         android:src="@drawable/power" 
-	         android:contentDescription="@string/power"
-   			 android:layout_centerVertical="true"
-	         />
+        <LinearLayout
+            android:id="@+id/rl_main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	         android:id="@+id/tv_power"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_toRightOf="@id/iv_power"
-	         android:text="@string/power"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-    		 android:layout_centerVertical="true"
-	         android:textColor="@color/black"
-          />
+            <!-- Air Purifier Control Layout starts -->
 
-		<Switch
-                android:id="@+id/sw_power"
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_airpurifiercontrol"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/field_vertical_margin_top"
+                android:gravity="center_vertical"
+                android:text="@string/airpurifiercontrol"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+            <!-- Separator -->
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOff="OFF"
-                android:textOn="ON"
-                android:layout_alignParentRight="true"
-				android:layout_margin="1dp"
-				android:checked="false"
-    			android:layout_centerVertical="true"
-                android:thumb="@drawable/on_off_circle"
-                android:track="@drawable/on_off_bg"
-                android:textStyle="bold"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                />  
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+            <!-- Power Settings Layout -->
 
-     </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/rl_power_settings"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical" >
 
-      <!-- Separator -->
-     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/horizontal_line"
-        android:contentDescription="@string/separator"/>
-     
-     <!-- Fan Control status layout -->
+                <ImageView
+                    android:id="@+id/iv_power"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/power"
+                    android:src="@drawable/power" />
 
-     <RelativeLayout
-         android:id="@+id/rl_fan_control"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="2dp" 
-         android:layout_marginBottom="10dp">
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_power"
+                    android:text="@string/power"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-     <ImageView
-         android:id="@+id/iv_fan_speed"
-         android:layout_width="50dp"
-         android:layout_height="wrap_content"
-         android:src="@drawable/icon_fan" 
-         android:layout_centerVertical="true"
-         android:contentDescription="@string/separator"
-         />
+                <Switch
+                    android:id="@+id/sw_power"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="1dp"
+                    android:checked="false"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:textOff="OFF"
+                    android:textOn="ON"
+                    android:textStyle="bold"
+                    android:thumb="@drawable/on_off_circle"
+                    android:track="@drawable/on_off_bg" />
+            </RelativeLayout>
 
-     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-         android:id="@+id/tv_fan_speed"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_toRightOf="@+id/iv_fan_speed"
-         android:text="@string/fan_speed"
-         android:textAppearance="?android:attr/textAppearanceMedium"
-         android:textColor="@color/black"          
-         android:gravity="center_vertical"
-         />
+            <!-- Separator -->
 
-     </RelativeLayout>
-     
-     <!-- Fan Speed ICON Layout -->
-     <TableLayout android:id="@+id/tl_fan_speed_icon"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" 
-         android:stretchColumns="*"
-         >
-         <TableRow android:layout_marginBottom="2dp">
-         <Button 
-             android:id="@+id/btn_fanspeed_auto" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg"
-             android:text="@string/auto"
-             android:textColor="@color/white"
-             android:focusable="true"
-             android:focusableInTouchMode="true"
-             android:contentDescription="@string/separator"/>   
-         <ImageButton android:id="@+id/ib_fanspeed_one" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
-             android:src="@drawable/fan_speed_auto"
-             android:focusable="true"
-             android:focusableInTouchMode="true"
-             android:contentDescription="@string/separator"/>
-         <ImageButton android:id="@+id/ib_fanspeed_two" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
-             android:src="@drawable/fan_speed_silent"
-             android:focusable="true"
-             android:focusableInTouchMode="true"
-             android:contentDescription="@string/separator"/>
-         <ImageButton android:id="@+id/ib_fanspeed_three" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg" 
-             android:src="@drawable/fan_speed_turbo"
-             android:focusable="true"
-             android:focusableInTouchMode="true"
-             android:contentDescription="@string/separator"/>        
-         </TableRow>
-     </TableLayout>
-     <!-- Fan Speed ICON Layout -->
-     <TableLayout android:id="@+id/tl_fan_speed_icon1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content" 
-         android:stretchColumns="*"
-         >
-         <TableRow>
-         
-         <Button 
-             android:id="@+id/btn_fanspeed_silent" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg1" 
-             android:text="@string/silent"
-             android:focusable="true"
-	         android:focusableInTouchMode="true"   
-             android:textColor="@color/white"
-             android:contentDescription="@string/separator"/>
-         <Button 
-             android:id="@+id/btn_fanspeed_turbo" 
-             android:layout_width="wrap_content" 
-             android:layout_height="wrap_content" 
-             android:background="@drawable/fan_speed_control_bg1" 
-             android:text="@string/turbo"
-             android:textColor="@color/white"
-             android:focusable="true"
-	         android:focusableInTouchMode="true"   
-             android:contentDescription="@string/separator"/>
-         </TableRow>
-     </TableLayout>
-     
-     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/horizontal_line"
-        android:contentDescription="@string/separator"
-        /> 
-        
-     <!-- Timer Settings Layout -->
-
-     <RelativeLayout
-         android:id="@+id/rl_timer_settings"
-         android:layout_width="wrap_content"
-         android:layout_height="50dp"
-          >
-
-	     <ImageView
-	         android:id="@+id/iv_timer"
-	         android:layout_width="50dp"
-	         android:layout_height="wrap_content"
-	         android:src="@drawable/icon_timer" 
-	         android:contentDescription="@string/separator"	        
-	         android:layout_centerVertical="true"
-	         />
-
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	         android:id="@+id/tv_timer"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_toRightOf="@id/iv_timer"
-	         android:textColor="@color/black"
-	         android:gravity="center_vertical"
-	         android:text="@string/timer"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	          android:layout_centerVertical="true"
-	          />
-
-		<Button  
-		      android:id="@+id/btn_timer"
-	          android:layout_width="wrap_content"
-	          android:layout_height="40dp"
-	          android:layout_alignParentRight="true"
-	          android:orientation="horizontal"
-	          android:background="@drawable/timer_bg"
-	          android:text="@string/timer" 
-	          android:textColor="@color/white"
-	           android:layout_centerVertical="true"/>
-
-     	</RelativeLayout>
-     	
-     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/horizontal_line"
-        android:contentDescription="@string/separator"
-        /> 
-     
-     
-     <!-- Child Lock Settings Layout -->
-     <RelativeLayout
-         android:id="@+id/rl_child_lock"
-         android:layout_width="match_parent"
-         android:layout_height="50dp" 
-          android:layout_marginTop="2dp"
-          android:layout_marginBottom="2dp"
-          android:gravity="center_vertical">
-
-	     <ImageView
-	         android:id="@+id/iv_child_lock"
-	         android:layout_width="50dp"
-	         android:layout_height="wrap_content"
-	         android:src="@drawable/icon_lock" 
-	         android:contentDescription="@string/separator"
-	          android:layout_centerVertical="true"
-	         />
-
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	         android:id="@+id/tv_child_lock"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_toRightOf="@id/iv_child_lock"
-	         android:text="@string/child_lock"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/black"
-	          android:layout_centerVertical="true"
-	          />
-
-			<Switch
-                android:id="@+id/sw_child_settings"
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOff="OFF"
-                android:textOn="ON"
-                android:layout_alignParentRight="true"
-				android:layout_margin="1dp"
-				android:checked="false"
-    			android:layout_centerVertical="true"
-                android:thumb="@drawable/on_off_circle"
-                android:track="@drawable/on_off_bg"
-                />
-     	
-	</RelativeLayout>
-	
-     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/horizontal_line"
-        android:contentDescription="@string/separator"
-        /> 
-     
-     
-     <!-- Indicator Light Settings Layout -->
-     <RelativeLayout
-         android:id="@+id/rl_indicator_light"
-         android:layout_width="match_parent"
-         android:layout_height="50dp" 
-          android:layout_marginTop="2dp"
-          android:layout_marginBottom="2dp"
-          android:gravity="center_vertical">
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
 
-	     <ImageView
-	         android:id="@+id/iv_indicator_light"
-	         android:layout_width="50dp"
-	         android:layout_height="wrap_content"
-	         android:src="@drawable/icon_light" 
-	         android:contentDescription="@string/separator"
-	         android:layout_centerVertical="true"
-	         />
+            <!-- Fan Control status layout -->
 
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	         android:id="@+id/tv_indicator_light"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_toRightOf="@id/iv_indicator_light"
-	         android:text="@string/indicator_light"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/black"
-	         android:layout_centerVertical="true"
-         />
+            <RelativeLayout
+                android:id="@+id/rl_fan_control"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="2dp" >
 
-		<Switch
-                android:id="@+id/sw_indicator_light"
+                <ImageView
+                    android:id="@+id/iv_fan_speed"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/icon_fan" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_fan_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/iv_fan_speed"
+                    android:gravity="center_vertical"
+                    android:text="@string/fan_speed"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+            </RelativeLayout>
+
+            <!-- Fan Speed ICON Layout -->
+
+            <TableLayout
+                android:id="@+id/tl_fan_speed_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textOff="OFF"
-                android:textOn="ON"
-                android:layout_alignParentRight="true"
-				android:layout_margin="1dp"
-				android:checked="false"
-    			android:layout_centerVertical="true"
-                android:thumb="@drawable/on_off_circle"
-                android:track="@drawable/on_off_bg"
-                />
-     	
-	</RelativeLayout>
-	
-      <!-- Separator -->
-     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/horizontal_line"
-        android:contentDescription="@string/separator"/>
-     
-      <!-- Air Purifier Status Layout starts -->
-      
-      <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	        android:id="@+id/tv_airpurifierstatus"
-	        android:layout_width="wrap_content"
-	        android:layout_height="50dp"
-	        android:text="@string/air_purifier_status"
-	        android:textAppearance="?android:attr/textAppearanceMedium"
-	        android:textColor="@color/black"
-	        android:gravity="center_vertical"
-	        android:layout_marginBottom="@dimen/field_vertical_margin_top"        
-	         />
-	      <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/horizontal_line"
-	        android:contentDescription="@string/separator"/>
-      
-	     <RelativeLayout android:id="@+id/rl_airpurifier_status"
-	         android:layout_height="50dp"
-	         android:layout_width="match_parent"
-	          android:layout_marginTop="2dp"
-	          android:layout_marginBottom="2dp"
-	          >
-	
-	     <ImageView
-	         android:id="@+id/iv_airpurifier_status"
-	         android:layout_width="50dp"
-	         android:layout_height="wrap_content"
-	         android:src="@drawable/icon_air_quality" 
-	         android:layout_centerVertical="true"
-	         android:contentDescription="@string/connection_status"
-	         />
-	
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	         android:id="@+id/tv_air_quality"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"   
-	         android:layout_toRightOf="@id/iv_airpurifier_status"
-	         android:text="@string/airquality"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/black"          
-	         android:gravity="center_vertical"
-	         android:layout_alignParentBottom="true"
-	         android:layout_alignParentTop="true"      
-	         android:layout_marginRight="10dp"
-	         />
-	     
-	     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	         android:id="@+id/tv_airquality_status"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_toRightOf="@id/tv_air_quality"
-	         android:text="@string/very_good"
-	         android:textAppearance="?android:attr/textAppearanceMedium"
-	         android:textColor="@color/filter_good"
-	         android:gravity="center_vertical"
-	         android:layout_alignParentBottom="true"
-	         android:layout_alignParentRight="true"
-	         android:layout_alignParentTop="true" 
-	         android:focusable="true"
-	         android:focusableInTouchMode="true"     
-	         />	
-	     </RelativeLayout>     
-	     
-	      <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/horizontal_line"
-	        android:contentDescription="@string/separator"/>
-	     
-	     
-     <!-- Filter status layout -->
+                android:stretchColumns="*" >
 
-	     <RelativeLayout
-	         android:id="@+id/rl_filter_status"
-	         android:layout_width="match_parent"
-	         android:layout_height="50dp"
-	         android:layout_marginBottom="2dp"
-	         android:layout_marginTop="2dp" >
+                <TableRow android:layout_marginBottom="2dp" >
 
-	         <ImageView
-	             android:id="@+id/iv_filter_status"
-	             android:layout_width="50dp"
-	             android:layout_height="wrap_content"
-	             android:layout_centerVertical="true"
-	             android:contentDescription="@string/connection_status"
-	             android:src="@drawable/icon_filter" />
+                    <Button
+                        android:id="@+id/btn_fanspeed_auto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fan_speed_control_bg"
+                        android:contentDescription="@string/separator"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:text="@string/auto"
+                        android:textColor="@color/white" />
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_filterstatus"
-	             android:layout_width="wrap_content"
-	             android:layout_height="wrap_content"
-	             android:layout_alignParentBottom="true"
-	             android:layout_alignParentTop="true"
-	             android:layout_marginRight="10dp"
-	             android:layout_toRightOf="@id/iv_filter_status"
-	             android:gravity="center_vertical"
-	             android:text="@string/filter_status"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/black" />
+                    <ImageButton
+                        android:id="@+id/ib_fanspeed_one"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fan_speed_control_bg"
+                        android:contentDescription="@string/separator"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:src="@drawable/fan_speed_auto" />
 
-	         
-	     </RelativeLayout>
-	     
-	       <!-- Separator -->
-	     <ImageView
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:src="@drawable/horizontal_line"
-	        android:contentDescription="@string/separator"/>
-	     
-	     <!-- Multiple Filters -->
-	      <TableLayout android:layout_width="wrap_content"
-	           android:layout_height="wrap_content"
-	           android:layout_gravity="center_vertical"
-	           android:stretchColumns="*"
-	           android:id="@+id/tb_filterstatus" >"
-			<TableRow android:id="@+id/row1">
-			 <View android:layout_width="30dp"
-			     android:layout_height="match_parent"
-			     android:id="@+id/empty_view1"/>
-	         <ImageView
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/status_one"
-		        android:layout_marginRight="4dp"
-		        android:layout_gravity="center_vertical"
-		      />
+                    <ImageButton
+                        android:id="@+id/ib_fanspeed_two"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fan_speed_control_bg"
+                        android:contentDescription="@string/separator"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:src="@drawable/fan_speed_silent" />
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_prefilter"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"	             
-	             android:text="@string/pre_filter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/black" 
-	             android:layout_gravity="center_vertical"/>
+                    <ImageButton
+                        android:id="@+id/ib_fanspeed_three"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fan_speed_control_bg"
+                        android:contentDescription="@string/separator"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:src="@drawable/fan_speed_turbo" />
+                </TableRow>
+            </TableLayout>
+            <!-- Fan Speed ICON Layout -->
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_prefilter_status"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="10dp"
-	             android:text="Clean 10 days"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/lightgrey"
-	             
-	              />
-	         <ImageView
-	             android:layout_width="wrap_content"
-	             android:layout_height="match_parent"
-	             android:layout_gravity="right"	            
-	             android:src="@drawable/right_indicator" 
-	             />
-	         </TableRow> 
-	        <ImageView
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/horizontal_line"
-		        android:contentDescription="@string/separator"
-		        /> 
-			<TableRow>
-			 <View android:layout_width="30dp"
-			     android:layout_height="match_parent"
-			     android:id="@+id/empty_view3"/>
-	         <ImageView
-	             android:id="@+id/iv_multicarefilter_status"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/status_two"
-		        android:layout_gravity="center_vertical"
-		        android:layout_marginRight="4dp"
-		        />	
+            <TableLayout
+                android:id="@+id/tl_fan_speed_icon1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*" >
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_multicarefilter"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"	             
-	             android:text="@string/multicarefilter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/black" 
-	             android:layout_gravity="center_vertical"/>
+                <TableRow>
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_multicarefilter_status"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"
-	             android:text="Replace in 3 weeks"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/pink"
-	             
-	              />
-	         <ImageView
-	             android:layout_width="wrap_content"
-	             android:layout_height="match_parent"
-	             android:layout_gravity="right"	            
-	             android:src="@drawable/right_indicator" 
-	             />
-	         </TableRow>
-			<ImageView
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/horizontal_line"
-		        android:contentDescription="@string/separator"
-		        /> 
-			<TableRow>
-			 <View android:layout_width="30dp"
-			     android:layout_height="match_parent"
-			     />
-	         <ImageView
-	             android:id="@+id/iv_activecarbonfilter_status"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/status_three"
-		        android:layout_gravity="center_vertical"
-		        android:layout_marginRight="4dp"
-		        />	
+                    <Button
+                        android:id="@+id/btn_fanspeed_silent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fan_speed_control_bg1"
+                        android:contentDescription="@string/separator"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:text="@string/silent"
+                        android:textColor="@color/white" />
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_activecarbonfilter"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"	             
-	             android:text="@string/activecarbonfilter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/black" 
-	             android:layout_gravity="center_vertical"/>
+                    <Button
+                        android:id="@+id/btn_fanspeed_turbo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/fan_speed_control_bg1"
+                        android:contentDescription="@string/separator"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:text="@string/turbo"
+                        android:textColor="@color/white" />
+                </TableRow>
+            </TableLayout>
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_activecarbonfilterstatus"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"
-	             android:text="Replace in 1.5 months"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/lightblue"
-	             
-	              />
-	         <ImageView
-	             android:layout_width="wrap_content"
-	             android:layout_height="match_parent"
-	             android:layout_gravity="right"	            
-	             android:src="@drawable/right_indicator" 
-	             />
-			</TableRow>
-			<ImageView
-		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/horizontal_line"
-		        android:contentDescription="@string/separator"
-		        /> 
-			<TableRow>
-			 <View android:layout_width="30dp"
-			     android:layout_height="match_parent"
-			     />
-	         <ImageView
-	             android:id="@+id/iv_hepafilter_status"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:src="@drawable/status_four"
-		        android:layout_gravity="center_vertical"
-		        android:layout_marginRight="4dp"
-		        />	
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_hepafilter"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"	             
-	             android:text="@string/hepa_filter"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/black" 
-	             android:layout_gravity="center_vertical"/>
+            <!-- Timer Settings Layout -->
 
-	         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
-	             android:id="@+id/tv_hepafilter_status"
-	             android:layout_width="100dp"
-	             android:layout_height="wrap_content"
-	             android:layout_marginRight="4dp"
-	             android:text="@string/replace_immediately"
-	             android:textAppearance="?android:attr/textAppearanceMedium"
-	             android:textColor="@color/filter_bad"
-	             
-	              />
-	         <ImageView
-	             android:layout_width="wrap_content"
-	             android:layout_height="match_parent"
-	             android:layout_gravity="right"	            
-	             android:src="@drawable/right_indicator" 
-	             />
-	         </TableRow>
-         </TableLayout>
-	
-	
-     <!-- Field Separator -->
-     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/horizontal_line"
-        android:contentDescription="@string/separator"
-        /> 
-     
-</LinearLayout>
+            <RelativeLayout
+                android:id="@+id/rl_timer_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" >
 
-</ScrollView>
+                <ImageView
+                    android:id="@+id/iv_timer"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/icon_timer" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_timer"
+                    android:gravity="center_vertical"
+                    android:text="@string/timer"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                <Button
+                    android:id="@+id/btn_timer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/timer_bg"
+                    android:orientation="horizontal"
+                    android:text="@string/timer"
+                    android:textColor="@color/white" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+
+            <!-- Child Lock Settings Layout -->
+
+            <RelativeLayout
+                android:id="@+id/rl_child_lock"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical" >
+
+                <ImageView
+                    android:id="@+id/iv_child_lock"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/icon_lock" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_child_lock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_child_lock"
+                    android:text="@string/child_lock"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                <Switch
+                    android:id="@+id/sw_child_settings"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="1dp"
+                    android:checked="false"
+                    android:textOff="OFF"
+                    android:textOn="ON"
+                    android:thumb="@drawable/on_off_circle"
+                    android:track="@drawable/on_off_bg" />
+            </RelativeLayout>
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+
+            <!-- Indicator Light Settings Layout -->
+
+            <RelativeLayout
+                android:id="@+id/rl_indicator_light"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
+                android:gravity="center_vertical" >
+
+                <ImageView
+                    android:id="@+id/iv_indicator_light"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/icon_light" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_indicator_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/iv_indicator_light"
+                    android:text="@string/indicator_light"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                <Switch
+                    android:id="@+id/sw_indicator_light"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_margin="1dp"
+                    android:checked="false"
+                    android:textOff="OFF"
+                    android:textOn="ON"
+                    android:thumb="@drawable/on_off_circle"
+                    android:track="@drawable/on_off_bg" />
+            </RelativeLayout>
+
+            <!-- Separator -->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+
+            <!-- Air Purifier Status Layout starts -->
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tv_airpurifierstatus"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/field_vertical_margin_top"
+                android:gravity="center_vertical"
+                android:text="@string/air_purifier_status"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/black"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+            <!-- Separator -->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+
+            <RelativeLayout
+                android:id="@+id/rl_airpurifier_status"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp" >
+
+                <ImageView
+                    android:id="@+id/iv_airpurifier_status"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/connection_status"
+                    android:src="@drawable/icon_air_quality" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_air_quality"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/iv_airpurifier_status"
+                    android:gravity="center_vertical"
+                    android:text="@string/airquality"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_airquality_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@id/tv_air_quality"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:text="@string/very_good"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/filter_good"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+            </RelativeLayout>
+
+            <!-- Separator -->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+
+            <!-- Filter status layout -->
+
+            <RelativeLayout
+                android:id="@+id/rl_filter_status"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp" >
+
+                <ImageView
+                    android:id="@+id/iv_filter_status"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/connection_status"
+                    android:src="@drawable/icon_filter" />
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/tv_filterstatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_toRightOf="@id/iv_filter_status"
+                    android:gravity="center_vertical"
+                    android:text="@string/filter_status"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="@color/black"
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
+            </RelativeLayout>
+
+            <!-- Separator -->
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+
+            <!-- Multiple Filters -->
+
+            <TableLayout
+                android:id="@+id/tb_filterstatus"
+                android:layout_width="wrap_content"
+                android:weightSum="4"
+                android:layout_height="140dp"
+                android:layout_gravity="center_vertical"
+                android:stretchColumns="*" >
+
+                <TableRow android:id="@+id/row1" 
+                    android:layout_weight="1"
+                    >
+
+                    <View
+                        android:id="@+id/empty_view1"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/status_one" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_prefilter"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/pre_filter"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_prefilter_status"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:text="Clean 10 days"
+                        android:textColor="@color/lightgrey"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:src="@drawable/right_indicator" />
+                </TableRow>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/horizontal_line" />
+
+                <TableRow android:layout_weight="1">
+
+                    <View
+                        android:id="@+id/empty_view3"
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_multicarefilter_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/status_two" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_multicarefilter"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/multicarefilter"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_multicarefilter_status"
+                        android:layout_width="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:text="Replace in 3 weeks"
+                        android:textColor="@color/pink"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:src="@drawable/right_indicator" />
+                </TableRow>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/horizontal_line" />
+
+                <TableRow android:layout_weight="1">
+
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_activecarbonfilter_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/status_three" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_activecarbonfilter"
+                        android:layout_width="100dp"
+                        
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/activecarbonfilter"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_activecarbonfilterstatus"
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:text="Replace in 1.5 months"
+                        android:textColor="@color/lightblue"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:src="@drawable/right_indicator" />
+                </TableRow>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/separator"
+                    android:src="@drawable/horizontal_line" />
+
+                <TableRow android:layout_weight="1">
+
+                    <View
+                        android:layout_width="30dp"
+                        android:layout_height="match_parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_hepafilter_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:src="@drawable/status_four" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_hepafilter"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/hepa_filter"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                        android:id="@+id/tv_hepafilter_status"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/replace_immediately"
+                        android:textColor="@color/filter_bad"
+                        android:textSize="12sp"
+                        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:src="@drawable/right_indicator" />
+                </TableRow>
+            </TableLayout>
+
+            <!-- Field Separator -->
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/separator"
+                android:src="@drawable/horizontal_line" />
+        </LinearLayout>
+    </ScrollView>
+
 </RelativeLayout>
