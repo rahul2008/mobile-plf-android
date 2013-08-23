@@ -1,18 +1,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-     >
+    android:layout_height="wrap_content" >
 
-    <!-- <ImageView
+    <!--
+    <ImageView
         android:id="@+id/ivOutdoorRing"
         android:layout_width="223px"
         android:layout_height="223px"
         android:layout_gravity="center"
         android:adjustViewBounds="true"
         android:src="@drawable/outdoor_verygood_ring" >
-    </ImageView> -->
-    
-     <RelativeLayout
+    </ImageView>
+    -->
+
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
@@ -33,7 +34,7 @@
 
         <ImageView
             android:id="@+id/ivOutdoorQuad1"
-             android:layout_width="108.9px"
+            android:layout_width="108.9px"
             android:layout_height="108.9px"
             android:layout_alignParentTop="true"
             android:layout_toRightOf="@+id/ivOutdoorQuad3"
@@ -41,13 +42,12 @@
 
         <ImageView
             android:id="@+id/ivOutdoorQuad4"
-             android:layout_width="108.9px"
+            android:layout_width="108.9px"
             android:layout_height="108.9px"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:src="@drawable/quadrant4" />
     </RelativeLayout>
-    
 
     <ImageView
         android:id="@+id/ivOutdoorFullCircle"
@@ -62,15 +62,18 @@
         android:layout_gravity="center" >
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvOutdoorAQI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="0"
             android:textColor="@android:color/white"
-            android:textSize="45sp" />
+            android:textSize="45sp"
+            custom:fontAssetName="fonts/opensanscondlight.ttf" />
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvOutdoorPM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -78,7 +81,8 @@
             android:layout_centerHorizontal="true"
             android:text="PM2.5"
             android:textColor="@android:color/white"
-            android:textSize="9sp" />
+            android:textSize="9sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
     </RelativeLayout>
 
 </FrameLayout>

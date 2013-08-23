@@ -11,7 +11,7 @@
         android:src="@drawable/outdoor_verygood_ring" 
         android:adjustViewBounds="true"
         >
-        </ImageView>
+        </ImageView>
     -->
 
     <RelativeLayout
@@ -64,15 +64,18 @@
         android:layout_gravity="center" >
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvIndoorAQI"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="0"
             android:textColor="@android:color/white"
-            android:textSize="100sp" />
+            android:textSize="100sp"
+            custom:fontAssetName="fonts/opensanscondlight.ttf" />
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvIndoorPM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,7 +83,8 @@
             android:layout_centerHorizontal="true"
             android:text="PM2.5"
             android:textColor="@android:color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <ImageView
             android:id="@+id/ivIndicator"

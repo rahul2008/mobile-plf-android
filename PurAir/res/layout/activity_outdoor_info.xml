@@ -1,19 +1,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlOutdoorInfo"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/rlOutdoorInfo" >
+    android:layout_height="wrap_content" >
 
     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvCityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:text="Shanghai"
         android:textColor="@android:color/white"
-        android:textSize="20sp" >
+        android:textSize="20sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvSource"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,10 +24,12 @@
         android:layout_below="@+id/tvCityName"
         android:text="US Consulate"
         android:textColor="@android:color/white"
-        android:textSize="20sp" >
+        android:textSize="20sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvDayOutdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,20 +37,24 @@
         android:layout_toLeftOf="@+id/tvTimeOutdoor"
         android:text="NA"
         android:textColor="@android:color/white"
-        android:textSize="15sp" >
+        android:textSize="15sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvTimeOutdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:text="--:--"
         android:textColor="@android:color/white"
-        android:textSize="15sp" >
+        android:textSize="15sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvLastUpdatedOutdoor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -53,7 +62,8 @@
         android:layout_below="@+id/tvTimeOutdoor"
         android:text="Last updated"
         android:textColor="@android:color/white"
-        android:textSize="15sp" >
+        android:textSize="15sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 
 </RelativeLayout>
