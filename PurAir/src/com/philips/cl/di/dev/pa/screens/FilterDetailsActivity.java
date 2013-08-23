@@ -78,12 +78,6 @@ public class FilterDetailsActivity extends Activity implements OnClickListener {
 			tvActiveCarbonFilter.setText(Utils.getTimeRemaining(activeCarbonFilterValue)) ;
 			tvActiveCarbonFilter.setTextColor(Utils.getFilterStatusColor(activeCarbonFilterValue)) ;
 		}
-		// Set default
-		else {
-			fsvActiveCarbonFilter.setFilterValue(100);
-			fsvPreFilterBase.setFilterValue(140);
-			fsvhepaFilter.setFilterValue(250);
-		}
 	}
 	
 	@Override
