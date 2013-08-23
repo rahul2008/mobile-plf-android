@@ -23,7 +23,7 @@ public class IndoorDetailsFragment extends Fragment {
 	ImageView ivLeftMenu, ivCenterLabel , ivRightDeviceIcon ; 
 	BarOneDayView ivGraphView ; 
 	Bundle bundle;
-	int [] arrayAQIValues = {234,235,249,4,5,6,7,8,9,10,11,111,123,145,145,255,376,500,1,126,255,235,123,175};
+	int [] arrayAQIValues = {};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

@@ -651,16 +651,17 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	}
 
 	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
+		int iOutdoorAQI = (int) (Math.random() * 500);
+		updateOutdoorBackground(iOutdoorAQI);
+		updateOutdoorAQIRing(iOutdoorAQI);
+		updateOutdoorInfo(iOutdoorAQI);
 		if (airPurifierEventDto != null) {
 			int iIndoorAQI = airPurifierEventDto.getIndoorAQI();
 			//int iIndoorAQI = (int) (Math.random() * 500);
 			updateIndoorBackground(iIndoorAQI);
 			updateIndoorAQIRing(iIndoorAQI);
 			updateIndoorInfo(iIndoorAQI);
-			int iOutdoorAQI = (int) (Math.random() * 500);
-			updateOutdoorBackground(iOutdoorAQI);
-			updateOutdoorAQIRing(iOutdoorAQI);
-			updateOutdoorInfo(iOutdoorAQI);
+			
 		}
 	}
 
