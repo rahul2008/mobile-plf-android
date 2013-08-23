@@ -36,16 +36,18 @@ public class TaskGetHttp extends Thread {
 	public void run() {
 		try {
 			String result = downloadUrl(url) ;
-			DataParser dataParser = new DataParser(result) ;
-			List<OutdoorAQIEventDto> outdoorAQIList = dataParser.parseOutdoorAQIData() ;
-			
-			DatabaseAdapter dbAdapter = new DatabaseAdapter(context) ;
-			dbAdapter.open() ;
-			dbAdapter.insertOutdoorAQI(outdoorAQIList, cityID) ;
-			
-			dbAdapter.close() ;
-			
-			outdoorAQIListener.updateOutdoorAQI() ;
+			if (result != null ) {
+				DataParser dataParser = new DataParser(result) ;
+				List<OutdoorAQIEventDto> outdoorAQIList = dataParser.parseOutdoorAQIData() ;
+				
+				DatabaseAdapter dbAdapter = new DatabaseAdapter(context) ;
+				dbAdapter.open() ;
+				dbAdapter.insertOutdoorAQI(outdoorAQIList, cityID) ;
+				
+				dbAdapter.close() ;
+				
+				outdoorAQIListener.updateOutdoorAQI() ;
+			}
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
