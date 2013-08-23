@@ -545,6 +545,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/tvOutdoorAirConditionLabel"
                 android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="5dp"
                 android:text="Today&apos;s air quality is bad. Please take care and be aware of what you can do to lower the adverse effects on your health."
                 android:textColor="@android:color/black"
                 android:textSize="10sp"
