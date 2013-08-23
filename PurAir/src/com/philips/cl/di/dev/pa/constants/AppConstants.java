@@ -61,7 +61,7 @@ public class AppConstants {
 
 	// Network related data
 	/** The Constant UPDATE_INTERVAL. */
-	public static final long UPDATE_INTERVAL = 10 * 1000;
+	public static final long UPDATE_INTERVAL = 3 * 1000;
 
 	/** The Constant URL. */
 	public static final String URL = "http://%s/di/v1/status";
