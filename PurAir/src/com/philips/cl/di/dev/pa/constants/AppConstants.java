@@ -216,5 +216,8 @@ public class AppConstants {
 	public static final String WARNING_GOOD = "warning_good";
 	public static final String WARNING_FAIR = "warning_fair";
 	public static final String WARNING_BAD = "warning_bad";
+	
+	public static final float HOURS = 24;
+	public static final  float MAX_AQI = 500;
 
 }
