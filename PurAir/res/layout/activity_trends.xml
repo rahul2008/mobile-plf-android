@@ -29,6 +29,14 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@drawable/filter_details_back" />
+
+        <ImageView
+            android:id="@+id/ivRightDeviceIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/right_device_icon_black" />
     </RelativeLayout>
 
     <ScrollView
@@ -85,13 +93,15 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvQuestion"
                     android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
                     android:weightSum="3" >
 
                     <RelativeLayout
                         android:id="@+id/rlDay"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/trend_day_normal"
                         android:focusable="true"
@@ -113,7 +123,8 @@
                         android:id="@+id/rlWeek"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/trend_day_normal"
                         android:focusable="true"
@@ -135,7 +146,8 @@
                         android:id="@+id/rlMonth"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_margin="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
                         android:background="@drawable/trend_day_normal"
                         android:focusable="true"
@@ -161,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlTopBg"
                 android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
                 android:weightSum="2" >
 
                 <RelativeLayout
@@ -341,21 +354,100 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:background="@drawable/trend_y_axis" >
+                    android:background="@drawable/trend_y_axis"
+                    android:orientation="vertical"
+                    android:weightSum="4" >
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="500" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="375" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="250" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="125" />
                 </LinearLayout>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomGraphView
+                    android:id="@+id/rlMainGraph"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/rlXGrid"
+                    android:layout_alignRight="@+id/rlXGrid"
+                    android:layout_alignTop="@+id/llYAxis"
+                    android:layout_toRightOf="@+id/llYAxis"
+                    android:background="@android:color/transparent" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomGraphView>
 
                 <RelativeLayout
                     android:id="@+id/rlXGrid"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/llYAxis"
+                    android:layout_toRightOf="@+id/llYAxis"
                     android:background="@drawable/grid" >
 
-                    <ImageView
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:id="@+id/tvDayForGraph"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:src="@drawable/trend_x_axis_start" />
+                        android:layout_alignParentTop="true"
+                        android:text="| July7"
+                        android:textColor="@color/black" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:id="@+id/tvTimeFirstLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDayForGraph"
+                        android:text="12am"
+                        android:textColor="@color/black" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:id="@+id/tvTimeSecondLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDayForGraph"
+                        android:layout_marginLeft="40dp"
+                        android:layout_toRightOf="@+id/tvTimeFirstLabel"
+                        android:text="6am"
+                        android:textColor="@color/black" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:id="@+id/tvTimeThirdLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDayForGraph"
+                        android:layout_marginLeft="52dp"
+                        android:layout_toRightOf="@+id/tvTimeSecondLabel"
+                        android:text="12pm"
+                        android:textColor="@color/black" />
+
+                    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                        android:id="@+id/tvTimeFourthLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tvDayForGraph"
+                        android:layout_marginLeft="40dp"
+                        android:layout_toRightOf="@+id/tvTimeThirdLabel"
+                        android:text="6pm"
+                        android:textColor="@color/black" />
                 </RelativeLayout>
             </RelativeLayout>
 
