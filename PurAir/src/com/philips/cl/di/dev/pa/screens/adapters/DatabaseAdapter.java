@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.screens.adapters;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -8,6 +9,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
@@ -48,8 +50,14 @@ public class DatabaseAdapter {
 	 * @return the SQlite database
 	 */
 	public SQLiteDatabase open() {
+		Log.i(TAG, "Open") ;
 		dbHelper = new DBHelper(context);
-		db = dbHelper.getWritableDatabase();
+		//db = //dbHelper.getWritableDatabase();
+		String directory = Environment.getExternalStorageDirectory().getAbsolutePath() ;
+		Log.i(TAG, directory) ;
+		File dbfile = new File(directory+"/purair.db");
+		
+		db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 		return db;
 
 	}
@@ -174,7 +182,7 @@ public class DatabaseAdapter {
 					cvInsert.put(AppConstants.CITY_ID, cityID) ;
 					cvInsert.put(AppConstants.LOG_DATETIME, Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime())) ;
 					
-					db.insert(AppConstants.TABLE_OUTDOOR_AQI, null,
+					db.insert(AppConstants.AQI_TABLE, null,
 							cvInsert);
 				}				
 			}
@@ -192,7 +200,7 @@ public class DatabaseAdapter {
 		if (event.moveToNext()) {
 			
 			dto = new OutdoorAQIEventDto() ;	
-			dto.setOutdoorAQI(event.getInt(1)) ;
+			dto.setOutdoorAQI(event.getInt(2)) ;
 			dto.setSyncDateTime(event.getString(3)) ;
 		}
 		return dto ;
