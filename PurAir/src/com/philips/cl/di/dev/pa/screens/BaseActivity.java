@@ -1,8 +1,17 @@
 package com.philips.cl.di.dev.pa.screens;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 import android.animation.ObjectAnimator;
+
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -39,8 +48,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener, SensorEventListener,
-		OnIndoorRingClick {
+		OnItemClickListener, OnClickListener, SensorEventListener ,OnIndoorRingClick  {
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -108,6 +116,8 @@ public class BaseActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		copyFileAssets() ;
+		
 		initializeViews();
 		initializeAnimations();
 
@@ -119,8 +129,8 @@ public class BaseActivity extends FragmentActivity implements
 
 		airPurifierController = new AirPurifierController(this);
 		airPurifierController.getFilterStatus();
-
 	}
+		
 
 	/**
 	 * Initialize views.
@@ -187,8 +197,8 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// sensorDataController.unRegisterListener(this);
-
+	    sensorDataController.unRegisterListener(this);
+	   
 	}
 
 	/**
@@ -196,7 +206,7 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
+		super.onDestroy() ;
 		sensorDataController.stopPolling();
 	}
 
@@ -205,8 +215,10 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	protected void onResume() {
+		Log.i(TAG, "OnResume") ;
 		super.onResume();
-		// sensorDataController.registerListener(this);
+		
+		sensorDataController.registerListener(this);
 	}
 
 	/*
@@ -305,7 +317,7 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_menu, menu);
+		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
@@ -317,7 +329,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.actionItemSettings:
+		case R.id.action_settings:
 			Utils.showIpDialog(this);
 			return true;
 		}
@@ -332,7 +344,7 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-
+		
 	}
 
 	/*
@@ -346,10 +358,11 @@ public class BaseActivity extends FragmentActivity implements
 			translateHomeOriginal.start();
 			hideLeftMenu.start();
 			isExpanded = !isExpanded;
-		} else
+		} else {
 			super.onBackPressed();
+		}
 	}
-
+	
 	@Override
 	public void onRingClicked(int aqi) {
 
@@ -372,5 +385,48 @@ public class BaseActivity extends FragmentActivity implements
 		transaction.commit();
 
 	}
+	
+	private void copyFileAssets() {
+		if(!isFileExists()) {
+			AssetManager assetManager = getAssets();
+				try {
+					String filenames[] = assetManager.list("") ;
+		
+					for(String filename : filenames) {
+						if( filename.equalsIgnoreCase("purair.db")) {
+							Log.i("File name => ",filename);
+							InputStream in = null;
+							OutputStream out = null;
+							try {
+								in = assetManager.open(filename);   // if files resides inside the "Files" directory itself
+								out = new FileOutputStream(Environment.getExternalStorageDirectory().toString() +"/" + filename);
+								copyFile(in, out);
+								in.close();
+								in = null;
+								out.flush();
+								out.close();
+								out = null;
+							} catch(Exception e) {
+								Log.e("tag", e.getMessage());
+							}
+						}
+					}
+				}
+				catch(IOException e) {
+				}
+		}
+}
+	
+	private boolean isFileExists() {
+		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "purair.db" );
+		return file.exists() ;
+	}
 
+	private void copyFile(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int read;
+		while((read = in.read(buffer)) != -1){
+			out.write(buffer, 0, read);
+		}
+	}
 }
