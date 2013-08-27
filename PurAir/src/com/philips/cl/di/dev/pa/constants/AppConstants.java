@@ -220,4 +220,14 @@ public class AppConstants {
 	public static final float HOURS = 24;
 	public static final  float MAX_AQI = 500;
 
+	public static final String DATABASE = "purair.db";
+	
+	public static final String QUERY_AQIVALUES = "Select aqi from aqitable where cityid= %s  and date like '"+"%s"+" %' ";
+
+	public static final String CITYNAME = "city_name";
+
+	public static final String LAST_UPDATED_TIME = "last_updated_time";
+
+	public static final String LAST_UPDATED_DAY = "last_updated_day";
+
 }
