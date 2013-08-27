@@ -63,13 +63,9 @@ public class DBHelper extends SQLiteOpenHelper {
 				+ AppConstants.INDOOR_AQI + " INTEGER ," + 
 				AppConstants.LAST_SYNC_DATETIME + " TEXT )";
 		
-		String createTableOutdoorAQI = "CREATE TABLE " + AppConstants.TABLE_OUTDOOR_AQI + "(" +
-		AppConstants.ID + " INTEGER PRIMARY KEY, " + AppConstants.OUTDOOR_AQI + " INTEGER, " 
-		+ AppConstants.CITY_ID + " TEXT, " + AppConstants.LOG_DATETIME + " TEXT "+ " )";
-		
 		db.execSQL(createSQL);
 		db.execSQL(createTableAirPurifierEvent) ;
-		db.execSQL(createTableOutdoorAQI) ;
+
 	}
 
 	/*
@@ -86,7 +82,6 @@ public class DBHelper extends SQLiteOpenHelper {
 				AppConstants.TABLENAME));
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
 				AppConstants.TABLE_AIRPURIFIER_EVENT));
-		db.execSQL(String.format("DROP TABLE IF NOT EXISTS %s",AppConstants.TABLE_OUTDOOR_AQI)) ;
 		this.onCreate(db);
 
 	}
