@@ -362,7 +362,7 @@ public class Utils {
 			return AppConstants.HOME_INDOOR_BAD;
 		}
 
-		return null;
+		return AppConstants.HOME_INDOOR_VGOOD;
 	}
 	
 	public static int getAQIColor(int AQI) {
@@ -375,7 +375,7 @@ public class Utils {
 		} else if (AQI > 375 && AQI <= 500) {
 			return AppConstants.COLOR_BAD;
 		}
-		return 0;
+		return AppConstants.COLOR_VGOOD;
 	}
 	
 	public static String getOutdoorAQIDateTime(String datetime) {
@@ -406,7 +406,7 @@ public class Utils {
 			return AppConstants.SHANGHAI_BAD;
 		}
 
-		return null;
+		return AppConstants.SHANGHAI_VGOOD;
 	}
 
 	public static String getFanIndicator(int iAQI) {
@@ -419,7 +419,7 @@ public class Utils {
 		} else if (iAQI > 375 && iAQI <= 500) {
 			return AppConstants.WARNING_FAIR;
 		}
-		return null;
+		return AppConstants.WARNING_VGOOD;
 	}
 	
 	public static void copyDatabaseFromAssetsToSDcard(Context context)
