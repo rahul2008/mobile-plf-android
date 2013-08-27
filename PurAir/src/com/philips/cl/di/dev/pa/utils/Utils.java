@@ -1,5 +1,10 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,9 +14,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.content.res.AssetManager;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
+import android.os.Environment;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +30,7 @@ import android.widget.EditText;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -411,5 +421,56 @@ public class Utils {
 		}
 		return null;
 	}
+	
+	public static void copyDatabaseFromAssetsToSDcard(Context context)
+	{
+		if(!isFileExists()) {
+			AssetManager assetManager = context.getAssets();
+				try {
+					String filenames[] = assetManager.list("") ;
+		
+					for(String filename : filenames) {
+						if( filename.equalsIgnoreCase("purair.db")) {
+							Log.i("File name => ",filename);
+							InputStream in = null;
+							OutputStream out = null;
+							try {
+								in = assetManager.open(filename);   // if files resides inside the "Files" directory itself
+								out = new FileOutputStream(Environment.getExternalStorageDirectory().toString() +"/" + filename);
+								copyFile(in, out);
+								in.close();
+								in = null;
+								out.flush();
+								out.close();
+								out = null;
+							} catch(Exception e) {
+								Log.e("tag", e.getMessage());
+								e.printStackTrace();
+							}
+						}
+					}
+				}
+				catch(IOException e) {
+					Log.e("tag", e.getMessage());
+					e.printStackTrace();
+				}
+		}
+	}
+	
+
+	private static boolean isFileExists() {
+		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), AppConstants.DATABASE );
+		return file.exists() ;
+	}
+	
+	private static void copyFile(InputStream in, OutputStream out) throws IOException {
+		byte[] buffer = new byte[1024];
+		int read;
+		while((read = in.read(buffer)) != -1){
+			out.write(buffer, 0, read);
+		}
+	}
+	
+	
 
 }
