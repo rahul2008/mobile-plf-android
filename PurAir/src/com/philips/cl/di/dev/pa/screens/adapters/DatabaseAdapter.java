@@ -211,7 +211,6 @@ public class DatabaseAdapter {
 	 * This will return the list of Outdoor AQI's
 	 * @return
 	 */
-	// TO DO - Modify the query depending on the condition
 	public List<OutdoorAQIEventDto> getOutdoorValues() {
 		OutdoorAQIEventDto outdoorAQIEventDtoObj = null ;
 		List<OutdoorAQIEventDto> outdoorAQIList = new ArrayList<OutdoorAQIEventDto>();
@@ -225,5 +224,21 @@ public class DatabaseAdapter {
 		}
 
 		return outdoorAQIList;
+	}
+	
+	public  Integer[] getAQIValuesForDay(String sDay, int iCityId)
+	{
+		Integer [] arrayAQI = new Integer[24];
+		String QUERY_AQIVALUES = "Select aqi from aqitable where cityid="+ iCityId+" and date like '"+sDay+"%' ";
+		
+		Cursor curAQI = db.rawQuery(QUERY_AQIVALUES, null);
+		int i = 0 ;
+		while (curAQI.moveToNext())
+		{
+			arrayAQI[i]= curAQI.getInt(0);
+			i++;
+		}
+		
+		return arrayAQI;
 	}
 }
