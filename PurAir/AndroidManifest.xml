@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
     android:versionCode="1"
-    android:versionName="DI_PurAir_1.1.0.775" >
+    android:versionName="DI_PurAir_1.1.0.793" >
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
