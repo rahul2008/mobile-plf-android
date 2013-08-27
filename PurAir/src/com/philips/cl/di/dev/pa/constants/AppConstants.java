@@ -142,11 +142,11 @@ public class AppConstants {
 	/** The Constant DB_NAME. */
 	public static final String DB_NAME = "City.db";
 
-	public static final String TABLE_OUTDOOR_AQI = "OutdoorAQITable" ;
-	public static final String ID = "ID" ;
-	public static final String OUTDOOR_AQI = "Aqi" ;
-	public static final String LOG_DATETIME = "Datetime" ;
-	public static final String CITY_ID = "CityID" ;
+	public static final String AQI_TABLE = "AQITable" ;
+	public static final String ID = "id" ;
+	public static final String OUTDOOR_AQI = "aqi" ;
+	public static final String LOG_DATETIME = "date" ;
+	public static final String CITY_ID = "cityId" ;
 	
 	/** The Constant DB_VERS. */
 	public static final int DB_VERS = 1;
@@ -156,9 +156,9 @@ public class AppConstants {
 	
 	public static String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
 	
-	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.TABLE_OUTDOOR_AQI + " where Aqi > 0 order by " + LOG_DATETIME + " DESC"  ;
+	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 order by " + LOG_DATETIME + " DESC"  ;
 	
-	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.TABLE_OUTDOOR_AQI + " where " + AppConstants.LOG_DATETIME + "= '%s'" ;
+	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.AQI_TABLE + " where " + AppConstants.LOG_DATETIME + "= '%s'" ;
 	
 	
 	public static final String INDOOR_AQI = "aqi" ;
