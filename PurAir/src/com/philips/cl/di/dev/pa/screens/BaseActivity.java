@@ -41,6 +41,7 @@ import com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
 import com.philips.cl.di.dev.pa.screens.fragments.IndoorDetailsFragment;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment.OnIndoorRingClick;
+import com.philips.cl.di.dev.pa.screens.fragments.OutdoorDetailsFragment;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
@@ -48,7 +49,8 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener, SensorEventListener ,OnIndoorRingClick  {
+		OnItemClickListener, OnClickListener, SensorEventListener,
+		OnIndoorRingClick {
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -116,8 +118,8 @@ public class BaseActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		copyFileAssets() ;
-		
+		Utils.copyDatabaseFromAssetsToSDcard(this);
+
 		initializeViews();
 		initializeAnimations();
 
@@ -130,7 +132,6 @@ public class BaseActivity extends FragmentActivity implements
 		airPurifierController = new AirPurifierController(this);
 		airPurifierController.getFilterStatus();
 	}
-		
 
 	/**
 	 * Initialize views.
@@ -197,8 +198,8 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	protected void onPause() {
 		super.onPause();
-	    sensorDataController.unRegisterListener(this);
-	   
+		sensorDataController.unRegisterListener(this);
+
 	}
 
 	/**
@@ -206,7 +207,7 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	protected void onDestroy() {
-		super.onDestroy() ;
+		super.onDestroy();
 		sensorDataController.stopPolling();
 	}
 
@@ -215,9 +216,9 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	protected void onResume() {
-		Log.i(TAG, "OnResume") ;
+		Log.i(TAG, "OnResume");
 		super.onResume();
-		
+
 		sensorDataController.registerListener(this);
 	}
 
@@ -344,7 +345,7 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-		
+
 	}
 
 	/*
@@ -362,71 +363,40 @@ public class BaseActivity extends FragmentActivity implements
 			super.onBackPressed();
 		}
 	}
-	
+
 	@Override
-	public void onRingClicked(int aqi) {
+	public void onRingClicked(int aqi,String sCityName,String sLastUpdatedTime, String sLastUpdatedDay, boolean isIndoor) {
+		if (isIndoor) {
 
-		IndoorDetailsFragment newFragment = new IndoorDetailsFragment();
-		Bundle args = new Bundle();
-		args.putInt(AppConstants.INDOOR_AQI, aqi);
-		newFragment.setArguments(args);
+			IndoorDetailsFragment newFragment = new IndoorDetailsFragment();
+			Bundle args = new Bundle();
+			args.putInt(AppConstants.INDOOR_AQI, aqi);
+			args.putString(AppConstants.CITYNAME, sCityName);
+			args.putString(AppConstants.LAST_UPDATED_TIME, sLastUpdatedTime);
+			args.putString(AppConstants.LAST_UPDATED_DAY, sLastUpdatedDay);
+			newFragment.setArguments(args);
 
-		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction();
+			FragmentTransaction transaction = getSupportFragmentManager()
+					.beginTransaction();
+			transaction.replace(R.id.llContainer, newFragment);
+			transaction.addToBackStack(null);
 
-		// Replace whatever is in the fragment_container view with this
-		// fragment,
-		// and add the transaction to the back stack so the user can navigate
-		// back
-		transaction.replace(R.id.llContainer, newFragment);
-		transaction.addToBackStack(null);
-
-		// Commit the transaction
-		transaction.commit();
-
-	}
-	
-	private void copyFileAssets() {
-		if(!isFileExists()) {
-			AssetManager assetManager = getAssets();
-				try {
-					String filenames[] = assetManager.list("") ;
-		
-					for(String filename : filenames) {
-						if( filename.equalsIgnoreCase("purair.db")) {
-							Log.i("File name => ",filename);
-							InputStream in = null;
-							OutputStream out = null;
-							try {
-								in = assetManager.open(filename);   // if files resides inside the "Files" directory itself
-								out = new FileOutputStream(Environment.getExternalStorageDirectory().toString() +"/" + filename);
-								copyFile(in, out);
-								in.close();
-								in = null;
-								out.flush();
-								out.close();
-								out = null;
-							} catch(Exception e) {
-								Log.e("tag", e.getMessage());
-							}
-						}
-					}
-				}
-				catch(IOException e) {
-				}
+			transaction.commit();
 		}
-}
-	
-	private boolean isFileExists() {
-		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "purair.db" );
-		return file.exists() ;
+		else
+		{
+			OutdoorDetailsFragment newFragment = new OutdoorDetailsFragment();
+			Bundle args = new Bundle ();
+			// Cityname , last updated time, last update date and aqi value
+			args.putInt(AppConstants.OUTDOOR_AQI, aqi);
+			args.putString(AppConstants.CITYNAME, sCityName);
+			args.putString(AppConstants.LAST_UPDATED_TIME, sLastUpdatedTime);
+			args.putString(AppConstants.LAST_UPDATED_DAY, sLastUpdatedDay);
+			// Add here
+			newFragment.setArguments(args);
+			getSupportFragmentManager().beginTransaction().replace(R.id.llContainer, newFragment).addToBackStack(null).commit();
+		}
+
 	}
 
-	private void copyFile(InputStream in, OutputStream out) throws IOException {
-		byte[] buffer = new byte[1024];
-		int read;
-		while((read = in.read(buffer)) != -1){
-			out.write(buffer, 0, read);
-		}
-	}
 }
