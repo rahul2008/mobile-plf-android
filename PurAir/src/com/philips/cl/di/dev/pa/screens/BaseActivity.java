@@ -39,7 +39,8 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * functionalities.
  */
 public class BaseActivity extends FragmentActivity implements
-		OnItemClickListener, OnClickListener, SensorEventListener,OnIndoorRingClick {
+		OnItemClickListener, OnClickListener, SensorEventListener,
+		OnIndoorRingClick {
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -54,7 +55,7 @@ public class BaseActivity extends FragmentActivity implements
 	private int menuWidth;
 
 	/** The menu panel. */
-	private RelativeLayout  rlHeaderLeftMenu;
+	private RelativeLayout rlHeaderLeftMenu;
 
 	/** The sliding panel. */
 	/* private LinearLayout slidingPanel; */
@@ -222,23 +223,35 @@ public class BaseActivity extends FragmentActivity implements
 			Log.i(TAG, "On Item Click --- HOME ");
 			collapse();
 			isExpanded = false;
-			getSupportFragmentManager().beginTransaction()
-			.replace(R.id.llContainer, new HomeFragment(), HomeFragment.TAG)
-			.commit();
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.llContainer, new HomeFragment(),
+							HomeFragment.TAG).commit();
 			break;
 		case AppConstants.MYCITIES:
 			Log.i(TAG, "On Item Click --- CITY");
+			collapse();
+			isExpanded = false;
 			break;
 		case AppConstants.ABOUTAQI:
+			collapse();
+			isExpanded = false;
 			break;
 		case AppConstants.PRODUCTREG:
 			Log.i(TAG, "On Item Click --- Product Reg ");
+			collapse();
+			isExpanded = false;
 			break;
 		case AppConstants.HELP:
 			Log.i(TAG, "On Item Click --- HELP");
+			collapse();
+			isExpanded = false;
 			break;
 		case AppConstants.SETTINGS:
 			Log.i(TAG, "On Item Click --- Settings");
+			collapse();
+			isExpanded = false;
+			Utils.showIpDialog(this);
 			break;
 
 		}
@@ -285,7 +298,9 @@ public class BaseActivity extends FragmentActivity implements
 	}
 
 	// For Ip address settings
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
 	 */
 	@Override
@@ -294,7 +309,9 @@ public class BaseActivity extends FragmentActivity implements
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
 	 */
 	@Override
@@ -335,22 +352,25 @@ public class BaseActivity extends FragmentActivity implements
 
 	@Override
 	public void onRingClicked(int aqi) {
-		
+
 		IndoorDetailsFragment newFragment = new IndoorDetailsFragment();
-        Bundle args = new Bundle();
-        args.putInt(AppConstants.INDOOR_AQI, aqi);
-        newFragment.setArguments(args);
-        
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+		Bundle args = new Bundle();
+		args.putInt(AppConstants.INDOOR_AQI, aqi);
+		newFragment.setArguments(args);
 
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.llContainer, newFragment);
-        transaction.addToBackStack(null);
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
 
-        // Commit the transaction
-        transaction.commit();
-		
+		// Replace whatever is in the fragment_container view with this
+		// fragment,
+		// and add the transaction to the back stack so the user can navigate
+		// back
+		transaction.replace(R.id.llContainer, newFragment);
+		transaction.addToBackStack(null);
+
+		// Commit the transaction
+		transaction.commit();
+
 	}
 
 }
