@@ -3,10 +3,12 @@ package com.philips.cl.di.dev.pa.screens.fragments;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.screens.customviews.BarOneDayView;
+import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,46 +16,68 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class IndoorDetailsFragment extends Fragment {
-	
-	public static final String TAG = IndoorDetailsFragment.class.getSimpleName();
-	
-	View vMain ; 
-	private int iAQI ; 
-	private TextView tvIndoorAQI ; 
-	ImageView ivLeftMenu, ivCenterLabel , ivRightDeviceIcon ; 
-	BarOneDayView ivGraphView ; 
+
+	public static final String TAG = IndoorDetailsFragment.class
+			.getSimpleName();
+
+	View vMain;
+	private int iAQI;
+	private TextView tvIndoorAQI;
+	ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon;
+	BarOneDayView ivGraphView;
 	Bundle bundle;
-	int [] arrayAQIValues = {};
+	int[] arrayAQIValues = {};
+	private CustomTextView tvCityName, tvDay, tvTime, tvAQI, tvHighValue,
+			tvLowValue, tvRankValue, tvPercent, tvAVGPMValue, tvOneTimeValue;
+
+	private String sCityName, sAQIValue, sLastUpdatedTime, sLastUpdatedDay;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		vMain =  inflater.inflate(R.layout.activity_indoor_details, container,false);
-		bundle= this.getArguments();
+		vMain = inflater.inflate(R.layout.activity_indoor_details, container,
+				false);
+		bundle = this.getArguments();
 		iAQI = bundle.getInt(AppConstants.INDOOR_AQI, 0);
+		sCityName = bundle.getString(AppConstants.CITYNAME, "--");
+		sLastUpdatedDay = bundle.getString(AppConstants.LAST_UPDATED_DAY, "--");
+		sLastUpdatedTime = bundle.getString(AppConstants.LAST_UPDATED_TIME,
+				"--");
 		initialiseNavigationBar();
 		initilizeViews();
+		populateViews();
 		return vMain;
 	}
-	
-	private void initilizeViews()
-	{
-		ivGraphView= (BarOneDayView) vMain.findViewById(R.id.ivGraph);
+
+	private void initilizeViews() {
+		ivGraphView = (BarOneDayView) vMain.findViewById(R.id.ivGraph);
 		ivGraphView.drawGraph(arrayAQIValues);
-		tvIndoorAQI= (TextView) vMain.findViewById(R.id.tvAqi);
+		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvAqi);
+
+		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
+		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime);
+
+	}
+
+	private void populateViews() {
+
+		tvDay.setText(sLastUpdatedDay);
+		tvTime.setText(sLastUpdatedTime);
 		tvIndoorAQI.setText(String.valueOf(iAQI));
 		tvIndoorAQI.setTextColor(Utils.getAQIColor(iAQI));
-		
+
 	}
-	
-	private void initialiseNavigationBar()
-	{
-		ivLeftMenu= (ImageView) getActivity().findViewById(R.id.ivLeftMenu);
-		ivRightDeviceIcon= (ImageView) getActivity().findViewById(R.id.ivRightDeviceIcon);
-		ivCenterLabel= (ImageView) getActivity().findViewById(R.id.ivCenterLabel);
-		
+
+	private void initialiseNavigationBar() {
+		ivLeftMenu = (ImageView) getActivity().findViewById(R.id.ivLeftMenu);
+		ivRightDeviceIcon = (ImageView) getActivity().findViewById(
+				R.id.ivRightDeviceIcon);
+		ivCenterLabel = (ImageView) getActivity().findViewById(
+				R.id.ivCenterLabel);
+
 		ivLeftMenu.setBackgroundResource(R.drawable.left_menu_black);
-		ivRightDeviceIcon.setBackgroundResource(R.drawable.right_device_icon_black);
+		ivRightDeviceIcon
+				.setBackgroundResource(R.drawable.right_device_icon_black);
 		ivCenterLabel.setBackgroundResource(R.drawable.home_label_black);
 	}
 

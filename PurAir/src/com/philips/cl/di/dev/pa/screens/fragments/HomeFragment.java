@@ -44,7 +44,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  * The Class HomeFragment.
  */
 public class HomeFragment extends Fragment implements OnClickListener,
-		OnGestureListener, SensorEventListener,OutdoorAQIListener {
+		OnGestureListener, SensorEventListener, OutdoorAQIListener {
 
 	/** The scale down/up outdoor animator set. */
 	private AnimatorSet scaleDownIndoorAnimatorSet,
@@ -88,12 +88,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	private CustomTextView tvDay, tvTime, tvCityName, tvDayOutdoor,
 			tvTimeOutdoor;
-	
-	private CustomTextView tvOutdoorDay,tvOutdoorTime ;
+
+	private CustomTextView tvOutdoorDay, tvOutdoorTime;
 
 	private TextView tvIndoorAQI, tvOutdoorAQI;
-	
-	private TextView outdoorAQI ;
+
+	private TextView outdoorAQI;
 
 	/** The params outdoor. */
 	FrameLayout.LayoutParams paramsIndoor, paramsOutdoor;
@@ -108,13 +108,15 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			ivOutdoorQuad4;
 
 	private ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon, ivMap,
-			ivTrend,ivFanIndicator;
+			ivTrend, ivFanIndicator;
 
 	OnIndoorRingClick mCallback;
 
 	// Container Activity must implement this interface
 	public interface OnIndoorRingClick {
-		public void onRingClicked(int aqi);
+		public void onRingClicked(int aqi, String sCityName,
+				String sLastUpdatedTime, String sLastUpdatedDay,
+				boolean isIndoor);
 	}
 
 	/*
@@ -144,17 +146,19 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		initialiseNavigationBar();
 		initialiseViews();
 		initialiseAnimations();
-		startOutdoorAQITask() ;
+		startOutdoorAQITask();
 		return vMain;
 	}
-	
+
 	/**
-	 * Starts the Outdoor AQI task.
-	 * This method calls a webservice and fetches the Outdoor AQI from the same
+	 * Starts the Outdoor AQI task. This method calls a webservice and fetches
+	 * the Outdoor AQI from the same
 	 */
 	private void startOutdoorAQITask() {
-		TaskGetHttp chinaAQI = new TaskGetHttp("http://www.stateair.net/web/rss/1/4.xml", 2,getActivity(),this) ;
-		chinaAQI.start() ;
+		TaskGetHttp chinaAQI = new TaskGetHttp(
+				"http://www.stateair.net/web/rss/1/4.xml", 2, getActivity(),
+				this);
+		chinaAQI.start();
 	}
 
 	@Override
@@ -166,21 +170,21 @@ public class HomeFragment extends Fragment implements OnClickListener,
 			startAnimationsIndoor();
 		else
 			startAnimationsOutdoor();
-		
-		//updateOutdoorAQIFields() ;
+
+		updateOutdoorAQIFields();
 	}
-	
+
 	/**
 	 * Updates the outdoor AQI index
 	 */
 	private void updateOutdoorAQIFields() {
-		OutdoorAQIEventDto outdoorAQIDto = dbAdapter.getLastOutdoorAQI() ;
-		if( outdoorAQIDto != null ) {
-			Log.i(TAG, ""+outdoorAQIDto.getOutdoorAQI()) ;
-			outdoorAQI.setText(String.valueOf(outdoorAQIDto.getOutdoorAQI())) ;
-			Log.i(TAG, outdoorAQIDto.getSyncDateTime()) ;
-			tvOutdoorDay.setText(outdoorAQIDto.getSyncDateTime().substring(0, 10));
-			tvOutdoorTime.setText(outdoorAQIDto.getSyncDateTime().substring(11, 16));
+		OutdoorAQIEventDto outdoorAQIDto = dbAdapter.getLastOutdoorAQI();
+		if (outdoorAQIDto != null) {
+			int iOutdoorAQI = outdoorAQIDto.getOutdoorAQI();
+			Log.i(TAG, "" + iOutdoorAQI);
+			updateOutdoorBackground(iOutdoorAQI);
+			updateOutdoorAQIRing(iOutdoorAQI);
+			updateOutdoorInfo(outdoorAQIDto);
 		}
 	}
 
@@ -193,8 +197,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				.findViewById(R.id.rlIndoorSection);
 		rlIndoorSection.setPivotX(0f);
 		rlIndoorSection.setPivotY(0f);
-		
-		
+
 		rlIndoorSection.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
@@ -235,8 +238,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		rlOutdoorInfo = (RelativeLayout) vMain.findViewById(R.id.rlOutdoorInfo);
 
 		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvIndoorAQI);
-		
-		outdoorAQI = (TextView) vMain.findViewById(R.id.tvOutdoorAQI) ;
+
+		outdoorAQI = (TextView) vMain.findViewById(R.id.tvOutdoorAQI);
 
 		ivIndoorQuad1 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad1);
 		ivIndoorQuad2 = (ImageView) vMain.findViewById(R.id.ivIndoorQuad2);
@@ -249,9 +252,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		ivOutdoorQuad4 = (ImageView) vMain.findViewById(R.id.ivOutdoorQuad4);
 
 		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
-		
-		tvOutdoorDay = (CustomTextView) vMain.findViewById(R.id.tvDayOutdoor) ;
-		tvOutdoorTime = (CustomTextView) vMain.findViewById(R.id.tvTimeOutdoor) ;
+
+		tvOutdoorDay = (CustomTextView) vMain.findViewById(R.id.tvDayOutdoor);
+		tvOutdoorTime = (CustomTextView) vMain.findViewById(R.id.tvTimeOutdoor);
 
 		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime);
 
@@ -264,7 +267,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		tvDayOutdoor = (CustomTextView) vMain.findViewById(R.id.tvDayOutdoor);
 		tvTimeOutdoor = (CustomTextView) vMain.findViewById(R.id.tvTimeOutdoor);
 		tvOutdoorAQI = (TextView) vMain.findViewById(R.id.tvOutdoorAQI);
-		
+
 		ivFanIndicator = (ImageView) vMain.findViewById(R.id.ivIndicator);
 
 		dbAdapter = new DatabaseAdapter(getActivity());
@@ -485,23 +488,22 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.flIndoorRing:
 			Log.i(TAG, "On Indoor Ring click!!!");
+			String sLastUpdatedDayHome = tvDay.getText().toString();
+			String sLastUpdatedTimeHome = tvTime.getText().toString();
 			int iAQI = Integer.parseInt(tvIndoorAQI.getText().toString());
-			mCallback.onRingClicked(iAQI);
-			/*
-			 * getActivity() .getSupportFragmentManager() .beginTransaction()
-			 * .replace(R.id.llContainer, new IndoorDetailsFragment(),
-			 * IndoorDetailsFragment.TAG).commit();
-			 */
+			mCallback.onRingClicked(iAQI, "Home", sLastUpdatedTimeHome,
+					sLastUpdatedDayHome, true);
 			break;
 
 		case R.id.flOutdoorRing:
 			Log.i(TAG, "On Outdoor Ring click!!!");
-			getActivity()
-					.getSupportFragmentManager()
-					.beginTransaction()
-					.replace(R.id.llContainer, new OutdoorDetailsFragment(),
-							OutdoorDetailsFragment.TAG).addToBackStack(null)
-					.commit();
+			int iOutdoorAQI = Integer.parseInt(tvOutdoorAQI.getText()
+					.toString());
+			String sCityName = tvCityName.getText().toString();
+			String sLastUpdatedDay = tvDayOutdoor.getText().toString();
+			String sLastUpdatedTime = tvTimeOutdoor.getText().toString();
+			mCallback.onRingClicked(iOutdoorAQI, sCityName, sLastUpdatedTime,
+					sLastUpdatedDay, false);
 			break;
 
 		case R.id.ivTrend:
@@ -651,17 +653,14 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	}
 
 	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
-		int iOutdoorAQI = (int) (Math.random() * 500);
-		updateOutdoorBackground(iOutdoorAQI);
-		updateOutdoorAQIRing(iOutdoorAQI);
-		updateOutdoorInfo(iOutdoorAQI);
+
 		if (airPurifierEventDto != null) {
 			int iIndoorAQI = airPurifierEventDto.getIndoorAQI();
-			//int iIndoorAQI = (int) (Math.random() * 500);
+			// int iIndoorAQI = (int) (Math.random() * 500);
 			updateIndoorBackground(iIndoorAQI);
 			updateIndoorAQIRing(iIndoorAQI);
 			updateIndoorInfo(iIndoorAQI);
-			
+
 		}
 	}
 
@@ -672,12 +671,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		tvTime.setText(currentDateTime.substring(11, 16));
 	}
 
-	private void updateOutdoorInfo(int outdoorAQI) {
-		String currentDateTime = Utils.getCurrentDateTime();
-		tvOutdoorAQI.setText(String.valueOf(outdoorAQI));
+	private void updateOutdoorInfo(OutdoorAQIEventDto outdoorAQIDto) {
+		tvOutdoorAQI.setText(String.valueOf(outdoorAQIDto.getOutdoorAQI()));
 		tvCityName.setText("Shanghai");
-		tvDayOutdoor.setText(currentDateTime.substring(0, 10));
-		tvTimeOutdoor.setText(currentDateTime.substring(11, 16));
+		tvDayOutdoor.setText(outdoorAQIDto.getSyncDateTime().substring(0, 10));
+		tvTimeOutdoor
+				.setText(outdoorAQIDto.getSyncDateTime().substring(11, 16));
 
 	}
 
@@ -691,8 +690,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				getActivity()));
 		ivIndoorQuad4.setImageResource(Utils.getResourceID(INDOOR_RING[3],
 				getActivity()));
-		
-		ivFanIndicator.setImageResource(Utils.getResourceID(Utils.getFanIndicator(iAQI), getActivity()));
+
+		ivFanIndicator.setImageResource(Utils.getResourceID(
+				Utils.getFanIndicator(iAQI), getActivity()));
 
 	}
 
@@ -726,6 +726,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				.unRegisterListener(this);
 		stopAnimationsIndoor();
 		stopAnimationsOutdoor();
+		storeLastEvent(); 
 		super.onPause();
 	}
 
@@ -768,12 +769,12 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 			@Override
 			public void onAnimationStart(Animator animation) {
-				//Log.i(TAG, "Animation started : Fade OUT");
+				// Log.i(TAG, "Animation started : Fade OUT");
 			}
 
 			@Override
 			public void onAnimationRepeat(Animator animation) {
-				//Log.i(TAG, "Animation Repat : Fade OUT");
+				// Log.i(TAG, "Animation Repat : Fade OUT");
 			}
 
 			@Override
@@ -889,10 +890,10 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		}
 	}
 
+	
 	@Override
 	public void onDestroy() {
-		Log.i(TAG, "OnDestroy");
-		storeLastEvent();
+		Log.i(TAG, "OnDestroy");		
 		super.onDestroy();
 	}
 
@@ -930,43 +931,44 @@ public class HomeFragment extends Fragment implements OnClickListener,
 					+ " must implement OnHeadlineSelectedListener");
 		}
 	}
-	
+
 	/**
-	 * This runnable will be called by the handler after every one hour to get the latest outdoor AQI
+	 * This runnable will be called by the handler after every one hour to get
+	 * the latest outdoor AQI
 	 */
 	private final Runnable getOutdoorAQIRunnable = new Runnable() {
 		@Override
 		public void run() {
-			startOutdoorAQITask() ;
+			startOutdoorAQITask();
 		}
 	};
-	
+
 	/**
 	 * This will start a timer for 1 hour to fetch the latest data
 	 */
 	private void startOutdoorAQITimer() {
-		outdoorAQIHandler.postDelayed(getOutdoorAQIRunnable, AppConstants.OUTDOOR_AQI_UPDATE_DURATION) ;
+		outdoorAQIHandler.postDelayed(getOutdoorAQIRunnable,
+				AppConstants.OUTDOOR_AQI_UPDATE_DURATION);
 	}
 
-	
-	private Handler outdoorAQIHandler = new Handler() ;
+	private Handler outdoorAQIHandler = new Handler();
 	/**
 	 * Handler to update the User Interface
 	 */
-	 private final Handler handler = new Handler() {
-         public void handleMessage(Message msg) {
-              //updateOutdoorAQIFields();
-         };
-	  } ;
-	  
+	private final Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			updateOutdoorAQIFields();
+		};
+	};
+
 	/**
 	 * Callback from outdoorAQI class
 	 */
 	@Override
 	public void updateOutdoorAQI() {
-		handler.sendEmptyMessage(0) ;
-		startOutdoorAQITimer() ;
-		
+		handler.sendEmptyMessage(0);
+		startOutdoorAQITimer();
+
 	}
 
 }
