@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
     android:versionCode="1"
-    android:versionName="DI_PurAir_1.1.0.740" >
+    android:versionName="DI_PurAir_1.1.0.775" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -12,7 +12,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/purair_icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar" >
         <activity
