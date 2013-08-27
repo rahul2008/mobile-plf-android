@@ -317,7 +317,7 @@ public class BaseActivity extends FragmentActivity implements
 	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
+		getMenuInflater().inflate(R.menu.activity_menu, menu);
 		return true;
 	}
 
@@ -329,7 +329,7 @@ public class BaseActivity extends FragmentActivity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case R.id.action_settings:
+		case R.id.actionItemSettings:
 			Utils.showIpDialog(this);
 			return true;
 		}
