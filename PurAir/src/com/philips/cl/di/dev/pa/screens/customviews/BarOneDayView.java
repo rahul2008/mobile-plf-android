@@ -18,11 +18,10 @@ import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class BarOneDayView extends ImageView {
 
-
 	float length;
 
 	int color;
-	
+
 	private float offset = .20f;
 
 	private List<ColoredPath> paths;
@@ -41,8 +40,10 @@ public class BarOneDayView extends ImageView {
 	protected void onDraw(Canvas canvas) {
 
 		super.onDraw(canvas);
-		for (ColoredPath coloredPath : paths) {
-			canvas.drawPath(coloredPath.getPath(), coloredPath.getPaint());
+		if (paths != null && paths.size() > 0) {
+			for (ColoredPath coloredPath : paths) {
+				canvas.drawPath(coloredPath.getPath(), coloredPath.getPaint());
+			}
 		}
 
 	}
@@ -53,6 +54,13 @@ public class BarOneDayView extends ImageView {
 		}
 	}
 
+	/**
+	 * Draw graph.
+	 * For drawing the graph for a day the aqi array must contain 24 values .
+	 * if for a particular hour , the aqi is not available , replace it with 0 and then call this method.
+	 *
+	 * @param arrayAQIValues the array aqi values
+	 */
 	public void drawGraph(int[] arrayAQIValues) {
 		paths = new ArrayList<ColoredPath>();
 		float drawingLengthFactor = AppConstants.DAYWIDTH
