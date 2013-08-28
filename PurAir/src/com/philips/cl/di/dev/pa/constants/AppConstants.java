@@ -179,6 +179,7 @@ public class AppConstants {
 	public static final int MAXWIDTH = 516;
 
 	// Colors for each category
+	public static final int COLOR_NA= Color.rgb(192, 192, 192);
 	public static final int COLOR_VGOOD = Color.rgb(0, 169, 231);
 	public static final int COLOR_GOOD = Color.rgb(129, 107, 172);
 	public static final int COLOR_FAIR = Color.rgb(222, 74, 138);
