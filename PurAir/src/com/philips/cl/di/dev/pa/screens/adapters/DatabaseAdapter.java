@@ -66,6 +66,7 @@ public class DatabaseAdapter {
 	 * Close.
 	 */
 	public void close() {
+		if(dbHelper!=null )
 		dbHelper.close();
 	}
 
@@ -226,17 +227,15 @@ public class DatabaseAdapter {
 		return outdoorAQIList;
 	}
 	
-	public  Integer[] getAQIValuesForDay(String sDay, int iCityId)
+	public  ArrayList<Integer>  getAQIValuesForDay(String sDay, int iCityId)
 	{
-		Integer [] arrayAQI = new Integer[24];
+		ArrayList<Integer> arrayAQI = new ArrayList<Integer>();
 		String QUERY_AQIVALUES = "Select aqi from aqitable where cityid="+ iCityId+" and date like '"+sDay+"%' ";
 		
 		Cursor curAQI = db.rawQuery(QUERY_AQIVALUES, null);
-		int i = 0 ;
 		while (curAQI.moveToNext())
 		{
-			arrayAQI[i]= curAQI.getInt(0);
-			i++;
+			arrayAQI.add(curAQI.getInt(0));
 		}
 		
 		return arrayAQI;
