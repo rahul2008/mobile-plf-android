@@ -234,8 +234,9 @@ public class Utils {
 
 	/**
 	 * Gets the time remaining.
-	 *
-	 * @param filterValue the filter value
+	 * 
+	 * @param filterValue
+	 *            the filter value
 	 * @return the time remaining
 	 */
 	public static String getTimeRemaining(int filterValue) {
@@ -281,8 +282,9 @@ public class Utils {
 
 	/**
 	 * Checks if is json.
-	 *
-	 * @param result the result
+	 * 
+	 * @param result
+	 *            the result
 	 * @return true, if is json
 	 */
 	public static boolean isJson(String result) {
@@ -297,8 +299,9 @@ public class Utils {
 
 	/**
 	 * Gets the filter status color.
-	 *
-	 * @param filterStatusValue the filter status value
+	 * 
+	 * @param filterStatusValue
+	 *            the filter status value
 	 * @return the filter status color
 	 */
 	public static int getFilterStatusColor(float filterStatusValue) {
@@ -314,15 +317,23 @@ public class Utils {
 		}
 		return 0;
 	}
+
+	/**
+	 * Gets the current date time.
+	 * 
+	 * @return the current date time
+	 */
 	public static String getCurrentDateTime() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss") ;		
-		Date now = new Date(System.currentTimeMillis()) ;
-		return sdf.format(now) ;
+		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		Date now = new Date(System.currentTimeMillis());
+		return sdf.format(now);
 	}
+
 	/**
 	 * Gets the indoor ring array for images.
-	 *
-	 * @param iAQI the i aqi
+	 * 
+	 * @param iAQI
+	 *            the i aqi
 	 * @return the indoor ring
 	 */
 	public static String[] getIndoorRing(int iAQI) {
@@ -341,9 +352,11 @@ public class Utils {
 
 	/**
 	 * Gets the resource id.
-	 *
-	 * @param drawableName the drawable name
-	 * @param context the context
+	 * 
+	 * @param drawableName
+	 *            the drawable name
+	 * @param context
+	 *            the context
 	 * @return the resource id
 	 */
 	public static int getResourceID(String drawableName, Context context) {
@@ -351,8 +364,15 @@ public class Utils {
 				context.getPackageName());
 	}
 
+	/**
+	 * Gets the indoor bg.
+	 * 
+	 * @param iAQI
+	 *            the i aqi
+	 * @return the indoor bg
+	 */
 	public static String getIndoorBG(int iAQI) {
-		if (iAQI >=0  && iAQI <= 125) {
+		if (iAQI >= 0 && iAQI <= 125) {
 			return AppConstants.HOME_INDOOR_VGOOD;
 		} else if (iAQI > 125 && iAQI <= 250) {
 			return AppConstants.HOME_INDOOR_GOOD;
@@ -364,9 +384,16 @@ public class Utils {
 
 		return AppConstants.HOME_INDOOR_VGOOD;
 	}
-	
+
+	/**
+	 * Gets the aQI color.
+	 * 
+	 * @param AQI
+	 *            the aqi
+	 * @return the aQI color
+	 */
 	public static int getAQIColor(int AQI) {
-		if (AQI >= 0 && AQI <= 125) {
+		if (AQI > 0 && AQI <= 125) {
 			return AppConstants.COLOR_VGOOD;
 		} else if (AQI > 125 && AQI <= 250) {
 			return AppConstants.COLOR_GOOD;
@@ -375,28 +402,43 @@ public class Utils {
 		} else if (AQI > 375 && AQI <= 500) {
 			return AppConstants.COLOR_BAD;
 		}
-		return AppConstants.COLOR_VGOOD;
+		return AppConstants.COLOR_NA;
 	}
-	
+
+	/**
+	 * Gets the outdoor aqi date time.
+	 * 
+	 * @param datetime
+	 *            the datetime
+	 * @return the outdoor aqi date time
+	 */
 	public static String getOutdoorAQIDateTime(String datetime) {
-		String dateToReturn = null ;
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a") ;
+		String dateToReturn = null;
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
 		try {
 			Date startDate = sdf.parse(datetime);
-			
-			sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss") ;
-			
+
+			sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
 			dateToReturn = sdf.format(startDate);
-			
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return dateToReturn ;
+		return dateToReturn;
 	}
 
+	/**
+	 * Gets the outdoor bg.
+	 * 
+	 * @param iOutdoorAQI
+	 *            the i outdoor aqi
+	 * @return the outdoor bg
+	 */
 	public static String getOutdoorBG(int iOutdoorAQI) {
-		if (iOutdoorAQI >=0  && iOutdoorAQI <= 125) {
+		Log.i("BEFORE CRASH", iOutdoorAQI+"");
+		if (iOutdoorAQI >= 0 && iOutdoorAQI <= 125) {
 			return AppConstants.SHANGHAI_VGOOD;
 		} else if (iOutdoorAQI > 125 && iOutdoorAQI <= 250) {
 			return AppConstants.SHANGHAI_GOOD;
@@ -409,8 +451,15 @@ public class Utils {
 		return AppConstants.SHANGHAI_VGOOD;
 	}
 
+	/**
+	 * Gets the fan indicator.
+	 * 
+	 * @param iAQI
+	 *            the i aqi
+	 * @return the fan indicator
+	 */
 	public static String getFanIndicator(int iAQI) {
-		if (iAQI >=0  && iAQI <= 125) {
+		if (iAQI >= 0 && iAQI <= 125) {
 			return AppConstants.WARNING_VGOOD;
 		} else if (iAQI > 125 && iAQI <= 250) {
 			return AppConstants.WARNING_GOOD;
@@ -421,56 +470,181 @@ public class Utils {
 		}
 		return AppConstants.WARNING_VGOOD;
 	}
-	
-	public static void copyDatabaseFromAssetsToSDcard(Context context)
-	{
-		if(!isFileExists()) {
+
+	/**
+	 * Copy database from assets to s dcard.
+	 * 
+	 * @param context
+	 *            the context
+	 */
+	public static void copyDatabaseFromAssetsToSDcard(Context context) {
+		if (!isFileExists()) {
 			AssetManager assetManager = context.getAssets();
-				try {
-					String filenames[] = assetManager.list("") ;
-		
-					for(String filename : filenames) {
-						if( filename.equalsIgnoreCase("purair.db")) {
-							Log.i("File name => ",filename);
-							InputStream in = null;
-							OutputStream out = null;
-							try {
-								in = assetManager.open(filename);   // if files resides inside the "Files" directory itself
-								out = new FileOutputStream(Environment.getExternalStorageDirectory().toString() +"/" + filename);
-								copyFile(in, out);
-								in.close();
-								in = null;
-								out.flush();
-								out.close();
-								out = null;
-							} catch(Exception e) {
-								Log.e("tag", e.getMessage());
-								e.printStackTrace();
-							}
+			try {
+				String filenames[] = assetManager.list("");
+
+				for (String filename : filenames) {
+					if (filename.equalsIgnoreCase("purair.db")) {
+						Log.i("File name => ", filename);
+						InputStream in = null;
+						OutputStream out = null;
+						try {
+							in = assetManager.open(filename); // if files
+																// resides
+																// inside the
+																// "Files"
+																// directory
+																// itself
+							out = new FileOutputStream(Environment
+									.getExternalStorageDirectory().toString()
+									+ "/" + filename);
+							copyFile(in, out);
+							in.close();
+							in = null;
+							out.flush();
+							out.close();
+							out = null;
+						} catch (Exception e) {
+							Log.e("tag", e.getMessage());
+							e.printStackTrace();
 						}
 					}
 				}
-				catch(IOException e) {
-					Log.e("tag", e.getMessage());
-					e.printStackTrace();
-				}
+			} catch (IOException e) {
+				Log.e("tag", e.getMessage());
+				e.printStackTrace();
+			}
 		}
 	}
-	
 
+	/**
+	 * Checks if is file exists.
+	 * 
+	 * @return true, if is file exists
+	 */
 	private static boolean isFileExists() {
-		File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), AppConstants.DATABASE );
-		return file.exists() ;
+		File file = new File(Environment.getExternalStorageDirectory()
+				.getAbsolutePath(), AppConstants.DATABASE);
+		return file.exists();
 	}
-	
-	private static void copyFile(InputStream in, OutputStream out) throws IOException {
+
+	/**
+	 * Copy file.
+	 * 
+	 * @param in
+	 *            the in
+	 * @param out
+	 *            the out
+	 * @throws IOException
+	 *             Signals that an I/O exception has occurred.
+	 */
+	private static void copyFile(InputStream in, OutputStream out)
+			throws IOException {
 		byte[] buffer = new byte[1024];
 		int read;
-		while((read = in.read(buffer)) != -1){
+		while ((read = in.read(buffer)) != -1) {
 			out.write(buffer, 0, read);
 		}
 	}
-	
-	
 
+	/**
+	 * Gets the maximum aqi from the given array of aqi values.
+	 * 
+	 * @param arrayAQIValues
+	 *            the array_ aqi
+	 * @return the maximum aqi
+	 */
+	public static int getMaximumAQI(ArrayList<Integer> arrayAQIValues) {
+		int max = Integer.MIN_VALUE;
+		for (int i = 0; i < arrayAQIValues.size(); i++) {
+			if (arrayAQIValues.get(i) > max) {
+				max = arrayAQIValues.get(i);
+			}
+		}
+
+		return max;
+	}
+
+	/**
+	 * Gets the minimum aqi from the given array of aqi values.
+	 * 
+	 * @param array_AQI
+	 *            the array_ aqi
+	 * @return the minimum aqi
+	 */
+	public static int getMinimumAQI(ArrayList<Integer> array_AQI) {
+		int min = Integer.MAX_VALUE;
+		for (int i = 0; i < array_AQI.size(); i++) {
+			if(array_AQI.get(i)<0)
+			{
+				continue;
+			}
+			if (array_AQI.get(i) < min) {
+				min = array_AQI.get(i);
+			}
+		}
+		return min;
+	}
+
+	/**
+	 * Gets the good air percentage in the given array of aqi values.
+	 * 
+	 * @param array_AQI
+	 *            the array_ aqi
+	 * @return the good air percentage
+	 */
+	public static int getGoodAirPercentage(ArrayList<Integer> array_AQI) {
+		int percent = 0;
+		int count = array_AQI.size();
+		int countGood_VGood = 0;
+		for (int i = 0; i < array_AQI.size(); i++) {
+			// Discard the value if it is negative
+			if(array_AQI.get(i)<0)
+			{
+				count -- ;
+				continue;
+			}
+			
+			if (array_AQI.get(i) <= 250) {
+				countGood_VGood++;
+			}
+		}
+		percent = (countGood_VGood * 100) / count;
+		return percent;
+	}
+
+	/**
+	 * Gets the average aqi.
+	 * 
+	 * @param array_AQI
+	 *            the array_ aqi
+	 * @return the average aqi
+	 */
+	public static int getAverageAQI(ArrayList<Integer> array_AQI) {
+		int sum = 0;
+		int count = array_AQI.size();
+		for (int i = 0; i < array_AQI.size(); i++) {
+			if(array_AQI.get(i)<0)
+			{
+				count -- ;
+				continue;
+			}
+			sum = sum + array_AQI.get(i);
+		}
+
+		return (sum / count);
+	}
+
+	public static int[] getArrayForAQIGraph(ArrayList<Integer> alAQIValues) {
+		int[] array_aqi = new int[24];
+		int i = 0;
+		for (int iAQI : alAQIValues) {
+			if (i > 23)
+				break;
+
+			array_aqi[i] = iAQI;
+			i++;
+		}
+		return array_aqi;
+	}
 }
