@@ -45,8 +45,9 @@ public class TaskGetHttp extends Thread {
 				dbAdapter.insertOutdoorAQI(outdoorAQIList, cityID) ;
 				
 				dbAdapter.close() ;
-				
-				outdoorAQIListener.updateOutdoorAQI() ;
+				if (outdoorAQIListener != null) {
+					outdoorAQIListener.updateOutdoorAQI() ;
+				}
 			}
 			
 		} catch (IOException e) {
