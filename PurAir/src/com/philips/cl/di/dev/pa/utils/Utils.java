@@ -478,13 +478,13 @@ public class Utils {
 	 *            the context
 	 */
 	public static void copyDatabaseFromAssetsToSDcard(Context context) {
-		if (!isFileExists()) {
+		if (!isFileExists(context)) {
 			AssetManager assetManager = context.getAssets();
 			try {
 				String filenames[] = assetManager.list("");
 
 				for (String filename : filenames) {
-					if (filename.equalsIgnoreCase("purair.db")) {
+					if (filename.equalsIgnoreCase(AppConstants.DATABASE)) {
 						Log.i("File name => ", filename);
 						InputStream in = null;
 						OutputStream out = null;
@@ -495,8 +495,7 @@ public class Utils {
 																// "Files"
 																// directory
 																// itself
-							out = new FileOutputStream(Environment
-									.getExternalStorageDirectory().toString()
+							out = new FileOutputStream(context.getFilesDir()
 									+ "/" + filename);
 							copyFile(in, out);
 							in.close();
@@ -522,9 +521,8 @@ public class Utils {
 	 * 
 	 * @return true, if is file exists
 	 */
-	private static boolean isFileExists() {
-		File file = new File(Environment.getExternalStorageDirectory()
-				.getAbsolutePath(), AppConstants.DATABASE);
+	private static boolean isFileExists(Context context) {
+		File file = new File(context.getFilesDir(), AppConstants.DATABASE);
 		return file.exists();
 	}
 
