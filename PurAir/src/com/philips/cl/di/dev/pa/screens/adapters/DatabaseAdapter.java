@@ -171,13 +171,12 @@ public class DatabaseAdapter {
 				OutdoorAQIEventDto outdoorAQIEventDtoObj = outdoorAQI.get(index) ;
 				Cursor event = 
 						db.rawQuery(String.format(AppConstants.selectOutdoorAQIOnLogDateTime,
-								Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime())),null );
+								Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime()),String.valueOf(cityID)),null );
 				
 				if( event.moveToNext() ) {
-					Log.i(TAG, "Update") ;
+					
 				}
 				else {
-					Log.i(TAG, "insert") ;
 					ContentValues cvInsert = new ContentValues();
 					cvInsert.put(AppConstants.OUTDOOR_AQI,outdoorAQIEventDtoObj.getOutdoorAQI() ) ;
 					cvInsert.put(AppConstants.CITY_ID, cityID) ;
@@ -194,10 +193,10 @@ public class DatabaseAdapter {
 	 * This will return the last updated Air Purifier Event
 	 * @return
 	 */
-	public OutdoorAQIEventDto getLastOutdoorAQI() {
+	public OutdoorAQIEventDto getLastOutdoorAQI(int cityID) {
 		OutdoorAQIEventDto dto = null ;
 		
-		Cursor event = db.rawQuery(AppConstants.selectLatestOutdoorAQI, null);
+		Cursor event = db.rawQuery(String.format(AppConstants.selectLatestOutdoorAQI,String.valueOf(cityID)), null);
 		if (event.moveToNext()) {
 			
 			dto = new OutdoorAQIEventDto() ;	
