@@ -1,17 +1,8 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import android.animation.ObjectAnimator;
-
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.util.DisplayMetrics;
@@ -39,8 +30,8 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
-import com.philips.cl.di.dev.pa.screens.fragments.IndoorDetailsFragment;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment.OnIndoorRingClick;
+import com.philips.cl.di.dev.pa.screens.fragments.IndoorDetailsFragment;
 import com.philips.cl.di.dev.pa.screens.fragments.OutdoorDetailsFragment;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
