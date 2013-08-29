@@ -52,11 +52,7 @@ public class DatabaseAdapter {
 	public SQLiteDatabase open() {
 		Log.i(TAG, "Open") ;
 		dbHelper = new DBHelper(context);
-		//db = //dbHelper.getWritableDatabase();
-		String directory = Environment.getExternalStorageDirectory().getAbsolutePath() ;
-		Log.i(TAG, directory) ;
-		File dbfile = new File(directory+"/purair.db");
-		
+		File dbfile = new File(context.getFilesDir() +"/"+AppConstants.DATABASE);
 		db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 		return db;
 
