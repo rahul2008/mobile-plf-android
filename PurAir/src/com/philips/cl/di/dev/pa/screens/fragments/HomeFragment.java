@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.screens.fragments;
 
 import android.animation.Animator;
+
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -39,6 +40,9 @@ import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 
 import com.philips.cl.di.dev.pa.utils.Utils;
+
+
+
 
 /**
  * The Class HomeFragment.
@@ -155,10 +159,16 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 * the Outdoor AQI from the same
 	 */
 	private void startOutdoorAQITask() {
-		TaskGetHttp chinaAQI = new TaskGetHttp(
-				"http://www.stateair.net/web/rss/1/4.xml", 2, getActivity(),
-				this);
-		chinaAQI.start();
+		TaskGetHttp shanghaiAQI = new TaskGetHttp(AppConstants.SHANGHAI_OUTDOOR_AQI_URL, AppConstants.SHANGHAI_CITY_ID,getActivity(),this) ;
+		shanghaiAQI.start() ;
+		
+		TaskGetHttp guangzhouAQI = new TaskGetHttp(AppConstants.GUANGZHOU_OUTDOOR_AQI_URL, AppConstants.GUANGZHOU_CITY_ID,getActivity(),null) ;
+		guangzhouAQI.start() ;
+		
+		TaskGetHttp beijingAQI = new TaskGetHttp(AppConstants.BEIJING_OUTDOOR_AQI_URL, AppConstants.BEIJING_CITY_ID,getActivity(),null) ;
+		beijingAQI.start() ;
+		
+
 	}
 
 	@Override
@@ -178,7 +188,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 * Updates the outdoor AQI index
 	 */
 	private void updateOutdoorAQIFields() {
-		OutdoorAQIEventDto outdoorAQIDto = dbAdapter.getLastOutdoorAQI();
+		OutdoorAQIEventDto outdoorAQIDto = dbAdapter.getLastOutdoorAQI(AppConstants.SHANGHAI_CITY_ID);
 		if (outdoorAQIDto != null) {
 			int iOutdoorAQI = outdoorAQIDto.getOutdoorAQI();
 			Log.i(TAG, "" + iOutdoorAQI);
@@ -955,6 +965,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	/**
 	 * Handler to update the User Interface
 	 */
+
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			updateOutdoorAQIFields();
@@ -970,5 +981,5 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		startOutdoorAQITimer();
 
 	}
-
+	
 }
