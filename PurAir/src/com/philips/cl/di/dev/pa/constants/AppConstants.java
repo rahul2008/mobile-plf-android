@@ -156,9 +156,9 @@ public class AppConstants {
 	
 	public static String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
 	
-	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 order by " + LOG_DATETIME + " DESC"  ;
+	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 and cityID = %s order by " + LOG_DATETIME + " DESC"  ;
 	
-	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.AQI_TABLE + " where " + AppConstants.LOG_DATETIME + "= '%s'" ;
+	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.AQI_TABLE + " where " + AppConstants.LOG_DATETIME + "= '%s' and " + AppConstants.CITY_ID + "= %s" ;
 	
 	
 	public static final String INDOOR_AQI = "aqi" ;
@@ -231,4 +231,13 @@ public class AppConstants {
 
 	public static final String LAST_UPDATED_DAY = "last_updated_day";
 
+	
+	public static final String SHANGHAI_OUTDOOR_AQI_URL = "http://www.stateair.net/web/rss/1/4.xml" ;
+	public static final String BEIJING_OUTDOOR_AQI_URL = "http://www.stateair.net/web/rss/1/1.xml" ;
+	public static final String GUANGZHOU_OUTDOOR_AQI_URL = "http://www.stateair.net/web/rss/1/3.xml" ;
+	
+	public static final int SHANGHAI_CITY_ID = 3 ;
+	public static final int BEIJING_CITY_ID = 1 ;
+	public static final int GUANGZHOU_CITY_ID = 2 ;
+	
 }
