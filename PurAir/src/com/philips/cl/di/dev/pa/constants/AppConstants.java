@@ -239,5 +239,19 @@ public class AppConstants {
 	public static final int SHANGHAI_CITY_ID = 3 ;
 	public static final int BEIJING_CITY_ID = 1 ;
 	public static final int GUANGZHOU_CITY_ID = 2 ;
+
+	public static final String MAP_BUNDLE = "map_bundle";
+
+	public static final String MAP_BEIJING = "map_beijing";
+	public static final String MAP_SHANGHAI = "map_shanghai";
+	public static final String MAP_GUANGZHOU = "map_guangzhou";
+
+	public static final String MAP_OVERLAY_VGOOD = "map_vgood";
+
+	public static final String MAP_OVERLAY_GOOD = "map_good";
+
+	public static final String MAP_OVERLAY_FAIR = "map_fair";
+
+	public static final String MAP_OVERLAY_BAD = "map_bad";
 	
 }
