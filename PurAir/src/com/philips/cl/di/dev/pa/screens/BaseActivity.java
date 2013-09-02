@@ -30,8 +30,10 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.adapters.MenuListAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment.MapButtonClick;
 import com.philips.cl.di.dev.pa.screens.fragments.HomeFragment.OnIndoorRingClick;
 import com.philips.cl.di.dev.pa.screens.fragments.IndoorDetailsFragment;
+import com.philips.cl.di.dev.pa.screens.fragments.MapsFragment;
 import com.philips.cl.di.dev.pa.screens.fragments.OutdoorDetailsFragment;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -41,7 +43,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  */
 public class BaseActivity extends FragmentActivity implements
 		OnItemClickListener, OnClickListener, SensorEventListener,
-		OnIndoorRingClick {
+		OnIndoorRingClick ,MapButtonClick{
 
 	/** The Constant TAG. */
 	private static final String TAG = BaseActivity.class.getName();
@@ -388,6 +390,19 @@ public class BaseActivity extends FragmentActivity implements
 			getSupportFragmentManager().beginTransaction().replace(R.id.llContainer, newFragment).addToBackStack(null).commit();
 		}
 
+	}
+
+	@Override
+	public void onMapClick(String sCityName, String aqi) {
+		// TODO Auto-generated method stub
+		MapsFragment fragment = new MapsFragment();
+		Bundle bundle = new Bundle();
+		bundle.putString(AppConstants.CITYNAME, sCityName);
+		bundle.putInt(AppConstants.OUTDOOR_AQI,
+				Integer.parseInt(aqi));
+		fragment.setArguments(bundle);
+		getSupportFragmentManager().beginTransaction().replace(R.id.llContainer, fragment).addToBackStack(null).commit();
+		
 	}
 
 }
