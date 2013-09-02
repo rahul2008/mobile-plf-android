@@ -89,7 +89,7 @@ public class OutdoorDetailsFragment extends Fragment {
 		ivLeftMenu.setBackgroundResource(R.drawable.left_menu_black);
 		ivRightDeviceIcon
 				.setBackgroundResource(R.drawable.right_device_icon_black);
-		ivCenterLabel.setBackgroundResource(R.drawable.home_label_black);
+		ivCenterLabel.setBackgroundResource(R.drawable.outdoor_label_black);
 	}
 
 	private void populateViews() {
