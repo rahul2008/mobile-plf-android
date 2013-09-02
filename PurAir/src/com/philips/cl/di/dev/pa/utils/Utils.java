@@ -645,4 +645,34 @@ public class Utils {
 		}
 		return array_aqi;
 	}
+
+	public static String getMapBg(String sCityName) {
+		if(sCityName.equalsIgnoreCase("BEIJING"))
+		{
+			return AppConstants.MAP_BEIJING;
+		}
+		else if (sCityName.equalsIgnoreCase("SHANGHAI"))
+		{
+			return AppConstants.MAP_SHANGHAI;
+		}
+		else if (sCityName.equalsIgnoreCase("GUANGZHOU"))
+		{
+			return AppConstants.MAP_GUANGZHOU;
+		}
+		// default
+		return AppConstants.MAP_BEIJING;
+	}
+
+	public static String getMapOverlay(int iAQI) {
+		if (iAQI >= 0 && iAQI <= 125) {
+			return AppConstants.MAP_OVERLAY_VGOOD;
+		} else if (iAQI > 125 && iAQI <= 250) {
+			return AppConstants.MAP_OVERLAY_GOOD;
+		} else if (iAQI > 250 && iAQI <= 375) {
+			return AppConstants.MAP_OVERLAY_FAIR;
+		} else if (iAQI > 375 && iAQI <= 500) {
+			return AppConstants.MAP_OVERLAY_BAD;
+		}
+		return AppConstants.MAP_OVERLAY_VGOOD;
+	}
 }
