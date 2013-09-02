@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.screens.fragments;
 
 import android.animation.Animator;
-
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -34,15 +33,10 @@ import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.interfaces.OutdoorAQIListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.network.TaskGetHttp;
-
 import com.philips.cl.di.dev.pa.screens.TrendsActivity;
 import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
-
 import com.philips.cl.di.dev.pa.utils.Utils;
-
-
-
 
 /**
  * The Class HomeFragment.
@@ -116,11 +110,19 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 	OnIndoorRingClick mCallback;
 
+	MapButtonClick mMapButtonCallback;
+
 	// Container Activity must implement this interface
 	public interface OnIndoorRingClick {
 		public void onRingClicked(int aqi, String sCityName,
 				String sLastUpdatedTime, String sLastUpdatedDay,
 				boolean isIndoor);
+	}
+
+	public interface MapButtonClick {
+
+		void onMapClick(String sCityName, String sAQIValue);
+
 	}
 
 	/*
@@ -159,15 +161,20 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 * the Outdoor AQI from the same
 	 */
 	private void startOutdoorAQITask() {
-		TaskGetHttp shanghaiAQI = new TaskGetHttp(AppConstants.SHANGHAI_OUTDOOR_AQI_URL, AppConstants.SHANGHAI_CITY_ID,getActivity(),this) ;
-		shanghaiAQI.start() ;
-		
-		TaskGetHttp guangzhouAQI = new TaskGetHttp(AppConstants.GUANGZHOU_OUTDOOR_AQI_URL, AppConstants.GUANGZHOU_CITY_ID,getActivity(),null) ;
-		guangzhouAQI.start() ;
-		
-		TaskGetHttp beijingAQI = new TaskGetHttp(AppConstants.BEIJING_OUTDOOR_AQI_URL, AppConstants.BEIJING_CITY_ID,getActivity(),null) ;
-		beijingAQI.start() ;
-		
+		TaskGetHttp shanghaiAQI = new TaskGetHttp(
+				AppConstants.SHANGHAI_OUTDOOR_AQI_URL,
+				AppConstants.SHANGHAI_CITY_ID, getActivity(), this);
+		shanghaiAQI.start();
+
+		TaskGetHttp guangzhouAQI = new TaskGetHttp(
+				AppConstants.GUANGZHOU_OUTDOOR_AQI_URL,
+				AppConstants.GUANGZHOU_CITY_ID, getActivity(), null);
+		guangzhouAQI.start();
+
+		TaskGetHttp beijingAQI = new TaskGetHttp(
+				AppConstants.BEIJING_OUTDOOR_AQI_URL,
+				AppConstants.BEIJING_CITY_ID, getActivity(), null);
+		beijingAQI.start();
 
 	}
 
@@ -188,7 +195,8 @@ public class HomeFragment extends Fragment implements OnClickListener,
 	 * Updates the outdoor AQI index
 	 */
 	private void updateOutdoorAQIFields() {
-		OutdoorAQIEventDto outdoorAQIDto = dbAdapter.getLastOutdoorAQI(AppConstants.SHANGHAI_CITY_ID);
+		OutdoorAQIEventDto outdoorAQIDto = dbAdapter
+				.getLastOutdoorAQI(AppConstants.SHANGHAI_CITY_ID);
 		if (outdoorAQIDto != null) {
 			int iOutdoorAQI = outdoorAQIDto.getOutdoorAQI();
 			Log.i(TAG, "" + iOutdoorAQI);
@@ -522,6 +530,13 @@ public class HomeFragment extends Fragment implements OnClickListener,
 					new Intent(getActivity(), TrendsActivity.class));
 			break;
 
+		case R.id.ivMap:
+			Log.i(TAG, "On Map click!!!");
+			mMapButtonCallback.onMapClick(tvCityName.getText().toString(),
+					tvOutdoorAQI.getText().toString());
+
+			break;
+
 		default:
 			break;
 		}
@@ -736,7 +751,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 				.unRegisterListener(this);
 		stopAnimationsIndoor();
 		stopAnimationsOutdoor();
-		storeLastEvent(); 
+		storeLastEvent();
 		super.onPause();
 	}
 
@@ -900,10 +915,9 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		}
 	}
 
-	
 	@Override
 	public void onDestroy() {
-		Log.i(TAG, "OnDestroy");		
+		Log.i(TAG, "OnDestroy");
 		super.onDestroy();
 	}
 
@@ -936,6 +950,7 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		// the callback interface. If not, it throws an exception
 		try {
 			mCallback = (OnIndoorRingClick) activity;
+			mMapButtonCallback = (MapButtonClick) activity;
 		} catch (ClassCastException e) {
 			throw new ClassCastException(activity.toString()
 					+ " must implement OnHeadlineSelectedListener");
@@ -981,5 +996,5 @@ public class HomeFragment extends Fragment implements OnClickListener,
 		startOutdoorAQITimer();
 
 	}
-	
+
 }
