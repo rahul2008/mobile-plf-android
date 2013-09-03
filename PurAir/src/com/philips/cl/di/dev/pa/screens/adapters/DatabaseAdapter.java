@@ -2,14 +2,12 @@ package com.philips.cl.di.dev.pa.screens.adapters;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Environment;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
@@ -222,10 +220,17 @@ public class DatabaseAdapter {
 		return outdoorAQIList;
 	}
 	
+	/**
+	 * Gets the aQI values for day.
+	 *
+	 * @param Day in the format mm/dd/yyyy
+	 * @param iCityId the i city id
+	 * @return the aQI values for day
+	 */
 	public  ArrayList<Integer>  getAQIValuesForDay(String sDay, int iCityId)
 	{
 		ArrayList<Integer> arrayAQI = new ArrayList<Integer>();
-		String QUERY_AQIVALUES = "Select aqi from aqitable where cityid="+ iCityId+" and date like '"+sDay+"%' ";
+		String QUERY_AQIVALUES = "Select aqi from aqitable where cityid="+ iCityId+" and date like '"+sDay+"%' " + " order by date";
 		
 		Cursor curAQI = db.rawQuery(QUERY_AQIVALUES, null);
 		while (curAQI.moveToNext())
