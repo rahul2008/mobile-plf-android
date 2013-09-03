@@ -5,10 +5,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -437,7 +441,7 @@ public class Utils {
 	 * @return the outdoor bg
 	 */
 	public static String getOutdoorBG(int iOutdoorAQI) {
-		Log.i("BEFORE CRASH", iOutdoorAQI+"");
+		Log.i("BEFORE CRASH", iOutdoorAQI + "");
 		if (iOutdoorAQI >= 0 && iOutdoorAQI <= 125) {
 			return AppConstants.SHANGHAI_VGOOD;
 		} else if (iOutdoorAQI > 125 && iOutdoorAQI <= 250) {
@@ -573,8 +577,7 @@ public class Utils {
 	public static int getMinimumAQI(ArrayList<Integer> array_AQI) {
 		int min = Integer.MAX_VALUE;
 		for (int i = 0; i < array_AQI.size(); i++) {
-			if(array_AQI.get(i)<0)
-			{
+			if (array_AQI.get(i) < 0) {
 				continue;
 			}
 			if (array_AQI.get(i) < min) {
@@ -587,50 +590,51 @@ public class Utils {
 	/**
 	 * Gets the good air percentage in the given array of aqi values.
 	 * 
-	 * @param array_AQI
+	 * @param listAQIIndoor
 	 *            the array_ aqi
 	 * @return the good air percentage
 	 */
-	public static int getGoodAirPercentage(ArrayList<Integer> array_AQI) {
+	public static int getGoodAirPercentage(List<Integer> listAQIIndoor) {
 		int percent = 0;
-		int count = array_AQI.size();
+		int count = listAQIIndoor.size();
 		int countGood_VGood = 0;
-		for (int i = 0; i < array_AQI.size(); i++) {
+		for (int i = 0; i < listAQIIndoor.size(); i++) {
 			// Discard the value if it is negative
-			if(array_AQI.get(i)<0)
-			{
-				count -- ;
+			if (listAQIIndoor.get(i) < 0) {
+				count--;
 				continue;
 			}
-			
-			if (array_AQI.get(i) <= 250) {
+
+			if (listAQIIndoor.get(i) <= 250) {
 				countGood_VGood++;
 			}
 		}
-		percent = (countGood_VGood * 100) / count;
+		if (count > 0)
+			percent = (countGood_VGood * 100) / count;
 		return percent;
 	}
 
 	/**
 	 * Gets the average aqi.
 	 * 
-	 * @param array_AQI
+	 * @param listAQIIndoor
 	 *            the array_ aqi
 	 * @return the average aqi
 	 */
-	public static int getAverageAQI(ArrayList<Integer> array_AQI) {
+	public static int getAverageAQI(List<Integer> listAQIIndoor) {
 		int sum = 0;
-		int count = array_AQI.size();
-		for (int i = 0; i < array_AQI.size(); i++) {
-			if(array_AQI.get(i)<0)
-			{
-				count -- ;
+		int count = listAQIIndoor.size();
+		for (int i = 0; i < listAQIIndoor.size(); i++) {
+			if (listAQIIndoor.get(i) < 0) {
+				count--;
 				continue;
 			}
-			sum = sum + array_AQI.get(i);
+			sum = sum + listAQIIndoor.get(i);
 		}
-
-		return (sum / count);
+		if (count > 0)
+			return (sum / count);
+		else
+			return 0;
 	}
 
 	public static int[] getArrayForAQIGraph(ArrayList<Integer> alAQIValues) {
@@ -647,16 +651,11 @@ public class Utils {
 	}
 
 	public static String getMapBg(String sCityName) {
-		if(sCityName.equalsIgnoreCase("BEIJING"))
-		{
+		if (sCityName.equalsIgnoreCase("BEIJING")) {
 			return AppConstants.MAP_BEIJING;
-		}
-		else if (sCityName.equalsIgnoreCase("SHANGHAI"))
-		{
+		} else if (sCityName.equalsIgnoreCase("SHANGHAI")) {
 			return AppConstants.MAP_SHANGHAI;
-		}
-		else if (sCityName.equalsIgnoreCase("GUANGZHOU"))
-		{
+		} else if (sCityName.equalsIgnoreCase("GUANGZHOU")) {
 			return AppConstants.MAP_GUANGZHOU;
 		}
 		// default
@@ -674,5 +673,44 @@ public class Utils {
 			return AppConstants.MAP_OVERLAY_BAD;
 		}
 		return AppConstants.MAP_OVERLAY_VGOOD;
+	}
+
+	public static String getToday() {
+		Calendar now = Calendar.getInstance();
+		int month = now.get(Calendar.MONTH);
+		int date = now.get(Calendar.DATE);
+
+		return getMonthForInt(month) + " " + date;
+	}
+
+	private static String getMonthForInt(int num) {
+		String month = "wrong";
+		DateFormatSymbols dfs = new DateFormatSymbols();
+		String[] months = dfs.getMonths();
+		if (num >= 0 && num <= 11) {
+			month = months[num];
+		}
+		return month;
+	}
+
+	public static int getCityIDFromName(String sCityName) {
+		if (sCityName.equalsIgnoreCase("BEIJING")) {
+			return AppConstants.CITY_ID_BEIJING;
+		} else if (sCityName.equalsIgnoreCase("SHANGHAI")) {
+			return AppConstants.CITY_ID_SHANGHAI;
+		} else if (sCityName.equalsIgnoreCase("GUANGZHOU")) {
+			return AppConstants.CITY_ID_GUANGZHOU;
+		}
+		// default
+		return -1;
+	}
+	
+	
+	public static String getCurrentDateForDB()
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+		Date now = new Date(System.currentTimeMillis());
+		return sdf.format(now);
+
 	}
 }
