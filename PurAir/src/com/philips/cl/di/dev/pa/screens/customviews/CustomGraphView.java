@@ -8,32 +8,37 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CustomGraphView.
  */
 public class CustomGraphView extends RelativeLayout {
 
+	private float offset = 105f;
+
 	/** The view width. */
 	private float viewHeight, viewWidth;
-	
+
 	/** The list graph view data outdoor. */
 	private List<GraphViewData> listGraphViewDataIndoor,
 			listGraphViewDataOutdoor;
-	
+
 	/** The paint axis. */
-	private Paint paintIndoor, paintOutdoor, paintAxis;
+	private Paint paintIndoor, paintOutdoor, paintAxis, paintText;
 
 	/**
 	 * Instantiates a new custom graph view.
-	 *
-	 * @param context the context
+	 * 
+	 * @param context
+	 *            the context
 	 */
 	public CustomGraphView(Context context) {
 		super(context);
@@ -41,15 +46,19 @@ public class CustomGraphView extends RelativeLayout {
 
 	/**
 	 * Instantiates a new custom graph view.
-	 *
-	 * @param context the context
-	 * @param attrs the attrs
+	 * 
+	 * @param context
+	 *            the context
+	 * @param attrs
+	 *            the attrs
 	 */
 	public CustomGraphView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see android.view.View#onDraw(android.graphics.Canvas)
 	 */
 	@Override
@@ -58,6 +67,7 @@ public class CustomGraphView extends RelativeLayout {
 		initIndoorPaint();
 		initOutdoorPaint();
 		initAxisPaint();
+		initTextPaint();
 		// Calculate View height and width
 		viewHeight = getHeight();
 		viewWidth = getWidth();
@@ -66,6 +76,15 @@ public class CustomGraphView extends RelativeLayout {
 		drawAxis(canvas);
 		drawIndoor(canvas);
 		drawOutdoor(canvas);
+		drawLabelsOnXAxis(canvas);
+
+	}
+
+	private void initTextPaint() {
+		paintText = new Paint();
+		paintText.setColor(Color.GRAY);
+		paintText.setStyle(Style.FILL);
+		paintText.setTextSize(20);
 
 	}
 
@@ -91,7 +110,7 @@ public class CustomGraphView extends RelativeLayout {
 	private void initOutdoorPaint() {
 
 		paintOutdoor = new Paint();
-		paintOutdoor.setColor(Color.WHITE);
+		paintOutdoor.setColor(Color.BLUE);
 		paintOutdoor.setDither(true);
 		paintOutdoor.setStrokeWidth(8f);
 		paintOutdoor.setAntiAlias(true);
@@ -119,9 +138,10 @@ public class CustomGraphView extends RelativeLayout {
 	}
 
 	/**
-	 * Draw axis.
-	 *
-	 * @param canvas the canvas
+	 * Draw axis. Divides the view in 4 equal parts and draws the axis.
+	 * 
+	 * @param canvas
+	 *            the canvas
 	 */
 	private void drawAxis(Canvas canvas) {
 		canvas.drawLine(0, 0, 0, viewHeight, paintAxis);
@@ -131,10 +151,18 @@ public class CustomGraphView extends RelativeLayout {
 				paintAxis);
 	}
 
+	private void drawLabelsOnXAxis(Canvas canvas) {
+		canvas.drawText("12am", 0, viewHeight - 10, paintText);
+		canvas.drawText("6am", viewWidth / 4, viewHeight - 10, paintText);
+		canvas.drawText("12pm", viewWidth / 2, viewHeight - 10, paintText);
+		canvas.drawText("6pm", 3 * viewWidth / 4, viewHeight - 10, paintText);
+	}
+
 	/**
 	 * Draw indoor.
-	 *
-	 * @param canvas the canvas
+	 * 
+	 * @param canvas
+	 *            the canvas
 	 */
 	private void drawIndoor(Canvas canvas) {
 
@@ -155,8 +183,9 @@ public class CustomGraphView extends RelativeLayout {
 
 	/**
 	 * Draw outdoor.
-	 *
-	 * @param canvas the canvas
+	 * 
+	 * @param canvas
+	 *            the canvas
 	 */
 	private void drawOutdoor(Canvas canvas) {
 
@@ -178,19 +207,22 @@ public class CustomGraphView extends RelativeLayout {
 	/**
 	 * one data set for a graph series.
 	 */
-	static public class GraphViewData implements GraphViewDataInterface {
-		
+	static public class GraphViewData implements GraphViewDataInterface,
+			Parcelable {
+
 		/** The value x. */
-		public final double valueX;
-		
+		public double valueX;
+
 		/** The value y. */
-		public final double valueY;
+		public double valueY;
 
 		/**
 		 * Instantiates a new graph view data.
-		 *
-		 * @param valueX the value x
-		 * @param valueY the value y
+		 * 
+		 * @param valueX
+		 *            the value x
+		 * @param valueY
+		 *            the value y
 		 */
 		public GraphViewData(double valueX, double valueY) {
 			super();
@@ -198,28 +230,65 @@ public class CustomGraphView extends RelativeLayout {
 			this.valueY = valueY;
 		}
 
-		/* (non-Javadoc)
-		 * @see com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface#getX()
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface#getX()
 		 */
 		@Override
 		public double getX() {
 			return valueX;
 		}
 
-		/* (non-Javadoc)
-		 * @see com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface#getY()
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface#getY()
 		 */
 		@Override
 		public double getY() {
 			return valueY;
 		}
+
+		@Override
+		public int describeContents() {
+			return 0;
+		}
+
+		@Override
+		public void writeToParcel(Parcel dest, int flags) {
+
+			dest.writeDouble(valueX);
+			dest.writeDouble(valueY);
+
+		}
+
+		public static final Parcelable.Creator<GraphViewData> CREATOR = new Parcelable.Creator<GraphViewData>() {
+			public GraphViewData createFromParcel(Parcel in) {
+				return new GraphViewData(in);
+			}
+
+			public GraphViewData[] newArray(int size) {
+				return new GraphViewData[size];
+			}
+		};
+
+		private GraphViewData(Parcel in) {
+			valueX = in.readDouble();
+			valueY = in.readDouble();
+		}
+
 	}
 
 	/**
 	 * Sets the graph data.
-	 *
-	 * @param listGraphViewDataIndoor the list graph view data indoor
-	 * @param listGraphViewDataOutdoor the list graph view data outdoor
+	 * 
+	 * @param listGraphViewDataIndoor
+	 *            the list graph view data indoor
+	 * @param listGraphViewDataOutdoor
+	 *            the list graph view data outdoor
 	 */
 	public void setGraphData(List<GraphViewData> listGraphViewDataIndoor,
 			List<GraphViewData> listGraphViewDataOutdoor) {
@@ -231,8 +300,9 @@ public class CustomGraphView extends RelativeLayout {
 
 	/**
 	 * Gets the scaled x.
-	 *
-	 * @param d the d
+	 * 
+	 * @param d
+	 *            the d
 	 * @return the scaled x
 	 */
 	private double getScaledX(double d) {
@@ -241,11 +311,12 @@ public class CustomGraphView extends RelativeLayout {
 
 	/**
 	 * Gets the scaled y.
-	 *
-	 * @param YValue the y value
+	 * 
+	 * @param YValue
+	 *            the y value
 	 * @return the scaled y
 	 */
 	private double getScaledY(double YValue) {
-		return (viewHeight / AppConstants.MAX_AQI) * YValue;
+		return ((viewHeight - offset) / AppConstants.MAX_AQI) * YValue;
 	}
 }
