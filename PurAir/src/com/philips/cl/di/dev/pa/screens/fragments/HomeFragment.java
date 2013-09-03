@@ -526,12 +526,18 @@ public class HomeFragment extends Fragment implements OnClickListener,
 
 		case R.id.ivTrend:
 			Log.i(TAG, "On Trend click!!!");
-			getActivity().startActivity(
-					new Intent(getActivity(), TrendsActivity.class));
+			String sCity = tvCityName.getText().toString();
+			Bundle b = new Bundle();
+			b.putString(AppConstants.CITYNAME, sCity);
+			Intent iTrend = new Intent(getActivity(),TrendsActivity.class);
+			
+			iTrend.putExtras( b);
+			getActivity().startActivity(iTrend);
 			break;
 
 		case R.id.ivMap:
 			Log.i(TAG, "On Map click!!!");
+
 			mMapButtonCallback.onMapClick(tvCityName.getText().toString(),
 					tvOutdoorAQI.getText().toString());
 
