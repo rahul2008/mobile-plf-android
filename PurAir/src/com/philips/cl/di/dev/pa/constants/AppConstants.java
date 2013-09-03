@@ -254,4 +254,14 @@ public class AppConstants {
 
 	public static final String MAP_OVERLAY_BAD = "map_bad";
 	
+	public static final int  CITY_ID_BEIJING = 1;
+	public static final int  CITY_ID_SHANGHAI = 2;
+	public static final int  CITY_ID_GUANGZHOU = 3;
+	public static final int  CITY_ID_HOME = 4;
+
+	public static final String INDOOR = "indoor";
+
+	public static final String OUTDOOR = "outdoor";
+	
+	
 }
