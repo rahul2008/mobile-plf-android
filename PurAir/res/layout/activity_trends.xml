@@ -346,14 +346,14 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rlLegend"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/trend_graph_bg" >
+                android:layout_marginTop="5dp" >
 
                 <LinearLayout
                     android:id="@+id/llYAxis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
                     android:background="@drawable/trend_y_axis"
                     android:orientation="vertical"
                     android:weightSum="4" >
@@ -383,7 +383,14 @@
                         android:text="125" />
                 </LinearLayout>
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomGraphView
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/pagerGraph"
+                    android:layout_width="311dp"
+                    android:layout_height="254dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/llYAxis" />
+                <!--
+                     <com.philips.cl.di.dev.pa.screens.customviews.CustomGraphView
                     android:id="@+id/rlMainGraph"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -449,6 +456,8 @@
                         android:text="6pm"
                         android:textColor="@color/black" />
                 </RelativeLayout>
+            </RelativeLayout>
+                -->
             </RelativeLayout>
 
             <RelativeLayout
