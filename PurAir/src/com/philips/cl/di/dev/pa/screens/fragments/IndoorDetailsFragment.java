@@ -2,11 +2,15 @@ package com.philips.cl.di.dev.pa.screens.fragments;
 
 import java.util.ArrayList;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,13 +31,14 @@ public class IndoorDetailsFragment extends Fragment {
 	private TextView tvIndoorAQI;
 	ImageView ivLeftMenu, ivCenterLabel, ivRightDeviceIcon;
 	BarOneDayView ivGraphView;
-	private DatabaseAdapter adapter ;
+	private DatabaseAdapter adapter;
 	Bundle bundle;
 	ArrayList<Integer> alAQIValues;
-	private CustomTextView tvCityName, tvDay, tvTime, tvHighValue,
-			tvLowValue, tvRankValue, tvPercent, tvAVGPMValue, tvOneTimeValue;
+	private CustomTextView tvCityName, tvDay, tvTime, tvHighValue, tvLowValue,
+			tvRankValue, tvPercent, tvAVGPMValue, tvOneTimeValue;
 
 	private String sCityName, sAQIValue, sLastUpdatedTime, sLastUpdatedDay;
+
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,9 +53,10 @@ public class IndoorDetailsFragment extends Fragment {
 		sLastUpdatedDay = bundle.getString(AppConstants.LAST_UPDATED_DAY, "--");
 		sLastUpdatedTime = bundle.getString(AppConstants.LAST_UPDATED_TIME,
 				"--");
-		
-		// format has to be like --08/19/2013 
-		alAQIValues  = adapter.getAQIValuesForDay(sLastUpdatedDay/*"08/19/2013"*/, 0); // 0 for Home
+
+		// format has to be like --08/19/2013
+		alAQIValues = adapter.getAQIValuesForDay(
+				sLastUpdatedDay/* "08/19/2013" */, AppConstants.HOME); 
 		adapter.close();
 		initialiseNavigationBar();
 		initilizeViews();
@@ -60,14 +66,14 @@ public class IndoorDetailsFragment extends Fragment {
 
 	private void initilizeViews() {
 		ivGraphView = (BarOneDayView) vMain.findViewById(R.id.ivGraph);
-		
+
 		tvIndoorAQI = (TextView) vMain.findViewById(R.id.tvAqi);
 
 		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
 		tvTime = (CustomTextView) vMain.findViewById(R.id.tvTime);
-		tvHighValue= (CustomTextView) vMain.findViewById(R.id.tvHighValue);
-		tvLowValue= (CustomTextView) vMain.findViewById(R.id.tvLowValue);
-		tvRankValue= (CustomTextView) vMain.findViewById(R.id.tvRankValue);
+		tvHighValue = (CustomTextView) vMain.findViewById(R.id.tvHighValue);
+		tvLowValue = (CustomTextView) vMain.findViewById(R.id.tvLowValue);
+		tvRankValue = (CustomTextView) vMain.findViewById(R.id.tvRankValue);
 		tvPercent = (CustomTextView) vMain.findViewById(R.id.tvPercent);
 		tvAVGPMValue = (CustomTextView) vMain.findViewById(R.id.tvAVGPMValue);
 
@@ -79,21 +85,23 @@ public class IndoorDetailsFragment extends Fragment {
 		tvTime.setText(sLastUpdatedTime);
 		tvIndoorAQI.setText(String.valueOf(iAQI));
 		tvIndoorAQI.setTextColor(Utils.getAQIColor(iAQI));
-		
-		if(alAQIValues!=null && alAQIValues.size()>0){
-		tvHighValue.setText(String.valueOf(Utils.getMaximumAQI(alAQIValues)));
-		tvLowValue.setText(String.valueOf(Utils.getMinimumAQI(alAQIValues)));
-		tvPercent.setText(String.valueOf(Utils.getGoodAirPercentage(alAQIValues))+"%");
-		tvAVGPMValue.setText(String.valueOf(Utils.getAverageAQI(alAQIValues)));
-		ivGraphView.drawGraph(Utils.getArrayForAQIGraph(alAQIValues));
-		}
-		else
-		{
+
+		if (alAQIValues != null && alAQIValues.size() > 0) {
+			tvHighValue
+					.setText(String.valueOf(Utils.getMaximumAQI(alAQIValues)));
+			tvLowValue
+					.setText(String.valueOf(Utils.getMinimumAQI(alAQIValues)));
+			tvPercent.setText(String.valueOf(Utils
+					.getGoodAirPercentage(alAQIValues)) + "%");
+			tvAVGPMValue.setText(String.valueOf(Utils
+					.getAverageAQI(alAQIValues)));
+			//ivGraphView.drawGraph(Utils.getArrayForAQIGraph(alAQIValues),0);
+		} else {
 			tvHighValue.setText("--");
 			tvLowValue.setText("--");
 			tvPercent.setText("--");
 			tvAVGPMValue.setText("--");
-			//ivGraphView.drawGraph();
+			// ivGraphView.drawGraph();
 		}
 
 	}
@@ -110,5 +118,34 @@ public class IndoorDetailsFragment extends Fragment {
 				.setBackgroundResource(R.drawable.right_device_icon_black);
 		ivCenterLabel.setBackgroundResource(R.drawable.home_label_black);
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.i(TAG,"VISIBLE TO USER!!!");
+		
+		// Adding a view tree observer for the graph -
+		final ViewTreeObserver vtoGraph = ivGraphView.getViewTreeObserver();
+		vtoGraph.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+			
+			@Override
+			public void onGlobalLayout() {
+				int height = ivGraphView.getHeight();
+				int width = ivGraphView.getWidth();
+				Log.i(TAG, height + "/" + width);
+				
+				Log.i(TAG, "On GLOBAL LAYOUT :");
+				if(Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+					vtoGraph.removeGlobalOnLayoutListener(this);
+				} else {
+					vtoGraph.removeOnGlobalLayoutListener(this);
+				}
+				ivGraphView.drawGraph(Utils.getArrayForAQIGraph(alAQIValues),width);
+				
+			}
+		});
+	}
+
+
 
 }

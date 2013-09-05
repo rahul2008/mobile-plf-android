@@ -2,11 +2,16 @@ package com.philips.cl.di.dev.pa.screens.fragments;
 
 import java.util.ArrayList;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -51,20 +56,16 @@ public class OutdoorDetailsFragment extends Fragment {
 		adapter = new DatabaseAdapter(getActivity());
 		adapter.open();
 		alAQIValues = adapter.getAQIValuesForDay(sLastUpdatedDay, 2);// 2 for
-		adapter.close();																// shanghai
-		
+		adapter.close(); // shanghai
+
 		populateViews();
 		return vMain;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-
-	}
-
 	private void initilizeViews() {
 		ivGraphView = (BarOneDayView) vMain.findViewById(R.id.ivGraph);
+		ivGraphView.measure(MeasureSpec.AT_MOST, MeasureSpec.AT_MOST);
+		int height = ivGraphView.getMeasuredHeight();
 
 		tvCityName = (CustomTextView) vMain.findViewById(R.id.tvCityName);
 		tvDay = (CustomTextView) vMain.findViewById(R.id.tvDay);
@@ -90,6 +91,7 @@ public class OutdoorDetailsFragment extends Fragment {
 		ivRightDeviceIcon
 				.setBackgroundResource(R.drawable.right_device_icon_black);
 		ivCenterLabel.setBackgroundResource(R.drawable.outdoor_label_black);
+
 	}
 
 	private void populateViews() {
@@ -99,11 +101,16 @@ public class OutdoorDetailsFragment extends Fragment {
 		tvAQI.setText(String.valueOf(iAQI));
 		tvAQI.setTextColor(Utils.getAQIColor(iAQI));
 		if (alAQIValues != null && alAQIValues.size() > 0) {
-			tvHighValue.setText(String.valueOf(Utils.getMaximumAQI(alAQIValues)));
-			tvLowValue.setText(String.valueOf(Utils.getMinimumAQI(alAQIValues)));
-			tvPercent.setText(String.valueOf(Utils.getGoodAirPercentage(alAQIValues))+"%");
-			tvAVGPMValue.setText(String.valueOf(Utils.getAverageAQI(alAQIValues)));
-			ivGraphView.drawGraph(Utils.getArrayForAQIGraph(alAQIValues));
+			tvHighValue
+					.setText(String.valueOf(Utils.getMaximumAQI(alAQIValues)));
+			tvLowValue
+					.setText(String.valueOf(Utils.getMinimumAQI(alAQIValues)));
+			tvPercent.setText(String.valueOf(Utils
+					.getGoodAirPercentage(alAQIValues)) + "%");
+			tvAVGPMValue.setText(String.valueOf(Utils
+					.getAverageAQI(alAQIValues)));
+			// ivGraphView.drawGraph(Utils.getArrayForAQIGraph(alAQIValues));
+
 		} else {
 			tvHighValue.setText("--");
 			tvLowValue.setText("--");
@@ -112,4 +119,39 @@ public class OutdoorDetailsFragment extends Fragment {
 		}
 
 	}
+
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		Log.i(TAG, "ON Activity Created!!!");
+		super.onActivityCreated(savedInstanceState);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		Log.i(TAG, "VISIBLE TO USER!!!");
+
+		// Adding a view tree observer -
+		final ViewTreeObserver vtoGraph = ivGraphView.getViewTreeObserver();
+		vtoGraph.addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
+
+			@Override
+			public void onGlobalLayout() {
+				int height = ivGraphView.getHeight();
+				int width = ivGraphView.getWidth();
+				Log.i(TAG, height + "/" + width);
+
+				Log.i(TAG, "On GLOBAL LAYOUT :");
+				if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+					vtoGraph.removeGlobalOnLayoutListener(this);
+				} else {
+					vtoGraph.removeOnGlobalLayoutListener(this);
+				}
+				ivGraphView.drawGraph(Utils.getArrayForAQIGraph(alAQIValues),
+						width);
+
+			}
+		});
+	}
+
 }
