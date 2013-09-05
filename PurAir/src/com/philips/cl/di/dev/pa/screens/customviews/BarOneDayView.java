@@ -13,29 +13,51 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
+/**
+ * The Class BarOneDayView.
+ */
 public class BarOneDayView extends ImageView {
 
-	float length;
-
+	/** The color. */
 	int color;
 
+	/** The offset for drawing a smooth graph. */
 	private float offset = .20f;
 
+	/** The list of paths. */
 	private List<ColoredPath> paths;
 
+	/**
+	 * Instantiates a new bar one day view.
+	 * 
+	 * @param context
+	 *            the context
+	 */
 	public BarOneDayView(Context context) {
 		super(context);
 		init();
 	}
 
+	/**
+	 * Instantiates a new bar one day view.
+	 * 
+	 * @param context
+	 *            the context
+	 * @param attrs
+	 *            the attrs
+	 */
 	public BarOneDayView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see android.widget.ImageView#onDraw(android.graphics.Canvas)
+	 */
 	@Override
 	protected void onDraw(Canvas canvas) {
 
@@ -55,15 +77,17 @@ public class BarOneDayView extends ImageView {
 	}
 
 	/**
-	 * Draw graph.
-	 * For drawing the graph for a day the aqi array must contain 24 values .
-	 * if for a particular hour , the aqi is not available , replace it with 0 and then call this method.
-	 *
-	 * @param arrayAQIValues the array aqi values
+	 * Draw graph. For drawing the graph for a day the aqi array must contain 24
+	 * values . if for a particular hour , the aqi is not available , replace it
+	 * with 0 and then call this method.
+	 * 
+	 * @param arrayAQIValues
+	 *            the array aqi values
+	 * @param width 
 	 */
-	public void drawGraph(int[] arrayAQIValues) {
+	public void drawGraph(int[] arrayAQIValues, int width) {
 		paths = new ArrayList<ColoredPath>();
-		float drawingLengthFactor = AppConstants.DAYWIDTH
+		float drawingLengthFactor = /*AppConstants.DAYWIDTH*/ width
 				/ arrayAQIValues.length;
 		int index = 0;
 		for (int iAqi : arrayAQIValues) {
@@ -76,14 +100,30 @@ public class BarOneDayView extends ImageView {
 		invalidate();
 	}
 
+	/**
+	 * Gets the paint.
+	 * 
+	 * @param color
+	 *            the color
+	 * @return the paint
+	 */
 	private Paint getPaint(int color) {
 		Paint paint = new Paint();
-		paint.setStrokeWidth(400f);
+		paint.setStrokeWidth(400f/* height */);
 		paint.setColor(color);
 		paint.setStyle(Style.STROKE);
 		return paint;
 	}
 
+	/**
+	 * Gets the path.
+	 * 
+	 * @param index
+	 *            the index
+	 * @param drawingLengthFactor
+	 *            the drawing length factor
+	 * @return the path
+	 */
 	private Path getPath(int index, float drawingLengthFactor) {
 		Path path = new Path();
 		Log.i("START X : ", index * drawingLengthFactor + "");
@@ -93,6 +133,11 @@ public class BarOneDayView extends ImageView {
 	}
 
 }
+
+/**
+ * The Class ColoredPath. This class provides objects for different aqi values
+ * with their colors.
+ */
 
 class ColoredPath {
 
