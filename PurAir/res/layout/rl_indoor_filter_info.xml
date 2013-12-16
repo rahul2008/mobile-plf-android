@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@+id/tv_filter_mode_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="10dp"
+        android:layout_alignParentTop="true"
+        android:text="Mode" />
+    
+    <TextView
+        android:id="@+id/tv_filter_mode_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/tv_filter_mode_title"
+        android:paddingLeft="10dp"
+        android:text="Auto" />
+
+    <TextView
+        android:id="@+id/tv_filter_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="My Home" />
+
+    
+    
+    <TextView
+        android:id="@+id/tv_filter_status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:text="Filters" />
+
+    <TextView
+        android:id="@+id/tv_filter_status_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_filter_status_title"
+        android:layout_alignParentRight="true"
+        android:paddingRight="10dp"
+        android:text="Good" />
+
+</RelativeLayout>

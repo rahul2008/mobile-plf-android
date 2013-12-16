@@ -1,0 +1,29 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Indoor Air Quality Status" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/imageView1"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/textView1"
+        android:layout_marginTop="25dp"
+        android:text="Connect device to begin reading indoor air quality" />
+
+    <include
+        android:id="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textView2"
+        layout="@layout/right_menu_air_status_aqi_circle" />
+
+</RelativeLayout>

@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:clipChildren="false">
+
+    <TextView
+        android:id="@+id/tv_outdoor_aqi_status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:text="Healthy" />
+
+    <TextView
+        android:id="@+id/tv_outdoor_aqi_status_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_outdoor_aqi_status_title"
+        android:textColor="@color/white"
+        android:text="This is good air" />
+
+</RelativeLayout>

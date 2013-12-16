@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" 
+    xmlns:pureAirUI="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/right_menu"
+        android:icon="@drawable/right_bar_icon_blue_2x"
+        pureAirUI:showAsAction="always"
+        android:title="right_menu">
+    </item>
+
+</menu>

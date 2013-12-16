@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/outdoor_aqi_reading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="AQI Reading" />
+
+    <ImageView
+        android:id="@+id/outdoor_circle_meter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/colour_circle_big_2x" />
+
+    <ImageView
+        android:id="@+id/outdoor_circle_pointer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/outdoor_circle_meter"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="23dp"
+        android:src="@drawable/blue_circle_with_arrow_2x" />
+
+</RelativeLayout>

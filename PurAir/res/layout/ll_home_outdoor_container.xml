@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_home_outdoor_2"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:clipChildren="false"
+    android:weightSum="100">
+    
+    <include
+        android:id="@+id/inc_rl_home_outdoor_container"
+        android:paddingTop="3dp"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="100"
+        layout="@layout/rl_home_outdoor_container" 
+        />
+    
+ </LinearLayout>

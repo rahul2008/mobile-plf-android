@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:background="@android:color/white"
+    android:layout_gravity="bottom">
+    
+
+    <Button 
+             android:id="@+id/btn_fan_speed_turbo" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content"
+             android:background="@drawable/button_bg"
+             android:text="Turbo"
+             android:textColor="@android:color/white"
+             android:contentDescription="@string/separator"/>  
+             
+    <Button 
+             android:id="@+id/btn_fan_speed_3" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content" 
+             android:background="@drawable/button_bg"
+             android:text="3"
+             android:textColor="@android:color/white"
+             android:contentDescription="@string/separator"/>
+            
+    <Button 
+             android:id="@+id/btn_fan_speed_2" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content" 
+             android:background="@drawable/button_bg"
+             android:text="2"
+             android:textColor="@android:color/white"
+             android:contentDescription="@string/separator"/>
+    <Button 
+             android:id="@+id/btn_fan_speed_1" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content" 
+             android:background="@drawable/button_bg"
+             android:text="1"
+             android:textColor="@android:color/white"
+             android:contentDescription="@string/separator"/>  
+    <Button 
+             android:id="@+id/btn_fan_speed_silent" 
+             android:layout_width="wrap_content" 
+             android:layout_height="wrap_content" 
+             android:background="@drawable/button_bg"
+             android:text="Silent"
+             android:textColor="@android:color/white"
+             android:contentDescription="@string/separator"/>  
+</LinearLayout>

@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_home_outdoor"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:clipChildren="false"
+    android:weightSum="100">
+    
+    <include
+        android:id="@+id/inc_outdoor_filter_info"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        layout="@layout/rl_outdoor_city_info" 
+        />
+    
+    <TextView
+        android:id="@+id/v_outdoor_circle_margin"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="11" />
+    
+    <RelativeLayout 
+        android:id="@+id/rl_outdoor_circle_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="53"
+        android:clipChildren="false" >
+        
+        <include
+            android:id="@+id/inc_outdoor_circle"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" 
+            layout="@layout/outdoor_circle" />
+        
+    </RelativeLayout>
+    
+    <View
+        android:id="@+id/v_outdoor_aqi_info_margin"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3" 
+        />
+    
+    <include
+        android:id="@+id/inc_outdoor_filter_info"
+		android:layout_width="fill_parent"
+		android:layout_height="0dp"
+		android:layout_weight="10"
+		layout="@layout/rl_outdoor_aqi_info" />"
+
+</LinearLayout>

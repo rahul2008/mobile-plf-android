@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Error messages -->
-    <string name="warning">Warning</string>
-    <string name="ok">OK</string>
-    <string name="app_name">PurAir</string>
+    <string name="app_name">PureAirUI</string>
     <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    
+    <string name="list_item_1">Home</string>
+    <string name="list_item_2">Air Quality Explained</string>
+    <string name="list_item_3">Outdoor Locations</string>
+    <string name="list_item_4">Notifications</string>
+    <string name="list_item_5">Help and Documentation</string>
+    <string name="list_item_6">Tools</string>
+    <string name="list_item_7">Product Registration</string>
+    <string name="list_item_8">Buy Online</string>
+    <string name="separator"></string>
+    
+    <string name="onehour">1 Hour</string>
+	<string name="fourhour">4 Hour</string>
+	<string name="eighthour">8 Hour</string>
+	<string name="off">OFF</string>
+	
+	<string name="set_timer">Set Timer</string>
+    
+    <!-- Navigation menu items -->
+    <string-array name="left_menu_items">
+        <item >Home</item>
+        <item >Air Quality Explained</item>
+        <item >Outdoor Locations</item>
+        <item >Notifications</item>
+        <item >Help and Documentation</item>
+        <item >Tools</item>
+        <item >Product Registration</item>
+        <item >Buy Online</item>
+    </string-array>
+    
+    <!-- Nav Drawer List Item Icons -->
+    <!-- Keep them in order as the titles are in -->
+    <array name="left_menu_icons">
+        <item>@drawable/icon_1_2x</item>
+        <item>@drawable/icon_2_2x</item>
+        <item>@drawable/icon_3_2x</item>
+        <item>@drawable/icon_4_2x</item>
+        <item>@drawable/icon_5_2x</item>
+        <item>@drawable/icon_6_2x</item>
+        <item>@drawable/icon_7_2x</item>
+        <item>@drawable/icon_8_2x</item>
+    </array>
+    
+    <!-- Content Description -->
+    <string name="desc_list_item_icon">Item Icon</string>
+    
+    <!-- Network Error Messages -->
+	<string name="network_error">Network Error</string>
+
+<string name="action_settings">Settings</string>
     <string name="connection_status">Connection Status</string>
     <string name="connected">Connected</string>
     
@@ -55,5 +103,5 @@
 	<string name="off">OFF</string>
 	
 	<string name="set_timer">Set Timer</string>
-	    
+
 </resources>

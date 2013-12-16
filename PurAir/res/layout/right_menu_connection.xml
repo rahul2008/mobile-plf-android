@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    
+    <TextView
+        android:id="@+id/connection_status_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="16dp"
+        android:text="Connection Status"
+        android:textSize="16sp"
+        />
+
+    <ImageView
+        android:id="@+id/connection_status_iv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/connection_status_title"
+        android:layout_below="@+id/connection_status_title"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/wifi_icon_2x" />
+
+    <TextView
+        android:id="@+id/connection_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/connection_status_iv"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/connection_status_iv"
+        android:text="Not connected" />
+
+    <Button
+        android:id="@+id/connect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/connection_status"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/button_bg"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:textColor="#ffffff"
+        android:text="Connect" 
+        android:textSize="12sp"/>
+
+    <ImageView
+        android:id="@+id/seperator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/connection_status"
+        android:layout_marginTop="14dp"
+        android:src="@drawable/border_line_left_menu_2x"
+        android:scaleType="fitEnd" />
+
+</RelativeLayout>
