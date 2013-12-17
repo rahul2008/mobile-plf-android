@@ -103,5 +103,7 @@
 	<string name="off">OFF</string>
 	
 	<string name="set_timer">Set Timer</string>
+	<string name="warning">Warning</string>
+	<string name="ok">OK</string>
 
 </resources>
