@@ -2,9 +2,6 @@ package com.philips.cl.di.dev.pa.controller;
 
 import java.util.ArrayList;
 
-
-
-
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
