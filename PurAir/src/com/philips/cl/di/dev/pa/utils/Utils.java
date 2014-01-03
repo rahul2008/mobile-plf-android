@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.utils;
 
 import java.io.File;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,9 +21,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
 import android.content.res.AssetManager;
 import android.content.SharedPreferences;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Typeface;
-import android.os.Environment;
 import android.text.InputFilter;
 import android.util.Log;
 import android.view.Display;
@@ -34,7 +33,6 @@ import android.widget.EditText;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.screens.adapters.DatabaseAdapter;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -243,43 +241,8 @@ public class Utils {
 	 *            the filter value
 	 * @return the time remaining
 	 */
-	public static String getTimeRemaining(int filterValue) {
-		String timeRemaining = "";
-		if (filterValue >= 360) {
-			timeRemaining = "> 1 year left";
-		} else if (filterValue >= 180) {
-			timeRemaining = "1 year left";
-		} else if (filterValue >= 90) {
-			timeRemaining = "6 months left";
-		} else if (filterValue >= 75) {
-			timeRemaining = "3 months left";
-		} else if (filterValue >= 60) {
-			timeRemaining = "2.5 months left";
-		} else if (filterValue >= 45) {
-			timeRemaining = "2 months left";
-		} else if (filterValue >= 28) {
-			timeRemaining = "1.5 months left";
-		} else if (filterValue >= 21) {
-			timeRemaining = "4 weeks left";
-		} else if (filterValue >= 14) {
-			timeRemaining = "3 weeks left";
-		} else if (filterValue >= 10) {
-			timeRemaining = "2 weeks left";
-		} else if (filterValue >= 7) {
-			timeRemaining = "1.5 weeks left";
-		} else if (filterValue >= 5) {
-			timeRemaining = "1 weeks left";
-		} else if (filterValue >= 3) {
-			timeRemaining = "5 days left";
-		} else if (filterValue > 2) {
-			timeRemaining = "3 days left";
-		} else if (filterValue > 1) {
-			timeRemaining = "2 days left";
-		} else if (filterValue > 0) {
-			timeRemaining = "1 days left";
-		} else if (filterValue < 1) {
-			timeRemaining = "overdue";
-		}
+	public static String getTimeRemaining(int filterType,int filterValue) {
+		String timeRemaining = "Needs to be implemented";
 
 		return timeRemaining;
 	}

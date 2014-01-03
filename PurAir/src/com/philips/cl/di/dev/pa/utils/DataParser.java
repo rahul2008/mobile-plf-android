@@ -1,24 +1,17 @@
 package com.philips.cl.di.dev.pa.utils;
-
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.json.JSONException;
 
 import org.json.JSONObject;
-import org.xml.sax.SAXException;
 
-import android.util.Log;
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.dto.Weatherdto;
 import com.philips.cl.di.dev.pa.interfaces.DataParserInterface;
 
 /***
@@ -27,11 +20,10 @@ import com.philips.cl.di.dev.pa.interfaces.DataParserInterface;
  *
  */
 public class DataParser implements DataParserInterface {
-	private static final String TAG = DataParser.class.getSimpleName() ;
+	//private static final String TAG = DataParser.class.getSimpleName() ;
 	private String dataToParse ;
-	
+
 	public DataParser(String dataToParse) {
-		Log.i(TAG, "DataParser") ;
 		this.dataToParse = dataToParse ;
 	}
 
@@ -40,78 +32,49 @@ public class DataParser implements DataParserInterface {
 		AirPurifierEventDto airPurifierEvent = null ;
 		try {			
 			JSONObject jsonObj = new JSONObject(dataToParse) ;
-			airPurifierEvent = new AirPurifierEventDto() ;
-			
-			airPurifierEvent.setGasSensor(Double.parseDouble((jsonObj.getString(ParserConstants.GAS_SENSOR)))) ;
+			airPurifierEvent = new AirPurifierEventDto() ;			
+
 			airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
-			airPurifierEvent.setMotorSpeed(Integer.parseInt(jsonObj.getString(ParserConstants.MOTOR_SPEED))) ;
-			airPurifierEvent.setOutdoorAirQuality(Integer.parseInt(jsonObj.getString(ParserConstants.OUTDOOR_AQI))) ;
+			airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
 			airPurifierEvent.setPowerMode(jsonObj.getString(ParserConstants.POWER_MODE)) ;
 			airPurifierEvent.setIndoorAQI(Integer.parseInt(jsonObj.getString(ParserConstants.AQI))) ;
-			 
-			
+			airPurifierEvent.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
+			airPurifierEvent.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
+			airPurifierEvent.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
+			airPurifierEvent.setFilterStatus1(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_1))) ;
+			airPurifierEvent.setFilterStatus2(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_2))) ;
+			airPurifierEvent.setFilterStatus3(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_3))) ;
+			airPurifierEvent.setFilterStatus4(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_4))) ;
+			airPurifierEvent.setReplaceFilter1(jsonObj.getString(ParserConstants.CLEAN_FILTER_1)) ;
+			airPurifierEvent.setReplaceFilter2(jsonObj.getString(ParserConstants.REP_FILTER_2)) ;
+			airPurifierEvent.setReplaceFilter3(jsonObj.getString(ParserConstants.REP_FILTER_3)) ;
+			airPurifierEvent.setReplaceFilter4(jsonObj.getString(ParserConstants.REP_FILTER_4)) ;
+			airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CL))) ;
+			airPurifierEvent.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
+			airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;			
+
 		} catch (JSONException e) {
 			return null ;
 		}
- 		
+
 		return airPurifierEvent ;
 	}
 
 	@Override
 	public void parseHistoryData() {
-		
+
 	}
 
-	/**
-	 * Parse the filter Status Data
-	 */
+
 	@Override
-	public FilterStatusDto parseFilterStatusData() {
-		Log.i(TAG, dataToParse) ;
-		FilterStatusDto filterStatusData = null ;
-		try {
-			JSONObject jsonObj = new JSONObject(dataToParse) ;
-			filterStatusData = new FilterStatusDto() ;
-			filterStatusData.setPreFilterStatus(jsonObj.optInt(ParserConstants.PRE_FILTER)) ;
-			filterStatusData.setActiveCarbonFilterStatus(jsonObj.optInt(ParserConstants.ACTIVE_CARBON_FILTER)) ;
-			filterStatusData.setHepaFilterStatus(jsonObj.optInt(ParserConstants.HEPA_FILTER)) ;
-			filterStatusData.setMultiCareFilterStatus(jsonObj.optInt(ParserConstants.MULTI_CARE_FILTER)) ;
-			
-		} catch (JSONException e) {
-			return null ;
-		}
-		return filterStatusData;
+	public void parseOutdoorAQIData() {
+		Gson gson = new GsonBuilder().create() ;
+		OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
+		SessionDto.getInstance().setOutdoorEventDto(outdoorAQI) ;
 	}
 
 	@Override
-	public List<OutdoorAQIEventDto> parseOutdoorAQIData() {
-		List<OutdoorAQIEventDto> outdoorList = null ;
-		try {
-			OutdoorAQIParser parser = new OutdoorAQIParser() ;
-			SAXParserFactory factory = SAXParserFactory.newInstance() ;
-			SAXParser saxParser = factory.newSAXParser();
-			
-			ByteArrayInputStream bis = new ByteArrayInputStream(dataToParse.getBytes()) ;
-			
-			saxParser.parse(bis, parser) ;
-			outdoorList =  parser.list ;
-			
-		}
-		catch(NullPointerException e)
-		{
-			// TODO
-			e.printStackTrace();
-		}
-		catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return outdoorList ;
+	public List<Weatherdto> parseWeatherData() {
+		return new WeatherDataParser().parseWeatherData(dataToParse) ;
 	}
 }
