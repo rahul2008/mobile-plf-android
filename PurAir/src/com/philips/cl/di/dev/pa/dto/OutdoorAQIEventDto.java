@@ -1,26 +1,48 @@
-package com.philips.cl.di.dev.pa.dto;
-
+package com.philips.cl.di.dev.pa.dto ;
 public class OutdoorAQIEventDto {
-	private int outdoorAQI ;
-	private String syncDateTime ;
-	private int cityID ;
 	
-	public int getOutdoorAQI() {
-		return outdoorAQI;
+	private int [] idx ;
+	private int [] pm10 ;
+	private int [] pm25 ;
+	private int [] so2 ;
+	
+	private int [] no2 ;
+	public int[] getPm10() {
+		return pm10;
 	}
-	public void setOutdoorAQI(int outdoorAQI) {
-		this.outdoorAQI = outdoorAQI;
+	public void setPm10(int[] pm10) {
+		this.pm10 = pm10;
 	}
-	public String getSyncDateTime() {
-		return syncDateTime;
+	private String t ;
+	public int[] getIdx() {
+		return idx;
 	}
-	public void setSyncDateTime(String syncDateTime) {
-		this.syncDateTime = syncDateTime;
+	public void setIdx(int[] idx) {
+		this.idx = idx;
 	}
-	public int getCityID() {
-		return cityID;
+	
+	public int[] getPm25() {
+		return pm25;
 	}
-	public void setCityID(int cityID) {
-		this.cityID = cityID;
+	public void setPm25(int[] pm25) {
+		this.pm25 = pm25;
+	}
+	public int[] getSo2() {
+		return so2;
+	}
+	public void setSo2(int[] so2) {
+		this.so2 = so2;
+	}
+	public int[] getNo2() {
+		return no2;
+	}
+	public void setNo2(int[] no2) {
+		this.no2 = no2;
+	}
+	public String getT() {
+		return t;
+	}
+	public void setT(String t) {
+		this.t = t;
 	}
 }
