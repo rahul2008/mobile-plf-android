@@ -33,6 +33,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	@Override
 	protected String doInBackground(String... urls) {
 		// params comes from the execute() call: params[0] is the url.
+		Log.i(TAG, urls[0]) ;
 		try {
 			String result = downloadUrl(urls[0]);
 			if (result == null || result.length() == 0) {
@@ -49,7 +50,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String response) {
 		if (response != null) {
-			Log.e(TAG, response);
+			//Log.e(TAG, response);
 		}
 		
 		if (listener!=null) {
@@ -66,14 +67,13 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	 */
 	private String downloadUrl(String stringUrl) throws IOException {
 		InputStream inputStream = null;
+		HttpURLConnection conn = null ;
 		try {
 			URL url = new URL(stringUrl);
 			
 //			Log.d(getClass().getSimpleName(), "Start download from URL : " + url);
 
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setReadTimeout(10000 /* milliseconds */);
-			conn.setConnectTimeout(10000 /* milliseconds */);
+			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			
 
@@ -91,7 +91,12 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 			// finished using it.
 			if (inputStream != null) {
 				inputStream.close();
+				inputStream = null ;
 			} 
+			if( conn != null ) {
+				conn.disconnect() ;
+				conn = null ;
+			}
 		}
 	}
 
