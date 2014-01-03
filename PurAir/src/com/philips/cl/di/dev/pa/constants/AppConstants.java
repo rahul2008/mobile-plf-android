@@ -7,6 +7,7 @@ import android.graphics.Color;
  * The Class AppConstants.
  */
 public class AppConstants {
+	public static final String EMPTY_STRING = "" ;
 	// Icon for left menu
 	/** The icon home. */
 	public static String ICON_HOME = "icon_home";
@@ -61,13 +62,16 @@ public class AppConstants {
 
 	// Network related data
 	/** The Constant UPDATE_INTERVAL. */
-	public static final long UPDATE_INTERVAL = 3 * 1000;
+	public static final long UPDATE_INTERVAL = 5 * 1000;
+	
+	public static final long UPDATE_INTERVAL_CPP = 30  * 1000 ;
 
 	/** The Constant URL. */
-	public static final String URL = "http://%s/di/v1/status";
 
 	/** The Constant URL_CURRENT. */
-	public static final String URL_CURRENT = "http://%s/di/v1/status/current";
+	public static final String URL_CURRENT = "http://%s/di/v1/products/1/air";
+	
+	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
 
 	/** The Constant URL_HISTORY. */
 	public static final String URL_HISTORY = "http://%s/di/v1/activity";
@@ -210,7 +214,6 @@ public class AppConstants {
 	public static final String SHANGHAI_BAD = "shanghai_bad";
 	public static final String SHANGHAI_FAIR = "shanghai_fair";
 
-	
 	public static final int OUTDOOR_AQI_UPDATE_DURATION = 60 * 60 * 1000 ;
 
 	public static final String WARNING_VGOOD = "warning_vgood";
@@ -232,13 +235,10 @@ public class AppConstants {
 	public static final String LAST_UPDATED_DAY = "last_updated_day";
 
 	
-	public static final String SHANGHAI_OUTDOOR_AQI_URL = "http://www.stateair.net/web/rss/1/4.xml" ;
+	public static final String SHANGHAI_OUTDOOR_AQI_URL = "http://ixuanwu.com.cn/app/city-hourly-gov.php?key=shanghai" ;
 	public static final String BEIJING_OUTDOOR_AQI_URL = "http://www.stateair.net/web/rss/1/1.xml" ;
 	public static final String GUANGZHOU_OUTDOOR_AQI_URL = "http://www.stateair.net/web/rss/1/3.xml" ;
 	
-	public static final int SHANGHAI_CITY_ID = 3 ;
-	public static final int BEIJING_CITY_ID = 1 ;
-	public static final int GUANGZHOU_CITY_ID = 2 ;
 
 	public static final String MAP_BUNDLE = "map_bundle";
 
@@ -264,4 +264,10 @@ public class AppConstants {
 	public static final String OUTDOOR = "outdoor";
 	
 	
+	public static final String EVENT_DATA = "" ;
+	
+	
+	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
+	public static final String DI_ACTION_PUTPROPS = "PUTPROPS" ;
+	public static final String DI_ACTION_GETPROPS = "GETPROPS" ;
 }

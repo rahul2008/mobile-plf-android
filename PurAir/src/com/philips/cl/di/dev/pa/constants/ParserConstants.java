@@ -6,23 +6,36 @@ package com.philips.cl.di.dev.pa.constants;
  */
 public class ParserConstants {
 	/** Air Purifier Event Constants **/
-	public static final String FLOW_LED_1 = "flow_led_1" ;
-	public static final String FLOW_LED_2 = "flow_led_2" ;
-	public static final String FLOW_LED_3 = "flow_led_3" ;
-	public static final String MOTOR_SPEED = "motor_speed" ;
-	public static final String RING_COLOR = "ring_color" ;
-	public static final String PARTICLE_SENSOR = "particle_sensor" ;
-	public static final String GAS_SENSOR = "gas_sensor" ;
-	public static final String POWER_MODE = "power_mode" ;
-	public static final String MACHINE_MODE = "machine_mode" ;
+	public static final String POWER_MODE = "pwr" ;
+	public static final String MACHINE_MODE = "om" ;
 	public static final String AQI = "aqi" ;
-	public static final String EWS_LED = "ews_led" ;
-	public static final String OUTDOOR_AQI = "outdoor_aqi" ;
+	public static final String CL = "cl" ;
+	public static final String AQI_LIGHT = "aqil" ;
+	public static final String FILTER_STATUS_1 = "fs1" ;
+	public static final String FILTER_STATUS_2 = "fs2" ;
+	public static final String FILTER_STATUS_3 = "fs3" ;
+	public static final String FILTER_STATUS_4 = "fs4" ;
+	public static final String DTRS = "dtrs" ;
+	public static final String AQI_THRESHOLD = "aqit" ;
+	public static final String CLEAN_FILTER_1 = "clef1" ;
+	public static final String REP_FILTER_2 = "repf2" ;
+	public static final String REP_FILTER_3 = "repf3" ;
+	public static final String REP_FILTER_4 = "repf4" ;
+	public static final String FAN_SPEED = "fspd" ;
+	public static final String TFAV = "tfav" ;
+	public static final String PSENS = "psens" ;
+	
+ 	
 	public static final String TIMESTAMP = "time_stamp" ;
 	
-	
-	public static final String PRE_FILTER = "pre_filter" ;
-	public static final String MULTI_CARE_FILTER = "multi_care_filter" ;
-	public static final String ACTIVE_CARBON_FILTER = "active_carbon_filter" ;
-	public static final String HEPA_FILTER = "hepa_filter" ;
-}
+	// Weather details constants
+	public static final String DATA = "data" ;
+	public static final String WEATHER = "weather" ;
+	public static final String DATE = "date" ;
+	public static final String TIME = "time" ;
+	public static final String TEMP_F = "tempF" ;
+	public static final String TEMP_C = "tempC" ;
+	public static final String HOURLY = "hourly" ;
+	public static final String CURRENT_CONDITION = "current_condition" ;
+	public static final String OBSERVATION_TIME = "observation_time" ;
+} 
