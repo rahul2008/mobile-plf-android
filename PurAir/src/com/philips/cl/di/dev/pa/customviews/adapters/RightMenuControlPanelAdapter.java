@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 
-public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter {
+public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter implements OnClickListener{
 	private static final String TAG = RightMenuControlPanelAdapter.class.getSimpleName();
 	
 	private Activity activity;
@@ -42,6 +43,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter {
     	this.parentItems = parents;
         this.childItems = childern;
         childClickListener = new ChildClickListener();
+        
 	}
     
     public void setInflater(LayoutInflater inflater, Activity activity)
@@ -82,10 +84,28 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter {
         		Log.i(TAG, "Inflating TIMER");
         		convertView = inflater.inflate(R.layout.rl_rm_timer, null);
         		btn = (Button) convertView.findViewById(R.id.off);
-        		btn.setOnClickListener(childClickListener);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.two_hours);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.four_hours);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.eight_hours);
+        		btn.setOnClickListener(this);
         	} else if (groupPosition == 1){
         		Log.i(TAG, "Inflating FAN_SPEED");
         		convertView = inflater.inflate(R.layout.rl_rm_fan_speed, null);
+        		btn = (Button) convertView.findViewById(R.id.fan_speed_silent);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.fan_speed_turbo);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.fan_speed_auto);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.fan_speed_one);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.fan_speed_two);
+        		btn.setOnClickListener(this);
+        		btn = (Button) convertView.findViewById(R.id.fan_speed_three);
+        		btn.setOnClickListener(this);
         	} else {
         		Log.i(TAG, "Inflating HELLO WORLD");
         		convertView = inflater.inflate(R.layout.ll_rm_control_panel_child_view, null);
@@ -121,17 +141,31 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
-		Log.i(TAG, "getGroupView groupPosition " + groupPosition + " isExpanded " + isExpanded); 
+		Log.i(TAG, "getGroupView groupPosition " + groupPosition + " isExpanded " + isExpanded + " parentItems " + parentItems.toString()); 
 		expandableListView = parent;
 		
 		if (convertView == null) {
             convertView = inflater.inflate(R.layout.rl_rm_control_panel, null);
         }
 		TextView tv = (TextView) convertView.findViewById(R.id.control_panel_item_text);
+		
 		tv.setText(parentItems.get(groupPosition));
 		tv.setFocusable(true);
 		
 		Button v = (Button) convertView.findViewById(R.id.control_panel_item_button);
+		Log.i(TAG, "getGroupView button text " + v.getText());
+		if(v.getText().equals("Button")) {
+			switch(groupPosition) {
+			case 0 : v.setText("Off");
+				break;
+			case 1 : v.setText("Silent");
+				break;
+			case 2 : v.setText("1");
+				break;
+			default : v.setText("Off");
+				break;
+			}
+		}
 		v.setFocusable(false);
 		v.setOnClickListener(new OnClickListener() {
 			
@@ -155,7 +189,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter {
 
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -215,6 +249,46 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter {
 	    Log.i(TAG, "setListViewHeight " + params.height);
 	    listView.setLayoutParams(params);
 	    listView.requestLayout();
+	}
+	
+	@Override
+	public void onClick(View v) {
+		Log.i(TAG, "onClick");
+		View view;
+		Button tv;
+		switch (v.getId()) {
+		case R.id.off:
+		case R.id.two_hours:
+		case R.id.four_hours:
+		case R.id.eight_hours:
+			
+			Log.i(TAG, "onClick TIMER OFF");
+			view = ((ExpandableListView) expandableListView).getChildAt(2);
+			tv = (Button) view.findViewById(R.id.control_panel_item_button);
+			Log.i(TAG, "tv " + tv.getText().toString() + " Button Text " + (((Button) v).getText()));
+			tv.setText(((Button) v).getText());
+			
+			expandableListView.requestLayout();
+			break;
+			
+		case R.id.fan_speed_silent:
+		case R.id.fan_speed_turbo:
+		case R.id.fan_speed_auto:
+		case R.id.fan_speed_one:
+		case R.id.fan_speed_two:
+		case R.id.fan_speed_three:
+			
+			Log.i(TAG, "onClick TIMER OFF");
+			view = ((ExpandableListView) expandableListView).getChildAt(1);
+			tv = (Button) view.findViewById(R.id.control_panel_item_button);
+			Log.i(TAG, "tv " + tv.getText().toString() + " Button Text " + (((Button) v).getText()));
+			tv.setText(((Button) v).getText());
+			
+			expandableListView.requestLayout();
+			break;
+		default:
+			break;
+		}
 	}
 
 }

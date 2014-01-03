@@ -4,52 +4,64 @@
     android:layout_height="wrap_content" >
 
     <Button
-        android:id="@+id/control_panel_item_button"
-        android:layout_width="wrap_content"
+        android:id="@+id/fan_speed_silent"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Button" />
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Silent" />
 
     <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
+        android:id="@+id/fan_speed_turbo"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/control_panel_item_button"
-        android:text="Button" />
+        android:layout_toRightOf="@+id/fan_speed_silent"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Turbo" />
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
+        android:id="@+id/fan_speed_auto"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/button2"
-        android:text="Button" />
+        android:layout_toRightOf="@+id/fan_speed_turbo"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Auto" />
 
     <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
+        android:id="@+id/fan_speed_one"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/control_panel_item_button"
-        android:text="Button" />
+        android:layout_below="@+id/fan_speed_silent"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="1" />
 
     <Button
-        android:id="@+id/button5"
-        android:layout_width="wrap_content"
+        android:id="@+id/fan_speed_two"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/button4"
-        android:layout_alignBottom="@+id/button4"
-        android:layout_toRightOf="@+id/button4"
-        android:text="Button" />
+        android:layout_alignBaseline="@+id/fan_speed_one"
+        android:layout_alignBottom="@+id/fan_speed_one"
+        android:layout_toRightOf="@+id/fan_speed_one"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="2" />
 
     <Button
-        android:id="@+id/button6"
-        android:layout_width="wrap_content"
+        android:id="@+id/fan_speed_three"
+        android:layout_width="80dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/button2"
-        android:layout_toRightOf="@+id/button2"
-        android:text="Button" />
+        android:layout_below="@+id/fan_speed_turbo"
+        android:layout_toRightOf="@+id/fan_speed_turbo"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="3" />
 
 </RelativeLayout>
