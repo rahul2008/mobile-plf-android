@@ -6,11 +6,32 @@
 
     <TextView
         android:id="@+id/tv_lm_tools_title"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="Tools page" />
+        android:text="IPAddress" />
+
+    <EditText
+        android:id="@+id/tvipaddress"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_lm_tools_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="24dp"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/tv_lm_tools_title"
+        android:layout_below="@+id/tvipaddress"
+        android:layout_marginTop="33dp"
+        android:text="Submit" />
 
 </RelativeLayout>
