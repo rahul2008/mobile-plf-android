@@ -18,5 +18,5 @@ public interface AirPurifierEventListener {
 	 *
 	 * @param airPurifierEvent the air purifier event
 	 */
-	public void sensorDataReceived(AirPurifierEventDto airPurifierEvent) ;
+	public void airPurifierEventReceived(AirPurifierEventDto airPurifierEvent) ;
 }
