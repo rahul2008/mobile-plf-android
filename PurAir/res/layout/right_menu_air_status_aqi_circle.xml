@@ -2,20 +2,21 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="300" />
-
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/iv_rm_air_status_background"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/aqi_blue_circle_2x" />
+        android:src="@drawable/aqi_small_circle_2x" />
+    
+    <TextView
+        android:id="@+id/tv_rm_air_status_aqi_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:textColor="#ffffff"
+        android:text="300" />
 
 </RelativeLayout>

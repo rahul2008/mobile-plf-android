@@ -5,7 +5,7 @@
     android:layout_gravity="bottom">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tv_lm_air_quality_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -13,11 +13,11 @@
         android:text="Benefits of having Air Purifier" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_lm_air_quality_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/textView1"
+        android:layout_below="@+id/tv_lm_air_quality_title"
         android:layout_marginTop="14dp"
         android:text="Info info info info info info info info info info info info info info info info" />
 

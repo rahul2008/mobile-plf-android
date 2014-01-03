@@ -52,8 +52,8 @@
     
 		    <include
 		        android:layout_width="match_parent"
-		        android:layout_height="wrap_content" 
-		        layout="@layout/control_panel" />
+		        android:layout_height="match_parent" 
+		        layout="@layout/right_menu_control_panel" />
     
 		    <include
 		        android:layout_width="match_parent"

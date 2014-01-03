@@ -26,7 +26,7 @@ import static com.philips.cl.di.dev.pa.util.AppConstants.*;
 public class HomeFragment extends Fragment implements OnClickListener, OnGestureListener{
 	
 	/** The Constant TAG. */
-	private final static String TAG = HomeFragment.class.getSimpleName();
+	public final static String TAG = HomeFragment.class.getSimpleName();
 	
 	/** The main view. */
 	private View vMain;
@@ -164,13 +164,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				ObjectAnimator.ofFloat(ivOutdoorMeter, animAlpha, 0),
 				ObjectAnimator.ofFloat(tvOutdoorTitle, animAlpha, 0),
 				ObjectAnimator.ofFloat(tvOutdoorComment, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, getOutdoorCityInfoTranslationY()),
-				ObjectAnimator.ofFloat(tvUpdatedValue, animTranslationY, getOutdoorCityInfoTranslationY()),
-				ObjectAnimator.ofFloat(tvCity, animTranslationY, getOutdoorCityInfoTranslationY()),
-				ObjectAnimator.ofFloat(tvLocality, animTranslationY, getOutdoorCityInfoTranslationY()),
+				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, getCityInfoScaleUpTransformY()),
+				ObjectAnimator.ofFloat(tvUpdatedValue, animTranslationY, getCityInfoScaleUpTransformY()),
+				ObjectAnimator.ofFloat(tvCity, animTranslationY, getCityInfoScaleUpTransformY()),
+				ObjectAnimator.ofFloat(tvLocality, animTranslationY, getCityInfoScaleUpTransformY()),
 				ObjectAnimator.ofFloat(tvLocality, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvOutdoorTemperature, animTranslationY, getOutdoorCityInfoTranslationY()),
-				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, animTranslationY, getOutdoorCityInfoTranslationY()));
+				ObjectAnimator.ofFloat(tvOutdoorTemperature, animTranslationY, getCityInfoScaleUpTransformY()),
+				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, animTranslationY, getCityInfoScaleUpTransformY()));
 		scaleDownOutdoorFragment.setDuration(animDuration);
 		
 		scaleUpOutdoorFragment = new AnimatorSet();
@@ -185,14 +185,14 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				ObjectAnimator.ofFloat(ivOutdoorMeter, animAlpha, 0, 1),
 				ObjectAnimator.ofFloat(tvOutdoorTitle, animAlpha, 0, 1),
 				ObjectAnimator.ofFloat(tvOutdoorComment, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, getOutdoorCityInfoTranslationY(), 0),
-				ObjectAnimator.ofFloat(tvUpdatedValue, animTranslationY, getOutdoorCityInfoTranslationY(), 0),
-				ObjectAnimator.ofFloat(tvCity, animTranslationY, getOutdoorCityInfoTranslationY(), 0),
+				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
+				ObjectAnimator.ofFloat(tvUpdatedValue, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
+				ObjectAnimator.ofFloat(tvCity, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
 				ObjectAnimator.ofFloat(tvLocality, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvLocality, animTranslationY, getOutdoorCityInfoTranslationY(), 0),
+				ObjectAnimator.ofFloat(tvLocality, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
 				ObjectAnimator.ofFloat(tvLocality, animAlpha, 1.0f),
-				ObjectAnimator.ofFloat(tvOutdoorTemperature, animTranslationY, getOutdoorCityInfoTranslationY(), 0),
-				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, animTranslationY, getOutdoorCityInfoTranslationY(), 0));
+				ObjectAnimator.ofFloat(tvOutdoorTemperature, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
+				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()));
 		scaleUpOutdoorFragment.setDuration(animDuration);
 		
 		//Only used once to align the outdoor fragment elements at the launch of the application.

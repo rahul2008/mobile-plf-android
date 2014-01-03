@@ -11,7 +11,7 @@
              android:id="@+id/btn_onehour" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content"
-             android:background="@drawable/button_selector"
+             android:background="@drawable/button_bg"
              android:text="@string/onehour"
              android:textColor="@color/white"
              android:contentDescription="@string/separator"/>  
@@ -20,7 +20,7 @@
              android:id="@+id/btn_fourhour" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/button_selector"
+             android:background="@drawable/button_bg"
              android:text="@string/fourhour"
              android:textColor="@color/white"
              android:contentDescription="@string/separator"/>
@@ -28,7 +28,7 @@
              android:id="@+id/btn_eighthour" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/button_selector"
+             android:background="@drawable/button_bg"
              android:text="@string/eighthour"
              android:textColor="@color/white"
              android:contentDescription="@string/separator"/>  
@@ -36,7 +36,7 @@
              android:id="@+id/btn_timeroff" 
              android:layout_width="wrap_content" 
              android:layout_height="wrap_content" 
-             android:background="@drawable/button_selector"
+             android:background="@drawable/button_bg"
              android:text="@string/off"
              android:textColor="@color/white"
              android:contentDescription="@string/separator"/>  

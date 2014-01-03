@@ -6,6 +6,7 @@ import java.util.List;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
+import com.philips.cl.di.dev.pa.customviews.adapters.RightMenuControlPanelAdapter;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.BuyOnlineFragment;
@@ -28,19 +29,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class MainActivity extends ActionBarActivity {
 	
+	private static final String TAG = MainActivity.class.getSimpleName();
+
 	private static int screenWidth, screenHeight;
 	
 	private ActionBar mActionBar;
@@ -49,6 +57,12 @@ public class MainActivity extends ActionBarActivity {
 	private ScrollView mScrollViewRight;
 	private RightMenuClickListener rightMenuClickListener;
 	
+	//Right menu stuff
+	private ExpandableListView rightMenuControlPanel;
+	private ArrayList<String> parentItems = new ArrayList<String>();
+    private ArrayList<Object> childItems = new ArrayList<Object>();
+    private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
+    
 	//Filter status bars
 //	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
 	
@@ -78,6 +92,9 @@ public class MainActivity extends ActionBarActivity {
 			
 			@Override
 			public void onDrawerClosed(View drawerView) {
+				if(drawerView.getId() == R.id.right_menu) {
+					collapseAllGroups();
+				}
 				mRightDrawerOpened = false;
 				supportInvalidateOptionsMenu();
 				
@@ -86,6 +103,7 @@ public class MainActivity extends ActionBarActivity {
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				if(drawerView.getId() == R.id.right_menu) {
+					setListViewHeightBasedOnChildren(rightMenuControlPanel);
 					mRightDrawerOpened = true;
 				}
 				supportInvalidateOptionsMenu();
@@ -98,7 +116,17 @@ public class MainActivity extends ActionBarActivity {
 		mListViewLeft = (ListView) findViewById(R.id.left_menu);
 		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu);
 		
+		rightMenuControlPanel = (ExpandableListView) findViewById(R.id.exp_list_rm_control_panel);
+		rightMenuControlPanel.setDividerHeight(2);
+		rightMenuControlPanel.setClickable(true);
+		
 		rightMenuClickListener = new RightMenuClickListener(this);
+		setChildData();
+		setParentData();
+		
+		rightMenuControlPanelAdapter = new RightMenuControlPanelAdapter(parentItems, childItems);
+		rightMenuControlPanelAdapter.setInflater(getLayoutInflater(), this);
+		rightMenuControlPanel.setAdapter(rightMenuControlPanelAdapter);
 		
 		ViewGroup group = (ViewGroup)findViewById(R.id.right_menu_layout);
 		setAllButtonListener(group);
@@ -106,10 +134,67 @@ public class MainActivity extends ActionBarActivity {
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 		
-		getSupportFragmentManager().beginTransaction()
-		.add(R.id.llContainer, getDashboard(), "HomeIndoorFragment")
+		int id = getSupportFragmentManager().beginTransaction()
+		.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
+		.addToBackStack(null)
 		.commit();
 		
+		Log.i(TAG, "Home Fragment id " + id); 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		Log.i(TAG, "onBackPressed");
+		FragmentManager manager = getSupportFragmentManager();
+		int count = manager.getBackStackEntryCount();
+		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		Log.i(TAG, "currentFragment " + fragment);
+		Log.i(TAG, "onBackPressed count " + count);
+		if(count > 1 && !(fragment instanceof HomeFragment)) {
+			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			showFragment(getDashboard());
+			setTitle("PureAirUI");
+		} else {
+		
+			finish();
+		}
+		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+	}
+	
+	public void collapseAllGroups() {
+		ExpandableListAdapter adapter = rightMenuControlPanel.getExpandableListAdapter();
+		for(int i = 0; i < adapter.getGroupCount(); i++) {
+			rightMenuControlPanel.collapseGroup(i);
+		}
+	}
+	
+	public static void setListViewHeightBasedOnChildren(ExpandableListView listView) {
+	    ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+	    if (listAdapter == null) {
+	        return;
+	    }
+	    int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
+	    int totalHeight = 0;
+	    View view = null;
+	    for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+	    	view = listAdapter.getGroupView(i, false, view, listView);
+	        if (i == 0) {
+	            view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+	        }
+	        view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+	        totalHeight += view.getMeasuredHeight();
+	    }
+	    ViewGroup.LayoutParams params = listView.getLayoutParams();
+	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+	    Log.i("MainActivity", "setListViewHeight " + params.height);
+	    listView.setLayoutParams(params);
+	    listView.requestLayout();
 	}
 	
 	/**
@@ -169,6 +254,38 @@ public class MainActivity extends ActionBarActivity {
 		leftMenuItems.add(new ListViewItem(R.string.list_item_8, R.drawable.icon_8_2x));
 		
 		return leftMenuItems;
+	} 
+	
+	// Init right menu control panel list
+	private void setChildData() {
+        ArrayList<String> child = new ArrayList<String>();
+        childItems.add(child);
+        
+        child = new ArrayList<String>();
+        child.add("fan_speed");
+        childItems.add(child);
+
+        child = new ArrayList<String>();
+        child.add("set_timer");
+        childItems.add(child);
+
+        child = new ArrayList<String>();
+        childItems.add(child);
+
+        child = new ArrayList<String>();
+        childItems.add(child);
+        
+        child = new ArrayList<String>();
+        childItems.add(child);
+	}
+
+	private void setParentData() {
+		parentItems.add("Power");
+		parentItems.add("Fan speed");
+		parentItems.add("Set timer");
+		parentItems.add("Scheduler");
+		parentItems.add("Child lock");
+		parentItems.add("Indicator light");
 	}
 
 	@Override
@@ -208,6 +325,24 @@ public class MainActivity extends ActionBarActivity {
 		return false;
 	}
 	
+	public void showFragment(Fragment fragment) {
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		fragmentTransaction.replace(R.id.llContainer, fragment, fragment.getTag());
+		fragmentTransaction.addToBackStack(null); 
+		int id = fragmentTransaction.commit();
+		Log.i(TAG, "showFragment position " + fragment + " id " + id);
+		mDrawerLayout.closeDrawer(mListViewLeft);
+	}
+	
+	public void setTitle(String title) {
+		TextView textView = (TextView) findViewById(R.id.action_bar_title);
+		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
+		textView.setTextSize(24); //TODO : Pass as param
+		textView.setText(title);
+	}
+
+	
 	private class MenuItemClickListener implements OnItemClickListener {
 		
 		private List<Fragment> leftMenuItems = new ArrayList<Fragment>();
@@ -227,18 +362,18 @@ public class MainActivity extends ActionBarActivity {
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
 		
-		private void showFragment(int position) {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.llContainer, leftMenuItems.get(position), "HomeIndoorFragment");
-			
-			// TODO : Change default backstack behaviour, back button should always go to home screen.
-			fragmentTransaction.addToBackStack(null); 
-			fragmentTransaction.commit();
-			mListViewLeft.setItemChecked(position, true);
-			getSupportActionBar().setTitle(R.string.app_name);
-			mDrawerLayout.closeDrawer(mListViewLeft);
-		}
+//		private void showFragment(int position) {
+//			FragmentManager fragmentManager = getSupportFragmentManager();
+//			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//			fragmentTransaction.replace(R.id.llContainer, leftMenuItems.get(position), "HomeIndoorFragment");
+//			
+//			// TODO : Change default backstack behaviour, back button should always go to home screen.
+//			fragmentTransaction.addToBackStack(null); 
+//			fragmentTransaction.commit();
+//			mListViewLeft.setItemChecked(position, true);
+//			getSupportActionBar().setTitle(R.string.app_name);
+//			mDrawerLayout.closeDrawer(mListViewLeft);
+//		}
 		
 		private void setTitle(String title) {
 			TextView textView = (TextView) findViewById(R.id.action_bar_title);
@@ -252,43 +387,43 @@ public class MainActivity extends ActionBarActivity {
 			
 			switch (position) {
 			case 0:
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("PureAirUI");
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 1: 
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Air Quality Explained");
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 2:
 				//Outdoor locations
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Outdoor Locations");
 				break;
 			case 3:
 				//Notifications
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Notifications");
 				break;
 			case 4:
 				//Help and documentation
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Help and Documentation");
 				break;
 			case 5:
 				//Tools
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Tools");
 				break;
 			case 6:
 				//Product registration
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Product Registration");
 				break;
 			case 7:
 				//Buy Online
-				showFragment(position);
+				showFragment(leftMenuItems.get(position));
 				setTitle("Buy Online");
 				break;
 

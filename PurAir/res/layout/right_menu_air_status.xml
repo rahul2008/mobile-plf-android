@@ -1,29 +1,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_rm_air_status"
+    android:paddingTop="30dp"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="fill_parent" >
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tv_rm_air_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:text="Indoor Air Quality Status" />
 
+    <include
+        android:id="@+id/inc_rm_air_status_aqi_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tv_rm_air_status_title"
+        android:layout_marginTop="14dp"
+        android:layout_marginLeft="10dp"
+        layout="@layout/right_menu_air_status_aqi_circle" />
+
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/imageView1"
-        android:layout_marginLeft="20dp"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="25dp"
+        android:layout_alignTop="@+id/inc_rm_air_status_aqi_circle"
+        android:layout_marginTop="34dp"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/inc_rm_air_status_aqi_circle"
         android:text="Connect device to begin reading indoor air quality" />
-
-    <include
-        android:id="@+id/imageView1"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/textView2"
-        layout="@layout/right_menu_air_status_aqi_circle" />
 
 </RelativeLayout>

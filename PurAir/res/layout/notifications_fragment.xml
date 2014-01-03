@@ -5,7 +5,7 @@
     android:layout_gravity="bottom">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/tv_lm_notification_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -15,10 +15,10 @@
         android:text="List of notifications" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_lm_notification_content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView1"
+        android:layout_alignBottom="@+id/tv_lm_notification_title"
         android:layout_alignParentRight="true"
         android:layout_marginRight="26dp"
         android:text="On/Off" />

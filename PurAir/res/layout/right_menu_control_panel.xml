@@ -1,0 +1,19 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/final_layout_border" >
+    
+    <LinearLayout 
+        android:id="@+id/ll_rm_control_panel_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+	    <ExpandableListView 
+	        android:id="@+id/exp_list_rm_control_panel"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:groupIndicator="@null"
+	        >
+	    </ExpandableListView>
+	</LinearLayout>
+</RelativeLayout>
