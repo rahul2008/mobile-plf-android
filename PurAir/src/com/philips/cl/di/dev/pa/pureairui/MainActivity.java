@@ -3,23 +3,6 @@ package com.philips.cl.di.dev.pa.pureairui;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
-import com.philips.cl.di.dev.pa.customviews.ListViewItem;
-import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
-import com.philips.cl.di.dev.pa.customviews.adapters.RightMenuControlPanelAdapter;
-import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
-import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.BuyOnlineFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.HelpAndDocFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.HomeIndoorFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.R;
-
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -41,56 +24,77 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-public class MainActivity extends ActionBarActivity {
-	
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.controller.SensorDataController;
+import com.philips.cl.di.dev.pa.customviews.ListViewItem;
+import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
+import com.philips.cl.di.dev.pa.customviews.adapters.RightMenuControlPanelAdapter;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
+import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
+import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.HelpAndDocFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
+import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.icpinterface.ICPClient;
+
+public class MainActivity extends ActionBarActivity implements SensorEventListener, ICPEventListener {
+
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private static int screenWidth, screenHeight;
-	
+
 	private ActionBar mActionBar;
 	private DrawerLayout mDrawerLayout;
 	private ListView mListViewLeft;
 	private ScrollView mScrollViewRight;
 	private RightMenuClickListener rightMenuClickListener;
-	
+
 	//Right menu stuff
 	private ExpandableListView rightMenuControlPanel;
 	private ArrayList<String> parentItems = new ArrayList<String>();
-    private ArrayList<Object> childItems = new ArrayList<Object>();
-    private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
-    
+	private ArrayList<Object> childItems = new ArrayList<Object>();
+	private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
+
 	//Filter status bars
-//	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
-	
+	//	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
+
 	private static HomeFragment homeFragment;
-	
+
 	private boolean mRightDrawerOpened = false;
-	
+
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
-	
+
+	private SensorDataController sensorDataController;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
-		
+
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		screenWidth = displayMetrics.widthPixels;
 		screenHeight = displayMetrics.heightPixels;
-		
+
 		initActionBar();
-		
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
-		
+
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 
 		{
-			
+
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				if(drawerView.getId() == R.id.right_menu) {
@@ -98,9 +102,9 @@ public class MainActivity extends ActionBarActivity {
 				}
 				mRightDrawerOpened = false;
 				supportInvalidateOptionsMenu();
-				
+
 			}
-			
+
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				if(drawerView.getId() == R.id.right_menu) {
@@ -109,40 +113,57 @@ public class MainActivity extends ActionBarActivity {
 				}
 				supportInvalidateOptionsMenu();
 			}
-			
+
 		};
-		
+
 		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
-		
+
 		mListViewLeft = (ListView) findViewById(R.id.left_menu);
 		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu);
-		
+
 		rightMenuControlPanel = (ExpandableListView) findViewById(R.id.exp_list_rm_control_panel);
 		rightMenuControlPanel.setDividerHeight(2);
 		rightMenuControlPanel.setClickable(true);
-		
+
 		rightMenuClickListener = new RightMenuClickListener(this);
 		setChildData();
 		setParentData();
-		
+
 		rightMenuControlPanelAdapter = new RightMenuControlPanelAdapter(parentItems, childItems);
 		rightMenuControlPanelAdapter.setInflater(getLayoutInflater(), this);
 		rightMenuControlPanel.setAdapter(rightMenuControlPanelAdapter);
-		
+
 		ViewGroup group = (ViewGroup)findViewById(R.id.right_menu_layout);
 		setAllButtonListener(group);
-		
+
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
-		
+
 		int id = getSupportFragmentManager().beginTransaction()
-		.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
-		.addToBackStack(null)
-		.commit();
-		
+				.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
+				.addToBackStack(null)
+				.commit();
+
 		Log.i(TAG, "Home Fragment id " + id); 
+
+		sensorDataController = new SensorDataController(this, this) ;
 	}
-	
+
+	@Override
+	protected void onResume() {
+		Log.i(TAG, "onResume") ;
+		super.onResume();
+		sensorDataController.startPolling() ;
+		
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		Log.i(TAG, "OnPause") ;
+     	sensorDataController.stopPolling();
+	}
+
 	@Override
 	public void onBackPressed() {
 		Log.i(TAG, "onBackPressed");
@@ -154,50 +175,50 @@ public class MainActivity extends ActionBarActivity {
 		if(count > 1 && !(fragment instanceof HomeFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
-			setTitle("PureAirUI");
+			setTitle("PHILIPS Smart Air Purifier");
 		} else {
-		
+
 			finish();
 		}
-		
+
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
-	
+
 	public void collapseAllGroups() {
 		ExpandableListAdapter adapter = rightMenuControlPanel.getExpandableListAdapter();
 		for(int i = 0; i < adapter.getGroupCount(); i++) {
 			rightMenuControlPanel.collapseGroup(i);
 		}
 	}
-	
+
 	public static void setListViewHeightBasedOnChildren(ExpandableListView listView) {
-	    ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
-	    if (listAdapter == null) {
-	        return;
-	    }
-	    int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
-	    int totalHeight = 0;
-	    View view = null;
-	    for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-	    	view = listAdapter.getGroupView(i, false, view, listView);
-	        if (i == 0) {
-	            view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
-	        }
-	        view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-	        totalHeight += view.getMeasuredHeight();
-	    }
-	    ViewGroup.LayoutParams params = listView.getLayoutParams();
-	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-	    Log.i("MainActivity", "setListViewHeight " + params.height);
-	    listView.setLayoutParams(params);
-	    listView.requestLayout();
+		ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
+		if (listAdapter == null) {
+			return;
+		}
+		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
+		int totalHeight = 0;
+		View view = null;
+		for (int i = 0; i < listAdapter.getGroupCount(); i++) {
+			view = listAdapter.getGroupView(i, false, view, listView);
+			if (i == 0) {
+				view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+			}
+			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+			totalHeight += view.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
+		Log.i("MainActivity", "setListViewHeight " + params.height);
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
-	
+
 	/**
 	 * Have to initialize these variables to accept updated filter values
 	 * 
@@ -206,45 +227,45 @@ public class MainActivity extends ActionBarActivity {
 		activeCarbonFilterView = (FilterStatusView) findViewById(R.id.iv_active_carbon_filter);
 		hepaFilterView = (FilterStatusView) findViewById(R.id.iv_hepa_filter);
 	 */
-	
+
 	/** Need to have only one instance of the HomeFragment */
-	
+
 	public static HomeFragment getDashboard() {
 		if(homeFragment == null) {
 			homeFragment = new HomeFragment();
 		}
 		return homeFragment;
 	}
-	
+
 	public void setAllButtonListener(ViewGroup viewGroup) {
 
-	    View v;
-	    for (int i = 0; i < viewGroup.getChildCount(); i++) {
-	        v = viewGroup.getChildAt(i);
-	        if (v instanceof ViewGroup) {
-	            setAllButtonListener((ViewGroup) v);
-	        } else if (v instanceof Button) {
-	            ((Button) v).setOnClickListener(rightMenuClickListener);
-	        }
-	    }
+		View v;
+		for (int i = 0; i < viewGroup.getChildCount(); i++) {
+			v = viewGroup.getChildAt(i);
+			if (v instanceof ViewGroup) {
+				setAllButtonListener((ViewGroup) v);
+			} else if (v instanceof Button) {
+				((Button) v).setOnClickListener(rightMenuClickListener);
+			}
+		}
 	}
-	
+
 	private void initActionBar() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setIcon(R.drawable.left_slidermenu_icon_2x);
 		mActionBar.setHomeButtonEnabled(true);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);
-		
+
 		TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
 		actionBarTitle.setTypeface(Fonts.getGillsans(this));
 	}
-	
+
 	//Create the left menu items.
-	
+
 	private List<ListViewItem> getLeftMenuItems() {
 		List<ListViewItem> leftMenuItems = new ArrayList<ListViewItem>();
-				
+
 		leftMenuItems.add(new ListViewItem(R.string.list_item_1, R.drawable.icon_1_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_2, R.drawable.icon_2_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_3, R.drawable.icon_3_2x));
@@ -253,31 +274,31 @@ public class MainActivity extends ActionBarActivity {
 		leftMenuItems.add(new ListViewItem(R.string.list_item_6, R.drawable.icon_6_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_7, R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_8, R.drawable.icon_8_2x));
-		
+
 		return leftMenuItems;
 	} 
-	
+
 	// Init right menu control panel list
 	private void setChildData() {
-        ArrayList<String> child = new ArrayList<String>();
-        childItems.add(child);
-        
-        child = new ArrayList<String>();
-        child.add("fan_speed");
-        childItems.add(child);
+		ArrayList<String> child = new ArrayList<String>();
+		childItems.add(child);
 
-        child = new ArrayList<String>();
-        child.add("set_timer");
-        childItems.add(child);
+		child = new ArrayList<String>();
+		child.add("fan_speed");
+		childItems.add(child);
 
-        child = new ArrayList<String>();
-        childItems.add(child);
+		child = new ArrayList<String>();
+		child.add("set_timer");
+		childItems.add(child);
 
-        child = new ArrayList<String>();
-        childItems.add(child);
-        
-        child = new ArrayList<String>();
-        childItems.add(child);
+		child = new ArrayList<String>();
+		childItems.add(child);
+
+		child = new ArrayList<String>();
+		childItems.add(child);
+
+		child = new ArrayList<String>();
+		childItems.add(child);
 	}
 
 	private void setParentData() {
@@ -289,20 +310,22 @@ public class MainActivity extends ActionBarActivity {
 		parentItems.add("Indicator light");
 	}
 
+	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		MenuItem item = menu.getItem(0);
-		
+
 		//TODO : Check connection status and set right menu icon accordingly
-//		if(connected)
-			item.setIcon(R.drawable.right_bar_icon_blue_2x);
-//		else
-//			item.setIcon(R.drawable.right_bar_icon_orange_2x);
+		//		if(connected)
+		item.setIcon(R.drawable.right_bar_icon_blue_2x);
+		//		else
+		//			item.setIcon(R.drawable.right_bar_icon_orange_2x);
 		return true;
 	}
-	
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mActionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -325,7 +348,7 @@ public class MainActivity extends ActionBarActivity {
 		}
 		return false;
 	}
-	
+
 	public void showFragment(Fragment fragment) {
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -335,7 +358,7 @@ public class MainActivity extends ActionBarActivity {
 		Log.i(TAG, "showFragment position " + fragment + " id " + id);
 		mDrawerLayout.closeDrawer(mListViewLeft);
 	}
-	
+
 	public void setTitle(String title) {
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
 		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
@@ -343,15 +366,15 @@ public class MainActivity extends ActionBarActivity {
 		textView.setText(title);
 	}
 
-	
+
 	private class MenuItemClickListener implements OnItemClickListener {
-		
+
 		private List<Fragment> leftMenuItems = new ArrayList<Fragment>();
-		
+
 		public MenuItemClickListener() {
 			initLeftMenu();
 		}
-		
+
 		private void initLeftMenu() {
 			leftMenuItems.add(new HomeFragment());
 			leftMenuItems.add(new AirQualityFragment());
@@ -362,20 +385,20 @@ public class MainActivity extends ActionBarActivity {
 			leftMenuItems.add(new ProductRegFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
-		
-//		private void showFragment(int position) {
-//			FragmentManager fragmentManager = getSupportFragmentManager();
-//			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//			fragmentTransaction.replace(R.id.llContainer, leftMenuItems.get(position), "HomeIndoorFragment");
-//			
-//			// TODO : Change default backstack behaviour, back button should always go to home screen.
-//			fragmentTransaction.addToBackStack(null); 
-//			fragmentTransaction.commit();
-//			mListViewLeft.setItemChecked(position, true);
-//			getSupportActionBar().setTitle(R.string.app_name);
-//			mDrawerLayout.closeDrawer(mListViewLeft);
-//		}
-		
+
+		//		private void showFragment(int position) {
+		//			FragmentManager fragmentManager = getSupportFragmentManager();
+		//			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+		//			fragmentTransaction.replace(R.id.llContainer, leftMenuItems.get(position), "HomeIndoorFragment");
+		//			
+		//			// TODO : Change default backstack behaviour, back button should always go to home screen.
+		//			fragmentTransaction.addToBackStack(null); 
+		//			fragmentTransaction.commit();
+		//			mListViewLeft.setItemChecked(position, true);
+		//			getSupportActionBar().setTitle(R.string.app_name);
+		//			mDrawerLayout.closeDrawer(mListViewLeft);
+		//		}
+
 		private void setTitle(String title) {
 			TextView textView = (TextView) findViewById(R.id.action_bar_title);
 			textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
@@ -385,11 +408,11 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		public void onItemClick(AdapterView<?> listView, View listItem, int position, long id) {
-			
+
 			switch (position) {
 			case 0:
 				showFragment(leftMenuItems.get(position));
-				setTitle("PureAirUI");
+				setTitle("PHILIPS Smart Air Purifier");
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 1: 
@@ -432,7 +455,6 @@ public class MainActivity extends ActionBarActivity {
 				break;
 			}
 		}
-		
 	}
 
 	public static int getScreenWidth() {
@@ -441,6 +463,30 @@ public class MainActivity extends ActionBarActivity {
 
 	public static int getScreenHeight() {
 		return screenHeight;
+	}
+
+	
+	@Override
+	public void onICPCallbackEventOccurred(int eventType, int status,
+			ICPClient obj) {
+
+	}
+	
+	@Override
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+		Log.i(TAG, "SensorDataReceived") ;
+		if ( null != airPurifierEventDto ) {
+			updateDashboardFields(airPurifierEventDto) ;
+			updateRightOffCanvasFields(airPurifierEventDto) ;
+		}
+	}
+
+	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {
+		homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()) ;
+	}
+
+	private void updateRightOffCanvasFields(AirPurifierEventDto airPurifierEventDto) {
+
 	}
 }
 
