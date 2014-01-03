@@ -1,26 +1,20 @@
 package com.philips.cl.di.dev.pa.controller;
 
-import java.util.ArrayList;
-
-import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.Server;
-import com.philips.cl.di.dev.pa.network.TaskGetFilterStatus;
 import com.philips.cl.di.dev.pa.utils.DataParser;
+import com.philips.cl.di.dev.pa.utils.JSONBuilder;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
@@ -56,15 +50,7 @@ public class AirPurifierController implements ServerResponseListener
 	/**  **/
 	private Context context ;
 	
-	/** The get sensor data runnable. */
-	final Runnable getSensorDataRunnable = new Runnable() {
-		@Override
-		public void run() {
-		/**	getSensorData(String.format(URL_CURRENT, ipAddress));
-			
-			handler.postDelayed(this, AppConstants.UPDATE_INTERVAL);**/
-		}
-	};
+	
 	
 	/**
 	 * The Enum DeviceMode.
@@ -74,8 +60,17 @@ public class AirPurifierController implements ServerResponseListener
 		auto,
 		/** The manual. */
 		manual, 
+		
+		silent,
+		
+		turbo,
+
 		/** The test. */
-		test
+		one,
+		
+		two,
+		
+		three
 	};
 
 	/**
@@ -133,70 +128,29 @@ public class AirPurifierController implements ServerResponseListener
 		
 		// Taking it from Shared Preferences
 		this.ipAddress = Utils.getIPAddress(context);
-		
-		handler.postDelayed(getSensorDataRunnable, 0);
 	}
 	
 	public AirPurifierController(Context context) {
 		this.ipAddress = Utils.getIPAddress(context);
 	}
 	
-	/**
-	 * Sets the device power state.
-	 *
-	 * @param deviceState the new device power state
-	 */
-	public void setDevicePowerState(boolean deviceState) {
-		Log.d(TAG, "Send device power state : " + deviceState);
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(1);        
-		nameValuePair.add(new BasicNameValuePair("status[power_mode]", deviceState ? "on" : "off"));
-		/**nameValuePair.add(new BasicNameValuePair("status[machine_mode]", DeviceMode.manual.name()));
-		if (deviceState) {
-			nameValuePair.add(new BasicNameValuePair("status[motor_speed]", ""+2));
-			nameValuePair.add(new BasicNameValuePair("status[ring_color]", ""+RingColor.good.getValue()));
-		} else {
-			nameValuePair.add(new BasicNameValuePair("status[motor_speed]", ""+0));
-			nameValuePair.add(new BasicNameValuePair("status[ring_color]", ""+RingColor.off.getValue()));
-		}**/
-		
-		startServerTask(nameValuePair) ;
+	public void setDeviceDetailsLocally(String key, String value )
+	{
+		String dataToUpload = JSONBuilder.getDICommBuilder(key,value) ;
+		startServerTask(dataToUpload) ;
 	}
 	
-	
-	/**
-	 * Sets the device motor speed.
-	 *
-	 * @param deviceState the new device power state
-	 */
-	public void setDeviceMotorSpeed(int motorSpeed) {
-		Log.d(TAG, "Send device motor speed : " + motorSpeed);
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(1);
-		nameValuePair.add(new BasicNameValuePair("status[machine_mode]", DeviceMode.manual.name()));
-		nameValuePair.add(new BasicNameValuePair("status[motor_speed]", ""+motorSpeed));
-		
-		startServerTask(nameValuePair) ;
-	}
-	
-	/**
-	 * Sets the device mode (auto or manual)
-	 *
-	 * @param machinemode/devicemode
-	 */
-	public void setDeviceMode(DeviceMode deviceMode) {
-		Log.d(TAG, "Send device mode : " + deviceMode.name());
-		List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(1);        
-		nameValuePair.add(new BasicNameValuePair("status[machine_mode]", deviceMode.name())); 
-		
-		startServerTask(nameValuePair) ;
+	public void setDeviceDetailsRemotely(String key, String value) {
+		JSONBuilder.getPublishEventBuilder(key, value) ;
 	}
 
 	/**
 	 * Method to call the Server task
 	 * @param nameValuePair
 	 */
-	private void startServerTask(List<NameValuePair> nameValuePair) {
-		Server statusUpdateTask = new Server(nameValuePair, this);
-		statusUpdateTask.execute(String.format(AppConstants.URL, ipAddress));
+	private void startServerTask(String dataToUpload) {
+		Server statusUpdateTask = new Server(dataToUpload, this);
+		statusUpdateTask.execute(String.format(AppConstants.URL_CURRENT, ipAddress));
 	}
 	
 	
@@ -222,7 +176,7 @@ public class AirPurifierController implements ServerResponseListener
 		case HttpsURLConnection.HTTP_NOT_FOUND:
 		default:
 			errorMessage = context.getResources().getString(R.string.network_error) ;
-			airPurifierEventListener.sensorDataReceived(null) ;
+			airPurifierEventListener.airPurifierEventReceived(null) ;
 			break;
 		}
 	}
@@ -237,16 +191,12 @@ public class AirPurifierController implements ServerResponseListener
 		if( dataToParse != null) {
 			airPurifierEvent = new DataParser(dataToParse).parseAirPurifierEventData() ;
 		}
-		airPurifierEventListener.sensorDataReceived(airPurifierEvent) ;
+		airPurifierEventListener.airPurifierEventReceived(airPurifierEvent) ;
 	}
 	
 	public void getFilterStatus() {
 		Log.i(TAG, "Get Filter Status") ;
-		TaskGetFilterStatus filterStatusTask = new TaskGetFilterStatus();
-		executeTask(filterStatusTask, AppConstants.URL_FILTER_STATUS);
+//		TaskGetFilterStatus filterStatusTask = new TaskGetFilterStatus();
+//		executeTask(filterStatusTask, AppConstants.URL_FILTER_STATUS);
 	}	
-	
-	private void executeTask(AsyncTask<String, ?, ?> task, String url) {
-		task.execute((String.format(AppConstants.URL_FILTER_STATUS, ipAddress)));
-	}
 }
