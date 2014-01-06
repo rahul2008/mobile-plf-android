@@ -62,9 +62,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private RightMenuClickListener rightMenuClickListener;
 
 	//Right menu stuff
-	private ExpandableListView rightMenuControlPanel;
-	private ArrayList<String> parentItems = new ArrayList<String>();
-	private ArrayList<Object> childItems = new ArrayList<Object>();
 	private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
 	private TextView tvAirStatusAqiValue;
 	
@@ -102,7 +99,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				if(drawerView.getId() == R.id.right_menu) {
-					collapseAllGroups();
 				}
 				mRightDrawerOpened = false;
 				supportInvalidateOptionsMenu();
@@ -112,7 +108,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				if(drawerView.getId() == R.id.right_menu) {
-					setListViewHeightBasedOnChildren(rightMenuControlPanel);
 					mRightDrawerOpened = true;
 				}
 				supportInvalidateOptionsMenu();
@@ -125,17 +120,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mListViewLeft = (ListView) findViewById(R.id.left_menu);
 		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu);
 
-		rightMenuControlPanel = (ExpandableListView) findViewById(R.id.exp_list_rm_control_panel);
-		rightMenuControlPanel.setDividerHeight(2);
-		rightMenuControlPanel.setClickable(true);
-
 		rightMenuClickListener = new RightMenuClickListener(this);
-		setChildData();
-		setParentData();
-
-		rightMenuControlPanelAdapter = new RightMenuControlPanelAdapter(parentItems, childItems);
-		rightMenuControlPanelAdapter.setInflater(getLayoutInflater(), this);
-		rightMenuControlPanel.setAdapter(rightMenuControlPanelAdapter);
+		
 
 		ViewGroup group = (ViewGroup)findViewById(R.id.right_menu_layout);
 		setAllButtonListener(group);
@@ -197,36 +183,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onDestroy();
 	}
 
-	public void collapseAllGroups() {
-		ExpandableListAdapter adapter = rightMenuControlPanel.getExpandableListAdapter();
-		for(int i = 0; i < adapter.getGroupCount(); i++) {
-			rightMenuControlPanel.collapseGroup(i);
-		}
-	}
-
-	public static void setListViewHeightBasedOnChildren(ExpandableListView listView) {
-		ExpandableListAdapter listAdapter = listView.getExpandableListAdapter();
-		if (listAdapter == null) {
-			return;
-		}
-		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.AT_MOST);
-		int totalHeight = 0;
-		View view = null;
-		for (int i = 0; i < listAdapter.getGroupCount(); i++) {
-			view = listAdapter.getGroupView(i, false, view, listView);
-			if (i == 0) {
-				view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
-			}
-			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
-			totalHeight += view.getMeasuredHeight();
-		}
-		ViewGroup.LayoutParams params = listView.getLayoutParams();
-		params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getGroupCount() - 1));
-		Log.i("MainActivity", "setListViewHeight " + params.height);
-		listView.setLayoutParams(params);
-		listView.requestLayout();
-	}
-
 	/** Need to have only one instance of the HomeFragment */
 
 	public static HomeFragment getDashboard() {
@@ -276,38 +232,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		return leftMenuItems;
 	} 
-
-	// Init right menu control panel list
-	private void setChildData() {
-		ArrayList<String> child = new ArrayList<String>();
-		childItems.add(child);
-
-		child = new ArrayList<String>();
-		child.add("fan_speed");
-		childItems.add(child);
-
-		child = new ArrayList<String>();
-		child.add("set_timer");
-		childItems.add(child);
-
-		child = new ArrayList<String>();
-		childItems.add(child);
-
-		child = new ArrayList<String>();
-		childItems.add(child);
-
-		child = new ArrayList<String>();
-		childItems.add(child);
-	}
-
-	private void setParentData() {
-		parentItems.add("Power");
-		parentItems.add("Fan speed");
-		parentItems.add("Set timer");
-		parentItems.add("Scheduler");
-		parentItems.add("Child lock");
-		parentItems.add("Indicator light");
-	}
 
 	private void setRightMenuAQIValue(int aqiValue) {
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
@@ -394,19 +318,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
 
-		//		private void showFragment(int position) {
-		//			FragmentManager fragmentManager = getSupportFragmentManager();
-		//			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		//			fragmentTransaction.replace(R.id.llContainer, leftMenuItems.get(position), "HomeIndoorFragment");
-		//			
-		//			// TODO : Change default backstack behaviour, back button should always go to home screen.
-		//			fragmentTransaction.addToBackStack(null); 
-		//			fragmentTransaction.commit();
-		//			mListViewLeft.setItemChecked(position, true);
-		//			getSupportActionBar().setTitle(R.string.app_name);
-		//			mDrawerLayout.closeDrawer(mListViewLeft);
-		//		}
-
 		private void setTitle(String title) {
 			TextView textView = (TextView) findViewById(R.id.action_bar_title);
 			textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
@@ -473,7 +384,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return screenHeight;
 	}
 
-	
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
 		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null))) ;
@@ -481,11 +391,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
 			setRightMenuAQIValue(airPurifierEventDto.getIndoorAQI());
-			ExpandableListAdapter adapter = rightMenuControlPanel.getExpandableListAdapter();
-			for(int i = 0; i < adapter.getGroupCount(); i++) {
-				rightMenuControlPanel.invalidate();
-			}
+			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 		} 
+		
 	}
 
 	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {

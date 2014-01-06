@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
 
-    <Button
+    <!-- <Button
         android:id="@+id/fan_speed_silent"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
@@ -62,6 +62,6 @@
         android:layout_toRightOf="@+id/fan_speed_turbo"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="3" />
+        android:text="3" /> -->
 
 </RelativeLayout>

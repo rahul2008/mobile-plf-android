@@ -1,10 +1,14 @@
 package com.philips.cl.di.dev.pa.listeners;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.util.Utils;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.opengl.Visibility;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,140 +18,169 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RightMenuClickListener implements OnClickListener {
+	private static final String TAG = RightMenuClickListener.class.getSimpleName();
 	
 	private Context context;
 	
-	private Button fanSpeedManualButton, timerButton;
+	private Activity activity;
+	
+	//Control panel buttons
+	private Button power, fanSpeed, timer, schedule, childLock, indicatorLight;
+	
+	//Fan speed menu buttons
+	private Button fanSpeedSilent, fanSpeedTurbo, fanSpeedAuto, fanSpeedOne, fanSpeedTwo, fanSpeedThree;
+	
+	//Timer buttons
+	private Button timerOff, timerTwoHours, timerFourHours, timerEightHours;
+	
+	private boolean isFanSpeedMenuVisible, isTimerMenuVisible;
 	
 	public RightMenuClickListener(Context context) {
 		this.context = context;
+		this.activity = (Activity) context;
 		
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		RelativeLayout layout = (RelativeLayout) inflater.inflate(R.layout.control_panel, null);
+		isFanSpeedMenuVisible = false;
+		isTimerMenuVisible = false;
 		
-		//TODO : Change button text on click.
-		/**Unable to change text of the buttons
-		fanSpeedManualButton = (Button) layout.findViewById(R.id.fan_speed_manual_btn);
-		fanSpeedManualButton.setText("TESTING");
-		timerButton = (Button) layout.findViewById(R.id.set_timer_btn);
-		timerButton.setText("TIMER");*/
+		power = (Button) activity.findViewById(R.id.btn_rm_power);
+		schedule = (Button) activity.findViewById(R.id.btn_rm_scheduler);
+		childLock = (Button) activity.findViewById(R.id.btn_rm_child_lock);
+		indicatorLight = (Button) activity.findViewById(R.id.btn_rm_indicator_light);
+		
+		fanSpeed = (Button) activity.findViewById(R.id.btn_rm_fan_speed);
+		
+		fanSpeedSilent = (Button) activity.findViewById(R.id.fan_speed_silent);
+		fanSpeedAuto = (Button) activity.findViewById(R.id.fan_speed_auto);
+		fanSpeedTurbo = (Button) activity.findViewById(R.id.fan_speed_turbo);
+		fanSpeedOne = (Button) activity.findViewById(R.id.fan_speed_one);
+		fanSpeedTwo = (Button) activity.findViewById(R.id.fan_speed_two);
+		fanSpeedThree = (Button) activity.findViewById(R.id.fan_speed_three);
+		
+		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);
+		
+		timerOff = (Button) activity.findViewById(R.id.timer_off);
+		timerTwoHours = (Button) activity.findViewById(R.id.two_hours);
+		timerFourHours = (Button) activity.findViewById(R.id.four_hours);
+		timerEightHours = (Button) activity.findViewById(R.id.eight_hours);
+		
+	}
+	
+	public void setSensorValues(AirPurifierEventDto airPurifierEventDto) {
+		Log.i(TAG, "setSensorValues");
+		power.setText(getPowerModeText(airPurifierEventDto));
+		fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
+		timer.setText(getTimerText(airPurifierEventDto));
+		schedule.setText("N.A.");
+		childLock.setText(getOnOffStatus(airPurifierEventDto.getChildLock()));
+		indicatorLight.setText(getOnOffStatus(airPurifierEventDto.getAqiL()));
+		
+	}
+	
+	private String getPowerModeText(AirPurifierEventDto airPurifierEventDto) {
+		String powerMode = airPurifierEventDto.getPowerMode();
+		Log.i(TAG, "powerMode " + powerMode);
+		if(powerMode.equals("1")) {
+			return "On";
+		} else {
+			return "Off";
+		}
+	}
+	
+	private String getTimerText(AirPurifierEventDto airPurifierEventDto) {
+		if(airPurifierEventDto.getDtrs() > 0) {
+			return "-";
+		} else {
+			return "Off";
+		}
+	}
+	
+	private String getOnOffStatus(int status) {
+		if(status == 1) {
+			return "On";
+		} else {
+			return "Off";
+		}
 	}
 	
 	@Override
 	public void onClick(View v) {
 		
+		Toast.makeText(context, TAG + " onClick", Toast.LENGTH_LONG).show();
+		
 		switch (v.getId()) {
 		case R.id.connect:
 			Toast.makeText(context, "Connect", Toast.LENGTH_LONG).show();
 			break;
-		case R.id.fan_speed_manual_btn:
-			Toast.makeText(context, "fan_speed_manual_btn", Toast.LENGTH_LONG).show();
-			showFanSpeedDialog();
+		case R.id.btn_rm_fan_speed :
+			collapseOrExpandFanSpeedMenu(isFanSpeedMenuVisible);
+			collapseOrExpandTimerMenu(true);
 			break;
-		case R.id.fan_speed_auto_btn:
-			Toast.makeText(context, "fan_speed_auto_btn", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.set_timer_btn:
-			showTimerDialog();
-			Toast.makeText(context, "set_timer_btn", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.child_lock_btn:
-			Toast.makeText(context, "child_lock_btn", Toast.LENGTH_LONG).show();
-			break;
-		case R.id.indicator_light_btn:
-			Toast.makeText(context, "indicator_light_btn", Toast.LENGTH_LONG).show();
-			break;
-//		case R.id.power_on_off_btn:
-//			Toast.makeText(context, "power_on_off_btn", Toast.LENGTH_LONG).show();
-//			break;
-			
-		//Fan speed buttons
-		case R.id.btn_fan_speed_turbo:
-			Toast.makeText(context, "btn_fan_speed_turbo", Toast.LENGTH_LONG).show();
-			fanSpeedDialog.dismiss();
-			break;
-		case R.id.btn_fan_speed_3:
-			Toast.makeText(context, "btn_fan_speed_3", Toast.LENGTH_LONG).show();
-			fanSpeedDialog.dismiss();
-			break;
-		case R.id.btn_fan_speed_2:
-			Toast.makeText(context, "btn_fan_speed_2", Toast.LENGTH_LONG).show();
-			fanSpeedDialog.dismiss();
-			break;
-		case R.id.btn_fan_speed_1:
-			Toast.makeText(context, "btn_fan_speed_1", Toast.LENGTH_LONG).show();
-			fanSpeedDialog.dismiss();
-			break;
-		case R.id.btn_fan_speed_silent:
-			Toast.makeText(context, "btn_fan_speed_silent", Toast.LENGTH_LONG).show();
-			fanSpeedDialog.dismiss();
+		case R.id.fan_speed_silent:
+		case R.id.fan_speed_auto:
+		case R.id.fan_speed_turbo:
+		case R.id.fan_speed_one:
+		case R.id.fan_speed_two:
+		case R.id.fan_speed_three:
+			fanSpeed.setText(((Button) v).getText());
+			collapseOrExpandFanSpeedMenu(true);
 			break;
 			
-		// Timer control buttons
-		case R.id.btn_eighthour:
-			Toast.makeText(context, "btn_eighthour", Toast.LENGTH_LONG).show();
-			timerDialog.dismiss();
+		case R.id.btn_rm_set_timer:
+			collapseOrExpandTimerMenu(isTimerMenuVisible);
+			collapseOrExpandFanSpeedMenu(true);
 			break;
-		case R.id.btn_fourhour:
-			Toast.makeText(context, "btn_fourhour", Toast.LENGTH_LONG).show();
-			timerDialog.dismiss();
+		case R.id.timer_off:
+		case R.id.two_hours:
+		case R.id.four_hours:
+		case R.id.eight_hours:
+			timer.setText(((Button) v).getText());
+			collapseOrExpandTimerMenu(true);
 			break;
-		case R.id.btn_onehour:
-			Toast.makeText(context, "btn_onehour", Toast.LENGTH_LONG).show();
-			timerDialog.dismiss();
-			break;
-		case R.id.btn_timeroff:
-			Toast.makeText(context, "btn_timeroff", Toast.LENGTH_LONG).show();
-			timerDialog.dismiss();
-			break;
-
 		default:
 			break;
 		}
 	}
 	
-	private Dialog fanSpeedDialog;
-	private Dialog timerDialog;
-	
-	private void showFanSpeedDialog() {
-		if(fanSpeedDialog == null) {
-			fanSpeedDialog = new Dialog(context);
-			fanSpeedDialog.getWindow().setBackgroundDrawableResource(R.color.whitesmoke);
-			fanSpeedDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			fanSpeedDialog.getWindow().setGravity(Gravity.CENTER);
-			
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.fan_speed_dialog, null);
-			fanSpeedDialog.setContentView(layout);
-			
-			setAllButtonListener(layout);
-			
+	private void collapseOrExpandTimerMenu(boolean collapse) {
+		if(!collapse) {
+			isTimerMenuVisible = !collapse;
+			timerOff.setVisibility(View.VISIBLE);
+			timerTwoHours.setVisibility(View.VISIBLE);
+			timerFourHours.setVisibility(View.VISIBLE);
+			timerEightHours.setVisibility(View.VISIBLE);
+		} else {
+			isTimerMenuVisible = !collapse;
+			timerOff.setVisibility(View.GONE);
+			timerTwoHours.setVisibility(View.GONE);
+			timerFourHours.setVisibility(View.GONE);
+			timerEightHours.setVisibility(View.GONE);
 		}
-		
-		fanSpeedDialog.show();
 	}
 	
-	private void showTimerDialog() {
-
-		if(timerDialog == null) {
-			timerDialog = new Dialog(context);
-			timerDialog.getWindow().setBackgroundDrawableResource(R.color.whitesmoke);
-			timerDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-			timerDialog.getWindow().setGravity(Gravity.CENTER);
-			
-			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_timer, null);
-			timerDialog.setContentView(layout);
-			
-			setAllButtonListener(layout);
-			
+	private void collapseOrExpandFanSpeedMenu(boolean collapse) {
+		if(!collapse) {
+			isFanSpeedMenuVisible = !collapse;
+			fanSpeedSilent.setVisibility(View.VISIBLE);
+			fanSpeedAuto.setVisibility(View.VISIBLE);
+			fanSpeedTurbo.setVisibility(View.VISIBLE);
+			fanSpeedOne.setVisibility(View.VISIBLE);
+			fanSpeedTwo.setVisibility(View.VISIBLE);
+			fanSpeedThree.setVisibility(View.VISIBLE);
+		} else {
+			isFanSpeedMenuVisible = !collapse;
+			fanSpeedSilent.setVisibility(View.GONE);
+			fanSpeedAuto.setVisibility(View.GONE);
+			fanSpeedTurbo.setVisibility(View.GONE);
+			fanSpeedOne.setVisibility(View.GONE);
+			fanSpeedTwo.setVisibility(View.GONE);
+			fanSpeedThree.setVisibility(View.GONE);
 		}
-		
-		timerDialog.show();
 	}
+	
 	
 	public void setAllButtonListener(ViewGroup viewGroup) {
 

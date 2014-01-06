@@ -1,19 +1,310 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/right_menu_control_panel"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="20dp"
     android:background="@drawable/final_layout_border" >
-    
-    <LinearLayout 
-        android:id="@+id/ll_rm_control_panel_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
-	    <ExpandableListView 
-	        android:id="@+id/exp_list_rm_control_panel"
-	        android:layout_width="match_parent"
-	        android:layout_height="match_parent"
-	        android:groupIndicator="@null"
-	        >
-	    </ExpandableListView>
-	</LinearLayout>
+    <TextView
+        android:id="@+id/tv_rm_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Power" />
+
+    <Button
+        android:id="@+id/btn_rm_power"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_blue_bg_2x"
+	    android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/tv_rm_power"
+        android:layout_alignBottom="@+id/tv_rm_power"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:text="On" />
+
+    <ImageView
+        android:id="@+id/divider_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/btn_rm_power"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/seperator_line_2x" />
+    
+    <TextView
+        android:id="@+id/tv_rm_fan_speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
+        android:layout_below="@id/divider_1"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Fan speed" />
+    
+    <Button
+        android:id="@+id/btn_rm_fan_speed"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_blue_bg_2x"
+	    android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/tv_rm_fan_speed"
+        android:layout_alignBottom="@+id/tv_rm_fan_speed"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:text="Speed" />
+    
+    <ImageView
+        android:id="@+id/divider_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/btn_rm_fan_speed"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/seperator_line_2x" />
+
+    <Button
+        android:id="@+id/fan_speed_silent"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_2"
+        android:layout_marginTop="16dp"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Silent" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/fan_speed_turbo"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_2"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@+id/fan_speed_silent"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Turbo" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/fan_speed_auto"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_2"
+        android:layout_marginTop="16dp"
+        android:layout_toRightOf="@+id/fan_speed_turbo"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Auto" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/fan_speed_one"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/fan_speed_silent"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="1" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/fan_speed_two"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/fan_speed_one"
+        android:layout_alignBottom="@+id/fan_speed_one"
+        android:layout_toRightOf="@+id/fan_speed_one"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="2" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/fan_speed_three"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fan_speed_turbo"
+        android:layout_toRightOf="@+id/fan_speed_turbo"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="3" 
+        android:visibility="gone"/>
+    
+    <TextView
+        android:id="@+id/tv_rm_set_timer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
+        android:layout_below="@id/fan_speed_three"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Set timer" />
+    
+    <Button
+        android:id="@+id/btn_rm_set_timer"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_blue_bg_2x"
+	    android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/tv_rm_set_timer"
+        android:layout_alignBottom="@+id/tv_rm_set_timer"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:text="Off" />
+    
+    <ImageView
+        android:id="@+id/divider_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/btn_rm_set_timer"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/seperator_line_2x" />
+    
+    <Button
+        android:id="@+id/timer_off"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/divider_3"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="Off" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/two_hours"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/timer_off"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="2 hrs" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/four_hours"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/two_hours"
+        android:layout_alignBottom="@+id/two_hours"
+        android:layout_toRightOf="@+id/two_hours"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="4 hrs" 
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/eight_hours"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/four_hours"
+        android:layout_alignBottom="@+id/four_hours"
+        android:layout_toRightOf="@+id/four_hours"
+        android:background="@drawable/button_blue_bg_2x"
+        android:textColor="#ffffff"
+        android:text="8 hrs" 
+        android:visibility="gone"/>
+    
+    <TextView
+        android:id="@+id/tv_rm_scheduler"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
+        android:layout_below="@id/two_hours"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Scheduler" />
+    
+    <Button
+        android:id="@+id/btn_rm_scheduler"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_blue_bg_2x"
+	    android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/tv_rm_scheduler"
+        android:layout_alignBottom="@+id/tv_rm_scheduler"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textSize="8sp"
+        android:text="Wed 10:30" />
+    
+    <ImageView
+        android:id="@+id/divider_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/btn_rm_scheduler"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/seperator_line_2x" />
+    
+    <TextView
+        android:id="@+id/tv_rm_child_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
+        android:layout_below="@id/divider_4"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Child lock" />
+    
+    <Button
+        android:id="@+id/btn_rm_child_lock"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_blue_bg_2x"
+	    android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/tv_rm_child_lock"
+        android:layout_alignBottom="@+id/tv_rm_child_lock"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textSize="12sp"
+        android:text="Off" />
+    
+    <ImageView
+        android:id="@+id/divider_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/btn_rm_child_lock"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/seperator_line_2x" />
+    
+    <TextView
+        android:id="@+id/tv_rm_indicator_light"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="12sp"
+        android:layout_below="@id/divider_5"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="25dp"
+        android:text="Indicator light" />
+    
+    <Button
+        android:id="@+id/btn_rm_indicator_light"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_blue_bg_2x"
+	    android:textColor="#ffffff"
+        android:layout_alignBaseline="@+id/tv_rm_indicator_light"
+        android:layout_alignBottom="@+id/tv_rm_indicator_light"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:textSize="12sp"
+        android:text="Off" />
+    
 </RelativeLayout>

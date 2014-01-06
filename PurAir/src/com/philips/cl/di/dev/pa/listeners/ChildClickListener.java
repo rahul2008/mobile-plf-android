@@ -10,9 +10,9 @@ public class ChildClickListener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.off:
-			
-			break;
+//		case R.id.off:
+//			
+//			break;
 
 		default:
 			break;

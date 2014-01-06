@@ -87,7 +87,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
         	if(groupPosition == 2) {
         		Log.i(TAG, "Inflating TIMER");
         		convertView = inflater.inflate(R.layout.rl_rm_timer, null);
-        		btn = (Button) convertView.findViewById(R.id.off);
+//        		btn = (Button) convertView.findViewById(R.id.off);
         		btn.setOnClickListener(this);
         		btn = (Button) convertView.findViewById(R.id.two_hours);
         		btn.setOnClickListener(this);
@@ -312,7 +312,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 		View view;
 		Button tv;
 		switch (v.getId()) {
-		case R.id.off:
+//		case R.id.off:
 		case R.id.two_hours:
 		case R.id.four_hours:
 		case R.id.eight_hours:
