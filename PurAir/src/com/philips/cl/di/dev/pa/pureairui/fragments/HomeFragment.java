@@ -12,6 +12,7 @@ import static com.philips.cl.di.dev.pa.util.AnimatorConstants.getIndoorBGTransla
 import static com.philips.cl.di.dev.pa.util.AnimatorConstants.getIndoorGaugeTranslationY;
 import static com.philips.cl.di.dev.pa.util.AnimatorConstants.getOutdoorCityInfoTranslationY;
 import static com.philips.cl.di.dev.pa.util.AnimatorConstants.getOutdoorGaugeTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.rotationPivot;
 import static com.philips.cl.di.dev.pa.util.AppConstants.SWIPE_THRESHOLD;
 import static com.philips.cl.di.dev.pa.util.AppConstants.SWIPE_VELOCITY_THRESHOLD;
 
@@ -75,6 +76,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private LinearLayout llIndoor, llOutdoor;
 
 	private GestureDetectorCompat gestureDetectorCompat;
+	
+	private int indoorAQIValue = 0, outdoorAQIValue = 0;
 
 
 	@Override
@@ -89,13 +92,19 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		initAnimations();
 		startOutdoorAQITask() ;
 		startWeatherDataTask() ;
+		
+		isIndoorExpanded = true;
+		
+		setIndoorAQIValue(indoorAQIValue);
+		setOutdoorAQIvalue(outdoorAQIValue);
+		
 		return vMain;
 	}
 
 
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
+		Log.i(TAG, "onResume");
 		super.onResume();
 
 	}
@@ -103,7 +112,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	@Override
 	public void onPause() {
-		// TODO Auto-generated method stub
+		Log.i(TAG, "onPause");
 		super.onPause();
 
 	}
@@ -297,12 +306,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			Log.i(TAG, "Returning from onFling");
 			return false;
 		}
-		Log.i(TAG, "Processing onFling");
+		Log.i(TAG, "Processing onFling isIndoorExpanded " + isIndoorExpanded);
 		float differenceY = (e2.getY() - e1.getY());
 
 		//Testing
-		//		setOutdoorAQIvalue(500);
-		//		setIndoorAQIValue(150);
+//				setOutdoorAQIvalue(500);
+//				setIndoorAQIValue(150);
 		//Testing
 
 
@@ -332,9 +341,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setOutdoorAQIvalue(int outdoorAQI) {
-		tvOutdoorAQI.setText(String.valueOf(outdoorAQI));
-		rotateAQICircle(outdoorAQI, ivOutdoorCircle);
-		setOutdoorAQIStatusAndComment(outdoorAQI);
+		this.outdoorAQIValue = outdoorAQI;
+		tvOutdoorAQI.setText(String.valueOf(outdoorAQIValue));
+		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
+		setOutdoorAQIStatusAndComment(outdoorAQIValue);
 	}
 
 	private void rotateAQICircle(int aqi, ImageView iv) {
@@ -358,10 +368,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		}  
 
 		float ratio = (float) (300.0/500.0);
-		Log.i(TAG, "ratio " + ratio);
+		Log.i(TAG, "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
 		float roatation = aqi * (300.0f/500.0f);
 		ViewHelper.setPivotX(iv, iv.getWidth()/2);
-		ViewHelper.setPivotY(iv, iv.getHeight()/2 + 24);
+		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
 		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + roatation);
 		ObjectAnimator.ofFloat(iv, animRotation, 0, roatation).setDuration(2000).start();
 	}
@@ -401,9 +411,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setIndoorAQIValue(int indoorAQI) {
-		tvIndoorAQI.setText(String.valueOf(indoorAQI));
-		rotateAQICircle(indoorAQI, ivIndoorCircle);
-		setIndoorAQIStatusAndComment(indoorAQI);
+		this.indoorAQIValue = indoorAQI;
+		tvIndoorAQI.setText(String.valueOf(indoorAQIValue));
+		rotateAQICircle(indoorAQIValue, ivIndoorCircle);
+		setIndoorAQIStatusAndComment(indoorAQIValue);
 	}
 
 	private void setIndoorAQIStatusAndComment(int indoorAQI) {

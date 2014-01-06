@@ -2,14 +2,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/outdoor_aqi_reading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="AQI Reading" />
-
     <ImageView
         android:id="@+id/outdoor_circle_meter"
         android:layout_width="wrap_content"
@@ -26,5 +18,13 @@
         android:layout_centerHorizontal="true"
         android:paddingTop="23dp"
         android:src="@drawable/blue_circle_with_arrow_2x" />
+    
+    <TextView
+        android:id="@+id/outdoor_aqi_reading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="AQI Reading" />
 
 </RelativeLayout>

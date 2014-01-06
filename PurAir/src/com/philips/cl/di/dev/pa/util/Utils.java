@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
+import static com.philips.cl.di.dev.pa.util.AppConstants.*;
+
 public class Utils {
 	
 	/**
@@ -21,6 +23,23 @@ public class Utils {
 			return AppConstants.COLOR_VGOOD;
 		}
 		return 0;
+	}
+	
+	public static String getFanSpeedText(String fanSpeed) {
+		if(FAN_SPEED_SILENT.equals(fanSpeed)) {
+			return "Silent";
+		} else if(FAN_SPEED_TURBO.equals(fanSpeed)) {
+			return "Turbo";
+		} else if(FAN_SPEED_AUTO.equals(fanSpeed)) {
+			return "Auto";
+		} else if(FAN_SPEED_ONE.equals(fanSpeed)) {
+			return "1";
+		} else if(FAN_SPEED_TWO.equals(fanSpeed)) {
+			return "2";
+		} else if(FAN_SPEED_THREE.equals(fanSpeed)) {
+			return "3";
+		} 
+		return "";
 	}
 	
 }

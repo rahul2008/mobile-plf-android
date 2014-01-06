@@ -14,7 +14,7 @@
         android:padding="10dp"
         android:textStyle="bold" />
 
-	<Button
+	<ToggleButton
 	    android:id="@+id/control_panel_item_button"
 	    android:layout_width="80dp"
 	    android:layout_height="40dp"

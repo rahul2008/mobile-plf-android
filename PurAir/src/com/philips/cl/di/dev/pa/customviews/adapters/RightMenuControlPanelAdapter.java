@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.listeners.ChildClickListener;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.util.AnimatorConstants;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 import android.app.Activity;
 import android.util.Log;
@@ -17,6 +20,7 @@ import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ToggleButton;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.RelativeLayout;
@@ -141,7 +145,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 
 	@Override
 	public View getGroupView(final int groupPosition, final boolean isExpanded, View convertView, final ViewGroup parent) {
-		Log.i(TAG, "getGroupView groupPosition " + groupPosition + " isExpanded " + isExpanded + " parentItems " + parentItems.toString()); 
+		Log.i(TAG, "getGroupView groupPosition " + groupPosition + " isExpanded " + isExpanded); 
 		expandableListView = parent;
 		
 		if (convertView == null) {
@@ -153,17 +157,32 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 		tv.setFocusable(true);
 		
 		Button v = (Button) convertView.findViewById(R.id.control_panel_item_button);
+		
+		AirPurifierEventDto airPurifierEventDto = MainActivity.getAirPurifierEventDto();
+		
 		Log.i(TAG, "getGroupView button text " + v.getText());
-		if(v.getText().equals("Button")) {
+		if(null != airPurifierEventDto) {
 			switch(groupPosition) {
 			case 0 : v.setText("Off");
+					ToggleButton test = (ToggleButton) v;
+					Log.i(TAG, "getGroupView power " + getPowerModeText(airPurifierEventDto));
+					v.setText(getPowerModeText(airPurifierEventDto));
 				break;
-			case 1 : v.setText("Silent");
+			case 1 :
+				Log.i(TAG, "getGroupView fan speed " + (Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed())));
+				v.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
 				break;
-			case 2 : v.setText("1");
+			case 2 :
+				Log.i(TAG, "getGroupView timer text " + getTimerText(airPurifierEventDto));
+				v.setText(getTimerText(airPurifierEventDto));
 				break;
-			default : v.setText("Off");
+			case 3 : v.setText("N.A.");
 				break;
+			case 4 : v.setText(getChildLockText(airPurifierEventDto)); 
+				break;
+			case 5 : v.setText(getIndicatorLightText(airPurifierEventDto));
+				break;
+			
 			}
 		}
 		v.setFocusable(false);
@@ -181,7 +200,43 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 		
 	    return convertView;
 	}
-
+	
+	private String getPowerModeText(AirPurifierEventDto airPurifierEventDto) {
+		String powerMode = airPurifierEventDto.getPowerMode();
+		Log.i(TAG, "powerMode " + powerMode);
+		if(powerMode.equals("1")) {
+			return "On";
+		} else {
+			return "Off";
+		}
+	}
+	
+	private String getTimerText(AirPurifierEventDto airPurifierEventDto) {
+		if(airPurifierEventDto.getDtrs() > 0) {
+			return "-";
+		} else {
+			return "Off";
+		}
+	}
+	
+	private String getChildLockText(AirPurifierEventDto airPurifierEventDto) {
+		int childLock = airPurifierEventDto.getChildLock();
+		if(childLock == 1) {
+			return "On";
+		} else {
+			return "Off";
+		}
+	}
+	
+	private String getIndicatorLightText(AirPurifierEventDto airPurifierEventDto) {
+		int aqiLight = airPurifierEventDto.getAqiL();
+		if(aqiLight == 1) {
+			return "On";
+		} else {
+			return "Off";
+		}
+	}
+	
 	@Override
 	public boolean hasStableIds() {
 		return false;
@@ -267,7 +322,8 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 			tv = (Button) view.findViewById(R.id.control_panel_item_button);
 			Log.i(TAG, "tv " + tv.getText().toString() + " Button Text " + (((Button) v).getText()));
 			tv.setText(((Button) v).getText());
-			
+			((ExpandableListView) expandableListView).collapseGroup(2);
+			setListViewHeightBasedOnChildren((ExpandableListView) expandableListView);
 			expandableListView.requestLayout();
 			break;
 			
@@ -283,7 +339,8 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 			tv = (Button) view.findViewById(R.id.control_panel_item_button);
 			Log.i(TAG, "tv " + tv.getText().toString() + " Button Text " + (((Button) v).getText()));
 			tv.setText(((Button) v).getText());
-			
+			((ExpandableListView) expandableListView).collapseGroup(1);
+			setListViewHeightBasedOnChildren((ExpandableListView) expandableListView);
 			expandableListView.requestLayout();
 			break;
 		default:

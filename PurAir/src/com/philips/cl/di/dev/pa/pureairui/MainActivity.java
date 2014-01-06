@@ -46,9 +46,9 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.icpinterface.ICPClient;
+import com.philips.cl.di.dev.pa.util.Utils;
 
-public class MainActivity extends ActionBarActivity implements SensorEventListener, ICPEventListener {
+public class MainActivity extends ActionBarActivity implements SensorEventListener {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -65,6 +65,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private ArrayList<String> parentItems = new ArrayList<String>();
 	private ArrayList<Object> childItems = new ArrayList<Object>();
 	private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
+	private TextView tvAirStatusAqiValue;
 
 	//Filter status bars
 	//	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
@@ -76,6 +77,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 	private SensorDataController sensorDataController;
+	
+	private static AirPurifierEventDto airPurifierEventDto;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +138,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		ViewGroup group = (ViewGroup)findViewById(R.id.right_menu_layout);
 		setAllButtonListener(group);
-
+		
+		tvAirStatusAqiValue = (TextView) findViewById(R.id.tv_rm_air_status_aqi_value);
+		
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 
@@ -310,8 +315,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		parentItems.add("Indicator light");
 	}
 
+	private void setRightMenuAQIValue(int aqiValue) {
+		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
+	}
 	
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -376,7 +383,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 
 		private void initLeftMenu() {
-			leftMenuItems.add(new HomeFragment());
+			leftMenuItems.add(getDashboard());
 			leftMenuItems.add(new AirQualityFragment());
 			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
@@ -467,26 +474,24 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	
 	@Override
-	public void onICPCallbackEventOccurred(int eventType, int status,
-			ICPClient obj) {
-
-	}
-	
-	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "SensorDataReceived") ;
+		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null))) ;
 		if ( null != airPurifierEventDto ) {
+			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
-			updateRightOffCanvasFields(airPurifierEventDto) ;
-		}
+		} 
 	}
 
 	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {
 		homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()) ;
 	}
 
-	private void updateRightOffCanvasFields(AirPurifierEventDto airPurifierEventDto) {
+	public static AirPurifierEventDto getAirPurifierEventDto() {
+		return airPurifierEventDto;
+	}
 
+	private static void setAirPurifierEventDto(AirPurifierEventDto airPurifierEventDto) {
+		MainActivity.airPurifierEventDto = airPurifierEventDto;
 	}
 }
 
