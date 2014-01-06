@@ -26,7 +26,7 @@ public class AppConstants {
 	//Fan speeds
 	public static final String FAN_SPEED_SILENT = "s";
 	public static final String FAN_SPEED_TURBO = "t";
-	public static final String FAN_SPEED_AUTO = "0";
+	public static final String FAN_SPEED_AUTO = "a";
 	public static final String FAN_SPEED_ONE = "1";
 	public static final String FAN_SPEED_TWO = "2";
 	public static final String FAN_SPEED_THREE = "3";

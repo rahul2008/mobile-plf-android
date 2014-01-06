@@ -169,7 +169,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 					v.setText(getPowerModeText(airPurifierEventDto));
 				break;
 			case 1 :
-				Log.i(TAG, "getGroupView fan speed " + (Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed())));
+				Log.i(TAG, "getGroupView fan speed text :: " + (Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed())));
 				v.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
 				break;
 			case 2 :
@@ -341,6 +341,7 @@ public class RightMenuControlPanelAdapter extends BaseExpandableListAdapter impl
 			tv.setText(((Button) v).getText());
 			((ExpandableListView) expandableListView).collapseGroup(1);
 			setListViewHeightBasedOnChildren((ExpandableListView) expandableListView);
+			MainActivity.getAirPurifierEventDto().setFanSpeed((String) ((Button) v).getText());
 			expandableListView.requestLayout();
 			break;
 		default:

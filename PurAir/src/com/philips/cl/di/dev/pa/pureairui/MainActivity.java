@@ -30,6 +30,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
+import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.customviews.adapters.RightMenuControlPanelAdapter;
@@ -66,9 +67,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private ArrayList<Object> childItems = new ArrayList<Object>();
 	private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
 	private TextView tvAirStatusAqiValue;
-
+	
 	//Filter status bars
-	//	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
+	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
 
 	private static HomeFragment homeFragment;
 
@@ -150,7 +151,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				.commit();
 
 		Log.i(TAG, "Home Fragment id " + id); 
-
+		
+		initFilterStatusViews();
+		
 		sensorDataController = new SensorDataController(this, this) ;
 	}
 
@@ -223,15 +226,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		listView.setLayoutParams(params);
 		listView.requestLayout();
 	}
-
-	/**
-	 * Have to initialize these variables to accept updated filter values
-	 * 
-	 * 	preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
-		multicareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
-		activeCarbonFilterView = (FilterStatusView) findViewById(R.id.iv_active_carbon_filter);
-		hepaFilterView = (FilterStatusView) findViewById(R.id.iv_hepa_filter);
-	 */
 
 	/** Need to have only one instance of the HomeFragment */
 
@@ -317,6 +311,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private void setRightMenuAQIValue(int aqiValue) {
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
+	}
+	
+	private void initFilterStatusViews() {
+		preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
+		multicareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
+		activeCarbonFilterView = (FilterStatusView) findViewById(R.id.iv_active_carbon_filter);
+		hepaFilterView = (FilterStatusView) findViewById(R.id.iv_hepa_filter);
 	}
 	
 	@Override
@@ -479,6 +480,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if ( null != airPurifierEventDto ) {
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
+			setRightMenuAQIValue(airPurifierEventDto.getIndoorAQI());
+			ExpandableListAdapter adapter = rightMenuControlPanel.getExpandableListAdapter();
+			for(int i = 0; i < adapter.getGroupCount(); i++) {
+				rightMenuControlPanel.invalidate();
+			}
 		} 
 	}
 
