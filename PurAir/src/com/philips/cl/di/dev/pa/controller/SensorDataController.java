@@ -80,6 +80,9 @@ public class SensorDataController implements ServerResponseListener, CallbackHan
 		if ( responseCode == HttpURLConnection.HTTP_OK) {	
 				sensorListener.sensorDataReceived(new DataParser(responseData).parseAirPurifierEventData()) ;
 		}
+		else {
+			sensorListener.sensorDataReceived(null) ;
+		}
 	}
 	
 	/**
