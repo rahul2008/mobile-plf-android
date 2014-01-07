@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.util;
 
-import static com.philips.cl.di.dev.pa.util.AppConstants.*;
+import com.philips.cl.di.dev.pa.constants.AppConstants;
+
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 
 public class Utils {
 	
@@ -27,105 +29,139 @@ public class Utils {
 	
 	public static int getPreFilterStatusColour(int filterStatusValue) {
 		if(filterStatusValue < 96) {
-			return COLOR_GOOD;
+			return AppConstants.COLOR_GOOD;
 		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
-			return COLOR_FAIR;
+			return AppConstants.COLOR_FAIR;
 		} else {
-			return COLOR_BAD;
+			return AppConstants.COLOR_BAD;
 		}
 	}
 	
 	public static String getPreFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 96) {
-			return "Normal operation";
+			return AppConstants.NORMAL_OPERATION;
 		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
-			return "Clean soon";
+			return AppConstants.CLEAN_SOON;
 		} else {
-			return "Clean now";
+			return AppConstants.CLEAN_NOW;
 		}
 	}
 	
 	public static int getMultiCareFilterStatusColour(int filterStatusValue) {
 		if(filterStatusValue < 784) {
-			return COLOR_GOOD;
+			return AppConstants.COLOR_GOOD;
 		} else if ( filterStatusValue >= 784 && filterStatusValue < 840) {
-			return COLOR_FAIR;
+			return AppConstants.COLOR_FAIR;
 		} else {
-			return COLOR_BAD;
+			return AppConstants.COLOR_BAD;
 		}
 	}
 	
 	public static String getMultiCareFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 784) {
-			return "Normal operation";
+			return AppConstants.NORMAL_OPERATION ;
 		} else if (filterStatusValue >= 784 && filterStatusValue < 840) {
-			return "Change soon";
+			return AppConstants.ACT_SOON ;
 		} else if(filterStatusValue >= 840 && filterStatusValue < 960){
-			return "Change now";
+			return AppConstants.ACT_NOW ;
 		} else {
-			return "Filter lock";
+			return AppConstants.FILTER_LOCK ;
 		}
 	}
 	
 	public static int getActiveCarbonFilterStatusColour(int filterStatusValue) {
 		if(filterStatusValue < 2704) {
-			return COLOR_GOOD;
+			return AppConstants.COLOR_GOOD;
 		} else if ( filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return COLOR_FAIR;
+			return AppConstants.COLOR_FAIR;
 		} else {
-			return COLOR_BAD;
+			return AppConstants.COLOR_BAD;
 		}
 	}
 	
 	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 2704) {
-			return "Normal operation";
+			return  AppConstants.NORMAL_OPERATION ;
 		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return "Change soon";
+			return AppConstants.ACT_SOON ;
 		} else if(filterStatusValue >= 2760 && filterStatusValue < 2880){
-			return "Change now";
+			return AppConstants.ACT_NOW ;
 		} else {
-			return "Filter lock";
+			return AppConstants.FILTER_LOCK ;
 		}
 	}
 	
 	public static int getHEPAFilterStatusColour(int filterStatusValue) {
 		if(filterStatusValue < 2704) {
-			return COLOR_GOOD;
+			return AppConstants.COLOR_GOOD;
 		} else if ( filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return COLOR_FAIR;
+			return AppConstants.COLOR_FAIR;
 		} else {
-			return COLOR_BAD;
+			return AppConstants.COLOR_BAD;
 		}
 	}
 	
 	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 2704) {
-			return "Normal operation";
+			return AppConstants.NORMAL_OPERATION;
 		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return "Change soon";
+			return AppConstants.ACT_SOON;
 		} else if(filterStatusValue >= 2760 && filterStatusValue < 2880){
-			return "Change now";
+			return AppConstants.ACT_NOW;
 		} else {
-			return "Filter lock";
+			return AppConstants.FILTER_LOCK;
 		}
 	}
 	
 	public static String getFanSpeedText(String fanSpeed) {
-		if(FAN_SPEED_SILENT.equals(fanSpeed)) {
+		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeed)) {
 			return "Silent";
-		} else if(FAN_SPEED_TURBO.equals(fanSpeed)) {
+		} else if(AppConstants.FAN_SPEED_TURBO.equals(fanSpeed)) {
 			return "Turbo";
-		} else if(FAN_SPEED_AUTO.equals(fanSpeed)) {
+		} else if(AppConstants.FAN_SPEED_AUTO.equals(fanSpeed)) {
 			return "Auto";
-		} else if(FAN_SPEED_ONE.equals(fanSpeed)) {
+		} else if(AppConstants.FAN_SPEED_ONE.equals(fanSpeed)) {
 			return "1";
-		} else if(FAN_SPEED_TWO.equals(fanSpeed)) {
+		} else if(AppConstants.FAN_SPEED_TWO.equals(fanSpeed)) {
 			return "2";
-		} else if(FAN_SPEED_THREE.equals(fanSpeed)) {
+		} else if(AppConstants.FAN_SPEED_THREE.equals(fanSpeed)) {
 			return "3";
 		} 
 		return "";
+	}
+
+	public static String getFilterStatusForDashboard(
+			AirPurifierEventDto airPurifierEventDto) {
+		String filterStatus = AppConstants.NORMAL_OPERATION ;
+		if ( airPurifierEventDto != null ) {
+			String preFilterStatus = getPreFilterStatusText(airPurifierEventDto.getFilterStatus1()) ;
+			String multiCareFilterStatus = getMultiCareFilterStatusText(airPurifierEventDto.getFilterStatus2()) ;
+			String activeFilterStatus = getActiveCarbonFilterStatusText(airPurifierEventDto.getFilterStatus3()) ;
+			String hepaFilterStatus = getHEPAFilterFilterStatusText(airPurifierEventDto.getFilterStatus4()) ;
+			
+			if ( multiCareFilterStatus.equals(AppConstants.ACT_NOW) ||
+					activeFilterStatus.equals(AppConstants.ACT_NOW) ||
+					hepaFilterStatus.equals(AppConstants.ACT_NOW)) {
+				filterStatus = AppConstants.ACT_NOW ;
+			}
+			else if ( preFilterStatus.equals(AppConstants.CLEAN_NOW)) {
+				filterStatus = AppConstants.CLEAN_NOW ;
+			}
+			else if ( preFilterStatus.equals(AppConstants.CLEAN_SOON)) {
+				filterStatus = AppConstants.CLEAN_SOON ;
+			}
+			else if (multiCareFilterStatus.equals(AppConstants.ACT_SOON) ||
+					activeFilterStatus.equals(AppConstants.ACT_SOON) ||
+					hepaFilterStatus.equals(AppConstants.ACT_SOON)) {
+				filterStatus = AppConstants.ACT_SOON ;
+			}
+			else if (multiCareFilterStatus.equals(AppConstants.FILTER_LOCK) ||
+					activeFilterStatus.equals(AppConstants.FILTER_LOCK) ||
+					hepaFilterStatus.equals(AppConstants.FILTER_LOCK)) {
+				filterStatus = AppConstants.FILTER_LOCK ;
+			}
+		}
+		return filterStatus ;
 	}
 	
 }
