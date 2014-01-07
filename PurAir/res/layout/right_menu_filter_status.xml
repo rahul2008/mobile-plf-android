@@ -138,5 +138,13 @@
         android:layout_below="@+id/iv_hepa_filter"
         android:layout_marginTop="4dp"
         android:text="Replace immediatly" />
+    
+    <ImageView 
+        android:id="@+id/iv_rm_filter_status_legend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_rm_hepa_filter_status"
+        android:layout_marginTop="24dp"
+        android:src="@drawable/filtter_color_line_2x"/>
 
 </RelativeLayout>

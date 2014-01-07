@@ -175,8 +175,9 @@ public class AirPurifierController implements ServerResponseListener
 		case HttpsURLConnection.HTTP_BAD_REQUEST:
 		case HttpsURLConnection.HTTP_NOT_FOUND:
 		default:
-			errorMessage = context.getResources().getString(R.string.network_error) ;
-			airPurifierEventListener.airPurifierEventReceived(null) ;
+			if( airPurifierEventListener != null) {
+				airPurifierEventListener.airPurifierEventReceived(null) ;
+			}
 			break;
 		}
 	}

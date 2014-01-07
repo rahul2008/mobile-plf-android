@@ -26,6 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="AQI Reading" />
+        android:textColor="@color/white"
+        android:textSize="32sp"
+        android:text="-" />
 
 </RelativeLayout>

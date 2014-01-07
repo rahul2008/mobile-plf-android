@@ -10,6 +10,7 @@
         android:layout_alignParentLeft="true"
         android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
+        android:textColor="@color/white"
         android:text="Mode" />
     
     <TextView
@@ -19,6 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/tv_filter_mode_title"
         android:paddingLeft="10dp"
+        android:textColor="@color/white"
         android:text="Auto" />
 
     <TextView
@@ -27,6 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
         android:text="My Home" />
 
     
@@ -38,6 +41,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
+        android:textColor="@color/white"
         android:text="Filters" />
 
     <TextView
@@ -47,6 +51,7 @@
         android:layout_below="@id/tv_filter_status_title"
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
+        android:textColor="@color/white"
         android:text="Good" />
 
 </RelativeLayout>

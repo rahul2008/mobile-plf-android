@@ -91,7 +91,9 @@ public class RightMenuClickListener implements OnClickListener {
 		
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
 			
-			fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
+//			fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
+			
+			fanSpeed.setCompoundDrawablesWithIntrinsicBounds(null, context.getResources().getDrawable(R.drawable.fan_speed_auto), null, null);
 			timer.setText(getTimerText(airPurifierEventDto));
 			schedule.setText("N.A.");
 			childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));

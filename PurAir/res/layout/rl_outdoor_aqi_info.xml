@@ -11,6 +11,7 @@
         android:layout_alignParentLeft="true"
         android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
+        android:textColor="@color/white"
         android:text="Updated" />
     
     <TextView
@@ -20,6 +21,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@id/tv_updated_title"
         android:paddingLeft="10dp"
+        android:textColor="@color/white"
         android:text="14:23" />
 
     <TextView
@@ -28,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
         android:text="Shanghai" />
 
     <TextView
@@ -37,6 +40,7 @@
         android:layout_below="@id/tv_location_city"
         android:layout_centerHorizontal="true"
         android:paddingRight="10dp"
+        android:textColor="@color/white"
         android:text="Consulate" />
     
     <ImageView
@@ -55,6 +59,7 @@
         android:layout_below="@id/iv_outdoor_weather_image"
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
+        android:textColor="@color/white"
         android:text="18C" />
 
     <TextView

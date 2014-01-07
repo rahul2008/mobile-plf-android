@@ -344,7 +344,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		this.outdoorAQIValue = outdoorAQI;
 		tvOutdoorAQI.setText(String.valueOf(outdoorAQIValue));
 		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
-		setOutdoorAQIStatusAndComment(outdoorAQIValue);
+		setOutdoorAQIStatusAndComment(outdoorAQIValue, tvOutdoorTitle, tvOutdoorComment);
 	}
 
 	private void rotateAQICircle(int aqi, ImageView iv) {
@@ -376,8 +376,20 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ObjectAnimator.ofFloat(iv, animRotation, 0, roatation).setDuration(2000).start();
 	}
 
-	private void setOutdoorAQIStatusAndComment(int aqiValue) {
-		//Set appropriate text depending on AQI value
+	private void setOutdoorAQIStatusAndComment(int aqi, TextView tvTitle, TextView tvMessage) {
+		if(aqi > 0 && aqi <= 50) {
+			
+		} else if(aqi > 50 && aqi <= 100) {
+			
+		} else if(aqi > 100 && aqi <= 150) {
+			
+		} else if(aqi > 150 && aqi <= 200) {
+			
+		} else if(aqi > 200 && aqi <= 300) {
+			
+		} else if(aqi > 300 && aqi <= 500) {
+			
+		}
 	}
 
 	public void setOutdoorTemperature(int temperature) {
@@ -414,11 +426,24 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		this.indoorAQIValue = indoorAQI;
 		tvIndoorAQI.setText(String.valueOf(indoorAQIValue));
 		rotateAQICircle(indoorAQIValue, ivIndoorCircle);
-		setIndoorAQIStatusAndComment(indoorAQIValue);
+		setIndoorAQIStatusAndComment(indoorAQIValue, tvIndoorTitle, tvIndoorComment);
 	}
 
-	private void setIndoorAQIStatusAndComment(int indoorAQI) {
-		//Set appropriate text depending on AQI value
+	private void setIndoorAQIStatusAndComment(int aqi, TextView tvTitle, TextView tvMessage) {
+		if(aqi > 0 && aqi <= 50) {
+			
+		} else if(aqi > 50 && aqi <= 100) {
+			
+		} else if(aqi > 100 && aqi <= 150) {
+			
+		} else if(aqi > 150 && aqi <= 200) {
+			
+		} else if(aqi > 200 && aqi <= 300) {
+			
+		} else if(aqi > 300 && aqi <= 500) {
+			
+		}
+	
 	}
 
 	public void setHomeName(String name) {

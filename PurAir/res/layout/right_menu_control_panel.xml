@@ -39,7 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
         android:layout_below="@id/divider_1"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
@@ -54,8 +53,7 @@
         android:layout_alignBaseline="@+id/tv_rm_fan_speed"
         android:layout_alignBottom="@+id/tv_rm_fan_speed"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:text="Speed" />
+        android:layout_marginRight="30dp" />
     
     <ImageView
         android:id="@+id/divider_2"
@@ -69,7 +67,7 @@
     <Button
         android:id="@+id/fan_speed_silent"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@id/divider_2"
         android:layout_marginTop="16dp"
         android:layout_alignParentLeft="true"
@@ -81,7 +79,7 @@
     <Button
         android:id="@+id/fan_speed_turbo"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@id/divider_2"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@+id/fan_speed_silent"
@@ -93,7 +91,7 @@
     <Button
         android:id="@+id/fan_speed_auto"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@id/divider_2"
         android:layout_marginTop="16dp"
         android:layout_toRightOf="@+id/fan_speed_turbo"
@@ -105,35 +103,37 @@
     <Button
         android:id="@+id/fan_speed_one"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/fan_speed_silent"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="1" 
+        android:paddingTop="18dp"
+        android:drawableTop="@drawable/fan_speed_auto"
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/fan_speed_two"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/fan_speed_one"
-        android:layout_alignBottom="@+id/fan_speed_one"
+        android:layout_height="40dp"
+        android:layout_below="@id/fan_speed_turbo"
         android:layout_toRightOf="@+id/fan_speed_one"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="2" 
+        android:paddingTop="14dp"
+        android:drawableTop="@drawable/fan_speed_silent" 
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/fan_speed_three"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_below="@+id/fan_speed_turbo"
         android:layout_toRightOf="@+id/fan_speed_turbo"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="3" 
+        android:paddingTop="12dp"
+        android:drawableTop="@drawable/fan_speed_turbo" 
         android:visibility="gone"/>
     
     <TextView
@@ -141,7 +141,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
         android:layout_below="@id/fan_speed_three"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
@@ -171,7 +170,7 @@
     <Button
         android:id="@+id/timer_off"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/divider_3"
         android:layout_marginTop="16dp"
@@ -183,7 +182,7 @@
     <Button
         android:id="@+id/two_hours"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/timer_off"
         android:background="@drawable/button_blue_bg_2x"
@@ -194,7 +193,7 @@
     <Button
         android:id="@+id/four_hours"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignBaseline="@+id/two_hours"
         android:layout_alignBottom="@+id/two_hours"
         android:layout_toRightOf="@+id/two_hours"
@@ -206,7 +205,7 @@
     <Button
         android:id="@+id/eight_hours"
         android:layout_width="80dp"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignBaseline="@+id/four_hours"
         android:layout_alignBottom="@+id/four_hours"
         android:layout_toRightOf="@+id/four_hours"
@@ -220,7 +219,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
         android:layout_below="@id/two_hours"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
@@ -253,7 +251,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
         android:layout_below="@id/divider_4"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
@@ -286,7 +283,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:textSize="12sp"
         android:layout_below="@id/divider_5"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
