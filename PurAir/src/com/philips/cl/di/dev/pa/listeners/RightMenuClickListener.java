@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.listeners;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constants.ParserConstants;
+import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -24,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class RightMenuClickListener implements OnClickListener {
+	
+	private AirPurifierController airPurifierController ;
 	private static final String TAG = RightMenuClickListener.class.getSimpleName();
 	
 	private Context context;
@@ -76,18 +80,27 @@ public class RightMenuClickListener implements OnClickListener {
 		timerFourHours = (Button) activity.findViewById(R.id.four_hours);
 		timerEightHours = (Button) activity.findViewById(R.id.eight_hours);
 		
+		this.airPurifierController = new AirPurifierController(context) ;
+ 		
 	}
 	
 	public void setSensorValues(AirPurifierEventDto airPurifierEventDto) {
 		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed" + airPurifierEventDto.getFanSpeed());
-		power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
 		
-		fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
-		timer.setText(getTimerText(airPurifierEventDto));
-		schedule.setText("N.A.");
-		childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
-		indicatorLight.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getAqiL()));
+		if( airPurifierEventDto.getPowerMode().equals("1")) {
 		
+			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
+			
+			fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
+			timer.setText(getTimerText(airPurifierEventDto));
+			schedule.setText("N.A.");
+			childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
+			indicatorLight.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getAqiL()));
+		}
+		else {
+			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
+			disableOtherButtons() ;
+		}
 	}
 	
 	private Drawable getPowerButtonState(AirPurifierEventDto airPurifierEventDto) {
@@ -147,20 +160,25 @@ public class RightMenuClickListener implements OnClickListener {
 				
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
 				enableOtherButtons(MainActivity.getAirPurifierEventDto());
+				controlDevice(ParserConstants.POWER_MODE, "1") ;
 				
 			} else {
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 				disableOtherButtons();
+				controlDevice(ParserConstants.POWER_MODE, "0") ;
 			}
 			isPowerOn = !isPowerOn;
 			collapseOrExpandFanSpeedMenu(true);
 			collapseOrExpandTimerMenu(true);
 			break;
 		case R.id.btn_rm_child_lock:
+			
 			if(isChildLockOn) {
 				childLock.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
+				controlDevice(ParserConstants.CL, "1") ;
 			} else {
 				childLock.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+				controlDevice(ParserConstants.CL, "0") ;
 			}
 			isChildLockOn = !isChildLockOn;
 			collapseOrExpandFanSpeedMenu(true);
@@ -169,8 +187,10 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_indicator_light:
 			if(isIndicatorLightOn) {
 				indicatorLight.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
+				controlDevice(ParserConstants.AQI_LIGHT, "1") ;
 			} else {
 				indicatorLight.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+				controlDevice(ParserConstants.AQI_LIGHT, "0") ;
 			}
 			isIndicatorLightOn = !isIndicatorLightOn;
 			collapseOrExpandFanSpeedMenu(true);
@@ -180,14 +200,35 @@ public class RightMenuClickListener implements OnClickListener {
 			collapseOrExpandFanSpeedMenu(isFanSpeedMenuVisible);
 			collapseOrExpandTimerMenu(true);
 			break;
-		case R.id.fan_speed_silent:
+		case R.id.fan_speed_silent:		
+			fanSpeed.setText(((Button) v).getText());
+			collapseOrExpandFanSpeedMenu(true);
+			controlDevice(ParserConstants.FAN_SPEED, "s") ;
+			break;
 		case R.id.fan_speed_auto:
-		case R.id.fan_speed_turbo:
+			fanSpeed.setText(((Button) v).getText());
+			collapseOrExpandFanSpeedMenu(true);
+			controlDevice(ParserConstants.FAN_SPEED, "a") ;
+			break;
+		case R.id.fan_speed_turbo:			
+			fanSpeed.setText(((Button) v).getText());
+			collapseOrExpandFanSpeedMenu(true);
+			controlDevice(ParserConstants.FAN_SPEED, "t") ;
+			break;
 		case R.id.fan_speed_one:
+			fanSpeed.setText(((Button) v).getText());
+			collapseOrExpandFanSpeedMenu(true);
+			controlDevice(ParserConstants.FAN_SPEED, "1") ;
+			break;
 		case R.id.fan_speed_two:
+			fanSpeed.setText(((Button) v).getText());
+			collapseOrExpandFanSpeedMenu(true);
+			controlDevice(ParserConstants.FAN_SPEED, "2") ;
+			break;
 		case R.id.fan_speed_three:
 			fanSpeed.setText(((Button) v).getText());
 			collapseOrExpandFanSpeedMenu(true);
+			controlDevice(ParserConstants.FAN_SPEED, "3") ;
 			break;
 			
 		case R.id.btn_rm_set_timer:
@@ -195,11 +236,24 @@ public class RightMenuClickListener implements OnClickListener {
 			collapseOrExpandFanSpeedMenu(true);
 			break;
 		case R.id.timer_off:
+			timer.setText(((Button) v).getText());
+			collapseOrExpandTimerMenu(true);
+			controlDevice(ParserConstants.DEVICE_TIMER, "0") ;
+			break;
 		case R.id.two_hours:
+			timer.setText(((Button) v).getText());
+			collapseOrExpandTimerMenu(true);
+			controlDevice(ParserConstants.DEVICE_TIMER, "2") ;
+			break;
 		case R.id.four_hours:
+			timer.setText(((Button) v).getText());
+			collapseOrExpandTimerMenu(true);
+			controlDevice(ParserConstants.DEVICE_TIMER, "4") ;
+			break;
 		case R.id.eight_hours:
 			timer.setText(((Button) v).getText());
 			collapseOrExpandTimerMenu(true);
+			controlDevice(ParserConstants.DEVICE_TIMER, "8") ;
 			break;
 		case R.id.btn_rm_scheduler:
 			collapseOrExpandFanSpeedMenu(true);
@@ -207,6 +261,10 @@ public class RightMenuClickListener implements OnClickListener {
 		default:
 			break;
 		}
+	}
+	
+	private void controlDevice(String key, String value) {
+		airPurifierController.setDeviceDetailsLocally(key, value) ;
 	}
 	
 	private void disableOtherButtons() {
