@@ -67,6 +67,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private TextView tvAirStatusAqiValue;
 	private TextView tvConnectionStatus;
 	private ImageView ivConnectedImage;
+	private Menu menu;
 	
 	//Filter status bars
 	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
@@ -104,8 +105,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
-				if(drawerView.getId() == R.id.right_menu) {
-				}
 				mRightDrawerOpened = false;
 				supportInvalidateOptionsMenu();
 
@@ -246,12 +245,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 	
 	private void setRightMenuConnectedStatus(int status){
+		MenuItem item = menu.getItem(0);
 		if(status == 1) {
 			tvConnectionStatus.setText("Connected");
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
+			item.setIcon(R.drawable.right_bar_icon_blue_2x);
 		} else {
 			tvConnectionStatus.setText("Not Connected");
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
+			item.setIcon(R.drawable.right_bar_icon_orange_2x);
 		}
 	}
 	
@@ -272,6 +274,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
+		this.menu = menu;
 		MenuItem item = menu.getItem(0);
 
 		//TODO : Check connection status and set right menu icon accordingly
