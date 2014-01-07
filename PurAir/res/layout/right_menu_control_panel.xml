@@ -108,10 +108,9 @@
         android:layout_below="@+id/fan_speed_silent"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:paddingTop="18dp"
-        android:drawableTop="@drawable/fan_speed_auto"
+        android:text="1"
         android:visibility="gone"/>
-
+	<!-- android:drawableTop="@drawable/fan_speed_auto" -->
     <Button
         android:id="@+id/fan_speed_two"
         android:layout_width="80dp"
@@ -120,9 +119,9 @@
         android:layout_toRightOf="@+id/fan_speed_one"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:paddingTop="14dp"
-        android:drawableTop="@drawable/fan_speed_silent" 
+        android:text="2" 
         android:visibility="gone"/>
+    <!-- android:drawableTop="@drawable/fan_speed_silent" -->
 
     <Button
         android:id="@+id/fan_speed_three"
@@ -132,9 +131,9 @@
         android:layout_toRightOf="@+id/fan_speed_turbo"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:paddingTop="12dp"
-        android:drawableTop="@drawable/fan_speed_turbo" 
+        android:text="3" 
         android:visibility="gone"/>
+    <!-- android:drawableTop="@drawable/fan_speed_turbo" -->
     
     <TextView
         android:id="@+id/tv_rm_set_timer"

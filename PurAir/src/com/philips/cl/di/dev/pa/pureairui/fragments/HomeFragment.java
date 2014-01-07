@@ -79,7 +79,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	
 	private int indoorAQIValue = 0, outdoorAQIValue = 0;
 
-
+	
+	
+	
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -106,7 +109,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void onResume() {
 		Log.i(TAG, "onResume");
 		super.onResume();
-
+		initAnimations();
 	}
 
 
@@ -114,8 +117,16 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void onPause() {
 		Log.i(TAG, "onPause");
 		super.onPause();
-
+		stopAllAnimations();
 	}
+	private void stopAllAnimations() {
+		scaleDownIndoorFragment.end();
+		scaleDownOutdoorFragment.end();
+		scaleUpIndoorFragment.end();
+		scaleUpOutdoorFragment.end();
+	}
+
+
 	private void initViews() {
 
 		llIndoor = (LinearLayout) vMain.findViewById(R.id.ll_home_indoor_2);
@@ -352,7 +363,11 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		// according to the AQI value
 		//300 degrees is the arc of the guage
 		//500 is the max value of AQI
-
+		
+		if(getActivity() == null) {
+			return;
+		}
+		
 		if(aqi > 0 && aqi <= 50) {
 			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x));
 		} else if(aqi > 50 && aqi <= 100) {

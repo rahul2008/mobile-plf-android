@@ -150,6 +150,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		
 		sensorDataController = new SensorDataController(this, this) ;
 	}
+	
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+	}
 
 	@Override
 	protected void onResume() {
@@ -164,6 +170,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onPause();
 		Log.i(TAG, "OnPause") ;
      	sensorDataController.stopPolling();
+	}
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
 	}
 
 	@Override
