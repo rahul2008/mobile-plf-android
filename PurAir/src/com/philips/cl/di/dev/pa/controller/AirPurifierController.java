@@ -121,10 +121,8 @@ public class AirPurifierController implements ServerResponseListener
 	 * @param sensorDataHandler the sensor data handler
 	 * @param context the context
 	 */
-	public AirPurifierController(AirPurifierEventListener sensorDataListener,Context context,int requestType) {
-		this.airPurifierEventListener = sensorDataListener;
-		this.context = context ;
-		this.requestType = requestType ;
+	public AirPurifierController(AirPurifierEventListener sensorDataListener,Context context) {
+		this.airPurifierEventListener = sensorDataListener ;
 		
 		// Taking it from Shared Preferences
 		this.ipAddress = Utils.getIPAddress(context);
@@ -192,7 +190,8 @@ public class AirPurifierController implements ServerResponseListener
 		if( dataToParse != null) {
 			airPurifierEvent = new DataParser(dataToParse).parseAirPurifierEventData() ;
 		}
-		airPurifierEventListener.airPurifierEventReceived(airPurifierEvent) ;
+		if ( airPurifierEventListener != null)
+			airPurifierEventListener.airPurifierEventReceived(airPurifierEvent) ;
 	}
 	
 	public void getFilterStatus() {
