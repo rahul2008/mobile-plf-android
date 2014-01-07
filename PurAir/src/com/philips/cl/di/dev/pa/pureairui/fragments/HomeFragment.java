@@ -441,22 +441,28 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		this.indoorAQIValue = indoorAQI;
 		tvIndoorAQI.setText(String.valueOf(indoorAQIValue));
 		rotateAQICircle(indoorAQIValue, ivIndoorCircle);
-		setIndoorAQIStatusAndComment(indoorAQIValue, tvIndoorTitle, tvIndoorComment);
+		setIndoorAQIStatusAndComment(indoorAQIValue);
 	}
 
-	private void setIndoorAQIStatusAndComment(int aqi, TextView tvTitle, TextView tvMessage) {
+	private void setIndoorAQIStatusAndComment(int aqi) {
 		if(aqi > 0 && aqi <= 50) {
-			
+			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
+			tvIndoorComment.setText("The Air in PHILIPS room is very healthy") ;
 		} else if(aqi > 50 && aqi <= 100) {
-			
+			tvIndoorTitle.setText(getString(R.string.healthy)) ;
+			tvIndoorComment.setText("The air in PHILIPS room is healthy") ;
 		} else if(aqi > 100 && aqi <= 150) {
-			
+			tvIndoorTitle.setText(getString(R.string.slightly_polluted)) ;
+			tvIndoorComment.setText("The Air in PHILIPS room is Slightly Polluted") ;
 		} else if(aqi > 150 && aqi <= 200) {
-			
+			tvIndoorTitle.setText(getString(R.string.moderately_polluted)) ;
+			tvIndoorComment.setText("The Air in PHILIPS room is Moderately Polluted") ;
 		} else if(aqi > 200 && aqi <= 300) {
-			
-		} else if(aqi > 300 && aqi <= 500) {
-			
+			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
+			tvIndoorComment.setText("The Air in PHILIPS room is UnHealthy") ;
+		} else if(aqi > 300 && aqi <= 1000) {
+			tvIndoorTitle.setText(getString(R.string.hazardous)) ;
+			tvIndoorComment.setText("The Air in PHILIPS room is Hazardous") ;
 		}
 	
 	}
@@ -502,7 +508,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 					break;
 				}
 			}
-			//setOu.setText(outdoorDto.getT()) ;
+			setUpdatedAtTime(outdoorDto.getT()) ;
 		}
 	}
 
