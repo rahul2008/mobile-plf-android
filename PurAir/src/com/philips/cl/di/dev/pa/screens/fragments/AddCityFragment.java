@@ -194,8 +194,7 @@ public class AddCityFragment extends Fragment implements OnClickListener {
 	 * @return true, if successful
 	 */
 	public boolean insertIntoDatabase() {
-		return adapter.insertIntoDatabase(sCityName, iAQI, sProvinceName,
-				sDate, "TIME");
+		return false;
 	}
 
 	/*
