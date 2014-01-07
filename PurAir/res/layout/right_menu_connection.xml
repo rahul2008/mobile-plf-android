@@ -44,7 +44,8 @@
         android:focusableInTouchMode="false"
         android:textColor="#ffffff"
         android:text="Connect" 
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/seperator"

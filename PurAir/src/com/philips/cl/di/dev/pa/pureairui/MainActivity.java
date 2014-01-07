@@ -68,6 +68,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private TextView tvConnectionStatus;
 	private ImageView ivConnectedImage;
 	private Menu menu;
+	private boolean connected;
 	
 	//Filter status bars
 	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
@@ -244,9 +245,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
 	}
 	
-	private void setRightMenuConnectedStatus(int status){
+	private void setRightMenuConnectedStatus(boolean status){
 		MenuItem item = menu.getItem(0);
-		if(status == 1) {
+		if(status) {
 			tvConnectionStatus.setText("Connected");
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
 			item.setIcon(R.drawable.right_bar_icon_blue_2x);
@@ -271,17 +272,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.menu = menu;
 		MenuItem item = menu.getItem(0);
 
 		//TODO : Check connection status and set right menu icon accordingly
-		//		if(connected)
-		item.setIcon(R.drawable.right_bar_icon_blue_2x);
-		//		else
-		//			item.setIcon(R.drawable.right_bar_icon_orange_2x);
+		if(connected)
+			item.setIcon(R.drawable.right_bar_icon_blue_2x);
+		else
+			item.setIcon(R.drawable.right_bar_icon_orange_2x);
 		return true;
 	}
 
@@ -411,16 +411,27 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return screenHeight;
 	}
 
+	private int statusCounter = 0;
+	
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null))) ;
+		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
 		if ( null != airPurifierEventDto ) {
+			statusCounter = 0;
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
 			setRightMenuAQIValue(airPurifierEventDto.getIndoorAQI());
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
-		} 
+			setRightMenuConnectedStatus(true);
+			connected = true;
+		} else {
+			statusCounter++;
+			if(statusCounter >= 3) {
+				setRightMenuConnectedStatus(false);
+				connected = false;
+			}
+		}
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
