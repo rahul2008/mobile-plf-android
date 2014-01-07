@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.listeners;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 import android.app.Activity;
@@ -93,9 +94,13 @@ public class RightMenuClickListener implements OnClickListener {
 		Drawable powerState = null;
 		String powerMode = airPurifierEventDto.getPowerMode();
 		if(powerMode.equals("1")) {
-			powerState = context.getResources().getDrawable(R.drawable.switch_off);
-		} else {
 			powerState = context.getResources().getDrawable(R.drawable.switch_on);
+			enableOtherButtons(MainActivity.getAirPurifierEventDto());
+			isPowerOn = true;
+		} else {
+			powerState = context.getResources().getDrawable(R.drawable.switch_off);
+			disableOtherButtons();
+			isPowerOn = false;
 		}
 		
 		return powerState;
@@ -122,7 +127,7 @@ public class RightMenuClickListener implements OnClickListener {
 	private Drawable getOnOffStatus(int status) {
 		Drawable buttonState = null;
 		if(status == 1) {
-			buttonState = context.getResources().getDrawable(R.drawable.switch_off);
+			buttonState = context.getResources().getDrawable(R.drawable.switch_on);
 		} else {
 			buttonState = context.getResources().getDrawable(R.drawable.switch_off);
 		}
@@ -140,10 +145,11 @@ public class RightMenuClickListener implements OnClickListener {
 			Toast.makeText(context, "Connect", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.btn_rm_power:
-			if(isPowerOn) {
-				Log.i(TAG, "power is on");
+			Log.i(TAG, "power is on :: " + isPowerOn);
+			if(!isPowerOn) {
+				
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
-				enableOtherButtons();
+				enableOtherButtons(MainActivity.getAirPurifierEventDto());
 				
 			} else {
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
@@ -199,23 +205,41 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	private void disableOtherButtons() {
 		Drawable disabledButton = context.getResources().getDrawable(R.drawable.button_bg_2x);
+		disabledButton.setAlpha(100);
 		
 		fanSpeed.setClickable(false);
 		fanSpeed.setBackgroundDrawable(disabledButton);
-		disabledButton.setAlpha(100);
+		
 		timer.setClickable(false);
 		timer.setBackgroundDrawable(disabledButton);
 		
+		schedule.setClickable(false);
+		schedule.setBackgroundDrawable(disabledButton);
 		
+		childLock.setClickable(false);
+		childLock.setBackgroundDrawable(disabledButton);
+		
+		indicatorLight.setClickable(false);
+		indicatorLight.setBackgroundDrawable(disabledButton);
 	}
 	
-	private void enableOtherButtons() {
+	private void enableOtherButtons(AirPurifierEventDto airPurifierEventDto) {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
-		Drawable switchOn = context.getResources().getDrawable(R.drawable.switch_on);
+		
 		fanSpeed.setClickable(true);
 		fanSpeed.setBackgroundDrawable(enabledButton);
+		
 		timer.setClickable(true);
 		timer.setBackgroundDrawable(enabledButton);
+		
+		schedule.setClickable(true);
+		schedule.setBackgroundDrawable(enabledButton);
+		
+		childLock.setClickable(true);
+		childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
+		
+		indicatorLight.setClickable(true);
+		indicatorLight.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getAqiL()));
 	}
 
 	private void collapseOrExpandTimerMenu(boolean collapse) {
