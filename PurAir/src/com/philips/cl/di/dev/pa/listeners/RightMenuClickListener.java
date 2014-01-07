@@ -175,7 +175,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.btn_rm_child_lock:
 			
-			if(isChildLockOn) {
+			if(!isChildLockOn) {
 				childLock.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
 				controlDevice(ParserConstants.CL, "1") ;
 			} else {
@@ -187,7 +187,7 @@ public class RightMenuClickListener implements OnClickListener {
 			collapseOrExpandTimerMenu(true);
 			break;
 		case R.id.btn_rm_indicator_light:
-			if(isIndicatorLightOn) {
+			if(!isIndicatorLightOn) {
 				indicatorLight.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
 				controlDevice(ParserConstants.AQI_LIGHT, "1") ;
 			} else {

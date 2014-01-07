@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.pureairui;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import android.os.Bundle;
@@ -35,7 +36,6 @@ import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
-import com.philips.cl.di.dev.pa.customviews.adapters.RightMenuControlPanelAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
@@ -64,7 +64,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private RightMenuClickListener rightMenuClickListener;
 
 	//Right menu stuff
-	private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
 	private TextView tvAirStatusAqiValue;
 	private TextView tvConnectionStatus;
 	private ImageView ivConnectedImage;
