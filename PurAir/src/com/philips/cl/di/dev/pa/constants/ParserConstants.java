@@ -8,6 +8,7 @@ public class ParserConstants {
 	/** Air Purifier Event Constants **/
 	public static final String POWER_MODE = "pwr" ;
 	public static final String MACHINE_MODE = "om" ;
+	public static final String DEVICE_TIMER = "dt" ;
 	public static final String AQI = "aqi" ;
 	public static final String CL = "cl" ;
 	public static final String AQI_LIGHT = "aqil" ;
@@ -21,7 +22,7 @@ public class ParserConstants {
 	public static final String REP_FILTER_2 = "repf2" ;
 	public static final String REP_FILTER_3 = "repf3" ;
 	public static final String REP_FILTER_4 = "repf4" ;
-	public static final String FAN_SPEED = "fspd" ;
+	public static final String FAN_SPEED = "om" ;
 	public static final String TFAV = "tfav" ;
 	public static final String PSENS = "psens" ;
 	
