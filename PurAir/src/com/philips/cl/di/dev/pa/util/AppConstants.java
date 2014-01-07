@@ -11,7 +11,7 @@ public class AppConstants {
 	public static final float MINIMUNFILTER = 0;
 	public static final float MAXIMUMFILTER = 1000;
 	
-	public static final float PRE_FILTER_MAX_VALUE = 130;
+	public static final float PRE_FILTER_MAX_VALUE = 112;
 	public static final float MULTI_CARE_FILTER_MAX_VALUE = 960;
 	public static final float ACTIVE_CARBON_FILTER_MAX_VALUE = 2880;
 	public static final float HEPA_FILTER_MAX_VALUE = 2880;
