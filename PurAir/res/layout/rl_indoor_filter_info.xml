@@ -21,7 +21,7 @@
         android:layout_below="@id/tv_filter_mode_title"
         android:paddingLeft="10dp"
         android:textColor="@color/white"
-        android:text="Auto" />
+        android:text="-" />
 
     <TextView
         android:id="@+id/tv_filter_home"
@@ -30,7 +30,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
-        android:text="My Home" />
+        android:text="PHILIPS Home" />
 
     
     
@@ -52,6 +52,6 @@
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        android:text="Good" />
+        android:text="-" />
 
 </RelativeLayout>

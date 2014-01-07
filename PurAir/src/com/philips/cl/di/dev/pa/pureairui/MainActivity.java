@@ -231,8 +231,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);
 
-		TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-		actionBarTitle.setTypeface(Fonts.getGillsans(this));
+//		TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
+//		actionBarTitle.setTypeface(Fonts.getGillsansLight(this));
+		
+		setTitle(getString(R.string.dashboard_title));
 	}
 
 	//Create the left menu items.
