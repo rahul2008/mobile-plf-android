@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.utils;
 
 import java.io.File;
-
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,27 +10,18 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnShowListener;
-import android.content.res.AssetManager;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.text.InputFilter;
 import android.util.Log;
 import android.view.Display;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 
 // TODO: Auto-generated Javadoc
@@ -150,90 +140,7 @@ public class Utils {
 
 	}
 
-	/**
-	 * Shows IP Address dialog.
-	 * 
-	 * @param context
-	 *            the context
-	 */
-	public static void showIpDialog(final Context context) {
-		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
-				context);
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View dialogView = inflater.inflate(R.layout.dialog_settings, null);
-		dialogBuilder.setView(dialogView);
-
-		final EditText input = (EditText) dialogView
-				.findViewById(R.id.editTextIPAddress);
-		input.setText(Utils.getIPAddress(context));
-		input.setSelection(input.length());
-
-		InputFilter[] filters = new InputFilter[1];
-		filters[0] = new InputFilter() {
-			@Override
-			public CharSequence filter(CharSequence source, int start, int end,
-					android.text.Spanned dest, int dstart, int dend) {
-				if (end > start) {
-					String destTxt = dest.toString();
-					String resultingTxt = destTxt.substring(0, dstart)
-							+ source.subSequence(start, end)
-							+ destTxt.substring(dend);
-					if (!resultingTxt
-							.matches("^\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3}(\\.(\\d{1,3})?)?)?)?)?)?")) {
-						return "";
-					} else {
-						String[] splits = resultingTxt.split("\\.");
-						for (int i = 0; i < splits.length; i++) {
-							if (Integer.valueOf(splits[i]) > 255) {
-								return "";
-							}
-						}
-					}
-				}
-				return null;
-			}
-		};
-		input.setFilters(filters);
-
-		dialogBuilder.setTitle(AppConstants.MESSAGE_ENTER_IP_ADDRESS);
-		dialogBuilder.setPositiveButton(AppConstants.MESSAGE_OK, null);
-
-		final AlertDialog dialog = dialogBuilder.create();
-		dialog.getWindow().setSoftInputMode(
-				WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-
-		dialog.setOnShowListener(new OnShowListener() {
-
-			@Override
-			public void onShow(DialogInterface dialogInterface) {
-				Button buttonOk = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-				buttonOk.setOnClickListener(new View.OnClickListener() {
-
-					@Override
-					public void onClick(View view) {
-						String ipAddressMatchString = "(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?).(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
-						String ipAddress = input.getText().toString();
-						boolean isIpCorrect = ipAddress
-								.matches(ipAddressMatchString);
-
-						if (isIpCorrect) {
-							Utils.setIPAddress(ipAddress, context);
-							dialog.dismiss();
-						} else {
-							dialog.dismiss();
-							showIncorrectIpDialog(context);
-
-						}
-
-					}
-				});
-
-			}
-		});
-
-		dialog.show();
-	}
-
+	
 	/**
 	 * Gets the time remaining.
 	 * 
@@ -296,27 +203,7 @@ public class Utils {
 		return sdf.format(now);
 	}
 
-	/**
-	 * Gets the indoor ring array for images.
-	 * 
-	 * @param iAQI
-	 *            the i aqi
-	 * @return the indoor ring
-	 */
-	public static String[] getIndoorRing(int iAQI) {
-		if (iAQI >= 0 && iAQI <= 125) {
-			return AppConstants.VGOOD_RING;
-		} else if (iAQI > 125 && iAQI <= 250) {
-			return AppConstants.GOOD_RING;
-		} else if (iAQI > 250 && iAQI <= 375) {
-			return AppConstants.FAIR_RING;
-		} else if (iAQI > 375 && iAQI <= 500) {
-			return AppConstants.BAD_RING;
-		}
-
-		return null;
-	}
-
+	
 	/**
 	 * Gets the resource id.
 	 * 
@@ -331,46 +218,9 @@ public class Utils {
 				context.getPackageName());
 	}
 
-	/**
-	 * Gets the indoor bg.
-	 * 
-	 * @param iAQI
-	 *            the i aqi
-	 * @return the indoor bg
-	 */
-	public static String getIndoorBG(int iAQI) {
-		if (iAQI >= 0 && iAQI <= 125) {
-			return AppConstants.HOME_INDOOR_VGOOD;
-		} else if (iAQI > 125 && iAQI <= 250) {
-			return AppConstants.HOME_INDOOR_GOOD;
-		} else if (iAQI > 250 && iAQI <= 375) {
-			return AppConstants.HOME_INDOOR_FAIR;
-		} else if (iAQI > 375 && iAQI <= 500) {
-			return AppConstants.HOME_INDOOR_BAD;
-		}
+	
 
-		return AppConstants.HOME_INDOOR_VGOOD;
-	}
-
-	/**
-	 * Gets the aQI color.
-	 * 
-	 * @param AQI
-	 *            the aqi
-	 * @return the aQI color
-	 */
-	public static int getAQIColor(int AQI) {
-		if (AQI > 0 && AQI <= 125) {
-			return AppConstants.COLOR_VGOOD;
-		} else if (AQI > 125 && AQI <= 250) {
-			return AppConstants.COLOR_GOOD;
-		} else if (AQI > 250 && AQI <= 375) {
-			return AppConstants.COLOR_FAIR;
-		} else if (AQI > 375 && AQI <= 500) {
-			return AppConstants.COLOR_BAD;
-		}
-		return AppConstants.COLOR_NA;
-	}
+	
 
 	/**
 	 * Gets the outdoor aqi date time.
@@ -396,47 +246,6 @@ public class Utils {
 		return dateToReturn;
 	}
 
-	/**
-	 * Gets the outdoor bg.
-	 * 
-	 * @param iOutdoorAQI
-	 *            the i outdoor aqi
-	 * @return the outdoor bg
-	 */
-	public static String getOutdoorBG(int iOutdoorAQI) {
-		Log.i("BEFORE CRASH", iOutdoorAQI + "");
-		if (iOutdoorAQI >= 0 && iOutdoorAQI <= 125) {
-			return AppConstants.SHANGHAI_VGOOD;
-		} else if (iOutdoorAQI > 125 && iOutdoorAQI <= 250) {
-			return AppConstants.SHANGHAI_GOOD;
-		} else if (iOutdoorAQI > 250 && iOutdoorAQI <= 375) {
-			return AppConstants.SHANGHAI_FAIR;
-		} else if (iOutdoorAQI > 375 && iOutdoorAQI <= 500) {
-			return AppConstants.SHANGHAI_BAD;
-		}
-
-		return AppConstants.SHANGHAI_VGOOD;
-	}
-
-	/**
-	 * Gets the fan indicator.
-	 * 
-	 * @param iAQI
-	 *            the i aqi
-	 * @return the fan indicator
-	 */
-	public static String getFanIndicator(int iAQI) {
-		if (iAQI >= 0 && iAQI <= 125) {
-			return AppConstants.WARNING_VGOOD;
-		} else if (iAQI > 125 && iAQI <= 250) {
-			return AppConstants.WARNING_GOOD;
-		} else if (iAQI > 250 && iAQI <= 375) {
-			return AppConstants.WARNING_FAIR;
-		} else if (iAQI > 375 && iAQI <= 500) {
-			return AppConstants.WARNING_FAIR;
-		}
-		return AppConstants.WARNING_VGOOD;
-	}
 
 	/**
 	 * Copy database from assets to s dcard.
@@ -613,31 +422,7 @@ public class Utils {
 		return array_aqi;
 	}
 
-	public static String getMapBg(String sCityName) {
-		if (sCityName.equalsIgnoreCase("BEIJING")) {
-			return AppConstants.MAP_BEIJING;
-		} else if (sCityName.equalsIgnoreCase("SHANGHAI")) {
-			return AppConstants.MAP_SHANGHAI;
-		} else if (sCityName.equalsIgnoreCase("GUANGZHOU")) {
-			return AppConstants.MAP_GUANGZHOU;
-		}
-		// default
-		return AppConstants.MAP_BEIJING;
-	}
-
-	public static String getMapOverlay(int iAQI) {
-		if (iAQI >= 0 && iAQI <= 125) {
-			return AppConstants.MAP_OVERLAY_VGOOD;
-		} else if (iAQI > 125 && iAQI <= 250) {
-			return AppConstants.MAP_OVERLAY_GOOD;
-		} else if (iAQI > 250 && iAQI <= 375) {
-			return AppConstants.MAP_OVERLAY_FAIR;
-		} else if (iAQI > 375 && iAQI <= 500) {
-			return AppConstants.MAP_OVERLAY_BAD;
-		}
-		return AppConstants.MAP_OVERLAY_VGOOD;
-	}
-
+	
 	public static String getToday() {
 		Calendar now = Calendar.getInstance();
 		int month = now.get(Calendar.MONTH);
@@ -654,18 +439,6 @@ public class Utils {
 			month = months[num];
 		}
 		return month;
-	}
-
-	public static int getCityIDFromName(String sCityName) {
-		if (sCityName.equalsIgnoreCase("BEIJING")) {
-			return AppConstants.CITY_ID_BEIJING;
-		} else if (sCityName.equalsIgnoreCase("SHANGHAI")) {
-			return AppConstants.CITY_ID_SHANGHAI;
-		} else if (sCityName.equalsIgnoreCase("GUANGZHOU")) {
-			return AppConstants.CITY_ID_GUANGZHOU;
-		}
-		// default
-		return -1;
 	}
 	
 	
