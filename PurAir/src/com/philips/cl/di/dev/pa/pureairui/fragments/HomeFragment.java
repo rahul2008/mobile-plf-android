@@ -446,7 +446,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	private void setIndoorAQIStatusAndComment(int aqi) {
 		if(aqi > 0 && aqi <= 50) {
-			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
+			tvIndoorTitle.setText(getString(R.string.very_healthy)) ;
 			tvIndoorComment.setText("The Air in PHILIPS room is very healthy") ;
 		} else if(aqi > 50 && aqi <= 100) {
 			tvIndoorTitle.setText(getString(R.string.healthy)) ;

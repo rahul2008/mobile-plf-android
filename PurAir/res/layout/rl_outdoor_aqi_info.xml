@@ -22,7 +22,7 @@
         android:layout_below="@id/tv_updated_title"
         android:paddingLeft="10dp"
         android:textColor="@color/white"
-        android:text="14:23" />
+        android:text="--:--" />
 
     <TextView
         android:id="@+id/tv_location_city"
@@ -41,7 +41,7 @@
         android:layout_centerHorizontal="true"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        android:text="Consulate" />
+        android:text="Chinese Govt." />
     
     <ImageView
         android:id="@+id/iv_outdoor_weather_image"
@@ -60,7 +60,7 @@
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        android:text="18C" />
+        android:text="N.A." />
 
     <TextView
         android:id="@+id/tv_outdoor_aqi_status_title"
@@ -69,7 +69,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
-        android:text="Healthy" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_outdoor_aqi_status_message"
@@ -79,6 +79,6 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/tv_outdoor_aqi_status_title"
         android:textColor="@color/white"
-        android:text="This is good air" />
+        android:text="" />
 
 </RelativeLayout>
