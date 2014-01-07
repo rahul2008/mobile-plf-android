@@ -8,9 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 public class FilterStatusView extends ImageView {
+	private static final String TAG = FilterStatusView.class.getSimpleName();
 
 	Paint paint;
 
@@ -37,7 +39,7 @@ public class FilterStatusView extends ImageView {
 
 	private void init() {
 		paint = new Paint();
-		paint.setStrokeWidth(100f);
+		paint.setStrokeWidth(140f);
 		paint.setColor(color);
 		paint.setStyle(Style.STROKE);
 
@@ -74,5 +76,24 @@ public class FilterStatusView extends ImageView {
 		length = AppConstants.MAXWIDTH - (int) ((filterRange / 100) * AppConstants.MAXWIDTH);
 		setColorAndLength(Utils.getFilterStatusColor(filterValue), length);
 	}
-
+	
+	public void setPrefilterValue(int filterValue) {
+		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.PRE_FILTER_MAX_VALUE;
+		setColorAndLength(Utils.getPreFilterStatusColour(filterValue), length);
+	}
+	
+	public void setMultiCareFilterValue(int filterValue) {
+		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.MULTI_CARE_FILTER_MAX_VALUE;
+		setColorAndLength(Utils.getMultiCareFilterStatusColour(filterValue), length);
+	}
+	
+	public void setActiveCarbonFilterValue(int filterValue) {
+		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE;
+		setColorAndLength(Utils.getActiveCarbonFilterStatusColour(filterValue), length);
+	}
+	
+	public void setHEPAfilterValue(int filterValue) {
+		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.HEPA_FILTER_MAX_VALUE;
+		setColorAndLength(Utils.getHEPAFilterStatusColour(filterValue), length);
+	}
 }

@@ -137,9 +137,6 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		
-//		Toast.makeText(context, TAG + " onClick", Toast.LENGTH_LONG).show();
-		
 		switch (v.getId()) {
 		case R.id.connect:
 			Toast.makeText(context, "Connect", Toast.LENGTH_LONG).show();
@@ -156,6 +153,8 @@ public class RightMenuClickListener implements OnClickListener {
 				disableOtherButtons();
 			}
 			isPowerOn = !isPowerOn;
+			collapseOrExpandFanSpeedMenu(true);
+			collapseOrExpandTimerMenu(true);
 			break;
 		case R.id.btn_rm_child_lock:
 			if(isChildLockOn) {
@@ -164,6 +163,8 @@ public class RightMenuClickListener implements OnClickListener {
 				childLock.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 			}
 			isChildLockOn = !isChildLockOn;
+			collapseOrExpandFanSpeedMenu(true);
+			collapseOrExpandTimerMenu(true);
 			break;
 		case R.id.btn_rm_indicator_light:
 			if(isIndicatorLightOn) {
@@ -172,6 +173,8 @@ public class RightMenuClickListener implements OnClickListener {
 				indicatorLight.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 			}
 			isIndicatorLightOn = !isIndicatorLightOn;
+			collapseOrExpandFanSpeedMenu(true);
+			collapseOrExpandTimerMenu(true);
 			break;
 		case R.id.btn_rm_fan_speed :
 			collapseOrExpandFanSpeedMenu(isFanSpeedMenuVisible);
@@ -198,6 +201,9 @@ public class RightMenuClickListener implements OnClickListener {
 			timer.setText(((Button) v).getText());
 			collapseOrExpandTimerMenu(true);
 			break;
+		case R.id.btn_rm_scheduler:
+			collapseOrExpandFanSpeedMenu(true);
+			collapseOrExpandTimerMenu(true);
 		default:
 			break;
 		}

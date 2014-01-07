@@ -95,8 +95,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		
 		isIndoorExpanded = true;
 		
-		setIndoorAQIValue(indoorAQIValue);
-		setOutdoorAQIvalue(outdoorAQIValue);
+//		setIndoorAQIValue(indoorAQIValue);
+//		setOutdoorAQIvalue(outdoorAQIValue);
 		
 		return vMain;
 	}

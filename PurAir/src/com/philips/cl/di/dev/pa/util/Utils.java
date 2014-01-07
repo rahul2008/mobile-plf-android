@@ -25,6 +25,92 @@ public class Utils {
 		return 0;
 	}
 	
+	public static int getPreFilterStatusColour(int filterStatusValue) {
+		if(filterStatusValue < 96) {
+			return COLOR_GOOD;
+		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
+			return COLOR_FAIR;
+		} else {
+			return COLOR_BAD;
+		}
+	}
+	
+	public static String getPreFilterStatusText(int filterStatusValue) {
+		if(filterStatusValue < 96) {
+			return "Normal operation";
+		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
+			return "Clean soon";
+		} else {
+			return "Clean now";
+		}
+	}
+	
+	public static int getMultiCareFilterStatusColour(int filterStatusValue) {
+		if(filterStatusValue < 784) {
+			return COLOR_GOOD;
+		} else if ( filterStatusValue >= 784 && filterStatusValue < 840) {
+			return COLOR_FAIR;
+		} else {
+			return COLOR_BAD;
+		}
+	}
+	
+	public static String getMultiCareFilterStatusText(int filterStatusValue) {
+		if(filterStatusValue < 784) {
+			return "Normal operation";
+		} else if (filterStatusValue >= 784 && filterStatusValue < 840) {
+			return "Change soon";
+		} else if(filterStatusValue >= 840 && filterStatusValue < 960){
+			return "Change now";
+		} else {
+			return "Filter lock";
+		}
+	}
+	
+	public static int getActiveCarbonFilterStatusColour(int filterStatusValue) {
+		if(filterStatusValue < 2704) {
+			return COLOR_GOOD;
+		} else if ( filterStatusValue >= 2704 && filterStatusValue < 2760) {
+			return COLOR_FAIR;
+		} else {
+			return COLOR_BAD;
+		}
+	}
+	
+	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
+		if(filterStatusValue < 2704) {
+			return "Normal operation";
+		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
+			return "Change soon";
+		} else if(filterStatusValue >= 2760 && filterStatusValue < 2880){
+			return "Change now";
+		} else {
+			return "Filter lock";
+		}
+	}
+	
+	public static int getHEPAFilterStatusColour(int filterStatusValue) {
+		if(filterStatusValue < 2704) {
+			return COLOR_GOOD;
+		} else if ( filterStatusValue >= 2704 && filterStatusValue < 2760) {
+			return COLOR_FAIR;
+		} else {
+			return COLOR_BAD;
+		}
+	}
+	
+	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
+		if(filterStatusValue < 2704) {
+			return "Normal operation";
+		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
+			return "Change soon";
+		} else if(filterStatusValue >= 2760 && filterStatusValue < 2880){
+			return "Change now";
+		} else {
+			return "Filter lock";
+		}
+	}
+	
 	public static String getFanSpeedText(String fanSpeed) {
 		if(FAN_SPEED_SILENT.equals(fanSpeed)) {
 			return "Silent";

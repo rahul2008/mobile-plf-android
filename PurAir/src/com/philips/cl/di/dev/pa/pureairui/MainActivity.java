@@ -66,7 +66,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private TextView tvAirStatusAqiValue;
 	
 	//Filter status bars
-	private FilterStatusView preFilterView, multicareFilterView, activeCarbonFilterView, hepaFilterView;
+	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
+	
+	//Filter status texts
+	private TextView preFilterText, multiCareFilterText, activeCarbonFilterText, hepaFilterText;
 
 	private static HomeFragment homeFragment;
 
@@ -239,9 +242,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	private void initFilterStatusViews() {
 		preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
-		multicareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
+		multiCareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
 		activeCarbonFilterView = (FilterStatusView) findViewById(R.id.iv_active_carbon_filter);
 		hepaFilterView = (FilterStatusView) findViewById(R.id.iv_hepa_filter);
+		
+		preFilterText = (TextView) findViewById(R.id.tv_rm_pre_filter_status);
+		multiCareFilterText = (TextView) findViewById(R.id.tv_rm_multi_care_filter_status);
+		activeCarbonFilterText = (TextView) findViewById(R.id.tv_rm_active_carbon_filter_status);
+		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
 	}
 	
 	@Override
@@ -392,8 +400,23 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			updateDashboardFields(airPurifierEventDto) ;
 			setRightMenuAQIValue(airPurifierEventDto.getIndoorAQI());
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
+			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 		} 
 		
+	}
+
+	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
+		Log.i(TAG, "filter values pre " + preFilterStatus + " multi " + multiCareFilterStatus + " active " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
+		Log.i(TAG, "screenwidth " + screenWidth);
+		preFilterView.setPrefilterValue(preFilterStatus);
+		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
+		activeCarbonFilterView.setActiveCarbonFilterValue(activeCarbonFilterStatus);
+		hepaFilterView.setHEPAfilterValue(hepaFilterStatus);
+		
+		preFilterText.setText(Utils.getPreFilterStatusText(preFilterStatus));
+		multiCareFilterText.setText(Utils.getMultiCareFilterStatusText(multiCareFilterStatus));
+		activeCarbonFilterText.setText(Utils.getActiveCarbonFilterStatusText(activeCarbonFilterStatus));
+		hepaFilterText.setText(Utils.getHEPAFilterFilterStatusText(hepaFilterStatus));
 	}
 
 	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {

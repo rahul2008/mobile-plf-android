@@ -21,7 +21,7 @@ public class AnimatorConstants {
 	public static String animY 					= "y";
 	public static String animAlpha 				= "alpha";
 	
-	public static int animDuration				= 3000;
+	public static int animDuration				= 1000;
 	
 	
 	public static float getIndoorBGTranslationY() {
