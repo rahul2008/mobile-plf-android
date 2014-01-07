@@ -1,21 +1,26 @@
 package com.philips.cl.di.dev.pa.screens;
 
 import com.philips.cl.di.dev.pa.R;
+
+
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
-import com.philips.cl.di.dev.pa.controller.AirPurifierController.DeviceMode;
+import com.philips.cl.di.dev.pa.controller.ICPCallbackHandler;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.dto.FilterStatusDto;
-import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
+import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.utils.JSONBuilder;
+import com.philips.icpinterface.EventPublisher;
+import com.philips.icpinterface.EventSubscription;
+import com.philips.icpinterface.ICPClient;
+import com.philips.icpinterface.data.Commands;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,11 +35,10 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
-import android.widget.TableLayout;
 
 public class SettingsActivity extends Activity implements OnClickListener,
-		OnCheckedChangeListener, AirPurifierEventListener, SensorEventListener,
-		OnFocusChangeListener {
+OnCheckedChangeListener, AirPurifierEventListener, SensorEventListener,ICPEventListener,
+OnFocusChangeListener {
 	private final static String TAG = "SettingsActivity";
 
 	private Switch swPower;
@@ -62,13 +66,13 @@ public class SettingsActivity extends Activity implements OnClickListener,
 
 	private CustomTextView airQualityStatusView;
 
-	private TableLayout tbLayout;
+	private ICPCallbackHandler icpHandler ;
+	
+	private EventSubscription evSubscription = null;
+	
+	private static boolean isRunning = false ;
 
-	/** Filter Status TextViews **/
-	private CustomTextView tvPreFilterStatus;
-	private CustomTextView tvHepaFilterStatus;
-	private CustomTextView tvActiveCarbonFilterStatus;
-	private CustomTextView tvMultiCareFilterStatus;
+	private EventPublisher eventPublisher ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,11 +83,37 @@ public class SettingsActivity extends Activity implements OnClickListener,
 		setContentView(R.layout.activity_settings);
 		initializeControls();
 
-		airpurifierController = new AirPurifierController(this, this,
-				AppConstants.GET_SENSOR_DATA_REQUEST_TYPE);
+		airpurifierController = new AirPurifierController(this, this);
 
-		sensorDataController = SensorDataController.getInstance(this);
+		sensorDataController = new SensorDataController(this,this) ;
+		sensorDataController.startPolling() ;
 
+		if(icpHandler == null)
+			icpHandler  = new ICPCallbackHandler();
+		icpHandler.setHandler(this);
+		evSubscription = EventSubscription.getInstance();
+		eventPublisher = new EventPublisher(icpHandler);
+	}
+	
+	private void startDCS() {
+		if (!isRunning) {
+			evSubscription = EventSubscription.create(icpHandler,1000);
+			evSubscription.executeCommand() ;
+		}
+	}
+	
+	private void publishEvent(String key, String value) {
+		eventPublisher.setEventInformation(AppConstants.DI_COMM_REQUEST, AppConstants.DI_ACTION_PUTPROPS, "", "", 20, 120);
+		eventPublisher.setEventData(JSONBuilder.getPublishEventBuilder(key, value));
+		eventPublisher.setTargets(new String[] {""});
+		eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
+		
+		eventPublisher.executeCommand();
+	}
+	
+	private void stopDCS() {
+		isRunning = false ;
+		evSubscription.stopCommand() ;
 	}
 
 	private void initializeControls() {
@@ -92,8 +122,12 @@ public class SettingsActivity extends Activity implements OnClickListener,
 		swPower.setOnFocusChangeListener(this);
 
 		swChildLock = (Switch) findViewById(R.id.sw_child_settings);
+		swChildLock.setOnCheckedChangeListener(this);
+		swChildLock.setOnFocusChangeListener(this);
 
 		swIndicatorLight = (Switch) findViewById(R.id.sw_indicator_light);
+		swIndicatorLight.setOnCheckedChangeListener(this);
+		swIndicatorLight.setOnFocusChangeListener(this);
 
 		imageButtonOne = (ImageButton) findViewById(R.id.ib_fanspeed_one);
 		imageButtonOne.setOnClickListener(this);
@@ -128,48 +162,7 @@ public class SettingsActivity extends Activity implements OnClickListener,
 		airQualityStatusView = (CustomTextView) findViewById(R.id.tv_airquality_status);
 		airQualityStatusView.setOnFocusChangeListener(this);
 
-		tbLayout = (TableLayout) findViewById(R.id.tb_filterstatus);
-		tbLayout.setOnClickListener(this);
-
-		tvActiveCarbonFilterStatus = (CustomTextView) findViewById(R.id.tv_activecarbonfilterstatus);
-		tvHepaFilterStatus = (CustomTextView) findViewById(R.id.tv_hepafilter_status);
-		tvMultiCareFilterStatus = (CustomTextView) findViewById(R.id.tv_multicarefilter_status);
-		tvPreFilterStatus = (CustomTextView) findViewById(R.id.tv_prefilter_status);
-
-		updateFilterStatus();
 		disableSettingsControls();
-	}
-
-	private void updateFilterStatus() {
-		FilterStatusDto filterStatusDto = SessionDto.getInstance()
-				.getFilterStatusDto();
-		if (filterStatusDto != null) {
-			tvActiveCarbonFilterStatus.setText(Utils
-					.getTimeRemaining(filterStatusDto
-							.getActiveCarbonFilterStatus()));
-			tvActiveCarbonFilterStatus.setTextColor(Utils
-					.getFilterStatusColor(filterStatusDto
-							.getActiveCarbonFilterStatus()));
-
-			tvHepaFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto
-					.getHepaFilterStatus()));
-			tvHepaFilterStatus
-					.setTextColor(Utils.getFilterStatusColor(filterStatusDto
-							.getHepaFilterStatus()));
-
-			tvMultiCareFilterStatus.setText(Utils
-					.getTimeRemaining(filterStatusDto
-							.getMultiCareFilterStatus()));
-			tvMultiCareFilterStatus.setTextColor(Utils
-					.getFilterStatusColor(filterStatusDto
-							.getMultiCareFilterStatus()));
-
-			tvPreFilterStatus.setText(Utils.getTimeRemaining(filterStatusDto
-					.getPreFilterStatus()));
-			tvPreFilterStatus
-					.setTextColor(Utils.getFilterStatusColor(filterStatusDto
-							.getPreFilterStatus()));
-		}
 	}
 
 	/**
@@ -188,7 +181,6 @@ public class SettingsActivity extends Activity implements OnClickListener,
 		swIndicatorLight.setEnabled(true);
 
 		buttonTimer.setEnabled(true);
-		// tbLayout.setEnabled(true) ;
 	}
 
 	/**
@@ -196,72 +188,96 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	 * off
 	 */
 	private void disableSettingsControls() {
-		imageButtonOne.setEnabled(false);
-		imageButtonOne.setColorFilter(Color.GRAY);
-
+		imageButtonOne.setEnabled(false) ;
 		imageButtonSpeedTwo.setEnabled(false);
 		imageButtonSpeedThree.setEnabled(false);
 		buttonAuto.setEnabled(false);
 		buttonSilent.setEnabled(false);
-		buttonSilent.setAlpha(10.0f);
-
-		buttonTurbo.setEnabled(false);
+		buttonTurbo.setEnabled(false);	
 
 		airQualityStatusView.setText(getString(R.string.na));
 		airQualityStatusView.setTextColor(Color.BLACK);
 
-		swChildLock.setEnabled(false);
+		swChildLock.setEnabled(false);		
+		swChildLock.setChecked(false) ;
 		swIndicatorLight.setEnabled(false);
+		swIndicatorLight.setChecked(false) ;
 
 		buttonTimer.setEnabled(false);
 
 		// tbLayout.setEnabled(false) ;
+		imageButtonOne.setBackgroundResource(R.drawable.fan_speed_control_bg);
+		imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+		buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+		buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
 	}
 
+	private boolean isSentReq ;
 	@Override
 	public void onClick(View v) {
+		isSentReq = true ;
 		Log.i(TAG, "OnClick");
-		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.btn_fanspeed_auto:
-			airpurifierController.setDeviceMode(DeviceMode.auto);		
-			updateMotorSpeed(0,"auto") ;
+			controlDevice(ParserConstants.MACHINE_MODE, "a") ;
+			updateMotorSpeed("0","a") ;
 			break;
 
 		case R.id.btn_fanspeed_silent:
-			airpurifierController.setDeviceMotorSpeed(1);
-			updateMotorSpeed(1,"") ;
+			controlDevice(ParserConstants.MACHINE_MODE, "s") ;
+			updateMotorSpeed("s","s") ;
 			break;
 
 		case R.id.btn_fanspeed_turbo:
-			airpurifierController.setDeviceMotorSpeed(5);
-			updateMotorSpeed(5,"") ;
+			controlDevice(ParserConstants.MACHINE_MODE, "t") ;
+			updateMotorSpeed("t","t") ;
 			break;
 
 		case R.id.ib_fanspeed_one:
-			airpurifierController.setDeviceMotorSpeed(2);
-			updateMotorSpeed(2,"") ;
+			controlDevice(ParserConstants.MACHINE_MODE, "1") ;
+			updateMotorSpeed("1","") ;
 			break;
 
 		case R.id.ib_fanspeed_two:
-			airpurifierController.setDeviceMotorSpeed(3);
-			updateMotorSpeed(3,"") ;
+			controlDevice(ParserConstants.MACHINE_MODE, "2") ;
+			updateMotorSpeed("2","") ;
 			break;
 
 		case R.id.ib_fanspeed_three:
-			airpurifierController.setDeviceMotorSpeed(4);
-			updateMotorSpeed(4,"") ;
+			controlDevice(ParserConstants.MACHINE_MODE, "3") ;
+			updateMotorSpeed("3","") ;
 			break;
 		case R.id.iv_back:
 			finish();
-			break;
-		case R.id.tb_filterstatus:
-			showFilterDetailsScreen();
 			break;
 		case R.id.btn_timer:
 			showTimerDialog();
 			break;
 		}
+	}
+	
+	private boolean isLocal ;
+	
+	/**
+	 * This method controls the device
+	 * Depending on the connection type it controls either through locally or remotely
+	 * @param key
+	 * @param value
+	 */
+	private void controlDevice(String key, String value) {
+		if ( isLocal ) {
+			airpurifierController.setDeviceDetailsLocally(key, value) ;
+		}
+		else {
+			airpurifierController.setDeviceDetailsRemotely(key, value) ;
+		}
+	}
+	
+	private void setChildSettings(boolean isChecked) {
+		String childLockValue = (isChecked) ? "1" : "0" ;	
+		controlDevice(ParserConstants.CL,childLockValue) ;
 	}
 
 	private void showTimerDialog() {
@@ -273,12 +289,7 @@ public class SettingsActivity extends Activity implements OnClickListener,
 
 		dialog.show();
 	}
-
-	private void showFilterDetailsScreen() {
-		Intent intent = new Intent(this, FilterDetailsActivity.class);
-		startActivity(intent);
-	}
-
+	
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		switch (buttonView.getId()) {
@@ -288,7 +299,20 @@ public class SettingsActivity extends Activity implements OnClickListener,
 				setDevicePowerState(isChecked);
 			}
 			break;
+		case R.id.sw_child_settings:
+			if(!isChildLockSwitchControlled)
+				setChildSettings(isChecked) ;
+			break;
+		case R.id.sw_indicator_light:
+			if(!isIndicatorSwitchControlled)
+				setIndicatorLight(isChecked) ;
+			break ;
 		}
+	}
+
+	private void setIndicatorLight(boolean isChecked) {
+		String indicatorLightValue = (isChecked) ? "1" : "0" ;
+		controlDevice(ParserConstants.AQI_LIGHT,indicatorLightValue) ;
 	}
 
 	@Override
@@ -296,14 +320,29 @@ public class SettingsActivity extends Activity implements OnClickListener,
 		Log.i(TAG, "onPause");
 		super.onPause();
 		overridePendingTransition(R.anim.in, R.anim.out);
-		sensorDataController.unRegisterListener(this);
+	}
+
+	@Override
+	protected void onStop() {
+		stopDCS() ;
+		super.onStop();
+		//sensorDataController.stopPolling() ;
+		sensorDataController.stopCPPPolling() ;
+		stopDCS() ;
+	}
+
+	@Override
+	protected void onStart() {
+		//sensorDataController.startPolling() ;
+		sensorDataController.startCPPPolling() ;
+		startDCS() ;
+		super.onStart();
 	}
 
 	@Override
 	protected void onResume() {
 		Log.i(TAG, "onResume");
 		super.onResume();
-		sensorDataController.registerListener(this);
 	}
 
 	/*
@@ -313,11 +352,12 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	 * receiveServerResponse(int, java.lang.String)
 	 */
 	@Override
-	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "Sensor Data Received");
+	public void airPurifierEventReceived(AirPurifierEventDto airPurifierEventDto) {
+		Log.i(TAG, "Received") ;
 		if (airPurifierEventDto != null) {
 			updateUI(airPurifierEventDto);
 		}
+		isSentReq = false ;
 	}
 
 	/**
@@ -326,10 +366,11 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	 * @param deviceState
 	 *            the new device power state
 	 */
-	private void setDevicePowerState(boolean deviceState) {
-		Log.e(TAG, "setDevicePowerState:" + deviceState);
-		airpurifierController.setDevicePowerState(deviceState);
-		if (deviceState) {
+	private void setDevicePowerState(boolean isPowerOnOff) {
+		Log.e(TAG, "setDevicePowerState:" + isPowerOnOff);
+		String pwrMode = (isPowerOnOff) ? "1" : "0" ;	
+		controlDevice(ParserConstants.POWER_MODE,pwrMode);
+		if (isPowerOnOff) {
 			imageButtonSpeedTwo.setAlpha(2.0f);
 			enableSettingsControls();
 		} else {
@@ -343,88 +384,87 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	 * @param airPurifierEventDto
 	 */
 	private void updateUI(AirPurifierEventDto airPurifierEventDto) {
-
 		updateAQIStatus(airPurifierEventDto);
 		updatePowerOnOff(airPurifierEventDto.getPowerMode());
-		updateMotorSpeed(airPurifierEventDto.getMotorSpeed(), airPurifierEventDto.getMachineMode()) ;
+		if (airPurifierEventDto.getPowerMode().equals("1")) {
+			updateMotorSpeed(airPurifierEventDto.getFanSpeed(), airPurifierEventDto.getMachineMode()) ;
+			updateChildLock(airPurifierEventDto.getChildLock()) ;
+			updateIndicatorLight(airPurifierEventDto.getAqiL()) ;
+		}
 		// TODO update other fields also
 	}
 
-	
-	private void updateMotorSpeed(int motorSpeed, String mode) {
-		switch (motorSpeed) {
-		case 1:	
-				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1) ;
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-				imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-				imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-			break;
-		case 2:
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				imageButtonSpeedTwo
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-				imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-				
-			break;
-		case 3:
-				imageButtonSpeedTwo
-				.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-				imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-			break;
-		case 4 :
-				imageButtonSpeedThree
-				.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-				imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-				buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-			break;
-		case 5:
-				buttonTurbo
-						.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1);
-				imageButtonSpeedThree
-				.setBackgroundResource(R.drawable.fan_speed_control_bg);
-				imageButtonOne
-						.setBackgroundResource(R.drawable.fan_speed_control_bg);
-				imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-				buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-			break;
+	/**
+	 * This updates the AQI Indicator Light
+	 * @param aqiL
+	 */
+	private void updateIndicatorLight(int aqiL) {
+		isIndicatorSwitchControlled = true ;
+		if (aqiL == 1) {
+			swIndicatorLight.setChecked(true);
+		} else {
+			swIndicatorLight.setChecked(false);
 		}
-		if ( mode.equals("auto")) {
-			buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
-			imageButtonSpeedThree
-			.setBackgroundResource(R.drawable.fan_speed_control_bg);
+		isIndicatorSwitchControlled = false ;
+		
+	}
+
+	/**
+	 * This method updates the child lock property of the Air Purifier device
+	 * @param childLock
+	 */
+	private void updateChildLock(int childLock) {
+		isChildLockSwitchControlled = true;
+		if (childLock == 1) {
+			swChildLock.setChecked(true);
+		} else {
+			swChildLock.setChecked(false);
+		}
+		isChildLockSwitchControlled = false;
+	}
+
+	private void updateMotorSpeed(String motorSpeed, String mode) {
+		imageButtonOne.setBackgroundResource(R.drawable.fan_speed_control_bg);
+		imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		imageButtonSpeedThree.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+		buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+		buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		
+		if( motorSpeed.equals("s") ) {
+			buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1) ;
+		}
+		else if(motorSpeed.equals("1")) {
 			imageButtonOne
-					.setBackgroundResource(R.drawable.fan_speed_control_bg);
-			imageButtonSpeedTwo.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
-			buttonTurbo.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
-			buttonSilent.setBackgroundResource(R.drawable.fan_speed_control_bg1) ;
+			.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
 		}
-		else {
-			buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_bg) ;
+		else if(motorSpeed.equals("2")) {
+			imageButtonSpeedTwo
+			.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
+		}
+		else if(motorSpeed.equals("3")) {
+			imageButtonSpeedThree
+			.setBackgroundResource(R.drawable.fan_speed_control_selection_bg);
+		}
+		else if(motorSpeed.equals("t")) {
+			buttonTurbo
+			.setBackgroundResource(R.drawable.fan_speed_control_selection_bg1);
+		}
+		else if ( mode.equals("a")) {
+			buttonAuto.setBackgroundResource(R.drawable.fan_speed_control_selection_bg) ;
 		}
 	} 
-	
-	private boolean isSwitchControlled;
+
+	private boolean isSwitchControlled, isChildLockSwitchControlled, isIndicatorSwitchControlled;
 
 	private void updatePowerOnOff(String powerOnOff) {
 		isSwitchControlled = true;
-		Log.i(TAG, "" + powerOnOff);
-		if (powerOnOff.equalsIgnoreCase("on")) {
+		if (powerOnOff.equalsIgnoreCase("1")) {
 			swPower.setChecked(true);
 			enableSettingsControls();
-		} else if (powerOnOff.equalsIgnoreCase("off")) {
+		} else if (powerOnOff.equalsIgnoreCase("0")) {
 			swPower.setChecked(false);
+			disableSettingsControls() ;
 		}
 		isSwitchControlled = false;
 	}
@@ -436,7 +476,6 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	 */
 	private void updateAQIStatus(AirPurifierEventDto airPurifierEventDto) {
 		int aqi = airPurifierEventDto.getIndoorAQI();
-		Log.i(TAG, "AQI: " + aqi);
 		int textColor = getResources().getColor(R.color.black);
 		String aqiMessage = getString(R.string.na);
 
@@ -471,6 +510,31 @@ public class SettingsActivity extends Activity implements OnClickListener,
 	@Override
 	public void onFocusChange(View v, boolean isFocused) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
+	@Override
+	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+		if ( !isSentReq ) {
+			updateUI(airPurifierEventDto) ;
+		}
+	}
+
+	@Override
+	public void onICPCallbackEventOccurred(int eventType, int status,
+			ICPClient obj) {
+		
+		EventSubscription evs = (EventSubscription) obj ;
+		System.out.println("DCS events received: "+evs);
+		if ( null != evs ) {
+			System.out.println("Length: "+evs.getNumberOfEventsReturned());
+			for (int i = 0; i < evs.getNumberOfEventsReturned(); i++)
+			{
+				System.out.println("Events Received");
+				System.out.println(evs.getData(i));
+			}
+		}
+	}
+	
+	
 }
