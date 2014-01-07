@@ -24,6 +24,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -64,6 +65,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	//Right menu stuff
 	private RightMenuControlPanelAdapter rightMenuControlPanelAdapter;
 	private TextView tvAirStatusAqiValue;
+	private TextView tvConnectionStatus;
+	private ImageView ivConnectedImage;
 	
 	//Filter status bars
 	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
@@ -130,6 +133,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		setAllButtonListener(group);
 		
 		tvAirStatusAqiValue = (TextView) findViewById(R.id.tv_rm_air_status_aqi_value);
+		tvConnectionStatus = (TextView) findViewById(R.id.tv_connection_status);
+		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
@@ -240,6 +245,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
 	}
 	
+	private void setRightMenuConnectedStatus(int status){
+		if(status == 1) {
+			tvConnectionStatus.setText("Connected");
+			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
+		} else {
+			tvConnectionStatus.setText("Not Connected");
+			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
+		}
+	}
+	
 	private void initFilterStatusViews() {
 		preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
 		multiCareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
@@ -254,6 +269,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		MenuItem item = menu.getItem(0);
@@ -402,7 +418,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 		} 
-		
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
