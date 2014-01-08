@@ -12,7 +12,7 @@
         android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
         android:textColor="@color/white"
-        android:text="Updated" />
+        android:text="@string/updated" />
     
     <TextView
         android:id="@+id/tv_updated_value"
@@ -60,7 +60,7 @@
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        android:text="N.A." />
+        android:text="@string/n_a" />
 
     <TextView
         android:id="@+id/tv_outdoor_aqi_status_title"

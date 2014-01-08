@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.dto;
 
+import com.philips.cl.di.dev.pa.util.AppConstants;
+
 /***
  * Air Purifier Event DTO class
  * This contains all the Air Purifier event data
@@ -12,25 +14,25 @@ public class AirPurifierEventDto {
 	
 	private boolean isValid;
 	public int getFilterStatus1() {
-		return filterStatus1;
+		return AppConstants.PRE_FILTER_MAX_VALUE - filterStatus1;
 	}
 	public void setFilterStatus1(int filterStatus1) {
 		this.filterStatus1 = filterStatus1;
 	}
 	public int getFilterStatus2() {
-		return filterStatus2;
+		return AppConstants.MULTI_CARE_FILTER_MAX_VALUE - filterStatus2;
 	}
 	public void setFilterStatus2(int filterStatus2) {
 		this.filterStatus2 = filterStatus2;
 	}
 	public int getFilterStatus3() {
-		return filterStatus3;
+		return AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE - filterStatus3;
 	}
 	public void setFilterStatus3(int filterStatus3) {
 		this.filterStatus3 = filterStatus3;
 	}
 	public int getFilterStatus4() {
-		return filterStatus4;
+		return AppConstants.HEPA_FILTER_MAX_VALUE - filterStatus4;
 	}
 	public void setFilterStatus4(int filterStatus4) {
 		this.filterStatus4 = filterStatus4;

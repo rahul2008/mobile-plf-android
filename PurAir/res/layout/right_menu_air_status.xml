@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Indoor Air Quality Status" />
+        android:text="@string/rm_air_quality_title" />
 
     <include
         android:id="@+id/inc_rm_air_status_aqi_circle"
@@ -23,13 +23,13 @@
         layout="@layout/right_menu_air_status_aqi_circle" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/tv_rm_air_status_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/inc_rm_air_status_aqi_circle"
         android:layout_marginTop="34dp"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/inc_rm_air_status_aqi_circle"
-        android:text="Connect device to begin reading indoor air quality" />
+        android:text="@string/rm_air_quality_message" />
 
 </RelativeLayout>

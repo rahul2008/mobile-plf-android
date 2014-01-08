@@ -12,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:textStyle="bold"
         android:layout_marginTop="20dp"
-        android:text="Filter Status" />
+        android:text="@string/filter_status" />
 
     <TextView
         android:id="@+id/tv_rm_filter_status_reminder"
@@ -31,7 +31,7 @@
         android:layout_below="@+id/tv_rm_filter_status_reminder"
         android:layout_marginTop="25dp"
         android:textStyle="bold"
-        android:text="1 Pre-Filter" />
+        android:text="@string/pre_filter" />
 
     <com.philips.cl.di.dev.pa.customviews.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -60,7 +60,7 @@
         android:layout_below="@+id/tv_rm_pre_filter_status"
         android:layout_marginTop="25dp"
         android:textStyle="bold"
-        android:text="2 Multi-care Filter" />
+        android:text="@string/multicarefilter" />
 
     <com.philips.cl.di.dev.pa.customviews.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -89,7 +89,7 @@
         android:layout_below="@+id/tv_rm_multi_care_filter_status"
         android:layout_marginTop="25dp"
         android:textStyle="bold"
-        android:text="3 Active Carbon Filter" />
+        android:text="@string/activecarbonfilter" />
 
     <com.philips.cl.di.dev.pa.customviews.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -118,7 +118,7 @@
         android:layout_below="@+id/tv_rm_active_carbon_filter_status"
         android:layout_marginTop="25dp"
         android:textStyle="bold"
-        android:text="4 HEPA Filter" />
+        android:text="@string/hepa_filter" />
 
     <com.philips.cl.di.dev.pa.customviews.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"

@@ -11,7 +11,7 @@
         android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
         android:textColor="@color/white"
-        android:text="Mode" />
+        android:text="@string/mode" />
     
     <TextView
         android:id="@+id/tv_filter_mode_value"

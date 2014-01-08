@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="Power" />
+        android:text="@string/power" />
 
     <Button
         android:id="@+id/btn_rm_power"
@@ -42,7 +42,7 @@
         android:layout_below="@id/divider_1"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="Fan speed" />
+        android:text="@string/fan_speed" />
     
     <Button
         android:id="@+id/btn_rm_fan_speed"
@@ -73,7 +73,7 @@
         android:layout_alignParentLeft="true"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="Silent" 
+        android:text="@string/silent" 
         android:visibility="gone"/>
 
     <Button
@@ -85,7 +85,7 @@
         android:layout_toRightOf="@+id/fan_speed_silent"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="Turbo" 
+        android:text="@string/turbo" 
         android:visibility="gone"/>
 
     <Button
@@ -97,7 +97,7 @@
         android:layout_toRightOf="@+id/fan_speed_turbo"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="Auto" 
+        android:text="@string/auto" 
         android:visibility="gone"/>
 
     <Button
@@ -143,7 +143,7 @@
         android:layout_below="@id/fan_speed_three"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="Set timer" />
+        android:text="@string/set_timer" />
     
     <Button
         android:id="@+id/btn_rm_set_timer"
@@ -155,7 +155,7 @@
         android:layout_alignBottom="@+id/tv_rm_set_timer"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:text="Off" />
+        android:text="@string/off" />
     
     <ImageView
         android:id="@+id/divider_3"
@@ -175,7 +175,7 @@
         android:layout_marginTop="16dp"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="Off" 
+        android:text="@string/off" 
         android:visibility="gone"/>
 
     <Button
@@ -186,7 +186,7 @@
         android:layout_below="@+id/timer_off"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="2 hrs" 
+        android:text="@string/onehour" 
         android:visibility="gone"/>
 
     <Button
@@ -198,7 +198,7 @@
         android:layout_toRightOf="@+id/two_hours"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="4 hrs" 
+        android:text="@string/fourhour" 
         android:visibility="gone"/>
 
     <Button
@@ -210,7 +210,7 @@
         android:layout_toRightOf="@+id/four_hours"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
-        android:text="8 hrs" 
+        android:text="@string/eighthour" 
         android:visibility="gone"/>
     
     <TextView
@@ -221,7 +221,7 @@
         android:layout_below="@id/two_hours"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="Scheduler" />
+        android:text="@string/scheduler" />
     
     <Button
         android:id="@+id/btn_rm_scheduler"
@@ -253,7 +253,7 @@
         android:layout_below="@id/divider_4"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="Child lock" />
+        android:text="@string/child_lock" />
     
     <Button
         android:id="@+id/btn_rm_child_lock"
@@ -285,7 +285,7 @@
         android:layout_below="@id/divider_5"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
-        android:text="Indicator light" />
+        android:text="@string/indicator_light" />
     
     <Button
         android:id="@+id/btn_rm_indicator_light"

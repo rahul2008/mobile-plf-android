@@ -18,6 +18,7 @@ import static com.philips.cl.di.dev.pa.util.AppConstants.SWIPE_VELOCITY_THRESHOL
 
 import java.util.List;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -48,6 +49,8 @@ import com.philips.cl.di.dev.pa.listeners.AnimationListener;
 import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData.WeatherDataListener;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 
 public class HomeFragment extends Fragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {
@@ -61,27 +64,28 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	/** The is indoor expanded. */
 	private boolean isIndoorExpanded = true;
 
+	/** Dashboard ImageViews */
 	private ImageView ivIndoorCircle, ivIndoorMeter, ivIndoorBackground, ivOutdoorCircle, ivOutdoorMeter, ivOutdoorWeatherImage;
 
+	/** Dashboard TextViews */
 	private TextView tvIndoorAQI, tvIndoorTitle, tvIndoorComment,
-	tvIndoorMode, tvIndoorFilterStatus, tvFilterHome,
-	tvOutdoorAQI, tvOutdoorTitle, tvOutdoorComment,
-	tvUpdatedTitle, tvUpdatedValue, tvCity, tvLocality, tvOutdoorTemperature;
+					 tvIndoorMode, tvIndoorFilterStatus, tvFilterHome,
+					 tvOutdoorAQI, tvOutdoorTitle, tvOutdoorComment,
+					 tvUpdatedTitle, tvUpdatedValue, tvCity, tvLocality, tvOutdoorTemperature;
 
 	private AnimatorSet scaleDownIndoorFragment, scaleUpIndoorFragment, 
-	scaleDownOutdoorFragment, scaleUpOutdoorFragment, initAnimationLocations;
-
+						scaleDownOutdoorFragment, scaleUpOutdoorFragment, initAnimationLocations;
+	
 	private AnimationListener animationListener;
 
+	/** Indoor and outdoor LinearLayouts which listen for gestures*/
 	private LinearLayout llIndoor, llOutdoor;
 
+	/** Gesture listener to detect fling*/
 	private GestureDetectorCompat gestureDetectorCompat;
 	
-	private int indoorAQIValue = 0, outdoorAQIValue = 0;
-
-	
-	
-	
+	private int indoorAQIValue, outdoorAQIValue, outdoorTemperature;
+	private String outdoorUpdatedAt = "";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,18 +102,35 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		
 		isIndoorExpanded = true;
 		
-//		setIndoorAQIValue(indoorAQIValue);
-//		setOutdoorAQIvalue(outdoorAQIValue);
-		
+		if(MainActivity.getAirPurifierEventDto() != null) {
+			setIndoorDashBoardValues(indoorAQIValue);
+			setOutdoorDashboardValues(outdoorAQIValue);
+		}
 		return vMain;
 	}
 
+	/** Update dashboard values on resume*/
+	private void setIndoorDashBoardValues(int indoorAQI) {
+		tvIndoorAQI.setText(String.valueOf(indoorAQI));
+		setIndoorAQIStatusAndComment(indoorAQI);
+		ivIndoorCircle.setImageDrawable(setAQICircleBackground(indoorAQI));
+		setMode((MainActivity.getAirPurifierEventDto().getFanSpeed().equals(AppConstants.FAN_SPEED_AUTO) ? "Auto" : "Manual"));
+		setFilterStatus(Utils.getFilterStatusForDashboard(MainActivity.getAirPurifierEventDto()));
+	}
 
+	/** Update dashboard values on resume*/
+	private void setOutdoorDashboardValues(int outdoorAQI) {
+		tvOutdoorAQI.setText(String.valueOf(outdoorAQI));
+		setOutdoorAQIStatusAndComment(outdoorAQI);
+		ivOutdoorCircle.setImageDrawable(setAQICircleBackground(outdoorAQI));
+		setUpdatedAtTime(outdoorUpdatedAt);
+		setOutdoorTemperature(outdoorTemperature);
+	}
+	
 	@Override
 	public void onResume() {
 		Log.i(TAG, "onResume");
 		super.onResume();
-		initAnimations();
 	}
 
 
@@ -119,6 +140,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		super.onPause();
 		stopAllAnimations();
 	}
+	
 	private void stopAllAnimations() {
 		scaleDownIndoorFragment.end();
 		scaleDownOutdoorFragment.end();
@@ -190,9 +212,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				ObjectAnimator.ofFloat(ivIndoorMeter, animScaleY, 0.6f),
 				ObjectAnimator.ofFloat(ivIndoorMeter, animTranslationY, getIndoorGaugeTranslationY()),
 				ObjectAnimator.ofFloat(ivIndoorMeter, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvIndoorTitle, animTranslationY, getIndoorGaugeTranslationY()),
+				ObjectAnimator.ofFloat(tvIndoorTitle, animTranslationY, getIndoorGaugeTranslationY() - 250),
 				ObjectAnimator.ofFloat(tvIndoorTitle, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvIndoorComment, animTranslationY, getIndoorGaugeTranslationY()),
+				ObjectAnimator.ofFloat(tvIndoorComment, animTranslationY, getIndoorGaugeTranslationY() - 250),
 				ObjectAnimator.ofFloat(tvIndoorComment, animAlpha, 0));
 		scaleDownIndoorFragment.setDuration(animDuration);
 		scaleDownIndoorFragment.addListener(animationListener);
@@ -320,12 +342,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		Log.i(TAG, "Processing onFling isIndoorExpanded " + isIndoorExpanded);
 		float differenceY = (e2.getY() - e1.getY());
 
-		//Testing
-//				setOutdoorAQIvalue(500);
-//				setIndoorAQIValue(150);
-		//Testing
-
-
 		if(Math.abs(differenceY) > SWIPE_THRESHOLD
 				&& Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
 			if(differenceY > 0) {
@@ -345,7 +361,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		return false;
 	}
 
-	//Dashboard outdoor info BEGIN //
+	/**Dashboard outdoor info BEGIN */
 
 	public void setUpdatedAtTime(String time) {
 		tvUpdatedValue.setText(time);
@@ -355,7 +371,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		this.outdoorAQIValue = outdoorAQI;
 		tvOutdoorAQI.setText(String.valueOf(outdoorAQIValue));
 		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
-		setOutdoorAQIStatusAndComment(outdoorAQIValue, tvOutdoorTitle, tvOutdoorComment);
+		setOutdoorAQIStatusAndComment(outdoorAQIValue);
 	}
 
 	private void rotateAQICircle(int aqi, ImageView iv) {
@@ -368,19 +384,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			return;
 		}
 		
-		if(aqi > 0 && aqi <= 50) {
-			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x));
-		} else if(aqi > 50 && aqi <= 100) {
-			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.pink_circle_with_arrow_2x));
-		} else if(aqi > 100 && aqi <= 150) {
-			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.light_pink_circle_arrow_2x));
-		} else if(aqi > 150 && aqi <= 200) {
-			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x));
-		} else if(aqi > 200 && aqi <= 300) {
-			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.light_red_circle_arrow_2x));
-		} else if(aqi > 300 && aqi <= 500) {
-			iv.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.red_circle_arrow_2x));
-		}  
+		iv.setImageDrawable(setAQICircleBackground(aqi));
 
 		float ratio = (float) (300.0/500.0);
 		Log.i(TAG, "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
@@ -390,9 +394,28 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + roatation);
 		ObjectAnimator.ofFloat(iv, animRotation, 0, roatation).setDuration(2000).start();
 	}
+	
+	private Drawable setAQICircleBackground(int aqi) {
+		if(aqi >= 0 && aqi <= 50) {
+			return getActivity().getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x);
+		} else if(aqi > 50 && aqi <= 100) {
+			return getActivity().getResources().getDrawable(R.drawable.pink_circle_with_arrow_2x);
+		} else if(aqi > 100 && aqi <= 150) {
+			return getActivity().getResources().getDrawable(R.drawable.light_pink_circle_arrow_2x);
+		} else if(aqi > 150 && aqi <= 200) {
+			return getActivity().getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x);
+		} else if(aqi > 200 && aqi <= 300) {
+			return getActivity().getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
+		} else if(aqi > 300 && aqi <= 500) {
+			return getActivity().getResources().getDrawable(R.drawable.red_circle_arrow_2x);
+		}
+		return null;
+	}
 
-	private void setOutdoorAQIStatusAndComment(int aqi, TextView tvTitle, TextView tvMessage) {
-		if(aqi > 0 && aqi <= 50) {
+	private void setOutdoorAQIStatusAndComment(int aqi) {
+		String title = "";
+		String message = "";
+		if(aqi >= 0 && aqi <= 50) {
 			
 		} else if(aqi > 50 && aqi <= 100) {
 			
@@ -405,6 +428,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		} else if(aqi > 300 && aqi <= 500) {
 			
 		}
+		tvOutdoorTitle.setText(title);
+		tvOutdoorComment.setText(message);
 	}
 
 	public void setOutdoorTemperature(int temperature) {
@@ -424,10 +449,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		tvLocality.setText(locality);
 	}
 
-	//Dashboard outdoor info END //
+	/** Dashboard outdoor info END */
 
 
-	//Dashboard indoor info BEGIN //
+	/** Dashboard indoor info BEGIN */
 
 	public void setMode(String mode) {
 		tvIndoorMode.setText(mode);
@@ -445,24 +470,24 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	private void setIndoorAQIStatusAndComment(int aqi) {
-		if(aqi > 0 && aqi <= 50) {
+		if(aqi >= 0 && aqi <= 50) {
 			tvIndoorTitle.setText(getString(R.string.very_healthy)) ;
-			tvIndoorComment.setText("The Air in PHILIPS room is very healthy") ;
+			tvIndoorComment.setText(getString(R.string.very_healthy_message)) ;
 		} else if(aqi > 50 && aqi <= 100) {
 			tvIndoorTitle.setText(getString(R.string.healthy)) ;
-			tvIndoorComment.setText("The air in PHILIPS room is healthy") ;
+			tvIndoorComment.setText(getString(R.string.healthy_message)) ;
 		} else if(aqi > 100 && aqi <= 150) {
 			tvIndoorTitle.setText(getString(R.string.slightly_polluted)) ;
-			tvIndoorComment.setText("The Air in PHILIPS room is Slightly Polluted") ;
+			tvIndoorComment.setText(getString(R.string.slightly_polluted_message)) ;
 		} else if(aqi > 150 && aqi <= 200) {
 			tvIndoorTitle.setText(getString(R.string.moderately_polluted)) ;
-			tvIndoorComment.setText("The Air in PHILIPS room is Moderately Polluted") ;
+			tvIndoorComment.setText(getString(R.string.moderately_polluted_message)) ;
 		} else if(aqi > 200 && aqi <= 300) {
 			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
-			tvIndoorComment.setText("The Air in PHILIPS room is UnHealthy") ;
+			tvIndoorComment.setText(getString(R.string.unhealthy_message)) ;
 		} else if(aqi > 300 && aqi <= 1000) {
 			tvIndoorTitle.setText(getString(R.string.hazardous)) ;
-			tvIndoorComment.setText("The Air in PHILIPS room is Hazardous") ;
+			tvIndoorComment.setText(getString(R.string.hazardous_message)) ;
 		}
 	
 	}
@@ -470,10 +495,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void setHomeName(String name) {
 		tvFilterHome.setText(name);
 	}
-	//Dashboard indoor info END //
+	/** Dashboard indoor info END */
 
 
-	//Unused gestures start.
+	/**Unused gestures methods.*/
 	@Override
 	public void onLongPress(MotionEvent e) {}
 
@@ -485,8 +510,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	@Override
 	public boolean onSingleTapUp(MotionEvent e) { return true; }
-	//Unused gestures end
-
 
 	@Override
 	public void weatherDataUpdated(String weatherData) {
@@ -508,7 +531,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 					break;
 				}
 			}
-			setUpdatedAtTime(outdoorDto.getT()) ;
+			outdoorUpdatedAt = outdoorDto.getT();
+			setUpdatedAtTime(outdoorUpdatedAt) ;
 		}
 	}
 
@@ -520,7 +544,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails() ;
 		if ( weatherDto != null && weatherDto.size() > 0 ) {
 			int weatherInC = (int) weatherDto.get(0).getTempInCentigrade() ;
-			setOutdoorTemperature(weatherInC) ;
+			outdoorTemperature = weatherInC;
+			setOutdoorTemperature(outdoorTemperature) ;
 		}
 	}
 

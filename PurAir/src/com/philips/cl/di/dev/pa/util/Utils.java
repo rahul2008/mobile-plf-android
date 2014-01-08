@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.util;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.util.AppConstants;
 
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 
@@ -43,7 +43,7 @@ public class Utils {
 		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
 			return AppConstants.CLEAN_SOON;
 		} else {
-			return AppConstants.CLEAN_NOW;
+			return AppConstants.ACT_NOW;
 		}
 	}
 	

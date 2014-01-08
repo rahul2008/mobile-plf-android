@@ -17,14 +17,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.ExpandableListAdapter;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ScrollView;
@@ -37,7 +33,6 @@ import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
@@ -63,14 +58,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private ScrollView mScrollViewRight;
 	private RightMenuClickListener rightMenuClickListener;
 
-	//Right menu stuff
+	/** Right off canvas elements */
 	private TextView tvAirStatusAqiValue;
 	private TextView tvConnectionStatus;
 	private ImageView ivConnectedImage;
 	private Menu menu;
 	private boolean connected;
 
-	//Filter status bars
+	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
 
 	//Filter status texts
@@ -79,7 +74,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private static HomeFragment homeFragment;
 
 	private boolean mRightDrawerOpened = false;
-
+	
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 	private SensorDataController sensorDataController;
@@ -123,11 +118,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
+		/** Initialise left menu items and click listener*/
 		mListViewLeft = (ListView) findViewById(R.id.left_menu);
+		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
+		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
+		
+		/** Initiazlise right menu items and click listener*/
 		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu);
-
 		rightMenuClickListener = new RightMenuClickListener(this);
-
 
 		ViewGroup group = (ViewGroup)findViewById(R.id.right_menu_layout);
 		setAllButtonListener(group);
@@ -135,25 +133,19 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		tvAirStatusAqiValue = (TextView) findViewById(R.id.tv_rm_air_status_aqi_value);
 		tvConnectionStatus = (TextView) findViewById(R.id.tv_connection_status);
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
-
-		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
-		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
-
-		int id = getSupportFragmentManager().beginTransaction()
-				.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
-				.addToBackStack(null)
-				.commit();
-
-		Log.i(TAG, "Home Fragment id " + id); 
-
 		initFilterStatusViews();
+		connected = false;
+		
+		getSupportFragmentManager().beginTransaction()
+		.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
+		.addToBackStack(null)
+		.commit();
 
 		sensorDataController = new SensorDataController(this, this) ;
 	}
 	
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 	}
 
@@ -173,37 +165,30 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
 		super.onStop();
 	}
-
+	
 	@Override
 	public void onBackPressed() {
-		Log.i(TAG, "onBackPressed");
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		Log.i(TAG, "currentFragment " + fragment);
-		Log.i(TAG, "onBackPressed count " + count);
+		
 		if(count > 1 && !(fragment instanceof HomeFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
-			setTitle("PHILIPS Smart Air Purifier");
+			setTitle(getString(R.string.dashboard_title));
 		} else {
-
 			finish();
 		}
-
 	}
 
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 	}
 
 	/** Need to have only one instance of the HomeFragment */
-
 	public static HomeFragment getDashboard() {
 		if(homeFragment == null) {
 			homeFragment = new HomeFragment();
@@ -211,6 +196,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return homeFragment;
 	}
 
+	/**
+	 * @param viewGroup loops through the entire view group and adds
+	 * 					an onClickListerner to the buttons.
+	 */
 	public void setAllButtonListener(ViewGroup viewGroup) {
 
 		View v;
@@ -230,15 +219,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mActionBar.setHomeButtonEnabled(true);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);
-
-//		TextView actionBarTitle = (TextView) findViewById(R.id.action_bar_title);
-//		actionBarTitle.setTypeface(Fonts.getGillsansLight(this));
-		
 		setTitle(getString(R.string.dashboard_title));
 	}
 
-	//Create the left menu items.
-
+	/** Create the left menu items. */
 	private List<ListViewItem> getLeftMenuItems() {
 		List<ListViewItem> leftMenuItems = new ArrayList<ListViewItem>();
 
@@ -258,14 +242,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
 	}
 
+	// TODO : Change param to int.
 	private void setRightMenuConnectedStatus(boolean status){
 		MenuItem item = menu.getItem(0);
 		if(status) {
-			tvConnectionStatus.setText("Connected");
+			tvConnectionStatus.setText(getString(R.string.connected));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
 			item.setIcon(R.drawable.right_bar_icon_blue_2x);
 		} else {
-			tvConnectionStatus.setText("Not Connected");
+			tvConnectionStatus.setText(getString(R.string.not_connected));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 			item.setIcon(R.drawable.right_bar_icon_orange_2x);
 		}
@@ -285,12 +270,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.menu = menu;
 		MenuItem item = menu.getItem(0);
 
-		//TODO : Check connection status and set right menu icon accordingly
 		if(connected)
 			item.setIcon(R.drawable.right_bar_icon_blue_2x);
 		else
@@ -314,9 +297,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				mDrawerLayout.openDrawer(mScrollViewRight);
 			}
 			break;
-
-		default:
-			break;
 		}
 		return false;
 	}
@@ -334,11 +314,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void setTitle(String title) {
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
 		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
-		textView.setTextSize(24); //TODO : Pass as param
+		textView.setTextSize(24);
 		textView.setText(title);
 	}
 
-
+	/** Left menu item clickListener */
 	private class MenuItemClickListener implements OnItemClickListener {
 
 		private List<Fragment> leftMenuItems = new ArrayList<Fragment>();
@@ -346,7 +326,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		public MenuItemClickListener() {
 			initLeftMenu();
 		}
-
+		
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
 			leftMenuItems.add(new AirQualityFragment());
@@ -358,56 +338,49 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
 
-		private void setTitle(String title) {
-			TextView textView = (TextView) findViewById(R.id.action_bar_title);
-			textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
-			textView.setTextSize(24); //TODO : Pass as param
-			textView.setText(title);
-		}
-
 		@Override
 		public void onItemClick(AdapterView<?> listView, View listItem, int position, long id) {
 
 			switch (position) {
 			case 0:
 				showFragment(leftMenuItems.get(position));
-				setTitle("PHILIPS Smart Air Purifier");
+				setTitle(getString(R.string.dashboard_title));
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 1: 
 				showFragment(leftMenuItems.get(position));
-				setTitle("Air Quality Explained");
+				setTitle(getString(R.string.list_item_2));
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 2:
 				//Outdoor locations
 				showFragment(leftMenuItems.get(position));
-				setTitle("Outdoor Locations");
+				setTitle(getString(R.string.list_item_3));
 				break;
 			case 3:
 				//Notifications
 				showFragment(leftMenuItems.get(position));
-				setTitle("Notifications");
+				setTitle(getString(R.string.list_item_4));
 				break;
 			case 4:
 				//Help and documentation
 				showFragment(leftMenuItems.get(position));
-				setTitle("Help and Documentation");
+				setTitle(getString(R.string.list_item_5));
 				break;
 			case 5:
 				//Tools
 				showFragment(leftMenuItems.get(position));
-				setTitle("Tools");
+				setTitle(getString(R.string.list_item_6));
 				break;
 			case 6:
 				//Product registration
 				showFragment(leftMenuItems.get(position));
-				setTitle("Product Registration");
+				setTitle(getString(R.string.list_item_7));
 				break;
 			case 7:
 				//Buy Online
 				showFragment(leftMenuItems.get(position));
-				setTitle("Buy Online");
+				setTitle(getString(R.string.list_item_8));
 				break;
 
 			default:
@@ -430,6 +403,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
 
 		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
+		rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 		if ( null != airPurifierEventDto ) {
 			statusCounter = 0;
 			setAirPurifierEventDto(airPurifierEventDto);
@@ -450,13 +424,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
-		Log.i(TAG, "filter values pre " + preFilterStatus + " multi " + multiCareFilterStatus + " active " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
-		Log.i(TAG, "screenwidth " + screenWidth);
+		/** Update filter bars*/
 		preFilterView.setPrefilterValue(preFilterStatus);
 		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
 		activeCarbonFilterView.setActiveCarbonFilterValue(activeCarbonFilterStatus);
 		hepaFilterView.setHEPAfilterValue(hepaFilterStatus);
 
+		/** Update filter texts*/
 		preFilterText.setText(Utils.getPreFilterStatusText(preFilterStatus));
 		multiCareFilterText.setText(Utils.getMultiCareFilterStatusText(multiCareFilterStatus));
 		activeCarbonFilterText.setText(Utils.getActiveCarbonFilterStatusText(activeCarbonFilterStatus));

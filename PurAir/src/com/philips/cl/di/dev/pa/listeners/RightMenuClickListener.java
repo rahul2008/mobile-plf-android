@@ -5,24 +5,17 @@ import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.util.AppConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class RightMenuClickListener implements OnClickListener {
@@ -84,16 +77,25 @@ public class RightMenuClickListener implements OnClickListener {
  		
 	}
 	
+	/**
+	 * 
+	 *  public void setBackground(Drawable background) {
+     *		//noinspection deprecation
+     *		setBackgroundDrawable(background);
+	 *	}
+	 *  
+	 *  setBackground(Drawable drawable) is supported from API 16 onwards.
+	 *  And it calls setBackgroundDrawable internally.
+	 *  
+	 * @param airPurifierEventDto
+	 */
+	
+	@SuppressWarnings("deprecation")
 	public void setSensorValues(AirPurifierEventDto airPurifierEventDto) {
 		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed" + airPurifierEventDto.getFanSpeed());
-		
-		if( airPurifierEventDto.getPowerMode().equals("1")) {
-		
+		if( airPurifierEventDto.getPowerMode().equals(AppConstants.POWER_ON)) {
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
-			
 			fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
-			
-//			fanSpeed.setCompoundDrawablesWithIntrinsicBounds(null, null, null, context.getResources().getDrawable(R.drawable.fan_speed_auto));
 			timer.setText(getTimerText(airPurifierEventDto));
 			schedule.setText("N.A.");
 			childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
@@ -101,35 +103,42 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 		else {
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
-			disableOtherButtons() ;
+			disableControlPanelButtonsOnPowerOff() ;
 		}
 	}
 	
 	private Drawable getPowerButtonState(AirPurifierEventDto airPurifierEventDto) {
 		Drawable powerState = null;
+		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
+		if(airPurifierEventDto == null) {
+			powerState = context.getResources().getDrawable(R.drawable.switch_off);
+			disableControlPanelButtonsOnPowerOff();
+			isPowerOn = false;
+			return powerState;
+		}
 		String powerMode = airPurifierEventDto.getPowerMode();
-		if(powerMode.equals("1")) {
+		if(powerMode != null && powerMode.equals(AppConstants.POWER_ON)) {
 			powerState = context.getResources().getDrawable(R.drawable.switch_on);
-			enableOtherButtons(MainActivity.getAirPurifierEventDto());
+			enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());
 			isPowerOn = true;
 		} else {
 			powerState = context.getResources().getDrawable(R.drawable.switch_off);
-			disableOtherButtons();
+			disableControlPanelButtonsOnPowerOff();
 			isPowerOn = false;
 		}
 		
 		return powerState;
 	}
 
-	private String getPowerModeText(AirPurifierEventDto airPurifierEventDto) {
-		String powerMode = airPurifierEventDto.getPowerMode();
-		Log.i(TAG, "powerMode " + powerMode);
-		if(powerMode.equals("1")) {
-			return "On";
-		} else {
-			return "Off";
-		}
-	}
+//	private String getPowerModeText(AirPurifierEventDto airPurifierEventDto) {
+//		String powerMode = airPurifierEventDto.getPowerMode();
+//		Log.i(TAG, "powerMode " + powerMode);
+//		if(powerMode.equals("1")) {
+//			return "On";
+//		} else {
+//			return "Off";
+//		}
+//	}
 	
 	private String getTimerText(AirPurifierEventDto airPurifierEventDto) {
 		if(airPurifierEventDto.getDtrs() > 0) {
@@ -141,7 +150,7 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	private Drawable getOnOffStatus(int status) {
 		Drawable buttonState = null;
-		if(status == 1) {
+		if(status == AppConstants.ON) {
 			buttonState = context.getResources().getDrawable(R.drawable.switch_on);
 		} else {
 			buttonState = context.getResources().getDrawable(R.drawable.switch_off);
@@ -150,6 +159,7 @@ public class RightMenuClickListener implements OnClickListener {
 		return buttonState;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -161,12 +171,12 @@ public class RightMenuClickListener implements OnClickListener {
 			if(!isPowerOn) {
 				
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
-				enableOtherButtons(MainActivity.getAirPurifierEventDto());
+				enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());
 				controlDevice(ParserConstants.POWER_MODE, "1") ;
 				
 			} else {
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
-				disableOtherButtons();
+				disableControlPanelButtonsOnPowerOff();
 				controlDevice(ParserConstants.POWER_MODE, "0") ;
 			}
 			isPowerOn = !isPowerOn;
@@ -269,7 +279,8 @@ public class RightMenuClickListener implements OnClickListener {
 		airPurifierController.setDeviceDetailsLocally(key, value) ;
 	}
 	
-	private void disableOtherButtons() {
+	@SuppressWarnings("deprecation")
+	private void disableControlPanelButtonsOnPowerOff() {
 		Drawable disabledButton = context.getResources().getDrawable(R.drawable.button_bg_2x);
 		disabledButton.setAlpha(100);
 		
@@ -289,7 +300,8 @@ public class RightMenuClickListener implements OnClickListener {
 		indicatorLight.setBackgroundDrawable(disabledButton);
 	}
 	
-	private void enableOtherButtons(AirPurifierEventDto airPurifierEventDto) {
+	@SuppressWarnings("deprecation")
+	private void enableButtonsOnPowerOn(AirPurifierEventDto airPurifierEventDto) {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
 		fanSpeed.setClickable(true);
@@ -301,13 +313,23 @@ public class RightMenuClickListener implements OnClickListener {
 		schedule.setClickable(true);
 		schedule.setBackgroundDrawable(enabledButton);
 		
-		childLock.setClickable(true);
-		childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
+		Log.i(TAG, "enableOtherButtons " + (airPurifierEventDto == null));
 		
-		indicatorLight.setClickable(true);
-		indicatorLight.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getAqiL()));
+		if(airPurifierEventDto != null) {
+			childLock.setClickable(true);
+			childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
+			
+			indicatorLight.setClickable(true);
+			indicatorLight.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getAqiL()));
+		} else {
+			
+		}
 	}
-
+	
+	/**
+	 * @param collapse if true, collapse the list
+	 *					else expand it. 
+	 */
 	private void collapseOrExpandTimerMenu(boolean collapse) {
 		if(!collapse) {
 			isTimerMenuVisible = !collapse;
@@ -323,7 +345,11 @@ public class RightMenuClickListener implements OnClickListener {
 			timerEightHours.setVisibility(View.GONE);
 		}
 	}
-	
+
+	/**
+	 * @param collapse if true, collapse the list
+	 *					else expand it. 
+	 */
 	private void collapseOrExpandFanSpeedMenu(boolean collapse) {
 		if(!collapse) {
 			isFanSpeedMenuVisible = !collapse;
@@ -344,7 +370,10 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
-	
+	/**
+	 * @param viewGroup loops through the entire view group and adds
+	 * 					an onClickListerner to the buttons.
+	 */
 	public void setAllButtonListener(ViewGroup viewGroup) {
 
 	    View v;
@@ -356,6 +385,24 @@ public class RightMenuClickListener implements OnClickListener {
 	            ((Button) v).setOnClickListener(this);
 	        }
 	    }
+	}
+
+	@SuppressWarnings("deprecation")
+	public void disableControlPanel(boolean connected, AirPurifierEventDto airPurifierEventDto) {
+		Log.i(TAG, "disableControlPanel connected " + connected);
+		Drawable powerButton = null;
+		if(!connected) {
+			power.setClickable(false);
+			powerButton = context.getResources().getDrawable(R.drawable.switch_off);
+			powerButton.setAlpha(100);
+			power.setBackgroundDrawable(powerButton);
+			disableControlPanelButtonsOnPowerOff();
+		} else {
+			power.setClickable(true);
+			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
+			enableButtonsOnPowerOn(airPurifierEventDto);
+		}
+		
 	}
 	
 }

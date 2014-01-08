@@ -17,6 +17,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * Adapter to create the left menu. Each element's resources are stored in
+ * com.philips.cl.di.dev.pa.customviews.ListViewItem.
+ *  
+ * @author 310150437
+ *
+ */
 public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 	
 	private Context context;
