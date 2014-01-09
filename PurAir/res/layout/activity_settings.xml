@@ -109,21 +109,7 @@
                     android:textColor="@color/black"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <Switch
-                    android:id="@+id/sw_power"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="1dp"
-                    android:checked="false"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:textOff="OFF"
-                    android:textOn="ON"
-                    android:textStyle="bold"
-                    android:thumb="@drawable/on_off_circle"
-                    android:track="@drawable/on_off_bg" />
+                
             </RelativeLayout>
 
             <!-- Separator -->
@@ -180,8 +166,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fan_speed_control_bg"
                         android:contentDescription="@string/separator"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:text="@string/auto"
                         android:textColor="@color/white" />
 
@@ -191,8 +175,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fan_speed_control_bg"
                         android:contentDescription="@string/separator"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:src="@drawable/fan_speed_auto" />
 
                     <ImageButton
@@ -201,8 +183,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fan_speed_control_bg"
                         android:contentDescription="@string/separator"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:src="@drawable/fan_speed_silent" />
 
                     <ImageButton
@@ -211,8 +191,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fan_speed_control_bg"
                         android:contentDescription="@string/separator"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:src="@drawable/fan_speed_turbo" />
                 </TableRow>
             </TableLayout>
@@ -232,8 +210,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fan_speed_control_bg1"
                         android:contentDescription="@string/separator"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:text="@string/silent"
                         android:textColor="@color/white" />
 
@@ -243,8 +219,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/fan_speed_control_bg1"
                         android:contentDescription="@string/separator"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
                         android:text="@string/turbo"
                         android:textColor="@color/white" />
                 </TableRow>
@@ -279,7 +253,7 @@
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/iv_timer"
                     android:gravity="center_vertical"
-                    android:text="@string/timer"
+                    android:text="Set Timer"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -292,7 +266,7 @@
                     android:layout_centerVertical="true"
                     android:background="@drawable/timer_bg"
                     android:orientation="horizontal"
-                    android:text="@string/timer"
+                    android:text="Set Timer"
                     android:textColor="@color/white" />
             </RelativeLayout>
 
@@ -332,18 +306,7 @@
                     android:textColor="@color/black"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <Switch
-                    android:id="@+id/sw_child_settings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="1dp"
-                    android:checked="false"
-                    android:textOff="OFF"
-                    android:textOn="ON"
-                    android:thumb="@drawable/on_off_circle"
-                    android:track="@drawable/on_off_bg" />
+                
             </RelativeLayout>
 
             <ImageView
@@ -381,19 +344,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/black"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-                <Switch
-                    android:id="@+id/sw_indicator_light"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_margin="1dp"
-                    android:checked="false"
-                    android:textOff="OFF"
-                    android:textOn="ON"
-                    android:thumb="@drawable/on_off_circle"
-                    android:track="@drawable/on_off_bg" />
+                
             </RelativeLayout>
 
             <!-- Separator -->
@@ -464,8 +415,6 @@
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@id/tv_air_quality"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
                     android:gravity="center_vertical"
                     android:text="@string/very_good"
                     android:textAppearance="?android:attr/textAppearanceMedium"
@@ -524,7 +473,7 @@
 
             <!-- Multiple Filters -->
 
-            <TableLayout
+            <!--  <TableLayout
                 android:id="@+id/tb_filterstatus"
                 android:layout_width="wrap_content"
                 android:weightSum="4"
@@ -734,7 +683,7 @@
                         android:src="@drawable/right_indicator" />
                 </TableRow>
             </TableLayout>
-
+-->
             <!-- Field Separator -->
 
             <ImageView
