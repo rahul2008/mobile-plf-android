@@ -117,17 +117,7 @@ OnFocusChangeListener {
 	}
 
 	private void initializeControls() {
-		swPower = (Switch) findViewById(R.id.sw_power);
-		swPower.setOnCheckedChangeListener(this);
-		swPower.setOnFocusChangeListener(this);
-
-		swChildLock = (Switch) findViewById(R.id.sw_child_settings);
-		swChildLock.setOnCheckedChangeListener(this);
-		swChildLock.setOnFocusChangeListener(this);
-
-		swIndicatorLight = (Switch) findViewById(R.id.sw_indicator_light);
-		swIndicatorLight.setOnCheckedChangeListener(this);
-		swIndicatorLight.setOnFocusChangeListener(this);
+		
 
 		imageButtonOne = (ImageButton) findViewById(R.id.ib_fanspeed_one);
 		imageButtonOne.setOnClickListener(this);
@@ -177,8 +167,7 @@ OnFocusChangeListener {
 		buttonSilent.setEnabled(true);
 		buttonTurbo.setEnabled(true);
 
-		swChildLock.setEnabled(true);
-		swIndicatorLight.setEnabled(true);
+		
 
 		buttonTimer.setEnabled(true);
 	}
@@ -197,11 +186,6 @@ OnFocusChangeListener {
 
 		airQualityStatusView.setText(getString(R.string.na));
 		airQualityStatusView.setTextColor(Color.BLACK);
-
-		swChildLock.setEnabled(false);		
-		swChildLock.setChecked(false) ;
-		swIndicatorLight.setEnabled(false);
-		swIndicatorLight.setChecked(false) ;
 
 		buttonTimer.setEnabled(false);
 
@@ -293,20 +277,7 @@ OnFocusChangeListener {
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		switch (buttonView.getId()) {
-		case R.id.sw_power:
-			if (!isSwitchControlled) {
-				Log.i(TAG, "On Checked Change Power button : " + isChecked);
-				setDevicePowerState(isChecked);
-			}
-			break;
-		case R.id.sw_child_settings:
-			if(!isChildLockSwitchControlled)
-				setChildSettings(isChecked) ;
-			break;
-		case R.id.sw_indicator_light:
-			if(!isIndicatorSwitchControlled)
-				setIndicatorLight(isChecked) ;
-			break ;
+		
 		}
 	}
 
@@ -400,11 +371,7 @@ OnFocusChangeListener {
 	 */
 	private void updateIndicatorLight(int aqiL) {
 		isIndicatorSwitchControlled = true ;
-		if (aqiL == 1) {
-			swIndicatorLight.setChecked(true);
-		} else {
-			swIndicatorLight.setChecked(false);
-		}
+		
 		isIndicatorSwitchControlled = false ;
 		
 	}
@@ -415,11 +382,7 @@ OnFocusChangeListener {
 	 */
 	private void updateChildLock(int childLock) {
 		isChildLockSwitchControlled = true;
-		if (childLock == 1) {
-			swChildLock.setChecked(true);
-		} else {
-			swChildLock.setChecked(false);
-		}
+		
 		isChildLockSwitchControlled = false;
 	}
 
@@ -459,13 +422,7 @@ OnFocusChangeListener {
 
 	private void updatePowerOnOff(String powerOnOff) {
 		isSwitchControlled = true;
-		if (powerOnOff.equalsIgnoreCase("1")) {
-			swPower.setChecked(true);
-			enableSettingsControls();
-		} else if (powerOnOff.equalsIgnoreCase("0")) {
-			swPower.setChecked(false);
-			disableSettingsControls() ;
-		}
+		
 		isSwitchControlled = false;
 	}
 
