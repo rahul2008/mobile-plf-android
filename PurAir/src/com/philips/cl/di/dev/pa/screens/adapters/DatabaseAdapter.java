@@ -153,72 +153,7 @@ public class DatabaseAdapter {
 		return dto ;
 	}
 	
-	/**
-	 * This will insert the outdoor AQI values to the database
-	 * @param outdoorAQI
-	 * @param cityID
-	 */
-	public void insertOutdoorAQI(List<OutdoorAQIEventDto> outdoorAQI, int cityID) {
-		if( outdoorAQI != null ) {
-			int length = outdoorAQI.size() ;
-			for ( int index = 0 ; index < length ; index ++ ) {
-				OutdoorAQIEventDto outdoorAQIEventDtoObj = outdoorAQI.get(index) ;
-				Cursor event = 
-						db.rawQuery(String.format(AppConstants.selectOutdoorAQIOnLogDateTime,
-								Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime()),String.valueOf(cityID)),null );
-				
-				if( event.moveToNext() ) {
-					
-				}
-				else {
-					ContentValues cvInsert = new ContentValues();
-					cvInsert.put(AppConstants.OUTDOOR_AQI,outdoorAQIEventDtoObj.getOutdoorAQI() ) ;
-					cvInsert.put(AppConstants.CITY_ID, cityID) ;
-					cvInsert.put(AppConstants.LOG_DATETIME, Utils.getOutdoorAQIDateTime(outdoorAQIEventDtoObj.getSyncDateTime())) ;
-					
-					db.insert(AppConstants.AQI_TABLE, null,
-							cvInsert);
-				}				
-			}
-		}
-	}
 	
-	/**
-	 * This will return the last updated Air Purifier Event
-	 * @return
-	 */
-	public OutdoorAQIEventDto getLastOutdoorAQI(int cityID) {
-		OutdoorAQIEventDto dto = null ;
-		
-		Cursor event = db.rawQuery(String.format(AppConstants.selectLatestOutdoorAQI,String.valueOf(cityID)), null);
-		if (event.moveToNext()) {
-			
-			dto = new OutdoorAQIEventDto() ;	
-			dto.setOutdoorAQI(event.getInt(2)) ;
-			dto.setSyncDateTime(event.getString(3)) ;
-		}
-		return dto ;
-	}
-	
-	
-	/**
-	 * This will return the list of Outdoor AQI's
-	 * @return
-	 */
-	public List<OutdoorAQIEventDto> getOutdoorValues() {
-		OutdoorAQIEventDto outdoorAQIEventDtoObj = null ;
-		List<OutdoorAQIEventDto> outdoorAQIList = new ArrayList<OutdoorAQIEventDto>();
-		Cursor outdoorAQICursor = db.rawQuery(AppConstants.selectLatestOutdoorAQI, null);
-		while (outdoorAQICursor.moveToNext()) {
-			outdoorAQIEventDtoObj = new OutdoorAQIEventDto() ;
-			outdoorAQIEventDtoObj.setOutdoorAQI(outdoorAQICursor.getInt(1)) ;
-			outdoorAQIEventDtoObj.setSyncDateTime(outdoorAQICursor.getString(3)) ;
-			
-			outdoorAQIList.add(outdoorAQIEventDtoObj) ;
-		}
-
-		return outdoorAQIList;
-	}
 	
 	/**
 	 * Gets the aQI values for day.

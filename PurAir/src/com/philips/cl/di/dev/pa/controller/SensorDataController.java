@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.controller;
 
 import java.net.HttpURLConnection;
 
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Handler;
@@ -13,10 +14,6 @@ import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
-import com.philips.icpinterface.CallbackHandler;
-import com.philips.icpinterface.EventPublisher;
-import com.philips.icpinterface.ICPClient;
-import com.philips.icpinterface.data.Commands;
 /**
  * This Class will get the Sensor Data every specified interval of time
  * Any number of listeners can register to this class
@@ -24,7 +21,7 @@ import com.philips.icpinterface.data.Commands;
  * @author 310124914
  *
  */
-public class SensorDataController implements ServerResponseListener, CallbackHandler {
+public class SensorDataController implements ServerResponseListener {
 	
 	private static final String TAG = "SensorDataController" ;
 	
@@ -49,19 +46,11 @@ public class SensorDataController implements ServerResponseListener, CallbackHan
 	private final Runnable getDeviceDataFromCPP = new Runnable() {
 		@Override
 		public void run() {
-			publishEvent() ;
 			cppHandler.postDelayed(this, AppConstants.UPDATE_INTERVAL_CPP);
 		}
 	};
 	
-	private void publishEvent() {
-		EventPublisher eventPublisher = new EventPublisher(this);		
-		eventPublisher.setEventInformation("DICOMM-REQUEST", "GETPROPS", "", "", 20, 120);
-		//eventPublisher.setEventData(JSONBuilder.getPublishEventBuilder("", ));
-		eventPublisher.setTargets(new String[] {"1c5a6bfffe634141"});
-		eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
-		eventPublisher.executeCommand();
-	}
+	
 	
 	/**
 	 * Singleton constructor
@@ -77,7 +66,7 @@ public class SensorDataController implements ServerResponseListener, CallbackHan
 	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-		if ( responseCode == HttpURLConnection.HTTP_OK) {	
+		if ( responseCode == HttpURLConnection.HTTP_OK) {
 				sensorListener.sensorDataReceived(new DataParser(responseData).parseAirPurifierEventData()) ;
 		}
 		else {
@@ -130,15 +119,5 @@ public class SensorDataController implements ServerResponseListener, CallbackHan
 		sensorDataTask.execute(url);
 	}
 
-	@Override
-	public void callback(int arg0, int arg1, ICPClient arg2) {
-		
-	}
-
-	@Override
-	public void setHandler(Handler arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-		
+	
 }
