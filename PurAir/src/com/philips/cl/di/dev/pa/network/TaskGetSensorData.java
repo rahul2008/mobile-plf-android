@@ -36,6 +36,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 		Log.i(TAG, urls[0]) ;
 		try {
 			String result = downloadUrl(urls[0]);
+			Log.i(TAG, "After download") ;
 			if (result == null || result.length() == 0) {
 				return null;
 			}
@@ -49,6 +50,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	// onPostExecute displays the results of the AsyncTask.
 	@Override
 	protected void onPostExecute(String response) {
+		Log.i(TAG, "onPOstExecute") ;
 		if (response != null) {
 			//Log.e(TAG, response);
 		}
@@ -75,7 +77,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
-			
+			conn.setConnectTimeout(2000);
 
 			// Starts the query
 			conn.connect();
@@ -86,6 +88,9 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 			// Convert the InputStream into a string
 			String contentAsString = readFully(inputStream);
 			return contentAsString;
+		} catch(Exception e) {
+//			Log.i(TAG, e.getMessage()) ;
+			return null ;
 		} finally {
 			// Makes sure that the InputStream is closed after the app is
 			// finished using it.

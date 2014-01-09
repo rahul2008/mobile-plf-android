@@ -27,43 +27,42 @@ public class AnimatorConstants {
 	public static float getIndoorBGTranslationY() {
 		float translationY = 0;
 		translationY = MainActivity.getScreenHeight() * 0.36f * -1;
-		Log.i(TAG, "getIndoorBGTranslationY " + translationY);
+//		Log.i(TAG, "getIndoorBGTranslationY " + translationY);
 		return translationY;
 	}
 	
 	public static float getIndoorGaugeTranslationY() {
 		float translationY = 0;
 		translationY = MainActivity.getScreenHeight() * 0.16f * -1;
-		Log.i(TAG, "getIndoorGaugeTranslationY " + translationY);
+//		Log.i(TAG, "getIndoorGaugeTranslationY " + translationY);
 		return translationY;
 	}
 	
 	public static float getOutdoorGaugeTranslationY() {
 		float translationY = 0;
 		translationY = MainActivity.getScreenHeight() * 0.21f;
-		Log.i(TAG, "getOutdoorGaugeTranslationY " + translationY);
+//		Log.i(TAG, "getOutdoorGaugeTranslationY " + translationY);
 		return translationY;
 	}
 	
 	public static float getOutdoorCityInfoTranslationY() {
 		float translationY = 0;
 		translationY = MainActivity.getScreenHeight() * 0.47f * -1;
-		Log.i(TAG, "getOutdoorCityInfoTranslationY " + translationY);
+//		Log.i(TAG, "getOutdoorCityInfoTranslationY " + translationY);
 		return translationY;
 	}
 	
 	public static float getCityInfoScaleUpTransformY() {
 		float translationY = 0;
 		translationY = MainActivity.getScreenHeight() * 0.115f * -1;
-		Log.i(TAG, "getCityInfoScaleUpTransformY " + translationY);
+//		Log.i(TAG, "getCityInfoScaleUpTransformY " + translationY);
 		return translationY;
 	}
 	
 	public static float rotationPivot() {
 		float pivot = 0;
 		pivot = MainActivity.getScreenHeight() * 0.018f;
-		Log.i(TAG, "rotationPivot " + pivot);
+//		Log.i(TAG, "rotationPivot " + pivot);
 		return pivot;
 	}
-	
 }

@@ -43,7 +43,7 @@ public class Utils {
 		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
 			return AppConstants.CLEAN_SOON;
 		} else {
-			return AppConstants.ACT_NOW;
+			return AppConstants.CLEAN_NOW;
 		}
 	}
 	

@@ -232,6 +232,9 @@ public class AppConstants {
 	public static final int COLOR_FAIR = Color.rgb(225, 138, 53);
 	public static final int COLOR_BAD = Color.rgb(209, 37, 49);
 	
+	//Power mode
+	public static final String POWER_ON = "1";
+	public static final String POWER_OFF = "0";
 	
 	//Fan speeds
 	public static final String FAN_SPEED_SILENT = "s";

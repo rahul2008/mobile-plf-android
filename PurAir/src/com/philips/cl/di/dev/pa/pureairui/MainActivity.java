@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.pureairui;
 
 import java.util.ArrayList;
-
 import java.util.List;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -306,6 +307,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.llContainer, fragment, fragment.getTag());
 		fragmentTransaction.addToBackStack(null); 
+		
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		
 		int id = fragmentTransaction.commit();
 		Log.i(TAG, "showFragment position " + fragment + " id " + id);
 		mDrawerLayout.closeDrawer(mListViewLeft);
@@ -420,10 +425,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				connected = false;
 			}
 		}
+		
+		homeFragment.rotateOutdoorCircle();
 
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
+		Log.i(TAG, "Filter values pre " + preFilterStatus + " multicare " + multiCareFilterStatus + "activecarbon " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
 		/** Update filter bars*/
 		preFilterView.setPrefilterValue(preFilterStatus);
 		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);

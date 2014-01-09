@@ -84,12 +84,15 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	/** Gesture listener to detect fling*/
 	private GestureDetectorCompat gestureDetectorCompat;
 	
+	/** Dashboard values*/
 	private int indoorAQIValue, outdoorAQIValue, outdoorTemperature;
 	private String outdoorUpdatedAt = "";
+	private boolean rotateOutdoorCircle, updateOutdoorDashboard;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i(TAG, "onCreateView");
 		vMain = inflater.inflate(R.layout.rl_home_master_fragment, container, false);
 		((ViewGroup) vMain).setClipChildren(false);
 
@@ -101,11 +104,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		startWeatherDataTask() ;
 		
 		isIndoorExpanded = true;
+		rotateOutdoorCircle = true;
 		
 		if(MainActivity.getAirPurifierEventDto() != null) {
 			setIndoorDashBoardValues(indoorAQIValue);
-			setOutdoorDashboardValues(outdoorAQIValue);
 		}
+		if(updateOutdoorDashboard)
+			setOutdoorDashboardValues(outdoorAQIValue);
 		return vMain;
 	}
 
@@ -125,6 +130,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ivOutdoorCircle.setImageDrawable(setAQICircleBackground(outdoorAQI));
 		setUpdatedAtTime(outdoorUpdatedAt);
 		setOutdoorTemperature(outdoorTemperature);
+	}
+	
+	public void rotateOutdoorCircle() {
+		if(rotateOutdoorCircle) {
+			rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
+			rotateOutdoorCircle = !rotateOutdoorCircle;
+		}
 	}
 	
 	@Override
@@ -373,12 +385,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
 		setOutdoorAQIStatusAndComment(outdoorAQIValue);
 	}
-
+	
 	private void rotateAQICircle(int aqi, ImageView iv) {
-		// Apply rotation transform and switch the background image of the AQI circle 
-		// according to the AQI value
-		//300 degrees is the arc of the guage
-		//500 is the max value of AQI
+		/** Apply rotation transform and switch the background image of the AQI circle 
+		 *	according to the AQI value
+		 *	300 degrees is the arc of the gauge
+		 *	500 is the max value of AQI
+		 */
 		
 		if(getActivity() == null) {
 			return;
@@ -533,6 +546,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			}
 			outdoorUpdatedAt = outdoorDto.getT();
 			setUpdatedAtTime(outdoorUpdatedAt) ;
+			updateOutdoorDashboard = true;
 		}
 	}
 
@@ -546,6 +560,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			int weatherInC = (int) weatherDto.get(0).getTempInCentigrade() ;
 			outdoorTemperature = weatherInC;
 			setOutdoorTemperature(outdoorTemperature) ;
+			updateOutdoorDashboard = true;
 		}
 	}
 
