@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -76,7 +77,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private static HomeFragment homeFragment;
 
-	private boolean mRightDrawerOpened = false;
+	private boolean mRightDrawerOpened = false,  drawerOpen = false;
 	
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
@@ -99,6 +100,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+		mDrawerLayout.setFocusableInTouchMode(false);
 
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 
 		{
@@ -107,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			public void onDrawerClosed(View drawerView) {
 				mRightDrawerOpened = false;
 				supportInvalidateOptionsMenu();
-
+				drawerOpen = false;
 			}
 
 			@Override
@@ -115,9 +117,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				if(drawerView.getId() == R.id.right_menu) {
 					mRightDrawerOpened = true;
 				}
+				drawerOpen = true;
 				supportInvalidateOptionsMenu();
 			}
-
 		};
 
 		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
@@ -176,11 +178,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	@Override
 	public void onBackPressed() {
+		Log.i(TAG, "onBackPressed");
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 		
-		if(count > 1 && !(fragment instanceof HomeFragment)) {
+		if(drawerOpen) {
+			mDrawerLayout.closeDrawer(mListViewLeft);
+			mDrawerLayout.closeDrawer(mScrollViewRight);
+			drawerOpen = false;
+		} else if(count > 1 && !(fragment instanceof HomeFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
 			setTitle(getString(R.string.dashboard_title));
@@ -250,6 +257,25 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	private void setRightMenuAirStatusMessage(String message) {
 		tvAirStatusMessage.setText(message);
+	}
+	
+	private void setRightMenuAirStatusBackground(int aqi) {
+		Log.i(TAG, "setRightMenuAirStatusBackground " + aqi);
+		Drawable imageDrawable = null;
+		if(aqi >= 0 && aqi <= 50) {
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
+		} else if(aqi > 50 && aqi <= 100) {
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_50_100_2x);
+		} else if(aqi > 100 && aqi <= 150) {
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_100_150_2x);
+		} else if(aqi > 150 && aqi <= 200) {
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_150_200_2x);
+		} else if(aqi > 200 && aqi <= 300) {
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_200_300_2x);
+		} else if(aqi > 300 /*&& aqi <= 500*/) {
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_300_500_2x);
+		}
+		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
 	
 	// TODO : Change param to int.
@@ -322,7 +348,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		fragmentTransaction.addToBackStack(null); 
 		
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		Log.i(TAG, "imm " + (imm == null) + " getWindow() " + (getWindow() == null) + " getCurrentFocus() " + (getWindow().getCurrentFocus() == null));// + " getWindowToken() " + (getWindow().getCurrentFocus().getWindowToken() == null));
+		if(getWindow() != null && getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		}
 		
 		int id = fragmentTransaction.commit();
 		Log.i(TAG, "showFragment position " + fragment + " id " + id);
@@ -431,6 +460,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 			setRightMenuConnectedStatus(true);
 			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(airPurifierEventDto.getIndoorAQI())));
+			setRightMenuAirStatusBackground(airPurifierEventDto.getIndoorAQI());
 			connected = true;
 		} else {
 			statusCounter++;
@@ -438,6 +468,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				setRightMenuConnectedStatus(false);
 				connected = false;
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+				setRightMenuAirStatusBackground(0);
 			}
 		}
 		
@@ -461,7 +492,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {
-		if ( homeFragment != null ) {
+		if ( homeFragment != null && homeFragment.getActivity() != null) {
 			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()) ;
 			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
 			String mode = airPurifierEventDto.getFanSpeed().equals(AppConstants.FAN_SPEED_AUTO) ? "Auto" : "Manual" ;

@@ -179,7 +179,7 @@
         android:visibility="gone"/>
 
     <Button
-        android:id="@+id/two_hours"
+        android:id="@+id/one_hour"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_alignParentLeft="true"
@@ -193,9 +193,9 @@
         android:id="@+id/four_hours"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:layout_alignBaseline="@+id/two_hours"
-        android:layout_alignBottom="@+id/two_hours"
-        android:layout_toRightOf="@+id/two_hours"
+        android:layout_alignBaseline="@+id/one_hour"
+        android:layout_alignBottom="@+id/one_hour"
+        android:layout_toRightOf="@+id/one_hour"
         android:background="@drawable/button_blue_bg_2x"
         android:textColor="#ffffff"
         android:text="@string/fourhour" 
@@ -218,7 +218,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/two_hours"
+        android:layout_below="@id/one_hour"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
         android:text="@string/scheduler" />

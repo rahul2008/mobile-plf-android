@@ -390,7 +390,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void setOutdoorAQIvalue(int outdoorAQI) {
 		this.outdoorAQIValue = outdoorAQI;
 		tvOutdoorAQI.setText(String.valueOf(outdoorAQIValue));
-		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
+		ivOutdoorCircle.setImageDrawable(setAQICircleBackground(outdoorAQIValue));
+		if(rotateOutdoorCircle) {
+			rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
+			rotateOutdoorCircle = !rotateOutdoorCircle;
+		}
+//		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
 		setOutdoorAQIStatusAndComment(outdoorAQIValue);
 	}
 	
@@ -405,8 +410,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			return;
 		}
 		
-//		iv.setImageDrawable();
-
 		float ratio = (float) (300.0/500.0);
 		Log.i(TAG, "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
 		float roatation = aqi * (300.0f/500.0f);
@@ -417,6 +420,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 	
 	public Drawable setAQICircleBackground(int aqi) {
+		if(getActivity() == null) {
+			return null;
+		}
 		if(aqi >= 0 && aqi <= 50) {
 			return getActivity().getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x);
 		} else if(aqi > 50 && aqi <= 100) {
@@ -562,6 +568,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 					break;
 				}
 			}
+			rotateOutdoorCircle = true;
 			outdoorUpdatedAt = outdoorDto.getT();
 			setUpdatedAtTime(outdoorUpdatedAt) ;
 			updateOutdoorDashboard = true;

@@ -69,7 +69,7 @@ public class RightMenuClickListener implements OnClickListener {
 		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);
 		
 		timerOff = (Button) activity.findViewById(R.id.timer_off);
-		timerTwoHours = (Button) activity.findViewById(R.id.two_hours);
+		timerTwoHours = (Button) activity.findViewById(R.id.one_hour);
 		timerFourHours = (Button) activity.findViewById(R.id.four_hours);
 		timerEightHours = (Button) activity.findViewById(R.id.eight_hours);
 		
@@ -130,21 +130,16 @@ public class RightMenuClickListener implements OnClickListener {
 		return powerState;
 	}
 
-//	private String getPowerModeText(AirPurifierEventDto airPurifierEventDto) {
-//		String powerMode = airPurifierEventDto.getPowerMode();
-//		Log.i(TAG, "powerMode " + powerMode);
-//		if(powerMode.equals("1")) {
-//			return "On";
-//		} else {
-//			return "Off";
-//		}
-//	}
-	
 	private String getTimerText(AirPurifierEventDto airPurifierEventDto) {
-		if(airPurifierEventDto.getDtrs() > 0) {
-			return "-";
+		int timeRemaining = airPurifierEventDto.getDtrs();
+		if(timeRemaining > 0 && timeRemaining <= 3600) {
+			return context.getString(R.string.onehour);
+		} else if (timeRemaining > 3600 && timeRemaining <= 14400){
+			return context.getString(R.string.fourhour);
+		} else if (timeRemaining > 14400 && timeRemaining <= 28800){
+			return context.getString(R.string.eighthour);
 		} else {
-			return "Off";
+			return context.getString(R.string.off);
 		}
 	}
 	
@@ -252,7 +247,7 @@ public class RightMenuClickListener implements OnClickListener {
 			collapseOrExpandTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "0") ;
 			break;
-		case R.id.two_hours:
+		case R.id.one_hour:
 			timer.setText(((Button) v).getText());
 			collapseOrExpandTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "2") ;

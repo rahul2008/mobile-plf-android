@@ -46,7 +46,7 @@ public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 		 iv.setImageResource(item.getImageId());
 		 Context context = iv.getContext();
 		 TextView tv = (TextView) view.findViewById(R.id.list_text);
-		 tv.setTypeface(Fonts.getGillsansLight(context));
+		 tv.setTypeface(Fonts.getGillsans(context));
 		 tv.setText(item.getTextId());
 		 
 		 return view;
