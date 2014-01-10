@@ -123,12 +123,13 @@ public class AirPurifierController implements ServerResponseListener
 	 */
 	public AirPurifierController(AirPurifierEventListener sensorDataListener,Context context) {
 		this.airPurifierEventListener = sensorDataListener ;
-		
+		this.context = context ;
 		// Taking it from Shared Preferences
 		this.ipAddress = Utils.getIPAddress(context);
 	}
 	
 	public AirPurifierController(Context context) {
+		this.context = context ;
 		this.ipAddress = Utils.getIPAddress(context);
 	}
 	
@@ -148,7 +149,7 @@ public class AirPurifierController implements ServerResponseListener
 	 */
 	private void startServerTask(String dataToUpload) {
 		Server statusUpdateTask = new Server(dataToUpload, this);
-		statusUpdateTask.execute(String.format(AppConstants.URL_CURRENT, ipAddress));
+		statusUpdateTask.execute(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)));
 	}
 	
 	
