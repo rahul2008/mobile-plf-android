@@ -39,24 +39,34 @@ public class Server extends AsyncTask<String, Void, String> {
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
 		try {
+			Log.i(TAG, url[0]) ;
 			URL urlConn = new URL(url[0]);
 			conn = (HttpURLConnection) urlConn.openConnection();
+			conn.setRequestProperty("content-type", "application/json") ;
 			conn.setDoOutput(true);
 			conn.setRequestMethod("PUT");
 			out = new OutputStreamWriter(
 					conn.getOutputStream());
 			out.write(dataToUpload);
-			out.close();
-			// Starts the query
+			out.flush() ;
+			
 			conn.connect();
 			int responseCode = conn.getResponseCode() ;
-			
+			Log.i(TAG, "Response Code:" +responseCode) ;
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();	
 				result = readFully(inputStream) ;
+				Log.i(TAG, result) ;
 			}
 
-		} catch (IOException e) {        
+		} catch (IOException e) {   
+		}
+		
+		finally {
+			if ( conn != null ) {
+				conn.disconnect() ;
+				conn = null ;
+			}
 		}
 		return result; 
 	}
