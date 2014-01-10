@@ -317,7 +317,11 @@ public class RightMenuClickListener implements OnClickListener {
 			indicatorLight.setClickable(true);
 			indicatorLight.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getAqiL()));
 		} else {
+			childLock.setClickable(false);
+			childLock.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 			
+			indicatorLight.setClickable(false);
+			indicatorLight.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 		}
 	}
 	

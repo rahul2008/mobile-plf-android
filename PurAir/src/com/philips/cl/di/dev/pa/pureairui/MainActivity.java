@@ -281,18 +281,19 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	// TODO : Change param to int.
 	private void setRightMenuConnectedStatus(boolean status){
 		MenuItem item = null;
-		if(menu != null)
+		if(menu != null) {
 			item = menu.getItem(0);
-		if(status) {
-			tvConnectionStatus.setText(getString(R.string.connected));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
-			if(item != null)
+			if(status) {
+				tvConnectionStatus.setText(getString(R.string.connected));
+				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
+//				if(item != null)
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
-		} else {
-			tvConnectionStatus.setText(getString(R.string.not_connected));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-			if(item != null)
+			} else {
+				tvConnectionStatus.setText(getString(R.string.not_connected));
+				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
+//				if(item != null)
 				item.setIcon(R.drawable.right_bar_icon_orange_2x);
+			}
 		}
 	}
 
@@ -450,8 +451,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
 
 		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
-		rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
+		
 		if ( null != airPurifierEventDto ) {
+			connected = true;
 			statusCounter = 0;
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
@@ -461,17 +463,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			setRightMenuConnectedStatus(true);
 			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(airPurifierEventDto.getIndoorAQI())));
 			setRightMenuAirStatusBackground(airPurifierEventDto.getIndoorAQI());
-			connected = true;
+			rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 		} else {
 			statusCounter++;
 			if(statusCounter >= 3) {
-				setRightMenuConnectedStatus(false);
 				connected = false;
+				setRightMenuConnectedStatus(false);
+				rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 				setRightMenuAirStatusBackground(0);
 			}
 		}
-		
 		homeFragment.rotateOutdoorCircle();
 
 	}

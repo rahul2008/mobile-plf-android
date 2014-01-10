@@ -76,7 +76,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod("GET");
 			conn.setRequestProperty("content-type", "application/json") ;
-			conn.setConnectTimeout(2000);
+			conn.setConnectTimeout(3000);
 			// Starts the query
 			conn.connect();
 			responseCode = conn.getResponseCode();
