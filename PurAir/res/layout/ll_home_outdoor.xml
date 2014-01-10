@@ -7,18 +7,11 @@
     android:clipChildren="false"
     android:weightSum="100">
     
-    <!-- <include
-        android:id="@+id/inc_outdoor_filter_info"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        layout="@layout/rl_outdoor_city_info" /> -->
-    
     <View
         android:id="@+id/v_outdoor_circle_margin"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
-        android:layout_weight="21" />
+        android:layout_weight="20" />
     
     <RelativeLayout 
         android:id="@+id/rl_outdoor_circle_container"
@@ -48,7 +41,7 @@
         android:id="@+id/inc_outdoor_aqi_status"
 		android:layout_width="fill_parent"
 		android:layout_height="0dp"
-		android:layout_weight="10"
+		android:layout_weight="18"
 		layout="@layout/rl_outdoor_aqi_info" />
 
 </LinearLayout>

@@ -58,6 +58,7 @@
 	<string name="hepa_filter">4 HEPA Filter</string>
 	<string name="normal_operation">Normal operation</string>
 	<string name="clean_soon">Clean soon</string>
+	<string name="act_soon">Act soon</string>
 	<string name="act_now">Act now</string>
 	
 	<!-- Dashboard texts-->
@@ -95,11 +96,18 @@
 	<string name="slightly_polluted">Slightly Polluted</string>
 	<string name="moderately_polluted">Moderately Polluted</string>
 	
-	<string name="very_healthy_message">The Air in PHILIPS room is very healthy</string>
-	<string name="healthy_message">The air in PHILIPS room is healthy</string>
-	<string name="slightly_polluted_message">The Air in PHILIPS room is Slightly Polluted</string>
-	<string name="moderately_polluted_message">The Air in PHILIPS room is Moderately Polluted</string>
-	<string name="unhealthy_message">The Air in PHILIPS room is UnHealthy</string>
-	<string name="hazardous_message">The Air in PHILIPS room is Hazardous</string>
+	<string name="very_healthy_msg_indoor">The Air in PHILIPS room is very healthy</string>
+	<string name="healthy_msg_indoor">The air in PHILIPS room is healthy</string>
+	<string name="slightly_polluted_msg_indoor">The Air in PHILIPS room is Slightly Polluted</string>
+	<string name="moderately_polluted_msg_indoor">The Air in PHILIPS room is Moderately Polluted</string>
+	<string name="unhealthy_msg_indoor">The Air in PHILIPS room is UnHealthy</string>
+	<string name="hazardous_msg_indoor">The Air in PHILIPS room is Hazardous</string>
+	
+	<string name="very_healthy_msg_outdoor">Great day for a walk in the park.\nYou can do all your outdoor exercises.</string>
+	<string name="healthy_msg_outdoor">Enjoy your usual outdoor activities.\nSensitive people should take care.</string>
+	<string name="slightly_polluted_msg_outdoor">Consider reducing outdoor activities.\nConsider rescheduling outdoor activities.\nConsider staying indoors.\nConsider children or elderly people to stay at home</string>
+	<string name="moderately_polluted_msg_outdoor">Limit outdoor acitivities.\nConsider staying indoors.\nConsider rescheduling outdoor activities.\nDon’t do any outdoor sports.</string>
+	<string name="unhealthy_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
+	<string name="hazardous_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
 	
 </resources>

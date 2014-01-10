@@ -16,6 +16,7 @@ import static com.philips.cl.di.dev.pa.util.AnimatorConstants.rotationPivot;
 import static com.philips.cl.di.dev.pa.util.AppConstants.SWIPE_THRESHOLD;
 import static com.philips.cl.di.dev.pa.util.AppConstants.SWIPE_VELOCITY_THRESHOLD;
 
+import java.util.Date;
 import java.util.List;
 
 import android.graphics.drawable.Drawable;
@@ -24,7 +25,9 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
+import android.text.Html;
 import android.util.Log;
+import android.util.Property;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -71,7 +74,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private TextView tvIndoorAQI, tvIndoorTitle, tvIndoorComment,
 					 tvIndoorMode, tvIndoorFilterStatus, tvFilterHome,
 					 tvOutdoorAQI, tvOutdoorTitle, tvOutdoorComment,
-					 tvUpdatedTitle, tvUpdatedValue, tvCity, tvLocality, tvOutdoorTemperature;
+					 tvUpdatedTitle, tvUpdatedAtDate, tvCity, tvLocality, tvOutdoorTemperature;
 
 	private AnimatorSet scaleDownIndoorFragment, scaleUpIndoorFragment, 
 						scaleDownOutdoorFragment, scaleUpOutdoorFragment, initAnimationLocations;
@@ -87,7 +90,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	/** Dashboard values*/
 	private int indoorAQIValue, outdoorAQIValue, outdoorTemperature;
 	private String outdoorUpdatedAt = "";
-	private boolean rotateOutdoorCircle, updateOutdoorDashboard;
+	private boolean rotateOutdoorCircle, rotateIndoorCircle, updateOutdoorDashboard;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -105,6 +108,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		
 		isIndoorExpanded = true;
 		rotateOutdoorCircle = true;
+		rotateIndoorCircle = true;
 		
 		if(MainActivity.getAirPurifierEventDto() != null) {
 			setIndoorDashBoardValues(indoorAQIValue);
@@ -128,6 +132,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		tvOutdoorAQI.setText(String.valueOf(outdoorAQI));
 		setOutdoorAQIStatusAndComment(outdoorAQI);
 		ivOutdoorCircle.setImageDrawable(setAQICircleBackground(outdoorAQI));
+		Log.i(TAG, "setOutdoorDashboardValues$outdoorUpdatedAt " + outdoorUpdatedAt);
 		setUpdatedAtTime(outdoorUpdatedAt);
 		setOutdoorTemperature(outdoorTemperature);
 	}
@@ -204,7 +209,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		tvOutdoorTitle = (TextView) vMain.findViewById(R.id.tv_outdoor_aqi_status_title);
 		tvOutdoorComment = (TextView) vMain.findViewById(R.id.tv_outdoor_aqi_status_message);
 		tvUpdatedTitle = (TextView) vMain.findViewById(R.id.tv_updated_title);
-		tvUpdatedValue = (TextView) vMain.findViewById(R.id.tv_updated_value);
+		tvUpdatedAtDate = (TextView) vMain.findViewById(R.id.tv_updated_at_date);
+//		tvUpdatedAtDate.setText("Oh my " + System.getProperty("line.separator")+ "  God");
 		tvCity = (TextView) vMain.findViewById(R.id.tv_location_city);
 		tvLocality = (TextView) vMain.findViewById(R.id.tv_location);
 		ivOutdoorWeatherImage = (ImageView) vMain.findViewById(R.id.iv_outdoor_weather_image);
@@ -262,7 +268,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				ObjectAnimator.ofFloat(tvOutdoorTitle, animAlpha, 0),
 				ObjectAnimator.ofFloat(tvOutdoorComment, animAlpha, 0),
 				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, getCityInfoScaleUpTransformY()),
-				ObjectAnimator.ofFloat(tvUpdatedValue, animTranslationY, getCityInfoScaleUpTransformY()),
+				ObjectAnimator.ofFloat(tvUpdatedAtDate, animTranslationY, getCityInfoScaleUpTransformY()),
 				ObjectAnimator.ofFloat(tvCity, animTranslationY, getCityInfoScaleUpTransformY()),
 				ObjectAnimator.ofFloat(tvLocality, animTranslationY, getCityInfoScaleUpTransformY()),
 				ObjectAnimator.ofFloat(tvLocality, animAlpha, 0),
@@ -283,7 +289,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				ObjectAnimator.ofFloat(tvOutdoorTitle, animAlpha, 0, 1),
 				ObjectAnimator.ofFloat(tvOutdoorComment, animAlpha, 0, 1),
 				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
-				ObjectAnimator.ofFloat(tvUpdatedValue, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
+				ObjectAnimator.ofFloat(tvUpdatedAtDate, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
 				ObjectAnimator.ofFloat(tvCity, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
 				ObjectAnimator.ofFloat(tvLocality, animAlpha, 0, 1),
 				ObjectAnimator.ofFloat(tvLocality, animTranslationY, getCityInfoScaleUpTransformY(), getOutdoorCityInfoTranslationY()),
@@ -376,7 +382,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	/**Dashboard outdoor info BEGIN */
 
 	public void setUpdatedAtTime(String time) {
-		tvUpdatedValue.setText(time);
+		String[] date = time.split(" ");
+		Log.i(TAG, "setUpdatedAtTime date " + date[0] + " time " + date[1]);
+		tvUpdatedAtDate.setText(date[0] + "\n" + date[1]);
 	}
 
 	public void setOutdoorAQIvalue(int outdoorAQI) {
@@ -397,7 +405,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			return;
 		}
 		
-		iv.setImageDrawable(setAQICircleBackground(aqi));
+//		iv.setImageDrawable();
 
 		float ratio = (float) (300.0/500.0);
 		Log.i(TAG, "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
@@ -408,7 +416,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ObjectAnimator.ofFloat(iv, animRotation, 0, roatation).setDuration(2000).start();
 	}
 	
-	private Drawable setAQICircleBackground(int aqi) {
+	public Drawable setAQICircleBackground(int aqi) {
 		if(aqi >= 0 && aqi <= 50) {
 			return getActivity().getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x);
 		} else if(aqi > 50 && aqi <= 100) {
@@ -418,9 +426,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		} else if(aqi > 150 && aqi <= 200) {
 			return getActivity().getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x);
 		} else if(aqi > 200 && aqi <= 300) {
-			return getActivity().getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
-		} else if(aqi > 300 && aqi <= 500) {
 			return getActivity().getResources().getDrawable(R.drawable.red_circle_arrow_2x);
+		} else if(aqi > 300 /*&& aqi <= 500*/) {
+			return getActivity().getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
 		}
 		return null;
 	}
@@ -429,17 +437,23 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		String title = "";
 		String message = "";
 		if(aqi >= 0 && aqi <= 50) {
-			
+			title = getString(R.string.very_healthy);
+			message = getString(R.string.very_healthy_msg_outdoor);
 		} else if(aqi > 50 && aqi <= 100) {
-			
+			title = getString(R.string.healthy);
+			message = getString(R.string.healthy_msg_outdoor);
 		} else if(aqi > 100 && aqi <= 150) {
-			
+			title = getString(R.string.slightly_polluted);
+			message = getString(R.string.slightly_polluted_msg_outdoor);
 		} else if(aqi > 150 && aqi <= 200) {
-			
+			title = getString(R.string.moderately_polluted);
+			message = getString(R.string.moderately_polluted_msg_outdoor);
 		} else if(aqi > 200 && aqi <= 300) {
-			
+			title = getString(R.string.unhealthy);
+			message = getString(R.string.unhealthy_msg_outdoor);
 		} else if(aqi > 300 && aqi <= 500) {
-			
+			title = getString(R.string.hazardous_msg_outdoor);
+			message = getString(R.string.hazardous);
 		}
 		tvOutdoorTitle.setText(title);
 		tvOutdoorComment.setText(message);
@@ -478,29 +492,33 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void setIndoorAQIValue(int indoorAQI) {
 		this.indoorAQIValue = indoorAQI;
 		tvIndoorAQI.setText(String.valueOf(indoorAQIValue));
-		rotateAQICircle(indoorAQIValue, ivIndoorCircle);
+		ivIndoorCircle.setImageDrawable(setAQICircleBackground(indoorAQIValue));
+		if(rotateIndoorCircle) {
+			rotateAQICircle(indoorAQIValue, ivIndoorCircle);
+			rotateIndoorCircle = !rotateIndoorCircle;
+		}
 		setIndoorAQIStatusAndComment(indoorAQIValue);
 	}
 
 	private void setIndoorAQIStatusAndComment(int aqi) {
 		if(aqi >= 0 && aqi <= 50) {
 			tvIndoorTitle.setText(getString(R.string.very_healthy)) ;
-			tvIndoorComment.setText(getString(R.string.very_healthy_message)) ;
+			tvIndoorComment.setText(getString(R.string.very_healthy_msg_indoor)) ;
 		} else if(aqi > 50 && aqi <= 100) {
 			tvIndoorTitle.setText(getString(R.string.healthy)) ;
-			tvIndoorComment.setText(getString(R.string.healthy_message)) ;
+			tvIndoorComment.setText(getString(R.string.healthy_msg_indoor)) ;
 		} else if(aqi > 100 && aqi <= 150) {
 			tvIndoorTitle.setText(getString(R.string.slightly_polluted)) ;
-			tvIndoorComment.setText(getString(R.string.slightly_polluted_message)) ;
+			tvIndoorComment.setText(getString(R.string.slightly_polluted_msg_indoor)) ;
 		} else if(aqi > 150 && aqi <= 200) {
 			tvIndoorTitle.setText(getString(R.string.moderately_polluted)) ;
-			tvIndoorComment.setText(getString(R.string.moderately_polluted_message)) ;
+			tvIndoorComment.setText(getString(R.string.moderately_polluted_msg_indoor)) ;
 		} else if(aqi > 200 && aqi <= 300) {
 			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
-			tvIndoorComment.setText(getString(R.string.unhealthy_message)) ;
+			tvIndoorComment.setText(getString(R.string.unhealthy_msg_indoor)) ;
 		} else if(aqi > 300 && aqi <= 1000) {
 			tvIndoorTitle.setText(getString(R.string.hazardous)) ;
-			tvIndoorComment.setText(getString(R.string.hazardous_message)) ;
+			tvIndoorComment.setText(getString(R.string.hazardous_msg_indoor)) ;
 		}
 	
 	}

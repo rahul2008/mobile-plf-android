@@ -62,6 +62,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	/** Right off canvas elements */
 	private TextView tvAirStatusAqiValue;
 	private TextView tvConnectionStatus;
+	private TextView tvAirStatusMessage;
+	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
 	private Menu menu;
 	private boolean connected;
@@ -95,6 +97,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		initActionBar();
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
 
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 
@@ -133,6 +136,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		tvAirStatusAqiValue = (TextView) findViewById(R.id.tv_rm_air_status_aqi_value);
 		tvConnectionStatus = (TextView) findViewById(R.id.tv_connection_status);
+		tvAirStatusMessage = (TextView) findViewById(R.id.tv_rm_air_status_message);
+		ivAirStatusBackground = (ImageView) findViewById(R.id.iv_rm_air_status_background);
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		initFilterStatusViews();
 		connected = false;
@@ -242,18 +247,26 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private void setRightMenuAQIValue(int aqiValue) {
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
 	}
-
+	
+	private void setRightMenuAirStatusMessage(String message) {
+		tvAirStatusMessage.setText(message);
+	}
+	
 	// TODO : Change param to int.
 	private void setRightMenuConnectedStatus(boolean status){
-		MenuItem item = menu.getItem(0);
+		MenuItem item = null;
+		if(menu != null)
+			item = menu.getItem(0);
 		if(status) {
 			tvConnectionStatus.setText(getString(R.string.connected));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
-			item.setIcon(R.drawable.right_bar_icon_blue_2x);
+			if(item != null)
+				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 		} else {
 			tvConnectionStatus.setText(getString(R.string.not_connected));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-			item.setIcon(R.drawable.right_bar_icon_orange_2x);
+			if(item != null)
+				item.setIcon(R.drawable.right_bar_icon_orange_2x);
 		}
 	}
 
@@ -417,12 +430,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 			setRightMenuConnectedStatus(true);
+			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(airPurifierEventDto.getIndoorAQI())));
 			connected = true;
 		} else {
 			statusCounter++;
 			if(statusCounter >= 3) {
 				setRightMenuConnectedStatus(false);
 				connected = false;
+				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 			}
 		}
 		

@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.AppConstants;
-
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 
 public class Utils {
@@ -162,6 +162,23 @@ public class Utils {
 			}
 		}
 		return filterStatus ;
+	}
+	
+	public static int getIndoorAQIMessage(int aqi) {
+		if(aqi >= 0 && aqi <= 50) {
+			return R.string.very_healthy_msg_indoor;
+		} else if(aqi > 50 && aqi <= 100) {
+			return R.string.healthy_msg_indoor;
+		} else if(aqi > 100 && aqi <= 150) {
+			return R.string.slightly_polluted_msg_indoor;
+		} else if(aqi > 150 && aqi <= 200) {
+			return R.string.moderately_polluted_msg_indoor;
+		} else if(aqi > 200 && aqi <= 300) {
+			return R.string.unhealthy_msg_indoor;
+		} else if(aqi > 300 && aqi <= 1000) {
+			return R.string.hazardous_msg_indoor;
+		}
+		return R.string.n_a;
 	}
 	
 }
