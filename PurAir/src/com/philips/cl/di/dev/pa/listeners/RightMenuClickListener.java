@@ -92,7 +92,8 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	@SuppressWarnings("deprecation")
 	public void setSensorValues(AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed" + airPurifierEventDto.getFanSpeed());
+		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed " + airPurifierEventDto.getFanSpeed());
+		Log.i(TAG, "setSensorValues " + airPurifierEventDto.getPowerMode());
 		if( airPurifierEventDto.getPowerMode().equals(AppConstants.POWER_ON)) {
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
 			fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
@@ -126,6 +127,8 @@ public class RightMenuClickListener implements OnClickListener {
 			disableControlPanelButtonsOnPowerOff();
 			isPowerOn = false;
 		}
+		
+		Log.i(TAG, "isPowerOn " + isPowerOn);
 		
 		return powerState;
 	}
@@ -276,6 +279,7 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	@SuppressWarnings("deprecation")
 	private void disableControlPanelButtonsOnPowerOff() {
+		Log.i(TAG, "disableControlPanelButtonsOnPowerOff");
 		Drawable disabledButton = context.getResources().getDrawable(R.drawable.button_bg_2x);
 		disabledButton.setAlpha(100);
 		
@@ -399,7 +403,8 @@ public class RightMenuClickListener implements OnClickListener {
 		} else {
 			power.setClickable(true);
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
-			enableButtonsOnPowerOn(airPurifierEventDto);
+			if(isPowerOn)
+				enableButtonsOnPowerOn(airPurifierEventDto);
 		}
 		
 	}
