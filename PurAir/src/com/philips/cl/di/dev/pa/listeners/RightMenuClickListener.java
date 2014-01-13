@@ -54,7 +54,7 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		power = (Button) activity.findViewById(R.id.btn_rm_power);
 		schedule = (Button) activity.findViewById(R.id.btn_rm_scheduler);
-		childLock = (Button) activity.findViewById(R.id.btn_rm_child_lock);
+		childLock = (Button) activity.findViewById(R.id.btn_rm_child_lock);		
 		indicatorLight = (Button) activity.findViewById(R.id.btn_rm_indicator_light);
 		
 		fanSpeed = (Button) activity.findViewById(R.id.btn_rm_fan_speed);
@@ -166,8 +166,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.btn_rm_power:
 			Log.i(TAG, "power is on :: " + isPowerOn);
-			if(!isPowerOn) {
-				
+			if(!isPowerOn) {				
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
 				enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());
 				controlDevice(ParserConstants.POWER_MODE, "1") ;
@@ -253,7 +252,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.one_hour:
 			timer.setText(((Button) v).getText());
 			collapseOrExpandTimerMenu(true);
-			controlDevice(ParserConstants.DEVICE_TIMER, "2") ;
+			controlDevice(ParserConstants.DEVICE_TIMER, "1") ;
 			break;
 		case R.id.four_hours:
 			timer.setText(((Button) v).getText());
