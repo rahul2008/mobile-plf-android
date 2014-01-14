@@ -64,7 +64,7 @@
 	<!-- Dashboard texts-->
 	<string name="mode">Mode</string>
 	<string name="filters">Filters</string>
-	<string name="updated">Updated</string>
+	<string name="updated">Last Updated</string>
 	<string name="n_a">N.A.</string>
 	<!-- Network Error Messages -->
 	<string name="network_error">Network Error</string>

@@ -33,6 +33,8 @@ public class WeatherDataParser {
 			weatherDto.setTempInCentigrade(Float.parseFloat(currentConditionObj.getString("temp_C"))) ;
 			weatherDto.setTempInFahrenheit(Float.parseFloat(currentConditionObj.getString("temp_F"))) ;
 			weatherDto.setTime(currentConditionObj.getString(ParserConstants.OBSERVATION_TIME)) ;
+			weatherDto.setWeatherDesc(currentConditionObj.getJSONArray("weatherDesc").optJSONObject(0).getString("value"));
+			weatherDto.setIsdaytime(currentConditionObj.getString("isdaytime"));
 			weatherForecastList.add(weatherDto) ;
 			
 			JSONArray weatherArray = dataObj.getJSONArray(ParserConstants.WEATHER) ;

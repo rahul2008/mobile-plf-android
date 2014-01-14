@@ -7,6 +7,7 @@ public class Weatherdto {
 	private String time ;
 	
 	private String weatherDesc ;
+	private String isdaytime ;
 
 	public float getTempInCentigrade() {
 		return tempInCentigrade;
@@ -46,6 +47,14 @@ public class Weatherdto {
 
 	public void setWeatherDesc(String weatherDesc) {
 		this.weatherDesc = weatherDesc;
+	}
+	
+	public String getIsdaytime() {
+		return isdaytime;
+	}
+
+	public void setIsdaytime(String isdaytime) {
+		this.isdaytime = isdaytime;
 	}
 	
 }

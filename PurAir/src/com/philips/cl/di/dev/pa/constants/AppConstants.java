@@ -243,4 +243,27 @@ public class AppConstants {
 	public static final String FAN_SPEED_ONE = "1";
 	public static final String FAN_SPEED_TWO = "2";
 	public static final String FAN_SPEED_THREE = "3";
+	
+	//Weather constants
+	public static final String SUNNY = "Sunny";
+	public static final String LIGHT_RAIN_SHOWER = "Light rain shower";
+	public static final String LIGHT_DRIZZLE = "Light drizzle";
+	public static final String PATCHY_RAIN_NEARBY = "Patchy rain nearby";
+	public static final String PATCHY_LIGHT_DRIZZLE = "Patchy light drizzle";
+	public static final String PATCHY_LIGHT_RAIN = "Patchy light rain";
+	public static final String PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER = "Patchy light rain in area with thunder";
+	public static final String MODERATE_OR_HEAVY_RAIN_SHOWER = "Moderate or heavy rain shower";
+	public static final String TORRENTIAL_RAIN_SHOWER = "Torrential rain shower";
+	public static final String HEAVY_RAIN = "Heavy rain";
+	public static final String HEAVY_RAIN_AT_TIMES = "Heavy rain at times";
+	public static final String MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER = "Moderate or heavy	rain in area with thunder";
+	public static final String MIST = "Mist";
+	public static final String CLOUDY = "Cloudy";
+	public static final String PARTLY_CLOUDY = "Partly Cloudy";
+	public static final String DAY_TIME = "Day time";
+	public static final String CLEAR_SKIES = "Clear Skies";
+	public static final String SNOW = "Snow";
+	public static final String CLEAR = "Clear";
+	
+	
 }

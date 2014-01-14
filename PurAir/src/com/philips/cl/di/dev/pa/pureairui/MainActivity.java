@@ -396,24 +396,24 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 1: 
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_2));
-				mDrawerLayout.closeDrawer(mListViewLeft);
+//				showFragment(leftMenuItems.get(position));
+//				setTitle(getString(R.string.list_item_2));
+//				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 2:
 				//Outdoor locations
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_3));
+//				showFragment(leftMenuItems.get(position));
+//				setTitle(getString(R.string.list_item_3));
 				break;
 			case 3:
 				//Notifications
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_4));
+//				showFragment(leftMenuItems.get(position));
+//				setTitle(getString(R.string.list_item_4));
 				break;
 			case 4:
 				//Help and documentation
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_5));
+//				showFragment(leftMenuItems.get(position));
+//				setTitle(getString(R.string.list_item_5));
 				break;
 			case 5:
 				//Tools
@@ -422,13 +422,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				break;
 			case 6:
 				//Product registration
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_7));
+//				showFragment(leftMenuItems.get(position));
+//				setTitle(getString(R.string.list_item_7));
 				break;
 			case 7:
 				//Buy Online
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_8));
+//				showFragment(leftMenuItems.get(position));
+//				setTitle(getString(R.string.list_item_8));
 				break;
 
 			default:
