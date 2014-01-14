@@ -296,6 +296,9 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		indicatorLight.setClickable(false);
 		indicatorLight.setBackgroundDrawable(disabledButton);
+		
+		collapseOrExpandFanSpeedMenu(true);
+		collapseOrExpandTimerMenu(true);
 	}
 	
 	@SuppressWarnings("deprecation")
