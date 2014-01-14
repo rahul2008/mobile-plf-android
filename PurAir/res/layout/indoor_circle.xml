@@ -28,6 +28,6 @@
         android:layout_centerVertical="true"
         android:textColor="@color/white"
         android:textSize="60sp"
-        android:text="60" />
+        android:text="-" />
 
 </RelativeLayout>
