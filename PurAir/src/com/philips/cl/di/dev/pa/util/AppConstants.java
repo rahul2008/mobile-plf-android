@@ -23,6 +23,7 @@ public class AppConstants {
 	public static final String FILTER_LOCK = "Filter Lock" ;
 	public static final String CLEAN_SOON = "Clean Soon" ;
 	public static final String CLEAN_NOW = "Clean Now" ;
+	public static final String GOOD = "Good";
 	
 	public static final float MAXWIDTH = MainActivity.getScreenWidth() * 0.655f;
 	

@@ -39,7 +39,7 @@ public class Utils {
 	
 	public static String getPreFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 96) {
-			return AppConstants.NORMAL_OPERATION;
+			return AppConstants.GOOD;
 		} else if ( filterStatusValue >= 96 && filterStatusValue < 112) {
 			return AppConstants.CLEAN_SOON;
 		} else {
@@ -59,7 +59,7 @@ public class Utils {
 	
 	public static String getMultiCareFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 784) {
-			return AppConstants.NORMAL_OPERATION ;
+			return AppConstants.GOOD ;
 		} else if (filterStatusValue >= 784 && filterStatusValue < 840) {
 			return AppConstants.ACT_SOON ;
 		} else if(filterStatusValue >= 840 && filterStatusValue < 960){
@@ -81,7 +81,7 @@ public class Utils {
 	
 	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 2704) {
-			return  AppConstants.NORMAL_OPERATION ;
+			return  AppConstants.GOOD ;
 		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
 			return AppConstants.ACT_SOON ;
 		} else if(filterStatusValue >= 2760 && filterStatusValue < 2880){
@@ -103,7 +103,7 @@ public class Utils {
 	
 	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
 		if(filterStatusValue < 2704) {
-			return AppConstants.NORMAL_OPERATION;
+			return AppConstants.GOOD;
 		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
 			return AppConstants.ACT_SOON;
 		} else if(filterStatusValue >= 2760 && filterStatusValue < 2880){
@@ -132,7 +132,7 @@ public class Utils {
 
 	public static String getFilterStatusForDashboard(
 			AirPurifierEventDto airPurifierEventDto) {
-		String filterStatus = AppConstants.NORMAL_OPERATION ;
+		String filterStatus = AppConstants.GOOD ;
 		if ( airPurifierEventDto != null ) {
 			String preFilterStatus = getPreFilterStatusText(airPurifierEventDto.getFilterStatus1()) ;
 			String multiCareFilterStatus = getMultiCareFilterStatusText(airPurifierEventDto.getFilterStatus2()) ;
