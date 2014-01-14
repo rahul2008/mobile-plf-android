@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
-    android:versionCode="002"
-    android:versionName="SmartAir_0.0.2" >
+    android:versionCode="003"
+    android:versionName="SmartAir_0.0.3" >
     <uses-sdk
         android:minSdkVersion="9"
         android:targetSdkVersion="19" />
