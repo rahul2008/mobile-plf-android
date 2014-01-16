@@ -6,6 +6,63 @@ public class Weatherdto {
 	private String date ;
 	private String time ;
 	
+	private String windDirection ;
+	public String getWindDirection() {
+		return windDirection;
+	}
+
+	public void setWindDirection(String windDirection) {
+		this.windDirection = windDirection;
+	}
+
+	private float maxTempC ;
+	private float maxTempF ;
+	private float minTempC ;
+	
+	public float getWindSpeed() {
+		return windSpeed;
+	}
+
+	public void setWindSpeed(float windSpeed) {
+		this.windSpeed = windSpeed;
+	}
+
+	private float windSpeed ;
+	
+	public float getMaxTempC() {
+		return maxTempC;
+	}
+
+	public void setMaxTempC(float maxTempC) {
+		this.maxTempC = maxTempC;
+	}
+
+	public float getMaxTempF() {
+		return maxTempF;
+	}
+
+	public void setMaxTempF(float maxTempF) {
+		this.maxTempF = maxTempF;
+	}
+
+	public float getMinTempC() {
+		return minTempC;
+	}
+
+	public void setMinTempC(float minTempC) {
+		this.minTempC = minTempC;
+	}
+
+	public float getMinTempF() {
+		return minTempF;
+	}
+
+	public void setMinTempF(float minTempF) {
+		this.minTempF = minTempF;
+	}
+
+	private float minTempF ;
+	
 	private String weatherDesc ;
 	private String isdaytime ;
 

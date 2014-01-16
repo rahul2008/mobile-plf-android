@@ -39,4 +39,13 @@ public class ParserConstants {
 	public static final String HOURLY = "hourly" ;
 	public static final String CURRENT_CONDITION = "current_condition" ;
 	public static final String OBSERVATION_TIME = "observation_time" ;
+	public static final String MAXTEMPC = "maxtempC" ;
+	public static final String MINTEMPC = "mintempC" ;
+	public static final String MAXTEMPF = "maxtempF" ;
+	public static final String MINTEMPF = "mintempF" ;
+	public static final String WEATHER_DESC = "weatherDesc" ;
+	public static final String VALUE = "value" ;
+	public static final String IS_DAY_TIME = "isdaytime" ;
+	public static final String WIND_SPEED = "windspeedKmph" ;
+	public static final String WIND_DIRECTION = "winddir16Point" ;
 } 
