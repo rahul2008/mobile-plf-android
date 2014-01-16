@@ -412,8 +412,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				break;
 			case 4:
 				//Help and documentation
-//				showFragment(leftMenuItems.get(position));
-//				setTitle(getString(R.string.list_item_5));
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_5));
 				break;
 			case 5:
 				//Tools
