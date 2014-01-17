@@ -139,4 +139,14 @@
 	<string name="tutorial_title_4">Device Status</string>
 	<string name="tutorial_title_5">Remote Control</string>
 	
+	<!-- Product Registration -->
+	<string name="registration_instruction">Select the purifier you want to register.</string>
+	<string name="lbl_kitchen">Kitchen</string>
+	<string name="lbl_living_room">Living Room</string>
+	<string name="registration_ques">Is the purifier you want to register not listed here?</string>
+	<string name="registration_step_email">Step 1: Email Address</string>
+	<string name="registration_email_ques">What is your email address?</string>
+	<string name="promotion_ques">Philips can email you promotions and offers.</string>
+	<string name="lbl_register">Register</string>
+	<string name="lbl_connected_purifiers">Connected purifiers</string>
 </resources>
