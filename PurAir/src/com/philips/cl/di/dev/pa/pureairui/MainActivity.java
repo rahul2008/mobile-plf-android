@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -24,10 +25,12 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
@@ -45,6 +48,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
+import com.philips.cl.di.dev.pa.util.AnimatorConstants;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -99,7 +103,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.transparent));
+		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.darker_gray));
 		mDrawerLayout.setFocusableInTouchMode(false);
 
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 

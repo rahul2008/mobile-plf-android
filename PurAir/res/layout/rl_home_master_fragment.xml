@@ -4,18 +4,20 @@
     android:layout_height="fill_parent"
     android:clipChildren="false" >
 
+    <!-- TODO : Replace include with merge -->	
+    
     <include
         android:layout_width="fill_parent"
         android:layout_height="400dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
         layout="@layout/ll_home_outdoor_container" />
-    
+     
     <include
         android:layout_width="fill_parent"
         android:layout_height="400dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         layout="@layout/ll_home_indoor_container" />
-    
+        
 </RelativeLayout>
