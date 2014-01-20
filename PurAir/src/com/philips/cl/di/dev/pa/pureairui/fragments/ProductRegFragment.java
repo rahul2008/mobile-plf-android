@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class ProductRegFragment extends Fragment implements OnClickListener {
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.prod_reg_fragment, container, false);
 		intializeView(view);
+		initMenu();
 		return view;
 	}
 
@@ -41,9 +43,23 @@ public class ProductRegFragment extends Fragment implements OnClickListener {
 		kitchenRegisterBtn.setOnClickListener(this);
 		livingRoomRegisterBtn.setOnClickListener(this);
 	}
+	
+	private void initMenu() {
+		MainActivity activity= (MainActivity) getActivity();
+		activity.setRightMenuVisibility(false);
+	}
 
 	@Override
 	public void onClick(View v) {
-		
+		switch (v.getId()) {
+		case R.id.btn_register_kitchen:
+			MainActivity activity=(MainActivity) getActivity();
+			activity.showFragment(new ProductRegistrationStepsFragment());
+			activity.setTitle(getString(R.string.list_item_7));
+			break;
+
+		default:
+			break;
+		}
 	}
 }

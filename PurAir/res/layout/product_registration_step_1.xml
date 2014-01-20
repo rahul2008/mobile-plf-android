@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:padding="15dp">
+
+    <TextView
+        android:id="@+id/registration_step_1_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="You are registering the purifier 'Kitchen'" />
+
+    <TextView
+        android:id="@+id/registration_email_address_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration_step_email" 
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/registration_email_ques"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/registration_email_ques" 
+        android:layout_marginBottom="5dp"/>
+
+    <EditText
+        android:id="@+id/email_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" 
+        android:inputType="textEmailAddress">
+
+        <requestFocus />
+    </EditText>
+
+    <RadioButton
+        android:id="@+id/promotions_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/promotion_ques" 
+        android:textSize="13sp"/>
+
+    <Button
+        android:id="@+id/btn_next_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:text="Next Step"
+        android:enabled="false"
+        android:background="@drawable/registration_button_selector"
+        android:textColor="#FFF"/>
+
+</LinearLayout>

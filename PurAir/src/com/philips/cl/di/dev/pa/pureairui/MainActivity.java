@@ -47,6 +47,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.AnimatorConstants;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -88,6 +89,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private SensorDataController sensorDataController;
 
 	private static AirPurifierEventDto airPurifierEventDto;
+	private MenuItem rightMenuItem;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +107,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.darker_gray));
 		mDrawerLayout.setFocusableInTouchMode(false);
-
+		
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 
 		{
 
@@ -191,11 +193,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			drawerOpen = false;
-		} else if(count > 1 && !(fragment instanceof HomeFragment)) {
+		} else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
 			setTitle(getString(R.string.dashboard_title));
-		} else {
+		} else if(fragment instanceof ProductRegistrationStepsFragment){
+			manager.popBackStack();
+		}else {
 			finish();
 		}
 	}
@@ -318,6 +322,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.menu = menu;
 		MenuItem item = menu.getItem(0);
+		rightMenuItem= menu.getItem(0);
 
 		if(connected)
 			item.setIcon(R.drawable.right_bar_icon_blue_2x);
@@ -368,7 +373,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
 		textView.setTextSize(24);
 		textView.setText(title);
-	}
+	}	
 
 	/** Left menu item clickListener */
 	private class MenuItemClickListener implements OnItemClickListener {
@@ -512,6 +517,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private static void setAirPurifierEventDto(AirPurifierEventDto airPurifierEventDto) {
 		MainActivity.airPurifierEventDto = airPurifierEventDto;
+	}	
+	
+	public void setRightMenuVisibility(boolean visible)
+	{
+		rightMenuItem.setVisible(visible);
 	}
 }
 
