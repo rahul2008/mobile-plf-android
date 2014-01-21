@@ -72,7 +72,7 @@ public class WeatherDataParser {
 							weatherDto.setMaxTempF(maxTempF) ;
 							weatherDto.setMinTempC(minTempC) ;
 							weatherDto.setMinTempF(minTempF) ;
-							
+							weatherDto.setWindDegree(Float.parseFloat(hourlyJSON.getString(ParserConstants.WIND_DEGREE))) ;
 							weatherForecastList.add(weatherDto) ;
 						}
 					}
