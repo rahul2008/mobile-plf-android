@@ -105,7 +105,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-		mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.darker_gray));
+		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
 		
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 
@@ -481,6 +481,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 				setRightMenuAirStatusBackground(0);
+				homeFragment.setMode("-");
 			}
 		}
 		homeFragment.rotateOutdoorCircle();
@@ -504,10 +505,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {
 		if ( homeFragment != null && homeFragment.getActivity() != null) {
-			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()) ;
+			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI(), airPurifierEventDto.getpSensor()) ;
 			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
-			String mode = airPurifierEventDto.getFanSpeed().equals(AppConstants.FAN_SPEED_AUTO) ? "Auto" : "Manual" ;
-			homeFragment.setMode(mode) ;
+			homeFragment.setMode(Utils.getMode(airPurifierEventDto.getFanSpeed(), this)) ;
 		}
 	}
 

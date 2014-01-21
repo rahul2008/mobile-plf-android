@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
+import android.content.Context;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
@@ -128,6 +130,24 @@ public class Utils {
 			return "3";
 		} 
 		return "";
+	}
+	
+	public static String getMode(String fanSpeed, Context context) {
+		String mode = "";
+		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeed)) {
+			mode = context.getString(R.string.silent);
+		} else if(AppConstants.FAN_SPEED_TURBO.equals(fanSpeed)) {
+			mode = context.getString(R.string.turbo);
+		} else if(AppConstants.FAN_SPEED_AUTO.equals(fanSpeed)) {
+			mode = context.getString(R.string.auto);
+		} else if(AppConstants.FAN_SPEED_ONE.equals(fanSpeed)) {
+			mode = context.getString(R.string.speed1);
+		} else if(AppConstants.FAN_SPEED_TWO.equals(fanSpeed)) {
+			mode = context.getString(R.string.speed2);
+		} else if(AppConstants.FAN_SPEED_THREE.equals(fanSpeed)) {
+			mode = context.getString(R.string.speed3);
+		}
+		return mode;
 	}
 
 	public static String getFilterStatusForDashboard(

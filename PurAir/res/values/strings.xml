@@ -7,13 +7,13 @@
     
     <!-- Left menu items -->
     <string name="list_item_1">Home</string>
-    <string name="list_item_2">Air Quality Explained</string>
-    <string name="list_item_3">Outdoor Locations</string>
+    <string name="list_item_2">Air quality explained</string>
+    <string name="list_item_3">Outdoor locations</string>
     <string name="list_item_4">Notifications</string>
-    <string name="list_item_5">Help and Documentation</string>
+    <string name="list_item_5">Help and documentation</string>
     <string name="list_item_6">Tools</string>
-    <string name="list_item_7">Product Registration</string>
-    <string name="list_item_8">Buy Online</string>
+    <string name="list_item_7">Product registration</string>
+    <string name="list_item_8">Buy online</string>
     <string name="separator"></string>
     
 	<!-- Right menu texts -->
@@ -40,8 +40,8 @@
 	<string name="set_timer">Set Timer</string>
 	
 	<string name="scheduler">Scheduler</string>
-	<string name="child_lock">Child Lock</string>
-	<string name="indicator_light">Indicator Light</string>
+	<string name="child_lock">Child lock</string>
+	<string name="indicator_light">Indicator light</string>
 	
 	<string name="rm_air_quality_title">Indoor Air Quality Status</string>
 	<string name="rm_air_quality_message">Connect device to begin reading indoor air quality</string>
@@ -52,10 +52,10 @@
 	
 	<!-- Filter texts and messages -->
 	<string name="filter_status">Filter Status</string>
-	<string name="pre_filter">1 Pre Filter</string>
+	<string name="pre_filter">1 Pre filter</string>
 	<string name="multicarefilter">2 Multi-care Filter</string>
-	<string name="activecarbonfilter">3 Active Carbon Filter</string>
-	<string name="hepa_filter">4 HEPA Filter</string>
+	<string name="activecarbonfilter">3 Active carbon filter</string>
+	<string name="hepa_filter">4 HEPA filter</string>
 	<string name="normal_operation">Normal operation</string>
 	<string name="clean_soon">Clean soon</string>
 	<string name="act_soon">Act soon</string>
@@ -64,6 +64,9 @@
 	<!-- Dashboard texts-->
 	<string name="mode">Mode</string>
 	<string name="filters">Filters</string>
+	<string name="speed1">Speed 1</string>
+	<string name="speed2">Speed 2</string>
+	<string name="speed3">Speed 3</string>
 	<string name="updated">Last Updated</string>
 	<string name="n_a">N.A.</string>
 	<!-- Network Error Messages -->
@@ -72,17 +75,17 @@
 	<!-- AQI Status Messages -->
 	<string name="good">Good</string>
 	<string name="moderate">Moderate</string>
-	<string name="unhealthy_for_sensitive_groups">Unhealthy for Sensitive Groups</string>
+	<string name="unhealthy_for_sensitive_groups">Unhealthy for sensitive groups</string>
 	<string name="unhealthy">Unhealthy</string>
-	<string name="very_unhealthy">Very Unhealthy</string>
+	<string name="very_unhealthy">Very unhealthy</string>
 	<string name="hazardous">Hazardous</string>
 	<string name="na">Not Available</string>
 	<string name="fair">Fair</string>
 	<string name="bad">Bad</string>
 	
 	<string name="onehour">1 Hour</string>
-	<string name="fourhour">4 Hour</string>
-	<string name="eighthour">8 Hour</string>
+	<string name="fourhour">4 Hours</string>
+	<string name="eighthour">8 Hours</string>
 	<string name="off">OFF</string>
 	
 	<string name="set_timer">Set Timer</string>

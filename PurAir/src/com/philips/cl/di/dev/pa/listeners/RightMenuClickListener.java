@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class RightMenuClickListener implements OnClickListener {
@@ -26,6 +27,10 @@ public class RightMenuClickListener implements OnClickListener {
 	private Context context;
 	
 	private Activity activity;
+	
+	private TextView autoText;
+	
+	private View fanSpeedBackground, timerBackground;
 	
 	//Control panel buttons
 	private Button power, fanSpeed, timer, schedule, childLock, indicatorLight;
@@ -39,7 +44,7 @@ public class RightMenuClickListener implements OnClickListener {
 	//Timer buttons
 	private Button timerOff, timerTwoHours, timerFourHours, timerEightHours;
 	
-	private boolean isFanSpeedMenuVisible, isTimerMenuVisible;
+	private boolean isFanSpeedMenuVisible, isTimerMenuVisible, isFanSpeedAuto;
 	
 	public RightMenuClickListener(Context context) {
 		this.context = context;
@@ -61,13 +66,15 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		fanSpeedSilent = (Button) activity.findViewById(R.id.fan_speed_silent);
 		fanSpeedAuto = (Button) activity.findViewById(R.id.fan_speed_auto);
+		autoText = (TextView) activity.findViewById(R.id.tv_fan_speed_auto);
+		fanSpeedBackground = activity.findViewById(R.id.background_fan_speed);
 		fanSpeedTurbo = (Button) activity.findViewById(R.id.fan_speed_turbo);
 		fanSpeedOne = (Button) activity.findViewById(R.id.fan_speed_one);
 		fanSpeedTwo = (Button) activity.findViewById(R.id.fan_speed_two);
 		fanSpeedThree = (Button) activity.findViewById(R.id.fan_speed_three);
 		
 		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);
-		
+		timerBackground = activity.findViewById(R.id.background_timer);
 		timerOff = (Button) activity.findViewById(R.id.timer_off);
 		timerTwoHours = (Button) activity.findViewById(R.id.one_hour);
 		timerFourHours = (Button) activity.findViewById(R.id.four_hours);
@@ -96,7 +103,7 @@ public class RightMenuClickListener implements OnClickListener {
 		Log.i(TAG, "setSensorValues " + airPurifierEventDto.getPowerMode());
 		if( airPurifierEventDto.getPowerMode().equals(AppConstants.POWER_ON)) {
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
-			fanSpeed.setText(Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()));
+			setFanSpeed(airPurifierEventDto);
 			timer.setText(getTimerText(airPurifierEventDto));
 			schedule.setText("N.A.");
 			childLock.setBackgroundDrawable(getOnOffStatus(airPurifierEventDto.getChildLock()));
@@ -108,6 +115,40 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
+	private void setFanSpeed(AirPurifierEventDto airPurifierEventDto) {
+		String fanSpeedText = airPurifierEventDto.getFanSpeed();
+		Drawable buttonImage = null;
+		String buttonText = "";
+		
+		Log.i(TAG, "setFanSpeed " + fanSpeedText);
+		fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+		isFanSpeedAuto = false;
+		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeedText)) {
+			fanSpeed.setText("Silent");
+			buttonImage = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+		} else if(AppConstants.FAN_SPEED_TURBO.equals(fanSpeedText)) {
+			fanSpeed.setText("Turbo");
+			buttonImage = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+		} else if(AppConstants.FAN_SPEED_AUTO.equals(fanSpeedText)) {
+			fanSpeed.setText("Auto");
+			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
+			buttonImage = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+			isFanSpeedAuto = true;
+		} else if(AppConstants.FAN_SPEED_ONE.equals(fanSpeedText)) {
+			fanSpeed.setText("");
+			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_one);
+		} else if(AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)) {
+			Log.i(TAG, "setFanSpeed (AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)");
+			fanSpeed.setText("");
+			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_two);
+		} else if(AppConstants.FAN_SPEED_THREE.equals(fanSpeedText)) {
+			fanSpeed.setText("");
+			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_three);
+		}
+		fanSpeed.setBackgroundDrawable(buttonImage);
+	}
+
 	private Drawable getPowerButtonState(AirPurifierEventDto airPurifierEventDto) {
 		Drawable powerState = null;
 		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
@@ -211,31 +252,54 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.fan_speed_silent:		
 			fanSpeed.setText(((Button) v).getText());
+			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+			isFanSpeedAuto = false;
 			collapseOrExpandFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "s") ;
 			break;
 		case R.id.fan_speed_auto:
 			fanSpeed.setText(((Button) v).getText());
+			if(!isFanSpeedAuto) {
+				fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
+				controlDevice(ParserConstants.FAN_SPEED, "a") ;
+			} else {
+				fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+				controlDevice(ParserConstants.FAN_SPEED, "1") ;
+			}
+			isFanSpeedAuto = !isFanSpeedAuto;
 			collapseOrExpandFanSpeedMenu(true);
-			controlDevice(ParserConstants.FAN_SPEED, "a") ;
+			collapseOrExpandTimerMenu(true);
 			break;
 		case R.id.fan_speed_turbo:			
 			fanSpeed.setText(((Button) v).getText());
+			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+			isFanSpeedAuto = false;
 			collapseOrExpandFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "t") ;
 			break;
 		case R.id.fan_speed_one:
 			fanSpeed.setText(((Button) v).getText());
+			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.fan_speed_one));
+			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+			isFanSpeedAuto = false;
 			collapseOrExpandFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "1") ;
 			break;
 		case R.id.fan_speed_two:
 			fanSpeed.setText(((Button) v).getText());
+			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.fan_speed_two));
+			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+			isFanSpeedAuto = false;
 			collapseOrExpandFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "2") ;
 			break;
 		case R.id.fan_speed_three:
 			fanSpeed.setText(((Button) v).getText());
+			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.fan_speed_three));
+			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
+			isFanSpeedAuto = false;
 			collapseOrExpandFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "3") ;
 			break;
@@ -306,7 +370,7 @@ public class RightMenuClickListener implements OnClickListener {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
 		fanSpeed.setClickable(true);
-		fanSpeed.setBackgroundDrawable(enabledButton);
+		setFanSpeed(airPurifierEventDto);
 		
 		timer.setClickable(true);
 		timer.setBackgroundDrawable(enabledButton);
@@ -338,12 +402,14 @@ public class RightMenuClickListener implements OnClickListener {
 	private void collapseOrExpandTimerMenu(boolean collapse) {
 		if(!collapse) {
 			isTimerMenuVisible = !collapse;
+			timerBackground.setVisibility(View.VISIBLE);
 			timerOff.setVisibility(View.VISIBLE);
 			timerTwoHours.setVisibility(View.VISIBLE);
 			timerFourHours.setVisibility(View.VISIBLE);
 			timerEightHours.setVisibility(View.VISIBLE);
 		} else {
 			isTimerMenuVisible = !collapse;
+			timerBackground.setVisibility(View.GONE);
 			timerOff.setVisibility(View.GONE);
 			timerTwoHours.setVisibility(View.GONE);
 			timerFourHours.setVisibility(View.GONE);
@@ -360,6 +426,8 @@ public class RightMenuClickListener implements OnClickListener {
 			isFanSpeedMenuVisible = !collapse;
 			fanSpeedSilent.setVisibility(View.VISIBLE);
 			fanSpeedAuto.setVisibility(View.VISIBLE);
+			autoText.setVisibility(View.VISIBLE);
+			fanSpeedBackground.setVisibility(View.VISIBLE);
 			fanSpeedTurbo.setVisibility(View.VISIBLE);
 			fanSpeedOne.setVisibility(View.VISIBLE);
 			fanSpeedTwo.setVisibility(View.VISIBLE);
@@ -368,6 +436,8 @@ public class RightMenuClickListener implements OnClickListener {
 			isFanSpeedMenuVisible = !collapse;
 			fanSpeedSilent.setVisibility(View.GONE);
 			fanSpeedAuto.setVisibility(View.GONE);
+			autoText.setVisibility(View.GONE);
+			fanSpeedBackground.setVisibility(View.GONE);
 			fanSpeedTurbo.setVisibility(View.GONE);
 			fanSpeedOne.setVisibility(View.GONE);
 			fanSpeedTwo.setVisibility(View.GONE);

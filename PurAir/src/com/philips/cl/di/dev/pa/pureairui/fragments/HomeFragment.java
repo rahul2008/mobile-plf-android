@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private GestureDetectorCompat gestureDetectorCompat;
 	
 	/** Dashboard values*/
-	private int indoorAQIValue, outdoorAQIValue, outdoorTemperature;
+	private int indoorAQIValue, indoorPSense, outdoorAQIValue, outdoorTemperature;
 	private String outdoorUpdatedAt = "", outdoorWeatherDesc, isDayTime;
 	private boolean rotateOutdoorCircle, rotateIndoorCircle, updateOutdoorDashboard;
 	
@@ -101,21 +101,20 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		rotateIndoorCircle = true;
 		
 		if(MainActivity.getAirPurifierEventDto() != null) {
-			setIndoorDashBoardValues(indoorAQIValue);
+			setIndoorDashBoardValues(indoorPSense);
 		}
-		setIndoorDashBoardValues(300);
 		if(updateOutdoorDashboard)
 			setOutdoorDashboardValues(outdoorAQIValue);
 		return vMain;
 	}
 
 	/** Update dashboard values on resume*/
-	private void setIndoorDashBoardValues(int indoorAQI) {
-		tvIndoorAQI.setText(String.valueOf(indoorAQI));
-		setIndoorAQIStatusAndComment(indoorAQI);
-		ivIndoorCircle.setImageDrawable(setAQICircleBackground(indoorAQI));
-//		setMode((MainActivity.getAirPurifierEventDto().getFanSpeed().equals(AppConstants.FAN_SPEED_AUTO) ? "Auto" : "Manual"));
-//		setFilterStatus(Utils.getFilterStatusForDashboard(MainActivity.getAirPurifierEventDto()));
+	private void setIndoorDashBoardValues(int pSense) {
+		tvIndoorAQI.setText(String.valueOf(pSense));
+		setIndoorAQIStatusAndComment(indoorPSense);
+		ivIndoorCircle.setImageDrawable(setAQICircleBackground(pSense));
+		setMode(Utils.getMode(MainActivity.getAirPurifierEventDto().getFanSpeed(), getActivity()));
+		setFilterStatus(Utils.getFilterStatusForDashboard(MainActivity.getAirPurifierEventDto()));
 	}
 
 	/** Update dashboard values on resume*/
@@ -428,6 +427,20 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		setOutdoorAQIStatusAndComment(outdoorAQIValue);
 	}
 	
+	private void rotateIndoorAQICircle(int pSense, ImageView iv) {
+		if(getActivity() == null) {
+			return;
+		}
+		
+		float ratio = (float) (300.0/10.0);
+		Log.i(TAG, "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
+		float rotation = pSense * (300.0f/10.0f);
+		ViewHelper.setPivotX(iv, iv.getWidth()/2);
+		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
+		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
+		ObjectAnimator.ofFloat(iv, animRotation, 0, rotation).setDuration(2000).start();
+	}
+	
 	private void rotateAQICircle(int aqi, ImageView iv) {
 		/** Apply rotation transform and switch the background image of the AQI circle 
 		 *	according to the AQI value
@@ -446,6 +459,27 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
 		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
 		ObjectAnimator.ofFloat(iv, animRotation, 0, rotation).setDuration(2000).start();
+	}
+	
+	public Drawable setIndoorCircleBackground(int pSense) {
+		if(getActivity() == null) {
+			return null;
+		}
+		if(pSense >= 0 && pSense <= 1) {
+			return getActivity().getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x);
+		} else if(pSense == 2) {
+			return getActivity().getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x);
+		} else if(pSense == 3) {
+			return getActivity().getResources().getDrawable(R.drawable.red_circle_arrow_2x);
+		} else if(pSense > 3 && pSense <= 10) {
+			return getActivity().getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
+		} 
+//		else if(pSense > 200 && pSense <= 300) {
+//			return getActivity().getResources().getDrawable(R.drawable.red_circle_arrow_2x);
+//		} else if(pSense > 300 /*&& aqi <= 500*/) {
+//			return getActivity().getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
+//		}
+		return null;
 	}
 	
 	public Drawable setAQICircleBackground(int aqi) {
@@ -563,39 +597,34 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		tvIndoorFilterStatus.setText(status);
 	}
 
-	public void setIndoorAQIValue(int indoorAQI) {
+	public void setIndoorAQIValue(int indoorAQI, int pSense) {
 		
-		tvIndoorAQI.setText(String.valueOf(indoorAQI));
-		ivIndoorCircle.setImageDrawable(setAQICircleBackground(indoorAQI));
-		if(rotateIndoorCircle || indoorAQIValue != indoorAQI) {
-			rotateAQICircle(indoorAQI, ivIndoorCircle);
+		tvIndoorAQI.setText(String.valueOf(pSense));
+		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(pSense));
+		if(rotateIndoorCircle || indoorPSense != pSense) {
+//			rotateAQICircle(indoorAQI, ivIndoorCircle);
+			rotateIndoorAQICircle(pSense, ivIndoorCircle);
 			rotateIndoorCircle = !rotateIndoorCircle;
 		}
-		setIndoorAQIStatusAndComment(indoorAQI);
+		setIndoorAQIStatusAndComment(pSense);
 		this.indoorAQIValue = indoorAQI;
+		this.indoorPSense = pSense;
 	}
 
-	private void setIndoorAQIStatusAndComment(int aqi) {
-		if(aqi >= 0 && aqi <= 50) {
-			tvIndoorTitle.setText(getString(R.string.very_healthy)) ;
+	private void setIndoorAQIStatusAndComment(int pSense) {
+		if(pSense >= 0 && pSense <= 1) {
+			tvIndoorTitle.setText(getString(R.string.good)) ;
 			tvIndoorComment.setText(getString(R.string.very_healthy_msg_indoor)) ;
-		} else if(aqi > 50 && aqi <= 100) {
-			tvIndoorTitle.setText(getString(R.string.healthy)) ;
+		} else if(pSense > 2 && pSense <= 3) {
+			tvIndoorTitle.setText(getString(R.string.moderate)) ;
 			tvIndoorComment.setText(getString(R.string.healthy_msg_indoor)) ;
-		} else if(aqi > 100 && aqi <= 150) {
-			tvIndoorTitle.setText(getString(R.string.slightly_polluted)) ;
-			tvIndoorComment.setText(getString(R.string.slightly_polluted_msg_indoor)) ;
-		} else if(aqi > 150 && aqi <= 200) {
-			tvIndoorTitle.setText(getString(R.string.moderately_polluted)) ;
-			tvIndoorComment.setText(getString(R.string.moderately_polluted_msg_indoor)) ;
-		} else if(aqi > 200 && aqi <= 300) {
+		} else if(pSense > 3 && pSense <= 4) {
 			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
-			tvIndoorComment.setText(getString(R.string.unhealthy_msg_indoor)) ;
-		} else if(aqi > 300 && aqi <= 1000) {
-			tvIndoorTitle.setText(getString(R.string.hazardous)) ;
-			tvIndoorComment.setText(getString(R.string.hazardous_msg_indoor)) ;
-		}
-	
+			tvIndoorComment.setText(getString(R.string.slightly_polluted_msg_indoor)) ;
+		} else if(pSense < 4) {
+			tvIndoorTitle.setText(getString(R.string.very_unhealthy)) ;
+			tvIndoorComment.setText(getString(R.string.moderately_polluted_msg_indoor)) ;
+		} 
 	}
 
 	public void setHomeName(String name) {
@@ -627,7 +656,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	private void updateOutdoorAQIFields() {
+		Log.i(TAG, "updateOutdoorAQIFields");
 		OutdoorAQIEventDto outdoorDto = SessionDto.getInstance().getOutdoorEventDto() ;
+		if(outdoorDto == null) {
+			Log.i(TAG, "outdoorDTO is null");
+			return;
+		}
 		int idx [] = outdoorDto.getIdx()  ;
 		if ( idx != null && idx.length > 0 ) {
 
