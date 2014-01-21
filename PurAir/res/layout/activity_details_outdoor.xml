@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="8dp"
+        android:paddingLeft="8dp"
+        layout="@layout/activity_topbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/detailsOutdoorLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="320dp" >
+
+                <include
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    layout="@layout/dashboard_info" />
+            </RelativeLayout>
+
+            <!-- Caution layout -->
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                layout="@layout/od_caution_layout" />
+
+            <!-- Map layout -->
+
+			<include
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_margin="8dp"
+                layout="@layout/od_map_layout" />
+            <!-- <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="250dp" >
+				<ImageView  
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_alignParentTop="true"
+				    android:layout_alignParentRight="true"
+				    android:src="@drawable/wifi_connected"/>
+                <fragment
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_margin="8dp"
+                    android:layout_alignParentTop="true"
+                    map:cameraBearing="100"
+                    map:cameraTilt="30"
+  					map:cameraZoom="13"
+                    class="com.google.android.gms.maps.SupportMapFragment" />
+            </RelativeLayout> -->
+            
+            <!-- Weather report -->
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/odWeatherHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center_horizontal"
+                android:text="Weather Forcast"
+                android:textColor="@color/cornflowerblue"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsans.ttf" >
+            </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+            <HorizontalScrollView
+                android:id="@+id/odTodayWetherReportHSV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fadeScrollbars="false" >
+
+            </HorizontalScrollView>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="@color/gray" />
+            <LinearLayout  
+                android:id="@+id/odWetherForcastLL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                
+            </LinearLayout>
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                layout="@layout/dashboard_details_control" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="8dp"
+                android:background="@color/gray" />
+
+            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/detailsOutdoorSecondMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/msg_bot_1"
+                android:textColor="@color/cornflowerblue"
+                android:textSize="18sp"
+                custom:fontAssetName="fonts/gillsans.ttf" >
+            </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+            <LinearLayout
+                android:id="@+id/detailsOutdoorlayoutGraph"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_margin="8dp"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/detailsOutdoorAnExplain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="aqiAnalysisClick"
+                android:text="Air Analysis explained" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

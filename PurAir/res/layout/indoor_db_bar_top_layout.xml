@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/indoorDashboardBarTopNumBg"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/aqi_small_circle_100_150_2x" />
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/indoorDbBarTopNum"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="1"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/indoorDbBarTopName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/indoorDbBarTopNum"
+        android:layout_alignBottom="@+id/indoorDbBarTopNum"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/indoorDashboardBarTopNumBg"
+        android:gravity="center"
+        android:text="Living room"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+</RelativeLayout>

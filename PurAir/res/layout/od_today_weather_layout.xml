@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odTodyWeatherTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:text="16:00"
+        android:textColor="@color/cornflowerblue"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    <ImageView
+        android:id="@+id/odTodyWeatherImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/wifi_connected" />
+    
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odTodyWeatherTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:text="18\u00B0C"
+        android:textColor="@color/cornflowerblue"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    
+
+</LinearLayout>

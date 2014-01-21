@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odDayWeatherForcast"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:layout_margin="8dp"
+        android:text="Sun"
+        android:textColor="@color/cornflowerblue"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    
+    <ImageView
+        android:id="@+id/odWeatherForcastImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/odDayWeatherForcast"
+        android:src="@drawable/wifi_connected" />
+    
+    
+    <ImageView
+        android:id="@+id/odWeatherForcastWindImg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/wifi_connected" />
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastWind"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/odDayWeatherForcast"
+        android:layout_alignBottom="@+id/odDayWeatherForcast"
+        android:layout_toLeftOf="@+id/odWeatherForcastWindImg"
+        android:text="12 km/h"
+        android:textColor="@color/cornflowerblue"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+    
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastMinTemp"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/odDayWeatherForcast"
+        android:layout_alignBottom="@+id/odDayWeatherForcast"
+        android:layout_toLeftOf="@+id/odWeatherForcastWind"
+        android:text="4c"
+        android:textColor="@color/cornflowerblue"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/odWeatherForcastMaxTemp"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:gravity="center"
+        android:layout_alignBaseline="@+id/odDayWeatherForcast"
+        android:layout_alignBottom="@+id/odDayWeatherForcast"
+        android:layout_toLeftOf="@+id/odWeatherForcastMinTemp"
+        android:text="18c"
+        android:textColor="@color/cornflowerblue"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+</RelativeLayout>

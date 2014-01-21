@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/avoidOutdoorImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/run_close_icon_2x" />
+
+        <ImageView
+            android:id="@+id/openWindowImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/window_icon_2x" />
+
+        <ImageView
+            android:id="@+id/maskImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/protection_icon_2x" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/avoidOutdoorTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/advice_od_msg1"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="12sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/openWindowTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/openwindow_od_msg1"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="12sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/maskTxt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:text="@string/mask_od_msg1"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="12sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </LinearLayout>
+
+</LinearLayout>

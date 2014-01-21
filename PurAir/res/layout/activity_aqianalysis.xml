@@ -1,0 +1,671 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp" >
+
+        <ImageView
+            android:id="@+id/aqiAnalysisClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="8dp"
+            android:background="@drawable/trends_txt_bg"
+            android:onClick="closeDetils"
+            android:src="@drawable/close_page_icon_2x" />
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisHeading"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/aqiAnalysisClose"
+            android:text="@string/outdoor_analysis_head1"
+            android:textColor="@color/blue"
+            android:textSize="24sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisMsg10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisHeading"
+            android:layout_marginTop="6dp"
+            android:text="@string/outdoor_analysis_detail1_head1"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisMsg11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisMsg10"
+            android:layout_marginTop="6dp"
+            android:text="@string/outdoor_analysis_detail2_head1"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisMsg11"
+            android:layout_marginTop="12dp"
+            android:text="@string/outdoor_analysis_head2"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisMsg20"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisTitle2"
+            android:layout_marginTop="6dp"
+            android:text="@string/outdoor_analysis_detail_head2"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisTitle3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisMsg20"
+            android:layout_marginTop="12dp"
+            android:text="@string/outdoor_analysis_head3"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisMsg30"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisTitle3"
+            android:layout_marginTop="6dp"
+            android:text="@string/outdoor_analysis_detail_head3"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisTitle4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisMsg30"
+            android:layout_marginTop="12dp"
+            android:text="@string/outdoor_analysis_head4"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+        <LinearLayout android:id="@+id/aqiAnalysisLayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisTitle4"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView4"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/red" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg40"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/indoor_analysis_Title1"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg41"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h4_T1"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+
+		<View
+		    android:id="@+id/odView30"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout4"
+		    android:background="@color/gray" />
+
+       <LinearLayout android:id="@+id/aqiAnalysisLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout4"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView5"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/purple" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg50"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/indoor_analysis_Title2"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg51"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h4_T2"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/odView31"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout5"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout5"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView6"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/navy" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg60"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/indoor_analysis_Title3"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg61"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h4_T3"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/odView32"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout6"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout6"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView7"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/royalblue" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg70"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/indoor_analysis_Title4"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg71"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h4_T4"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        
+        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/aqiAnalysisTitle5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout7"
+            android:layout_marginTop="16dp"
+            android:text="@string/outdoor_analysis_head5"
+            android:textColor="@color/cornflowerblue"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+       
+        <LinearLayout android:id="@+id/aqiAnalysisLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisTitle5"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView8"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/red" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg80"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/outdoor_analysis_Title1"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg81"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h5_T1"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+		<View
+		    android:id="@+id/odView33"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout8"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout8"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView9"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/mediumvioletred" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg90"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/outdoor_analysis_Title2"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg91"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h5_T2"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/odView34"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout9"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout10"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout9"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView10"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/mediumorchid" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg100"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/outdoor_analysis_Title3"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg101"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h5_T3"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/odView35"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout10"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout10"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView11"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/mediumpurple" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg110"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/outdoor_analysis_Title4"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg111"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h5_T4"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/odView36"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout11"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout12"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout11"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView12"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/royalblue" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg120"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/outdoor_analysis_Title5"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg121"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h5_T5"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+        <View
+            android:id="@+id/odView37"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="2dp"
+		    android:layout_below="@+id/aqiAnalysisLayout12"
+		    android:background="@color/gray" />
+       <LinearLayout android:id="@+id/aqiAnalysisLayout13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/aqiAnalysisLayout12"
+            android:layout_marginTop="10dp">
+            
+            <View
+                android:id="@+id/aqiAnalysisView13"
+                android:layout_width="10dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="4dp"
+                android:background="@color/turquoise" /> 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg130"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="@string/outdoor_analysis_Title6"
+                    android:textColor="@color/gray"
+                    android:textSize="18sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" > 
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/aqiAnalysisMsg131"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:text="@string/outdoor_analysis_detail_h5_T6"
+                    android:textColor="@color/gray"
+                    android:textSize="16sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" >
+                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</ScrollView>
