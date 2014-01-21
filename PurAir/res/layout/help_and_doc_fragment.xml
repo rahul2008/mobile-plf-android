@@ -36,7 +36,7 @@
             android:gravity="center_vertical"
             android:minHeight="75dp"
             android:padding="5dp"
-            android:text="@string/subtitle_user_manual"
+            android:text="@string/subtitle_FAQ"
             android:textSize="17sp" 
             android:textColor="@color/subtitle_gray"
             />

@@ -111,14 +111,14 @@
 	<string name="hazardous_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
 	
 	<!-- Help and Documentation -->
-	<string name="subtitle_app_tutorial">App Tutorial</string>
+	<string name="subtitle_app_tutorial">App tutorial</string>
 	<string name="subtitle_FAQ">FAQ</string>
 	<string name="subtitle_user_manual">PHILIPS Smart Air Purifier User Manual</string>
-	<string name="subtitle_wifi_connectivity">WI-FI Connectivity Step by Step Guide</string>
+	<string name="subtitle_wifi_connectivity">WI-FI connectivity step-by-step guide</string>
 	<string name="subitle_philips_support">Please contact PHILIPS Support</string>
-	<string name="subtitle_call_us">Call Us:</string>
+	<string name="subtitle_call_us">Call us:</string>
 	<string name="subtitle_email_us">Send us an email:</string>
-	<string name="subtitle_help_section">Visit our help section:</string>
+	<string name="subtitle_help_section">Visit our Help section:</string>
 	
 	<!-- Air Tutorial -->
 	<string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor AQI</string>
@@ -129,10 +129,10 @@
 	<string name="dashboard_instruction">Tap once to enlarge each category, tap second time to view details.</string>
 	<string name="loc_roc_remote_instruction">Tap icon to open and close the canvas.</string>
 	<string name="status_instruction">Tap status to open right of canvas.</string>
-	<string name="dashboard_instruction_1">App Navigation</string>
+	<string name="dashboard_instruction_1">App navigation</string>
 	<string name="dashboard_instruction_2">Indoor AQI readings</string>
 	<string name="dashboard_instruction_3">Outdoor AQI readings</string>
-	<string name="dashboard_instruction_4">Air Purifier controls</string>
+	<string name="dashboard_instruction_4">Air purifier controls</string>
 	<string name="tutorial_title_1">Dashboard</string>
 	<string name="tutorial_title_2">App Navigation</string>	
 	<string name="tutorial_title_3">Air Purifier Controls</string>
@@ -149,4 +149,8 @@
 	<string name="promotion_ques">Philips can email you promotions and offers.</string>
 	<string name="lbl_register">Register</string>
 	<string name="lbl_connected_purifiers">Connected purifiers</string>
+	
+	<!-- Buy Online -->
+	<string name="buy_online_lbl">Buy online</string>
+	
 </resources>

@@ -54,7 +54,7 @@
         android:layout_alignLeft="@+id/lbl_availability"
         android:layout_below="@+id/lbl_availability"
         android:layout_marginTop="19dp"
-        android:text="@string/list_item_8" 
+        android:text="@string/buy_online_lbl" 
         android:textColor="#F9F9F9"
         android:gravity="center"
         android:background="@drawable/button_bg_gray"
