@@ -105,6 +105,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+		//mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.darker_gray));
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
 		
@@ -156,6 +157,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		.commit();
 
 		sensorDataController = new SensorDataController(this, this) ;
+		
+		
 	}
 	
 	@Override
@@ -167,7 +170,18 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	protected void onResume() {
 		Log.i(TAG, "onResume") ;
 		super.onResume();
-		sensorDataController.startPolling() ;		
+		sensorDataController.startPolling() ;
+		
+	}
+	
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		// TODO Auto-generated method stub
+		super.onWindowFocusChanged(hasFocus);
+		Log.i(TAG, "OnWindowFocusChanged") ;
+		if ( hasFocus && !connected) {
+			disableRightMenuControls() ;
+		}
 	}
 
 	@Override
@@ -476,16 +490,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		} else {
 			statusCounter++;
 			if(statusCounter >= 3) {
-				connected = false;
-				setRightMenuConnectedStatus(false);
-				rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
-				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-				setRightMenuAirStatusBackground(0);
-				homeFragment.setMode("-");
+				disableRightMenuControls() ;
 			}
 		}
 		homeFragment.rotateOutdoorCircle();
 
+	}
+	
+	private void disableRightMenuControls() {
+		Log.i(TAG, "Disable Menu controls") ;
+		connected = false;
+		setRightMenuConnectedStatus(false);
+		rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
+		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+		setRightMenuAirStatusBackground(0);
+		homeFragment.setMode("-");
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
@@ -504,6 +523,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {
+		/*if ( homeFragment != null && homeFragment.getActivity() != null) {
+			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()) ;
+			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
+			String mode = airPurifierEventDto.getFanSpeed().equals(AppConstants.FAN_SPEED_AUTO) ? "Auto" : "Manual" ;
+			homeFragment.setMode(mode) ;
+		}*/
 		if ( homeFragment != null && homeFragment.getActivity() != null) {
 			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI(), airPurifierEventDto.getpSensor()) ;
 			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
