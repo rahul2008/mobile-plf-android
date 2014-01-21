@@ -6,7 +6,17 @@ public class Weatherdto {
 	private String date ;
 	private String time ;
 	
+	private float windDegree ;
+	
 	private String windDirection ;
+	public float getWindDegree() {
+		return windDegree;
+	}
+
+	public void setWindDegree(float windDegree) {
+		this.windDegree = windDegree;
+	}
+
 	public String getWindDirection() {
 		return windDirection;
 	}
