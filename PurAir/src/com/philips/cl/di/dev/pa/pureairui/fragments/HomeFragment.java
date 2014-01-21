@@ -6,6 +6,7 @@ import static com.philips.cl.di.dev.pa.constants.AppConstants.*;
 
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,6 +40,7 @@ import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData.WeatherDataListener;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.utils.DataParser;
@@ -81,6 +83,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private int indoorAQIValue, indoorPSense, outdoorAQIValue, outdoorTemperature;
 	private String outdoorUpdatedAt = "", outdoorWeatherDesc, isDayTime;
 	private boolean rotateOutdoorCircle, rotateIndoorCircle, updateOutdoorDashboard;
+	private String dergreeRotatePointer;
+
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -363,11 +367,28 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		case R.id.tv_indoor_aqi_status_message:
 		case R.id.tv_indoor_aqi_status_title:
 			//Show indoor details
-			Toast.makeText(getActivity(), "Indoor details", Toast.LENGTH_LONG).show();
+			//Toast.makeText(getActivity(), "Indoor details", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.outdoor_circle_pointer:
-			Toast.makeText(getActivity(), "Outdoor details", Toast.LENGTH_LONG).show();
+			if (updateOutdoorDashboard) {
+				Intent intentOd = new Intent(getActivity(),	OutdoorDetailsActivity.class);
+				String outdoorInfos[] = new String[10];
+				outdoorInfos[0] = tvUpdatedAtDate.getText().toString();
+				outdoorInfos[1] = tvCity.getText().toString();
+				outdoorInfos[2] = tvLocality.getText().toString();
+				outdoorInfos[3] = outdoorWeatherDesc;
+				outdoorInfos[4] = tvOutdoorTemperature.getText().toString();
+				outdoorInfos[5] = tvOutdoorTitle.getText().toString();
+				outdoorInfos[6] = tvOutdoorComment.getText().toString();
+				outdoorInfos[7] = tvOutdoorAQI.getText().toString();
+				outdoorInfos[8] = dergreeRotatePointer;
+				outdoorInfos[9] = isDayTime;
+				intentOd.putExtra("outdoor", outdoorInfos);
+				startActivity(intentOd);
+			}
+			//Toast.makeText(getActivity(), "Outdoor details", Toast.LENGTH_LONG).show();
 			break;
+			
 
 		}
 	}
@@ -459,6 +480,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
 		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
 		ObjectAnimator.ofFloat(iv, animRotation, 0, rotation).setDuration(2000).start();
+		dergreeRotatePointer = String.valueOf(rotation);
 	}
 	
 	public Drawable setIndoorCircleBackground(int pSense) {
@@ -535,7 +557,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private void setOutdoorTemperatureImage(String weatherDesc, String isDayTime) {
 		Drawable weatherImage = null;
 		Log.i(TAG, "setOutdoorTemperatureImage " + weatherDesc);
-		if(weatherDesc == null || weatherDesc.equals("")) {
+		if(weatherDesc == null || weatherDesc.equals("") || getActivity() == null) {
 			return;
 		}
 		
