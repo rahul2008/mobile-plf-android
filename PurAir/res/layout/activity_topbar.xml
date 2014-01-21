@@ -8,9 +8,10 @@
         android:id="@+id/ivLeftMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/menu_icon" />
+        android:background="@drawable/right_bar_icon_blue_2x" />
 
     <ImageView
         android:id="@+id/ivCenterLabel"
@@ -24,8 +25,10 @@
         android:id="@+id/ivRightDeviceIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:padding="16dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/device_icon" />
+        android:visibility="gone"
+        android:background="@drawable/left_back_icon_black_2x" />
 
 </RelativeLayout>
