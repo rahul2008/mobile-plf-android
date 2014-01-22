@@ -19,7 +19,7 @@
             android:background="@drawable/trends_txt_bg"
             android:onClick="closeDetils"
             android:src="@drawable/close_icon_blue" />
-8
+
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle5"
