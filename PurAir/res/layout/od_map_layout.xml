@@ -22,6 +22,6 @@
         android:layout_marginRight="16dp"
         android:clickable="true"
         android:background="@drawable/trends_txt_bg"
-        android:src="@drawable/close_icon_backgraund_2x" />
+        android:src="@drawable/zoom_arrow_icon_2x" />
 
 </RelativeLayout>
