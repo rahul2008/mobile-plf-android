@@ -564,7 +564,7 @@ public class DetailsAIQ {
 						y0 + coordinates.getPowerY1(),
 						xCoordinates[i], y0 + coordinates.getPowerY2(), paint);
 			} else {
-				paint.setColor(Color.GRAY);
+				paint.setColor(Color.LTGRAY);
 				/**Drawing light x-axis line*/
 				canvas.drawLine(xCoordinates[i], 
 						y0, xCoordinates[i], coordinates.getIdY10_0(), paint);
