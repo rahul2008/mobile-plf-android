@@ -41,7 +41,7 @@ public class MapOdActivity extends FragmentActivity {
 		setContentView(R.layout.od_map_layout);
 		
 		closeMapImg = (ImageView) findViewById(R.id.oDmapInlarge); 
-		closeMapImg.setImageResource(R.drawable.close_page_icon_2x);
+		closeMapImg.setImageResource(R.drawable.close_icon_blue);
 		centerLatF = getIntent().getFloatExtra("centerLatF", 0.0F);
 		centerLngF = getIntent().getFloatExtra("centerLngF", 0.0F);
 		centerCity = getIntent().getStringExtra("centerCity");
@@ -73,7 +73,7 @@ public class MapOdActivity extends FragmentActivity {
 		CameraPosition cameraPosition = new CameraPosition.Builder()
 				.target(new LatLng(centerLatF, centerLngF)).zoom(13) // Sets the
 																		// zoom
-				.bearing(100) // Sets the orientation of the camera to east
+				.bearing(0) // Sets the orientation of the camera to east
 				.tilt(30) // Sets the tilt of the camera to 30 degrees
 				.build(); // Creates a CameraPosition from the builder
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
