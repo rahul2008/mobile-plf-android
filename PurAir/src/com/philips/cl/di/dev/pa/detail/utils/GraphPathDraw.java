@@ -27,14 +27,18 @@ public class GraphPathDraw {
 		/**
 		 * Indoor
 		 * */
-		yCoordinates = new float[7];
-		yCoordinates[0] = coordinates.getIdY0_0();
-		yCoordinates[1] = coordinates.getIdY1_5();
-		yCoordinates[2] = coordinates.getIdY2_5();
-		yCoordinates[3] = coordinates.getIdY3_5();
-		yCoordinates[4] = coordinates.getIdY4_5();
-		yCoordinates[5] = coordinates.getIdY5_5();
-		yCoordinates[6] = coordinates.getIdY10_0();
+		yCoordinates = new float[11];
+		yCoordinates[0] = coordinates.getIdY0();
+		yCoordinates[1] = coordinates.getIdY1();
+		yCoordinates[2] = coordinates.getIdY2();
+		yCoordinates[3] = coordinates.getIdY3();
+		yCoordinates[4] = coordinates.getIdY4();
+		yCoordinates[5] = coordinates.getIdY5();
+		yCoordinates[6] = coordinates.getIdY6();
+		yCoordinates[7] = coordinates.getIdY7();
+		yCoordinates[8] = coordinates.getIdY8();
+		yCoordinates[9] = coordinates.getIdY9();
+		yCoordinates[10] = coordinates.getIdY10();
 		
 		/**
 		 * Outdoor
@@ -72,13 +76,13 @@ public class GraphPathDraw {
 	/**Get color for indoor*/
 	public int getColor (float y) {
 		int color = Color.GREEN;
-		if (y > coordinates.getIdY1_5()) {
+		if (y > coordinates.getIdY2()) {
 			/**Blue color circle*/
 			color = Color.rgb(65, 105, 225); 
-		} else if (y > coordinates.getIdY2_5() && y <= coordinates.getIdY1_5()) {
+		} else if (y > coordinates.getIdY3() && y <= coordinates.getIdY2()) {
 			/**Navy color circle*/
 			color = Color.rgb(0, 0, 128);
-		} else if (y > coordinates.getIdY3_5() && y <= coordinates.getIdY2_5()) {
+		} else if (y > coordinates.getIdY4() && y <= coordinates.getIdY3()) {
 			/**Purple color circle*/
 			color = Color.rgb(128, 0, 128);
 		} else {
@@ -167,11 +171,11 @@ public class GraphPathDraw {
 	
 	/**The method to find the y axis pixel corresponding value for indoor.*/
 	public float getYaxis(float y) {
-		float yInt = coordinates.getIdY0_0();
+		float yInt = coordinates.getIdY0();
 		if (y <= 0) {
 			return yInt;
 		} else {
-			yInt = yInt - (y*coordinates.getIdY5_5());
+			yInt = yInt - (y*coordinates.getIdY9());
 			if (yInt < 0) {
 				yInt = 0;
 			}
@@ -348,14 +352,14 @@ public class GraphPathDraw {
         path.lineTo(x2, y2);
 		if (upDown == 1) {	
 			/**The conditions for color, to draw graph upward.*/
-			if (y1 > coordinates.getIdY1_5() && y1 <= coordinates.getIdY0_0()) {
+			if (y1 > coordinates.getIdY2() && y1 <= coordinates.getIdY0()) {
 				/**Blue color*/
     	        paint.setColor(Color.rgb(65, 105, 225));
-			} else if (y1 > coordinates.getIdY2_5() && y1 <= coordinates.getIdY1_5()) {
+			} else if (y1 > coordinates.getIdY3() && y1 <= coordinates.getIdY2()) {
 				/**Navy color*/
     	        paint.setColor(Color.rgb(0, 0, 128));
 				
-			} else if (y1 > coordinates.getIdY3_5() && y1 <= coordinates.getIdY2_5()) {
+			} else if (y1 > coordinates.getIdY4() && y1 <= coordinates.getIdY3()) {
 				/**Purple color*/
     	        paint.setColor(Color.rgb(128, 0, 128));
 			} else {
@@ -364,16 +368,16 @@ public class GraphPathDraw {
 			}
 		} else {
 			/**The conditions for color, to draw graph down.*/
-			if (y1 >= coordinates.getIdY1_5()) {
+			if (y1 >= coordinates.getIdY2()) {
 				/**Blue color*/
     	        paint.setColor(Color.rgb(65, 105, 225));
-			} else if (y1 >= coordinates.getIdY2_5() && y1 < coordinates.getIdY1_5()) {
+			} else if (y1 >= coordinates.getIdY3() && y1 < coordinates.getIdY2()) {
 				/**Navy color*/
     	        paint.setColor(Color.rgb(0, 0, 128));
-			}else if (y1 >= coordinates.getIdY3_5() && y1 < coordinates.getIdY2_5()) {
+			}else if (y1 >= coordinates.getIdY4() && y1 < coordinates.getIdY2()) {
 				/**Purple color*/
     	        paint.setColor(Color.rgb(128, 0, 128));
-			}else if (y1 < coordinates.getIdY3_5()) {
+			}else if (y1 < coordinates.getIdY4()) {
 				/**Red color*/
     	        paint.setColor(Color.RED);
 			}
