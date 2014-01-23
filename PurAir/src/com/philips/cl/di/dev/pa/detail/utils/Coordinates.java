@@ -36,6 +36,19 @@ public class Coordinates {
 	private float idY2_5 = 160;
 	private float idY1_5 = 200;
 	private float idY0_0 = 260;
+	
+	private float idY10;
+	private float idY9;
+	private float idY8;
+	private float idY7;
+	private float idY6;
+	private float idY5;
+	private float idY4;
+	private float idY3;
+	private float idY2;
+	private float idY1;
+	private float idY0;
+	
 	private float idX0 = 30;
 	private float idRadius = 3;
 	private float idYxLabelPadding;
@@ -102,6 +115,18 @@ public class Coordinates {
 		idYxLabelPadding = getPxWithRespectToDip(GraphConst.FIVE);
 		idYxTopLabelPadding = getPxWithRespectToDip(GraphConst.TEN);
 		idTxtSize = getPxWithRespectToDip(GraphConst.TEXT_SIZE);
+		
+		idY10 = getPxWithRespectToDip(GraphConst.ID_YAXIS_10);
+		idY9 = getPxWithRespectToDip(GraphConst.ID_YAXIS_9);
+		idY8 = getPxWithRespectToDip(GraphConst.ID_YAXIS_8);
+		idY7 = getPxWithRespectToDip(GraphConst.ID_YAXIS_7);
+		idY6 = getPxWithRespectToDip(GraphConst.ID_YAXIS_6);
+		idY5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_5);
+		idY4 = getPxWithRespectToDip(GraphConst.ID_YAXIS_4);
+		idY3 = getPxWithRespectToDip(GraphConst.ID_YAXIS_3);
+		idY2 = getPxWithRespectToDip(GraphConst.ID_YAXIS_2);
+		idY1 = getPxWithRespectToDip(GraphConst.ID_YAXIS_1);
+		idY0 = getPxWithRespectToDip(GraphConst.ID_YAXIS_0_0);
 		
 		/**
 		 * Outdoor
@@ -295,7 +320,42 @@ public class Coordinates {
 	public float getOdPaddingRight() {
 		return odPaddingRight;
 	}
-
+	
+	
+	public float getIdY10() {
+		return idY10;
+	}
+	public float getIdY9() {
+		return idY9;
+	}
+	public float getIdY8() {
+		return idY8;
+	}
+	public float getIdY7() {
+		return idY7;
+	}
+	public float getIdY6() {
+		return idY6;
+	}
+	public float getIdY5() {
+		return idY5;
+	}
+	public float getIdY4() {
+		return idY4;
+	}
+	public float getIdY3() {
+		return idY3;
+	}
+	public float getIdY2() {
+		return idY2;
+	}
+	public float getIdY1() {
+		return idY1;
+	}
+	public float getIdY0() {
+		return idY0;
+	}
+	
 	public float getPxWithRespectToDip(float dip) {
 		return context.getResources().getDisplayMetrics().density * dip;
 	}
