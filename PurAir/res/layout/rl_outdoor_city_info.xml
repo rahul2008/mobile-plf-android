@@ -13,11 +13,12 @@
         android:layout_alignParentTop="true"
         android:text="Updated" />
     
-    <TextView
+    <TextView 
         android:id="@+id/tv_updated_at_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:lineSpacingExtra="3dp"
         android:layout_below="@id/tv_updated_title"
         android:paddingLeft="10dp"
         android:text="14:23" />
