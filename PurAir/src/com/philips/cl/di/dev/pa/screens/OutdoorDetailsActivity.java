@@ -137,85 +137,89 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		super.onPause();
 	}
 
+	/**
+	 * Reading data from server
+	 * */
 	private boolean getXCoordinates() {
-			boolean isOutdoorDataPresent = false ;
-			int odx[] = sessionDto.getOutdoorEventDto().getIdx();
-
-			if (odx != null) {
-				isOutdoorDataPresent = true ;
-				for (int i = 0; i < lastDayReadings.length; i++) {
-					lastDayReadings[i] = odx[696 + i];
-				}
-			}
-			
-			/**last 7 days*/
-			/**
-			 * TODO - Explain the logic in 3lines
-			 */
-			int hr = calender.get(Calendar.HOUR_OF_DAY);
-			if (hr == 0) {
-				hr = 24;
-			}
-			int last7dayHrs = (6*24) + hr;
-			
-			if (odx != null) {
-				float sum = 0;
-				float avg = 0;
-				int j = 0;
-				for (int i = 0; i < last7dayHrs; i++) {
-					float x = odx[720 - last7dayHrs + i];
-					sum = sum + x;
-					if (i == 23 || i == 47 || i == 71 || i == 95 || i == 119 || i == 143) {
-						avg = sum / (float)24;
-						last7dayReadings[j] = avg;
-						j++;
-						sum = 0;
-						avg = 0;
-					} else if (i == last7dayHrs - 1) {
-						System.out.println("sumlast==="+sum );
-						avg = sum / (float)hr;
-						last7dayReadings[j] = avg;
-						sum = 0;
-						avg = 0;
+			boolean isOutdoorDataPresent = false ; 
+			if (sessionDto.getOutdoorEventDto() != null){
+				int odx[] = sessionDto.getOutdoorEventDto().getIdx();
+	
+				if (odx != null) {
+					isOutdoorDataPresent = true ;
+					for (int i = 0; i < lastDayReadings.length; i++) {
+						lastDayReadings[i] = odx[696 + i];
 					}
 				}
-			}
-
-			/**last 4 weeks*/
-			/**
-			 * TODO - Explain the logic in 3lines
-			 */
-			int last4WeekHrs = (3*7*24) + (6*24) + hr;
-			int last4WeekIndexStart = 720 - last4WeekHrs;
-			//System.out.println("lastWeekHrs=="+last4WeekHrs);
-
-			if (odx != null) {
-				int count = 1;
-				float sum = 0;
-				float avg = 0;
-				int j = 0;
-				for (int i = 0; i < last4WeekHrs; i++) {
-
-					float x = odx[last4WeekIndexStart + i];
-					sum = sum + x;
-					if (count == 24 && j < 21) {
-						avg = sum / (float)24;
-						last4weekReadings[j] = avg;
-						j++;
-						sum = 0;
-						avg = 0;
-						count = 0;
-					} else if (j >= 21){
-						for (int m = 0; m <last7dayReadings.length; m++) {
-							last4weekReadings[j] = last7dayReadings[m];
+				
+				/**last 7 days*/
+				/**
+				 * TODO - Explain the logic in 3lines
+				 */
+				int hr = calender.get(Calendar.HOUR_OF_DAY);
+				if (hr == 0) {
+					hr = 24;
+				}
+				int last7dayHrs = (6*24) + hr;
+				
+				if (odx != null) {
+					float sum = 0;
+					float avg = 0;
+					int j = 0;
+					for (int i = 0; i < last7dayHrs; i++) {
+						float x = odx[720 - last7dayHrs + i];
+						sum = sum + x;
+						if (i == 23 || i == 47 || i == 71 || i == 95 || i == 119 || i == 143) {
+							avg = sum / (float)24;
+							last7dayReadings[j] = avg;
 							j++;
+							sum = 0;
+							avg = 0;
+						} else if (i == last7dayHrs - 1) {
+							System.out.println("sumlast==="+sum );
+							avg = sum / (float)hr;
+							last7dayReadings[j] = avg;
+							sum = 0;
+							avg = 0;
 						}
-						break;
 					}
-					count ++;
+				}
+	
+				/**last 4 weeks*/
+				/**
+				 * TODO - Explain the logic in 3lines
+				 */
+				int last4WeekHrs = (3*7*24) + (6*24) + hr;
+				int last4WeekIndexStart = 720 - last4WeekHrs;
+				//System.out.println("lastWeekHrs=="+last4WeekHrs);
+	
+				if (odx != null) {
+					int count = 1;
+					float sum = 0;
+					float avg = 0;
+					int j = 0;
+					for (int i = 0; i < last4WeekHrs; i++) {
+	
+						float x = odx[last4WeekIndexStart + i];
+						sum = sum + x;
+						if (count == 24 && j < 21) {
+							avg = sum / (float)24;
+							last4weekReadings[j] = avg;
+							j++;
+							sum = 0;
+							avg = 0;
+							count = 0;
+						} else if (j >= 21){
+							for (int m = 0; m <last7dayReadings.length; m++) {
+								last4weekReadings[j] = last7dayReadings[m];
+								j++;
+							}
+							break;
+						}
+						count ++;
+					}
 				}
 			}
-			
 		return isOutdoorDataPresent ;
 	}
 
@@ -245,7 +249,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 				
 				setAdviceIconTex(aqiInt);
 			} catch (NumberFormatException e) {
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}
@@ -332,6 +336,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		updatedTitle = (TextView) findViewById(R.id.tv_updated_title);
 		updatedTitle.setTypeface(Fonts.getGillsansLight(this));
 		updatedValue = (TextView) findViewById(R.id.tv_updated_at_date);
+		
 		updatedValue.setTypeface(Fonts.getGillsansLight(this));
 		locationCity = (TextView) findViewById(R.id.tv_location_city);
 		locationCity.setTypeface(Fonts.getGillsansLight(this));
@@ -360,7 +365,8 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		backImg = (ImageView) findViewById(R.id.ivLeftMenu); 
 		centerLabelImg = (ImageView) findViewById(R.id.ivCenterLabel); 
 		centerLabelImg.setBackgroundResource(R.drawable.transparent_bg);
-		centerLabelImg.setImageBitmap(writeTextOnDrawableHead(R.drawable.transparent_bg, "Home"));
+		centerLabelImg.setImageBitmap(writeTextOnDrawableHead(
+				R.drawable.transparent_bg, getString(R.string.title_outdoor_db)));
 		rightImg = (ImageView) findViewById(R.id.ivRightDeviceIcon); 
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
@@ -507,10 +513,11 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
         .icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(R.drawable.transparent_bg, "Shanghai")))
         );*/
 
-
-
 	}
 
+	/**
+	 * This will use for writing number on text
+	 * */
 	private Bitmap writeTextOnDrawable(int drawableId, String text) {
 
 		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
@@ -540,19 +547,21 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		return  bm;
 	}
 	
+	/**
+	 * Writing text on image for heading
+	 * */
+	
 	private Bitmap writeTextOnDrawableHead(int drawableId, String text) {
 
 		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
-
-		//Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);.
 
 		Paint paint = new Paint();
 		paint.setStyle(Style.FILL);
 		paint.setColor(Color.rgb(65, 105, 225));
 		paint.setTypeface(Fonts.getGillsansLight(this));
 		paint.setTextAlign(Align.CENTER);
-		paint.setTextSize(coordinates.getIdRectWidth());
+		paint.setTextSize(coordinates.getIdRectMarginLeft());
 
 		Rect textRect = new Rect();
 		paint.getTextBounds(text, 0, text.length(), textRect);
