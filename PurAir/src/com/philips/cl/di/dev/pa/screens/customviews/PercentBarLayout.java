@@ -29,7 +29,6 @@ public class PercentBarLayout extends LinearLayout {
 	public PercentBarLayout(final Context context, AttributeSet attrs,  
 			final int num, PercentDetailsClickListener pCallback, final int index, final int position) {
 		super(context, attrs);
-		//System.out.println("INDEXXXXXXXXXXXXXXX=="+index);
 		mCallback = pCallback;
 		for (int i = 0; i < num; i++) {
 			LayoutInflater inflater = (LayoutInflater) context
@@ -37,10 +36,15 @@ public class PercentBarLayout extends LinearLayout {
 			View v = inflater.inflate(R.layout.indoor_dboard_percent_bar, null);
 			RelativeLayout indoorDashboardBarPerc = (RelativeLayout)v.findViewById(R.id.indoorDashboardBarPerc);
 			TextView serialNum = (TextView)v.findViewById(R.id.indoorDashboardBarNum);
+			CustomTextView name = (CustomTextView)v.findViewById(R.id.indoorDashboardBarName);
 			final ImageView indexBg = (ImageView) v.findViewById(R.id.indoorDashboardBarNumBg);
 			indoorDashboardBarPerc.addView(new AirView(context, 100, 100, 150));
 			serialNum.setText(""+(i + 1));
 			v.setPadding(10, 10, 10, 10);
+			
+			if (i == num - 1) {
+				name.setText(context.getString(R.string.outdoor_db));
+			}
 			
 			/**
 			 * Item click listener
