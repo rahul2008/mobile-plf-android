@@ -11,8 +11,6 @@ import android.view.View;
 public class AirView extends View {
 
 	private int percent;
-	private final int HEIGHT_RECT = 146;
-	private final int WIDTH_RECT = 140;
 	private final int X = 0;
 	private float fwidth;
 	private float fheight;
