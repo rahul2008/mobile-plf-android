@@ -5,7 +5,14 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
 import android.graphics.Shader.TileMode;
 import android.os.Bundle;
 import android.view.View;
@@ -24,16 +31,17 @@ import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
 import com.philips.cl.di.dev.pa.screens.customviews.PercentBarLayout;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class IndoorDetailsActivity extends Activity implements OnClickListener, PercentDetailsClickListener {
 	
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView updatedTitle, updatedValue, locationCity, location, weatherValue;
-	private TextView aqiReading, aqiStatusTitle, aqiStatus;
+	private TextView aqiReading;
 	private ImageView circlePointer, circleMeter, cityImg, weatherImg;
 	private ImageView backImg, rightImg, centerLabelImg;
-	private CustomTextView msgFirst, msgSecond;
+	private CustomTextView msgFirst, msgSecond, aqiStatusTitle, aqiStatus;
 	private ImageView outdoorCirclePointer, indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
 	private PercentBarLayout percentBarLayout;
@@ -83,7 +91,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 			2.5F, 5.5F, 6.5F, 0.5F };
 	
 	
-	float yCoordinates20[] = { 0F, 1.5F, 0.5F, 5.5F, 2.5F, 2.5F, 2.5F };
+	float yCoordinates20[] = { 2F, 3F, 4F, 3F, 2F, 8F, 1F };
 	float yCoordinates21[] = { 0F, 2.5F, 3.5F, 1.5F, 2.5F, 2.5F, 1.5F };
 	float yCoordinates22[] = { 5.5F, 2.5F, 2.5F, 3.5F, 1.5F, 2.5F, 3.5F };
 	float yCoordinates23[] = { 2.5F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F, 0.5F };
@@ -113,9 +121,9 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_trends_indoor);
+		coordinates = new Coordinates(this);
 		initializeUI();
 		
-		coordinates = new Coordinates(this);
 		
 		parseReading();
 		
@@ -168,6 +176,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		last4weekReadingsList = new ArrayList<float[]>();
 		
 		graphLayout = (LinearLayout) findViewById(R.id.trendsOutdoorlayoutGraph);
+		
 		lastDayBtn = (TextView) findViewById(R.id.detailsOutdoorLastDayLabel);
 		lastWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
 		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
@@ -176,13 +185,30 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		//outdoorCirclePointer = (ImageView) findViewById(R.id.outdoor_circle_pointer);
 		
 		updatedTitle = (TextView) findViewById(R.id.tv_updated_title);
-		//updatedValue = (TextView) findViewById(R.id.tv_updated_value);
+		updatedTitle.setTypeface(Fonts.getGillsansLight(this));
+		updatedValue = (TextView) findViewById(R.id.tv_updated_at_date);
+		updatedValue.setTypeface(Fonts.getGillsansLight(this));
 		locationCity = (TextView) findViewById(R.id.tv_location_city);
+		locationCity.setTypeface(Fonts.getGillsansLight(this));
 		location = (TextView) findViewById(R.id.tv_location);
+		location.setTypeface(Fonts.getGillsansLight(this));
 		weatherValue = (TextView) findViewById(R.id.tv_outdoor_weather_value);
-		aqiReading = (TextView) findViewById(R.id.outdoor_aqi_reading);
-		aqiStatusTitle = (TextView) findViewById(R.id.tv_outdoor_aqi_status_title);
-		aqiStatus = (TextView) findViewById(R.id.tv_outdoor_aqi_status_message);
+		weatherValue.setTypeface(Fonts.getGillsansLight(this));
+		aqiReading = (TextView) findViewById(R.id.od_detail_aqi_reading);
+		aqiReading.setTypeface(Fonts.getGillsansLight(this));
+		aqiStatusTitle = (CustomTextView) findViewById(R.id.odStatusTitle);
+		//aqiStatusTitle.setTypeface(Fonts.getGillsansLight(this));
+		aqiStatus = (CustomTextView) findViewById(R.id.odStatusDescr);
+		//aqiStatus.setTypeface(Fonts.getGillsansLight(this));
+		
+		updatedTitle.setTextColor(Color.WHITE);
+		updatedValue.setTextColor(Color.WHITE);
+		locationCity.setTextColor(Color.WHITE);
+		location.setTextColor(Color.WHITE);
+		weatherValue.setTextColor(Color.WHITE);
+		aqiReading.setTextColor(Color.WHITE);
+		aqiStatusTitle.setTextColor(Color.WHITE);
+		aqiStatus.setTextColor(Color.WHITE);
 		
 		circlePointer = (ImageView) findViewById(R.id.outdoor_circle_pointer);
 		circleMeter = (ImageView) findViewById(R.id.outdoor_circle_meter);
@@ -190,13 +216,16 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		weatherImg = (ImageView) findViewById(R.id.iv_outdoor_weather_image);
 		backImg = (ImageView) findViewById(R.id.ivLeftMenu); 
 		centerLabelImg = (ImageView) findViewById(R.id.ivCenterLabel); 
+		centerLabelImg.setBackgroundResource(R.drawable.transparent_bg);
+		centerLabelImg.setImageBitmap(writeTextOnDrawableHead(
+				R.drawable.transparent_bg, getString(R.string.title_indoor_db)));
 		rightImg = (ImageView) findViewById(R.id.ivRightDeviceIcon); 
 		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
 		
 		msgFirst = (CustomTextView) findViewById(R.id.idFirstMsg);
 		msgSecond = (CustomTextView) findViewById(R.id.idSecondMsg);
 		titleDashboard = (CustomTextView) findViewById(R.id.detailsOutdoorDbLabel);
-		titleDashboard.setText(getString(R.string.title_indoor_db));
+		titleDashboard.setText("");
 		/**
 		 * set image top bar
 		 * */
@@ -540,8 +569,38 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		//Toast.makeText(getApplicationContext(), "Item Click " + position, Toast.LENGTH_SHORT).show();
 	}
 	
+	
+	private Bitmap writeTextOnDrawableHead(int drawableId, String text) {
+
+		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
+				.copy(Bitmap.Config.ARGB_8888, true);
+
+		//Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);.
+
+		Paint paint = new Paint();
+		paint.setStyle(Style.FILL);
+		paint.setColor(Color.rgb(65, 105, 225));
+		paint.setTypeface(Fonts.getGillsansLight(this));
+		paint.setTextAlign(Align.CENTER);
+		paint.setTextSize(coordinates.getIdRectMarginLeft());
+
+		Rect textRect = new Rect();
+		paint.getTextBounds(text, 0, text.length(), textRect);
+
+		Canvas canvas = new Canvas(bm);
+
+		//Calculate the positions
+		int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+
+		int yPos = (int) (canvas.getHeight()) / 2 + 10 ;  
+
+		canvas.drawText(text, xPos, yPos, paint);
+
+		return  bm;
+	}
+	
 	public void aqiAnalysisClick(View v) {
-		Intent intent = new Intent(this, OutdoorAQIAnalysisActivity.class);
+		Intent intent = new Intent(this, IndoorAQIAnalysisActivity.class);
 		startActivity(intent);
 	}
 
