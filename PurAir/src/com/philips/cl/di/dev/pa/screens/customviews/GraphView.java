@@ -125,26 +125,26 @@ public class GraphView extends View {
 			/** The y axis red rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(Color.RED);
-			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY10_0(), 
-					coordinates.getIdRectWidth(), coordinates.getIdY3_5(), paint);
+			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY10(), 
+					coordinates.getIdRectWidth(), coordinates.getIdY4(), paint);
 			
 			/** The y axis purple rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(Color.rgb(128, 0, 128));
-			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY3_5(), 
-					coordinates.getIdRectWidth(), coordinates.getIdY2_5(), paint);
+			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY4(), 
+					coordinates.getIdRectWidth(), coordinates.getIdY3(), paint);
 			
 			/** The y axis navy blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(Color.rgb(0, 0, 128));
-			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY2_5(), 
-					coordinates.getIdRectWidth(), coordinates.getIdY1_5(), paint);
+			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY3(), 
+					coordinates.getIdRectWidth(), coordinates.getIdY2(), paint);
 			
 			/** The y axis royal blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
 			paint.setColor(Color.rgb(65, 105, 225));
-			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY1_5(), 
-					coordinates.getIdRectWidth(), coordinates.getIdY0_0(), paint);
+			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY2(), 
+					coordinates.getIdRectWidth(), coordinates.getIdY0(), paint);
 		}
 	}
 
@@ -155,13 +155,13 @@ public class GraphView extends View {
 			paint.setAntiAlias(true);
 			paint.setColor(Color.GRAY);
 			paint.setTextSize(coordinates.getIdTxtSize());
-	        canvas.drawText(yLabels[0], 0, coordinates.getIdY1_5() + coordinates.getIdYxLabelPadding(), paint);
+	        canvas.drawText(yLabels[0], 0, coordinates.getIdY2() + coordinates.getIdYxLabelPadding(), paint);
 	        paint.getTextBounds(yLabels[0], 0, yLabels[0].length(), rect);
-	        canvas.drawText(yLabels[1], 0, coordinates.getIdY2_5() + coordinates.getIdYxLabelPadding(), paint);
+	        canvas.drawText(yLabels[1], 0, coordinates.getIdY3() + coordinates.getIdYxLabelPadding(), paint);
 	        paint.getTextBounds(yLabels[1], 0, yLabels[1].length(), rect);
-	        canvas.drawText(yLabels[2], 0, coordinates.getIdY3_5() + coordinates.getIdYxLabelPadding(), paint);
+	        canvas.drawText(yLabels[2], 0, coordinates.getIdY4() + coordinates.getIdYxLabelPadding(), paint);
 	        paint.getTextBounds(yLabels[2], 0, yLabels[2].length(), rect);
-	        canvas.drawText(yLabels[3], 0, coordinates.getIdY10_0() + coordinates.getIdYxTopLabelPadding(), paint);
+	        canvas.drawText(yLabels[3], 0, coordinates.getIdY10() + coordinates.getIdYxTopLabelPadding(), paint);
 	        paint.getTextBounds(yLabels[3], 0, yLabels[3].length(), rect);
 		}
         
