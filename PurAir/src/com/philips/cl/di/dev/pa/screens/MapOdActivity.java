@@ -46,7 +46,6 @@ public class MapOdActivity extends FragmentActivity {
 		centerLngF = getIntent().getFloatExtra("centerLngF", 0.0F);
 		centerCity = getIntent().getStringExtra("centerCity");
 		otherInfo = getIntent().getStringArrayExtra("otherInfo");
-		System.out.println("MAP DATA=="+" centerLatF= "+centerLatF+" centerLngF="+centerLngF+" centerCity="+centerCity);
 		setUpMapIfNeeded();
 		
 		closeMapImg.setOnClickListener(new OnClickListener() {
@@ -89,6 +88,7 @@ public class MapOdActivity extends FragmentActivity {
         
     }
 	
+	//Later i will use
 	private Bitmap writeTextOnDrawable(int drawableId, String text) {
 
 	    Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
