@@ -79,6 +79,11 @@
             android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
+            android:name="com.philips.cl.di.dev.pa.screens.IndoorAQIAnalysisActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Dialog" >
+        </activity>
+        <activity
             android:name="com.philips.cl.di.dev.pa.screens.MapOdActivity"
             android:screenOrientation="portrait" >
         </activity>
