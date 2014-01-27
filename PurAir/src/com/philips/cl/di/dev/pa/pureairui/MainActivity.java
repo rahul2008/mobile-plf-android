@@ -399,6 +399,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
 		textView.setTextSize(24);
 		textView.setText(title);
+		super.setTitle(title);
 	}	
 
 	/** Left menu item clickListener */
