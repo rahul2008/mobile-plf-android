@@ -79,5 +79,5 @@
         android:layout_below="@+id/tv_outdoor_aqi_status_title"
         android:textColor="@color/white"
         android:text="" />
-
+    
 </RelativeLayout>

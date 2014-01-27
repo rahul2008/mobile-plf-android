@@ -55,7 +55,7 @@ public class ProductRegFragment extends Fragment implements OnClickListener {
 		case R.id.btn_register_kitchen:
 			MainActivity activity=(MainActivity) getActivity();
 			activity.showFragment(new ProductRegistrationStepsFragment());
-			activity.setTitle(getString(R.string.list_item_7));
+			activity.setTitle(getString(R.string.list_item_prod_reg));
 			break;
 
 		default:

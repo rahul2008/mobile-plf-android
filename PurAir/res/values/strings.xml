@@ -7,14 +7,15 @@
 
     <!-- Left menu items -->
 
-    <string name="list_item_1">Home</string>
-    <string name="list_item_2">Air quality explained</string>
-    <string name="list_item_3">Outdoor locations</string>
-    <string name="list_item_4">Notifications</string>
-    <string name="list_item_5">Help and documentation</string>
-    <string name="list_item_6">Tools</string>
-    <string name="list_item_7">Product registration</string>
-    <string name="list_item_8">Buy online</string>
+    <string name="list_item_home">Home</string>
+    <string name="list_item_air_quality_explained">Air quality explained</string>
+    <string name="list_item_outdoor_loc">Outdoor locations</string>
+    <string name="list_item_notifications">Notifications</string>
+    <string name="list_item_help_and_doc">Help and documentation</string>
+    <string name="list_item_settings">Settings</string>
+    <string name="tools">Tools</string>
+    <string name="list_item_prod_reg">Product registration</string>
+    <string name="list_item_buy_online">Buy online</string>
     
 
     <!-- Right menu texts -->

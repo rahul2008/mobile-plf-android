@@ -50,6 +50,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.AnimatorConstants;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -273,15 +274,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private List<ListViewItem> getLeftMenuItems() {
 		List<ListViewItem> leftMenuItems = new ArrayList<ListViewItem>();
 
-		leftMenuItems.add(new ListViewItem(R.string.list_item_1, R.drawable.icon_1_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_2, R.drawable.icon_2_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_3, R.drawable.icon_3_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_4, R.drawable.icon_4_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_5, R.drawable.icon_5_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_6, R.drawable.icon_6_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_7, R.drawable.icon_7_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_8, R.drawable.icon_8_2x));
-
+		leftMenuItems.add(new ListViewItem(R.string.list_item_home, R.drawable.icon_1_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained, R.drawable.icon_2_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc, R.drawable.icon_3_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications, R.drawable.icon_4_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc, R.drawable.icon_5_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_settings, R.drawable.icon_6_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_prod_reg, R.drawable.icon_7_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online, R.drawable.icon_8_2x));
+		leftMenuItems.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
 		return leftMenuItems;
 	} 
 
@@ -416,9 +417,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
-			leftMenuItems.add(new ToolsFragment());
+			leftMenuItems.add(new SettingsFragment());
 			leftMenuItems.add(new ProductRegFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
+			leftMenuItems.add(new ToolsFragment());
 		}
 
 		@Override
@@ -448,22 +450,27 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			case 4:
 				//Help and documentation
 				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_5));
+				setTitle(getString(R.string.list_item_help_and_doc));
 				break;
 			case 5:
-				//Tools
+				//Settings
 				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_6));
+				setTitle(getString(R.string.list_item_settings));
 				break;
 			case 6:
 				//Product registration
 				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_7));
+				setTitle(getString(R.string.list_item_prod_reg));
 				break;
 			case 7:
 				//Buy Online
 				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_8));
+				setTitle(getString(R.string.list_item_buy_online));
+				break;
+			case 8:
+				//Tools
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.tools));
 				break;
 
 			default:
