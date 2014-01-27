@@ -99,6 +99,7 @@
     <string name="healthy_msg_outdoor">Enjoy your usual outdoor activities.\nSensitive people should take care.</string>
     <string name="slightly_polluted_msg_outdoor">Consider reducing outdoor activities.\nConsider rescheduling outdoor activities.\nConsider staying indoors.\nConsider children or elderly people to stay at home</string>
     <string name="moderately_polluted_msg_outdoor">Limit outdoor acitivities.\nConsider staying indoors.\nConsider rescheduling outdoor activities.\nDon not do any outdoor sports.</string>
+
     <string name="unhealthy_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
     <string name="hazardous_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
 
@@ -117,21 +118,29 @@
 
     <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor AQI</string>
     <string name="tutorial_lOC_desc">Left of canvas contains links to different sections of the app.</string>
-    <string name="tutorial_rOC_desc">Right of canvas contains controls for your Air Purifier.</string>
-    <string name="tutorial_device_status_desc">You will see Air Purifier status from your dashboard.</string>
-    <string name="tutorial_remote_control_desc">Air Purifiers remote control is located in the right of canvas.</string>
+    <string name="tutorial_rOC_desc">Right of canvas contains controls for your Philips Smart Air Purifier.</string>
+    <string name="tutorial_device_status_desc">You will see the status of your Philips Smart Air Purifier on the dashboard.</string>
+    <string name="tutorial_indoor_aqi_desc">The indoor detail page shows the air level readings and history from your Philips Smart Air Purifier.</string>
+    <string name="tutorial_outdoor_aqi_desc">Outdoor detail page shows the air quality readings, history and weather from your chosen locations.</string>
     <string name="dashboard_instruction">Tap once to enlarge each category, tap second time to view details.</string>
-    <string name="loc_roc_remote_instruction">Tap icon to open and close the canvas.</string>
-    <string name="status_instruction">Tap status to open right of canvas.</string>
+    <string name="loc_roc_remote_instruction">Tap to open and close the canvas.</string>
+    <string name="status_instruction">Tap to open and close the canvas.</string>
+    <string name="indoor_outdoor_aqi_instruction">Tap the arrow to go back to the dashboard.</string>
     <string name="dashboard_instruction_1">App navigation</string>
-    <string name="dashboard_instruction_2">Indoor AQI readings</string>
-    <string name="dashboard_instruction_3">Outdoor AQI readings</string>
-    <string name="dashboard_instruction_4">Air purifier controls</string>
+    <string name="dashboard_instruction_2">Air purifier controls</string>
+    <string name="dashboard_instruction_3">Indoor air level readings</string>
+    <string name="dashboard_instruction_4">Outdoor AQI readings</string>
     <string name="tutorial_title_1">Dashboard</string>
     <string name="tutorial_title_2">App Navigation</string>
     <string name="tutorial_title_3">Air Purifier Controls</string>
     <string name="tutorial_title_4">Device Status</string>
-    <string name="tutorial_title_5">Remote Control</string>
+    <string name="tutorial_title_5">Indoor Air Level Readings</string>
+    <string name="tutorial_title_6">Outdoor AQI readings</string>
+    <string name="finish_tutorial">Finish the tour</string>
+    <string name="prompt_take_tour">Take a tour of the app</string>
+    <string name="alert_take_tour">Take the tour</string>
+    <string name="alert_text">If you want to take the tour of the app in the future you can find it under \'Help and Documentation\' in your left hand navigation.</string>
+    <string name="close">close</string>
 
     <!-- Product Registration -->
 
@@ -225,4 +234,18 @@
     <string name="outdoor_analysis_detail_h5_T5">Healthy. Hypersensitive individuals should reduce outdoor exercise.</string>
     <string name="outdoor_analysis_detail_h5_T6">Very Healthy. No health implications.</string>
 
+    <!-- Notifications -->
+	<string name="daily_notification_title">Daily notifications</string>
+	<string name="daily_notificatioin_desc">You can set times to receive notifications about the air quality in your home, and the AQI in your saved outdoor locations.</string>
+	<string name="daily_notification_info">You will receive notifications for all of the purifiers you are connected to.</string>
+	<string name="outdoor_AQI_title">Outdoor air quality</string>
+	<string name="outdoor_AQI_desc">You will receive notifications when the air quality in your saved outdoor locations rises above the level set by you.</string>
+	<string name="indoor_AQI_title">Indoor air level</string>
+	<string name="indoor_AQI_desc">You will receive notifications when the air quality in your home rises above the level set by you.</string>
+	<string name="indoor_AQI_notification_info">You will receive this notification when any of the purifiers you are connected to detect air quality above the level set by you.</string>
+	<string name="filters_title">Filters</string>
+	<string name="filters_desc">You will receive a notification when a filter needs replacing.</string>
+	<string name="filters_notification_info">You will receive this notification for all of the purifiers you are connected to.</string>
+	<string name="edit">Edit</string>
+	
 </resources>

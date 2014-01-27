@@ -1,25 +1,34 @@
 package com.philips.cl.di.dev.pa.screens;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.adapters.ViewPagerAdapter;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.viewpagerindicator.CirclePageIndicator;
 import com.viewpagerindicator.PageIndicator;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.LinearLayout.LayoutParams;
 
-public class AirTutorialActivity extends ActionBarActivity {
+public class AirTutorialActivity extends Activity implements OnClickListener {
 
 	private ViewPagerAdapter mAdapter;
 	private ViewPager mPager;
@@ -34,82 +43,72 @@ public class AirTutorialActivity extends ActionBarActivity {
 		R.string.tutorial_title_2,
 		R.string.tutorial_title_3,
 		R.string.tutorial_title_4,
-		R.string.tutorial_title_5
+		R.string.tutorial_title_5,
+		R.string.tutorial_title_6
 	};
+	public static final String SELECTED_PAGE = "tutorial_selected_page";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_tutorial);
-		initActionBar();
+		
+		Resources resources = getResources();
+    	float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, resources.getDisplayMetrics());    	
+		
+		Button btnAppNavigation= (Button) findViewById(R.id.btn_app_navigation);
+		Button btnAirPurifierControls=(Button) findViewById(R.id.btn_air_purifier_controls);		
+		Button btnIndoorAIQReadings=(Button) findViewById(R.id.btn_indoor_air_quality_readings);		
+		setMargins(btnIndoorAIQReadings, Math.round(MainActivity.getScreenWidth()/2+(30 * px)), (int)Math.round(((MainActivity.getScreenHeight()*0.7)- (MainActivity.getScreenHeight() * 0.075))/2-(23 * px)), 0, 0);
+		
+		Button btnOutdoorAIQReadings=(Button) findViewById(R.id.btn_outdoor_aqi_readings);
+		Button btnFinish=(Button) findViewById(R.id.btn_finish_tour);
+		
+		btnAppNavigation.setTypeface(Fonts.getGillsans(this));
+		btnAirPurifierControls.setTypeface(Fonts.getGillsans(this));
+		btnOutdoorAIQReadings.setTypeface(Fonts.getGillsans(this));
+		btnIndoorAIQReadings.setTypeface(Fonts.getGillsans(this));
+		btnFinish.setTypeface(Fonts.getGillsans(this));
+		
+		btnAppNavigation.setOnClickListener(this);
+		btnAirPurifierControls.setOnClickListener(this);
+		btnOutdoorAIQReadings.setOnClickListener(this);
+		btnIndoorAIQReadings.setOnClickListener(this);
+		btnFinish.setOnClickListener(this);
+	}	
 
-		mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
-
-		mPager = (ViewPager)findViewById(R.id.pager);
-		mPager.setAdapter(mAdapter);
-
-		CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
-		mIndicator = indicator;
-		indicator.setViewPager(mPager);
-		indicator.setSnap(true);
-
-		final float density = getResources().getDisplayMetrics().density;
-		indicator.setPageColor(0xFF5D6577);
-		indicator.setFillColor(0xFFB9BBC7);   
-		indicator.setStrokeWidth(0.1f*density);
-
-		//to change ActionBar title on each swipe
-		indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-			@Override
-			public void onPageSelected(int position) {
-				setActionBarTitle(TITLE_LIST[position]);
-			}
-
-			@Override
-			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-			}
-
-			@Override
-			public void onPageScrollStateChanged(int state) {
-			}
-		});
-	}
-
-	/*Initialize action bar */
-	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);	
-		setActionBarTitle(R.string.tutorial_title_1);
-	}
-
-	/*Sets Action bar title */
-	public void setActionBarTitle(int tutorialTitle) {    	
-		TextView textView = (TextView) findViewById(R.id.action_bar_title);
-		textView.setTypeface(Fonts.getGillsansLight(this));
-		textView.setTextSize(24);
-		textView.setText(this.getText(tutorialTitle));
-	}
-
-	/*Sets the right menu*/
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		this.menu = menu;
-		MenuItem item = menu.getItem(0);		
-		item.setIcon(R.drawable.close_icon_blue);
-		return true;
-	}
+	public void setMargins (Button v, int l, int t, int r, int b) {   	
+    	
+    	RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+    	params.setMargins(l, t, r, b);       
+    	v.setLayoutParams(params);
+    }
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
-		switch (item.getItemId()) {
-		case R.id.right_menu:
+	public void onClick(View v) {
+		Intent in=new Intent(AirTutorialActivity.this, TutorialPagerActivity.class);
+		switch (v.getId()){
+		case R.id.btn_app_navigation:
+			in.putExtra(SELECTED_PAGE, 1);
+			startActivity(in);
+			break;
+		case R.id.btn_air_purifier_controls:
+			in.putExtra(SELECTED_PAGE, 2);
+			startActivity(in);
+			break;
+		case R.id.btn_indoor_air_quality_readings:
+			in.putExtra(SELECTED_PAGE, 4);
+			startActivity(in);
+			break;
+		case R.id.btn_outdoor_aqi_readings:
+			in.putExtra(SELECTED_PAGE, 5);
+			startActivity(in);
+			break;
+		case R.id.btn_finish_tour:
 			AirTutorialActivity.this.finish();
 			break;
+		
 		}
-		return false;
+			
 	}
-
 }

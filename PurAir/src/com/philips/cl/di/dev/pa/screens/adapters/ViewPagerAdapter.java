@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirTutorialViewFragment;
 import com.philips.cl.di.dev.pa.screens.AirTutorialActivity;
+import com.philips.cl.di.dev.pa.screens.TutorialPagerActivity;
 import com.viewpagerindicator.IconPagerAdapter;
 
 
@@ -16,22 +17,26 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements IconPagerA
 		R.string.tutorial_lOC_desc,
 		R.string.tutorial_rOC_desc,
 		R.string.tutorial_device_status_desc,
-		R.string.tutorial_remote_control_desc};
+		R.string.tutorial_indoor_aqi_desc,
+		R.string.tutorial_outdoor_aqi_desc		
+		};
 	private static final int[] IMAGES = new int[] {
-		R.drawable.air_tutorial_screen_one,
-		R.drawable.air_tutorial_screen_two,
-		R.drawable.air_tutorial_screen_three,
-		R.drawable.air_purifier_screen4,
-		R.drawable.air_purifier_screen5
+		R.drawable.tutorial_step1,
+		R.drawable.tutorial_step2,
+		R.drawable.tutorial_step3,
+		R.drawable.tutorial_step4,
+		R.drawable.tutorial_step5,
+		R.drawable.tutorial_step6
 	};
 	private static final int[] INSTRUCTION= new int[]{
 		R.string.dashboard_instruction,
 		R.string.loc_roc_remote_instruction,
 		R.string.loc_roc_remote_instruction,
 		R.string.status_instruction,
-		R.string.loc_roc_remote_instruction
+		R.string.indoor_outdoor_aqi_instruction,
+		R.string.indoor_outdoor_aqi_instruction
 	};
-
+	
 	private static final int[] instruction_list= new int[]{
 		R.string.dashboard_instruction_1,
 		R.string.dashboard_instruction_2,
@@ -40,15 +45,15 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements IconPagerA
 	};	
 
 	private int mCount = CONTENT.length;
-	private AirTutorialActivity activity;
+	private TutorialPagerActivity activity;
 
-	public ViewPagerAdapter(FragmentManager fm, AirTutorialActivity airTutorialActivity) {
+	public ViewPagerAdapter(FragmentManager fm, TutorialPagerActivity tutorialPagerActivity) {
 		super(fm);
-		activity=airTutorialActivity;
+		activity=tutorialPagerActivity;
 	}
 
 	@Override
-	public Fragment getItem(int position) {
+	public Fragment getItem(int position) {			
 		if(position==0)
 			return AirTutorialViewFragment.newInstance(CONTENT[position], IMAGES[position], INSTRUCTION[position], instruction_list);
 		else

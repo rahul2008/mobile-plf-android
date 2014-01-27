@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -57,6 +59,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
+	private static final String PREFS_NAME = "AIRPUR_PREFS";
+
 	private static int screenWidth, screenHeight;
 
 	private ActionBar mActionBar;
@@ -90,11 +94,19 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private static AirPurifierEventDto airPurifierEventDto;
 	private MenuItem rightMenuItem;
+	SharedPreferences mPreferences;
+	int mVisits;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
+		
+		mPreferences=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+		mVisits= mPreferences.getInt("NoOfVisit", 0);	
+		SharedPreferences.Editor editor=mPreferences.edit();
+		editor.putInt("NoOfVisit", ++mVisits);
+		editor.commit();
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -548,5 +560,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	{
 		rightMenuItem.setVisible(visible);
 	}
+	
+	public int getVisits()
+	{
+		return mVisits;
+	}
+	
 }
 

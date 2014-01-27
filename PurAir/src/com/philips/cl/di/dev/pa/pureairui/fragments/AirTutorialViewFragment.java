@@ -5,9 +5,11 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.screens.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -28,7 +30,7 @@ public class AirTutorialViewFragment extends Fragment{
     public static AirTutorialViewFragment newInstance(int content, int image, int instruction, int[] instructionList) {
     	AirTutorialViewFragment fragment = new AirTutorialViewFragment();
         
-        fragment.mTutorialDesc = content;
+    	fragment.mTutorialDesc = content;
         fragment.mTutorialImage= image;
         fragment.mTutorialInstruction=instruction;
         fragment.mInstructionList=instructionList;
@@ -61,7 +63,7 @@ public class AirTutorialViewFragment extends Fragment{
     	tutorialImg.setImageResource(mTutorialImage);   	
     	tutorialInstruction.setText(getActivity().getText(mTutorialInstruction));
     	
-    	if(mInstructionList!=null){
+    	/*if(mInstructionList!=null){
     		
     		TextView instruction1=(TextView) view.findViewById(R.id.dashboard_instruction_1);
     		TextView instruction2=(TextView) view.findViewById(R.id.dashboard_instruction_2);
@@ -78,7 +80,7 @@ public class AirTutorialViewFragment extends Fragment{
     		instruction3.setVisibility(View.VISIBLE);
     		instruction4.setVisibility(View.VISIBLE);
     		
-    	}
+    	}*/
 	}    
     
     public void setMargins (TextView v, int l, int t, int r, int b) {

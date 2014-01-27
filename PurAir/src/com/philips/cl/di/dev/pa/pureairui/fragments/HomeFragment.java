@@ -6,6 +6,7 @@ import static com.philips.cl.di.dev.pa.constants.AppConstants.*;
 
 import java.util.List;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -20,8 +21,14 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,6 +47,7 @@ import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData.WeatherDataListener;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.screens.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -85,6 +93,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private String outdoorUpdatedAt = "", outdoorWeatherDesc, isDayTime;
 	private boolean rotateOutdoorCircle, rotateIndoorCircle, updateOutdoorDashboard;
 	private String dergreeRotatePointer;
+
+	private LinearLayout takeTourLayout;
+
+	private RelativeLayout takeTourPopUp;
 
 
 	@Override
@@ -225,6 +237,18 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ivOutdoorWeatherImage = (ImageView) vMain.findViewById(R.id.iv_outdoor_weather_image);
 		tvOutdoorTemperature = (TextView) vMain.findViewById(R.id.tv_outdoor_weather_value);
 
+		//if a new user show tutorial prompt, visible for only three visits
+		if(((MainActivity)getActivity()).getVisits()<=3){
+			//tutorial tour prompt
+			takeTourLayout= (LinearLayout) vMain.findViewById(R.id.take_tour_prompt_drawer);
+			Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
+			takeTourLayout.startAnimation(bottomUp);
+			takeTourLayout.setVisibility(View.VISIBLE);
+			TextView lblTakeTour=(TextView) vMain.findViewById(R.id.lbl_take_tour);
+			lblTakeTour.setOnClickListener(this);
+			ImageButton btnCloseTourLayout=(ImageButton) vMain.findViewById(R.id.btn_close_tour_layout);
+			btnCloseTourLayout.setOnClickListener(this);
+		}
 	}
 
 	private void initAnimations() {
@@ -363,6 +387,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	@Override
 	public void onClick(View v) {
 		Log.i(TAG, "onClick " + v.getId());
+		Intent intentOd;
 		switch (v.getId()) {
 		case R.id.indoor_circle_pointer:
 		case R.id.tv_indoor_aqi_status_message:
@@ -374,7 +399,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			break;
 		case R.id.outdoor_circle_pointer:
 			if (updateOutdoorDashboard) {
-				Intent intentOd = new Intent(getActivity(),	OutdoorDetailsActivity.class);
+				intentOd = new Intent(getActivity(),	OutdoorDetailsActivity.class);
 				String outdoorInfos[] = new String[10];
 				outdoorInfos[0] = tvUpdatedAtDate.getText().toString();
 				outdoorInfos[1] = tvCity.getText().toString();
@@ -391,9 +416,56 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			}
 			//Toast.makeText(getActivity(), "Outdoor details", Toast.LENGTH_LONG).show();
 			break;
-
-
+		case R.id.lbl_take_tour:
+			intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+			startActivity(intentOd);
+			takeTourLayout.setVisibility(View.GONE);
+			break;
+		case R.id.btn_close_tour_layout:
+			Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_down);
+			takeTourLayout.startAnimation(bottomDown);
+			takeTourLayout.setVisibility(View.GONE);
+			showTutorialDialog();
+			break;
 		}
+	}
+
+
+	private void showTutorialDialog()
+	{
+		// Created a new Dialog
+		final Dialog dialog = new Dialog(getActivity());
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// inflate the layout
+		dialog.setContentView(R.layout.tutorial_custom_dialog);
+
+		TextView takeTourAlertLbl=(TextView) dialog.findViewById(R.id.take_tour_alert);
+		Button btnClose=(Button) dialog.findViewById(R.id.btn_close);			
+		Button btnTakeTour=(Button) dialog.findViewById(R.id.btn_take_tour);
+
+		takeTourAlertLbl.setTypeface(Fonts.getGillsans(getActivity()));
+		btnClose.setTypeface(Fonts.getGillsans(getActivity()));
+		btnTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
+
+		btnClose.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		btnTakeTour.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+				startActivity(intentOd);
+				dialog.dismiss();
+			}
+		});
+
+		// Display the dialog
+		dialog.show();
 	}
 
 	@Override
