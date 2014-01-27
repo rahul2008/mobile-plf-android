@@ -111,7 +111,7 @@ public class GraphView extends View {
 		if (coordinates != null && paint != null) {
 			/** The white background of graph. */
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.WHITE);
+			paint.setColor(Color.TRANSPARENT);
 			canvas.drawRect(GraphConst.GRAPH_BG_START_XAXIS,
 					GraphConst.GRAPH_BG_START_YAXIS, graphWidh,
 					coordinates.getIdGraphHeight(), paint);
