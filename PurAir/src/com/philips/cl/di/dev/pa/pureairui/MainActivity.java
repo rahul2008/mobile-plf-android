@@ -50,7 +50,6 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.AnimatorConstants;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -417,7 +416,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
-			leftMenuItems.add(new SettingsFragment());
+			//TODO @Akash please add SettingsFragment class
+			//leftMenuItems.add(new SettingsFragment());
 			leftMenuItems.add(new ProductRegFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
