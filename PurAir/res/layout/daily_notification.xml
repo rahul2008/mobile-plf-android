@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ToggleButton
+        android:id="@+id/daily_notification_toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="ToggleButton" />
+
+    <TextView
+        android:id="@+id/daily_notification_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@id/daily_notification_toggle"
+        android:text="@string/daily_notification_title"
+        android:textColor="#5D6578"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/daily_notification_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/daily_notification_title"
+        android:layout_toLeftOf="@id/daily_notification_toggle"
+        android:text="@string/daily_notificatioin_desc"
+        android:textColor="#7C7C7C" />
+
+    <TextView
+        android:id="@+id/daily_notification_alert_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/daily_notification_desc"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:text="@string/daily_notification_info"
+        android:textColor="@color/philips_blue" />
+
+    <Button
+        android:id="@+id/daily_notification_btn_edit"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/daily_notification_alert_info"
+        android:background="@drawable/registration_button_selector"
+        android:text="@string/edit"
+        android:textColor="#FFF"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/daily_notification_btn_add"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/daily_notification_btn_edit"
+        android:layout_alignRight="@+id/daily_notification_toggle"
+        android:background="@drawable/plus_blue"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/scrollview_notification_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/daily_notification_btn_edit" 
+        android:background="#E4E4E4"
+        android:visibility="gone"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:id="@+id/notification_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" 
+            android:padding="10dp">
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

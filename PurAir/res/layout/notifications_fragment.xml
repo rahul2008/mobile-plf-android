@@ -1,26 +1,161 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/white" 
-    android:layout_gravity="bottom">
+    android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/tv_lm_notification_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="27dp"
-        android:layout_marginTop="24dp"
-        android:text="List of notifications" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:padding="15dp" >
 
-    <TextView
-        android:id="@+id/tv_lm_notification_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_lm_notification_title"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="26dp"
-        android:text="On/Off" />
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/daily_notification" />
 
-</RelativeLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/darkgray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ToggleButton
+                android:id="@+id/outdoor_AQI_notification_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:text="ToggleButton" />
+
+            <TextView
+                android:id="@+id/outdoor_AQI_notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/outdoor_AQI_notification_toggle"
+                android:text="@string/outdoor_AQI_title"
+                android:textColor="#5D6578"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/outdoor_AQI_notification_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/outdoor_AQI_notification_title"
+                android:layout_toLeftOf="@id/outdoor_AQI_notification_toggle"
+                android:text="@string/outdoor_AQI_desc"
+                android:textColor="#7C7C7C" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/darkgray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ToggleButton
+                android:id="@+id/indoor_aqi_notification_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/indoor_aqi_notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/indoor_aqi_notification_toggle"
+                android:text="@string/indoor_AQI_title"
+                android:textColor="#5D6578"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/indoor_aqi_notification_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/indoor_aqi_notification_title"
+                android:layout_toLeftOf="@id/indoor_aqi_notification_toggle"
+                android:text="@string/indoor_AQI_desc"
+                android:textColor="#7C7C7C" />
+
+            <TextView
+                android:id="@+id/indoor_aqi_notification_alert_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/indoor_aqi_notification_desc"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/indoor_AQI_notification_info"
+                android:textColor="@color/philips_blue" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/darkgray" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <ToggleButton
+                android:id="@+id/filters_notification_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true" />
+
+            <TextView
+                android:id="@+id/filters_notification_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@id/filters_notification_toggle"
+                android:text="@string/filters_title"
+                android:textColor="#5D6578"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/filters_notification_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/filters_notification_title"
+                android:layout_toLeftOf="@id/filters_notification_toggle"
+                android:text="@string/filters_desc"
+                android:textColor="#7C7C7C" />
+
+            <TextView
+                android:id="@+id/filters_notification_alert_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/filters_notification_desc"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/filters_notification_info"
+                android:textColor="@color/philips_blue" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
