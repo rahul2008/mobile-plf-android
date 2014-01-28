@@ -12,7 +12,6 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.utils.DBHelper;
 import com.philips.cl.di.dev.pa.utils.Utils;
 

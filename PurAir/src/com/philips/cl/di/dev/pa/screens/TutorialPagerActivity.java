@@ -1,35 +1,26 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import com.google.android.gms.internal.ac;
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.fragments.AirTutorialViewFragment;
-import com.philips.cl.di.dev.pa.screens.adapters.ViewPagerAdapter;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.PageIndicator;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.screens.adapters.ViewPagerAdapter;
+import com.philips.cl.di.dev.pa.util.Fonts;
+import com.viewpagerindicator.CirclePageIndicator;
+
 public class TutorialPagerActivity extends ActionBarActivity {
-	
+
 	private ViewPagerAdapter mAdapter;
 	private ViewPager mPager;
-	private PageIndicator mIndicator;
+
 	private ActionBar mActionBar;
-	private ScrollView mScrollViewRight;
-	private DrawerLayout mDrawerLayout;
-	private ActionBarDrawerToggle mActionBarDrawerToggle;
-	private Menu menu;
+
 	private static final int[] TITLE_LIST= new int[]{
 		R.string.tutorial_title_1,
 		R.string.tutorial_title_2,
@@ -38,9 +29,9 @@ public class TutorialPagerActivity extends ActionBarActivity {
 		R.string.tutorial_title_5,
 		R.string.tutorial_title_6
 	};
-	
+
 	private int mCurrentItemId=-1;	
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +46,6 @@ public class TutorialPagerActivity extends ActionBarActivity {
 		mPager.setAdapter(mAdapter);		
 
 		CirclePageIndicator indicator = (CirclePageIndicator)findViewById(R.id.indicator);
-		mIndicator = indicator;
 		indicator.setViewPager(mPager);
 		indicator.setSnap(true);
 
@@ -63,7 +53,7 @@ public class TutorialPagerActivity extends ActionBarActivity {
 		indicator.setPageColor(0xFF5D6577);
 		indicator.setFillColor(0xFFB9BBC7);   
 		indicator.setStrokeWidth(0.1f*density);	
-		
+
 		if(mCurrentItemId!=-1)
 		{
 			mPager.setCurrentItem(mCurrentItemId);
@@ -88,7 +78,7 @@ public class TutorialPagerActivity extends ActionBarActivity {
 		});
 	}
 
-	
+
 	/*Initialize action bar */
 	private void initActionBar() {
 		mActionBar = getSupportActionBar();
@@ -110,7 +100,6 @@ public class TutorialPagerActivity extends ActionBarActivity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
-		this.menu = menu;
 		MenuItem item = menu.getItem(0);		
 		item.setIcon(R.drawable.close_icon_blue);
 		return true;

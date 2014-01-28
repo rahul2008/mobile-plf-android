@@ -4,25 +4,16 @@ import java.util.Calendar;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
-import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 
 public class WeatherReportLayout extends  LinearLayout {
 	

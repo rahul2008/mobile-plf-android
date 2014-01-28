@@ -5,7 +5,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,14 +26,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
@@ -51,7 +47,6 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
-import com.philips.cl.di.dev.pa.util.AnimatorConstants;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 

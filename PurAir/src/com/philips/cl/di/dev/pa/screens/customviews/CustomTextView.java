@@ -1,14 +1,13 @@
 package com.philips.cl.di.dev.pa.screens.customviews;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class CustomTextView extends TextView {
 	private static final String TAG = CustomTextView.class.getSimpleName();

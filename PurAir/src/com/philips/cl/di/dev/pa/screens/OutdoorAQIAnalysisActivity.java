@@ -1,13 +1,11 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.LinearLayout;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class OutdoorAQIAnalysisActivity extends Activity {
 	

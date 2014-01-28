@@ -246,6 +246,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			takeTourLayout.setVisibility(View.VISIBLE);
 			TextView lblTakeTour=(TextView) vMain.findViewById(R.id.lbl_take_tour);
 			lblTakeTour.setOnClickListener(this);
+			lblTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
 			ImageButton btnCloseTourLayout=(ImageButton) vMain.findViewById(R.id.btn_close_tour_layout);
 			btnCloseTourLayout.setOnClickListener(this);
 		}

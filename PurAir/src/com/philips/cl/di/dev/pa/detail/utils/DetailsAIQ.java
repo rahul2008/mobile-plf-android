@@ -1,13 +1,7 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-
-
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,6 +11,8 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.Log;
 import android.widget.ImageView;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class DetailsAIQ {
 	

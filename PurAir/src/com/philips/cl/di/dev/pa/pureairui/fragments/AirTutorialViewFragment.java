@@ -1,25 +1,20 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.screens.AirTutorialActivity;
-import com.philips.cl.di.dev.pa.util.Fonts;
-
-import android.app.Activity;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.LinearLayout.LayoutParams;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class AirTutorialViewFragment extends Fragment{
     private int mTutorialDesc;

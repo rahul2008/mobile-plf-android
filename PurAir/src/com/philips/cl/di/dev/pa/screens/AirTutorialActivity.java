@@ -1,51 +1,22 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-import com.philips.cl.di.dev.pa.screens.adapters.ViewPagerAdapter;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.viewpagerindicator.CirclePageIndicator;
-import com.viewpagerindicator.PageIndicator;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.TypedValue;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.RelativeLayout;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class AirTutorialActivity extends Activity implements OnClickListener {
-
-	private ViewPagerAdapter mAdapter;
-	private ViewPager mPager;
-	private PageIndicator mIndicator;
-	private ActionBar mActionBar;
-	private ScrollView mScrollViewRight;
-	private DrawerLayout mDrawerLayout;
-	private ActionBarDrawerToggle mActionBarDrawerToggle;
-	private Menu menu;
-	private static final int[] TITLE_LIST= new int[]{
-		R.string.tutorial_title_1,
-		R.string.tutorial_title_2,
-		R.string.tutorial_title_3,
-		R.string.tutorial_title_4,
-		R.string.tutorial_title_5,
-		R.string.tutorial_title_6
-	};
+	
 	public static final String SELECTED_PAGE = "tutorial_selected_page";
 
 	@Override

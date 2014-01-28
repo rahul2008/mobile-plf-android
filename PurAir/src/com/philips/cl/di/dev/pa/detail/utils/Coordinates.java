@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
 import android.content.Context;
-import android.os.storage.StorageManager;
 
 public class Coordinates {
 	/**

@@ -3,16 +3,9 @@ package com.philips.cl.di.dev.pa.listeners;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.Animator.AnimatorListener;
-import com.philips.cl.di.dev.pa.R;
 
 /**
  * Listens for Dashboard animations and disables gesture events when animation is in progess.

@@ -1,20 +1,18 @@
 package com.philips.cl.di.dev.pa.screens.customviews;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
-import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
-
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
-import android.view.ViewDebug.CapturedViewProperty;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewDebug.CapturedViewProperty;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
 
 
 public class PercentBarLayout extends LinearLayout {
