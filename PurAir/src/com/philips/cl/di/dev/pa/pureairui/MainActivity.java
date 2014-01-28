@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -412,8 +414,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
-			//TODO @Akash please add SettingsFragment class
-			//leftMenuItems.add(new SettingsFragment());
+			leftMenuItems.add(new SettingsFragment());
 			leftMenuItems.add(new ProductRegFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
@@ -567,6 +568,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public int getVisits()
 	{
 		return mVisits;
+	}
+	
+	public int getVersionNumber() {
+		int versionCode = 0;
+		try {
+			 versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return versionCode;
 	}
 	
 }

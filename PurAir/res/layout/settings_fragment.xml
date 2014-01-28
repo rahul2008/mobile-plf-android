@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <ImageView
+        android:id="@+id/iv_rate_this_app"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icon_mycity" />
+
+    <TextView
+        android:id="@+id/tv_rate_this_app"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/iv_rate_this_app"
+        android:padding="15dp"
+        android:layout_toRightOf="@+id/iv_rate_this_app"
+        android:text="@string/rate_this_app" />
+
+    
+    <ImageView
+        android:id="@+id/divider_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/iv_rate_this_app"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/separator" />
+
+    <ImageView
+        android:id="@+id/iv_send_us_feedback"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignLeft="@+id/iv_rate_this_app"
+        android:layout_below="@+id/divider_1"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/icon_1_2x" />
+    
+    <TextView
+        android:id="@+id/tv_send_us_feedback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tv_rate_this_app"
+        android:layout_alignTop="@+id/iv_send_us_feedback"
+        android:padding="15dp"
+        android:text="@string/send_us_feedback" />
+    
+    <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/iv_send_us_feedback"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/separator" />
+
+    <TextView
+        android:id="@+id/tv_version_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="19dp"
+        android:text="@string/version_number" />
+
+    <TextView
+        android:id="@+id/tv_t_and_c"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tv_version_number"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:text="@string/t_and_c" />
+
+</RelativeLayout>

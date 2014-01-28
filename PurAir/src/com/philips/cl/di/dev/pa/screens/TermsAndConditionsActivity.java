@@ -1,0 +1,15 @@
+package com.philips.cl.di.dev.pa.screens;
+
+import com.philips.cl.di.dev.pa.R;
+
+import android.app.Activity;
+import android.os.Bundle;
+
+public class TermsAndConditionsActivity extends Activity {
+	
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		setContentView(R.layout.terms_and_conditions);
+		super.onCreate(savedInstanceState);
+	}
+}
