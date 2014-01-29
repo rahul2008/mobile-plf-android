@@ -3,12 +3,19 @@ package com.philips.cl.di.dev.pa.pureairui;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -93,6 +100,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private MenuItem rightMenuItem;
 	SharedPreferences mPreferences;
 	int mVisits;
+	
+	private boolean isNetworkAvailable = false;
+	private BroadcastReceiver wifiReceiver;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -167,9 +177,43 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		sensorDataController = new SensorDataController(this, this) ;
 		
-		
+		createwifiReceiver();
+		this.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
 	}
 	
+	
+	
+	private void createwifiReceiver() {
+		wifiReceiver = new BroadcastReceiver() {
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.i(TAG, "wifiReceiver$onReceive " + Thread.currentThread().getName());
+				int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
+				
+				switch (wifiState) {
+				case WifiManager.WIFI_STATE_DISABLED:
+				case WifiManager.WIFI_STATE_DISABLING:
+					isNetworkAvailable = false;
+					Log.i(TAG, "wifiReceiver$wifi unavailable " + isNetworkAvailable);
+					break;
+				case WifiManager.WIFI_STATE_ENABLED:
+					ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+					if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() != NetworkInfo.State.CONNECTED)) {
+						isNetworkAvailable = true;
+						//TODO : Start/Update outdoor AQI and weather details.
+					} else {
+						isNetworkAvailable = false;
+					}
+					Log.i(TAG, "wifiReceiver$wifi enabled " + isNetworkAvailable);
+					break;
+				default:
+					break;
+				}
+			}
+		};
+		
+	}
+
 	@Override
 	protected void onStart() {
 		super.onStart();
@@ -311,18 +355,28 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	// TODO : Change param to int.
 	private void setRightMenuConnectedStatus(boolean status){
+		
+		// Move into one method.
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		
+		if(fragment instanceof OutdoorLocationsFragment) {
+			Log.i(TAG, "setRightMenuConnectedStatus$OutdoorLocationsFragment");
+			rightMenuItem.setIcon(R.drawable.plus_blue);
+			supportInvalidateOptionsMenu();
+			return;
+		}
+		
 		MenuItem item = null;
 		if(menu != null) {
 			item = menu.getItem(0);
 			if(status) {
 				tvConnectionStatus.setText(getString(R.string.connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
-//				if(item != null)
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 			} else {
 				tvConnectionStatus.setText(getString(R.string.not_connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-//				if(item != null)
 				item.setIcon(R.drawable.right_bar_icon_orange_2x);
 			}
 		}
@@ -360,8 +414,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			return true;
 		}
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		
 		switch (item.getItemId()) {
 		case R.id.right_menu:
+			if(fragment instanceof OutdoorLocationsFragment) {
+				//TODO : Change action bar to search bar. 
+				break;
+			}
+			
 			if(mRightDrawerOpened) {
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -436,8 +498,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				break;
 			case 2:
 				//Outdoor locations
-//				showFragment(leftMenuItems.get(position));
-//				setTitle(getString(R.string.list_item_3));
+				rightMenuItem.setIcon(R.drawable.plus_blue);
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_outdoor_loc));
 				break;
 			case 3:
 				//Notifications
@@ -568,6 +631,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public int getVisits()
 	{
 		return mVisits;
+	}
+	
+	public boolean isNetworkAvailable() {
+		return isNetworkAvailable;
 	}
 	
 	public int getVersionNumber() {

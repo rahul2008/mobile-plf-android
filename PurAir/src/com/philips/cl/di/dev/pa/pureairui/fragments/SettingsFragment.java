@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SettingsFragment extends Fragment implements OnClickListener{
 	
@@ -56,16 +57,24 @@ public class SettingsFragment extends Fragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.tv_rate_this_app:
 		case R.id.iv_rate_this_app:
-			// TODO : Change this, it's a placeholder. We should replace it with getPackageName() once the app is published. 
-			String appName = "com.philips.airstudioplus";
-			startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appName)));
+			// TODO : Change this, it's a placeholder. We should replace it with getPackageName() once the app is published.
+			if(((MainActivity)getActivity()).isNetworkAvailable()) {
+				String appName = "com.philips.airstudioplus";
+				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appName)));
+			} else {
+				Toast.makeText(getActivity(), "No Network Rate this app", Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.tv_send_us_feedback:
 		case R.id.iv_send_us_feedback:
-			Intent feedbackIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
-			feedbackIntent.putExtra(Intent.EXTRA_SUBJECT, "App feedback");
-			feedbackIntent.putExtra(Intent.EXTRA_TEXT, "Give feedback");
-			getActivity().startActivity(Intent.createChooser(feedbackIntent, "Air Purifier App Feedback"));
+			if(((MainActivity)getActivity()).isNetworkAvailable()) {
+				Intent feedbackIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+				feedbackIntent.putExtra(Intent.EXTRA_SUBJECT, "App feedback");
+				feedbackIntent.putExtra(Intent.EXTRA_TEXT, "Give feedback");
+				getActivity().startActivity(Intent.createChooser(feedbackIntent, "Air Purifier App Feedback"));
+			} else {
+				Toast.makeText(getActivity(), "No Network Send us feedback", Toast.LENGTH_SHORT).show();
+			}
 			
 			break;
 		case R.id.tv_t_and_c:

@@ -5,6 +5,9 @@ import com.philips.cl.di.dev.pa.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,4 +18,5 @@ public class OutdoorLocationsFragment extends Fragment {
 		View view = inflater.inflate(R.layout.outdoor_locations_fragment, container, false);
 		return view;
 	}
+	
 }

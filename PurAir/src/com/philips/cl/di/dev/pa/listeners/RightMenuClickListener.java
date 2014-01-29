@@ -470,7 +470,8 @@ public class RightMenuClickListener implements OnClickListener {
 			power.setClickable(false);
 			powerButton = context.getResources().getDrawable(R.drawable.switch_off);
 			powerButton.setAlpha(100);
-			power.setBackgroundDrawable(powerButton);
+//			power.setBackgroundDrawable(powerButton);
+			power.setBackgroundResource(R.drawable.switch_off);
 			disableControlPanelButtonsOnPowerOff();
 		} else {
 			power.setClickable(true);
