@@ -12,7 +12,17 @@ public class SessionDto {
 	private static SessionDto sessionDto ;
 	private FilterStatusDto filterStatusDto ;
 	private List<Weatherdto> weatherDetails ;
+	
+	public CityDetails getCityDetails() {
+		return cityDetails;
+	}
+
+	public void setCityDetails(CityDetails cityDetails) {
+		this.cityDetails = cityDetails;
+	}
+
 	private OutdoorAQIEventDto outdoorEventDto ;
+	private CityDetails cityDetails ;
 	
 	public OutdoorAQIEventDto getOutdoorEventDto() {
 		return outdoorEventDto;
