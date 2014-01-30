@@ -192,10 +192,10 @@ public class AppConstants {
 	public static final String LAST_UPDATED_TIME = "last_updated_time";
 
 	public static final String LAST_UPDATED_DAY = "last_updated_day";
-
 	
 	public static final String SHANGHAI_OUTDOOR_AQI_URL = "http://ixuanwu.com.cn/app/city-hourly-gov.php?key=shanghai" ;
 	
+	public static final String CITIES_URL = "http://ixuanwu.com.cn/app/citys.php" ;
 	public static final String INDOOR = "indoor";
 
 	public static final String OUTDOOR = "outdoor";
