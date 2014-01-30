@@ -30,7 +30,7 @@ public class GraphConst {
 	public static final float GRAPH_BG_START_XAXIS = 0;
 	public static final float GRAPH_BG_START_YAXIS = 0;
 	public static final float GRAPH_BG_HEGHT = 280;
-	public static final float ID_PADDING_RIGHT = 60;
+	public static final float ID_PADDING_RIGHT = 80;
 	public static final float ID_YAXIS_RECT_MARGIN_LEFT = 20;
 	public static final float ID_YAXIS_RECT_WIDTH = 25;
 	public static final float ID_YAXIS_10 = 0;
@@ -54,7 +54,7 @@ public class GraphConst {
 	
 	public static final float OD_YAXIS_RECT_MARGIN_LEFT = 30;
 	public static final float OD_YAXIS_RECT_WIDTH = 35;
-	public static final float OD_PADDING_RIGHT = 30;
+	public static final float OD_PADDING_RIGHT = 50;
 	public static final float OD_YAXIS0 = 250;
 	public static final float OD_YAXIS50 = 225;
 	public static final float OD_YAXIS100 = 200;

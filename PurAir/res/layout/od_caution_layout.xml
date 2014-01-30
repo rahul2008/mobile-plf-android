@@ -14,21 +14,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/run_close_icon_2x" />
+            android:src="@drawable/outdoor_act_2x" />
 
         <ImageView
             android:id="@+id/openWindowImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/window_icon_2x" />
+            android:src="@drawable/open_windows_2x" />
 
         <ImageView
             android:id="@+id/maskImg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@drawable/protection_icon_2x" />
+            android:src="@drawable/mask_not_needed_2x" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/advice_od_msg1"
+            android:text="@string/advice_od_msg2"
             android:textColor="@color/cornflowerblue"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/openwindow_od_msg1"
+            android:text="@string/openwindow_od_msg2"
             android:textColor="@color/cornflowerblue"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="@string/mask_od_msg1"
+            android:text="@string/mask_od_msg2"
             android:textColor="@color/cornflowerblue"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >

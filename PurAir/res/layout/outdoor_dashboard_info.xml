@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/detailsOutdoorDbImg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/air_dashboard_outdoor_beijing_50" />
+
+    
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        layout="@layout/od_details_aqi_layout"
+        android:layout_marginTop="30dp" />
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/detailsOutdoorDbLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        layout="@layout/od_status_layout" />
+
+</RelativeLayout>

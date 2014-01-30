@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/inModeIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/fan_icon_white_2x" />
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/inModeTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/inModeIcon"
+        android:layout_alignTop="@+id/inModeIcon"
+        android:layout_toRightOf="@+id/inModeIcon"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:text="@string/mode"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/inModeType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/inModeIcon"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    <ImageView
+        android:id="@+id/inFilterIcon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/filter_icon_2x" />
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/inFilterTxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/inFilterIcon"
+        android:layout_alignTop="@+id/inFilterIcon"
+        android:layout_toLeftOf="@+id/inFilterIcon"
+        android:gravity="center_vertical"
+        android:paddingRight="8dp"
+        android:text="@string/filters"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/inFilterType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/inFilterIcon"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+
+</RelativeLayout>

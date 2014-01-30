@@ -10,16 +10,22 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.Rect;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
@@ -33,16 +39,14 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private TextView updatedTitle, updatedValue, locationCity, location, weatherValue;
-	private TextView aqiReading;
-	private ImageView circlePointer, circleMeter, cityImg, weatherImg;
+	private ImageView circleImg, modeIcon, filterIcon;
 	private ImageView backImg, rightImg, centerLabelImg;
-	private CustomTextView msgFirst, msgSecond, aqiStatusTitle, aqiStatus;
-	private ImageView outdoorCirclePointer, indexBottBg;
+	private CustomTextView msgFirst, msgSecond;
+	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
 	private PercentBarLayout percentBarLayout;
 	private CustomTextView barTopNum, barTopName, selectedIndexBottom;
-	private CustomTextView titleDashboard;
+	private CustomTextView modeLabel, filterLabel, mode, filter, aqiStatus, aqiSummary;
 	private List<int[]> powerOnReadingsList;
 	private List<float[]> lastDayReadingsList;
 	private List<float[]> last7dayReadingsList;
@@ -116,6 +120,8 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.activity_trends_indoor);
 		coordinates = new Coordinates(this);
 		initializeUI();
@@ -159,7 +165,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		percentBarLayout = new PercentBarLayout(this, null, 10, barTopNum, barTopName);
 		percentBarLayout.setClickable(true);
         horizontalScrollView.addView(percentBarLayout);*/
-		
+		getDataFromDashboard();
 	}
 	
 	/**
@@ -176,40 +182,10 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		lastDayBtn = (TextView) findViewById(R.id.detailsOutdoorLastDayLabel);
 		lastWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
 		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
-		//indoorPercentLayout = (RelativeLayout) findViewById(R.id.trendsOutdoorIndoorPercentLayout);
-		//outdoorPercentLayout = (RelativeLayout) findViewById(R.id.trendsOutdoorOutdoorPercentLayout);
-		//outdoorCirclePointer = (ImageView) findViewById(R.id.outdoor_circle_pointer);
 		
-		updatedTitle = (TextView) findViewById(R.id.tv_updated_title);
-		updatedTitle.setTypeface(Fonts.getGillsansLight(this));
-		updatedValue = (TextView) findViewById(R.id.tv_updated_at_date);
-		updatedValue.setTypeface(Fonts.getGillsansLight(this));
-		locationCity = (TextView) findViewById(R.id.tv_location_city);
-		locationCity.setTypeface(Fonts.getGillsansLight(this));
-		location = (TextView) findViewById(R.id.tv_location);
-		location.setTypeface(Fonts.getGillsansLight(this));
-		weatherValue = (TextView) findViewById(R.id.tv_outdoor_weather_value);
-		weatherValue.setTypeface(Fonts.getGillsansLight(this));
-		aqiReading = (TextView) findViewById(R.id.od_detail_aqi_reading);
-		aqiReading.setTypeface(Fonts.getGillsansLight(this));
-		aqiStatusTitle = (CustomTextView) findViewById(R.id.odStatusTitle);
-		//aqiStatusTitle.setTypeface(Fonts.getGillsansLight(this));
-		aqiStatus = (CustomTextView) findViewById(R.id.odStatusDescr);
-		//aqiStatus.setTypeface(Fonts.getGillsansLight(this));
-		
-		updatedTitle.setTextColor(Color.WHITE);
-		updatedValue.setTextColor(Color.WHITE);
-		locationCity.setTextColor(Color.WHITE);
-		location.setTextColor(Color.WHITE);
-		weatherValue.setTextColor(Color.WHITE);
-		aqiReading.setTextColor(Color.WHITE);
-		aqiStatusTitle.setTextColor(Color.WHITE);
-		aqiStatus.setTextColor(Color.WHITE);
-		
-		circlePointer = (ImageView) findViewById(R.id.outdoor_circle_pointer);
-		circleMeter = (ImageView) findViewById(R.id.outdoor_circle_meter);
-		cityImg = (ImageView) findViewById(R.id.detailsOutdoorDbImg);
-		weatherImg = (ImageView) findViewById(R.id.iv_outdoor_weather_image);
+		modeIcon = (ImageView) findViewById(R.id.inModeIcon); 
+		filterIcon = (ImageView) findViewById(R.id.inFilterIcon); 
+		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
 		backImg = (ImageView) findViewById(R.id.ivLeftMenu); 
 		centerLabelImg = (ImageView) findViewById(R.id.ivCenterLabel); 
 		centerLabelImg.setBackgroundResource(R.drawable.transparent_bg);
@@ -220,17 +196,12 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		
 		msgFirst = (CustomTextView) findViewById(R.id.idFirstMsg);
 		msgSecond = (CustomTextView) findViewById(R.id.idSecondMsg);
-		titleDashboard = (CustomTextView) findViewById(R.id.detailsOutdoorDbLabel);
-		titleDashboard.setText("");
-		/**
-		 * set image top bar
-		 * */
-		backImg.setBackgroundResource(R.drawable.trends_txt_bg);
-		backImg.setImageResource(R.drawable.top_leftindicator);
-		//centerLabelImg.setImageResource(resId)
-		rightImg.setBackgroundResource(R.drawable.trends_txt_bg);
-		rightImg.setImageResource(R.drawable.right_bar_icon_blue_2x);
-		//outdoorCirclePointer.setRotation(45);
+		modeLabel = (CustomTextView) findViewById(R.id.inModeTxt);
+		mode = (CustomTextView) findViewById(R.id.inModeType);
+		filterLabel = (CustomTextView) findViewById(R.id.inFilterTxt);
+		filter = (CustomTextView) findViewById(R.id.inFilterType);
+		aqiStatus = (CustomTextView) findViewById(R.id.inDetailsDbStatus);
+		aqiSummary = (CustomTextView) findViewById(R.id.inDetailsDbSummary);
 		
 		
 		horizontalScrollView = (HorizontalScrollView) findViewById(R.id.indoorDbHorizontalScroll);
@@ -242,10 +213,6 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		percentBarLayout.setClickable(true);
         horizontalScrollView.addView(percentBarLayout);
 		
-		//outdoorCirclePointer.setRotation(45);
-		
-		//indoorPercentLayout.addView(new AirView(this, 50));
-		//outdoorPercentLayout.addView(new AirView(this, 100));
 		
 		/**
 		 * Set click listener
@@ -254,7 +221,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
 		backImg.setOnClickListener(this);
-		rightImg.setOnClickListener(this);
+		//rightImg.setOnClickListener(this);
 	}
 	
 	/**
@@ -563,6 +530,55 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		
 		
 		//Toast.makeText(getApplicationContext(), "Item Click " + position, Toast.LENGTH_SHORT).show();
+	}
+	
+	private void getDataFromDashboard() {
+		String datas[] = getIntent().getStringArrayExtra("outdoor");
+		/**
+		 * Updating all the details in the screen, which is passed from Dashboard
+		 */
+		if (datas != null && datas.length > 0) {
+			
+			if (datas[0] != null) {
+				mode.setText(datas[0]);
+			}
+			
+			if (datas[1] != null) {
+				filter.setText(datas[1]);
+			}
+			
+			try {
+				int aqiInt = Integer.parseInt(datas[2].trim());
+				circleImg.setImageDrawable(setAQICircleBackground(aqiInt));
+			} catch (NumberFormatException e) {
+				//e.printStackTrace();
+			}
+			
+			if (datas[3] != null) {
+				String tempStatus[] = datas[3].trim().split(" ");
+				if (tempStatus != null && tempStatus.length > 1) {
+					aqiSummary.setText(tempStatus[0]+"\n"+tempStatus[1]);
+				} else {
+					aqiSummary.setText(datas[3]);
+				}
+			}
+			
+			if (datas[4] != null) {
+				aqiSummary.setText(datas[4]);
+			}
+		}
+	}
+	
+	private Drawable setAQICircleBackground(int aqi) {
+		if(aqi >= 0 && aqi < 2) {
+			return getResources().getDrawable(R.drawable.pink_circle_with_arrow_2x);
+		} else if(aqi >= 2 && aqi < 3) {
+			return getResources().getDrawable(R.drawable.light_pink_circle_arrow_2x);
+		} else if(aqi >= 3 && aqi < 4) {
+			return getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x);
+		} else {
+			return getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
+		}
 	}
 	
 	

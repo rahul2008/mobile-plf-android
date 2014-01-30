@@ -36,7 +36,7 @@ public class PercentBarLayout extends LinearLayout {
 			TextView serialNum = (TextView)v.findViewById(R.id.indoorDashboardBarNum);
 			CustomTextView name = (CustomTextView)v.findViewById(R.id.indoorDashboardBarName);
 			final ImageView indexBg = (ImageView) v.findViewById(R.id.indoorDashboardBarNumBg);
-			indoorDashboardBarPerc.addView(new AirView(context, 100, 100, 150));
+			indoorDashboardBarPerc.addView(new AirView(context, 100, 60, 80));
 			serialNum.setText(""+(i + 1));
 			v.setPadding(10, 10, 10, 10);
 			

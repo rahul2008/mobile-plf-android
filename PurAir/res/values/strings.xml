@@ -166,10 +166,10 @@
     <string name="title_outdoor_db">Outdoor Dashboard</string>
     <string name="mask_od_msg1">Masks recommended </string>
     <string name="mask_od_msg2">Masks not needed</string>
-    <string name="openwindow_od_msg1">Avoid ventilation </string>
-    <string name="openwindow_od_msg2">Suitable for ventilation</string>
+    <string name="openwindow_od_msg1">Don not open windows </string>
+    <string name="openwindow_od_msg2">OK to open windows</string>
     <string name="advice_od_msg1">Avoid outdoor activities </string>
-    <string name="advice_od_msg2">Suitable for outdoor activities</string>
+    <string name="advice_od_msg2">OK for outdoor activities</string>
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
     <string name="od_yaxis_label3">150</string>
@@ -234,6 +234,10 @@
     <string name="outdoor_analysis_detail_h5_T4">Slightly polluted. Irritations may occur, individuals with breathing or heart problems should reduce outdoor exercise.</string>
     <string name="outdoor_analysis_detail_h5_T5">Healthy. Hypersensitive individuals should reduce outdoor exercise.</string>
     <string name="outdoor_analysis_detail_h5_T6">Very Healthy. No health implications.</string>
+    <string name ="pm25">PM2.5</string>
+    <string name ="pm10">PM10</string>
+    <string name ="so2">SO2</string>
+    <string name ="no2">NO2</string>
 
     <!-- Notifications -->
 	<string name="daily_notification_title">Daily notifications</string>

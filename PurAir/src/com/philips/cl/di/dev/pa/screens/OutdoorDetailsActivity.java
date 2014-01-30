@@ -1,9 +1,19 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animRotation;
-
 import java.util.Calendar;
-
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
+import com.philips.cl.di.dev.pa.screens.customviews.WeatherReportLayout;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,9 +22,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
+import android.graphics.drawable.Drawable;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -26,34 +36,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.nineoldandroids.animation.ObjectAnimator;
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
-import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
-import com.philips.cl.di.dev.pa.screens.customviews.WeatherReportLayout;
-import com.philips.cl.di.dev.pa.util.Fonts;
-//import android.widget.Toast;
-
 public class OutdoorDetailsActivity extends FragmentActivity implements OnClickListener {
 
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private HorizontalScrollView wetherScrollView;
-	//private RelativeLayout indoorPercentLayout, outdoorPercentLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private TextView updatedTitle, updatedValue, locationCity, location, weatherValue;
-	private TextView aqiReading;
-	private CustomTextView aqiStatusTitle, aqiStatus;
-	private ImageView circlePointer, circleMeter, cityImg, weatherImg;
+	private CustomTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
+	private ImageView circleImg;
 	private ImageView backImg, rightImg, centerLabelImg;
 	private ImageView avoidImg, openWindowImg, maskImg;
 	private ImageView mapClickImg;
@@ -66,7 +56,6 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 	private float lastDayReadings[] = new float[24];
 	private float last7dayReadings[] = new float[7];
 	private float last4weekReadings[] = new float[28];
-	private String bundleDatas[];
 	private boolean isDataLoaded;
 
 	@Override
@@ -86,8 +75,6 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 
 		initializeUI();
 
-		//coordinates = new Coordinates(this);
-
 		setUpMapIfNeeded();
 
 		try {
@@ -96,7 +83,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 			e.printStackTrace();
 		}
 
-		getDataFromMainScreen();
+		getDataFromDashboard();
 	}
 
 
@@ -125,8 +112,42 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 	private boolean getXCoordinates() {
 			boolean isOutdoorDataPresent = false ; 
 			if (sessionDto.getOutdoorEventDto() != null){
-				int odx[] = sessionDto.getOutdoorEventDto().getIdx();
-	
+				
+				int pm25s[] = sessionDto.getOutdoorEventDto().getPm25();
+				if (pm25s != null && pm25s.length > 0) {
+					pm1.setText(getString(R.string.pm25) + "  " + pm25s[0]);
+				}
+				
+				int pm10s[] = sessionDto.getOutdoorEventDto().getPm10();
+				if (pm10s != null && pm10s.length > 0) {
+					pm2.setText(getString(R.string.pm10) + "  " + pm10s[0]);
+				}
+				
+				int so2s[] = sessionDto.getOutdoorEventDto().getSo2();
+				if (so2s != null && so2s.length > 0) {
+					pm3.setText(getString(R.string.so2) + "  " + so2s[0]);
+				}
+				
+				int no2s[] = sessionDto.getOutdoorEventDto().getNo2();
+				if (no2s != null && no2s.length > 0) {
+					pm4.setText(getString(R.string.no2) + "  " + no2s[0]);
+				}
+				
+				
+				int odx1[] = sessionDto.getOutdoorEventDto().getIdx();
+				int odx[] = null;
+				if (odx1 != null && odx1.length > 0) {
+					odx = new int[odx1.length];
+					for (int i = 0; i < odx1.length; i++) {
+						odx[i] = odx1[odx1.length - 1 - i];
+					}
+				}
+				
+				/**last day days*/
+				/**
+				 * Adding last 24 data into lastDayReadings array, from index 696 t0 719 
+				 */
+				
 				if (odx != null) {
 					isOutdoorDataPresent = true ;
 					for (int i = 0; i < lastDayReadings.length; i++) {
@@ -136,7 +157,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 				
 				/**last 7 days*/
 				/**
-				 * TODO - Explain the logic in 3lines
+				 * Adding last 7 days data into last7dayReadings array, from index last to till 7 days
 				 */
 				int hr = calender.get(Calendar.HOUR_OF_DAY);
 				if (hr == 0) {
@@ -206,28 +227,24 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 	}
 
 	/** Getting data from Main screen*/
-	private void getDataFromMainScreen() {
-		bundleDatas = getIntent().getStringArrayExtra("outdoor");
+	private void getDataFromDashboard() {
+		String []datas = getIntent().getStringArrayExtra("outdoor");
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		if (bundleDatas != null && bundleDatas.length > 0) {
-			updatedValue.setText(bundleDatas[0]);
-			locationCity.setText(bundleDatas[1]);
-			location.setText(bundleDatas[2]);
-			weatherValue.setText(bundleDatas[4]);
-			aqiStatusTitle.setText(bundleDatas[5]);
-			aqiStatus.setText(bundleDatas[6]);
+		if (datas != null && datas.length > 0) {
+			//locationCity.setText(bundleDatas[1]);
+			centerLabelImg.setImageBitmap(writeTextOnDrawableHead(
+					R.drawable.transparent_bg, datas[1]));
+			location.setText(datas[2]);
+			summaryTitle.setText(datas[5]);
+			summary.setText(datas[6]);
 
-			aqiReading.setText(bundleDatas[7]);
+			aqiValue.setText(datas[7]);
 			
 			try {
-				int aqiInt = Integer.parseInt(bundleDatas[7].trim());
-				circlePointer.setImageDrawable(setAQICircleBackground(aqiInt));
-				//circlePointer.setRotation(Float.parseFloat(bundleDatas[8].toString()));
-				rotateAQICircle(aqiInt, circlePointer);
-				weatherImg.setImageDrawable(
-						new GraphConst().getOutdoorTemperatureImage(this,bundleDatas[3], bundleDatas[9]));
+				int aqiInt = Integer.parseInt(datas[7].trim());
+				circleImg.setImageDrawable(setAQICircleBackground(aqiInt));
 				
 				setAdviceIconTex(aqiInt);
 			} catch (NumberFormatException e) {
@@ -241,7 +258,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 	 * @param aqi
 	 * @return
 	 */
-	public Drawable setAQICircleBackground(int aqi) {
+	private Drawable setAQICircleBackground(int aqi) {
 		if(aqi >= 0 && aqi <= 50) {
 			return getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x);
 		} else if(aqi > 50 && aqi <= 100) {
@@ -258,27 +275,66 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		return null;
 	}
 
-	/**
-	 * 
-	 * @param aqi
-	 * @param iv
-	 */
-	private void rotateAQICircle(int aqi, ImageView iv) {
-		/** Apply rotation transform and switch the background image of the AQI circle 
-		 *	according to the AQI value
-		 *	300 degrees is the arc of the gauge
-		 *	500 is the max value of AQI
-		 */
-		float ratio = (float) (300.0/500.0);
-		float roatation = aqi * (300.0f/500.0f);
-		//ViewHelper.setPivotX(iv, iv.getWidth());
-		//ViewHelper.setPivotY(iv, iv.getHeight());
-		ObjectAnimator.ofFloat(iv, animRotation, 0, roatation).setDuration(2000).start();
-	}
 
 	/**Set advice icon and text*/ 
 	private void setAdviceIconTex(int aqiInt) {
-		if (aqiInt <= 100) {
+		
+		if(aqiInt >= 0 && aqiInt <= 50) {
+			maskImg.setImageResource(R.drawable.blue_mask_2x); 
+			openWindowImg.setImageResource(R.drawable.blue_win_2x);  
+			avoidImg.setImageResource(R.drawable.blue_run_2x); 
+
+			maskTxt.setText(getString(R.string.mask_od_msg2));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg2));
+
+		} else if(aqiInt > 50 && aqiInt <= 100) {
+			maskImg.setImageResource(R.drawable.dark_blue_mask_2x); 
+			openWindowImg.setImageResource(R.drawable.dark_blue_win_2x);  
+			avoidImg.setImageResource(R.drawable.dark_blue_run_2x); 
+
+			maskTxt.setText(getString(R.string.mask_od_msg2));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg2));
+
+		} else if(aqiInt > 100 && aqiInt <= 150) {
+			maskImg.setImageResource(R.drawable.purple_close_mask_2x); 
+			openWindowImg.setImageResource(R.drawable.purple_win_2x);  
+			avoidImg.setImageResource(R.drawable.purple_close_run_2x); 
+
+			maskTxt.setText(getString(R.string.mask_od_msg2));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg1));
+
+		} else if(aqiInt > 150 && aqiInt <= 200) {
+			maskImg.setImageResource(R.drawable.dark_purple_mask_2x); 
+			openWindowImg.setImageResource(R.drawable.dark_purple_close_win_2x);  
+			avoidImg.setImageResource(R.drawable.dark_purple_run_2x); 
+
+			maskTxt.setText(getString(R.string.mask_od_msg2));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg1));
+
+		} else if(aqiInt > 200 && aqiInt <= 300) {
+			maskImg.setImageResource(R.drawable.light_red_close_mask_2x); 
+			openWindowImg.setImageResource(R.drawable.light_red_close_win_2x);  
+			avoidImg.setImageResource(R.drawable.light_red_close_run_2x); 
+
+			maskTxt.setText(getString(R.string.mask_od_msg1));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg1));
+
+		} else if(aqiInt > 300 /*&& aqi <= 500*/) {
+			maskImg.setImageResource(R.drawable.red_close_mask_2x); 
+			openWindowImg.setImageResource(R.drawable.red_close_win_2x);  
+			avoidImg.setImageResource(R.drawable.red_close_run_2x); 
+
+			maskTxt.setText(getString(R.string.mask_od_msg1));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg1));
+
+		}
+		/*if (aqiInt <= 200) {
 			maskImg.setImageResource(R.drawable.mask_not_needed_2x); 
 			openWindowImg.setImageResource(R.drawable.open_windows_2x);  
 			avoidImg.setImageResource(R.drawable.outdoor_act_2x); 
@@ -296,6 +352,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg1));
 		}
+		*/	
 	}
 
 	/**
@@ -315,35 +372,16 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		lastWeekBtn.setTypeface(Fonts.getGillsansLight(this));
 		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		lastFourWeekBtn.setTypeface(Fonts.getGillsansLight(this));
-		updatedTitle = (TextView) findViewById(R.id.tv_updated_title);
-		updatedTitle.setTypeface(Fonts.getGillsansLight(this));
-		updatedValue = (TextView) findViewById(R.id.tv_updated_at_date);
-		
-		updatedValue.setTypeface(Fonts.getGillsansLight(this));
-		locationCity = (TextView) findViewById(R.id.tv_location_city);
-		locationCity.setTypeface(Fonts.getGillsansLight(this));
-		location = (TextView) findViewById(R.id.tv_location);
-		location.setTypeface(Fonts.getGillsansLight(this));
-		weatherValue = (TextView) findViewById(R.id.tv_outdoor_weather_value);
-		weatherValue.setTypeface(Fonts.getGillsansLight(this));
-		aqiReading = (TextView) findViewById(R.id.od_detail_aqi_reading);
-		aqiReading.setTypeface(Fonts.getGillsansLight(this));
-		aqiStatusTitle = (CustomTextView) findViewById(R.id.odStatusTitle);
-		aqiStatus = (CustomTextView) findViewById(R.id.odStatusDescr);
+		aqiValue = (CustomTextView) findViewById(R.id.od_detail_aqi_reading);
+		location = (CustomTextView) findViewById(R.id.od_detail_location);
+		summaryTitle = (CustomTextView) findViewById(R.id.odStatusTitle);
+		summary = (CustomTextView) findViewById(R.id.odStatusDescr);
+		pm1 = (CustomTextView) findViewById(R.id.odPMValue1);
+		pm2 = (CustomTextView) findViewById(R.id.odPMValue2);
+		pm3 = (CustomTextView) findViewById(R.id.odPMValue3);
+		pm4 = (CustomTextView) findViewById(R.id.odPMValue4);
 
-		updatedTitle.setTextColor(Color.WHITE);
-		updatedValue.setTextColor(Color.WHITE);
-		locationCity.setTextColor(Color.WHITE);
-		location.setTextColor(Color.WHITE);
-		weatherValue.setTextColor(Color.WHITE);
-		aqiReading.setTextColor(Color.WHITE);
-		aqiStatusTitle.setTextColor(Color.WHITE);
-		aqiStatus.setTextColor(Color.WHITE);
-
-		circlePointer = (ImageView) findViewById(R.id.od_detail_circle_pointer);
-		circleMeter = (ImageView) findViewById(R.id.od_detail_circle_meter);
-		cityImg = (ImageView) findViewById(R.id.detailsOutdoorDbImg);
-		weatherImg = (ImageView) findViewById(R.id.iv_outdoor_weather_image);
+		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
 		backImg = (ImageView) findViewById(R.id.ivLeftMenu); 
 		centerLabelImg = (ImageView) findViewById(R.id.ivCenterLabel); 
 		centerLabelImg.setBackgroundResource(R.drawable.transparent_bg);
@@ -485,6 +523,13 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		.bearing(0)                // Sets the orientation of the camera to east
 		.tilt(30)                   // Sets the tilt of the camera to 30 degrees
 		.build();                   // Creates a CameraPosition from the builder
+		
+		mMap.getUiSettings().setZoomControlsEnabled(false);
+		mMap.getUiSettings().setScrollGesturesEnabled(false);
+		mMap.getUiSettings().setZoomGesturesEnabled(false);
+		mMap.getUiSettings().setAllGesturesEnabled(false);
+		mMap.getUiSettings().setCompassEnabled(false);
+		mMap.getUiSettings().setRotateGesturesEnabled(false);
 		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
 		mMap.addMarker(new MarkerOptions().position(new LatLng(31.230638, 121.473584)));

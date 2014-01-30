@@ -388,19 +388,25 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	@Override
 	public void onClick(View v) {
 		Log.i(TAG, "onClick " + v.getId());
-		Intent intentOd;
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.indoor_circle_pointer:
 		case R.id.tv_indoor_aqi_status_message:
 		case R.id.tv_indoor_aqi_status_title:
 			//Show indoor details
-			Intent intentId = new Intent(getActivity(),	IndoorDetailsActivity.class);
-			startActivity(intentId);
+			intent = new Intent(getActivity(),	IndoorDetailsActivity.class);
+			String indoorInfos[] = new String[5];
+			indoorInfos[0] = tvIndoorModeValue.getText().toString();
+			indoorInfos[1] = tvIndoorFilterStatus.getText().toString();
+			indoorInfos[2] = tvIndoorAQI.getText().toString();
+			indoorInfos[3] = tvIndoorTitle.getText().toString();
+			indoorInfos[4] = tvIndoorComment.getText().toString();
+			startActivity(intent);
 			//Toast.makeText(getActivity(), "Indoor details", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.outdoor_circle_pointer:
 			if (updateOutdoorDashboard) {
-				intentOd = new Intent(getActivity(),	OutdoorDetailsActivity.class);
+				intent = new Intent(getActivity(),	OutdoorDetailsActivity.class);
 				String outdoorInfos[] = new String[10];
 				outdoorInfos[0] = tvUpdatedAtDate.getText().toString();
 				outdoorInfos[1] = tvCity.getText().toString();
@@ -412,14 +418,14 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				outdoorInfos[7] = tvOutdoorAQI.getText().toString();
 				outdoorInfos[8] = dergreeRotatePointer;
 				outdoorInfos[9] = isDayTime;
-				intentOd.putExtra("outdoor", outdoorInfos);
-				startActivity(intentOd);
+				intent.putExtra("outdoor", outdoorInfos);
+				startActivity(intent);
 			}
 			//Toast.makeText(getActivity(), "Outdoor details", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.lbl_take_tour:
-			intentOd = new Intent(getActivity(), AirTutorialActivity.class);
-			startActivity(intentOd);
+			intent = new Intent(getActivity(), AirTutorialActivity.class);
+			startActivity(intent);
 			takeTourLayout.setVisibility(View.GONE);
 			break;
 		case R.id.btn_close_tour_layout:

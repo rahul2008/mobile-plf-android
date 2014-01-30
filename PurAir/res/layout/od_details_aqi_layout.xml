@@ -4,30 +4,40 @@
     android:layout_height="fill_parent" >
 
     <ImageView
-        android:id="@+id/od_detail_circle_meter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/colour_circle_big_2x" />
-
-    <ImageView
         android:id="@+id/od_detail_circle_pointer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/od_detail_circle_meter"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="23dp"
         android:src="@drawable/blue_circle_with_arrow_2x" />
     
-    <TextView
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/od_detail_aqi_reading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_alignBottom="@+id/od_detail_circle_pointer"
+        android:layout_alignLeft="@+id/od_detail_circle_pointer"
+        android:layout_alignTop="@+id/od_detail_circle_pointer"
+        android:layout_alignRight="@+id/od_detail_circle_pointer"
+        android:gravity="center"
+        android:text="290"
         android:textColor="@color/white"
-        android:textSize="60sp"
-        android:text="-" />
-
+        android:textSize="70sp" />
+    
+    
+    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/od_detail_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:layout_alignBottom="@+id/od_detail_circle_pointer"
+        android:layout_alignLeft="@+id/od_detail_circle_pointer"
+        android:layout_alignRight="@+id/od_detail_circle_pointer"
+        android:gravity="center"
+        android:text="US Consulate"
+        android:textColor="@color/white"
+        android:textSize="12sp" />
+    
 </RelativeLayout>

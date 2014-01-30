@@ -29,14 +29,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentTop="true"
-                    layout="@layout/dashboard_info" />
+                    layout="@layout/outdoor_dashboard_info" />
             </RelativeLayout>
 
             <!-- Caution layout -->
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 layout="@layout/od_caution_layout" />
 
             <!-- Map layout -->
@@ -44,7 +44,7 @@
 			<include
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 layout="@layout/od_map_layout" />
             <!-- <RelativeLayout
                 android:layout_width="match_parent"
@@ -74,7 +74,7 @@
                 android:id="@+id/odWeatherHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 android:gravity="center_horizontal"
                 android:text="Weather Forcast"
                 android:textColor="@color/cornflowerblue"
@@ -92,12 +92,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 android:background="@color/gray" />
             <LinearLayout  
                 android:id="@+id/odWetherForcastLL"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="16dp"
                 android:orientation="vertical">
                 
             </LinearLayout>
@@ -105,13 +106,15 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 layout="@layout/dashboard_details_control" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_margin="8dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginBottom="16dp"
                 android:background="@color/gray" />
 
             <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
@@ -119,7 +122,7 @@
                 android:id="@+id/detailsOutdoorSecondMsg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 android:text="@string/msg_bot_1"
                 android:textColor="@color/cornflowerblue"
                 android:textSize="18sp"
@@ -130,7 +133,7 @@
                 android:id="@+id/detailsOutdoorlayoutGraph"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
-                android:layout_margin="8dp"
+                android:layout_margin="16dp"
                 android:orientation="vertical" >
             </LinearLayout>
 
@@ -142,7 +145,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:onClick="aqiAnalysisClick"
-                android:text="Air Analysis explained" />
+                android:text="@string/outdoor_analysis_head1" />
         </LinearLayout>
     </ScrollView>
 
