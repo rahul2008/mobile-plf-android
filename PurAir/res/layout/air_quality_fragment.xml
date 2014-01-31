@@ -1,24 +1,178 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@android:color/white" 
-    android:layout_gravity="bottom">
+    android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/tv_lm_air_quality_title"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Benefits of having Air Purifier" />
+        android:background="@android:color/white"
+        android:paddingBottom="15dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp" >
 
-    <TextView
-        android:id="@+id/tv_lm_air_quality_content"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/tv_lm_air_quality_title"
-        android:layout_marginTop="14dp"
-        android:text="Info info info info info info info info info info info info info info info info" />
+        <TextView
+            android:id="@+id/intro_lbl"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/air_quality_explained_intro"
+            android:textColor="#808080" />
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/purifier_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/intro_lbl"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/large_purifier" />
+
+        <TextView
+            android:id="@+id/purifier_feature_lbl_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/purifier_img"
+            android:layout_marginTop="60dp"
+            android:layout_toLeftOf="@+id/purifier_img"
+            android:text="@string/purifier_feature_lbl_1"
+            android:textColor="@color/philips_blue" />
+
+        <TextView
+            android:id="@+id/purifier_feature_lbl_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/purifier_feature_lbl_1"
+            android:layout_below="@+id/purifier_feature_lbl_1"
+            android:layout_marginTop="15dp"
+            android:layout_toLeftOf="@+id/purifier_img"
+            android:text="@string/purifier_feature_lbl_2"
+            android:textColor="@color/philips_blue" />
+
+        <TextView
+            android:id="@+id/purifier_feature_lbl_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/purifier_feature_lbl_2"
+            android:layout_below="@+id/purifier_feature_lbl_2"
+            android:layout_marginTop="15dp"
+            android:layout_toLeftOf="@+id/purifier_img"
+            android:text="@string/purifier_feature_lbl_3"
+            android:textColor="@color/philips_blue" />
+
+        <View
+            android:id="@+id/separator"
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/purifier_img"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="-35dp"
+            android:background="@color/darkgray" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/separator"
+            android:layout_below="@+id/separator"
+            android:layout_marginRight="15dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:drawableLeft="@drawable/indoor_pollutants"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/gray_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:text="@string/indoor_pollutants"
+                android:textColor="#808080"
+                android:textSize="13sp" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/darkgray" />
+            
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/vistashield_ips_system"
+                android:textColor="#808080"
+                android:textSize="13sp" 
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/vistashield"
+                android:drawableRight="@drawable/gray_arrow"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"/>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/darkgray" />           
+            
+            
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/outdoor_colors_explained"
+                android:textColor="#808080"
+                android:textSize="13sp" 
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/outdoor_air_quality"
+                android:drawableRight="@drawable/gray_arrow"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"/>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/darkgray" />
+            
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/indoor_colors_explained"
+                android:textColor="#808080"
+                android:textSize="13sp" 
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/indoor_air_quality"
+                android:drawableRight="@drawable/gray_arrow"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"/>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/darkgray" />
+            
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/guards_environment"
+                android:textColor="#808080"
+                android:textSize="13sp" 
+                android:paddingLeft="5dp"
+                android:drawableLeft="@drawable/guard_environment"
+                android:drawableRight="@drawable/gray_arrow"
+                android:drawablePadding="5dp"
+                android:gravity="center_vertical"/>
+            
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:background="@color/darkgray" />
+            
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

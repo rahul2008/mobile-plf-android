@@ -492,9 +492,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 1: 
-//				showFragment(leftMenuItems.get(position));
-//				setTitle(getString(R.string.list_item_2));
-//				mDrawerLayout.closeDrawer(mListViewLeft);
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_air_quality_explained));
+				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 2:
 				//Outdoor locations

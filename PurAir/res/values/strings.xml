@@ -274,5 +274,16 @@
 	    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum 
 	    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum 
 	    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum </string>
+	    
+	<!-- Air Quality Explained -->
+	<string name="air_quality_explained_intro">Nobody can avoid the increasingly alarming air quality issues as we live in an urban setting. To purify indoor air in a natural and holistic way, count on the Philips VitaShield Intelligent Purification System.</string>
+	<string name="purifier_feature_lbl_1">Removes ultra-fine particles of down to 20 nanometres.</string>
+	<string name="purifier_feature_lbl_2">Natural filtration ensures the family\'s well-being.</string>
+	<string name="purifier_feature_lbl_3">Adapts to different home environment and various needs.</string>
+	<string name="indoor_pollutants">Indoor pollutants</string>
+	<string name="vistashield_ips_system">Philips VitaShield IPS System</string>
+	<string name="indoor_colors_explained">Indoor air level colours explained</string>
+	<string name="outdoor_colors_explained">Outdoor air quality colours explained</string>
+	<string name="guards_environment">Guards your environment</string>
 	
 </resources>
