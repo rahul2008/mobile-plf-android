@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="good">#00B8FF</color>
+    <color name="moderate">#346DE3</color>
+    <color name="unhealthy_for_sensitive">#6A1FC6</color>
+    <color name="unhealthy">#930095</color>
+    <color name="very_unhealthy">#B30057</color>
+	<color name="hazardous">#D40019</color>
+	
+	<color name="gray_very_light">#B8B1AB</color>
+    <color name="gray_light">#999188</color>
+    <color name="gray_dark">#333333</color>
+    
+    <color name="graph_gray">#FFDBDBDB</color>
+    <color name="graph_black">#FF666666</color>
+    <color name="white">#FFFFFFFF</color>
+    
+</resources>
