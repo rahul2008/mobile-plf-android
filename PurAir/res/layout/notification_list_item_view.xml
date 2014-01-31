@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginBottom="10dp"
+    android:background="@drawable/daily_notifications_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp" >
+
+    <ImageButton
+        android:id="@+id/deleteImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/delete_circle"
+        android:src="@drawable/delete_dash_horizontal" 
+        android:visibility="gone"/>
+    
+    <RelativeLayout
+        android:id="@+id/toggle_delete_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        >
+
+        <ToggleButton
+            android:id="@+id/independent_notification_toggle"
+            style="@style/Widget.Button.Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <Button
+            android:id="@+id/btn_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/delete"
+            android:minHeight="32dp"
+            android:text="@string/delete"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/notification_selected_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textColor="#848484"
+        android:textSize="25sp"
+        android:layout_toRightOf="@id/deleteImageButton"
+        android:layout_toLeftOf="@id/toggle_delete_layout" />
+
+    <TextView
+        android:id="@+id/notification_selected_days"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/notification_selected_time"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_alignLeft="@id/notification_selected_time"
+        android:layout_toLeftOf="@id/toggle_delete_layout"
+        android:textColor="#7C7C7C" />
+
+    
+
+</RelativeLayout>

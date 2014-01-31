@@ -5,11 +5,13 @@
 
     <ToggleButton
         android:id="@+id/daily_notification_toggle"
+        style="@style/Widget.Button.Toggle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="ToggleButton" />
+        android:checked="false"
+        />
 
     <TextView
         android:id="@+id/daily_notification_title"
@@ -20,7 +22,10 @@
         android:layout_toLeftOf="@id/daily_notification_toggle"
         android:text="@string/daily_notification_title"
         android:textColor="#5D6578"
-        android:textSize="18sp" />
+        android:textSize="18sp" 
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"/>
 
     <TextView
         android:id="@+id/daily_notification_desc"
@@ -30,7 +35,9 @@
         android:layout_below="@+id/daily_notification_title"
         android:layout_toLeftOf="@id/daily_notification_toggle"
         android:text="@string/daily_notificatioin_desc"
-        android:textColor="#7C7C7C" />
+        android:textColor="#7C7C7C" 
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
 
     <TextView
         android:id="@+id/daily_notification_alert_info"
@@ -39,9 +46,11 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/daily_notification_desc"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
         android:text="@string/daily_notification_info"
-        android:textColor="@color/philips_blue" />
+        android:textColor="@color/philips_blue"
+        android:layout_marginTop="15dp" 
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
 
     <Button
         android:id="@+id/daily_notification_btn_edit"
@@ -55,6 +64,8 @@
         android:textColor="#FFF"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:visibility="gone" />
 
     <Button
@@ -65,7 +76,9 @@
         android:layout_alignBaseline="@id/daily_notification_btn_edit"
         android:layout_alignRight="@+id/daily_notification_toggle"
         android:background="@drawable/plus_blue"
-        android:visibility="gone" />
+        android:visibility="gone" 
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"/>
 
     <ScrollView
         android:id="@+id/scrollview_notification_layout"
@@ -73,15 +86,17 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/daily_notification_btn_edit" 
         android:background="#E4E4E4"
-        android:visibility="gone"
-        android:layout_marginTop="10dp">
+        android:visibility="visible"
+        android:layout_marginTop="10dp"
+        android:gravity="center">
 
         <LinearLayout
             android:id="@+id/notification_layout"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" 
-            android:padding="10dp">
+            android:gravity="center"
+            >
         </LinearLayout>
     </ScrollView>
 

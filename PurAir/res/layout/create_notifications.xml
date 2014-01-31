@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/select_days_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        >
+
+        <ImageView
+            android:id="@+id/next_imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/about_air_quality_goto" />
+
+        <TextView
+            android:id="@+id/lbl_days"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@id/next_imageview"
+            android:text="Days:" />
+
+        <TextView
+            android:id="@+id/selected_days_lbl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/lbl_days"
+            android:layout_below="@+id/lbl_days"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/selected_days_lbl"
+            android:layout_marginTop="15dp"
+            android:background="@color/darkgray" />
+
+    </RelativeLayout>
+
+    <TimePicker
+        android:id="@+id/notification_timePicker"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="bottom"/>
+
+</LinearLayout>

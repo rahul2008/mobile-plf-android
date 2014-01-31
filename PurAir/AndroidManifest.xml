@@ -95,6 +95,14 @@
             android:name="com.philips.cl.di.dev.pa.screens.TermsAndConditionsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.screens.NotificationSelectDayActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.screens.CreateNotificationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>
