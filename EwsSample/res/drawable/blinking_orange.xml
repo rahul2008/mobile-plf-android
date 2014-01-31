@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+ <animation-list xmlns:android="http://schemas.android.com/apk/res/android" 
+     android:id="@+id/led" android:oneshot="false">
+    <item android:drawable="@drawable/blinking_orange_0" android:duration="100" />
+    <item android:drawable="@drawable/blinking_orange_1" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_2" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_3" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_4" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_5" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_6" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_7" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_8" android:duration="100" />
+        <item android:drawable="@drawable/blinking_orange_9" android:duration="100" />
+    </animation-list>
