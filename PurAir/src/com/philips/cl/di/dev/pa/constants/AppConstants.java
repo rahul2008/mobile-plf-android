@@ -74,6 +74,8 @@ public class AppConstants {
 	public static final String URL_CURRENT = "http://%s/di/v1/products/1/air";
 	
 	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
+	
+	public static final String OUTDOOR_LOCATIONS_URL = "http://ixuanwu.com.cn/app/citys.php";
 
 	
 	/** The Constant defaultIPAddress. */

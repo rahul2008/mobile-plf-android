@@ -1,8 +1,37 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.*;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.*;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR_SKIES;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.CLOUDY;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN_AT_TIMES;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_DRIZZLE;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.MIST;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.PARTLY_CLOUDY;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.SWIPE_THRESHOLD;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.SWIPE_VELOCITY_THRESHOLD;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animAlpha;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animDuration;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animRotation;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animScaleX;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animScaleY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorBackgroundTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorCircleScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorTextScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorTextScaleUpTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.outdoorCircleScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.outdoorTextScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.outdoorTextScaleUpTranslationY;
+import static com.philips.cl.di.dev.pa.util.AnimatorConstants.rotationPivot;
 
 import java.util.List;
 
@@ -33,11 +62,13 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.GsonBuilder;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.dto.CityDetails;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
@@ -112,11 +143,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		initAnimations();
 		startOutdoorAQITask() ;
 		startWeatherDataTask() ;
-
+		
 		isIndoorExpanded = true;
 		rotateOutdoorCircle = true;
 		rotateIndoorCircle = true;
-
+		if(SessionDto.getSessionDto() != null && SessionDto.getSessionDto().getCityDetails() != null)
+			Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
+		
 		if(MainActivity.getAirPurifierEventDto() != null) {
 			setIndoorDashBoardValues(indoorPSense);
 		}
@@ -373,6 +406,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			//updateOutdoorAQIFields() ;
 		}
 	}
+	
 
 	private void startWeatherDataTask() {
 		if ( SessionDto.getInstance().getWeatherDetails() == null 
@@ -826,9 +860,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
+		Log.i(TAG, "respCode " + responseCode + " respData " + responseData);
 		if (getActivity() != null) {
 			if ( responseCode == 200 ) {
 				new DataParser(responseData).parseOutdoorAQIData() ;
+//				CityDetails city = new GsonBuilder().create().fromJson(responseData, CityDetails.class);
+//				SessionDto.getInstance().setCityDetails(city) ;
 				updateOutdoorAQI() ;
 			}
 		}

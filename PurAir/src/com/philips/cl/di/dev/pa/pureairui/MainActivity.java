@@ -32,18 +32,25 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
@@ -103,6 +110,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	private boolean isNetworkAvailable = false;
 	private BroadcastReceiver wifiReceiver;
+	
+	private int isGooglePlayServiceAvailable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,9 +188,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		
 		createwifiReceiver();
 		this.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+		
+		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 	}
-	
-	
 	
 	private void createwifiReceiver() {
 		wifiReceiver = new BroadcastReceiver() {
@@ -289,7 +298,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	 * 					an onClickListerner to the buttons.
 	 */
 	public void setAllButtonListener(ViewGroup viewGroup) {
-
 		View v;
 		for (int i = 0; i < viewGroup.getChildCount(); i++) {
 			v = viewGroup.getChildAt(i);
@@ -354,7 +362,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 	
 	// TODO : Change param to int.
-	private void setRightMenuConnectedStatus(boolean status){
+	private void setRightMenuConnectedStatus(boolean status) {
 		
 		// Move into one method.
 		FragmentManager manager = getSupportFragmentManager();
@@ -363,7 +371,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if(fragment instanceof OutdoorLocationsFragment) {
 			Log.i(TAG, "setRightMenuConnectedStatus$OutdoorLocationsFragment");
 			rightMenuItem.setIcon(R.drawable.plus_blue);
-			supportInvalidateOptionsMenu();
 			return;
 		}
 		
@@ -421,7 +428,29 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		case R.id.right_menu:
 			if(fragment instanceof OutdoorLocationsFragment) {
 				//TODO : Change action bar to search bar. 
-				break;
+//				LinearLayout view = (LinearLayout) getSupportActionBar().getCustomView();
+//				TextView tv = (TextView) view.findViewById(R.id.action_bar_title);
+////				Log.i(TAG, "onOutdoorClick " + tv.getText());
+//				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
+//				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cities);
+//				AutoCompleteTextView actv = new AutoCompleteTextView(this);
+//				LayoutParams params = (LayoutParams) tv.getLayoutParams();
+//				params.width = LayoutParams.MATCH_PARENT - 20;
+//				actv.setHint("Enter City name");
+//				actv.setAdapter(adapter);
+//				actv.setThreshold(0);
+//				actv.showDropDown();
+//				actv.setLayoutParams(params);
+//				view.addView(actv);
+//				if(tv.getVisibility() == View.VISIBLE) {
+//					tv.setVisibility(View.GONE);
+//					actv.setVisibility(View.VISIBLE);
+//				} else {
+//					tv.setVisibility(View.VISIBLE);
+//					actv.setVisibility(View.GONE);
+//				}
+//				view.invalidate();view.requestLayout();
+//				break;
 			}
 			
 			if(mRightDrawerOpened) {
@@ -637,6 +666,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return isNetworkAvailable;
 	}
 	
+	public boolean isGooglePlayServiceAvailable() {
+		if(ConnectionResult.SUCCESS == isGooglePlayServiceAvailable) {
+			return true;
+		}
+		return false;
+	}
+
 	public int getVersionNumber() {
 		int versionCode = 0;
 		try {
