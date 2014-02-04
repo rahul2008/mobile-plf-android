@@ -9,6 +9,9 @@ import android.graphics.Color;
  * The Class AppConstants.
  */
 public class AppConstants {
+	
+	public static final int SUCCESS = 0 ;
+	
 	public static final String EMPTY_STRING = "" ;
 	// Icon for left menu
 	/** The icon home. */
@@ -66,7 +69,7 @@ public class AppConstants {
 	/** The Constant UPDATE_INTERVAL. */
 	public static final long UPDATE_INTERVAL = 3 * 1000;
 	
-	public static final long UPDATE_INTERVAL_CPP = 30  * 1000 ;
+	public static final long UPDATE_INTERVAL_CPP = 15  * 1000 ;
 
 	/** The Constant URL. */
 
@@ -268,4 +271,18 @@ public class AppConstants {
 	public static final String CLEAR = "Clear";
 	
 	
+	public static final String PRODUCT = "product";
+	
+	public static final int CONNECTED = 1 ;
+	public static final int NOT_CONNECTED = 0 ;
+	public static final int CONNECTED_VIA_PHILIPS = 2 ;
+	
+	// Constants related to ICP client
+	public static final String DICOMM_REQUEST = "DICOMM-REQUEST" ;
+	public static final String PUT_PROPS = "PUTPROPS" ;
+	public static final String GET_PROPS = "GETPROPS" ;
+	
+	
+	public static final String AIRPURIFIER_ID = "1c5a6bfffe634147" ;
+	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
 }
