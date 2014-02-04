@@ -435,6 +435,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			indoorInfos[2] = tvIndoorAQI.getText().toString();
 			indoorInfos[3] = tvIndoorTitle.getText().toString();
 			indoorInfos[4] = tvIndoorComment.getText().toString();
+			intent.putExtra("indoor", indoorInfos);
 			startActivity(intent);
 			//Toast.makeText(getActivity(), "Indoor details", Toast.LENGTH_LONG).show();
 			break;
