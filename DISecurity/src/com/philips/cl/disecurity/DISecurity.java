@@ -25,10 +25,10 @@ public class DISecurity implements ServerResponseListener {
 	 * Constructor
 	 * @param context
 	 */
-	public DISecurity(String pValue, String gValue, KeyDecryptListener keyDecryptListener) {
-		this.pValue = pValue;
-		this.gValue = gValue;
+	public DISecurity(KeyDecryptListener keyDecryptListener) {
 		this.keyDecryptListener = keyDecryptListener;
+		pValue = Util.pValue;
+		gValue = Util.gValue;
 		Log.d(TAG, "pValue= "+pValue+" gValue= "+gValue);
 	}
 	
