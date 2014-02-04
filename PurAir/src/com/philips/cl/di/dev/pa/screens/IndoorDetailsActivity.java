@@ -16,6 +16,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
@@ -37,6 +38,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class IndoorDetailsActivity extends Activity implements OnClickListener, PercentDetailsClickListener {
 	
+	private final String TAG = "IndoorDetailsActivity";
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private ImageView circleImg, modeIcon, filterIcon;
@@ -533,10 +535,11 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	}
 	
 	private void getDataFromDashboard() {
-		String datas[] = getIntent().getStringArrayExtra("outdoor");
+		String datas[] = getIntent().getStringArrayExtra("indoor");
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
+		Log.i(TAG, "Data from Dashboard= " + datas);
 		if (datas != null && datas.length > 0) {
 			
 			if (datas[0] != null) {
@@ -557,9 +560,9 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 			if (datas[3] != null) {
 				String tempStatus[] = datas[3].trim().split(" ");
 				if (tempStatus != null && tempStatus.length > 1) {
-					aqiSummary.setText(tempStatus[0]+"\n"+tempStatus[1]);
+					aqiStatus.setText(tempStatus[0]+"\n"+tempStatus[1]);
 				} else {
-					aqiSummary.setText(datas[3]);
+					aqiStatus.setText(datas[3]);
 				}
 			}
 			
@@ -570,6 +573,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	}
 	
 	private Drawable setAQICircleBackground(int aqi) {
+		Log.i(TAG, "aqi=  " + aqi);
 		if(aqi >= 0 && aqi < 2) {
 			return getResources().getDrawable(R.drawable.pink_circle_with_arrow_2x);
 		} else if(aqi >= 2 && aqi < 3) {
