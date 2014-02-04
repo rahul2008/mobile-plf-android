@@ -38,9 +38,9 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
 			airPurifierEvent.setPowerMode(jsonObj.getString(ParserConstants.POWER_MODE)) ;
 			String aqi = jsonObj.getString(ParserConstants.AQI) ;
-			if(aqi != null || !aqi.equals(""))
+			if(aqi != null && !aqi.equals(""))
 				airPurifierEvent.setIndoorAQI(Integer.parseInt(aqi)) ;
-			
+
 			airPurifierEvent.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
 			airPurifierEvent.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
 			airPurifierEvent.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
@@ -66,6 +66,43 @@ public class DataParser implements DataParserInterface {
 	@Override
 	public void parseHistoryData() {
 
+	}
+
+	@Override
+	public AirPurifierEventDto parseAirPurifierEventDataFromCPP()  {
+		AirPurifierEventDto airPurifierEvent = null ;
+		JSONObject jsonObject = null ;
+		try {
+			jsonObject = new JSONObject(dataToParse);
+			JSONObject airPuriferJson = jsonObject.getJSONObject("data") ;
+			airPurifierEvent = new AirPurifierEventDto() ;	
+
+			airPurifierEvent.setMachineMode(airPuriferJson.getString(ParserConstants.MACHINE_MODE)) ;
+			airPurifierEvent.setFanSpeed(airPuriferJson.getString(ParserConstants.FAN_SPEED)) ;
+			airPurifierEvent.setPowerMode(airPuriferJson.getString(ParserConstants.POWER_MODE)) ;
+			String aqi = airPuriferJson.getString(ParserConstants.AQI) ;
+			if(aqi != null && !aqi.equals(""))
+				airPurifierEvent.setIndoorAQI(Integer.parseInt(aqi)) ;
+
+			airPurifierEvent.setAqiL(Integer.parseInt(airPuriferJson.getString(ParserConstants.AQI_LIGHT))) ;
+			airPurifierEvent.setAqiThreshold(Integer.parseInt(airPuriferJson.getString(ParserConstants.AQI_THRESHOLD))) ;
+			airPurifierEvent.setDtrs(Integer.parseInt(airPuriferJson.getString(ParserConstants.DTRS))) ;
+			airPurifierEvent.setFilterStatus1(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_1))) ;
+			airPurifierEvent.setFilterStatus2(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_2))) ;
+			airPurifierEvent.setFilterStatus3(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_3))) ;
+			airPurifierEvent.setFilterStatus4(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_4))) ;
+			airPurifierEvent.setReplaceFilter1(airPuriferJson.getString(ParserConstants.CLEAN_FILTER_1)) ;
+			airPurifierEvent.setReplaceFilter2(airPuriferJson.getString(ParserConstants.REP_FILTER_2)) ;
+			airPurifierEvent.setReplaceFilter3(airPuriferJson.getString(ParserConstants.REP_FILTER_3)) ;
+			airPurifierEvent.setReplaceFilter4(airPuriferJson.getString(ParserConstants.REP_FILTER_4)) ;
+			airPurifierEvent.setChildLock(Integer.parseInt(airPuriferJson.getString(ParserConstants.CL))) ;
+			airPurifierEvent.setpSensor(Integer.parseInt(airPuriferJson.getString(ParserConstants.PSENS))) ;
+			airPurifierEvent.settFav(Integer.parseInt(airPuriferJson.getString(ParserConstants.TFAV))) ;
+
+		} catch (JSONException e) {
+			
+		}
+		return airPurifierEvent ;
 	}
 
 
