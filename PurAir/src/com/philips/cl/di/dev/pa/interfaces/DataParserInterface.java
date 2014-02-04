@@ -22,4 +22,6 @@ public interface DataParserInterface {
 	public void parseOutdoorAQIData() ;
 	
 	public List<Weatherdto> parseWeatherData() ;
+	
+	public AirPurifierEventDto parseAirPurifierEventDataFromCPP() ;
 }
