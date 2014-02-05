@@ -1,13 +1,18 @@
 package com.philips.cl.di.dev.pa.pureairui;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -15,7 +20,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -23,11 +27,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -37,19 +44,21 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.City;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
@@ -69,11 +78,12 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class MainActivity extends ActionBarActivity implements SensorEventListener {
+public class MainActivity extends ActionBarActivity implements SensorEventListener, OnClickListener {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
+	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
 
 	private static int screenWidth, screenHeight;
 
@@ -116,6 +126,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private BroadcastReceiver wifiReceiver;
 
 	private int isGooglePlayServiceAvailable;
+	private TextView cancelSearchItem;
+	private SharedPreferences outdoorLocationPrefs;
+	private ArrayList<String> outdoorLocationsList;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -194,6 +207,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		this.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
 
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
+		Log.i(TAG, "outdoorPrefs " + outdoorLocationPrefs.getAll());
+		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
+		outdoorLocationsList = new ArrayList<String>();
+		int size = outdoorLocationsMap.size();
+		for(int i = 0; i < size; i++) {
+			outdoorLocationsList.add(outdoorLocationsMap.get(""+i));
+		}
+		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
 	}
 
 	private void createwifiReceiver() {
@@ -255,6 +277,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onPause();
 		Log.i(TAG, "OnPause") ;
 		sensorDataController.stopPolling();
+		Editor editor = outdoorLocationPrefs.edit();
+		editor.clear();
+		int count = outdoorLocationsAdapter.getCount();
+		Log.i(TAG, "count " + count);
+		for (int i = 0; i < count; i++) {
+			Log.i(TAG, "saving..." + i + " :: " + outdoorLocationsAdapter.getItem(i));
+			editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
+		}
+		
+		editor.commit();
 	}
 
 	@Override
@@ -424,6 +456,53 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return true;
 	}
 
+	private ActionMode actionMode;
+	
+	private ActionMode.Callback callback = new ActionMode.Callback() {
+		
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			Log.i(TAG, "onPrepareActionMode");
+			return true;
+		}
+		
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			Log.i(TAG, "onDestroyActionMode");
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+			actionMode = null;
+		}
+		
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			Log.i(TAG, "onCreateActionMode");
+			MenuInflater inflater = mode.getMenuInflater();
+			inflater.inflate(R.menu.context_search_bar, menu);
+			LinearLayout searchlayout = (LinearLayout) getLayoutInflater().inflate(R.layout.search_bar, null);
+			cancelSearchItem = (TextView) searchlayout.findViewById(R.id.tv_cancel_search);
+			cancelSearchItem.setOnClickListener(MainActivity.this);
+			mode.setCustomView(searchlayout);
+			return true;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem menu) {
+			Log.i(TAG, "onActionItemClicked");
+			return true;
+		}
+	};
+	
+	private ArrayAdapter<String> outdoorLocationsAdapter;
+	
+	public ArrayAdapter<String> getOutdoorLocationsAdapter() {
+		return outdoorLocationsAdapter;
+	}
+
+	public void setOutdoorLocationsAdapter(ArrayAdapter<String> outdoorLocationsAdapter) {
+		this.outdoorLocationsAdapter = outdoorLocationsAdapter;
+	}
+
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mActionBarDrawerToggle.onOptionsItemSelected(item)) {
@@ -436,30 +515,69 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		switch (item.getItemId()) {
 		case R.id.right_menu:
 			if(fragment instanceof OutdoorLocationsFragment) {
-				//TODO : Change action bar to search bar. 
-				//				LinearLayout view = (LinearLayout) getSupportActionBar().getCustomView();
-				//				TextView tv = (TextView) view.findViewById(R.id.action_bar_title);
-				////				Log.i(TAG, "onOutdoorClick " + tv.getText());
-				//				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
-				//				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cities);
-				//				AutoCompleteTextView actv = new AutoCompleteTextView(this);
-				//				LayoutParams params = (LayoutParams) tv.getLayoutParams();
-				//				params.width = LayoutParams.MATCH_PARENT - 20;
-				//				actv.setHint("Enter City name");
-				//				actv.setAdapter(adapter);
-				//				actv.setThreshold(0);
-				//				actv.showDropDown();
-				//				actv.setLayoutParams(params);
-				//				view.addView(actv);
-				//				if(tv.getVisibility() == View.VISIBLE) {
-				//					tv.setVisibility(View.GONE);
-				//					actv.setVisibility(View.VISIBLE);
-				//				} else {
-				//					tv.setVisibility(View.VISIBLE);
-				//					actv.setVisibility(View.GONE);
-				//				}
-				//				view.invalidate();view.requestLayout();
-				//				break;
+				
+				actionMode = startSupportActionMode(callback);
+
+				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
+				
+				Map<String, City> citiesMap = SessionDto.getInstance().getCityDetails().getCities();
+				List<City> citiesList = new ArrayList<City>(citiesMap.values());
+				
+				final List<String> cityNamesList = new ArrayList<String>();
+				Iterator<City> iterator = citiesList.iterator();
+				
+				while(iterator.hasNext()) {
+					String cityName = iterator.next().getKey();
+					cityName = cityName.substring(0, 1).toUpperCase() + cityName.substring(1);
+					cityNamesList.add(cityName);
+				}
+				Collections.sort(cityNamesList);
+				
+				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cityNamesList);
+				final DragSortListView listView = (DragSortListView) findViewById(R.id.outdoor_locations_list);
+				AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.actv_cities_list);
+				actv.setAdapter(adapter);
+				actv.setThreshold(0);
+				actv.showDropDown();
+				actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+						Log.i(TAG, "Selected text " + ((TextView) arg1).getText());
+						actionMode.finish();
+						
+					}
+				});
+				
+				actv.setValidator(new AutoCompleteTextView.Validator() {
+					
+					@Override
+					public boolean isValid(CharSequence text) {
+						Log.i(TAG, "isAutoCompleteText valid");
+						if(cancelSearch) {
+							cancelSearch = false;
+							return false;
+						}
+						if(cityNamesList.contains(text.toString())) {
+							outdoorLocationsAdapter.add(text.toString());
+							outdoorLocationsAdapter.notifyDataSetChanged();
+							listView.invalidate();
+//							outdoorLocationsList.add(text.toString());
+							Log.i(TAG, "Listitem count " + listView.getCount() + " adapter " + outdoorLocationsAdapter.getCount());
+							return true;
+						} else {
+							Toast.makeText(MainActivity.this, "Inalid text", Toast.LENGTH_LONG).show();
+							return false;
+						}
+					}
+					
+					@Override
+					public CharSequence fixText(CharSequence invalidText) {
+						// TODO Auto-generated method stub
+						return null;
+					}
+				});
+				
+				break;
 			}
 
 			if(mRightDrawerOpened) {
@@ -672,6 +790,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	public boolean isNetworkAvailable() {
+		Log.i(TAG, "isNetworkAvailable " + isNetworkAvailable);
 		return isNetworkAvailable;
 	}
 
@@ -691,7 +810,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		return versionCode;
 	}
+	
+	private boolean cancelSearch = false;
 
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.tv_cancel_search:
+			cancelSearch = true;
+			actionMode.finish();
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+			break;
+		}
+	}
+	
 	public void setAirExplainedActivity(int activitySelected){
 		mActivitySelected=activitySelected;
 	}

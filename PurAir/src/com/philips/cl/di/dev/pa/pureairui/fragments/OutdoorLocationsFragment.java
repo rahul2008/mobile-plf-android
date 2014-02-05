@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -38,13 +40,12 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 	private Location currentLocation;	
 	
 	private DragSortListView mListView;
-	private HashMap<String, String> items;
 	private ArrayAdapter<String> adapter;
 	
 	private DragSortListView.DropListener onDrop = new DragSortListView.DropListener() {
 		@Override
 		public void drop(int from, int to) {
-			Log.i(TAG, "onDrop");
+			Log.i(TAG, "onDrop from " + from + " to " + to);
 			String item=adapter.getItem(from);
 
 			adapter.notifyDataSetChanged();
@@ -56,7 +57,7 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 	private DragSortListView.RemoveListener onRemove = new DragSortListView.RemoveListener() {
 		@Override
 		public void remove(int which) {
-			Log.i(TAG, "onRemove");
+			Log.i(TAG, "onRemove which " + which);
 			adapter.remove(adapter.getItem(which));
 		}
 	};
@@ -66,7 +67,6 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 		public float getSpeed(float w, long t) {
 			Log.i(TAG, "ssProfile$getSpeed w " + w + " t " + t);
 			if (w > 0.8f) {
-				// Traverse all views in a millisecond
 				return ((float) adapter.getCount()) / 0.001f;
 			} else {
 				return 10.0f * w;
@@ -80,21 +80,27 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 		Log.i(TAG, "isGooglePlayServiceAvailable " + isGooglePlayServiceAvailable);
 		
 		locationClient = new LocationClient(getActivity(), this, this);
-		
-		items = new HashMap<String, String>();
-		items.put("1", "Shanghai");
-		items.put("2", "New York");
-		items.put("3", "Bangalore");
-		items.put("4", "Ghangzhou");
-		items.put("5", "Beijeng");
-		items.put("6", "Hong Kong");
-		List<String> list = new ArrayList<String>(items.values());
-		
-		adapter = new ArrayAdapter<String>(getActivity(), R.layout.list_item, R.id.list_text, list);
-		
+		createCitiesList();
+		adapter = ((MainActivity) getActivity()).getOutdoorLocationsAdapter();
 		super.onCreate(savedInstanceState);
 	}
 	
+	private void createCitiesList() {
+		String citiesString = null;
+		try {
+			InputStream is = getResources().getAssets().open("cities.json");
+			byte[] data = new byte[is.available()];
+			is.read(data);
+			is.close();
+			citiesString = new String(data);
+		} catch (IOException e) {
+			Log.e(TAG, "JSON Parse ERROR while creating Cities list");
+		}
+		Log.i(TAG, "citiesJson " + citiesString);
+		CityDetails city = new GsonBuilder().create().fromJson(citiesString, CityDetails.class);
+		SessionDto.getInstance().setCityDetails(city) ;
+	}
+
 	@Override
 	public void onStart() {
 		locationClient.connect();

@@ -332,4 +332,6 @@
     <string name="indoor_moderate">Moderate air. Moderate particle levels in the air. The PM2.5 level is also expected to be moderate. Adults and children with lung problems, and adults with heart problems who experience symptoms should consider reducing strenuous physical activity.</string>
     <string name="indoor_good">Good air. Overall there is low dust and particle levels in the air. The PM2.5 level is expected to be low. Health risk is considered to be minor. Enjoy your usual indoor activities.</string>
     <string name="indoor_color_explained_intro">The Philips Smart Air app shows real-time air particle level on a scale of 1-10 measured by a smart built-in sensor. You can read update air quality information in your home, including PM2.5 concentration.</string>
+    <string name="enter_city_name">Enter city name</string>
+    <string name="cancel">Cancel</string>
 </resources>

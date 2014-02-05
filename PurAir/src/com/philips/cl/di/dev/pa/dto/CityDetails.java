@@ -16,8 +16,8 @@ public class CityDetails {
 	/**
 	 * @return the cities
 	 */
-	public HashMap<String, City> getCities() {
-		return (HashMap<String, City>) cities;
+	public Map<String, City> getCities() {
+		return (Map<String, City>) cities;
 	}
 
 	/**

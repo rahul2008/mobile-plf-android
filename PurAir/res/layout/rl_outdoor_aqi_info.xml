@@ -78,6 +78,6 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/tv_outdoor_aqi_status_title"
         android:textColor="@color/white"
-        android:text="" />
+        android:text="\n\n\n" />
     
 </RelativeLayout>

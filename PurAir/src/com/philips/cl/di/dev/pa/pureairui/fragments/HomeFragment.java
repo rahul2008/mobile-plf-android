@@ -43,6 +43,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
@@ -128,8 +129,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private LinearLayout takeTourLayout;
 
 	private RelativeLayout takeTourPopUp;
-
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -650,22 +650,22 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		String message = "";
 		if(aqi >= 0 && aqi <= 50) {
 			title = getString(R.string.very_healthy);
-			message = getString(R.string.very_healthy_msg_outdoor);
+			message = getString(R.string.very_healthy_msg_outdoor) + "\n";
 		} else if(aqi > 50 && aqi <= 100) {
 			title = getString(R.string.healthy);
-			message = getString(R.string.healthy_msg_outdoor);
+			message = getString(R.string.healthy_msg_outdoor) + "\n";
 		} else if(aqi > 100 && aqi <= 150) {
 			title = getString(R.string.slightly_polluted);
-			message = getString(R.string.slightly_polluted_msg_outdoor);
+			message = getString(R.string.slightly_polluted_msg_outdoor) + "\n";
 		} else if(aqi > 150 && aqi <= 200) {
 			title = getString(R.string.moderately_polluted);
-			message = getString(R.string.moderately_polluted_msg_outdoor);
+			message = getString(R.string.moderately_polluted_msg_outdoor) + "\n";
 		} else if(aqi > 200 && aqi <= 300) {
 			title = getString(R.string.unhealthy);
-			message = getString(R.string.unhealthy_msg_outdoor);
+			message = getString(R.string.unhealthy_msg_outdoor) + "\n";
 		} else if(aqi > 300 && aqi <= 500) {
 			title = getString(R.string.hazardous_msg_outdoor);
-			message = getString(R.string.hazardous);
+			message = getString(R.string.hazardous) + "\n";
 		}
 		tvOutdoorTitle.setText(title);
 		tvOutdoorComment.setText(message);
