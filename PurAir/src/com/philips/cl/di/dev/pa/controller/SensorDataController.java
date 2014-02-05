@@ -14,6 +14,7 @@ import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.disecurity.DISecurity;
 /**
  * This Class will get the Sensor Data every specified interval of time
  * Any number of listeners can register to this class
@@ -46,7 +47,13 @@ public class SensorDataController implements ServerResponseListener {
 	private final Runnable getDeviceDataFromCPP = new Runnable() {
 		@Override
 		public void run() {
-			cppHandler.postDelayed(this, AppConstants.UPDATE_INTERVAL_CPP);
+			if ( CPPController.getInstance(context).isSignOn()) {
+				CPPController.getInstance(context).publishEvent(AppConstants.GETPROPS_ACTION, AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, AppConstants.AIRPURIFIER_ID, "", 20, 120) ;
+				cppHandler.postDelayed(this, AppConstants.UPDATE_INTERVAL_CPP);
+			}
+			else {
+				cppHandler.postDelayed(this, 3);
+			}
 		}
 	};
 	
@@ -67,6 +74,7 @@ public class SensorDataController implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		if ( responseCode == HttpURLConnection.HTTP_OK) {
+				responseData = new DISecurity(null).decryptData(responseData, "dev01") ;
 				sensorListener.sensorDataReceived(new DataParser(responseData).parseAirPurifierEventData()) ;
 		}
 		else {

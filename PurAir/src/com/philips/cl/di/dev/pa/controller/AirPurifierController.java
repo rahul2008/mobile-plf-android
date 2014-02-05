@@ -136,10 +136,11 @@ public class AirPurifierController implements ServerResponseListener
 	{
 		String dataToUpload = JSONBuilder.getDICommBuilder(key,value) ;
 		startServerTask(dataToUpload) ;
-	}
-	
+	}	
 	public void setDeviceDetailsRemotely(String key, String value) {
-		JSONBuilder.getPublishEventBuilder(key, value) ;
+		String eventData = JSONBuilder.getPublishEventBuilder(key, value) ;
+		// Publish events
+		CPPController.getInstance(context).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, "", "", 20, 120) ;
 	}
 
 	/**
@@ -150,9 +151,7 @@ public class AirPurifierController implements ServerResponseListener
 		Server statusUpdateTask = new Server(dataToUpload, this);
 		statusUpdateTask.execute(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)));
 	}
-	
-	
-	
+		
 
 	/**
 	 * (non-Javadoc)

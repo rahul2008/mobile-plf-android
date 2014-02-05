@@ -306,6 +306,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will subscribe to events
 	 */
 	public void startDCSService() {
+		Log.i(TAG, "Start DCS: "+isDCSRunning) ;
 		if ( !isDCSRunning ) {
 			if ( isSignOn ) {
 				int numberOfEvents = 20 ;
@@ -316,6 +317,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				eventSubscription.executeCommand() ;
 
 				isDCSRunning = true ;
+			}
+			else {
+				Log.i(TAG, "Not signed on") ;
+				init() ;
 			}
 		}
 	}
