@@ -53,11 +53,14 @@ import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
+import com.philips.cl.di.dev.pa.pureairui.fragments.AirColorExplainedStaticFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.IndoorAirColorIndicationFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorAirColorIndicationFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
@@ -98,7 +101,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private static HomeFragment homeFragment;
 
 	private boolean mRightDrawerOpened = false,  drawerOpen = false;
-	
+
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 	private SensorDataController sensorDataController;
@@ -107,17 +110,18 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private MenuItem rightMenuItem;
 	SharedPreferences mPreferences;
 	int mVisits;
-	
+	int mActivitySelected;
+
 	private boolean isNetworkAvailable = false;
 	private BroadcastReceiver wifiReceiver;
-	
+
 	private int isGooglePlayServiceAvailable;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
-		
+
 		mPreferences=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits= mPreferences.getInt("NoOfVisit", 0);	
 		SharedPreferences.Editor editor=mPreferences.edit();
@@ -136,7 +140,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		//mDrawerLayout.setScrimColor(getResources().getColor(android.R.color.darker_gray));
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
-		
+
 		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.drawable.ic_launcher, R.string.app_name, R.string.action_settings) 
 		{
 
@@ -163,7 +167,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mListViewLeft = (ListView) findViewById(R.id.left_menu);
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
-		
+
 		/** Initiazlise right menu items and click listener*/
 		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu);
 		rightMenuClickListener = new RightMenuClickListener(this);
@@ -178,27 +182,27 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		initFilterStatusViews();
 		connected = false;
-		
+
 		getSupportFragmentManager().beginTransaction()
 		.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
 		.addToBackStack(null)
 		.commit();
 
 		sensorDataController = new SensorDataController(this, this) ;
-		
+
 		createwifiReceiver();
 		this.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
-		
+
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 	}
-	
+
 	private void createwifiReceiver() {
 		wifiReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Log.i(TAG, "wifiReceiver$onReceive " + Thread.currentThread().getName());
 				int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
-				
+
 				switch (wifiState) {
 				case WifiManager.WIFI_STATE_DISABLED:
 				case WifiManager.WIFI_STATE_DISABLING:
@@ -220,7 +224,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				}
 			}
 		};
-		
+
 	}
 
 	@Override
@@ -233,9 +237,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		Log.i(TAG, "onResume") ;
 		super.onResume();
 		sensorDataController.startPolling() ;
-		
+
 	}
-	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO Auto-generated method stub
@@ -252,30 +256,35 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		Log.i(TAG, "OnPause") ;
 		sensorDataController.stopPolling();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		Log.i(TAG, "onBackPressed");
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		
+
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			drawerOpen = false;
-		} else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)) {
+		} else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)
+				&&  !(fragment instanceof AirColorExplainedStaticFragment)  && !(fragment instanceof OutdoorAirColorIndicationFragment) &&  !(fragment instanceof IndoorAirColorIndicationFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
 			setTitle(getString(R.string.dashboard_title));
 		} else if(fragment instanceof ProductRegistrationStepsFragment){
-			manager.popBackStack();
-		}else {
+			manager.popBackStack();			
+		}else if((fragment instanceof AirColorExplainedStaticFragment)  || (fragment instanceof OutdoorAirColorIndicationFragment) ||  (fragment instanceof IndoorAirColorIndicationFragment)){
+			manager.popBackStack();	
+			setTitle(getString(R.string.list_item_air_quality_explained));
+		}
+		else {
 			finish();
 		}
 	}
@@ -337,11 +346,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private void setRightMenuAQIValue(int aqiValue) {
 		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
 	}
-	
+
 	private void setRightMenuAirStatusMessage(String message) {
 		tvAirStatusMessage.setText(message);
 	}
-	
+
 	private void setRightMenuAirStatusBackground(int aqi) {
 		Log.i(TAG, "setRightMenuAirStatusBackground " + aqi);
 		Drawable imageDrawable = null;
@@ -360,20 +369,20 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
-	
+
 	// TODO : Change param to int.
 	private void setRightMenuConnectedStatus(boolean status) {
-		
+
 		// Move into one method.
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		
+
 		if(fragment instanceof OutdoorLocationsFragment) {
 			Log.i(TAG, "setRightMenuConnectedStatus$OutdoorLocationsFragment");
 			rightMenuItem.setIcon(R.drawable.plus_blue);
 			return;
 		}
-		
+
 		MenuItem item = null;
 		if(menu != null) {
 			item = menu.getItem(0);
@@ -423,36 +432,36 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		
+
 		switch (item.getItemId()) {
 		case R.id.right_menu:
 			if(fragment instanceof OutdoorLocationsFragment) {
 				//TODO : Change action bar to search bar. 
-//				LinearLayout view = (LinearLayout) getSupportActionBar().getCustomView();
-//				TextView tv = (TextView) view.findViewById(R.id.action_bar_title);
-////				Log.i(TAG, "onOutdoorClick " + tv.getText());
-//				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
-//				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cities);
-//				AutoCompleteTextView actv = new AutoCompleteTextView(this);
-//				LayoutParams params = (LayoutParams) tv.getLayoutParams();
-//				params.width = LayoutParams.MATCH_PARENT - 20;
-//				actv.setHint("Enter City name");
-//				actv.setAdapter(adapter);
-//				actv.setThreshold(0);
-//				actv.showDropDown();
-//				actv.setLayoutParams(params);
-//				view.addView(actv);
-//				if(tv.getVisibility() == View.VISIBLE) {
-//					tv.setVisibility(View.GONE);
-//					actv.setVisibility(View.VISIBLE);
-//				} else {
-//					tv.setVisibility(View.VISIBLE);
-//					actv.setVisibility(View.GONE);
-//				}
-//				view.invalidate();view.requestLayout();
-//				break;
+				//				LinearLayout view = (LinearLayout) getSupportActionBar().getCustomView();
+				//				TextView tv = (TextView) view.findViewById(R.id.action_bar_title);
+				////				Log.i(TAG, "onOutdoorClick " + tv.getText());
+				//				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
+				//				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cities);
+				//				AutoCompleteTextView actv = new AutoCompleteTextView(this);
+				//				LayoutParams params = (LayoutParams) tv.getLayoutParams();
+				//				params.width = LayoutParams.MATCH_PARENT - 20;
+				//				actv.setHint("Enter City name");
+				//				actv.setAdapter(adapter);
+				//				actv.setThreshold(0);
+				//				actv.showDropDown();
+				//				actv.setLayoutParams(params);
+				//				view.addView(actv);
+				//				if(tv.getVisibility() == View.VISIBLE) {
+				//					tv.setVisibility(View.GONE);
+				//					actv.setVisibility(View.VISIBLE);
+				//				} else {
+				//					tv.setVisibility(View.VISIBLE);
+				//					actv.setVisibility(View.GONE);
+				//				}
+				//				view.invalidate();view.requestLayout();
+				//				break;
 			}
-			
+
 			if(mRightDrawerOpened) {
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -470,13 +479,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.replace(R.id.llContainer, fragment, fragment.getTag());
 		fragmentTransaction.addToBackStack(null); 
-		
+
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		Log.i(TAG, "imm " + (imm == null) + " getWindow() " + (getWindow() == null) + " getCurrentFocus() " + (getWindow().getCurrentFocus() == null));// + " getWindowToken() " + (getWindow().getCurrentFocus().getWindowToken() == null));
 		if(getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}
-		
+
 		int id = fragmentTransaction.commit();
 		Log.i(TAG, "showFragment position " + fragment + " id " + id);
 		mDrawerLayout.closeDrawer(mListViewLeft);
@@ -498,7 +507,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		public MenuItemClickListener() {
 			initLeftMenu();
 		}
-		
+
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
 			leftMenuItems.add(new AirQualityFragment());
@@ -582,7 +591,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
 
 		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
-		
+
 		if ( null != airPurifierEventDto ) {
 			connected = true;
 			statusCounter = 0;
@@ -604,7 +613,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		homeFragment.rotateOutdoorCircle();
 
 	}
-	
+
 	private void disableRightMenuControls() {
 		Log.i(TAG, "Disable Menu controls") ;
 		connected = false;
@@ -651,21 +660,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private static void setAirPurifierEventDto(AirPurifierEventDto airPurifierEventDto) {
 		MainActivity.airPurifierEventDto = airPurifierEventDto;
 	}	
-	
+
 	public void setRightMenuVisibility(boolean visible)
 	{
 		rightMenuItem.setVisible(visible);
 	}
-	
+
 	public int getVisits()
 	{
 		return mVisits;
 	}
-	
+
 	public boolean isNetworkAvailable() {
 		return isNetworkAvailable;
 	}
-	
+
 	public boolean isGooglePlayServiceAvailable() {
 		if(ConnectionResult.SUCCESS == isGooglePlayServiceAvailable) {
 			return true;
@@ -676,12 +685,20 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public int getVersionNumber() {
 		int versionCode = 0;
 		try {
-			 versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+			versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
 		return versionCode;
 	}
-	
+
+	public void setAirExplainedActivity(int activitySelected){
+		mActivitySelected=activitySelected;
+	}
+
+	public int getAirExplainedActivity(){
+		return mActivitySelected;		
+	}
+
 }
 

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="15dp" >
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/indoor_pollutants_intro"
+            android:textColor="#7F8595" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:text="@string/indoor_pollutants_subheading"
+            android:textColor="@color/philips_blue"
+            android:textSize="20sp" />
+
+        <!-- Formaldehyde -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/formaldehyde_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/formaldehyde" />
+
+            <TextView
+                android:id="@+id/formaldehyde_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/formaldehyde_imgView"
+                android:text="@string/pollutant_heading_1"
+                android:layout_marginTop="3dp"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/formaldehyde_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/formaldehyde_heading"
+                android:layout_below="@+id/formaldehyde_heading"
+                android:text="@string/pollutant_intro_1"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/formaldehyde_heading"
+                android:layout_below="@+id/formaldehyde_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray" />
+        </RelativeLayout>
+
+        <!-- TVOC -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageView
+                android:id="@+id/tvoc_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/tvoc" />
+
+            <TextView
+                android:id="@+id/tvoc_heading"
+                android:layout_marginTop="3dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/tvoc_imgView"
+                android:text="@string/pollutant_heading_2"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/tvoc_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tvoc_heading"
+                android:layout_below="@+id/tvoc_heading"
+                android:text="@string/pollutant_intro_2"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/tvoc_heading"
+                android:layout_below="@+id/tvoc_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray"
+                android:textColor="#7F8595" />
+        </RelativeLayout>
+
+        <!-- Airborne Pathogens -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageView
+                android:id="@+id/airborne_pathogens_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/airborne_pathogens" />
+
+            <TextView
+                android:id="@+id/airborne_pathogens_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/airborne_pathogens_imgView"
+                android:text="@string/pollutant_heading_3"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/airborne_pathogens_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/airborne_pathogens_heading"
+                android:layout_below="@+id/airborne_pathogens_heading"
+                android:text="@string/pollutant_intro_3"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/airborne_pathogens_heading"
+                android:layout_below="@+id/airborne_pathogens_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray" />
+        </RelativeLayout>
+
+        <!-- Pet hair and dust mites -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageView
+                android:id="@+id/pet_hair_dust_mites_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/pet_hair_dust_mites" />
+
+            <TextView
+                android:id="@+id/pet_hair_dust_mites_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/pet_hair_dust_mites_imgView"
+                android:text="@string/pollutant_heading_4"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/pet_hair_dust_mites_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/pet_hair_dust_mites_heading"
+                android:layout_below="@+id/pet_hair_dust_mites_heading"
+                android:text="@string/pollutant_intro_4"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/pet_hair_dust_mites_heading"
+                android:layout_below="@+id/pet_hair_dust_mites_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray" />
+        </RelativeLayout>
+
+        <!-- Airborne Pathogens -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageView
+                android:id="@+id/airborne_pathogens_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/airborne_pathogens" />
+
+            <TextView
+                android:id="@+id/airborne_pathogens_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/airborne_pathogens_imgView"
+                android:text="@string/pollutant_heading_3"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/airborne_pathogens_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/airborne_pathogens_heading"
+                android:layout_below="@+id/airborne_pathogens_heading"
+                android:text="@string/pollutant_intro_3"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/airborne_pathogens_heading"
+                android:layout_below="@+id/airborne_pathogens_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray" />
+        </RelativeLayout>
+
+        <!-- outdoor particles -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageView
+                android:id="@+id/outdoor_particles_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/outdoor_particles" />
+
+            <TextView
+                android:id="@+id/outdoor_particles_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/outdoor_particles_imgView"
+                android:text="@string/pollutant_heading_5"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/outdoor_particles_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/outdoor_particles_heading"
+                android:layout_below="@+id/outdoor_particles_heading"
+                android:text="@string/pollutant_intro_5"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/outdoor_particles_heading"
+                android:layout_below="@+id/outdoor_particles_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray" />
+        </RelativeLayout>
+
+        <!-- particulate matter -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" >
+
+            <ImageView
+                android:id="@+id/particulate_matter_imgView"
+                android:layout_width="55dp"
+                android:layout_height="55dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/particulate_matter" />
+
+            <TextView
+                android:id="@+id/particulate_matter_heading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="15dp"
+                android:layout_toRightOf="@+id/particulate_matter_imgView"
+                android:text="@string/pollutant_heading_6"
+                android:textColor="#7F8595"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/particulate_matter_intro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/particulate_matter_heading"
+                android:layout_below="@+id/particulate_matter_heading"
+                android:text="@string/pollutant_intro_6"
+                android:textColor="#7F8595" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_alignLeft="@+id/particulate_matter_heading"
+                android:layout_below="@+id/particulate_matter_intro"
+                android:layout_marginTop="11dp"
+                android:background="@color/darkgray" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

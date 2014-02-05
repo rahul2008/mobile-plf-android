@@ -103,6 +103,7 @@
             android:name="com.philips.cl.di.dev.pa.screens.CreateNotificationActivity"
             android:screenOrientation="portrait" >
         </activity>
+
     </application>
 
 </manifest>

@@ -76,6 +76,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/lbl_indoor_pollutant"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -96,6 +97,7 @@
                 android:background="@color/darkgray" />
             
             <TextView
+                android:id="@+id/lbl_vistashield"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/vistashield_ips_system"
@@ -116,6 +118,7 @@
             
             
             <TextView
+                android:id="@+id/lbl_outdoor_colors_explained"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/outdoor_colors_explained"
@@ -135,6 +138,7 @@
                 android:background="@color/darkgray" />
             
             <TextView
+                android:id="@+id/lbl_indoor_colors_explained"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/indoor_colors_explained"
@@ -154,6 +158,7 @@
                 android:background="@color/darkgray" />
             
             <TextView
+                android:id="@+id/lbl_guard_environment"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/guards_environment"
