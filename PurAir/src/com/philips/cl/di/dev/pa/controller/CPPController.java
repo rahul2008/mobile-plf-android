@@ -16,9 +16,12 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
+import com.philips.cl.di.dev.pa.interfaces.SignonListener;
 import com.philips.cl.di.dev.pa.utils.DataParser;
+import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.EventPublisher;
 import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.GlobalStore;
@@ -40,6 +43,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private static final String certificateExtension = ".cer";
 
 	private boolean isSignOn ;
+	
+	private SignonListener signOnListener ;
 
 	private static ICPCallbackHandler callbackHandler =  new ICPCallbackHandler();
 
@@ -89,6 +94,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	{
 		try
 		{
+			
 			InputStream in = context.getAssets().open("nvmfile.cfg");
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			if(configParams instanceof DemoAppConfigurationParametersForProvisioned)
@@ -116,11 +122,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		else if(SignOn.isTLSEnabled() == true)
 		{
-			configParams = new DemoAppConfigurationParametersForProvisioned();
+			configParams = new DemoAppConfigurationParametersForProvisioned(context);
 			setConfigParameters();
 		}
-		else
-			configParams = new DemoAppConfigurationParametersForProvisioned();
+		else {
+			configParams = new DemoAppConfigurationParametersForProvisioned(context);
+		}
 
 
 		String property = System.getProperty("java.library.path"); 
@@ -162,7 +169,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private void onSignon() {
 		ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this) ;
-		DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned();
+		DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(context);
 		SignOn.create(callbackHandler, configParams) ;
 		signon() ;
 	}
@@ -260,7 +267,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			if ( status == Errors.SUCCESS ) {
 				isSignOn = true ;
 				Log.i(TAG, "Success") ;
+				if ( signOnListener != null)
+					signOnListener.signonStatus(true) ;
 				startDCSService() ;
+			}
+			else {
+				if ( signOnListener != null)
+					signOnListener.signonStatus(false) ;
 			}
 		}
 		else if ( eventType == Commands.SUBSCRIBE_EVENTS ) {
@@ -350,9 +363,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param ttl
 	 */
 	public void publishEvent(String eventData,String eventType, String actionName, String replyTo, String conversationId, int priority, int ttl) {
-		eventPublisher.setEventInformation(eventType, actionName, AppConstants.AIRPURIFIER_ID, conversationId, priority, ttl);
+		String airPurifierID = Utils.getAirPurifierID(context) ;
+		
+		if( airPurifierID  == null ) {
+			airPurifierID = AppConstants.AIRPURIFIER_ID ;
+		}
+		eventPublisher.setEventInformation(eventType, actionName, airPurifierID, conversationId, priority, ttl);
 		eventPublisher.setEventData(eventData);
-		eventPublisher.setTargets(new String [] {AppConstants.AIRPURIFIER_ID});
+		eventPublisher.setTargets(new String [] {airPurifierID});
 		eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
 
 		eventPublisher.executeCommand();
@@ -361,5 +379,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void restartDCSService() {
 		stopDCSService() ;
 		startDCSService() ;
+	}
+	
+	public void addSignonListener(SignonListener signOnListener) {
+		this.signOnListener = signOnListener ;
 	}
 }

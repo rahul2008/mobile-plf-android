@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,14 +13,20 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.controller.CPPController;
+import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseAdapter;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
+import com.philips.cl.di.dev.pa.interfaces.SignonListener;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class ToolsFragment extends Fragment implements OnClickListener {
+public class ToolsFragment extends Fragment implements OnClickListener, SignonListener {
 	
 	private static final String TAG = ToolsFragment.class.getSimpleName();
 	private TextView tvIpaddress ;
@@ -28,6 +35,10 @@ public class ToolsFragment extends Fragment implements OnClickListener {
 	
 	private EditText tvRegId ;
 	private Button signOnButton ;
+	
+	private TextView tvCPPDetails ;
+	
+	private CppDatabaseModel cppDatabaseModel ;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +58,20 @@ public class ToolsFragment extends Fragment implements OnClickListener {
 		signOnButton = (Button) vMain.findViewById(R.id.get_cpp_btn) ;
 		signOnButton.setOnClickListener(this) ;
 		
+		tvCPPDetails = (TextView) vMain.findViewById(R.id.tv_cpp_details) ;
+		
+		if( Utils.getAirPurifierID(getActivity()) != null &&
+				Utils.getAirPurifierID(getActivity()).length() > 0 ) {
+			tvCPPDetails.setVisibility(View.VISIBLE) ;
+			signOnButton.setText("Reset") ;
+			
+			tvCPPDetails.setText("AirPurifier ID: "+Utils.getAirPurifierID(getActivity())) ;
+			String regId = Utils.getRegistrationID(getActivity()) ;
+			if ( regId != null && regId.length() > 0 ) {
+				tvRegId.setText(regId.substring(regId.length()-5)) ;
+			}
+			
+		}
 	}
 
 	@Override
@@ -59,21 +84,27 @@ public class ToolsFragment extends Fragment implements OnClickListener {
 			
 			break;
 		case R.id.get_cpp_btn:
-			String regStr = tvRegId.getText().toString();
-			if (regStr != null && regStr.length() == 5) {
-				CppDatabaseAdapter cppDatabaseAdapter = new CppDatabaseAdapter(getActivity());
-				cppDatabaseAdapter.open();
-				CppDatabaseModel cppDatabaseModel = cppDatabaseAdapter.getCppInfo(regStr);
-				if (cppDatabaseModel != null) {
-					Log.i(TAG, "Macid= " + cppDatabaseModel.getMacId());
-					Log.i(TAG, "EUID= " + cppDatabaseModel.getEuId());
-					Log.i(TAG, "NC= " + cppDatabaseModel.getSetNc());
-					Log.i(TAG, "CTN= " + cppDatabaseModel.getCtn());
-					Log.i(TAG, "P Key= " + cppDatabaseModel.getPrivateKey());
-					Log.i(TAG, "Sys key= " + cppDatabaseModel.getSysKey());
-					Log.i(TAG, "REg ID= " + cppDatabaseModel.getRegId());
-					Log.i(TAG, "Distribution= " + cppDatabaseModel.getDistribution());
-					tvRegId.setText("");
+			if(signOnButton.getText().toString().equals("Reset")) {
+				Utils.clearCPPDetails(getActivity()) ;
+				tvCPPDetails.setText("") ;
+				signOnButton.setText("Sign On") ;
+				tvRegId.setText("") ;
+				((MainActivity)getActivity()).stopCPPPolling() ;
+			}
+			else {
+				String regStr = tvRegId.getText().toString();
+				if (regStr != null && regStr.length() == 5) {
+					CppDatabaseAdapter cppDatabaseAdapter = new CppDatabaseAdapter(getActivity());
+					cppDatabaseAdapter.open();
+					cppDatabaseModel = cppDatabaseAdapter.getCppInfo(regStr);
+					if (cppDatabaseModel != null) {
+						Utils.storeCPPKeys(getActivity(), cppDatabaseModel) ;
+						CPPController.getInstance(getActivity()).addSignonListener(this) ;
+						CPPController.getInstance(getActivity()).init() ;				
+					}
+					else {
+						Toast.makeText(getActivity(), "Invalid Key", Toast.LENGTH_LONG).show() ;			
+					}
 				}
 			}
 			break;
@@ -81,5 +112,28 @@ public class ToolsFragment extends Fragment implements OnClickListener {
 			break;
 		}
 		
+	}
+
+	private boolean isSignon ;
+	
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			if(isSignon) {
+				Toast.makeText(getActivity(), "Signon Successfull", Toast.LENGTH_LONG).show();
+				signOnButton.setText("Reset") ;
+				tvCPPDetails.setVisibility(View.VISIBLE) ;
+				tvCPPDetails.setText("AirPurifier: "+cppDatabaseModel.getDistribution()) ;
+			}
+			else {
+				Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
+			}
+		};
+	};
+	
+	@Override
+	public void signonStatus(boolean signon) {
+		this.isSignon = signon ;
+		handler.sendEmptyMessage(0) ;
+		((MainActivity)getActivity()).toggleConnection(false) ;
 	}
 }

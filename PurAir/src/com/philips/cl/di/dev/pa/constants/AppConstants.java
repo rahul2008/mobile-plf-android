@@ -70,6 +70,7 @@ public class AppConstants {
 	public static final long UPDATE_INTERVAL = 3 * 1000;
 	
 	public static final long UPDATE_INTERVAL_CPP = 15  * 1000 ;
+	public static final int DCS_TIMEOUT = 45 * 1000 ;
 
 	/** The Constant URL. */
 
@@ -283,6 +284,10 @@ public class AppConstants {
 	public static final String GET_PROPS = "GETPROPS" ;
 	
 	
-	public static final String AIRPURIFIER_ID = "1c5a6bfffe634147" ;
+	public static final String AIRPURIFIER_ID = "1c5a6bfffe634205" ;
+	
+	public static final String URL_SECURITY = "http://%s/di/v1/products/0/security" ;
+
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
+	public static final String MODEL_NAME = "AirPurifier" ;
 }

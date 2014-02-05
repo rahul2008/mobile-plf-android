@@ -21,6 +21,10 @@ Version 1:
 import java.io.BufferedReader;
 import java.util.StringTokenizer;
 
+import android.content.Context;
+
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.configuration.ProvisionedConfiguration;
 
 /**
@@ -30,8 +34,10 @@ import com.philips.icpinterface.configuration.ProvisionedConfiguration;
 */
 public class DemoAppConfigurationParametersForProvisioned extends ProvisionedConfiguration 
 {
-	public DemoAppConfigurationParametersForProvisioned()
+	private Context context ;
+	public DemoAppConfigurationParametersForProvisioned(Context context)
 	{
+		this.context = context ;
 		ICPClientPriority = 20;
 		ICPClientStackSize = 16384;
 		HTTPTimeout = 30;
@@ -58,11 +64,21 @@ public class DemoAppConfigurationParametersForProvisioned extends ProvisionedCon
 					token = parser.nextToken();
 					if("EUI64".equals(token)) 
 					{
-						this.ICPClientEui64 = parser.nextToken();
+						if ( Utils.getEuid(context) != null ) {
+							this.ICPClientEui64 = Utils.getEuid(context);
+						}
+						else {
+							this.ICPClientEui64 = parser.nextToken();
+						}
 					}
 					else if("PRIVATEKEY".equals(token))
 					{
-						this.ICPClientPrivateKey = parser.nextToken();
+						if ( Utils.getPrivateKey(context) != null ) {
+							this.ICPClientPrivateKey = Utils.getPrivateKey(context) ;
+						}
+						else {
+							this.ICPClientPrivateKey = parser.nextToken();
+						}
 					}
 					else if("PRODUCT_ID".equals(token))
 					{

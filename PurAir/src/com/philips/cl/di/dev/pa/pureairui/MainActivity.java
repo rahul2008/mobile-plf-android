@@ -3,9 +3,11 @@ package com.philips.cl.di.dev.pa.pureairui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,6 +22,10 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Handler.Callback;
+import android.os.Message;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -52,7 +58,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobeta.android.dslv.DragSortListView;
+import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
+import com.philips.cl.di.common.ssdp.contants.MessageID;
+import com.philips.cl.di.common.ssdp.controller.InternalMessage;
+import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.controller.CPPController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
@@ -60,6 +73,7 @@ import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.City;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirColorExplainedStaticFragment;
@@ -77,8 +91,11 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.disecurity.DISecurity;
+import com.philips.cl.disecurity.KeyDecryptListener;
 
-public class MainActivity extends ActionBarActivity implements SensorEventListener, OnClickListener {
+
+public class MainActivity extends ActionBarActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener {
 
 	private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -110,8 +127,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private static HomeFragment homeFragment;
 
-	private boolean mRightDrawerOpened = false,  drawerOpen = false;
+	private Set<String> deviceList = new HashSet<String>();
+	private Set<DeviceModel> deviceModels;
+	private SsdpService ssdpService;
 
+
+	private boolean mRightDrawerOpened = false,  drawerOpen = false;
+	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 	private SensorDataController sensorDataController;
@@ -124,17 +146,37 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private boolean isNetworkAvailable = false;
 	private BroadcastReceiver wifiReceiver;
+	private CPPController cppController ;
 
 	private int isGooglePlayServiceAvailable;
 	private TextView cancelSearchItem;
 	private SharedPreferences outdoorLocationPrefs;
 	private ArrayList<String> outdoorLocationsList;
+	
+	private boolean isLocalPollingStarted ;
+	private boolean isCPPPollingStarted ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
 
+		ssdpService = SsdpService.getInstance();
+		ssdpService.startDeviceDiscovery(this);
+//		if (deviceModels != null) {
+//			deviceModels = new HashSet<DeviceModel>();
+//			for (DeviceModel deviceModel : deviceModels) {
+//				if (deviceModel != null && deviceModel.getIpAddress() != null) {
+//					deviceList.add(deviceModel.getIpAddress());
+//				}
+//			}
+//		} 
+
+		/**
+		 * Diffie Hellman key exchange
+		 */
+		diSecurity = new DISecurity(this);
+		
 		mPreferences=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits= mPreferences.getInt("NoOfVisit", 0);	
 		SharedPreferences.Editor editor=mPreferences.edit();
@@ -204,6 +246,21 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		sensorDataController = new SensorDataController(this, this) ;
 
 		createwifiReceiver();
+
+
+		IntentFilter filter = new IntentFilter() ;
+		filter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
+		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+		filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION) ;
+
+
+		this.registerReceiver(wifiReceiver, filter);
+
+		cppController = CPPController.getInstance(this) ;
+		cppController.addDeviceDetailsListener(this) ;
+
+
 		this.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
 
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -223,26 +280,34 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				Log.i(TAG, "wifiReceiver$onReceive " + Thread.currentThread().getName());
+				Log.i(TAG, intent.getAction()) ;
 				int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
 
-				switch (wifiState) {
-				case WifiManager.WIFI_STATE_DISABLED:
-				case WifiManager.WIFI_STATE_DISABLING:
-					isNetworkAvailable = false;
-					Log.i(TAG, "wifiReceiver$wifi unavailable " + isNetworkAvailable);
-					break;
-				case WifiManager.WIFI_STATE_ENABLED:
-					ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-					if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() != NetworkInfo.State.CONNECTED)) {
-						isNetworkAvailable = true;
-						//TODO : Start/Update outdoor AQI and weather details.
-					} else {
+				if ( intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+					Log.i(TAG, "Network state change") ;
+				}
+				else {
+					switch (wifiState) {
+					case WifiManager.WIFI_STATE_DISABLED:
+					case WifiManager.WIFI_STATE_DISABLING:
 						isNetworkAvailable = false;
+						Log.i(TAG, "wifiReceiver$wifi unavailable " + isNetworkAvailable);
+						cppController.stopDCSService() ;
+						break;
+					case WifiManager.WIFI_STATE_ENABLED:
+						Log.i(TAG, "Wifi is enabled") ;
+						ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+						if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() != NetworkInfo.State.CONNECTED)) {
+							isNetworkAvailable = true;
+							cppController.startDCSService() ;
+							//TODO : Start/Update outdoor AQI and weather details.
+						} else {
+							isNetworkAvailable = false;							
+						}
+						break;
+					default:
+						break;
 					}
-					Log.i(TAG, "wifiReceiver$wifi enabled " + isNetworkAvailable);
-					break;
-				default:
-					break;
 				}
 			}
 		};
@@ -251,22 +316,24 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	protected void onStart() {
+		discoveryTimer.start() ;
 		super.onStart();
 	}
 
 	@Override
 	protected void onResume() {
-		Log.i(TAG, "onResume") ;
+		if ( secretKey != null ) {
+			if(!isLocalPollingStarted) {
+				sensorDataController.startPolling() ;
+			}
+		}
 		super.onResume();
-		sensorDataController.startPolling() ;
-
 	}
 
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO Auto-generated method stub
 		super.onWindowFocusChanged(hasFocus);
-		Log.i(TAG, "OnWindowFocusChanged") ;
 		if ( hasFocus && !connected) {
 			disableRightMenuControls() ;
 		}
@@ -274,9 +341,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	protected void onPause() {
+		Log.i(TAG, "onPause") ;
 		super.onPause();
-		Log.i(TAG, "OnPause") ;
-		sensorDataController.stopPolling();
 		Editor editor = outdoorLocationPrefs.edit();
 		editor.clear();
 		int count = outdoorLocationsAdapter.getCount();
@@ -289,10 +355,26 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		editor.commit();
 	}
 
+	private String secretKey ;
+	
 	@Override
 	protected void onStop() {
+		Log.i("Weird", "onStop") ;
+		isLocalPollingStarted = false ;
+		isCPPPollingStarted = false ;
+		sensorDataController.stopCPPPolling() ;
+		sensorDataController.stopPolling() ;
+		cppController.stopDCSService() ;
+		timer.cancel() ;
 		super.onStop();
 	}
+	
+	@Override
+	protected void onRestart() {
+		// TODO Auto-generated method stub
+		super.onRestart();
+	}
+	
 
 	@Override
 	public void onBackPressed() {
@@ -300,7 +382,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-
+	
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -310,7 +392,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
 			setTitle(getString(R.string.dashboard_title));
-		} else if(fragment instanceof ProductRegistrationStepsFragment){
+		} else if(fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();			
 		}else if((fragment instanceof AirColorExplainedStaticFragment)  || (fragment instanceof OutdoorAirColorIndicationFragment) ||  (fragment instanceof IndoorAirColorIndicationFragment)){
 			manager.popBackStack();	
@@ -323,7 +405,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
+		super.onDestroy();		
+		if ( wifiReceiver != null ) {
+			this.unregisterReceiver(wifiReceiver) ;
+		}
+		if ( ssdpService != null ) {
+			ssdpService.stopDeviceDiscovery() ;
+			ssdpService = null ;
+		}
 	}
 
 	/** Need to have only one instance of the HomeFragment */
@@ -384,7 +473,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private void setRightMenuAirStatusBackground(int aqi) {
-		Log.i(TAG, "setRightMenuAirStatusBackground " + aqi);
+//		Log.i(TAG, "setRightMenuAirStatusBackground " + aqi);
 		Drawable imageDrawable = null;
 		if(aqi >= 0 && aqi <= 50) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
@@ -403,9 +492,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	// TODO : Change param to int.
-	private void setRightMenuConnectedStatus(boolean status) {
-
-		// Move into one method.
+	private void setRightMenuConnectedStatus(int status) {
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
@@ -418,11 +505,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		MenuItem item = null;
 		if(menu != null) {
 			item = menu.getItem(0);
-			if(status) {
+			if(status == AppConstants.CONNECTED) {
 				tvConnectionStatus.setText(getString(R.string.connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
-			} else {
+			}
+			else if (status == AppConstants.CONNECTED_VIA_PHILIPS) {
+				tvConnectionStatus.setText(getString(R.string.connected_via_philips));
+				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
+				item.setIcon(R.drawable.right_bar_icon_blue_2x);
+			}
+			else {
 				tvConnectionStatus.setText(getString(R.string.not_connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 				item.setIcon(R.drawable.right_bar_icon_orange_2x);
@@ -705,10 +798,35 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private int statusCounter = 0;
 
-	@Override
-	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+	private final Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			if ( msg.what == 1 ) {
+				updatePurifierUIFields() ;
+			}				
+		};
+	};
 
-		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
+	@Override
+	public void sensorDataReceived(AirPurifierEventDto airPurifierDetails) {
+//		Log.i(TAG, "SensorDataReceived: "+airPurifierDetails) ;
+		if ( airPurifierDetails != null ) {
+			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
+			airPurifierEventDto = airPurifierDetails ;
+			updatePurifierUIFields() ;
+		}
+		else {
+			statusCounter ++;
+			if(statusCounter >= 3) {
+				secretKey = null ; 
+				deviceList.clear() ;
+				ipAddress = null ;
+				disableRightMenuControls() ;
+			}
+		}
+	}
+
+	private void updatePurifierUIFields() {
+//		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
 
 		if ( null != airPurifierEventDto ) {
 			connected = true;
@@ -718,24 +836,18 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			setRightMenuAQIValue(airPurifierEventDto.getIndoorAQI());
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
-			setRightMenuConnectedStatus(true);
+			setRightMenuConnectedStatus(airPurifierEventDto.getConnectionStatus());
 			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(airPurifierEventDto.getIndoorAQI())));
 			setRightMenuAirStatusBackground(airPurifierEventDto.getIndoorAQI());
 			rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
-		} else {
-			statusCounter++;
-			if(statusCounter >= 3) {
-				disableRightMenuControls() ;
-			}
 		}
 		homeFragment.rotateOutdoorCircle();
-
 	}
 
 	private void disableRightMenuControls() {
 		Log.i(TAG, "Disable Menu controls") ;
 		connected = false;
-		setRightMenuConnectedStatus(false);
+		setRightMenuConnectedStatus(AppConstants.NOT_CONNECTED);
 		rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 		setRightMenuAirStatusBackground(0);
@@ -743,7 +855,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
-		Log.i(TAG, "Filter values pre " + preFilterStatus + " multicare " + multiCareFilterStatus + "activecarbon " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
+//		Log.i(TAG, "Filter values pre " + preFilterStatus + " multicare " + multiCareFilterStatus + "activecarbon " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
 		/** Update filter bars*/
 		preFilterView.setPrefilterValue(preFilterStatus);
 		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
@@ -814,6 +926,27 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private boolean cancelSearch = false;
 
 	@Override
+	public void onReceivedDeviceDetails(AirPurifierEventDto airPurifierDetails) {
+		Log.i(TAG, "Notify from CPP") ;
+		if ( airPurifierDetails != null ) {
+			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS) ;
+			airPurifierEventDto = airPurifierDetails ;
+			handler.sendEmptyMessage(1) ;
+			
+			timer.cancel() ;
+			timer.start() ;
+		}
+	}
+
+	public void stopCPPPolling() {
+		if( sensorDataController != null ) {
+			cppController.stopDCSService() ;
+			sensorDataController.stopCPPPolling() ;
+			isCPPPollingStarted = false ;
+		}
+	}
+		
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_cancel_search:
@@ -829,9 +962,129 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		mActivitySelected=activitySelected;
 	}
 
-	public int getAirExplainedActivity(){
+	public int getAirExplainedActivity() {
 		return mActivitySelected;		
 	}
+	
+	public void toggleConnection( boolean isLocal ) {
+		Log.i(TAG, "Toggle Connection:" +isLocal ) ;
+		if ( isLocal ) {
+			timer.cancel() ;
+			if(!isLocalPollingStarted) {
+				sensorDataController.startPolling() ;
+				isLocalPollingStarted = true ;
+			}
+			sensorDataController.stopCPPPolling() ;
+			isCPPPollingStarted = false ;
+			cppController.stopDCSService() ;
+		}
+		else {
+			Log.i("polling",""+isLocalPollingStarted) ;
+			if (cppController.isSignOn() ||
+					(com.philips.cl.di.dev.pa.utils.Utils.getAirPurifierID(this) != null &&
+					com.philips.cl.di.dev.pa.utils.Utils.getAirPurifierID(this).length() > 0 )) {
+				cppController.startDCSService() ;
+				if( ! isCPPPollingStarted ) {
+					sensorDataController.startCPPPolling() ;
+					isCPPPollingStarted = true ;
+				}
+				sensorDataController.stopPolling() ;
+				isLocalPollingStarted = false ;
+			}
+			else {
+				Toast.makeText(getApplicationContext(), "Please signOn", Toast.LENGTH_LONG).show() ;
+			}
+		}
+	}
+	
+	private String ipAddress ;
+	
+	@Override
+	public boolean handleMessage(Message msg) {
+		DeviceModel device = null ;
+		if (null != msg) {
+			final MessageID message = MessageID.getID(msg.what);
+			final InternalMessage internalMessage = (InternalMessage) msg.obj;
+			if (null != internalMessage && internalMessage.obj instanceof DeviceModel) {
+				device = (DeviceModel) internalMessage.obj;
+				Log.i(TAG, "Device Information " + device);
+				if (null != deviceModels) {
+					deviceModels.add(device);
+				}
+			}
+			String ip = "";
+			switch (message) {
+			case DEVICE_DISCOVERED:
+				final String xml = msg.getData().getString(ConnectionLibContants.XML_KEY);
+				//ip = msg.getData().getString(ConnectionLibContants.IP_KEY);
+				final int port = msg.getData().getInt(ConnectionLibContants.PORT_KEY);
+				Log.i(TAG, "DEVICE DISCOVERED ip " + device.getIpAddress());
 
+				if (device != null && device.getSsdpDevice() != null &&
+						device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) &&
+						device.getIpAddress() != null && ipAddress == null) {
+						discoveryTimer.cancel() ;
+						ipAddress = device.getIpAddress() ; 
+						Log.i("Weird", "Device IP: "+device.getIpAddress()) ;
+						com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
+						diSecurity.initializeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), "dev01");
+				}
+				break;
+			case DEVICE_LOST:
+				ip = msg.getData().getString("ip");
+				Log.i(TAG, "DEVICE LOST USN  " + device.getUsn());
+				if (device != null && device.getIpAddress() != null) {
+					deviceList.remove(device.getIpAddress());
+				}
+				ip = null;
+				break;
+
+			default:
+				Log.i(TAG, "default");
+				break;
+			}
+			if (null != ip && (!ip.isEmpty())) {
+				deviceList.add(ip);
+			} 
+
+			return false;
+		}
+		return false;
+	}
+
+	@Override
+	public void keyDecrypt(String key) {
+		this.secretKey = key ;
+		if ( key != null ) {
+			toggleConnection(true) ;
+		}
+	}
+	
+	private CountDownTimer timer = new CountDownTimer(AppConstants.DCS_TIMEOUT,1000) {
+		@Override
+		public void onTick(long millisUntilFinished) {
+			
+		}		
+		@Override
+		public void onFinish() {
+			Log.i("TIMER1", "finish timer") ;
+			disableRightMenuControls() ;
+		}
+	};
+	
+	private CountDownTimer discoveryTimer = new CountDownTimer(10000,1000) {
+		@Override
+		public void onTick(long millisUntilFinished) {
+			
+		}		
+		@Override
+		public void onFinish() {
+			if( com.philips.cl.di.dev.pa.utils.Utils.getPrivateKey(getApplicationContext()) != null ) {
+				toggleConnection(false) ;
+			}
+			else {
+				Toast.makeText(getApplicationContext(), "Please sign on from Tools page", Toast.LENGTH_LONG).show() ;
+			}
+		}
+	};
 }
-

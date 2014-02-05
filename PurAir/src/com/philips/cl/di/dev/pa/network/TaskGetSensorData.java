@@ -36,10 +36,10 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	protected String doInBackground(String... urls) {
 		String result = null ;
 		// params comes from the execute() call: params[0] is the url.
-		Log.i(TAG, urls[0]) ;
+		//Log.i(TAG, urls[0]) ;
 
 		result = downloadUrl(urls[0]);
-		Log.i(TAG, "After download") ;
+//		Log.i(TAG, "After download") ;
 		if (result == null || result.length() == 0) {
 			return null;
 		}
@@ -49,7 +49,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	// onPostExecute displays the results of the AsyncTask.
 	@Override
 	protected void onPostExecute(String response) {
-		Log.i(TAG, "onPOstExecute") ;
+		//Log.i(TAG, "onPOstExecute") ;
 		if (response != null) {
 			//Log.e(TAG, response);
 		}
@@ -80,7 +80,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 			// Starts the query
 			conn.connect();
 			responseCode = conn.getResponseCode();
-			Log.i(TAG,"Response Code: "+responseCode);
+//			Log.i(TAG,"Response Code: "+responseCode);
 			inputStream = conn.getInputStream();
 
 			// Convert the InputStream into a string

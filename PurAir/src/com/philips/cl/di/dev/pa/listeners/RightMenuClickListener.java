@@ -1,23 +1,22 @@
 package com.philips.cl.di.dev.pa.listeners;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.util.AppConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
-
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class RightMenuClickListener implements OnClickListener {
 	
@@ -99,8 +98,8 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	@SuppressWarnings("deprecation")
 	public void setSensorValues(AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed " + airPurifierEventDto.getFanSpeed());
-		Log.i(TAG, "setSensorValues " + airPurifierEventDto.getPowerMode());
+//		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed " + airPurifierEventDto.getFanSpeed());
+//		Log.i(TAG, "setSensorValues " + airPurifierEventDto.getPowerMode());
 		if( airPurifierEventDto.getPowerMode().equals(AppConstants.POWER_ON)) {
 			power.setBackgroundDrawable(getPowerButtonState(airPurifierEventDto));
 			setFanSpeed(airPurifierEventDto);
@@ -119,9 +118,8 @@ public class RightMenuClickListener implements OnClickListener {
 	private void setFanSpeed(AirPurifierEventDto airPurifierEventDto) {
 		String fanSpeedText = airPurifierEventDto.getFanSpeed();
 		Drawable buttonImage = null;
-		String buttonText = "";
 		
-		Log.i(TAG, "setFanSpeed " + fanSpeedText);
+//		Log.i(TAG, "setFanSpeed " + fanSpeedText);
 		fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 		isFanSpeedAuto = false;
 		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeedText)) {
@@ -139,7 +137,7 @@ public class RightMenuClickListener implements OnClickListener {
 			fanSpeed.setText("");
 			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_one);
 		} else if(AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)) {
-			Log.i(TAG, "setFanSpeed (AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)");
+//			Log.i(TAG, "setFanSpeed (AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)");
 			fanSpeed.setText("");
 			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_two);
 		} else if(AppConstants.FAN_SPEED_THREE.equals(fanSpeedText)) {
@@ -151,7 +149,7 @@ public class RightMenuClickListener implements OnClickListener {
 
 	private Drawable getPowerButtonState(AirPurifierEventDto airPurifierEventDto) {
 		Drawable powerState = null;
-		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
+//		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
 		if(airPurifierEventDto == null) {
 			powerState = context.getResources().getDrawable(R.drawable.switch_off);
 			disableControlPanelButtonsOnPowerOff();
@@ -169,7 +167,7 @@ public class RightMenuClickListener implements OnClickListener {
 			isPowerOn = false;
 		}
 		
-		Log.i(TAG, "isPowerOn " + isPowerOn);
+//		Log.i(TAG, "isPowerOn " + isPowerOn);
 		
 		return powerState;
 	}
@@ -206,7 +204,7 @@ public class RightMenuClickListener implements OnClickListener {
 			Toast.makeText(context, "Connect", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.btn_rm_power:
-			Log.i(TAG, "power is on :: " + isPowerOn);
+//			Log.i(TAG, "power is on :: " + isPowerOn);
 			if(!isPowerOn) {				
 				power.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
 				enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());
@@ -337,12 +335,17 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 	
 	private void controlDevice(String key, String value) {
-		airPurifierController.setDeviceDetailsLocally(key, value) ;
+		if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constants.AppConstants.CONNECTED) {
+			airPurifierController.setDeviceDetailsLocally(key, value) ;
+		}
+		else if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constants.AppConstants.CONNECTED_VIA_PHILIPS) {
+				airPurifierController.setDeviceDetailsRemotely(key, value) ;
+		}
 	}
 	
 	@SuppressWarnings("deprecation")
 	private void disableControlPanelButtonsOnPowerOff() {
-		Log.i(TAG, "disableControlPanelButtonsOnPowerOff");
+//		Log.i(TAG, "disableControlPanelButtonsOnPowerOff");
 		Drawable disabledButton = context.getResources().getDrawable(R.drawable.button_bg_2x);
 		disabledButton.setAlpha(100);
 		
@@ -378,7 +381,7 @@ public class RightMenuClickListener implements OnClickListener {
 		schedule.setClickable(true);
 		schedule.setBackgroundDrawable(enabledButton);
 		
-		Log.i(TAG, "enableOtherButtons " + (airPurifierEventDto == null));
+//		Log.i(TAG, "enableOtherButtons " + (airPurifierEventDto == null));
 		
 		if(airPurifierEventDto != null) {
 			childLock.setClickable(true);
@@ -464,7 +467,7 @@ public class RightMenuClickListener implements OnClickListener {
 
 	@SuppressWarnings("deprecation")
 	public void disableControlPanel(boolean connected, AirPurifierEventDto airPurifierEventDto) {
-		Log.i(TAG, "disableControlPanel connected " + connected);
+//		Log.i(TAG, "disableControlPanel connected " + connected);
 		Drawable powerButton = null;
 		if(!connected) {
 			power.setClickable(false);

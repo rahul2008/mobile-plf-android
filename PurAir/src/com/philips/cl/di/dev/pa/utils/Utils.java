@@ -23,6 +23,7 @@ import android.view.Display;
 import android.view.WindowManager;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -107,7 +108,50 @@ public class Utils {
 				.getString("ipAddress", AppConstants.defaultIPAddress);
 		return ipAddress;
 	}
+	
+	/**
+	 * 
+	 */
 
+	public static void storeCPPKeys(Context context,CppDatabaseModel cppDataModel) {
+		SharedPreferences settings = context.getSharedPreferences(
+				"cpp_preferences01", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("airpurifierid", cppDataModel.getDistribution());
+		editor.putString("euid", cppDataModel.getEuId());
+		editor.putString("privatekey", cppDataModel.getSysKey() + cppDataModel.getPrivateKey());
+		editor.putString("registrationid", cppDataModel.getRegId()) ;
+		editor.commit();
+	}
+	
+	public static String getPrivateKey(Context context) {
+		String privateKey = context.getSharedPreferences("cpp_preferences01", 0)
+				.getString("privatekey", "");
+		return privateKey;
+	}
+	
+	public static String getRegistrationID(Context context) {
+		String registrationid = context.getSharedPreferences("cpp_preferences01", 0)
+				.getString("registrationid", "");
+		return registrationid;
+	}
+	
+	public static String getEuid(Context context) {
+		String euid = context.getSharedPreferences("cpp_preferences01", 0)
+				.getString("euid", "");
+		return euid;
+	}
+	
+	public static String getAirPurifierID(Context context) {
+		String airPurifierID = context.getSharedPreferences("cpp_preferences01", 0)
+				.getString("airpurifierid", "");
+		return airPurifierID;
+	}
+	
+	public static void clearCPPDetails(Context context ) {
+		context.getSharedPreferences("cpp_preferences01", 0).edit().clear().commit() ;
+	}
+	
 	/**
 	 * Sets the ip address.
 	 * 

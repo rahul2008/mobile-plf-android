@@ -20,6 +20,7 @@
     <!-- Right menu texts -->
     <string name="connection_status">Connection Status</string>
     <string name="connected">Connected</string>
+    <string name="connected_via_philips">Connected Via PHILIPS</string>
     <string name="not_connected">Not connected</string>
     <string name="connect">Connect</string>
     <string name="power">Power</string>

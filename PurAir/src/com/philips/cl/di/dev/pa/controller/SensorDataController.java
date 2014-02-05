@@ -47,13 +47,8 @@ public class SensorDataController implements ServerResponseListener {
 	private final Runnable getDeviceDataFromCPP = new Runnable() {
 		@Override
 		public void run() {
-			if ( CPPController.getInstance(context).isSignOn()) {
 				CPPController.getInstance(context).publishEvent(AppConstants.GETPROPS_ACTION, AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, AppConstants.AIRPURIFIER_ID, "", 20, 120) ;
 				cppHandler.postDelayed(this, AppConstants.UPDATE_INTERVAL_CPP);
-			}
-			else {
-				cppHandler.postDelayed(this, 3);
-			}
 		}
 	};
 	
@@ -87,7 +82,6 @@ public class SensorDataController implements ServerResponseListener {
 	 * At first instance, it immediately polls the server, subsequently it polls in the specified interval.
 	 */
 	public void startPolling() {
-		Log.i(TAG, "Startpolling") ;
 		handler.postDelayed(getSensorDataRunnable, 0);
 	}
 	

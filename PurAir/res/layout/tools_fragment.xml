@@ -40,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/submitButton"
         android:layout_marginTop="28dp"
-        android:text="Last five digit registration Id" />
+        android:textSize="20sp"
+        android:text="Please enter Registration ID" />
 
     <EditText
         android:id="@+id/tv_cpp_regId_txt"
@@ -63,5 +64,14 @@
         android:layout_below="@+id/tv_cpp_regId_txt"
         android:layout_marginTop="33dp"
         android:text="Sign On" />
-
+    
+    <TextView android:id="@+id/tv_cpp_details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:layout_alignLeft="@+id/tv_cpp_title_label"
+        android:layout_below="@+id/tv_cpp_regId_txt"
+        android:layout_marginTop="33dp"
+        android:visibility="visible"/>
+    
 </RelativeLayout>
