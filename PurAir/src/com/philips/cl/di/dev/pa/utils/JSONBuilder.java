@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import com.philips.cl.disecurity.DISecurity;
+
 public class JSONBuilder {
 	
 	public static final int FAN_SPEED = 2 ;
@@ -11,8 +13,9 @@ public class JSONBuilder {
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append("}") ;
-		
-		return builder.toString() ;
+		String dataToSend = builder.toString();
+		dataToSend = new DISecurity(null).encryptData(dataToSend, "dev01") ;
+		return dataToSend ;
 	}
 
 	public static String getPublishEventBuilder(String key, String value) {
