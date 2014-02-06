@@ -19,7 +19,7 @@ import android.util.Log;
 		setContentView(R.layout.activity_disecurity_sample);
 		
 		diSecurity = new DISecurity(this);
-		diSecurity.initializeKey("http://192.168.1.1/di/v1/products/0/security", "devId01");
+		diSecurity.exchangeKey("http://192.168.1.1/di/v1/products/0/security", "devId01");
 	}
 
 	@Override
