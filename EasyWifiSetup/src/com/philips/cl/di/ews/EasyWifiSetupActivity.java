@@ -1,6 +1,7 @@
 package com.philips.cl.di.ews;
 
 import com.philips.cl.di.fragments.DiSectionsPagerAdapter;
+import com.philips.cl.disecurity.DISecurity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,6 +31,8 @@ public class EasyWifiSetupActivity extends FragmentActivity implements EasyWifiS
 	public static final int SETUP_WIFI = 324;
 	public static final int SETUP_WIFI_DONE = 200;
 	public static final int SETUP_WIFI_FAILED = 404;
+	
+	private DISecurity diSecurity;
 	
 	public String mUrl_base=null;
 
@@ -75,7 +78,7 @@ public class EasyWifiSetupActivity extends FragmentActivity implements EasyWifiS
 		intent.putExtra(EXTRA_TARGET_WIFI, aTarget);
 		intent.putExtra(EXTRA_END_POINT, aEndPoint);
 		aActivity.startActivityForResult(intent, SETUP_WIFI);
-
+		
 	}
 
 	@Override
@@ -83,6 +86,7 @@ public class EasyWifiSetupActivity extends FragmentActivity implements EasyWifiS
 		super.onCreate(savedInstanceState);
 		context = getApplicationContext();
 		setContentView(R.layout.ews_activity);
+		diSecurity = new DISecurity(null);
 		mSectionsPagerAdapter = new DiSectionsPagerAdapter(getSupportFragmentManager(), getBaseContext(),"ews_page_",7);
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
@@ -236,7 +240,9 @@ public class EasyWifiSetupActivity extends FragmentActivity implements EasyWifiS
 
 	@Override
 	public void sentSsidToDevice(String result) {
-		Log.i(TAG, "Result IN sentSsidToDevice= " + result);
+		Log.i(TAG, "Result IN Encrypted sentSsidToDevice= " + result);
+		String response = diSecurity.decryptData(result, "devId01");
+		Log.i(TAG, "Result IN Decryted sentSsidToDevice= " + response);
 		getService().verifyConnectedToHomeNetwork();
 	}
 

@@ -49,8 +49,10 @@ import android.util.Log;
 
 import com.philips.cl.di.discovery.DiscoverListener;
 import com.philips.cl.di.discovery.DiscoverService;
+import com.philips.cl.disecurity.DISecurity;
+import com.philips.cl.disecurity.KeyDecryptListener;
 
-public class EasyWifiSetupService extends BroadcastReceiver {
+public class EasyWifiSetupService extends BroadcastReceiver implements KeyDecryptListener {
 	/*public static HttpClient wrapClient(HttpClient base) {
         try {
             SSLContext ctx = SSLContext.getInstance("TLS");
@@ -107,6 +109,21 @@ public class EasyWifiSetupService extends BroadcastReceiver {
         }
     }*/
 	private static final String TAG = EasyWifiSetupService.class.getName();
+	
+	public final static String pValue = "B10B8F96A080E01DDE92DE5EAE5D54EC52C99FBCFB06A3C6"
+			+ "9A6A9DCA52D23B616073E28675A23D189838EF1E2EE652C0"
+			+ "13ECB4AEA906112324975C3CD49B83BFACCBDD7D90C4BD70"
+			+ "98488E9C219A73724EFFD6FAE5644738FAA31A4FF55BCCC0"
+			+ "A151AF5F0DC8B4BD45BF37DF365C1A65E68CFDA76D4DA708"
+			+ "DF1FB2BC2E4A4371";
+
+	public final static String gValue = "A4D1CBD5C3FD34126765A442EFB99905F8104DD258AC507F"
+			+ "D6406CFF14266D31266FEA1E5C41564B777E690F5504F213"
+			+ "160217B4B01B886A5E91547F9E2749F4D7FBD7D3B9A92EE1"
+			+ "909D0D2263F80A76A6A24C087A091F531DBF0A0169B6A28A"
+			+ "D662A4D18E73AFA32D779D5918D08BC8858F4DCEF97C2A24"
+			+ "855E6EEB22B3B2E5";
+	private DISecurity diSecurity;
 	protected EasyWifiSetupListener mListener;
 	protected EasyWifiSetupInfo mInfo;
 	protected Context mContext;
@@ -118,6 +135,7 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 		Log.i(TAG, "EasyWifiSetupService broadcast constructor");
 		mListener = aListener;
 		mContext =aContext;
+		diSecurity = new DISecurity(this);
 		WifiManager wifiManager = (WifiManager) mContext
 				.getSystemService(Context.WIFI_SERVICE);
 		WifiInfo connectionInfo = wifiManager.getConnectionInfo();
@@ -132,10 +150,6 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 			mInfo.mEndPoint = anEndPoint;
 		}
 		
-		Log.i(TAG, "EasyWifiSetupService constructor  mInfo.mDeviceSsid= "
-				+ mInfo.mDeviceSsid + "   mInfo.mEndPoint= " + mInfo.mEndPoint
-				+ "   mInfo.mCurrentSsid= " + mInfo.mCurrentSsid
-				+ "  connectionInfo.getSSID()=" + connectionInfo.getSSID());
 	}
 
 	@Override
@@ -250,8 +264,10 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 
 	}
 	public void sendSSidToDevice() {
-		SendNetworkInfoTask task = new SendNetworkInfoTask();
-		task.execute(mInfo);
+		//manzer
+		diSecurity.exchangeKey("http://192.168.1.1/di/v1/products/0/security", "devId01");
+		//SendNetworkInfoTask task = new SendNetworkInfoTask();
+		//task.execute(mInfo);
 	}
 
 	public class SendNetworkInfoTask extends
@@ -281,7 +297,7 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 
 			try {
 				HttpResponse response;
-				sendDiffieInfo(info, httpclient);
+				//sendDiffieInfo(info, httpclient);
 				sendDeviceInfo(info, httpclient);
 				result = sendWifiInfo(info, httpclient);
 
@@ -297,7 +313,7 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 			String result;
 			HttpResponse response;
 			HttpPut ssidEndpoint = new HttpPut(mInfo.mEndPoint+mInfo.WIFI_URI);
-			ssidEndpoint.setEntity(info.toJson());
+			ssidEndpoint.setEntity(info.toJson(diSecurity));
 			response = httpclient.execute(ssidEndpoint);
 			if (response.getStatusLine().getStatusCode() == 200) {
 				result = EntityUtils.toString(response.getEntity());
@@ -334,7 +350,7 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 				ClientProtocolException {
 			String result;
 			HttpPut deviceEndpoint = new HttpPut(mInfo.mEndPoint+mInfo.DEVICE_URI);
-			deviceEndpoint.setEntity(info.toJsonDevice());
+			deviceEndpoint.setEntity(info.toJsonDevice(diSecurity));
 			HttpResponse response = httpclient.execute(deviceEndpoint);
 			if (response.getStatusLine().getStatusCode() == 200) {
 				result = EntityUtils.toString(response.getEntity());
@@ -454,5 +470,16 @@ public class EasyWifiSetupService extends BroadcastReceiver {
 		WifiInfo connectionInfo = wifiManager.getConnectionInfo();
 		mInfo = new EasyWifiSetupInfo();
 		return (mInfo.mCurrentSsid == connectionInfo.getSSID());
+	}
+
+	@Override
+	public void keyDecrypt(String key) {
+		mInfo.mKey = key; 
+		Log.i(TAG, "key= "+key);
+		Log.i(TAG, "Maps of keys= "+ DISecurity.securityHashtable);
+		if (key != null) {
+			SendNetworkInfoTask task = new SendNetworkInfoTask();
+			task.execute(mInfo);
+		}
 	}
 }

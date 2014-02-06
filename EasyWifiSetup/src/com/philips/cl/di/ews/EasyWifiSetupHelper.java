@@ -190,17 +190,19 @@ public class EasyWifiSetupHelper {
     public static String deviceScanner() {
     String ip =getIPAddress(true); 
     String iIPv4 = ip.substring(0, ip.lastIndexOf(".")+1);
-
+    Log.i("Device Scanner", "iIPv4= " +iIPv4);
 	HttpClient httpclient = new DefaultHttpClient();
 	HttpResponse response ;
     // Loop to scan each address on the local subnet
     for (int i = 1; i < 255; i++) {
         try {
-        	 System.out.println("address count"+i);
-        	 HttpGet getRequest = new HttpGet("https://"+iIPv4+i+EasyWifiSetupInfo.WIFI_URI);
+        	 //System.out.println("address count"+i);
+        	 HttpGet getRequest = new HttpGet("http://"+iIPv4+i+EasyWifiSetupInfo.WIFI_URI);
         	 response = httpclient.execute(getRequest);
         	 if (response.getStatusLine().getStatusCode() == 200) {
+        		 Log.i("Device Scanner", "http iIPv4= " +"https://"+iIPv4+i);
         		 return "https://"+iIPv4+i;
+        		 
         	}
 
         } catch (Exception e) {
