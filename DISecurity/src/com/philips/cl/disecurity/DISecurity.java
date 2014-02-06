@@ -3,6 +3,7 @@ package com.philips.cl.disecurity;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Hashtable;
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
@@ -14,12 +15,16 @@ import android.util.Log;
 public class DISecurity implements ServerResponseListener {
 	private final String TAG = DISecurity.class.getSimpleName();
 	public static Hashtable<String, String> 
-		securityHashtable = new Hashtable<String,String>();
+			securityHashtable = new Hashtable<String,String>();
+	private static Hashtable<String, Boolean> 
+			isExchangingKeyTable = new Hashtable<String, Boolean>();
+	
+	private static Hashtable<String, String> 
+			urlsTable = new Hashtable<String, String>();
 	private String pValue;
 	private String gValue;
 	private String rValue;
 	private KeyDecryptListener keyDecryptListener;
-	
 
 	/**
 	 * Constructor
@@ -29,34 +34,37 @@ public class DISecurity implements ServerResponseListener {
 		this.keyDecryptListener = keyDecryptListener;
 		pValue = Util.pValue;
 		gValue = Util.gValue;
-		Log.d(TAG, "pValue= "+pValue+" gValue= "+gValue);
 	}
-	
 	
 	/**
 	 * 
 	 * @return
 	 * @throws UnsupportedEncodingException 
 	 * @throws Exception
-	 */
-	public void initializeKey(String url, String deviceId)  {
-		//Get diffie key
-		String sdiffie = generateDiffieKey();
-
-		JSONObject holder = new JSONObject();
-		
-		try {
-			holder.put("diffie", sdiffie);
-			String js = holder.toString();
+	 */ 
+	public void exchangeKey(String url, String deviceId)  {
+		urlsTable.put(deviceId, url);
+		if (!isKeyExchanging(deviceId)) {
+			isExchangingKeyTable.put(deviceId, true);
 			
-			//Send diffie to http
-			sendDiffie(url, deviceId, js);
+			//Get diffie key
+			String sdiffie = generateDiffieKey();
+	
+			JSONObject holder = new JSONObject();
 			
-		} catch (JSONException e) {
-			e.printStackTrace();
+			try {
+				holder.put("diffie", sdiffie);
+				String js = holder.toString();
+				
+				//Send diffie to http
+				sendDiffie(url, deviceId, js);
+				
+			} catch (JSONException e) {
+				e.printStackTrace();
+				isExchangingKeyTable.put(deviceId, false);
+			}
+			Log.d(TAG, "Diffie= "+sdiffie);
 		}
-		Log.d(TAG, "Diffie= "+sdiffie);
-		
 	}
 	
 	/**
@@ -90,6 +98,7 @@ public class DISecurity implements ServerResponseListener {
 	public String decryptData(String data, String deviceId) {
 		String key = securityHashtable.get(deviceId);
 		String decryptData = null;
+
 		if (key != null) {
 			try {
 				byte[] bytesEncData = Util.decodeFromBase64(data);
@@ -97,10 +106,10 @@ public class DISecurity implements ServerResponseListener {
 				decryptData = new String(bytesDecData);
 			} catch (Exception e) {
 				e.printStackTrace();
+				exchangeKey(urlsTable.get(deviceId), deviceId);
+
 			}
-			
-		} 
-		
+		}
 		return decryptData;
 	}
 	
@@ -226,7 +235,17 @@ public class DISecurity implements ServerResponseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
 		}
+		isExchangingKeyTable.put(deviceId, false);
+	}
+	
+	private boolean isKeyExchanging(String deviceId) {
+		// First time exchange
+		if (isExchangingKeyTable.get(deviceId) == null) return false;
+		
+		// No exchange ongoing
+		if (!isExchangingKeyTable.get(deviceId)) return false;
+		
+		return true;
 	}
 }
