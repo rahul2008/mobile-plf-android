@@ -189,6 +189,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		screenHeight = displayMetrics.heightPixels;
 
 		initActionBar();
+		discoveryTimer.start() ;
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -243,7 +244,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		.addToBackStack(null)
 		.commit();
 
-		sensorDataController = new SensorDataController(this, this) ;
+		sensorDataController = SensorDataController.getInstance(this);
+		sensorDataController.addListener(this) ;
 
 		createwifiReceiver();
 
@@ -316,17 +318,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	protected void onStart() {
-		discoveryTimer.start() ;
 		super.onStart();
 	}
 
 	@Override
 	protected void onResume() {
-		if ( secretKey != null ) {
-			if(!isLocalPollingStarted) {
-				sensorDataController.startPolling() ;
-			}
-		}
+//		if ( secretKey != null ) {
+//			if(!isLocalPollingStarted) {
+//				sensorDataController.startPolling() ;
+//			}
+//		}
 		super.onResume();
 	}
 
@@ -360,12 +361,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	@Override
 	protected void onStop() {
 		Log.i("Weird", "onStop") ;
-		isLocalPollingStarted = false ;
-		isCPPPollingStarted = false ;
-		sensorDataController.stopCPPPolling() ;
-		sensorDataController.stopPolling() ;
-		cppController.stopDCSService() ;
-		timer.cancel() ;
+//		isLocalPollingStarted = false ;
+//		isCPPPollingStarted = false ;
+//		sensorDataController.stopCPPPolling() ;
+//		sensorDataController.stopPolling() ;
+//		cppController.stopDCSService() ;
 		super.onStop();
 	}
 	
@@ -378,7 +378,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	public void onBackPressed() {
-		Log.i(TAG, "onBackPressed");
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
@@ -399,20 +398,38 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			setTitle(getString(R.string.list_item_air_quality_explained));
 		}
 		else {
+			stopAllServices() ;
 			finish();
+		}
+	}
+	
+	private void stopAllServices() {
+		sensorDataController.stopPolling() ;
+		sensorDataController.stopCPPPolling() ;
+		isCPPPollingStarted = false ;
+		isLocalPollingStarted = false ;
+		cppController.stopDCSService() ;
+		if( timer != null ) {
+			timer.cancel() ;
+		}
+		if( discoveryTimer != null ) {
+			discoveryTimer.cancel() ;
+		}
+		
+		if ( wifiReceiver != null ) {
+			this.unregisterReceiver(wifiReceiver) ;
+			wifiReceiver = null ;
+		}
+		if ( ssdpService != null ) {
+			ssdpService.stopDeviceDiscovery() ;
+			ssdpService = null ;
 		}
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();		
-		if ( wifiReceiver != null ) {
-			this.unregisterReceiver(wifiReceiver) ;
-		}
-		if ( ssdpService != null ) {
-			ssdpService.stopDeviceDiscovery() ;
-			ssdpService = null ;
-		}
+		stopAllServices() ;
 	}
 
 	/** Need to have only one instance of the HomeFragment */
@@ -817,10 +834,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		else {
 			statusCounter ++;
 			if(statusCounter >= 3) {
+				statusCounter = 0 ;
 				secretKey = null ; 
 				deviceList.clear() ;
 				ipAddress = null ;
 				disableRightMenuControls() ;
+				toggleConnection(false) ;
 			}
 		}
 	}
@@ -925,9 +944,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	private boolean cancelSearch = false;
 
+	/**
+	 * Receive the device details from CPP
+	 * 
+	 */
 	@Override
 	public void onReceivedDeviceDetails(AirPurifierEventDto airPurifierDetails) {
-		Log.i(TAG, "Notify from CPP") ;
+		Log.i("Notification", "Notify from CPP") ;
 		if ( airPurifierDetails != null ) {
 			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS) ;
 			airPurifierEventDto = airPurifierDetails ;
@@ -970,16 +993,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		Log.i(TAG, "Toggle Connection:" +isLocal ) ;
 		if ( isLocal ) {
 			timer.cancel() ;
-			if(!isLocalPollingStarted) {
-				sensorDataController.startPolling() ;
-				isLocalPollingStarted = true ;
-			}
+			sensorDataController.startPolling() ;
+			isLocalPollingStarted = true ;
+			
 			sensorDataController.stopCPPPolling() ;
 			isCPPPollingStarted = false ;
 			cppController.stopDCSService() ;
 		}
 		else {
-			Log.i("polling",""+isLocalPollingStarted) ;
+			sensorDataController.stopPolling() ;
+			isLocalPollingStarted = false ;
 			if (cppController.isSignOn() ||
 					(com.philips.cl.di.dev.pa.utils.Utils.getAirPurifierID(this) != null &&
 					com.philips.cl.di.dev.pa.utils.Utils.getAirPurifierID(this).length() > 0 )) {
@@ -987,12 +1010,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				if( ! isCPPPollingStarted ) {
 					sensorDataController.startCPPPolling() ;
 					isCPPPollingStarted = true ;
-				}
-				sensorDataController.stopPolling() ;
-				isLocalPollingStarted = false ;
+				}				
 			}
 			else {
-				Toast.makeText(getApplicationContext(), "Please signOn", Toast.LENGTH_LONG).show() ;
+				isLocalPollingStarted = true ;
+				sensorDataController.startPolling() ;
 			}
 		}
 	}
@@ -1075,7 +1097,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private CountDownTimer discoveryTimer = new CountDownTimer(10000,1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
-			
 		}		
 		@Override
 		public void onFinish() {
