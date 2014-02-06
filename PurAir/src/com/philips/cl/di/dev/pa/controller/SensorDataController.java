@@ -1,7 +1,8 @@
 package com.philips.cl.di.dev.pa.controller;
 
 import java.net.HttpURLConnection;
-
+import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
@@ -26,9 +28,11 @@ public class SensorDataController implements ServerResponseListener {
 	
 	private static final String TAG = "SensorDataController" ;
 	
+	private List<SensorEventListener> listeners ;
+	
 	private SensorEventListener sensorListener ;
 	
-	private Context context ;
+	private static Context context ;
 	/** Handler for posting the runnable **/
 	private final Handler handler = new Handler();
 	
@@ -43,6 +47,14 @@ public class SensorDataController implements ServerResponseListener {
 		}
 	};
 	
+	public void addListener(SensorEventListener sensorEventListener) {
+		listeners.add(sensorEventListener) ;
+	}
+	
+	public void removeListener(SensorEventListener sensorEventListener) {
+		listeners.remove(sensorEventListener) ;
+	}
+	
 	/** Post the get sensor data every specified interval **/
 	private final Runnable getDeviceDataFromCPP = new Runnable() {
 		@Override
@@ -53,13 +65,20 @@ public class SensorDataController implements ServerResponseListener {
 	};
 	
 	
+	private static SensorDataController sensorDataController ;
+	private SensorDataController() {
+		listeners = new ArrayList<SensorEventListener>() ;
+	}
 	
 	/**
 	 * Singleton constructor
 	 */
-	public SensorDataController(SensorEventListener sensorListener, Context context) {
-		this.sensorListener = sensorListener ;
-		this.context = context ;
+	public static SensorDataController getInstance(Context appContext) {
+		context = appContext ;
+		if ( null == sensorDataController ) {
+			sensorDataController = new SensorDataController() ;
+		}
+		return sensorDataController ;
 	}
 	
 	/**
@@ -69,15 +88,21 @@ public class SensorDataController implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		if ( responseCode == HttpURLConnection.HTTP_OK) {
+				AirPurifierEventDto airpurifierEventDto = null ;
 				responseData = new DISecurity(null).decryptData(responseData, "dev01") ;
-				Log.i(TAG, "receiveServerResponse " + responseData);
-				if(responseData != null)
-					sensorListener.sensorDataReceived(new DataParser(responseData).parseAirPurifierEventData()) ;
-				else 
-					sensorListener.sensorDataReceived(null) ;
+				if( responseData != null ) {
+					airpurifierEventDto = new DataParser(responseData).parseAirPurifierEventData() ;
+				}
+				//sensorListener.sensorDataReceived(airpurifierEventDto) ;
+				
+				for( int index = 0 ; index < listeners.size() ; index ++ ) {
+					listeners.get(index).sensorDataReceived(airpurifierEventDto) ;
+				}
 		}
 		else {
-			sensorListener.sensorDataReceived(null) ;
+			for( int index = 0 ; index < listeners.size() ; index ++ ) {
+				listeners.get(index).sensorDataReceived(null) ;
+			}
 		}
 	}
 	
@@ -86,6 +111,7 @@ public class SensorDataController implements ServerResponseListener {
 	 * At first instance, it immediately polls the server, subsequently it polls in the specified interval.
 	 */
 	public void startPolling() {
+		Log.i("polling", "startpolling") ;
 		handler.postDelayed(getSensorDataRunnable, 0);
 	}
 	
@@ -93,6 +119,7 @@ public class SensorDataController implements ServerResponseListener {
 	 * Stops the polling
 	 */
 	public void stopPolling() {
+		Log.i("polling", "stoppolling") ;
 		handler.removeCallbacks(getSensorDataRunnable);
 	}
 	
@@ -102,6 +129,7 @@ public class SensorDataController implements ServerResponseListener {
 	 * At first instance, it immediately polls the server, subsequently it polls in the specified interval.
 	 */
 	public void startCPPPolling() {
+		Log.i("polling", "startCPPpolling") ;
 		cppHandler.postDelayed(getDeviceDataFromCPP, 0);
 	}
 	
@@ -109,6 +137,7 @@ public class SensorDataController implements ServerResponseListener {
 	 * Stops the polling
 	 */
 	public void stopCPPPolling() {
+		Log.i("polling", "stopCPPpolling") ;
 		cppHandler.removeCallbacks(getDeviceDataFromCPP);
 	}
 	
@@ -119,11 +148,9 @@ public class SensorDataController implements ServerResponseListener {
 	 * @param url
 	 */
 	private void getSensorData(String url) {
-		Log.i(TAG, "Get SensorData:"+url) ;
+		Log.i("Sensor", "Get SensorData:"+url) ;
 		AsyncTask<String, ?, ?> sensorDataTask = null;
 		sensorDataTask = new TaskGetSensorData(this);
 		sensorDataTask.execute(url);
 	}
-
-	
 }
