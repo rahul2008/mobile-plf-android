@@ -12,7 +12,7 @@ android:orientation="horizontal">
 	android:scaleType="centerCrop" 
 	android:paddingRight="10dp"
 	android:paddingLeft="10dp"
-	android:src="@drawable/help_close"/>
+	android:src="@drawable/delete_dash_horizontal_black"/>
 	 
 	<TextView
 	android:id="@+id/list_text"

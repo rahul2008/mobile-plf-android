@@ -299,7 +299,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					case WifiManager.WIFI_STATE_ENABLED:
 						Log.i(TAG, "Wifi is enabled") ;
 						ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-						if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() != NetworkInfo.State.CONNECTED)) {
+						if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED)) {
 							isNetworkAvailable = true;
 							cppController.startDCSService() ;
 							//TODO : Start/Update outdoor AQI and weather details.

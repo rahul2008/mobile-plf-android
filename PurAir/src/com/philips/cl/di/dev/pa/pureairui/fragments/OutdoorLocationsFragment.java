@@ -2,11 +2,7 @@ package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -96,7 +93,7 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 		} catch (IOException e) {
 			Log.e(TAG, "JSON Parse ERROR while creating Cities list");
 		}
-		Log.i(TAG, "citiesJson " + citiesString);
+//		Log.i(TAG, "citiesJson " + citiesString);
 		CityDetails city = new GsonBuilder().create().fromJson(citiesString, CityDetails.class);
 		SessionDto.getInstance().setCityDetails(city) ;
 	}
@@ -160,15 +157,36 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 			}
 		}
 	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if(requestCode == 10000) {
+			
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
 	@Override
 	public void onConnectionFailed(ConnectionResult result) {
-		
+		if(result.hasResolution()) {
+			Log.i(TAG, "onConnectionFailed#hasResolution");
+		} else {
+//			showErrorDialog(result.getErrorCode());
+			Log.i(TAG, "onConnectionFailed#noResolution");
+		}
 	}
 
 	@Override
 	public void onConnected(Bundle dataBundle) {
+		if(locationClient == null) {
+			Toast.makeText(getActivity(), "Could not retrieve location", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		currentLocation = locationClient.getLastLocation();
+		if(currentLocation == null) {
+			Toast.makeText(getActivity(), "Could not retrieve location", Toast.LENGTH_SHORT).show();
+			return;
+		}
 		Log.i(TAG, "current location is " + (currentLocation == null));
 		Log.i(TAG, "Currentlocation " + currentLocation.toString() + " lat " + currentLocation.getLatitude() + " long " + currentLocation.getLongitude());
 	}
