@@ -12,17 +12,17 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
         android:text="@string/power" />
 
-    <Button
+    <ToggleButton
         android:id="@+id/btn_rm_power"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:background="@drawable/switch_on"
-	    android:textColor="#ffffff"
-        android:layout_alignBaseline="@+id/tv_rm_power"
+        style="@style/Widget.Button.Toggle"
         android:layout_alignBottom="@+id/tv_rm_power"
         android:layout_alignParentRight="true"
+        android:paddingTop="40dp"
         android:layout_marginRight="30dp" />
 
     <ImageView
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_power"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
     <TextView
@@ -42,18 +42,19 @@
         android:layout_below="@id/divider_1"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
         android:text="@string/fan_speed" />
     
     <Button
         android:id="@+id/btn_rm_fan_speed"
         android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:background="@drawable/button_blue_bg_2x"
 	    android:textColor="#ffffff"
-        android:layout_alignBaseline="@+id/tv_rm_fan_speed"
         android:layout_alignBottom="@+id/tv_rm_fan_speed"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp" 
+        android:textSize="10sp"
         android:text="-"/>
     
     <ImageView
@@ -62,7 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_fan_speed"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
     <View
@@ -71,7 +72,7 @@
         android:layout_height="152dp" 
         android:layout_below="@id/divider_2"
         android:layout_alignParentLeft="true"
-        android:background="@color/darkgray"
+        android:background="#CACACA"
         android:visibility="gone"
         />
     
@@ -84,73 +85,76 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="25dp"
         android:textColor="@color/black"
+        android:paddingBottom="20dp"
         android:text="@string/auto" 
         android:visibility="gone"/>
     
-    <Button
+    <ToggleButton
         android:id="@+id/fan_speed_auto"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_below="@id/divider_2"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/fan_speed_turbo"
-        android:background="@drawable/switch_on"
-        android:textColor="#ffffff"
+        style="@style/Widget.Button.Toggle"
         android:visibility="gone"/>
     
     <Button
         android:id="@+id/fan_speed_silent"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_below="@id/fan_speed_auto"
-        android:layout_marginTop="14dp"
+        android:layout_margin="8dp"
+        android:layout_marginLeft="25dp"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/button_blue_bg_2x"
-        android:textColor="#ffffff"
+        android:background="@drawable/button_bg_normal_2x"
+        android:textColor="#6D6D6D"
+        android:textSize="10sp"
         android:text="@string/silent" 
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/fan_speed_turbo"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_below="@id/fan_speed_auto"
-        android:layout_marginTop="14dp"
+        android:layout_margin="8dp"
         android:layout_toRightOf="@+id/fan_speed_silent"
-        android:background="@drawable/button_blue_bg_2x"
-        android:textColor="#ffffff"
+        android:background="@drawable/button_bg_normal_2x"
+        android:textColor="#6D6D6D"
+        android:textSize="10sp"
         android:text="@string/turbo" 
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/fan_speed_one"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/fan_speed_silent"
-        android:background="@drawable/fan_speed_one"
-        android:textColor="#ffffff"
+        android:background="@drawable/fan_speed_one_white"
+        android:layout_margin="8dp"
         android:visibility="gone"/>
 	<!-- android:drawableTop="@drawable/fan_speed_auto" -->
     <Button
         android:id="@+id/fan_speed_two"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_below="@id/fan_speed_turbo"
         android:layout_toRightOf="@+id/fan_speed_one"
-        android:background="@drawable/fan_speed_two"
-        android:textColor="#ffffff"
+        android:background="@drawable/fan_speed_two_white"
+        android:layout_margin="8dp"
         android:visibility="gone"/>
     <!-- android:drawableTop="@drawable/fan_speed_silent" -->
 
     <Button
         android:id="@+id/fan_speed_three"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_below="@+id/fan_speed_turbo"
         android:layout_toRightOf="@+id/fan_speed_turbo"
-        android:background="@drawable/fan_speed_three"
-        android:textColor="#ffffff"
+        android:background="@drawable/fan_speed_three_white"
+        android:layout_margin="8dp"
         android:visibility="gone"/>
     <!-- android:drawableTop="@drawable/fan_speed_turbo" -->
     
@@ -162,18 +166,19 @@
         android:layout_below="@id/fan_speed_three"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
         android:text="@string/set_timer" />
     
     <Button
         android:id="@+id/btn_rm_set_timer"
         android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:background="@drawable/button_blue_bg_2x"
 	    android:textColor="#ffffff"
-        android:layout_alignBaseline="@+id/tv_rm_set_timer"
         android:layout_alignBottom="@+id/tv_rm_set_timer"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
+        android:textSize="10sp"
         android:text="@string/off" />
     
     <ImageView
@@ -182,7 +187,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_set_timer"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
     <View
@@ -191,54 +196,62 @@
         android:layout_height="100dp" 
         android:layout_below="@id/divider_3"
         android:layout_alignParentLeft="true"
-        android:background="@color/darkgray"
+        android:background="#CACACA"
         android:visibility="gone"
         />
     
     <Button
         android:id="@+id/timer_off"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/divider_3"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/button_blue_bg_2x"
-        android:textColor="#ffffff"
+        android:layout_margin="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_bg_normal_2x"
+        android:textColor="#6D6D6D"
+        android:textSize="10sp"
         android:text="@string/off" 
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/one_hour"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/timer_off"
-        android:background="@drawable/button_blue_bg_2x"
-        android:textColor="#ffffff"
+        android:layout_margin="8dp"
+        android:background="@drawable/button_bg_normal_2x"
+        android:textColor="#6D6D6D"
+        android:textSize="10sp"
         android:text="@string/onehour" 
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/four_hours"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_alignBaseline="@+id/one_hour"
         android:layout_alignBottom="@+id/one_hour"
         android:layout_toRightOf="@+id/one_hour"
-        android:background="@drawable/button_blue_bg_2x"
-        android:textColor="#ffffff"
+        android:layout_margin="8dp"
+        android:background="@drawable/button_bg_normal_2x"
+        android:textColor="#6D6D6D"
+        android:textSize="10sp"
         android:text="@string/fourhour" 
         android:visibility="gone"/>
 
     <Button
         android:id="@+id/eight_hours"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_width="65dp"
+        android:layout_height="30dp"
         android:layout_alignBaseline="@+id/four_hours"
         android:layout_alignBottom="@+id/four_hours"
         android:layout_toRightOf="@+id/four_hours"
-        android:background="@drawable/button_blue_bg_2x"
-        android:textColor="#ffffff"
+        android:layout_margin="8dp"
+        android:background="@drawable/button_bg_normal_2x"
+        android:textColor="#6D6D6D"
+        android:textSize="10sp"
         android:text="@string/eighthour" 
         android:visibility="gone"/>
     
@@ -250,15 +263,15 @@
         android:layout_below="@id/one_hour"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
         android:text="@string/scheduler" />
     
     <Button
         android:id="@+id/btn_rm_scheduler"
         android:layout_width="80dp"
-        android:layout_height="40dp"
+        android:layout_height="35dp"
         android:background="@drawable/button_blue_bg_2x"
 	    android:textColor="#ffffff"
-        android:layout_alignBaseline="@+id/tv_rm_scheduler"
         android:layout_alignBottom="@+id/tv_rm_scheduler"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
@@ -271,7 +284,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_scheduler"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
     <TextView
@@ -282,20 +295,18 @@
         android:layout_below="@id/divider_4"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
         android:text="@string/child_lock" />
     
-    <Button
+    <ToggleButton
         android:id="@+id/btn_rm_child_lock"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:background="@drawable/switch_on"
-	    android:textColor="#ffffff"
-        android:layout_alignBaseline="@+id/tv_rm_child_lock"
+        style="@style/Widget.Button.Toggle"
         android:layout_alignBottom="@+id/tv_rm_child_lock"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:textSize="12sp"
-         />
+        android:paddingTop="40dp"
+        android:layout_marginRight="30dp" />
     
     <ImageView
         android:id="@+id/divider_5"
@@ -303,7 +314,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_child_lock"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
     <TextView
@@ -314,20 +325,18 @@
         android:layout_below="@id/divider_5"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
         android:text="@string/indicator_light" />
     
-    <Button
+    <ToggleButton
         android:id="@+id/btn_rm_indicator_light"
         android:layout_width="80dp"
         android:layout_height="40dp"
-        android:background="@drawable/switch_on"
-	    android:textColor="#ffffff"
-        android:layout_alignBaseline="@+id/tv_rm_indicator_light"
+        style="@style/Widget.Button.Toggle"
         android:layout_alignBottom="@+id/tv_rm_indicator_light"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:textSize="12sp"
-         />
+        android:paddingTop="40dp"
+        android:layout_marginRight="30dp" />
     
     <ImageView
         android:id="@+id/divider_6"
@@ -335,7 +344,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_indicator_light"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
 </RelativeLayout>

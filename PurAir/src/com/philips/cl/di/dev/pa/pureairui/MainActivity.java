@@ -481,28 +481,33 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return leftMenuItems;
 	} 
 
-	private void setRightMenuAQIValue(int aqiValue) {
-		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
+	private void setRightMenuAQIValue(int pSense) {
+//		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
+		if(pSense >= 0 && pSense <= 1) {
+			tvAirStatusAqiValue.setText(getString(R.string.good)) ;
+		} else if(pSense > 2 && pSense <= 3) {
+			tvAirStatusAqiValue.setText(getString(R.string.moderate)) ;
+		} else if(pSense > 3 && pSense <= 4) {
+			tvAirStatusAqiValue.setText(getString(R.string.unhealthy)) ;
+		} else if(pSense < 4) {
+			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy)) ;
+		} 
 	}
 
 	private void setRightMenuAirStatusMessage(String message) {
 		tvAirStatusMessage.setText(message);
 	}
 
-	private void setRightMenuAirStatusBackground(int aqi) {
-//		Log.i(TAG, "setRightMenuAirStatusBackground " + aqi);
+	private void setRightMenuAirStatusBackground(int pSense) {
+		Log.i(TAG, "setRightMenuAirStatusBackground " + pSense);
 		Drawable imageDrawable = null;
-		if(aqi >= 0 && aqi <= 50) {
+		if(pSense >= 0 && pSense <= 1) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
-		} else if(aqi > 50 && aqi <= 100) {
-			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_50_100_2x);
-		} else if(aqi > 100 && aqi <= 150) {
+		} else if(pSense == 2) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_100_150_2x);
-		} else if(aqi > 150 && aqi <= 200) {
-			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_150_200_2x);
-		} else if(aqi > 200 && aqi <= 300) {
+		} else if(pSense == 3) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_200_300_2x);
-		} else if(aqi > 300 /*&& aqi <= 500*/) {
+		} else if(pSense > 3 && pSense <= 10) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_300_500_2x);
 		}
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
@@ -524,12 +529,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			item = menu.getItem(0);
 			if(status == AppConstants.CONNECTED) {
 				tvConnectionStatus.setText(getString(R.string.connected));
-				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
+				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 			}
 			else if (status == AppConstants.CONNECTED_VIA_PHILIPS) {
 				tvConnectionStatus.setText(getString(R.string.connected_via_philips));
-				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_connected));
+				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 			}
 			else {
@@ -852,12 +857,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			statusCounter = 0;
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
-			setRightMenuAQIValue(airPurifierEventDto.getIndoorAQI());
+			setRightMenuAQIValue(airPurifierEventDto.getpSensor());
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 			setRightMenuConnectedStatus(airPurifierEventDto.getConnectionStatus());
 			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(airPurifierEventDto.getIndoorAQI())));
-			setRightMenuAirStatusBackground(airPurifierEventDto.getIndoorAQI());
+			setRightMenuAirStatusBackground(airPurifierEventDto.getpSensor());
 			rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 		}
 		homeFragment.rotateOutdoorCircle();

@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.customviews.adapters;
 import java.util.List;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 		 iv.setImageResource(item.getImageId());
 		 Context context = iv.getContext();
 		 TextView tv = (TextView) view.findViewById(R.id.list_text);
+		 tv.setTextColor(Color.rgb(70, 133, 255));
 		 tv.setTypeface(Fonts.getGillsans(context));
 		 tv.setText(item.getTextId());
 		 

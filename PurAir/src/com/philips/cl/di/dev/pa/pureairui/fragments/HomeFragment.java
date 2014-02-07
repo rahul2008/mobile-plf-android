@@ -160,9 +160,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	/** Update dashboard values on resume*/
 	private void setIndoorDashBoardValues(int pSense) {
-		tvIndoorAQI.setText(String.valueOf(pSense));
+		tvIndoorAQI.setText(setIndoorPSenseText(pSense));
 		setIndoorAQIStatusAndComment(indoorPSense);
-		ivIndoorCircle.setImageDrawable(setAQICircleBackground(pSense));
+		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(pSense));
 		setMode(Utils.getMode(MainActivity.getAirPurifierEventDto().getFanSpeed(), getActivity()));
 		setFilterStatus(Utils.getFilterStatusForDashboard(MainActivity.getAirPurifierEventDto()));
 	}
@@ -741,8 +741,17 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setIndoorAQIValue(int indoorAQI, int pSense) {
-
-		tvIndoorAQI.setText(String.valueOf(pSense));
+		
+//		if(pSense >= 0 && pSense <= 1) {
+//			tvIndoorAQI.setText(getString(R.string.good)) ;
+//		} else if(pSense > 2 && pSense <= 3) {
+//			tvIndoorAQI.setText(getString(R.string.moderate)) ;
+//		} else if(pSense > 3 && pSense <= 4) {
+//			tvIndoorAQI.setText(getString(R.string.unhealthy)) ;
+//		} else if(pSense < 4) {
+//			tvIndoorAQI.setText(getString(R.string.very_unhealthy)) ;
+//		}
+		tvIndoorAQI.setText(setIndoorPSenseText(pSense));
 		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(pSense));
 		if(rotateIndoorCircle || indoorPSense != pSense) {
 			//			rotateAQICircle(indoorAQI, ivIndoorCircle);
@@ -753,7 +762,20 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		this.indoorAQIValue = indoorAQI;
 		this.indoorPSense = pSense;
 	}
-
+	
+	private String setIndoorPSenseText(int pSense) {
+		if(pSense >= 0 && pSense <= 1) {
+			return (getString(R.string.good)) ;
+		} else if(pSense > 2 && pSense <= 3) {
+			return (getString(R.string.moderate)) ;
+		} else if(pSense > 3 && pSense <= 4) {
+			return (getString(R.string.unhealthy)) ;
+		} else if(pSense < 4) {
+			return (getString(R.string.very_unhealthy)) ;
+		}
+		return "";
+	}
+	
 	private void setIndoorAQIStatusAndComment(int pSense) {
 		if(pSense >= 0 && pSense <= 1) {
 			tvIndoorTitle.setText(getString(R.string.good)) ;
