@@ -3,7 +3,7 @@
     android:id="@+id/action_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
+    android:gravity="center"
     android:orientation="vertical">
     
 	<TextView
@@ -12,6 +12,9 @@
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical|center_horizontal"
 	    android:text="@string/dashboard_title"
+	    android:ellipsize="end"
 	    android:textColor="#3285ff"
-	    android:textSize="24sp" />
+	    android:textSize="24sp"
+	    android:maxLines="1" 
+	    android:gravity="center"/>
 </LinearLayout>

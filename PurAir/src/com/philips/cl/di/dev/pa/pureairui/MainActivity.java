@@ -395,7 +395,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			manager.popBackStack();			
 		}else if((fragment instanceof AirColorExplainedStaticFragment)  || (fragment instanceof OutdoorAirColorIndicationFragment) ||  (fragment instanceof IndoorAirColorIndicationFragment)){
 			manager.popBackStack();	
-			setTitle(getString(R.string.list_item_air_quality_explained));
+			initActionBar();
+			setTitle(getString(R.string.list_item_air_quality_explained));			
 		}
 		else {
 			stopAllServices() ;
@@ -563,6 +564,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		this.menu = menu;
 		MenuItem item = menu.getItem(0);
 		rightMenuItem= menu.getItem(0);
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
 		if(connected)
 			item.setIcon(R.drawable.right_bar_icon_blue_2x);
@@ -1113,4 +1116,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			}
 		}
 	};
+	
+	
+	public void disableNavigationIndicator() {
+		mActionBar = getSupportActionBar();
+		mActionBar.setIcon(android.R.color.transparent);
+		mActionBar.setHomeButtonEnabled(false);			
+	}
 }

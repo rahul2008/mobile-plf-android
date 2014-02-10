@@ -206,49 +206,6 @@
 
         <!-- Airborne Pathogens -->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/airborne_pathogens_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
-                android:src="@drawable/airborne_pathogens" />
-
-            <TextView
-                android:id="@+id/airborne_pathogens_heading"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
-                android:layout_toRightOf="@+id/airborne_pathogens_imgView"
-                android:text="@string/pollutant_heading_3"
-                android:textColor="#7F8595"
-                android:textSize="19sp" />
-
-            <TextView
-                android:id="@+id/airborne_pathogens_intro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/airborne_pathogens_heading"
-                android:layout_below="@+id/airborne_pathogens_heading"
-                android:text="@string/pollutant_intro_3"
-                android:textColor="#7F8595" />
-
-            <View
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/airborne_pathogens_heading"
-                android:layout_below="@+id/airborne_pathogens_intro"
-                android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
-        </RelativeLayout>
-
         <!-- outdoor particles -->
 
         <RelativeLayout

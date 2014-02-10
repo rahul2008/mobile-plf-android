@@ -33,19 +33,19 @@
             android:background="@drawable/registration_button_selector"
             android:text="@string/close"
             android:textColor="#FFF"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/btn_take_tour"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/take_tour_alert"
             android:layout_margin="8dp"
             android:layout_weight="1"
+            android:maxLines="1"
             android:background="@drawable/registration_button_selector"
             android:text="@string/alert_take_tour"
             android:textColor="#FFF"
-            android:textSize="18sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 
 </RelativeLayout>

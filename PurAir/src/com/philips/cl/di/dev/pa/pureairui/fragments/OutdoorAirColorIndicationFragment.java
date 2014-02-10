@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.pureairui.fragments;
 import java.util.HashMap;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
@@ -89,6 +90,9 @@ public class OutdoorAirColorIndicationFragment extends Fragment{
 		expListView.setAdapter(listAdapter);
 		//expListView.setIndicatorBounds(800, 900);
 		
+		MainActivity mainActivity=(MainActivity) getActivity();
+	    mainActivity.disableNavigationIndicator();
+	    
 		return view; 
 	}
 
@@ -99,8 +103,13 @@ public class OutdoorAirColorIndicationFragment extends Fragment{
 		getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 		int width = dm.widthPixels;
 
-		expListView.setIndicatorBounds(width - getDipsFromPixel(60), width
-                - getDipsFromPixel(30));		
+		if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			expListView.setIndicatorBounds(width - getDipsFromPixel(60), width
+					- getDipsFromPixel(30));
+		} else {
+			expListView.setIndicatorBoundsRelative(width - getDipsFromPixel(60), width
+					- getDipsFromPixel(30));
+		}		
 	}
 
 	// Convert pixel to dip

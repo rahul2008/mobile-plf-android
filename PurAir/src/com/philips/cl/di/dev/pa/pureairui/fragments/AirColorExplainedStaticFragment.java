@@ -16,23 +16,14 @@ import android.widget.TextView;
 
 public class AirColorExplainedStaticFragment extends Fragment {
 
-	private int activity;
-
-	/*@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		Intent intent=getIntent();
-		int activity=intent.getIntExtra("FROM_ACTIVITY", -1);
-		initializeView(activity);
-		initActionBar();
-	}*/
-		
+	private int activity;	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    MainActivity mainActivity=(MainActivity) getActivity();
 	    activity=mainActivity.getAirExplainedActivity();
+	    mainActivity.disableNavigationIndicator();
 	}
 	
 	@Override
@@ -55,34 +46,6 @@ public class AirColorExplainedStaticFragment extends Fragment {
 		}
 		
 		return view;
-	}
+	}	
 	
-	/*private void initializeView(int activity) {
-		if(activity== 11){
-			setContentView(R.layout.indoor_pollutants_screen);
-		}
-		else if(activity==12){
-			setContentView(R.layout.vista_shield_technology_screen);
-		}
-		else if(activity==13){
-			setContentView(R.layout.guards_environment_screen);
-		}
-	}*/
-
-	/*Initialize action bar 
-	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(R.drawable.left_arrow_blue);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);	
-		setActionBarTitle(R.string.indoor_colors_explained);
-	}
-
-	Sets Action bar title 
-	public void setActionBarTitle(int tutorialTitle) {    	
-		TextView textView = (TextView) findViewById(R.id.action_bar_title);
-		textView.setTypeface(Fonts.getGillsansLight(this));
-		textView.setTextSize(24);
-		textView.setText(this.getText(tutorialTitle));
-	}*/
 }
