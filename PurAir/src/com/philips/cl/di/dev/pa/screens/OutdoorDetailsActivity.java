@@ -260,17 +260,17 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 	 */
 	private Drawable setAQICircleBackground(int aqi) {
 		if(aqi >= 0 && aqi <= 50) {
-			return getResources().getDrawable(R.drawable.blue_circle_with_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
 		} else if(aqi > 50 && aqi <= 100) {
-			return getResources().getDrawable(R.drawable.pink_circle_with_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_pink_circle_2x);
 		} else if(aqi > 100 && aqi <= 150) {
-			return getResources().getDrawable(R.drawable.light_pink_circle_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_bluedark_circle_2x);
 		} else if(aqi > 150 && aqi <= 200) {
-			return getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x);
+			return getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
 		} else if(aqi > 200 && aqi <= 300) {
-			return getResources().getDrawable(R.drawable.red_circle_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
 		} else if(aqi > 300 /*&& aqi <= 500*/) {
-			return getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_red_circle_2x);
 		}
 		return null;
 	}

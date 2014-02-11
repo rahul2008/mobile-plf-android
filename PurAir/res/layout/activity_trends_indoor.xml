@@ -83,6 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/indoorDbBarTop"
+                    android:layout_centerHorizontal="true"
                     android:fadeScrollbars="false" >
                 </HorizontalScrollView>
             </RelativeLayout>
@@ -110,8 +111,8 @@
 
                 <ImageView
                     android:id="@+id/indoorDbIndexBottBg"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:src="@drawable/indoorcircle" />
@@ -119,8 +120,8 @@
                 <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/indoorDbIndexBott"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:gravity="center"
@@ -163,6 +164,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/white"
+                android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
                 android:onClick="aqiAnalysisClick"
                 android:text="@string/outdoor_analysis_head1" />
         </LinearLayout>

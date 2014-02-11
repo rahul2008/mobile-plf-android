@@ -39,7 +39,7 @@ public class MapOdActivity extends FragmentActivity {
 		setContentView(R.layout.od_map_layout);
 		
 		closeMapImg = (ImageView) findViewById(R.id.oDmapInlarge); 
-		closeMapImg.setImageResource(R.drawable.close_icon_blue);
+		closeMapImg.setImageResource(R.drawable.close_icon_2x);
 		centerLatF = getIntent().getFloatExtra("centerLatF", 0.0F);
 		centerLngF = getIntent().getFloatExtra("centerLngF", 0.0F);
 		centerCity = getIntent().getStringExtra("centerCity");

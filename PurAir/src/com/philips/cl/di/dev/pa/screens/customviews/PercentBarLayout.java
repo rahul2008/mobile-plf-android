@@ -50,7 +50,7 @@ public class PercentBarLayout extends LinearLayout {
 			final int tempi = i;
 			
 			if (i == position) {
-				indexBg.setImageResource(R.drawable.aqi_small_circle_100_150_2x);
+				indexBg.setImageResource(R.drawable.circle_5);
 			}
 			
 			if (tempi != num - 1) {

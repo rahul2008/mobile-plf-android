@@ -66,59 +66,13 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	float yCoordinates10[] = { 0F, 11.5F, 0F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F,
 			5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F,
 			5.5F, 2.5F, 2.5F };
-	int powerOnFlgs11[] = { 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0, 1 };
-	float yCoordinates11[] = { 2.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 3.5F, 1.5F };
-	int powerOnFlgs12[] = { 0, 0, 0, 1,1, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0, 1 };
-	float yCoordinates12[] = { 3.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 4.5F, 3.5F };
-	int powerOnFlgs13[] = { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0, 1 };
-	float yCoordinates13[] = { 0.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 1.5F, 4.5F };
-	int powerOnFlgs14[] = { 1, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0, 1 };
-	float yCoordinates14[] = { 4.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 5.5F, 5.5F };
-	int powerOnFlgs15[] = { 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0, 0 };
-	float yCoordinates15[] = { 5.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-			2.5F, 5.5F, 6.5F, 0.5F };
-	
 	
 	float yCoordinates20[] = { 2F, 3F, 4F, 3F, 2F, 8F, 1F };
-	float yCoordinates21[] = { 0F, 2.5F, 3.5F, 1.5F, 2.5F, 2.5F, 1.5F };
-	float yCoordinates22[] = { 5.5F, 2.5F, 2.5F, 3.5F, 1.5F, 2.5F, 3.5F };
-	float yCoordinates23[] = { 2.5F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F, 0.5F };
-	float yCoordinates24[] = { 3.5F, 1.5F, 3.5F, 5.5F, 2.5F, 2.5F, 4.5F };
-	float yCoordinates25[] = { 0F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F, 4.5F };
 	
 	float yCoordinates30[] = { 0F, 1.5F, 2.5F, 2.5F, 2.5F, 2.5F, 9.5F, 0F,
 			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
 			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 5.5F };
-	float yCoordinates31[] = { 0F, 6.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F,
-			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
-			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 3.5F, 2.5F };
-	float yCoordinates32[] = { 0F, 3.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F,
-			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
-			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 4.5F, 1.5F };
-	float yCoordinates33[] = { 0F, 2.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F,
-			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
-			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 5.5F, 3.5F };
-	float yCoordinates34[] = { 0F, 4.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F,
-			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
-			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F, 4.5F };
-	float yCoordinates35[] = { 0F, 0.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F,
-			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
-			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 3.5F, 0.5F };
-
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -128,45 +82,11 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		coordinates = new Coordinates(this);
 		initializeUI();
 		
-		
 		parseReading();
-		
-		/*float yCoordinates[] = { 0F, 11.5F, 0F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-				2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F,
-				1.5F, 2.5F, 5.5F, 2.5F, 2.5F };
-		valueList.add(yCoordinates);
-		float yCoordinates1[] = { 2.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-				2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F,
-				1.5F, 2.5F, 5.5F, 3.5F, 1.5F };
-		valueList.add(yCoordinates1);
-		float yCoordinates2[] = { 3.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-				2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F,
-				1.5F, 2.5F, 5.5F, 4.5F, 3.5F };
-		valueList.add(yCoordinates2);
-		float yCoordinates3[] = { 0.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-				2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F,
-				1.5F, 2.5F, 5.5F, 1.5F, 4.5F };
-		valueList.add(yCoordinates3);
-		float yCoordinates4[] = { 4.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-				2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F,
-				1.5F, 2.5F, 5.5F, 5.5F, 5.5F };
-		valueList.add(yCoordinates4);
-		float yCoordinates5[] = { 5.5F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F,
-				2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F,
-				1.5F, 2.5F, 5.5F, 6.5F, 0.5F };
-		valueList.add(yCoordinates5);*/
-		
-		
+				
 		graphLayout.addView(new GraphView(this, 
 				lastDayReadingsList.get(0), lastDayReadingsList,powerOnReadingsList.get(0), coordinates, 0, indexBottBg));
 		
-		/*horizontalScrollView = (HorizontalScrollView) findViewById(R.id.indoorDbHorizontalScroll);
-		barTopNum = (CustomTextView) findViewById(R.id.indoorDbBarTopNum);
-		barTopName = (CustomTextView) findViewById(R.id.indoorDbBarTopName);
-		
-		percentBarLayout = new PercentBarLayout(this, null, 10, barTopNum, barTopName);
-		percentBarLayout.setClickable(true);
-        horizontalScrollView.addView(percentBarLayout);*/
 		getDataFromDashboard();
 	}
 	
@@ -211,7 +131,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		barTopName = (CustomTextView) findViewById(R.id.indoorDbBarTopName);
 		selectedIndexBottom = (CustomTextView) findViewById(R.id.indoorDbIndexBott);
 		
-		percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, null, 7, this, 0, 0);
+		percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, null, 2, this, 0, 0);
 		percentBarLayout.setClickable(true);
         horizontalScrollView.addView(percentBarLayout);
 		
@@ -246,43 +166,6 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		lastDayReadingsList.add(yCoordinates10);
 		powerOnReadingsList.add(powerOnFlgs10);
 		
-		for (int i = 0; i < lastDayReadings.length; i++) {
-			lastDayReadings[i] = yCoordinates11[i];
-			powerOnReadings[i] = powerOnFlgs11[i];
-		}
-		lastDayReadingsList.add(yCoordinates11);
-		powerOnReadingsList.add(powerOnFlgs11);
-		
-		
-		for (int i = 0; i < lastDayReadings.length; i++) {
-			lastDayReadings[i] = yCoordinates12[i];
-			powerOnReadings[i] = powerOnFlgs12[i];
-		}
-		lastDayReadingsList.add(yCoordinates12);
-		powerOnReadingsList.add(powerOnFlgs12);
-		
-		for (int i = 0; i < lastDayReadings.length; i++) {
-			lastDayReadings[i] = yCoordinates13[i];
-			powerOnReadings[i] = powerOnFlgs13[i];
-		}
-		lastDayReadingsList.add(yCoordinates13);
-		powerOnReadingsList.add(powerOnFlgs13);
-		
-		for (int i = 0; i < lastDayReadings.length; i++) {
-			lastDayReadings[i] = yCoordinates14[i];
-			powerOnReadings[i] = powerOnFlgs14[i];
-		}
-		lastDayReadingsList.add(yCoordinates14);
-		powerOnReadingsList.add(powerOnFlgs14);
-		
-		for (int i = 0; i < lastDayReadings.length; i++) {
-			lastDayReadings[i] = yCoordinates15[i];
-			powerOnReadings[i] = powerOnFlgs15[i];
-		}
-		lastDayReadingsList.add(yCoordinates15);
-		powerOnReadingsList.add(powerOnFlgs15);
-		
-		
 		/**Last 7 days*/
 		if (last7dayReadingsList != null) {
 			last7dayReadingsList.clear();
@@ -291,31 +174,6 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 			last7dayReadings[i] = yCoordinates20[i];
 		}
 		last7dayReadingsList.add(yCoordinates20);
-		
-		for (int i = 0; i < last7dayReadings.length; i++) {
-			last7dayReadings[i] = yCoordinates21[i];
-		}
-		last7dayReadingsList.add(yCoordinates21);
-		
-		for (int i = 0; i < last7dayReadings.length; i++) {
-			last7dayReadings[i] = yCoordinates22[i];
-		}
-		last7dayReadingsList.add(yCoordinates22);
-		
-		for (int i = 0; i < last7dayReadings.length; i++) {
-			last7dayReadings[i] = yCoordinates23[i];
-		}
-		last7dayReadingsList.add(yCoordinates23);
-		
-		for (int i = 0; i < last7dayReadings.length; i++) {
-			last7dayReadings[i] = yCoordinates24[i];
-		}
-		last7dayReadingsList.add(yCoordinates24);
-		
-		for (int i = 0; i < last7dayReadings.length; i++) {
-			last7dayReadings[i] = yCoordinates25[i];
-		}
-		last7dayReadingsList.add(yCoordinates25);
 		
 		/**Last 4 weeks*/
 		if (last4weekReadingsList != null) {
@@ -326,31 +184,6 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 			last4weekReadings[i] = yCoordinates30[i];
 		}
 		last4weekReadingsList.add(yCoordinates30);
-
-		for (int i = 0; i < last4weekReadings.length; i++) {
-			last4weekReadings[i] = yCoordinates31[i];
-		}
-		last4weekReadingsList.add(yCoordinates31);
-
-		for (int i = 0; i < last4weekReadings.length; i++) {
-			last4weekReadings[i] = yCoordinates32[i];
-		}
-		last4weekReadingsList.add(yCoordinates32);
-
-		for (int i = 0; i < last4weekReadings.length; i++) {
-			last4weekReadings[i] = yCoordinates33[i];
-		}
-		last4weekReadingsList.add(yCoordinates33);
-
-		for (int i = 0; i < last4weekReadings.length; i++) {
-			last4weekReadings[i] = yCoordinates34[i];
-		}
-		last4weekReadingsList.add(yCoordinates34);
-
-		for (int i = 0; i < last4weekReadings.length; i++) {
-			last4weekReadings[i] = yCoordinates35[i];
-		}
-		last4weekReadingsList.add(yCoordinates35);
 
 	}
 	
@@ -365,7 +198,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 				removeChildViewFromBar();
 				
 				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-						null, 7, this, 0, 0);
+						null, 2, this, 0, 0);
 				percentBarLayout.setClickable(true);
 		        horizontalScrollView.addView(percentBarLayout);
 				
@@ -382,7 +215,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 				removeChildViewFromBar();
 				
 				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-						null, 7, this, 1, 0);
+						null, 2, this, 1, 0);
 				percentBarLayout.setClickable(true);
 		        horizontalScrollView.addView(percentBarLayout);
 				
@@ -412,7 +245,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 				removeChildViewFromBar();
 				
 				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-						null, 7, this, 2, 0);
+						null, 2, this, 2, 0);
 				percentBarLayout.setClickable(true);
 		        horizontalScrollView.addView(percentBarLayout);
 				
@@ -493,7 +326,7 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		}
 		
 		percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-				null, 7, this, index, position);
+				null, 2, this, index, position);
 		percentBarLayout.setClickable(true);
         horizontalScrollView.addView(percentBarLayout);
 		
@@ -575,13 +408,13 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	private Drawable setAQICircleBackground(int aqi) {
 		Log.i(TAG, "aqi=  " + aqi);
 		if(aqi >= 0 && aqi < 2) {
-			return getResources().getDrawable(R.drawable.pink_circle_with_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_pink_circle_2x);
 		} else if(aqi >= 2 && aqi < 3) {
-			return getResources().getDrawable(R.drawable.light_pink_circle_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_bluedark_circle_2x);
 		} else if(aqi >= 3 && aqi < 4) {
-			return getResources().getDrawable(R.drawable.light_pink_circle_arrow1_2x);
+			return getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
 		} else {
-			return getResources().getDrawable(R.drawable.light_red_circle_arrow_2x);
+			return getResources().getDrawable(R.drawable.aqi_red_circle_2x);
 		}
 	}
 	

@@ -15,10 +15,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:padding="16dp"
+            android:padding="8dp"
             android:background="@drawable/trends_txt_bg"
             android:onClick="closeDetils"
-            android:src="@drawable/close_icon_blue" />
+            android:src="@drawable/help_close" />
 
         <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="@string/outdoor_analysis_head5"
             android:textColor="@color/cornflowerblue"
             android:textSize="24sp"

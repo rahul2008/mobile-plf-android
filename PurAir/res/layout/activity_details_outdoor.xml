@@ -46,27 +46,6 @@
                 android:layout_height="250dp"
                 android:layout_margin="16dp"
                 layout="@layout/od_map_layout" />
-            <!-- <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="250dp" >
-				<ImageView  
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:layout_alignParentTop="true"
-				    android:layout_alignParentRight="true"
-				    android:src="@drawable/wifi_connected"/>
-                <fragment
-                    xmlns:map="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/map"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp"
-                    android:layout_margin="8dp"
-                    android:layout_alignParentTop="true"
-                    map:cameraBearing="100"
-                    map:cameraTilt="30"
-  					map:cameraZoom="13"
-                    class="com.google.android.gms.maps.SupportMapFragment" />
-            </RelativeLayout> -->
             
             <!-- Weather report -->
             <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
@@ -144,6 +123,10 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:textColor="@color/white"
+                android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
                 android:onClick="aqiAnalysisClick"
                 android:text="@string/outdoor_analysis_head1" />
         </LinearLayout>

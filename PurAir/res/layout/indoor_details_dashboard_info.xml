@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/blue_circle_with_arrow_2x" />
+        android:src="@drawable/aqi_pink_circle_2x" />
 
      <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
