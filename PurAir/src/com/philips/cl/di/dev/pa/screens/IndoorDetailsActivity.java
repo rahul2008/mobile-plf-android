@@ -16,6 +16,8 @@ import android.graphics.Paint.Style;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -36,13 +38,15 @@ import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
 import com.philips.cl.di.dev.pa.screens.customviews.PercentBarLayout;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class IndoorDetailsActivity extends Activity implements OnClickListener, PercentDetailsClickListener {
+public class IndoorDetailsActivity extends ActionBarActivity 
+			implements OnClickListener, PercentDetailsClickListener {
 	
+	private ActionBar mActionBar;
 	private final String TAG = "IndoorDetailsActivity";
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
+	private TextView heading;
 	private ImageView circleImg, modeIcon, filterIcon;
-	private ImageView backImg, rightImg, centerLabelImg;
 	private CustomTextView msgFirst, msgSecond;
 	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
@@ -76,13 +80,16 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.activity_trends_indoor);
 		coordinates = new Coordinates(this);
 		initializeUI();
 		
 		parseReading();
+		
+		initActionBar();
+		setActionBarTitle();
 				
 		graphLayout.addView(new GraphView(this, 
 				lastDayReadingsList.get(0), lastDayReadingsList,powerOnReadingsList.get(0), coordinates, 0, indexBottBg));
@@ -108,12 +115,6 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		modeIcon = (ImageView) findViewById(R.id.inModeIcon); 
 		filterIcon = (ImageView) findViewById(R.id.inFilterIcon); 
 		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
-		backImg = (ImageView) findViewById(R.id.ivLeftMenu); 
-		centerLabelImg = (ImageView) findViewById(R.id.ivCenterLabel); 
-		centerLabelImg.setBackgroundResource(R.drawable.transparent_bg);
-		centerLabelImg.setImageBitmap(writeTextOnDrawableHead(
-				R.drawable.transparent_bg, getString(R.string.title_indoor_db)));
-		rightImg = (ImageView) findViewById(R.id.ivRightDeviceIcon); 
 		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
 		
 		msgFirst = (CustomTextView) findViewById(R.id.idFirstMsg);
@@ -142,8 +143,28 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
-		backImg.setOnClickListener(this);
 		//rightImg.setOnClickListener(this);
+	}
+	
+	/**
+	 * InitActionBar
+	 */
+	private void initActionBar() {
+		mActionBar = getSupportActionBar();
+		mActionBar.setIcon(null);
+		mActionBar.setHomeButtonEnabled(true);
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		mActionBar.setCustomView(R.layout.action_bar);
+		
+	}
+	
+	/*Sets Action bar title */
+	public void setActionBarTitle() {    	
+		heading = (TextView) findViewById(R.id.action_bar_title);
+		heading.setTypeface(Fonts.getGillsansLight(this));
+		heading.setTextSize(24);
+		heading.setText(getString(R.string.title_indoor_db));
+		
 	}
 	
 	/**
@@ -363,8 +384,6 @@ public class IndoorDetailsActivity extends Activity implements OnClickListener, 
 
 		}
 		
-		
-		//Toast.makeText(getApplicationContext(), "Item Click " + position, Toast.LENGTH_SHORT).show();
 	}
 	
 	private void getDataFromDashboard() {

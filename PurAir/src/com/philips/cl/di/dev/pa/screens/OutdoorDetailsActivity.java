@@ -27,6 +27,8 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,16 +37,18 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class OutdoorDetailsActivity extends FragmentActivity implements OnClickListener {
+public class OutdoorDetailsActivity extends ActionBarActivity implements OnClickListener {
 
+	private ActionBar mActionBar;
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private HorizontalScrollView wetherScrollView;
-	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
+	private CustomTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private CustomTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
+	private TextView heading;
 	private ImageView circleImg;
-	private ImageView backImg, rightImg, centerLabelImg;
 	private ImageView avoidImg, openWindowImg, maskImg;
 	private ImageView mapClickImg;
 	private CustomTextView avoidTxt, openWindowTxt, maskTxt;
@@ -61,8 +65,8 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_details_outdoor);
 
 		/**For right menu start*/
@@ -74,6 +78,9 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 		initializeUI();
+		
+		initActionBar();
+		setActionBarTitle();
 
 		setUpMapIfNeeded();
 
@@ -234,8 +241,7 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		 */
 		if (datas != null && datas.length > 0) {
 			//locationCity.setText(bundleDatas[1]);
-			centerLabelImg.setImageBitmap(writeTextOnDrawableHead(
-					R.drawable.transparent_bg, datas[1]));
+			heading.setText(datas[1]);
 			location.setText(datas[2]);
 			summaryTitle.setText(datas[5]);
 			summary.setText(datas[6]);
@@ -366,12 +372,9 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		wetherScrollView = (HorizontalScrollView) findViewById(R.id.odTodayWetherReportHSV);
 		wetherForcastLayout = (LinearLayout) findViewById(R.id.odWetherForcastLL);
 
-		lastDayBtn = (TextView) findViewById(R.id.detailsOutdoorLastDayLabel);
-		lastDayBtn.setTypeface(Fonts.getGillsansLight(this));
-		lastWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
-		lastWeekBtn.setTypeface(Fonts.getGillsansLight(this));
-		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
-		lastFourWeekBtn.setTypeface(Fonts.getGillsansLight(this));
+		lastDayBtn = (CustomTextView) findViewById(R.id.detailsOutdoorLastDayLabel);
+		lastWeekBtn = (CustomTextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
+		lastFourWeekBtn = (CustomTextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		aqiValue = (CustomTextView) findViewById(R.id.od_detail_aqi_reading);
 		location = (CustomTextView) findViewById(R.id.od_detail_location);
 		summaryTitle = (CustomTextView) findViewById(R.id.odStatusTitle);
@@ -382,12 +385,6 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		pm4 = (CustomTextView) findViewById(R.id.odPMValue4);
 
 		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
-		backImg = (ImageView) findViewById(R.id.ivLeftMenu); 
-		centerLabelImg = (ImageView) findViewById(R.id.ivCenterLabel); 
-		centerLabelImg.setBackgroundResource(R.drawable.transparent_bg);
-		centerLabelImg.setImageBitmap(writeTextOnDrawableHead(
-				R.drawable.transparent_bg, getString(R.string.title_outdoor_db)));
-		rightImg = (ImageView) findViewById(R.id.ivRightDeviceIcon); 
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
 		maskImg = (ImageView) findViewById(R.id.maskImg); 
@@ -398,16 +395,6 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		avoidTxt = (CustomTextView) findViewById(R.id.avoidOutdoorTxt); 
 		openWindowTxt = (CustomTextView) findViewById(R.id.openWindowTxt); 
 		maskTxt = (CustomTextView) findViewById(R.id.maskTxt);
-
-
-		/**
-		 * set image top bar
-		 * */
-		backImg.setBackgroundResource(R.drawable.trends_txt_bg);
-		backImg.setImageResource(R.drawable.top_leftindicator);
-		//centerLabelImg.setImageResource(resId)
-		rightImg.setBackgroundResource(R.drawable.trends_txt_bg);
-		rightImg.setImageResource(R.drawable.right_bar_icon_blue_2x);
 
 		/**Add today weather*/
 		wetherScrollView.addView(new WeatherReportLayout(this, null, 8));
@@ -423,9 +410,28 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
-		backImg.setOnClickListener(this);
-		rightImg.setOnClickListener(this);
 		mapClickImg.setOnClickListener(this);
+	}
+	
+	/**
+	 * InitActionBar
+	 */
+	private void initActionBar() {
+		mActionBar = getSupportActionBar();
+		mActionBar.setIcon(null);
+		mActionBar.setHomeButtonEnabled(true);
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		mActionBar.setCustomView(R.layout.action_bar);
+		
+	}
+	
+	/*Sets Action bar title */
+	public void setActionBarTitle() {    	
+		heading = (TextView) findViewById(R.id.action_bar_title);
+		heading.setTypeface(Fonts.getGillsansLight(this));
+		heading.setTextSize(24);
+		heading.setText(getString(R.string.title_outdoor_db));
+		
 	}
 
 
@@ -476,15 +482,6 @@ public class OutdoorDetailsActivity extends FragmentActivity implements OnClickL
 			mapIntent.putExtra("centerCity", "Shanghai");
 			mapIntent.putExtra("otherInfo", new String[]{});
 			startActivity(mapIntent);
-			break;
-		}
-		case R.id.ivLeftMenu: {
-			//Toast.makeText(getApplicationContext(), "Left Menu", Toast.LENGTH_SHORT).show();
-			finish();
-			break;
-		}
-		case R.id.ivRightDeviceIcon: {
-			//Toast.makeText(getApplicationContext(), "Right Menu", Toast.LENGTH_SHORT).show();
 			break;
 		}
 		}

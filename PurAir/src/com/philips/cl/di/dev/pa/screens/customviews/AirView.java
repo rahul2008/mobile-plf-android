@@ -41,7 +41,7 @@ public class AirView extends View {
 		if (percent <= 50) {
 			paint.setColor(Color.RED);
 		} else {
-			paint.setColor(Color.rgb(199, 21, 33));
+			paint.setColor(Color.rgb(65, 105, 225));
 		}
 		
 		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);
