@@ -286,6 +286,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
 
 				if ( intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+					if( cppController.isSignOn()) {
+						cppController.startDCSService() ;
+					}
 					Log.i(TAG, "Network state change") ;
 				}
 				else {
@@ -301,7 +304,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 						ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 						if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED)) {
 							isNetworkAvailable = true;
-							cppController.startDCSService() ;
+							if( cppController.isSignOn()) {
+								cppController.startDCSService() ;
+							}
+//							if( com.philips.cl.di.dev.pa.utils.Utils.getPrivateKey(context) != null) 
+//								cppController.startDCSService() ;
 							//TODO : Start/Update outdoor AQI and weather details.
 						} else {
 							isNetworkAvailable = false;							
@@ -834,10 +841,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierDetails) {
 //		Log.i(TAG, "SensorDataReceived: "+airPurifierDetails) ;
+		Log.i("LOCALSENSOR", ""+isLocalPollingStarted) ;
 		if ( airPurifierDetails != null ) {
-			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
-			airPurifierEventDto = airPurifierDetails ;
-			updatePurifierUIFields() ;
+				airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
+				airPurifierEventDto = airPurifierDetails ;
+				updatePurifierUIFields() ;
 		}
 		else {
 			statusCounter ++;
@@ -998,7 +1006,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 	
 	public void toggleConnection( boolean isLocal ) {
-		Log.i(TAG, "Toggle Connection:" +isLocal ) ;
+		Log.i("TOGGLE", "Toggle Connection:" +isLocal ) ;
 		if ( isLocal ) {
 			timer.cancel() ;
 			sensorDataController.startPolling() ;
@@ -1019,10 +1027,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					sensorDataController.startCPPPolling() ;
 					isCPPPollingStarted = true ;
 				}				
-			}
-			else {
-				isLocalPollingStarted = true ;
-				sensorDataController.startPolling() ;
 			}
 		}
 	}
@@ -1084,6 +1088,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	public void keyDecrypt(String key) {
+		Log.i("KEY", "Key exchange: "+key) ;
 		this.secretKey = key ;
 		if ( key != null ) {
 			toggleConnection(true) ;
