@@ -369,17 +369,19 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param ttl
 	 */
 	public void publishEvent(String eventData,String eventType, String actionName, String replyTo, String conversationId, int priority, int ttl) {
-		String airPurifierID = Utils.getAirPurifierID(context) ;
-		
-		if( airPurifierID  == null ) {
-			airPurifierID = AppConstants.AIRPURIFIER_ID ;
+		if( isSignOn ) {
+			String airPurifierID = Utils.getAirPurifierID(context) ;
+			
+			if( airPurifierID  == null ) {
+				airPurifierID = AppConstants.AIRPURIFIER_ID ;
+			}
+			eventPublisher.setEventInformation(eventType, actionName, airPurifierID, conversationId, priority, ttl);
+			eventPublisher.setEventData(eventData);
+			eventPublisher.setTargets(new String [] {airPurifierID});
+			eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
+	
+			eventPublisher.executeCommand();
 		}
-		eventPublisher.setEventInformation(eventType, actionName, airPurifierID, conversationId, priority, ttl);
-		eventPublisher.setEventData(eventData);
-		eventPublisher.setTargets(new String [] {airPurifierID});
-		eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
-
-		eventPublisher.executeCommand();
 	}
 	
 	public void restartDCSService() {
