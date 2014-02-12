@@ -131,9 +131,14 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 	};
 	
 	@Override
-	public void signonStatus(boolean signon) {
-		this.isSignon = signon ;
-		handler.sendEmptyMessage(0) ;
-		((MainActivity)getActivity()).toggleConnection(false) ;
+	public void signonStatus(boolean isSigonSuccess) {
+		if( isSigonSuccess ) {
+			this.isSignon = isSigonSuccess ;
+			handler.sendEmptyMessage(0) ;
+			((MainActivity)getActivity()).toggleConnection(false) ;
+		}
+		else {
+			Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
+		}
 	}
 }
