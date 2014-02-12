@@ -52,7 +52,7 @@ public class Server extends AsyncTask<String, Void, String> {
 			
 			conn.connect();
 			int responseCode = conn.getResponseCode() ;
-			Log.i(TAG, "Response Code:" +responseCode) ;
+			
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();	
 				result = readFully(inputStream) ;
@@ -63,6 +63,23 @@ public class Server extends AsyncTask<String, Void, String> {
 		}
 		
 		finally {
+			if(inputStream != null ) {
+				try {
+					inputStream.close() ;
+					inputStream = null ;
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}				
+			}
+			if( out != null ) {
+				try {
+					out.close() ;
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				out = null ;
+			}
 			if ( conn != null ) {
 				conn.disconnect() ;
 				conn = null ;

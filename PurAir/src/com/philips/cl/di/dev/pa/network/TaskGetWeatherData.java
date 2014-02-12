@@ -69,6 +69,11 @@ public class TaskGetWeatherData extends Thread {
 			// Starts the query
 			conn.connect();
 			//			Log.d(getClass().getSimpleName(), "received response [" + response + "]");
+			
+			if( conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
+				return null ;
+			}
+			
 			inputStream = conn.getInputStream();
 
 			// Convert the InputStream into a string
