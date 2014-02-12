@@ -22,6 +22,7 @@ Version 1:
 import java.io.FileOutputStream;
 
 
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
@@ -32,7 +33,7 @@ import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
 
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.DownloadData;
-import com.philips.icpinterface.FileDownload;
+
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
@@ -94,7 +95,7 @@ public class ICPCallbackHandler implements CallbackHandler
 			break;
 
 		case Commands.DOWNLOAD_FILE:
-			icpClientDownloadFile_CB(status, obj);
+			//icpClientDownloadFile_CB(status, obj);
 			break;
 
 		case Commands.EVENT_NOTIFICATION:
@@ -201,10 +202,6 @@ public class ICPCallbackHandler implements CallbackHandler
 		listener.onICPCallbackEventOccurred(Commands.GET_COMPONENT_DETAILS,status,obj) ;
 	}
 
-	public void icpClientDownloadFile_CB(int status, ICPClient obj)
-	{
-		updateFileDownloadText(status, (ICPClient)obj);
-	}
 
 	public void EventNotification_CB(int status, ICPClient obj)
 	{
@@ -302,49 +299,7 @@ public class ICPCallbackHandler implements CallbackHandler
 
 
 
-	private void updateFileDownloadText(int status, ICPClient obj) {
-		// TODO Auto-generated method stub
-		int iNumbytes = 0;
-		FileDownload fileDownload = (FileDownload)obj;
-		fileSize = fileDownload.getFileSize();
-
-		System.out.println("\n Chunk Offset Before receieving : " + cntOffset);
-		iNumbytes = fileDownload.getDownloadedChunkOffset() - cntOffset;
-		cntOffset = fileDownload.getDownloadedChunkOffset();
-
-		System.out.println("\n Downloaded bytes: " + iNumbytes);
-
-		if (cntOffset <= fileSize) // Total size of the file to be downloaded
-		{
-			//				int size = Math.min(fileDownload.getDownloadedChunkOffset(), cntOffset);
-
-			ByteBuffer buffer = fileDownload.getBuffer();
-			mybyte = new byte[fileSize];
-			for (int i = 0; i < iNumbytes; i++)
-			{
-				mybyte[index++] = buffer.get(i);
-			}
-		}
-		else
-		{
-			cntOffset = 0;
-		}
-
-		if(index == fileSize)
-		{
-			System.out.println("\n Download successfully completed! \n");
-			try {
-				out = new FileOutputStream("/sdcard/UpgradeFile.ZIP", true);
-				out.write(mybyte);
-				out.close();
-			} catch (IOException e) {
-				//TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			listener.onICPCallbackEventOccurred(7,status,obj) ;
-		}
-	}
+	
 
 
 	@Override
