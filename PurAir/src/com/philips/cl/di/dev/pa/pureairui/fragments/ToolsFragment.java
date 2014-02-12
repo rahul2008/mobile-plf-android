@@ -27,19 +27,19 @@ import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class ToolsFragment extends Fragment implements OnClickListener, SignonListener {
-	
+
 	private static final String TAG = ToolsFragment.class.getSimpleName();
 	private TextView tvIpaddress ;
 	private Button submitButton ;
 	private View vMain ;
-	
+
 	private EditText tvRegId ;
 	private Button signOnButton ;
-	
+
 	private TextView tvCPPDetails ;
-	
+
 	private CppDatabaseModel cppDatabaseModel ;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,30 +47,30 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 		initViews();
 		return vMain;
 	}
-	
+
 	private void initViews() {
 		tvIpaddress = (EditText) vMain.findViewById(R.id.tvipaddress);
 		tvIpaddress.setText(Utils.getIPAddress(getActivity())) ;
 		submitButton = (Button) vMain.findViewById(R.id.submitButton) ;
 		submitButton.setOnClickListener(this) ;
-		
+
 		tvRegId = (EditText) vMain.findViewById(R.id.tv_cpp_regId_txt);
 		signOnButton = (Button) vMain.findViewById(R.id.get_cpp_btn) ;
 		signOnButton.setOnClickListener(this) ;
-		
+
 		tvCPPDetails = (TextView) vMain.findViewById(R.id.tv_cpp_details) ;
-		
+
 		if( Utils.getAirPurifierID(getActivity()) != null &&
 				Utils.getAirPurifierID(getActivity()).length() > 0 ) {
 			tvCPPDetails.setVisibility(View.VISIBLE) ;
 			signOnButton.setText("Reset") ;
-			
+
 			tvCPPDetails.setText("AirPurifier ID: "+Utils.getAirPurifierID(getActivity())) ;
 			String regId = Utils.getRegistrationID(getActivity()) ;
 			if ( regId != null && regId.length() > 0 ) {
 				tvRegId.setText(regId.substring(regId.length()-5)) ;
 			}
-			
+
 		}
 	}
 
@@ -81,7 +81,7 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 			Utils.setIPAddress(tvIpaddress.getText().toString(), getActivity()) ;
 			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getActivity().getWindow().getCurrentFocus().getWindowToken(), 0);
-			
+
 			break;
 		case R.id.get_cpp_btn:
 			if(signOnButton.getText().toString().equals("Reset")) {
@@ -98,7 +98,7 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 					cppDatabaseAdapter.open();
 					cppDatabaseModel = cppDatabaseAdapter.getCppInfo(regStr);
 					if (cppDatabaseModel != null) {
-						Utils.storeCPPKeys(getActivity(), cppDatabaseModel) ;
+
 						CPPController.getInstance(getActivity()).addSignonListener(this) ;
 						CPPController.getInstance(getActivity()).init() ;				
 					}
@@ -111,34 +111,30 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 		default:
 			break;
 		}
-		
+
 	}
 
 	private boolean isSignon ;
-	
+
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if(isSignon) {
+				Utils.storeCPPKeys(getActivity(), cppDatabaseModel) ;
 				Toast.makeText(getActivity(), "Signon Successfull", Toast.LENGTH_LONG).show();
 				signOnButton.setText("Reset") ;
 				tvCPPDetails.setVisibility(View.VISIBLE) ;
 				tvCPPDetails.setText("AirPurifier: "+cppDatabaseModel.getDistribution()) ;
+				((MainActivity)getActivity()).toggleConnection(false) ;
 			}
 			else {
 				Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
 			}
 		};
 	};
-	
+
 	@Override
-	public void signonStatus(boolean isSigonSuccess) {
-		if( isSigonSuccess ) {
-			this.isSignon = isSigonSuccess ;
-			handler.sendEmptyMessage(0) ;
-			((MainActivity)getActivity()).toggleConnection(false) ;
-		}
-		else {
-			Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
-		}
+	public void signonStatus(boolean isSigonSuccess) {			
+		this.isSignon = isSigonSuccess ;
+		handler.sendEmptyMessage(0) ;
 	}
 }
