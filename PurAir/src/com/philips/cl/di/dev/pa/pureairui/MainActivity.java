@@ -979,6 +979,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	public void stopCPPPolling() {
 		if( sensorDataController != null ) {
+			cppController.setSignon(false) ;
 			cppController.stopDCSService() ;
 			sensorDataController.stopCPPPolling() ;
 			isCPPPollingStarted = false ;
