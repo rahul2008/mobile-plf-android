@@ -76,9 +76,9 @@
     <string name="na">Not Available</string>
     <string name="fair">Fair</string>
     <string name="bad">Bad</string>
-    <string name="onehour">1 Hour</string>
-    <string name="fourhour">4 Hours</string>
-    <string name="eighthour">8 Hours</string>
+    <string name="onehour">1H</string>
+    <string name="fourhour">4H</string>
+    <string name="eighthour">8H</string>
     <string name="off">OFF</string>
     <string name="set_timer">Set Timer</string>
     <string name="warning">Warning</string>
