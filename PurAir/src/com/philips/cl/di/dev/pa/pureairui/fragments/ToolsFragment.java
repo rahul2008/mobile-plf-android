@@ -98,7 +98,7 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 					cppDatabaseAdapter.open();
 					cppDatabaseModel = cppDatabaseAdapter.getCppInfo(regStr);
 					if (cppDatabaseModel != null) {
-
+						Utils.storeCPPKeys(getActivity(), cppDatabaseModel) ;
 						CPPController.getInstance(getActivity()).addSignonListener(this) ;
 						CPPController.getInstance(getActivity()).init() ;				
 					}
@@ -119,7 +119,6 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			if(isSignon) {
-				Utils.storeCPPKeys(getActivity(), cppDatabaseModel) ;
 				Toast.makeText(getActivity(), "Signon Successfull", Toast.LENGTH_LONG).show();
 				signOnButton.setText("Reset") ;
 				tvCPPDetails.setVisibility(View.VISIBLE) ;
@@ -127,6 +126,7 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 				((MainActivity)getActivity()).toggleConnection(false) ;
 			}
 			else {
+				Utils.clearCPPDetails(getActivity()) ;
 				Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
 			}
 		};
