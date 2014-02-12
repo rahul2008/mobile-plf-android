@@ -165,6 +165,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}        
 	}
 
+	public void setSignon(boolean signon) {
+		this.isSignOn = signon ;
+	}
 
 	private void onSignon() {
 		ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
