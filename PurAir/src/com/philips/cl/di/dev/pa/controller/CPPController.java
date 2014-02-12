@@ -267,14 +267,17 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			if ( status == Errors.SUCCESS ) {
 				isSignOn = true ;
 				Log.i(TAG, "Success") ;
-				if ( signOnListener != null)
+				if ( signOnListener != null) {
 					signOnListener.signonStatus(true) ;
+				}
 				startDCSService() ;
 			}
 			else {
-				if ( signOnListener != null)
+				if ( signOnListener != null) {
 					signOnListener.signonStatus(false) ;
+				}
 			}
+			signOnListener = null ;
 		}
 		else if ( eventType == Commands.SUBSCRIBE_EVENTS ) {
 			String dcsEvents = "" ;
