@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -40,6 +41,8 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 
 	private CppDatabaseModel cppDatabaseModel ;
 
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -72,8 +75,14 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 			}
 
 		}
+
+
 	}
 
+	
+	private ProgressDialog dialog  ;
+	
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -98,6 +107,12 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 					cppDatabaseAdapter.open();
 					cppDatabaseModel = cppDatabaseAdapter.getCppInfo(regStr);
 					if (cppDatabaseModel != null) {
+						dialog = new ProgressDialog(getActivity()) ;
+						dialog.setMessage("Please wait...") ;
+						dialog.setCancelable(false) ;
+						dialog.show() ;
+						
+						
 						Utils.storeCPPKeys(getActivity(), cppDatabaseModel) ;
 						CPPController.getInstance(getActivity()).addSignonListener(this) ;
 						CPPController.getInstance(getActivity()).init() ;				
@@ -118,22 +133,27 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			if(isSignon) {
-				Toast.makeText(getActivity(), "Signon Successfull", Toast.LENGTH_LONG).show();
-				signOnButton.setText("Reset") ;
-				tvCPPDetails.setVisibility(View.VISIBLE) ;
-				tvCPPDetails.setText("AirPurifier: "+cppDatabaseModel.getDistribution()) ;
-				((MainActivity)getActivity()).toggleConnection(false) ;
-			}
-			else {
-				Utils.clearCPPDetails(getActivity()) ;
-				Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
+			if( getActivity() != null) {
+				if( dialog.isShowing()) {
+					dialog.cancel() ;
+				}
+				if(isSignon) {				
+					signOnButton.setText("Reset") ;
+					tvCPPDetails.setVisibility(View.VISIBLE) ;
+					tvCPPDetails.setText("AirPurifier: "+cppDatabaseModel.getDistribution()) ;
+					((MainActivity)getActivity()).toggleConnection(false) ;
+					Toast.makeText(getActivity(), "Signon Successfull", Toast.LENGTH_LONG).show();
+				}
+				else {
+					Utils.clearCPPDetails(getActivity()) ;
+					Toast.makeText(getActivity(), "Signon failed", Toast.LENGTH_LONG).show();
+				}
 			}
 		};
 	};
 
 	@Override
-	public void signonStatus(boolean isSigonSuccess) {			
+	public void signonStatus(boolean isSigonSuccess) {	
 		this.isSignon = isSigonSuccess ;
 		handler.sendEmptyMessage(0) ;
 	}
