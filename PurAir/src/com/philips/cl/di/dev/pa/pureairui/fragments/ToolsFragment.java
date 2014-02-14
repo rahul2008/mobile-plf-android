@@ -94,11 +94,11 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 			break;
 		case R.id.get_cpp_btn:
 			if(signOnButton.getText().toString().equals("Reset")) {
+				((MainActivity)getActivity()).stopCPPPolling() ;
 				Utils.clearCPPDetails(getActivity()) ;
 				tvCPPDetails.setText("") ;
 				signOnButton.setText("Sign On") ;
 				tvRegId.setText("") ;
-				((MainActivity)getActivity()).stopCPPPolling() ;
 			}
 			else {
 				String regStr = tvRegId.getText().toString();

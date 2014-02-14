@@ -4,6 +4,7 @@ package com.philips.cl.di.dev.pa.interfaces;
 import java.util.List;
 
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
 
 /**
@@ -17,11 +18,12 @@ public interface DataParserInterface {
 	/** Parse History Data **/
 	//TODO - Parse History should return a history object
 	//We will have to define a History object
-	public void parseHistoryData() ;
+	public List<IndoorHistoryDto> parseHistoryData() ;
 	
 	public void parseOutdoorAQIData() ;
 	
 	public List<Weatherdto> parseWeatherData() ;
 	
 	public AirPurifierEventDto parseAirPurifierEventDataFromCPP() ;
+	
 }

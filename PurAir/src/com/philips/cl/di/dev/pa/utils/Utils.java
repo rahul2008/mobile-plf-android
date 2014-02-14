@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -492,5 +493,28 @@ public class Utils {
 		Date now = new Date(System.currentTimeMillis());
 		return sdf.format(now);
 
+	}
+	
+	public static int getDifferenceBetweenDaysFromCurrentDay(String date) {		
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd") ; 
+		Calendar cal = Calendar.getInstance() ;
+		int noOfDays = 0 ;
+		try {
+			Date lastDate = sf.parse(date) ;
+			
+			long timeDiff = cal.getTimeInMillis() - lastDate.getTime()  ;
+			noOfDays = (int) timeDiff / (1000* 60 * 60 * 24) ;
+		
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return noOfDays ;
+	}
+	
+	public static String getRDCPQueryForIndoorHistory() {
+		
+		return null ;
 	}
 }

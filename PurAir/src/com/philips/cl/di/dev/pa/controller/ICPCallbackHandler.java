@@ -235,27 +235,7 @@ public class ICPCallbackHandler implements CallbackHandler
 
 	public void DownloadData_CB(int status, ICPClient obj)
 	{
-		boolean isComplete = false;
-		int currentChunklength = 0;
-		byte[] bufferOriginal =((DownloadData)obj).getBuffer().array();
-		byte[] buffer = bufferOriginal.clone();
-
-		/**Message msg = handler.obtainMessage();
-			Bundle b = new Bundle();
-			b.putInt("Status", status);
-			b.putString("name", "rDCP");
-			if(((DownloadData)obj).getIsDownloadComplete() == true)
-			{
-				isComplete = true;
-			}
-			currentChunklength = ((DownloadData)obj).getCurrentChunkLength();
-
-			b.putByteArray("buffer", buffer);
-			b.putBoolean("IsDownloadComplete",isComplete);
-			b.putInt("CurrentChunkLength", currentChunklength);
-			msg.setData(b);
-			msg.obj = obj;
-			handler.sendMessage(msg);**/
+		listener.onICPCallbackEventOccurred(Commands.DOWNLOAD_DATA, status, obj) ;
 	}
 
 	public void PublishEvent_CB(int status, ICPClient obj)

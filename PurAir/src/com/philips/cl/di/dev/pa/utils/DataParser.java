@@ -1,14 +1,20 @@
 package com.philips.cl.di.dev.pa.utils;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
@@ -64,8 +70,40 @@ public class DataParser implements DataParserInterface {
 	}
 
 	@Override
-	public void parseHistoryData() {
-
+	public  List<IndoorHistoryDto> parseHistoryData() {
+		Log.i("PARSE", "Parse History Data\n"+dataToParse) ;
+		List<IndoorHistoryDto> indoorHistoryList = null ;
+		IndoorHistoryDto indoorAQIHistoryDto = null ;
+		JSONObject jsonObject = null ;
+			try {
+				jsonObject = new JSONObject(dataToParse);
+				JSONArray seriesJson = jsonObject.getJSONArray(ParserConstants.SERIES) ;
+				Log.i("PARSE", "Series: "+seriesJson.length()) ;
+				if( seriesJson != null && seriesJson.length() > 0 ) {
+					indoorHistoryList = new ArrayList<IndoorHistoryDto>() ;
+					int seriesArrayLength = seriesJson.length() ;
+					for ( int index = 0 ; index < seriesArrayLength ; index ++ ) {
+						JSONObject indoorJsonObj = seriesJson.getJSONObject(index) ;
+						indoorAQIHistoryDto = new IndoorHistoryDto() ;
+						indoorAQIHistoryDto.setTimeStamp(indoorJsonObj.getString(ParserConstants.TIMESTAMP_INDOORAQI_HISTORY)) ;
+						
+						JSONObject dataKeyValuePairJson = indoorJsonObj.getJSONObject(ParserConstants.DATA_VALUE_KEYPAIRS) ;
+						if ( dataKeyValuePairJson != null ) {
+							indoorAQIHistoryDto.setAqi(Float.parseFloat(dataKeyValuePairJson.getString(ParserConstants.AQI))) ;
+							indoorAQIHistoryDto.setTfav(Integer.parseInt(dataKeyValuePairJson.getString(ParserConstants.TFAV))) ;
+						}
+						indoorHistoryList.add(indoorAQIHistoryDto) ;
+					}
+				}
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				Log.i("PARSE", "EXCEPTION") ;
+			}
+			if (indoorHistoryList != null && indoorHistoryList.size() > 0 ) {
+				Log.i("PARSE", "Size: "+indoorHistoryList.size()) ;
+			}
+			return indoorHistoryList ;
 	}
 
 	@Override
@@ -117,4 +155,5 @@ public class DataParser implements DataParserInterface {
 	public List<Weatherdto> parseWeatherData() {
 		return new WeatherDataParser().parseWeatherData(dataToParse) ;
 	}
+
 }

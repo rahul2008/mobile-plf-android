@@ -50,4 +50,10 @@ public class ParserConstants {
 	public static final String WIND_SPEED = "windspeedKmph" ;
 	public static final String WIND_DIRECTION = "winddir16Point" ;
 	public static final String WIND_DEGREE = "winddirDegree" ;
+	
+	//Indoor AQI History Constants
+	public static final String SERIES = "Series" ;
+	public static final String TIMESTAMP_INDOORAQI_HISTORY = "Timestamp" ;
+	public static final String DATA_VALUE_KEYPAIRS = "DataKeyValuePairs" ;
+	
 } 
