@@ -432,7 +432,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			String indoorInfos[] = new String[5];
 			indoorInfos[0] = tvIndoorModeValue.getText().toString();
 			indoorInfos[1] = tvIndoorFilterStatus.getText().toString();
-			indoorInfos[2] = tvIndoorAQI.getText().toString();
+			indoorInfos[2] = String.valueOf(indoorPSense);
 			indoorInfos[3] = tvIndoorTitle.getText().toString();
 			indoorInfos[4] = tvIndoorComment.getText().toString();
 			intent.putExtra("indoor", indoorInfos);

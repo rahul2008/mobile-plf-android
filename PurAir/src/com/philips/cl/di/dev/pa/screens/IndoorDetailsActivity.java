@@ -401,42 +401,74 @@ public class IndoorDetailsActivity extends ActionBarActivity
 			if (datas[1] != null) {
 				filter.setText(datas[1]);
 			}
-			
-			try {
-				int aqiInt = Integer.parseInt(datas[2].trim());
-				circleImg.setImageDrawable(setAQICircleBackground(aqiInt));
-			} catch (NumberFormatException e) {
-				//e.printStackTrace();
+			if (datas[2] != null) {
+				try {
+					int pSence = Integer.parseInt(datas[2].trim());
+					circleImg.setImageDrawable(setAQICircleBackground(pSence));
+					
+					setIndoorAQIStatusAndComment(pSence);
+				} catch (NumberFormatException e) {
+					//e.printStackTrace();
+				}
 			}
-			
-			if (datas[3] != null) {
+			/*if (datas[3] != null) {
 				String tempStatus[] = datas[3].trim().split(" ");
 				if (tempStatus != null && tempStatus.length > 1) {
 					aqiStatus.setText(tempStatus[0]+"\n"+tempStatus[1]);
 				} else {
 					aqiStatus.setText(datas[3]);
 				}
-			}
+			}*/
 			
-			if (datas[4] != null) {
+			/*if (datas[4] != null) {
 				aqiSummary.setText(datas[4]);
-			}
+			}*/
 		}
 	}
 	
-	private Drawable setAQICircleBackground(int aqi) {
-		Log.i(TAG, "aqi=  " + aqi);
-		if(aqi >= 0 && aqi < 2) {
-			return getResources().getDrawable(R.drawable.aqi_pink_circle_2x);
-		} else if(aqi >= 2 && aqi < 3) {
-			return getResources().getDrawable(R.drawable.aqi_bluedark_circle_2x);
-		} else if(aqi >= 3 && aqi < 4) {
+	/**
+	 * 
+	 * @param pSense
+	 * @return
+	 */
+	private Drawable setAQICircleBackground(int pSense) {
+		Log.i(TAG, "aqi=  " + pSense);
+		if(pSense >= 0 && pSense < 2) {
+			return getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
+		} else if(pSense >= 2 && pSense < 3) {
 			return getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
+		} else if(pSense >= 3 && pSense < 4) {
+			return getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
 		} else {
 			return getResources().getDrawable(R.drawable.aqi_red_circle_2x);
 		}
 	}
 	
+	/**
+	 * 
+	 * @param pSense
+	 * @return
+	 */
+	private void setIndoorAQIStatusAndComment(int pSense) {
+		if(pSense >= 0 && pSense <= 1) {
+			aqiStatus.setText(getString(R.string.good)) ;
+			aqiSummary.setText(getString(R.string.very_healthy_msg_indoor)) ;
+		} else if(pSense > 2 && pSense <= 3) {
+			aqiStatus.setText(getString(R.string.moderate)) ;
+			aqiSummary.setText(getString(R.string.healthy_msg_indoor)) ;
+		} else if(pSense > 3 && pSense <= 4) {
+			aqiStatus.setText(getString(R.string.unhealthy)) ;
+			aqiSummary.setText(getString(R.string.slightly_polluted_msg_indoor)) ;
+		} else if(pSense < 4) {
+			String tempStatus[] = getString(R.string.very_unhealthy).trim().split(" ");
+			if (tempStatus != null && tempStatus.length > 1) {
+				aqiStatus.setText(tempStatus[0]+"\n"+tempStatus[1]);
+			} else { 
+				aqiStatus.setText(getString(R.string.very_unhealthy)) ;
+			}
+			aqiSummary.setText(getString(R.string.moderately_polluted_msg_indoor)) ;
+		} 
+	}
 	
 	private Bitmap writeTextOnDrawableHead(int drawableId, String text) {
 
