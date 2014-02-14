@@ -2,16 +2,13 @@ package com.philips.cl.di.dev.pa.screens.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.FontLoader;
 
 public class CustomTextView extends TextView {
-	private static final String TAG = CustomTextView.class.getSimpleName();
-	private String sFontName;
 
 	public CustomTextView(Context context) {
 		super(context);
@@ -19,35 +16,30 @@ public class CustomTextView extends TextView {
 
 	public CustomTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		applyAttributes(context, attrs);
+		applyAttributes(this, context, attrs);
 	}
 
 	public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		applyAttributes(context, attrs);
+		applyAttributes(this, context, attrs);
 	}
 
-	private void applyAttributes(Context context, AttributeSet attrs) {
-		TypedArray a = context.obtainStyledAttributes(attrs,
-				R.styleable.CustomTextView);
-		final int N = a.getIndexCount();
-		for (int i = 0; i < N; i++) {
-			int attr = a.getIndex(i);
-			switch (attr) {
-			case R.styleable.CustomTextView_fontAssetName:
-				try {
-					Typeface font = Typeface.createFromAsset(getResources()
-							.getAssets(), a.getString(attr));
-					if (font != null) {
-						this.setTypeface(font);
-					}
-				} catch (RuntimeException e) {
-					Log.e(TAG, e.getMessage());
-				}
-				
-				break;
+	private void applyAttributes(TextView view, Context context, AttributeSet attrs) {
 
-			}
+		if (attrs != null) {
+			final TypedArray a = context.obtainStyledAttributes(attrs,
+					R.styleable.CustomTextView);
+			final String typeface =
+					a.getString(R.styleable.CustomTextView_fontAssetName);
+			a.recycle();
+
+			//set the font using class FontLoader
+			FontLoader.getInstance().setTypeface(view, typeface);			
 		}
+	}
+
+
+	public void setTypeface(String typeface) {
+		FontLoader.getInstance().setTypeface(this, typeface);
 	}
 }
