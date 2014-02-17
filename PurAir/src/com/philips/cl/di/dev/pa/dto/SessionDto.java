@@ -13,6 +13,16 @@ public class SessionDto {
 	private FilterStatusDto filterStatusDto ;
 	private List<Weatherdto> weatherDetails ;
 	
+	private IndoorTrendDto indoorTrendDto ;
+	
+	public IndoorTrendDto getIndoorTrendDto() {
+		return indoorTrendDto;
+	}
+
+	public void setIndoorTrendDto(IndoorTrendDto indoorTrendDto) {
+		this.indoorTrendDto = indoorTrendDto;
+	}
+
 	public CityDetails getCityDetails() {
 		return cityDetails;
 	}
@@ -74,5 +84,9 @@ public class SessionDto {
 			}
 		}
 		return sessionDto ;
+	}
+	
+	public static void reset() {
+		sessionDto = null ;
 	}
 }

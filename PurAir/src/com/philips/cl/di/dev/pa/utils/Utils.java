@@ -25,6 +25,11 @@ import android.view.WindowManager;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
+import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
+import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.screens.TrendsActivity;
+import com.philips.icpinterface.data.Errors;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -109,7 +114,7 @@ public class Utils {
 				.getString("ipAddress", AppConstants.defaultIPAddress);
 		return ipAddress;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -124,35 +129,35 @@ public class Utils {
 		editor.putString("registrationid", cppDataModel.getRegId()) ;
 		editor.commit();
 	}
-	
+
 	public static String getPrivateKey(Context context) {
 		String privateKey = context.getSharedPreferences("cpp_preferences01", 0)
 				.getString("privatekey", "");
 		return privateKey;
 	}
-	
+
 	public static String getRegistrationID(Context context) {
 		String registrationid = context.getSharedPreferences("cpp_preferences01", 0)
 				.getString("registrationid", "");
 		return registrationid;
 	}
-	
+
 	public static String getEuid(Context context) {
 		String euid = context.getSharedPreferences("cpp_preferences01", 0)
 				.getString("euid", "");
 		return euid;
 	}
-	
+
 	public static String getAirPurifierID(Context context) {
 		String airPurifierID = context.getSharedPreferences("cpp_preferences01", 0)
 				.getString("airpurifierid", "");
 		return airPurifierID;
 	}
-	
+
 	public static void clearCPPDetails(Context context ) {
 		context.getSharedPreferences("cpp_preferences01", 0).edit().clear().commit() ;
 	}
-	
+
 	/**
 	 * Sets the ip address.
 	 * 
@@ -185,7 +190,7 @@ public class Utils {
 
 	}
 
-	
+
 	/**
 	 * Gets the time remaining.
 	 * 
@@ -248,7 +253,7 @@ public class Utils {
 		return sdf.format(now);
 	}
 
-	
+
 	/**
 	 * Gets the resource id.
 	 * 
@@ -263,9 +268,9 @@ public class Utils {
 				context.getPackageName());
 	}
 
-	
 
-	
+
+
 
 	/**
 	 * Gets the outdoor aqi date time.
@@ -311,11 +316,11 @@ public class Utils {
 						OutputStream out = null;
 						try {
 							in = assetManager.open(filename); // if files
-																// resides
-																// inside the
-																// "Files"
-																// directory
-																// itself
+							// resides
+							// inside the
+							// "Files"
+							// directory
+							// itself
 							out = new FileOutputStream(context.getFilesDir()
 									+ "/" + filename);
 							copyFile(in, out);
@@ -467,7 +472,7 @@ public class Utils {
 		return array_aqi;
 	}
 
-	
+
 	public static String getToday() {
 		Calendar now = Calendar.getInstance();
 		int month = now.get(Calendar.MONTH);
@@ -485,8 +490,8 @@ public class Utils {
 		}
 		return month;
 	}
-	
-	
+
+
 	public static String getCurrentDateForDB()
 	{
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -494,11 +499,12 @@ public class Utils {
 		return sdf.format(now);
 
 	}
-	
+
+
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {	
 		//Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
 		int noOfDays = 0 ;
-		
+
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd") ; 
 		Calendar cal = Calendar.getInstance() ;
 		long timeDiff = 0;
@@ -511,18 +517,18 @@ public class Utils {
 				timeDiff = lastDate.getTime() - prevDate.getTime() ;
 			}
 			noOfDays = (int) (timeDiff / (1000* 60 * 60 * 24)) ;
-			
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return noOfDays ;
 	}
-	
+
 	public static int getDifferenceBetweenHrFromCurrentHr(String date, String date0) {	
 		int noOfHrs = 0 ;
-		
+
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH") ; 
 		long timeDiff = 0;
 		try {
@@ -533,19 +539,246 @@ public class Utils {
 			}else {
 				return -2;
 			}
-			
+
 			noOfHrs = (int) (timeDiff / (1000* 60 * 60)) ;
-			
+
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return noOfHrs ;
 	}
-	
+
 	public static String getRDCPQueryForIndoorHistory() {
-		
+
 		return null ;
 	}
+
+	public static void parseIndoorDetails(String downloadedData) {
+		// TODO Auto-generated method stub
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
+		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
+		Calendar cal = Calendar.getInstance() ;
+		long endDateDiff = cal.getTimeInMillis() - (1*24*60*60*1000);
+		Date dateEnd = new Date(endDateDiff);
+		String startDateHr = formatDate.format(dateEnd) + " " + formatHr.format(dateEnd);
+		
+		List<Float> hrlyAqiValues = new ArrayList<Float>() ;
+		List<Float> dailyAqiValues = new ArrayList<Float>() ;
+		List<Integer> powerOnStatusList = new ArrayList<Integer>() ;
+
+		int counter = 0 ;
+		float aqiSum = 0.0f;
+
+		String currentAQIDate = "" ;
+		String currentAQIDateHr = "" ;
+		int counterHr = 0 ;
+		float aqiSumHr = 0.0f;
+		int numOfHrs = -2;
+
+		if (downloadedData != null ) {
+			List<IndoorHistoryDto> indoorAQIHistory = new DataParser(downloadedData).parseHistoryData() ;
+			if( indoorAQIHistory != null ) {
+				for ( int index = 0 ; index < indoorAQIHistory.size() ; index ++ ) {
+					String date = indoorAQIHistory.get(index).getTimeStamp() ;
+					/**
+					 * Hourly
+					 */
+					if (numOfHrs == -2) {
+						
+						numOfHrs = Utils.getDifferenceBetweenHrFromCurrentHr
+								(date.substring(0,10)+" "+date.substring(11,13), startDateHr) ;
+						if (numOfHrs >= 0 && numOfHrs <= 24) {
+							for( int i = 0; i < numOfHrs; i ++ ) {
+								hrlyAqiValues.add(-1.0F) ;
+								powerOnStatusList.add(0);
+							}
+							numOfHrs = -1;
+						}
+					}
+
+					if (numOfHrs == -1) {
+						if ( currentAQIDateHr.equals("")) {
+							aqiSumHr = indoorAQIHistory.get(index).getAqi() ;
+							counterHr = 1 ;
+						}
+						else if ( !currentAQIDateHr.equals("")) {
+							String s1 = currentAQIDateHr.substring(0,10)+" "+currentAQIDateHr.substring(11,13);
+							String s2 = date.substring(0,10)+" "+date.substring(11,13);
+							if(s1.equals(s2)) {
+								aqiSumHr =  aqiSumHr + indoorAQIHistory.get(index).getAqi() ;	
+								counterHr ++ ;
+							}
+							else {
+								aqiSumHr = aqiSumHr / counterHr ;
+								hrlyAqiValues.add(aqiSumHr/100) ;
+								if (index > 0 && indoorAQIHistory.get(index).getTfav() 
+										> indoorAQIHistory.get(index -1).getTfav()) {
+									powerOnStatusList.add(1);
+								}else {
+									powerOnStatusList.add(0);
+								}
+								aqiSumHr = indoorAQIHistory.get(index).getAqi() ;
+								counterHr = 1;
+								String ss1 = currentAQIDateHr.substring(0,10)+" "+currentAQIDateHr.substring(11,13);
+								String ss2 = date.substring(0,10)+" "+date.substring(11,13);
+								int valueEmptyHrs = Utils.getDifferenceBetweenHrFromCurrentHr
+										(ss2, ss1) ;
+								if (valueEmptyHrs > 0) {
+									for (int j = 0; j < valueEmptyHrs - 1; j++) {
+										hrlyAqiValues.add(-1.0F) ;
+										powerOnStatusList.add(0);
+									}
+								}
+							}
+						}
+
+						if ( index == indoorAQIHistory.size() - 1 ) {
+							if (counterHr != 0) { 
+								aqiSumHr = aqiSumHr / counterHr ;
+								hrlyAqiValues.add(aqiSumHr/100) ; 
+								if (index > 0 && indoorAQIHistory.get(index).getTfav() 
+										> indoorAQIHistory.get(index -1).getTfav()) {
+									powerOnStatusList.add(1);
+								} else if (index == 0){
+									powerOnStatusList.add(1);
+								} else {
+									powerOnStatusList.add(0);
+								}
+								int valueEmptyHrs1 = Utils.getDifferenceBetweenHrFromCurrentHr
+										(formatDate.format(new Date()) + " " + formatHr.format(new Date()), date.substring(0,10)+" "+date.substring(11,13)) ;
+								if (valueEmptyHrs1 > 0) {
+									for (int j = 0; j < valueEmptyHrs1 - 1; j++) {
+										hrlyAqiValues.add(-1.0F) ;
+										powerOnStatusList.add(0);
+									}
+								}
+							}
+						}
+						currentAQIDateHr = date;
+					} else {
+						if ( index == indoorAQIHistory.size() - 1 ) {
+							if (counterHr == 0) { 
+								for( int i = 0; i < 24 ; i ++ ) {
+									hrlyAqiValues.add(-1.0F) ;
+									powerOnStatusList.add(0);
+								}
+							}
+						}
+					}
+
+
+					/**
+					 * Daily
+					 */
+					if ( index == 0 ) {
+						int numberOfDays = Utils.getDifferenceBetweenDaysFromCurrentDay(date.substring(0,10),null) ;
+						if ( numberOfDays < 28 ) {
+							for( int i = 0; i < (28 - numberOfDays - 1) ; i ++ ) {
+								dailyAqiValues.add(-1.0F) ;
+							}
+						}
+					}
+
+
+					if ( currentAQIDate.equals("")) {
+						aqiSum = indoorAQIHistory.get(index).getAqi() ;
+						counter = 1 ;
+					}
+					else if ( !currentAQIDate.equals("")) {
+						if(currentAQIDate.substring(0,10).equals(date.substring(0,10))) {
+							aqiSum =  aqiSum + indoorAQIHistory.get(index).getAqi() ;							
+							counter ++ ;
+						}
+						else {
+							aqiSum = aqiSum / counter ;
+							dailyAqiValues.add(aqiSum/100) ;
+							int numberOfDaysDiff = Utils.getDifferenceBetweenDaysFromCurrentDay(date,currentAQIDate) ;
+
+							if( numberOfDaysDiff > 1 ) {
+								for( int j = 0 ; j < numberOfDaysDiff ; j ++ ) {
+									dailyAqiValues.add(-1.0F) ;
+								}
+							}
+
+							aqiSum = indoorAQIHistory.get(index).getAqi() ;
+							counter = 1;
+
+							int valueEmptyDays = Utils.getDifferenceBetweenDaysFromCurrentDay
+									(date.substring(0,10), currentAQIDate.substring(0,10)) ;
+							if (valueEmptyDays > 0) {
+								for (int j = 0; j < valueEmptyDays - 1; j++) {
+									dailyAqiValues.add(-1.0F) ;
+								}
+							}
+						}
+					} 
+
+					/**
+					 * Condition for last value
+					 */
+					if ( index == indoorAQIHistory.size() -1 ) {
+						if (counter != 0) {
+							aqiSum = aqiSum / counter ;
+							dailyAqiValues.add(aqiSum/100) ;
+							int valueEmptyDays = Utils.getDifferenceBetweenDaysFromCurrentDay
+									(date.substring(0,10), null) ;
+							if (valueEmptyDays > 0) {
+								for (int j = 0; j < valueEmptyDays; j++) {
+									dailyAqiValues.add(-1.0F) ;
+								}
+							}
+						}else {
+							for (int j = 0; j < 28; j++) {
+								dailyAqiValues.add(-1.0F) ;
+							}
+						}
+					}
+
+					currentAQIDate = date ;
+				}
+				IndoorTrendDto indoorTrend = new IndoorTrendDto() ;
+				if( hrlyAqiValues != null &&  hrlyAqiValues.size() > 0 ) {
+					indoorTrend.setHourlyList(hrlyAqiValues) ;
+				}
+				if( dailyAqiValues != null && dailyAqiValues.size() > 0 ) {
+					indoorTrend.setDailyList(dailyAqiValues) ;
+				}
+				if( powerOnStatusList != null && powerOnStatusList.size() > 0 ) {
+					indoorTrend.setPowerDetailsList(powerOnStatusList) ;
+				}
+				
+				SessionDto.getInstance().setIndoorTrendDto(indoorTrend) ;
+			}
+		}
+	}
+	
+	
+	public static String getCPPQuery(Context context) {
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
+		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
+
+		String endDate = formatDate.format(new Date()); 
+		String endTime = formatTime.format(new Date()); 
+		
+
+		String qryPart3 = "endDate="+endDate+"T"+endTime+".1508314Z";
+
+		Calendar cal = Calendar.getInstance();
+
+		long startDateDiff = cal.getTimeInMillis() - (27*24*60*60*1000l);
+		Date dateStart = new Date(startDateDiff);
+		String startDate = formatDate.format(dateStart); 
+		String startTime = formatTime.format(dateStart); 
+
+		String qryPart2 = "startDate="+startDate+"T"+startTime+".1508314Z;";
+
+		String qry = String.format(AppConstants.CLIENT_ID_RDCP, getAirPurifierID(context))+qryPart2+qryPart3;
+		Log.i("QUERY", qry) ;
+		return qry;
+	}
+
 }

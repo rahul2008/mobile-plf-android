@@ -290,4 +290,6 @@ public class AppConstants {
 
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
 	public static final String MODEL_NAME = "AirPurifier" ;
+	
+	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
 }

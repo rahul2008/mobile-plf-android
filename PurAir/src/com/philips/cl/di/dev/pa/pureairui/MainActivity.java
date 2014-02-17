@@ -412,6 +412,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 	
 	private void stopAllServices() {
+		resetSessionObject() ;
 		sensorDataController.stopPolling() ;
 		sensorDataController.stopCPPPolling() ;
 		isCPPPollingStarted = false ;
@@ -432,6 +433,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			ssdpService.stopDeviceDiscovery() ;
 			ssdpService = null ;
 		}
+	}
+	
+	private void resetSessionObject() {
+		SessionDto.getInstance().reset() ;
 	}
 
 	@Override
