@@ -28,6 +28,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@+id/aqiAnalysisClose"
             android:text="@string/outdoor_analysis_head5"
             android:textColor="@color/cornflowerblue"
             android:textSize="24sp"
@@ -100,7 +101,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/mediumvioletred" /> 
+                android:background="@color/deeppink" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -153,7 +154,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/mediumorchid" /> 
+                android:background="@color/purple" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -206,7 +207,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/mediumpurple" /> 
+                android:background="@color/indigo" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -312,7 +313,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/turquoise" /> 
+                android:background="@color/deepskyblue" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"

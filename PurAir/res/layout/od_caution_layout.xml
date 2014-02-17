@@ -44,7 +44,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/advice_od_msg2"
-            android:textColor="@color/cornflowerblue"
+            android:textColor="@color/gray"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
@@ -57,7 +57,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/openwindow_od_msg2"
-            android:textColor="@color/cornflowerblue"
+            android:textColor="@color/gray"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/mask_od_msg2"
-            android:textColor="@color/cornflowerblue"
+            android:textColor="@color/gray"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>

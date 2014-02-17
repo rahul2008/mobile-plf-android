@@ -63,7 +63,7 @@ public class GraphView extends View {
 	/**
 	 * The GraphicsView(Context context) constructor for indoor.
 	 * */
-	public GraphView(Context context, float yAxisValues[], List<float[]> restValuelist,
+	public GraphView(Context context, float yAxisVal[], List<float[]> yAxisValues,
 			int powerOnFlgs[], Coordinates coordinates, int position, ImageView indexBgImg) {
 		super(context);
 		
@@ -84,7 +84,7 @@ public class GraphView extends View {
 		
 		if (coordinates != null && yAxisValues != null) {
 			mDetailsAIQ = new DetailsAIQ(context, graphWidh, 
-					yAxisValues, restValuelist, powerOnFlgs, coordinates, position, false);
+					yAxisVal, yAxisValues, powerOnFlgs, coordinates, position, false);
 		}
 		
 		mDetailsAIQ.setIndexImgBg(indexBgImg);
@@ -100,7 +100,7 @@ public class GraphView extends View {
 			drawYaxisRect(canvas);
 			drawYLable(canvas);
 		}
-		if (mDetailsAIQ != null) {
+		if (mDetailsAIQ != null && canvas != null && paint != null) {
 			mDetailsAIQ.draw(canvas, paint);
 		}
 	}
@@ -124,25 +124,25 @@ public class GraphView extends View {
 		if (coordinates != null && paint != null && canvas!= null) {
 			/** The y axis red rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.RED);
+			paint.setColor(GraphConst.COLOR_RED);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY10(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY4(), paint);
 			
 			/** The y axis purple rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(128, 0, 128));
+			paint.setColor(GraphConst.COLOR_PURPLE);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY4(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY3(), paint);
 			
 			/** The y axis navy blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(0, 0, 128));
+			paint.setColor(GraphConst.COLOR_MIDNIGHT_BLUE);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY3(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY2(), paint);
 			
 			/** The y axis royal blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(65, 105, 225));
+			paint.setColor(GraphConst.COLOR_STATE_BLUE);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY2(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY0(), paint);
 		}
@@ -172,37 +172,37 @@ public class GraphView extends View {
 		if (coordinates != null && paint != null && canvas!= null) {
 			/** The y axis red rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.RED);
+			paint.setColor(GraphConst.COLOR_RED);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY500(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY300(), paint);
 			
 			/** The y axis MediumVioletRed  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(199, 21, 33));
+			paint.setColor(GraphConst.COLOR_DEEP_PINK);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY300(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY200(), paint);
 			
 			/** The y axis MediumOrchid  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(186, 85, 211));
+			paint.setColor(GraphConst.COLOR_PURPLE);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY200(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY150(), paint);
 			
 			/** The y axis MediumPurple  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(147, 112, 219));
+			paint.setColor(GraphConst.COLOR_INDIGO);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY150(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY100(), paint);
 			
 			/** The y axis RoyalBlue  rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(65, 105, 225));
+			paint.setColor(GraphConst.COLOR_ROYAL_BLUE);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY100(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY50(), paint);
 			
 			/** The y axis Turquoise  color rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(Color.rgb(64, 225, 208));
+			paint.setColor(GraphConst.COLOR_DEEPSKY_BLUE);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY50(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY0(), paint);
 		}

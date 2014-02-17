@@ -495,22 +495,53 @@ public class Utils {
 
 	}
 	
-	public static int getDifferenceBetweenDaysFromCurrentDay(String date) {		
+	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {	
+		//Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
+		int noOfDays = 0 ;
+		
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd") ; 
 		Calendar cal = Calendar.getInstance() ;
-		int noOfDays = 0 ;
+		long timeDiff = 0;
 		try {
 			Date lastDate = sf.parse(date) ;
-			
-			long timeDiff = cal.getTimeInMillis() - lastDate.getTime()  ;
-			noOfDays = (int) timeDiff / (1000* 60 * 60 * 24) ;
-		
+			if (date0 == null) {
+				timeDiff = cal.getTimeInMillis() - lastDate.getTime()  ;
+			} else {
+				Date prevDate = sf.parse(date0) ;
+				timeDiff = lastDate.getTime() - prevDate.getTime() ;
+			}
+			noOfDays = (int) (timeDiff / (1000* 60 * 60 * 24)) ;
 			
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 		return noOfDays ;
+	}
+	
+	public static int getDifferenceBetweenHrFromCurrentHr(String date, String date0) {	
+		int noOfHrs = 0 ;
+		
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH") ; 
+		long timeDiff = 0;
+		try {
+			Date d = sf.parse(date) ;
+			Date d0 = sf.parse(date0) ;
+			if (d.getTime() >= d0.getTime()) {
+				timeDiff = d.getTime() - d0.getTime() ;
+			}else {
+				return -2;
+			}
+			
+			noOfHrs = (int) (timeDiff / (1000* 60 * 60)) ;
+			
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return noOfHrs ;
 	}
 	
 	public static String getRDCPQueryForIndoorHistory() {

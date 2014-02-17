@@ -1,11 +1,14 @@
 package com.philips.cl.di.dev.pa.screens.customviews;
 
 
+import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.util.Log;
 import android.view.View;
 
 public class AirView extends View {
@@ -38,10 +41,10 @@ public class AirView extends View {
 		float y = fheight - ((fheight * percent ) / 100) + ftopline;
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
-		if (percent <= 50) {
+		if (percent < 50) {
 			paint.setColor(Color.RED);
 		} else {
-			paint.setColor(Color.rgb(65, 105, 225));
+			paint.setColor(GraphConst.COLOR_STATE_BLUE);
 		}
 		
 		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);
@@ -51,8 +54,9 @@ public class AirView extends View {
 		paint.setAntiAlias(true);
 		paint.setColor(Color.WHITE);
 		paint.setTextSize(getPxWithRespectToDip(20));
+		paint.setTextAlign(Paint.Align.CENTER);
         String txt = String.valueOf(percent) + "%";
-        float x1 = (fwidth / 2) - getPxWithRespectToDip(25);
+        float x1 = (canvas.getWidth() / 2);
         float y1 = (fheight / 2) + getPxWithRespectToDip(10);
         canvas.drawText(txt, x1, y1, paint);
         paint.getTextBounds(txt, 0, txt.length(), rect);

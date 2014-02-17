@@ -12,6 +12,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
@@ -71,7 +72,7 @@ public class DataParser implements DataParserInterface {
 
 	@Override
 	public  List<IndoorHistoryDto> parseHistoryData() {
-		Log.i("PARSE", "Parse History Data\n"+dataToParse) ;
+		//Log.i("PARSE", "Parse History Data\n"+dataToParse) ;
 		List<IndoorHistoryDto> indoorHistoryList = null ;
 		IndoorHistoryDto indoorAQIHistoryDto = null ;
 		JSONObject jsonObject = null ;
@@ -146,9 +147,13 @@ public class DataParser implements DataParserInterface {
 
 	@Override
 	public void parseOutdoorAQIData() {
-		Gson gson = new GsonBuilder().create() ;
-		OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
-		SessionDto.getInstance().setOutdoorEventDto(outdoorAQI) ;
+		try {
+			Gson gson = new GsonBuilder().create() ;
+			OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
+			SessionDto.getInstance().setOutdoorEventDto(outdoorAQI) ;
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

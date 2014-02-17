@@ -11,7 +11,7 @@
         android:gravity="left"
         android:layout_margin="8dp"
         android:text="Sun"
-        android:textColor="@color/cornflowerblue"
+        android:textColor="@color/gray"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
@@ -40,8 +40,9 @@
         android:layout_alignBottom="@+id/odDayWeatherForcast"
         android:layout_toLeftOf="@+id/odWeatherForcastWindImg"
         android:text="12 km/h"
-        android:textColor="@color/cornflowerblue"
+        android:textColor="@color/gray"
         android:textSize="14sp"
+        android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" />
     
     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
@@ -53,8 +54,9 @@
         android:layout_alignBottom="@+id/odDayWeatherForcast"
         android:layout_toLeftOf="@+id/odWeatherForcastWind"
         android:text="4c"
-        android:textColor="@color/cornflowerblue"
+        android:textColor="@color/lightgrey"
         android:textSize="14sp"
+        android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
     
@@ -69,8 +71,9 @@
         android:layout_alignBottom="@+id/odDayWeatherForcast"
         android:layout_toLeftOf="@+id/odWeatherForcastMinTemp"
         android:text="18c"
-        android:textColor="@color/cornflowerblue"
+        android:textColor="@color/gray"
         android:textSize="14sp"
+        android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
 

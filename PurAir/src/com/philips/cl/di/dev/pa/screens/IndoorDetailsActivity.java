@@ -1,6 +1,9 @@
 package com.philips.cl.di.dev.pa.screens;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -24,11 +28,13 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.CPPController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
+import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
@@ -42,7 +48,8 @@ import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.data.Errors;
 
-public class IndoorDetailsActivity extends ActionBarActivity implements OnClickListener, PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
+public class IndoorDetailsActivity extends ActionBarActivity implements OnClickListener,
+			PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 	private ActionBar mActionBar;
 	private final String TAG = "IndoorDetailsActivity";
@@ -56,34 +63,42 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 	private PercentBarLayout percentBarLayout;
 	private CustomTextView barTopNum, barTopName, selectedIndexBottom;
 	private CustomTextView modeLabel, filterLabel, mode, filter, aqiStatus, aqiSummary;
-	private List<int[]> powerOnReadingsList;
-	private List<float[]> lastDayReadingsList;
-	private List<float[]> last7dayReadingsList;
-	private List<float[]> last4weekReadingsList;
+	private List<int[]> powerOnReadingsValues;
+	private List<float[]> lastDayRDCPValues;
+	private List<float[]> last7daysRDCPValues;
+	private List<float[]> last4weeksRDCPValues;
+	
+	private List<Float> hrlyAqiValues;
+	private List<Float> dailyAqiValues ;
+	private List<Integer> goodAirInfos;
+	private List<Integer> powerOnStatusList;
 	private Coordinates coordinates;
+	
+	private String outdoorTitle = "";
 
-	private int powerOnReadings[] = new int[24];
-	private float lastDayReadings[] = new float[24];
-	private float last7dayReadings[] = new float[7];
-	private float last4weekReadings[] = new float[28];
+	private int goodAirCount = 0;
+	private int totalAirCount = 0;
+	private String startDate;
+	private String startDateHr;
+	private String endDate;
+	private String endDateHr;
+	private Handler handler = new Handler();
+	private final String QUERY_PART_1 = "Clientid=1c5a6bfffe6341fe;datatype=airquality.1;";
 
-	int powerOnFlgs10[] = { 1, 1, 1, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-			1, 1, 0, 0, 0, 1 };
-
-	float yCoordinates10[] = { 0F, 11.5F, 0F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F,
-			5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 0F, 1.5F, 2.5F,
-			5.5F, 2.5F, 2.5F };
-
-	float yCoordinates20[] = { 2F, 3F, 4F, 3F, 2F, 8F, 1F };
-
-	float yCoordinates30[] = { 0F, 1.5F, 2.5F, 2.5F, 2.5F, 2.5F, 9.5F, 0F,
-			1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F,
-			2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 5.5F };
-
+	private int powerOnReadings[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, 0, 0, 0, 0, 0 };
+	
+	private float lastDayRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, };
+	
+	private float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	
+	private float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, };
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.activity_trends_indoor);
 		coordinates = new Coordinates(this);
@@ -91,28 +106,84 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 
 		SensorDataController.getInstance(this).addListener(this) ;
 
-		parseReading();
+		//parseReading();
 
 		initActionBar();
 		setActionBarTitle();
 
-		graphLayout.addView(new GraphView(this, 
-				lastDayReadingsList.get(0), lastDayReadingsList,powerOnReadingsList.get(0), coordinates, 0, indexBottBg));
-
 		getDataFromDashboard();
 
-		CPPController.getInstance(this).setDownloadDataListener(this) ;
-		CPPController.getInstance(this).downloadDataFromCPP("Clientid=1c5a6bfffe6341fe;datatype=airquality.1;startDate=2014-01-12T05:46:05.1508314Z;endDate=2014-02-13T05:46:05.1508314Z",2048) ;
+		if (CPPController.getInstance(this) != null 
+				&& CPPController.getInstance(this).isSignOn()) {
+			CPPController.getInstance(this).setDownloadDataListener(this) ;
+			//"Clientid=1c5a6bfffe6341fe;datatype=airquality.1;startDate=2014-01-12T05:46:05.1508314Z;endDate=2014-02-13T06:46:05.1508314Z"
+			CPPController.getInstance(this).downloadDataFromCPP(getCPPQuery(), 2048) ;
+		} else {
+			Toast.makeText(getApplicationContext(), 
+					"Please SignOn!", Toast.LENGTH_LONG).show();
+			parseReading();
+		}
+	}
+	
+	
+	private Runnable downloadDataRunnble = new Runnable() {
+		
+		@Override
+		public void run() {
+			handler.removeCallbacks(downloadDataRunnble);
+			if (goodAirInfos != null && goodAirInfos.size() > 0) {
+				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
+						null, goodAirInfos, IndoorDetailsActivity.this, 0, 0);
+				percentBarLayout.setClickable(true);
+				horizontalScrollView.addView(percentBarLayout);
+			}
+			if (lastDayRDCPValues != null && lastDayRDCPValues.size() > 0) {
+				graphLayout.addView(new GraphView(IndoorDetailsActivity.this, 
+						lastDayRDCPValues.get(0), lastDayRDCPValues, powerOnReadingsValues.get(0), 
+						coordinates, 0, indexBottBg));
+			}
+		}
+	};
+	
+	
+	private String getCPPQuery() {
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
+		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
+		
+		endDate = formatDate.format(new Date()); 
+		String endTime = formatTime.format(new Date()); 
+		endDateHr = endDate+ " " +formatHr.format(new Date()); 
+		
+		String qryPart3 = "endDate="+endDate+"T"+endTime+".1508314Z";
+		
+		Calendar cal = Calendar.getInstance();
+		
+		long startDateDiff = cal.getTimeInMillis() - (27*24*60*60*1000l);
+		Date dateStart = new Date(startDateDiff);
+		startDate = formatDate.format(dateStart); 
+		String startTime = formatTime.format(dateStart); 
+		
+		String qryPart2 = "startDate="+startDate+"T"+startTime+".1508314Z;";
+		
+		String qry = QUERY_PART_1+qryPart2+qryPart3;
+		
+		long endDateDiff = cal.getTimeInMillis() - (1*24*60*60*1000);
+		Date dateEnd = new Date(endDateDiff);
+		startDateHr = formatDate.format(dateEnd) + " " + formatHr.format(dateEnd);
+		Log.i("DOWNLOAD", "Query= " +qry);
+		return qry;
 	}
 
 	/**
 	 * Initialize UI widget
 	 * */
 	private void initializeUI() {
-		powerOnReadingsList = new ArrayList<int[]>();
-		lastDayReadingsList = new ArrayList<float[]>();
-		last7dayReadingsList = new ArrayList<float[]>();
-		last4weekReadingsList = new ArrayList<float[]>();
+		powerOnReadingsValues = new ArrayList<int[]>();
+		lastDayRDCPValues = new ArrayList<float[]>();
+		last7daysRDCPValues = new ArrayList<float[]>();
+		last4weeksRDCPValues = new ArrayList<float[]>();
+		goodAirInfos = new ArrayList<Integer>();
 
 		graphLayout = (LinearLayout) findViewById(R.id.trendsOutdoorlayoutGraph);
 
@@ -140,18 +211,12 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 		barTopName = (CustomTextView) findViewById(R.id.indoorDbBarTopName);
 		selectedIndexBottom = (CustomTextView) findViewById(R.id.indoorDbIndexBott);
 
-		percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, null, 2, this, 0, 0);
-		percentBarLayout.setClickable(true);
-		horizontalScrollView.addView(percentBarLayout);
-
-
 		/**
 		 * Set click listener
 		 * */
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
-		//rightImg.setOnClickListener(this);
 	}
 
 	/**
@@ -160,7 +225,7 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 	private void initActionBar() {
 		mActionBar = getSupportActionBar();
 		mActionBar.setIcon(null);
-		mActionBar.setHomeButtonEnabled(true);
+		mActionBar.setHomeButtonEnabled(false);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);
 
@@ -179,41 +244,103 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 	 * Parsing reading
 	 * */
 	private void parseReading() {
+		//For test
+		//String js = "{\"Series\":[{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T06:25:03\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"60116\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T06:35:02\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"60140\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T06:45:02\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"60154\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T06:55:02\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"60169\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T07:05:02\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"60183\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T07:18:36\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"60203\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T07:28:36\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"60217\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T09:36:52\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"60802\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T09:46:52\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"60854\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T09:56:52\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"60917\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T10:06:52\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"60980\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T11:48:27\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"61187\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T11:58:27\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"61230\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T12:08:27\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"61293\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T12:18:27\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"61356\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T12:28:27\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"61419\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T12:38:27\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"61482\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T13:31:24\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"61561\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T13:41:24\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"61579\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T13:57:46\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"61598\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T14:12:46\",\"DataKeyValuePairs\":{\"aqi\":\"41\",\"tfav\":\"61691\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T14:55:18\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"61709\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T15:10:24\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"61795\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T15:44:05\",\"DataKeyValuePairs\":{\"aqi\":\"56\",\"tfav\":\"61962\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T16:44:01\",\"DataKeyValuePairs\":{\"aqi\":\"45\",\"tfav\":\"62023\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T16:55:28\",\"DataKeyValuePairs\":{\"aqi\":\"50\",\"tfav\":\"62096\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-11T17:05:28\",\"DataKeyValuePairs\":{\"aqi\":\"30\",\"tfav\":\"62158\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T04:20:29\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"66412\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T04:30:29\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"66453\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T04:40:29\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"66472\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T04:55:16\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"66499\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T05:24:21\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"66541\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T05:42:34\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"66591\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T06:16:17\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"66668\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T12:48:15\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"67007\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T13:39:05\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67196\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T13:49:05\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"67217\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T13:59:01\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"67246\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T14:08:58\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"67288\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T14:25:21\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67364\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T14:35:21\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"67427\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T14:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67510\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T14:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"67536\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T15:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67563\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T15:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"67606\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T15:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67669\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T15:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"30\",\"tfav\":\"67732\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T15:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"67758\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T15:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67772\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T16:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67786\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T16:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67801\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T16:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"30\",\"tfav\":\"67815\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T16:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67829\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T16:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"67844\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T16:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"45\",\"tfav\":\"67858\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T17:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67872\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T17:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"50\",\"tfav\":\"67887\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T17:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67901\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T17:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"67915\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T17:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"67930\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T17:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67944\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T18:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"67959\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T18:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"67973\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T18:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"50\",\"tfav\":\"67987\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T18:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"45\",\"tfav\":\"68002\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T18:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68016\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T18:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68030\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T19:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"68045\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T19:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"30\",\"tfav\":\"68059\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T19:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68073\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T19:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"68088\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T19:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68102\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T19:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"68117\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T20:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68131\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T20:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68145\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T20:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68160\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T20:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68174\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T20:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"36\",\"tfav\":\"68188\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T20:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68203\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T21:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"30\",\"tfav\":\"68217\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T21:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68231\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T21:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68246\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T21:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"68260\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T21:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"68274\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T21:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"68289\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T22:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"24\",\"tfav\":\"68303\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T22:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68318\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T22:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68332\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T22:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"68346\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T22:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"68361\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T22:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"68375\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T23:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"68389\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T23:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68404\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T23:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68418\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T23:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68432\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T23:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68447\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-12T23:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68461\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T00:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68476\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T00:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68490\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T00:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"68504\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T00:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68519\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T00:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68533\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T00:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68547\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T01:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68562\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T01:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68576\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T01:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68590\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T01:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68605\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T01:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68619\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T01:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68633\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T02:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68648\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T02:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68662\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T02:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68677\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T02:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68691\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T02:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68705\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T02:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68720\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T03:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68734\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T03:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68748\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T03:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68763\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T03:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68777\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T03:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"2\",\"tfav\":\"68791\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T03:59:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68806\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T04:09:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68823\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T04:19:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68886\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T04:29:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"68949\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T04:39:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"69012\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-13T04:49:26\",\"DataKeyValuePairs\":{\"aqi\":\"0\",\"tfav\":\"69075\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-14T06:22:20\",\"DataKeyValuePairs\":{\"aqi\":\"10\",\"tfav\":\"69159\"}},{\"DataType\":\"airquality.1\",\"Timestamp\":\"2014-02-14T10:38:34\",\"DataKeyValuePairs\":{\"aqi\":\"18\",\"tfav\":\"69239\"}}]}";
+		//onDataDownload(Errors.SUCCESS, js);
+		
+		if (goodAirInfos != null) {
+			goodAirInfos.clear();
+		}
+		
 		/**Last day*/
-		if (lastDayReadingsList != null) {
-			lastDayReadingsList.clear();
+		if (lastDayRDCPValues != null) {
+			lastDayRDCPValues.clear();
 		} 
 
-		if (powerOnReadingsList != null) {
-			powerOnReadingsList.clear();
+		if (powerOnReadingsValues != null) {
+			powerOnReadingsValues.clear();
 		} 
-
-		for (int i = 0; i < lastDayReadings.length; i++) {
-			lastDayReadings[i] = yCoordinates10[i];
-			powerOnReadings[i] = powerOnFlgs10[i];
+		
+		goodAirCount = 0;
+		totalAirCount = 0;
+		if (hrlyAqiValues != null && hrlyAqiValues.size() == 24) {
+			
+			for (int i = 0; i < lastDayRDCPVal.length; i++) {
+				lastDayRDCPVal[i] = hrlyAqiValues.get(i);
+				if (powerOnStatusList != null && powerOnStatusList.size() == 24) {
+					powerOnReadings[i] = powerOnStatusList.get(i);
+				} 
+				if (hrlyAqiValues.get(i) != -1) {
+					if (hrlyAqiValues.get(i) < 2) {
+						goodAirCount ++;
+					}
+					totalAirCount ++;
+				}
+			}
 		}
-		lastDayReadingsList.add(yCoordinates10);
-		powerOnReadingsList.add(powerOnFlgs10);
-
-		/**Last 7 days*/
-		if (last7dayReadingsList != null) {
-			last7dayReadingsList.clear();
+		percentage(goodAirCount, totalAirCount);
+		lastDayRDCPValues.add(lastDayRDCPVal);
+		powerOnReadingsValues.add(powerOnReadings);
+		
+		/**Last 7 days and last 4 weeks*/
+		if (last7daysRDCPValues != null) {
+			last7daysRDCPValues.clear();
 		} 
-		for (int i = 0; i < last7dayReadings.length; i++) {
-			last7dayReadings[i] = yCoordinates20[i];
-		}
-		last7dayReadingsList.add(yCoordinates20);
-
-		/**Last 4 weeks*/
-		if (last4weekReadingsList != null) {
-			last4weekReadingsList.clear();
+		
+		if (last4weeksRDCPValues != null) {
+			last4weeksRDCPValues.clear();
 		} 
-
-		for (int i = 0; i < last4weekReadings.length; i++) {
-			last4weekReadings[i] = yCoordinates30[i];
+		
+		int tempIndex = 0;
+		goodAirCount = 0;
+		totalAirCount = 0;
+		int tempGood = 0;
+		int tempCount = 0;
+		if (dailyAqiValues != null && dailyAqiValues.size() > 0
+				&& dailyAqiValues.size() == 28) {
+			
+			for (int i = 0; i < last4weeksRDCPVal.length; i++) {
+				if (i > 20) {
+					last7daysRDCPVal[tempIndex] = dailyAqiValues.get(i);
+					tempIndex++;
+					if (dailyAqiValues.get(i) != -1) {
+						if (dailyAqiValues.get(i) < 2) {
+							tempGood ++;
+						}
+						tempCount ++;
+					}
+				}
+				last4weeksRDCPVal[i] = dailyAqiValues.get(i);
+				if (dailyAqiValues.get(i) != -1) {
+					if (dailyAqiValues.get(i) < 2) {
+						goodAirCount ++;
+					}
+					totalAirCount ++;
+				}
+			}
+			
 		}
-		last4weekReadingsList.add(yCoordinates30);
-
+		percentage(tempGood, tempCount);
+		percentage(goodAirCount, totalAirCount);
+		last7daysRDCPValues.add(last7daysRDCPVal);
+		last4weeksRDCPValues.add(last4weeksRDCPVal);
+		GraphConst.calculateOutdoorAQIValues();
+		
+		handler.removeCallbacks(downloadDataRunnble);
+		handler.post(downloadDataRunnble);
+	}
+	
+	/**
+	 * 
+	 * @param goodAir
+	 * @param totalAir
+	 */
+	private void percentage(int goodAir, int totalAir) {
+		int percent = 0;
+		if (totalAir > 0) {
+			percent = (goodAir * 100) / totalAir;
+		}
+		goodAirInfos.add(percent);
 	}
 
 	/**
@@ -225,106 +352,65 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 		switch (v.getId()) {
 		case R.id.detailsOutdoorLastDayLabel: {
 			removeChildViewFromBar();
-
-			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-					null, 2, this, 0, 0);
-			percentBarLayout.setClickable(true);
-			horizontalScrollView.addView(percentBarLayout);
-
-			graphLayout.addView(new GraphView(this, 
-					lastDayReadingsList.get(0), lastDayReadingsList, powerOnReadingsList.get(0), coordinates, 0, indexBottBg));
-			lastDayBtn.setTextColor(Color.rgb(100, 149, 237));
-			lastWeekBtn.setTextColor(Color.GRAY);
-			lastFourWeekBtn.setTextColor(Color.GRAY);
+			if (goodAirInfos != null && goodAirInfos.size() > 0) {
+				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
+						null, goodAirInfos, this, 0, 0);
+				percentBarLayout.setClickable(true);
+				horizontalScrollView.addView(percentBarLayout);
+			}
+			if (lastDayRDCPValues != null && lastDayRDCPValues.size() > 0) {
+				graphLayout.addView(new GraphView(this, 
+						lastDayRDCPValues.get(0), lastDayRDCPValues, powerOnReadingsValues.get(0), 
+						coordinates, 0, indexBottBg));
+			}
+			lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+			lastWeekBtn.setTextColor(Color.LTGRAY);
+			lastFourWeekBtn.setTextColor(Color.LTGRAY);
 			msgFirst.setText(getString(R.string.msg_top_1));
 			msgSecond.setText(getString(R.string.msg_bot_1));
 			break;
 		}
 		case R.id.detailsOutdoorLastWeekLabel: {
 			removeChildViewFromBar();
-
-			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-					null, 2, this, 1, 0);
-			percentBarLayout.setClickable(true);
-			horizontalScrollView.addView(percentBarLayout);
-
-			/*valueList.clear();
-				float yCoordinates[] = { 0F, 1.5F, 0.5F, 5.5F, 2.5F, 2.5F, 2.5F };
-				valueList.add(yCoordinates);
-				float yCoordinates1[] = { 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 1.5F };
-				valueList.add(yCoordinates1);
-				float yCoordinates2[] = { 0F, 1.5F, 2.5F, 5.5F, 2.5F, 4.5F, 1.5F };
-				valueList.add(yCoordinates2);
-				float yCoordinates3[] = { 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 3.5F };
-				valueList.add(yCoordinates3);
-				float yCoordinates4[] = { 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 4.5F };
-				valueList.add(yCoordinates4);
-				float yCoordinates5[] = { 0F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F, 4.5F };
-				valueList.add(yCoordinates5);*/
-			graphLayout.addView(new GraphView(this, 
-					last7dayReadingsList.get(0), last7dayReadingsList, null, coordinates, 0, indexBottBg));
-			lastDayBtn.setTextColor(Color.GRAY);
-			lastWeekBtn.setTextColor(Color.rgb(100, 149, 237));
-			lastFourWeekBtn.setTextColor(Color.GRAY);
+			if (goodAirInfos != null && goodAirInfos.size() > 0) {
+				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
+						null, goodAirInfos, this, 1, 0);
+				percentBarLayout.setClickable(true);
+				horizontalScrollView.addView(percentBarLayout);
+			}
+				
+			if (last7daysRDCPValues != null && last7daysRDCPValues.size() > 0) {
+				graphLayout.addView(new GraphView(this, 
+						last7daysRDCPValues.get(0), last7daysRDCPValues, null, coordinates, 0, indexBottBg));
+			}
+			
+			lastDayBtn.setTextColor(Color.LTGRAY);
+			lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+			lastFourWeekBtn.setTextColor(Color.LTGRAY);
 			msgFirst.setText(getString(R.string.msg_top_2));
 			msgSecond.setText(getString(R.string.msg_bot_2));
 			break;
 		}
 		case R.id.detailsOutdoorLastFourWeekLabel: {
 			removeChildViewFromBar();
-
-			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-					null, 2, this, 2, 0);
-			percentBarLayout.setClickable(true);
-			horizontalScrollView.addView(percentBarLayout);
-
-
-			/*valueList.clear();
-				float yCoordinates[] = { 0F, 1.5F, 2.5F, 2.5F, 2.5F, 2.5F, 9.5F,
-						0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F,
-						5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F,
-						5.5F };
-				valueList.add(yCoordinates);
-				float yCoordinates1[] = { 0F, 6.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F,
-						0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F,
-						5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 3.5F,
-						2.5F };
-				valueList.add(yCoordinates1);
-				float yCoordinates2[] = { 0F, 3.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F,
-						0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F,
-						5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 4.5F,
-						1.5F };
-				valueList.add(yCoordinates2);
-				float yCoordinates3[] = { 0F, 2.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F,
-						0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F,
-						5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 5.5F,
-						3.5F };
-				valueList.add(yCoordinates3);
-				float yCoordinates4[] = { 0F, 4.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F,
-						0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F,
-						5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F,
-						4.5F };
-				valueList.add(yCoordinates4);
-				float yCoordinates5[] = { 0F, 0.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F,
-						0F, 1.5F, 2.5F, 5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F,
-						5.5F, 2.5F, 2.5F, 9.5F, 0F, 1.5F, 2.5F, 5.5F, 2.5F, 3.5F,
-						0.5F };
-				valueList.add(yCoordinates5);*/
-			graphLayout.addView(new GraphView(this, last4weekReadingsList
-					.get(0), last4weekReadingsList, null, coordinates, 0, indexBottBg));
-			lastDayBtn.setTextColor(Color.GRAY);
-			lastWeekBtn.setTextColor(Color.GRAY);
-			lastFourWeekBtn.setTextColor(Color.rgb(100, 149, 237));
+			if (goodAirInfos != null && goodAirInfos.size() > 0) {
+				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
+						null, goodAirInfos, this, 2, 0);
+				percentBarLayout.setClickable(true);
+				horizontalScrollView.addView(percentBarLayout);
+			}
+			
+			
+			if (last4weeksRDCPValues != null && last4weeksRDCPValues.size() > 0) {
+				graphLayout.addView(new GraphView(this, last4weeksRDCPValues
+						.get(0), last4weeksRDCPValues, null, coordinates, 0, indexBottBg));
+			}	
+			lastDayBtn.setTextColor(Color.LTGRAY);
+			lastWeekBtn.setTextColor(Color.LTGRAY);
+			lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 			msgFirst.setText(getString(R.string.msg_top_3));
 			msgSecond.setText(getString(R.string.msg_bot_3));
 			break;
-		}
-		case R.id.ivLeftMenu: {
-			//Toast.makeText(getApplicationContext(), "Left Menu", Toast.LENGTH_SHORT).show();
-			finish();
-		}
-		case R.id.ivRightDeviceIcon: {
-			//Toast.makeText(getApplicationContext(), "Right Menu", Toast.LENGTH_SHORT).show();
 		}
 		}
 
@@ -353,47 +439,21 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 		if (horizontalScrollView.getChildCount() > 0) {
 			horizontalScrollView.removeAllViews();
 		}
-
-		percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-				null, 2, this, index, position);
-		percentBarLayout.setClickable(true);
-		horizontalScrollView.addView(percentBarLayout);
+		if (goodAirInfos != null && goodAirInfos.size() > 0) {
+			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
+					null, goodAirInfos, this, index, position);
+			percentBarLayout.setClickable(true);
+			horizontalScrollView.addView(percentBarLayout);
+		}
 
 		if (graphLayout.getChildCount() > 0) {
 			graphLayout.removeViewAt(0);
 		}
-		/*valueList.clear();
-		float yCoordinates[] = { 0F, 7.5F, 0.5F, 5.5F, 2.5F, 2.5F, 2.5F };
-		valueList.add(yCoordinates);
-		float yCoordinates1[] = { 0F, 2.5F, 3.5F, 1.5F, 2.5F, 2.5F, 1.5F };
-		valueList.add(yCoordinates1);
-		float yCoordinates2[] = { 0F, 1.5F, 4.5F, 1.5F, 2.5F, 4.5F, 2.5F };
-		valueList.add(yCoordinates2);
-		float yCoordinates3[] = { 5.5F, 2.5F, 2.5F, 3.5F, 1.5F, 2.5F, 3.5F };
-		valueList.add(yCoordinates3);
-		float yCoordinates4[] = { 3.5F, 1.5F, 3.5F, 5.5F, 2.5F, 2.5F, 4.5F };
-		valueList.add(yCoordinates4);
-		float yCoordinates5[] = { 2.5F, 1.5F, 2.5F, 5.5F, 2.5F, 1.5F, 0.5F };
-		valueList.add(yCoordinates5);*/
-		if (index == 0) {
-			graphLayout.addView(new GraphView(this, lastDayReadingsList
-					.get(position), lastDayReadingsList, powerOnReadingsList
-					.get(position), coordinates, position, indexBottBg));
-
-		} else if (index == 1) {
-			graphLayout.addView(new GraphView(this, last7dayReadingsList
-					.get(position), last7dayReadingsList, null, coordinates,
-					position, indexBottBg));
-
-		} else if (index == 2) {
-			graphLayout.addView(new GraphView(this, last4weekReadingsList
-					.get(position), last4weekReadingsList, null, coordinates,
-					position, indexBottBg));
-
-		}
-
 	}
 
+	/**
+	 * 
+	 */
 	private void getDataFromDashboard() {
 		String datas[] = getIntent().getStringArrayExtra("indoor");
 		/**
@@ -419,18 +479,10 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 					//e.printStackTrace();
 				}
 			}
-			/*if (datas[3] != null) {
-				String tempStatus[] = datas[3].trim().split(" ");
-				if (tempStatus != null && tempStatus.length > 1) {
-					aqiStatus.setText(tempStatus[0]+"\n"+tempStatus[1]);
-				} else {
-					aqiStatus.setText(datas[3]);
-				}
-			}*/
-
-			/*if (datas[4] != null) {
-				aqiSummary.setText(datas[4]);
-			}*/
+			
+			if (datas[5] != null) {
+				outdoorTitle = datas[5];
+			}
 		}
 	}
 
@@ -478,34 +530,6 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 		} 
 	}
 
-	private Bitmap writeTextOnDrawableHead(int drawableId, String text) {
-
-		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
-				.copy(Bitmap.Config.ARGB_8888, true);
-
-		//Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);.
-
-		Paint paint = new Paint();
-		paint.setStyle(Style.FILL);
-		paint.setColor(Color.rgb(65, 105, 225));
-		paint.setTypeface(Fonts.getGillsansLight(this));
-		paint.setTextAlign(Align.CENTER);
-		paint.setTextSize(coordinates.getIdRectMarginLeft());
-
-		Rect textRect = new Rect();
-		paint.getTextBounds(text, 0, text.length(), textRect);
-
-		Canvas canvas = new Canvas(bm);
-
-		//Calculate the positions
-		int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
-
-		int yPos = (int) (canvas.getHeight()) / 2 + 10 ;  
-
-		canvas.drawText(text, xPos, yPos, paint);
-
-		return  bm;
-	}
 
 	@Override
 	protected void onStop() {
@@ -515,6 +539,8 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 
 	public void aqiAnalysisClick(View v) {
 		Intent intent = new Intent(this, IndoorAQIAnalysisActivity.class);
+		intent.putExtra("indoortitle", aqiStatus.getText());
+		intent.putExtra("outdoortitle", outdoorTitle);
 		startActivity(intent);
 	}
 
@@ -524,28 +550,129 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 		Log.i("Indoor", "Sensor Event Received") ;
 	}
 
-
+	/**
+	 * rDcp values download
+	 */
 	@Override
 	public void onDataDownload(int status, String downloadedData) {
-		List<Float> aqi = new ArrayList<Float>() ;
+		hrlyAqiValues = new ArrayList<Float>() ;
+		dailyAqiValues = new ArrayList<Float>() ;
+		powerOnStatusList = new ArrayList<Integer>() ;
+		
 		int counter = 0 ;
 		float aqiSum = 0.0f;
 
 		String currentAQIDate = "" ;
+		String currentAQIDateHr = "" ;
+		int counterHr = 0 ;
+		float aqiSumHr = 0.0f;
+		int numOfHrs = -2;
+		
 		if ( status == Errors.SUCCESS && downloadedData != null ) {
 			List<IndoorHistoryDto> indoorAQIHistory = new DataParser(downloadedData).parseHistoryData() ;
 			if( indoorAQIHistory != null ) {
 				for ( int index = 0 ; index < indoorAQIHistory.size() ; index ++ ) {
 					String date = indoorAQIHistory.get(index).getTimeStamp() ;
 					
-					if ( index == 0 ) {
-						int numberOfDays = Utils.getDifferenceBetweenDaysFromCurrentDay(date.substring(0,10)) ;
-						if ( numberOfDays < 28 ) {
-							for( int i = 0; i < (28 - numberOfDays) ; i ++ ) {
-								aqi.add(-1.0F) ;
+					/**
+					 * Hourly
+					 */
+					if (numOfHrs == -2) {
+						numOfHrs = Utils.getDifferenceBetweenHrFromCurrentHr
+								(date.substring(0,10)+" "+date.substring(11,13), startDateHr) ;
+						if (numOfHrs >= 0 && numOfHrs <= 24) {
+							for( int i = 0; i < numOfHrs; i ++ ) {
+								hrlyAqiValues.add(-1.0F) ;
+								powerOnStatusList.add(0);
+							}
+							numOfHrs = -1;
+						}
+					}
+					
+					if (numOfHrs == -1) {
+						if ( currentAQIDateHr.equals("")) {
+							aqiSumHr = indoorAQIHistory.get(index).getAqi() ;
+							counterHr = 1 ;
+						}
+						else if ( !currentAQIDateHr.equals("")) {
+							String s1 = currentAQIDateHr.substring(0,10)+" "+currentAQIDateHr.substring(11,13);
+							String s2 = date.substring(0,10)+" "+date.substring(11,13);
+							if(s1.equals(s2)) {
+								aqiSumHr =  aqiSumHr + indoorAQIHistory.get(index).getAqi() ;	
+								counterHr ++ ;
+							}
+							else {
+								aqiSumHr = aqiSumHr / counterHr ;
+								hrlyAqiValues.add(aqiSumHr/100) ;
+								if (index > 0 && indoorAQIHistory.get(index).getTfav() 
+										> indoorAQIHistory.get(index -1).getTfav()) {
+									powerOnStatusList.add(1);
+								}else {
+									powerOnStatusList.add(0);
+								}
+								aqiSumHr = indoorAQIHistory.get(index).getAqi() ;
+								counterHr = 1;
+								String ss1 = currentAQIDateHr.substring(0,10)+" "+currentAQIDateHr.substring(11,13);
+								String ss2 = date.substring(0,10)+" "+date.substring(11,13);
+								int valueEmptyHrs = Utils.getDifferenceBetweenHrFromCurrentHr
+										(ss2, ss1) ;
+								if (valueEmptyHrs > 0) {
+									for (int j = 0; j < valueEmptyHrs - 1; j++) {
+										hrlyAqiValues.add(-1.0F) ;
+										powerOnStatusList.add(0);
+									}
+								}
+							}
+						}
+						
+						if ( index == indoorAQIHistory.size() - 1 ) {
+							if (counterHr != 0) { 
+								aqiSumHr = aqiSumHr / counterHr ;
+								hrlyAqiValues.add(aqiSumHr/100) ; 
+								if (index > 0 && indoorAQIHistory.get(index).getTfav() 
+										> indoorAQIHistory.get(index -1).getTfav()) {
+									powerOnStatusList.add(1);
+								} else if (index == 0){
+									powerOnStatusList.add(1);
+								} else {
+									powerOnStatusList.add(0);
+								}
+								int valueEmptyHrs1 = Utils.getDifferenceBetweenHrFromCurrentHr
+										(endDateHr, date.substring(0,10)+" "+date.substring(11,13)) ;
+								if (valueEmptyHrs1 > 0) {
+									for (int j = 0; j < valueEmptyHrs1 - 1; j++) {
+										hrlyAqiValues.add(-1.0F) ;
+										powerOnStatusList.add(0);
+									}
+								}
+							}
+						}
+						currentAQIDateHr = date;
+					} else {
+						if ( index == indoorAQIHistory.size() - 1 ) {
+							if (counterHr == 0) { 
+								for( int i = 0; i < 24 ; i ++ ) {
+									hrlyAqiValues.add(-1.0F) ;
+									powerOnStatusList.add(0);
+								}
 							}
 						}
 					}
+					
+					
+					/**
+					 * Daily
+					 */
+					if ( index == 0 ) {
+						int numberOfDays = 
+								Utils.getDifferenceBetweenDaysFromCurrentDay(date.substring(0,10), null) ;
+						if ( numberOfDays < 28 ) {
+							for( int i = 0; i < (28 - numberOfDays - 1) ; i ++ ) {
+								dailyAqiValues.add(-1.0F) ;
+							}
+						}
+					}
+					
 					
 					if ( currentAQIDate.equals("")) {
 						aqiSum = indoorAQIHistory.get(index).getAqi() ;
@@ -555,24 +682,56 @@ public class IndoorDetailsActivity extends ActionBarActivity implements OnClickL
 						if(currentAQIDate.substring(0,10).equals(date.substring(0,10))) {
 							aqiSum =  aqiSum + indoorAQIHistory.get(index).getAqi() ;							
 							counter ++ ;
-							
-							if ( index == indoorAQIHistory.size() -1 ) {
-								aqiSum = aqiSum / counter ;
-								aqi.add(aqiSum) ;
-							}
 						}
 						else {
 							aqiSum = aqiSum / counter ;
-							aqi.add(aqiSum) ;
-							
+							dailyAqiValues.add(aqiSum/100) ;
 							aqiSum = indoorAQIHistory.get(index).getAqi() ;
 							counter = 1;
+							
+							int valueEmptyDays = Utils.getDifferenceBetweenDaysFromCurrentDay
+									(date.substring(0,10), currentAQIDate.substring(0,10)) ;
+							if (valueEmptyDays > 0) {
+								for (int j = 0; j < valueEmptyDays - 1; j++) {
+									dailyAqiValues.add(-1.0F) ;
+								}
+							}
+						}
+					} 
+					
+					/**
+					 * Condition for last value
+					 */
+					if ( index == indoorAQIHistory.size() -1 ) {
+						if (counter != 0) {
+							aqiSum = aqiSum / counter ;
+							dailyAqiValues.add(aqiSum/100) ;
+							int valueEmptyDays = Utils.getDifferenceBetweenDaysFromCurrentDay
+									(date.substring(0,10), null) ;
+							if (valueEmptyDays > 0) {
+								for (int j = 0; j < valueEmptyDays; j++) {
+									dailyAqiValues.add(-1.0F) ;
+								}
+							}
+						}else {
+							for (int j = 0; j < 28; j++) {
+								dailyAqiValues.add(-1.0F) ;
+							}
 						}
 					}
+					
 					currentAQIDate = date ;				
 				}
 			}
+			parseReading();
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		handler.removeCallbacks(downloadDataRunnble);
+		finish();
 	}
 }
 

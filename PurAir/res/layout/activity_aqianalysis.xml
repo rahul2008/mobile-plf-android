@@ -255,7 +255,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/navy" /> 
+                android:background="@color/midnightblue" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -308,7 +308,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/royalblue" /> 
+                android:background="@color/slateblue" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"

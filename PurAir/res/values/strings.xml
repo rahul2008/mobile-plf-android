@@ -220,7 +220,9 @@
     <string name="indoor_analysis_Title3">2-3, Moderate</string>
     <string name="indoor_analysis_Title4">1-2, Good</string>
     <string name="outdoor_analysis_detail1_head1">How much good air did you have? explained</string>
-    <string name="outdoor_analysis_detail2_head1">In the last 7 days, amount of indoor air rated as \'good\' by air purifiers, and outdoor air rated as \'healthy\' by outdoor sensors.</string>
+    <string name="outdoor_analysis_detail2_head1">In the last 7 days, amount of indoor air rated as</string>
+    <string name="outdoor_analysis_detail2_head102">by air purifiers, and outdoor air rated as</string>
+    <string name="outdoor_analysis_detail2_head103">by outdoor sensors.</string>
     <string name="outdoor_analysis_detail_head2">If 1-2 for one hour or longer, then the PM2.5 level is expected to be lower than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre. If level above 2 for one hour or longer, then PM2.5 is expected to be higher than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre.</string>
     <string name="outdoor_analysis_detail_head3">There is no standard for PM2.5 indoor, therefore there is no indoor PM2.5 level shown. Philips measures both indoor and outdoor PM2.5 levels. However, there is a correlation between outdoor and indoor air quality, the higher the level of PM2.5 indoors is strongly correlated to the PM2.5 level outdoors.</string>
     <string name="outdoor_analysis_detail_h4_T1">Very Unhealthy. Very high Particle level. PM2.5 values are expected to be at high level. Peaks can be due to cigarrete smoke, cooking, vacuum-cleaning, candles and incense. You should avoid to be in a areas with this particle level of air for longer period of time. Adults and children with lung problems, adults with heart problems, and older people, should avoid strenuous physical activity. People with asthma may find they need to use their reliever inhaler more often.</string>

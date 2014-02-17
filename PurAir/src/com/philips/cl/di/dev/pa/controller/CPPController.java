@@ -299,9 +299,19 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
-		downloadData = new DownloadData(callbackHandler) ;
-		downloadData.setDownloadDataDetails(query, 2048, 0, 0);
-		downloadData.executeCommand();
+		try {
+			if ( isSignOn ) {
+				downloadData = new DownloadData(callbackHandler) ;
+				downloadData.setDownloadDataDetails(query, 2048, 0, 0);
+				downloadData.executeCommand();
+			}
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} catch (Error e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void restartDCSService() {

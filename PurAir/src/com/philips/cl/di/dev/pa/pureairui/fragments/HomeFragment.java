@@ -429,15 +429,15 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		case R.id.tv_indoor_aqi_status_title:
 			//Show indoor details
 			intent = new Intent(getActivity(),	IndoorDetailsActivity.class);
-			String indoorInfos[] = new String[5];
+			String indoorInfos[] = new String[6];
 			indoorInfos[0] = tvIndoorModeValue.getText().toString();
 			indoorInfos[1] = tvIndoorFilterStatus.getText().toString();
 			indoorInfos[2] = String.valueOf(indoorPSense);
 			indoorInfos[3] = tvIndoorTitle.getText().toString();
 			indoorInfos[4] = tvIndoorComment.getText().toString();
+			indoorInfos[5] = tvOutdoorTitle.getText().toString();
 			intent.putExtra("indoor", indoorInfos);
 			startActivity(intent);
-			//Toast.makeText(getActivity(), "Indoor details", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.outdoor_circle_pointer:
 			if (updateOutdoorDashboard) {
@@ -456,7 +456,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				intent.putExtra("outdoor", outdoorInfos);
 				startActivity(intent);
 			}
-			//Toast.makeText(getActivity(), "Outdoor details", Toast.LENGTH_LONG).show();
 			break;
 		case R.id.lbl_take_tour:
 			intent = new Intent(getActivity(), AirTutorialActivity.class);

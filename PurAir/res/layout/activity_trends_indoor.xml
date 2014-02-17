@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="In the last day, how much good air did you have?"
-                android:textColor="@color/cornflowerblue"
+                android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
             </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:text="Detailed air quality for the last day?"
-                android:textColor="@color/cornflowerblue"
+                android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
             </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>

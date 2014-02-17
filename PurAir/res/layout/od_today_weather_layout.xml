@@ -13,7 +13,7 @@
         android:gravity="center_horizontal"
         android:layout_margin="8dp"
         android:text="16:00"
-        android:textColor="@color/cornflowerblue"
+        android:textColor="@color/gray"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
@@ -32,7 +32,7 @@
         android:gravity="center_horizontal"
         android:layout_margin="8dp"
         android:text="18\u00B0C"
-        android:textColor="@color/cornflowerblue"
+        android:textColor="@color/gray"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
