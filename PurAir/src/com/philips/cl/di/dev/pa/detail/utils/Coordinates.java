@@ -1,40 +1,42 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+
 import android.content.Context;
 
 public class Coordinates {
 	/**
 	 * Indoor and outdoor
 	 * */
-	private float x1 = 0;
-	private float y1 = 0;
-	private float xlabelPaddLast = 15;
-	private float xLabelPadd = 6;
-	private float multiplyConst = .5F;
-	private float powerY1 = 40F;
-	private float powerY2 = 20F;
-	private float powerRect1 = 35F;
-	private float powerRect2 = 25F;
-	private float powerLabelPadd = 50F;
-	private float outerlineDist = 40F;
-	private float outerCirclePadd = 40F;
-	private float outerIndexPadd = 37F;
+	private float x1;
+	private float y1;
+	private float xlabelPaddLast;
+	private float xLabelPadd;
+	private float multiplyConst;
+	private float powerY1;
+	private float powerY2;
+	private float powerRect1;
+	private float powerRect2;
+	private float powerLabelPadd;
+	private float outerlineDist;
+	private float outerCirclePadd;
+	private float outerIndexPadd;
 	private float strokeWidth;
 	
 	/**
 	 * Indoor
 	 * */
-	private float idGraphHeight= 280;
-	private float idPaddingRight = 30;
-	private float idRectMarginLeft = 20;
-	private float idRectWidth = 25;  
-	private float idY10_0 = 0;
-	private float idY5_5 = 40;
-	private float idY4_5 = 80; 
-	private float idY3_5 = 120;
-	private float idY2_5 = 160;
-	private float idY1_5 = 200;
-	private float idY0_0 = 260;
+	private float idGraphHeight;
+	private float idPaddingRight;
+	private float idRectMarginLeft;
+	private float idRectWidth;  
+	private float idY10_0;
+	private float idY5_5;
+	private float idY4_5; 
+	private float idY3_5;
+	private float idY2_5;
+	private float idY1_5;
+	private float idY0_0;
 	
 	private float idY10;
 	private float idY9;
@@ -48,8 +50,8 @@ public class Coordinates {
 	private float idY1;
 	private float idY0;
 	
-	private float idX0 = 30;
-	private float idRadius = 3;
+	private float idX0;
+	private float idRadius;
 	private float idYxLabelPadding;
 	private float idYxTopLabelPadding;
 	private float idTxtSize;
@@ -72,10 +74,9 @@ public class Coordinates {
 	
 	private Context context;
 	
-	public Coordinates () {
-		
-	}
-	public Coordinates (Context ctx) {
+	private static Coordinates coordinates;
+	
+	private Coordinates (Context ctx) {
 		/**
 		 * Initialize
 		 * */
@@ -357,6 +358,19 @@ public class Coordinates {
 	
 	public float getPxWithRespectToDip(float dip) {
 		return context.getResources().getDisplayMetrics().density * dip;
+	}
+	
+	public static Coordinates getInstance(Context ctx) {
+		synchronized(Coordinates.class) {
+			if ( null == coordinates ) {
+				coordinates = new Coordinates(ctx) ;
+			}
+		}
+		return coordinates ;
+	}
+	
+	public static void reset() {
+		coordinates = null ;
 	}
 
 }

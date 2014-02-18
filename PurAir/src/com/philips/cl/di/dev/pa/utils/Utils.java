@@ -19,16 +19,19 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.screens.TrendsActivity;
+import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.icpinterface.data.Errors;
 
 // TODO: Auto-generated Javadoc
@@ -502,7 +505,7 @@ public class Utils {
 
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {	
-		//Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
+		Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
 		int noOfDays = 0 ;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd") ; 
@@ -514,6 +517,7 @@ public class Utils {
 				timeDiff = cal.getTimeInMillis() - lastDate.getTime()  ;
 			} else {
 				Date prevDate = sf.parse(date0) ;
+				Log.i("Download", "datattata= " +sf.format(lastDate) +"    "+sf.format(prevDate));
 				timeDiff = lastDate.getTime() - prevDate.getTime() ;
 			}
 			noOfDays = (int) (timeDiff / (1000* 60 * 60 * 24)) ;
@@ -695,13 +699,6 @@ public class Utils {
 						else {
 							aqiSum = aqiSum / counter ;
 							dailyAqiValues.add(aqiSum/100) ;
-							int numberOfDaysDiff = Utils.getDifferenceBetweenDaysFromCurrentDay(date,currentAQIDate) ;
-
-							if( numberOfDaysDiff > 1 ) {
-								for( int j = 0 ; j < numberOfDaysDiff ; j ++ ) {
-									dailyAqiValues.add(-1.0F) ;
-								}
-							}
 
 							aqiSum = indoorAQIHistory.get(index).getAqi() ;
 							counter = 1;
@@ -749,7 +746,6 @@ public class Utils {
 				if( powerOnStatusList != null && powerOnStatusList.size() > 0 ) {
 					indoorTrend.setPowerDetailsList(powerOnStatusList) ;
 				}
-				
 				SessionDto.getInstance().setIndoorTrendDto(indoorTrend) ;
 			}
 		}
@@ -780,5 +776,55 @@ public class Utils {
 		Log.i("QUERY", qry) ;
 		return qry;
 	}
+	
+	/**
+	 * 
+	 * @param ctx
+	 * @param pSense
+	 * @return
+	 */
+	public static Drawable setAQICircleBackground(Context ctx, int pSense) {
+		Log.i(TAG, "aqi=  " + pSense);
+		if(pSense >= 0 && pSense < 2) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
+		} else if(pSense >= 2 && pSense < 3) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
+		} else if(pSense >= 3 && pSense < 4) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
+		} else {
+			return ctx.getResources().getDrawable(R.drawable.aqi_red_circle_2x);
+		}
+	}
+
+	/**
+	 * 
+	 * @param ctx
+	 * @param pSense
+	 * @param status
+	 * @param summary
+	 */
+	public static void setIndoorAQIStatusAndComment
+		(Context ctx, int pSense, CustomTextView status, CustomTextView summary) {
+		
+		if(pSense >= 0 && pSense <= 1) {
+			status.setText(ctx.getString(R.string.good)) ;
+			summary.setText(ctx.getString(R.string.very_healthy_msg_indoor)) ;
+		} else if(pSense > 2 && pSense <= 3) {
+			status.setText(ctx.getString(R.string.moderate)) ;
+			summary.setText(ctx.getString(R.string.healthy_msg_indoor)) ;
+		} else if(pSense > 3 && pSense <= 4) {
+			status.setText(ctx.getString(R.string.unhealthy)) ;
+			summary.setText(ctx.getString(R.string.slightly_polluted_msg_indoor)) ;
+		} else if(pSense < 4) {
+			String tempStatus[] = ctx.getString(R.string.very_unhealthy).trim().split(" ");
+			if (tempStatus != null && tempStatus.length > 1) {
+				status.setText(tempStatus[0]+"\n"+tempStatus[1]);
+			} else { 
+				status.setText(ctx.getString(R.string.very_unhealthy)) ;
+			}
+			summary.setText(ctx.getString(R.string.moderately_polluted_msg_indoor)) ;
+		} 
+	}
+
 
 }

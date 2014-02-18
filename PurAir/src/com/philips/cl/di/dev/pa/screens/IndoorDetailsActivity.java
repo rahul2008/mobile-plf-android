@@ -93,7 +93,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_trends_indoor);
-		coordinates = new Coordinates(this);
+		coordinates = Coordinates.getInstance(this);
 		initializeUI();
 
 		SensorDataController.getInstance(this).addListener(this) ;
@@ -323,18 +323,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 		switch (v.getId()) {
 		case R.id.detailsOutdoorLastDayLabel: {
-			removeChildViewFromBar();
-			if (goodAirInfos != null && goodAirInfos.size() > 0) {
-				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-						null, goodAirInfos, this, 0, 0);
-				percentBarLayout.setClickable(true);
-				horizontalScrollView.addView(percentBarLayout);
-			}
-			if (lastDayRDCPValues != null && lastDayRDCPValues.size() > 0) {
-				graphLayout.addView(new GraphView(this, 
-						lastDayRDCPValues.get(0), lastDayRDCPValues, powerOnReadingsValues.get(0), 
-						coordinates, 0, indexBottBg));
-			}
+			callGraphViewOnClickEvent(0, lastDayRDCPValues);
+			
 			lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 			lastWeekBtn.setTextColor(Color.LTGRAY);
 			lastFourWeekBtn.setTextColor(Color.LTGRAY);
@@ -343,18 +333,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			break;
 		}
 		case R.id.detailsOutdoorLastWeekLabel: {
-			removeChildViewFromBar();
-			if (goodAirInfos != null && goodAirInfos.size() > 0) {
-				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-						null, goodAirInfos, this, 1, 0);
-				percentBarLayout.setClickable(true);
-				horizontalScrollView.addView(percentBarLayout);
-			}
-
-			if (last7daysRDCPValues != null && last7daysRDCPValues.size() > 0) {
-				graphLayout.addView(new GraphView(this, 
-						last7daysRDCPValues.get(0), last7daysRDCPValues, null, coordinates, 0, indexBottBg));
-			}
+			callGraphViewOnClickEvent(1, last7daysRDCPValues);
 
 			lastDayBtn.setTextColor(Color.LTGRAY);
 			lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
@@ -364,19 +343,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			break;
 		}
 		case R.id.detailsOutdoorLastFourWeekLabel: {
-			removeChildViewFromBar();
-			if (goodAirInfos != null && goodAirInfos.size() > 0) {
-				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-						null, goodAirInfos, this, 2, 0);
-				percentBarLayout.setClickable(true);
-				horizontalScrollView.addView(percentBarLayout);
-			}
-
-
-			if (last4weeksRDCPValues != null && last4weeksRDCPValues.size() > 0) {
-				graphLayout.addView(new GraphView(this, last4weeksRDCPValues
-						.get(0), last4weeksRDCPValues, null, coordinates, 0, indexBottBg));
-			}	
+			callGraphViewOnClickEvent(2, last4weeksRDCPValues);
+			
 			lastDayBtn.setTextColor(Color.LTGRAY);
 			lastWeekBtn.setTextColor(Color.LTGRAY);
 			lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
@@ -386,6 +354,21 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		}
 		}
 
+	}
+	
+	private void callGraphViewOnClickEvent(int index, List<float[]> rdcpValues) {
+		removeChildViewFromBar();
+		if (goodAirInfos != null && goodAirInfos.size() > 0) {
+			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
+					null, goodAirInfos, this, index, 0);
+			percentBarLayout.setClickable(true);
+			horizontalScrollView.addView(percentBarLayout);
+		}
+
+		if (rdcpValues != null && rdcpValues.size() > 0) {
+			graphLayout.addView(new GraphView(this, 
+					rdcpValues.get(0), rdcpValues, null, coordinates, 0, indexBottBg));
+		}	
 	}
 
 	private void removeChildViewFromBar() {
@@ -444,9 +427,9 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			if (datas[2] != null) {
 				try {
 					int pSence = Integer.parseInt(datas[2].trim());
-					circleImg.setImageDrawable(setAQICircleBackground(pSence));
+					circleImg.setImageDrawable(Utils.setAQICircleBackground(this, pSence));
 
-					setIndoorAQIStatusAndComment(pSence);
+					Utils.setIndoorAQIStatusAndComment(this, pSence, aqiStatus, aqiSummary);
 				} catch (NumberFormatException e) {
 					//e.printStackTrace();
 				}
@@ -458,50 +441,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		}
 	}
 
-	/**
-	 * 
-	 * @param pSense
-	 * @return
-	 */
-	private Drawable setAQICircleBackground(int pSense) {
-		Log.i(TAG, "aqi=  " + pSense);
-		if(pSense >= 0 && pSense < 2) {
-			return getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
-		} else if(pSense >= 2 && pSense < 3) {
-			return getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
-		} else if(pSense >= 3 && pSense < 4) {
-			return getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
-		} else {
-			return getResources().getDrawable(R.drawable.aqi_red_circle_2x);
-		}
-	}
-
-	/**
-	 * 
-	 * @param pSense
-	 * @return
-	 */
-	private void setIndoorAQIStatusAndComment(int pSense) {
-		if(pSense >= 0 && pSense <= 1) {
-			aqiStatus.setText(getString(R.string.good)) ;
-			aqiSummary.setText(getString(R.string.very_healthy_msg_indoor)) ;
-		} else if(pSense > 2 && pSense <= 3) {
-			aqiStatus.setText(getString(R.string.moderate)) ;
-			aqiSummary.setText(getString(R.string.healthy_msg_indoor)) ;
-		} else if(pSense > 3 && pSense <= 4) {
-			aqiStatus.setText(getString(R.string.unhealthy)) ;
-			aqiSummary.setText(getString(R.string.slightly_polluted_msg_indoor)) ;
-		} else if(pSense < 4) {
-			String tempStatus[] = getString(R.string.very_unhealthy).trim().split(" ");
-			if (tempStatus != null && tempStatus.length > 1) {
-				aqiStatus.setText(tempStatus[0]+"\n"+tempStatus[1]);
-			} else { 
-				aqiStatus.setText(getString(R.string.very_unhealthy)) ;
-			}
-			aqiSummary.setText(getString(R.string.moderately_polluted_msg_indoor)) ;
-		} 
-	}
-
+	
 
 	@Override
 	protected void onStop() {
@@ -527,12 +467,14 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	 */
 	@Override
 	public void onDataDownload(int status, String downloadedData) {
+		
 		if( status == Errors.SUCCESS) {
 			Utils.parseIndoorDetails(downloadedData) ;
 			if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
+				
 			}
 			parseReading();
 		}

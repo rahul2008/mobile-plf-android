@@ -142,7 +142,7 @@ public class GraphPathDraw {
 		canvas.drawPath(circle, cPaint);
 	}
 	
-	/** The method to draw path after last path for outdoor.*/
+	/** The method to draw path after last point for outdoor.*/
 	public void drawPathAfterLastPointIndoor(
 			float x, float y, float x1, float y1, Canvas canvas, Paint paint) {
 		Path path = new Path();
@@ -157,7 +157,7 @@ public class GraphPathDraw {
 		canvas.drawPath(path, paint);
 	}
 	
-	/** The method to draw path after last path for outdoor.*/
+	/** The method to draw path after last point for outdoor.*/
 	public void drawPathAfterLastPointOutdoor(
 			float x, float y, float x1, float y1, Canvas canvas, Paint paint) {
 		Path path = new Path();
@@ -175,16 +175,16 @@ public class GraphPathDraw {
 	
 	/**The method to find the y axis pixel corresponding value for indoor.*/
 	public float getYaxis(float y) {
-		float yInt = coordinates.getIdY0();
+		float yFloat = coordinates.getIdY0();
 		if (y == -1) return -1;
 		if (y <= 0) {
-			return yInt;
+			return yFloat;
 		} else {
-			yInt = yInt - (y*coordinates.getIdY9());
-			if (yInt < 0) {
-				yInt = 0;
+			yFloat = yFloat - (y*coordinates.getIdY9());
+			if (yFloat < 0) {
+				yFloat = 0;
 			}
-			return yInt;
+			return yFloat;
 		}
 		
 	}

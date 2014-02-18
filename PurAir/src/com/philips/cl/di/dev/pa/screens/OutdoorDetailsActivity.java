@@ -67,7 +67,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		
 		setContentView(R.layout.activity_details_outdoor);
 
-		coordinates = new Coordinates(this);
+		coordinates = Coordinates.getInstance(this);
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -538,7 +538,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		Canvas canvas = new Canvas(bm);
 
 		//Calculate the positions
-		int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+		int xPos = (canvas.getWidth() / 2) - 2;  
 
 		int yPos = (int) (canvas.getHeight()) - 5 ;  
 

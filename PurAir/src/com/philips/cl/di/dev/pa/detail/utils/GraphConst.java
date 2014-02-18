@@ -196,15 +196,6 @@ public class GraphConst {
 		ObjectAnimator.ofFloat(iv, animRotation, 0, fconst - degree).setDuration(2000).start();
 	}
 	
-	/*private void rotateAQICircle(int de, ImageView iv) {
-		System.out.println("Rotate circlr by aqi = " + aqi + "    " +iv);
-		float ratio = (float) (300.0/500.0);
-		float roatation = 100 * (300.0f/500.0f);
-		//ViewHelper.setPivotX(iv, iv.getWidth());
-		//ViewHelper.setPivotY(iv, iv.getHeight());
-		ObjectAnimator.ofFloat(iv, animRotation, 0, roatation).setDuration(2000).start();
-	}*/
-	
 	public float getPxWithRespectToDip(Context context, float dip) {
 		return context.getResources().getDisplayMetrics().density * dip;
 	}
