@@ -43,6 +43,8 @@ public class Utils {
 
 	/** The Constant TAG. */
 	private static final String TAG = "Utils";
+	private static String currentDateHr = "";
+	private static String ago24DateHr = "";
 
 	/**
 	 * Populates the image names for the left menu.
@@ -565,9 +567,7 @@ public class Utils {
 		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
 		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
 		Calendar cal = Calendar.getInstance() ;
-		long endDateDiff = cal.getTimeInMillis() - (23*60*60*1000);
-		Date dateEnd = new Date(endDateDiff);
-		String startDateHr = formatDate.format(dateEnd) + " " + formatHr.format(dateEnd);
+		
 		
 		List<Float> hrlyAqiValues = new ArrayList<Float>() ;
 		List<Float> dailyAqiValues = new ArrayList<Float>() ;
@@ -593,14 +593,14 @@ public class Utils {
 					if (numOfHrs == -2) {
 						
 						numOfHrs = Utils.getDifferenceBetweenHrFromCurrentHr
-								(date.substring(0,10)+" "+date.substring(11,13), startDateHr) ;
+								(date.substring(0,10)+" "+date.substring(11,13), ago24DateHr) ;
 						if (numOfHrs >= 0 && numOfHrs <= 24) {
 							for( int i = 0; i < numOfHrs; i ++ ) {
 								hrlyAqiValues.add(-1.0F) ;
 								powerOnStatusList.add(0);
 							}
 							numOfHrs = -1;
-							Log.i("Download", "date== " + date);
+							
 						}
 					}
 					
@@ -620,7 +620,6 @@ public class Utils {
 							else {
 								aqiSumHr = aqiSumHr / counterHr ;
 								hrlyAqiValues.add(aqiSumHr/100) ;
-								
 								if (index > 0 && indoorAQIHistory.get(index).getTfav() 
 										> indoorAQIHistory.get(index -1).getTfav()) {
 									powerOnStatusList.add(1);
@@ -655,14 +654,14 @@ public class Utils {
 									powerOnStatusList.add(0);
 								}
 								int valueEmptyHrs1 = Utils.getDifferenceBetweenHrFromCurrentHr
-										(formatDate.format(new Date()) + " " + formatHr.format(new Date()), date.substring(0,10)+" "+date.substring(11,13)) ;
+										(currentDateHr, date.substring(0,10)+" "+date.substring(11,13)) ;
 								if (valueEmptyHrs1 > 0) {
 									for (int j = 0; j < valueEmptyHrs1 - 1; j++) {
 										hrlyAqiValues.add(-1.0F) ;
 										powerOnStatusList.add(0);
 									}
 								}
-							}if (counterHr == 0) { 
+							}else if (counterHr == 0) { 
 								for( int i = 0; i < 24 ; i ++ ) {
 									hrlyAqiValues.add(-1.0F) ;
 									powerOnStatusList.add(0);
@@ -734,21 +733,44 @@ public class Utils {
 
 					currentAQIDate = date ;
 				}
+				
+				Log.i("Download", "hrlyAqiValuesBefore==  " + hrlyAqiValues);
+				Log.i("Download", "dailyAqiValuesBefore==  " + dailyAqiValues);
+				Log.i("Download", "powerOnStatusListBefore==  " + powerOnStatusList);
+				
 				IndoorTrendDto indoorTrend = new IndoorTrendDto() ;
 				if( hrlyAqiValues != null &&  hrlyAqiValues.size() > 0 ) {
+					
+					if (hrlyAqiValues.size() > 24) {
+						int diff = hrlyAqiValues.size() - 24;
+						for (int i = 0; i < diff; i++) {
+							hrlyAqiValues.remove(0);
+						}
+					}
 					indoorTrend.setHourlyList(hrlyAqiValues) ;
 				}
 				if( dailyAqiValues != null && dailyAqiValues.size() > 0 ) {
+					if (dailyAqiValues.size() > 28) {
+						int diff = dailyAqiValues.size() - 28;
+						for (int i = 0; i < diff; i++) {
+							dailyAqiValues.remove(0);
+						}
+					}
 					indoorTrend.setDailyList(dailyAqiValues) ;
 				}
 				if( powerOnStatusList != null && powerOnStatusList.size() > 0 ) {
+					if (powerOnStatusList.size() > 24) {
+						int diff = powerOnStatusList.size() - 24;
+						for (int i = 0; i < diff; i++) {
+							powerOnStatusList.remove(0);
+						}
+					}
 					indoorTrend.setPowerDetailsList(powerOnStatusList) ;
 				}
 				SessionDto.getInstance().setIndoorTrendDto(indoorTrend) ;
 			}
 		}
 	}
-	
 	
 	public static String getCPPQuery(Context context) {
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
@@ -757,13 +779,14 @@ public class Utils {
 
 		String endDate = formatDate.format(new Date()); 
 		String endTime = formatTime.format(new Date()); 
-		
+		String endHr = formatHr.format(new Date()); 
 
 		String qryPart3 = "endDate="+endDate+"T"+endTime+".1508314Z";
-
+		currentDateHr = endDate + " " + endHr;
+		
 		Calendar cal = Calendar.getInstance();
 
-		long startDateDiff = cal.getTimeInMillis() - (27*24*60*60*1000l);
+		long startDateDiff = cal.getTimeInMillis() - (28*24*60*60*1000l);
 		Date dateStart = new Date(startDateDiff);
 		String startDate = formatDate.format(dateStart); 
 		String startTime = formatTime.format(dateStart); 
@@ -772,6 +795,11 @@ public class Utils {
 
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP, getAirPurifierID(context))+qryPart2+qryPart3;
 		Log.i("QUERY", qry) ;
+		
+		long endDateDiff = cal.getTimeInMillis() - (24*60*60*1000);
+		Date dateEnd = new Date(endDateDiff);
+		ago24DateHr= formatDate.format(dateEnd) + " " + formatHr.format(dateEnd);
+		
 		return qry;
 	}
 	

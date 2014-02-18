@@ -473,9 +473,9 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-				Log.i("Download", "hrlyAqiValues==  " + hrlyAqiValues);
-				Log.i("Download", "dailyAqiValues==  " + dailyAqiValues);
-				Log.i("Download", "powerOnStatusList==  " + powerOnStatusList);
+				//Log.i("Download", "hrlyAqiValues==  " + hrlyAqiValues);
+				//Log.i("Download", "dailyAqiValues==  " + dailyAqiValues);
+				//Log.i("Download", "powerOnStatusList==  " + powerOnStatusList);
 			}
 			parseReading();
 		}
