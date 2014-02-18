@@ -41,18 +41,18 @@
                 layout="@layout/od_map_layout" />
             
             <!-- Weather report -->
-            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/odWeatherHeading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:gravity="center_horizontal"
-                android:text="Weather Forcast"
+                android:text="@string/weather_forecast"
                 android:textColor="@color/dodgerblue"
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
-            </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
             <HorizontalScrollView
                 android:id="@+id/odTodayWetherReportHSV"
@@ -89,7 +89,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/gray" />
 
-            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/detailsOutdoorSecondMsg"
                 android:layout_width="match_parent"
@@ -99,7 +99,7 @@
                 android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
-            </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+            </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
             <LinearLayout
                 android:id="@+id/detailsOutdoorlayoutGraph"

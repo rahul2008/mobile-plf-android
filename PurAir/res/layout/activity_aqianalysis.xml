@@ -22,7 +22,7 @@
             android:onClick="closeDetils"
             android:src="@drawable/help_close" />
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisHeading"
             android:layout_width="match_parent"
@@ -34,9 +34,9 @@
             android:textColor="@color/dodgerblue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg10"
             android:layout_width="match_parent"
@@ -48,9 +48,9 @@
             android:textColor="@color/gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg11"
             android:layout_width="match_parent"
@@ -62,9 +62,9 @@
             android:textColor="@color/gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle2"
             android:layout_width="match_parent"
@@ -76,9 +76,9 @@
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg20"
             android:layout_width="match_parent"
@@ -90,9 +90,9 @@
             android:textColor="@color/gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle3"
             android:layout_width="match_parent"
@@ -104,9 +104,9 @@
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
         
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg30"
             android:layout_width="match_parent"
@@ -118,9 +118,9 @@
             android:textColor="@color/gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
         
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle4"
             android:layout_width="match_parent"
@@ -132,7 +132,7 @@
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
         <LinearLayout android:id="@+id/aqiAnalysisLayout4"
             android:layout_width="match_parent"
@@ -154,7 +154,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg40"
                     android:layout_width="match_parent"
@@ -164,9 +164,9 @@
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg41"
                     android:layout_width="match_parent"
@@ -177,7 +177,7 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
             </LinearLayout>
         </LinearLayout>
 
@@ -209,7 +209,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg50"
                     android:layout_width="match_parent"
@@ -219,9 +219,9 @@
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg51"
                     android:layout_width="match_parent"
@@ -232,7 +232,7 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -262,7 +262,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg60"
                     android:layout_width="match_parent"
@@ -272,9 +272,9 @@
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg61"
                     android:layout_width="match_parent"
@@ -285,7 +285,7 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
             </LinearLayout>
         </LinearLayout>
         <View
@@ -315,7 +315,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg70"
                     android:layout_width="match_parent"
@@ -325,9 +325,9 @@
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg71"
                     android:layout_width="match_parent"
@@ -338,7 +338,7 @@
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
             </LinearLayout>
         </LinearLayout>
        

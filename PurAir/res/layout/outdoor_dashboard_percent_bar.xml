@@ -20,7 +20,7 @@
         
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorIndoorLabel"
         android:layout_width="140dp"
@@ -36,7 +36,7 @@
         android:textColor="@color/gray"
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
     <RelativeLayout
         android:id="@+id/detailsOutdoorOutdoorPercentLayout"
@@ -55,7 +55,7 @@
         
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorOutdoorLabel"
         android:layout_width="140dp"
@@ -71,6 +71,6 @@
         android:textColor="@color/gray"
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
 </RelativeLayout>

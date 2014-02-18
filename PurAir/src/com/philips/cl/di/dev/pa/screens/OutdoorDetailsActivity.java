@@ -9,12 +9,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.customviews.GraphView;
+import com.philips.cl.di.dev.pa.customviews.WeatherReportLayout;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
-import com.philips.cl.di.dev.pa.screens.customviews.WeatherReportLayout;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 import android.content.Intent;

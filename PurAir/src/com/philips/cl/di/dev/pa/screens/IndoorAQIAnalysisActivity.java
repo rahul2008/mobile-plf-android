@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.Window;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 
 public class IndoorAQIAnalysisActivity  extends Activity {
 	String outdoorTitle = "";

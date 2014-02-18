@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/circle_5" />
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDbBarTopNum"
         android:layout_width="32dp"
@@ -23,9 +23,9 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDbBarTopName"
         android:layout_width="wrap_content"

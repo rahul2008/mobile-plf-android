@@ -25,7 +25,7 @@
             android:contentDescription="@string/separator"
             android:src="@drawable/filter_details_back" />
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tv_header"
             android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
 
             <!-- Air Purifier Control Layout starts -->
 
-            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tv_airpurifiercontrol"
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                     android:contentDescription="@string/power"
                     android:src="@drawable/power" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_power"
                     android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                     android:contentDescription="@string/separator"
                     android:src="@drawable/icon_fan" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_fan_speed"
                     android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
                     android:contentDescription="@string/separator"
                     android:src="@drawable/icon_timer" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_timer"
                     android:layout_width="wrap_content"
@@ -294,7 +294,7 @@
                     android:contentDescription="@string/separator"
                     android:src="@drawable/icon_lock" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_child_lock"
                     android:layout_width="wrap_content"
@@ -333,7 +333,7 @@
                     android:contentDescription="@string/separator"
                     android:src="@drawable/icon_light" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_indicator_light"
                     android:layout_width="wrap_content"
@@ -357,7 +357,7 @@
 
             <!-- Air Purifier Status Layout starts -->
 
-            <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tv_airpurifierstatus"
                 android:layout_width="wrap_content"
@@ -391,7 +391,7 @@
                     android:contentDescription="@string/connection_status"
                     android:src="@drawable/icon_air_quality" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_air_quality"
                     android:layout_width="wrap_content"
@@ -406,7 +406,7 @@
                     android:textColor="@color/black"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_airquality_status"
                     android:layout_width="wrap_content"
@@ -447,7 +447,7 @@
                     android:contentDescription="@string/connection_status"
                     android:src="@drawable/icon_filter" />
 
-                <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+                <com.philips.cl.di.dev.pa.customviews.CustomTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/tv_filterstatus"
                     android:layout_width="wrap_content"

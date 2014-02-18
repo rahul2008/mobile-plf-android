@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens.customviews;
+package com.philips.cl.di.dev.pa.customviews;
 
 import android.content.Context;
 import android.content.res.TypedArray;

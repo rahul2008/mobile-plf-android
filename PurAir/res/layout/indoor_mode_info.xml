@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/fan_icon_white_2x" />
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/inModeTxt"
         android:layout_width="wrap_content"
@@ -26,9 +26,9 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/inModeType"
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
     <ImageView
         android:id="@+id/inFilterIcon"
@@ -48,7 +48,7 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/filter_icon_2x" />
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/inFilterTxt"
         android:layout_width="wrap_content"
@@ -62,9 +62,9 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/inFilterType"
         android:layout_width="wrap_content"
@@ -74,6 +74,6 @@
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
 </RelativeLayout>

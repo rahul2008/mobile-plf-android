@@ -1,7 +1,7 @@
-<com.philips.cl.di.dev.pa.screens.customviews.CustomGraphView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.philips.cl.di.dev.pa.customviews.CustomGraphView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/graph"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/graph_bg" >
 
-</com.philips.cl.di.dev.pa.screens.customviews.CustomGraphView>
+</com.philips.cl.di.dev.pa.customviews.CustomGraphView>

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens.customviews;
+package com.philips.cl.di.dev.pa.customviews;
 
 
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;

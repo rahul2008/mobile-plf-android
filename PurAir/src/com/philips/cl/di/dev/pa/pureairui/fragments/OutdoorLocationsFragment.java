@@ -2,16 +2,25 @@ package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 import java.io.IOException;
 import java.io.InputStream;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -121,7 +130,24 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 		mListView.setDragScrollProfile(ssProfile);
 		mListView.setAdapter(adapter);
 		
+//		mListView.setOnItemClickListener(new OnItemClickListener() {
+//
+//			@Override
+//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//				Toast.makeText(getActivity(), "item click", 0).show();
+//				
+//			}
+//			
+//		});
+		
 		return view;
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		MenuItem item = menu.getItem(0);
+		item.setIcon(R.drawable.plus_blue);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 	
 	private void startGetCitiesListTask() {

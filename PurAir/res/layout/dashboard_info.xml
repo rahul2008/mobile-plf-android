@@ -24,7 +24,7 @@
         layout="@layout/od_details_aqi_layout"
         android:paddingTop="3dp" />
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorDbLabel"
         android:layout_width="match_parent"
@@ -36,7 +36,7 @@
         android:textSize="48sp"
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
     <include
         android:layout_width="match_parent"

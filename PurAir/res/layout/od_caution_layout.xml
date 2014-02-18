@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/avoidOutdoorTxt"
             android:layout_width="match_parent"
@@ -47,9 +47,9 @@
             android:textColor="@color/gray"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/openWindowTxt"
             android:layout_width="match_parent"
@@ -60,9 +60,9 @@
             android:textColor="@color/gray"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/maskTxt"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:textColor="@color/gray"
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
     </LinearLayout>
 
 </LinearLayout>

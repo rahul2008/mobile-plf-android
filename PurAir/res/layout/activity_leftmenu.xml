@@ -1,9 +1,0 @@
-<com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/lvLeftMenu"
-    android:layout_width="wrap_content"
-    android:background="@color/white"
-    android:layout_height="fill_parent"
-    android:cacheColorHint="#00000000"
-    android:scrollbars="none" >
-
-    </com.philips.cl.di.dev.pa.screens.customviews.LeftMenuView>

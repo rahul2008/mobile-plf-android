@@ -27,12 +27,12 @@ import android.view.WindowManager;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
+import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.screens.TrendsActivity;
-import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.icpinterface.data.Errors;
 
 // TODO: Auto-generated Javadoc

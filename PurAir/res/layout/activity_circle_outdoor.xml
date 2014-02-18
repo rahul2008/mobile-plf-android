@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center" >
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvOutdoorAQI"
             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
             android:textSize="45sp"
             custom:fontAssetName="fonts/opensanscondlight.ttf" />
 
-        <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvOutdoorPM"
             android:layout_width="wrap_content"

@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvHome"
         custom:fontAssetName="fonts/gillsans.ttf" 
@@ -12,9 +12,9 @@
         android:text="Home"
         android:textColor="@android:color/white"
         android:textSize="20sp" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvDay"
         custom:fontAssetName="fonts/gillsans.ttf" 
@@ -25,9 +25,9 @@
         android:text="NA"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvTime"
         custom:fontAssetName="fonts/gillsans.ttf" 
@@ -37,9 +37,9 @@
         android:text="--:--"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-    </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
     
-     <com.philips.cl.di.dev.pa.screens.customviews.CustomTextView
+     <com.philips.cl.di.dev.pa.customviews.CustomTextView
          xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
          custom:fontAssetName="fonts/gillsans.ttf" 
         android:id="@+id/tvLastUpdated"
@@ -50,6 +50,6 @@
         android:text="Last updated"
         android:textColor="@android:color/white"
         android:textSize="15sp" >
-        </com.philips.cl.di.dev.pa.screens.customviews.CustomTextView>
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
 </RelativeLayout>
