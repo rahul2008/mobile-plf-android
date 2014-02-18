@@ -1,37 +1,8 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 
-import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR_SKIES;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.CLOUDY;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN_AT_TIMES;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_DRIZZLE;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.MIST;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.PARTLY_CLOUDY;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.SWIPE_THRESHOLD;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.SWIPE_VELOCITY_THRESHOLD;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animAlpha;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animDuration;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animRotation;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animScaleX;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animScaleY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorBackgroundTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorCircleScaleDownTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorTextScaleDownTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.indoorTextScaleUpTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.outdoorCircleScaleDownTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.outdoorTextScaleDownTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.outdoorTextScaleUpTranslationY;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.rotationPivot;
+import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.*;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.*;
 
 import java.util.List;
 
@@ -43,7 +14,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.view.ActionMode;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
@@ -63,13 +33,11 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.GsonBuilder;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.nineoldandroids.view.ViewHelper;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.dto.CityDetails;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
@@ -82,9 +50,9 @@ import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.utils.DataParser;
+import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class HomeFragment extends Fragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {
 
