@@ -221,13 +221,12 @@ public class AppConstants {
 	public static final String FILTER_LOCK = "Filter Lock" ;
 	public static final String CLEAN_SOON = "Clean Soon" ;
 	public static final String CLEAN_NOW = "Clean Now" ;
+	public static final String GOOD = "Good";
 	
-	
-	
-	public static final float PRE_FILTER_MAX_VALUE = 112;
-	public static final float MULTI_CARE_FILTER_MAX_VALUE = 960;
-	public static final float ACTIVE_CARBON_FILTER_MAX_VALUE = 2880;
-	public static final float HEPA_FILTER_MAX_VALUE = 2880;
+	public static final int PRE_FILTER_MAX_VALUE = 112;
+	public static final int MULTI_CARE_FILTER_MAX_VALUE = 960;
+	public static final int ACTIVE_CARBON_FILTER_MAX_VALUE = 2880;
+	public static final int HEPA_FILTER_MAX_VALUE = 2880;
 	
 	public static final float MAXWIDTH = MainActivity.getScreenWidth() * 0.655f;
 	
@@ -292,4 +291,8 @@ public class AppConstants {
 	public static final String MODEL_NAME = "AirPurifier" ;
 	
 	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
+		
+	//Child lock and indicator light status.
+	public static final int ON = 1;
+	public static final int OFF = 0;
 }

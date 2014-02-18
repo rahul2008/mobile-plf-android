@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.util;
+package com.philips.cl.di.dev.pa.constants;
 
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 

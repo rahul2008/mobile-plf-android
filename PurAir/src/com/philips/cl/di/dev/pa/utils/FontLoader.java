@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.util;
+package com.philips.cl.di.dev.pa.utils;
 
 import java.util.HashMap;
 import java.util.Map;

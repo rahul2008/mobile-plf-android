@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dto.ProductDto;
-import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class BuyOnlineFragment extends ListFragment{
 	private BuyDataAdapter mAdapter;	

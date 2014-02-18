@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.dto;
 
-import com.philips.cl.di.dev.pa.util.AppConstants;
+import com.philips.cl.di.dev.pa.constants.AppConstants;
 
 /***
  * Air Purifier Event DTO class

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
-import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 /**
  * Adapter to create the left menu. Each element's resources are stored in

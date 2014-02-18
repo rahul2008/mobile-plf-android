@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.util.Fonts;
  
+import com.philips.cl.di.dev.pa.utils.Fonts;
+
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;

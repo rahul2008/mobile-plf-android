@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.screens;
 
 import java.util.Calendar;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -14,7 +15,8 @@ import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
 import com.philips.cl.di.dev.pa.screens.customviews.WeatherReportLayout;
-import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.utils.Fonts;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class AirTutorialViewFragment extends Fragment{
     private int mTutorialDesc;

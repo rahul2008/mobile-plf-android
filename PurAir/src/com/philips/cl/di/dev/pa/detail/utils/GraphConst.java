@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
+import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.animRotation;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR_SKIES;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.CLOUDY;
@@ -15,7 +16,6 @@ import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_
 import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.util.AnimatorConstants.animRotation;
 
 import java.util.ArrayList;
 import java.util.Calendar;

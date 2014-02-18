@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class ProductRegistrationStepsFragment extends Fragment{		
 	

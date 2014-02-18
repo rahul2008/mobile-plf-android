@@ -1,14 +1,14 @@
 package com.philips.cl.di.dev.pa.customviews;
 
-import com.philips.cl.di.dev.pa.util.AppConstants;
-import com.philips.cl.di.dev.pa.util.Utils;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class FilterStatusView extends ImageView {
 	private static final String TAG = FilterStatusView.class.getSimpleName();

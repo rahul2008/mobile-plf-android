@@ -89,8 +89,8 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.KeyDecryptListener;
 
@@ -526,7 +526,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
 
-	// TODO : Change param to int.
 	private void setRightMenuConnectedStatus(int status) {
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);

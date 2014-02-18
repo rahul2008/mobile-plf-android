@@ -36,8 +36,8 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.screens.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.screens.customviews.GraphView;
 import com.philips.cl.di.dev.pa.screens.customviews.PercentBarLayout;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.utils.DataParser;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.data.Errors;
 

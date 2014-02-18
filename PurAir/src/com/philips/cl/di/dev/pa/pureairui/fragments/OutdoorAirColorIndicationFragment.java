@@ -5,7 +5,7 @@ import java.util.HashMap;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
-import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 import android.app.Activity;
 import android.os.Bundle;
