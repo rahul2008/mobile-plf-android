@@ -11,7 +11,7 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
-import com.philips.cl.di.dev.pa.network.Server;
+import com.philips.cl.di.dev.pa.network.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.JSONBuilder;
 import com.philips.cl.di.dev.pa.utils.Utils;
@@ -148,7 +148,7 @@ public class AirPurifierController implements ServerResponseListener
 	 * @param nameValuePair
 	 */
 	private void startServerTask(String dataToUpload) {
-		Server statusUpdateTask = new Server(dataToUpload, this);
+		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload, this);
 		statusUpdateTask.execute(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)));
 	}
 		
