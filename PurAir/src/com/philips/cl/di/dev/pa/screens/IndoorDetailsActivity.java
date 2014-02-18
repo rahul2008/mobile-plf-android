@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,6 +54,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	private CustomTextView msgFirst, msgSecond;
 	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
+	private ProgressBar rdcpDownloadProgressBar;
 	private PercentBarLayout percentBarLayout;
 	private CustomTextView barTopNum, barTopName, selectedIndexBottom;
 	private CustomTextView modeLabel, filterLabel, mode, filter, aqiStatus, aqiSummary;
@@ -106,6 +108,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		getDataFromDashboard();
 
 
+		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
 				CPPController.getInstance(this) != null) {
 			if(CPPController.getInstance(this).isSignOn()) {
@@ -115,6 +118,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			}
 			else {
 				Toast.makeText(this, "Please signon", Toast.LENGTH_LONG).show() ;
+				parseReading();
 			}
 		} 
 		else if( SessionDto.getInstance().getIndoorTrendDto()  != null ) {
@@ -122,7 +126,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 			powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
 			parseReading();
-		}
+		} 
 	}
 
 
@@ -131,17 +135,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		@Override
 		public void run() {
 			handler.removeCallbacks(downloadDataRunnble);
-			if (goodAirInfos != null && goodAirInfos.size() > 0) {
-				percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-						null, goodAirInfos, IndoorDetailsActivity.this, 0, 0);
-				percentBarLayout.setClickable(true);
-				horizontalScrollView.addView(percentBarLayout);
-			}
-			if (lastDayRDCPValues != null && lastDayRDCPValues.size() > 0) {
-				graphLayout.addView(new GraphView(IndoorDetailsActivity.this, 
-						lastDayRDCPValues.get(0), lastDayRDCPValues, powerOnReadingsValues.get(0), 
-						coordinates, 0, indexBottBg));
-			}
+			rdcpDownloadProgressBar.setVisibility(View.GONE);
+			callGraphViewOnClickEvent(0, lastDayRDCPValues);
 		}
 	};
 
@@ -182,7 +177,10 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		barTopNum = (CustomTextView) findViewById(R.id.indoorDbBarTopNum);
 		barTopName = (CustomTextView) findViewById(R.id.indoorDbBarTopName);
 		selectedIndexBottom = (CustomTextView) findViewById(R.id.indoorDbIndexBott);
-
+		selectedIndexBottom.setText(String.valueOf(1));
+		
+		rdcpDownloadProgressBar = (ProgressBar) findViewById(R.id.rdcpDownloadProgressBar);
+		
 		/**
 		 * Set click listener
 		 * */
@@ -470,11 +468,14 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		
 		if( status == Errors.SUCCESS) {
 			Utils.parseIndoorDetails(downloadedData) ;
+			
 			if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-				
+				Log.i("Download", "hrlyAqiValues==  " + hrlyAqiValues);
+				Log.i("Download", "dailyAqiValues==  " + dailyAqiValues);
+				Log.i("Download", "powerOnStatusList==  " + powerOnStatusList);
 			}
 			parseReading();
 		}

@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="In the last day, how much good air did you have?"
+                android:text="@string/msg_top_1"
                 android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Detailed air quality for the last day?"
+                android:text="@string/msg_bot_1"
                 android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
@@ -118,7 +118,6 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentTop="true"
                     android:gravity="center"
-                    android:text="1"
                     android:textColor="@color/white"
                     android:textSize="12sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -134,19 +133,33 @@
                     android:layout_marginLeft="10dp"
                     android:layout_toRightOf="@+id/indoorDbIndexBottBg"
                     android:gravity="center"
-                    android:text="Living room"
+                    android:text="@string/lbl_living_room"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
             </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/trendsOutdoorlayoutGraph"
-                android:layout_width="match_parent"
-                android:layout_height="320dp"
-                android:layout_margin="16dp"
-                android:orientation="vertical" >
-            </LinearLayout>
+			<RelativeLayout
+			    android:layout_width="match_parent"
+			    android:layout_height="320dp" >
+
+				<ProgressBar
+				    android:id="@+id/rdcpDownloadProgressBar"
+				    style="?android:attr/progressBarStyleLarge"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_centerInParent="true" />
+
+			    <LinearLayout
+			        android:id="@+id/trendsOutdoorlayoutGraph"
+			        android:layout_width="match_parent"
+			        android:layout_height="320dp"
+			        android:layout_margin="16dp"
+			        android:layout_alignParentTop="true"
+			        android:layout_alignParentLeft="true"
+			        android:orientation="vertical" >
+			    </LinearLayout>
+			</RelativeLayout>
 
             <!-- Bottom Bottom -->
 

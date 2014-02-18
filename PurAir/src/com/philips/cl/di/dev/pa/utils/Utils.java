@@ -518,7 +518,6 @@ public class Utils {
 				timeDiff = cal.getTimeInMillis() - lastDate.getTime()  ;
 			} else {
 				Date prevDate = sf.parse(date0) ;
-				Log.i("Download", "datattata= " +sf.format(lastDate) +"    "+sf.format(prevDate));
 				timeDiff = lastDate.getTime() - prevDate.getTime() ;
 			}
 			noOfDays = (int) (timeDiff / (1000* 60 * 60 * 24)) ;
@@ -566,7 +565,7 @@ public class Utils {
 		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
 		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
 		Calendar cal = Calendar.getInstance() ;
-		long endDateDiff = cal.getTimeInMillis() - (1*24*60*60*1000);
+		long endDateDiff = cal.getTimeInMillis() - (23*60*60*1000);
 		Date dateEnd = new Date(endDateDiff);
 		String startDateHr = formatDate.format(dateEnd) + " " + formatHr.format(dateEnd);
 		
@@ -601,10 +600,12 @@ public class Utils {
 								powerOnStatusList.add(0);
 							}
 							numOfHrs = -1;
+							Log.i("Download", "date== " + date);
 						}
 					}
-
+					
 					if (numOfHrs == -1) {
+						
 						if ( currentAQIDateHr.equals("")) {
 							aqiSumHr = indoorAQIHistory.get(index).getAqi() ;
 							counterHr = 1 ;
@@ -619,6 +620,7 @@ public class Utils {
 							else {
 								aqiSumHr = aqiSumHr / counterHr ;
 								hrlyAqiValues.add(aqiSumHr/100) ;
+								
 								if (index > 0 && indoorAQIHistory.get(index).getTfav() 
 										> indoorAQIHistory.get(index -1).getTfav()) {
 									powerOnStatusList.add(1);
@@ -660,20 +662,15 @@ public class Utils {
 										powerOnStatusList.add(0);
 									}
 								}
-							}
-						}
-						currentAQIDateHr = date;
-					} else {
-						if ( index == indoorAQIHistory.size() - 1 ) {
-							if (counterHr == 0) { 
+							}if (counterHr == 0) { 
 								for( int i = 0; i < 24 ; i ++ ) {
 									hrlyAqiValues.add(-1.0F) ;
 									powerOnStatusList.add(0);
 								}
 							}
 						}
+						currentAQIDateHr = date;
 					}
-
 
 					/**
 					 * Daily

@@ -176,51 +176,28 @@ public class DetailsAIQ {
 			}
 		}
 		
-		/** 
-		 * The x and y axis coordinate condition.
-		 * */
-		if (!isOutdoor) {
-			/** Indoor*/
-			for (int i = 0; i < xCoordinates.length - 1; i++) {
-				mPathDraw.yAaxisConditions(xCoordinates[i], yCoordinates[i],
-						xCoordinates[i + 1], yCoordinates[i + 1], canvas, paint);
-				
-			}
-			/** For drawing circle x and y axis coordinate.*/
-			for (int i = 0; i < xCoordinates.length; i++) {
-				if (yCoordinates[i] != -1) {
-					mPathDraw.drawIndoorCircle(xCoordinates[i], yCoordinates[i], canvas, paint);
-				}
-				
-				/**
-				 * Draw path after last point
-				 */
-				if (i == xCoordinates.length - 1 && xCoordinates.length == 24) {
-					if (yCoordinates[i] != -1F) {
-						mPathDraw.drawPathAfterLastPointIndoor(xCoordinates[i], 
-								yCoordinates[i], xCoordinates[i]
-										+ xAsixStep, yCoordinates[i], canvas, paint);
-					}
-				} 
-			}
-		} else {
-			/**Outdoor*/
-			for (int i = 0; i < xCoordinates.length - 1; i++) {
-				mPathDraw.yODaxisConditions(xCoordinates[i], yCoordinates[i],
-						xCoordinates[i + 1], yCoordinates[i + 1], canvas, paint);
-				
-			}
-			/** For drawing circle x and y axis coordinate.*/
-			for (int i = 0; i < xCoordinates.length; i++) {
-				mPathDraw.drawOutdoorCircle(xCoordinates[i], yCoordinates[i], canvas, paint);
-				if (i == xCoordinates.length - 1 && xCoordinates.length == 24) {
-					mPathDraw.drawPathAfterLastPointOutdoor(xCoordinates[i], 
-							yCoordinates[i], xCoordinates[i]
-									+ xAsixStep, yCoordinates[i], canvas, paint);
-				} 
-			}
+		for (int i = 0; i < xCoordinates.length - 1; i++) {
+			mPathDraw.yAaxisConditions(xCoordinates[i], yCoordinates[i],
+					xCoordinates[i + 1], yCoordinates[i + 1], canvas, paint, isOutdoor);
 		}
 		
+		/** For drawing point x and y axis coordinate.*/
+		for (int i = 0; i < xCoordinates.length; i++) {
+			if (yCoordinates[i] != -1) {
+				mPathDraw.drawPoint(xCoordinates[i], yCoordinates[i], canvas, paint, isOutdoor);
+			}
+			
+			/**
+			 * Draw path after last point
+			 */
+			if (i == xCoordinates.length - 1 && xCoordinates.length == 24) {
+				if (yCoordinates[i] != -1F) {
+					mPathDraw.drawPathAfterLastPoint(xCoordinates[i], 
+							yCoordinates[i], xCoordinates[i]
+									+ xAsixStep, yCoordinates[i], canvas, paint, isOutdoor);
+				}
+			} 
+		}
 	}
 	
 	/**

@@ -14,7 +14,7 @@ import android.util.Log;
 
 
 public class GraphPathDraw {
-	private float yCoordinates[];
+	private float yINCoordinates[];
 	private float yODCoordinates[]; 
 	private Context mContext;
 	//private UtilGraph uGraph;
@@ -28,18 +28,18 @@ public class GraphPathDraw {
 		/**
 		 * Indoor
 		 * */
-		yCoordinates = new float[11];
-		yCoordinates[0] = coordinates.getIdY0();
-		yCoordinates[1] = coordinates.getIdY1();
-		yCoordinates[2] = coordinates.getIdY2();
-		yCoordinates[3] = coordinates.getIdY3();
-		yCoordinates[4] = coordinates.getIdY4();
-		yCoordinates[5] = coordinates.getIdY5();
-		yCoordinates[6] = coordinates.getIdY6();
-		yCoordinates[7] = coordinates.getIdY7();
-		yCoordinates[8] = coordinates.getIdY8();
-		yCoordinates[9] = coordinates.getIdY9();
-		yCoordinates[10] = coordinates.getIdY10();
+		yINCoordinates = new float[11];
+		yINCoordinates[0] = coordinates.getIdY0();
+		yINCoordinates[1] = coordinates.getIdY1();
+		yINCoordinates[2] = coordinates.getIdY2();
+		yINCoordinates[3] = coordinates.getIdY3();
+		yINCoordinates[4] = coordinates.getIdY4();
+		yINCoordinates[5] = coordinates.getIdY5();
+		yINCoordinates[6] = coordinates.getIdY6();
+		yINCoordinates[7] = coordinates.getIdY7();
+		yINCoordinates[8] = coordinates.getIdY8();
+		yINCoordinates[9] = coordinates.getIdY9();
+		yINCoordinates[10] = coordinates.getIdY10();
 		
 		/**
 		 * Outdoor
@@ -121,57 +121,38 @@ public class GraphPathDraw {
 	}
 	
 	/** The method to draw circle for indoor.*/
-	public void drawIndoorCircle(float x, float y, Canvas canvas, Paint paint) {
+	public void drawPoint(float x, float y, Canvas canvas, Paint paint, boolean isOutdoor) {
 		Path circle = new Path(); 
 		circle.addCircle(x, y, coordinates.getIdRadius(), Direction.CW);
 		Paint cPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		cPaint.setStyle(Paint.Style.FILL);
-		
-		cPaint.setColor(getColor(y)); 
-		canvas.drawPath(circle, cPaint);
-	}
-	
-	/** The method to draw circle for outdoor.*/
-	public void drawOutdoorCircle(float x, float y, Canvas canvas, Paint paint) {
-		Path circle = new Path(); 
-		circle.addCircle(x, y, coordinates.getIdRadius(), Direction.CW);
-		Paint cPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		cPaint.setStyle(Paint.Style.FILL);
-		
-		cPaint.setColor(getColorOD(y));
+		if (isOutdoor) {
+			cPaint.setColor(getColorOD(y));
+		} else {
+			cPaint.setColor(getColor(y)); 
+		}
 		canvas.drawPath(circle, cPaint);
 	}
 	
 	/** The method to draw path after last point for outdoor.*/
-	public void drawPathAfterLastPointIndoor(
-			float x, float y, float x1, float y1, Canvas canvas, Paint paint) {
+	public void drawPathAfterLastPoint(
+			float x, float y, float x1, float y1, Canvas canvas, Paint paint, boolean isOutdoor) {
 		Path path = new Path();
         path.moveTo(x, y);
         path.lineTo(x1, y1);
         
-        paint.setColor(getColor(y)); 
+        if (isOutdoor) {
+        	paint.setColor(getColorOD(y));
+        } else {
+        	paint.setColor(getColor(y)); 
+        }
+        
 		paint.setStrokeWidth(coordinates.getStrokeWidth());
 		paint.setAntiAlias(true);
 		paint.setStyle(Paint.Style.STROKE);
         
 		canvas.drawPath(path, paint);
 	}
-	
-	/** The method to draw path after last point for outdoor.*/
-	public void drawPathAfterLastPointOutdoor(
-			float x, float y, float x1, float y1, Canvas canvas, Paint paint) {
-		Path path = new Path();
-        path.moveTo(x, y);
-        path.lineTo(x1, y1);
-        
-        paint.setColor(getColorOD(y));
-		paint.setStrokeWidth(coordinates.getStrokeWidth());
-		paint.setAntiAlias(true);
-		paint.setStyle(Paint.Style.STROKE);
-        
-		canvas.drawPath(path, paint);
-	}
-	
 	
 	/**The method to find the y axis pixel corresponding value for indoor.*/
 	public float getYaxis(float y) {
@@ -206,7 +187,14 @@ public class GraphPathDraw {
 	
 	/**The method to find the x and y axis, when draw graph up and down for indoor.*/
 	private void upDownPath(float x1, float y1, 
-			float x2, float y2, Canvas canvas, int upDown, Paint paint) {
+			float x2, float y2, Canvas canvas, int upDown, Paint paint, boolean isOutdoor) {
+		
+		float yCoordinates[] = null;
+		if (isOutdoor) {
+			yCoordinates = yODCoordinates;
+		} else {
+			yCoordinates = yINCoordinates;
+		}
 		
 		ArrayList<Float> inBetweenYcoordines = new ArrayList<Float>();
 		ArrayList<XYCoordinate> xyCoordinates = new ArrayList<XYCoordinate>();
@@ -252,82 +240,33 @@ public class GraphPathDraw {
 			
 		} else {
 			/**Simple one color path drawing.*/
-			drawPaths(x1, y1, x2, y2, canvas, upDown, paint);
+			if (isOutdoor) {
+				drawODPaths(x1, y1, x2, y2, canvas, upDown, paint);
+			} else {
+				drawINPaths(x1, y1, x2, y2, canvas, upDown, paint);
+			}
+			
 			return;
 		}
 		
 		/**Drawing all color paths*/
 		for (int j = 0; j < xyCoordinates.size() - 1; j++) {
-			drawPaths(xyCoordinates.get(j).getxCoordinate(), 
-					xyCoordinates.get(j).getyCoordinate(), xyCoordinates.get(j+1).getxCoordinate(), 
-					xyCoordinates.get(j+1).getyCoordinate(), canvas, upDown, paint);
-		}
-	}
-	
-	/**The method to find the x and y axis, when draw graph up and down for outdoor.*/
-	private void upODDownPath(float x1, float y1, 
-			float x2, float y2, Canvas canvas, int upDown, Paint paint) {
-		
-		ArrayList<Float> inBetweenYcoordines = new ArrayList<Float>();
-		ArrayList<XYCoordinate> xyCoordinates = new ArrayList<XYCoordinate>();
-		XYCoordinate xy;
-		/**Finding in between x-coordinates.*/
-		if (upDown == 1) {
-			/** Four graph drawing upward.*/
-			for (int i = 0; i < yODCoordinates.length; i++) {
-				if (yODCoordinates[i] > y2 && yODCoordinates[i] < y1) {
-					inBetweenYcoordines.add(yODCoordinates[i]);
-				}
-			}
-		} else {
-			/** Four graph drawing downward.*/
-			
-			for (int i = 0; i < yODCoordinates.length; i++) {
-				if (yODCoordinates[i] > y1 && yODCoordinates[i] < y2) {
-					inBetweenYcoordines.add(yODCoordinates[i]);
-				}
-			}
-			Collections.reverse(inBetweenYcoordines);
-			
-		}
-		
-		/**Condition x-coordinates belong to in between.*/
-		if (inBetweenYcoordines.size() > 0) {
-			xy = new XYCoordinate();
-			xy.setxCoordinate(x1);
-			xy.setyCoordinate(y1);
-			xyCoordinates.add(xy);
-			
-			for (int i = 0 ; i < inBetweenYcoordines.size() ; i++) {
-				float xx1 = getXaxisBetween(x1, y1, x2, y2, inBetweenYcoordines.get(i));
-				xy = new XYCoordinate();
-				xy.setxCoordinate(xx1);
-				xy.setyCoordinate(inBetweenYcoordines.get(i));
-				xyCoordinates.add(xy);
+			if (isOutdoor) {
+				drawODPaths(xyCoordinates.get(j).getxCoordinate(), 
+						xyCoordinates.get(j).getyCoordinate(), xyCoordinates.get(j+1).getxCoordinate(), 
+						xyCoordinates.get(j+1).getyCoordinate(), canvas, upDown, paint);
+			} else {
+				drawINPaths(xyCoordinates.get(j).getxCoordinate(), 
+						xyCoordinates.get(j).getyCoordinate(), xyCoordinates.get(j+1).getxCoordinate(), 
+						xyCoordinates.get(j+1).getyCoordinate(), canvas, upDown, paint);
 			}
 			
-			xy = new XYCoordinate();
-			xy.setxCoordinate(x2);
-			xy.setyCoordinate(y2);
-			xyCoordinates.add(xy);
-			
-		} else {
-			/**Simple one color path drawing.*/
-			drawODPaths(x1, y1, x2, y2, canvas, upDown, paint);
-			return;
-		}
-		
-		/**Drawing all color paths*/
-		for (int j = 0; j < xyCoordinates.size() - 1; j++) {
-			drawODPaths(xyCoordinates.get(j).getxCoordinate(), 
-					xyCoordinates.get(j).getyCoordinate(), xyCoordinates.get(j+1).getxCoordinate(), 
-					xyCoordinates.get(j+1).getyCoordinate(), canvas, upDown, paint);
 		}
 	}
 	
 	/** This method check condition graph path draw towards up or down for indoor.*/
 	public void yAaxisConditions(float x1, float y1, float x2, 
-			float y2, Canvas canvas, Paint paint) {
+			float y2, Canvas canvas, Paint paint, boolean isOutdoor) {
 		if (y1 == -1F) {
 			return;
 		}else if (y2 == -1F) {
@@ -335,28 +274,17 @@ public class GraphPathDraw {
 		}else {
 			if (y1 >= y2) {
 				/**The graph path draw towards up.*/
-				upDownPath(x1, y1, x2, y2, canvas, 1, paint);
+				upDownPath(x1, y1, x2, y2, canvas, 1, paint, isOutdoor);
 			}else {
 				/**The graph path draw towards down.*/
-				upDownPath(x1, y1, x2, y2, canvas, 0, paint);
+				upDownPath(x1, y1, x2, y2, canvas, 0, paint, isOutdoor);
 			}
 		}
-	}
-	
-	/** This method check condition graph path draw towards up or down for outdoor.*/
-	public void yODaxisConditions(float x1, float y1, float x2, 
-			float y2, Canvas canvas, Paint paint) {
-		if (y1 >= y2) {
-			/**The graph path draw towards up.*/
-			upODDownPath(x1, y1, x2, y2, canvas, 1, paint);
-		}else {
-			/**The graph path draw towards down.*/
-			upODDownPath(x1, y1, x2, y2, canvas, 0, paint);
-		} 
+		
 	}
 	
 	/** The method drawing path for indoor.*/
-	public void drawPaths(float x1, float y1, float x2, 
+	public void drawINPaths(float x1, float y1, float x2, 
 			float y2, Canvas canvas, int upDown, Paint paint) {
 		Path path = new Path();
         path.moveTo(x1, y1);
