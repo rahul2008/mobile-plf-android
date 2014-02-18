@@ -734,9 +734,9 @@ public class Utils {
 					currentAQIDate = date ;
 				}
 				
-				Log.i("Download", "hrlyAqiValuesBefore==  " + hrlyAqiValues);
-				Log.i("Download", "dailyAqiValuesBefore==  " + dailyAqiValues);
-				Log.i("Download", "powerOnStatusListBefore==  " + powerOnStatusList);
+				//Log.i("Download", "hrlyAqiValuesBefore==  " + hrlyAqiValues);
+				//Log.i("Download", "dailyAqiValuesBefore==  " + dailyAqiValues);
+				//Log.i("Download", "powerOnStatusListBefore==  " + powerOnStatusList);
 				
 				IndoorTrendDto indoorTrend = new IndoorTrendDto() ;
 				if( hrlyAqiValues != null &&  hrlyAqiValues.size() > 0 ) {
