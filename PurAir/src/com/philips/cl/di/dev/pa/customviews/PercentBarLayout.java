@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.customviews;
 import java.util.List;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,8 +14,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 
 public class PercentBarLayout extends LinearLayout {
@@ -48,9 +47,9 @@ public class PercentBarLayout extends LinearLayout {
 				if (i == 1) {
 					name.setText(context.getString(R.string.outdoor_db));
 					try {
-						if (GraphConst.outdoorAQIPercentageList != null) {
+						if (Utils.outdoorAQIPercentageList != null) {
 							indoorDashboardBarPerc.addView(
-									new AirView(context, GraphConst.outdoorAQIPercentageList.get(index), 60, 80));
+									new AirView(context, Utils.outdoorAQIPercentageList.get(index), 60, 80));
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -69,7 +68,7 @@ public class PercentBarLayout extends LinearLayout {
 				/**
 				 * Item click listener
 				 * */
-				final int tempi = i;
+				//final int tempi = i;
 				
 				if (i == position) {
 					indexBg.setImageResource(R.drawable.circle_5);

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class DetailsAIQ {
 	
@@ -242,7 +243,7 @@ public class DetailsAIQ {
 			
 			for (int j = 0; j < 7; j++) {
 				
-				String dayStr = new GraphConst().getDayOfWeek(mContext, dayInt);
+				String dayStr = Utils.getDayOfWeek(mContext, dayInt);
 				
 				xLabels[6 - j] = dayStr;
 				dayInt--;

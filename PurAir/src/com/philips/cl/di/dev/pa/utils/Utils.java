@@ -1,11 +1,27 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.animRotation;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR_SKIES;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.CLOUDY;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN_AT_TIMES;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_DRIZZLE;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.MIST;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.PARTLY_CLOUDY;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
+import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.text.DateFormat;
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,22 +34,31 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Paint.Style;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.screens.TrendsActivity;
-import com.philips.icpinterface.data.Errors;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -45,6 +70,7 @@ public class Utils {
 	private static final String TAG = "Utils";
 	private static String currentDateHr = "";
 	private static String ago24DateHr = "";
+	public static final List<Integer> outdoorAQIPercentageList = new ArrayList<Integer>();
 
 	/**
 	 * Populates the image names for the left menu.
@@ -273,10 +299,6 @@ public class Utils {
 		return context.getResources().getIdentifier(drawableName, "drawable",
 				context.getPackageName());
 	}
-
-
-
-
 
 	/**
 	 * Gets the outdoor aqi date time.
@@ -508,7 +530,7 @@ public class Utils {
 
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {	
-		Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
+		//Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
 		int noOfDays = 0 ;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd") ; 
@@ -803,13 +825,36 @@ public class Utils {
 		return qry;
 	}
 	
+	
+	/**
+	 * This method will set the AQI circle background depending on the AQI range
+	 * @param aqi
+	 * @return
+	 */
+	public static Drawable getOutdoorAQICircleBackground(Context ctx, int aqi) {
+		if(aqi >= 0 && aqi <= 50) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
+		} else if(aqi > 50 && aqi <= 100) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_pink_circle_2x);
+		} else if(aqi > 100 && aqi <= 150) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_bluedark_circle_2x);
+		} else if(aqi > 150 && aqi <= 200) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
+		} else if(aqi > 200 && aqi <= 300) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
+		} else if(aqi > 300 /*&& aqi <= 500*/) {
+			return ctx.getResources().getDrawable(R.drawable.aqi_red_circle_2x);
+		}
+		return null;
+	}
+	
 	/**
 	 * 
 	 * @param ctx
 	 * @param pSense
 	 * @return
 	 */
-	public static Drawable setAQICircleBackground(Context ctx, int pSense) {
+	public static Drawable getIndoorAQICircleBackground(Context ctx, int pSense) {
 		Log.i(TAG, "aqi=  " + pSense);
 		if(pSense >= 0 && pSense < 2) {
 			return ctx.getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
@@ -1022,5 +1067,291 @@ public class Utils {
 			return R.string.hazardous_msg_indoor;
 		}
 		return R.string.n_a;
+	}
+	
+	/**
+	 * 
+	 * @param goodAir
+	 * @param totalAir
+	 */
+	public static int getPercentage(int goodAir, int totalAir) {
+		int percent = 0;
+		if (totalAir > 0) {
+			percent = (goodAir * 100) / totalAir;
+		}
+		return percent;
+	}
+	
+	
+	
+	public static String getDayOfWeek (Context contex, int dayInt) {
+		switch (dayInt) {
+		case 1:
+			return contex.getString(R.string.l7d_xaxis_label1);
+		case 2:
+			return contex.getString(R.string.l7d_xaxis_label2);
+		case 3:
+			return contex.getString(R.string.l7d_xaxis_label3);
+		case 4:
+			return contex.getString(R.string.l7d_xaxis_label4);
+		case 5:
+			return contex.getString(R.string.l7d_xaxis_label5);
+		case 6:
+			return contex.getString(R.string.l7d_xaxis_label6);
+		case 7:
+			return contex.getString(R.string.l7d_xaxis_label7);
+		}
+		return null;
+	}
+	
+	
+	public static Drawable getOutdoorTemperatureImage(Context contex,String weatherDesc, String isDayTime) {
+		Drawable weatherImage = null;
+		if(weatherDesc == null || weatherDesc.equals("")) {
+			return null;
+		}
+		
+		if((weatherDesc.compareToIgnoreCase(SUNNY)) == 0) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
+		} else if ((weatherDesc.compareToIgnoreCase(MIST)) == 0) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.mist);
+		} else if ((weatherDesc.compareToIgnoreCase(CLOUDY)) == 0) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.cloudy);
+		}else if ((weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY)) == 0) {
+			
+			if(isDayTime.compareToIgnoreCase("Yes") == 0)
+				weatherImage = contex.getResources().getDrawable(R.drawable.partly_cloudy);
+			else
+				weatherImage = contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
+			//weatherImage = contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
+		} else if ((weatherDesc.compareToIgnoreCase(CLEAR_SKIES)) == 0) {
+			if(isDayTime.compareToIgnoreCase("Yes") == 0)
+				weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
+			else
+				weatherImage = contex.getResources().getDrawable(R.drawable.clear_sky_night);
+			//weatherImage = contex.getResources().getDrawable(R.drawable.clear_sky_night);
+		} else if ((weatherDesc.compareToIgnoreCase(SNOW)) == 0) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.snow);
+		} else if ((weatherDesc.compareToIgnoreCase(LIGHT_RAIN_SHOWER) == 0) || (weatherDesc.compareToIgnoreCase(LIGHT_DRIZZLE) == 0)) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.light_rain_shower);
+		} else if ((weatherDesc.compareToIgnoreCase(PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER)) == 0) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.light_rain_with_thunder);
+		} else if ((weatherDesc.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_SHOWER) == 0) || (weatherDesc.compareToIgnoreCase(TORRENTIAL_RAIN_SHOWER) == 0) || (weatherDesc.compareToIgnoreCase(HEAVY_RAIN) == 0)) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.heavy_rain);
+		} else if ((weatherDesc.compareToIgnoreCase(HEAVY_RAIN_AT_TIMES)) == 0) {
+			//TODO : Replace with proper icon. Icon not found, replacing with heavy raind
+			weatherImage = contex.getResources().getDrawable(R.drawable.heavy_rain);
+		} else if ((weatherDesc.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER)) == 0) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.moderate_rain_with_thunder);
+		} else if ((weatherDesc.compareToIgnoreCase(CLEAR)) == 0) {
+			if(isDayTime.compareToIgnoreCase("Yes") == 0)
+				weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
+			else
+				weatherImage = contex.getResources().getDrawable(R.drawable.clear_sky_night);
+		} else {
+			weatherImage = contex.getResources().getDrawable(R.drawable.light_rain_shower);
+		}	
+		
+		return weatherImage;
+	}
+	
+	public static void setOutdoorWeatherDirImg(
+			Context contex, float windSpeed, String windDir,float degree, ImageView iv) {
+		//System.out.println("SETTING Wind Direction: windSpeed= "+windSpeed+"  degree= "+degree);
+		Drawable weatherImage = null;
+		if((windDir == null || windDir.equals("")) || degree < 0) {
+			return ;
+		}
+		//System.out.println("SETTING Wind Direction: windSpeed= "+windSpeed+"  degree= "+degree);
+		if (windSpeed < 15) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_2x);
+		} else if (windSpeed >= 15 && windSpeed < 25) {
+			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_2x);
+		} else if (windSpeed >= 25){
+			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_2x);
+		}
+		
+		iv.setImageDrawable(weatherImage);
+		float fconst = 180;
+		ObjectAnimator.ofFloat(iv, animRotation, 0, fconst - degree).setDuration(2000).start();
+	}
+	
+	public static float getPxWithRespectToDip(Context context, float dip) {
+		return context.getResources().getDisplayMetrics().density * dip;
+	}
+	
+	public static void calculateOutdoorAQIValues() {
+		int goodAirCount = 0;
+		int totalAirCount = 0;
+		SessionDto sessionDto = null;
+		try {
+			sessionDto = SessionDto.getInstance();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if (sessionDto != null && sessionDto.getOutdoorEventDto() != null){
+			if (outdoorAQIPercentageList != null ) {
+				outdoorAQIPercentageList.clear();
+			}
+			int idx[] = sessionDto.getOutdoorEventDto().getIdx();
+			float[] lastDayAQIReadings = new float[24]; 
+			float[] last7dayAQIReadings = new float[7]; 
+			float[] last4weekAQIReadings = new float[28];
+			/**last day days*/
+			/**
+			 * Adding last 24 data into lastDayReadings array, from index 696 t0 719 
+			 */
+			int lastDayHr = 24;
+			if (idx != null) {
+				goodAirCount = 0;
+				totalAirCount = 0;
+				for (int i = 0; i < lastDayAQIReadings.length; i++) {
+					lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
+					if (idx[lastDayHr - 1 - i] < 100) {
+						goodAirCount ++;
+					}
+					totalAirCount ++;
+				}
+				outdoorAQIPercentageList.add(Utils.getPercentage(goodAirCount, totalAirCount));
+			}
+			
+			/**last 7 days*/
+			/**
+			 * Adding last 7 days data into last7dayReadings array, from index last to till 7 days
+			 */
+			Calendar calender = Calendar.getInstance();
+			int hr = calender.get(Calendar.HOUR_OF_DAY);
+			if (hr == 0) {
+				hr = 24;
+			}
+			int last7dayHrs = (6*24) + hr;
+			
+			if (idx != null) {
+				float sum = 0;
+				float avg = 0;
+				int j = 0;
+				goodAirCount = 0;
+				totalAirCount = 0;
+				for (int i = 0; i < last7dayHrs; i++) {
+					float x = idx[last7dayHrs - 1 - i];
+					sum = sum + x;
+					if (i == 23 || i == 47 || i == 71 
+							|| i == 95 || i == 119 || i == 143) {
+						avg = sum / (float)24;
+						last7dayAQIReadings[j] = avg;
+						if (avg < 100) {
+							goodAirCount ++;
+						}
+						totalAirCount ++;
+						
+						j++;
+						sum = 0;
+						avg = 0;
+					} else if (i == last7dayHrs - 1) {
+						avg = sum / (float)hr;
+						last7dayAQIReadings[j] = avg;
+						if (avg < 100) {
+							goodAirCount ++;
+						}
+						totalAirCount ++;
+						
+						sum = 0;
+						avg = 0;
+					}
+				}
+				outdoorAQIPercentageList.add(Utils.getPercentage(goodAirCount, totalAirCount));
+			}
+	
+			/**last 4 weeks*/
+			/**
+			 * TODO - Explain the logic in 3lines
+			 */
+			int last4WeekHrs = (3*7*24) + (6*24) + hr;
+	
+			if (idx != null) {
+				int count = 1;
+				float sum = 0;
+				float avg = 0;
+				int j = 0;
+				goodAirCount = 0;
+				totalAirCount = 0;
+				for (int i = 0; i < last4WeekHrs; i++) {
+	
+					float x = idx[last4WeekHrs - 1 - i];
+					sum = sum + x;
+					if (count == 24 && j < 21) {
+						avg = sum / (float)24;
+						last4weekAQIReadings[j] = avg;
+						if (avg < 100) {
+							goodAirCount ++;
+						}
+						totalAirCount ++;
+						j++;
+						sum = 0;
+						avg = 0;
+						count = 0;
+					} else if (j >= 21){
+						for (int m = 0; m <last7dayAQIReadings.length; m++) {
+							last4weekAQIReadings[j] = last7dayAQIReadings[m];
+							if (last7dayAQIReadings[m] < 100) {
+								goodAirCount ++;
+							}
+							totalAirCount ++;
+							j++;
+						}
+						break;
+					}
+					count ++;
+				}
+				outdoorAQIPercentageList.add(Utils.getPercentage(goodAirCount, totalAirCount));
+			}
+		}
+	}
+
+	public static String splitToHr(String timeStr) {
+		char[] strArr = timeStr.toCharArray();
+		String newTime = "";
+		for (int i = 0; i < strArr.length; i++) {
+			newTime = String.valueOf(strArr[strArr.length - 1 - i] + newTime);
+			if (i == 1) {
+				newTime = ":" + newTime;
+			}
+		}
+		return newTime;
+	}
+	
+	/**
+	 * This will use for writing number on text
+	 * */
+	public static Bitmap writeTextOnDrawable(Context ctx, int drawableId, String text) {
+
+		Bitmap bm = BitmapFactory.decodeResource(ctx.getResources(), drawableId)
+				.copy(Bitmap.Config.ARGB_8888, true);
+
+		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
+
+		Paint paint = new Paint();
+		paint.setStyle(Style.FILL);
+		paint.setColor(Color.BLACK);
+		paint.setTypeface(tf);
+		paint.setTextAlign(Align.CENTER);
+		
+		if (Coordinates.getInstance(ctx) != null) {
+			paint.setTextSize(Coordinates.getInstance(ctx).getIdTxtSize());
+		}
+
+		Rect textRect = new Rect();
+		paint.getTextBounds(text, 0, text.length(), textRect);
+
+		Canvas canvas = new Canvas(bm);
+
+		//Calculate the positions
+		int xPos = (canvas.getWidth() / 2) - 2;  
+
+		int yPos = (int) (canvas.getHeight()) - 5 ;  
+
+		canvas.drawText(text, xPos, yPos, paint);
+
+		return  bm;
 	}
 }

@@ -248,7 +248,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				}
 			}
 		}
-		percentage(goodAirCount, totalAirCount);
+		goodAirInfos.add(Utils.getPercentage(goodAirCount, totalAirCount));
 		lastDayRDCPValues.add(lastDayRDCPVal);
 		powerOnReadingsValues.add(powerOnReadings);
 
@@ -290,29 +290,17 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			}
 
 		}
-		percentage(tempGood, tempCount);
-		percentage(goodAirCount, totalAirCount);
+		goodAirInfos.add(Utils.getPercentage(tempGood, tempCount));
+		goodAirInfos.add(Utils.getPercentage(goodAirCount, totalAirCount));
 		last7daysRDCPValues.add(last7daysRDCPVal);
 		last4weeksRDCPValues.add(last4weeksRDCPVal);
-		GraphConst.calculateOutdoorAQIValues();
+		Utils.calculateOutdoorAQIValues();
 
 		handler.removeCallbacks(downloadDataRunnble);
 		handler.post(downloadDataRunnble);
 	}
 
-	/**
-	 * 
-	 * @param goodAir
-	 * @param totalAir
-	 */
-	private void percentage(int goodAir, int totalAir) {
-		int percent = 0;
-		if (totalAir > 0) {
-			percent = (goodAir * 100) / totalAir;
-		}
-		goodAirInfos.add(percent);
-	}
-
+	
 	/**
 	 * onClick
 	 * */
@@ -425,7 +413,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			if (datas[2] != null) {
 				try {
 					int pSence = Integer.parseInt(datas[2].trim());
-					circleImg.setImageDrawable(Utils.setAQICircleBackground(this, pSence));
+					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, pSence));
 
 					Utils.setIndoorAQIStatusAndComment(this, pSence, aqiStatus, aqiSummary);
 				} catch (NumberFormatException e) {

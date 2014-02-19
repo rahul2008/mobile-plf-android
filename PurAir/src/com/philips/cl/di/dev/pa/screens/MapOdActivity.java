@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class MapOdActivity extends FragmentActivity {
 	private GoogleMap mMap;
@@ -99,7 +100,7 @@ public class MapOdActivity extends FragmentActivity {
 	    paint.setColor(Color.BLACK);
 	    paint.setTypeface(tf);
 	    paint.setTextAlign(Align.CENTER);
-	    paint.setTextSize(new GraphConst().getPxWithRespectToDip(this, 12));
+	    paint.setTextSize(Utils.getPxWithRespectToDip(this, 12));
 
 	    Rect textRect = new Rect();
 	    paint.getTextBounds(text, 0, text.length(), textRect);

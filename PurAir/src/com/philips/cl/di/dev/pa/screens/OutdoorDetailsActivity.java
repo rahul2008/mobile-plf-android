@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,22 +26,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Paint.Style;
-import android.graphics.drawable.Drawable;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class OutdoorDetailsActivity extends ActionBarActivity implements OnClickListener {
 
@@ -245,7 +242,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			
 			try {
 				int aqiInt = Integer.parseInt(datas[7].trim());
-				circleImg.setImageDrawable(setAQICircleBackground(aqiInt));
+				circleImg.setImageDrawable(Utils.getOutdoorAQICircleBackground(this, aqiInt));
 				
 				setAdviceIconTex(aqiInt);
 			} catch (NumberFormatException e) {
@@ -253,29 +250,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			}
 		}
 	}
-
-	/**
-	 * This method will set the AQI circle background depending on the AQI range
-	 * @param aqi
-	 * @return
-	 */
-	private Drawable setAQICircleBackground(int aqi) {
-		if(aqi >= 0 && aqi <= 50) {
-			return getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
-		} else if(aqi > 50 && aqi <= 100) {
-			return getResources().getDrawable(R.drawable.aqi_pink_circle_2x);
-		} else if(aqi > 100 && aqi <= 150) {
-			return getResources().getDrawable(R.drawable.aqi_bluedark_circle_2x);
-		} else if(aqi > 150 && aqi <= 200) {
-			return getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
-		} else if(aqi > 200 && aqi <= 300) {
-			return getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
-		} else if(aqi > 300 /*&& aqi <= 500*/) {
-			return getResources().getDrawable(R.drawable.aqi_red_circle_2x);
-		}
-		return null;
-	}
-
 
 	/**Set advice icon and text*/ 
 	private void setAdviceIconTex(int aqiInt) {
@@ -517,37 +491,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 
 	}
 
-	/**
-	 * This will use for writing number on text
-	 * */
-	private Bitmap writeTextOnDrawable(int drawableId, String text) {
-
-		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
-				.copy(Bitmap.Config.ARGB_8888, true);
-
-		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
-
-		Paint paint = new Paint();
-		paint.setStyle(Style.FILL);
-		paint.setColor(Color.BLACK);
-		paint.setTypeface(tf);
-		paint.setTextAlign(Align.CENTER);
-		paint.setTextSize(coordinates.getIdTxtSize());
-
-		Rect textRect = new Rect();
-		paint.getTextBounds(text, 0, text.length(), textRect);
-
-		Canvas canvas = new Canvas(bm);
-
-		//Calculate the positions
-		int xPos = (canvas.getWidth() / 2) - 2;  
-
-		int yPos = (int) (canvas.getHeight()) - 5 ;  
-
-		canvas.drawText(text, xPos, yPos, paint);
-
-		return  bm;
-	}
 	
 	@Override
 	public void onBackPressed() {

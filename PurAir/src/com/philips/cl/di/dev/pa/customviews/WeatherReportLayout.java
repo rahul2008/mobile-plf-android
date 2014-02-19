@@ -14,6 +14,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
 	
@@ -50,7 +51,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			} else {
 				dayInt = 1;
 			}
-			String dayStr = new GraphConst().getDayOfWeek(context, dayInt);
+			String dayStr = Utils.getDayOfWeek(context, dayInt);
 			nextFiveDays[j] = dayStr;
 		}
 		
@@ -148,8 +149,8 @@ public class WeatherReportLayout extends  LinearLayout {
 				
 				dayTxt.setText(nextFiveDays[i]);
 				weatherImg.setImageDrawable(
-						new GraphConst().getOutdoorTemperatureImage(context,weatherDesc, "yes"));
-				new GraphConst().setOutdoorWeatherDirImg(context, windSpeed, windDirection, windDegree, windDirImg);
+						Utils.getOutdoorTemperatureImage(context, weatherDesc, "yes"));
+				Utils.setOutdoorWeatherDirImg(context, windSpeed, windDirection, windDegree, windDirImg);
 				maxTempTxt.setText(maxTempC+"\u2103");
 				minTempTxt.setText(minTempC+"\u2103");
 				windSpeedTxt.setText(String.format("%.1f", avg)+" km/h");
@@ -187,10 +188,10 @@ public class WeatherReportLayout extends  LinearLayout {
 				ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 				
 				//timeTxt.setText(hrsDays[i]);
-				timeTxt.setText(splitToHr(time));
+				timeTxt.setText(Utils.splitToHr(time));
 				tempTxt.setText(tempInCentigrade+"\u2103");
 				weatherImg.setImageDrawable(
-						new GraphConst().getOutdoorTemperatureImage(context,weatherDesc, isdaytime));
+						Utils.getOutdoorTemperatureImage(context,weatherDesc, isdaytime));
 				LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 				this.addView(v, parentParams);
@@ -199,15 +200,5 @@ public class WeatherReportLayout extends  LinearLayout {
 		
 	}
 	
-	private String splitToHr(String timeStr) {
-		char[] strArr = timeStr.toCharArray();
-		String newTime = "";
-		for (int i = 0; i < strArr.length; i++) {
-			newTime = String.valueOf(strArr[strArr.length - 1 - i] + newTime);
-			if (i == 1) {
-				newTime = ":" + newTime;
-			}
-		}
-		return newTime;
-	}
+	
 }
