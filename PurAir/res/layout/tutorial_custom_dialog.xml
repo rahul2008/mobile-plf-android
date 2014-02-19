@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
-            android:background="@drawable/registration_button_selector"
+            android:background="@drawable/blue_button_selector"
             android:text="@string/close"
             android:textColor="#FFF"
             android:textSize="16sp" />

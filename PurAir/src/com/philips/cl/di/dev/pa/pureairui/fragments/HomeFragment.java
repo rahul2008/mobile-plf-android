@@ -239,12 +239,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		tvOutdoorTemperature = (TextView) vMain.findViewById(R.id.tv_outdoor_weather_value);
 
 		//if a new user show tutorial prompt, visible for only three visits
-		if(((MainActivity)getActivity()).getVisits()<=3){
-			//tutorial tour prompt
+		if(((MainActivity)getActivity()).getVisits()<=3 && !((MainActivity)getActivity()).isTutorialPromptShown){
+			//tutorial tour prompt			
 			takeTourLayout= (LinearLayout) vMain.findViewById(R.id.take_tour_prompt_drawer);
 			Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
 			takeTourLayout.startAnimation(bottomUp);
 			takeTourLayout.setVisibility(View.VISIBLE);
+			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			TextView lblTakeTour=(TextView) vMain.findViewById(R.id.lbl_take_tour);
 			lblTakeTour.setOnClickListener(this);
 			lblTakeTour.setTypeface(Fonts.getGillsans(getActivity()));

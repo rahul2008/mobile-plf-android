@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-import com.philips.cl.di.dev.pa.utils.Fonts;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +10,16 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity;
+import com.philips.cl.di.dev.pa.screens.IndoorAirColorIndicationActivity;
+import com.philips.cl.di.dev.pa.screens.OutdoorAirColorIndicationActivity;
+
 public class AirQualityFragment extends Fragment implements OnClickListener {
+	public static final int INDOOR_POLLUTANT_SCREEN = 11;
+	public static final int VITASHIELD_SCREEN = 12;
+	public static final int GUARD_EVNVIRONMENT_SCREEN = 13;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -34,43 +40,40 @@ public class AirQualityFragment extends Fragment implements OnClickListener {
 		lblVistashield.setOnClickListener(this);
 		lblGuardEnv.setOnClickListener(this);
 		
-		lblOutdoorColorExplained.setTypeface(Fonts.getGillsans(getActivity()));
+		/*lblOutdoorColorExplained.setTypeface(Fonts.getGillsans(getActivity()));
 		lblIndoorColorExplained.setTypeface(Fonts.getGillsans(getActivity()));
 		lblIndoorPollutant.setTypeface(Fonts.getGillsans(getActivity()));
 		lblVistashield.setTypeface(Fonts.getGillsans(getActivity()));
-		lblGuardEnv.setTypeface(Fonts.getGillsans(getActivity()));
+		lblGuardEnv.setTypeface(Fonts.getGillsans(getActivity()));*/
 		
 	}
 
 	@Override
 	public void onClick(View view) {
 		Intent in;
-		Bundle bundle = new Bundle();
-		
-		MainActivity activity=(MainActivity) getActivity();
 		switch(view.getId()){
 		case R.id.lbl_outdoor_colors_explained:
-			activity.showFragment(new OutdoorAirColorIndicationFragment());
-			activity.setTitle(getString(R.string.outdoor_colors_explained));
+			in=new Intent(getActivity(), OutdoorAirColorIndicationActivity.class);
+			startActivity(in);
 			break;
 		case R.id.lbl_indoor_colors_explained:
-			activity.showFragment(new IndoorAirColorIndicationFragment());
-			activity.setTitle(getString(R.string.indoor_colors_explained));
+			in=new Intent(getActivity(), IndoorAirColorIndicationActivity.class);
+			startActivity(in);
 			break;
 		case R.id.lbl_indoor_pollutant:
-			activity.setAirExplainedActivity(11);
-			activity.showFragment(new AirColorExplainedStaticFragment());
-			activity.setTitle(getString(R.string.indoor_pollutants));
+			in=new Intent(getActivity(), AirColorExplainedStaticActivity.class);
+			in.putExtra("AIR_QUALITY_ACTIVITY", INDOOR_POLLUTANT_SCREEN);
+			startActivity(in);
 			break;
 		case R.id.lbl_vistashield:
-			activity.setAirExplainedActivity(12);
-			activity.showFragment(new AirColorExplainedStaticFragment());
-			activity.setTitle(getString(R.string.vistashield_ips_system));
+			in=new Intent(getActivity(), AirColorExplainedStaticActivity.class);
+			in.putExtra("AIR_QUALITY_ACTIVITY", VITASHIELD_SCREEN);
+			startActivity(in);
 			break;
 		case R.id.lbl_guard_environment:
-			activity.setAirExplainedActivity(13);
-			activity.showFragment(new AirColorExplainedStaticFragment());
-			activity.setTitle(getString(R.string.guards_environment));
+			in=new Intent(getActivity(), AirColorExplainedStaticActivity.class);
+			in.putExtra("AIR_QUALITY_ACTIVITY", GUARD_EVNVIRONMENT_SCREEN);
+			startActivity(in);
 			break;
 		}
 	}

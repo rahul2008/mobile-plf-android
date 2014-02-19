@@ -10,12 +10,14 @@
         android:paddingLeft="15dp"
         android:paddingTop="15dp" >
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/intro_lbl"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/air_quality_explained_intro"
-            android:textColor="#808080" />
+            android:textColor="#808080"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <ImageView
             android:id="@+id/purifier_img"
@@ -26,7 +28,8 @@
             android:layout_marginLeft="5dp"
             android:src="@drawable/large_purifier" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/purifier_feature_lbl_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -34,9 +37,11 @@
             android:layout_marginTop="60dp"
             android:layout_toLeftOf="@+id/purifier_img"
             android:text="@string/purifier_feature_lbl_1"
-            android:textColor="@color/philips_blue" />
+            android:textColor="@color/philips_blue"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/purifier_feature_lbl_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,9 +50,11 @@
             android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/purifier_img"
             android:text="@string/purifier_feature_lbl_2"
-            android:textColor="@color/philips_blue" />
+            android:textColor="@color/philips_blue"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/purifier_feature_lbl_3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +63,8 @@
             android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/purifier_img"
             android:text="@string/purifier_feature_lbl_3"
-            android:textColor="@color/philips_blue" />
+            android:textColor="@color/philips_blue"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <View
             android:id="@+id/separator"
@@ -75,7 +83,8 @@
             android:layout_marginRight="15dp"
             android:orientation="vertical" >
 
-            <TextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_indoor_pollutant"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -87,7 +96,8 @@
                 android:paddingLeft="5dp"
                 android:text="@string/indoor_pollutants"
                 android:textColor="#808080"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -95,88 +105,94 @@
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
-            
-            <TextView
+
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_vistashield"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/vistashield"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/gray_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
                 android:text="@string/vistashield_ips_system"
                 android:textColor="#808080"
-                android:textSize="13sp" 
-                android:paddingLeft="5dp"
-                android:drawableLeft="@drawable/vistashield"
-                android:drawableRight="@drawable/gray_arrow"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"/>
-            
+                android:textSize="13sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
-                android:background="@color/darkgray" />           
-            
-            
-            <TextView
+                android:background="@color/darkgray" />
+
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_outdoor_colors_explained"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/outdoor_air_quality"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/gray_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
                 android:text="@string/outdoor_colors_explained"
                 android:textColor="#808080"
-                android:textSize="13sp" 
-                android:paddingLeft="5dp"
-                android:drawableLeft="@drawable/outdoor_air_quality"
-                android:drawableRight="@drawable/gray_arrow"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"/>
-            
+                android:textSize="13sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
-            
-            <TextView
+
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_indoor_colors_explained"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/indoor_air_quality"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/gray_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
                 android:text="@string/indoor_colors_explained"
                 android:textColor="#808080"
-                android:textSize="13sp" 
-                android:paddingLeft="5dp"
-                android:drawableLeft="@drawable/indoor_air_quality"
-                android:drawableRight="@drawable/gray_arrow"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"/>
-            
+                android:textSize="13sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
-            
-            <TextView
+
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_guard_environment"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/guard_environment"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/gray_arrow"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp"
                 android:text="@string/guards_environment"
                 android:textColor="#808080"
-                android:textSize="13sp" 
-                android:paddingLeft="5dp"
-                android:drawableLeft="@drawable/guard_environment"
-                android:drawableRight="@drawable/gray_arrow"
-                android:drawablePadding="5dp"
-                android:gravity="center_vertical"/>
-            
+                android:textSize="13sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="15dp"
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
-            
         </LinearLayout>
     </RelativeLayout>
 

@@ -10,19 +10,23 @@
         android:orientation="vertical"
         android:padding="15dp" >
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:text="@string/guards_environment_subheading"
             android:textColor="@color/philips_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/guards_environment_intro"
-            android:textColor="#7F8595" />
+            android:textColor="#7F8595"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -37,7 +41,8 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/vistashield_filter" />
 
-            <TextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/vistashield_filter_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -46,7 +51,8 @@
                 android:layout_marginTop="3dp"
                 android:layout_toRightOf="@+id/vistashield_filter_imgView"
                 android:text="@string/guards_environment_filter"
-                android:textColor="#7F8595" />
+                android:textColor="#7F8595"
+                custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -70,7 +76,8 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/monitoring_sensor" />
 
-            <TextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/monitoring_sensor_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,7 +86,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_toRightOf="@+id/monitoring_sensor_imgView"
                 android:text="@string/guards_environment_monitoring_sensor"
-                android:textColor="#7F8595" />
+                android:textColor="#7F8595"
+                custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -89,7 +97,7 @@
                 android:layout_marginTop="11dp"
                 android:background="@color/darkgray" />
         </RelativeLayout>
-        
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,7 +111,8 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/ozone_emission" />
 
-            <TextView
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ozone_emission_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,28 +121,33 @@
                 android:layout_marginTop="7dp"
                 android:layout_toRightOf="@+id/ozone_emission_imgView"
                 android:text="@string/guards_environment_ozone_emmission"
-                android:textColor="#7F8595" />
+                android:textColor="#7F8595"
+                custom:fontAssetName="fonts/gillsans.ttf" />
         </RelativeLayout>
-        
-        <TextView
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
             android:text="@string/new_home_syndrome_heading"
             android:textColor="@color/philips_blue"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/new_home_syndrome_intro_part1"
-            android:textColor="#7F8595" />
+            android:textColor="#7F8595"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:gravity="center_horizontal">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal" >
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -146,44 +160,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/tvoc_40" />
-
         </LinearLayout>
-        
-        <TextView
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/new_home_syndrome_intro_part2"
-            android:textColor="#7F8595" />
+            android:textColor="#7F8595"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <ImageView
             android:id="@+id/imageView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/active_carbon"
-            android:layout_gravity="center_horizontal" />
-        
-        <TextView
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/active_carbon" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/vistashield_features"
-            android:textColor="#7F8595" />
+            android:textColor="#7F8595"
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
+            android:text="@string/airborne_disease_heading"
             android:textColor="@color/philips_blue"
             android:textSize="19sp"
-            android:text="@string/airborne_disease_heading"
-            />
-        <TextView
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:text="@string/airborne_disease_desc"
-            android:textColor="#7F8595" />
+            android:textColor="#7F8595"
+            custom:fontAssetName="fonts/gillsans.ttf" />
     </LinearLayout>
 
 </ScrollView>

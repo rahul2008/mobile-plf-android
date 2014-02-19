@@ -76,14 +76,11 @@ import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
-import com.philips.cl.di.dev.pa.pureairui.fragments.AirColorExplainedStaticFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.IndoorAirColorIndicationFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.NotificationsFragment;
-import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorAirColorIndicationFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
@@ -91,6 +88,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
+
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.KeyDecryptListener;
 
@@ -155,6 +153,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	private boolean isLocalPollingStarted ;
 	private boolean isCPPPollingStarted ;
+	public boolean isTutorialPromptShown=false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -393,18 +392,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			drawerOpen = false;
-		} else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)
-				&&  !(fragment instanceof AirColorExplainedStaticFragment)  && !(fragment instanceof OutdoorAirColorIndicationFragment) &&  !(fragment instanceof IndoorAirColorIndicationFragment)) {
+		} else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
 			setTitle(getString(R.string.dashboard_title));
 		} else if(fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();			
-		}else if((fragment instanceof AirColorExplainedStaticFragment)  || (fragment instanceof OutdoorAirColorIndicationFragment) ||  (fragment instanceof IndoorAirColorIndicationFragment)){
+		}/*else if((fragment instanceof AirColorExplainedStaticFragment)){
 			manager.popBackStack();	
 			initActionBar();
 			setTitle(getString(R.string.list_item_air_quality_explained));			
-		}
+		}*/
 		else {
 			stopAllServices() ;
 			finish();
@@ -1000,15 +998,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 			break;
 		}
-	}
-	
-	public void setAirExplainedActivity(int activitySelected){
-		mActivitySelected=activitySelected;
-	}
-
-	public int getAirExplainedActivity() {
-		return mActivitySelected;		
-	}
+	}	
 	
 	public void toggleConnection( boolean isLocal ) {
 		Log.i("TOGGLE", "Toggle Connection:" +isLocal ) ;
@@ -1127,10 +1117,4 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 	};
 	
-	
-	public void disableNavigationIndicator() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(android.R.color.transparent);
-		mActionBar.setHomeButtonEnabled(false);			
-	}
 }

@@ -1,19 +1,14 @@
 package com.philips.cl.di.dev.pa.screens.adapters;
 
-import java.util.HashMap;
-import java.util.List;
-
-import com.philips.cl.di.dev.pa.R;
- 
-import com.philips.cl.di.dev.pa.utils.Fonts;
-
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.utils.FontLoader;
  
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
  
@@ -49,7 +44,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
        
     	TextView childText= new TextView(context);
     	childText.setPadding(0, 20, 0, 20);
-    	childText.setTypeface(Fonts.getGillsans(context));
+    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsans.ttf");
     	childText.setTextColor(context.getResources().getColor(R.color.gray));
     	childText.setText(colorListChildData[groupPosition][childPosition]);
         return childText;
@@ -79,7 +74,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded,
             View convertView, ViewGroup parent) {
-        String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
             LayoutInflater infalInflater = (LayoutInflater) this.context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -87,7 +81,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         }
  
         TextView lblListHeader = (TextView) convertView.findViewById(R.id.color_indication_text);
-        lblListHeader.setTypeface(Fonts.getGillsans(context));
         lblListHeader.setText(colorListHeader[groupPosition]);
         
         TextView lblColor = (TextView) convertView.findViewById(R.id.color_lbl); 

@@ -2,28 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" 
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">   
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
 
-    <TextView
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/color_lbl"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"        
-        android:textSize="12sp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_1"
         android:gravity="center"
         android:textColor="#FFF"
-        android:background="@drawable/circle_1" />
-    
-     <TextView
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/color_indication_text"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="25dp"
+        android:gravity="center"
         android:textColor="#7F8595"
-        />
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
 </LinearLayout>

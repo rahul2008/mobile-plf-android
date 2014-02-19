@@ -103,7 +103,18 @@
             android:name="com.philips.cl.di.dev.pa.screens.CreateNotificationActivity"
             android:screenOrientation="portrait" >
         </activity>
-
+        <activity
+            android:name="com.philips.cl.di.dev.pa.screens.OutdoorAirColorIndicationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.screens.IndoorAirColorIndicationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

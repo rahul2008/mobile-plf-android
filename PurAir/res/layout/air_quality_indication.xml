@@ -5,11 +5,14 @@
     android:orientation="vertical"
     android:padding="15dp" >
 
-    <TextView android:id="@+id/color_explained_intro"
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/color_explained_intro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/outdoor_color_explained_intro"
-        android:textColor="#7F8595" />
+        android:textColor="#7F8595" 
+        custom:fontAssetName="fonts/gillsans.ttf"/>
 
     <View
         android:layout_width="fill_parent"
