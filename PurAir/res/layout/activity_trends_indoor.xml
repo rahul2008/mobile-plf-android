@@ -49,7 +49,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="@string/msg_top_1"
+                android:text="@string/good_air_message_last_day"
                 android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="@string/msg_bot_1"
+                android:text="@string/detail_aiq_message_last_day"
                 android:textColor="@color/dodgerblue"
                 android:textSize="18sp"
                 custom:fontAssetName="fonts/gillsans.ttf" >
@@ -175,7 +175,7 @@
                 android:textColor="@color/white"
                 android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
                 android:onClick="aqiAnalysisClick"
-                android:text="@string/outdoor_analysis_head1" />
+                android:text="@string/outdoor_aiq_analysis_head1" />
         </LinearLayout>
     </ScrollView>
 

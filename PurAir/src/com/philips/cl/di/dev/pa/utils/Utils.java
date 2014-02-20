@@ -1087,19 +1087,19 @@ public class Utils {
 	public static String getDayOfWeek (Context contex, int dayInt) {
 		switch (dayInt) {
 		case 1:
-			return contex.getString(R.string.l7d_xaxis_label1);
+			return contex.getString(R.string.sun);
 		case 2:
-			return contex.getString(R.string.l7d_xaxis_label2);
+			return contex.getString(R.string.mon);
 		case 3:
-			return contex.getString(R.string.l7d_xaxis_label3);
+			return contex.getString(R.string.tue);
 		case 4:
-			return contex.getString(R.string.l7d_xaxis_label4);
+			return contex.getString(R.string.wed);
 		case 5:
-			return contex.getString(R.string.l7d_xaxis_label5);
+			return contex.getString(R.string.thu);
 		case 6:
-			return contex.getString(R.string.l7d_xaxis_label6);
+			return contex.getString(R.string.fri);
 		case 7:
-			return contex.getString(R.string.l7d_xaxis_label7);
+			return contex.getString(R.string.sat);
 		}
 		return null;
 	}

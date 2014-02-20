@@ -30,7 +30,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_toLeftOf="@+id/aqiAnalysisClose"
-            android:text="@string/outdoor_analysis_head1"
+            android:text="@string/outdoor_aiq_analysis_head1"
             android:textColor="@color/dodgerblue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -58,7 +58,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisMsg10"
             android:layout_marginTop="6dp"
-            android:text="@string/outdoor_analysis_detail2_head1"
+            android:text="@string/outdoor_analysis_detail2_head100"
             android:textColor="@color/gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -72,7 +72,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisMsg11"
             android:layout_marginTop="12dp"
-            android:text="@string/outdoor_analysis_head2"
+            android:text="@string/outdoor_aiq_analysis_head2"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -100,7 +100,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisMsg20"
             android:layout_marginTop="12dp"
-            android:text="@string/outdoor_analysis_head3"
+            android:text="@string/outdoor_aiq_analysis_head3"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -128,7 +128,7 @@
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisMsg30"
             android:layout_marginTop="12dp"
-            android:text="@string/outdoor_analysis_head4"
+            android:text="@string/outdoor_aiq_analysis_head4"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_analysis_Title1"
+                    android:text="@string/indoor_aiq_analysis_title1"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_T1"
+                    android:text="@string/outdoor_analysis_detail_h4_t1"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -215,7 +215,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_analysis_Title2"
+                    android:text="@string/indoor_aiq_analysis_title2"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -228,7 +228,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_T2"
+                    android:text="@string/outdoor_analysis_detail_h4_t2"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -268,7 +268,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_analysis_Title3"
+                    android:text="@string/indoor_aiq_analysis_title3"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -321,7 +321,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_analysis_Title4"
+                    android:text="@string/indoor_aiq_analysis_title4"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -334,7 +334,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_T4"
+                    android:text="@string/outdoor_analysis_detail_h4_t4"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >

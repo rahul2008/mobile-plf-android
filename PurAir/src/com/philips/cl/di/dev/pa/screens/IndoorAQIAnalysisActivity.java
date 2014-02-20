@@ -20,7 +20,7 @@ public class IndoorAQIAnalysisActivity  extends Activity {
 		indoorTitle = getIntent().getStringExtra("indoortitle");
 		
 		((CustomTextView) findViewById(R.id.aqiAnalysisMsg11)).setText
-			(getString(R.string.outdoor_analysis_detail2_head1)+" '"+indoorTitle+"'  " +
+			(getString(R.string.outdoor_analysis_detail2_head100)+" '"+indoorTitle+"'  " +
 			getString(R.string.outdoor_analysis_detail2_head102)+" '"+outdoorTitle+"' " +
 					getString(R.string.outdoor_analysis_detail2_head102));
 	}

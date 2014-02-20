@@ -265,10 +265,10 @@ public class DetailsAIQ {
 			 * */
 			xLabels = new String[4];
 			
-			xLabels[0] = mContext.getString(R.string.l4w_xaxis_label1);
-			xLabels[1] = mContext.getString(R.string.l4w_xaxis_label2);
-			xLabels[2] = mContext.getString(R.string.l4w_xaxis_label3);
-			xLabels[3] = mContext.getString(R.string.l4w_xaxis_label4);
+			xLabels[0] = mContext.getString(R.string.week1);
+			xLabels[1] = mContext.getString(R.string.week2);
+			xLabels[2] = mContext.getString(R.string.week3);
+			xLabels[3] = mContext.getString(R.string.week4);
 			/** Calculate x axis steps.*/
 			if (isOutdoor) {
 				xAsixStep = (float)(width - coordinates.getOdX0()) / 28;

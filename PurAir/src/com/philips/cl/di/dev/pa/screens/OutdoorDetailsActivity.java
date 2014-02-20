@@ -397,7 +397,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 				lastWeekBtn.setTextColor(Color.LTGRAY);
 				lastFourWeekBtn.setTextColor(Color.LTGRAY);
-				msgSecond.setText(getString(R.string.msg_bot_1));
+				msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
 				break;
 			}
 			case R.id.detailsOutdoorLastWeekLabel: {
@@ -408,7 +408,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				lastDayBtn.setTextColor(Color.LTGRAY);
 				lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 				lastFourWeekBtn.setTextColor(Color.LTGRAY);
-				msgSecond.setText(getString(R.string.msg_bot_2));
+				msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
 				break;
 			}
 			case R.id.detailsOutdoorLastFourWeekLabel: {
@@ -419,7 +419,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				lastDayBtn.setTextColor(Color.LTGRAY);
 				lastWeekBtn.setTextColor(Color.LTGRAY);
 				lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
-				msgSecond.setText(getString(R.string.msg_bot_3));
+				msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 				break;
 			}
 			case R.id.oDmapInlarge: {

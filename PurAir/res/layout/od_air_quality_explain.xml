@@ -29,7 +29,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginTop="8dp"
             android:layout_toLeftOf="@+id/aqiAnalysisClose"
-            android:text="@string/outdoor_analysis_head5"
+            android:text="@string/outdoor_aiq_analysis_head5"
             android:textColor="@color/cornflowerblue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsans.ttf" >
@@ -61,7 +61,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/outdoor_analysis_Title1"
+                    android:text="@string/outdoor_aiq_analysis_title1"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_T1"
+                    android:text="@string/outdoor_analysis_detail_h5_t1"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -114,7 +114,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/outdoor_analysis_Title2"
+                    android:text="@string/outdoor_aiq_analysis_title2"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -127,7 +127,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_T2"
+                    android:text="@string/outdoor_analysis_detail_h5_t2"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -167,7 +167,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/outdoor_analysis_Title3"
+                    android:text="@string/outdoor_aiq_analysis_title3"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -180,7 +180,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_T3"
+                    android:text="@string/outdoor_analysis_detail_h5_t3"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -220,7 +220,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/outdoor_analysis_Title4"
+                    android:text="@string/outdoor_aiq_analysis_title4"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -233,7 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_T4"
+                    android:text="@string/outdoor_analysis_detail_h5_t4"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -273,7 +273,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/outdoor_analysis_Title5"
+                    android:text="@string/outdoor_aiq_analysis_title5"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -286,7 +286,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_T5"
+                    android:text="@string/outdoor_analysis_detail_h5_t5"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >
@@ -326,7 +326,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/outdoor_analysis_Title6"
+                    android:text="@string/outdoor_aiq_analysis_title6"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" > 
@@ -339,7 +339,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_T6"
+                    android:text="@string/outdoor_analysis_detail_h5_t6"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" >

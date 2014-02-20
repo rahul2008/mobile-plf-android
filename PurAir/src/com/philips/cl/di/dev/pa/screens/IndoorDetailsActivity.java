@@ -314,8 +314,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 			lastWeekBtn.setTextColor(Color.LTGRAY);
 			lastFourWeekBtn.setTextColor(Color.LTGRAY);
-			msgFirst.setText(getString(R.string.msg_top_1));
-			msgSecond.setText(getString(R.string.msg_bot_1));
+			msgFirst.setText(getString(R.string.good_air_message_last_day));
+			msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
 			break;
 		}
 		case R.id.detailsOutdoorLastWeekLabel: {
@@ -324,8 +324,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			lastDayBtn.setTextColor(Color.LTGRAY);
 			lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 			lastFourWeekBtn.setTextColor(Color.LTGRAY);
-			msgFirst.setText(getString(R.string.msg_top_2));
-			msgSecond.setText(getString(R.string.msg_bot_2));
+			msgFirst.setText(getString(R.string.goor_air_message_last7day));
+			msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
 			break;
 		}
 		case R.id.detailsOutdoorLastFourWeekLabel: {
@@ -334,8 +334,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			lastDayBtn.setTextColor(Color.LTGRAY);
 			lastWeekBtn.setTextColor(Color.LTGRAY);
 			lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
-			msgFirst.setText(getString(R.string.msg_top_3));
-			msgSecond.setText(getString(R.string.msg_bot_3));
+			msgFirst.setText(getString(R.string.good_air_message_last4week));
+			msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 			break;
 		}
 		}
