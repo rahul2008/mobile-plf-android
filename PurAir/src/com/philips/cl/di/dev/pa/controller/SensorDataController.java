@@ -59,7 +59,7 @@ public class SensorDataController implements ServerResponseListener {
 	private final Runnable getDeviceDataFromCPP = new Runnable() {
 		@Override
 		public void run() {
-				CPPController.getInstance(context).publishEvent(AppConstants.GETPROPS_ACTION, AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, AppConstants.AIRPURIFIER_ID, "", 20, 120) ;
+				CPPController.getInstance(context).publishEvent(AppConstants.GETPROPS_ACTION, AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, Utils.getAirPurifierID(context), "", 20, 120) ;
 				cppHandler.postDelayed(this, AppConstants.UPDATE_INTERVAL_CPP);
 		}
 	};

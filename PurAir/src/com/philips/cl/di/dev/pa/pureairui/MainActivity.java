@@ -143,7 +143,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	int mActivitySelected;
 
 	private boolean isNetworkAvailable = false;
-	private BroadcastReceiver wifiReceiver;
+	private BroadcastReceiver networkReceiver;
 	private CPPController cppController ;
 
 	private int isGooglePlayServiceAvailable;
@@ -246,23 +246,19 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		sensorDataController = SensorDataController.getInstance(this);
 		sensorDataController.addListener(this) ;
 
-		createwifiReceiver();
+		createNetworkReceiver();
 
 
 		IntentFilter filter = new IntentFilter() ;
-		filter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
-		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-		filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
-		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION) ;
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 
-
-		this.registerReceiver(wifiReceiver, filter);
+		this.registerReceiver(networkReceiver, filter);
 
 		cppController = CPPController.getInstance(this) ;
 		cppController.addDeviceDetailsListener(this) ;
 
 
-		this.registerReceiver(wifiReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
+		this.registerReceiver(networkReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
 
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
@@ -276,46 +272,27 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
 	}
 
-	private void createwifiReceiver() {
-		wifiReceiver = new BroadcastReceiver() {
+	private void createNetworkReceiver() {
+		networkReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Log.i(TAG, "wifiReceiver$onReceive " + Thread.currentThread().getName());
-				Log.i(TAG, intent.getAction()) ;
-				int wifiState = intent.getIntExtra(WifiManager.EXTRA_WIFI_STATE, WifiManager.WIFI_STATE_UNKNOWN);
+				Log.i(TAG, "networkReceiver$onReceive " + Thread.currentThread().getName());
+				Log.i(TAG, "action " + intent.getAction() + " extras " + intent.getExtras()) ;
 
-				if ( intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
+				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo wifiInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+				NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+				
+				if((wifiInfo != null && wifiInfo.isConnected()) || (mobileInfo != null && mobileInfo.isConnected())) {
+					Log.i(TAG, "Connected to internet");
+					isNetworkAvailable = true;
 					if( cppController.isSignOn()) {
 						cppController.startDCSService() ;
 					}
-					Log.i(TAG, "Network state change") ;
-				}
-				else {
-					switch (wifiState) {
-					case WifiManager.WIFI_STATE_DISABLED:
-					case WifiManager.WIFI_STATE_DISABLING:
-						isNetworkAvailable = false;
-						Log.i(TAG, "wifiReceiver$wifi unavailable " + isNetworkAvailable);
-						cppController.stopDCSService() ;
-						break;
-					case WifiManager.WIFI_STATE_ENABLED:
-						Log.i(TAG, "Wifi is enabled") ;
-						ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-						if((conMan.getActiveNetworkInfo() == null || conMan.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED)) {
-							isNetworkAvailable = true;
-							if( cppController.isSignOn()) {
-								cppController.startDCSService() ;
-							}
-//							if( com.philips.cl.di.dev.pa.utils.Utils.getPrivateKey(context) != null) 
-//								cppController.startDCSService() ;
-							//TODO : Start/Update outdoor AQI and weather details.
-						} else {
-							isNetworkAvailable = false;							
-						}
-						break;
-					default:
-						break;
-					}
+				} else {
+					Log.i(TAG, "Lost internet connection");
+					isNetworkAvailable = false;
+					cppController.stopDCSService() ;
 				}
 			}
 		};
@@ -423,9 +400,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			discoveryTimer.cancel() ;
 		}
 		
-		if ( wifiReceiver != null ) {
-			this.unregisterReceiver(wifiReceiver) ;
-			wifiReceiver = null ;
+		if ( networkReceiver != null ) {
+			this.unregisterReceiver(networkReceiver) ;
+			networkReceiver = null ;
 		}
 		if ( ssdpService != null ) {
 			ssdpService.stopDeviceDiscovery() ;
@@ -1002,6 +979,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	public void toggleConnection( boolean isLocal ) {
 		Log.i("TOGGLE", "Toggle Connection:" +isLocal ) ;
+		
 		if ( isLocal ) {
 			timer.cancel() ;
 			sensorDataController.startPolling() ;
@@ -1012,11 +990,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			cppController.stopDCSService() ;
 		}
 		else {
+			Log.i(TAG, "toggleConnection :: " + (Utils.getAirPurifierID(this)) + " isCPPPollingStarted " + isCPPPollingStarted);
 			sensorDataController.stopPolling() ;
 			isLocalPollingStarted = false ;
 			if (cppController.isSignOn() ||
-					(com.philips.cl.di.dev.pa.utils.Utils.getAirPurifierID(this) != null &&
-					com.philips.cl.di.dev.pa.utils.Utils.getAirPurifierID(this).length() > 0 )) {
+					(Utils.getAirPurifierID(this) != null &&
+					Utils.getAirPurifierID(this).length() > 0 )) {
 				cppController.startDCSService() ;
 				if( ! isCPPPollingStarted ) {
 					sensorDataController.startCPPPolling() ;

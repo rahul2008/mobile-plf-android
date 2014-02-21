@@ -108,6 +108,7 @@ public class CppDatabaseAdapter {
 				
 			}
 		}
+		Log.i(TAG, "getCppInfo " + cppInfo);
 		return cppInfo;
 	}
 

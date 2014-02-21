@@ -87,12 +87,14 @@ public class ToolsFragment extends Fragment implements OnClickListener, SignonLi
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.submitButton:
+			Log.i(TAG, "Submit button");
 			Utils.setIPAddress(tvIpaddress.getText().toString(), getActivity()) ;
 			InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getActivity().getWindow().getCurrentFocus().getWindowToken(), 0);
 
 			break;
 		case R.id.get_cpp_btn:
+			Log.i(TAG, "Sign on button");
 			if(signOnButton.getText().toString().equals("Reset")) {
 				((MainActivity)getActivity()).stopCPPPolling() ;
 				Utils.clearCPPDetails(getActivity()) ;

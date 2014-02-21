@@ -115,6 +115,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Method to inialize
 	 */
 	public void init() {
+		Log.i(TAG, "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled() + " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
 		if(SignOn.isKPSEnabled() == true)
 		{
 			configParams = new DemoAppConfigurationParametersForKeyProvisioning();
@@ -155,7 +156,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	/**
 	 * This method will be used for signon.
 	 */
-	private void signon() {	        	
+	private void signon() {	      
+		Log.i(TAG, "signon");
 		signon = SignOn.getInstance();
 		signon.setIsFirstTime(true) ;
 		signon.executeCommand() ;        
@@ -174,6 +176,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * On Callback the status of the signon is known.
 	 */
 	private void onSignon() {
+		Log.i(TAG, "onSignOn");
 		ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this) ;
 		DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(context);
@@ -215,7 +218,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will subscribe to events
 	 */
 	public void startDCSService() {
-		Log.i(TAG, "Start DCS: "+isDCSRunning) ;
+		Log.i(TAG, "Start DCS: "+isDCSRunning + " isSIgnOn" + isSignOn) ;
 		if ( !isDCSRunning ) {
 			if ( isSignOn ) {
 				Log.i(TAG, "Signon Success") ;
@@ -255,7 +258,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param icpClientObj
 	 */
 	private void notifyListeners(String dataReceived) {
-		Log.i(TAG, dataReceived) ;
+		Log.i(TAG, "notifyListeners()= "+dataReceived) ;
 		if ( dataReceived.contains(AppConstants.PRODUCT)) {
 			AirPurifierEventDto airPurifierDetails = new DataParser(dataReceived).parseAirPurifierEventDataFromCPP();
 			int numberOfListerners = listeners.size() ;
@@ -277,12 +280,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param ttl
 	 */
 	public void publishEvent(String eventData,String eventType, String actionName, String replyTo, String conversationId, int priority, int ttl) {
+		Log.i(TAG, "publishEvent eventData " + eventData + " eventType " + eventType + " isSignOn " + isSignOn);
 		if( isSignOn ) {
 			String airPurifierID = Utils.getAirPurifierID(context) ;
 
-			if( airPurifierID  == null ) {
-				airPurifierID = AppConstants.AIRPURIFIER_ID ;
-			}
+//			if( airPurifierID  == null ) {
+//				airPurifierID = AppConstants.AIRPURIFIER_ID ;
+//			}
 			eventPublisher.setEventInformation(eventType, actionName, airPurifierID, conversationId, priority, ttl);
 			eventPublisher.setEventData(eventData);
 			eventPublisher.setTargets(new String [] {airPurifierID});
@@ -330,8 +334,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * 
 	 */
 	@Override
-	public void onICPCallbackEventOccurred(int eventType, int status,
-			ICPClient obj) {
+	public void onICPCallbackEventOccurred(int eventType, int status, ICPClient obj) {
+		Log.i(TAG, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
 		if ( eventType == Commands.SIGNON ) {
 			if ( status == Errors.SUCCESS ) {
 				isSignOn = true ;
@@ -363,7 +367,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 			}
 		}
-
 		else if ( eventType == Commands.DOWNLOAD_DATA ) {
 
 			byte[] bufferOriginal =((DownloadData)obj).getBuffer().array();
@@ -384,8 +387,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					downloadDataListener.onDataDownload(status, downloadedData ) ;
 				}
 			}
-
-		}
+		} 
 	}
 
 	@Override

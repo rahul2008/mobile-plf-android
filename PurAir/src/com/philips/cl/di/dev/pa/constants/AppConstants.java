@@ -281,10 +281,7 @@ public class AppConstants {
 	public static final String DICOMM_REQUEST = "DICOMM-REQUEST" ;
 	public static final String PUT_PROPS = "PUTPROPS" ;
 	public static final String GET_PROPS = "GETPROPS" ;
-	
-	
-	public static final String AIRPURIFIER_ID = "1c5a6bfffe634205" ;
-	
+		
 	public static final String URL_SECURITY = "http://%s/di/v1/products/0/security" ;
 
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
