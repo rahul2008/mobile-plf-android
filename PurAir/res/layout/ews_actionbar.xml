@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp" >
+
+    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/ews_actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_centerInParent="true"
+        android:textColor="@color/philips_blue"
+        android:textSize="24sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <Button
+        android:id="@+id/ews_actionbar_cancel_btn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/blue_button_selector"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:text="@string/cancel" />
+
+</RelativeLayout>

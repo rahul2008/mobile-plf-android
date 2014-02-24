@@ -115,6 +115,10 @@
             android:name="com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.ews.EwsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
     </application>
 
 </manifest>

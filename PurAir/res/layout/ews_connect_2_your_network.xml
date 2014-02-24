@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp" >
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/step1_off_3"
+            android:textColor="@color/title_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ews_connect_2_your_network_title"
+            android:text="@string/connect_2_network_msg1"
+            android:textColor="@color/philips_blue"
+            android:textSize="21sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/ews_connect_2_your_network_message1"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:text="@string/connect_2_network_msg2"
+            android:textColor="@color/contain_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <ImageView
+            android:id="@+id/ews_connect_2_your_network_message3_index_bg_img"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="4dp"
+            android:layout_below="@+id/ews_connect_2_your_network_message2"
+            android:baseline="@+id/ews_connect_2_your_network_message3"
+            android:src="@drawable/ews_small_gray_2x"
+            android:contentDescription="@string/img_description" />
+        
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message3_index"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@+id/ews_connect_2_your_network_message2"
+            android:gravity="center"
+            android:text="@string/a_capital"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ews_connect_2_your_network_message3_index"
+            android:layout_alignBottom="@+id/ews_connect_2_your_network_message3_index"
+            android:layout_toRightOf="@+id/ews_connect_2_your_network_message3_index_bg_img"
+            android:text="@string/connect_2_network_msg3"
+            android:textColor="@color/contain_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+        
+        <ImageView
+            android:id="@+id/ews_connect_2_your_network_message4_index_bg_img"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="4dp"
+            android:layout_below="@+id/ews_connect_2_your_network_message3"
+            android:baseline="@+id/ews_connect_2_your_network_message4"
+            android:src="@drawable/ews_small_gray_2x"
+            android:contentDescription="@string/img_description" />
+        
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message4_index"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@+id/ews_connect_2_your_network_message3"
+            android:gravity="center"
+            android:text="@string/b_capital"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ews_connect_2_your_network_message4_index"
+            android:layout_alignBottom="@+id/ews_connect_2_your_network_message4_index"
+            android:layout_toRightOf="@+id/ews_connect_2_your_network_message4_index_bg_img"
+            android:text="@string/connect_2_network_msg4"
+            android:textColor="@color/contain_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+        
+        <ImageView
+            android:id="@+id/ews_connect_2_your_network_message5_index_bg_img"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="4dp"
+            android:layout_below="@+id/ews_connect_2_your_network_message4"
+            android:baseline="@+id/ews_connect_2_your_network_message5"
+            android:src="@drawable/ews_small_gray_2x"
+            android:contentDescription="@string/img_description" />
+        
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message5_index"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@+id/ews_connect_2_your_network_message4"
+            android:gravity="center"
+            android:text="@string/c_capital"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/ews_connect_2_your_network_message5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/ews_connect_2_your_network_message5_index"
+            android:layout_alignBottom="@+id/ews_connect_2_your_network_message5_index"
+            android:layout_toRightOf="@+id/ews_connect_2_your_network_message5_index_bg_img"
+            android:text="@string/connect_2_network_msg5"
+            android:textColor="@color/contain_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+        
+    </RelativeLayout>
+
+</ScrollView>
