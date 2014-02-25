@@ -12,39 +12,29 @@
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_connect_2_your_network_title"
+            android:id="@+id/ews_error_ssid_message1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/step1_off_3"
+            android:text="@string/error_ssid_msg1"
             android:textColor="@color/title_gray"
+            android:lineSpacingExtra="10dp"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_connect_2_your_network_message1"
+            android:id="@+id/ews_error_ssid_network"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/connect_2_network_msg1"
+            android:text="user's Wi-Fi network name"
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_connect_2_your_network_message2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
-            android:layout_marginTop="32dp"
-            android:text="@string/connect_2_network_msg2"
-            android:textColor="@color/contain_gray"
-            android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <include
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
             layout="@layout/ews_connect_2_network_instruction" />
     </LinearLayout>
 

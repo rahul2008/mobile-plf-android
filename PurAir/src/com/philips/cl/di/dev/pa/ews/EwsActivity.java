@@ -2,9 +2,11 @@ package com.philips.cl.di.dev.pa.ews;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -15,8 +17,10 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.Selection;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,14 +55,15 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	/**
 	 * Step2 variable declare
 	 */
+	private CustomTextView step2Message1, step2Message2;
 	private Button yesBtnStep2, noBtnStep2;
 	private View viewStep2;
 	/**
 	 * Step4 variable declare
 	 */
-	private CustomTextView passwordLabelStep3, wifiNetworkAddStep3, deviceNameStep3;
-	private EditText passwordStep3, passwordOnStep3, placeNameEditTxtStep3, 
-	ipAddStep3, subnetMaskStep3, routerAddStep3;
+	private CustomTextView passwordLabelStep3, wifiNetworkAddStep3;
+	private EditText passwordStep3, deviceNameStep3, 
+					ipAddStep3, subnetMaskStep3, routerAddStep3;
 	private ImageView showPasswordImgStep3, showAdvSettingStep3;
 	private Button nextBtnStep3, editSavePlaceNameBtnStep3;
 	private RelativeLayout advSettingLayoutStep3;
@@ -77,7 +82,24 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private Button errorPurifierNotDectBtn;
 	private View viewErrorPurifierNotDect;
 	private CustomTextView errorPurifierNotDectNetwork;
-
+	/**
+	 * Error connect to your network variable declare
+	 */
+	private View viewErrorConnect2Network;
+	/**
+	 * Error SSID variable declare
+	 */
+	private View viewErrorSSID;
+	private CustomTextView errorSSIDNetwork;
+	/**
+	 * Contact Philips support variable declare
+	 */
+	private View viewContactPhilipsSupport;
+	private CustomTextView contactPhilipsMessage1, contactPhilipsPhone, 
+							contactPhilipsEmail, contactPhilipsWeb;
+	private RelativeLayout contactPhilipsPhoneLayout, contactPhilipsEmailLayout, 
+							contactPhilipsWebLayout;
+	
 	private LayoutInflater inflater;
 
 	private WifiManager wifiManager ;
@@ -100,10 +122,12 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		initializeStep4Variable();
 		initializeCongraltVariable();
 		initializeErrorPurifierNotDetect();
-
-		//checkWifiConnectivity() ;
-
+		initializeErrorConnect2Network();
+		initializeErrorSSID();
+		initializeContactPhilips();
+		
 		setContentView(viewStart);
+		
 
 		//actionbarBtn.setVisibility(View.INVISIBLE);
 		//actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
@@ -150,6 +174,16 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private void initializeStep2Variable() {
 		viewStep2 = inflater.inflate(R.layout.ews_step2, null);
 
+		step2Message1 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message1);
+		step2Message2 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message2);
+		
+		String msg1 = getString(R.string.step2_msg1) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>.";
+		step2Message1.setText(Html.fromHtml(msg1));
+		
+		String msg2 = getString(R.string.step2_msg2) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>?";
+		step2Message2.setText(Html.fromHtml(msg2));
+		
+		
 		yesBtnStep2 = (Button) viewStep2.findViewById(R.id.ews_step2_yes_btn);
 		noBtnStep2 = (Button) viewStep2.findViewById(R.id.ews_step2_no_btn);
 
@@ -159,15 +193,14 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	}
 
 	private void initializeStep4Variable() {
+
 		viewStep3 = inflater.inflate(R.layout.ews_step3, null);
 
 		passwordLabelStep3 = (CustomTextView) viewStep3.findViewById(R.id.ews_step4_password_lb);
 		wifiNetworkAddStep3 = (CustomTextView) viewStep3.findViewById(R.id.ews_step4_wifi_add);
-		deviceNameStep3 = (CustomTextView) viewStep3.findViewById(R.id.ews_step4_place_name_txt);
 
 		passwordStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_password);
-		passwordOnStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_password_visible_on);
-		placeNameEditTxtStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_place_name_edittxt); 
+		deviceNameStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_place_name_edittxt); 
 		ipAddStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_ip_edittxt); 
 		subnetMaskStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_subnet_edittxt); 
 		routerAddStep3 = (EditText) viewStep3.findViewById(R.id.ews_step4_router_edittxt);
@@ -222,8 +255,39 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		errorPurifierNotDectBtn.setOnClickListener(this);
 
 	}
+	
+	
+	private void initializeContactPhilips() {
+		viewContactPhilipsSupport = inflater.inflate(R.layout.contact_philips_support, null);
+		
+		contactPhilipsMessage1 = (CustomTextView) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_philips_support_message1); 
+		contactPhilipsPhone = (CustomTextView) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_support_phone); 
+		contactPhilipsEmail = (CustomTextView) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_support_email); 
+		contactPhilipsWeb = (CustomTextView) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_support_website);
+		
+		contactPhilipsPhoneLayout = (RelativeLayout) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_support_phone_layout);  
+		contactPhilipsEmailLayout = (RelativeLayout) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_support_email_layout);  						
+		contactPhilipsWebLayout = (RelativeLayout) 
+				viewContactPhilipsSupport.findViewById(R.id.contact_support_website_layout); 
+		
+		contactPhilipsPhoneLayout.setOnClickListener(this);
+		contactPhilipsEmailLayout.setOnClickListener(this);
+		contactPhilipsWebLayout.setOnClickListener(this);
+	}
 
+	private void initializeErrorSSID() {
+		
+	}
 
+	private void initializeErrorConnect2Network() {
+		
+	}
 	private void connectToAirPurifier() {
 		changeNetworkToAPMode() ;
 	}
@@ -256,19 +320,15 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			if (isPasswordVisibelStep3) {
 				isPasswordVisibelStep3 = false;
 				showPasswordImgStep3.setImageResource(R.drawable.ews_password_off_3x);
-				passwordStep3.setText(passwordOnStep3.getText().toString());
+				passwordStep3.setTransformationMethod(new PasswordTransformationMethod());
 				Editable editable = passwordStep3.getText();
 				Selection.setSelection(editable, passwordStep3.length());
-				passwordStep3.setVisibility(View.VISIBLE);
-				passwordOnStep3.setVisibility(View.INVISIBLE);
 			} else {
 				isPasswordVisibelStep3 = true;
 				showPasswordImgStep3.setImageResource(R.drawable.ews_password_on_2x);
-				passwordOnStep3.setText(passwordStep3.getText().toString());
-				Editable editable = passwordOnStep3.getText();
-				Selection.setSelection(editable, passwordOnStep3.length());
-				passwordStep3.setVisibility(View.INVISIBLE);
-				passwordOnStep3.setVisibility(View.VISIBLE);
+				passwordStep3.setTransformationMethod(null);
+				Editable editable = passwordStep3.getText();
+				Selection.setSelection(editable, passwordStep3.length());
 
 			}
 			break;
@@ -277,22 +337,24 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			advSettingBtnLayoutStep3.setVisibility(View.INVISIBLE);
 			break;
 		case R.id.ews_step4_edit_name_btn:
+			
 			if (editSavePlaceNameBtnStep3.getText().toString().equals(
 					getResources().getString(R.string.edit))) {
-				deviceNameStep3.setVisibility(View.INVISIBLE);
-				placeNameEditTxtStep3.setVisibility(View.VISIBLE);
-				placeNameEditTxtStep3.setText(deviceNameStep3.getText().toString());
-				Editable editable = placeNameEditTxtStep3.getText();
-				Selection.setSelection(editable, placeNameEditTxtStep3.length());
+				deviceNameStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
+				deviceNameStep3.setEnabled(true);
+				deviceNameStep3.setTextColor(GraphConst.COLOR_TITLE_GRAY);
+				Editable editable = deviceNameStep3.getText();
+				Selection.setSelection(editable, deviceNameStep3.length());
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.save));
 			} else {
-				deviceNameStep3.setVisibility(View.VISIBLE);
-				placeNameEditTxtStep3.setVisibility(View.INVISIBLE);
-				deviceNameStep3.setText(placeNameEditTxtStep3.getText().toString());
+				deviceNameStep3.setBackgroundColor(Color.WHITE);
+				deviceNameStep3.setEnabled(false);
+				deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
-
+				
 				sendDeviceNameToPurifier(deviceNameStep3.getText().toString()) ;
 			}
+			
 			break;
 		case R.id.ews_step4_next_btn:
 			sendNetworkDetails() ;
@@ -300,7 +362,12 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		case R.id.ews_purifier_not_dect_btn:
 			break;
 		case R.id.ews_congratulation_btn:
-			
+			break;
+		case R.id.contact_support_phone_layout:
+			break;
+		case R.id.contact_support_email_layout:
+			break;
+		case R.id.contact_support_website_layout:
 			break;
 		case R.id.ews_actionbar_cancel_btn:
 			break;
@@ -308,10 +375,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			break;
 		}
 	}
-
 	
 	private void sendNetworkDetails() {
-		String enteredPassword = passwordOnStep3.getText().toString() ;
+		String enteredPassword = passwordStep3.getText().toString() ;
 		
 		ewsService.setPassword(enteredPassword) ;
 		ewsService.putWifiDetails() ;

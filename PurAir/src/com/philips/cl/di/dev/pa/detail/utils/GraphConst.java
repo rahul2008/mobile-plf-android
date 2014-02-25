@@ -6,6 +6,8 @@ public class GraphConst {
 	
 	/** The Graph constants.*/
  	
+	public static final int COLOR_TITLE_GRAY = Color.rgb(93,101,119);
+	public static final int COLOR_PHILIPS_BLUE = Color.rgb(50,133,255);
 	public static final int COLOR_DEEPSKY_BLUE = Color.rgb(95, 187, 235);
 	public static final int COLOR_ROYAL_BLUE = Color.rgb(58, 111, 182);
 	public static final int COLOR_INDIGO = Color.rgb(101, 66, 148);

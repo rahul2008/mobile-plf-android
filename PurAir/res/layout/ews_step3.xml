@@ -49,22 +49,6 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <EditText
-            android:id="@+id/ews_step4_password_visible_on"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_password_lb"
-            android:layout_marginRight="48dp"
-            android:background="@drawable/ews_edit_txt_2_bg"
-            android:ems="10"
-            android:visibility="gone"
-            android:paddingLeft="16dp"
-            android:singleLine="true"
-            android:textColor="@color/title_gray"
-            android:textSize="14sp" android:inputType="text">
-        </EditText>
-        
-        <EditText
             android:id="@+id/ews_step4_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -147,29 +131,16 @@
             android:layout_alignBaseline="@+id/ews_step4_edit_name_btn"
             android:layout_below="@+id/ews_step4_message2"
             android:layout_toLeftOf="@+id/ews_step4_edit_name_btn"
-            android:background="@drawable/ews_edit_txt_2_bg"
+            android:background="@color/white"
             android:paddingLeft="16dp"
-            android:visibility="gone"
             android:ems="10"
             android:singleLine="true"
-            android:textColor="@color/title_gray"
+            android:enabled="false"
+            android:text="@string/lbl_living_room"
+            android:textColor="@color/philips_blue"
             android:textSize="14sp" >
         </EditText>
         
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step4_place_name_txt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/ews_step4_edit_name_btn"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_message2"
-            android:layout_toLeftOf="@+id/ews_step4_edit_name_btn"
-            android:text="@string/lbl_living_room"
-            android:textColor="@color/philips_blue"
-            android:textSize="14sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-
         <RelativeLayout
             android:id="@+id/ews_step4_adv_config_layout"
             android:layout_width="match_parent"
@@ -202,7 +173,7 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/ews_step4_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
-                android:editable="false"
+                android:enabled="false"
                 android:gravity="center"
                 android:text="192.168.0.1"
                 android:ems="10"
@@ -233,7 +204,7 @@
                 android:layout_toRightOf="@+id/ews_step4_subnet_lb"
                 android:layout_below="@+id/ews_step4_ip_edittxt"
                  android:background="@drawable/ews_edit_txt_bg"
-                android:editable="false"
+                android:enabled="false"
                 android:gravity="center"
                 android:text="192.168.0.1"
                 android:ems="10"
@@ -266,7 +237,7 @@
                 android:layout_toRightOf="@+id/ews_step4_subnet_lb"
                 android:layout_below="@+id/ews_step4_subnet_edittxt"
                 android:background="@drawable/ews_edit_txt_bg"
-                android:editable="false"
+                android:enabled="false"
                 android:gravity="center"
                 android:text="192.168.0.1"
                 android:ems="10"

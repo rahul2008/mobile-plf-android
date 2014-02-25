@@ -783,6 +783,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void weatherDataUpdated(String weatherData) {
 		if ( getActivity() != null &&
 				weatherData != null ) {
+			Log.i("manzer", "weatherData:::"+weatherData);
 			SessionDto.getInstance().setWeatherDetails(new DataParser(weatherData).parseWeatherData()) ;
 			updateWeatherDetails() ;
 		}

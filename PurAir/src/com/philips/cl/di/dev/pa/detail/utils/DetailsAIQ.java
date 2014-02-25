@@ -1,7 +1,9 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class DetailsAIQ {
@@ -232,13 +235,30 @@ public class DetailsAIQ {
 	 * */
 	private void addXLabelToArry(int arrLen, float width) {
 		Calendar cal = Calendar.getInstance();
+		SessionDto sessionDto = SessionDto.getInstance();
+		if (sessionDto != null && sessionDto.getOutdoorEventDto() != null 
+				&& sessionDto.getOutdoorEventDto().getT() != null) {
+			String timeStr = sessionDto.getOutdoorEventDto().getT();
+			if (timeStr != null) {
+				try {
+					int year = Integer.parseInt(timeStr.substring(0, 4));
+					int month = Integer.parseInt(timeStr.substring(5, 7));
+					int day = Integer.parseInt(timeStr.substring(8, 10));
+					int hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
+					int minute = Integer.parseInt(timeStr.substring(14));
+					cal.set(year, month, day, hourOfDay, minute);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
 		/** X axis label.*/
 		if (arrLen == 7) {
 			/**
 			 * For last week
 			 * */
 			xLabels = new String[7];
-			
 			int dayInt = cal.get(Calendar.DAY_OF_WEEK);
 			
 			for (int j = 0; j < 7; j++) {

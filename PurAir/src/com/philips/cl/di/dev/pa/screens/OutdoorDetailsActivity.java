@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
@@ -155,7 +156,16 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			 * Calculate last 7 day values and add in to last 7 day AQI value
 			 * array Calculate current day hours
 			 */
-			int hr = calender.get(Calendar.HOUR_OF_DAY);
+			String timeStr = sessionDto.getOutdoorEventDto().getT().substring(11, 13);
+			int hr = 0;
+			if (timeStr != null) {
+				try {
+					hr = Integer.parseInt(timeStr);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+			
 			if (hr == 0) {
 				hr = 24;
 			}

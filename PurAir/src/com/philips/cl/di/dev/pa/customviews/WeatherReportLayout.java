@@ -43,6 +43,22 @@ public class WeatherReportLayout extends  LinearLayout {
 		String[] nextFiveDays = new String[5];
 		String[] hrsDays = new String[8];
 		Calendar cal = Calendar.getInstance();
+		if (sessionDto != null && sessionDto.getOutdoorEventDto() != null 
+				&& sessionDto.getOutdoorEventDto().getT() != null) {
+			String timeStr = sessionDto.getOutdoorEventDto().getT();
+			if (timeStr != null) {
+				try {
+					int year = Integer.parseInt(timeStr.substring(0, 4));
+					int month = Integer.parseInt(timeStr.substring(5, 7));
+					int day = Integer.parseInt(timeStr.substring(8, 10));
+					int hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
+					int minute = Integer.parseInt(timeStr.substring(14));
+					cal.set(year, month, day, hourOfDay, minute);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		int dayInt = cal.get(Calendar.DAY_OF_WEEK);
 		for (int j = 0; j < nextFiveDays.length; j++) {
@@ -79,7 +95,6 @@ public class WeatherReportLayout extends  LinearLayout {
 			int count = 9;
 			for (int i = 0; i < num; i++) {
 				float sum = 0;
-				float avg = 0;
 				float tempInCentigrade = 0;
 				float tempInFahrenheit = 0;
 				String date = null;
@@ -117,24 +132,13 @@ public class WeatherReportLayout extends  LinearLayout {
 						windDegree = weatherDetails.get(count).getWindDegree();
 					}
 					
-					/*Log.d(TAG, "Forcast next five  tempInCentigrade= "+tempInCentigrade
-							+" tempInFahrenheit= " + tempInFahrenheit
-							+" date= " +date
-							+" time= " +time
-							+" windSpeed= "+windSpeed
-							+" windDirection= " +windDirection
-							+" windDegree= " +windDegree
-							+" maxTempC= " +maxTempC
-							+" maxTempF= " +maxTempF
-							+" minTempC= " +minTempC
-							+" minTempF= " +minTempF
-							+" minTempF= " +minTempF
-							+" weatherDesc= "+weatherDesc
-							+" isdaytime= "+isdaytime);*/
-					sum = sum + windSpeed ;
+					if (windSpeed > sum) {
+						sum = windSpeed ;
+					} 
+					
 					count++;
 				}
-				avg = sum / (float)8;
+				//avg = sum / (float)8;
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 				View v = inflater.inflate(R.layout.od_last_five_weather_forcast, null);
@@ -153,7 +157,7 @@ public class WeatherReportLayout extends  LinearLayout {
 				Utils.setOutdoorWeatherDirImg(context, windSpeed, windDirection, windDegree, windDirImg);
 				maxTempTxt.setText(maxTempC+"\u2103");
 				minTempTxt.setText(minTempC+"\u2103");
-				windSpeedTxt.setText(String.format("%.1f", avg)+" km/h");
+				windSpeedTxt.setText(String.format("%.1f", sum)+" km/h");
 				//new GraphConst().setOutdoorWeatherDirImg(context,avg, windDirection, windDirImg);
 				
 				LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
@@ -171,12 +175,6 @@ public class WeatherReportLayout extends  LinearLayout {
 				String time = weatherDetails.get(i+1).getTime();
 				String weatherDesc = weatherDetails.get(i+1).getWeatherDesc();
 				String isdaytime = weatherDetails.get(i+1).getIsdaytime();
-				/*Log.d(TAG, "Today Forcast  tempInCentigrade= "+tempInCentigrade
-						+" tempInFahrenheit= " + tempInFahrenheit
-						+" date= " +date
-						+" time= " +time
-						+" weatherDesc= "+weatherDesc
-						+" isdaytime= "+isdaytime);*/
 				
 				LayoutInflater inflater = (LayoutInflater) context
 						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

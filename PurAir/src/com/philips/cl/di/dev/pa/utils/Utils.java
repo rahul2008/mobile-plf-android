@@ -1173,7 +1173,7 @@ public class Utils {
 		
 		iv.setImageDrawable(weatherImage);
 		float fconst = 180;
-		ObjectAnimator.ofFloat(iv, animRotation, 0, fconst - degree).setDuration(2000).start();
+		ObjectAnimator.ofFloat(iv, animRotation, 0, fconst + degree).setDuration(2000).start();
 	}
 	
 	public static float getPxWithRespectToDip(Context context, float dip) {
