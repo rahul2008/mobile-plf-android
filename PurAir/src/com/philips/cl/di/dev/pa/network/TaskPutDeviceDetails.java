@@ -15,7 +15,7 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 
 public class TaskPutDeviceDetails extends AsyncTask<String, Void, String> {
-	private static final String TAG = "Server";
+	private static final String TAG = TaskPutDeviceDetails.class.getSimpleName();
 
 	private String dataToUpload ;
 	private ServerResponseListener responseListener = null;

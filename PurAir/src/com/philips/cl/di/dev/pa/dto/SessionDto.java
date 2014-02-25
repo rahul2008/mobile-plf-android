@@ -15,6 +15,16 @@ public class SessionDto {
 	
 	private IndoorTrendDto indoorTrendDto ;
 	
+	private DeviceDto deviceDto ;
+	
+	public DeviceDto getDeviceDto() {
+		return deviceDto;
+	}
+
+	public void setDeviceDto(DeviceDto deviceDto) {
+		this.deviceDto = deviceDto;
+	}
+
 	public IndoorTrendDto getIndoorTrendDto() {
 		return indoorTrendDto;
 	}
