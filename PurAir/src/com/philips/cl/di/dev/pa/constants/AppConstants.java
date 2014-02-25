@@ -295,4 +295,6 @@ public class AppConstants {
 	
 	public static final String URL_PORT = "http://%s/di/v1/products/1/";
 	public static final String URL_FIRMWARE_PORT = "http://%s/di/v1/products/0/firmware";
+	
+	public static final String DEVICEID = "dev001" ;
 }

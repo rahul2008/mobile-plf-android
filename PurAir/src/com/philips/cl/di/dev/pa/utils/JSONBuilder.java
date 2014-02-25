@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.utils;
 
+import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.disecurity.DISecurity;
 
 public class JSONBuilder {
@@ -14,7 +15,7 @@ public class JSONBuilder {
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, "dev01") ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, AppConstants.DEVICEID) ;
 		return dataToSend ;
 	}
 

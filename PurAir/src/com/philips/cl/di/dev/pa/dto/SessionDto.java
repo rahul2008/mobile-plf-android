@@ -16,6 +16,7 @@ public class SessionDto {
 	private IndoorTrendDto indoorTrendDto ;
 	
 	private DeviceDto deviceDto ;
+	private DeviceWifiDto deviceWifiDto ;
 	
 	public DeviceDto getDeviceDto() {
 		return deviceDto;
@@ -23,6 +24,14 @@ public class SessionDto {
 
 	public void setDeviceDto(DeviceDto deviceDto) {
 		this.deviceDto = deviceDto;
+	}
+	
+	public DeviceWifiDto getDeviceWifiDto() {
+		return deviceWifiDto;
+	}
+
+	public void setDeviceWifiDto(DeviceWifiDto deviceWifiDto) {
+		this.deviceWifiDto = deviceWifiDto;
 	}
 
 	public IndoorTrendDto getIndoorTrendDto() {
@@ -96,7 +105,7 @@ public class SessionDto {
 		return sessionDto ;
 	}
 	
-	public static void reset() {
+	public void reset() {
 		sessionDto = null ;
 	}
 }

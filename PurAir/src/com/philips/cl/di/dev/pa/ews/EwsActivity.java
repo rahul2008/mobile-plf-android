@@ -1,24 +1,17 @@
 package com.philips.cl.di.dev.pa.ews;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
-import com.philips.cl.di.dev.pa.dto.SessionDto;
-
-import android.app.Activity;
-import android.graphics.Color;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler.Callback;
+import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Html;
-import android.text.InputType;
 import android.text.Selection;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -29,12 +22,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
-public class EwsActivity extends ActionBarActivity implements OnClickListener, EWSListener {
+import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
+import com.philips.cl.di.common.ssdp.contants.MessageID;
+import com.philips.cl.di.common.ssdp.controller.InternalMessage;
+import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DeviceModel;
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 
+public class EwsActivity extends ActionBarActivity implements OnClickListener, EWSListener, Callback {
+
+	private int step = -1;
 	/**
 	 * Action bar variable
 	 */
@@ -63,7 +67,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	 */
 	private CustomTextView passwordLabelStep3, wifiNetworkAddStep3;
 	private EditText passwordStep3, deviceNameStep3, 
-					ipAddStep3, subnetMaskStep3, routerAddStep3;
+	ipAddStep3, subnetMaskStep3, routerAddStep3;
 	private ImageView showPasswordImgStep3, showAdvSettingStep3;
 	private Button nextBtnStep3, editSavePlaceNameBtnStep3;
 	private RelativeLayout advSettingLayoutStep3;
@@ -96,16 +100,18 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	 */
 	private View viewContactPhilipsSupport;
 	private CustomTextView contactPhilipsMessage1, contactPhilipsPhone, 
-							contactPhilipsEmail, contactPhilipsWeb;
+	contactPhilipsEmail, contactPhilipsWeb;
 	private RelativeLayout contactPhilipsPhoneLayout, contactPhilipsEmailLayout, 
-							contactPhilipsWebLayout;
-	
+	contactPhilipsWebLayout;
+
 	private LayoutInflater inflater;
 
 	private WifiManager wifiManager ;
 	private String networkSSID ;
 	private String password ;
 	private String purifierName ;
+
+	private SsdpService ssdpService ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -125,12 +131,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		initializeErrorConnect2Network();
 		initializeErrorSSID();
 		initializeContactPhilips();
-		
-		setContentView(viewStart);
-		
 
-		//actionbarBtn.setVisibility(View.INVISIBLE);
-		//actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+		setContentView(viewStart);
 	}
 
 
@@ -138,17 +140,24 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		if(!wifiManager.isWifiEnabled()) {
-
+			step = 0 ;
+			setContentView(viewErrorConnect2Network) ;
+			ewsService = new EWSService(this, this, networkSSID, password) ;
 		}
 
 		else {
-			setContentView(viewStep1) ;
-			if( wifiManager.getConnectionInfo() != null ) {
-				networkSSID = wifiManager.getConnectionInfo().getSSID() ;
-				networkSSID = networkSSID.replace("\"", "") ;
-			}
-			wifiNetworkNameStep1.setText(networkSSID) ;
+			showStepOne() ;
 		}
+	}
+
+	private void showStepOne() {
+		step = 1 ;
+		setContentView(viewStep1) ;
+		if( wifiManager.getConnectionInfo() != null ) {
+			networkSSID = wifiManager.getConnectionInfo().getSSID() ;
+			networkSSID = networkSSID.replace("\"", "") ;
+		}
+		wifiNetworkNameStep1.setText(networkSSID) ;
 	}
 
 	private void initializeIntroVariable() {
@@ -176,14 +185,14 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		step2Message1 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message1);
 		step2Message2 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message2);
-		
+
 		String msg1 = getString(R.string.step2_msg1) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>.";
 		step2Message1.setText(Html.fromHtml(msg1));
-		
+
 		String msg2 = getString(R.string.step2_msg2) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>?";
 		step2Message2.setText(Html.fromHtml(msg2));
-		
-		
+
+
 		yesBtnStep2 = (Button) viewStep2.findViewById(R.id.ews_step2_yes_btn);
 		noBtnStep2 = (Button) viewStep2.findViewById(R.id.ews_step2_no_btn);
 
@@ -255,11 +264,11 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		errorPurifierNotDectBtn.setOnClickListener(this);
 
 	}
-	
-	
+
+
 	private void initializeContactPhilips() {
 		viewContactPhilipsSupport = inflater.inflate(R.layout.contact_philips_support, null);
-		
+
 		contactPhilipsMessage1 = (CustomTextView) 
 				viewContactPhilipsSupport.findViewById(R.id.contact_philips_support_message1); 
 		contactPhilipsPhone = (CustomTextView) 
@@ -268,25 +277,25 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				viewContactPhilipsSupport.findViewById(R.id.contact_support_email); 
 		contactPhilipsWeb = (CustomTextView) 
 				viewContactPhilipsSupport.findViewById(R.id.contact_support_website);
-		
+
 		contactPhilipsPhoneLayout = (RelativeLayout) 
 				viewContactPhilipsSupport.findViewById(R.id.contact_support_phone_layout);  
 		contactPhilipsEmailLayout = (RelativeLayout) 
 				viewContactPhilipsSupport.findViewById(R.id.contact_support_email_layout);  						
 		contactPhilipsWebLayout = (RelativeLayout) 
 				viewContactPhilipsSupport.findViewById(R.id.contact_support_website_layout); 
-		
+
 		contactPhilipsPhoneLayout.setOnClickListener(this);
 		contactPhilipsEmailLayout.setOnClickListener(this);
 		contactPhilipsWebLayout.setOnClickListener(this);
 	}
 
 	private void initializeErrorSSID() {
-		
+
 	}
 
 	private void initializeErrorConnect2Network() {
-		
+		viewErrorConnect2Network = inflater.inflate(R.layout.ews_connect_2_your_network, null) ;
 	}
 	private void connectToAirPurifier() {
 		changeNetworkToAPMode() ;
@@ -294,7 +303,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	private EWSService ewsService ;
 	private void changeNetworkToAPMode() {
-		ewsService = new EWSService(this, this, networkSSID, password) ;
+		if ( ewsService == null)
+			ewsService = new EWSService(this, this, networkSSID, password) ;
+		ewsService.setSSID(networkSSID) ;
 		ewsService.connectToDeviceAP() ;
 	}
 
@@ -308,7 +319,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			setContentView(viewStep2);
 			break;
 		case R.id.ews_step1_no_btn:
-			setContentView(viewStart);
+			step = 0 ;
+			setContentView(viewErrorConnect2Network) ;
 			break;
 		case R.id.ews_step2_yes_btn:
 			connectToAirPurifier() ;
@@ -337,7 +349,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			advSettingBtnLayoutStep3.setVisibility(View.INVISIBLE);
 			break;
 		case R.id.ews_step4_edit_name_btn:
-			
+
 			if (editSavePlaceNameBtnStep3.getText().toString().equals(
 					getResources().getString(R.string.edit))) {
 				deviceNameStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
@@ -351,10 +363,10 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				deviceNameStep3.setEnabled(false);
 				deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
-				
+
 				sendDeviceNameToPurifier(deviceNameStep3.getText().toString()) ;
 			}
-			
+
 			break;
 		case R.id.ews_step4_next_btn:
 			sendNetworkDetails() ;
@@ -362,6 +374,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		case R.id.ews_purifier_not_dect_btn:
 			break;
 		case R.id.ews_congratulation_btn:
+			showHomeScreen() ;
 			break;
 		case R.id.contact_support_phone_layout:
 			break;
@@ -375,10 +388,55 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			break;
 		}
 	}
-	
+
+	@Override
+	protected void onStop() {
+		if(ewsService != null)
+			ewsService.unRegisterListener() ;
+		if(ssdpService != null)
+			ssdpService.stopDeviceDiscovery() ;
+		super.onStop();
+	}
+
+
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		super.onWindowFocusChanged(hasFocus);
+		if ( hasFocus ) {
+			registerNetworkListener() ;
+		}
+	}
+
+	private void registerNetworkListener() {
+		if( step == 0 ) {
+			if( ewsService == null ) {
+				ewsService = new EWSService(this, this, networkSSID, password) ;
+			}
+			ewsService.registerListener() ;
+		}
+	}
+
+	@Override
+	protected void onResume() {
+		registerNetworkListener() ;
+		super.onResume();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+	}
+
+	private void showHomeScreen() {
+		Intent intent = new Intent(this,MainActivity.class) ;
+		intent.putExtra("ipaddress", ipAddress) ;
+		setResult(RESULT_OK,intent) ;
+		finish() ;
+	}
+
 	private void sendNetworkDetails() {
 		String enteredPassword = passwordStep3.getText().toString() ;
-		
+
 		ewsService.setPassword(enteredPassword) ;
 		ewsService.putWifiDetails() ;
 	}
@@ -409,13 +467,86 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		Log.i("EWS", "Handshake") ;
 		setContentView(viewStep3);
 		deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
+		ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getIpaddress()) ;
+		subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getNetmask()) ; 
+		routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getGateway()) ;
+		wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress()) ;
 	}
 
 
 	@Override
 	public void onDeviceConnectToHomeNetwork() {
+		ssdpService = SsdpService.getInstance() ;
+		ssdpService.startDeviceDiscovery(this) ;
+	}
+
+	private String ipAddress ;
+	public boolean handleMessage(Message msg) {
+		DeviceModel device = null ;
+		if (null != msg) {
+			final MessageID message = MessageID.getID(msg.what);
+			final InternalMessage internalMessage = (InternalMessage) msg.obj;
+			if (null != internalMessage && internalMessage.obj instanceof DeviceModel) {
+				device = (DeviceModel) internalMessage.obj;
+				//	Log.i(TAG, "Device Information " + device);
+
+			}
+			String ip = "";
+			switch (message) {
+			case DEVICE_DISCOVERED:
+				final String xml = msg.getData().getString(ConnectionLibContants.XML_KEY);
+				//ip = msg.getData().getString(ConnectionLibContants.IP_KEY);
+				final int port = msg.getData().getInt(ConnectionLibContants.PORT_KEY);
+
+
+				if (device != null && device.getSsdpDevice() != null &&
+						device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) &&
+						device.getIpAddress() != null && ipAddress == null) {
+					ipAddress = device.getIpAddress() ;
+					com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
+					deviceDiscoveryCompleted();
+					//diSecurity.exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), "dev01");
+				}
+				break;
+			case DEVICE_LOST:
+				ip = msg.getData().getString("ip");
+				//Log.i(TAG, "DEVICE LOST USN  " + device.getUsn());
+				if (device != null && device.getIpAddress() != null) {
+					//deviceList.remove(device.getIpAddress());
+				}
+				ip = null;
+				break;
+
+			default:
+				//Log.i(TAG, "default");
+				break;
+			}
+			if (null != ip && (!ip.isEmpty())) {
+				//deviceList.add(ip);
+			} 
+
+			return false;
+		}
+		return false;
+	}
+
+	private void deviceDiscoveryCompleted() {
 		setContentView(viewCongratulation) ;
-		
+	}
+
+
+	@Override
+	public void foundHomeNetwork() {
+		showStepOne() ;
+	}
+
+
+	@Override
+	public void onErrorOccurred(int errorCode) {
+		switch (errorCode) {
+		case EWSListener.ERROR_CODE1:
+			break;
+		}
 	}
 
 }

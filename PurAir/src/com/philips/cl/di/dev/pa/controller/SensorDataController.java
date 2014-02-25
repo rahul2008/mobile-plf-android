@@ -89,7 +89,7 @@ public class SensorDataController implements ServerResponseListener {
 	public void receiveServerResponse(int responseCode, String responseData) {
 		if ( responseCode == HttpURLConnection.HTTP_OK) {
 				AirPurifierEventDto airpurifierEventDto = null ;
-				responseData = new DISecurity(null).decryptData(responseData, "dev01") ;
+				responseData = new DISecurity(null).decryptData(responseData, AppConstants.DEVICEID) ;
 				if( responseData != null ) {
 					airpurifierEventDto = new DataParser(responseData).parseAirPurifierEventData() ;
 				}

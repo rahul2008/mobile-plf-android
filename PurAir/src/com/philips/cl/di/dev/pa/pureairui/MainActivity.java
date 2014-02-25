@@ -153,14 +153,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	
 	private boolean isLocalPollingStarted ;
 	private boolean isCPPPollingStarted ;
-	public boolean isTutorialPromptShown=false;
+	public boolean isTutorialPromptShown = false;
 
+	private IntentFilter filter ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
 
 		ssdpService = SsdpService.getInstance();
+		
 		ssdpService.startDeviceDiscovery(this);
 //		if (deviceModels != null) {
 //			deviceModels = new HashSet<DeviceModel>();
@@ -249,16 +251,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		createNetworkReceiver();
 
 
-		IntentFilter filter = new IntentFilter() ;
+		filter = new IntentFilter() ;
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION) ;
 
 		this.registerReceiver(networkReceiver, filter);
 
 		cppController = CPPController.getInstance(this) ;
+		
 		cppController.addDeviceDetailsListener(this) ;
-
-
-		this.registerReceiver(networkReceiver, new IntentFilter(WifiManager.WIFI_STATE_CHANGED_ACTION));
 
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
@@ -386,7 +387,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 	}
 	
-	private void stopAllServices() {
+	public void stopAllServices() {
 		resetSessionObject() ;
 		sensorDataController.stopPolling() ;
 		sensorDataController.stopCPPPolling() ;
@@ -409,6 +410,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			ssdpService = null ;
 		}
 	}
+	
 	
 	private void resetSessionObject() {
 		SessionDto.getInstance().reset() ;
@@ -1096,4 +1098,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 	};
 	
+	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+		Log.i("ews", "Got back:"+resultCode) ;
+		if ( resultCode == RESULT_OK ) {		
+			if( intent != null &&  intent.getExtras()  != null )
+				ipAddress = (String) intent.getExtras().get("ipaddress") ;
+			toggleConnection(true) ;
+			if( ssdpService == null ) {
+				ssdpService = SsdpService.getInstance() ;
+			}
+			ssdpService.startDeviceDiscovery(this) ;
+			this.registerReceiver(networkReceiver, filter) ;
+		}
+	}; 
 }

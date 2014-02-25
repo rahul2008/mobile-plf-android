@@ -20,8 +20,9 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.DeviceDto;
-import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
+import com.philips.cl.di.dev.pa.dto.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.KeyDecryptListener;
@@ -29,9 +30,10 @@ import com.philips.cl.disecurity.KeyDecryptListener;
 public class EWSService extends BroadcastReceiver implements KeyDecryptListener, EWSTaskListener {
 
 	private static final String TAG = EWSService.class.getSimpleName() ;
-	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/1/wifi";
+	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/0/wifi";
 	public static final String DEVICE_URI = "http://192.168.1.1/di/v1/products/1/device";
 	public static final String SECURITY_URI = "http://192.168.1.1/di/v1/products/0/security";
+	public static final String WIFI_UI_URI = "http://192.168.1.1/di/v1/products/0/wifiui";
 
 	public static final String DEVICE_SSID = "PHILIPS Setup" ;
 	private EWSListener listener ;
@@ -41,51 +43,72 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	public static final int DEVICE_GET = 1;
 	public static final int DEVICE_PUT = 2;
 	public static final int WIFI = 3;
+	public static final int WIFI_GET = 4;
 
 
 	private int taskType ;
 	private String password;
 	private String deviceName ;
-	
-	private static final String deviceID = "dev001" ;
+
+	private boolean isRegistered ;
 
 	public EWSService(EWSListener listener, Context context, String homeSSID, String password) {
 		this.listener = listener ;
 		this.context = context ;
 		this.homeSSID = homeSSID ;
 		this.password = password ;
-		
+
 	}
-	
+
 	private WifiManager mWifiManager;
+
+	private IntentFilter filter = new IntentFilter();
 	
-	public void startScanForDeviceAp() {
-		
-		mWifiManager = (WifiManager) context
-				.getSystemService(Context.WIFI_SERVICE);
-		IntentFilter filter = new IntentFilter();
+	public void registerListener() {
 		filter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
 		filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
-		context.registerReceiver(this, filter);
-		timer = new Timer();
-		timer.schedule(updateTask, 0, 10000);
-		 
+		if( !isRegistered ) {
+			context.registerReceiver(this, filter);
+			isRegistered = true ;
+		}
 	}
 	
+	public void startScanForDeviceAp() {
+
+		mWifiManager = (WifiManager) context
+				.getSystemService(Context.WIFI_SERVICE);
+
+		registerListener() ;
+		timer = new Timer() ;
+		timer.schedule(updateTask, 0, 10000);
+
+	}
+	
+	public void unRegisterListener() {
+		if( isRegistered ) {
+			if( timer != null ) {
+				timer.cancel() ;
+				timer = null ;
+			}
+			context.unregisterReceiver(this) ;
+			isRegistered = false ;
+		}
+	}
+
 	private Timer timer ;
 	private TimerTask updateTask = new TimerTask() {
 		@Override
-	    public void run() {
+		public void run() {
 			if(mWifiManager == null){
 				mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 			}
 			mWifiManager.startScan();
-	    }
-   };
+		}
+	};
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
@@ -99,27 +122,30 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 						.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
 
 				String ssid = connectionInfo.getSSID();
-				Log.i(TAG, "Connected ssid in  onReceive= "+ ssid);
-				if (ssid.contains(homeSSID)) {
-				}
-				else if (ssid.contains(DEVICE_SSID)) {
+				Log.i("ews", "Connected ssid in  onReceive= "+ ssid);
+				if ( ssid != null && ssid.contains(DEVICE_SSID) &&
+						homeSSID != null) {
 					Log.i("ews", "AP Mode") ;
 					listener.onDeviceAPMode() ;
 					initializeKey() ;
 					// Handshake with the Air Purifier
 				}
+				else if( ssid != null && !ssid.contains(DEVICE_SSID) &&
+						homeSSID == null) {
+					listener.foundHomeNetwork() ;
+				}
 			}
 		}
 	}
-	
+
 	public void setPassword(String password) {
 		this.password = password ;
 	}
-	
+
 	public void setSSID(String ssid) {
 		this.homeSSID = ssid ;
 	}
-	
+
 	public void setDeviceName(String deviceName) {
 		this.deviceName = deviceName ;
 	}
@@ -130,21 +156,21 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		di.exchangeKey(SECURITY_URI, "dev001") ;
 	}
 
-	
+
 	public void putWifiDetails() {
 		taskType = WIFI ;
 
 		EWSTasks task = new EWSTasks(taskType,getWifiPortJson(),"PUT",this) ;
 		task.execute(WIFI_URI);
 	}
-	
+
 	public void putDeviceDetails() {
 		taskType = DEVICE_PUT ;
 
 		EWSTasks task = new EWSTasks(taskType,getDevicePortJson(),"PUT",this) ;
 		task.execute(DEVICE_URI);
 	}
-	
+
 	private void getDeviceDetails() {
 		Log.i("ews", "device details") ;
 		taskType = DEVICE_GET ;
@@ -172,12 +198,12 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		}*/
 		String js = holder.toString();
 		Log.i("ews", js) ;
-		
-		String encryptedData = new DISecurity(null).encryptData(js, deviceID);
-		
+
+		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.DEVICEID);
+
 		return encryptedData ;
 	}
-	
+
 	private String getDevicePortJson() {
 		JSONObject holder = new JSONObject();
 		try {
@@ -194,12 +220,12 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		}*/
 		String js = holder.toString();
 
-		String encryptedData = new DISecurity(null).encryptData(js, deviceID);
+		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.DEVICEID);
 
 		return encryptedData ;
 	}
 
-	
+
 	public void connectToDeviceAP() {
 		connectTo(DEVICE_SSID, "") ;
 		startScanForDeviceAp() ;
@@ -245,21 +271,36 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		}
 	}
 
+	private void getWifiDetails() {
+		taskType = WIFI_GET ;
+
+		EWSTasks task = new EWSTasks(taskType,this) ;
+		task.execute(WIFI_URI);
+	}
+
 	@Override
 	public void onTaskCompleted(int responseCode, String response) {
 		Log.i("ews", "onTaskCompleted") ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, deviceID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				Log.i("ews", decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					storeDeviceDetails(decryptedResponse) ;
-					listener.onHandShakeWithDevice() ;
+					getWifiDetails() ;
 				}				
 			}
+			else if(taskType == WIFI_GET) {
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
+				Log.i("ews", "WIFI GET \n"+decryptedResponse) ;
+				if( decryptedResponse != null ) {
+					storeDeviceWifiDetails(decryptedResponse);
+					listener.onHandShakeWithDevice() ;
+				}	
+			}
 			else if(taskType == DEVICE_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, deviceID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				Log.i("ews", decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					storeDeviceDetails(decryptedResponse) ;
@@ -267,21 +308,27 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 				}	
 			}
 			else if(taskType == WIFI ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, deviceID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				Log.i("ews", decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					connectTo(homeSSID, password) ;
 					listener.onDeviceConnectToHomeNetwork() ;
-					
+
 				}
 			}
 			break;
 		}
 	}
-	
+
 	private void storeDeviceDetails(String data) {
 		Gson gson = new GsonBuilder().create() ;
 		DeviceDto deviceDto = gson.fromJson(data, DeviceDto.class) ;
 		SessionDto.getInstance().setDeviceDto(deviceDto) ;
+	}
+
+	private void storeDeviceWifiDetails(String data) {
+		Gson gson = new GsonBuilder().create() ;
+		DeviceWifiDto deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
+		SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 	}
 }

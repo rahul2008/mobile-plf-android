@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.listeners;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
@@ -12,11 +13,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.google.android.gms.internal.bt;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.ews.EwsActivity;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 
 public class RightMenuClickListener implements OnClickListener {
@@ -45,6 +48,8 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	//Timer buttons
 	private Button timerOff, timerTwoHours, timerFourHours, timerEightHours;
+	
+	private Button connect ;
 	
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible, isFanSpeedAuto;
 	
@@ -81,6 +86,8 @@ public class RightMenuClickListener implements OnClickListener {
 		timerTwoHours = (Button) activity.findViewById(R.id.one_hour);
 		timerFourHours = (Button) activity.findViewById(R.id.four_hours);
 		timerEightHours = (Button) activity.findViewById(R.id.eight_hours);
+		
+		connect = (Button) activity.findViewById(R.id.connect) ;
 		
 		this.airPurifierController = new AirPurifierController(context) ;
  		
@@ -201,7 +208,8 @@ public class RightMenuClickListener implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.connect:
-			Toast.makeText(context, "Connect", Toast.LENGTH_LONG).show();
+			((MainActivity) activity).stopAllServices() ;
+			activity.startActivityForResult(new Intent(activity,EwsActivity.class), 20) ;
 			break;
 		case R.id.btn_rm_power:
 //			Log.i(TAG, "power is on :: " + isPowerOn);
@@ -479,6 +487,7 @@ public class RightMenuClickListener implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	public void disableControlPanel(boolean connected, AirPurifierEventDto airPurifierEventDto) {
 //		Log.i(TAG, "disableControlPanel connected " + connected);
+		
 		Drawable powerButton = null;
 		if(!connected) {
 			power.setClickable(false);
@@ -488,7 +497,9 @@ public class RightMenuClickListener implements OnClickListener {
 //			power.setBackgroundResource(R.drawable.switch_off);
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
+			connect.setVisibility(View.VISIBLE) ;
 		} else {
+			connect.setVisibility(View.GONE) ;
 			power.setClickable(true);
 			
 			power.setChecked(getPowerButtonState(airPurifierEventDto));
