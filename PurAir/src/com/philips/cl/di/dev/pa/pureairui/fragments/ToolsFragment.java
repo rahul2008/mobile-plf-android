@@ -42,14 +42,10 @@ SignonListener {
 	private TextView tvIpaddress;
 	private Button submitButton;
 	private View vMain;
-
 	private EditText tvRegId;
 	private Button signOnButton;
-
 	private TextView tvCPPDetails;
-
 	private CppDatabaseModel cppDatabaseModel;
-
 	private static final String WIFI = "wifi";
 	private static final String WIFIUI = "wifiui";
 	private static final String DEVICE = "device";
@@ -190,7 +186,7 @@ SignonListener {
 	public void sendMail(String message, String sendTo) {
 		Intent email = new Intent(Intent.ACTION_SEND);
 		email.putExtra(Intent.EXTRA_EMAIL, new String[] { sendTo });
-		email.putExtra(Intent.EXTRA_SUBJECT, "Diagnostics");
+		email.putExtra(Intent.EXTRA_SUBJECT, "Smart Air Diagnostics");
 		email.putExtra(Intent.EXTRA_TEXT, message);
 		email.setType("message/rfc822");
 		startActivity(Intent.createChooser(email, "Send this mail via:"));
@@ -203,7 +199,7 @@ SignonListener {
 	 *            to get the interfaceName
 	 * @return mac address or empty string
 	 */
-	public static String getMACAddress(String ipAddress) {
+	public String getMACAddress(String ipAddress) {
 		try {
 			List<NetworkInterface> interfaces = Collections
 					.list(NetworkInterface.getNetworkInterfaces());
@@ -221,7 +217,7 @@ SignonListener {
 							buf.append(String.format("%02X:", mac[idx]));
 						if (buf.length() > 0)
 							buf.deleteCharAt(buf.length() - 1);
-						return buf.toString();
+						return buf.toString();						
 					}
 				}
 			}
@@ -247,6 +243,7 @@ SignonListener {
 		String logUrl = String.format(AppConstants.URL_PORT.concat(LOG),
 				Utils.getIPAddress(getActivity()));
 
+		//fetch all ports data
 		TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity());
 		task.execute(wifiUrl, wifiUiUrl, deviceUrl, firmwareUrl, logUrl);
 		try {
@@ -263,20 +260,28 @@ SignonListener {
 
 		CPPController controller = CPPController.getInstance(getActivity());
 
+		//get device dignostics info
 		String dDns1 = "DNS: " + intToIp(dhcpInfo.dns1);
 		String dGateway = "Default Gateway: " + intToIp(dhcpInfo.gateway);
 		String dIpAddress = "IP Address: " + intToIp(dhcpInfo.ipAddress);
 		String dMacaddress = "MAC Address:"
 				+ getMACAddress(intToIp(dhcpInfo.ipAddress));
-		String registrationId = "Registration Id: "
-				+ Utils.getRegistrationID(getActivity());
+		String registrationId = Utils.getRegistrationID(getActivity());
+		if (registrationId != null && registrationId.length() > 0) {
+			registrationId = "Registration Id: "
+					+ registrationId.substring(registrationId.length() - 5);
+		}
+
+		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:"
 				+ Utils.getIPAddress(getActivity());
 		String euid = "AirPurifier EUI64:" + Utils.getEuid(getActivity());
-		String macAddress = "Air Purifier Mac Address:"
-				+ Utils.getMacAddress(getActivity());
-		/*String iCPClientVersion= "ICP Client version:"+
-				controller.getICPClientVersion();*/
+		String macAddress = "Air Purifier MAC Address:"
+				+ formatMacAddress(Utils.getMacAddress(getActivity()).toUpperCase());
+		
+		String iCPClientVersion= "ICP Client version:"+
+		 controller.getICPClientVersion();
+		 
 		String isSignOn = "Is SignOn Successful: " + controller.isSignOn();
 		StringBuilder portData = new StringBuilder();
 		if (aResponse != null) {
@@ -286,14 +291,9 @@ SignonListener {
 				portData.append("\n");
 				portData.append(aResponse[i]);
 				portData.append("\n");
-			}
-			Log.d("Diagnostic", "Port: " + portData.toString());
-		}
-		Log.d("Diagnostic", "Device Network Info\n" + dIpAddress + "\n"
-				+ dMacaddress + "\n" + dDns1 + "\n" + dGateway + "\n"
-				+ registrationId + "\n" + airpurifierIpAddress + "\n" + euid
-				+ "\n" + macAddress + "\n" + isSignOn);
-
+			}			
+		}		
+		
 		StringBuilder data = new StringBuilder("Device Network Info\n");
 		data.append(dIpAddress);
 		data.append("\n");
@@ -305,6 +305,7 @@ SignonListener {
 		data.append("\n");
 		data.append(registrationId);
 		data.append("\n");
+		data.append("AirPurifier Network Info:\n");
 		data.append(airpurifierIpAddress);
 		data.append("\n");
 		data.append(euid);
@@ -313,20 +314,17 @@ SignonListener {
 		data.append("\n");
 		data.append(isSignOn);
 		data.append("\n");
-		// data.append(ICPClientVersion);
-		// data.append("\n");
+		data.append(iCPClientVersion);
+		data.append("\n");
 		data.append(portData);
 
+		Log.d("Diagnostic", data.toString());
 		return data.toString();
 	}
 
-	private String formatMacAddress(byte[] mac) {
-		StringBuilder buf = new StringBuilder();
-		for (int idx = 0; idx < mac.length; idx++)
-			buf.append(String.format("%02X:", mac[idx]));
-		if (buf.length() > 0)
-			buf.deleteCharAt(buf.length() - 1);
-		return buf.toString();
+	//formats mac to be like 00:15:5D:03:8D:01
+	private String formatMacAddress(String mac) {
+		return mac.replaceAll("(.{2})", "$1"+":").substring(0,17);
 	}
 
 	private String intToIp(int addr) {

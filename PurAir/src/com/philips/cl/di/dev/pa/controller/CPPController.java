@@ -453,8 +453,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 */
 	public String getICPClientVersion()
 	{
-		if(signon==null)
-			signon=SignOn.getInstance();
+		if(signon==null) {
+			SignOn.create(callbackHandler, configParams) ;
+			signon = SignOn.getInstance();
+		}
+			
 		
 		return signon.clientVersion();
 	}

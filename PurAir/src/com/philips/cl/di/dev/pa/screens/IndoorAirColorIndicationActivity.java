@@ -1,25 +1,16 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import java.util.HashMap;
-
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
-import com.philips.cl.di.dev.pa.utils.FontLoader;
-import com.philips.cl.di.dev.pa.utils.Fonts;
-
-import android.app.Activity;
+import android.annotation.TargetApi;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class IndoorAirColorIndicationActivity extends ActionBarActivity {
 
@@ -101,6 +92,7 @@ public class IndoorAirColorIndicationActivity extends ActionBarActivity {
 		textView.setText(this.getText(tutorialTitle));
 	}
 
+	@TargetApi(18)
 	private void setGroupIndicatorToRight() {
 		//Get the screen width 
 		DisplayMetrics dm = new DisplayMetrics();
@@ -110,7 +102,7 @@ public class IndoorAirColorIndicationActivity extends ActionBarActivity {
 		if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			expListView.setIndicatorBounds(width - getDipsFromPixel(60), width
 					- getDipsFromPixel(30));
-		} else {
+		} else {			
 			expListView.setIndicatorBoundsRelative(width - getDipsFromPixel(60), width
 					- getDipsFromPixel(30));
 		}

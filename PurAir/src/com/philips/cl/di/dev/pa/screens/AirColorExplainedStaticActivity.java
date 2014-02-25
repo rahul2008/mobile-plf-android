@@ -1,20 +1,14 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
-import com.philips.cl.di.dev.pa.utils.FontLoader;
-import com.philips.cl.di.dev.pa.utils.Fonts;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class AirColorExplainedStaticActivity extends ActionBarActivity {
 
