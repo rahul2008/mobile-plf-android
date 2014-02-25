@@ -447,5 +447,16 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		throw new Exception("No Network Exist");
 
 	}
+	
+	/*
+	 * Returns ICPClient version
+	 */
+	public String getICPClientVersion()
+	{
+		if(signon==null)
+			signon=SignOn.getInstance();
+		
+		return signon.clientVersion();
+	}
 
 }

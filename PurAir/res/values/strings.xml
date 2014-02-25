@@ -341,6 +341,9 @@
     <string name="weather_forecast">Weather Forcast</string>
     <string name="about_air_quality">About Air Quality</string>
     
+    <!-- Diagnostics -->
+    <string name="diagnostics">Diagnostics</string>
+
     <!-- EWS -->
     <string name="img_description">description</string>
     <string name="wifi_setup">Wi-fi setup</string>

@@ -159,7 +159,13 @@ public class Utils {
 		editor.putString("euid", cppDataModel.getEuId());
 		editor.putString("privatekey", cppDataModel.getSysKey() + cppDataModel.getPrivateKey());
 		editor.putString("registrationid", cppDataModel.getRegId()) ;
+		editor.putString("mac_address", cppDataModel.getMacId());
 		editor.commit();
+	}
+	
+	public static String getMacAddress(Context context){
+		return context.getSharedPreferences("cpp_preferences01", 0)
+				.getString("mac_address", "");
 	}
 
 	public static String getPrivateKey(Context context) {
