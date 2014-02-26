@@ -15,6 +15,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -42,7 +43,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 	public static final int DEVICE_GET = 1;
 	public static final int DEVICE_PUT = 2;
-	public static final int WIFI = 3;
+	public static final int WIFI_PUT = 3;
 	public static final int WIFI_GET = 4;
 
 
@@ -51,6 +52,10 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	private String deviceName ;
 
 	private boolean isRegistered ;
+	
+	private int errorCodeStep2 = EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND  ;
+	
+	private int errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE ;
 
 	public EWSService(EWSListener listener, Context context, String homeSSID, String password) {
 		this.listener = listener ;
@@ -63,7 +68,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	private WifiManager mWifiManager;
 
 	private IntentFilter filter = new IntentFilter();
-	
+
 	public void registerListener() {
 		filter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
@@ -77,7 +82,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 			isRegistered = true ;
 		}
 	}
-	
+
 	public void startScanForDeviceAp() {
 
 		mWifiManager = (WifiManager) context
@@ -88,7 +93,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		timer.schedule(updateTask, 0, 10000);
 
 	}
-	
+
 	public void unRegisterListener() {
 		if( isRegistered ) {
 			if( timer != null ) {
@@ -126,22 +131,23 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 				Log.i("ews", "Connected ssid in  onReceive= "+ ssid);
 				if ( ssid != null && ssid.contains(DEVICE_SSID) &&
 						homeSSID != null) {
-					Log.i("ews", "AP Mode") ;
+					errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
 					listener.onDeviceAPMode() ;
 					initializeKey() ;
 					// Handshake with the Air Purifier
 				}
-				else if( ssid != null && !ssid.contains(DEVICE_SSID) &&
-						homeSSID == null) {
-					listener.foundHomeNetwork() ;
+				else if( ssid != null && !ssid.contains(DEVICE_SSID) && homeSSID == null) {
+					if ( homeSSID == null )
+						listener.foundHomeNetwork() ;
 				}
 			}
 			else if (aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTED ||
 					aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTING) {
+				Log.i(TAG, "Network State: "+aNetwork.getState()) ;
 				listener.onWifiDisabled() ;
 			}
 		}
-		
+
 	}
 
 	public void setPassword(String password) {
@@ -164,7 +170,8 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 
 	public void putWifiDetails() {
-		taskType = WIFI ;
+		sendNetworkDetailsTimer.start() ;
+		taskType = WIFI_PUT ;
 
 		EWSTasks task = new EWSTasks(taskType,getWifiPortJson(),"PUT",this) ;
 		task.execute(WIFI_URI);
@@ -235,6 +242,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	public void connectToDeviceAP() {
 		connectTo(DEVICE_SSID, "") ;
 		startScanForDeviceAp() ;
+		deviceSSIDTimer.start() ;
 	}
 
 	public void connectToHomeNetwork(String ssid, String password) {
@@ -299,9 +307,9 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 			}
 			else if(taskType == WIFI_GET) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
-				Log.i("ews", "WIFI GET \n"+decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					storeDeviceWifiDetails(decryptedResponse);
+					deviceSSIDTimer.cancel() ;
 					listener.onHandShakeWithDevice() ;
 				}	
 			}
@@ -313,16 +321,25 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 					listener.onHandShakeWithDevice() ;
 				}	
 			}
-			else if(taskType == WIFI ) {
+			else if(taskType == WIFI_PUT ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				Log.i("ews", decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					connectTo(homeSSID, password) ;
 					listener.onDeviceConnectToHomeNetwork() ;
-
+					errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE ;
 				}
 			}
 			break;
+		default: 
+				if( taskType == WIFI_GET || taskType == DEVICE_GET) {
+					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE) ;
+				}
+				else if( taskType == WIFI_PUT || taskType == DEVICE_PUT) {
+					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE) ;
+				}
+			 	break;
+			
 		}
 	}
 
@@ -336,5 +353,33 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		Gson gson = new GsonBuilder().create() ;
 		DeviceWifiDto deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
 		SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
+	}
+
+	private CountDownTimer deviceSSIDTimer = new CountDownTimer(30000, 1000) {
+		@Override
+		public void onTick(long millisUntilFinished) {
+		}
+
+		@Override
+		public void onFinish() {
+			unRegisterListener() ;
+			listener.onErrorOccurred(errorCodeStep2) ;
+		}
+	};
+	
+	private CountDownTimer sendNetworkDetailsTimer = new CountDownTimer(30000, 1000) {
+		@Override
+		public void onTick(long millisUntilFinished) {
+		}
+
+		@Override
+		public void onFinish() {
+			unRegisterListener() ;
+			listener.onErrorOccurred(errorCodeStep3) ;
+		}
+	};
+	
+	public void stopNetworkDetailsTimer() {
+		sendNetworkDetailsTimer.cancel() ;
 	}
 }

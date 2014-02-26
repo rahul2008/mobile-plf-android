@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
@@ -115,7 +116,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	private SsdpService ssdpService ;
 	
-	private Dialog progressDialog ;
+	private Dialog progressDialogForStep2 ;
+	
+	private Dialog progressDialogForStep3 ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,7 +140,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		initializeContactPhilips();
 
 		setContentView(viewStart);
-		progressDialog = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT) ;
+		progressDialogForStep2 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH) ;
+		progressDialogForStep3 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT) ;
 	}
 
 
@@ -155,25 +159,31 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		}
 	}
 
-	private void showStepOne() {
-		
+	private void showStepOne() {		
 		if( wifiManager.getConnectionInfo() != null ) {
+			Log.i("ews", "Connection info not null") ;
 			networkSSID = wifiManager.getConnectionInfo().getSSID() ; 
-			networkSSID = networkSSID.replace("\"", "") ;
-			if( ! networkSSID.contains(EWSService.DEVICE_SSID)) {
-				if( step != 1 ) {
-					step = 1 ;
-					setContentView(viewStep1) ;
-				}					
-				wifiNetworkNameStep1.setText(networkSSID) ;
+			if ( networkSSID != null ) {
+				Log.i("ews", networkSSID) ;
+				networkSSID = networkSSID.replace("\"", "") ;
+				if( ! networkSSID.contains(EWSService.DEVICE_SSID)) {
+					if( step != 1 ) {
+						step = 1 ;
+						setContentView(viewStep1) ;
+					}					
+					wifiNetworkNameStep1.setText(networkSSID) ;
+				}
+				else {
+					networkSSID = null ;
+					step = 0 ;
+					setContentView(viewErrorConnect2Network) ;
+				}			
 			}
-			else {
-				Toast.makeText(this, "Please select Home Network", Toast.LENGTH_LONG).show() ;
-				networkSSID = null ;
-				step = 0 ;
-				setContentView(viewErrorConnect2Network) ;
-			}
-			
+		}
+		else {
+			networkSSID = null ;
+			step = 0 ;
+			setContentView(viewErrorConnect2Network) ;
 		}
 		
 	}
@@ -322,14 +332,13 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	private EWSService ewsService ;
 	private void changeNetworkToAPMode() {
-		progressDialog.show();
+		progressDialogForStep2.show();
 		if ( ewsService == null)
 			ewsService = new EWSService(this, this, networkSSID, password) ;
 		ewsService.setSSID(networkSSID) ;
 		ewsService.connectToDeviceAP() ;
 	}
 
-	private int noOfRetries ;
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -477,8 +486,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	}
 
 	private void sendNetworkDetails() {
+		progressDialogForStep3.show() ;
 		String enteredPassword = passwordStep3.getText().toString() ;
-
+		ewsService.setSSID(networkSSID) ;
 		ewsService.setPassword(enteredPassword) ;
 		ewsService.putWifiDetails() ;
 	}
@@ -507,8 +517,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	@Override
 	public void onHandShakeWithDevice() {
 		Log.i("EWS", "Handshake") ;
-		if( progressDialog.isShowing() ) {
-			progressDialog.dismiss() ;
+		if( progressDialogForStep2.isShowing() ) {
+			progressDialogForStep2.dismiss() ;
 		}
 		setContentView(viewStep3);
 		String passwordLabel = getString(R.string.step3_msg1) + " <font color=#3285FF>"+networkSSID+"</font>";
@@ -523,6 +533,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	@Override
 	public void onDeviceConnectToHomeNetwork() {
+		Toast.makeText(this, "Start Device Discovery", Toast.LENGTH_LONG).show() ;
 		ssdpService = SsdpService.getInstance() ;
 		ssdpService.startDeviceDiscovery(this) ;
 	}
@@ -583,6 +594,11 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	}
 
 	private void deviceDiscoveryCompleted() {
+		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
+		progressDialogForStep3.dismiss() ;
+		if( ewsService != null ) {
+			ewsService.stopNetworkDetailsTimer() ;
+		}
 		setContentView(viewCongratulation) ;
 	}
 
@@ -595,19 +611,30 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	@Override
 	public void onErrorOccurred(int errorCode) {
+		Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
+		if( progressDialogForStep2.isShowing())
+			progressDialogForStep2.dismiss() ;
 		switch (errorCode) {
-		case EWSListener.ERROR_CODE1:
+		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
+			break;
+		case EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND:				
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_02).show() ;
+			break;
+		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:				
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_04).show() ;
+			break;
+		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_05).show() ;
 			break;
 		}
 	}
-
 
 	@Override
 	public void onWifiDisabled() {
 		switch (step) {
 		case 1:
-			step = 0 ;
-			setContentView(viewErrorConnect2Network) ;
+			//checkWifiConnectivity() ;
 			break;
 		}		
 	}

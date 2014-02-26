@@ -1038,7 +1038,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 						ipAddress = device.getIpAddress() ; 
 						Log.i("Weird", "Device IP: "+device.getIpAddress()) ;
 						com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
-						diSecurity.exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), "dev01");
+						diSecurity.exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), AppConstants.DEVICEID);
 				}
 				break;
 			case DEVICE_LOST:

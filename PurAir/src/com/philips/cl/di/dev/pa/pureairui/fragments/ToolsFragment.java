@@ -324,6 +324,9 @@ SignonListener {
 
 	//formats mac to be like 00:15:5D:03:8D:01
 	private String formatMacAddress(String mac) {
+		if( mac == null) {
+			return "" ;
+		}
 		return mac.replaceAll("(.{2})", "$1"+":").substring(0,17);
 	}
 
