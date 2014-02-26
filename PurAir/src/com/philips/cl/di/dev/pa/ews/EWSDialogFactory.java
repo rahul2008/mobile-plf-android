@@ -3,8 +3,10 @@ package com.philips.cl.di.dev.pa.ews;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +25,7 @@ public class EWSDialogFactory implements OnClickListener{
 	private int errorID;
 	private int supportID;
 	private Context context;
+	private Activity activity;
 
 	private static EWSDialogFactory _instance;
 	
@@ -35,6 +38,7 @@ public class EWSDialogFactory implements OnClickListener{
 	
 	private EWSDialogFactory(Context context) {
 		this.context = context;
+		this.activity = (Activity) context;
 	}
 	
 	public Dialog getDialog(int id) {
@@ -80,7 +84,7 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 	
 	private Dialog getSupportAlertDialog(String message, int imageResourceID, String buttonText, int id) {
-		Dialog temp = new Dialog(context);
+		Dialog temp = new Dialog(activity);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.support_alert_dialog, null);
@@ -317,6 +321,7 @@ public class EWSDialogFactory implements OnClickListener{
 		supportDialogTS05 = null;
 		
 		context = null;
+		_instance = null;
 	}
 	
 	//Dialog constants

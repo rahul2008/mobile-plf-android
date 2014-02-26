@@ -73,6 +73,7 @@ import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.City;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
@@ -88,7 +89,6 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
-
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.KeyDecryptListener;
 
@@ -336,8 +336,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			Log.i(TAG, "saving..." + i + " :: " + outdoorLocationsAdapter.getItem(i));
 			editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
 		}
-		
 		editor.commit();
+		EWSDialogFactory.getInstance(this).cleanUp();
 	}
 
 	private String secretKey ;
@@ -420,6 +420,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	protected void onDestroy() {
 		super.onDestroy();		
 		stopAllServices() ;
+		
 	}
 
 	/** Need to have only one instance of the HomeFragment */
