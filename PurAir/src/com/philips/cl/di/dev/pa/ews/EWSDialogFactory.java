@@ -1,12 +1,8 @@
 package com.philips.cl.di.dev.pa.ews;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.utils.Fonts;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class EWSDialogFactory implements OnClickListener{
 	
@@ -58,7 +57,7 @@ public class EWSDialogFactory implements OnClickListener{
 			return supportDialogTS03;
 		case SUPPORT_TS05:
 			if(supportDialogTS05 == null)
-				supportDialogTS05 = getSupportAlertDialog("CHANGE THIS, make new dialog with 2 buttons", R.drawable.ews_help_bg4_2x, "FIVE", 5);
+				supportDialogTS05 = getSupportAlertDialogTS05();
 			return supportDialogTS05;
 		case ERROR_TS01_01:
 			if(errorDialogTS01_01 == null)
@@ -117,7 +116,23 @@ public class EWSDialogFactory implements OnClickListener{
 		ivRight.setOnClickListener(this);
 		ImageView ivCenter = (ImageView) alertLayout.findViewById(R.id.iv_support_popup_image);
 		ivCenter.setImageResource(imageResourceID);
+		temp.setCanceledOnTouchOutside(false);
+		temp.setCancelable(false);
+		temp.setContentView(alertLayout);
+		return temp;
+	}
+	
+	private Dialog getSupportAlertDialogTS05() {
+		Dialog temp = new Dialog(activity);
+		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
+		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.ts05_confirm_enabled, null);
+		Button confirmWifiEnabledYes = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_yes);
+		confirmWifiEnabledYes.setOnClickListener(this);
+		Button confirmWifiEnabledNo = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_no);
+		confirmWifiEnabledNo.setOnClickListener(this);
+		temp.setCanceledOnTouchOutside(false);
+		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
 		return temp;
 	}
@@ -199,7 +214,7 @@ public class EWSDialogFactory implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(context, "DialogFactory$onClick", 0).show();
+		Toast.makeText(context, "DialogFactory$onClick", Toast.LENGTH_SHORT).show();
 		switch(v.getId()) {
 		case R.id.btn_error_popup:
 			handleErrorDialog(errorID);
@@ -224,6 +239,14 @@ public class EWSDialogFactory implements OnClickListener{
 			break;
 			
 		case R.id.btn_cancel_wifi_no:
+			break;
+			
+		/** See TS05_CONFIRM_ENABLED
+		 * This is to check if Wifi is enabled on the Purifier or not*/
+		case R.id.btn_confirm_wifi_enabled_yes:
+			break;
+			
+		case R.id.btn_confirm_wifi_enabled_no:
 			break;
 		}
 	}
@@ -296,7 +319,7 @@ public class EWSDialogFactory implements OnClickListener{
 	private void handleErrorDialog(int errorDialogID2) {
 		switch (errorDialogID2) {
 		case 1:
-			Toast.makeText(context, "First error -> go to second", 0).show();
+			Toast.makeText(context, "First error -> go to second", Toast.LENGTH_SHORT).show();
 			getDialog(ERROR_TS01_01).dismiss();
 			getDialog(ERROR_TS01_02).show();
 			break;
