@@ -17,35 +17,35 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class EWSDialogFactory implements OnClickListener{
-	
+
 	private Dialog errorDialogTS01_01, errorDialogTS01_02, errorDialogTS01_03, errorDialogTS01_04, errorDialogTS01_05;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
 	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
-	
+
 	private int errorID;
 	private int supportID;
 	private Context context;
 	private Activity activity;
 
 	private static EWSDialogFactory _instance;
-	
+
 	public static EWSDialogFactory getInstance(Context context) {
 		if(_instance == null) {
 			_instance = new EWSDialogFactory(context);
 		}
 		return _instance;
 	}
-	
+
 	private EWSDialogFactory(Context context) {
 		this.context = context;
 		this.activity = (Activity) context;
 	}
-	
+
 	public Dialog getDialog(int id) {
 		switch (id) {
 		case SUPPORT_TS01:
 			if(supportDialogTS01 == null)
-				supportDialogTS01 = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.error_purifier_not_detect_btn_txt), 1);
+				supportDialogTS01 = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), 1);
 			return supportDialogTS01;
 		case SUPPORT_TS02:
 			if(supportDialogTS02 == null)
@@ -94,11 +94,11 @@ public class EWSDialogFactory implements OnClickListener{
 		}
 		return null;
 	}
-	
+
 	private Dialog getSupportAlertDialog(String message, int imageResourceID, String buttonText, int id) {
 		Dialog temp = new Dialog(activity);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.support_alert_dialog, null);
 		Button button = (Button) alertLayout.findViewById(R.id.btn_support_button);
 		supportID = id;
@@ -121,11 +121,11 @@ public class EWSDialogFactory implements OnClickListener{
 		temp.setContentView(alertLayout);
 		return temp;
 	}
-	
+
 	private Dialog getSupportAlertDialogTS05() {
 		Dialog temp = new Dialog(activity);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.ts05_confirm_enabled, null);
 		Button confirmWifiEnabledYes = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_yes);
 		confirmWifiEnabledYes.setOnClickListener(this);
@@ -136,7 +136,7 @@ public class EWSDialogFactory implements OnClickListener{
 		temp.setContentView(alertLayout);
 		return temp;
 	}
-	
+
 	private Dialog getErrorDialog(String header, String message, String buttonText, int id) {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -156,13 +156,13 @@ public class EWSDialogFactory implements OnClickListener{
 		ivGotoSupport.setOnClickListener(this);
 		ImageView ivCloseErrorPopup = (ImageView) alertLayout.findViewById(R.id.iv_close_error_popup);
 		ivCloseErrorPopup.setOnClickListener(this);
-		
+
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
 		return temp;
 	}
-	
+
 	private Dialog getCheckingSignalStrengthDialog() {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -171,13 +171,13 @@ public class EWSDialogFactory implements OnClickListener{
 		tvHeader.setTypeface(Fonts.getGillsansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_check_signal_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(context));
-				
+
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
 		return temp;
 	}
-	
+
 	private Dialog getConnectingToProductDialog() {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -186,13 +186,13 @@ public class EWSDialogFactory implements OnClickListener{
 		tvHeader.setTypeface(Fonts.getGillsansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_check_signal_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(context));
-				
+
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
 		return temp;
 	}
-	
+
 	private Dialog getCancelWifiSetupDialog() {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -205,7 +205,7 @@ public class EWSDialogFactory implements OnClickListener{
 		cancelWifiYes.setOnClickListener(this);
 		Button cancelWifiNo = (Button) alertLayout.findViewById(R.id.btn_cancel_wifi_no);
 		cancelWifiNo.setOnClickListener(this);
-		
+
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
@@ -214,43 +214,61 @@ public class EWSDialogFactory implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		Toast.makeText(context, "DialogFactory$onClick", Toast.LENGTH_SHORT).show();
 		switch(v.getId()) {
 		case R.id.btn_error_popup:
 			handleErrorDialog(errorID);
 			break;
-			
+
 		case R.id.btn_support_button:
 			handleSupportDialog(supportID);
 			break;
-			
+
 		case R.id.iv_close_popup:
-//			Toast.makeText(context, "Close Pop up", Toast.LENGTH_SHORT).show();
+			//			Toast.makeText(context, "Close Pop up", Toast.LENGTH_SHORT).show();
 			closePopUp(supportID);
 			break;
 		case R.id.iv_support:
-			Toast.makeText(context, "Show support screen", Toast.LENGTH_SHORT).show();
 			break;
-			
+
 		case R.id.iv_close_error_popup:
 			closeErrorPopUp(errorID);
-			
+
 		case R.id.btn_cancel_wifi_yes:
+			//			closeErrorPopUp(CANCEL_WIFI_SETUP) ;
+			getDialog(CANCEL_WIFI_SETUP).dismiss();
+			if ( context instanceof EwsActivity ) {
+				EwsActivity activity = (EwsActivity) context ;
+
+				activity.finish() ;
+			}
+
+
 			break;
-			
+
 		case R.id.btn_cancel_wifi_no:
+			getDialog(CANCEL_WIFI_SETUP).dismiss();
 			break;
-			
-		/** See TS05_CONFIRM_ENABLED
-		 * This is to check if Wifi is enabled on the Purifier or not*/
+
+			/** See TS05_CONFIRM_ENABLED
+			 * This is to check if Wifi is enabled on the Purifier or not*/
 		case R.id.btn_confirm_wifi_enabled_yes:
+			getDialog(SUPPORT_TS05).dismiss() ;
+			if ( context instanceof EwsActivity) {
+				EwsActivity activity = (EwsActivity) context ;
+				activity.connectToAirPurifier() ;
+			}
 			break;
-			
+
 		case R.id.btn_confirm_wifi_enabled_no:
+			getDialog(SUPPORT_TS05).dismiss() ;
+			if ( context instanceof EwsActivity) {
+				EwsActivity activity = (EwsActivity) context ;
+				activity.showSupportScreen() ;
+			}
 			break;
 		}
 	}
-	
+
 	private void closeErrorPopUp(int errorID2) {
 		switch (errorID2) {
 		case 1:
@@ -285,11 +303,13 @@ public class EWSDialogFactory implements OnClickListener{
 		case 4:
 			supportDialogTS05.dismiss();
 			break;
-			
+		case CANCEL_WIFI_SETUP:
+			cancelWifiSetup.dismiss() ;
+			break;
 		default:
 			break;
 		}
-		
+
 	}
 
 	private void handleSupportDialog(int supportDialogID2) {
@@ -307,25 +327,23 @@ public class EWSDialogFactory implements OnClickListener{
 			getDialog(SUPPORT_TS05).show();
 			break;
 		case 5:
-			Log.i("DialogFactory", "Dismiss SUPPORT_FIVE");
 			getDialog(SUPPORT_TS05).dismiss();
 			break;
 		default:
 			break;
 		}
-		
+
 	}
 
 	private void handleErrorDialog(int errorDialogID2) {
 		switch (errorDialogID2) {
 		case 1:
-			Toast.makeText(context, "First error -> go to second", Toast.LENGTH_SHORT).show();
 			getDialog(ERROR_TS01_01).dismiss();
 			getDialog(ERROR_TS01_02).show();
 			break;
 		case 2 : 
 			getDialog(ERROR_TS01_02).dismiss();
-			getDialog(ERROR_TS01_03).show();
+			getDialog(SUPPORT_TS01).show();
 			break;
 		case 3:
 			getDialog(ERROR_TS01_03).dismiss();
@@ -338,40 +356,40 @@ public class EWSDialogFactory implements OnClickListener{
 		case 5:
 			getDialog(ERROR_TS01_05).dismiss();
 			break;
-			
+
 		default:
 			break;
 		}
 	}
-	
+
 	public void cleanUp() {
 		errorDialogTS01_01 = null;
 		errorDialogTS01_02 = null;
 		errorDialogTS01_03 = null;
 		errorDialogTS01_04 = null;
 		errorDialogTS01_05 = null;
-		
+
 		supportDialogTS01 = null;
 		supportDialogTS02 = null;
 		supportDialogTS03 = null;
 		supportDialogTS05 = null;
-		
+
 		context = null;
 		_instance = null;
 	}
-	
+
 	//Dialog constants
 	public static final int ERROR_TS01_01 = 1001;
 	public static final int ERROR_TS01_02 = 1002;
 	public static final int ERROR_TS01_03 = 1003;
 	public static final int ERROR_TS01_04 = 1004;
 	public static final int ERROR_TS01_05 = 1005;
-	
+
 	public static final int SUPPORT_TS01 = 2001;
 	public static final int SUPPORT_TS02 = 2002;
 	public static final int SUPPORT_TS03 = 2003;
 	public static final int SUPPORT_TS05 = 2005;
-	
+
 	public static final int CHECK_SIGNAL_STRENGTH = 3001;
 	public static final int CONNECTING_TO_PRODUCT = 3002;
 	public static final int CANCEL_WIFI_SETUP = 3003;

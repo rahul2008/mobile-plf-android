@@ -11,7 +11,7 @@
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step4_title"
+            android:id="@+id/ews_step3_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -23,11 +23,11 @@
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step4_instruction"
+            android:id="@+id/ews_step3_instruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_title"
+            android:layout_below="@+id/ews_step3_title"
             android:lineSpacingExtra="10dp"
             android:text="@string/step3_instruction"
             android:textColor="@color/philips_blue"
@@ -36,11 +36,11 @@
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step4_password_lb"
+            android:id="@+id/ews_step3_password_lb"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_instruction"
+            android:layout_below="@+id/ews_step3_instruction"
             android:layout_marginTop="8dp"
             android:lineSpacingExtra="10dp"
             android:text="@string/step3_msg1"
@@ -49,11 +49,11 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <EditText
-            android:id="@+id/ews_step4_password"
+            android:id="@+id/ews_step3_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_password_lb"
+            android:layout_below="@+id/ews_step3_password_lb"
             android:layout_marginRight="48dp"
             android:background="@drawable/ews_edit_txt_2_bg"
             android:ems="10"
@@ -69,7 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_password"
+            android:layout_below="@+id/ews_step3_password"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="8dp"
             android:gravity="center_vertical"
@@ -97,7 +97,7 @@
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step4_message2"
+            android:id="@+id/ews_step3_message2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -110,11 +110,11 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <Button
-            android:id="@+id/ews_step4_edit_name_btn"
+            android:id="@+id/ews_step3_edit_name_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/ews_step4_message2"
+            android:layout_below="@+id/ews_step3_message2"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:background="@drawable/blue_button_selector"
@@ -124,13 +124,13 @@
 
         
         <EditText
-            android:id="@+id/ews_step4_place_name_edittxt"
+            android:id="@+id/ews_step3_place_name_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignBaseline="@+id/ews_step4_edit_name_btn"
-            android:layout_below="@+id/ews_step4_message2"
-            android:layout_toLeftOf="@+id/ews_step4_edit_name_btn"
+            android:layout_alignBaseline="@+id/ews_step3_edit_name_btn"
+            android:layout_below="@+id/ews_step3_message2"
+            android:layout_toLeftOf="@+id/ews_step3_edit_name_btn"
             android:background="@color/white"
             android:paddingLeft="16dp"
             android:ems="10"
@@ -142,20 +142,20 @@
         </EditText>
         
         <RelativeLayout
-            android:id="@+id/ews_step4_adv_config_layout"
+            android:id="@+id/ews_step3_adv_config_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ews_step4_edit_name_btn"
+            android:layout_below="@+id/ews_step3_edit_name_btn"
             android:visibility="invisible"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp" >
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/ews_step4_ip_lb"
+                android:id="@+id/ews_step3_ip_lb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/ews_step4_ip_edittxt"
+                android:layout_alignBaseline="@+id/ews_step3_ip_edittxt"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:text="@string/ip"
@@ -164,14 +164,14 @@
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <EditText
-                android:id="@+id/ews_step4_ip_edittxt"
+                android:id="@+id/ews_step3_ip_edittxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="4dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/ews_step4_subnet_lb"
+                android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
                 android:gravity="center"
@@ -184,25 +184,25 @@
             
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/ews_step4_subnet_lb"
+                android:id="@+id/ews_step3_subnet_lb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/ews_step4_ip_edittxt"
-                android:layout_alignBaseline="@+id/ews_step4_subnet_edittxt"
+                android:layout_below="@+id/ews_step3_ip_edittxt"
+                android:layout_alignBaseline="@+id/ews_step3_subnet_edittxt"
                 android:text="@string/subnet"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
             
             <EditText
-                android:id="@+id/ews_step4_subnet_edittxt"
+                android:id="@+id/ews_step3_subnet_edittxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="16dp"
-                android:layout_toRightOf="@+id/ews_step4_subnet_lb"
-                android:layout_below="@+id/ews_step4_ip_edittxt"
+                android:layout_toRightOf="@+id/ews_step3_subnet_lb"
+                android:layout_below="@+id/ews_step3_ip_edittxt"
                  android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
                 android:gravity="center"
@@ -216,26 +216,26 @@
             
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/ews_step4_router_lb"
+                android:id="@+id/ews_step3_router_lb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/ews_step4_subnet_edittxt"
-                android:layout_alignBaseline="@+id/ews_step4_router_edittxt"
+                android:layout_below="@+id/ews_step3_subnet_edittxt"
+                android:layout_alignBaseline="@+id/ews_step3_router_edittxt"
                 android:text="@string/router"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
             
             <EditText
-                android:id="@+id/ews_step4_router_edittxt"
+                android:id="@+id/ews_step3_router_edittxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="16dp"
                 android:layout_marginBottom="8dp"
-                android:layout_toRightOf="@+id/ews_step4_subnet_lb"
-                android:layout_below="@+id/ews_step4_subnet_edittxt"
+                android:layout_toRightOf="@+id/ews_step3_subnet_lb"
+                android:layout_below="@+id/ews_step3_subnet_edittxt"
                 android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
                 android:gravity="center"
@@ -248,11 +248,11 @@
             
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/ews_step4_wifi_add_lb"
+                android:id="@+id/ews_step3_wifi_add_lb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_below="@+id/ews_step4_router_edittxt"
+                android:layout_below="@+id/ews_step3_router_edittxt"
                 android:text="@string/wifi_addr"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
@@ -260,12 +260,12 @@
             
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/ews_step4_wifi_add"
+                android:id="@+id/ews_step3_wifi_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:layout_below="@+id/ews_step4_router_edittxt"
-                android:layout_toRightOf="@+id/ews_step4_wifi_add_lb"
+                android:layout_below="@+id/ews_step3_router_edittxt"
+                android:layout_toRightOf="@+id/ews_step3_wifi_add_lb"
                 android:text="@string/router"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
@@ -274,7 +274,7 @@
         </RelativeLayout>
 
         <Button
-            android:id="@+id/ews_step4_next_btn"
+            android:id="@+id/ews_step3_next_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="48dp"
@@ -282,7 +282,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="8dp"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/ews_step4_adv_config_layout"
+            android:layout_below="@+id/ews_step3_adv_config_layout"
             android:background="@drawable/blue_button_selector"
             android:text="@string/next"
             android:textColor="@color/white"
@@ -293,7 +293,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step4_next_btn"
+            android:layout_below="@+id/ews_step3_next_btn"
             android:layout_marginBottom="16dp"
             android:layout_marginTop="16dp"
             android:gravity="center_vertical"

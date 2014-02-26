@@ -45,12 +45,11 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	protected void onPostExecute(String response) {
 		Log.i("ews", "onPOstExecute:" +response) ;
 		if (response != null) {
-			//Log.e(TAG, response);
+			if (ewsTaskListener != null) {
+				ewsTaskListener.onTaskCompleted(responseCode,response);
+			}
 		}
-
-		if (ewsTaskListener != null) {
-			ewsTaskListener.onTaskCompleted(responseCode,response);
-		}
+		
 	}
 	
 	/**
@@ -60,7 +59,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	 * @param  stringUrl	The given URL 	
 	 * @return	Returns 	web page as a string 
 	 */
-	private String downloadUrl(String stringUrl)   {
+	private String downloadUrl(String stringUrl)  {
 		Log.i("ews", stringUrl) ;
 		InputStream inputStream = null;
 		HttpURLConnection conn = null ;
@@ -83,12 +82,11 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			}
 			conn.connect();
 			responseCode = conn.getResponseCode();
-			
-			Log.i("ews","Response Code: "+responseCode);
-			inputStream = conn.getInputStream();
-
-			// Convert the InputStream into a string
-			data = readFully(inputStream);
+			if( responseCode == 200) {
+				inputStream = conn.getInputStream();
+				// Convert the InputStream into a string
+				data = readFully(inputStream);
+			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

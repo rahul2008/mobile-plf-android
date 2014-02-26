@@ -16,4 +16,6 @@ public interface EWSListener {
 	public void foundHomeNetwork() ;
 	
 	public void onErrorOccurred(int errorCode) ;
+	
+	public void onWifiDisabled() ;
 }

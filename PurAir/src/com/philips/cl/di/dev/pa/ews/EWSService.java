@@ -68,6 +68,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		filter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
+		filter.addAction(WifiManager.EXTRA_WIFI_STATE) ;
 		filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
@@ -112,7 +113,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		Log.i("ews", "On Receive") ;
+		Log.i("ews", "On Receive:"+intent.getAction()) ;
 		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 			android.net.NetworkInfo aNetwork = intent
 					.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -135,7 +136,12 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 					listener.foundHomeNetwork() ;
 				}
 			}
+			else if (aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTED ||
+					aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTING) {
+				listener.onWifiDisabled() ;
+			}
 		}
+		
 	}
 
 	public void setPassword(String password) {
@@ -153,7 +159,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	private void initializeKey() {
 		Log.i("ews", "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
-		di.exchangeKey(SECURITY_URI, "dev001") ;
+		di.exchangeKey(SECURITY_URI, AppConstants.DEVICEID) ;
 	}
 
 
