@@ -50,10 +50,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.SettingsActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="com.philips.cl.di.dev.pa.screens.FilterDetailsActivity"
             android:screenOrientation="portrait" >
         </activity>
