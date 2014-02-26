@@ -21,6 +21,7 @@ public class EWSDialogFactory implements OnClickListener{
 	
 	private Dialog errorDialogTS01_01, errorDialogTS01_02, errorDialogTS01_03, errorDialogTS01_04, errorDialogTS01_05;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
+	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
 	
 	private int errorID;
 	private int supportID;
@@ -79,6 +80,18 @@ public class EWSDialogFactory implements OnClickListener{
 			if(errorDialogTS01_05 == null)
 				errorDialogTS01_05 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_05_message), context.getString(R.string.error_purifier_not_detect_btn_txt), 5);
 			return errorDialogTS01_05;
+		case CANCEL_WIFI_SETUP:
+			if(cancelWifiSetup == null)
+				cancelWifiSetup = getCancelWifiSetupDialog();
+			return cancelWifiSetup;
+		case CHECK_SIGNAL_STRENGTH:
+			if(checkSignalStrength == null)
+				checkSignalStrength = getCheckingSignalStrengthDialog();
+			return checkSignalStrength;
+		case CONNECTING_TO_PRODUCT:
+			if(connetToProduct == null)
+				connetToProduct = getConnectingToProductDialog();
+			return connetToProduct;
 		}
 		return null;
 	}
@@ -109,7 +122,7 @@ public class EWSDialogFactory implements OnClickListener{
 		return temp;
 	}
 	
-	public Dialog getErrorDialog(String header, String message, String buttonText, int id) {
+	private Dialog getErrorDialog(String header, String message, String buttonText, int id) {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		errorID = id;
@@ -135,7 +148,7 @@ public class EWSDialogFactory implements OnClickListener{
 		return temp;
 	}
 	
-	public Dialog getCheckingSignalStrengthDialog() {
+	private Dialog getCheckingSignalStrengthDialog() {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.checking_signal_strength, null); 
@@ -150,7 +163,7 @@ public class EWSDialogFactory implements OnClickListener{
 		return temp;
 	}
 	
-	public Dialog getConnectingToProductDialog() {
+	private Dialog getConnectingToProductDialog() {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.connecting_to_product, null); 
@@ -165,7 +178,7 @@ public class EWSDialogFactory implements OnClickListener{
 		return temp;
 	}
 	
-	public Dialog getCancelWifiSetupDialog() {
+	private Dialog getCancelWifiSetupDialog() {
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.cancel_wifi_setup, null); 
@@ -335,4 +348,8 @@ public class EWSDialogFactory implements OnClickListener{
 	public static final int SUPPORT_TS02 = 2002;
 	public static final int SUPPORT_TS03 = 2003;
 	public static final int SUPPORT_TS05 = 2005;
+	
+	public static final int CHECK_SIGNAL_STRENGTH = 3001;
+	public static final int CONNECTING_TO_PRODUCT = 3002;
+	public static final int CANCEL_WIFI_SETUP = 3003;
 }
