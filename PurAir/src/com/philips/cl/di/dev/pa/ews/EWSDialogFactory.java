@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.ews;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -57,7 +58,7 @@ public class EWSDialogFactory implements OnClickListener{
 			return supportDialogTS03;
 		case SUPPORT_TS05:
 			if(supportDialogTS05 == null)
-				supportDialogTS05 = getSupportAlertDialogTS05();
+				supportDialogTS05 = getSupportAlertDialogTS05(5);
 			return supportDialogTS05;
 		case ERROR_TS01_01:
 			if(errorDialogTS01_01 == null)
@@ -122,15 +123,18 @@ public class EWSDialogFactory implements OnClickListener{
 		return temp;
 	}
 
-	private Dialog getSupportAlertDialogTS05() {
+	private Dialog getSupportAlertDialogTS05(int id) {
 		Dialog temp = new Dialog(activity);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		supportID = id;
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.ts05_confirm_enabled, null);
 		Button confirmWifiEnabledYes = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_yes);
 		confirmWifiEnabledYes.setOnClickListener(this);
 		Button confirmWifiEnabledNo = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_no);
 		confirmWifiEnabledNo.setOnClickListener(this);
+		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
+		String msg1 = context.getString(R.string.support_ts05_message) + " <font color=#EF6921>"+context.getString(R.string.orange)+"</font>" + " " + context.getString(R.string.now);
+		tvMessage.setText(Html.fromHtml(msg1));
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
@@ -339,7 +343,7 @@ public class EWSDialogFactory implements OnClickListener{
 		switch (errorDialogID2) {
 		case 1:
 			getDialog(ERROR_TS01_01).dismiss();
-			getDialog(ERROR_TS01_02).show();
+			getDialog(SUPPORT_TS01).show();
 			break;
 		case 2 : 
 			getDialog(ERROR_TS01_02).dismiss();
@@ -347,11 +351,11 @@ public class EWSDialogFactory implements OnClickListener{
 			break;
 		case 3:
 			getDialog(ERROR_TS01_03).dismiss();
-			getDialog(ERROR_TS01_04).show();
+			getDialog(SUPPORT_TS01).show();
 			break;
 		case 4:
 			getDialog(ERROR_TS01_04).dismiss();
-			getDialog(ERROR_TS01_05).show();
+			getDialog(SUPPORT_TS01).show();
 			break;
 		case 5:
 			getDialog(ERROR_TS01_05).dismiss();
