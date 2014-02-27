@@ -46,23 +46,18 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	 */
 	private ActionBar mActionBar;
 	private CustomTextView actionbarTitle;
-	private Button actionbarBtn;
 	/**
 	 * Step1 variable declare
 	 */
-	private Button ewsStart;
 	private View viewStart;
 	/**
 	 * Step1 variable declare
 	 */
 	private CustomTextView wifiNetworkNameStep1;
-	private Button yesBtnStep1, noBtnStep1;
 	private View viewStep1;
 	/**
 	 * Step2 variable declare
 	 */
-	private CustomTextView step2Message1, step2Message2;
-	private Button yesBtnStep2, noBtnStep2;
 	private View viewStep2;
 	/**
 	 * Step3 variable declare
@@ -70,22 +65,20 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private CustomTextView passwordLabelStep3, wifiNetworkAddStep3;
 	private EditText passwordStep3, deviceNameStep3, 
 	ipAddStep3, subnetMaskStep3, routerAddStep3;
-	private ImageView showPasswordImgStep3, showAdvSettingStep3;
-	private Button nextBtnStep3, editSavePlaceNameBtnStep3;
+	private ImageView showPasswordImgStep3;
+	private Button editSavePlaceNameBtnStep3;
 	private RelativeLayout advSettingLayoutStep3;
 	private LinearLayout advSettingBtnLayoutStep3;
 	private boolean isPasswordVisibelStep3 = true;
-	private String placeBtnTxtStep3;
+	//private String placeBtnTxtStep3;
 	private View viewStep3;
 	/**
 	 * Congratulation variable declare
 	 */
-	private Button congratulationBtn;
 	private View viewCongratulation;
 	/**
 	 * Congratulation variable declare
 	 */
-	private Button errorPurifierNotDectBtn;
 	private View viewErrorPurifierNotDect;
 	private CustomTextView errorPurifierNotDectNetwork;
 	/**
@@ -103,21 +96,17 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private View viewContactPhilipsSupport;
 	private CustomTextView contactPhilipsMessage1, contactPhilipsPhone, 
 	contactPhilipsEmail, contactPhilipsWeb;
-	private RelativeLayout contactPhilipsPhoneLayout, contactPhilipsEmailLayout, 
-	contactPhilipsWebLayout;
 
 	private LayoutInflater inflater;
 
 	private WifiManager wifiManager ;
 	private String networkSSID ;
 	private String password ;
-	private String purifierName ;
 
 	private SsdpService ssdpService ;
 	
 	private Dialog progressDialogForStep2 ;
 	
-	private Dialog progressDialogForStep3 ;
 	private EWSService ewsService ;
 	private String ipAddress ;
 
@@ -146,8 +135,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	private void initializeIntroVariable() {
 		viewStart = inflater.inflate(R.layout.ews_intro_screen, null);
-		ewsStart = (Button) viewStart.findViewById(R.id.ews_get_start_btn);
-		ewsStart.setOnClickListener(this);
+		((Button) viewStart.findViewById(R.id.ews_get_start_btn)).setOnClickListener(this);
 
 	}
 
@@ -156,32 +144,25 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		wifiNetworkNameStep1 = (CustomTextView) viewStep1.findViewById(R.id.ews_step1_wifi_network);
 
-		yesBtnStep1 = (Button) viewStep1.findViewById(R.id.ews_step1_yes_btn);
-		noBtnStep1 = (Button) viewStep1.findViewById(R.id.ews_step1_no_btn);
-
-		yesBtnStep1.setOnClickListener(this);
-		noBtnStep1.setOnClickListener(this);
+		((Button) viewStep1.findViewById(R.id.ews_step1_yes_btn)).setOnClickListener(this);;
+		((Button) viewStep1.findViewById(R.id.ews_step1_no_btn)).setOnClickListener(this);;
 
 	}
 
 	private void initializeStep2Variable() {
 		viewStep2 = inflater.inflate(R.layout.ews_step2, null);
 
-		step2Message1 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message1);
-		step2Message2 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message2);
+		CustomTextView step2Message1 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message1);
+		CustomTextView step2Message2 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message2);
 
 		String msg1 = getString(R.string.step2_msg1) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>.";
 		step2Message1.setText(Html.fromHtml(msg1));
 
 		String msg2 = getString(R.string.step2_msg2) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>?";
 		step2Message2.setText(Html.fromHtml(msg2));
-
-
-		yesBtnStep2 = (Button) viewStep2.findViewById(R.id.ews_step2_yes_btn);
-		noBtnStep2 = (Button) viewStep2.findViewById(R.id.ews_step2_no_btn);
-
-		yesBtnStep2.setOnClickListener(this);
-		noBtnStep2.setOnClickListener(this);
+		
+		((Button) viewStep2.findViewById(R.id.ews_step2_yes_btn)).setOnClickListener(this);;
+		((Button) viewStep2.findViewById(R.id.ews_step2_no_btn)).setOnClickListener(this);;
 
 	}
 
@@ -199,17 +180,15 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		routerAddStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_router_edittxt);
 
 		showPasswordImgStep3 = (ImageView) viewStep3.findViewById(R.id.ews_password_enable_img);
-		showAdvSettingStep3 = (ImageView) viewStep3.findViewById(R.id.ews_adv_config_img);
+		((ImageView) viewStep3.findViewById(R.id.ews_adv_config_img)).setOnClickListener(this);
 
-		nextBtnStep3 = (Button) viewStep3.findViewById(R.id.ews_step3_next_btn);
+		((Button) viewStep3.findViewById(R.id.ews_step3_next_btn)).setOnClickListener(this);
 		editSavePlaceNameBtnStep3 = (Button) viewStep3.findViewById(R.id.ews_step3_edit_name_btn);
 
 		advSettingLayoutStep3 = (RelativeLayout) viewStep3.findViewById(R.id.ews_step3_adv_config_layout);
 		advSettingBtnLayoutStep3 = (LinearLayout) viewStep3.findViewById(R.id.ews_adv_config_layout);
 
 		showPasswordImgStep3.setOnClickListener(this);
-		showAdvSettingStep3.setOnClickListener(this);
-		nextBtnStep3.setOnClickListener(this);
 		editSavePlaceNameBtnStep3.setOnClickListener(this);
 
 	}
@@ -224,17 +203,14 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);
 		actionbarTitle = (CustomTextView) view.findViewById(R.id.ews_actionbar_title);
 		actionbarTitle.setText(getString(R.string.wifi_setup));
-		actionbarBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
-		actionbarBtn.setOnClickListener(this);
+		((Button) view.findViewById(R.id.ews_actionbar_cancel_btn)).setOnClickListener(this);
 		mActionBar.setCustomView(view);	
 	}
 
 	private void initializeCongraltVariable() {
 		viewCongratulation = inflater.inflate(R.layout.ews_congratulation, null);
 
-		congratulationBtn = (Button) viewCongratulation.findViewById(R.id.ews_congratulation_btn);
-
-		congratulationBtn.setOnClickListener(this);
+		((Button) viewCongratulation.findViewById(R.id.ews_congratulation_btn)).setOnClickListener(this);
 
 	}
 
@@ -243,9 +219,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		errorPurifierNotDectNetwork = 
 				(CustomTextView) viewErrorPurifierNotDect.findViewById(R.id.ews_purifier_not_dect_network);
-		errorPurifierNotDectBtn = (Button) viewErrorPurifierNotDect.findViewById(R.id.ews_purifier_not_dect_btn);
-
-		errorPurifierNotDectBtn.setOnClickListener(this);
+		((Button) viewErrorPurifierNotDect.findViewById
+				(R.id.ews_purifier_not_dect_btn)).setOnClickListener(this);
 
 	}
 
@@ -262,20 +237,19 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		contactPhilipsWeb = (CustomTextView) 
 				viewContactPhilipsSupport.findViewById(R.id.contact_support_website);
 
-		contactPhilipsPhoneLayout = (RelativeLayout) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_support_phone_layout);  
-		contactPhilipsEmailLayout = (RelativeLayout) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_support_email_layout);  						
-		contactPhilipsWebLayout = (RelativeLayout) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_support_website_layout); 
+		((RelativeLayout) viewContactPhilipsSupport.findViewById
+				(R.id.contact_support_phone_layout)).setOnClickListener(this);  
+		((RelativeLayout) viewContactPhilipsSupport.findViewById
+				(R.id.contact_support_email_layout)).setOnClickListener(this);  						
+		((RelativeLayout)viewContactPhilipsSupport.findViewById
+				(R.id.contact_support_website_layout)).setOnClickListener(this); 
 
-		contactPhilipsPhoneLayout.setOnClickListener(this);
-		contactPhilipsEmailLayout.setOnClickListener(this);
-		contactPhilipsWebLayout.setOnClickListener(this);
 	}
 
 	private void initializeErrorSSID() {
-
+		viewErrorSSID  = inflater.inflate(R.layout.ews_error_ssid, null) ;
+		errorSSIDNetwork = (CustomTextView) 
+				viewErrorSSID.findViewById(R.id.ews_error_ssid_network); 
 	}
 
 	private void initializeErrorConnect2Network() {

@@ -26,7 +26,7 @@
             android:id="@+id/ews_error_ssid_network"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="user's Wi-Fi network name"
+            android:text=""
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
