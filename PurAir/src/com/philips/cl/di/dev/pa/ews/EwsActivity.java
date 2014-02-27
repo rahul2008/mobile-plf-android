@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Selection;
@@ -355,10 +357,24 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			showHomeScreen() ;
 			break;
 		case R.id.contact_support_phone_layout:
+			//TODO : Uncomment SIM_STATE check, commented for testing.
+//			TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+//			if(tm != null && tm.getSimState() == TelephonyManager.SIM_STATE_READY) {
+				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
+				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
+				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+//			}
 			break;
 		case R.id.contact_support_email_layout:
+			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+			supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
+			supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
+			startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
 			break;
 		case R.id.contact_support_website_layout:
+			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
+			gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
+			startActivity(gotoSupportWebisteIntent);
 			break;
 		case R.id.ews_actionbar_cancel_btn:
 			onCancel() ;
