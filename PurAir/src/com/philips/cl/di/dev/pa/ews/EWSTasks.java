@@ -41,12 +41,9 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	@Override
 	protected void onPostExecute(String response) {
 		Log.i("ews", "onPOstExecute:" +response) ;
-		if (response != null) {
 			if (ewsTaskListener != null) {
 				ewsTaskListener.onTaskCompleted(responseCode,response);
-			}
-		}
-		
+			}		
 	}
 	
 	/**

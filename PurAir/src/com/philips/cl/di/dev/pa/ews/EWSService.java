@@ -300,7 +300,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	@Override
 	public void onTaskCompleted(int responseCode, String response) {
 		stop = true ;
-		Log.i("ews", "onTaskCompleted") ;
+		Log.i("ews", "onTaskCompleted:"+responseCode) ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
@@ -338,14 +338,16 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 			}
 			break;
 		default: 
+				stop = true ;
+				stopNetworkDetailsTimer() ;
+				stopSSIDTimer() ;
 				if( taskType == WIFI_GET || taskType == DEVICE_GET) {
 					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE) ;
 				}
 				else if( taskType == WIFI_PUT || taskType == DEVICE_PUT) {
 					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE) ;
 				}
-			 	break;
-			
+			 	break;			
 		}
 	}
 
@@ -389,7 +391,14 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	};
 	
 	public void stopNetworkDetailsTimer() {
-		sendNetworkDetailsTimer.cancel() ;
+		if( sendNetworkDetailsTimer != null)
+			sendNetworkDetailsTimer.cancel() ;
+	}
+	
+	public void stopSSIDTimer() {
+		if(deviceSSIDTimer != null ) {
+			deviceSSIDTimer.cancel() ;
+		}
 	}
 
 	private boolean stop = true;
