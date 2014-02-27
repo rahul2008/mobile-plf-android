@@ -12,12 +12,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class EWSDialogFactory implements OnClickListener{
+	private static final String TAG = EWSDialogFactory.class.getSimpleName();
 
 	private Dialog errorDialogTS01_01, errorDialogTS01_02, errorDialogTS01_03, errorDialogTS01_04, errorDialogTS01_05;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
@@ -27,6 +27,12 @@ public class EWSDialogFactory implements OnClickListener{
 	private int supportID;
 	private Context context;
 	private Activity activity;
+	private String networkName = "";
+	
+	public void setNetworkName(String networkName) {
+		Log.i(TAG, "setNetworkName : networkName " + networkName);
+		this.networkName = networkName;
+	}
 
 	private static EWSDialogFactory _instance;
 
@@ -46,39 +52,48 @@ public class EWSDialogFactory implements OnClickListener{
 		switch (id) {
 		case SUPPORT_TS01:
 			if(supportDialogTS01 == null)
-				supportDialogTS01 = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), 1);
+				supportDialogTS01 = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_TS01);
+			supportID = SUPPORT_TS01;
 			return supportDialogTS01;
 		case SUPPORT_TS02:
 			if(supportDialogTS02 == null)
-				supportDialogTS02 = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.next), 2);
+				supportDialogTS02 = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.next), SUPPORT_TS02);
+			supportID = SUPPORT_TS02;
 			return supportDialogTS02;
 		case SUPPORT_TS03:
 			if(supportDialogTS03 == null)
-				supportDialogTS03 = getSupportAlertDialog(context.getString(R.string.support_ts03_message), R.drawable.ews_help_bg3_2x, context.getString(R.string.next), 3);
+				supportDialogTS03 = getSupportAlertDialog(context.getString(R.string.support_ts03_message), R.drawable.ews_help_bg3_2x, context.getString(R.string.next), SUPPORT_TS03);
+			supportID = SUPPORT_TS03;
 			return supportDialogTS03;
 		case SUPPORT_TS05:
 			if(supportDialogTS05 == null)
-				supportDialogTS05 = getSupportAlertDialogTS05(5);
+				supportDialogTS05 = getSupportAlertDialogTS05(SUPPORT_TS05);
+			supportID = SUPPORT_TS05;
 			return supportDialogTS05;
 		case ERROR_TS01_01:
 			if(errorDialogTS01_01 == null)
-				errorDialogTS01_01 = getErrorDialog(context.getString(R.string.error_ts01_01_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), 1);
+				errorDialogTS01_01 = getErrorDialog(context.getString(R.string.error_ts01_01_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_01);
+			errorID = ERROR_TS01_01;
 			return errorDialogTS01_01;
 		case ERROR_TS01_02:
 			if(errorDialogTS01_02 == null)
-				errorDialogTS01_02 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_02_message), context.getString(R.string.next), 2);
+				errorDialogTS01_02 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_02_message), context.getString(R.string.next), ERROR_TS01_02);
+			errorID = ERROR_TS01_02;
 			return errorDialogTS01_02;
 		case ERROR_TS01_03:
 			if(errorDialogTS01_03 == null)
-				errorDialogTS01_03 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_03_message), context.getString(R.string.error_purifier_not_detect_btn_txt), 3);
+				errorDialogTS01_03 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_03_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_03);
+			errorID = ERROR_TS01_03;
 			return errorDialogTS01_03;
 		case ERROR_TS01_04:
 			if(errorDialogTS01_04 == null)
-				errorDialogTS01_04 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_04_message), context.getString(R.string.error_purifier_not_detect_btn_txt), 4);
+				errorDialogTS01_04 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_04_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_04);
+			errorID = ERROR_TS01_04;
 			return errorDialogTS01_04;
 		case ERROR_TS01_05:
 			if(errorDialogTS01_05 == null)
-				errorDialogTS01_05 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_05_message), context.getString(R.string.error_purifier_not_detect_btn_txt), 5);
+				errorDialogTS01_05 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_05_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_05);
+			errorID = ERROR_TS01_05;
 			return errorDialogTS01_05;
 		case CANCEL_WIFI_SETUP:
 			if(cancelWifiSetup == null)
@@ -187,6 +202,8 @@ public class EWSDialogFactory implements OnClickListener{
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.connecting_to_product, null); 
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_check_signal_header);
+		Log.i(TAG, "getDialog networkName " + networkName);
+		tvHeader.setText(context.getString(R.string.checking_signal_strength_title) + " " + networkName + ".");
 		tvHeader.setTypeface(Fonts.getGillsansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_check_signal_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(context));
@@ -218,6 +235,7 @@ public class EWSDialogFactory implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
+		Log.i(TAG, "onClick");
 		switch(v.getId()) {
 		case R.id.btn_error_popup:
 			handleErrorDialog(errorID);
@@ -232,10 +250,26 @@ public class EWSDialogFactory implements OnClickListener{
 			closePopUp(supportID);
 			break;
 		case R.id.iv_support:
+			if ( context instanceof EwsActivity ) {
+				EwsActivity activity = (EwsActivity) context ;
+
+				activity.showSupportScreen() ;
+			}
+			closePopUp(supportID);
 			break;
 
 		case R.id.iv_close_error_popup:
 			closeErrorPopUp(errorID);
+			break;
+			
+		case R.id.iv_goto_support:
+			if ( context instanceof EwsActivity ) {
+				EwsActivity activity = (EwsActivity) context ;
+
+				activity.showSupportScreen() ;
+			}
+			closeErrorPopUp(errorID);
+			break;
 
 		case R.id.btn_cancel_wifi_yes:
 			//			closeErrorPopUp(CANCEL_WIFI_SETUP) ;
@@ -245,8 +279,6 @@ public class EWSDialogFactory implements OnClickListener{
 
 				activity.finish() ;
 			}
-
-
 			break;
 
 		case R.id.btn_cancel_wifi_no:
@@ -275,19 +307,19 @@ public class EWSDialogFactory implements OnClickListener{
 
 	private void closeErrorPopUp(int errorID2) {
 		switch (errorID2) {
-		case 1:
+		case ERROR_TS01_01:
 			errorDialogTS01_01.dismiss();
 			break;
-		case 2:
+		case ERROR_TS01_02:
 			errorDialogTS01_02.dismiss();
 			break;
-		case 3:
+		case ERROR_TS01_03:
 			errorDialogTS01_03.dismiss();
 			break;
-		case 4:
+		case ERROR_TS01_04:
 			errorDialogTS01_04.dismiss();
 			break;
-		case 5:
+		case ERROR_TS01_05:
 			errorDialogTS01_05.dismiss();
 			break;
 		}
@@ -295,16 +327,16 @@ public class EWSDialogFactory implements OnClickListener{
 
 	private void closePopUp(int supportDialogID2) {
 		switch (supportDialogID2) {
-		case 1:
+		case SUPPORT_TS01:
 			supportDialogTS01.dismiss();
 			break;
-		case 2:
+		case SUPPORT_TS02:
 			supportDialogTS02.dismiss();
 			break;
-		case 3:
+		case SUPPORT_TS03:
 			supportDialogTS03.dismiss();
 			break;
-		case 4:
+		case SUPPORT_TS05:
 			supportDialogTS05.dismiss();
 			break;
 		case CANCEL_WIFI_SETUP:
@@ -317,20 +349,21 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 
 	private void handleSupportDialog(int supportDialogID2) {
+		Log.i(TAG, "handleSupportDialog dialogId" + supportDialogID2);
 		switch (supportDialogID2) {
-		case 1:
+		case SUPPORT_TS01:
 			getDialog(SUPPORT_TS01).dismiss();
 			getDialog(SUPPORT_TS02).show();
 			break;
-		case 2:
+		case SUPPORT_TS02:
 			getDialog(SUPPORT_TS02).dismiss();
 			getDialog(SUPPORT_TS03).show();
 			break;
-		case 3:
+		case SUPPORT_TS03:
 			getDialog(SUPPORT_TS03).dismiss();
 			getDialog(SUPPORT_TS05).show();
 			break;
-		case 5:
+		case SUPPORT_TS05:
 			getDialog(SUPPORT_TS05).dismiss();
 			break;
 		default:
@@ -340,24 +373,25 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 
 	private void handleErrorDialog(int errorDialogID2) {
+		Log.i(TAG, "handleErrorDialog dialogId "  + errorDialogID2);	
 		switch (errorDialogID2) {
-		case 1:
+		case ERROR_TS01_01:
 			getDialog(ERROR_TS01_01).dismiss();
 			getDialog(SUPPORT_TS01).show();
 			break;
-		case 2 : 
+		case ERROR_TS01_02 : 
 			getDialog(ERROR_TS01_02).dismiss();
 			getDialog(SUPPORT_TS01).show();
 			break;
-		case 3:
+		case ERROR_TS01_03:
 			getDialog(ERROR_TS01_03).dismiss();
 			getDialog(SUPPORT_TS01).show();
 			break;
-		case 4:
+		case ERROR_TS01_04:
 			getDialog(ERROR_TS01_04).dismiss();
 			getDialog(SUPPORT_TS01).show();
 			break;
-		case 5:
+		case ERROR_TS01_05:
 			getDialog(ERROR_TS01_05).dismiss();
 			break;
 

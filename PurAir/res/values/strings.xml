@@ -419,8 +419,10 @@
 	<string name="support_ts05_message">Is the Wi-Fi LED blinking</string>
 	<string name="now">now?</string>
 	
-	<string name="checking_signal_strength_title">"Now connecting your Philips Smart Air Purifier to "home Wi-Fi network name"."</string>
+	<string name="checking_signal_strength_title">Now connecting your Philips Smart Air Purifier to </string>
 	<string name="checking_signal_strength_message">This might take a few seconds. You will be redirected automatically.</string>
 	<string name="cancel_wifi_setup_title">Are you sure you want to cancel Wi-Fi setup?</string>
-	<string name="cancel_wifi_setup_message">This will delete all data entered so far.</string>	
+	<string name="cancel_wifi_setup_message">This will delete all data entered so far.</string>
+	<string name="check_signal_strenth_title">Now communicating with your Air Purifier.</string>
+		
 </resources>

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
@@ -25,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
@@ -118,8 +118,6 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	
 	private Dialog progressDialogForStep2 ;
 	
-	private Dialog progressDialogForStep3 ;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -141,7 +139,6 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		setContentView(viewStart);
 		progressDialogForStep2 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH) ;
-		progressDialogForStep3 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT) ;
 	}
 
 
@@ -158,7 +155,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			showStepOne() ;
 		}
 	}
-
+	
 	private void showStepOne() {		
 		if( wifiManager.getConnectionInfo() != null ) {
 			Log.i("ews", "Connection info not null") ;
@@ -486,11 +483,13 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	}
 
 	private void sendNetworkDetails() {
-		progressDialogForStep3.show() ;
+		EWSDialogFactory.getInstance(this).setNetworkName(networkSSID);
+		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).show() ;
 		String enteredPassword = passwordStep3.getText().toString() ;
 		ewsService.setSSID(networkSSID) ;
 		ewsService.setPassword(enteredPassword) ;
 		ewsService.putWifiDetails() ;
+		
 	}
 
 	private void sendDeviceNameToPurifier(String deviceName) {
@@ -602,7 +601,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	private void deviceDiscoveryCompleted() {
 		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
-		progressDialogForStep3.dismiss() ;
+		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		if( ewsService != null ) {
 			ewsService.stopNetworkDetailsTimer() ;
 		}
@@ -621,8 +620,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
 		if( progressDialogForStep2.isShowing())
 			progressDialogForStep2.dismiss() ;
-		else if( progressDialogForStep3.isShowing())
-			progressDialogForStep3.dismiss() ;
+		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		switch (errorCode) {
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
