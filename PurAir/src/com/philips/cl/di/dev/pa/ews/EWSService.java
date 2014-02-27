@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -11,6 +12,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiConfiguration.KeyMgmt;
 import android.net.wifi.WifiInfo;
@@ -121,6 +123,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		Log.i("ews", "On Receive:"+intent.getAction()) ;
 		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 			android.net.NetworkInfo aNetwork = intent
@@ -137,11 +140,15 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 					errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
 					listener.onDeviceAPMode() ;
 					initializeKey() ;
+					
+					List<ScanResult> results = wifiManager.getScanResults();
+					processWifiList(results);
 					// Handshake with the Air Purifier
 				}
 				else if( ssid != null && !ssid.contains(DEVICE_SSID) && homeSSID == null) {
-					if ( homeSSID == null )
+					if ( homeSSID == null ) {
 						listener.foundHomeNetwork() ;
+					}
 				}
 			}
 			else if (aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTED ||
@@ -150,7 +157,24 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 				listener.onWifiDisabled() ;
 			}
 		}
-
+		
+	}
+	private static boolean isOpenNetwork;
+	private void processWifiList(List<ScanResult> results) {
+		for (ScanResult scanResult : results) {
+			if (scanResult.SSID != null && homeSSID != null && scanResult.SSID.equals(homeSSID)) {
+				if (scanResult.capabilities.contains("WPA") 
+						|| scanResult.capabilities.contains("WEP")) {
+					isOpenNetwork = false;
+				}else {
+					isOpenNetwork = true;
+				}
+			}
+		}
+	}
+	
+	public static boolean isNoPasswordSSID() {
+		return isOpenNetwork;
 	}
 
 	public void setPassword(String password) {

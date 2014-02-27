@@ -75,7 +75,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private Button nextBtnStep3, editSavePlaceNameBtnStep3;
 	private RelativeLayout advSettingLayoutStep3;
 	private LinearLayout advSettingBtnLayoutStep3;
-	private boolean isPasswordVisibelStep3;
+	private boolean isPasswordVisibelStep3 = true;
 	private String placeBtnTxtStep3;
 	private View viewStep3;
 	/**
@@ -521,6 +521,13 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			progressDialogForStep2.dismiss() ;
 		}
 		setContentView(viewStep3);
+		
+		if (EWSService.isNoPasswordSSID()) {
+			passwordStep3.setEnabled(false);
+		} else {
+			passwordStep3.setEnabled(true);
+		}
+		
 		String passwordLabel = getString(R.string.step3_msg1) + " <font color=#3285FF>"+networkSSID+"</font>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
