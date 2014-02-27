@@ -376,28 +376,22 @@ public class EWSDialogFactory implements OnClickListener{
 		Log.i(TAG, "handleErrorDialog dialogId "  + errorDialogID2);	
 		switch (errorDialogID2) {
 		case ERROR_TS01_01:
-			getDialog(ERROR_TS01_01).dismiss();
-			getDialog(SUPPORT_TS01).show();
+			getDialog(ERROR_TS01_01).dismiss();			
 			break;
 		case ERROR_TS01_02 : 
 			getDialog(ERROR_TS01_02).dismiss();
-			getDialog(SUPPORT_TS01).show();
 			break;
 		case ERROR_TS01_03:
 			getDialog(ERROR_TS01_03).dismiss();
-			getDialog(SUPPORT_TS01).show();
 			break;
 		case ERROR_TS01_04:
 			getDialog(ERROR_TS01_04).dismiss();
-			getDialog(SUPPORT_TS01).show();
 			break;
 		case ERROR_TS01_05:
 			getDialog(ERROR_TS01_05).dismiss();
 			break;
-
-		default:
-			break;
 		}
+		getDialog(SUPPORT_TS01).show();
 	}
 
 	public void cleanUp() {
