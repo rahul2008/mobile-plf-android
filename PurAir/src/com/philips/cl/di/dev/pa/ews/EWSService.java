@@ -28,7 +28,7 @@ import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.KeyDecryptListener;
 
-public class EWSService extends BroadcastReceiver implements KeyDecryptListener, EWSTaskListener {
+public class EWSService extends BroadcastReceiver implements KeyDecryptListener, EWSTaskListener, Runnable {
 
 	private static final String TAG = EWSService.class.getSimpleName() ;
 	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/0/wifi";
@@ -89,8 +89,11 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 				.getSystemService(Context.WIFI_SERVICE);
 
 		registerListener() ;
-		timer = new Timer() ;
-		timer.schedule(updateTask, 0, 10000);
+
+		if(stop) {
+			stop = false ;
+			new Thread(this).start() ;
+		}
 
 	}
 
@@ -294,6 +297,12 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 	@Override
 	public void onTaskCompleted(int responseCode, String response) {
+		if( timer != null ) {
+			timer.cancel() ;
+		}
+		if( updateTask != null ) {
+			updateTask.cancel() ;
+		}
 		Log.i("ews", "onTaskCompleted") ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
@@ -362,18 +371,21 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 		@Override
 		public void onFinish() {
+			stop = true ;
 			unRegisterListener() ;
 			listener.onErrorOccurred(errorCodeStep2) ;
 		}
 	};
 	
 	private CountDownTimer sendNetworkDetailsTimer = new CountDownTimer(30000, 1000) {
+	
 		@Override
 		public void onTick(long millisUntilFinished) {
 		}
 
 		@Override
 		public void onFinish() {
+			stop = true ;
 			unRegisterListener() ;
 			listener.onErrorOccurred(errorCodeStep3) ;
 		}
@@ -381,5 +393,27 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	
 	public void stopNetworkDetailsTimer() {
 		sendNetworkDetailsTimer.cancel() ;
+	}
+
+	private boolean stop = true;
+	private int totalTime = 10 * 1000 ;
+	
+	@Override
+	public void run() {
+		int timeElapsed = 0 ;
+		while(!stop) {
+			try {
+				Thread.sleep(1000) ;
+				timeElapsed = timeElapsed + 1000 ;
+				if( timeElapsed == totalTime) {
+					timeElapsed = 0 ;
+					// StartScan
+				}
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 }

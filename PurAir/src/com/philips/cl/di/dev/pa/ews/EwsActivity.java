@@ -614,6 +614,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
 		if( progressDialogForStep2.isShowing())
 			progressDialogForStep2.dismiss() ;
+		else if( progressDialogForStep3.isShowing())
+			progressDialogForStep3.dismiss() ;
 		switch (errorCode) {
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
