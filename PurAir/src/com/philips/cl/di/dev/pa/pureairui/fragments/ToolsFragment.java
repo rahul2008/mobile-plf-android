@@ -4,8 +4,6 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +11,7 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,11 +31,12 @@ import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseAdapter;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.interfaces.SignonListener;
 import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData;
+import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData.DiagnosticsDataListener;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class ToolsFragment extends Fragment implements OnClickListener,
-SignonListener {
+SignonListener, DiagnosticsDataListener {
 
 	private static final String TAG = ToolsFragment.class.getSimpleName();
 	private TextView tvIpaddress;
@@ -50,9 +50,6 @@ SignonListener {
 	private static final String WIFIUI = "wifiui";
 	private static final String DEVICE = "device";
 	private static final String LOG = "log";
-	private WifiManager wifii;
-	private DhcpInfo dhcpInfo;
-	private String[] aResponse;
 	private String[] header = new String[] { "Wifi Port:", "WifiUi Port:",
 			"Device Port:", "Firmware Port:", "Logs Port:" };
 
@@ -64,6 +61,7 @@ SignonListener {
 		initViews();
 		return vMain;
 	}
+
 
 	private void initViews() {
 		tvIpaddress = (EditText) vMain.findViewById(R.id.tvipaddress);
@@ -142,8 +140,20 @@ SignonListener {
 			}
 			break;
 		case R.id.btn_diagnostics:
-			String message = diagnosticData();
-			sendMail(message, "permita.chatterjee@philips.com");
+			String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT,
+					Utils.getIPAddress(getActivity()));
+			String wifiUrl = String.format(AppConstants.URL_PORT.concat(WIFI),
+					Utils.getIPAddress(getActivity()));
+			String wifiUiUrl = String.format(AppConstants.URL_PORT.concat(WIFIUI),
+					Utils.getIPAddress(getActivity()));
+			String deviceUrl = String.format(AppConstants.URL_PORT.concat(DEVICE),
+					Utils.getIPAddress(getActivity()));
+			String logUrl = String.format(AppConstants.URL_PORT.concat(LOG),
+					Utils.getIPAddress(getActivity()));
+
+			//fetch all ports data
+			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);
+			task.execute(wifiUrl, wifiUiUrl, deviceUrl, firmwareUrl, logUrl);
 			break;
 
 		default:
@@ -232,31 +242,10 @@ SignonListener {
 	 * @return String containing all diagnostic data
 	 */
 	public String diagnosticData() {
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT,
-				Utils.getIPAddress(getActivity()));
-		String wifiUrl = String.format(AppConstants.URL_PORT.concat(WIFI),
-				Utils.getIPAddress(getActivity()));
-		String wifiUiUrl = String.format(AppConstants.URL_PORT.concat(WIFIUI),
-				Utils.getIPAddress(getActivity()));
-		String deviceUrl = String.format(AppConstants.URL_PORT.concat(DEVICE),
-				Utils.getIPAddress(getActivity()));
-		String logUrl = String.format(AppConstants.URL_PORT.concat(LOG),
-				Utils.getIPAddress(getActivity()));
-
-		//fetch all ports data
-		TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity());
-		task.execute(wifiUrl, wifiUiUrl, deviceUrl, firmwareUrl, logUrl);
-		try {
-			aResponse = task.get();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} catch (ExecutionException e) {
-			e.printStackTrace();
-		}
-
-		wifii = (WifiManager) getActivity().getSystemService(
+		
+		WifiManager wifii = (WifiManager) getActivity().getSystemService(
 				Context.WIFI_SERVICE);
-		dhcpInfo = wifii.getDhcpInfo();
+		DhcpInfo dhcpInfo = wifii.getDhcpInfo();
 
 		CPPController controller = CPPController.getInstance(getActivity());
 
@@ -278,22 +267,12 @@ SignonListener {
 		String euid = "AirPurifier EUI64:" + Utils.getEuid(getActivity());
 		String macAddress = "Air Purifier MAC Address:"
 				+ formatMacAddress(Utils.getMacAddress(getActivity()).toUpperCase());
-		
-		String iCPClientVersion= "ICP Client version:"+
-		 controller.getICPClientVersion();
-		 
-		String isSignOn = "Is SignOn Successful: " + controller.isSignOn();
-		StringBuilder portData = new StringBuilder();
-		if (aResponse != null) {
 
-			for (int i = 0; i < aResponse.length; i++) {
-				portData.append(header[i]);
-				portData.append("\n");
-				portData.append(aResponse[i]);
-				portData.append("\n");
-			}			
-		}		
-		
+		String iCPClientVersion= "ICP Client version:"+
+				controller.getICPClientVersion();
+
+		String isSignOn = "Is SignOn Successful: " + controller.isSignOn();
+
 		StringBuilder data = new StringBuilder("Device Network Info\n");
 		data.append(dIpAddress);
 		data.append("\n");
@@ -316,9 +295,6 @@ SignonListener {
 		data.append("\n");
 		data.append(iCPClientVersion);
 		data.append("\n");
-		data.append(portData);
-
-		Log.d("Diagnostic", data.toString());
 		return data.toString();
 	}
 
@@ -327,12 +303,31 @@ SignonListener {
 		if( mac == null) {
 			return "" ;
 		}
-		return mac.replaceAll("(.{2})", "$1"+":").substring(0,17);
+		return mac.replaceAll("(..)(?!$)", "$1-");
 	}
 
 	private String intToIp(int addr) {
 		return ((addr & 0xFF) + "." + ((addr >>>= 8) & 0xFF) + "."
 				+ ((addr >>>= 8) & 0xFF) + "." + ((addr >>>= 8) & 0xFF));
+	}
+
+
+	@Override
+	public void diagnosticsDataUpdated(String[] data) {
+		StringBuilder portData = new StringBuilder();
+		String message = diagnosticData();
+		portData.append(message);
+		portData.append("\n");
+		if (data != null) {			
+			for (int i = 0; i < data.length; i++) {
+				portData.append(header[i]);
+				portData.append("\n");
+				portData.append(data[i]);
+				portData.append("\n");
+			}			
+		}
+		Log.d("Diagnostic", portData.toString());
+		sendMail(portData.toString(), "sangamesh.bn@philips.com");
 	}
 
 }

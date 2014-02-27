@@ -9,15 +9,20 @@ import com.philips.cl.di.dev.pa.dto.ResponseDto;
 import com.philips.cl.di.dev.pa.utils.NetworkUtils;
 import com.philips.cl.disecurity.DISecurity;
 
-public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
-	Context context;
-	ResponseDto responseObj;
+public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]>{
+	private Context context;
+	private ResponseDto responseObj;
+	private ProgressDialog pDialog;
+	private DiagnosticsDataListener listener ;
 
-	public TaskGetDiagnosticData(Context pContext) {
-		context = pContext;
+	public interface DiagnosticsDataListener {
+		public void diagnosticsDataUpdated(String[] data);
 	}
-
-	ProgressDialog pDialog;
+	
+	public TaskGetDiagnosticData(Context pContext, DiagnosticsDataListener pListener) {
+		context = pContext;
+		listener = pListener ;
+	}		
 
 	@Override
 	protected void onPreExecute() {
@@ -44,9 +49,10 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 
 	// onPostExecute displays the results of the AsyncTask.
 	@Override
-	protected void onPostExecute(String[] response) {
+	protected void onPostExecute(String[] response) {		
 		pDialog.dismiss();
 		context = null;
+		listener.diagnosticsDataUpdated(response);
 	}
 
 }
