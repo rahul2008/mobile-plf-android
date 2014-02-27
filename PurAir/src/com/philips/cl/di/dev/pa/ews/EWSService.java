@@ -2,8 +2,6 @@ package com.philips.cl.di.dev.pa.ews;
 
 import java.net.HttpURLConnection;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -101,26 +99,14 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 	public void unRegisterListener() {
 		if( isRegistered ) {
-			if( timer != null ) {
-				timer.cancel() ;
-				timer = null ;
-			}
+			
+			stop = true ;
 			context.unregisterReceiver(this) ;
 			isRegistered = false ;
 		}
 	}
 
-	private Timer timer ;
-	private TimerTask updateTask = new TimerTask() {
-		@Override
-		public void run() {
-			if(mWifiManager == null){
-				mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-			}
-			mWifiManager.startScan();
-		}
-	};
-
+	
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -221,7 +207,6 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 
 	private String getWifiPortJson() {
-		Log.i("ews", "HomeSSID: "+homeSSID+":"+password) ;
 		JSONObject holder = new JSONObject();
 		try {
 			holder.put("ssid", homeSSID);
@@ -230,14 +215,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		/*if (mPassword != null && mPassword.equals("") == false) {
-			String s = Base64.encodeToString(encrypt(mPassword.getBytes()),
-					Base64.DEFAULT);
-			holder.put("password", s);
-		}*/
 		String js = holder.toString();
-		Log.i("ews", js) ;
 
 		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.DEVICEID);
 
@@ -321,12 +299,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 	@Override
 	public void onTaskCompleted(int responseCode, String response) {
-		if( timer != null ) {
-			timer.cancel() ;
-		}
-		if( updateTask != null ) {
-			updateTask.cancel() ;
-		}
+		stop = true ;
 		Log.i("ews", "onTaskCompleted") ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:

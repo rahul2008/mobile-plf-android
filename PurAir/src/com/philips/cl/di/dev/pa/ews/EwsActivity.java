@@ -24,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
@@ -118,6 +117,10 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	
 	private Dialog progressDialogForStep2 ;
 	
+	private Dialog progressDialogForStep3 ;
+	private EWSService ewsService ;
+	private String ipAddress ;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -139,50 +142,6 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		setContentView(viewStart);
 		progressDialogForStep2 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH) ;
-	}
-
-
-	private void checkWifiConnectivity() {
-		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-
-		if(!wifiManager.isWifiEnabled()) {
-			step = 0 ;
-			setContentView(viewErrorConnect2Network) ;
-			ewsService = new EWSService(this, this, networkSSID, password) ;
-		}
-
-		else {
-			showStepOne() ;
-		}
-	}
-	
-	private void showStepOne() {		
-		if( wifiManager.getConnectionInfo() != null ) {
-			Log.i("ews", "Connection info not null") ;
-			networkSSID = wifiManager.getConnectionInfo().getSSID() ; 
-			if ( networkSSID != null ) {
-				Log.i("ews", networkSSID) ;
-				networkSSID = networkSSID.replace("\"", "") ;
-				if( ! networkSSID.contains(EWSService.DEVICE_SSID)) {
-					if( step != 1 ) {
-						step = 1 ;
-						setContentView(viewStep1) ;
-					}					
-					wifiNetworkNameStep1.setText(networkSSID) ;
-				}
-				else {
-					networkSSID = null ;
-					step = 0 ;
-					setContentView(viewErrorConnect2Network) ;
-				}			
-			}
-		}
-		else {
-			networkSSID = null ;
-			step = 0 ;
-			setContentView(viewErrorConnect2Network) ;
-		}
-		
 	}
 
 	private void initializeIntroVariable() {
@@ -323,19 +282,28 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		viewErrorConnect2Network = inflater.inflate(R.layout.ews_connect_2_your_network, null) ;
 	}
 	
-	public void connectToAirPurifier() {
-		changeNetworkToAPMode() ;
+	//Initialize - End
+	
+	//Activity Override methods - Start
+	@Override
+	protected void onStop() {
+		if(ewsService != null)
+			ewsService.unRegisterListener() ;
+		if(ssdpService != null)
+			ssdpService.stopDeviceDiscovery() ;
+		super.onStop();
 	}
 
-	private EWSService ewsService ;
-	private void changeNetworkToAPMode() {
-		progressDialogForStep2.show();
-		if ( ewsService == null)
-			ewsService = new EWSService(this, this, networkSSID, password) ;
-		ewsService.setSSID(networkSSID) ;
-		ewsService.connectToDeviceAP() ;
-	}
 
+	@Override
+	public void onWindowFocusChanged(boolean hasFocus) {
+		Log.i("ews", "onWindowFocused") ;
+		super.onWindowFocusChanged(hasFocus);
+		if ( hasFocus ) {
+			registerNetworkListener() ;
+		}
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -425,45 +393,6 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			break;
 		}
 	}
-	
-	private void showEWSSetUpInstructionsDialog() {
-		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_02).show() ;
-		//EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.SUPPORT_TS01).show() ;
-	}
-	
-	private void onCancel() {
-		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show() ;
-	}
-
-	@Override
-	protected void onStop() {
-		if(ewsService != null)
-			ewsService.unRegisterListener() ;
-		if(ssdpService != null)
-			ssdpService.stopDeviceDiscovery() ;
-		super.onStop();
-	}
-
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		Log.i("ews", "onWindowFocused") ;
-		super.onWindowFocusChanged(hasFocus);
-		if ( hasFocus ) {
-			registerNetworkListener() ;
-		}
-	}
-
-	private void registerNetworkListener() {
-		if( step == 0 || step == 1) {
-			if( ewsService == null ) {
-				ewsService = new EWSService(this, this, null, null) ;
-			}
-			ewsService.setSSID(null) ;
-			ewsService.registerListener() ;
-		}
-	}
-
 	@Override
 	protected void onResume() {
 		registerNetworkListener() ;
@@ -475,13 +404,87 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		super.onDestroy();
 	}
 
-	private void showHomeScreen() {
-		Intent intent = new Intent(this,MainActivity.class) ;
-		intent.putExtra("ipaddress", ipAddress) ;
-		setResult(RESULT_OK,intent) ;
-		finish() ;
+	//Activity Override methods - End
+	
+	
+	private void onCancel() {
+		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show() ;
+	}
+	
+	//
+	private void checkWifiConnectivity() {
+		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+		if(!wifiManager.isWifiEnabled()) {
+			step = 0 ;
+			setContentView(viewErrorConnect2Network) ;
+			ewsService = new EWSService(this, this, networkSSID, password) ;
+		}
+
+		else {
+			showStepOne() ;
+		}
 	}
 
+	private void showStepOne() {
+		if( wifiManager.getConnectionInfo() != null ) {
+			networkSSID = wifiManager.getConnectionInfo().getSSID() ;
+			if ( networkSSID != null ) {
+				Log.i("ews", networkSSID) ;
+				networkSSID = networkSSID.replace("\"", "") ;
+				if( ! networkSSID.contains(EWSService.DEVICE_SSID)) {
+					if( step != 1 ) {
+						step = 1 ;
+						setContentView(viewStep1) ;
+					}					
+					wifiNetworkNameStep1.setText(networkSSID) ;
+				}
+				else {
+					networkSSID = null ;
+					step = 0 ;
+					setContentView(viewErrorConnect2Network) ;
+				}			
+			}
+		}
+		else {
+			networkSSID = null ;
+			step = 0 ;
+			setContentView(viewErrorConnect2Network) ;
+		}		
+	}
+
+	
+	public void connectToAirPurifier() {
+		progressDialogForStep2.show();
+		if ( ewsService == null)
+			ewsService = new EWSService(this, this, networkSSID, password) ;
+		ewsService.setSSID(networkSSID) ;
+		ewsService.connectToDeviceAP() ;
+	}
+	
+	
+	private void showEWSSetUpInstructionsDialog() {
+		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_02).show() ;
+	}	
+
+	private void registerNetworkListener() {
+		if( step == 0 || step == 1) {
+			if( ewsService == null ) {
+				ewsService = new EWSService(this, this, null, null) ;
+			}
+			ewsService.setSSID(null) ;
+			ewsService.registerListener() ;
+		}
+	}
+
+	// This method will send the Device name to the AirPurifier when user selects Save
+	private void sendDeviceNameToPurifier(String deviceName) {
+		if( ! deviceName.equals("") && !deviceName.equals(SessionDto.getInstance().getDeviceDto().getName())) {
+			ewsService.setDeviceName(deviceName) ;
+			ewsService.putDeviceDetails() ;
+		}
+
+	}
 	private void sendNetworkDetails() {
 		EWSDialogFactory.getInstance(this).setNetworkName(networkSSID);
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).show() ;
@@ -491,16 +494,15 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		ewsService.putWifiDetails() ;
 		
 	}
-
-	private void sendDeviceNameToPurifier(String deviceName) {
-		if( ! deviceName.equals("") && !deviceName.equals(SessionDto.getInstance().getDeviceDto().getName())) {
-			ewsService.setDeviceName(deviceName) ;
-			ewsService.putDeviceDetails() ;
-		}
-
+	
+	private void showHomeScreen() {
+		Intent intent = new Intent(this,MainActivity.class) ;
+		intent.putExtra("ipaddress", ipAddress) ;
+		setResult(RESULT_OK,intent) ;
+		finish() ;
 	}
 
-
+	// Override methods - EWSListener - Start
 	@Override
 	public void onDeviceAPMode() {
 
@@ -515,10 +517,10 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	@Override
 	public void onHandShakeWithDevice() {
-		Log.i("EWS", "Handshake") ;
 		if( progressDialogForStep2.isShowing() ) {
 			progressDialogForStep2.dismiss() ;
 		}
+		step = 3 ;
 		setContentView(viewStep3);
 		
 		if (EWSService.isNoPasswordSSID()) {
@@ -543,8 +545,70 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		ssdpService = SsdpService.getInstance() ;
 		ssdpService.startDeviceDiscovery(this) ;
 	}
+	
+	@Override
+	public void foundHomeNetwork() {
+		showStepOne() ;
+	}
 
-	private String ipAddress ;
+
+	@Override
+	public void onErrorOccurred(int errorCode) {
+		Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
+		if( progressDialogForStep2.isShowing())
+			progressDialogForStep2.dismiss() ;
+		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
+		switch (errorCode) {
+		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
+			break;
+		case EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND:				
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_02).show() ;
+			break;
+		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_04).show() ;
+			break;
+		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
+			showErrorScreen();
+			break;
+		}
+	}
+	
+	@Override
+	public void onWifiDisabled() {
+		switch (step) {
+		case 1:
+			//checkWifiConnectivity() ;
+			break;
+		}		
+	}
+	
+	// Override methods - EWSListener - End
+	
+	private void showErrorScreen() {
+        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        if(!wifiManager.isWifiEnabled()) {
+             setContentView(viewErrorSSID) ;
+             errorSSIDNetwork.setText(networkSSID);
+        }
+        else {
+             if( wifiManager.getConnectionInfo() != null &&
+                       wifiManager.getConnectionInfo().getSSID().equals(networkSSID)) {
+                  setContentView(viewErrorPurifierNotDect) ;
+             }
+             else {
+                  setContentView(viewErrorSSID) ;
+                  errorSSIDNetwork.setText(wifiManager.getConnectionInfo().getSSID());
+             }
+        }
+        
+  }
+
+
+	
+	// SSDPListener Callback handler
 	public boolean handleMessage(Message msg) {
 		DeviceModel device = null ;
 		if (null != msg) {
@@ -594,11 +658,6 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		return false;
 	}
 	
-	public void showSupportScreen() {
-		step = -1 ;
-		setContentView(viewContactPhilipsSupport) ;
-	}
-
 	private void deviceDiscoveryCompleted() {
 		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
@@ -608,43 +667,18 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		setContentView(viewCongratulation) ;
 	}
 
-
-	@Override
-	public void foundHomeNetwork() {
-		showStepOne() ;
+	// Public methods called from DialogFactory class
+	public void showSupportScreen() {
+		step = -1 ;
+		setContentView(viewContactPhilipsSupport) ;
 	}
-
-
-	@Override
-	public void onErrorOccurred(int errorCode) {
-		Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
-		if( progressDialogForStep2.isShowing())
-			progressDialogForStep2.dismiss() ;
-		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
-		switch (errorCode) {
-		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
-			break;
-		case EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND:				
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_02).show() ;
-			break;
-		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:				
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_04).show() ;
-			break;
-		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_05).show() ;
-			break;
+	
+	public void airPurifierInSetupMode() {
+		if( step == 2 ) {
+			connectToAirPurifier() ;
 		}
-	}
-
-	@Override
-	public void onWifiDisabled() {
-		switch (step) {
-		case 1:
-			//checkWifiConnectivity() ;
-			break;
-		}		
-	}
-
+		else if(step == 3) {
+			sendNetworkDetails() ;
+		}
+ 	}
 }

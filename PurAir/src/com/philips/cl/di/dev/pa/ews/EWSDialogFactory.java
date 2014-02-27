@@ -291,7 +291,7 @@ public class EWSDialogFactory implements OnClickListener{
 			getDialog(SUPPORT_TS05).dismiss() ;
 			if ( context instanceof EwsActivity) {
 				EwsActivity activity = (EwsActivity) context ;
-				activity.connectToAirPurifier() ;
+				activity.airPurifierInSetupMode() ;
 			}
 			break;
 
