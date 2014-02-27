@@ -131,7 +131,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		initializeErrorConnect2Network();
 		initializeErrorSSID();
 		initializeContactPhilips();
-
+		setActionBarHeading(1);
 		setContentView(viewStart);
 		progressDialogForStep2 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH) ;
 	}
@@ -260,6 +260,30 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		viewErrorConnect2Network = inflater.inflate(R.layout.ews_connect_2_your_network, null) ;
 	}
 	
+	private void setActionBarHeading (int index) {
+		switch (index) {
+		case 1:
+			actionBarCancelBtn.setVisibility(View.VISIBLE);
+			actionbarTitle.setText(getString(R.string.wifi_setup));
+			break;
+		case 2:
+			//congra
+			actionBarCancelBtn.setVisibility(View.INVISIBLE);
+			actionbarTitle.setText(getString(R.string.congratulations));
+			break;
+		case 3:
+			//support
+			actionBarCancelBtn.setVisibility(View.VISIBLE);
+			actionbarTitle.setText(getString(R.string.support));
+			break;
+		case 4:
+			//notconnect
+			actionBarCancelBtn.setVisibility(View.INVISIBLE);
+			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+			break;
+		}
+	}
+	
 	//Initialize - End
 	
 	//Activity Override methods - Start
@@ -292,6 +316,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			if( ewsService != null ) {
 				ewsService.setSSID(networkSSID) ;
 			}
+			setActionBarHeading(1);
 			setContentView(viewStep2);
 			break;
 		case R.id.ews_step1_no_btn:
@@ -300,8 +325,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				ewsService = new EWSService(this, this, null, null) ;
 			}
 			ewsService.setSSID(null) ;
-			actionBarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+			setActionBarHeading(1);
 			setContentView(viewErrorConnect2Network) ;
 			break;
 		case R.id.ews_step2_yes_btn:
@@ -411,8 +435,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		if(!wifiManager.isWifiEnabled()) {
 			step = 0 ;
-			actionBarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+			setActionBarHeading(1);
 			setContentView(viewErrorConnect2Network) ;
 			ewsService = new EWSService(this, this, networkSSID, password) ;
 		}
@@ -431,6 +454,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				if( ! networkSSID.contains(EWSService.DEVICE_SSID)) {
 					if( step != 1 ) {
 						step = 1 ;
+						setActionBarHeading(1);
 						setContentView(viewStep1) ;
 					}					
 					wifiNetworkNameStep1.setText(networkSSID) ;
@@ -438,8 +462,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				else {
 					networkSSID = null ;
 					step = 0 ;
-					actionBarCancelBtn.setVisibility(View.INVISIBLE);
-					actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+					setActionBarHeading(1);
 					setContentView(viewErrorConnect2Network) ;
 				}			
 			}
@@ -447,8 +470,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		else {
 			networkSSID = null ;
 			step = 0 ;
-			actionBarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));;
+			setActionBarHeading(1);
 			setContentView(viewErrorConnect2Network) ;
 		}		
 	}
@@ -521,6 +543,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			progressDialogForStep2.dismiss() ;
 		}
 		step = 3 ;
+		setActionBarHeading(1);
 		setContentView(viewStep3);
 		
 		if (EWSService.isNoPasswordSSID()) {
@@ -590,21 +613,18 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
         if(!wifiManager.isWifiEnabled()) {
-        	actionBarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+        	setActionBarHeading(4);
              setContentView(viewErrorSSID) ;
              errorSSIDNetwork.setText(networkSSID);
         }
         else {
              if( wifiManager.getConnectionInfo() != null &&
                        wifiManager.getConnectionInfo().getSSID().equals(networkSSID)) {
-            	 actionBarCancelBtn.setVisibility(View.INVISIBLE);
-     			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+            	 setActionBarHeading(4);
                   setContentView(viewErrorPurifierNotDect) ;
              }
              else {
-            	 actionBarCancelBtn.setVisibility(View.INVISIBLE);
-     			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+            	 setActionBarHeading(4);
                   setContentView(viewErrorSSID) ;
                   errorSSIDNetwork.setText(wifiManager.getConnectionInfo().getSSID());
              }
@@ -670,15 +690,14 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		if( ewsService != null ) {
 			ewsService.stopNetworkDetailsTimer() ;
 		}
-		actionBarCancelBtn.setVisibility(View.INVISIBLE);
-		actionbarTitle.setText(getString(R.string.congratulations));
+		setActionBarHeading(2);
 		setContentView(viewCongratulation) ;
 	}
 
 	// Public methods called from DialogFactory class
 	public void showSupportScreen() {
 		step = -1 ;
-		actionbarTitle.setText(getString(R.string.support));
+		setActionBarHeading(3);
 		setContentView(viewContactPhilipsSupport) ;
 	}
 	
