@@ -665,6 +665,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 							return false;
 						}
 						if(cityNamesList.contains(text.toString())) {
+							Log.i(TAG, "OutdoorLocation$isValid " + (outdoorLocationsAdapter.getPosition(text.toString())));
+							if((outdoorLocationsAdapter.getPosition(text.toString())) != -1) {
+								return false;
+							}
 							outdoorLocationsAdapter.add(text.toString());
 							outdoorLocationsAdapter.notifyDataSetChanged();
 							listView.invalidate();

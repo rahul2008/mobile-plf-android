@@ -10,7 +10,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:lineSpacingExtra="10dp"
-        android:text="@string/checking_signal_strength_title"
+        android:text="@string/check_signal_strenth_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/philips_blue"
         android:textSize="24sp" />
