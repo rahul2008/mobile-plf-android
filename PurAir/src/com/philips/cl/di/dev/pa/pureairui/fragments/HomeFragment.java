@@ -368,7 +368,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	 * Starts the Outdoor AQI task. This method calls a webservice and fetches
 	 * the Outdoor AQI from the same
 	 */
-	private void startOutdoorAQITask() {
+	public void startOutdoorAQITask() {
 		if ( SessionDto.getInstance().getOutdoorEventDto() == null ) {
 			TaskGetHttp shanghaiAQI = new TaskGetHttp(AppConstants.SHANGHAI_OUTDOOR_AQI_URL,getActivity(),this);
 			shanghaiAQI.start() ;		
@@ -379,7 +379,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 	
 
-	private void startWeatherDataTask() {
+	public void startWeatherDataTask() {
 		if ( SessionDto.getInstance().getWeatherDetails() == null 
 				|| SessionDto.getInstance().getWeatherDetails().size() == 0) {
 			TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(String.format(AppConstants.WEATHER_SERVICE_URL,"31.2000,121.5000"),this);

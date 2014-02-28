@@ -28,6 +28,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]>{
 	protected void onPreExecute() {
 		pDialog = new ProgressDialog(context);
 		pDialog.setMessage("Collecting diagnostics information...");
+		pDialog.setCancelable(false);
 		pDialog.show();
 	}
 

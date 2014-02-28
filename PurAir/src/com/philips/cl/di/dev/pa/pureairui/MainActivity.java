@@ -290,6 +290,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					if( cppController.isSignOn()) {
 						cppController.startDCSService() ;
 					}
+					getDashboard().startOutdoorAQITask();
+					getDashboard().startWeatherDataTask();
 				} else {
 					Log.i(TAG, "Lost internet connection");
 					isNetworkAvailable = false;
@@ -376,12 +378,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			setTitle(getString(R.string.dashboard_title));
 		} else if(fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();			
-		}/*else if((fragment instanceof AirColorExplainedStaticFragment)){
-			manager.popBackStack();	
-			initActionBar();
-			setTitle(getString(R.string.list_item_air_quality_explained));			
-		}*/
-		else {
+		} else {
 			stopAllServices() ;
 			finish();
 		}

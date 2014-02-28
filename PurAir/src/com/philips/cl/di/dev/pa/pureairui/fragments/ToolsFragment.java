@@ -11,7 +11,6 @@ import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -52,11 +51,12 @@ SignonListener, DiagnosticsDataListener {
 	private static final String LOG = "log";
 	private String[] header = new String[] { "Wifi Port:", "WifiUi Port:",
 			"Device Port:", "Firmware Port:", "Logs Port:" };
+	private char lineSeparator='\n';
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		vMain = (View) inflater.inflate(R.layout.tools_fragment, container,
+		vMain = inflater.inflate(R.layout.tools_fragment, container,
 				false);
 		initViews();
 		return vMain;
@@ -189,7 +189,7 @@ SignonListener, DiagnosticsDataListener {
 
 	@Override
 	public void signonStatus(boolean isSigonSuccess) {
-		this.isSignon = isSigonSuccess;
+		isSignon = isSigonSuccess;
 		handler.sendEmptyMessage(0);
 	}
 
@@ -232,6 +232,7 @@ SignonListener, DiagnosticsDataListener {
 				}
 			}
 		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 		return "";
 	}
@@ -265,8 +266,9 @@ SignonListener, DiagnosticsDataListener {
 		String airpurifierIpAddress = "AirPurifier IpAddress:"
 				+ Utils.getIPAddress(getActivity());
 		String euid = "AirPurifier EUI64:" + Utils.getEuid(getActivity());
-		String macAddress = "Air Purifier MAC Address:"
-				+ formatMacAddress(Utils.getMacAddress(getActivity()).toUpperCase());
+		String macAddress = Utils.getMacAddress(getActivity()).toUpperCase();
+		macAddress = "Air Purifier MAC Address:"
+				+ formatMacAddress(macAddress);
 
 		String iCPClientVersion= "ICP Client version:"+
 				controller.getICPClientVersion();
@@ -275,26 +277,26 @@ SignonListener, DiagnosticsDataListener {
 
 		StringBuilder data = new StringBuilder("Device Network Info\n");
 		data.append(dIpAddress);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(dMacaddress);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(dGateway);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(dDns1);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(registrationId);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append("AirPurifier Network Info:\n");
 		data.append(airpurifierIpAddress);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(euid);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(macAddress);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(isSignOn);
-		data.append("\n");
+		data.append(lineSeparator);
 		data.append(iCPClientVersion);
-		data.append("\n");
+		data.append(lineSeparator);
 		return data.toString();
 	}
 
@@ -317,13 +319,13 @@ SignonListener, DiagnosticsDataListener {
 		StringBuilder portData = new StringBuilder();
 		String message = diagnosticData();
 		portData.append(message);
-		portData.append("\n");
+		portData.append(lineSeparator);
 		if (data != null) {			
 			for (int i = 0; i < data.length; i++) {
 				portData.append(header[i]);
-				portData.append("\n");
+				portData.append(lineSeparator);
 				portData.append(data[i]);
-				portData.append("\n");
+				portData.append(lineSeparator);
 			}			
 		}
 		Log.d("Diagnostic", portData.toString());
