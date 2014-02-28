@@ -853,7 +853,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if ( null != airPurifierEventDto ) {
 			connected = true;
 			statusCounter = 0;
-			float indoorAQIUsableValue = airPurifierEventDto.getIndoorAQI() / 100.0f;
+			float indoorAQIUsableValue = airPurifierEventDto.getIndoorAQI() / 10.0f;
 			Log.i(TAG, "Indoor AQI / 100 = " + indoorAQIUsableValue);
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
@@ -903,7 +903,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			homeFragment.setMode(mode) ;
 		}*/
 		if ( homeFragment != null && homeFragment.getActivity() != null) {
-			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()/100.0f) ;
+			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()/10.0f) ;
 			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
 			homeFragment.setMode(Utils.getMode(airPurifierEventDto.getFanSpeed(), this)) ;
 		}
