@@ -1,12 +1,17 @@
 package com.philips.cl.di.dev.pa.test;
 
+import java.lang.reflect.Method;
+
+import android.app.Dialog;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
+import com.philips.cl.disecurity.DISecurity;
 
 public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivity> {
 	
@@ -97,4 +102,22 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
         assertEquals(true, ((RelativeLayout) view.findViewById(R.id.contact_support_email_layout)).isClickable());
         assertEquals(true, ((RelativeLayout) view.findViewById(R.id.contact_support_website_layout)).isClickable());
 	}
+	
+	public void testGetDialog() {
+		EWSDialogFactory ewsDialogFactory = EWSDialogFactory.getInstance(activity);
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS01));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS02));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS03));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS05));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_01));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_02));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_03));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_04));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_05));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH));
+		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT));
+		
+	}
+ 
 }
