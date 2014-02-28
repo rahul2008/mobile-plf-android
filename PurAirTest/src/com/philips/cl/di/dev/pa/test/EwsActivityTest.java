@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Method;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -13,6 +12,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
 import com.philips.cl.disecurity.DISecurity;
@@ -37,19 +37,15 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 	public void testIntroScreen() {
 		View view = activity.getLayoutInflater().inflate(R.layout.ews_intro_screen, null);
 		Button button = (Button) view.findViewById(R.id.ews_get_start_btn);
-
+		CustomTextView tv = (CustomTextView) view.findViewById(R.id.ews_intro_message1_txt);
+		CustomTextView tv2 = (CustomTextView) view.findViewById(R.id.ews_intro_message2_txt);
+		
         assertEquals(true, button.isClickable());
         assertEquals("Get Started", button.getText().toString());
-
+        assertEquals("Follow these 3 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.", tv.getText().toString());
+        assertEquals("For a successful Wi-Fi connection, position the Philips Smart Air Purifier within reach of your router. Obstacles such as walls may affect the Wi-Fi performance.", tv2.getText().toString());
 	}
 	
-	public void testActionBar() {
-		Button button = (Button) activity.findViewById(R.id.ews_actionbar_cancel_btn);
-
-        assertEquals(true, button.isClickable());
-        assertEquals("Cancel", button.getText().toString());
-
-	}
 	
 	public void testStep1Screen() {
 		View view = activity.getLayoutInflater().inflate(R.layout.ews_step1, null);
@@ -60,6 +56,17 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
         button = (Button) view.findViewById(R.id.ews_step1_no_btn);
         assertEquals(true, button.isClickable());
         assertEquals("No", button.getText().toString());
+        
+        CustomTextView tv = (CustomTextView) view.findViewById(R.id.ews_step1_instruction);
+        assertEquals("Confirm your Wi-Fi connection.", tv.getText().toString());
+
+	}
+	
+	public void testActionBar() {
+		Button button = (Button) activity.findViewById(R.id.ews_actionbar_cancel_btn);
+
+        assertEquals(true, button.isClickable());
+        assertEquals("Cancel", button.getText().toString());
 
 	}
 	
