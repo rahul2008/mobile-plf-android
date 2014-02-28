@@ -89,18 +89,12 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
         Button button = (Button) view.findViewById(R.id.ews_purifier_not_dect_btn);
         assertEquals(true, button.isClickable());
         assertEquals("Try again", button.getText().toString());
-        
 	}
 	
 	public void testSupportScreen() {
 		View view = activity.getLayoutInflater().inflate(R.layout.contact_philips_support, null);
-        assertEquals(true, ((RelativeLayout) view.findViewById
-				(R.id.contact_support_phone_layout)).isClickable());
-        assertEquals(true, ((RelativeLayout) view.findViewById
- 				(R.id.contact_support_email_layout)).isClickable());
-        assertEquals(true, ((RelativeLayout) view.findViewById
- 				(R.id.contact_support_website_layout)).isClickable());
-       
+        assertEquals(true, ((RelativeLayout) view.findViewById(R.id.contact_support_phone_layout)).isClickable());
+        assertEquals(true, ((RelativeLayout) view.findViewById(R.id.contact_support_email_layout)).isClickable());
+        assertEquals(true, ((RelativeLayout) view.findViewById(R.id.contact_support_website_layout)).isClickable());
 	}
- 
 }
