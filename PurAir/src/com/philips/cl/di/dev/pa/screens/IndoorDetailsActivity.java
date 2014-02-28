@@ -412,10 +412,11 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			}
 			if (datas[2] != null) {
 				try {
-					int pSence = Integer.parseInt(datas[2].trim());
-					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, pSence));
+					float indoorAQI = Float.parseFloat(datas[2].trim());
+//					int pSence = Integer.parseInt(datas[2].trim());
+					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
-					Utils.setIndoorAQIStatusAndComment(this, pSence, aqiStatus, aqiSummary);
+					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary);
 				} catch (NumberFormatException e) {
 					//e.printStackTrace();
 				}

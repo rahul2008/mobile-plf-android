@@ -472,15 +472,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return leftMenuItems;
 	} 
 
-	private void setRightMenuAQIValue(int pSense) {
+	private void setRightMenuAQIValue(float indoorAQI) {
 //		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
-		if(pSense >= 0 && pSense <= 1) {
+		if(indoorAQI <= 1.4f) {
 			tvAirStatusAqiValue.setText(getString(R.string.good)) ;
-		} else if(pSense > 2 && pSense <= 3) {
+		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
 			tvAirStatusAqiValue.setText(getString(R.string.moderate)) ;
-		} else if(pSense > 3 && pSense <= 4) {
+		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			tvAirStatusAqiValue.setText(getString(R.string.unhealthy)) ;
-		} else if(pSense < 4) {
+		} else if(indoorAQI > 3.5f) {
 			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy)) ;
 		} 
 	}
@@ -489,16 +489,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		tvAirStatusMessage.setText(message);
 	}
 
-	private void setRightMenuAirStatusBackground(int pSense) {
-		Log.i(TAG, "setRightMenuAirStatusBackground " + pSense);
+	private void setRightMenuAirStatusBackground(float indoorAQI) {
+		Log.i(TAG, "setRightMenuAirStatusBackground " + indoorAQI);
 		Drawable imageDrawable = null;
-		if(pSense >= 0 && pSense <= 1) {
+		
+		if(indoorAQI <= 1.4f) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
-		} else if(pSense == 2) {
+		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_100_150_2x);
-		} else if(pSense == 3) {
+		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_200_300_2x);
-		} else if(pSense > 3 && pSense <= 10) {
+		} else if(indoorAQI > 3.5f) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_300_500_2x);
 		}
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
@@ -852,14 +853,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if ( null != airPurifierEventDto ) {
 			connected = true;
 			statusCounter = 0;
+			float indoorAQIUsableValue = airPurifierEventDto.getIndoorAQI() / 100.0f;
+			Log.i(TAG, "Indoor AQI / 100 = " + indoorAQIUsableValue);
 			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto) ;
-			setRightMenuAQIValue(airPurifierEventDto.getpSensor());
+			setRightMenuAQIValue(indoorAQIUsableValue);
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 			setRightMenuConnectedStatus(airPurifierEventDto.getConnectionStatus());
-			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(airPurifierEventDto.getIndoorAQI())));
-			setRightMenuAirStatusBackground(airPurifierEventDto.getpSensor());
+			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue)));
+			setRightMenuAirStatusBackground(indoorAQIUsableValue);
 			rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 		}
 		homeFragment.rotateOutdoorCircle();
@@ -873,6 +876,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 		setRightMenuAirStatusBackground(0);
 		homeFragment.setMode("-");
+		homeFragment.setIndoorAQIValue(-1.0f);
+		
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
@@ -898,7 +903,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			homeFragment.setMode(mode) ;
 		}*/
 		if ( homeFragment != null && homeFragment.getActivity() != null) {
-			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI(), airPurifierEventDto.getpSensor()) ;
+			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()/100.0f) ;
 			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
 			homeFragment.setMode(Utils.getMode(airPurifierEventDto.getFanSpeed(), this)) ;
 		}
