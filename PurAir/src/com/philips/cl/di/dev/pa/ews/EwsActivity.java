@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -12,13 +14,11 @@ import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Selection;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -108,9 +108,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private String password ;
 
 	private SsdpService ssdpService ;
-
+	
 	private Dialog progressDialogForStep2 ;
-
+	
 	private EWSService ewsService ;
 	private String ipAddress ;
 
@@ -122,7 +122,6 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		initActionBar();
 
 		inflater = getLayoutInflater();
-		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		initializeIntroVariable();
 		initializeStep1Variable();
@@ -165,7 +164,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		String msg2 = getString(R.string.step2_msg2) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>?";
 		step2Message2.setText(Html.fromHtml(msg2));
-
+		
 		((Button) viewStep2.findViewById(R.id.ews_step2_yes_btn)).setOnClickListener(this);;
 		((Button) viewStep2.findViewById(R.id.ews_step2_no_btn)).setOnClickListener(this);;
 
@@ -261,7 +260,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private void initializeErrorConnect2Network() {
 		viewErrorConnect2Network = inflater.inflate(R.layout.ews_connect_2_your_network, null) ;
 	}
-
+	
 	private void setActionBarHeading (int index) {
 		switch (index) {
 		case 1:
@@ -285,9 +284,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			break;
 		}
 	}
-
+	
 	//Initialize - End
-
+	
 	//Activity Override methods - Start
 	@Override
 	protected void onStop() {
@@ -307,7 +306,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			registerNetworkListener() ;
 		}
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -382,19 +381,19 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			sendNetworkDetails() ;
 			break;
 		case R.id.ews_purifier_not_dect_btn:
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_05).show() ;
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_05).show(); 
 			break;
 		case R.id.ews_congratulation_btn:
 			showHomeScreen() ;
 			break;
 		case R.id.contact_support_phone_layout:
 			//TODO : Uncomment SIM_STATE check, commented for testing.
-			//			TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-			//			if(tm != null && tm.getSimState() == TelephonyManager.SIM_STATE_READY) {
-			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
-			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
-			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
-			//			}
+//			TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
+//			if(tm != null && tm.getSimState() == TelephonyManager.SIM_STATE_READY) {
+				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
+				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
+				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+//			}
 			break;
 		case R.id.contact_support_email_layout:
 			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
@@ -426,22 +425,24 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	}
 
 	//Activity Override methods - End
-
-
+	
+	
 	private void onCancel() {
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show() ;
 	}
-
+	
 	//
 	private void checkWifiConnectivity() {
-		
-		if(!wifiManager.isWifiEnabled()) {
+		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		Log.i("wifi", "mWifi.isConnected()== " +mWifi.isConnected());
+		if(!mWifi.isConnected()) {
 			step = 0 ;
 			setActionBarHeading(1);
 			setContentView(viewErrorConnect2Network) ;
 			ewsService = new EWSService(this, this, networkSSID, password) ;
 		}
-
 		else {
 			showStepOne() ;
 		}
@@ -477,7 +478,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		}		
 	}
 
-
+	
 	public void connectToAirPurifier() {
 		progressDialogForStep2.show();
 		if ( ewsService == null)
@@ -485,8 +486,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		ewsService.setSSID(networkSSID) ;
 		ewsService.connectToDeviceAP() ;
 	}
-
-
+	
+	
 	private void showEWSSetUpInstructionsDialog() {
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_02).show() ;
 	}	
@@ -516,9 +517,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		ewsService.setSSID(networkSSID) ;
 		ewsService.setPassword(enteredPassword) ;
 		ewsService.putWifiDetails() ;
-
+		
 	}
-
+	
 	private void showHomeScreen() {
 		Intent intent = new Intent(this,MainActivity.class) ;
 		intent.putExtra("ipaddress", ipAddress) ;
@@ -547,13 +548,13 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		step = 3 ;
 		setActionBarHeading(1);
 		setContentView(viewStep3);
-
+		
 		if (EWSService.isNoPasswordSSID()) {
 			passwordStep3.setEnabled(false);
 		} else {
 			passwordStep3.setEnabled(true);
 		}
-
+		
 		String passwordLabel = getString(R.string.step3_msg1) + " <font color=#3285FF>"+networkSSID+"</font>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
@@ -570,7 +571,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		ssdpService = SsdpService.getInstance() ;
 		ssdpService.startDeviceDiscovery(this) ;
 	}
-
+	
 	@Override
 	public void foundHomeNetwork() {
 		showStepOne() ;
@@ -579,7 +580,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 	@Override
 	public void onErrorOccurred(int errorCode) {
-		Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
+		//Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
 		if( progressDialogForStep2.isShowing())
 			progressDialogForStep2.dismiss() ;
 		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
@@ -599,7 +600,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			break;
 		}
 	}
-
+	
 	@Override
 	public void onWifiDisabled() {
 		switch (step) {
@@ -608,38 +609,33 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 			break;
 		}		
 	}
-
+	
 	// Override methods - EWSListener - End
-
+	
 	private void showErrorScreen() {
-
-		if(!wifiManager.isWifiEnabled()) {
-			actionBarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
-
-			setActionBarHeading(4);
-
-			setContentView(viewErrorSSID) ;
-			errorSSIDNetwork.setText(networkSSID);
-		}
-		else {
-			setActionBarHeading(4) ;
-			Log.i("ews", "Network SSID in step3: "+networkSSID) ;
-			if( wifiManager.getConnectionInfo() != null &&
-					wifiManager.getConnectionInfo().getSSID().equals(networkSSID)) {
-				Log.i("ews", "SSID in if: "+wifiManager.getConnectionInfo().getSSID()) ;
-				setContentView(viewErrorPurifierNotDect) ;
-			}
-			else {				
-				setContentView(viewErrorSSID) ;
-				errorSSIDNetwork.setText(wifiManager.getConnectionInfo().getSSID());
-			}
-		}
-	}
+        wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        if(!wifiManager.isWifiEnabled()) {
+        	setActionBarHeading(4);
+             setContentView(viewErrorSSID) ;
+             errorSSIDNetwork.setText(networkSSID);
+        }
+        else {
+             if( wifiManager.getConnectionInfo() != null &&
+                       wifiManager.getConnectionInfo().getSSID().equals(networkSSID)) {
+            	 setActionBarHeading(4);
+                  setContentView(viewErrorPurifierNotDect) ;
+             }
+             else {
+            	 setActionBarHeading(4);
+                  setContentView(viewErrorSSID) ;
+                  errorSSIDNetwork.setText(wifiManager.getConnectionInfo().getSSID());
+             }
+        }
+        
+  }
 
 
-
-
+	
 	// SSDPListener Callback handler
 	public boolean handleMessage(Message msg) {
 		DeviceModel device = null ;
@@ -689,7 +685,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		}
 		return false;
 	}
-
+	
 	private void deviceDiscoveryCompleted() {
 		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
@@ -706,21 +702,22 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		setActionBarHeading(3);
 		setContentView(viewContactPhilipsSupport) ;
 	}
-
+	
 	public void airPurifierInSetupMode() {
-
-		if( step == 2 ) {
-			connectToAirPurifier() ;
+		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        wifiManager.disconnect();
+		
+		if ( step == 2 ) {
+			connectToAirPurifier() ;			
 		}
-		else if ( step == 3 ) {
-			step = 2;
+		else {
+			passwordStep3.setText("") ;
+			step = 2 ;
 			setContentView(viewStep2) ;
 		}
-
-	}
-
-	@Override
-	public void onBackPressed() {
-		onCancel() ;
-	}
+		/*if( step == 2 ) {
+			connectToAirPurifier() ;
+		} */
+		
+ 	}
 }
