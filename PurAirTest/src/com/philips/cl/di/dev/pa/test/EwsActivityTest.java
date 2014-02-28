@@ -3,7 +3,11 @@ package com.philips.cl.di.dev.pa.test;
 import java.lang.reflect.Method;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.test.ActivityInstrumentationTestCase2;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -117,6 +121,27 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP));
 		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH));
 		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT));
+		
+	}
+	
+	public void testCheckWifiConnectivity() {
+		
+		try {
+			Method checkWifiConnectivityMethod = DISecurity.class.getDeclaredMethod("checkWifiConnectivity", (Class<?>[])null);
+			checkWifiConnectivityMethod.setAccessible(true);
+			checkWifiConnectivityMethod.invoke(activity, (Object[])null);
+			ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+			NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+			Log.i("wifi", "mWifi.isConnected()== " +mWifi.isConnected());
+			if(!mWifi.isConnected()) {
+				View view = activity.getLayoutInflater().inflate(R.layout.ews_connect_2_your_network, null);
+				assertEquals(true, view.isInLayout());
+			}
+				
+		} catch (Exception e) {
+			
+		}
+		
 		
 	}
  
