@@ -376,7 +376,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		}
 	};
 	
-	private CountDownTimer sendNetworkDetailsTimer = new CountDownTimer(30000, 1000) {
+	private CountDownTimer sendNetworkDetailsTimer = new CountDownTimer(90000, 1000) {
 	
 		@Override
 		public void onTick(long millisUntilFinished) {
