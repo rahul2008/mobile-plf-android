@@ -372,8 +372,12 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				deviceNameStep3.setEnabled(false);
 				deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
-
-				sendDeviceNameToPurifier(deviceNameStep3.getText().toString()) ;
+				if (deviceNameStep3.getText().toString() != null && deviceNameStep3.getText().toString().length() > 0) {
+					sendDeviceNameToPurifier(deviceNameStep3.getText().toString()) ;
+				} else {
+					deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName());
+				}
+				
 			}
 
 			break;
