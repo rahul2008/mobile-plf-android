@@ -6,7 +6,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
@@ -15,7 +14,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
-import com.philips.cl.disecurity.DISecurity;
 
 public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivity> {
 	
@@ -134,12 +132,11 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 	public void testCheckWifiConnectivity() {
 		
 		try {
-			Method checkWifiConnectivityMethod = DISecurity.class.getDeclaredMethod("checkWifiConnectivity", (Class<?>[])null);
+			Method checkWifiConnectivityMethod = EwsActivity.class.getDeclaredMethod("checkWifiConnectivity", (Class<?>[])null);
 			checkWifiConnectivityMethod.setAccessible(true);
 			checkWifiConnectivityMethod.invoke(activity, (Object[])null);
 			ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			Log.i("wifi", "mWifi.isConnected()== " +mWifi.isConnected());
 			if(!mWifi.isConnected()) {
 				View view = activity.getLayoutInflater().inflate(R.layout.ews_connect_2_your_network, null);
 				assertEquals(true, view.isInLayout());
@@ -149,7 +146,19 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 			
 		}
 		
-		
+	}
+	
+	public void testOnHandShakeWithDevice() {
+		try {
+			Method onHandShakeWithDeviceMethod = EwsActivity.class.getDeclaredMethod("onHandShakeWithDevice", (Class<?>[])null);
+			onHandShakeWithDeviceMethod.setAccessible(true);
+			onHandShakeWithDeviceMethod.invoke(activity, (Object[])null);
+			View view = activity.getLayoutInflater().inflate(R.layout.ews_step3, null);
+			assertEquals(true, view.isInLayout());
+				
+		} catch (Exception e) {
+			
+		}
 	}
  
 }
