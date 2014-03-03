@@ -97,6 +97,7 @@
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/fan_speed_turbo"
         style="@style/Widget.Button.Toggle"
+        android:text="@string/auto"
         android:visibility="gone"/>
     
     <Button
