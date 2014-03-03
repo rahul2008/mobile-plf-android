@@ -618,6 +618,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	private void setOutdoorAQIStatusAndComment(int aqi) {
+		if( getActivity() != null ) {
 		String title = "";
 		String message = "";
 		if(aqi >= 0 && aqi <= 50) {
@@ -641,13 +642,16 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		}
 		tvOutdoorTitle.setText(title);
 		tvOutdoorComment.setText(message);
+		}
 	}
 
 	public void setOutdoorTemperature(int temperature) {
-		tvOutdoorTemperature.setText(temperature+"\u2103");
+		if(getActivity() != null)
+			tvOutdoorTemperature.setText(temperature+"\u2103");
 	}
 
 	private void setOutdoorTemperatureImage(String weatherDesc, String isDayTime) {
+		if(getActivity() != null) {
 		Drawable weatherImage = null;
 		Log.i(TAG, "setOutdoorTemperatureImage " + weatherDesc);
 		if(weatherDesc == null || weatherDesc.equals("") || getActivity() == null) {
@@ -689,6 +693,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		}	
 
 		ivOutdoorWeatherImage.setImageDrawable(weatherImage);
+	}
 	}
 
 	public void setCityName(String city) {
