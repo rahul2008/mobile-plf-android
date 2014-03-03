@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
-    android:padding="10dp"
+    android:padding="16dp"
     android:background="#FFF"
     >
 
@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/iv_support"
-        android:layout_marginRight="22dp"
         android:src="@drawable/help_close" />
 
     <TextView
