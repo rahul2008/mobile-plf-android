@@ -38,7 +38,7 @@ public class NotificationSelectDayActivity extends ActionBarActivity{
 	/*Initialize action bar */
 	private void initActionBar() {
 		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(R.drawable.left_arrow_blue);
+		mActionBar.setIcon(null);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);			
 	}

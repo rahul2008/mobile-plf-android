@@ -72,7 +72,9 @@ import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.City;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.dto.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
@@ -150,7 +152,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private TextView cancelSearchItem;
 	private SharedPreferences outdoorLocationPrefs;
 	private ArrayList<String> outdoorLocationsList;
-	
+
 	private boolean isLocalPollingStarted ;
 	private boolean isCPPPollingStarted ;
 	public boolean isTutorialPromptShown = false;
@@ -184,7 +186,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		 * Diffie Hellman key exchange
 		 */
 		diSecurity = new DISecurity(this);
-		
+
 		mPreferences=getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits= mPreferences.getInt("NoOfVisit", 0);	
 		SharedPreferences.Editor editor=mPreferences.edit();
@@ -264,7 +266,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		this.registerReceiver(networkReceiver, filter);
 
 		cppController = CPPController.getInstance(this) ;
-		
+
 		cppController.addDeviceDetailsListener(this) ;
 
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
@@ -287,11 +289,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo wifiInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 				NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-				
+
 				if(wifiInfo != null && wifiInfo.isConnected()) {
 					Log.i("discover", "Wifi Discovered") ;
-					getDashboard().startOutdoorAQITask();
-					getDashboard().startWeatherDataTask();
+					if(SessionDto.getInstance().getOutdoorEventDto()==null)
+						getDashboard().startOutdoorAQITask();
+
+					List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
+					if(weatherDto==null || weatherDto.size()<1)
+						getDashboard().startWeatherDataTask();
 					
 				}
 				else if( mobileInfo != null && mobileInfo.isConnected() ) {
@@ -347,12 +353,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private String secretKey ;
-	
+
 	@Override
 	protected void onStop() {
 		super.onStop();
 	}
-	
+
 	@Override
 	protected void onRestart() {
 		Log.i("test", "onRestart") ;
@@ -368,14 +374,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onRestart();
 	}
 	
-	
+
 
 	@Override
 	public void onBackPressed() {
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-	
+
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -386,11 +392,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			setTitle(getString(R.string.dashboard_title));
 		} else if(fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();			
-		} else {
+		}else {
 			finish();
 		}
 	}
-	
+
 	public void stopAllServices() {
 		Log.i("test", "Stop ALl Services") ;
 		secretKey = null ;
@@ -408,7 +414,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if (discoveryTimer != null) {
 			discoveryTimer.cancel();
 		}
-		
+
 		if ( networkReceiver != null ) {
 			this.unregisterReceiver(networkReceiver) ;
 			networkReceiver = null ;
@@ -420,8 +426,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		ipAddress = null ;
 	}
-	
-	
+
+
 	private void resetSessionObject() {
 		SessionDto.getInstance().reset() ;
 	}
@@ -482,7 +488,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	} 
 
 	private void setRightMenuAQIValue(float indoorAQI) {
-//		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
+		//		tvAirStatusAqiValue.setText(String.valueOf(aqiValue));
 		if(indoorAQI <= 1.4f) {
 			tvAirStatusAqiValue.setText(getString(R.string.good)) ;
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
@@ -501,7 +507,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private void setRightMenuAirStatusBackground(float indoorAQI) {
 		Log.i(TAG, "setRightMenuAirStatusBackground " + indoorAQI);
 		Drawable imageDrawable = null;
-		
+
 		if(indoorAQI <= 1.4f) {
 			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
@@ -574,15 +580,15 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private ActionMode actionMode;
-	
+
 	private ActionMode.Callback callback = new ActionMode.Callback() {
-		
+
 		@Override
 		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
 			Log.i(TAG, "onPrepareActionMode");
 			return true;
 		}
-		
+
 		@Override
 		public void onDestroyActionMode(ActionMode mode) {
 			Log.i(TAG, "onDestroyActionMode");
@@ -590,7 +596,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 			actionMode = null;
 		}
-		
+
 		@Override
 		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
 			Log.i(TAG, "onCreateActionMode");
@@ -602,16 +608,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			mode.setCustomView(searchlayout);
 			return true;
 		}
-		
+
 		@Override
 		public boolean onActionItemClicked(ActionMode mode, MenuItem menu) {
 			Log.i(TAG, "onActionItemClicked");
 			return true;
 		}
 	};
-	
+
 	private ArrayAdapter<String> outdoorLocationsAdapter;
-	
+
 	public ArrayAdapter<String> getOutdoorLocationsAdapter() {
 		return outdoorLocationsAdapter;
 	}
@@ -632,24 +638,24 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		switch (item.getItemId()) {
 		case R.id.right_menu:
 			if(fragment instanceof OutdoorLocationsFragment) {
-				
+
 				actionMode = startSupportActionMode(callback);
 
 				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
-				
+
 				Map<String, City> citiesMap = SessionDto.getInstance().getCityDetails().getCities();
 				List<City> citiesList = new ArrayList<City>(citiesMap.values());
-				
+
 				final List<String> cityNamesList = new ArrayList<String>();
 				Iterator<City> iterator = citiesList.iterator();
-				
+
 				while(iterator.hasNext()) {
 					String cityName = iterator.next().getKey();
 					cityName = cityName.substring(0, 1).toUpperCase() + cityName.substring(1);
 					cityNamesList.add(cityName);
 				}
 				Collections.sort(cityNamesList);
-				
+
 				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cityNamesList);
 				final DragSortListView listView = (DragSortListView) findViewById(R.id.outdoor_locations_list);
 				AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.actv_cities_list);
@@ -661,12 +667,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 						Log.i(TAG, "Selected text " + ((TextView) arg1).getText());
 						actionMode.finish();
-						
+
 					}
 				});
-				
+
 				actv.setValidator(new AutoCompleteTextView.Validator() {
-					
+
 					@Override
 					public boolean isValid(CharSequence text) {
 						Log.i(TAG, "isAutoCompleteText valid");
@@ -682,7 +688,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 							outdoorLocationsAdapter.add(text.toString());
 							outdoorLocationsAdapter.notifyDataSetChanged();
 							listView.invalidate();
-//							outdoorLocationsList.add(text.toString());
+							//							outdoorLocationsList.add(text.toString());
 							Log.i(TAG, "Listitem count " + listView.getCount() + " adapter " + outdoorLocationsAdapter.getCount());
 							return true;
 						} else {
@@ -690,14 +696,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 							return false;
 						}
 					}
-					
+
 					@Override
 					public CharSequence fixText(CharSequence invalidText) {
 						// TODO Auto-generated method stub
 						return null;
 					}
 				});
-				
+
 				break;
 			}
 
@@ -837,30 +843,32 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierDetails) {
+
 		Log.i("LOCALSENSOR", "Received: "+isLocalPollingStarted) ;
 //		Log.i(TAG, "SensorDataReceived: "+airPurifierDetails) ;
-		
-			if ( airPurifierDetails != null ) {
-					airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
-					airPurifierEventDto = airPurifierDetails ;
-					updatePurifierUIFields() ;
+
+		if ( airPurifierDetails != null ) {
+			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
+			airPurifierEventDto = airPurifierDetails ;
+			updatePurifierUIFields() ;
+		}
+		else {
+			statusCounter ++;
+			if(statusCounter >= 3) {
+				statusCounter = 0 ;
+				secretKey = null ; 
+				deviceList.clear() ;
+				ipAddress = null ;
+				airPurifierEventDto=null;
+				disableRightMenuControls() ;
+				toggleConnection(false) ;
 			}
-			else  {
-				statusCounter ++;
-				if(statusCounter >= 3) {
-					statusCounter = 0 ;
-					secretKey = null ; 
-					deviceList.clear() ;
-					ipAddress = null ;
-					disableRightMenuControls() ;
-					toggleConnection(false) ;
-				}
-			}
+			
 		
 	}
-
+	}
 	private void updatePurifierUIFields() {
-//		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
+		//		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
 
 		if ( null != airPurifierEventDto ) {
 			connected = true;
@@ -889,11 +897,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		setRightMenuAirStatusBackground(0);
 		homeFragment.setMode("-");
 		homeFragment.setIndoorAQIValue(-1.0f);
-		
+		homeFragment.setFilterStatus("-");
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
-//		Log.i(TAG, "Filter values pre " + preFilterStatus + " multicare " + multiCareFilterStatus + "activecarbon " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
+		//		Log.i(TAG, "Filter values pre " + preFilterStatus + " multicare " + multiCareFilterStatus + "activecarbon " + activeCarbonFilterStatus + " hepa " + hepaFilterStatus);
 		/** Update filter bars*/
 		preFilterView.setPrefilterValue(preFilterStatus);
 		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
@@ -960,7 +968,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		return versionCode;
 	}
-	
+
 	private boolean cancelSearch = false;
 
 	/**
@@ -974,7 +982,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS) ;
 			airPurifierEventDto = airPurifierDetails ;
 			handler.sendEmptyMessage(1) ;
-			
+
 			timer.cancel() ;
 			timer.start() ;
 		}
@@ -988,7 +996,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			isCPPPollingStarted = false ;
 		}
 	}
-		
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -1000,15 +1008,16 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			break;
 		}
 	}	
-	
+
 	public void toggleConnection( boolean isLocal ) {
+
 		Log.i("test", "Toggle Connection: "+isLocal) ;
 		if ( isLocal ) {
 			startLocalPolling() ;
 		}
 		else {
 			startCPPPolling() ;
-			
+
 		}
 	}
 	
@@ -1041,9 +1050,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			}				
 		}
 	}
-	
+
 	private String ipAddress ;
-	
+
 	@Override
 	public boolean handleMessage(Message msg) {
 		DeviceModel device = null ;
@@ -1081,6 +1090,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 							com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
 							diSecurity.exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), AppConstants.DEVICEID);
 						}
+
 				}
 				break;
 			case DEVICE_LOST:
@@ -1114,11 +1124,11 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			toggleConnection(true) ;
 		}
 	}
-	
+
 	private CountDownTimer timer = new CountDownTimer(AppConstants.DCS_TIMEOUT,1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
-			
+
 		}		
 		@Override
 		public void onFinish() {
@@ -1126,7 +1136,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			disableRightMenuControls() ;
 		}
 	};
-	
+
 	private CountDownTimer discoveryTimer = new CountDownTimer(10000,1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
@@ -1137,7 +1147,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			toggleConnection(false) ;
 		}
 	};
-	
+
 	public boolean isEWSStarted ;
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		Log.i("ews", "Got back:"+resultCode) ;
