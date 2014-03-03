@@ -41,6 +41,7 @@
             android:background="@drawable/blue_button_selector"
             android:layout_marginRight="10dp"
             android:text="@string/yes"
+            android:textColor="@color/white"
             android:textSize="14sp" />
 
         <Button
@@ -48,6 +49,7 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg_gray"
+            android:textColor="@color/white"
             android:text="@string/no"
             android:textSize="14sp" />
     </LinearLayout>

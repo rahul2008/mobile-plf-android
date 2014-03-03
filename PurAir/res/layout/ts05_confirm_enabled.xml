@@ -2,6 +2,23 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:padding="16dp" >
+    
+    <ImageView
+        android:id="@+id/iv_support"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ews_question_mark_2x" />
+
+    <ImageView
+        android:id="@+id/iv_close_popup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/iv_support"
+        android:layout_marginRight="22dp"
+        android:src="@drawable/help_close" />
 
     <TextView
         android:id="@+id/tv_ts05_confirm_wifi_mode_enabled_header"
@@ -47,6 +64,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/blue_button_selector"
             android:layout_marginRight="10dp"
+            android:textColor="@color/white"
             android:text="@string/yes"
             android:textSize="14sp" />
 
@@ -56,6 +74,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_bg_gray"
             android:text="@string/no"
+            android:textColor="@color/white"
             android:textSize="14sp" />
     </LinearLayout>
 

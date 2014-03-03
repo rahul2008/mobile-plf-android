@@ -144,12 +144,18 @@ public class EWSDialogFactory implements OnClickListener{
 		supportID = id;
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.ts05_confirm_enabled, null);
 		Button confirmWifiEnabledYes = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_yes);
+		confirmWifiEnabledYes.setTypeface(Fonts.getGillsansLight(context));
 		confirmWifiEnabledYes.setOnClickListener(this);
 		Button confirmWifiEnabledNo = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_no);
+		confirmWifiEnabledNo.setTypeface(Fonts.getGillsansLight(context));
 		confirmWifiEnabledNo.setOnClickListener(this);
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
 		String msg1 = context.getString(R.string.support_ts05_message) + " <font color=#EF6921>"+context.getString(R.string.orange)+"</font>" + " " + context.getString(R.string.now);
 		tvMessage.setText(Html.fromHtml(msg1));
+		ImageView ivGotoSupport = (ImageView) alertLayout.findViewById(R.id.iv_support);
+		ivGotoSupport.setOnClickListener(this);
+		ImageView ivCloseErrorPopup = (ImageView) alertLayout.findViewById(R.id.iv_close_popup);
+		ivCloseErrorPopup.setOnClickListener(this);
 		temp.setCanceledOnTouchOutside(false);
 		temp.setCancelable(false);
 		temp.setContentView(alertLayout);
@@ -223,8 +229,10 @@ public class EWSDialogFactory implements OnClickListener{
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(context));
 		Button cancelWifiYes = (Button) alertLayout.findViewById(R.id.btn_cancel_wifi_yes);
+		cancelWifiYes.setTypeface(Fonts.getGillsansLight(context));
 		cancelWifiYes.setOnClickListener(this);
 		Button cancelWifiNo = (Button) alertLayout.findViewById(R.id.btn_cancel_wifi_no);
+		cancelWifiNo.setTypeface(Fonts.getGillsansLight(context));
 		cancelWifiNo.setOnClickListener(this);
 
 		temp.setCanceledOnTouchOutside(false);
