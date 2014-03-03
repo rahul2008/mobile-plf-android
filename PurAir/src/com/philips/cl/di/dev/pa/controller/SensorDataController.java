@@ -14,6 +14,7 @@ import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.cl.disecurity.DISecurity;
@@ -50,8 +51,22 @@ public class SensorDataController implements ServerResponseListener {
 	};
 	
 	public void addListener(SensorEventListener sensorEventListener) {
-		if(! listeners.contains(sensorEventListener)) 
-			listeners.add(sensorEventListener) ;
+		if( listeners != null ) {
+			int size = listeners.size() ;
+			if( size > 0 ) {
+				for( int index = 0 ;index < size ; index ++ ) {
+					Log.i("poll", sensorEventListener+":"+listeners.get(index)) ;
+					if( !(sensorEventListener instanceof MainActivity )) {
+						Log.i("poll", "Instance of") ;
+						listeners.add(sensorEventListener) ;
+						break ;
+					}
+				}
+			}
+			else {
+				listeners.add(sensorEventListener) ;
+			}
+		}
 	}
 	
 	public void removeListener(SensorEventListener sensorEventListener) {

@@ -96,10 +96,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			if (configParams instanceof DemoAppConfigurationParametersForProvisioned)
 				((DemoAppConfigurationParametersForProvisioned) configParams)
-						.setNVMConfigParams(br);
+				.setNVMConfigParams(br);
 			else if (configParams instanceof DemoAppConfigurationParametersForKeyProvisioning)
 				((DemoAppConfigurationParametersForKeyProvisioning) configParams)
-						.setNVMConfigParams(br);
+				.setNVMConfigParams(br);
 
 			in.close();
 			br.close();
@@ -112,40 +112,39 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Method to inialize
 	 */
 	public void init() {
-		Log.i(TAG, "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled()
-				+ " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
-		if (SignOn.isKPSEnabled() == true) {
-			configParams = new DemoAppConfigurationParametersForKeyProvisioning();
-			setConfigParameters();
-		} else if (SignOn.isTLSEnabled() == true) {
-			configParams = new DemoAppConfigurationParametersForProvisioned(
-					context);
-			setConfigParameters();
-		} else {
-			configParams = new DemoAppConfigurationParametersForProvisioned(
-					context);
-		}
+			Log.i("cpp", "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled() + " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
+			if (SignOn.isKPSEnabled() == true) {
+				configParams = new DemoAppConfigurationParametersForKeyProvisioning();
+				setConfigParameters();
+			} else if (SignOn.isTLSEnabled() == true) {
+				configParams = new DemoAppConfigurationParametersForProvisioned(
+						context);
+				setConfigParameters();
+			} else {
+				configParams = new DemoAppConfigurationParametersForProvisioned(
+						context);
+			}
 
-		String property = System.getProperty("java.library.path");
-		StringTokenizer parser = new StringTokenizer(property, ":");
-		while (parser.hasMoreTokens()) {
-			System.err.println(parser.nextToken());
-		}
-		int rv = 0;
+			String property = System.getProperty("java.library.path");
+			StringTokenizer parser = new StringTokenizer(property, ":");
+			while (parser.hasMoreTokens()) {
+				System.err.println(parser.nextToken());
+			}
+			int rv = 0;
 
-		SignOn.create(callbackHandler, configParams);
+			SignOn.create(callbackHandler, configParams);
 
-		signon = SignOn.getInstance();
-		// For TLS/KPS enabled case to load-certificates/chek network & other
-		// information
-		// Need android context
-		if (SignOn.isTLSEnabled() == true || SignOn.isKPSEnabled() == true)
-			signon.setInterfaceObject(this); // Important part
-		rv = signon.init();
+			signon = SignOn.getInstance();
+			// For TLS/KPS enabled case to load-certificates/chek network & other
+			// information
+			// Need android context
+			if (SignOn.isTLSEnabled() == true || SignOn.isKPSEnabled() == true)
+				signon.setInterfaceObject(this); // Important part
+			rv = signon.init();
 
-		if (rv == Errors.SUCCESS) {
-			onSignon();
-		}
+			if (rv == Errors.SUCCESS) {
+				onSignon();
+			}
 	}
 
 	/**
@@ -172,7 +171,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * known.
 	 */
 	private void onSignon() {
-		Log.i(TAG, "onSignOn");
+		Log.i("cpp", "onSignOn");
 		ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
 		DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(
@@ -219,7 +218,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will subscribe to events
 	 */
 	public void startDCSService() {
-		Log.i(TAG, "Start DCS: " + isDCSRunning + " isSIgnOn" + isSignOn);
+		Log.i("connect", "Start DCS: "+isDCSRunning + " isSIgnOn" + isSignOn) ;
+
 		if (!isDCSRunning) {
 			if (isSignOn) {
 				Log.i(TAG, "Signon Success");
@@ -266,7 +266,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			int numberOfListerners = listeners.size();
 			for (int index = 0; index < numberOfListerners; index++) {
 				listeners.get(index)
-						.onReceivedDeviceDetails(airPurifierDetails);
+				.onReceivedDeviceDetails(airPurifierDetails);
 			}
 		}
 	}
@@ -342,16 +342,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Publish Events, Subscription, etc..)
 	 * 
 	 */
+	
 	@Override
-	public void onICPCallbackEventOccurred(int eventType, int status,
-			ICPClient obj) {
-		Log.i(TAG, "onICPCallbackEventOccurred eventType " + eventType
-				+ " status " + status);
-		if (eventType == Commands.SIGNON) {
-			if (status == Errors.SUCCESS) {
-				isSignOn = true;
-				if (signOnListener != null) {
-					signOnListener.signonStatus(true);
+	public void onICPCallbackEventOccurred(int eventType, int status, ICPClient obj) {
+		Log.i("cpp", "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
+		if ( eventType == Commands.SIGNON ) {
+			if ( status == Errors.SUCCESS ) {
+				isSignOn = true ;
+				if ( signOnListener != null) {
+					signOnListener.signonStatus(true) ;
 				}
 				startDCSService();
 			} else {
