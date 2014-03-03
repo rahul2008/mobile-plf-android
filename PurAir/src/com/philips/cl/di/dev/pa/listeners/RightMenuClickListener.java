@@ -3,6 +3,8 @@ package com.philips.cl.di.dev.pa.listeners;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +47,7 @@ public class RightMenuClickListener implements OnClickListener {
 	private ToggleButton fanSpeedAuto;
 	
 	//Timer buttons
-	private Button timerOff, timerTwoHours, timerFourHours, timerEightHours;
+	private Button[] timerButtons = new Button[4];
 	
 	private Button connect ;
 	
@@ -80,10 +82,10 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);
 		timerBackground = activity.findViewById(R.id.background_timer);
-		timerOff = (Button) activity.findViewById(R.id.timer_off);
-		timerTwoHours = (Button) activity.findViewById(R.id.one_hour);
-		timerFourHours = (Button) activity.findViewById(R.id.four_hours);
-		timerEightHours = (Button) activity.findViewById(R.id.eight_hours);
+		timerButtons[0] = (Button) activity.findViewById(R.id.timer_off);
+		timerButtons[1] = (Button) activity.findViewById(R.id.one_hour);
+		timerButtons[2] = (Button) activity.findViewById(R.id.four_hours);
+		timerButtons[3] = (Button) activity.findViewById(R.id.eight_hours);
 		
 		connect = (Button) activity.findViewById(R.id.connect) ;
 		
@@ -111,6 +113,7 @@ public class RightMenuClickListener implements OnClickListener {
 			power.setChecked(getPowerButtonState(airPurifierEventDto));
 			setFanSpeed(airPurifierEventDto);
 			timer.setText(getTimerText(airPurifierEventDto));
+			toggleButtonBackground(getButtonToBeHighlighted(getTimerText(airPurifierEventDto)));
 			schedule.setText("N.A.");
 			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));
 			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
@@ -121,6 +124,19 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
+	private int getButtonToBeHighlighted(String timer) {
+		if(timer.equals(context.getString(R.string.onehour))) {
+			return R.id.one_hour;
+		} else if (timer.equals(context.getString(R.string.fourhour))) {
+			return R.id.four_hours;
+		} else if (timer.equals(context.getString(R.string.eighthour))) {
+			return R.id.eight_hours;
+		} else if (timer.equals(context.getString(R.string.off))) {
+			return R.id.timer_off;
+		}
+		return 0;
+	}
+
 	@SuppressWarnings("deprecation")
 	private void setFanSpeed(AirPurifierEventDto airPurifierEventDto) {
 		String fanSpeedText = airPurifierEventDto.getFanSpeed();
@@ -308,21 +324,25 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.timer_off:
 			timer.setText(((Button) v).getText());
+			toggleButtonBackground(R.id.timer_off);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "0") ;
 			break;
 		case R.id.one_hour:
 			timer.setText(((Button) v).getText());
+			toggleButtonBackground(R.id.one_hour);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "1") ;
 			break;
 		case R.id.four_hours:
 			timer.setText(((Button) v).getText());
+			toggleButtonBackground(R.id.four_hours);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "4") ;
 			break;
 		case R.id.eight_hours:
 			timer.setText(((Button) v).getText());
+			toggleButtonBackground(R.id.eight_hours);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "8") ;
 			break;
@@ -334,6 +354,20 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
+	private void toggleButtonBackground(int id) {
+		for(int i = 0; i < timerButtons.length; i++) {
+			if(id == timerButtons[i].getId()) {
+				timerButtons[i].setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+				timerButtons[i].setTextColor(Color.WHITE);
+				
+			} else {
+				timerButtons[i].setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_bg_normal_2x));
+				timerButtons[i].setTextColor(Color.rgb(109, 109, 109));
+			}
+		}
+	}
+
 	private void controlDevice(String key, String value) {
 		if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constants.AppConstants.CONNECTED) {
 			airPurifierController.setDeviceDetailsLocally(key, value) ;
@@ -412,17 +446,17 @@ public class RightMenuClickListener implements OnClickListener {
 		if(!collapse) {
 			isTimerMenuVisible = !collapse;
 			timerBackground.setVisibility(View.VISIBLE);
-			timerOff.setVisibility(View.VISIBLE);
-			timerTwoHours.setVisibility(View.VISIBLE);
-			timerFourHours.setVisibility(View.VISIBLE);
-			timerEightHours.setVisibility(View.VISIBLE);
+			timerButtons[0].setVisibility(View.VISIBLE);
+			timerButtons[1].setVisibility(View.VISIBLE);
+			timerButtons[2].setVisibility(View.VISIBLE);
+			timerButtons[3].setVisibility(View.VISIBLE);
 		} else {
 			isTimerMenuVisible = !collapse;
 			timerBackground.setVisibility(View.GONE);
-			timerOff.setVisibility(View.GONE);
-			timerTwoHours.setVisibility(View.GONE);
-			timerFourHours.setVisibility(View.GONE);
-			timerEightHours.setVisibility(View.GONE);
+			timerButtons[0].setVisibility(View.GONE);
+			timerButtons[1].setVisibility(View.GONE);
+			timerButtons[2].setVisibility(View.GONE);
+			timerButtons[3].setVisibility(View.GONE);
 		}
 	}
 
