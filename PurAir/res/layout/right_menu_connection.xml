@@ -39,7 +39,7 @@
         android:layout_alignBottom="@+id/tv_connection_status"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:background="@drawable/button_bg"
+        android:background="@drawable/gray_button_selector"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:textColor="#ffffff"

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class DetailsAIQ {
@@ -234,25 +235,18 @@ public class DetailsAIQ {
 	 * The method adding x-label into string array.
 	 * */
 	private void addXLabelToArry(int arrLen, float width) {
-		Calendar cal = Calendar.getInstance();
-		SessionDto sessionDto = SessionDto.getInstance();
-		if (sessionDto != null && sessionDto.getOutdoorEventDto() != null 
-				&& sessionDto.getOutdoorEventDto().getT() != null) {
-			String timeStr = sessionDto.getOutdoorEventDto().getT();
-			if (timeStr != null) {
-				try {
-					int year = Integer.parseInt(timeStr.substring(0, 4));
-					int month = Integer.parseInt(timeStr.substring(5, 7));
-					int day = Integer.parseInt(timeStr.substring(8, 10));
-					int hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
-					int minute = Integer.parseInt(timeStr.substring(14));
-					cal.set(year, month, day, hourOfDay, minute);
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		
+		int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+		Log.i("outdoor", "hourOfDay=="+hourOfDay);
+		String timeStr = OutdoorDetailsActivity.getCurrentCityTime();
+		if (timeStr != null && timeStr.length() > 0) {
+			try {
+				hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
-		
 		/** X axis label.*/
 		if (arrLen == 7) {
 			/**
@@ -260,7 +254,6 @@ public class DetailsAIQ {
 			 * */
 			xLabels = new String[7];
 			int dayInt = cal.get(Calendar.DAY_OF_WEEK);
-			
 			for (int j = 0; j < 7; j++) {
 				
 				String dayStr = Utils.getDayOfWeek(mContext, dayInt);
@@ -302,18 +295,17 @@ public class DetailsAIQ {
 			 * */
 			xLabels = new String[5];
 			
-			int hr = cal.get(Calendar.HOUR_OF_DAY);
 			for (int j = 0; j < xLabels.length; j++) {
 				String tempHr = null;
-				if (hr < 10) {
-					tempHr = "0" + hr + ":00";
+				if (hourOfDay < 10) {
+					tempHr = "0" + hourOfDay + ":00";
 				} else {
-					tempHr = hr + ":00";
+					tempHr = hourOfDay + ":00";
 				}
 				xLabels[xLabels.length - 1 - j] = tempHr;
-				hr = hr - 6;
-				if (hr < 0) {
-					hr = 24 + hr;
+				hourOfDay = hourOfDay - 6;
+				if (hourOfDay < 0) {
+					hourOfDay = 24 + hourOfDay;
 				} 
 			}
 			

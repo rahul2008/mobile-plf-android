@@ -16,7 +16,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:padding="8dp"
-            android:background="@drawable/trends_txt_bg"
             android:onClick="closeDetils"
             android:src="@drawable/help_close" />
 

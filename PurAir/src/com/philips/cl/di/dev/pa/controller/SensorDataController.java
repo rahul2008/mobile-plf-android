@@ -42,6 +42,7 @@ public class SensorDataController implements ServerResponseListener {
 	private final Runnable getSensorDataRunnable = new Runnable() {
 		@Override
 		public void run() {
+			Log.i("polling", "Get Sensor Data") ;
 			handler.removeCallbacks(getSensorDataRunnable);
 			getSensorData(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)));
 			handler.postDelayed(this, AppConstants.UPDATE_INTERVAL);
@@ -49,7 +50,8 @@ public class SensorDataController implements ServerResponseListener {
 	};
 	
 	public void addListener(SensorEventListener sensorEventListener) {
-		listeners.add(sensorEventListener) ;
+		if(! listeners.contains(sensorEventListener)) 
+			listeners.add(sensorEventListener) ;
 	}
 	
 	public void removeListener(SensorEventListener sensorEventListener) {
@@ -95,7 +97,7 @@ public class SensorDataController implements ServerResponseListener {
 					airpurifierEventDto = new DataParser(responseData).parseAirPurifierEventData() ;
 				}
 				//sensorListener.sensorDataReceived(airpurifierEventDto) ;
-				
+				Log.i("Listeners", ":"+listeners.size()) ;
 				for( int index = 0 ; index < listeners.size() ; index ++ ) {
 					listeners.get(index).sensorDataReceived(airpurifierEventDto) ;
 				}
@@ -153,5 +155,11 @@ public class SensorDataController implements ServerResponseListener {
 		AsyncTask<String, ?, ?> sensorDataTask = null;
 		sensorDataTask = new TaskGetSensorData(this);
 		sensorDataTask.execute(url);
+	}
+	
+	public void removeAllListeners() {
+		if(listeners != null) {
+			listeners.clear() ;
+		}
 	}
 }

@@ -208,6 +208,7 @@ public class RightMenuClickListener implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.connect:
+			((MainActivity) activity).isEWSStarted = true ;
 			((MainActivity) activity).stopAllServices() ;
 			activity.startActivityForResult(new Intent(activity,EwsActivity.class), 20) ;
 			break;

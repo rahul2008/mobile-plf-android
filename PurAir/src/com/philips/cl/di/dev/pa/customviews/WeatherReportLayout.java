@@ -2,9 +2,11 @@ package com.philips.cl.di.dev.pa.customviews;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,6 +16,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
+import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
@@ -26,37 +30,23 @@ public class WeatherReportLayout extends  LinearLayout {
 	 * @param AttributeSet
 	 * @param int number of view to show
 	 * */
-	public WeatherReportLayout(final Context context, AttributeSet attrs,  final int num) {
+	public WeatherReportLayout(final Context context, AttributeSet attrs,  final int num, String timeStr) {
 		super(context, attrs);
 		
-		SessionDto sessionDto = SessionDto.getInstance();
-		List<Weatherdto> weatherDetails = null;
-		if (sessionDto != null) {
-			weatherDetails = sessionDto.getWeatherDetails();
-			if (weatherDetails == null) {
-				return;
-			}
-		} else {
+		List<Weatherdto> weatherDetails = HomeFragment.getWeatherDetails();
+		if (weatherDetails == null) {
 			return;
 		}
-		
 		String[] nextFiveDays = new String[5];
 		String[] hrsDays = new String[8];
-		Calendar cal = Calendar.getInstance();
-		if (sessionDto != null && sessionDto.getOutdoorEventDto() != null 
-				&& sessionDto.getOutdoorEventDto().getT() != null) {
-			String timeStr = sessionDto.getOutdoorEventDto().getT();
-			if (timeStr != null) {
-				try {
-					int year = Integer.parseInt(timeStr.substring(0, 4));
-					int month = Integer.parseInt(timeStr.substring(5, 7));
-					int day = Integer.parseInt(timeStr.substring(8, 10));
-					int hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
-					int minute = Integer.parseInt(timeStr.substring(14));
-					cal.set(year, month, day, hourOfDay, minute);
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		
+		int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
+		if (timeStr != null && timeStr.length() > 0) {
+			try {
+				hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			}
 		}
 		
@@ -71,18 +61,17 @@ public class WeatherReportLayout extends  LinearLayout {
 			nextFiveDays[j] = dayStr;
 		}
 		
-		int hr = cal.get(Calendar.HOUR_OF_DAY);
 		for (int j = 0; j < hrsDays.length; j++) {
 			String tempHr = null;
-			if (hr < 10) {
-				tempHr = "0" + hr + ":00";
+			if (hourOfDay < 10) {
+				tempHr = "0" + hourOfDay + ":00";
 			} else {
-				tempHr = hr + ":00";
+				tempHr = hourOfDay + ":00";
 			}
 			hrsDays[j] = tempHr;
-			hr = hr + 3;
-			if (hr > 23) {
-				hr = hr - 24;
+			hourOfDay = hourOfDay + 3;
+			if (hourOfDay > 23) {
+				hourOfDay = hourOfDay - 24;
 			} 
 		}
 		
@@ -94,7 +83,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			/** Next 4 days weather report*/
 			int count = 9;
 			for (int i = 0; i < num; i++) {
-				float sum = 0;
+				float windSpeedTemp = 0;
 				float tempInCentigrade = 0;
 				float tempInFahrenheit = 0;
 				String date = null;
@@ -132,8 +121,8 @@ public class WeatherReportLayout extends  LinearLayout {
 						windDegree = weatherDetails.get(count).getWindDegree();
 					}
 					
-					if (windSpeed > sum) {
-						sum = windSpeed ;
+					if (windSpeed > windSpeedTemp) {
+						windSpeedTemp = windSpeed ;
 					} 
 					
 					count++;
@@ -154,10 +143,10 @@ public class WeatherReportLayout extends  LinearLayout {
 				dayTxt.setText(nextFiveDays[i]);
 				weatherImg.setImageDrawable(
 						Utils.getOutdoorTemperatureImage(context, weatherDesc, "yes"));
-				Utils.setOutdoorWeatherDirImg(context, windSpeed, windDirection, windDegree, windDirImg);
+				Utils.setOutdoorWeatherDirImg(context, windSpeedTemp, windDirection, windDegree, windDirImg);
 				maxTempTxt.setText(maxTempC+"\u2103");
 				minTempTxt.setText(minTempC+"\u2103");
-				windSpeedTxt.setText(String.format("%.1f", sum)+" km/h");
+				windSpeedTxt.setText(String.format("%.1f", windSpeedTemp)+" km/h");
 				//new GraphConst().setOutdoorWeatherDirImg(context,avg, windDirection, windDirImg);
 				
 				LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(

@@ -150,6 +150,7 @@ public class DataParser implements DataParserInterface {
 		try {
 			Gson gson = new GsonBuilder().create() ;
 			OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
+			//Log.i("outdoor", "set outdoor aqi == " +outdoorAQI);
 			SessionDto.getInstance().setOutdoorEventDto(outdoorAQI) ;
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();

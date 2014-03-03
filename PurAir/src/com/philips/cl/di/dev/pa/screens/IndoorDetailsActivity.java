@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
@@ -410,6 +411,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			if (datas[1] != null) {
 				filter.setText(datas[1]);
 			}
+			
 			if (datas[2] != null) {
 				try {
 					float indoorAQI = Float.parseFloat(datas[2].trim());
@@ -426,6 +428,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				outdoorTitle = datas[5];
 			}
 		}
+		
 	}
 
 	

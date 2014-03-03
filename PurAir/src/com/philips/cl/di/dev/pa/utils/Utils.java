@@ -48,6 +48,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
@@ -58,7 +59,9 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -884,7 +887,7 @@ public class Utils {
 	public static void setIndoorAQIStatusAndComment
 		(Context ctx, float indoorAQI, CustomTextView status, CustomTextView summary) {
 		
-		if(indoorAQI <= 1.4f) {
+		if(indoorAQI <= 1.4f && indoorAQI > 0) {
 			status.setText(ctx.getString(R.string.good)) ;
 			summary.setText(ctx.getString(R.string.very_healthy_msg_indoor)) ;
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
@@ -1167,16 +1170,16 @@ public class Utils {
 		}
 		//System.out.println("SETTING Wind Direction: windSpeed= "+windSpeed+"  degree= "+degree);
 		if (windSpeed < 15) {
-			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_2x);
+			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_1x);
 		} else if (windSpeed >= 15 && windSpeed < 25) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_2x);
 		} else if (windSpeed >= 25){
-			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_2x);
+			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_3x);
 		}
 		
 		iv.setImageDrawable(weatherImage);
-		float fconst = 180;
-		ObjectAnimator.ofFloat(iv, animRotation, 0, fconst + degree).setDuration(2000).start();
+		Log.i("degree", "Wind degree: " + degree);
+		ObjectAnimator.ofFloat(iv, animRotation, 0, degree).setDuration(2000).start();
 	}
 	
 	public static float getPxWithRespectToDip(Context context, float dip) {
@@ -1186,17 +1189,12 @@ public class Utils {
 	public static void calculateOutdoorAQIValues() {
 		int goodAirCount = 0;
 		int totalAirCount = 0;
-		SessionDto sessionDto = null;
-		try {
-			sessionDto = SessionDto.getInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (sessionDto != null && sessionDto.getOutdoorEventDto() != null){
+		OutdoorAQIEventDto outdoorAQIEventDto = HomeFragment.getOutdoorAQIEventDto();
+		if (outdoorAQIEventDto != null){
 			if (outdoorAQIPercentageList != null ) {
 				outdoorAQIPercentageList.clear();
 			}
-			int idx[] = sessionDto.getOutdoorEventDto().getIdx();
+			int idx[] = outdoorAQIEventDto.getIdx();
 			float[] lastDayAQIReadings = new float[24]; 
 			float[] last7dayAQIReadings = new float[7]; 
 			float[] last4weekAQIReadings = new float[28];
@@ -1224,6 +1222,10 @@ public class Utils {
 			 */
 			Calendar calender = Calendar.getInstance();
 			int hr = calender.get(Calendar.HOUR_OF_DAY);
+			Log.i("outdoor", "Current Hour Avg condition: " + HomeFragment.getCurrentHour());
+			if (HomeFragment.getCurrentHour() != -1) {
+				hr = HomeFragment.getCurrentHour();
+			}
 			if (hr == 0) {
 				hr = 24;
 			}

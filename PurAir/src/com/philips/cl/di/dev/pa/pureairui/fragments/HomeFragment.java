@@ -99,6 +99,10 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	private RelativeLayout takeTourPopUp;
 	
+	private static OutdoorAQIEventDto outdoorAQIEventDto;
+	private static List<Weatherdto> weatherDtoList; 
+	private static String currentCityTime;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -392,6 +396,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	@Override
 	public void onClick(View v) {
+		MainActivity activity = (MainActivity) getActivity() ;
+		activity.isClickEvent = true ;
 		Log.i(TAG, "onClick " + v.getId());
 		Intent intent;
 		switch (v.getId()) {
@@ -425,6 +431,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				outdoorInfos[8] = dergreeRotatePointer;
 				outdoorInfos[9] = isDayTime;
 				intent.putExtra("outdoor", outdoorInfos);
+				intent.putExtra("outdoorAqi", outdoorAQIEventDto);
 				startActivity(intent);
 			}
 			break;
@@ -775,7 +782,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void weatherDataUpdated(String weatherData) {
 		if ( getActivity() != null &&
 				weatherData != null ) {
-			Log.i("manzer", "weatherData:::"+weatherData);
 			SessionDto.getInstance().setWeatherDetails(new DataParser(weatherData).parseWeatherData()) ;
 			updateWeatherDetails() ;
 		}
@@ -785,6 +791,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private void updateOutdoorAQIFields() {
 		Log.i(TAG, "updateOutdoorAQIFields");
 		OutdoorAQIEventDto outdoorDto = SessionDto.getInstance().getOutdoorEventDto() ;
+		outdoorAQIEventDto = outdoorDto;
 		if(outdoorDto == null) {
 			Log.i(TAG, "outdoorDTO is null");
 			return;
@@ -802,6 +809,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			outdoorUpdatedAt = outdoorDto.getT();
 			setUpdatedAtTime(outdoorUpdatedAt) ;
 			updateOutdoorDashboard = true;
+			
+			currentCityTime = outdoorUpdatedAt;
 		}
 	}
 
@@ -811,6 +820,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	private void updateWeatherFields() {
 		List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails() ;
+		weatherDtoList = weatherDto;
 		if ( weatherDto != null && weatherDto.size() > 0 ) {
 			int weatherInC = (int) weatherDto.get(0).getTempInCentigrade() ;
 			isDayTime = (String) weatherDto.get(0).getIsdaytime();
@@ -844,7 +854,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-		Log.i(TAG, "respCode " + responseCode + " respData " + responseData);
+		//Log.i(TAG, "respCode " + responseCode + " respData " + responseData);
 		if (getActivity() != null) {
 			if ( responseCode == 200 ) {
 				new DataParser(responseData).parseOutdoorAQIData() ;
@@ -854,5 +864,25 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			}
 		}
 	}
-
+	
+	public static List<Weatherdto> getWeatherDetails() {
+		return weatherDtoList;
+	}
+	
+	public static OutdoorAQIEventDto getOutdoorAQIEventDto() {
+		return outdoorAQIEventDto;
+	}
+	
+	public static int getCurrentHour() {
+		int currentHr = -1;
+		if (currentCityTime != null && currentCityTime.length() > 0) {
+			try {
+				currentHr = Integer.parseInt(currentCityTime.substring(11, 13));
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
+		return currentHr;
+	}
+	
 }

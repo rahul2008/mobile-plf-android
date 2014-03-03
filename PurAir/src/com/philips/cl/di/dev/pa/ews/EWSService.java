@@ -245,6 +245,15 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 
 
 	public void connectToDeviceAP() {
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		/*if (wifiManager.getConnectionInfo().getSSID() != null 
+				&& wifiManager.getConnectionInfo().getSSID().contains(DEVICE_SSID)) {
+			wifiManager.disconnect();
+			//Toast.makeText(context, wifiManager.getConnectionInfo().getSSID(), Toast.LENGTH_LONG).show();
+		} else {
+			connectTo(DEVICE_SSID, "") ;
+		}*/
+		wifiManager.disconnect();
 		connectTo(DEVICE_SSID, "") ;
 		startScanForDeviceAp() ;
 		deviceSSIDTimer.start() ;

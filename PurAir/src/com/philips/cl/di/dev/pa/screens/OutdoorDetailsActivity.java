@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.screens;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,7 +16,9 @@ import com.philips.cl.di.dev.pa.customviews.GraphView;
 import com.philips.cl.di.dev.pa.customviews.WeatherReportLayout;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.dto.Weatherdto;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -60,6 +64,9 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	private float lastDayAQIReadings[] = new float[24];
 	private float last7dayAQIReadings[] = new float[7];
 	private float last4weekAQIReadings[] = new float[28];
+	private OutdoorAQIEventDto aqiEventDto;
+	private ArrayList<Weatherdto> weatherDtoList; 
+	private static String currentCityTime;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,14 +85,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		setActionBarTitle();
 
 		setUpMapIfNeeded();
-
-		try {
-			sessionDto = SessionDto.getInstance();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
-		if (sessionDto != null) {
+		getDataFromDashboard();
+		
+		if (aqiEventDto != null) {
 			getXCoordinates();
 		}
 		if (graphLayout.getChildCount() > 0) {
@@ -95,8 +98,14 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			graphLayout.addView(
 					new GraphView(this, lastDayAQIReadings, null, true, coordinates));
 		}
+		
+		/**Add today weather*/
+		wetherScrollView.addView(new WeatherReportLayout(this, null, 8, currentCityTime));
 
-		getDataFromDashboard();
+		/**Add weather forecast*/
+		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5, currentCityTime);
+		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
+		wetherForcastLayout.addView(weatherReportLayout);
 	}
 
 
@@ -115,29 +124,29 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	 * Reading data from server
 	 * */
 	private void getXCoordinates() {
-		if (sessionDto.getOutdoorEventDto() != null) {
+		if (aqiEventDto != null) {
 
-			int pm25s[] = sessionDto.getOutdoorEventDto().getPm25();
+			int pm25s[] = aqiEventDto.getPm25();
 			if (pm25s != null && pm25s.length > 0) {
 				pm1.setText(getString(R.string.pm25) + "  " + pm25s[0]);
 			}
 
-			int pm10s[] = sessionDto.getOutdoorEventDto().getPm10();
+			int pm10s[] = aqiEventDto.getPm10();
 			if (pm10s != null && pm10s.length > 0) {
 				pm2.setText(getString(R.string.pm10) + "  " + pm10s[0]);
 			}
 
-			int so2s[] = sessionDto.getOutdoorEventDto().getSo2();
+			int so2s[] = aqiEventDto.getSo2();
 			if (so2s != null && so2s.length > 0) {
 				pm3.setText(getString(R.string.so2) + "  " + so2s[0]);
 			}
 
-			int no2s[] = sessionDto.getOutdoorEventDto().getNo2();
+			int no2s[] = aqiEventDto.getNo2();
 			if (no2s != null && no2s.length > 0) {
 				pm4.setText(getString(R.string.no2) + "  " + no2s[0]);
 			}
 
-			int idx[] = sessionDto.getOutdoorEventDto().getIdx();
+			int idx[] = aqiEventDto.getIdx();
 
 			/** last day days */
 			/**
@@ -156,11 +165,12 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			 * Calculate last 7 day values and add in to last 7 day AQI value
 			 * array Calculate current day hours
 			 */
-			String timeStr = sessionDto.getOutdoorEventDto().getT().substring(11, 13);
+			currentCityTime = aqiEventDto.getT();
+			String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
 			int hr = 0;
-			if (timeStr != null) {
+			if (currentCityTimeHr != null) {
 				try {
-					hr = Integer.parseInt(timeStr);
+					hr = Integer.parseInt(currentCityTimeHr);
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
@@ -259,6 +269,9 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				//e.printStackTrace();
 			}
 		}
+		
+		aqiEventDto = (OutdoorAQIEventDto) getIntent().getSerializableExtra("outdoorAqi");
+	
 	}
 
 	/**Set advice icon and text*/ 
@@ -354,13 +367,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		openWindowTxt = (CustomTextView) findViewById(R.id.openWindowTxt); 
 		maskTxt = (CustomTextView) findViewById(R.id.maskTxt);
 
-		/**Add today weather*/
-		wetherScrollView.addView(new WeatherReportLayout(this, null, 8));
-
-		/**Add weather forecast*/
-		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5);
-		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
-		wetherForcastLayout.addView(weatherReportLayout);
+		
 
 		/**
 		 * Set click listener
@@ -499,6 +506,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 
 		mMap.addMarker(new MarkerOptions().position(new LatLng(31.230638, 121.473584)));
 
+	}
+	
+	public static String getCurrentCityTime() {
+		return currentCityTime;
 	}
 
 	
