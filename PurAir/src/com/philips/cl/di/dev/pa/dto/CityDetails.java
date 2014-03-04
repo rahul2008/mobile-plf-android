@@ -17,7 +17,7 @@ public class CityDetails {
 	 * @return the cities
 	 */
 	public Map<String, City> getCities() {
-		return (Map<String, City>) cities;
+		return cities;
 	}
 
 	/**
