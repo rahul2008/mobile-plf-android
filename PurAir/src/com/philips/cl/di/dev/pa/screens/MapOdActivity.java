@@ -112,7 +112,7 @@ public class MapOdActivity extends FragmentActivity {
 
 	    //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
 	    //int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;  
-	    int yPos = (int) (canvas.getHeight()) - 5 ;  
+	    int yPos = (canvas.getHeight()) - 5 ;  
 	    canvas.drawText(text, xPos, yPos, paint);
 
 	    return  bm;

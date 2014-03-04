@@ -837,7 +837,7 @@ public class Utils {
 		Calendar cal = Calendar.getInstance();
 
 		long startDateDiff = cal.getTimeInMillis()
-				- (28 * 24 * 60 * 60 * 1000l);
+				- (28 * 24 * 60 * 60 * 1000L);
 		Date dateStart = new Date(startDateDiff);
 		String startDate = formatDate.format(dateStart);
 		String startTime = formatTime.format(dateStart);
@@ -1413,7 +1413,7 @@ public class Utils {
 		// Calculate the positions
 		int xPos = (canvas.getWidth() / 2) - 2;
 
-		int yPos = (int) (canvas.getHeight()) - 5;
+		int yPos = (canvas.getHeight()) - 5;
 
 		canvas.drawText(text, xPos, yPos, paint);
 

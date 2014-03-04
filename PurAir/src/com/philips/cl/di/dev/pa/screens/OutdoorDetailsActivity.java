@@ -100,10 +100,15 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		}
 		
 		/**Add today weather*/
-		wetherScrollView.addView(new WeatherReportLayout(this, null, 8, currentCityTime));
+		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null,currentCityTime);
+		weatherReportLayout.addTodayWeatherInfo();
+		weatherReportLayout.ShowTodayWeather(8);
+		wetherScrollView.addView(weatherReportLayout);
 
 		/**Add weather forecast*/
-		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5, currentCityTime);
+		weatherReportLayout = new WeatherReportLayout(this, null,currentCityTime);
+		weatherReportLayout.addFiveDayWeatherInfo();
+		weatherReportLayout.ShowNextFiveDaysWeather(5);
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
 	}
@@ -266,7 +271,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				
 				setAdviceIconTex(aqiInt);
 			} catch (NumberFormatException e) {
-				//e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 		

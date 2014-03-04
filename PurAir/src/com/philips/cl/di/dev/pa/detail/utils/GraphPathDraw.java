@@ -267,9 +267,9 @@ public class GraphPathDraw {
 	/** This method check condition graph path draw towards up or down for indoor.*/
 	public void yAaxisConditions(float x1, float y1, float x2, 
 			float y2, Canvas canvas, Paint paint, boolean isOutdoor) {
-		if (y1 == -1F) {
+		if (y1 < 0) {
 			return;
-		}else if (y2 == -1F) {
+		}else if (y2 < 0) {
 			return;
 		}else {
 			if (y1 >= y2) {

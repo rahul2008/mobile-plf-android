@@ -420,7 +420,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary);
 				} catch (NumberFormatException e) {
-					//e.printStackTrace();
+					e.printStackTrace();
 				}
 			}
 
