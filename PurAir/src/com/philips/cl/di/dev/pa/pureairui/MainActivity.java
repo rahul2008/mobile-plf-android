@@ -589,7 +589,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			rightMenuItem.setIcon(R.drawable.plus_blue);
 			return;
 		}
-		Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM");
+		Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM status " + status);
 		MenuItem item = null;
 		if(menu != null) {
 			item = menu.getItem(0);

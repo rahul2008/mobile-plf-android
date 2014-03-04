@@ -143,30 +143,34 @@ public class RightMenuClickListener implements OnClickListener {
 		Drawable buttonImage = null;
 		fanSpeedAuto.setChecked(false);
 		Log.i(TAG, "setFanSpeed " + fanSpeedText);
-//		fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 		isFanSpeedAuto = false;
 		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeedText)) {
 			fanSpeed.setText("Silent");
 			buttonImage = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 		} else if(AppConstants.FAN_SPEED_TURBO.equals(fanSpeedText)) {
 			fanSpeed.setText("Turbo");
 			buttonImage = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 		} else if(AppConstants.FAN_SPEED_AUTO.equals(fanSpeedText)) {
 			fanSpeed.setText("Auto");
-//			fanSpeedAuto.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_on));
 			buttonImage = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 			fanSpeedAuto.setChecked(true);
 			isFanSpeedAuto = true;
+			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
 		} else if(AppConstants.FAN_SPEED_ONE.equals(fanSpeedText)) {
 			fanSpeed.setText("");
 			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_one);
+			toggleFanSpeedButtonBackground(R.id.fan_speed_one);
 		} else if(AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)) {
 //			Log.i(TAG, "setFanSpeed (AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)");
 			fanSpeed.setText("");
 			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_two);
+			toggleFanSpeedButtonBackground(R.id.fan_speed_two);
 		} else if(AppConstants.FAN_SPEED_THREE.equals(fanSpeedText)) {
 			fanSpeed.setText("");
 			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_three);
+			toggleFanSpeedButtonBackground(R.id.fan_speed_three);
 		}
 		fanSpeed.setBackgroundDrawable(buttonImage);
 	}
@@ -270,6 +274,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.fan_speed_silent:		
 			fanSpeed.setText(((Button) v).getText());
 			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
@@ -281,6 +286,7 @@ public class RightMenuClickListener implements OnClickListener {
 			} else {
 				controlDevice(ParserConstants.FAN_SPEED, "1") ;
 			}
+			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
 			isFanSpeedAuto = !isFanSpeedAuto;
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
@@ -288,6 +294,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.fan_speed_turbo:			
 			fanSpeed.setText(((Button) v).getText());
 			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
@@ -296,6 +303,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.fan_speed_one:
 			fanSpeed.setText(((Button) v).getText());
 			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.fan_speed_one));
+			toggleFanSpeedButtonBackground(R.id.fan_speed_one);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
@@ -304,6 +312,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.fan_speed_two:
 			fanSpeed.setText(((Button) v).getText());
 			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.fan_speed_two));
+			toggleFanSpeedButtonBackground(R.id.fan_speed_two);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
@@ -312,6 +321,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.fan_speed_three:
 			fanSpeed.setText(((Button) v).getText());
 			fanSpeed.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.fan_speed_three));
+			toggleFanSpeedButtonBackground(R.id.fan_speed_three);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
@@ -352,6 +362,17 @@ public class RightMenuClickListener implements OnClickListener {
 		default:
 			break;
 		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void toggleFanSpeedButtonBackground(int id) {
+		fanSpeedOne.setBackgroundDrawable((id == fanSpeedOne.getId()) ? context.getResources().getDrawable(R.drawable.fan_speed_one) : context.getResources().getDrawable(R.drawable.fan_speed_one_white));
+		fanSpeedTwo.setBackgroundDrawable((id == fanSpeedTwo.getId()) ? context.getResources().getDrawable(R.drawable.fan_speed_two) : context.getResources().getDrawable(R.drawable.fan_speed_two_white));
+		fanSpeedThree.setBackgroundDrawable((id == fanSpeedThree.getId()) ? context.getResources().getDrawable(R.drawable.fan_speed_three) : context.getResources().getDrawable(R.drawable.fan_speed_three_white));
+		fanSpeedSilent.setBackgroundDrawable((id == fanSpeedSilent.getId()) ? context.getResources().getDrawable(R.drawable.button_blue_bg_2x) : context.getResources().getDrawable(R.drawable.button_bg_normal_2x));
+		fanSpeedSilent.setTextColor((id == fanSpeedSilent.getId()) ? Color.WHITE : Color.rgb(109, 109, 109));
+		fanSpeedTurbo.setBackgroundDrawable((id == fanSpeedTurbo.getId()) ? context.getResources().getDrawable(R.drawable.button_blue_bg_2x) : context.getResources().getDrawable(R.drawable.button_bg_normal_2x));
+		fanSpeedTurbo.setTextColor((id == fanSpeedTurbo.getId()) ? Color.WHITE : Color.rgb(109, 109, 109));
 	}
 	
 	@SuppressWarnings("deprecation")

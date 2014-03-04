@@ -378,6 +378,14 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ivIndoorMeter.setVisibility(View.VISIBLE);
 	}
 	
+	public void hideOutdoorGuage() {
+		ivOutdoorMeter.setVisibility(View.GONE);
+	}
+	
+	public void showOutdoorGuage() {
+		ivOutdoorMeter.setVisibility(View.VISIBLE);
+	}
+	
 
 	/**
 	 * Starts the Outdoor AQI task. This method calls a webservice and fetches
