@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.app.Notification.Action;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -26,6 +27,7 @@ import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -252,6 +254,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		filter = new IntentFilter() ;
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION) ;
+		filter.addAction(Intent.ACTION_SCREEN_ON) ;
+		filter.addAction(Intent.ACTION_SCREEN_OFF) ;
 
 		this.registerReceiver(networkReceiver, filter);
 
@@ -273,6 +277,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		networkReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
+				Log.i("test",intent.getAction()) ;
 
 				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 				NetworkInfo wifiInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -377,16 +382,32 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	protected void onPause() {
 		Log.i("test", "onPause") ;
 		super.onPause();
-		Editor editor = outdoorLocationPrefs.edit();
-		editor.clear();
-		int count = outdoorLocationsAdapter.getCount();
-		Log.i(TAG, "count " + count);
-		for (int i = 0; i < count; i++) {
-			Log.i(TAG, "saving..." + i + " :: " + outdoorLocationsAdapter.getItem(i));
-			editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
+		if(outdoorLocationPrefs != null) {
+			Editor editor = outdoorLocationPrefs.edit();
+			editor.clear();
+			int count = outdoorLocationsAdapter.getCount();
+			Log.i(TAG, "count " + count);
+			for (int i = 0; i < count; i++) {
+				Log.i(TAG, "saving..." + i + " :: " + outdoorLocationsAdapter.getItem(i));
+				editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
+			}
+			editor.commit();
 		}
-		editor.commit();
 		EWSDialogFactory.getInstance(this).cleanUp();
+
+		
+		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
+		boolean isScreenOn = powerManager.isScreenOn();
+		
+		if (!isScreenOn) {
+			Log.i("test", "screen is locked:") ;
+			if(!isClickEvent) {				
+				disableRightMenuControls() ;
+				stopService = true ;
+				stopAllServices() ;
+			}
+			isClickEvent = false ;
+		}
 	}
 
 	private String secretKey ;
@@ -922,7 +943,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		setRightMenuAirStatusBackground(0);
 		homeFragment.setMode("-");
 		homeFragment.setIndoorAQIValue(-1.0f);
-		
+
 		homeFragment.setFilterStatus("-");
 	}
 
@@ -1148,7 +1169,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			disableRightMenuControls() ;
 		}
 	};
-	
+
 
 	private CountDownTimer discoveryTimer = new CountDownTimer(10000,1000) {
 		@Override
@@ -1186,6 +1207,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	@Override
 	protected void onUserLeaveHint() {
+		Log.i("test","user leave hint") ;
 		if(!isClickEvent) {
 			Log.i("test", "UserLeavehint") ;
 			disableRightMenuControls() ;
