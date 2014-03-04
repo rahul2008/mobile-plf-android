@@ -434,8 +434,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		isEWSStarted = false ;
 		if( stopService ) {
 			Log.i("test", "startDiscovery on Restart") ;
+			sensorDataController.addListener(this) ;
 			startDeviceDiscovery() ;
-			startCPP() ;
+			if(!isEWSSuccessful) {
+				startCPP() ;
+			}
+			isEWSSuccessful = false ;
 			//toggleConnection(false) ;
 			stopService = false ;
 		}
@@ -487,6 +491,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		stopDiscovery() ;
 		ipAddress = null ;
+		sensorDataController.removeAllListeners() ;
 	}
 
 
@@ -1222,10 +1227,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if ( resultCode == RESULT_OK ) {		
 			if( intent != null &&  intent.getExtras()  != null )
 				ipAddress = (String) intent.getExtras().get("ipaddress") ;
+			if( ipAddress != null ) {
+				isEWSSuccessful = true ;
+			}
 			if( sensorDataController == null ) {
 				sensorDataController = SensorDataController.getInstance(this) ;
 			}
-			sensorDataController.addListener(this) ;
 			toggleConnection(true) ;
 			if( ssdpService == null ) {
 				ssdpService = SsdpService.getInstance() ;
@@ -1238,7 +1245,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	};
 
 	public boolean isClickEvent;
-
+	public boolean isEWSSuccessful ;
 	@Override
 	protected void onUserLeaveHint() {
 		Log.i("test","user leave hint") ;
