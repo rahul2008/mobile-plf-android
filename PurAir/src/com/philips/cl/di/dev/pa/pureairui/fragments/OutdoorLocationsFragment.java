@@ -143,12 +143,12 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 		return view;
 	}
 	
-	@Override
+/*	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		MenuItem item = menu.getItem(0);
-		item.setIcon(R.drawable.plus_blue);
+		//item.setIcon(R.drawable.plus_blue);
 		super.onCreateOptionsMenu(menu, inflater);
-	}
+	}*/
 	
 	private void startGetCitiesListTask() {
 		Log.i(TAG, "startGetCitiesListTask");

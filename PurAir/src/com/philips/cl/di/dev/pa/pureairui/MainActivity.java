@@ -258,7 +258,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		filter.addAction(Intent.ACTION_SCREEN_OFF) ;
 
 		this.registerReceiver(networkReceiver, filter);
-		
+
 		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
 		Log.i(TAG, "outdoorPrefs " + outdoorLocationPrefs.getAll());
@@ -406,10 +406,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		}
 		EWSDialogFactory.getInstance(this).cleanUp();
 
-		
+
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		boolean isScreenOn = powerManager.isScreenOn();
-		
+
 		if (!isScreenOn) {
 			Log.i("test", "screen is locked:") ;
 			if(!isClickEvent) {				
@@ -448,6 +448,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
+		if(fragment instanceof OutdoorLocationsFragment && android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
+			invalidateOptionsMenu();
+		}
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -581,14 +584,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private void setRightMenuConnectedStatus(int status) {
 		Log.i(TAG, "setRightMenuConnectedStatus ");
-		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		//FragmentManager manager = getSupportFragmentManager();
+		//Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
-		if(fragment instanceof OutdoorLocationsFragment) {
+		/*if(fragment instanceof OutdoorLocationsFragment) {
 			Log.i(TAG, "setRightMenuConnectedStatus$OutdoorLocationsFragment");
 			rightMenuItem.setIcon(R.drawable.plus_blue);
 			return;
-		}
+		}*/
 		Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM status " + status);
 		MenuItem item = null;
 		if(menu != null) {
@@ -630,10 +633,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.menu = menu;
-		MenuItem item = menu.getItem(0);
-		rightMenuItem= menu.getItem(0);
-		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		MenuItem item = menu.findItem(R.id.right_menu);
+		rightMenuItem= menu.findItem(R.id.right_menu);	
 
 		if(connected)
 			item.setIcon(R.drawable.right_bar_icon_blue_2x);
@@ -642,6 +643,22 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		return true;
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		//getMenuInflater().inflate(R.menu.main, menu);
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		MenuItem item= this.menu.findItem(R.id.add_location_menu);
+		if(fragment instanceof OutdoorLocationsFragment)
+		{			
+			item.setVisible(true);
+		}
+		else
+		{
+			item.setVisible(false);
+		}
+		return super.onPrepareOptionsMenu(menu);
+	}
 	private ActionMode actionMode;
 
 	private ActionMode.Callback callback = new ActionMode.Callback() {
@@ -699,8 +716,18 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
 		switch (item.getItemId()) {
-		case R.id.right_menu:
-			if(fragment instanceof OutdoorLocationsFragment) {
+		case R.id.right_menu:			
+			if(mRightDrawerOpened) {
+				mDrawerLayout.closeDrawer(mListViewLeft);
+				mDrawerLayout.closeDrawer(mScrollViewRight);
+			} else {
+				mDrawerLayout.closeDrawer(mListViewLeft);
+				mDrawerLayout.openDrawer(mScrollViewRight);
+			}
+			break;
+		case R.id.add_location_menu:
+			if(fragment instanceof OutdoorLocationsFragment){
+
 
 				actionMode = startSupportActionMode(callback);
 
@@ -766,16 +793,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 						return null;
 					}
 				});
-
-				break;
-			}
-
-			if(mRightDrawerOpened) {
-				mDrawerLayout.closeDrawer(mListViewLeft);
-				mDrawerLayout.closeDrawer(mScrollViewRight);
-			} else {
-				mDrawerLayout.closeDrawer(mListViewLeft);
-				mDrawerLayout.openDrawer(mScrollViewRight);
 			}
 			break;
 		}
@@ -845,7 +862,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				break;
 			case 2:
 				//Outdoor locations
-				rightMenuItem.setIcon(R.drawable.plus_blue);
+				//rightMenuItem.setIcon(R.drawable.plus_blue);
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
 				break;
@@ -922,7 +939,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				secretKey = null ; 
 				deviceList.clear() ;
 				ipAddress = null ;
-				
+
 				disableRightMenuControls() ;
 				toggleConnection(false) ;
 			}
