@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		}
 		if(updateOutdoorDashboard)
 			setOutdoorDashboardValues(outdoorAQIValue);
-		
+		ivIndoorMeter.setVisibility(View.GONE);
 		return vMain;
 	}
 
@@ -367,6 +367,17 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		initAnimationLocations.setDuration(0);
 		initAnimationLocations.start();
 	}
+	
+	public void hideIndoorGuage() {
+		Log.i(TAG, "Hide indoor guage");
+		ivIndoorMeter.setVisibility(View.GONE);
+	}
+	
+	public void showIndoorGuage() {
+		Log.i(TAG, "Show indoor guage");
+		ivIndoorMeter.setVisibility(View.VISIBLE);
+	}
+	
 
 	/**
 	 * Starts the Outdoor AQI task. This method calls a webservice and fetches

@@ -580,6 +580,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 
 	private void setRightMenuConnectedStatus(int status) {
+		Log.i(TAG, "setRightMenuConnectedStatus ");
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
@@ -588,21 +589,24 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			rightMenuItem.setIcon(R.drawable.plus_blue);
 			return;
 		}
-
+		Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM");
 		MenuItem item = null;
 		if(menu != null) {
 			item = menu.getItem(0);
 			if(status == AppConstants.CONNECTED) {
+				Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM CONNECTED");
 				tvConnectionStatus.setText(getString(R.string.connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 			}
 			else if (status == AppConstants.CONNECTED_VIA_PHILIPS) {
+				Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM CONNECTED");
 				tvConnectionStatus.setText(getString(R.string.connected_via_philips));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 			}
 			else {
+				Log.i(TAG, "setRightMenuConnectedStatus SET MENU ITEM NOT CONNECTED");
 				tvConnectionStatus.setText(getString(R.string.not_connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 				item.setIcon(R.drawable.right_bar_icon_orange_2x);
@@ -918,9 +922,9 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				secretKey = null ; 
 				deviceList.clear() ;
 				ipAddress = null ;
+				
 				disableRightMenuControls() ;
 				toggleConnection(false) ;
-
 			}
 		}
 	}
@@ -956,6 +960,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		homeFragment.setIndoorAQIValue(-1.0f);
 
 		homeFragment.setFilterStatus("-");
+		homeFragment.hideIndoorGuage();
 	}
 
 	private void updateFilterStatus(int preFilterStatus, int multiCareFilterStatus, int activeCarbonFilterStatus, int hepaFilterStatus) {
@@ -981,6 +986,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			homeFragment.setMode(mode) ;
 		}*/
 		if ( homeFragment != null && homeFragment.getActivity() != null) {
+			homeFragment.showIndoorGuage();
 			homeFragment.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI()/10.0f) ;
 			homeFragment.setFilterStatus(Utils.getFilterStatusForDashboard(airPurifierEventDto)) ;
 			homeFragment.setMode(Utils.getMode(airPurifierEventDto.getFanSpeed(), this)) ;
