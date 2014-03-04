@@ -258,6 +258,17 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		filter.addAction(Intent.ACTION_SCREEN_OFF) ;
 
 		this.registerReceiver(networkReceiver, filter);
+		
+		isGooglePlayServiceAvailable = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
+		Log.i(TAG, "outdoorPrefs " + outdoorLocationPrefs.getAll());
+		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
+		outdoorLocationsList = new ArrayList<String>();
+		int size = outdoorLocationsMap.size();
+		for(int i = 0; i < size; i++) {
+			outdoorLocationsList.add(outdoorLocationsMap.get(""+i));
+		}
+		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
 
 		startDeviceDiscovery() ;
