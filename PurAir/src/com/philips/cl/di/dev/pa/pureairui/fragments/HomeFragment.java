@@ -423,20 +423,22 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		case R.id.indoor_circle_pointer:
 		case R.id.tv_indoor_aqi_status_message:
 		case R.id.tv_indoor_aqi_status_title:
-			//Show indoor details
-			intent = new Intent(getActivity(),	IndoorDetailsActivity.class);
-			String indoorInfos[] = new String[6];
-			indoorInfos[0] = tvIndoorModeValue.getText().toString();
-			indoorInfos[1] = tvIndoorFilterStatus.getText().toString();
-			indoorInfos[2] = String.valueOf(indoorAQIValue);
-			indoorInfos[3] = tvIndoorTitle.getText().toString();
-			indoorInfos[4] = tvIndoorComment.getText().toString();
-			indoorInfos[5] = tvOutdoorTitle.getText().toString();
-			intent.putExtra("indoor", indoorInfos);
-			startActivity(intent);
+			if(isIndoorExpanded) {
+				//Show indoor details
+				intent = new Intent(getActivity(),	IndoorDetailsActivity.class);
+				String indoorInfos[] = new String[6];
+				indoorInfos[0] = tvIndoorModeValue.getText().toString();
+				indoorInfos[1] = tvIndoorFilterStatus.getText().toString();
+				indoorInfos[2] = String.valueOf(indoorAQIValue);
+				indoorInfos[3] = tvIndoorTitle.getText().toString();
+				indoorInfos[4] = tvIndoorComment.getText().toString();
+				indoorInfos[5] = tvOutdoorTitle.getText().toString();
+				intent.putExtra("indoor", indoorInfos);
+				startActivity(intent);
+			}
 			break;
 		case R.id.outdoor_circle_pointer:
-			if (updateOutdoorDashboard) {
+			if (updateOutdoorDashboard && !isIndoorExpanded) {
 				intent = new Intent(getActivity(),	OutdoorDetailsActivity.class);
 				String outdoorInfos[] = new String[10];
 				outdoorInfos[0] = tvUpdatedAtDate.getText().toString();
