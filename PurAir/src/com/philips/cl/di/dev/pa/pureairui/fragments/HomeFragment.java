@@ -849,7 +849,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		weatherDtoList = weatherDto;
 		if ( weatherDto != null && weatherDto.size() > 0 ) {
 			int weatherInC = (int) weatherDto.get(0).getTempInCentigrade() ;
-			isDayTime = (String) weatherDto.get(0).getIsdaytime();
+			isDayTime = weatherDto.get(0).getIsdaytime();
 			outdoorTemperature = weatherInC;
 			setOutdoorTemperature(outdoorTemperature) ;
 			outdoorWeatherDesc = weatherDto.get(0).getWeatherDesc();
