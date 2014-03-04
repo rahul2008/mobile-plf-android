@@ -103,7 +103,7 @@ public class City {
 	public boolean equals(Object obj) {
 		if (obj instanceof City) {
 			City mycity = (City) obj;
-			if (mycity.getKey() == key) {
+			if (mycity.getKey().equals(key)) {
 				return true;
 			} else {
 				return false;
