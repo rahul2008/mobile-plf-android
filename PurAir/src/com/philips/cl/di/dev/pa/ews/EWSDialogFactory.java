@@ -172,7 +172,7 @@ public class EWSDialogFactory implements OnClickListener{
 		button.setText(buttonText);
 		button.setOnClickListener(this);
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_error_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(context));;
+		tvHeader.setTypeface(Fonts.getGillsansLight(context));
 		tvHeader.setText(header);
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_error_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(context));
