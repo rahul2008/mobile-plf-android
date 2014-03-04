@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
-    android:versionCode="0051"
+    android:versionCode="006"
     android:versionName="0.0.6" >
 
     <uses-sdk
