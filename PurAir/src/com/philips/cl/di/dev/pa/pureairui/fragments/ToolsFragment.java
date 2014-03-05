@@ -88,6 +88,11 @@ SignonListener, DiagnosticsDataListener {
 			}
 
 		}
+		
+		if( Utils.getAirPurifierID(getActivity()) != null && 
+				Utils.getAirPurifierID(getActivity()).length() > 0 ) {
+			signOnButton.setVisibility(View.INVISIBLE) ;
+		}
 
 		Button diagnostics = (Button) vMain.findViewById(R.id.btn_diagnostics);
 		diagnostics.setOnClickListener(this);
@@ -175,9 +180,10 @@ SignonListener, DiagnosticsDataListener {
 					tvCPPDetails.setVisibility(View.VISIBLE);
 					tvCPPDetails.setText("AirPurifier: "
 							+ cppDatabaseModel.getDistribution());
-					((MainActivity) getActivity()).toggleConnection(false);
+					//((MainActivity) getActivity()).toggleConnection(false);
 					Toast.makeText(getActivity(), "Signon Successfull",
 							Toast.LENGTH_LONG).show();
+					signOnButton.setVisibility(View.INVISIBLE) ;
 				} else {
 					Utils.clearCPPDetails(getActivity());
 					Toast.makeText(getActivity(), "Signon failed",
