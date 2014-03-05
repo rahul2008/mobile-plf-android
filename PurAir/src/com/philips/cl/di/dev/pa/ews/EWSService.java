@@ -146,15 +146,21 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		
 	}
 	private static boolean isOpenNetwork;
+	private String networkCapability = "";
 	private void processWifiList(List<ScanResult> results) {
 		for (ScanResult scanResult : results) {
 			if (scanResult.SSID != null && homeSSID != null && scanResult.SSID.equals(homeSSID)) {
-				if (scanResult.capabilities.contains("WPA") 
-						|| scanResult.capabilities.contains("WEP")) {
+				if (scanResult.capabilities.contains("WPA")) {
 					isOpenNetwork = false;
+					networkCapability = "WPA";
+				}else if(scanResult.capabilities.contains("WEP")) {
+					isOpenNetwork = false;
+					networkCapability = "WEP";
+					Log.i("WEPWPA", "scanResult " + scanResult);
 				}else {
+					networkCapability = "";
 					isOpenNetwork = true;
-				}
+				} 
 			}
 		}
 	}
@@ -264,16 +270,27 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	}
 
 	private void connectTo(String ssid, String password) {
-
+		Log.i("WEPWPA", "connectTo networkCapability " + networkCapability);
 		WifiConfiguration config= new WifiConfiguration();
 		config.SSID = "\"" + ssid.replace("\"", "") + "\"";
 		config.status=WifiConfiguration.Status.ENABLED;
 		config.priority = 1;
+		
 		if(password.equals("")){
 			config.allowedKeyManagement.set(KeyMgmt.NONE);
 		}else{
 			config.preSharedKey ="\""+password+"\"";
-			config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
+			if(networkCapability.equals("WPA")) {
+				config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
+				config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+			} else if (networkCapability.equals("WEP")) {
+//				config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
+				config.allowedKeyManagement.set(KeyMgmt.IEEE8021X);
+				config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+				config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+			} else {
+				config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
+			}
 		}
 		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
 		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);

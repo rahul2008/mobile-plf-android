@@ -44,7 +44,7 @@ import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.KeyDecryptListener;
 
-public class EwsActivity extends ActionBarActivity implements OnClickListener, EWSListener, Callback, KeyDecryptListener {
+public class EwsActivity extends ActionBarActivity implements OnClickListener, EWSListener, Callback{
 
 	private int step = -1;
 	/**
@@ -684,8 +684,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 						device.getIpAddress() != null && ipAddress == null) {
 					ipAddress = device.getIpAddress() ;
 					com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
-					//deviceDiscoveryCompleted();
-					new DISecurity(this).exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), "dev01");
+					deviceDiscoveryCompleted();
+//					new DISecurity(this).exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), "dev01");
 				}
 				break;
 			case DEVICE_LOST:
@@ -747,12 +747,12 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		
  	}
 
-	@Override
-	public void keyDecrypt(String key) {
-		Log.i("", "EWS final step key== " +key);
-		if (key != null) {
-			deviceDiscoveryCompleted();
-		}
-		
-	}
+//	@Override
+//	public void keyDecrypt(String key) {
+//		Log.i("ews", "EWS final step key== " +key);
+//		if (key != null && key.length() > 0) {
+//			deviceDiscoveryCompleted();
+//		}
+//		
+//	}
 }
