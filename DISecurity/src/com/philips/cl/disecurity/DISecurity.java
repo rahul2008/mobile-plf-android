@@ -34,6 +34,7 @@ public class DISecurity implements ServerResponseListener {
 		this.keyDecryptListener = keyDecryptListener;
 		pValue = Util.pValue;
 		gValue = Util.gValue;
+		Log.i(TAG, "initialize constructor: ") ;
 	}
 	
 	/**
@@ -43,8 +44,10 @@ public class DISecurity implements ServerResponseListener {
 	 * @throws Exception
 	 */ 
 	public void exchangeKey(String url, String deviceId)  {
+		Log.i(TAG, "exchangeKey ") ;
 		urlsTable.put(deviceId, url);
 		if (!isKeyExchanging(deviceId)) {
+			Log.i(TAG, "exchangeKey diffie") ;
 			isExchangingKeyTable.put(deviceId, true);
 			
 			//Get diffie key
@@ -96,6 +99,7 @@ public class DISecurity implements ServerResponseListener {
 	 * @return
 	 */
 	public String decryptData(String data, String deviceId) {
+		
 		String key = securityHashtable.get(deviceId);
 		String decryptData = null;
 
@@ -110,6 +114,7 @@ public class DISecurity implements ServerResponseListener {
 
 			}
 		}
+		Log.i(TAG, "decryptData= " + decryptData) ;
 		return decryptData;
 	}
 	
