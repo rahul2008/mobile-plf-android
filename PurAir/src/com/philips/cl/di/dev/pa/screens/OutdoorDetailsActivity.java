@@ -100,15 +100,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		}
 		
 		/**Add today weather*/
-		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null,currentCityTime);
-		weatherReportLayout.addTodayWeatherInfo();
-		weatherReportLayout.ShowTodayWeather(8);
-		wetherScrollView.addView(weatherReportLayout);
+		wetherScrollView.addView(new WeatherReportLayout(this, null, 8, currentCityTime));
 
 		/**Add weather forecast*/
-		weatherReportLayout = new WeatherReportLayout(this, null,currentCityTime);
-		weatherReportLayout.addFiveDayWeatherInfo();
-		weatherReportLayout.ShowNextFiveDaysWeather(5);
+		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5, currentCityTime);
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
 	}
