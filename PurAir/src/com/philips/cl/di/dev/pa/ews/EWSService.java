@@ -260,52 +260,103 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 			connectTo(DEVICE_SSID, "") ;
 		}*/
 		wifiManager.disconnect();
-		connectTo(DEVICE_SSID, "") ;
+		connectToPhilipsSetup();
 		startScanForDeviceAp() ;
 		deviceSSIDTimer.start() ;
 	}
 
-	public void connectToHomeNetwork(String ssid, String password) {
-		connectTo(ssid, password) ;
-	}
-
-	private void connectTo(String ssid, String password) {
-		Log.i("WEPWPA", "connectTo networkCapability " + networkCapability);
-		WifiConfiguration config= new WifiConfiguration();
-		config.SSID = "\"" + ssid.replace("\"", "") + "\"";
-		config.status=WifiConfiguration.Status.ENABLED;
-		config.priority = 1;
+	private boolean connectToHomeNetwork() {
+		if (homeSSID == null) {
+			Log.i("ews", "Failed to connect to Home network - ssid is null");
+			return false;
+		}
 		
-		if(password.equals("")){
-			config.allowedKeyManagement.set(KeyMgmt.NONE);
-		}else{
-			config.preSharedKey ="\""+password+"\"";
-			if(networkCapability.equals("WPA")) {
-				config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
-				config.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
-			} else if (networkCapability.equals("WEP")) {
-//				config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
-				config.allowedKeyManagement.set(KeyMgmt.IEEE8021X);
-				config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
-				config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
-			} else {
-				config.allowedKeyManagement.set(KeyMgmt.WPA_PSK);
+		int networkId = getConfiguredNetworkId(homeSSID);
+		if (!connectToNetwork(networkId)) {
+			Log.i("ews", "Failed to connect to Home network");
+			return false;
+		}
+		
+		Log.i("ews", "Successfully connected to Home network");
+		return true;
+	}
+	
+	private boolean connectToPhilipsSetup() {
+		int networkId = getConfiguredNetworkId(DEVICE_SSID);
+		if (networkId == -1) {
+			networkId = configureOpenNetwork(DEVICE_SSID);
+		}
+		
+		if (!connectToNetwork(networkId)) {
+			Log.i("ews", "Failed to connect to Philips setup");
+			return false;
+		}
+		
+		Log.i("ews", "Successfully connected to Philips setup");
+		return true;
+	}
+	
+	private boolean connectToNetwork(int networkId) {
+		if (networkId < 0) {
+			Log.i("ews", "Failed to connect to network - configuration failed");
+			return false;
+		}
+		
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.enableNetwork(networkId, true)) {
+			Log.i("ews", "Failed to connect to network - enabling failed");
+			return false;
+		}
+		
+		Log.i("ews", "Successfully connected to network");
+		return true;
+	}
+	
+	/**
+	 * @return -1 if not yet configured, else network id
+	 */
+	private int getConfiguredNetworkId(String ssid) {
+		ssid = ssid.replace("\"", "");
+		
+		WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		List<WifiConfiguration> configuredNetworks = wifiMan.getConfiguredNetworks();
+		
+		for (WifiConfiguration config : configuredNetworks) {
+			String configSsid = config.SSID.replace("\"", "");
+			if (configSsid.equals(ssid)) {
+				return config.networkId;				
 			}
 		}
-		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
-		config.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
-		config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
-		config.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
-		config.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
-
-		WifiManager wifiManager = (WifiManager) 
-				context.getSystemService(Context.WIFI_SERVICE);
-		int netId = wifiManager.addNetwork(config);
-		if (netId >= 0) {
-			wifiManager.enableNetwork(netId, true);
+		return -1;
+	}
+	
+	private int configureOpenNetwork(String ssid) {
+		WifiConfiguration wfc = new WifiConfiguration();
+		 
+		wfc.SSID = "\"".concat(ssid).concat("\"");
+		wfc.status = WifiConfiguration.Status.DISABLED;
+		wfc.priority = 40;
+		
+		wfc.allowedKeyManagement.set(WifiConfiguration.KeyMgmt.NONE);
+		wfc.allowedProtocols.set(WifiConfiguration.Protocol.RSN);
+		wfc.allowedProtocols.set(WifiConfiguration.Protocol.WPA);
+		wfc.allowedAuthAlgorithms.clear();
+		wfc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.CCMP);
+		wfc.allowedPairwiseCiphers.set(WifiConfiguration.PairwiseCipher.TKIP);
+		wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP40);
+		wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.WEP104);
+		wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
+		wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
+		
+		WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		int networkId = wifiMan.addNetwork(wfc);
+		
+		if (networkId != -1) {
+			Log.i("ews", "Successfully configured open network: " + ssid);
 		} else {
-			Toast.makeText(context, "Please enable network", Toast.LENGTH_LONG).show() ;
+			Log.i("ews", "Failed to configure open network: " + ssid);
 		}
+		return networkId;
 	}
 
 	@Override
@@ -331,8 +382,8 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
-				Log.i("ews", decryptedResponse) ;
 				if( decryptedResponse != null ) {
+					Log.i("ews", decryptedResponse) ;
 					storeDeviceDetails(decryptedResponse) ;
 					getWifiDetails() ;
 				}				
@@ -357,7 +408,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				Log.i("ews", decryptedResponse) ;
 				if( decryptedResponse != null ) {
-					connectTo(homeSSID, password) ;
+					connectToHomeNetwork();
 					listener.onDeviceConnectToHomeNetwork() ;
 					errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE ;
 				}
