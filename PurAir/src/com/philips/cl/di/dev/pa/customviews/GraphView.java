@@ -2,12 +2,6 @@ package com.philips.cl.di.dev.pa.customviews;
 
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
-import com.philips.cl.di.dev.pa.detail.utils.DetailsAIQ;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
-
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,6 +10,11 @@ import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
+import com.philips.cl.di.dev.pa.detail.utils.DetailsAIQ;
+import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 
 
 public class GraphView extends View {

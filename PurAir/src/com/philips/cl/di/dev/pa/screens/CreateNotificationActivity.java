@@ -1,22 +1,19 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.utils.Fonts;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.TimePicker.OnTimeChangedListener;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class CreateNotificationActivity extends ActionBarActivity implements OnClickListener{
 

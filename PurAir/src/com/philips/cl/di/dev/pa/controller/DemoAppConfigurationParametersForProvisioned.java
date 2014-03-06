@@ -23,7 +23,6 @@ import java.util.StringTokenizer;
 
 import android.content.Context;
 
-import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.configuration.ProvisionedConfiguration;
 

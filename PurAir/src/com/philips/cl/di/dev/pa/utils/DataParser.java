@@ -4,14 +4,12 @@ import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
 import org.json.JSONObject;
 
 import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;

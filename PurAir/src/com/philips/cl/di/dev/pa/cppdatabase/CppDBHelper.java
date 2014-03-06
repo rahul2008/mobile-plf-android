@@ -1,11 +1,10 @@
 package com.philips.cl.di.dev.pa.cppdatabase;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.philips.cl.di.dev.pa.constants.AppConstants;
 
 public class CppDBHelper extends SQLiteOpenHelper {
 	

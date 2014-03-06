@@ -1,18 +1,11 @@
 package com.philips.cl.di.dev.pa.cppdatabase;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.utils.DBHelper;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;

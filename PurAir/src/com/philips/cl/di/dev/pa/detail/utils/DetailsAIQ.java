@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -15,7 +14,6 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 

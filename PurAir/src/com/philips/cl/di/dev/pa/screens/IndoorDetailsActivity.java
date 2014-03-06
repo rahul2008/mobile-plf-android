@@ -1,14 +1,10 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
@@ -32,13 +28,10 @@ import com.philips.cl.di.dev.pa.customviews.PercentBarLayout;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
-import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
-import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.data.Errors;

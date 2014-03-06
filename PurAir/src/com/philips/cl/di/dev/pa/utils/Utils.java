@@ -48,7 +48,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;

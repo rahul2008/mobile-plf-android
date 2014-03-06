@@ -3,14 +3,12 @@ package com.philips.cl.di.dev.pa.detail.utils;
 import java.util.ArrayList;
 import java.util.Collections;
 
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Path.Direction;
-import android.util.Log;
 
 
 public class GraphPathDraw {

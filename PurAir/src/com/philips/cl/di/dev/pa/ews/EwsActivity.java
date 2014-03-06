@@ -41,8 +41,6 @@ import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
-import com.philips.cl.disecurity.DISecurity;
-import com.philips.cl.disecurity.KeyDecryptListener;
 
 public class EwsActivity extends ActionBarActivity implements OnClickListener, EWSListener, Callback{
 

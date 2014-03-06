@@ -19,21 +19,12 @@ Version 1:
 ----------------------------------------------------------------------------*/
 
 
-import java.io.FileOutputStream;
-
-
-
-import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.ByteBuffer;
 
 import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
-
 import com.philips.icpinterface.CallbackHandler;
-import com.philips.icpinterface.DownloadData;
-
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;

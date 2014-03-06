@@ -1,15 +1,14 @@
 package com.philips.cl.di.dev.pa.customviews;
 
 
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
-
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
+
+import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 
 public class AirView extends View {
 

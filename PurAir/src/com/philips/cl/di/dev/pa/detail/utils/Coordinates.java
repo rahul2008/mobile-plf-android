@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.detail.utils;
 
-import com.philips.cl.di.dev.pa.dto.SessionDto;
-
 import android.content.Context;
 
 public class Coordinates {

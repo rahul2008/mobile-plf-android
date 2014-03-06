@@ -1,12 +1,12 @@
 package com.philips.cl.di.dev.pa.pureairui.fragments;
 
-import com.philips.cl.di.dev.pa.R;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class HomeOutDoorFragment extends Fragment {
 	

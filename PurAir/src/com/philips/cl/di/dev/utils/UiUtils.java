@@ -1,11 +1,11 @@
 package com.philips.cl.di.dev.utils;
 
 
-import com.philips.cl.di.dev.pa.R;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.widget.Toast;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class UiUtils {
 	

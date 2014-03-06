@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
 
 public class NetworkUtils {

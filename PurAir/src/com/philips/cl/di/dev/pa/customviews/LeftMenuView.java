@@ -1,11 +1,11 @@
 package com.philips.cl.di.dev.pa.customviews;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
+
+import com.philips.cl.di.dev.pa.constants.AppConstants;
 
 /**
  * The Class LeftMenuView.
