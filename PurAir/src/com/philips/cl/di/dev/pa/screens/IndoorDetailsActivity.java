@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.CPPController;
@@ -111,7 +110,6 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(this), 2048) ;
 			}
 			else {
-				Toast.makeText(this, "Please signon", Toast.LENGTH_LONG).show() ;
 				parseReading();
 			}
 		} 
