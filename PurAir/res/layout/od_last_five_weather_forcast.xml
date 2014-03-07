@@ -30,6 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:contentDescription="@string/img_description"
+        android:layout_alignBottom="@+id/odWeatherForcastWind"
         android:src="@drawable/wifi_connected" />
 
     <com.philips.cl.di.dev.pa.customviews.CustomTextView

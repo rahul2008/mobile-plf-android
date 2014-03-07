@@ -74,7 +74,7 @@
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>
     <string name="unhealthy_for_sensitive_groups">Unhealthy for sensitive groups</string>
-    <string name="na">Not Available</string>
+    <string name="n_a">Not Available</string>
     <string name="fair">Fair</string>
     <string name="bad">Bad</string>
     <string name="onehour">1H</string>
