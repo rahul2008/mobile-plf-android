@@ -29,7 +29,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
-        android:text="PHILIPS Home" />
+        android:text="@string/philips_home" />
     
     <TextView
         android:id="@+id/tv_filter_status_title"
@@ -39,7 +39,7 @@
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        android:text="Filters" />
+        android:text="@string/filters" />
 
     <TextView
         android:id="@+id/tv_filter_status_value"
@@ -51,7 +51,7 @@
         android:textColor="@color/white"
         android:text="" />
 
-    <TextView
+    <TextView 
         android:id="@+id/tv_indoor_aqi_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

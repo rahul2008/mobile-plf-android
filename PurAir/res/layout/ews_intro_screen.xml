@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/ews_intro_message1_txt"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/ews_start_air_2x" />
         
         <ImageView
@@ -40,6 +41,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignBottom="@+id/ews_intro_message2_txt"
             android:layout_below="@+id/ews_intro_img"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/ews_attention_2x" />
         
         

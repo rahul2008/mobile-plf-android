@@ -34,6 +34,7 @@
         android:layout_below="@+id/tv_check_signal_message"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/check_signal" />
 
 </RelativeLayout>

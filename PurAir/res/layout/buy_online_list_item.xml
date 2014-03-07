@@ -12,6 +12,7 @@
         android:layout_alignBottom="@+id/btn_buy_online"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/purifier" />
 
     <TextView
@@ -21,7 +22,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/product_img"
-        android:text="TextView" 
         android:textSize="21sp"
         android:textColor="@color/dimgray"/>
 
@@ -32,7 +32,6 @@
         android:layout_alignLeft="@+id/lbl_product_name"
         android:layout_alignRight="@+id/lbl_product_name"
         android:layout_below="@+id/lbl_product_name"
-        android:text="TextView" 
         android:textSize="21sp"
         android:textColor="#555555"/>
 
@@ -44,7 +43,6 @@
         android:layout_alignRight="@+id/lbl_product_price"
         android:layout_below="@+id/lbl_product_price"
         android:layout_marginTop="20dp"
-        android:text="TextView" 
         android:textColor="@color/dimgray"/>
 
     <Button

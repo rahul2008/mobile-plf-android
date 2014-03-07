@@ -33,7 +33,7 @@
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
-
+ 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_password_lb"
@@ -135,6 +135,7 @@
             android:paddingLeft="16dp"
             android:ems="10"
             android:singleLine="true"
+            android:hint=""
             android:enabled="false"
             android:text="@string/lbl_living_room"
             android:textColor="@color/philips_blue"
@@ -175,8 +176,8 @@
                 android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="192.168.0.1"
                 android:ems="10"
+                android:hint=""
                 android:singleLine="true"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp" >
@@ -203,11 +204,11 @@
                 android:layout_marginLeft="16dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:layout_below="@+id/ews_step3_ip_edittxt"
-                 android:background="@drawable/ews_edit_txt_bg"
+                android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="192.168.0.1"
-                android:ems="10"
+                android:hint=""
+	            android:ems="10"
                 android:singleLine="true"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp" >
@@ -239,7 +240,7 @@
                 android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="192.168.0.1"
+                android:hint=""
                 android:ems="10"
                 android:singleLine="true"
                 android:textColor="@color/title_gray"

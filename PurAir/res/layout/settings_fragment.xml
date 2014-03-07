@@ -10,9 +10,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/icon_mycity" />
 
-    <TextView
+    <TextView 
         android:id="@+id/tv_rate_this_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,6 +30,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/iv_rate_this_app"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/separator" />
 
     <ImageView
@@ -38,6 +40,7 @@
         android:layout_alignLeft="@+id/iv_rate_this_app"
         android:layout_below="@+id/divider_1"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/icon_1_2x" />
     
     <TextView
@@ -55,6 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/iv_send_us_feedback"
+        android:contentDescription="@string/img_description"
         android:layout_marginTop="10dp"
         android:src="@drawable/separator" />
 

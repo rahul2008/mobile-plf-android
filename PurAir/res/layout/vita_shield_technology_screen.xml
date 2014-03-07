@@ -15,7 +15,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="@string/vistashield_ips_system_intro"
-            android:textColor="#7F8595"
+            android:textColor="#7F8595" 
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -41,6 +41,7 @@
                 android:layout_height="50dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/sieving" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -90,6 +91,7 @@
                 android:layout_height="50dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/inertial_impaction" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -140,6 +142,7 @@
                 android:layout_marginTop="3dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/interception" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -190,6 +193,7 @@
                 android:layout_marginTop="3dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/diffusion_absorbtion" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -234,6 +238,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/nanometer_desc" />
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView

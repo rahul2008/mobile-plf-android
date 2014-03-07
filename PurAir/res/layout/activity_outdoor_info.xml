@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:text="Shanghai"
+        android:text="@string/city_shanghai"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/tvCityName"
-        android:text="US Consulate"
+        android:text="@string/city_location"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" >
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/tvTimeOutdoor"
-        android:text="NA"
+        android:text="@string/na"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="--:--"
+        android:text="@string/date_empty"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
@@ -60,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvTimeOutdoor"
-        android:text="Last updated"
+        android:text="@string/date_label"
         android:textColor="@android:color/white"
         android:textSize="15sp"
         custom:fontAssetName="fonts/gillsans.ttf">

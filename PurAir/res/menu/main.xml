@@ -3,13 +3,13 @@
     <item
         android:id="@+id/right_menu"
         android:icon="@drawable/right_bar_icon_blue_2x"
-        android:title="right_menu"
+        android:title="@string/a_capital"
         pureAirUI:showAsAction="always">
     </item>
     <item
         android:id="@+id/add_location_menu"
         android:icon="@drawable/plus_blue"
-        android:title="locations"
+        android:title="@string/a_capital"
         android:visible="false"
         pureAirUI:showAsAction="always">
     </item>

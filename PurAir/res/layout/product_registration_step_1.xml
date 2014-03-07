@@ -10,7 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="You are registering the purifier 'Kitchen'" />
+        android:text="@string/reg_step1_title" />
 
     <TextView
         android:id="@+id/registration_email_address_subtitle"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:text="@string/registration_email_ques" 
         android:layout_marginBottom="5dp"/>
-
+ 
     <EditText
         android:id="@+id/email_text"
         android:layout_width="match_parent"
@@ -48,7 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="Next Step"
+        android:text="@string/next_step"
         android:enabled="false"
         android:background="@drawable/registration_button_selector"
         android:textColor="#FFF"/>

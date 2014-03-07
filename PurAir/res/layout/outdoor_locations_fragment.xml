@@ -10,6 +10,7 @@
         android:layout_alignTop="@+id/tv_lm_outdoor_locations_title"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/icon_3_2x" />
 
     <TextView
@@ -20,7 +21,7 @@
         android:layout_marginTop="25dp"
         android:paddingTop="5dp"
         android:layout_toRightOf="@+id/iv_lm_outdoor_location"
-        android:text="Current location" />
+        android:text="@string/current_location" />
 
     <ToggleButton
         android:id="@+id/btn_current_location"

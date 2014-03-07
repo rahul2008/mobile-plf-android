@@ -55,7 +55,7 @@
         android:text="@string/dashboard_instruction_4" 
         android:textColor="@color/philips_blue"
         android:textSize="24sp"/>
-
+ 
     <Button
         android:id="@+id/btn_indoor_air_quality_readings"
         android:layout_width="wrap_content"

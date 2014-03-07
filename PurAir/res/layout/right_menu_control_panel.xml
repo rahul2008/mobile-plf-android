@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_power"
+        android:contentDescription="@string/img_description"
         android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
@@ -55,7 +56,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp" 
         android:textSize="10sp"
-        android:text="-"/>
+        android:text=""/>
     
     <ImageView
         android:id="@+id/divider_2"
@@ -64,6 +65,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_fan_speed"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/seperator_line_2x" />
     
     <View
@@ -188,6 +190,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_set_timer"
+        android:contentDescription="@string/img_description"
         android:layout_marginTop="10dp"
         android:src="@drawable/seperator_line_2x" />
     
@@ -277,7 +280,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:textSize="8sp"
-        android:text="Wed 10:30" />
+        android:text="" />
     
     <ImageView
         android:id="@+id/divider_4"
@@ -286,6 +289,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_scheduler"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/seperator_line_2x" />
     
     <TextView
@@ -316,6 +320,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_child_lock"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/seperator_line_2x" />
     
     <TextView
@@ -346,6 +351,7 @@
         android:layout_centerVertical="true"
         android:layout_below="@+id/btn_rm_indicator_light"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/seperator_line_2x" />
     
 </RelativeLayout>

@@ -19,6 +19,7 @@
             android:paddingRight="8dp"
             android:paddingBottom="8dp"
             android:onClick="closeDetils"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/help_close" />
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView

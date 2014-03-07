@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/ews_question_mark_2x" />
 
     <ImageView
@@ -18,6 +19,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/iv_support"
         android:layout_marginRight="22dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/help_close" />
 
     <TextView
@@ -37,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/tv_ts05_confirm_wifi_mode_enabled_header"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/ews_help_bg4_2x"/>
 
     <TextView

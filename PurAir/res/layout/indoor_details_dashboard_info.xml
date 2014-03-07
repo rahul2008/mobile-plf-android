@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/aqi_pink_circle_2x" />
 
      <com.philips.cl.di.dev.pa.customviews.CustomTextView

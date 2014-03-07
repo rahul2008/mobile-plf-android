@@ -40,6 +40,7 @@
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/formaldehyde" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -89,6 +90,7 @@
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/tvoc" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -139,6 +141,7 @@
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/airborne_pathogens" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -188,6 +191,7 @@
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/pet_hair_dust_mites" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -240,6 +244,7 @@
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/outdoor_particles" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -289,6 +294,7 @@
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/particulate_matter" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView

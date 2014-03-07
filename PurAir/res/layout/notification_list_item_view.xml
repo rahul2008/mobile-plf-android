@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/delete_circle"
         android:src="@drawable/delete_dash_horizontal" 
+        android:contentDescription="@string/img_description"
         android:visibility="gone"/>
     
     <RelativeLayout

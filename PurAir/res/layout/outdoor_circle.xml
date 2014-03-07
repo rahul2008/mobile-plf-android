@@ -8,6 +8,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/colour_circle_big_2x" />
 
     <ImageView
@@ -16,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/outdoor_circle_meter"
         android:layout_centerHorizontal="true"
+        android:contentDescription="@string/img_description"
         android:paddingTop="23dp"
         android:src="@drawable/blue_circle_with_arrow_2x" />
     
@@ -31,6 +33,6 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:textSize="60sp"
-        android:text="-" />
+        android:text="" />
 
 </RelativeLayout>

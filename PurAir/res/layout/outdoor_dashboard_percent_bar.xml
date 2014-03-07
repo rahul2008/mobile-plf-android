@@ -32,7 +32,7 @@
         android:gravity="center_horizontal"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
-        android:text="Indoor"
+        android:text="@string/indoor_db"
         android:textColor="@color/gray"
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
@@ -44,7 +44,7 @@
         android:layout_height="150dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@color/lightgrey" >
+        android:background="@color/lightgrey" > 
 
         <View
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
         android:gravity="center_horizontal"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
-        android:text="Outdoor, Shangai"
+        android:text="@string/outdoor_shanghai"
         android:textColor="@color/gray"
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsans.ttf" >

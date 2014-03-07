@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/aqi_blue_circle_2x" />
     
     <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -21,7 +22,6 @@
         android:layout_alignTop="@+id/od_detail_circle_pointer"
         android:layout_alignRight="@+id/od_detail_circle_pointer"
         android:gravity="center"
-        android:text="290"
         android:textColor="@color/white"
         android:textSize="70sp" />
     
@@ -36,7 +36,7 @@
         android:layout_alignLeft="@+id/od_detail_circle_pointer"
         android:layout_alignRight="@+id/od_detail_circle_pointer"
         android:gravity="center"
-        android:text="US Consulate"
+        android:text="@string/city_location"
         android:textColor="@color/white"
         android:textSize="12sp" />
     

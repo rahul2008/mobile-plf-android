@@ -1,182 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+        <!-- Dashboard information -->
 
-            <!-- Dashboard information -->
-
-            <RelativeLayout
-                android:id="@+id/trendOutdoorLayout"
-                android:layout_width="wrap_content"
-                android:layout_height="320dp" >
-
-                <include
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true"
-                    layout="@layout/indoor_dashboard" />
-            </RelativeLayout>
-
-            <!-- Dashboard Details Controls -->
+        <RelativeLayout
+            android:id="@+id/trendOutdoorLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="320dp" >
 
             <include
-                android:id="@+id/inc_outdoor_filter_info"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                layout="@layout/indoor_dashboard" />
+        </RelativeLayout>
+
+        <!-- Dashboard Details Controls -->
+
+        <include
+            android:id="@+id/inc_outdoor_filter_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            layout="@layout/dashboard_details_control" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@color/gray" />
+
+        <!-- First Message -->
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/idFirstMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/good_air_message_last_day"
+            android:textColor="@color/dodgerblue"
+            android:textSize="18sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+
+        <!-- Detail Percentage Bar -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingTop="8dp" >
+
+            <include
+                android:id="@+id/indoorDbBarTop"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                layout="@layout/dashboard_details_control" />
-			<View 
-			    android:layout_width="match_parent"
-			    android:layout_height="1dp"
-			    android:layout_marginLeft="16dp"
-			    android:layout_marginRight="16dp"
-			    android:background="@color/gray"/>
-			
-            <!-- First Message -->
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/idFirstMsg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/good_air_message_last_day"
-                android:textColor="@color/dodgerblue"
-                android:textSize="18sp"
-                custom:fontAssetName="fonts/gillsans.ttf" >
-            </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                layout="@layout/indoor_db_bar_top_layout" />
 
-            <!-- Detail Percentage Bar -->
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:paddingTop="8dp" >
-
-                <include
-                    android:id="@+id/indoorDbBarTop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    layout="@layout/indoor_db_bar_top_layout" />
-                
-                <HorizontalScrollView
-                    android:id="@+id/indoorDbHorizontalScroll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/indoorDbBarTop"
-                    android:layout_centerHorizontal="true"
-                    android:fadeScrollbars="false" >
-                </HorizontalScrollView>
-            </RelativeLayout>
-
-            <!-- Second Message -->
-
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/idSecondMsg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/detail_aiq_message_last_day"
-                android:textColor="@color/dodgerblue"
-                android:textSize="18sp"
-                custom:fontAssetName="fonts/gillsans.ttf" >
-            </com.philips.cl.di.dev.pa.customviews.CustomTextView>
-
-            <!-- Graph Layout -->
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="16dp" >
-
-                <ImageView
-                    android:id="@+id/indoorDbIndexBottBg"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:src="@drawable/indoorcircle" />
-
-                <com.philips.cl.di.dev.pa.customviews.CustomTextView
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                    android:id="@+id/indoorDbIndexBott"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
-
-                <com.philips.cl.di.dev.pa.customviews.CustomTextView
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                    android:id="@+id/indoorDbIndexName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/indoorDbIndexBott"
-                    android:layout_alignBottom="@+id/indoorDbIndexBott"
-                    android:layout_marginLeft="10dp"
-                    android:layout_toRightOf="@+id/indoorDbIndexBottBg"
-                    android:gravity="center"
-                    android:text="@string/lbl_living_room"
-                    android:textColor="@color/gray"
-                    android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
-            </RelativeLayout>
-
-			<RelativeLayout
-			    android:layout_width="match_parent"
-			    android:layout_height="320dp" >
-
-				<ProgressBar
-				    android:id="@+id/rdcpDownloadProgressBar"
-				    style="?android:attr/progressBarStyleLarge"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:layout_centerInParent="true" />
-
-			    <LinearLayout
-			        android:id="@+id/trendsOutdoorlayoutGraph"
-			        android:layout_width="match_parent"
-			        android:layout_height="320dp"
-			        android:layout_margin="16dp"
-			        android:layout_alignParentTop="true"
-			        android:layout_alignParentLeft="true"
-			        android:orientation="vertical" >
-			    </LinearLayout>
-			</RelativeLayout>
-
-            <!-- Bottom Bottom -->
-
-            <Button
-                android:id="@+id/idAnExplain"
+            <HorizontalScrollView
+                android:id="@+id/indoorDbHorizontalScroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="16dp"
-                android:paddingRight="16dp"
-                android:textColor="@color/white"
-                android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
-                android:onClick="aqiAnalysisClick"
-                android:text="@string/outdoor_aiq_analysis_head1" />
-        </LinearLayout>
-    </ScrollView>
+                android:layout_below="@+id/indoorDbBarTop"
+                android:layout_centerHorizontal="true"
+                android:fadeScrollbars="false" >
+            </HorizontalScrollView>
+        </RelativeLayout>
 
-</LinearLayout>
+        <!-- Second Message -->
+
+        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/idSecondMsg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="@string/detail_aiq_message_last_day"
+            android:textColor="@color/dodgerblue"
+            android:textSize="18sp"
+            custom:fontAssetName="fonts/gillsans.ttf" >
+        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+
+        <!-- Graph Layout -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp" >
+
+            <ImageView
+                android:id="@+id/indoorDbIndexBottBg"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/indoorcircle" />
+
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/indoorDbIndexBott"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                custom:fontAssetName="fonts/gillsans.ttf" >
+            </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+
+            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/indoorDbIndexName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/indoorDbIndexBott"
+                android:layout_alignBottom="@+id/indoorDbIndexBott"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/indoorDbIndexBottBg"
+                android:gravity="center"
+                android:text="@string/lbl_living_room"
+                android:textColor="@color/gray"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="320dp" >
+
+            <ProgressBar
+                android:id="@+id/rdcpDownloadProgressBar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+            <LinearLayout
+                android:id="@+id/trendsOutdoorlayoutGraph"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="16dp"
+                android:orientation="vertical" >
+            </LinearLayout>
+        </RelativeLayout>
+
+        <!-- Bottom Bottom -->
+
+        <Button
+            android:id="@+id/idAnExplain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
+            android:onClick="aqiAnalysisClick"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/outdoor_aiq_analysis_head1"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
+</ScrollView>

@@ -4,6 +4,7 @@
     <string name="app_name">Smart Air</string>
     <string name="dashboard_title">PHILIPS Smart Air Purifier</string>
     <string name="action_settings">Settings</string>
+    <string name="philips_home">PHILIPS Home</string>
 
     <!-- Left menu items -->
 
@@ -153,6 +154,8 @@
     <string name="promotion_ques">Philips can email you promotions and offers.</string>
     <string name="lbl_register">Register</string>
     <string name="lbl_connected_purifiers">Connected purifiers</string>
+    <string name="reg_step1_title">You are registering the purifier \'Kitchen\'</string>
+    <string name="next_step">Next Step</string>
 
     <!-- Buy Online -->
 
@@ -161,6 +164,8 @@
     <!-- Details -->
     <string name="indoor_db">Indoor</string>
     <string name="outdoor_db">Outdoor</string>
+    <string name="outdoor_shanghai">Outdoor, Shangai</string>
+    <string name="current_location">Current location</string>
     <string name="title_indoor_db">Indoor Dashboard</string>
     <string name="title_outdoor_db">Outdoor Dashboard</string>
     <string name="mask_od_msg1">Masks recommended </string>
@@ -175,15 +180,11 @@
     <string name="od_yaxis_label4">200</string>
     <string name="od_yaxis_label5">300</string>
     <string name="od_yaxis_label6">500+</string>
+    <string name="one">1</string>
     <string name="id_yaxis_label1">2</string>
     <string name="id_yaxis_label2">3</string>
     <string name="id_yaxis_label3">4</string>
     <string name="id_yaxis_label4">10+</string>
-    <string name="ld_xaxis_label1">18:00</string>
-    <string name="ld_xaxis_label2">00:00</string>
-    <string name="ld_xaxis_label3">06:00</string>
-    <string name="ld_xaxis_label4">12:00</string>
-    <string name="ld_xaxis_label5">18:00</string>
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
     <string name="tue">Tue</string>
@@ -215,7 +216,7 @@
     <string name="outdoor_aiq_analysis_title4">150</string>
     <string name="outdoor_aiq_analysis_title5">100</string>
     <string name="outdoor_aiq_analysis_title6">50</string>
-    <string name="indoor_aiq_analysis_title1">4-10+</string>
+    <string name="indoor_aiq_analysis_title1">4-10+</string> 
     <string name="indoor_aiq_analysis_title2">3-4</string>
     <string name="indoor_aiq_analysis_title3">2-3</string>
     <string name="indoor_aiq_analysis_title4">1-2</string>
@@ -241,6 +242,7 @@
     <string name="no2">NO2</string>
 
     <!-- Notifications -->
+    <string name="days">Days:</string>
     <string name="daily_notification_title">Daily notifications</string>
     <string name="daily_notificatioin_desc">You can set times to receive notifications about the air quality in your home, and the AQI in your saved outdoor locations.</string>
     <string name="daily_notification_info">You will receive notifications for all of the purifiers you are connected to.</string>
@@ -425,5 +427,17 @@
 	<string name="cancel_wifi_setup_title">Are you sure you want to cancel Wi-Fi setup?</string>
 	<string name="cancel_wifi_setup_message">This will delete all data entered so far.</string>
 	<string name="check_signal_strenth_title">Now communicating with your Air Purifier.</string>
+	
+	<string name="city_shanghai">Shanghai</string>
+	<string name="city_location">US Consulate</string>
+	<string name="na">NA</string>
+	<string name="date_empty">--:--</string>
+	<string name="date_label">Last updated</string>
+	
+	<!-- Tools fragments -->
+	<string name="ipaddress">IPAddress</string>
+	<string name="submit">Submit</string>
+	<string name="regid_label">Please enter Registration ID</string>
+	<string name="sign_on">Sign On</string>
 		
 </resources>

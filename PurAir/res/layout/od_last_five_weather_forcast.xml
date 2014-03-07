@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:layout_margin="8dp"
-        android:text="Sun"
         android:textColor="@color/gray"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" >
@@ -21,6 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/odDayWeatherForcast"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_connected" />
     
     
@@ -29,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_connected" />
 
     <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -39,7 +40,6 @@
         android:layout_alignBaseline="@+id/odDayWeatherForcast"
         android:layout_alignBottom="@+id/odDayWeatherForcast"
         android:layout_toLeftOf="@+id/odWeatherForcastWindImg"
-        android:text="12 km/h"
         android:textColor="@color/gray"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -53,7 +53,6 @@
         android:layout_alignBaseline="@+id/odDayWeatherForcast"
         android:layout_alignBottom="@+id/odDayWeatherForcast"
         android:layout_toLeftOf="@+id/odWeatherForcastWind"
-        android:text="4c"
         android:textColor="@color/lightgrey"
         android:textSize="14sp"
         android:textStyle="bold"
@@ -70,7 +69,6 @@
         android:layout_alignBaseline="@+id/odDayWeatherForcast"
         android:layout_alignBottom="@+id/odDayWeatherForcast"
         android:layout_toLeftOf="@+id/odWeatherForcastMinTemp"
-        android:text="18c"
         android:textColor="@color/gray"
         android:textSize="14sp"
         android:textStyle="bold"

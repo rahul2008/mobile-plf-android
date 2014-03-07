@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="28dp"
-        android:text="IPAddress" />
+        android:text="@string/ipaddress" />
 
     <EditText
         android:id="@+id/tvipaddress"
@@ -22,7 +22,7 @@
         android:layout_marginTop="24dp"
         android:inputType="text" >
 
-        <requestFocus />
+        <requestFocus /> 
     </EditText>
 
     <Button
@@ -32,7 +32,7 @@
         android:layout_alignRight="@+id/tv_lm_tools_title"
         android:layout_below="@+id/tvipaddress"
         android:layout_marginTop="33dp"
-        android:text="Submit" />
+        android:text="@string/submit" />
     
     <TextView
         android:id="@+id/tv_cpp_title_label"
@@ -41,7 +41,7 @@
         android:layout_below="@+id/submitButton"
         android:layout_marginTop="28dp"
         android:textSize="20sp"
-        android:text="Please enter Registration ID" />
+        android:text="@string/regid_label" />
 
     <EditText
         android:id="@+id/tv_cpp_regId_txt"
@@ -63,7 +63,7 @@
         android:layout_alignRight="@+id/tv_cpp_title_label"
         android:layout_below="@+id/tv_cpp_regId_txt"
         android:layout_marginTop="33dp"
-        android:text="Sign On" />
+        android:text="@string/sign_on" />
     
     <TextView android:id="@+id/tv_cpp_details"
         android:layout_width="wrap_content"

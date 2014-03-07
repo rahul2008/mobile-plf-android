@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/ews_question_mark_2x" />
 
     <ImageView
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/iv_goto_support"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/help_close" />
 
     <TextView
@@ -28,8 +30,7 @@
         android:layout_marginTop="10dp"
         android:lineSpacingExtra="10dp"
         android:textSize="16sp"
-        android:textColor="@color/title_gray"
-        android:text="Message" />
+        android:textColor="@color/title_gray" />
 
     <TextView
         android:id="@+id/tv_error_header"
@@ -41,7 +42,6 @@
         android:lineSpacingExtra="10dp"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        android:text=""
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <Button
@@ -54,7 +54,6 @@
         android:background="@drawable/blue_button_selector"
         android:textColor="@color/white"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="Next" />
+        android:paddingRight="16dp" />
 
 </RelativeLayout>

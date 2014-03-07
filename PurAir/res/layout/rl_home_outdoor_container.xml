@@ -11,6 +11,7 @@
         android:layout_height="fill_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:contentDescription="@string/img_description"
         android:scaleType="fitXY"
        	android:src="@drawable/air_dashboard_outdoor_beijing_50" />
   

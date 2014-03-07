@@ -14,6 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/outdoor_act_2x" />
 
         <ImageView
@@ -21,6 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/open_windows_2x" />
 
         <ImageView
@@ -28,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/mask_not_needed_2x" />
     </LinearLayout>
 

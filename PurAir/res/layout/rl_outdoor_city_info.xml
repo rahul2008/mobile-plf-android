@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:paddingLeft="10dp"
-        android:layout_alignParentTop="true"
-        android:text="Updated" />
+        android:layout_alignParentTop="true" 
+        android:text="@string/updated" />
     
     <TextView 
         android:id="@+id/tv_updated_at_date"
@@ -21,7 +21,7 @@
         android:lineSpacingExtra="3dp"
         android:layout_below="@id/tv_updated_title"
         android:paddingLeft="10dp"
-        android:text="14:23" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tv_location_city"
@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Shanghai" />
+        android:text="@string/city_shanghai" />
 
     <TextView
         android:id="@+id/tv_location"
@@ -38,7 +38,7 @@
         android:layout_below="@id/tv_location_city"
         android:layout_centerHorizontal="true"
         android:paddingRight="10dp"
-        android:text="Consulate" />
+        android:text="@string/city_location" />
     
     <ImageView
         android:id="@+id/iv_outdoor_weather_image"
@@ -47,6 +47,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/star_icon_2x" />
 
     <TextView
@@ -56,6 +57,6 @@
         android:layout_below="@id/iv_outdoor_weather_image"
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
-        android:text="18C" />
+        android:text="" />
 
 </RelativeLayout>

@@ -39,6 +39,7 @@
                 android:layout_height="45dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/vistashield_filter" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -74,6 +75,7 @@
                 android:layout_height="45dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/monitoring_sensor" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -109,6 +111,7 @@
                 android:layout_height="45dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/ozone_emission" />
 
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
@@ -153,12 +156,14 @@
                 android:id="@+id/imageView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/formaldehyde_50" />
 
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/img_description"
                 android:src="@drawable/tvoc_40" />
         </LinearLayout>
 
@@ -176,6 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/active_carbon" />
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView

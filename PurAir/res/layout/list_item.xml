@@ -12,6 +12,7 @@ android:orientation="horizontal">
 	android:scaleType="centerCrop" 
 	android:paddingRight="10dp"
 	android:paddingLeft="10dp"
+	android:contentDescription="@string/img_description"
 	android:src="@drawable/delete_dash_horizontal_black"/>
 	 
 	<TextView

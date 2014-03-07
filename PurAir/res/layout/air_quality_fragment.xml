@@ -26,6 +26,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/intro_lbl"
             android:layout_marginLeft="5dp"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/large_purifier" />
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
