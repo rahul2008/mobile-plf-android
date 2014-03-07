@@ -16,7 +16,6 @@ import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_
 import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -48,7 +47,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
-
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
@@ -66,6 +64,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
 /**
  * The Class Utils.
  */
+@SuppressLint("SimpleDateFormat")
 public class Utils {
 
 	/** The Constant TAG. */
@@ -591,11 +590,6 @@ public class Utils {
 	}
 
 	public static void parseIndoorDetails(String downloadedData) {
-		// TODO Auto-generated method stub
-		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
-		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
-		Calendar cal = Calendar.getInstance();
 
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		List<Float> dailyAqiValues = new ArrayList<Float>();

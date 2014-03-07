@@ -21,6 +21,17 @@ public class WeatherReportLayout extends  LinearLayout {
 	
 	private static final String TAG = WeatherReportLayout.class.getSimpleName();
 
+	public WeatherReportLayout(Context context) {
+		super(context);
+	}
+	
+	public WeatherReportLayout(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+	
+	public WeatherReportLayout(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs);
+	}
 	/**
 	 * Constructor
 	 * @param Context
@@ -78,44 +89,35 @@ public class WeatherReportLayout extends  LinearLayout {
 		 * For weather report condition
 		 * */
 		if (num == 5) {
-			Log.i("Weatherdto", "Weatherdto NExt 4== "+ weatherDetails.size());
+			Log.i(TAG, "Weatherdto NExt 4== "+ weatherDetails.size());
 			/** Next 4 days weather report*/
 			int count = 9;
 			for (int i = 0; i < num; i++) {
 				float windSpeedTemp = 0;
-				float tempInCentigrade = 0;
-				float tempInFahrenheit = 0;
-				String date = null;
-				String time = null;
 				String weatherDesc = null;
-				String isdaytime = null;
 				String windDirection = null;
 				float windDegree = 0;
 				float maxTempC = 0;
-				float maxTempF = 0;
 				float minTempC = 0;
 				float windSpeed = 0;
-				float minTempF = 0;
-				float dergreeWind = 0;
 				//count = count + i;
 				//System.out.println("count= "+count);
 				for (int j = 0; j < 8; j++) {
-					tempInCentigrade = weatherDetails.get(count).getTempInCentigrade();
-					tempInFahrenheit = weatherDetails.get(count).getTempInFahrenheit();
-					date = weatherDetails.get(count).getDate();
-					time = weatherDetails.get(count).getTime();
+					weatherDetails.get(count).getTempInFahrenheit();
+					weatherDetails.get(count).getDate();
+					weatherDetails.get(count).getTime();
 					//weatherDesc = weatherDetails.get(count).getWeatherDesc();
 					//isdaytime = weatherDetails.get(count).getIsdaytime();
 					//windDirection = weatherDetails.get(count).getWindDirection();
 					maxTempC = weatherDetails.get(count).getMaxTempC();
-					maxTempF = weatherDetails.get(count).getMaxTempF();
+					weatherDetails.get(count).getMaxTempF();
 					minTempC = weatherDetails.get(count).getMinTempC();
 					windSpeed = weatherDetails.get(count).getWindSpeed();
-					minTempF = weatherDetails.get(count).getMinTempF();
+					weatherDetails.get(count).getMinTempF();
 					
 					if (j == 4) {
 						weatherDesc = weatherDetails.get(count).getWeatherDesc();
-						isdaytime = weatherDetails.get(count).getIsdaytime();
+						weatherDetails.get(count).getIsdaytime();
 						windDirection = weatherDetails.get(count).getWindDirection();
 						windDegree = weatherDetails.get(count).getWindDegree();
 					}
@@ -158,8 +160,8 @@ public class WeatherReportLayout extends  LinearLayout {
 			for (int i = 0; i < num; i++) {
 				Log.i("Weatherdto", "Weatherdto current days== "+ weatherDetails.size());
 				float tempInCentigrade = weatherDetails.get(i+1).getTempInCentigrade();
-				float tempInFahrenheit = weatherDetails.get(i+1).getTempInFahrenheit();
-				String date = weatherDetails.get(i+1).getDate();
+				weatherDetails.get(i+1).getTempInFahrenheit();
+				weatherDetails.get(i+1).getDate();
 				String time = weatherDetails.get(i+1).getTime();
 				String weatherDesc = weatherDetails.get(i+1).getWeatherDesc();
 				String isdaytime = weatherDetails.get(i+1).getIsdaytime();

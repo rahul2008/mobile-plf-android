@@ -28,7 +28,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -66,7 +65,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private boolean isIndoorExpanded = true;
 
 	/** Dashboard ImageViews */
-	private ImageView ivIndoorCircle, ivIndoorMeter, ivIndoorBackground, ivOutdoorCircle, ivOutdoorMeter, ivOutdoorWeatherImage;
+	private ImageView ivIndoorCircle, ivIndoorMeter, ivOutdoorCircle, ivOutdoorMeter, ivOutdoorWeatherImage;
 
 	/** Dashboard TextViews */
 	private TextView tvIndoorAQI, tvIndoorTitle, tvIndoorComment, tvIndoorModeTitle, tvFilterStatusTitle,
@@ -97,8 +96,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 	private LinearLayout takeTourLayout;
 
-	private RelativeLayout takeTourPopUp;
-	
 	private static OutdoorAQIEventDto outdoorAQIEventDto;
 	private static List<Weatherdto> weatherDtoList; 
 	private static String currentCityTime;
@@ -128,7 +125,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		}
 		if(updateOutdoorDashboard)
 			setOutdoorDashboardValues(outdoorAQIValue);
-		ivIndoorMeter.setVisibility(View.GONE);
+		ivIndoorMeter.setVisibility(View.INVISIBLE);
 		return vMain;
 	}
 
@@ -213,9 +210,6 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ivIndoorCircle.setOnClickListener(this);
 
 		ivIndoorMeter = (ImageView) vMain.findViewById(R.id.indoor_circle_meter);
-
-		ivIndoorBackground = (ImageView) vMain.findViewById(R.id.iv_indoor_bg);
-
 		tvFilterHome = (TextView) vMain.findViewById(R.id.tv_filter_home);
 		tvIndoorModeTitle = (TextView) vMain.findViewById(R.id.tv_filter_mode_title);
 		tvIndoorModeValue = (TextView) vMain.findViewById(R.id.tv_filter_mode_value);
@@ -370,7 +364,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	
 	public void hideIndoorGuage() {
 		Log.i(TAG, "Hide indoor guage");
-		ivIndoorMeter.setVisibility(View.GONE);
+		ivIndoorMeter.setVisibility(View.INVISIBLE);
 	}
 	
 	public void showIndoorGuage() {
@@ -379,7 +373,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 	
 	public void hideOutdoorGuage() {
-		ivOutdoorMeter.setVisibility(View.GONE);
+		ivOutdoorMeter.setVisibility(View.INVISIBLE);
 	}
 	
 	public void showOutdoorGuage() {

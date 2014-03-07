@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -55,7 +55,6 @@ import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobeta.android.dslv.DragSortListView;
@@ -441,6 +440,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onRestart();
 	}
 
+	@SuppressLint("NewApi")
 	@Override
 	public void onBackPressed() {
 		FragmentManager manager = getSupportFragmentManager();
@@ -448,7 +448,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
 		if(fragment instanceof OutdoorLocationsFragment && android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
-			invalidateOptionsMenu();
+			invalidateOptionsMenu(); 
 		}
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);

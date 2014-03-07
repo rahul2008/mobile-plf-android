@@ -20,7 +20,19 @@ import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class PercentBarLayout extends LinearLayout {
 
-	 PercentDetailsClickListener mCallback;
+	PercentDetailsClickListener mCallback;
+	 
+	public PercentBarLayout(Context context) {
+		super(context);
+	}
+			
+	public PercentBarLayout(Context context, AttributeSet attrs) {
+		super(context, attrs);
+	}
+			
+	public PercentBarLayout(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs);
+	}
 	/**
 	 * Constructor
 	 * @param Context

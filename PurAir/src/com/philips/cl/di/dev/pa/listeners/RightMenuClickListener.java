@@ -528,11 +528,8 @@ public class RightMenuClickListener implements OnClickListener {
 	public void disableControlPanel(boolean connected, AirPurifierEventDto airPurifierEventDto) {
 //		Log.i(TAG, "disableControlPanel connected " + connected);
 		
-		Drawable powerButton = null;
 		if(!connected) {
 			power.setClickable(false);
-			powerButton = context.getResources().getDrawable(R.drawable.switch_off);
-			powerButton.setAlpha(100);
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
 			connect.setVisibility(View.VISIBLE) ;
