@@ -67,10 +67,6 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 	private int goodAirCount = 0;
 	private int totalAirCount = 0;
-	private String startDate;
-	private String startDateHr;
-	private String endDate;
-	private String endDateHr;
 	private Handler handler = new Handler();
 
 	private int powerOnReadings[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,

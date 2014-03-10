@@ -11,7 +11,7 @@
         android:layout_alignParentTop="true"
         android:scaleType="fitXY"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/air_dashboard_outdoor_home_50" />
+        android:src="@drawable/home_indoor_bg_2x" />
 
     <include
         android:layout_width="match_parent"

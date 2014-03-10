@@ -2,11 +2,21 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
     
+    <ImageView
+        android:id="@+id/iv_fan_speed_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/fan_icon_white_2x" />
+    
     <TextView
         android:id="@+id/tv_filter_mode_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/iv_fan_speed_icon"
         android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
         android:textColor="@color/white"
@@ -16,9 +26,9 @@
         android:id="@+id/tv_filter_mode_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_toRightOf="@id/iv_fan_speed_icon"
         android:layout_below="@id/tv_filter_mode_title"
-        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:textColor="@color/white"
         android:text="" />
 
@@ -26,28 +36,38 @@
         android:id="@+id/tv_filter_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
-        android:text="@string/philips_home" />
+        android:textColor="@color/white" />
     
     <TextView
         android:id="@+id/tv_filter_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@+id/iv_filter_icon"
         android:paddingRight="10dp"
         android:textColor="@color/white"
         android:text="@string/filters" />
+    
+     <ImageView
+        android:id="@+id/iv_filter_icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/img_description"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/filter_icon_2x" />
 
     <TextView
         android:id="@+id/tv_filter_status_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_filter_status_title"
-        android:layout_alignParentRight="true"
-        android:paddingRight="10dp"
+        android:layout_toLeftOf="@+id/iv_filter_icon"
+        android:layout_marginRight="5dp"
         android:textColor="@color/white"
         android:text="" />
 

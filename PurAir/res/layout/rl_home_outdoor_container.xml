@@ -13,7 +13,7 @@
         android:layout_alignParentLeft="true"
         android:contentDescription="@string/img_description"
         android:scaleType="fitXY"
-       	android:src="@drawable/air_dashboard_outdoor_beijing_50" />
+       	android:src="@drawable/air_dashboard_outdoor_shanghai_300" />
   
     <include 
         android:id="@+id/inc_ll_home_outdoor" 

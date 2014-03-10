@@ -199,6 +199,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
+				Log.i(TAG, "onDrawerClosed");
 				mRightDrawerOpened = false;
 				supportInvalidateOptionsMenu();
 				drawerOpen = false;
@@ -207,6 +208,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				if(drawerView.getId() == R.id.right_menu) {
+					Log.i(TAG, "onDrawerOpened");
 					mRightDrawerOpened = true;
 				}
 				drawerOpen = true;
@@ -712,6 +714,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mActionBarDrawerToggle.onOptionsItemSelected(item)) {
 			mDrawerLayout.closeDrawer(mScrollViewRight);
+			Log.i(TAG, "onOptionsItemSelected drawerOpen " + drawerOpen);
+			
 			return true;
 		}
 		FragmentManager manager = getSupportFragmentManager();
@@ -729,11 +733,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			break;
 		case R.id.add_location_menu:
 			if(fragment instanceof OutdoorLocationsFragment){
-
-
 				actionMode = startSupportActionMode(callback);
-
-				String[] cities = {"Shanghai", "Beijing", "Bangalore", "Ghangzhou", "Seoul", "WhatHaveYou"};
 
 				Map<String, City> citiesMap = SessionDto.getInstance().getCityDetails().getCities();
 				List<City> citiesList = new ArrayList<City>(citiesMap.values());

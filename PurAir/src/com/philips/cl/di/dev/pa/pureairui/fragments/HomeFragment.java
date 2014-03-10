@@ -65,7 +65,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private boolean isIndoorExpanded = true;
 
 	/** Dashboard ImageViews */
-	private ImageView ivIndoorCircle, ivIndoorMeter, ivOutdoorCircle, ivOutdoorMeter, ivOutdoorWeatherImage;
+	private ImageView ivIndoorCircle, ivIndoorMeter, ivOutdoorCircle, ivOutdoorMeter, ivOutdoorWeatherImage,
+						ivFanSpeedIcon, ivFilterStatusIcon;
 
 	/** Dashboard TextViews */
 	private TextView tvIndoorAQI, tvIndoorTitle, tvIndoorComment, tvIndoorModeTitle, tvFilterStatusTitle,
@@ -126,6 +127,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		if(updateOutdoorDashboard)
 			setOutdoorDashboardValues(outdoorAQIValue);
 		ivIndoorMeter.setVisibility(View.INVISIBLE);
+		
 		return vMain;
 	}
 
@@ -211,10 +213,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 
 		ivIndoorMeter = (ImageView) vMain.findViewById(R.id.indoor_circle_meter);
 		tvFilterHome = (TextView) vMain.findViewById(R.id.tv_filter_home);
+		ivFanSpeedIcon = (ImageView) vMain.findViewById(R.id.iv_filter_icon);
 		tvIndoorModeTitle = (TextView) vMain.findViewById(R.id.tv_filter_mode_title);
 		tvIndoorModeValue = (TextView) vMain.findViewById(R.id.tv_filter_mode_value);
 		tvFilterStatusTitle = (TextView) vMain.findViewById(R.id.tv_filter_status_title);
 		tvIndoorFilterStatus = (TextView) vMain.findViewById(R.id.tv_filter_status_value);
+		ivFilterStatusIcon = (ImageView) vMain.findViewById(R.id.iv_fan_speed_icon);
 		tvIndoorAQI = (TextView) vMain.findViewById(R.id.indoor_aqi_reading);
 		tvIndoorAQI.setTypeface(Fonts.getGillsansLight(getActivity()));
 		tvIndoorTitle = (TextView) vMain.findViewById(R.id.tv_indoor_aqi_status_title);
@@ -258,10 +262,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		scaleDownIndoorFragment.playTogether(
 				ObjectAnimator.ofFloat(llIndoor, ANIM_TRANSLATION_Y, indoorBackgroundTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorModeTitle, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivFanSpeedIcon, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorModeValue, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvFilterStatusTitle, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvFilterHome, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorFilterStatus, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivFilterStatusIcon, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_X, 0.6f),
 				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_Y, 0.6f),
 				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_TRANSLATION_Y, indoorCircleScaleDownTranslationY(indoorHeight)),
@@ -282,10 +288,12 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		scaleUpIndoorFragment.playTogether(
 				ObjectAnimator.ofFloat(llIndoor, ANIM_TRANSLATION_Y, 0),
 				ObjectAnimator.ofFloat(tvIndoorModeTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivFanSpeedIcon, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorModeValue, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvFilterStatusTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvFilterHome, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorFilterStatus, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivFilterStatusIcon, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_X, 0.6f, 1.0f),
 				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_Y, 0.6f, 1.0f),
 				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_TRANSLATION_Y, 0),
@@ -353,9 +361,11 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		initAnimationLocations = scaleDownOutdoorFragment.clone();
 		initAnimationLocations.playTogether(
 				ObjectAnimator.ofFloat(tvIndoorModeTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivFanSpeedIcon, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorModeValue, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvFilterStatusTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvFilterHome, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivFilterStatusIcon, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
 				ObjectAnimator.ofFloat(tvIndoorFilterStatus, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)));
 		initAnimationLocations.setDuration(0);
 		initAnimationLocations.start();
@@ -782,7 +792,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setHomeName(String name) {
-		tvFilterHome.setText(name);
+		tvFilterHome.setText(name + "'s \n room");
 	}
 	/** Dashboard indoor info END */
 
