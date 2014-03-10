@@ -257,107 +257,107 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	private void initAnimations() {
 		scaleDownIndoorFragment = new AnimatorSet();
 		scaleDownIndoorFragment.playTogether(
-				ObjectAnimator.ofFloat(llIndoor, animTranslationY, indoorBackgroundTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorModeTitle, animTranslationY, indoorTextScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorModeValue, animTranslationY, indoorTextScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvFilterStatusTitle, animTranslationY, indoorTextScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvFilterHome, animTranslationY, indoorTextScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorFilterStatus, animTranslationY, indoorTextScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(ivIndoorCircle, animScaleX, 0.6f),
-				ObjectAnimator.ofFloat(ivIndoorCircle, animScaleY, 0.6f),
-				ObjectAnimator.ofFloat(ivIndoorCircle, animTranslationY, indoorCircleScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorAQI, animTranslationY, indoorCircleScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorAQI, animScaleX, 0.6f),
-				ObjectAnimator.ofFloat(tvIndoorAQI, animScaleY, 0.6f),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animScaleX, 0.6f),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animScaleY, 0.6f),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animTranslationY, indoorCircleScaleDownTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvIndoorTitle, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvIndoorComment, animAlpha, 0));
+				ObjectAnimator.ofFloat(llIndoor, ANIM_TRANSLATION_Y, indoorBackgroundTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorModeTitle, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorModeValue, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvFilterStatusTitle, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvFilterHome, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorFilterStatus, ANIM_TRANSLATION_Y, indoorTextScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_X, 0.6f),
+				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_Y, 0.6f),
+				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_TRANSLATION_Y, indoorCircleScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorAQI, ANIM_TRANSLATION_Y, indoorCircleScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorAQI, ANIM_SCALE_X, 0.6f),
+				ObjectAnimator.ofFloat(tvIndoorAQI, ANIM_SCALE_Y, 0.6f),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_SCALE_X, 0.6f),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_SCALE_Y, 0.6f),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_TRANSLATION_Y, indoorCircleScaleDownTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_ALPHA, 0),
+				ObjectAnimator.ofFloat(tvIndoorTitle, ANIM_ALPHA, 0),
+				ObjectAnimator.ofFloat(tvIndoorComment, ANIM_ALPHA, 0));
 
-		scaleDownIndoorFragment.setDuration(animDuration);
+		scaleDownIndoorFragment.setDuration(ANIM_DURATION);
 		scaleDownIndoorFragment.addListener(animationListener);
 
 		scaleUpIndoorFragment = new AnimatorSet();
 		scaleUpIndoorFragment.playTogether(
-				ObjectAnimator.ofFloat(llIndoor, animTranslationY, 0),
-				ObjectAnimator.ofFloat(tvIndoorModeTitle, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorModeValue, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvFilterStatusTitle, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvFilterHome, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorFilterStatus, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(ivIndoorCircle, animScaleX, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivIndoorCircle, animScaleY, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivIndoorCircle, animTranslationY, 0),
-				ObjectAnimator.ofFloat(tvIndoorAQI, animTranslationY, 0),
-				ObjectAnimator.ofFloat(tvIndoorAQI, animScaleX, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(tvIndoorAQI, animScaleY, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animScaleX, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animScaleY, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animTranslationY, 0),
-				ObjectAnimator.ofFloat(ivIndoorMeter, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvIndoorTitle, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvIndoorComment, animAlpha, 0, 1));
-		scaleUpIndoorFragment.setDuration(animDuration);
+				ObjectAnimator.ofFloat(llIndoor, ANIM_TRANSLATION_Y, 0),
+				ObjectAnimator.ofFloat(tvIndoorModeTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorModeValue, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvFilterStatusTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvFilterHome, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorFilterStatus, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_X, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_SCALE_Y, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivIndoorCircle, ANIM_TRANSLATION_Y, 0),
+				ObjectAnimator.ofFloat(tvIndoorAQI, ANIM_TRANSLATION_Y, 0),
+				ObjectAnimator.ofFloat(tvIndoorAQI, ANIM_SCALE_X, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(tvIndoorAQI, ANIM_SCALE_Y, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_SCALE_X, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_SCALE_Y, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_TRANSLATION_Y, 0),
+				ObjectAnimator.ofFloat(ivIndoorMeter, ANIM_ALPHA, 0, 1),
+				ObjectAnimator.ofFloat(tvIndoorTitle, ANIM_ALPHA, 0, 1),
+				ObjectAnimator.ofFloat(tvIndoorComment, ANIM_ALPHA, 0, 1));
+		scaleUpIndoorFragment.setDuration(ANIM_DURATION);
 		scaleUpIndoorFragment.addListener(animationListener);
 
 		scaleDownOutdoorFragment = new AnimatorSet();
 		scaleDownOutdoorFragment.playTogether(
-				ObjectAnimator.ofFloat(ivOutdoorCircle, animScaleX, 0.6f),
-				ObjectAnimator.ofFloat(ivOutdoorCircle, animScaleY, 0.6f),
-				ObjectAnimator.ofFloat(ivOutdoorCircle, animTranslationY, outdoorCircleScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvOutdoorAQI, animTranslationY, outdoorCircleScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvOutdoorAQI, animScaleX, 0.6f),
-				ObjectAnimator.ofFloat(tvOutdoorAQI, animScaleY, 0.6f),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animScaleX, 0.6f),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animScaleY, 0.6f),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animTranslationY, outdoorCircleScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvOutdoorTitle, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvOutdoorComment, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvUpdatedAtDate, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvCity, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvLocality, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvLocality, animAlpha, 0),
-				ObjectAnimator.ofFloat(tvOutdoorTemperature, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight)));
-		scaleDownOutdoorFragment.setDuration(animDuration);
+				ObjectAnimator.ofFloat(ivOutdoorCircle, ANIM_SCALE_X, 0.6f),
+				ObjectAnimator.ofFloat(ivOutdoorCircle, ANIM_SCALE_Y, 0.6f),
+				ObjectAnimator.ofFloat(ivOutdoorCircle, ANIM_TRANSLATION_Y, outdoorCircleScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvOutdoorAQI, ANIM_TRANSLATION_Y, outdoorCircleScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvOutdoorAQI, ANIM_SCALE_X, 0.6f),
+				ObjectAnimator.ofFloat(tvOutdoorAQI, ANIM_SCALE_Y, 0.6f),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_SCALE_X, 0.6f),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_SCALE_Y, 0.6f),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_TRANSLATION_Y, outdoorCircleScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_ALPHA, 0),
+				ObjectAnimator.ofFloat(tvOutdoorTitle, ANIM_ALPHA, 0),
+				ObjectAnimator.ofFloat(tvOutdoorComment, ANIM_ALPHA, 0),
+				ObjectAnimator.ofFloat(tvUpdatedTitle, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvUpdatedAtDate, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvCity, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvLocality, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvLocality, ANIM_ALPHA, 0),
+				ObjectAnimator.ofFloat(tvOutdoorTemperature, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight)));
+		scaleDownOutdoorFragment.setDuration(ANIM_DURATION);
 
 		scaleUpOutdoorFragment = new AnimatorSet();
 		scaleUpOutdoorFragment.playTogether(
-				ObjectAnimator.ofFloat(ivOutdoorCircle, animScaleX, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivOutdoorCircle, animScaleY, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivOutdoorCircle, animTranslationY, outdoorCircleScaleDownTranslationY(outdoorHeight), 0),
-				ObjectAnimator.ofFloat(tvOutdoorAQI, animTranslationY, outdoorCircleScaleDownTranslationY(outdoorHeight), 0),
-				ObjectAnimator.ofFloat(tvOutdoorAQI, animScaleX, 0.6f, 1f),
-				ObjectAnimator.ofFloat(tvOutdoorAQI, animScaleY, 0.6f, 1f),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animScaleX, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animScaleY, 0.6f, 1.0f),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animTranslationY, outdoorCircleScaleDownTranslationY(outdoorHeight), 0),
-				ObjectAnimator.ofFloat(ivOutdoorMeter, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvOutdoorTitle, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvOutdoorComment, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvUpdatedTitle, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvUpdatedAtDate, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvCity, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvLocality, animAlpha, 0, 1),
-				ObjectAnimator.ofFloat(tvLocality, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(tvLocality, animAlpha, 1.0f),
-				ObjectAnimator.ofFloat(tvOutdoorTemperature, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
-				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, animTranslationY, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)));
-		scaleUpOutdoorFragment.setDuration(animDuration);
+				ObjectAnimator.ofFloat(ivOutdoorCircle, ANIM_SCALE_X, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivOutdoorCircle, ANIM_SCALE_Y, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivOutdoorCircle, ANIM_TRANSLATION_Y, outdoorCircleScaleDownTranslationY(outdoorHeight), 0),
+				ObjectAnimator.ofFloat(tvOutdoorAQI, ANIM_TRANSLATION_Y, outdoorCircleScaleDownTranslationY(outdoorHeight), 0),
+				ObjectAnimator.ofFloat(tvOutdoorAQI, ANIM_SCALE_X, 0.6f, 1f),
+				ObjectAnimator.ofFloat(tvOutdoorAQI, ANIM_SCALE_Y, 0.6f, 1f),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_SCALE_X, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_SCALE_Y, 0.6f, 1.0f),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_TRANSLATION_Y, outdoorCircleScaleDownTranslationY(outdoorHeight), 0),
+				ObjectAnimator.ofFloat(ivOutdoorMeter, ANIM_ALPHA, 0, 1),
+				ObjectAnimator.ofFloat(tvOutdoorTitle, ANIM_ALPHA, 0, 1),
+				ObjectAnimator.ofFloat(tvOutdoorComment, ANIM_ALPHA, 0, 1),
+				ObjectAnimator.ofFloat(tvUpdatedTitle, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvUpdatedAtDate, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvCity, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvLocality, ANIM_ALPHA, 0, 1),
+				ObjectAnimator.ofFloat(tvLocality, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(tvLocality, ANIM_ALPHA, 1.0f),
+				ObjectAnimator.ofFloat(tvOutdoorTemperature, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)),
+				ObjectAnimator.ofFloat(ivOutdoorWeatherImage, ANIM_TRANSLATION_Y, outdoorTextScaleDownTranslationY(outdoorHeight), outdoorTextScaleUpTranslationY(outdoorHeight)));
+		scaleUpOutdoorFragment.setDuration(ANIM_DURATION);
 
 		//Only used once to align the outdoor fragment elements at the launch of the application.
 		initAnimationLocations = new AnimatorSet();
 		initAnimationLocations = scaleDownOutdoorFragment.clone();
 		initAnimationLocations.playTogether(
-				ObjectAnimator.ofFloat(tvIndoorModeTitle, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorModeValue, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvFilterStatusTitle, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvFilterHome, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)),
-				ObjectAnimator.ofFloat(tvIndoorFilterStatus, animTranslationY, indoorTextScaleUpTranslationY(indoorHeight)));
+				ObjectAnimator.ofFloat(tvIndoorModeTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorModeValue, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvFilterStatusTitle, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvFilterHome, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)),
+				ObjectAnimator.ofFloat(tvIndoorFilterStatus, ANIM_TRANSLATION_Y, indoorTextScaleUpTranslationY(indoorHeight)));
 		initAnimationLocations.setDuration(0);
 		initAnimationLocations.start();
 	}
@@ -572,7 +572,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ViewHelper.setPivotX(iv, iv.getWidth()/2);
 		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
 		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
-		ObjectAnimator.ofFloat(iv, animRotation, 0, rotation).setDuration(2000).start();
+		ObjectAnimator.ofFloat(iv, ANIM_ROTATION, 0, rotation).setDuration(2000).start();
 	}
 
 	private void rotateAQICircle(int aqi, ImageView iv) {
@@ -592,7 +592,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ViewHelper.setPivotX(iv, iv.getWidth()/2);
 		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
 		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
-		ObjectAnimator.ofFloat(iv, animRotation, 0, rotation).setDuration(2000).start();
+		ObjectAnimator.ofFloat(iv, ANIM_ROTATION, 0, rotation).setDuration(2000).start();
 		dergreeRotatePointer = String.valueOf(rotation);
 	}
 

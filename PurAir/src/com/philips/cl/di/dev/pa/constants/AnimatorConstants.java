@@ -8,20 +8,20 @@ public class AnimatorConstants {
 	
 	private static String TAG = "AnimatorConstants";
 	
-	public static String animTranslationX 		= "translationX";
-	public static String animTranslationY 		= "translationY";
-	public static String animRotation 			= "rotation";
-	public static String animRotationX 			= "rotationX";
-	public static String animRotationY 			= "rotationY";
-	public static String animScaleX 			= "scaleX";
-	public static String animScaleY 			= "scaleY";
-	public static String animPivotX 			= "pivotX";
-	public static String animPivotY 			= "pivotY"; 
-	public static String animX 					= "x";
-	public static String animY 					= "y";
-	public static String animAlpha 				= "alpha";
+	public static final String ANIM_TRANSLATION_X 		= "translationX";
+	public static final String ANIM_TRANSLATION_Y 		= "translationY";
+	public static final String ANIM_ROTATION 			= "rotation";
+	public static final String ANIM_ROTATION_X 			= "rotationX";
+	public static final String ANIM_ROTATION_Y 			= "rotationY";
+	public static final String ANIM_SCALE_X 			= "scaleX";
+	public static final String ANIM_SCALE_Y 			= "scaleY";
+	public static final String ANIM_PIVOT_X 			= "pivotX";
+	public static final String ANIM_PIVOT_Y 			= "pivotY"; 
+	public static final String ANIM_X 					= "x";
+	public static final String ANIM_Y 					= "y";
+	public static final String ANIM_ALPHA 				= "alpha";
 	
-	public static int animDuration				= 1000;
+	public static final int ANIM_DURATION				= 1000;
 	
 	
 	public static float getIndoorBGTranslationY() {

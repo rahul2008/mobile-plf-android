@@ -15,55 +15,55 @@ public class AppConstants {
 	public static final String EMPTY_STRING = "" ;
 	// Icon for left menu
 	/** The icon home. */
-	public static String ICON_HOME = "icon_home";
+	public static final String ICON_HOME = "icon_home";
 
 	/** The icon mycity. */
-	public static String ICON_MYCITY = "icon_mycity";
+	public static final String ICON_MYCITY = "icon_mycity";
 
 	/** The icon cloud. */
-	public static String ICON_CLOUD = "icon_cloud";
+	public static final String ICON_CLOUD = "icon_cloud";
 
 	/** The icon reg. */
-	public static String ICON_REG = "icon_registration";
+	public static final String ICON_REG = "icon_registration";
 
 	/** The icon help. */
-	public static String ICON_HELP = "icon_help";
+	public static final String ICON_HELP = "icon_help";
 
 	/** The icon setting. */
-	public static String ICON_SETTING = "icon_setting";
+	public static final String ICON_SETTING = "icon_setting";
 
 	// Label for left menu
 	/** The label home. */
-	public static String LABEL_HOME = "Home";
+	public static final String LABEL_HOME = "Home";
 
 	/** The label mycity. */
-	public static String LABEL_MYCITY = "My Cities";
+	public static final String LABEL_MYCITY = "My Cities";
 
 	/** The label cloud. */
-	public static String LABEL_CLOUD = "About Air Quality";
+	public static final String LABEL_CLOUD = "About Air Quality";
 
 	/** The label reg. */
-	public static String LABEL_REG = "Product Registration";
+	public static final String LABEL_REG = "Product Registration";
 
 	/** The label help. */
-	public static String LABEL_HELP = "Help & Documentation";
+	public static final String LABEL_HELP = "Help & Documentation";
 
 	/** The label setting. */
-	public static String LABEL_SETTING = "Settings";
+	public static final String LABEL_SETTING = "Settings";
 
 	// Font file -
 	/** The font. */
-	public static String FONT = "fonts/gillsans.ttf";
+	public static final String FONT = "fonts/gillsans.ttf";
 
 	// Drawable
 	/** The drawable. */
-	public static String DRAWABLE = "drawable";
+	public static final String DRAWABLE = "drawable";
 
 	/** The scrolltoviewid. */
-	public static int SCROLLTOVIEWID = 1;
+	public static final int SCROLLTOVIEWID = 1;
 
 	/** The scaleleftmenu. */
-	public static float SCALELEFTMENU = .75f;
+	public static final float SCALELEFTMENU = .75f;
 
 	// Network related data
 	/** The Constant UPDATE_INTERVAL. */
@@ -151,10 +151,10 @@ public class AppConstants {
 	/** The Constant DB_VERS. */
 	public static final int DB_VERS = 1;
 
-	public static String sCityNameQuery = "Select distinct "
+	public static final String sCityNameQuery = "Select distinct "
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
 	
-	public static String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
+	public static final String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
 	
 	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 and cityID = %s order by " + LOG_DATETIME + " DESC"  ;
 	

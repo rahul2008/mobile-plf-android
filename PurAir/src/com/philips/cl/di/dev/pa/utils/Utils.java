@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.utils;
 
-import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.animRotation;
+import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.ANIM_ROTATION;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR_SKIES;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.CLOUDY;
@@ -1225,7 +1225,7 @@ public class Utils {
 
 		iv.setImageDrawable(weatherImage);
 		Log.i("degree", "Wind degree: " + degree);
-		ObjectAnimator.ofFloat(iv, animRotation, 0, degree).setDuration(2000).start();
+		ObjectAnimator.ofFloat(iv, ANIM_ROTATION, 0, degree).setDuration(2000).start();
 	}
 
 	public static float getPxWithRespectToDip(Context context, float dip) {
