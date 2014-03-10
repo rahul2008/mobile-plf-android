@@ -3,6 +3,7 @@ package com.philips.cl.disecurity;
 import java.util.Random;
 
 import android.util.Base64;
+import android.util.Log;
 
 public class Util {
 	
@@ -83,6 +84,20 @@ public class Util {
 		Random random = new Random();
 		String randStr = String.valueOf(random.nextInt((MAX - MIN) + 1) + MIN);
 		return randStr;
+	}
+	
+	public static String getEvenNumberSecretKey(String secKey) {
+		Log.d(DISecurity.TAG, "NExt secKey= "+secKey + " : length= "+secKey.length());
+		String tempKey = secKey;
+		if (secKey != null) {
+			int keyLength = secKey.length();
+			if (keyLength % 2 == 0) {
+				tempKey = secKey;
+			} else {
+				tempKey = "0"+secKey;
+			}
+		}
+		return tempKey;
 	}
 
 

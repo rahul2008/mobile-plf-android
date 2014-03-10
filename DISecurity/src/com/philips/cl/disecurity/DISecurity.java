@@ -13,7 +13,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 public class DISecurity implements ServerResponseListener {
-	private final String TAG = DISecurity.class.getSimpleName();
+	public static final String TAG = DISecurity.class.getSimpleName();
 	public static Hashtable<String, String> 
 			securityHashtable = new Hashtable<String,String>();
 	private static Hashtable<String, Boolean> 
@@ -177,6 +177,7 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	private String generateDiffieKey() {
 		rValue = Util.generateRandomNum();
+		Log.i(TAG, "rValue= " +rValue);
 		BigInteger p = new BigInteger(pValue,16); 
 		BigInteger g = new BigInteger(gValue,16);
 		BigInteger r = new BigInteger(rValue);
@@ -219,13 +220,15 @@ public class DISecurity implements ServerResponseListener {
 			try {
 				json = new JSONObject(responseData);
 				String shellman = json.getString("hellman");
-				Log.d(TAG, "result hellmam= "+shellman);
+				Log.d(TAG, "result hellmam= "+shellman + " :Length:= " +shellman.length());
 
 				String skeyEnc = json.getString("key");
-				Log.d(TAG, "keyEnc by device= "+skeyEnc);
+				Log.d(TAG, "keyEnc by device= "+skeyEnc+" :length:= " + skeyEnc.length());
 				
 				String secKey = generateSecretKey(shellman);
-				Log.d(TAG, "secKey= "+secKey);
+				Log.d(TAG, "secKey= "+secKey + " : length= "+secKey.length());
+				
+				secKey = Util.getEvenNumberSecretKey(secKey);
 				
 				byte[] bytesEncKey = Util.hexToBytes(skeyEnc);
 
@@ -244,6 +247,8 @@ public class DISecurity implements ServerResponseListener {
 		isExchangingKeyTable.put(deviceId, false);
 	}
 	
+	
+
 	private boolean isKeyExchanging(String deviceId) {
 		// First time exchange
 		if (isExchangingKeyTable.get(deviceId) == null) return false;
