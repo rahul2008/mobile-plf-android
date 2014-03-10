@@ -114,6 +114,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	
 	private EWSService ewsService ;
 	private String ipAddress ;
+	private String purifierName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -390,7 +391,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 				deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
 				if (deviceNameStep3.getText().toString() != null && deviceNameStep3.getText().toString().length() > 0) {
-					sendDeviceNameToPurifier(deviceNameStep3.getText().toString()) ;
+					sendDeviceNameToPurifier(deviceNameStep3.getText().toString().trim()) ;
 				} else {
 					deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName());
 				}
@@ -544,6 +545,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private void showHomeScreen() {
 		Intent intent = new Intent(this,MainActivity.class) ;
 		intent.putExtra("ipaddress", ipAddress) ;
+		intent.putExtra("pname", purifierName) ;
 		setResult(RESULT_OK,intent) ;
 		finish() ;
 	}
@@ -584,7 +586,8 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getIpaddress()) ;
 		subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getNetmask()) ; 
 		routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getGateway()) ;
-		wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress()) ;
+		wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress());
+		purifierName = SessionDto.getInstance().getDeviceDto().getName();
 	}
 
 

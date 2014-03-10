@@ -158,6 +158,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	private IntentFilter filter ;
 
 	public static boolean stopService;
+	
+	public String purifierName;
 
 
 	private Context myActivityContext ;
@@ -166,7 +168,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
 		myActivityContext = this ;
-
+		purifierName = getString(R.string.philips_home);
 
 		/**
 		 * Diffie Hellman key exchange
@@ -1152,6 +1154,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 						device.getIpAddress() != null && ipAddress == null && !isEWSStarted) {
 					Log.i("discover", "Discovered") ;
 					ipAddress = device.getIpAddress() ; 
+					purifierName = device.getSsdpDevice().getFriendlyName();
+					homeFragment.setHomeName(purifierName);
 					if( ipAddress != null) {
 						Log.i("discover", "Device IP: "+ipAddress) ;
 						com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
@@ -1222,6 +1226,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		if ( resultCode == RESULT_OK ) {		
 			if( intent != null &&  intent.getExtras()  != null )
 				ipAddress = (String) intent.getExtras().get("ipaddress") ;
+				purifierName = intent.getStringExtra("pname");
+				homeFragment.setHomeName(purifierName);
 			if( ipAddress != null ) {
 				isEWSSuccessful = true ;
 			}
