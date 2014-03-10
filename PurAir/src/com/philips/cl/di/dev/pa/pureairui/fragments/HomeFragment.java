@@ -244,8 +244,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			takeTourLayout= (LinearLayout) vMain.findViewById(R.id.take_tour_prompt_drawer);
 			Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
 			takeTourLayout.startAnimation(bottomUp);
-			takeTourLayout.setVisibility(View.VISIBLE);
-			((MainActivity)getActivity()).isTutorialPromptShown=true;
+			takeTourLayout.setVisibility(View.VISIBLE);			
 			TextView lblTakeTour=(TextView) vMain.findViewById(R.id.lbl_take_tour);
 			lblTakeTour.setOnClickListener(this);
 			lblTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
@@ -454,11 +453,13 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			intent = new Intent(getActivity(), AirTutorialActivity.class);
 			startActivity(intent);
 			takeTourLayout.setVisibility(View.GONE);
+			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			break;
 		case R.id.btn_close_tour_layout:
 			Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_down);
 			takeTourLayout.startAnimation(bottomDown);
 			takeTourLayout.setVisibility(View.GONE);
+			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			showTutorialDialog();
 			break;
 		}

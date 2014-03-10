@@ -1,8 +1,11 @@
 package com.philips.cl.di.dev.pa.network;
 
+import java.net.HttpURLConnection;
+
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
@@ -18,7 +21,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]>{
 	public interface DiagnosticsDataListener {
 		public void diagnosticsDataUpdated(String[] data);
 	}
-	
+
 	public TaskGetDiagnosticData(Context pContext, DiagnosticsDataListener pListener) {
 		context = pContext;
 		listener = pListener ;
@@ -52,8 +55,12 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]>{
 	@Override
 	protected void onPostExecute(String[] response) {		
 		pDialog.dismiss();
-		context = null;
+		if(responseObj==null || responseObj.getResponseCode()!=HttpURLConnection.HTTP_OK && response==null)
+		{
+			Toast.makeText(context,"Could not fetch all details, please check your data connection or sign on, to fetch complete information.", Toast.LENGTH_LONG).show();			
+		}			
 		listener.diagnosticsDataUpdated(response);
+		context = null;
 	}
 
 }

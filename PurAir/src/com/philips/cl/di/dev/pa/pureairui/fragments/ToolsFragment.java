@@ -89,7 +89,7 @@ SignonListener, DiagnosticsDataListener {
 			}
 
 		}
-		
+
 		if( Utils.getAirPurifierID(getActivity()) != null && 
 				Utils.getAirPurifierID(getActivity()).length() > 0 ) {
 			signOnButton.setVisibility(View.INVISIBLE) ;
@@ -227,13 +227,15 @@ SignonListener, DiagnosticsDataListener {
 					String ipAddr = addr.getHostAddress();
 					if ((ipAddr).compareTo(ipAddress) == 0) {
 						byte[] mac = intf.getHardwareAddress();
-						if (mac == null)
+						if (mac == null){
 							return "";
+						}
 						StringBuilder buf = new StringBuilder();
 						for (int idx = 0; idx < mac.length; idx++)
 							buf.append(String.format("%02X:", mac[idx]));
-						if (buf.length() > 0)
+						if (buf.length() > 0){
 							buf.deleteCharAt(buf.length() - 1);
+						}
 						return buf.toString();						
 					}
 				}
@@ -250,7 +252,7 @@ SignonListener, DiagnosticsDataListener {
 	 * @return String containing all diagnostic data
 	 */
 	public String diagnosticData() {
-		
+
 		WifiManager wifii = (WifiManager) getActivity().getSystemService(
 				Context.WIFI_SERVICE);
 		DhcpInfo dhcpInfo = wifii.getDhcpInfo();
