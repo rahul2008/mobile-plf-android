@@ -8,6 +8,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Paint.Align;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.Log;
@@ -20,15 +21,14 @@ import com.philips.cl.di.dev.pa.utils.Utils;
 public class DetailsAIQ {
 	
 	private static final String TAG = DetailsAIQ.class.getSimpleName();
-	private Context mContext;
 	private GraphPathDraw mPathDraw;
 	private float xCoordinates[];
 	private float yCoordinates[];
 	private String xLabels[];
 	private float xAsixStep;
-	private int yCoordinateLen;
-	private int powerOnFlgs[];
+	private int noOffxCoordinate;
 	private List<float[]> yAxisValues;
+	float[] yAxisValue;
 	private Coordinates coordinates;
 	private float displayWidth;
 	private float y0;
@@ -36,7 +36,33 @@ public class DetailsAIQ {
 	private boolean isOutdoor;
 	
 	/**
-	 * 
+	 * Outdoor
+	 * @param context
+	 * @param graphWidh
+	 * @param yAxisValues
+	 * @param coordinates
+	 */
+	public DetailsAIQ(Context context, float graphWidh, float[] yAxisValue, Coordinates coordinates) {
+		this.yAxisValue = yAxisValue;
+		this.coordinates = coordinates;
+		this.displayWidth = graphWidh;
+		this.isOutdoor = true;
+		if (coordinates != null ) {
+			y0 = coordinates.getOdY0();
+			noOffxCoordinate = yAxisValue.length;
+			xCoordinates = new float[noOffxCoordinate];
+			yCoordinates = new float[noOffxCoordinate];
+			
+			mPathDraw = new GraphPathDraw(coordinates, true);
+			
+			addXLabelToArry(noOffxCoordinate, displayWidth, context);
+			
+			addDIPValueToArray();
+		}
+	}
+	
+	/**
+	 * Indoor
 	 * @param context
 	 * @param displayWidth
 	 * @param yAxisVal
@@ -46,15 +72,13 @@ public class DetailsAIQ {
 	 * @param position
 	 * @param isOutdoor
 	 */
-	public DetailsAIQ(Context context, float displayWidth, float yAxisVal[], List<float[]> yAxisValues,
-			int powerOnFlgs[], Coordinates coordinates, int position, boolean isOutdoor) {
+	public DetailsAIQ(Context context, float displayWidth, List<float[]> yAxisValues,
+			int powerOnFlgs[], Coordinates coordinates, int position) {
 		this.yAxisValues = yAxisValues;
-		this.powerOnFlgs = powerOnFlgs;
 		this.coordinates = coordinates;
 		this.displayWidth = displayWidth;
 		this.position = position;
-		this.isOutdoor = isOutdoor;
-		mContext = context;
+		this.isOutdoor = false;
 		Log.i(TAG, "Is outdoor " + isOutdoor);
 		if (coordinates != null ) {
 			if (!isOutdoor) {
@@ -62,69 +86,24 @@ public class DetailsAIQ {
 				 * Indoor
 				 */
 				y0 = coordinates.getIdY0();
-				yCoordinateLen = yAxisValues.get(position).length;
-				xCoordinates = new float[yCoordinateLen];
-				yCoordinates = new float[yCoordinateLen];
-			} else {
-				/**
-				 * Outdoor
-				 */
-				y0 = coordinates.getOdY0();
-				yCoordinateLen = yAxisVal.length;
-				xCoordinates = new float[yCoordinateLen];
-				yCoordinates = new float[yCoordinateLen];
-			}
+				noOffxCoordinate = yAxisValues.get(position).length;
+				xCoordinates = new float[noOffxCoordinate];
+				yCoordinates = new float[noOffxCoordinate];
+			} 
+			mPathDraw = new GraphPathDraw(coordinates, false);
 			
-			mPathDraw = new GraphPathDraw(context, coordinates);
+			addXLabelToArry(noOffxCoordinate, displayWidth, context);
 			
-			addXLabelToArry(yCoordinateLen, displayWidth);
+			addDIPValueToArray();
 			
-			addDIPValueToArray(yAxisVal);
-			
-			/** X axis coordinates.*//*
-			for (int i = 0; i < xCoordinates.length; i++) {
-				if (i == 0) {
-					if (isOutdoor) {
-						*//**
-						 * Outdoor x0
-						 * *//*
-						xCoordinates[i] = coordinates.getOdX0();
-					} else {
-						*//**
-						 * Indoor x0
-						 * *//*
-						xCoordinates[i] = coordinates.getIdX0();
-					}
-					
-				} else {
-					*//**
-					 * Rest outdoor and indoor x0
-					 * *//*
-					xCoordinates[i] = xCoordinates[i-1] + xAsixStep;
-				}
-			}
-			
-			*//** 
-			 * Y axis coordinates
-			 * *//*
-			if (isOutdoor) {
-				*//** Y axis coordinate outdoor.*//*
-				for (int i = 0; i < yAxisVal.length; i++) {
-					yCoordinates[i] = mPathDraw.getODYaxis(yAxisVal[i]);
-				}
-			} else {
-				*//** Y axis coordinate indoor.*//*
-				for (int i = 0; i < yAxisValues.get(position).length; i++) {
-					yCoordinates[i] = mPathDraw.getYaxis(yAxisValues.get(position)[i]);
-				}
-			}*/
 		}
 	}
+	
 	
 	/** 
 	 * X axis coordinates.
 	 * */
-	private void addDIPValueToArray(float yAxisVal[]) {
+	private void addDIPValueToArray() {
 		/** X axis coordinates.*/
 		for (int i = 0; i < xCoordinates.length; i++) {
 			if (i == 0) {
@@ -153,13 +132,13 @@ public class DetailsAIQ {
 		 * */
 		if (isOutdoor) {
 			/** Y axis coordinate outdoor.*/
-			for (int i = 0; i < yAxisVal.length; i++) {
-				yCoordinates[i] = mPathDraw.getODYaxis(yAxisVal[i]);
+			for (int i = 0; i < yAxisValue.length; i++) {
+				yCoordinates[i] = mPathDraw.getOutdoorYcoordinate(yAxisValue[i]);
 			}
 		} else {
 			/** Y axis coordinate indoor.*/
 			for (int i = 0; i < yAxisValues.get(position).length; i++) {
-				yCoordinates[i] = mPathDraw.getYaxis(yAxisValues.get(position)[i]);
+				yCoordinates[i] = mPathDraw.getIndoorYcoordinate(yAxisValues.get(position)[i]);
 			}
 		}
 	}
@@ -185,32 +164,33 @@ public class DetailsAIQ {
 					/**Outer circle*/
 					if (i == position) {
 						mPathDraw.drawOuterCircle(displayWidth + coordinates.getOuterCirclePadd(),
-								mPathDraw.getYaxis(tempYs[i]), canvas, paint, true, 
+								mPathDraw.getIndoorYcoordinate(tempYs[i]), canvas, paint, true, 
 								yCoordinates[len - 1 - index]);
-						paint.setColor(mPathDraw.getColor(yCoordinates[len - 1 - index]));
+						paint.setColor(mPathDraw.getColorIndoor(yCoordinates[len - 1 - index]));
 						paint.setStrokeWidth(coordinates.getStrokeWidth());
 					}
 					
 					path.moveTo(xCoordinates[len - 1 - index], 
-							mPathDraw.getYaxis(yAxisValues.get(i)[len - 1 - index]));
+							mPathDraw.getIndoorYcoordinate(yAxisValues.get(i)[len - 1 - index]));
 			        path.lineTo(displayWidth, 
-			        		mPathDraw.getYaxis(yAxisValues.get(i)[len - 1 - index]));
+			        		mPathDraw.getIndoorYcoordinate(yAxisValues.get(i)[len - 1 - index]));
 					canvas.drawPath(path, paint);
 					
 					/** Path between circle and last point*/
 					path = new Path();
 					path.moveTo(displayWidth,
-							mPathDraw.getYaxis(yAxisValues.get(i)[len - 1 - index]));
+							mPathDraw.getIndoorYcoordinate(yAxisValues.get(i)[len - 1 - index]));
 					
 			        path.lineTo(displayWidth +
-			        		coordinates.getOuterCirclePadd(), mPathDraw.getYaxis(tempYs[i]));
+			        		coordinates.getOuterCirclePadd(), mPathDraw.getIndoorYcoordinate(tempYs[i]));
 					canvas.drawPath(path, paint);
 					
 					/**Outer circle index*/
 					paint.setTextSize(coordinates.getIdTxtSize());
 					paint.setColor(Color.WHITE);
-					canvas.drawText(""+(i+1), displayWidth + coordinates.getOuterIndexPadd(),
-							mPathDraw.getYaxis(tempYs[i] - 0.1F), paint);
+					paint.setTextAlign(Align.CENTER);
+					canvas.drawText(""+(i+1), displayWidth + coordinates.getOuterCirclePadd(),
+							mPathDraw.getIndoorYcoordinate(tempYs[i] - 0.1F), paint);
 					break;
 				}
 			}
@@ -224,63 +204,10 @@ public class DetailsAIQ {
 		
 		if (!isOutdoor) {
 			drawRectOutdoor(canvas, paint);
-			/*
-			Rect rect = new Rect();
-			int k = 2;
-			float tempYs[] = {8.5F, 7.0F, 5.5F, 4.0F, 2.5F, 1.0F, 0.0F};
-			for (int i = 0; i < yAxisValues.size(); i++) {
-				Path path;
-				
-				paint.setColor(Color.GRAY);
-		        paint.setStrokeWidth(2);
-				paint.setAntiAlias(true);
-				paint.setStyle(Paint.Style.STROKE);
-				
-				*//**Straight path after graph*//*
-				path = new Path();
-				int len = yAxisValues.get(i).length;
-				for (int index = 0; index < len; index++) {
-					
-					float tempF = yAxisValues.get(i)[len - 1 - index];
-					if (tempF != -1) {
-						
-						*//**Outer circle*//*
-						if (i == position) {
-							mPathDraw.drawOuterCircle(displayWidth + coordinates.getOuterCirclePadd(),
-									mPathDraw.getYaxis(tempYs[i]), canvas, paint, true, 
-									yCoordinates[len - 1 - index]);
-							paint.setColor(mPathDraw.getColor(yCoordinates[len - 1 - index]));
-							paint.setStrokeWidth(coordinates.getStrokeWidth());
-						}
-						
-						path.moveTo(xCoordinates[len - 1 - index], 
-								mPathDraw.getYaxis(yAxisValues.get(i)[len - 1 - index]));
-				        path.lineTo(displayWidth, 
-				        		mPathDraw.getYaxis(yAxisValues.get(i)[len - 1 - index]));
-						canvas.drawPath(path, paint);
-						
-						*//** Path between circle and last point*//*
-						path = new Path();
-						path.moveTo(displayWidth,
-								mPathDraw.getYaxis(yAxisValues.get(i)[len - 1 - index]));
-						
-				        path.lineTo(displayWidth +
-				        		coordinates.getOuterCirclePadd(), mPathDraw.getYaxis(tempYs[i]));
-						canvas.drawPath(path, paint);
-						
-						*//**Outer circle index*//*
-						paint.setTextSize(coordinates.getIdTxtSize());
-						paint.setColor(Color.WHITE);
-						canvas.drawText(""+(i+1), displayWidth + coordinates.getOuterIndexPadd(),
-								mPathDraw.getYaxis(tempYs[i] - 0.1F), paint);
-						break;
-					}
-				}
-			}
-		*/}
+		}
 		
 		for (int i = 0; i < xCoordinates.length - 1; i++) {
-			mPathDraw.yAaxisConditions(xCoordinates[i], yCoordinates[i],
+			mPathDraw.yCoordinateConditions(xCoordinates[i], yCoordinates[i],
 					xCoordinates[i + 1], yCoordinates[i + 1], canvas, paint, isOutdoor);
 		}
 		
@@ -290,16 +217,6 @@ public class DetailsAIQ {
 				mPathDraw.drawPoint(xCoordinates[i], yCoordinates[i], canvas, paint, isOutdoor);
 			}
 			
-			/**
-			 * Draw path after last point
-			 */
-			if (i == xCoordinates.length - 1 && xCoordinates.length == 24) {
-				if (yCoordinates[i] > 0) {
-					mPathDraw.drawPathAfterLastPoint(xCoordinates[i], 
-							yCoordinates[i], xCoordinates[i]
-									+ xAsixStep, yCoordinates[i], canvas, paint, isOutdoor);
-				}
-			} 
 		}
 	}
 	
@@ -332,17 +249,23 @@ public class DetailsAIQ {
 	/**
 	 * The method adding x-label into string array.
 	 * */
-	private void addXLabelToArry(int arrLen, float width) {
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+	private void addXLabelToArry(int arrLen, float width, Context context) {
+		
+		Calendar cal = Calendar.getInstance();
+		if (isOutdoor) {
+			cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		} 
 		
 		int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
 		Log.i("outdoor", "hourOfDay=="+hourOfDay);
-		String timeStr = OutdoorDetailsActivity.getCurrentCityTime();
-		if (timeStr != null && timeStr.length() > 0) {
-			try {
-				hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
+		if (isOutdoor) {
+			String timeStr = OutdoorDetailsActivity.getCurrentCityTime();
+			if (timeStr != null && timeStr.length() > 0) {
+				try {
+					hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		/** X axis label.*/
@@ -354,7 +277,7 @@ public class DetailsAIQ {
 			int dayInt = cal.get(Calendar.DAY_OF_WEEK);
 			for (int j = 0; j < 7; j++) {
 				
-				String dayStr = Utils.getDayOfWeek(mContext, dayInt);
+				String dayStr = Utils.getDayOfWeek(context, dayInt);
 				
 				xLabels[6 - j] = dayStr;
 				dayInt--;
@@ -376,10 +299,10 @@ public class DetailsAIQ {
 			 * */
 			xLabels = new String[4];
 			
-			xLabels[0] = mContext.getString(R.string.week1);
-			xLabels[1] = mContext.getString(R.string.week2);
-			xLabels[2] = mContext.getString(R.string.week3);
-			xLabels[3] = mContext.getString(R.string.week4);
+			xLabels[0] = context.getString(R.string.week1);
+			xLabels[1] = context.getString(R.string.week2);
+			xLabels[2] = context.getString(R.string.week3);
+			xLabels[3] = context.getString(R.string.week4);
 			/** Calculate x axis steps.*/
 			if (isOutdoor) {
 				xAsixStep = (width - coordinates.getOdX0()) / (float)28;
@@ -400,8 +323,12 @@ public class DetailsAIQ {
 				} else {
 					tempHr = hourOfDay + ":00";
 				}
+				
 				xLabels[xLabels.length - 1 - j] = tempHr;
 				hourOfDay = hourOfDay - 6;
+				if (j == xLabels.length - 2) {
+					hourOfDay = hourOfDay + 1;
+				}
 				if (hourOfDay < 0) {
 					hourOfDay = 24 + hourOfDay;
 				} 
@@ -427,7 +354,7 @@ public class DetailsAIQ {
 		/** 
 		 * Drawing rect for horizontal shadow.
 		 * */
-		if (yCoordinateLen != 24) {
+		if (noOffxCoordinate != 24) {
 			
 			if (!isOutdoor) {
 				/**Indoor*/
@@ -448,25 +375,17 @@ public class DetailsAIQ {
 				canvas.drawRect(coordinates.getOdX0(), coordinates.getOdY50(), 
 						xCoordinates[xCoordinates.length - 1], coordinates.getOdY0(), paint);
 			}
-		} else {
-			/** Drawing rect for power.*/
-			if (!isOutdoor) {
-				/**Indoor*/
-				canvas.drawRect(coordinates.getIdX0(), coordinates.getIdY0() + 
-						coordinates.getPowerRect2(), xCoordinates[xCoordinates.length - 1] + xAsixStep, 
-						coordinates.getIdY0() + coordinates.getPowerRect1(), paint);
-			} 
-		}
+		} 
 			
 		Rect rect = new Rect();
 		/**Check condition for three mode of trend to draw line and x-label.*/
-		if (yCoordinateLen == 7) {
+		if (noOffxCoordinate == 7) {
 			/**For last week*/
 			drawLineLabelLastWeek(canvas, paint, rect);
-		} else if (yCoordinateLen == 28) {
+		} else if (noOffxCoordinate == 28) {
 			/**For last four week*/
 			drawLineLabelFourWeek(canvas, paint, rect);
-		} else if (yCoordinateLen == 24) {
+		} else if (noOffxCoordinate == 24) {
 			/**For last day*/
 			drawLineLabelDay(canvas, paint, rect);
 		}
@@ -498,15 +417,16 @@ public class DetailsAIQ {
 		
 		/**Drawing x-axis labels.*/
 		paint.setTextSize(coordinates.getIdTxtSize());
+		paint.setTextAlign(Paint.Align.CENTER);
 		for (int i = 0; i < xLabels.length; i++) {
 			if (i == xLabels.length -1) {
 				/**Draw last x-axis label*/
 				canvas.drawText(xLabels[i], 
-						xCoordinates[i] - coordinates.getXlabelPaddLast(), yMinus, paint);
+						xCoordinates[i] , yMinus, paint);
 			} else {
 				/**Draw other x-axis label*/
 				canvas.drawText(xLabels[i], 
-						xCoordinates[i] - coordinates.getxLabelPadd(), yMinus, paint);
+						xCoordinates[i] , yMinus, paint);
 			}
 	        paint.getTextBounds(xLabels[0], 0, len, rect);
 	        
@@ -545,10 +465,10 @@ public class DetailsAIQ {
 		}
 		
 		paint.setColor(Color.GRAY);
-		paint.setTextSize(coordinates.getIdTxtSize());
+		paint.setTextAlign(Paint.Align.CENTER);
 		float yMinus = y0 + coordinates.getXlabelPaddLast();
 		int len = xLabels[0].length();
-		int temp = 1;
+		int temp = 3;
 		
 		/**Drawing x-axis label*/
 		paint.setTextSize(coordinates.getIdTxtSize());
@@ -570,10 +490,6 @@ public class DetailsAIQ {
 			canvas.drawLine(coordinates.getIdX0(), 
 					yAxisMinus, coordinates.getIdX0(), coordinates.getIdY10(), paint);
 			
-			/**Drawing first x-axis power line*/
-			canvas.drawLine(coordinates.getIdX0(), 
-					coordinates.getIdY0() + coordinates.getPowerY1(), 
-					coordinates.getIdX0(), coordinates.getIdY0() + coordinates.getPowerY2(), paint);
 		} else {
 			/**Drawing first x-axis line outdoor*/
 			canvas.drawLine(coordinates.getOdX0(), 
@@ -581,41 +497,19 @@ public class DetailsAIQ {
 			
 		}
 		
-		/**Drawing last x-axis line*/
-		canvas.drawLine(xCoordinates[xCoordinates.length - 1] + xAsixStep, 
-				yAxisMinus, xCoordinates[xCoordinates.length - 1] + xAsixStep, coordinates.getIdY10(), paint);
-		if(!isOutdoor) {
-			/**Drawing last x-axis power line*/
-			canvas.drawLine(xCoordinates[xCoordinates.length - 1] + xAsixStep, 
-					y0 + coordinates.getPowerY1(), xCoordinates[xCoordinates.length - 1] 
-							+ xAsixStep, y0 + coordinates.getPowerY2(), paint);
-		}
 		
 		/**Drawing other x-axis line*/
 		for (int i = 1; i < xCoordinates.length; i++) {
-			if (i == 6 || i == 12 || i == 18 ){
+			if (i == 5 || i == 11 || i == 17 ||  i == xCoordinates.length - 1){
 				paint.setColor(Color.GRAY);
 				/**Drawing dark x-axis line*/
 				canvas.drawLine(xCoordinates[i], 
 						yAxisMinus, xCoordinates[i], coordinates.getIdY10(), paint);
-				if(!isOutdoor) {
-					/**Drawing dark x-axis power line*/
-					canvas.drawLine(xCoordinates[i], 
-							y0 + coordinates.getPowerY1(),
-							xCoordinates[i], y0 + coordinates.getPowerY2(), paint);
-				}
 			} else {
 				paint.setColor(Color.LTGRAY);
 				/**Drawing light x-axis line*/
 				canvas.drawLine(xCoordinates[i], 
 						y0, xCoordinates[i], coordinates.getIdY10(), paint);
-				if(!isOutdoor) {
-					/**Drawing light x-axis power line*/
-					paint.setColor(Color.LTGRAY);
-					canvas.drawLine(xCoordinates[i], 
-							y0 + coordinates.getPowerRect1() , xCoordinates[i], 
-							y0 + coordinates.getPowerRect2(), paint);
-				}
 			}
 		}
 		
@@ -629,69 +523,26 @@ public class DetailsAIQ {
 		/**Drawing  x-axis labels*/
 		paint.setColor(Color.GRAY);
 		paint.setTextSize(coordinates.getIdTxtSize());
+		paint.setTextAlign(Paint.Align.CENTER);
 		float yMinus = y0 + coordinates.getXlabelPaddLast();
 		int len = xLabels[0].length();
 		int temp = 0;
 		for (int i = 0; i < xLabels.length; i++) {
-			if (i == xLabels.length - 1) {
-				/**Drawing  x-axis last label*/
-				canvas.drawText(xLabels[i], xCoordinates[xCoordinates.length - 1] - 15, yMinus, paint);
+			if (i== 1) {
+				canvas.drawText(xLabels[i], xCoordinates[5], yMinus, paint);
 			} else {
-				/**Drawing  x-axis other label*/
 				canvas.drawText(xLabels[i], xCoordinates[temp], yMinus, paint);
 			}
+			
 	        paint.getTextBounds(xLabels[0], 0, len, rect);
-	        temp = temp + 6;
+	        if (i == 1) {
+	        	temp = temp + 5;
+	        } else {
+	        	temp = temp + 6;
+	        }
+	        
 		}
 		
-		drawPowerLine(canvas, paint, rect);
 	}
 	
-	private void drawPowerLine(Canvas canvas, Paint paint, Rect rect) {
-		if(!isOutdoor) {
-			/**Drawing  powers labels*/
-			canvas.drawText("Power", coordinates.getIdX0(), y0 + coordinates.getPowerLabelPadd(), paint);
-			paint.getTextBounds(xLabels[0], 0, "Power".length(), rect);
-		}
-		if(!isOutdoor) {	
-			/** Color power on period*/
-			if (powerOnFlgs != null) {
-				paint.setAntiAlias(true);
-				for (int i = 0; i < xCoordinates.length; i++) {
-					if (powerOnFlgs[i] == 1) {
-						/**Power On*/
-						if (i == xCoordinates.length - 1) {
-							/**Color power  last time period*/
-							/**Color power graph last time period*/
-							//paint.setColor(Color.rgb(225, 232, 255));
-							paint.setColor(Color.rgb(200, 200, 225));
-							canvas.drawRect(xCoordinates[i] + 1, coordinates.getIdY10(), 
-									xCoordinates[i] + xAsixStep - 1, y0, paint);
-							
-							/**Color power bottom last time period*/
-							paint.setColor(GraphConst.COLOR_STATE_BLUE);
-							canvas.drawRect(xCoordinates[i] + 1, y0 + coordinates.getPowerRect2(), 
-									xCoordinates[i] + xAsixStep - 1, y0
-									+ coordinates.getPowerRect1(), paint);
-						} else {
-							/**Color power other time period*/
-							/**Color power graph other time period*/
-							//paint.setColor(Color.rgb(225, 232, 255));
-							paint.setColor(Color.rgb(200, 200, 225));
-							canvas.drawRect(xCoordinates[i] + 1, coordinates.getIdY10(), 
-									xCoordinates[i + 1] - 1, y0, paint);
-							
-							/**Color power bottom other time period*/
-							//paint.setColor(Color.rgb(65, 105, 225));
-							paint.setColor(GraphConst.COLOR_STATE_BLUE);
-							canvas.drawRect(xCoordinates[i] + 1, y0 + coordinates.getPowerRect2(), 
-									xCoordinates[i + 1] - 1, y0 + coordinates.getPowerRect1(), paint);
-						}
-					}else {
-						//power off
-					}
-				}
-			}
-		}
-	}
 }

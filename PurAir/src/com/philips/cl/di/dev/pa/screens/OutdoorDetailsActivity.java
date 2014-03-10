@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -30,7 +27,6 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.dto.Weatherdto;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -50,12 +46,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	private CustomTextView msgSecond;
 	private Coordinates coordinates;
 	private SessionDto sessionDto;
-	private Calendar calender;
 	private float lastDayAQIReadings[] = new float[24];
 	private float last7dayAQIReadings[] = new float[7];
 	private float last4weekAQIReadings[] = new float[28];
 	private OutdoorAQIEventDto aqiEventDto;
-	private ArrayList<Weatherdto> weatherDtoList; 
 	private static String currentCityTime;
 
 	@Override
@@ -86,7 +80,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		}
 		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
 			graphLayout.addView(
-					new GraphView(this, lastDayAQIReadings, null, true, coordinates));
+					new GraphView(this, lastDayAQIReadings, coordinates));
 		}
 		
 		/**Add today weather*/
@@ -118,22 +112,38 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 
 			int pm25s[] = aqiEventDto.getPm25();
 			if (pm25s != null && pm25s.length > 0) {
-				pm1.setText(getString(R.string.pm25) + "  " + pm25s[0]);
+				String pm25 = String.valueOf(pm25s[0]);
+				if (pm25s[0] == 0 && pm25s.length > 1) {
+					pm25 = String.valueOf(pm25s[1]);
+				}
+				pm1.setText(getString(R.string.pm25) + "  " + pm25);
 			}
 
 			int pm10s[] = aqiEventDto.getPm10();
 			if (pm10s != null && pm10s.length > 0) {
-				pm2.setText(getString(R.string.pm10) + "  " + pm10s[0]);
+				String pm10 = String.valueOf(pm10s[0]);
+				if (pm10s[0] == 0 && pm10s.length > 1) {
+					pm10 = String.valueOf(pm10s[1]);
+				}
+				pm2.setText(getString(R.string.pm10) + "  " + pm10);
 			}
 
 			int so2s[] = aqiEventDto.getSo2();
 			if (so2s != null && so2s.length > 0) {
-				pm3.setText(getString(R.string.so2) + "  " + so2s[0]);
+				String so2 = String.valueOf(so2s[0]);
+				if (so2s[0] == 0 && so2s.length > 1) {
+					so2 = String.valueOf(so2s[1]);
+				}
+				pm3.setText(getString(R.string.so2) + "  " + so2);
 			}
 
 			int no2s[] = aqiEventDto.getNo2();
 			if (no2s != null && no2s.length > 0) {
-				pm4.setText(getString(R.string.no2) + "  " + no2s[0]);
+				String no2 = String.valueOf(no2s[0]);
+				if (no2s[0] == 0 && no2s.length > 1) {
+					no2 = String.valueOf(no2s[1]);
+				}
+				pm4.setText(getString(R.string.no2) + "  " + no2);
 			}
 
 			int idx[] = aqiEventDto.getIdx();
@@ -145,7 +155,11 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			 */
 			int lastDayHr = 24;
 			if (idx != null) {
+				
 				for (int i = 0; i < lastDayAQIReadings.length; i++) {
+					if (i == 0 && idx[i] == 0) {
+						lastDayHr = 25;
+					}
 					lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
 				}
 			}
@@ -328,7 +342,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	 * Initialize UI widget
 	 * */
 	private void initializeUI() {
-		calender = Calendar.getInstance();
 		graphLayout = (LinearLayout) findViewById(R.id.detailsOutdoorlayoutGraph);
 		wetherScrollView = (HorizontalScrollView) findViewById(R.id.odTodayWetherReportHSV);
 		wetherForcastLayout = (LinearLayout) findViewById(R.id.odWetherForcastLL);
@@ -399,7 +412,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				removeChildViewFromBar();
 				if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
 					graphLayout.addView(
-							new GraphView(this, lastDayAQIReadings, null, true, coordinates));
+							new GraphView(this, lastDayAQIReadings, coordinates));
 				}
 				lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 				lastWeekBtn.setTextColor(Color.LTGRAY);
@@ -410,7 +423,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			case R.id.detailsOutdoorLastWeekLabel: {
 				removeChildViewFromBar();
 				if (last7dayAQIReadings != null && last7dayAQIReadings.length > 0) {
-					graphLayout.addView(new GraphView(this, last7dayAQIReadings, null, true, coordinates));
+					graphLayout.addView(new GraphView(this, last7dayAQIReadings, coordinates));
 				}
 				lastDayBtn.setTextColor(Color.LTGRAY);
 				lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
@@ -421,7 +434,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			case R.id.detailsOutdoorLastFourWeekLabel: {
 				removeChildViewFromBar();
 				if (last4weekAQIReadings != null && last4weekAQIReadings.length > 0) {
-					graphLayout.addView(new GraphView(this, last4weekAQIReadings, null, true, coordinates));
+					graphLayout.addView(new GraphView(this, last4weekAQIReadings, coordinates));
 				}
 				lastDayBtn.setTextColor(Color.LTGRAY);
 				lastWeekBtn.setTextColor(Color.LTGRAY);

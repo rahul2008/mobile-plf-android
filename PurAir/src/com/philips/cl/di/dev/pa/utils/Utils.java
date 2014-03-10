@@ -16,6 +16,7 @@ import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_
 import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -47,6 +49,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 import android.widget.ImageView;
+
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
@@ -69,7 +72,7 @@ public class Utils {
 
 	/** The Constant TAG. */
 	private static final String TAG = "Utils";
-	private static String currentDateHr = "";
+	//private static String currentDateHr = "";
 	private static String ago24DateHr = "";
 	public static final List<Integer> outdoorAQIPercentageList = new ArrayList<Integer>();
 
@@ -559,8 +562,8 @@ public class Utils {
 		return noOfDays;
 	}
 
-	public static int getDifferenceBetweenHrFromCurrentHr(String date,
-			String date0) {
+	public static int getDifferenceBetweenHrFromCurrentHr(String date, String date0) {
+		Log.i("QUERY", "getDifferenceBetweenHrFromCurrentHr ==download date "+date+" :::  "+date0);
 		int noOfHrs = 0;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
@@ -590,10 +593,14 @@ public class Utils {
 	}
 
 	public static void parseIndoorDetails(String downloadedData) {
+		// TODO Auto-generated method stub
 
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		List<Float> dailyAqiValues = new ArrayList<Float>();
-		List<Integer> powerOnStatusList = new ArrayList<Integer>();
+		
+		hrlyAqiValues = addMinusOneIntoList(24);
+		
+		dailyAqiValues = addMinusOneIntoList(28);
 
 		int counter = 0;
 		float aqiSum = 0.0f;
@@ -603,12 +610,17 @@ public class Utils {
 		int counterHr = 0;
 		float aqiSumHr = 0.0f;
 		int numOfHrs = -2;
+		int indexHrlyAqi = 0;
 
 		if (downloadedData != null) {
 			List<IndoorHistoryDto> indoorAQIHistory = new DataParser(
 					downloadedData).parseHistoryData();
+			
 			if (indoorAQIHistory != null) {
+				
 				for (int index = 0; index < indoorAQIHistory.size(); index++) {
+					Log.i("rdcp", "rdcp:::== TimeStamp:=    " +indoorAQIHistory.get(index).getTimeStamp()
+							+"    Aqi:=  "+indoorAQIHistory.get(index).getAqi());
 					String date = indoorAQIHistory.get(index).getTimeStamp();
 					/**
 					 * Hourly
@@ -619,17 +631,13 @@ public class Utils {
 								date.substring(0, 10) + " "
 										+ date.substring(11, 13), ago24DateHr);
 						if (numOfHrs >= 0 && numOfHrs <= 24) {
-							for (int i = 0; i < numOfHrs; i++) {
-								hrlyAqiValues.add(-1.0F);
-								powerOnStatusList.add(0);
-							}
+							indexHrlyAqi = numOfHrs;
 							numOfHrs = -1;
 
 						}
 					}
 
 					if (numOfHrs == -1) {
-
 						if (currentAQIDateHr.equals("")) {
 							aqiSumHr = indoorAQIHistory.get(index).getAqi();
 							counterHr = 1;
@@ -644,70 +652,33 @@ public class Utils {
 								counterHr++;
 							} else {
 								aqiSumHr = aqiSumHr / counterHr;
-								hrlyAqiValues.add(aqiSumHr / 100);
-								if (index > 0
-										&& indoorAQIHistory.get(index)
-										.getTfav() > indoorAQIHistory
-										.get(index - 1).getTfav()) {
-									powerOnStatusList.add(1);
-								} else {
-									powerOnStatusList.add(0);
-								}
+								//hrlyAqiValues.add(aqiSumHr / 100);
+								hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
+								
 								aqiSumHr = indoorAQIHistory.get(index).getAqi();
 								counterHr = 1;
-								String ss1 = currentAQIDateHr.substring(0, 10)
-										+ " "
+								String ss1 = currentAQIDateHr.substring(0, 10)+ " "
 										+ currentAQIDateHr.substring(11, 13);
 								String ss2 = date.substring(0, 10) + " "
 										+ date.substring(11, 13);
-								int valueEmptyHrs = Utils
-										.getDifferenceBetweenHrFromCurrentHr(
-												ss2, ss1);
-								if (valueEmptyHrs > 0) {
-									for (int j = 0; j < valueEmptyHrs - 1; j++) {
-										hrlyAqiValues.add(-1.0F);
-										powerOnStatusList.add(0);
-									}
-								}
+								int valueEmptyHrs = 
+										Utils.getDifferenceBetweenHrFromCurrentHr(ss2, ss1);
+								
+								indexHrlyAqi = indexHrlyAqi + valueEmptyHrs;
 							}
 						}
 
 						if (index == indoorAQIHistory.size() - 1) {
 							if (counterHr != 0) {
 								aqiSumHr = aqiSumHr / counterHr;
-								hrlyAqiValues.add(aqiSumHr / 100);
-								if (index > 0
-										&& indoorAQIHistory.get(index)
-										.getTfav() > indoorAQIHistory
-										.get(index - 1).getTfav()) {
-									powerOnStatusList.add(1);
-								} else if (index == 0) {
-									powerOnStatusList.add(1);
-								} else {
-									powerOnStatusList.add(0);
-								}
-								int valueEmptyHrs1 = Utils
-										.getDifferenceBetweenHrFromCurrentHr(
-												currentDateHr,
-												date.substring(0, 10)
-												+ " "
-												+ date.substring(11, 13));
-								if (valueEmptyHrs1 > 0) {
-									for (int j = 0; j < valueEmptyHrs1 - 1; j++) {
-										hrlyAqiValues.add(-1.0F);
-										powerOnStatusList.add(0);
-									}
-								}
-							} else if (counterHr == 0) {
-								for (int i = 0; i < 24; i++) {
-									hrlyAqiValues.add(-1.0F);
-									powerOnStatusList.add(0);
-								}
-							}
+								//hrlyAqiValues.add(aqiSumHr / 100);
+								hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
+							} 
 						}
 						currentAQIDateHr = date;
 					}
 
+					
 					/**
 					 * Daily
 					 */
@@ -753,7 +724,9 @@ public class Utils {
 					/**
 					 * Condition for last value
 					 */
+					
 					if (index == indoorAQIHistory.size() - 1) {
+						
 						if (counter != 0) {
 							aqiSum = aqiSum / counter;
 							dailyAqiValues.add(aqiSum / 100);
@@ -775,11 +748,8 @@ public class Utils {
 					currentAQIDate = date;
 				}
 
-				// Log.i("Download", "hrlyAqiValuesBefore==  " + hrlyAqiValues);
-				// Log.i("Download", "dailyAqiValuesBefore==  " +
-				// dailyAqiValues);
-				// Log.i("Download", "powerOnStatusListBefore==  " +
-				// powerOnStatusList);
+				//Log.i("rdcp", "hrlyAqiValuesBefore==  " + hrlyAqiValues);
+				//Log.i("rdcp", "dailyAqiValuesBefore==  " + dailyAqiValues);
 
 				IndoorTrendDto indoorTrend = new IndoorTrendDto();
 				if (hrlyAqiValues != null && hrlyAqiValues.size() > 0) {
@@ -801,53 +771,67 @@ public class Utils {
 					}
 					indoorTrend.setDailyList(dailyAqiValues);
 				}
-				if (powerOnStatusList != null && powerOnStatusList.size() > 0) {
-					if (powerOnStatusList.size() > 24) {
-						int diff = powerOnStatusList.size() - 24;
-						for (int i = 0; i < diff; i++) {
-							powerOnStatusList.remove(0);
-						}
-					}
-					indoorTrend.setPowerDetailsList(powerOnStatusList);
-				}
 				SessionDto.getInstance().setIndoorTrendDto(indoorTrend);
 			}
 		}
 	}
+	
+	private static ArrayList<Float> addMinusOneIntoList(int size) {
+		ArrayList<Float> arrList = new ArrayList<Float>();
+		for (int index = 0; index < size; index++) {
+			arrList.add(-1.0F);
+		}
+		return arrList;
+	}
 
+	@SuppressLint("SimpleDateFormat")
 	public static String getCPPQuery(Context context) {
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatTime = new SimpleDateFormat("hh:mm:ss");
-		SimpleDateFormat formatHr = new SimpleDateFormat("hh");
-
-		String endDate = formatDate.format(new Date());
-		String endTime = formatTime.format(new Date());
-		String endHr = formatHr.format(new Date());
-
-		String qryPart3 = "endDate=" + endDate + "T" + endTime + ".1508314Z";
-		currentDateHr = endDate + " " + endHr;
-
+		SimpleDateFormat formatTime = new SimpleDateFormat(":mm:ss");
+		
 		Calendar cal = Calendar.getInstance();
+		int hrOffDayInt = cal.get(Calendar.HOUR_OF_DAY);
+		String hrOffDay = get2DigitHr(hrOffDayInt);
+		String endDate = formatDate.format(new Date());
+		String endTime = hrOffDay + formatTime.format(new Date());
+		
+		String qryPart3 = "endDate=" + endDate + "T" + endTime + ".1508314Z";
+		//currentDateHr = endDate + " " + hrOffDay;
 
 		long startDateDiff = cal.getTimeInMillis()
 				- (28 * 24 * 60 * 60 * 1000L);
 		Date dateStart = new Date(startDateDiff);
 		String startDate = formatDate.format(dateStart);
-		String startTime = formatTime.format(dateStart);
+		String startTime = hrOffDay + formatTime.format(dateStart);
 
 		String qryPart2 = "startDate=" + startDate + "T" + startTime
 				+ ".1508314Z;";
 
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP,
 				getAirPurifierID(context)) + qryPart2 + qryPart3;
-		Log.i("QUERY", qry);
+		Log.i("QUERY", "rdcp qry:   "+qry);
 
 		long endDateDiff = cal.getTimeInMillis() - (24 * 60 * 60 * 1000);
 		Date dateEnd = new Date(endDateDiff);
-		ago24DateHr = formatDate.format(dateEnd) + " "
-				+ formatHr.format(dateEnd);
+		hrOffDayInt = hrOffDayInt + 1; 
+		if (hrOffDayInt >= 24) {
+			hrOffDayInt = 0;
+		}
+		ago24DateHr = formatDate.format(dateEnd) + " " + get2DigitHr(hrOffDayInt);
 
 		return qry;
+	}
+	
+	public static String get2DigitHr( int hr) {
+		String hrStr = null;
+		if (hr == 0) {
+			hrStr = "00";
+		} else if (hr < 10) {
+			hrStr = "0" + hr ;
+		} else {
+			hrStr = String.valueOf(hr);
+		}
+		return hrStr;
 	}
 
 	/**
@@ -1112,6 +1096,7 @@ public class Utils {
 		if (totalAir > 0) {
 			percent = (goodAir * 100) / totalAir;
 		}
+		Log.i("percent", "goodAir="+ goodAir+"  totalAir="+totalAir+"  percent= " + percent);
 		return percent;
 	}
 
@@ -1255,7 +1240,7 @@ public class Utils {
 				totalAirCount = 0;
 				for (int i = 0; i < lastDayAQIReadings.length; i++) {
 					lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
-					if (idx[lastDayHr - 1 - i] < 100) {
+					if (idx[lastDayHr - 1 - i] <= 50) {
 						goodAirCount++;
 					}
 					totalAirCount++;
@@ -1293,7 +1278,7 @@ public class Utils {
 							|| i == 143) {
 						avg = sum / (float) 24;
 						last7dayAQIReadings[j] = avg;
-						if (avg < 100) {
+						if (avg <= 50) {
 							goodAirCount++;
 						}
 						totalAirCount++;
@@ -1304,7 +1289,7 @@ public class Utils {
 					} else if (i == last7dayHrs - 1) {
 						avg = sum / (float) hr;
 						last7dayAQIReadings[j] = avg;
-						if (avg < 100) {
+						if (avg <= 50) {
 							goodAirCount++;
 						}
 						totalAirCount++;
@@ -1337,7 +1322,7 @@ public class Utils {
 					if (count == 24 && j < 21) {
 						avg = sum / (float) 24;
 						last4weekAQIReadings[j] = avg;
-						if (avg < 100) {
+						if (avg <= 50) {
 							goodAirCount++;
 						}
 						totalAirCount++;
@@ -1348,7 +1333,7 @@ public class Utils {
 					} else if (j >= 21) {
 						for (int m = 0; m < last7dayAQIReadings.length; m++) {
 							last4weekAQIReadings[j] = last7dayAQIReadings[m];
-							if (last7dayAQIReadings[m] < 100) {
+							if (last7dayAQIReadings[m] <= 50) {
 								goodAirCount++;
 							}
 							totalAirCount++;
@@ -1362,6 +1347,8 @@ public class Utils {
 						totalAirCount));
 			}
 		}
+		
+		Log.i("percent", "outdoorAQIPercentageList==" +outdoorAQIPercentageList);
 	}
 
 	public static String splitToHr(String timeStr) {

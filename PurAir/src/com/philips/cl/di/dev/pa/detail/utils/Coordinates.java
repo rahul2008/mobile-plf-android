@@ -70,7 +70,6 @@ public class Coordinates {
 	private float odRectWidth;
 	private float odPaddingRight;
 	
-	private Context context;
 	
 	private static Coordinates coordinates;
 	
@@ -78,69 +77,68 @@ public class Coordinates {
 		/**
 		 * Initialize
 		 * */
-		context = ctx;
 		x1 = 0;
 		y1 = 0;
-		xlabelPaddLast = getPxWithRespectToDip(GraphConst.XLABEL_PADD_LAST);
-		xLabelPadd = getPxWithRespectToDip(GraphConst.XLABEL_PADD);
-		multiplyConst = getPxWithRespectToDip(GraphConst.MULTIPLY_CONST);
-		powerY1 = getPxWithRespectToDip(GraphConst.POWERY1);
-		powerY2 = getPxWithRespectToDip(GraphConst.POWERY2);
-		powerRect1 = getPxWithRespectToDip(GraphConst.POWER_RECT1);
-		powerRect2 = getPxWithRespectToDip(GraphConst.POWER_RECT2);
-		powerLabelPadd = getPxWithRespectToDip(GraphConst.POWER_LABEL_PADD);
-		outerlineDist = getPxWithRespectToDip(GraphConst.OUTER_LINE_DIST);
-		outerCirclePadd = getPxWithRespectToDip(GraphConst.OUTER_CIRCLE_PADD);
-		outerIndexPadd = getPxWithRespectToDip(GraphConst.OUTER_INDEX_PADD);
-		strokeWidth = getPxWithRespectToDip(GraphConst.STROKE_WIDTH);
+		xlabelPaddLast = getPxWithRespectToDip(ctx, GraphConst.XLABEL_PADD_LAST);
+		xLabelPadd = getPxWithRespectToDip(ctx, GraphConst.XLABEL_PADD);
+		multiplyConst = getPxWithRespectToDip(ctx, GraphConst.MULTIPLY_CONST);
+		powerY1 = getPxWithRespectToDip(ctx, GraphConst.POWERY1);
+		powerY2 = getPxWithRespectToDip(ctx, GraphConst.POWERY2);
+		powerRect1 = getPxWithRespectToDip(ctx, GraphConst.POWER_RECT1);
+		powerRect2 = getPxWithRespectToDip(ctx, GraphConst.POWER_RECT2);
+		powerLabelPadd = getPxWithRespectToDip(ctx, GraphConst.POWER_LABEL_PADD);
+		outerlineDist = getPxWithRespectToDip(ctx, GraphConst.OUTER_LINE_DIST);
+		outerCirclePadd = getPxWithRespectToDip(ctx, GraphConst.OUTER_CIRCLE_PADD);
+		outerIndexPadd = getPxWithRespectToDip(ctx, GraphConst.OUTER_INDEX_PADD);
+		strokeWidth = getPxWithRespectToDip(ctx, GraphConst.STROKE_WIDTH);
 		
 		/**
 		 * Indoor
 		 * */
-		idGraphHeight = getPxWithRespectToDip(GraphConst.GRAPH_BG_HEGHT);
-		idPaddingRight = getPxWithRespectToDip(GraphConst.ID_PADDING_RIGHT);
-		idRectMarginLeft = getPxWithRespectToDip(GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
-		idRectWidth = getPxWithRespectToDip(GraphConst.ID_YAXIS_RECT_WIDTH);
+		idGraphHeight = getPxWithRespectToDip(ctx, GraphConst.GRAPH_BG_HEGHT);
+		idPaddingRight = getPxWithRespectToDip(ctx, GraphConst.ID_PADDING_RIGHT);
+		idRectMarginLeft = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
+		idRectWidth = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_WIDTH);
 		idY10_0 = 0;
-		idY5_5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_5_5);
-		idY4_5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_4_5);
-		idY3_5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_3_5);
-		idY2_5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_2_5);
-		idY1_5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_1_5);
-		idY0_0 = getPxWithRespectToDip(GraphConst.ID_YAXIS_0);
-		idX0 = getPxWithRespectToDip(GraphConst.XAXIS0);
-		idRadius = getPxWithRespectToDip(GraphConst.RADIUS);
-		idYxLabelPadding = getPxWithRespectToDip(GraphConst.FIVE);
-		idYxTopLabelPadding = getPxWithRespectToDip(GraphConst.TEN);
-		idTxtSize = getPxWithRespectToDip(GraphConst.TEXT_SIZE);
+		idY5_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5_5);
+		idY4_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_4_5);
+		idY3_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3_5);
+		idY2_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2_5);
+		idY1_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1_5);
+		idY0_0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0);
+		idX0 = getPxWithRespectToDip(ctx, GraphConst.XAXIS0);
+		idRadius = getPxWithRespectToDip(ctx, GraphConst.RADIUS);
+		idYxLabelPadding = getPxWithRespectToDip(ctx, GraphConst.FIVE);
+		idYxTopLabelPadding = getPxWithRespectToDip(ctx, GraphConst.TEN);
+		idTxtSize = getPxWithRespectToDip(ctx, GraphConst.TEXT_SIZE);
 		
-		idY10 = getPxWithRespectToDip(GraphConst.ID_YAXIS_10);
-		idY9 = getPxWithRespectToDip(GraphConst.ID_YAXIS_9);
-		idY8 = getPxWithRespectToDip(GraphConst.ID_YAXIS_8);
-		idY7 = getPxWithRespectToDip(GraphConst.ID_YAXIS_7);
-		idY6 = getPxWithRespectToDip(GraphConst.ID_YAXIS_6);
-		idY5 = getPxWithRespectToDip(GraphConst.ID_YAXIS_5);
-		idY4 = getPxWithRespectToDip(GraphConst.ID_YAXIS_4);
-		idY3 = getPxWithRespectToDip(GraphConst.ID_YAXIS_3);
-		idY2 = getPxWithRespectToDip(GraphConst.ID_YAXIS_2);
-		idY1 = getPxWithRespectToDip(GraphConst.ID_YAXIS_1);
-		idY0 = getPxWithRespectToDip(GraphConst.ID_YAXIS_0_0);
+		idY10 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_10);
+		idY9 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_9);
+		idY8 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_8);
+		idY7 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_7);
+		idY6 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_6);
+		idY5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5);
+		idY4 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_4);
+		idY3 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3);
+		idY2 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2);
+		idY1 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1);
+		idY0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0_0);
 		
 		/**
 		 * Outdoor
 		 * */
-		odY500 = getPxWithRespectToDip(GraphConst.OD_YAXIS500);
-		odY400 = getPxWithRespectToDip(GraphConst.OD_YAXIS400);
-		odY300 = getPxWithRespectToDip(GraphConst.OD_YAXIS300);
-		odY200 = getPxWithRespectToDip(GraphConst.OD_YAXIS200);
-		odY150 = getPxWithRespectToDip(GraphConst.OD_YAXIS150);
-		odY100 = getPxWithRespectToDip(GraphConst.OD_YAXIS100);
-		odY50 = getPxWithRespectToDip(GraphConst.OD_YAXIS50);
-		odY0 = getPxWithRespectToDip(GraphConst.OD_YAXIS0);
-		odX0  = getPxWithRespectToDip(GraphConst.OD_XAXIS0);
-		odRectMarginLeft= getPxWithRespectToDip(GraphConst.OD_YAXIS_RECT_MARGIN_LEFT);
-		odRectWidth= getPxWithRespectToDip(GraphConst.OD_YAXIS_RECT_WIDTH);
-		odPaddingRight = getPxWithRespectToDip(GraphConst.OD_PADDING_RIGHT);
+		odY500 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS500);
+		odY400 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS400);
+		odY300 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS300);
+		odY200 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS200);
+		odY150 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS150);
+		odY100 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS100);
+		odY50 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS50);
+		odY0 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS0);
+		odX0  = getPxWithRespectToDip(ctx, GraphConst.OD_XAXIS0);
+		odRectMarginLeft= getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_MARGIN_LEFT);
+		odRectWidth= getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_WIDTH);
+		odPaddingRight = getPxWithRespectToDip(ctx, GraphConst.OD_PADDING_RIGHT);
 		
 	}
 
@@ -354,7 +352,7 @@ public class Coordinates {
 		return idY0;
 	}
 	
-	public float getPxWithRespectToDip(float dip) {
+	public static float getPxWithRespectToDip(Context context, float dip) {
 		return context.getResources().getDisplayMetrics().density * dip;
 	}
 	

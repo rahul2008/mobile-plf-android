@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.CPPController;
@@ -110,6 +111,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(this), 2048) ;
 			}
 			else {
+				Toast.makeText(this, "Please signon", Toast.LENGTH_LONG).show() ;
 				parseReading();
 			}
 		} 
@@ -233,7 +235,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 					powerOnReadings[i] = powerOnStatusList.get(i);
 				} 
 				if (hrlyAqiValues.get(i) != -1) {
-					if (hrlyAqiValues.get(i) < 2) {
+					if (hrlyAqiValues.get(i) <= 2) {
 						goodAirCount ++;
 					}
 					totalAirCount ++;
@@ -266,7 +268,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 					last7daysRDCPVal[tempIndex] = dailyAqiValues.get(i);
 					tempIndex++;
 					if (dailyAqiValues.get(i) != -1) {
-						if (dailyAqiValues.get(i) < 2) {
+						if (dailyAqiValues.get(i) <= 2) {
 							tempGood ++;
 						}
 						tempCount ++;
@@ -274,7 +276,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				}
 				last4weeksRDCPVal[i] = dailyAqiValues.get(i);
 				if (dailyAqiValues.get(i) != -1) {
-					if (dailyAqiValues.get(i) < 2) {
+					if (dailyAqiValues.get(i) <= 2) {
 						goodAirCount ++;
 					}
 					totalAirCount ++;
@@ -344,8 +346,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		}
 
 		if (rdcpValues != null && rdcpValues.size() > 0) {
-			graphLayout.addView(new GraphView(this, 
-					rdcpValues.get(0), rdcpValues, null, coordinates, 0, indexBottBg));
+			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0, indexBottBg));
 		}	
 	}
 
@@ -451,14 +452,15 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		
 		if( status == Errors.SUCCESS) {
 			Utils.parseIndoorDetails(downloadedData) ;
+			//Log.i("Download", "downloadedData=="+downloadedData +" :::length= "+downloadedData.length());
 			
 			if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-				//Log.i("Download", "hrlyAqiValues==  " + hrlyAqiValues);
-				//Log.i("Download", "dailyAqiValues==  " + dailyAqiValues);
-				//Log.i("Download", "powerOnStatusList==  " + powerOnStatusList);
+				Log.i("rdcp", "hrlyAqiValues==  " + hrlyAqiValues);
+				Log.i("rdcp", "dailyAqiValues==  " + dailyAqiValues);
+				Log.i("rdcp", "powerOnStatusList==  " + powerOnStatusList);
 			}
 			parseReading();
 		}
