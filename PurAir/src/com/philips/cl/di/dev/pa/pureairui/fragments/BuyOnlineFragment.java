@@ -46,16 +46,7 @@ public class BuyOnlineFragment extends ListFragment {
 		setListAdapter(mAdapter);
 	}
 
-	@Override
-	public void onListItemClick(ListView l, View v, int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		// Log.i(" BuyOnline", "Item clicked: " + id);
-		Intent intent = new Intent(
-				Intent.ACTION_VIEW,
-				Uri.parse("http://shop.philips.com.cn/product/JY0002/detail.htm"));
-		startActivity(intent);
-	}
-
+	
 	/* Custom Adapter to inflate custom rows of list */
 	class BuyDataAdapter extends ArrayAdapter<ProductDto> {
 		private final LayoutInflater mInflater;
