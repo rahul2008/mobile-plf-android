@@ -158,7 +158,8 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				
 				for (int i = 0; i < lastDayAQIReadings.length; i++) {
 					if (i == 0 && idx[i] == 0) {
-						lastDayHr = 25;
+						idx[i] = idx[i+1];
+						//lastDayHr = 25;
 					}
 					lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
 				}
