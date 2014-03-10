@@ -35,7 +35,7 @@ public class DemoAppConfigurationParametersForKeyProvisioning extends KeyProvisi
 	public DemoAppConfigurationParametersForKeyProvisioning()
 	{
 		ICPClientPriority = 20;
-		ICPClientStackSize = 16384;
+		ICPClientStackSize = 131072;
 		HTTPTimeout = 30;
 		FilterString = "TEST";
 		MaxNrOfRetry = 0;

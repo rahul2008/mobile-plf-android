@@ -38,7 +38,7 @@ public class DemoAppConfigurationParametersForProvisioned extends ProvisionedCon
 	{
 		this.context = context ;
 		ICPClientPriority = 20;
-		ICPClientStackSize = 16384;
+		ICPClientStackSize = 131072 ;
 		HTTPTimeout = 30;
 		FilterString = "TEST";
 		MaxNrOfRetry = 0;
