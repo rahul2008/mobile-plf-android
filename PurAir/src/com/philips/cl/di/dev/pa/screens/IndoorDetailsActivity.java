@@ -45,7 +45,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
 	private ImageView circleImg, modeIcon, filterIcon;
-	private CustomTextView msgFirst, msgSecond;
+	private CustomTextView msgFirst, msgSecond, indoorDbIndexName;
 	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
 	private ProgressBar rdcpDownloadProgressBar;
@@ -97,7 +97,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		//parseReading();
 
 		initActionBar();
-		setActionBarTitle();
+		//setActionBarTitle();
 
 		getDataFromDashboard();
 
@@ -165,6 +165,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		filter = (CustomTextView) findViewById(R.id.inFilterType);
 		aqiStatus = (CustomTextView) findViewById(R.id.inDetailsDbStatus);
 		aqiSummary = (CustomTextView) findViewById(R.id.inDetailsDbSummary);
+		indoorDbIndexName = (CustomTextView) findViewById(R.id.indoorDbIndexName);
+		//indoorDbBarTopName = (CustomTextView) findViewById(R.id.indoorDbBarTopName);
 
 
 		horizontalScrollView = (HorizontalScrollView) findViewById(R.id.indoorDbHorizontalScroll);
@@ -196,11 +198,14 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	}
 
 	/*Sets Action bar title */
-	public void setActionBarTitle() {    	
+	public void setActionBarTitle(String name) {    	
 		heading = (TextView) findViewById(R.id.action_bar_title);
 		heading.setTypeface(Fonts.getGillsansLight(this));
 		heading.setTextSize(24);
-		heading.setText(getString(R.string.title_indoor_db));
+		heading.setText(name);
+		//heading.setText(getString(R.string.title_indoor_db));
+		indoorDbIndexName.setText(name);
+		barTopName.setText(name);
 
 	}
 
@@ -353,7 +358,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	private void removeChildViewFromBar() {
 
 		barTopNum.setText("1");
-		barTopName.setText("Living room");
+		//barTopName.setText("Living room");
 		selectedIndexBottom.setText("1");
 
 		if (horizontalScrollView.getChildCount() > 0) {
@@ -418,6 +423,10 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 			if (datas[5] != null) {
 				outdoorTitle = datas[5];
+			}
+			
+			if (datas[6] != null) {
+				setActionBarTitle(datas[6]);
 			}
 		}
 		
