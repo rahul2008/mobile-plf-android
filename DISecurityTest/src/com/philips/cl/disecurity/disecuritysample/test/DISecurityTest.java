@@ -5,6 +5,8 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Hashtable;
 
+import android.util.Log;
+
 import com.philips.cl.disecurity.DISecurity;
 import com.philips.cl.disecurity.Util;
 
@@ -17,10 +19,6 @@ public class DISecurityTest extends TestCase {
 	public final static String DEVICE_ID = "deviceId";
 	public final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
 
-	public void testSample() {
-		assertEquals(1, 1);
-	}
-	
 	public void testRandom() {
 		assertNotSame(Util.generateRandomNum(), Util.generateRandomNum());
 	}
@@ -102,5 +100,19 @@ public class DISecurityTest extends TestCase {
 		assertNotNull(diffie1);
 		assertNotNull(diffie2);
 		assertNotSame(diffie1, diffie2);
+	}
+	
+	public void testGetEvenNumberSecretKey255bitKey() {
+		String key255bit = "9cd15f5d121ec8c9adbd0682fb9e8d079cba90e7683230985a895f6d90b7d87884e4a3a4cc80ac58889de8f174d0df7dd4fd1c3e7d1f766fdeed89154ea6714ee8f70e551299e41ff8a6f51d60f2f763d8b58af70119fc0734ee80ddbccf0f84d22b5add6103be35dfff1a521075d973fc3262a98a5378364851bbd6a7b1cab";
+		
+		String newKey = Util.getEvenNumberSecretKey(key255bit);
+		assertEquals(256, newKey.length());
+	}
+	
+	public void testGetEvenNumberSecretKey256bitKey() {
+		String key256bit = "2253FD28E69FAC2F38620ED0B6F84565C7634E586CFF83C6300AC296F6DFE1C668D04627F6F929569BC2F783DAB16EAC33D6231959EEC9EBB1BAD522B7B919EA4C51C660A148DCA3B3B2AD558B07DF959337E64423BF4EC8EBD2333032AF11FC430746965E30862680EB9CF075AFD87B60F597699F2EE4354796C7ADAB581747";
+		
+		String newKey = Util.getEvenNumberSecretKey(key256bit);
+		assertEquals(256, newKey.length());
 	}
 }
