@@ -76,8 +76,14 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			}
 			conn.connect();
 			responseCode = conn.getResponseCode();
-			if( responseCode == 200) {
+			
+			if( responseCode == 200 ) {
 				inputStream = conn.getInputStream();
+				// Convert the InputStream into a string
+				data = readFully(inputStream);
+			}
+			else if( responseCode == 400 ) {
+				inputStream = conn.getErrorStream();
 				// Convert the InputStream into a string
 				data = readFully(inputStream);
 			}
@@ -118,18 +124,21 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	 */
 	// 
 	public String readFully(InputStream inputStream) throws IOException, UnsupportedEncodingException {
-		Reader reader = new InputStreamReader(inputStream, "UTF-8");
-
-		int len = 1024;
-		char[] buffer = new char[len];
-		StringBuilder sb = new StringBuilder(len);
-		int count;
-
-		while ((count = reader.read(buffer)) > 0) {
-			sb.append(buffer, 0, count);
+		if( inputStream != null ) {
+			Reader reader = new InputStreamReader(inputStream, "UTF-8");
+	
+			int len = 1024;
+			char[] buffer = new char[len];
+			StringBuilder sb = new StringBuilder(len);
+			int count;
+	
+			while ((count = reader.read(buffer)) > 0) {
+				sb.append(buffer, 0, count);
+			}
+	
+			return sb.toString();
 		}
-
-		return sb.toString();
+	    return null ;
 	}
 
 }

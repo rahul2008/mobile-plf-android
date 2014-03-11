@@ -6,6 +6,7 @@ public interface EWSListener {
 	public static final int ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE = 2 ;
 	public static final int ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE = 3 ;
 	public static final int ERROR_CODE_COULDNOT_FIND_DEVICE = 4 ;
+	public static final int ERROR_CODE_INVALID_PASSWORD = 5 ;
 	public void onDeviceAPMode() ;
 	
 	public void onSelectHomeNetwork() ;

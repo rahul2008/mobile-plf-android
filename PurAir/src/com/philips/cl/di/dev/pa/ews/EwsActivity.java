@@ -624,6 +624,9 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
 			showErrorScreen();
 			break;
+		case EWSListener.ERROR_CODE_INVALID_PASSWORD:
+			Toast.makeText(this, getString(R.string.wrong_wifi_password), Toast.LENGTH_LONG).show() ;
+			break;
 		}
 	}
 	

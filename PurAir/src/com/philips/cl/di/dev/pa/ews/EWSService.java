@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
-import android.net.wifi.WifiConfiguration.KeyMgmt;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
@@ -270,7 +269,6 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 			Log.i("ews", "Failed to connect to Home network - ssid is null");
 			return false;
 		}
-		
 		int networkId = getConfiguredNetworkId(homeSSID);
 		if (!connectToNetwork(networkId)) {
 			Log.i("ews", "Failed to connect to Home network");
@@ -411,6 +409,17 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 					connectToHomeNetwork();
 					listener.onDeviceConnectToHomeNetwork() ;
 					errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE ;
+				}
+			}
+			break;
+		case HttpURLConnection.HTTP_BAD_REQUEST:
+			if(taskType == WIFI_PUT ) {
+				if( response != null && response.length() > 0 ) {
+					if( response.contains(AppConstants.INVALID_WIFI_SETTINGS)) {
+						stop = true ;
+						stopNetworkDetailsTimer() ;
+						listener.onErrorOccurred(EWSListener.ERROR_CODE_INVALID_PASSWORD) ;				
+					}
 				}
 			}
 			break;
