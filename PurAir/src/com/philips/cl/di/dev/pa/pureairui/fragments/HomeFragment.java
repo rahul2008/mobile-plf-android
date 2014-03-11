@@ -73,6 +73,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	tvIndoorModeValue, tvIndoorFilterStatus, tvFilterHome,
 	tvOutdoorAQI, tvOutdoorTitle, tvOutdoorComment,
 	tvUpdatedTitle, tvUpdatedAtDate, tvCity, tvLocality, tvOutdoorTemperature;
+	
+	private String purifierName;
 
 	private AnimatorSet scaleDownIndoorFragment, scaleUpIndoorFragment, 
 	scaleDownOutdoorFragment, scaleUpOutdoorFragment, initAnimationLocations;
@@ -120,6 +122,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		rotateIndoorCircle = true;
 		if(SessionDto.getSessionDto() != null && SessionDto.getSessionDto().getCityDetails() != null)
 			Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
+		
+		purifierName = getString(R.string.philips_home);
 		
 		if(MainActivity.getAirPurifierEventDto() != null) {
 			setIndoorDashBoardValues(indoorAQIValue);
@@ -436,7 +440,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				indoorInfos[3] = tvIndoorTitle.getText().toString();
 				indoorInfos[4] = tvIndoorComment.getText().toString();
 				indoorInfos[5] = tvOutdoorTitle.getText().toString();
-				indoorInfos[6] = tvFilterHome.getText().toString();
+				indoorInfos[6] = purifierName;
 				intent.putExtra("indoor", indoorInfos);
 				startActivity(intent);
 			}
@@ -792,8 +796,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setHomeName(String name) {
-		//tvFilterHome.setText(name + "'s \n room");
-		tvFilterHome.setText(name);
+		//TODO : Replace hard coded string.
+		purifierName = name;
+		tvFilterHome.setText(name + getString(R.string.apos_s) + "\n" +  getString(R.string.room));
 	}
 	/** Dashboard indoor info END */
 

@@ -5,6 +5,8 @@
     <string name="dashboard_title">PHILIPS Smart Air Purifier</string>
     <string name="action_settings">Settings</string>
     <string name="philips_home">PHILIPS Home</string>
+    <string name="apos_s">\'s</string>
+    <string name="room">Room</string>
 
     <!-- Left menu items -->
 

@@ -198,10 +198,10 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		heading = (TextView) findViewById(R.id.action_bar_title);
 		heading.setTypeface(Fonts.getGillsansLight(this));
 		heading.setTextSize(24);
-		heading.setText(name);
+		heading.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
 		//heading.setText(getString(R.string.title_indoor_db));
-		indoorDbIndexName.setText(name);
-		barTopName.setText(name);
+		indoorDbIndexName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
+		barTopName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
 
 	}
 
