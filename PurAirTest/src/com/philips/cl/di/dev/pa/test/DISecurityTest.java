@@ -39,7 +39,8 @@ public class DISecurityTest extends TestCase {
 			String encoded = Util.encodeToBase64(testData);
 			result = Util.decodeFromBase64(encoded);
 		} catch (Exception e) {
-			assertNotNull(result);
+			e.printStackTrace();
+			fail(e.getMessage());
 		}
 		
 		byte[] testData2 = new String("aj2DQZ4KYo6z4zrnjt/a7Vg6MH2wtDUbsAS3WixxNBZVvUaihF/mLGGlHRqU/eSyYyBNv6YbIm/QxPxIvhQOtCT3Nr7WU5J6lXzQ7N1gRsTfeIG78IUNQx+5Bqy86dmDfGFFoqESG/7nWZEkvk5UjcKI5WQHMrUOI0241KnzZG6hX66GkILMrONIM2uR+IsZyi5NoVwf9d9uDZaAlLupdSrEaqkxEkwF495pM1BzvTZUqb0qrrE/9K8TU4IYJFlRJvwGBN6PLdgKsTDb9jgyJ6ypk6qA4sIYi+VsRsrtv9M=").getBytes();
@@ -68,7 +69,7 @@ public class DISecurityTest extends TestCase {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			assertNotNull(null);
+			fail(e.getMessage());
 		}
 		
 		String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
@@ -92,7 +93,7 @@ public class DISecurityTest extends TestCase {
 			diffie2 = (String) diffieMethod.invoke(security, (Object[])null);
 		} catch (Exception e) {
 			e.printStackTrace();
-			assertNotNull(null);
+			fail(e.getMessage());
 		}
 		
 		assertNotNull(diffie1);
