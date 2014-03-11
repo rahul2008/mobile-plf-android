@@ -146,6 +146,7 @@ SignonListener, DiagnosticsDataListener {
 			}
 			break;
 		case R.id.btn_diagnostics:
+			((MainActivity)getActivity()).isDiagnostics=true;
 			String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT,
 					Utils.getIPAddress(getActivity()));
 			String wifiUrl = String.format(AppConstants.URL_PORT.concat(WIFI),
@@ -158,7 +159,7 @@ SignonListener, DiagnosticsDataListener {
 					Utils.getIPAddress(getActivity()));
 
 			//fetch all ports data
-			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);
+			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this, ((MainActivity)getActivity()));
 			task.execute(wifiUrl, wifiUiUrl, deviceUrl, firmwareUrl, logUrl);
 			break;
 

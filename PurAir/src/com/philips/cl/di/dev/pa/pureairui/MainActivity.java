@@ -138,12 +138,10 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private SensorDataController sensorDataController;
 
-	private static AirPurifierEventDto airPurifierEventDto;
+	public static AirPurifierEventDto airPurifierEventDto;
 	private MenuItem rightMenuItem;
-	SharedPreferences mPreferences;
-	int mVisits;
-	int mActivitySelected;
-
+	private SharedPreferences mPreferences;
+	private int mVisits;
 	private boolean isNetworkAvailable = false;
 	private BroadcastReceiver networkReceiver;
 	private CPPController cppController ;
@@ -162,14 +160,12 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public static boolean stopService;
 	
 	public String purifierName;
+	public boolean isDiagnostics;
 
-
-	private Context myActivityContext ;
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("test", "onCreate") ;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
-		myActivityContext = this ;
 		purifierName = getString(R.string.philips_home);
 
 		/**
@@ -296,6 +292,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 				if(wifiInfo != null && wifiInfo.isConnected()) {
 					Log.i("discover", "Wifi Discovered") ;
+					isNetworkAvailable=true;
 					if(SessionDto.getInstance().getOutdoorEventDto()==null)
 						getDashboard().startOutdoorAQITask();
 
@@ -306,9 +303,14 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 				}
 				else if( mobileInfo != null && mobileInfo.isConnected() ) {
 					Log.i("discover", "Mobile Network Discovered") ;
+					isNetworkAvailable=true;
 					getDashboard().startOutdoorAQITask();
 					getDashboard().startWeatherDataTask();
 					//toggleConnection(false) ;
+				}
+				else
+				{
+					isNetworkAvailable=false;
 				}
 			}
 		};
@@ -410,7 +412,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		boolean isScreenOn = powerManager.isScreenOn();
 
-		if (!isScreenOn) {
+		if (!isScreenOn && !isDiagnostics) {
 			Log.i("test", "screen is locked:") ;
 			if(!isClickEvent) {				
 				disableRightMenuControls() ;
@@ -1254,7 +1256,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	@Override
 	protected void onUserLeaveHint() {
 		Log.i("test","user leave hint") ;
-		if(!isClickEvent) {
+		if(!isClickEvent && !isDiagnostics) {
 			Log.i("test", "UserLeavehint") ;
 			disableRightMenuControls() ;
 			stopService = true ;

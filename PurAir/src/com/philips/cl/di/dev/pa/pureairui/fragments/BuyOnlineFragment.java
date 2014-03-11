@@ -18,11 +18,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.dto.ProductDto;
+import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class BuyOnlineFragment extends ListFragment {
 	private BuyDataAdapter mAdapter;
+	private FilterStatusView filterView;
+	private TextView lblFilter;
+	private TextView txtFilterStatus;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -46,7 +52,6 @@ public class BuyOnlineFragment extends ListFragment {
 		setListAdapter(mAdapter);
 	}
 
-	
 	/* Custom Adapter to inflate custom rows of list */
 	class BuyDataAdapter extends ArrayAdapter<ProductDto> {
 		private final LayoutInflater mInflater;
@@ -79,6 +84,81 @@ public class BuyOnlineFragment extends ListFragment {
 					.findViewById(R.id.product_img);
 			Button buyOnline = (Button) view.findViewById(R.id.btn_buy_online);
 
+			filterView = (FilterStatusView) view
+					.findViewById(R.id.seekbar_filter);
+			lblFilter = (TextView) view.findViewById(R.id.lbl_filter);
+			txtFilterStatus = (TextView) view
+					.findViewById(R.id.txt_filter_status);
+
+			if (MainActivity.airPurifierEventDto != null) {
+				switch (position) {
+				case 0:
+					filterView.setVisibility(View.GONE);
+					txtFilterStatus.setVisibility(View.GONE);
+					lblFilter.setVisibility(View.GONE);
+					break;
+				case 1:
+					filterView.setVisibility(View.VISIBLE);
+					txtFilterStatus.setVisibility(View.VISIBLE);
+					lblFilter.setVisibility(View.VISIBLE);
+					lblFilter.setText(R.string.pre_filter);
+					filterView
+							.setPrefilterValue(MainActivity.airPurifierEventDto
+									.getFilterStatus1());
+					txtFilterStatus
+							.setText(Utils
+									.getPreFilterStatusText(MainActivity.airPurifierEventDto
+											.getFilterStatus1()));
+					break;
+				case 2:
+					filterView.setVisibility(View.VISIBLE);
+					txtFilterStatus.setVisibility(View.VISIBLE);
+					lblFilter.setVisibility(View.VISIBLE);
+					lblFilter.setText(R.string.multicarefilter);
+					filterView
+							.setMultiCareFilterValue(MainActivity.airPurifierEventDto
+									.getFilterStatus2());
+					txtFilterStatus
+							.setText(Utils
+									.getMultiCareFilterStatusText(MainActivity.airPurifierEventDto
+											.getFilterStatus2()));
+					break;
+				case 3:
+					filterView.setVisibility(View.VISIBLE);
+					txtFilterStatus.setVisibility(View.VISIBLE);
+					lblFilter.setVisibility(View.VISIBLE);
+					lblFilter.setText(R.string.activecarbonfilter);
+					filterView
+							.setActiveCarbonFilterValue(MainActivity.airPurifierEventDto
+									.getFilterStatus3());
+					txtFilterStatus
+							.setText(Utils
+									.getActiveCarbonFilterStatusText(MainActivity.airPurifierEventDto
+											.getFilterStatus3()));
+					break;
+				case 4:
+					filterView.setVisibility(View.VISIBLE);
+					txtFilterStatus.setVisibility(View.VISIBLE);
+					lblFilter.setVisibility(View.VISIBLE);
+					lblFilter.setText(R.string.hepa_filter);
+					filterView
+							.setHEPAfilterValue(MainActivity.airPurifierEventDto
+									.getFilterStatus4());
+					txtFilterStatus
+							.setText(Utils
+									.getHEPAFilterFilterStatusText(MainActivity.airPurifierEventDto
+											.getFilterStatus4()));
+					break;
+
+				default:
+					break;
+				}
+			} else {
+				filterView.setVisibility(View.GONE);
+				txtFilterStatus.setVisibility(View.GONE);
+				lblFilter.setVisibility(View.GONE);
+			}
+
 			productName.setTypeface(Fonts.getGillsans(getActivity()));
 			productPrice.setTypeface(Fonts.getGillsans(getActivity()));
 			availability.setTypeface(Fonts.getGillsans(getActivity()));
@@ -104,5 +184,4 @@ public class BuyOnlineFragment extends ListFragment {
 			return view;
 		}
 	}
-
 }

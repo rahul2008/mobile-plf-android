@@ -57,6 +57,34 @@
         android:gravity="center"
         android:background="@drawable/button_bg_gray"
         android:focusable="false"
-        android:focusableInTouchMode="false"/>    
+        android:focusableInTouchMode="false"/> 
+        
+    <TextView
+        android:id="@+id/lbl_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbl_availability"
+        android:layout_below="@+id/btn_buy_online"
+        android:layout_marginTop="25dp"
+        android:textStyle="bold"
+        android:text="@string/pre_filter" />
+
+    <com.philips.cl.di.dev.pa.customviews.FilterStatusView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/seekbar_filter"
+        android:layout_width="236dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbl_availability"
+        android:layout_below="@+id/lbl_filter"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/filter_details_base" />
+    
+    <TextView
+        android:id="@+id/txt_filter_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lbl_availability"
+        android:layout_below="@+id/seekbar_filter"        
+        android:text="" />
 
 </RelativeLayout>

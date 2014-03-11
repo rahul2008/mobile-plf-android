@@ -7,7 +7,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" >
+        android:padding="16dp" 
+        android:focusable="true"
+        android:clickable="true"
+        android:focusableInTouchMode="true">
 
         <com.philips.cl.di.dev.pa.customviews.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

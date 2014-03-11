@@ -22,6 +22,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -115,6 +117,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 	private EWSService ewsService ;
 	private String ipAddress ;
 	private String purifierName;
+	private OnFocusChangeListener focusListener;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,7 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
 		inflater = getLayoutInflater();
+		focusListener = new EditTextFocusChangeListener();
 
 		initializeIntroVariable();
 		initializeStep1Variable();
@@ -189,14 +193,19 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 
 		passwordStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_password);
 		passwordStep3.setTypeface(Fonts.getGillsansLight(this));
+		passwordStep3.setOnFocusChangeListener(focusListener);
 		deviceNameStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_place_name_edittxt); 
 		deviceNameStep3.setTypeface(Fonts.getGillsansLight(this));
+		deviceNameStep3.setOnFocusChangeListener(focusListener);
 		ipAddStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_ip_edittxt); 
 		ipAddStep3.setTypeface(Fonts.getGillsansLight(this));
+		ipAddStep3.setOnFocusChangeListener(focusListener);
 		subnetMaskStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_subnet_edittxt); 
 		subnetMaskStep3.setTypeface(Fonts.getGillsansLight(this));
+		subnetMaskStep3.setOnFocusChangeListener(focusListener);
 		routerAddStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_router_edittxt);
 		routerAddStep3.setTypeface(Fonts.getGillsansLight(this));
+		routerAddStep3.setOnFocusChangeListener(focusListener);
 
 		showPasswordImgStep3 = (ImageView) viewStep3.findViewById(R.id.ews_password_enable_img);
 		((ImageView) viewStep3.findViewById(R.id.ews_adv_config_img)).setOnClickListener(this);
@@ -750,6 +759,17 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		} */
 		
  	}
+	
+	private class EditTextFocusChangeListener implements OnFocusChangeListener {
+
+	    public void onFocusChange(View v, boolean hasFocus){
+
+	        if(!hasFocus) {
+	            InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	        }
+	    }
+	}
 
 //	@Override
 //	public void keyDecrypt(String key) {
