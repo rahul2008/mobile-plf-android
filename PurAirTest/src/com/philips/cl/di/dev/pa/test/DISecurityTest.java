@@ -1,4 +1,4 @@
-package com.philips.cl.disecurity.disecuritysample.test;
+package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
