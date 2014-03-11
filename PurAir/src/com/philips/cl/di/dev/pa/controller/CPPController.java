@@ -5,6 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -47,7 +49,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private static ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 
-	private static Params configParams;
+	private Params configParams;
 
 	private Context context;
 
@@ -93,7 +95,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private void setConfigParameters() {
 		try {
 			InputStream in = context.getAssets().open("nvmfile.cfg");
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			BufferedReader br = new BufferedReader(new InputStreamReader(in, Charset.defaultCharset()));
 			if (configParams instanceof DemoAppConfigurationParametersForProvisioned)
 				((DemoAppConfigurationParametersForProvisioned) configParams)
 				.setNVMConfigParams(br);
@@ -382,7 +384,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				downloadDataBuilder = new StringBuilder();
 			}
 
-			downloadDataBuilder.append(new String(buffer));
+			downloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
 
 			if (((DownloadData) obj).getIsDownloadComplete() == true) {
 				Log.i(TAG, "Download complete");

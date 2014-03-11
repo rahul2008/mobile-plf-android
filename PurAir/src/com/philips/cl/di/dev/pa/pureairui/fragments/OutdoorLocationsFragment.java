@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.Charset;
 
 import android.content.Intent;
 import android.location.Location;
@@ -90,7 +91,7 @@ public class OutdoorLocationsFragment extends Fragment implements ServerResponse
 			byte[] data = new byte[is.available()];
 			is.read(data);
 			is.close();
-			citiesString = new String(data);
+			citiesString = new String(data, Charset.defaultCharset());
 		} catch (IOException e) {
 			Log.e(TAG, "JSON Parse ERROR while creating Cities list");
 		}

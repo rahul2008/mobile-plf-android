@@ -10,6 +10,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetEncoder;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -69,8 +71,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			// Starts the query
 			
 			if(! requestType.equals("GET")) {
-				os = new OutputStreamWriter(
-						conn.getOutputStream());
+				os = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 				os.write(postData);
 				os.flush() ;
 			}

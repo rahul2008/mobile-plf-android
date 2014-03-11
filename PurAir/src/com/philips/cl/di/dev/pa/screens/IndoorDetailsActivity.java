@@ -394,7 +394,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		Log.i(TAG, "Data from Dashboard= " + datas);
+		//Log.i(TAG, "Data from Dashboard= " + datas);
 		if (datas != null && datas.length > 0) {
 
 			if (datas[0] != null) {

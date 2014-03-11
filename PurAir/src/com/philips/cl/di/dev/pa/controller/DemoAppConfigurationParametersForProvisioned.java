@@ -125,6 +125,9 @@ public class DemoAppConfigurationParametersForProvisioned extends ProvisionedCon
 				}
 			}
 		}
+		catch (RuntimeException e) {
+			System.out.println("Exception Raised While reading NVM");
+		}
 		catch(Exception e)
 		{
 			System.out.println("Exception Raised While reading NVM");

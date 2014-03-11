@@ -429,6 +429,9 @@ public class RightMenuClickListener implements OnClickListener {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
 		fanSpeed.setClickable(true);
+		/**
+		 * Find bug to check airPurifierEventDto null check conflict to line 445
+		 */
 		setFanSpeed(airPurifierEventDto);
 		
 		timer.setClickable(true);

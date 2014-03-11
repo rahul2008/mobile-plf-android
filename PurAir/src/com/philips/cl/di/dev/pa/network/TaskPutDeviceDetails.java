@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Date;
 
 import android.os.AsyncTask;
@@ -44,8 +45,7 @@ public class TaskPutDeviceDetails extends AsyncTask<String, Void, String> {
 			conn.setRequestProperty("content-type", "application/json") ;
 			conn.setDoOutput(true);
 			conn.setRequestMethod("PUT");
-			out = new OutputStreamWriter(
-					conn.getOutputStream());
+			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 			out.write(dataToUpload);
 			out.flush() ;
 

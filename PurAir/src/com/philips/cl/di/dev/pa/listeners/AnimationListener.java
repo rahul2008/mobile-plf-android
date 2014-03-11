@@ -31,6 +31,9 @@ public class AnimationListener implements AnimatorListener {
 
 	@Override
 	public void onAnimationEnd(Animator arg0) {
+		/**
+		 * Find bug show static field
+		 */
 		ignoreGesture = false;
 		Log.i(TAG, "onAnimationEnd " + ignoreGesture);
 //		View circle = activity.findViewById(R.id.v_indoor_circle_margin);
@@ -48,6 +51,9 @@ public class AnimationListener implements AnimatorListener {
 
 	@Override
 	public void onAnimationStart(Animator arg0) {
+		/**
+		 * Find bug show static field
+		 */
 		ignoreGesture = true;
 		Log.i(TAG, "onAnimationStart " + ignoreGesture);
 	}
