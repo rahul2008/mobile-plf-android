@@ -33,7 +33,7 @@ public class WeatherReportLayout extends  LinearLayout {
 	}
 	
 	public WeatherReportLayout(Context context, AttributeSet attr, int defStyle) {
-		super(context, attr, defStyle);
+		super(context, attr);
 	}
 
 	/**

@@ -113,10 +113,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 */
 	public void init() {
 			Log.i("cpp", "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled() + " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
-			if (SignOn.isKPSEnabled() == true) {
+			if (SignOn.isKPSEnabled()) {
 				configParams = new DemoAppConfigurationParametersForKeyProvisioning();
 				setConfigParameters();
-			} else if (SignOn.isTLSEnabled() == true) {
+			} else if (SignOn.isTLSEnabled()) {
 				configParams = new DemoAppConfigurationParametersForProvisioned(
 						context);
 				setConfigParameters();
