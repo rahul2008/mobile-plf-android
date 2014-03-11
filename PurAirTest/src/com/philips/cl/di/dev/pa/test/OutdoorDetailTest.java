@@ -2,25 +2,21 @@ package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.Hashtable;
+
+import junit.framework.TestCase;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.test.ActivityInstrumentationTestCase2;
+import android.test.UiThreadTest;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.detail.utils.GraphPathDraw;
-import com.philips.cl.di.dev.pa.ews.EwsActivity;
 import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
-import com.philips.cl.disecurity.DISecurity;
-
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
-import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
 
 public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorDetailsActivity> {
 	
@@ -61,9 +57,10 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 		
 	}
 	
+	@UiThreadTest
 	public void testSetAdviceIconTex() {
 		try {
-			Method setAdviceIconTexMethod = EwsActivity.class.getDeclaredMethod("setAdviceIconTex", new Class[]{Integer.class});
+			Method setAdviceIconTexMethod = OutdoorDetailsActivity.class.getDeclaredMethod("setAdviceIconTex", int.class);
 			setAdviceIconTexMethod.setAccessible(true);
 			setAdviceIconTexMethod.invoke(activity, 0);
 
@@ -77,33 +74,33 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 			
 				
 		} catch (Exception e) {
-			
+			TestCase.fail(e.getMessage());
 		}
 	}
 	
 	public void testGetXCoordinates() {
 		try {
-			Method getXCoordinatesMethod = EwsActivity.class.getDeclaredMethod("getXCoordinates", (Class<?>[])null);
+			Method getXCoordinatesMethod = OutdoorDetailsActivity.class.getDeclaredMethod("getXCoordinates", (Class<?>[])null);
 			getXCoordinatesMethod.setAccessible(true);
 			getXCoordinatesMethod.invoke(activity, (Object[])null);
 			
-			Field keysField1 = DISecurity.class.getDeclaredField("lastDayAQIReadings");
+			Field keysField1 = OutdoorDetailsActivity.class.getDeclaredField("lastDayAQIReadings");
 			keysField1.setAccessible(true);
 			float lastDayAQIReadings[] = (float[])keysField1.get(activity);
 			assertEquals(24, lastDayAQIReadings.length);
 			
-			Field keysField2 = DISecurity.class.getDeclaredField("last7dayAQIReadings");
-			float last7dayAQIReadings[] = (float[])keysField2.get(activity);
+			Field keysField2 = OutdoorDetailsActivity.class.getDeclaredField("last7dayAQIReadings");
 			keysField2.setAccessible(true);
+			float last7dayAQIReadings[] = (float[])keysField2.get(activity);
 			assertEquals(7, last7dayAQIReadings.length);
 			
-			Field keysField3 = DISecurity.class.getDeclaredField("last4weekAQIReadings");
-			float last4weekAQIReadings[] = (float[])keysField3.get(activity);
+			Field keysField3 = OutdoorDetailsActivity.class.getDeclaredField("last4weekAQIReadings");
 			keysField3.setAccessible(true);
+			float last4weekAQIReadings[] = (float[])keysField3.get(activity);
 			assertEquals(28, last4weekAQIReadings.length);
 				
 		} catch (Exception e) {
-			
+			TestCase.fail(e.getMessage());
 		}
 	}
 	/**
@@ -146,10 +143,13 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 			assertNull(yOutdoorCoordinates3);
 		} catch (NoSuchFieldException e) {
 			e.printStackTrace();
+			TestCase.fail(e.getMessage());
 		} catch (IllegalAccessException e) {
 			e.printStackTrace();
+			TestCase.fail(e.getMessage());
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
+			TestCase.fail(e.getMessage());
 		}
 		
 	}
