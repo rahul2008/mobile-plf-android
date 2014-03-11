@@ -9,8 +9,8 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.utils.NetworkUtils;
-import com.philips.cl.disecurity.DISecurity;
 
 public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]>{
 	private Context context;

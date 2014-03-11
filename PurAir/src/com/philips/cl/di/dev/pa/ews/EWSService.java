@@ -16,7 +16,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,8 +23,9 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.DeviceDto;
 import com.philips.cl.di.dev.pa.dto.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.disecurity.DISecurity;
-import com.philips.cl.disecurity.KeyDecryptListener;
+import com.philips.cl.di.dev.pa.security.DISecurity;
+import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
+
 
 public class EWSService extends BroadcastReceiver implements KeyDecryptListener, EWSTaskListener, Runnable {
 

@@ -1,4 +1,4 @@
-package com.philips.cl.disecurity;
+package com.philips.cl.di.dev.pa.security;
 
 public interface KeyDecryptListener {
 	

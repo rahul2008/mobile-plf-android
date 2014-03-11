@@ -14,9 +14,10 @@ import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
-import com.philips.cl.disecurity.DISecurity;
+
 /**
  * This Class will get the Sensor Data every specified interval of time
  * Any number of listeners can register to this class

@@ -1,4 +1,4 @@
-package com.philips.cl.disecurity;
+package com.philips.cl.di.dev.pa.security;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;

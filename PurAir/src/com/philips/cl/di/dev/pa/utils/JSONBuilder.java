@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.utils;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.disecurity.DISecurity;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class JSONBuilder {
 	

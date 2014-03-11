@@ -5,12 +5,10 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-import android.util.Log;
-
-import com.philips.cl.disecurity.DISecurity;
-import com.philips.cl.disecurity.Util;
-
 import junit.framework.TestCase;
+
+import com.philips.cl.di.dev.pa.security.DISecurity;
+import com.philips.cl.di.dev.pa.security.Util;
 
 
 public class DISecurityTest extends TestCase {
