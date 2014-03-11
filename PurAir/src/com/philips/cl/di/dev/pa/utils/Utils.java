@@ -1096,7 +1096,7 @@ public class Utils {
 		if (totalAir > 0) {
 			percent = (goodAir * 100) / totalAir;
 		}
-		Log.i("percent", "goodAir="+ goodAir+"  totalAir="+totalAir+"  percent= " + percent);
+		//Log.i("percent", "goodAir="+ goodAir+"  totalAir="+totalAir+"  percent= " + percent);
 		return percent;
 	}
 
@@ -1239,6 +1239,10 @@ public class Utils {
 				goodAirCount = 0;
 				totalAirCount = 0;
 				for (int i = 0; i < lastDayAQIReadings.length; i++) {
+					if (i == 0 && idx[i] == 0) {
+						idx[i] = idx[i+1];
+						//lastDayHr = 25;
+					}
 					lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
 					if (idx[lastDayHr - 1 - i] <= 50) {
 						goodAirCount++;

@@ -792,7 +792,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setHomeName(String name) {
-		tvFilterHome.setText(name + "'s \n room");
+		//tvFilterHome.setText(name + "'s \n room");
+		tvFilterHome.setText(name);
 	}
 	/** Dashboard indoor info END */
 

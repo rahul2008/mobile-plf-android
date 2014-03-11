@@ -1155,6 +1155,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 					Log.i("discover", "Discovered") ;
 					ipAddress = device.getIpAddress() ; 
 					purifierName = device.getSsdpDevice().getFriendlyName();
+					Log.i("name", "SSDP PurifierName= " +purifierName);
 					homeFragment.setHomeName(purifierName);
 					if( ipAddress != null) {
 						Log.i("discover", "Device IP: "+ipAddress) ;
@@ -1227,6 +1228,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			if( intent != null &&  intent.getExtras()  != null )
 				ipAddress = (String) intent.getExtras().get("ipaddress") ;
 				purifierName = intent.getStringExtra("pname");
+				Log.i("name", "EWS PurifierName= " +purifierName);
 				homeFragment.setHomeName(purifierName);
 			if( ipAddress != null ) {
 				isEWSSuccessful = true ;

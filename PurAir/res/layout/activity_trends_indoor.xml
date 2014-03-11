@@ -124,14 +124,16 @@
             <com.philips.cl.di.dev.pa.customviews.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexName"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/indoorDbIndexBott"
                 android:layout_alignBottom="@+id/indoorDbIndexBott"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/indoorDbIndexBottBg"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:text="@string/lbl_living_room"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsans.ttf" />

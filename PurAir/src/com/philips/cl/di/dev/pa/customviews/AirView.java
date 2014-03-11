@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
@@ -25,6 +26,7 @@ public class AirView extends View {
 	public AirView(Context context, int percent, int width, int height) {
 		this(context);
 		this.percent = percent;
+		//this.percent = 4;
 		fwidth = getPxWithRespectToDip(width);
 		fheight = getPxWithRespectToDip(height);
 		ftopline = getPxWithRespectToDip(4);
@@ -59,6 +61,10 @@ public class AirView extends View {
 			paint.setColor(GraphConst.COLOR_STATE_BLUE);
 		}
 		
+		if (percent != 0 && (fheight + ftopline) - y < 20) {
+			y = (fheight + ftopline) - getPxWithRespectToDip(6);
+		}
+		//Log.i("goodair", "X="+X+", y="+y+", fwidth="+fwidth+", (fheight + ftopline)="+(fheight + ftopline));
 		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);
 		
 		/** Percentage Text*/
