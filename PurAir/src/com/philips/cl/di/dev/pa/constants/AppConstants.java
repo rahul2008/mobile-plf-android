@@ -140,7 +140,7 @@ public class AppConstants {
 	public static final String KEY_TIME = "TIME";
 
 	/** The Constant DB_NAME. */
-	public static final String DB_NAME = "City.db";
+	public static final String DB_NAME = "smart_air.db";
 
 	public static final String AQI_TABLE = "AQITable" ;
 	public static final String ID = "id" ;
@@ -150,6 +150,18 @@ public class AppConstants {
 	
 	/** The Constant DB_VERS. */
 	public static final int DB_VERS = 1;
+	
+	/**
+	 * Device information table name
+	 */
+	public static final String AIRPUR_INFO_TABLE = "device_info";
+	/**
+	 * Table fields
+	 */
+	public static final String AIRPUR_USN = "usn";
+	public static final String AIRPUR_CPP_ID = "cppid";
+	public static final String AIRPUR_BOOT_ID = "bootid";
+	public static final String AIRPUR_KEY = "airpur_key";
 
 	public static final String sCityNameQuery = "Select distinct "
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;

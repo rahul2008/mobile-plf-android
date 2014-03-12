@@ -67,6 +67,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
+import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
@@ -91,6 +92,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
+import com.philips.cl.di.dev.pa.utils.DBHelper;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -157,16 +159,23 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 	private IntentFilter filter ;
 
-	public static boolean stopService;
+	private static boolean stopService;
 	
-	public String purifierName;
+	private String purifierName;
 	public boolean isDiagnostics;
+	private DeviceInfoController deviceInfoController;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("test", "onCreate") ;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
 		purifierName = getString(R.string.philips_home);
+		
+		/**
+		 * Initialize database
+		 */
+		new DBHelper(this);
+		deviceInfoController = new DeviceInfoController(this);
 
 		/**
 		 * Diffie Hellman key exchange
@@ -395,6 +404,13 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	protected void onPause() {
 		Log.i("test", "onPause") ;
 		super.onPause();
+		/**
+		 * Close Database
+		 */
+		deviceInfoController.closeDb();
+		/**
+		 * 
+		 */
 		if(outdoorLocationPrefs != null) {
 			Editor editor = outdoorLocationPrefs.edit();
 			editor.clear();

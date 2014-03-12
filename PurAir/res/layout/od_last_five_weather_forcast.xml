@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:gravity="center_vertical"
     android:orientation="horizontal" >
     <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odDayWeatherForcast"
-        android:layout_width="40dp"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="left"
         android:layout_margin="8dp"
@@ -17,63 +19,62 @@
     
     <ImageView
         android:id="@+id/odWeatherForcastImg"
-        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/odDayWeatherForcast"
         android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_connected" />
     
     
-    <ImageView
-        android:id="@+id/odWeatherForcastWindImg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:contentDescription="@string/img_description"
-        android:layout_alignBottom="@+id/odWeatherForcastWind"
-        android:src="@drawable/wifi_connected" />
-
     <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/odWeatherForcastWind"
-        android:layout_width="70dp"
+        android:id="@+id/odWeatherForcastMaxTemp"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/odDayWeatherForcast"
-        android:layout_alignBottom="@+id/odDayWeatherForcast"
-        android:layout_toLeftOf="@+id/odWeatherForcastWindImg"
+        android:layout_marginRight="16dp"
+        android:gravity="right"
         android:textColor="@color/gray"
         android:textSize="14sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsans.ttf" >
+    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+
+    
     
     <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMinTemp"
-        android:layout_width="40dp"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/odDayWeatherForcast"
-        android:layout_alignBottom="@+id/odDayWeatherForcast"
-        android:layout_toLeftOf="@+id/odWeatherForcastWind"
+        android:gravity="center"
         android:textColor="@color/lightgrey"
         android:textSize="14sp"
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.customviews.CustomTextView>
     
+    
+    
     <com.philips.cl.di.dev.pa.customviews.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/odWeatherForcastMaxTemp"
-        android:layout_width="40dp"
+        android:id="@+id/odWeatherForcastWind"
+        android:layout_weight="1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
         android:gravity="center"
-        android:layout_alignBaseline="@+id/odDayWeatherForcast"
-        android:layout_alignBottom="@+id/odDayWeatherForcast"
-        android:layout_toLeftOf="@+id/odWeatherForcastMinTemp"
         android:textColor="@color/gray"
         android:textSize="14sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+        custom:fontAssetName="fonts/gillsans.ttf" />
+    
+    <ImageView
+        android:id="@+id/odWeatherForcastWindImg"
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/wifi_connected" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -591,12 +591,14 @@ public class EwsActivity extends ActionBarActivity implements OnClickListener, E
 		
 		String passwordLabel = getString(R.string.step3_msg1) + " <font color=#3285FF>"+networkSSID+"</font>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
-		deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
-		ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getIpaddress()) ;
-		subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getNetmask()) ; 
-		routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getGateway()) ;
-		wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress());
-		purifierName = SessionDto.getInstance().getDeviceDto().getName();
+		if (SessionDto.getInstance().getDeviceDto() != null) {
+			deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
+			ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getIpaddress()) ;
+			subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getNetmask()) ; 
+			routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getGateway()) ;
+			wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress());
+			purifierName = SessionDto.getInstance().getDeviceDto().getName();
+		}
 	}
 
 
