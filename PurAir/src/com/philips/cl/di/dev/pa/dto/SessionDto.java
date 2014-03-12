@@ -106,6 +106,6 @@ public class SessionDto {
 	}
 	
 	public void reset() {
-		sessionDto = null ;
+		sessionDto = new SessionDto() ;
 	}
 }
