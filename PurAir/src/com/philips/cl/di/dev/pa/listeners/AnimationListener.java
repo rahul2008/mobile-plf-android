@@ -15,7 +15,7 @@ import com.nineoldandroids.animation.Animator.AnimatorListener;
 public class AnimationListener implements AnimatorListener {
 	private static final String TAG = AnimationListener.class.getSimpleName();
 	
-	public static boolean ignoreGesture;
+	private boolean ignoreGesture;
 	private Context context;
 	private Activity activity;
 	
@@ -24,6 +24,10 @@ public class AnimationListener implements AnimatorListener {
 		this.activity = (Activity) context;
 	}
 
+	public boolean isIgnoreGesture() {
+		return ignoreGesture ;
+	}
+	
 	@Override
 	public void onAnimationCancel(Animator arg0) {
 		Log.i(TAG, "onAnimationCancel ignoreGesture " + ignoreGesture);

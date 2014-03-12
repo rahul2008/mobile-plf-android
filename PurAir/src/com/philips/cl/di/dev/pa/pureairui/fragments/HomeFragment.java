@@ -527,7 +527,8 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	@Override
 	public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX,
 			float velocityY) {
-		if(AnimationListener.ignoreGesture) {
+		if(animationListener != null && 
+				animationListener.isIgnoreGesture()) {
 			Log.i(TAG, "Returning from onFling");
 			return false;
 		}
