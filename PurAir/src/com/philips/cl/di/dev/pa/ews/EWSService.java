@@ -10,6 +10,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
@@ -111,39 +112,64 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
 		Log.i("ews", "On Receive:"+intent.getAction()) ;
 		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
-			android.net.NetworkInfo aNetwork = intent
-					.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-			if (aNetwork.getState() == android.net.NetworkInfo.State.CONNECTED) {
+			NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+			
+			if (netInfo.getState() == android.net.NetworkInfo.State.CONNECTED) {
 				Log.i(TAG, "Connected in  onReceive= "+ intent.getAction());
-				WifiInfo connectionInfo = intent
-						.getParcelableExtra(WifiManager.EXTRA_WIFI_INFO);
-
-				String ssid = connectionInfo.getSSID();
-				Log.i("ews", "Connected ssid in  onReceive= "+ ssid);
-				if ( ssid != null && ssid.contains(DEVICE_SSID) &&
-						homeSSID != null) {
-					errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
-					listener.onDeviceAPMode() ;
-					initializeKey() ;
-					
-					List<ScanResult> results = wifiManager.getScanResults();
-					processWifiList(results);
-					// Handshake with the Air Purifier
+				
+				String ssid = getSsidOfConnectedNetwork();
+				if (ssid == null) {
+					Log.i("ews", "Failed to get ssid of connected network");
+					return;
 				}
-				else if( ssid != null && !ssid.contains(DEVICE_SSID) && homeSSID == null) {
-					if ( homeSSID == null ) {
-						listener.foundHomeNetwork() ;
+				
+				if (ssid.contains(DEVICE_SSID)) {
+					Log.i("ews", "Connected to AirPurifier - Ssid= "+ ssid);
+					if (homeSSID != null) {
+						errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
+						listener.onDeviceAPMode() ;
+						initializeKey() ;
+						
+						List<ScanResult> results = wifiManager.getScanResults();
+						processWifiList(results);
+						// Handshake with the Air Purifier
+					} else {
+						// Connected to device, but homeSSID is null - Should never happen
+						// TODO add an error case for this?
 					}
+					return;
 				}
-			}
-			else if (aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTED ||
-					aNetwork.getState() == android.net.NetworkInfo.State.DISCONNECTING) {
-				Log.i(TAG, "Network State: "+aNetwork.getState()) ;
+				
+				Log.i("ews", "Connected to HomeNetwork - Ssid= "+ ssid);
+				if (homeSSID == null ) {
+					listener.foundHomeNetwork() ;
+				}
+
+			} else if (netInfo.getState() == NetworkInfo.State.DISCONNECTED ||
+					netInfo.getState() == NetworkInfo.State.DISCONNECTING) {
+				Log.i(TAG, "Network State: "+ netInfo.getState()) ;
 				listener.onWifiDisabled() ;
 			}
 		}
 		
 	}
+	
+	private String getSsidOfConnectedNetwork() {
+		if (mWifiManager == null) {
+			mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		}
+
+		WifiInfo connectedWifiNetwork = mWifiManager.getConnectionInfo();
+		if (connectedWifiNetwork == null ) return null;
+		
+		String currentSsid = connectedWifiNetwork.getSSID();
+		if (currentSsid == null) return null;
+		
+		Log.i("ews", "Ssid of connected network: " + currentSsid);
+		currentSsid = currentSsid.replace("\"", "");
+		return currentSsid;
+	}
+	
 	private static boolean isOpenNetwork;
 	private String networkCapability = "";
 	private void processWifiList(List<ScanResult> results) {
