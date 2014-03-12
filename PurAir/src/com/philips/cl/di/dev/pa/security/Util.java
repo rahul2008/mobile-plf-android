@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.security;
 
+import java.nio.charset.Charset;
 import java.util.Random;
 
 import android.util.Base64;
@@ -44,7 +45,7 @@ public class Util {
 	public static byte[] decodeFromBase64(String data) {
 		byte[] byteDecodedBase64 = null;
 		if (data != null) {
-			byteDecodedBase64 = Base64.decode(data.getBytes(), Base64.DEFAULT);
+			byteDecodedBase64 = Base64.decode(data.getBytes(Charset.defaultCharset()), Base64.DEFAULT);
 		}
 		return byteDecodedBase64;
 	}

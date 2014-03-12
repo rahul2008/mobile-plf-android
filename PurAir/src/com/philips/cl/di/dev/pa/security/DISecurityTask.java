@@ -9,6 +9,7 @@ import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -41,7 +42,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 			conn.setRequestProperty("content-type", "application/octet-stream");
 			conn.setDoOutput(true);
 			conn.setRequestMethod("PUT");
-			out = new OutputStreamWriter(conn.getOutputStream());
+			out = new OutputStreamWriter(conn.getOutputStream(),Charset.defaultCharset());
 			// TODO add timeouts
 			out.write(data);
 			out.flush();

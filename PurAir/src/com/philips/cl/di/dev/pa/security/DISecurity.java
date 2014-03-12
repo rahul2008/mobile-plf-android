@@ -2,14 +2,17 @@ package com.philips.cl.di.dev.pa.security;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
+import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Hashtable;
+
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.util.Log;
 
 public class DISecurity implements ServerResponseListener {
@@ -107,7 +110,7 @@ public class DISecurity implements ServerResponseListener {
 			try {
 				byte[] bytesEncData = Util.decodeFromBase64(data);
 				byte[] bytesDecData = aesDecryptData(bytesEncData, key);
-				decryptData = new String(bytesDecData);
+				decryptData = new String(bytesDecData,Charset.defaultCharset());
 			} catch (Exception e) {
 				e.printStackTrace();
 				exchangeKey(urlsTable.get(deviceId), deviceId);
@@ -140,7 +143,7 @@ public class DISecurity implements ServerResponseListener {
 		IvParameterSpec iv = new IvParameterSpec(ivBytes);
 		c.init(Cipher.ENCRYPT_MODE, keySpec,iv);
 
-		return c.doFinal(data.getBytes());
+		return c.doFinal(data.getBytes(Charset.defaultCharset()));
 	}
 
 
