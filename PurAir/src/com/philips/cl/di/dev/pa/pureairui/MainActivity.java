@@ -515,7 +515,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 
 	private void resetSessionObject() {
-		SessionDto.getInstance().reset() ;
+		SessionDto.reset() ;
 	}
 
 	@Override
