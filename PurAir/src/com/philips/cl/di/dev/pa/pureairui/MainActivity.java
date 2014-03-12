@@ -942,7 +942,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			}				
 		};
 	};
-
+	
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierDetails) {
 
@@ -950,7 +950,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 		//		Log.i(TAG, "SensorDataReceived: "+airPurifierDetails) ;
 		if ( airPurifierDetails != null ) {
 			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
-			airPurifierEventDto = airPurifierDetails ;
+//			airPurifierEventDto = airPurifierDetails ;
+			setAirPurifierEventDto(airPurifierDetails);
 			updatePurifierUIFields() ;
 		}
 		else  {
@@ -1081,7 +1082,8 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	public void onReceivedDeviceDetails(AirPurifierEventDto airPurifierDetails) {
 		if ( airPurifierDetails != null ) {
 			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS) ;
-			airPurifierEventDto = airPurifierDetails ;
+			setAirPurifierEventDto(airPurifierDetails);
+//			airPurifierEventDto = airPurifierDetails ;
 			handler.sendEmptyMessage(1) ;
 
 			if( timer != null ) {
