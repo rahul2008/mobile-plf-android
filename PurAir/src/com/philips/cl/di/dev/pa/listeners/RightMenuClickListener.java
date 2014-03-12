@@ -429,34 +429,27 @@ public class RightMenuClickListener implements OnClickListener {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
 		fanSpeed.setClickable(true);
-		/**
-		 * Find bug to check airPurifierEventDto null check conflict to line 445
-		 */
-		setFanSpeed(airPurifierEventDto);
-		
+
+		if(airPurifierEventDto != null) {
+			setFanSpeed(airPurifierEventDto);
+		}
 		timer.setClickable(true);
 		timer.setBackgroundDrawable(enabledButton);
 		
 		schedule.setClickable(true);
 		schedule.setBackgroundDrawable(enabledButton);
 		
-//		Log.i(TAG, "enableOtherButtons " + (airPurifierEventDto == null));
-		
 		if(airPurifierEventDto != null) {
 			childLock.setClickable(true);
 			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));
-//			childLock.setChecked(true);
 			
 			indicatorLight.setClickable(true);
 			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
-//			indicatorLight.setChecked(true);
 		} else {
 			childLock.setClickable(false);
-//			childLock.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 			childLock.setChecked(false);
 			
 			indicatorLight.setClickable(false);
-//			indicatorLight.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.switch_off));
 			indicatorLight.setChecked(false);
 		}
 	}
@@ -516,7 +509,6 @@ public class RightMenuClickListener implements OnClickListener {
 	 * 					an onClickListerner to the buttons.
 	 */
 	public void setAllButtonListener(ViewGroup viewGroup) {
-
 	    View v;
 	    for (int i = 0; i < viewGroup.getChildCount(); i++) {
 	        v = viewGroup.getChildAt(i);
@@ -530,7 +522,6 @@ public class RightMenuClickListener implements OnClickListener {
 
 	public void disableControlPanel(boolean connected, AirPurifierEventDto airPurifierEventDto) {
 //		Log.i(TAG, "disableControlPanel connected " + connected);
-		
 		if(!connected) {
 			power.setClickable(false);
 			power.setChecked(false);
@@ -544,7 +535,5 @@ public class RightMenuClickListener implements OnClickListener {
 			if(isPowerOn)
 				enableButtonsOnPowerOn(airPurifierEventDto);
 		}
-		
 	}
-	
 }
