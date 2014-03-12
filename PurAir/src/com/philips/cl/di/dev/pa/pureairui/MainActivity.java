@@ -932,7 +932,6 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 
 		Log.i("LOCALSENSOR", "Received: "+isLocalPollingStarted) ;
 		//		Log.i(TAG, "SensorDataReceived: "+airPurifierDetails) ;
-
 		if ( airPurifierDetails != null ) {
 			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED) ;
 			airPurifierEventDto = airPurifierDetails ;
@@ -953,7 +952,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 	}
 	private void updatePurifierUIFields() {
 		//		Log.i(TAG, "SensorDataReceived " + (!(airPurifierEventDto == null)) + " statusCounter " + statusCounter) ;
-
+		
 		if ( null != airPurifierEventDto ) {
 			connected = true;
 			statusCounter = 0;

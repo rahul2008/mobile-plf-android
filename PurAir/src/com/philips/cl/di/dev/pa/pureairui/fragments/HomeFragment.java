@@ -158,7 +158,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	public void rotateOutdoorCircle() {
 		if(rotateOutdoorCircle) {
 			rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
-			rotateOutdoorCircle = !rotateOutdoorCircle;
+			rotateOutdoorCircle = false;
 		}
 	}
 
@@ -571,7 +571,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		ivOutdoorCircle.setImageDrawable(setAQICircleBackground(outdoorAQIValue));
 		if(rotateOutdoorCircle) {
 			rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
-			rotateOutdoorCircle = !rotateOutdoorCircle;
+			rotateOutdoorCircle = false;
 		}
 		//		rotateAQICircle(outdoorAQIValue, ivOutdoorCircle);
 		setOutdoorAQIStatusAndComment(outdoorAQIValue);
@@ -749,15 +749,17 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 	}
 
 	public void setIndoorAQIValue(float indoorAQI) {
+		Log.i(TAG, "BEGIN :: rotateIndoorCircle  " + rotateIndoorCircle + " indoorAQI " + indoorAQI + " indoorAQIValue " + indoorAQIValue);
 		tvIndoorAQI.setText(setIndoorPSenseText(indoorAQI));
 		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(indoorAQI));
 		if(rotateIndoorCircle || indoorAQIValue != indoorAQI) {
 			//			rotateAQICircle(indoorAQI, ivIndoorCircle);
 			rotateIndoorAQICircle(indoorAQI, ivIndoorCircle);
-			rotateIndoorCircle = !rotateIndoorCircle;
+			rotateIndoorCircle = false;
 		}
 		setIndoorAQIStatusAndComment(indoorAQI);
 		this.indoorAQIValue = indoorAQI;
+		Log.i(TAG, "END ::::: rotateIndoorCircle  " + rotateIndoorCircle + " indoorAQI " + indoorAQI + " indoorAQIValue " + indoorAQIValue);
 	}
 	
 	private String setIndoorPSenseText(float aqi) {
@@ -771,7 +773,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		} else if(aqi > 2.3f && aqi <= 3.5f) {
 			return (getString(R.string.unhealthy)) ;
 		} else if(aqi > 3.5f) {
-			return (getString(R.string.very_unhealthy)) ;
+			return (getString(R.string.very_unhealthy_split)) ;
 		} 
 		return "";
 	}

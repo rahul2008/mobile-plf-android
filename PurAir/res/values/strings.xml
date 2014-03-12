@@ -89,6 +89,7 @@
     <string name="healthy">Healthy</string>
     <string name="very_healthy">Very Healthy</string>
     <string name="very_unhealthy">Very unhealthy</string>
+    <string name="very_unhealthy_split">Very \n unhealthy</string>
     <string name="unhealthy">Unhealthy</string>
     <string name="hazardous">Hazardous</string>
     <string name="slightly_polluted">Slightly polluted</string>
