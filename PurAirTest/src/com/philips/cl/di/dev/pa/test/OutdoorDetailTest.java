@@ -43,18 +43,22 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 		CustomTextView lastDayBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
 		CustomTextView lastWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
 		CustomTextView lastFourWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
-		ImageView mapClickImg = (ImageView) activity.findViewById(R.id.oDmapInlarge); 
+		ImageView mapClickImg = (ImageView) activity.findViewById(R.id.oDmapInlarge);
 		
 		assertEquals(true, lastDayBtn.isClickable());
 		assertEquals(true, lastWeekBtn.isClickable());
 		assertEquals(true, lastFourWeekBtn.isClickable());
 		assertEquals(true, mapClickImg.isClickable());
+	}
+	
+	public void testButtonText() {
+		CustomTextView lastDayBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
+		CustomTextView lastWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
+		CustomTextView lastFourWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		
 		assertEquals("Last day", lastDayBtn.getText().toString());
 		assertEquals("Last 7 days", lastWeekBtn.getText().toString());
 		assertEquals("Last 4 weeks", lastFourWeekBtn.getText().toString());
-		
-		
 	}
 	
 	@UiThreadTest
