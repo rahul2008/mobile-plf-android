@@ -415,6 +415,10 @@ public class EWSDialogFactory implements OnClickListener{
 		supportDialogTS05 = null;
 
 		context = null;
+		cleanUpInstance();
+	}
+	
+	private static void cleanUpInstance() {
 		_instance = null;
 	}
 
