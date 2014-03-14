@@ -3,6 +3,8 @@ package com.philips.cl.di.dev.pa.security;
 import java.nio.charset.Charset;
 import java.util.Random;
 
+import com.philips.cl.di.dev.pa.utils.ALog;
+
 import android.util.Base64;
 import android.util.Log;
 
@@ -88,7 +90,6 @@ public class Util {
 	}
 	
 	public static String getEvenNumberSecretKey(String secKey) {
-		Log.d(DISecurity.TAG, "NExt secKey= "+secKey + " : length= "+secKey.length());
 		String tempKey = secKey;
 		if (secKey != null) {
 			int keyLength = secKey.length();
@@ -96,6 +97,7 @@ public class Util {
 				tempKey = secKey;
 			} else {
 				tempKey = "0"+secKey;
+				ALog.d(ALog.SECURITY, "Appended zero to Secret Key - Resulting lenght: " + tempKey.length());
 			}
 		}
 		return tempKey;

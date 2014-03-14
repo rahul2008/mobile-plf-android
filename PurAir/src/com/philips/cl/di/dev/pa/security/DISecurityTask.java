@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.security;
 
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -11,8 +10,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import com.philips.cl.di.dev.pa.utils.ALog;
+
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class DISecurityTask extends AsyncTask<String, Void, String> {
 
@@ -31,7 +31,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 		url = params[0]; 
 		deviceId = params[1];
 		String data = params[2];
-		Log.i(TAG, "url= "+url+" data= "+data);
+		ALog.i(ALog.SECURITY, "Started DISecurity task with url: " + url + "   and data: " + data);
 		OutputStreamWriter out = null;
 		InputStream inputStream = null;
 		HttpURLConnection conn = null;
@@ -50,7 +50,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 			conn.connect();
 
 			responseCode = conn.getResponseCode();
-			Log.i(TAG, "responseCode= " +responseCode);
+			ALog.i(ALog.SECURITY, "DISecurity task returned with responseCode: " +responseCode);
 			if (responseCode == 200) {
 				inputStream = conn.getInputStream();
 				result = readFully(inputStream);

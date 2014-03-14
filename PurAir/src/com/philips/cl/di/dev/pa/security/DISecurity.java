@@ -13,10 +13,10 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.util.Log;
+import com.philips.cl.di.dev.pa.utils.ALog;
 
 public class DISecurity implements ServerResponseListener {
-	public static final String TAG = DISecurity.class.getSimpleName();
+
 	public static Hashtable<String, String> 
 			securityHashtable = new Hashtable<String,String>();
 	private static Hashtable<String, Boolean> 
@@ -37,7 +37,7 @@ public class DISecurity implements ServerResponseListener {
 		this.keyDecryptListener = keyDecryptListener;
 		pValue = Util.pValue;
 		gValue = Util.gValue;
-		Log.i(TAG, "initialize constructor: ") ;
+		ALog.i(ALog.SECURITY, "Initialized DISecurity") ;
 	}
 	
 	/**
@@ -47,10 +47,10 @@ public class DISecurity implements ServerResponseListener {
 	 * @throws Exception
 	 */ 
 	public void exchangeKey(String url, String deviceId)  {
-		Log.i(TAG, "exchangeKey ") ;
+		ALog.i(ALog.SECURITY, "requested Key exchange for device: " + deviceId) ;
 		urlsTable.put(deviceId, url);
 		if (!isKeyExchanging(deviceId)) {
-			Log.i(TAG, "exchangeKey diffie") ;
+			ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceId) ;
 			isExchangingKeyTable.put(deviceId, true);
 			
 			//Get diffie key
@@ -69,7 +69,7 @@ public class DISecurity implements ServerResponseListener {
 				e.printStackTrace();
 				isExchangingKeyTable.put(deviceId, false);
 			}
-			Log.d(TAG, "Diffie= "+sdiffie);
+			ALog.d(ALog.SECURITY, "Generated diffie key: "+sdiffie);
 		}
 	}
 	
@@ -81,17 +81,21 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	public String encryptData(String data, String deviceId) {
 		String key = securityHashtable.get(deviceId);
-		Log.i(TAG, "key in getEncryptData() = " + key);
+		
+		if (key == null) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
+			return null; // TODO return unencrypted data?
+		}
+		
 		String encryptedBase64Str = null;
-		if (key != null) {
-			try {
-				byte[] encrypDatas = aesEncryptData(data, key);
-				encryptedBase64Str = Util.encodeToBase64(encrypDatas);
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} 
+		try {
+			byte[] encrypDatas = aesEncryptData(data, key);
+			encryptedBase64Str = Util.encodeToBase64(encrypDatas);
+			ALog.i(ALog.SECURITY, "Encrypted data: " + encryptedBase64Str);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ALog.i(ALog.SECURITY, "Failed to encrypt data with key - " + e.getMessage());
+		}
 		return encryptedBase64Str;
 	}
 	
@@ -105,19 +109,23 @@ public class DISecurity implements ServerResponseListener {
 		
 		String key = securityHashtable.get(deviceId);
 		String decryptData = null;
-
-		if (key != null) {
-			try {
-				byte[] bytesEncData = Util.decodeFromBase64(data);
-				byte[] bytesDecData = aesDecryptData(bytesEncData, key);
-				decryptData = new String(bytesDecData,Charset.defaultCharset());
-			} catch (Exception e) {
-				e.printStackTrace();
-				exchangeKey(urlsTable.get(deviceId), deviceId);
-
-			}
+		
+		if (key == null) {
+			ALog.i(ALog.SECURITY, "Did not decrypt data - Key is null");
+			return null; // TODO return undecrypted data?
 		}
-		Log.i(TAG, "decryptData= " + decryptData) ;
+
+		try {
+			byte[] bytesEncData = Util.decodeFromBase64(data);
+			byte[] bytesDecData = aesDecryptData(bytesEncData, key);
+			decryptData = new String(bytesDecData,Charset.defaultCharset());
+			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
+		} catch (Exception e) {
+			e.printStackTrace();
+			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
+			exchangeKey(urlsTable.get(deviceId), deviceId);
+		}
+
 		return decryptData;
 	}
 	
@@ -180,12 +188,10 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	private String generateDiffieKey() {
 		rValue = Util.generateRandomNum();
-		Log.i(TAG, "rValue= " +rValue);
 		BigInteger p = new BigInteger(pValue,16); 
 		BigInteger g = new BigInteger(gValue,16);
 		BigInteger r = new BigInteger(rValue);
 		return Util.bytesToHex(g.modPow(r, p).toByteArray());
-
 	}
 
 	
@@ -217,19 +223,19 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String deviceId, String url) {
-		Log.i(TAG, "Response Code: "+responseCode) ;
+		ALog.i(ALog.SECURITY, "Received response from device: " + deviceId + "    ResponseCode: " + responseCode) ;
 		if ( responseCode == 200 ) {
 			JSONObject json;
 			try {
 				json = new JSONObject(responseData);
 				String shellman = json.getString("hellman");
-				Log.d(TAG, "result hellmam= "+shellman + " :Length:= " +shellman.length());
+				ALog.d(ALog.SECURITY, "result hellmam= "+shellman + "     Length:= " +shellman.length());
 
 				String skeyEnc = json.getString("key");
-				Log.d(TAG, "keyEnc by device= "+skeyEnc+" :length:= " + skeyEnc.length());
+				ALog.d(ALog.SECURITY, "encrypted key= "+skeyEnc+"    length:= " + skeyEnc.length());
 				
 				String secKey = generateSecretKey(shellman);
-				Log.d(TAG, "secKey= "+secKey + " : length= "+secKey.length());
+				ALog.d(ALog.SECURITY, "secret key= "+secKey + "    length= "+secKey.length());
 				
 				secKey = Util.getEvenNumberSecretKey(secKey);
 				
@@ -238,7 +244,7 @@ public class DISecurity implements ServerResponseListener {
 				byte [] bytesDecKey = aesDecryptData(bytesEncKey, secKey);
 				
 				String key = Util.bytesToHex(bytesDecKey);
-				Log.i(TAG, "decryted key == " + key);
+				ALog.i(ALog.SECURITY, "decryted key= " + key);
 				securityHashtable.put(deviceId, key);
 				keyDecryptListener.keyDecrypt(key);
 			} catch (JSONException e) {
