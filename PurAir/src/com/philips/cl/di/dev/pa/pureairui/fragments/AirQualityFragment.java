@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.pureairui.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,7 +14,7 @@ import com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity;
 import com.philips.cl.di.dev.pa.screens.IndoorAirColorIndicationActivity;
 import com.philips.cl.di.dev.pa.screens.OutdoorAirColorIndicationActivity;
 
-public class AirQualityFragment extends Fragment implements OnClickListener {
+public class AirQualityFragment extends BaseFragment implements OnClickListener {
 	public static final int INDOOR_POLLUTANT_SCREEN = 11;
 	public static final int VITASHIELD_SCREEN = 12;
 	public static final int GUARD_EVNVIRONMENT_SCREEN = 13;

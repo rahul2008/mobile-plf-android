@@ -21,7 +21,7 @@ import android.widget.ToggleButton;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.screens.CreateNotificationActivity;
 
-public class NotificationsFragment extends Fragment implements OnCheckedChangeListener, OnClickListener {
+public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, OnClickListener {
 	private static final int CREATE_NOTIFICATION = 2;
 	private Button dailyNotificationButtonEdit;
 	private Button dailyNotificationButtonAdd;

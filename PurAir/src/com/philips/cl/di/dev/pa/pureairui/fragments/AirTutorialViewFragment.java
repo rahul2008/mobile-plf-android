@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class AirTutorialViewFragment extends Fragment{
+public class AirTutorialViewFragment extends BaseFragment {
     private int mTutorialDesc;
     private int mTutorialImage;
     private int mTutorialInstruction;

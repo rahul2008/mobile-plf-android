@@ -13,7 +13,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class ProductRegFragment extends Fragment implements OnClickListener {
+public class ProductRegFragment extends BaseFragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

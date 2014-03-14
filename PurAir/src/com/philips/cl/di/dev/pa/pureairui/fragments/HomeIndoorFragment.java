@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.philips.cl.di.dev.pa.R;
 
-public class HomeIndoorFragment extends Fragment {
+public class HomeIndoorFragment extends BaseFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

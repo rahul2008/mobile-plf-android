@@ -16,7 +16,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.TermsAndConditionsActivity;
 
-public class SettingsFragment extends Fragment implements OnClickListener{
+public class SettingsFragment extends BaseFragment implements OnClickListener{
 	
 	private ImageView ivRateThisApp, ivSendUsFeedback;
 	private TextView tvRateThisApp, tvSendUsFeedback;

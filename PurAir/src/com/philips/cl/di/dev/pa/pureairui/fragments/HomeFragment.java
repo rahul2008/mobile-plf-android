@@ -53,7 +53,7 @@ import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class HomeFragment extends Fragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {
+public class HomeFragment extends BaseFragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {
 
 	/** The Constant TAG. */
 	public final static String TAG = HomeFragment.class.getSimpleName();

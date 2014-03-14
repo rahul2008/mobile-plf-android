@@ -30,7 +30,7 @@ import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 
-public class OutdoorLocationsFragment extends Fragment implements ServerResponseListener, ConnectionCallbacks, OnConnectionFailedListener{
+public class OutdoorLocationsFragment extends BaseFragment implements ServerResponseListener, ConnectionCallbacks, OnConnectionFailedListener{
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;

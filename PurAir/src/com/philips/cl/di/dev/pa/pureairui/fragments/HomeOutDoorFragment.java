@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 
 import com.philips.cl.di.dev.pa.R;
 
-public class HomeOutDoorFragment extends Fragment {
+public class HomeOutDoorFragment extends BaseFragment {
 	
 	private View vMain;
 	

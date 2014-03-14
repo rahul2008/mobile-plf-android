@@ -35,7 +35,7 @@ import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData.DiagnosticsDataLis
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class ToolsFragment extends Fragment implements OnClickListener,
+public class ToolsFragment extends BaseFragment implements OnClickListener,
 SignonListener, DiagnosticsDataListener {
 
 	private static final String TAG = ToolsFragment.class.getSimpleName();
