@@ -4,7 +4,7 @@
     <string name="app_name">Smart Air</string>
     <string name="dashboard_title">PHILIPS Smart Air Purifier</string>
     <string name="action_settings">Settings</string>
-    <string name="philips_home">PHILIPS Home</string>
+    <string name="philips_home">Philips</string>
     <string name="apos_s">\'s</string>
     <string name="room">Room</string>
 
@@ -94,12 +94,12 @@
     <string name="hazardous">Hazardous</string>
     <string name="slightly_polluted">Slightly polluted</string>
     <string name="moderately_polluted">Moderately polluted</string>
-    <string name="very_healthy_msg_indoor">The Air in PHILIPS room is very healthy</string>
-    <string name="healthy_msg_indoor">The air in PHILIPS room is healthy</string>
-    <string name="slightly_polluted_msg_indoor">The Air in PHILIPS room is Slightly Polluted</string>
-    <string name="moderately_polluted_msg_indoor">The Air in PHILIPS room is Moderately Polluted</string>
-    <string name="unhealthy_msg_indoor">The Air in PHILIPS room is UnHealthy</string>
-    <string name="hazardous_msg_indoor">The Air in PHILIPS room is Hazardous</string>
+    <string name="very_healthy_msg_indoor">The Air in %s\'s room is very healthy</string>
+    <string name="healthy_msg_indoor">The air in %s\'s room is healthy</string>
+    <string name="slightly_polluted_msg_indoor">The Air in %s\'s room is Slightly Polluted</string>
+    <string name="moderately_polluted_msg_indoor">The Air in %s\'s room is Moderately Polluted</string>
+    <string name="unhealthy_msg_indoor">The Air in %s\'s room is UnHealthy</string>
+    <string name="hazardous_msg_indoor">The Air in %s\'s room is Hazardous</string>
     <string name="very_healthy_msg_outdoor">Great day for a walk in the park.\nYou can do all your outdoor exercises.</string>
     <string name="healthy_msg_outdoor">Enjoy your usual outdoor activities.\nSensitive people should take care.</string>
     <string name="slightly_polluted_msg_outdoor">Consider reducing outdoor activities.\nConsider rescheduling outdoor activities.\nConsider staying indoors.\nConsider children or elderly people to stay at home</string>

@@ -981,7 +981,7 @@ public class MainActivity extends ActionBarActivity implements SensorEventListen
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
 			updateFilterStatus(airPurifierEventDto.getFilterStatus1(), airPurifierEventDto.getFilterStatus2(), airPurifierEventDto.getFilterStatus3(), airPurifierEventDto.getFilterStatus4());
 			setRightMenuConnectedStatus(airPurifierEventDto.getConnectionStatus());
-			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue)));
+			setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue), purifierName));
 			setRightMenuAirStatusBackground(indoorAQIUsableValue);
 			rightMenuClickListener.disableControlPanel(connected, airPurifierEventDto);
 		}

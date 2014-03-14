@@ -123,10 +123,11 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		if(SessionDto.getSessionDto() != null && SessionDto.getSessionDto().getCityDetails() != null)
 			Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
 		
-		purifierName = getString(R.string.philips_home);
+//		purifierName = getString(R.string.philips_home);
 		
 		if(MainActivity.getAirPurifierEventDto() != null) {
 			setIndoorDashBoardValues(indoorAQIValue);
+			setHomeName(purifierName);
 		}
 		if(updateOutdoorDashboard)
 			setOutdoorDashboardValues(outdoorAQIValue);
@@ -439,7 +440,7 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 				indoorInfos[2] = String.valueOf(indoorAQIValue);
 				indoorInfos[3] = tvIndoorTitle.getText().toString();
 				indoorInfos[4] = tvIndoorComment.getText().toString();
-				indoorInfos[5] = tvOutdoorTitle.getText().toString();
+				indoorInfos[5] = tvIndoorTitle.getText().toString();
 				indoorInfos[6] = purifierName;
 				intent.putExtra("indoor", indoorInfos);
 				startActivity(intent);
@@ -785,16 +786,16 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 			tvIndoorComment.setText("") ;
 		} else if(indoorAQI >= 0 && indoorAQI <= 1.4f) {
 			tvIndoorTitle.setText(getString(R.string.good)) ;
-			tvIndoorComment.setText(getString(R.string.very_healthy_msg_indoor)) ;
+			tvIndoorComment.setText(getString(R.string.very_healthy_msg_indoor, purifierName)) ;
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
 			tvIndoorTitle.setText(getString(R.string.moderate)) ;
-			tvIndoorComment.setText(getString(R.string.healthy_msg_indoor)) ;
+			tvIndoorComment.setText(getString(R.string.healthy_msg_indoor, purifierName)) ;
 		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
-			tvIndoorComment.setText(getString(R.string.slightly_polluted_msg_indoor)) ;
+			tvIndoorComment.setText(getString(R.string.slightly_polluted_msg_indoor, purifierName)) ;
 		} else if(indoorAQI > 3.5f) {
 			tvIndoorTitle.setText(getString(R.string.very_unhealthy)) ;
-			tvIndoorComment.setText(getString(R.string.moderately_polluted_msg_indoor)) ;
+			tvIndoorComment.setText(getString(R.string.moderately_polluted_msg_indoor, purifierName)) ;
 		}
 	}
 
@@ -803,9 +804,9 @@ public class HomeFragment extends Fragment implements OnClickListener, OnGesture
 		purifierName = name;
 		tvFilterHome.setText(name + getString(R.string.apos_s) + "\n" +  getString(R.string.room));
 	}
+	
 	/** Dashboard indoor info END */
-
-
+	
 	/**Unused gestures methods.*/
 	@Override
 	public void onLongPress(MotionEvent e) {}

@@ -411,7 +411,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 //					int pSence = Integer.parseInt(datas[2].trim());
 					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
-					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary);
+					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary, datas[6]);
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}

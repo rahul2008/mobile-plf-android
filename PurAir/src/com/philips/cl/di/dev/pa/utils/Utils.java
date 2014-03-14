@@ -894,17 +894,17 @@ public class Utils {
 	 * @param summary
 	 */
 	public static void setIndoorAQIStatusAndComment
-	(Context ctx, float indoorAQI, CustomTextView status, CustomTextView summary) {
+	(Context ctx, float indoorAQI, CustomTextView status, CustomTextView summary, String purifierName) {
 
 		if(indoorAQI <= 1.4f && indoorAQI > 0) {
 			status.setText(ctx.getString(R.string.good)) ;
-			summary.setText(ctx.getString(R.string.very_healthy_msg_indoor)) ;
+			summary.setText(ctx.getString(R.string.very_healthy_msg_indoor, purifierName)) ;
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
 			status.setText(ctx.getString(R.string.moderate)) ;
-			summary.setText(ctx.getString(R.string.healthy_msg_indoor)) ;
+			summary.setText(ctx.getString(R.string.healthy_msg_indoor, purifierName)) ;
 		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			status.setText(ctx.getString(R.string.unhealthy)) ;
-			summary.setText(ctx.getString(R.string.slightly_polluted_msg_indoor)) ;
+			summary.setText(ctx.getString(R.string.slightly_polluted_msg_indoor, purifierName)) ;
 		} else if(indoorAQI > 3.5f) {
 			String tempStatus[] = ctx.getString(R.string.very_unhealthy).trim().split(" ");
 			if (tempStatus != null && tempStatus.length > 1) {
@@ -913,7 +913,7 @@ public class Utils {
 				status.setText(ctx.getString(R.string.very_unhealthy));
 			}
 			summary.setText(ctx
-					.getString(R.string.moderately_polluted_msg_indoor));
+					.getString(R.string.moderately_polluted_msg_indoor, purifierName));
 		}
 	}
 
