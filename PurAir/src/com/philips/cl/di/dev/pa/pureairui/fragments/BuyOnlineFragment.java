@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,11 +23,22 @@ import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class BuyOnlineFragment extends ListFragment {
+public class BuyOnlineFragment extends BaseFragment {
 	private BuyDataAdapter mAdapter;
 	private FilterStatusView filterView;
 	private TextView lblFilter;
 	private TextView txtFilterStatus;
+	
+	private ListView mList;
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.buy_online_fragment, container, false);
+		mList = (ListView) view.findViewById(R.id.list);
+		
+		return view;
+	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,7 +59,7 @@ public class BuyOnlineFragment extends ListFragment {
 
 		/* Create an adapter to display the loaded data. */
 		mAdapter = new BuyDataAdapter(getActivity(), list);
-		setListAdapter(mAdapter);
+		mList.setAdapter(mAdapter);
 	}
 
 	/* Custom Adapter to inflate custom rows of list */
