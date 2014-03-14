@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.SparseBooleanArray;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class NotificationSelectDayActivity extends ActionBarActivity{
+public class NotificationSelectDayActivity extends BaseActivity {
 
 	private String[] days={"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
 	private ArrayAdapter<String> mAdapter; 

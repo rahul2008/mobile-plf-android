@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.screens;
 import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
@@ -12,7 +11,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class IndoorAirColorIndicationActivity extends ActionBarActivity {
+public class IndoorAirColorIndicationActivity extends BaseActivity {
 
 
 	/**

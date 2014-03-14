@@ -10,7 +10,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class AirColorExplainedStaticActivity extends ActionBarActivity {
+public class AirColorExplainedStaticActivity extends BaseActivity {
 
 	private int activity;
 	private ActionBar mActionBar;	

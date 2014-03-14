@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class AirTutorialActivity extends Activity implements OnClickListener {
+public class AirTutorialActivity extends BaseActivity implements OnClickListener {
 	
 	public static final String SELECTED_PAGE = "tutorial_selected_page";
 
@@ -23,6 +22,8 @@ public class AirTutorialActivity extends Activity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_tutorial);
+		
+		this.getSupportActionBar().hide();
 		
 		Resources resources = getResources();
     	float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, resources.getDisplayMetrics());    	

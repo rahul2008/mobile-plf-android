@@ -61,8 +61,7 @@
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.AirTutorialActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity"
@@ -71,16 +70,6 @@
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity"
             android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.philips.cl.di.dev.pa.screens.OutdoorAQIAnalysisActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" >
-        </activity>
-        <activity
-            android:name="com.philips.cl.di.dev.pa.screens.IndoorAQIAnalysisActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Dialog" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.MapOdActivity"

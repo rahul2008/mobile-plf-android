@@ -15,7 +15,7 @@ import android.widget.TimePicker;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class CreateNotificationActivity extends ActionBarActivity implements OnClickListener{
+public class CreateNotificationActivity extends BaseActivity implements OnClickListener{
 
 	private static final int SELECT_DAY_ACTIVITY = 10;
 	private String strDays="";

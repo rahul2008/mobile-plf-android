@@ -10,7 +10,6 @@ import android.graphics.Paint.Style;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -25,7 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class MapOdActivity extends FragmentActivity {
+public class MapOdActivity extends BaseActivity {
 	private GoogleMap mMap;
 	private float centerLatF, centerLngF;
 	private String centerCity;

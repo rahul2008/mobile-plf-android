@@ -14,7 +14,7 @@ import com.philips.cl.di.dev.pa.screens.adapters.ViewPagerAdapter;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class TutorialPagerActivity extends ActionBarActivity {
+public class TutorialPagerActivity extends BaseActivity {
 
 	private ViewPagerAdapter mAdapter;
 	private ViewPager mPager;

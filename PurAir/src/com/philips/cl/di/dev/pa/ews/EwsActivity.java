@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.Html;
 import android.text.Selection;
@@ -42,9 +41,10 @@ import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.screens.BaseActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class EwsActivity extends ActionBarActivity implements OnClickListener, EWSListener, Callback{
+public class EwsActivity extends BaseActivity implements OnClickListener, EWSListener, Callback{
 
 	private int step = -1;
 	/**
