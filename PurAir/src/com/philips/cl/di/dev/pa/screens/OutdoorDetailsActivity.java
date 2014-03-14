@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.screens;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
@@ -27,10 +28,11 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class OutdoorDetailsActivity extends ActionBarActivity implements OnClickListener {
+public class OutdoorDetailsActivity extends BaseActivity implements OnClickListener {
 
 	private ActionBar mActionBar;
 	private GoogleMap mMap;
@@ -472,8 +474,8 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	 * @param v
 	 */
 	public void aqiAnalysisClick(View v) {
-		Intent intent = new Intent(this, OutdoorAQIAnalysisActivity.class);
-		startActivity(intent);
+		FragmentManager fragMan = this.getSupportFragmentManager();
+		fragMan.beginTransaction().add(OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
 	}
 
 	/**

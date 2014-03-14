@@ -3,12 +3,11 @@ package com.philips.cl.di.dev.pa.screens;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,11 +31,12 @@ import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+import com.philips.cl.di.dev.pa.pureairui.fragments.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.data.Errors;
 
-public class IndoorDetailsActivity extends ActionBarActivity implements OnClickListener,
+public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
 PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 	private ActionBar mActionBar;
@@ -437,10 +437,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	}
 
 	public void aqiAnalysisClick(View v) {
-		Intent intent = new Intent(this, IndoorAQIAnalysisActivity.class);
-		intent.putExtra("indoortitle", aqiStatus.getText());
-		intent.putExtra("outdoortitle", outdoorTitle);
-		startActivity(intent);
+		FragmentManager fragMan = getSupportFragmentManager();
+		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatus.getText().toString(), outdoorTitle), "outdoor").commit();
 	}
 
 	@Override
