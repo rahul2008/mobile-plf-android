@@ -6,13 +6,11 @@ import java.lang.reflect.Method;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.ActivityUnitTestCase;
 import android.test.UiThreadTest;
 import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.screens.IndoorAQIAnalysisActivity;
 import com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 
