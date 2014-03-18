@@ -367,8 +367,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				(Utils.getAirPurifierID(this) != null &&
 				Utils.getAirPurifierID(this).length() > 0 )) {
 			if( ! isCPPPollingStarted ) {
-				cppController.startDCSService() ;
-				sensorDataController.startCPPPolling() ;
+//				cppController.startDCSService() ;
+//				sensorDataController.startCPPPolling() ;
 				isCPPPollingStarted = true ;
 			}				
 		}

@@ -40,6 +40,7 @@ public class DISecurity implements ServerResponseListener {
 		this.keyDecryptListener = keyDecryptListener;
 		pValue = Util.pValue;
 		gValue = Util.gValue;
+		counterExchangeKey = 0;
 		ALog.i(ALog.SECURITY, "Initialized DISecurity") ;
 	}
 	
@@ -129,10 +130,11 @@ public class DISecurity implements ServerResponseListener {
 			byte[] bytesDecData = aesDecryptData(bytesEncData, key);
 			decryptData = new String(bytesDecData,Charset.defaultCharset());
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
+			counterExchangeKey = 0;
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
-			counterExchangeKey = 0;
+			
 			exchangeKey(urlsTable.get(deviceId), deviceId);
 		}
 
@@ -234,7 +236,9 @@ public class DISecurity implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String deviceId, String url) {
 		ALog.i(ALog.SECURITY, "Received response from device: " + deviceId + "    ResponseCode: " + responseCode) ;
+		isExchangingKeyTable.put(deviceId, false);
 		if ( responseCode == 200 ) {
+			counterExchangeKey = 0;
 			JSONObject json;
 			try {
 				json = new JSONObject(responseData);
@@ -265,8 +269,11 @@ public class DISecurity implements ServerResponseListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+		} else {
+			
+			exchangeKey(urlsTable.get(deviceId), deviceId);
 		}
-		isExchangingKeyTable.put(deviceId, false);
+		
 	}
 	
 	
