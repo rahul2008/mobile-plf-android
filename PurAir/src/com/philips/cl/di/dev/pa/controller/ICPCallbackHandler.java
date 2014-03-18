@@ -105,7 +105,7 @@ public class ICPCallbackHandler implements CallbackHandler
 			Registeration_CB(status, obj);
 			break;
 
-		case Commands.KEY_PROVISION:
+		case Commands.KEY_PROVISION:			
 		case Commands.KEY_DEPROVISION:
 			Provisioning_CB(status,obj);
 			break;

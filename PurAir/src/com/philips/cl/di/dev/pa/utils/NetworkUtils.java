@@ -40,8 +40,7 @@ public class NetworkUtils {
 			// Starts the query
 			conn.connect();
 			int responseCode = conn.getResponseCode();
-
-			//			Log.i(TAG,"Response Code: "+responseCode);
+			
 			inputStream = conn.getInputStream();
 
 			// Convert the InputStream into a string

@@ -320,17 +320,27 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
 					if(weatherDto==null || weatherDto.size()<1)
 						getDashboard().startWeatherDataTask();
-
+					
+					
 				}
 				else if( mobileInfo != null && mobileInfo.isConnected() ) {
 					isNetworkAvailable=true;
 					getDashboard().startOutdoorAQITask();
 					getDashboard().startWeatherDataTask();
-					//toggleConnection(false) ;
+					//toggleConnection(false) ;				
+					
 				}
 				else
 				{
 					isNetworkAvailable=false;
+				}
+				
+				if(isNetworkAvailable)
+				{
+					if(cppController!=null && !cppController.isSignOn())
+					{
+						cppController.startProvisioning();
+					}
 				}
 			}
 		};
