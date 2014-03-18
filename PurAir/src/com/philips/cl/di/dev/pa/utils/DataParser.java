@@ -59,7 +59,8 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.setReplaceFilter4(jsonObj.getString(ParserConstants.REP_FILTER_4)) ;
 			airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CL))) ;
 			airPurifierEvent.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
-			airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;			
+			airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;	
+			airPurifierEvent.setActualFanSpeed(Integer.parseInt(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED)));
 
 		} catch (JSONException e) {
 			return null ;

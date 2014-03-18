@@ -25,6 +25,7 @@ public class ParserConstants {
 	public static final String FAN_SPEED = "om" ;
 	public static final String TFAV = "tfav" ;
 	public static final String PSENS = "psens" ;
+	public static final String ACTUAL_FAN_SPEED = "fspd";
 	
  	
 	public static final String TIMESTAMP = "time_stamp" ;
