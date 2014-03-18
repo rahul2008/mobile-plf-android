@@ -139,6 +139,7 @@ public class RightMenuClickListener implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	private void setFanSpeed(AirPurifierEventDto airPurifierEventDto) {
 		String fanSpeedText = airPurifierEventDto.getFanSpeed();
+		String sActualFanSpeed = airPurifierEventDto.getActualFanSpeed();
 		Drawable buttonImage = null;
 		fanSpeedAuto.setChecked(false);
 		Log.i(TAG, "setFanSpeed " + fanSpeedText);
@@ -157,6 +158,12 @@ public class RightMenuClickListener implements OnClickListener {
 			fanSpeedAuto.setChecked(true);
 			isFanSpeedAuto = true;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
+			if (sActualFanSpeed.equals("1"))
+				toggleFanSpeedButtonBackground(R.id.fan_speed_one);
+			else if (sActualFanSpeed.equals("2"))
+				toggleFanSpeedButtonBackground(R.id.fan_speed_two);
+			else if (sActualFanSpeed.equals("3"))
+				toggleFanSpeedButtonBackground(R.id.fan_speed_three);
 		} else if(AppConstants.FAN_SPEED_ONE.equals(fanSpeedText)) {
 			fanSpeed.setText("");
 			buttonImage = context.getResources().getDrawable(R.drawable.fan_speed_one);
