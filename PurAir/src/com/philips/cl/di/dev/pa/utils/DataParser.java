@@ -60,7 +60,7 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CL))) ;
 			airPurifierEvent.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
 			airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;	
-			airPurifierEvent.setActualFanSpeed(Integer.parseInt(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED)));
+			airPurifierEvent.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
 
 		} catch (JSONException e) {
 			return null ;
@@ -139,6 +139,8 @@ public class DataParser implements DataParserInterface {
 
 		} catch (JSONException e) {
 			
+		}catch(NumberFormatException nfe ) {
+			ALog.e("Exception", "Number Format exception -- "+ nfe.getMessage()) ;
 		}
 		return airPurifierEvent ;
 	}

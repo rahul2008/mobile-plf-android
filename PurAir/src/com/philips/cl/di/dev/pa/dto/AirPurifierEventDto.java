@@ -69,7 +69,7 @@ public class AirPurifierEventDto {
 	
 	private int pSensor ;
 	private int tFav ;
-	private int actualFanSpeed ;
+	private String actualFanSpeed ;
 	
 	public int getChildLock() {
 		return childLock;
@@ -190,10 +190,10 @@ public class AirPurifierEventDto {
 		this.powerMode = powerMode;
 	}
 	
-	public int getActualFanSpeed() {
+	public String getActualFanSpeed() {
 		return actualFanSpeed;
 	}
-	public void setActualFanSpeed(int actualFanSpeed) {
+	public void setActualFanSpeed(String actualFanSpeed) {
 		this.actualFanSpeed = actualFanSpeed;
 	}
 	/**
