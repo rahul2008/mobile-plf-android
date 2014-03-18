@@ -5,13 +5,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
@@ -22,6 +23,7 @@ import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
 import com.philips.cl.di.dev.pa.interfaces.SignonListener;
+import com.philips.cl.di.dev.pa.utils.ALog;
 import com.philips.cl.di.dev.pa.utils.DataParser;
 import com.philips.cl.di.dev.pa.utils.Utils;
 import com.philips.icpinterface.DownloadData;
@@ -30,10 +32,12 @@ import com.philips.icpinterface.EventSubscription;
 import com.philips.icpinterface.GlobalStore;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.ICPClientToAppInterface;
+import com.philips.icpinterface.Provision;
 import com.philips.icpinterface.SignOn;
 import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
+import com.philips.icpinterface.data.PeripheralDevice;
 
 public class CPPController implements ICPClientToAppInterface, ICPEventListener {
 
@@ -47,7 +51,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private boolean isSignOn;
 	private SignonListener signOnListener;
 
-	private static ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
+	private ICPCallbackHandler callbackHandler ;
 
 	private Params configParams;
 
@@ -66,8 +70,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private CPPController(Context context) {
 		this.context = context;
 		listeners = new ArrayList<ICPDeviceDetailsListener>();
-		eventPublisher = new EventPublisher(callbackHandler);
+		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
+		eventPublisher = new EventPublisher(callbackHandler);		
 	}
 
 	/**
@@ -76,7 +81,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @return
 	 */
 	public static CPPController getInstance(Context appContext) {
-
+		ALog.i(ALog.ICPCLIENT, "GetInstance: "+icpStateInstance) ;
 		if (null == icpStateInstance) {
 			icpStateInstance = new CPPController(appContext);
 			// icpStateInstance.init() ;
@@ -85,6 +90,72 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		return icpStateInstance;
 	}
 
+	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
+	
+	public void startProvisioning()
+	{
+		ALog.i(ALog.ICPCLIENT, "Start provision") ;
+		int numberOfPeripheralDevices;
+		PeripheralDevice externalDevices[] = null;
+		
+		String 	appID			= null;
+		String 	appType			= "AC4373APP";
+		String 	appVersion		= null;
+		int 	rv				= 0;
+		
+		//IF KPS not enabled exist from the activity.
+		if(!SignOn.isKPSEnabled())
+		{
+			return;
+		}
+		
+		//Setting Peripheral Information.
+		numberOfPeripheralDevices = periPheralDevices.size();
+		if(numberOfPeripheralDevices > 0)
+		{
+			externalDevices = new PeripheralDevice[numberOfPeripheralDevices];
+			for(int i=0; i<numberOfPeripheralDevices;i++)
+			{
+				externalDevices[i] = periPheralDevices.get(i);
+			}
+		}
+		//set Peripheral Information
+		Provision prv = new Provision(callbackHandler, configParams,externalDevices,context);
+
+
+		//Set User details.
+		//prv.setUserInfo(username, password, provider);
+
+		//Set Application Info
+		PackageManager 	pm = context.getPackageManager();
+		ApplicationInfo appInfo = null;
+		appID = context.getPackageName();
+		try
+		{
+			appVersion= ""+pm.getPackageInfo(context.getPackageName(), 0).versionCode;
+			appInfo = pm.getApplicationInfo(context.getPackageName(), 0);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		ALog.i(ALog.ICPCLIENT, appID+":"+appType+":"+appVersion) ;
+//		prv.setApplicationInfo(appID, appType, appVersion);
+		prv.setApplicationInfo(appID, appType,appVersion);
+
+		rv = prv.executeCommand();
+		if (rv == Errors.SUCCESS)
+		{
+			//Nothing
+			ALog.i(ALog.ICPCLIENT, "SUCCESS") ;
+		}
+		else
+		{
+			ALog.i(ALog.ICPCLIENT, "FAILURE") ;
+			rv = prv.executeCommand();
+		}
+	}
+	
 	public boolean isSignOn() {
 		return isSignOn;
 	}
@@ -145,7 +216,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			rv = signon.init();
 
 			if (rv == Errors.SUCCESS) {
-				onSignon();
+				startProvisioning() ;
 			}
 	}
 
@@ -173,7 +244,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * known.
 	 */
 	private void onSignon() {
-		Log.i("cpp", "onSignOn");
+		ALog.i(ALog.ICPCLIENT, "onSignOn");
 		ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
 		DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(
@@ -347,21 +418,31 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	
 	@Override
 	public void onICPCallbackEventOccurred(int eventType, int status, ICPClient obj) {
-		Log.i("cpp", "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
+		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
 		if ( eventType == Commands.SIGNON ) {
 			if ( status == Errors.SUCCESS ) {
 				isSignOn = true ;
 				if ( signOnListener != null) {
 					signOnListener.signonStatus(true) ;
 				}
-				startDCSService();
+				//startDCSService();
 			} else {
 				if (signOnListener != null) {
 					signOnListener.signonStatus(false);
 				}
 			}
 			signOnListener = null;
-		} else if (eventType == Commands.SUBSCRIBE_EVENTS) {
+		}
+		else if (eventType == Commands.KEY_PROVISION)
+		{
+			if( status == Errors.SUCCESS ) {
+				Provision provision = (Provision) obj ;
+				ALog.i(ALog.ICPCLIENT, provision.getEUI64()) ;
+				ALog.i(ALog.ICPCLIENT, provision.getProductID()+":"+provision.getPrID()) ;
+				onSignon() ;
+			}
+		}
+		else if (eventType == Commands.SUBSCRIBE_EVENTS) {
 			String dcsEvents = "";
 			if (status == Errors.SUCCESS) {
 				int NoOfEvents = 0;
@@ -458,5 +539,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 		return signon.clientVersion();
 	}
-
+	
+	public static void reset() {
+		icpStateInstance = null ;
+	}
 }

@@ -280,13 +280,15 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 		initializeCPPController() ;
 		// Start the CPP connection irrespective of network
-		startCPP() ;
+		//startCPP() ;
 	}
 
 
 	private void initializeCPPController() {
 		cppController = CPPController.getInstance(this) ;		
 		cppController.addDeviceDetailsListener(this) ;
+		
+		cppController.init() ;
 	}
 
 	private void createNetworkReceiver() {
@@ -511,6 +513,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		stopDiscovery() ;
 		ipAddress = null ;
 		sensorDataController.removeAllListeners() ;
+		CPPController.reset() ;
 	}
 
 
