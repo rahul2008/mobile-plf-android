@@ -162,6 +162,7 @@ public class AppConstants {
 	public static final String AIRPUR_CPP_ID = "cppid";
 	public static final String AIRPUR_BOOT_ID = "bootid";
 	public static final String AIRPUR_KEY = "airpur_key";
+	public static final String AIRPUR_DEVICE_NAME = "dev_name";
 
 	public static final String sCityNameQuery = "Select distinct "
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
@@ -171,7 +172,7 @@ public class AppConstants {
 	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 and cityID = %s order by " + LOG_DATETIME + " DESC"  ;
 	
 	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.AQI_TABLE + " where " + AppConstants.LOG_DATETIME + "= '%s' and " + AppConstants.CITY_ID + "= %s" ;
-	
+
 	
 	public static final String INDOOR_AQI = "aqi" ;
 
@@ -308,7 +309,7 @@ public class AppConstants {
 	public static final String URL_PORT = "http://%s/di/v1/products/1/";
 	public static final String URL_FIRMWARE_PORT = "http://%s/di/v1/products/0/firmware";
 	
-	public static final String DEVICEID = "dev001" ;
+	public static String DEVICEID = "dev001" ;
 	
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 }

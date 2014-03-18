@@ -3,11 +3,18 @@ package com.philips.cl.di.dev.pa.dto;
 public class DeviceInfoDto {
 	
 	private long id;
+	private long bootId;
 	private String usn;
 	private String cppId;
-	private long bootId;
 	private String deviceKey;
+	private String deviceName;
 	
+	public String getDeviceName() {
+		return deviceName;
+	}
+	public void setDeviceName(String deviceName) {
+		this.deviceName = deviceName;
+	}
 	public long getId() {
 		return id;
 	}

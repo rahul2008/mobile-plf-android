@@ -28,7 +28,7 @@
             android:layout_below="@+id/ews_congratulation_img"
             android:text="@string/congratulation_msg"
             android:lineSpacingExtra="10dp"
-            android:textColor="@color/title_gray"
+            android:textColor="@color/philips_blue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 

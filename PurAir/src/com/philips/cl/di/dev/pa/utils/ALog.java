@@ -22,6 +22,8 @@ public class ALog {
 	public static final String SECURITY = "DISecurity";
 	public static final String SSDP = "Ssdp";
 	public static final String KPS = "KPS";
+	public static final String MAINACTIVITY = "MainActivityAir" ;
+	public static final String DATABASE = "DatabaseAir" ;
 	
 	private static boolean isLoggingEnabled = true;
 	

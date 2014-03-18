@@ -116,7 +116,6 @@ SignonListener, DiagnosticsDataListener {
 		case R.id.get_cpp_btn:
 			Log.i(TAG, "Sign on button");
 			if (signOnButton.getText().toString().equals("Reset")) {
-				((MainActivity) getActivity()).stopCPPPolling();
 				Utils.clearCPPDetails(getActivity());
 				tvCPPDetails.setText("");
 				signOnButton.setText("Sign On");

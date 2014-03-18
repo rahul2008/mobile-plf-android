@@ -284,7 +284,7 @@ public class EWSDialogFactory implements OnClickListener{
 			getDialog(CANCEL_WIFI_SETUP).dismiss();
 			if ( context instanceof EwsActivity ) {
 				EwsActivity activity = (EwsActivity) context ;
-
+				activity.stopDiscovery();
 				activity.finish() ;
 			}
 			break;

@@ -148,10 +148,10 @@ public class AirPurifierController implements ServerResponseListener
 	 * @param nameValuePair
 	 */
 	private void startServerTask(String dataToUpload) {
-		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload, this);
-		statusUpdateTask.execute(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)));
+		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload,String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)),this) ;
+		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
+		statusUpdateTaskThread.start() ;
 	}
-		
 
 	/**
 	 * (non-Javadoc)

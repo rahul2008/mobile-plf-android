@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.utils.ALog;
 
 public class DISecurity implements ServerResponseListener {
@@ -22,12 +23,14 @@ public class DISecurity implements ServerResponseListener {
 	private static Hashtable<String, Boolean> 
 			isExchangingKeyTable = new Hashtable<String, Boolean>();
 	
-	private static Hashtable<String, String> 
+	public static Hashtable<String, String> 
 			urlsTable = new Hashtable<String, String>();
 	private String pValue;
 	private String gValue;
 	private String rValue;
 	private KeyDecryptListener keyDecryptListener;
+	
+	private int counterExchangeKey;
 
 	/**
 	 * Constructor
@@ -47,29 +50,34 @@ public class DISecurity implements ServerResponseListener {
 	 * @throws Exception
 	 */ 
 	public void exchangeKey(String url, String deviceId)  {
-		ALog.i(ALog.SECURITY, "requested Key exchange for device: " + deviceId) ;
-		urlsTable.put(deviceId, url);
-		if (!isKeyExchanging(deviceId)) {
-			ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceId) ;
-			isExchangingKeyTable.put(deviceId, true);
-			
-			//Get diffie key
-			String sdiffie = generateDiffieKey();
-	
-			JSONObject holder = new JSONObject();
-			
-			try {
-				holder.put("diffie", sdiffie);
-				String js = holder.toString();
+		if (counterExchangeKey < 3) {
+			counterExchangeKey++;
+			ALog.i(ALog.SECURITY, "requested Key exchange for device: " + deviceId+":"+isKeyExchanging(deviceId)) ;
+			urlsTable.put(deviceId, url);
+			if (!isKeyExchanging(deviceId)) {
+				ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceId) ;
+				isExchangingKeyTable.put(deviceId, true);
 				
-				//Send diffie to http
-				sendDiffie(url, deviceId, js);
+				//Get diffie key
+				String sdiffie = generateDiffieKey();
+		
+				JSONObject holder = new JSONObject();
 				
-			} catch (JSONException e) {
-				e.printStackTrace();
-				isExchangingKeyTable.put(deviceId, false);
+				try {
+					holder.put("diffie", sdiffie);
+					String js = holder.toString();
+					
+					//Send diffie to http
+					sendDiffie(url, deviceId, js);
+					
+				} catch (JSONException e) {
+					e.printStackTrace();
+					isExchangingKeyTable.put(deviceId, false);
+				}
+				ALog.d(ALog.SECURITY, "Generated diffie key: "+sdiffie);
 			}
-			ALog.d(ALog.SECURITY, "Generated diffie key: "+sdiffie);
+		} else {
+			ALog.e(ALog.SECURITY, "Third time key exchange failed");
 		}
 	}
 	
@@ -108,21 +116,23 @@ public class DISecurity implements ServerResponseListener {
 	public String decryptData(String data, String deviceId) {
 		
 		String key = securityHashtable.get(deviceId);
+		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
-		if (key == null) {
+		if (key == null || data == null) {
 			ALog.i(ALog.SECURITY, "Did not decrypt data - Key is null");
 			return null; // TODO return undecrypted data?
 		}
 
 		try {
-			byte[] bytesEncData = Util.decodeFromBase64(data);
+			byte[] bytesEncData = Util.decodeFromBase64(data.trim());
 			byte[] bytesDecData = aesDecryptData(bytesEncData, key);
 			decryptData = new String(bytesDecData,Charset.defaultCharset());
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
+			counterExchangeKey = 0;
 			exchangeKey(urlsTable.get(deviceId), deviceId);
 		}
 
@@ -246,7 +256,10 @@ public class DISecurity implements ServerResponseListener {
 				String key = Util.bytesToHex(bytesDecKey);
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
 				securityHashtable.put(deviceId, key);
-				keyDecryptListener.keyDecrypt(key);
+				
+				AppConstants.DEVICEID = deviceId;
+				
+				keyDecryptListener.keyDecrypt(key, deviceId);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
@@ -260,8 +273,8 @@ public class DISecurity implements ServerResponseListener {
 
 	private boolean isKeyExchanging(String deviceId) {
 		// First time exchange
-		if (isExchangingKeyTable.get(deviceId) == null) return false;
-		
+		ALog.i(ALog.SECURITY, "isKeyExchanging: "+isExchangingKeyTable.get(deviceId)) ;
+		if (!isExchangingKeyTable.containsKey(deviceId)) return false;
 		// No exchange ongoing
 		if (!isExchangingKeyTable.get(deviceId)) return false;
 		

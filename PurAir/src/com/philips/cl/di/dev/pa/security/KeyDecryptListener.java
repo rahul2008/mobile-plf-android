@@ -7,6 +7,6 @@ public interface KeyDecryptListener {
 	 *
 	 * @param key 
 	 */
-	public void keyDecrypt(String key) ;
+	public void keyDecrypt(String key, String deviceId) ;
 
 }

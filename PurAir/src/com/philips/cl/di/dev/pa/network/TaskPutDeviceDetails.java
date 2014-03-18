@@ -1,46 +1,43 @@
 package com.philips.cl.di.dev.pa.network;
 
 import java.io.IOException;
+
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Date;
-
-import android.os.AsyncTask;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.utils.NetworkUtils;
 
-public class TaskPutDeviceDetails extends AsyncTask<String, Void, String> {
+public class TaskPutDeviceDetails implements Runnable {
 	private static final String TAG = TaskPutDeviceDetails.class.getSimpleName();
 
 	private String dataToUpload ;
 	private ServerResponseListener responseListener = null;
 
 	private int responseCode ;
+	private String url;
 
-	public TaskPutDeviceDetails(String dataToUpload, ServerResponseListener responseListener) {
+	public TaskPutDeviceDetails(String dataToUpload,String url, ServerResponseListener responseListener) {
 		this.dataToUpload = dataToUpload;
 		this.responseListener = responseListener;
+		this.url = url ;
 	}
 
-	@Override
-	protected void onPreExecute() {
-		super.onPreExecute();
-	}
+	
 
 	@Override
-	protected String doInBackground(String... url) {
+	public void run() {
 		String result = "";
 		InputStream inputStream = null;
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
 		try {
-			Log.i(TAG, url[0]) ;
-			URL urlConn = new URL(url[0]);
+			Log.i(TAG, url) ;
+			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection();
 			conn.setRequestProperty("content-type", "application/json") ;
 			conn.setDoOutput(true);
@@ -58,7 +55,7 @@ public class TaskPutDeviceDetails extends AsyncTask<String, Void, String> {
 				Log.i(TAG, result) ;
 			}
 
-		} catch (IOException e) {   
+		} catch (IOException e) {
 		}
 
 		finally {
@@ -83,13 +80,8 @@ public class TaskPutDeviceDetails extends AsyncTask<String, Void, String> {
 				conn.disconnect() ;
 				conn = null ;
 			}
+			if(responseListener != null )
+				responseListener.receiveServerResponse(responseCode, result);
 		}
-		return result; 
-	}
-
-	@Override
-	protected void onPostExecute(String result) {
-		responseListener.receiveServerResponse(responseCode, result);
-		Log.d(TAG, ""+new Date(System.currentTimeMillis())) ;
 	}
 }

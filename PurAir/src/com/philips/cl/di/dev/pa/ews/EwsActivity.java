@@ -31,14 +31,16 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
-import com.philips.cl.di.common.ssdp.contants.MessageID;
+import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.BaseActivity;
@@ -118,6 +120,10 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private String ipAddress ;
 	private String purifierName;
 	private OnFocusChangeListener focusListener;
+	
+	private String cppId;
+	
+	private DeviceInfoDto deviceInfoDto;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -319,8 +325,12 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	protected void onStop() {
 		if(ewsService != null)
 			ewsService.unRegisterListener() ;
-		if(ssdpService != null)
-			ssdpService.stopDeviceDiscovery() ;
+		
+		stopDiscovery();
+//		if(ssdpService != null) {
+//			ssdpService.stopDeviceDiscovery() ;
+//			ssdpService = null ;
+//		}
 		super.onStop();
 	}
 
@@ -551,9 +561,25 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		
 	}
 	
+	public void stopDiscovery() {
+		Log.i("discover", "11 EWS Stop Discovery   " + ssdpService);
+		if(ssdpService != null) {
+			Log.i("discover", "EWS Stop Discovery");
+			ssdpService.stopDeviceDiscovery() ;
+			ssdpService = null ;
+		}
+		
+	}
+	
 	private void showHomeScreen() {
+		
+		stopDiscovery();
+		
+		if (deviceInfoDto != null) {
+			new DeviceInfoController(this).insertDeviceInfo(deviceInfoDto);
+		}
 		Intent intent = new Intent(this,MainActivity.class) ;
-		intent.putExtra("ipaddress", ipAddress) ;
+		intent.putExtra("deviceDiscovered", true) ;
 		intent.putExtra("pname", purifierName) ;
 		setResult(RESULT_OK,intent) ;
 		finish() ;
@@ -593,10 +619,15 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		if (SessionDto.getInstance().getDeviceDto() != null) {
 			deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
+			purifierName = SessionDto.getInstance().getDeviceDto().getName();
+		}
+		
+		if (SessionDto.getInstance().getDeviceWifiDto() != null) {
 			ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getIpaddress()) ;
 			subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getNetmask()) ; 
 			routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getGateway()) ;
 			wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress());
+			cppId = SessionDto.getInstance().getDeviceWifiDto().getCppid(); 
 			purifierName = SessionDto.getInstance().getDeviceDto().getName();
 		}
 	}
@@ -679,52 +710,65 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	public boolean handleMessage(Message msg) {
 		DeviceModel device = null ;
 		if (null != msg) {
-			final MessageID message = MessageID.getID(msg.what);
+			final DiscoveryMessageID message = DiscoveryMessageID.getID(msg.what);
 			final InternalMessage internalMessage = (InternalMessage) msg.obj;
 			if (null != internalMessage && internalMessage.obj instanceof DeviceModel) {
 				device = (DeviceModel) internalMessage.obj;
-				//	Log.i(TAG, "Device Information " + device);
-
 			}
-			String ip = "";
+			
+			if (device == null ) {
+				return false;
+			}
+			
 			switch (message) {
 			case DEVICE_DISCOVERED:
-				final String xml = msg.getData().getString(ConnectionLibContants.XML_KEY);
-				//ip = msg.getData().getString(ConnectionLibContants.IP_KEY);
-				final int port = msg.getData().getInt(ConnectionLibContants.PORT_KEY);
-
-
-				if (device != null && device.getSsdpDevice() != null &&
-						device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) &&
-						device.getIpAddress() != null && ipAddress == null) {
+				
+				if (device.getSsdpDevice() == null) {
+					return false    ;
+				}
+				
+				Log.i("Discover", "Set up CppId: " + cppId);
+				
+				if (cppId == null || cppId.length() <= 0) {
+					return  false ;
+				}
+								
+				String ssdpCppId = device.getSsdpDevice().getCppId();
+				if (ssdpCppId == null || ssdpCppId.length() <= 0) {
+					return false;
+				}
+				
+				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
+						&& cppId.equalsIgnoreCase(ssdpCppId)) {
+					
+					Log.i("Discover", "SSDP CppId: " + device.getSsdpDevice().getCppId());
+					deviceInfoDto = new DeviceInfoDto();
+					deviceInfoDto.setUsn(device.getUsn());
+					deviceInfoDto.setCppId(device.getSsdpDevice().getCppId());
+					deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
+					
+					if (device.getBootID() != null && device.getBootID().length() > 0) {
+						deviceInfoDto.setBootId(Long.parseLong(device.getBootID().trim()));
+					}
+					if ( ewsService != null) {
+						deviceInfoDto.setDeviceKey(ewsService.getDevKey());
+					}
+					
 					ipAddress = device.getIpAddress() ;
-					com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), this) ;
+					com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), EwsActivity.this) ;
 					deviceDiscoveryCompleted();
-//					new DISecurity(this).exchangeKey(String.format(AppConstants.URL_SECURITY, device.getIpAddress()), "dev01");
 				}
 				break;
 			case DEVICE_LOST:
-				ip = msg.getData().getString("ip");
-				//Log.i(TAG, "DEVICE LOST USN  " + device.getUsn());
-				if (device != null && device.getIpAddress() != null) {
-					//deviceList.remove(device.getIpAddress());
-				}
-				ip = null;
 				break;
-
 			default:
 				//Log.i(TAG, "default");
 				break;
 			}
-			if (null != ip && (!ip.isEmpty())) {
-				//deviceList.add(ip);
-			} 
-
 			return false;
 		}
 		return false;
-	}
-	
+	}	
 	private void deviceDiscoveryCompleted() {
 		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;

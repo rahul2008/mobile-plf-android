@@ -66,7 +66,8 @@ public class DBHelper extends SQLiteOpenHelper {
 		String createDeviceInfo = "CREATE TABLE IF NOT EXISTS " + AppConstants.AIRPUR_INFO_TABLE + "("
 				+ AppConstants.ID + " INTEGER PRIMARY KEY,"
 				+ AppConstants.AIRPUR_USN + " TEXT UNIQUE," 
-				+ AppConstants.AIRPUR_CPP_ID + " TEXT," 
+				+ AppConstants.AIRPUR_CPP_ID + " TEXT UNIQUE," 
+				+ AppConstants.AIRPUR_DEVICE_NAME + " TEXT," 
 				+ AppConstants.AIRPUR_BOOT_ID + " NUMERIC,"
 				+ AppConstants.AIRPUR_KEY + " TEXT" + ")";
 		

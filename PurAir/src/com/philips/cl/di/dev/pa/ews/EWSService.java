@@ -28,7 +28,8 @@ import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 
 
-public class EWSService extends BroadcastReceiver implements KeyDecryptListener, EWSTaskListener, Runnable {
+public class EWSService extends BroadcastReceiver 
+	implements KeyDecryptListener, EWSTaskListener, Runnable {
 
 	private static final String TAG = EWSService.class.getSimpleName() ;
 	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/0/wifi";
@@ -56,7 +57,21 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	private int errorCodeStep2 = EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND  ;
 	
 	private int errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE ;
-
+	/**
+	 * 
+	 */
+	private String devKey;
+	/**
+	 * 
+	 */
+	private String cppId = "";
+	/**
+	 * 
+	 * @param listener
+	 * @param context
+	 * @param homeSSID
+	 * @param password
+	 */
 	public EWSService(EWSListener listener, Context context, String homeSSID, String password) {
 		this.listener = listener ;
 		this.context = context ;
@@ -209,7 +224,7 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	private void initializeKey() {
 		Log.i("ews", "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
-		di.exchangeKey(SECURITY_URI, AppConstants.DEVICEID) ;
+		di.exchangeKey(SECURITY_URI, cppId) ;
 	}
 
 
@@ -384,9 +399,10 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	}
 
 	@Override
-	public void keyDecrypt(String key) {
+	public void keyDecrypt(String key, String deviceId) {
 		Log.i("ews", "Key: "+key) ;
 		if ( key != null ) {
+			setDevKey(key);
 			getDeviceDetails() ;
 		}
 	}
@@ -472,7 +488,13 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 	private void storeDeviceWifiDetails(String data) {
 		Gson gson = new GsonBuilder().create() ;
 		DeviceWifiDto deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
+		
 		SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
+		
+		if (deviceWifiDto != null) {
+			cppId = deviceWifiDto.getCppid();
+		}
+		
 	}
 
 	private CountDownTimer deviceSSIDTimer = new CountDownTimer(30000, 1000) {
@@ -532,6 +554,13 @@ public class EWSService extends BroadcastReceiver implements KeyDecryptListener,
 				e.printStackTrace();
 			}
 		}
-		
+	}
+	
+	public void setDevKey(String devKey) {
+		this.devKey = devKey;
+	}
+	
+	public String getDevKey() {
+		return devKey;
 	}
 }
