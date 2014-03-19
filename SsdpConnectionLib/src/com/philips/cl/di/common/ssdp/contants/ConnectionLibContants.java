@@ -11,7 +11,7 @@ public final class ConnectionLibContants {
 	public static final String FILENAME = Environment.getExternalStorageDirectory().getAbsolutePath()
 	        + "/Android/data/deviceinfo";
 	public static final String IP_KEY = "ip";
-	public static final String LOG_TAG = " ";
+	public static final String LOG_TAG = "SSDPLIB";
 	public static final String PORT_KEY = "port";
 
 	public static final String SSDP_ALIVE = "alive";

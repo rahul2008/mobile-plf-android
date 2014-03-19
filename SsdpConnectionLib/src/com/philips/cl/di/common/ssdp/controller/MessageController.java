@@ -10,7 +10,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
-import com.philips.cl.di.common.ssdp.contants.MessageID;
+import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 
 /**
@@ -68,6 +68,7 @@ public class MessageController implements MessageNotifier {
 	 */
 	@Override
 	public void addMessageHandler(final Handler handler) {
+		
 		if (!messageHandlers.contains(handler)) {
 			messageHandlers.add(handler);
 		}
@@ -130,7 +131,8 @@ public class MessageController implements MessageNotifier {
 	 */
 	@Override
 	public void removeMessageHandler(final Handler handler) {
-		messageHandlers.remove(handler);
+		Log.d(ConnectionLibContants.LOG_TAG, "Remove message handler. ");
+		messageHandlers.clear() ;
 	}
 
 	/**
@@ -139,7 +141,7 @@ public class MessageController implements MessageNotifier {
 	 * @param messageID
 	 *            MessageID
 	 */
-	public void sendInternalMessage(final MessageID messageID) {
+	public void sendInternalMessage(final DiscoveryMessageID messageID) {
 		if (null != messageID) {
 			sendInternalMessageWithID(messageID.ordinal(), null);
 		}
@@ -155,7 +157,7 @@ public class MessageController implements MessageNotifier {
 	 * @param arg2
 	 *            int
 	 */
-	public void sendInternalMessage(final MessageID messageID, final int arg1, final int arg2) {
+	public void sendInternalMessage(final DiscoveryMessageID messageID, final int arg1, final int arg2) {
 		if (null != messageID) {
 			final InternalMessage msg = new InternalMessage();
 			msg.obj = null;
@@ -190,7 +192,7 @@ public class MessageController implements MessageNotifier {
 	 * @param obj
 	 *            Object
 	 */
-	public void sendInternalMessage(final MessageID messageID, final Object obj) {
+	public void sendInternalMessage(final DiscoveryMessageID messageID, final Object obj) {
 		if (null != messageID) {
 			sendInternalMessageWithID(messageID.ordinal(), obj);
 		}
@@ -223,6 +225,7 @@ public class MessageController implements MessageNotifier {
 				message.setData(bundle);
 			}
 			for (final Handler handler : messageHandlers) {
+				Log.e(ConnectionLibContants.LOG_TAG, "messageHandlers size= " + messageHandlers.size());
 				if (null != handler) {
 					handler.sendMessage(Message.obtain(message));
 				}
@@ -239,6 +242,10 @@ public class MessageController implements MessageNotifier {
 	 *            Callback
 	 */
 	public void setCallback(final Callback cb) {
+		if ( messageHandlers != null && messageHandlers.size() > 0) {
+			messageHandlers.clear();
+			Log.e(ConnectionLibContants.LOG_TAG, "All ready messageHandlers having message.");
+		}
 		myHandler = new Handler(cb);
 		messageHandlers.add(myHandler);
 	}

@@ -69,7 +69,7 @@ public class BaseUrlParser {
 		 */
 		@Override
 		public void characters(final char[] ch, final int start, final int length)
-		        throws SAXException {
+				throws SAXException {
 			super.characters(ch, start, length);
 			mStringBuilder.append(ch, start, length);
 		}
@@ -91,52 +91,23 @@ public class BaseUrlParser {
 		 */
 		@Override
 		public void endElement(final String uri, final String localName, final String qName)
-		        throws SAXException {
+				throws SAXException {
 			// TODO: remove .replaceAll(REGEXP, ""); and make one regexp for the whole xmlToParse
 			super.endElement(uri, localName, qName);
 			if (devicesCount >= 0) {
-				if (isEqual(localName, XmlParserConstants.ICON_LIST)) {
-					insideIconList = false;
-				} else {
 					final String modifiedString = mStringBuilder.toString().replaceAll(XmlParserConstants.REGEXP, "");
-					if (insideIconList && (null != icon)) {
-						if (isEqual(localName, XmlParserConstants.MIME)) {
-							icon.mimeType = modifiedString;
-						} else if (isEqual(localName, XmlParserConstants.HEIGHT)) {
-							icon.height = modifiedString;
-						} else if (isEqual(localName, XmlParserConstants.WIDTH)) {
-							icon.width = modifiedString;
-						} else if (isEqual(localName, XmlParserConstants.DEPTH)) {
-							icon.depth = modifiedString;
-						} else if (isEqual(localName, XmlParserConstants.URL)) {
-							icon.url = modifiedString;
-						} else if (isEqual(localName, XmlParserConstants.ICON)) {
-							mSsdpDevice.getIconList().add(icon);
-							icon = null;
-						}
-					} else if (isEqual(localName, XmlParserConstants.PRESENTATION_URL)) {
-						mSsdpDevice.setPresentationURL(modifiedString);
-					} else if (isEqual(localName, XmlParserConstants.DEVICE_TYPE)) {
+					 if (isEqual(localName, XmlParserConstants.DEVICE_TYPE)) {
 						mSsdpDevice.setDeviceType(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.FRIENDLY_NAME)) {
 						mSsdpDevice.setFriendlyName(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.MANUFACTURER)) {
 						mSsdpDevice.setManufacturer(modifiedString);
-					} else if (isEqual(localName, XmlParserConstants.MANUFACTURER_URL)) {
-						mSsdpDevice.setManufacturerURL(modifiedString);
-					} else if (isEqual(localName, XmlParserConstants.MODEL_DESCRIPTION)) {
-						mSsdpDevice.setModelDescription(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.MODEL_NAME)) {
 						mSsdpDevice.setModelName(modifiedString);
-					} else if (isEqual(localName, XmlParserConstants.MODEL_NUMBER)) {
-						mSsdpDevice.setModelNumber(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.UDN)) {
 						mSsdpDevice.setUdn(modifiedString);
-					} else if (isEqual(localName, XmlParserConstants.UPC)) {
-						mSsdpDevice.setUPC(modifiedString);
-					} else if (isEqual(localName, XmlParserConstants.X_SCREEN) && isSmallScreen) {
-						mSsdpDevice.setXScreen(modifiedString);
-						isSmallScreen = false;
+					} else if (isEqual(localName, XmlParserConstants.CPP_ID)) {
+						mSsdpDevice.setCppId(modifiedString);
 					} else if (isEqual(localName, XmlParserConstants.DEVICE)) {
 						devicesCount--;
 						if (devicesCount >= 0) {
@@ -145,7 +116,6 @@ public class BaseUrlParser {
 							mSsdpDevice.setFriendlyName(modifiedString);
 						}
 					}
-				}
 			}
 			mStringBuilder.setLength(0);
 		}
@@ -167,7 +137,7 @@ public class BaseUrlParser {
 		 */
 		@Override
 		public void startDocument()
-		        throws SAXException {
+				throws SAXException {
 			super.startDocument();
 
 			mStringBuilder = new StringBuilder(16);
@@ -195,30 +165,14 @@ public class BaseUrlParser {
 		 */
 		@Override
 		public void startElement(final String uri, final String localName, final String qName,
-		        final Attributes attributes)
-		        throws SAXException {
+				final Attributes attributes)
+						throws SAXException {
 			super.startElement(uri, localName, qName, attributes);
-			if (isEqual(localName, XmlParserConstants.ICON_LIST)) {
-				insideIconList = true;
-			} else if (isEqual(localName, XmlParserConstants.ICON) && insideIconList && (null == icon)) {
-				icon = new Icon();
-			} else if (isEqual(localName, XmlParserConstants.DEVICE)) {
+
+			if (isEqual(localName, XmlParserConstants.DEVICE)) {
 				mSsdpDevice = new SSDPdevice();
-				mSsdpDevice.setIconList(new ArrayList<Icon>());
-				isSmallScreen = false;
 				devicesList.add(mSsdpDevice);
 				devicesCount++;
-			} else if (isEqual(localName, XmlParserConstants.X_SCREEN)) {
-				if (null != attributes) {
-					final int length = attributes.getLength();
-					for (int i = 0; i < length; i++) {
-						if (attributes.getQName(i).equals(XmlParserConstants.X_SCREEN_ATTRIBUTE)
-						        && attributes.getValue(i).equals(XmlParserConstants.X_SCREEN_VALUE)) {
-							isSmallScreen = true;
-							break;
-						}
-					}
-				}
 			}
 		}
 	}
@@ -231,6 +185,20 @@ public class BaseUrlParser {
 	 * @return List<SSDPdevice>
 	 */
 	public List<SSDPdevice> getDevicesList() {
+		if (null != devicesList) {
+			for (SSDPdevice ssdPdevice : devicesList) {
+				Log.i("SSDPdevice", "Device Information:  " 
+						+ "    getManufacturer()= " + ssdPdevice.getManufacturer()
+						+ "    getManufacturerURL= " + ssdPdevice.getManufacturerURL()
+						+ "    getModelDescription= " + ssdPdevice.getModelDescription()
+						+ "    getModelName= " + ssdPdevice.getModelName()
+						+ "    getModelNumber= " + ssdPdevice.getModelNumber()
+						+ "    getPresentationURL= " + ssdPdevice.getPresentationURL()
+						+ "    getUdn= " + ssdPdevice.getUdn()
+						+ "    getUPC= " + ssdPdevice.getUPC()
+						+ "    getCppId= " + ssdPdevice.getCppId());
+			}
+		}
 		return devicesList;
 	}
 
@@ -255,18 +223,18 @@ public class BaseUrlParser {
 					}
 				}
 			} catch (final ParserConfigurationException e) {
-				Log.e(ConnectionLibContants.LOG_TAG, "ParserConfigurationException " + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "ParserConfigurationException in parse device info ssdp" + e.getMessage());
 			} catch (final SAXException e) {
-				Log.e(ConnectionLibContants.LOG_TAG, "SAXException " + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "SAXException in parse device info ssdp " + e.getMessage());
 			} catch (final IOException e) {
-				Log.e(ConnectionLibContants.LOG_TAG, "IOException " + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "IOException in parse device info ssdp" + e.getMessage());
 			} finally {
 				try {
 					if (null != inputStream) {
 						inputStream.close();
 					}
 				} catch (final IOException e) {
-					Log.e(ConnectionLibContants.LOG_TAG, "IOException " + e.getMessage());
+					Log.e(ConnectionLibContants.LOG_TAG, "IOException ssdp close input stream" + e.getMessage());
 				}
 			}
 		}

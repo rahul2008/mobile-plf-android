@@ -24,11 +24,11 @@ public final class XmlParserConstants {
 	public static final String REGEXP = "^\n*[:blank:]*|[:blank:]+$"; // $codepro.audit.disable
 	                                                                  // platformSpecificLineSeparator
 	public static final String UDN = "UDN";
+	public static final String CPP_ID = "cppId";
 	public static final String UPC = "UPC";
 	public static final String URL = "url";
 	public static final String WIDTH = "width";
 
-	public static final String X_SCREEN = "X_screen";
 	public static final String X_SCREEN_ATTRIBUTE = "type";
 	public static final String X_SCREEN_VALUE = "Small";
 

@@ -12,6 +12,7 @@
 #define STR_NTS_BYEBYE	"ssdp:byebye"
 #define STR_USN			"USN:"
 #define STR_LOCATION	"LOCATION:"
+#define STR_BOOT_ID	    "BOOTID.UPNP.ORG:" //Manzer
 
 
 // Removes spaces from beggining and replaces '\n' with '\0'
@@ -59,6 +60,7 @@ int parseSSDP(char * buffer, int bufferSize, SsdpStruct * ssdpStruct) {
     //Just uncomment to see what's received in socket before  filtering
     //printf("SSDP CALLBACK:\n%s\n",buffer);
 	//check for valid SSDP packet
+	LOGD("SSDP CALLBACK:\n%s\n", buffer);
 	toUpperCase(buffer);
 
 	char* notify = strstr(buffer, "NOTIFY * HTTP/1.1");
@@ -78,17 +80,22 @@ int parseSSDP(char * buffer, int bufferSize, SsdpStruct * ssdpStruct) {
 			//check for USN: and LOCATION:
 			(*ssdpStruct).USN = strstr(buffer, STR_USN);
 			(*ssdpStruct).LOCATION = strstr(buffer, STR_LOCATION);
+			(*ssdpStruct).BOOT_ID = strstr(buffer, STR_BOOT_ID); //Manzer
 			if (NULL == (*ssdpStruct).USN || NULL == (*ssdpStruct).LOCATION) {
 				LOGE("Missing USN || LOCATION");
 				return -1;
 			}
-			
+
 			//Null terminate all strings and remove prefixes if necessary
 			createNullTermString(&(*ssdpStruct).NTS);
 			(*ssdpStruct).USN	+= strlen(STR_USN);
 			createNullTermString(&(*ssdpStruct).USN);
 			(*ssdpStruct).LOCATION += strlen(STR_LOCATION);			
 			createNullTermString(&(*ssdpStruct).LOCATION);
+			if (NULL != (*ssdpStruct).BOOT_ID) {
+				(*ssdpStruct).BOOT_ID += strlen(STR_BOOT_ID);	//Manzer
+				createNullTermString(&(*ssdpStruct).BOOT_ID); //Manzer
+			}
 			return 0;
 		}
 	}

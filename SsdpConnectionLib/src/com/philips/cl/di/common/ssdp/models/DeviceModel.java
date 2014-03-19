@@ -57,6 +57,10 @@ public class DeviceModel {
 	private SSDPdevice mSsdpDevice;
 
 	private String mUsn = null;
+	
+	private String mBootID = null;
+	
+	private String mCppId = null;
 
 	/**
 	 * constructor used by TwonkyService for discovered UPNPs
@@ -107,12 +111,13 @@ public class DeviceModel {
 	 *            int
 	 */
 	public DeviceModel(final String pNTS, final String pUSN, final String pLOCATION, final String pIpAddress,
-	        final int pPort) {
+	        final int pPort, final String pBootID) {
 		mNts = pNTS;
 		mUsn = pUSN;
 		mLocation = pLOCATION;
 		ipAddress = pIpAddress;
 		mPort = pPort;
+		mBootID = pBootID;
 	}
 
 	/**
@@ -246,6 +251,20 @@ public class DeviceModel {
 	public String getUsn() {
 		return mUsn;
 	}
+	
+	/**
+	 * @return the mBootID
+	 */
+	public String getBootID() {
+		return mBootID;
+	}
+	
+	/**
+	 * @return the mCppId
+	 */
+	public String getCppId() {
+		return mCppId;
+	}
 
 	/**
 	 * Method hashCode.
@@ -302,7 +321,7 @@ public class DeviceModel {
 
 			if (isPhilipsDevice()) {
 				pSSDPdevice.getPresentationURL();
-				if (!pSSDPdevice.getPresentationURL().contains("http://")) {
+				if (pSSDPdevice.getPresentationURL() != null && !pSSDPdevice.getPresentationURL().contains("http://")) {
 					final StringBuilder builder = new StringBuilder(mSsdpDevice.getBaseURL());
 					builder.append(pSSDPdevice.getPresentationURL());
 					builder.append(pSSDPdevice.getXScreen());
@@ -389,6 +408,22 @@ public class DeviceModel {
 	public void setUsn(final String pUsn) {
 		mUsn = pUsn;
 	}
+	
+	/**
+	 * @param mBootID
+	 *            the mBootID to set
+	 */
+	public void setBootID(final String bootID) {
+		mBootID = bootID;
+	}
+	
+	/**
+	 * @param mCppid
+	 *            the mCppId to set
+	 */
+	public void setCppId(final String cppId) {
+		mCppId = cppId;
+	}
 
 	/**
 	 * printing method used for debugging
@@ -398,10 +433,11 @@ public class DeviceModel {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("[mUsn:").append(mUsn);
-		builder.append("][mNts:").append(mNts).append(']');
-		builder.append("[mLocation:").append(mLocation).append("][ mIpAddress:");
-		builder.append(ipAddress).append("][ port:").append(mPort);
+		builder.append("SSDP discovered device detials [mUsn:").append(mUsn);
+		builder.append("][Nts:").append(mNts).append(']');
+		builder.append("[Location:").append(mLocation).append("][ IpAddress:");
+		builder.append(ipAddress).append("][ Port:").append(mPort);
+		builder.append("][BOOT ID ").append(mBootID);
 		builder.append("][SSDP ").append(mSsdpDevice).append(']'); //$NON-NLS-1$
 		return builder.toString();
 	}

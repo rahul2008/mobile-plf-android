@@ -113,7 +113,7 @@ static void * discoveryThreadRunable(void * param) {
 					return NULL;
 				} else {
 					buffer[numBytes]='\0';
-					LOGD("BUFFER:\n%s", buffer);
+					LOGD("BUFFER device detials...:\n%s", buffer);
 					if (0 == parseSSDP(buffer, numBytes, &ssdpStructure)) {
 						callback(&ssdpStructure);
 					}

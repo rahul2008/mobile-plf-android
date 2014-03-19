@@ -60,6 +60,10 @@ public class SSDPdevice {
 	 */
 	private String mUPC;
 	/**
+	 * Field CPPid.
+	 */
+	private String mCppId;
+	/**
 	 * Field xScreen.
 	 */
 	private String mXScreen;
@@ -174,6 +178,13 @@ public class SSDPdevice {
 	 */
 	public String getUPC() {
 		return mUPC;
+	}
+	
+	/**
+	 * @return the mCppId
+	 */
+	public String getCppId() {
+		return mCppId;
 	}
 
 	/**
@@ -296,6 +307,14 @@ public class SSDPdevice {
 	public void setUPC(final String mUPC) {
 		this.mUPC = mUPC;
 	}
+	
+	/**
+	 * @param mCppId
+	 *            the mCppId to set
+	 */
+	public void setCppId(final String mCppId) {
+		this.mCppId = mCppId;
+	}
 
 	/**
 	 * @param mXScreen
@@ -313,11 +332,12 @@ public class SSDPdevice {
 	@Override
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("[mManufacturer ").append(mManufacturer).append("][ mModelName ");
-		builder.append(mModelName).append("][ mUdn ").append(mUdn);
+		builder.append("SSDP discovered device other details: [mManufacturer ").append(mManufacturer).append("][ mModelName ");
+		builder.append(mModelName).append("][ mUdn ").append(mUdn).append("][ CppId ").append(mCppId);;
 		builder.append("][ mDeviceType ").append(mDeviceType);
 		builder.append(" ][mBaseURL ").append(mBaseURL).append("][ mPresentationURL");
 		builder.append(mPresentationURL).append(']');
 		return builder.toString();
 	}
+
 }
