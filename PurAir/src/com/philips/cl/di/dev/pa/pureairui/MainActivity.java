@@ -320,8 +320,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
 					if(weatherDto==null || weatherDto.size()<1)
 						getDashboard().startWeatherDataTask();
-					
-					
 				}
 				else if( mobileInfo != null && mobileInfo.isConnected() ) {
 					isNetworkAvailable=true;
@@ -1289,6 +1287,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				
 				if (ssdpDeviceUsn.equalsIgnoreCase(localDeviceUsn)) {
 					ALog.i(ALog.MAINACTIVITY, "Device Lost: "+ssdpDeviceUsn) ;
+					disableRightMenuControls() ;
 					toggleConnection(false);
 					isDeviceDiscovered = false;
 					secretKey = null ;
