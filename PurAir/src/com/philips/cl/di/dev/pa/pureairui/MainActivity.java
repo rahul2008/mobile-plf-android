@@ -503,6 +503,14 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			finish();
 		}
 	}
+	
+	public DrawerLayout getDrawerLayout(){
+		return mDrawerLayout;
+	}
+	
+	public ScrollView getScrollViewRight() {
+		return mScrollViewRight;
+	}
 
 	public void stopAllServices() {
 		secretKey = null ;
