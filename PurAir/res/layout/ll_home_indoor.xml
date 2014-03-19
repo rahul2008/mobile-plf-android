@@ -52,4 +52,17 @@
 		android:layout_weight="10"
 		layout="@layout/rl_indoor_aqi_info" />
 
+
+     <Button
+            android:id="@+id/take_action"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Take Action"
+            android:textColor="@color/white"/>
 </LinearLayout>
