@@ -787,7 +787,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 
 	public void setIndoorAQIValue(float indoorAQI) {
 		//Show Take Action button only if AQI is Very Unhealthy
-		if (indoorAQI > 3.5f )
+		if (indoorAQI > 3.5f && isIndoorExpanded)
 		{
 			bBtnTakeActionVisible = true;
 			takeAction.setVisibility(View.VISIBLE);

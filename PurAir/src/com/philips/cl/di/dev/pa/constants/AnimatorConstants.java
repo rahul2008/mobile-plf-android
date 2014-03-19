@@ -102,7 +102,7 @@ public class AnimatorConstants {
 	public static float indoorTextScaleDownTranslationY(int layoutHeight) {
 		float translationY = 0;
 		
-		translationY = (layoutHeight * -0.2254f);
+		translationY = (layoutHeight * -0.2104f);
 		Log.i(TAG, "indoorTextScaleDownTranslationY " + translationY);
 		return translationY;
 	}
