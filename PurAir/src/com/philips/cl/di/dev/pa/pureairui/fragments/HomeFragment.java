@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
@@ -30,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.nineoldandroids.animation.AnimatorSet;
@@ -89,6 +91,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 
 	/** Gesture listener to detect fling*/
 	private GestureDetectorCompat gestureDetectorCompat;
+	
+	private Button takeAction;
+	boolean bBtnTakeActionVisible;
 
 	/** Dashboard values*/
 	private float indoorAQIValue;
@@ -120,6 +125,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		isIndoorExpanded = true;
 		rotateOutdoorCircle = true;
 		rotateIndoorCircle = true;
+		bBtnTakeActionVisible = false;
+		
 		if(SessionDto.getSessionDto() != null && SessionDto.getSessionDto().getCityDetails() != null)
 			Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
 		
@@ -138,6 +145,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 
 	/** Update dashboard values on resume*/
 	private void setIndoorDashBoardValues(float pSense) {
+		//Show Take Action button only if AQI is Very Unhealthy
+		if (pSense > 3.5f )
+		{
+			bBtnTakeActionVisible = true;
+			takeAction.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			bBtnTakeActionVisible = false;
+			takeAction.setVisibility(View.INVISIBLE);
+		}
+
 		tvIndoorAQI.setText(setIndoorPSenseText(pSense));
 		setIndoorAQIStatusAndComment(indoorPSense);
 		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(pSense));
@@ -215,7 +234,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		Log.i(TAG, " llindoor " + params.height + " lloutdoor " + llOutdoor.getLayoutParams().height + " :: " + indoorHeight + " :: " + outdoorHeight);
 		ivIndoorCircle = (ImageView) vMain.findViewById(R.id.indoor_circle_pointer);
 		ivIndoorCircle.setOnClickListener(this);
-
+		
 		ivIndoorMeter = (ImageView) vMain.findViewById(R.id.indoor_circle_meter);
 		tvFilterHome = (TextView) vMain.findViewById(R.id.tv_filter_home);
 		ivFanSpeedIcon = (ImageView) vMain.findViewById(R.id.iv_filter_icon);
@@ -233,6 +252,17 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		ivOutdoorCircle = (ImageView) vMain.findViewById(R.id.outdoor_circle_pointer);
 		ivOutdoorCircle.setOnClickListener(this);
 
+		//Take Action Button
+		takeAction = (Button) vMain.findViewById(R.id.take_action); 
+		takeAction.setOnClickListener(new OnClickListener() { 
+		@Override
+		public void onClick(View v) {
+			DrawerLayout mDrawerLayout = ((MainActivity)getActivity()).getDrawerLayout();
+			ScrollView mScrollViewRight = ((MainActivity)getActivity()).getScrollViewRight();
+			mDrawerLayout.openDrawer(mScrollViewRight);
+			}
+		}); 
+					
 		ivOutdoorMeter = (ImageView) vMain.findViewById(R.id.outdoor_circle_meter);
 
 		tvOutdoorAQI = (TextView) vMain.findViewById(R.id.outdoor_aqi_reading);
@@ -535,7 +565,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		}
 		Log.i(TAG, "Processing onFling isIndoorExpanded " + isIndoorExpanded + " screenWidth " + MainActivity.getScreenWidth() + " screenHeight " + MainActivity.getScreenHeight() + " layoutHeight " + indoorHeight);
 		float differenceY = (e2.getY() - e1.getY());
-
+			
 		if(Math.abs(differenceY) > SWIPE_THRESHOLD
 				&& Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
 			if(differenceY > 0) {
@@ -543,12 +573,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 					scaleUpIndoorFragment.start();
 					scaleDownOutdoorFragment.start();
 					isIndoorExpanded = true;
+					if (bBtnTakeActionVisible)
+						takeAction.setVisibility(View.VISIBLE);
 				}
 			} else if (differenceY < 0) {
 				if(isIndoorExpanded) {
 					scaleDownIndoorFragment.start();
 					scaleUpOutdoorFragment.start();
 					isIndoorExpanded = false;
+					takeAction.setVisibility(View.INVISIBLE); 
 				}
 			}
 		}
@@ -562,7 +595,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			String[] date = time.split(" ");
 			Log.i(TAG, time) ;
 			if (tvUpdatedAtDate != null && date != null && date.length > 1 ) {
-				tvUpdatedAtDate.setText(date[0] + "\n" + date[1]);
+				//tvUpdatedAtDate.setText(date[0] + "\n" + date[1]);
+				String[] dateNew = date[0].split("-");
+				tvUpdatedAtDate.setText(dateNew[2] + "-" + dateNew[1] + "-" + dateNew[0] + "\n" + date[1]);
 			}
 		}
 	}
@@ -751,6 +786,18 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	}
 
 	public void setIndoorAQIValue(float indoorAQI) {
+		//Show Take Action button only if AQI is Very Unhealthy
+		if (indoorAQI > 3.5f )
+		{
+			bBtnTakeActionVisible = true;
+			takeAction.setVisibility(View.VISIBLE);
+		}
+		else
+		{
+			bBtnTakeActionVisible = false;
+			takeAction.setVisibility(View.INVISIBLE);
+		}
+		
 		Log.i(TAG, "BEGIN :: rotateIndoorCircle  " + rotateIndoorCircle + " indoorAQI " + indoorAQI + " indoorAQIValue " + indoorAQIValue);
 		tvIndoorAQI.setText(setIndoorPSenseText(indoorAQI));
 		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(indoorAQI));
