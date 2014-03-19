@@ -25,7 +25,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.os.PowerManager;
@@ -100,8 +99,6 @@ import com.philips.cl.di.dev.pa.utils.Utils;
 
 
 public class MainActivity extends BaseActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener {
-
-	private static final String TAG = MainActivity.class.getSimpleName();
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -841,7 +838,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}
 
-		int id = fragmentTransaction.commit();
+		fragmentTransaction.commit();
 		mDrawerLayout.closeDrawer(mListViewLeft);
 	}
 
@@ -940,14 +937,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	}
 
 	private int statusCounter = 0;
-
-	private final Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			if ( msg.what == 1 ) {
-				updatePurifierUIFields() ;
-			}				
-		};
-	};
 	
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierDetails) {
@@ -1088,7 +1077,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			airPurifierDetails.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS) ;
 			setAirPurifierEventDto(airPurifierDetails);
 //			airPurifierEventDto = airPurifierDetails ;
-			handler.sendEmptyMessage(1) ;
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					updatePurifierUIFields();
+				}
+			});
 
 			if( timer != null ) {
 				timer.cancel() ;
