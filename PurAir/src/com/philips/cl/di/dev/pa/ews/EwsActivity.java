@@ -30,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
@@ -103,8 +102,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	 * Contact Philips support variable declare
 	 */
 	private View viewContactPhilipsSupport;
-	private CustomTextView contactPhilipsMessage1, contactPhilipsPhone, 
-	contactPhilipsEmail, contactPhilipsWeb;
 
 	private LayoutInflater inflater;
 
@@ -117,7 +114,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private Dialog progressDialogForStep2 ;
 	
 	private EWSService ewsService ;
-	private String ipAddress ;
 	private String purifierName;
 	private OnFocusChangeListener focusListener;
 	
@@ -266,15 +262,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	private void initializeContactPhilips() {
 		viewContactPhilipsSupport = inflater.inflate(R.layout.contact_philips_support, null);
-
-		contactPhilipsMessage1 = (CustomTextView) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_philips_support_message1); 
-		contactPhilipsPhone = (CustomTextView) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_support_phone); 
-		contactPhilipsEmail = (CustomTextView) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_support_email); 
-		contactPhilipsWeb = (CustomTextView) 
-				viewContactPhilipsSupport.findViewById(R.id.contact_support_website);
 
 		((RelativeLayout) viewContactPhilipsSupport.findViewById
 				(R.id.contact_support_phone_layout)).setOnClickListener(this);  
@@ -754,7 +741,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 						deviceInfoDto.setDeviceKey(ewsService.getDevKey());
 					}
 					
-					ipAddress = device.getIpAddress() ;
 					com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), EwsActivity.this) ;
 					deviceDiscoveryCompleted();
 				}
