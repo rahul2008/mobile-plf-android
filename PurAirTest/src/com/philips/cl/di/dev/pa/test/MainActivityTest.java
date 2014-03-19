@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.util.Hashtable;
 import java.util.List;
 
+import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
 import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
@@ -14,6 +16,9 @@ import android.test.ActivityInstrumentationTestCase2;
 public class MainActivityTest extends
 		ActivityInstrumentationTestCase2<MainActivity> {
 	private MainActivity activity;
+	
+	DeviceInfoController deviceInfoController;
+	List<DeviceInfoDto> deviceInfoList;
 
 	public MainActivityTest() {
 		super(MainActivity.class);
@@ -26,6 +31,9 @@ public class MainActivityTest extends
 		setActivityInitialTouchMode(false);
 
 		activity = getActivity();
+		
+		deviceInfoController = new DeviceInfoController(activity);
+		deviceInfoList = deviceInfoController.getAllDeviceInfo();
 	}
 
 	public void testActivityTitle() {
@@ -37,18 +45,14 @@ public class MainActivityTest extends
 	 */
 	@SuppressWarnings("unchecked")
 	public void testGetAllDeviceInfo_1() {
-		DeviceInfoController deviceInfoController = new DeviceInfoController(activity);
-		List<DeviceInfoDto> deviceInfoList = deviceInfoController.getAllDeviceInfo();
 		
 		Field keysField;
 		try {
 			keysField = MainActivity.class.getDeclaredField("deviceInfoDtoList");
 			keysField.setAccessible(true);
 			List<DeviceInfoDto> deviceInfoList1 = (List<DeviceInfoDto>) keysField.get(activity);
-			
-			if (deviceInfoList == null) {
-				assertNull(deviceInfoList1);
-			}
+			assertNotNull(deviceInfoList1);
+			assertEquals(deviceInfoList.size(), deviceInfoList1.size());
 			
 		} catch (NoSuchFieldException e) {
 			// NOP
@@ -61,37 +65,5 @@ public class MainActivityTest extends
 			e.printStackTrace();
 		}
 	}
-	
-	@SuppressWarnings("unchecked")
-	public void testGetAllDeviceInfo_2() {
-		DeviceInfoController deviceInfoController = new DeviceInfoController(activity);
-		List<DeviceInfoDto> deviceInfoList = deviceInfoController.getAllDeviceInfo();
-		
-		Field keysField;
-		try {
-			keysField = MainActivity.class.getDeclaredField("deviceInfoDtoList");
-			keysField.setAccessible(true);
-			List<DeviceInfoDto> deviceInfoList1 = (List<DeviceInfoDto>) keysField.get(activity);
-			
-			if (deviceInfoList != null) {
-				assertNotNull(deviceInfoList1);
-				assertEquals(deviceInfoList.size(), deviceInfoList1.size());
-			}
-			
-		} catch (NoSuchFieldException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// NOP
-			e.printStackTrace();
-		}
-	}
-	
-//	public void testGetIdUsnExistsInTable() {
-//		
-//	}
 	
 }
