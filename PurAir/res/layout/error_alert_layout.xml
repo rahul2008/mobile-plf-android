@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
-    android:padding="16dp">
+    android:padding="6dp">
 
     <ImageView
         android:id="@+id/iv_goto_support"
@@ -10,7 +10,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/ews_question_mark_2x" />
+        android:src="@drawable/ews_question_mark_2x"/>
 
     <ImageView
         android:id="@+id/iv_close_error_popup"
@@ -19,7 +19,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignTop="@+id/iv_goto_support"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/help_close" />
+        android:src="@drawable/help_close"/>
 
     <TextView
         android:id="@+id/tv_error_message"
@@ -27,10 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/iv_goto_support"
         android:layout_below="@+id/tv_error_header"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="10dp"
+        android:layout_marginTop="6dp"
+        android:lineSpacingExtra="5dp"
         android:textSize="16sp"
-        android:textColor="@color/title_gray" />
+        android:textColor="@color/title_gray"  
+	android:padding ="16dp"/>
 
     <TextView
         android:id="@+id/tv_error_header"
@@ -38,22 +39,28 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/tv_error_message"
         android:layout_below="@+id/iv_goto_support"
-        android:layout_marginTop="30dp"
-        android:lineSpacingExtra="10dp"
-        android:textColor="@color/philips_blue"
+        android:layout_marginTop="12dp"
+	android:lineSpacingExtra="5dp"        
+	android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+ 	android:padding ="16dp"/>
 
     <Button
         android:id="@+id/btn_error_popup"
-        android:layout_width="wrap_content"
+        android:layout_width="122dp"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/iv_close_error_popup"
         android:textSize="14sp"
         android:layout_below="@+id/tv_error_message"
         android:background="@drawable/blue_button_selector"
         android:textColor="@color/white"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp" />
-
+	android:layout_marginRight="15dp"/>
+	
+    <View
+        android:id="@+id/v_alert_error"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_below="@id/btn_error_popup"
+        />
 </RelativeLayout>
