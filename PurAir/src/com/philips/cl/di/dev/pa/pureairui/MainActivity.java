@@ -266,10 +266,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 
 		filter = new IntentFilter() ;
+		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION) ;
-		filter.addAction(Intent.ACTION_SCREEN_ON) ;
-		filter.addAction(Intent.ACTION_SCREEN_OFF) ;
 
 		this.registerReceiver(networkReceiver, filter);
 
@@ -306,10 +304,36 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			public void onReceive(Context context, Intent intent) {
 
 				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-				NetworkInfo wifiInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-				NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+//				NetworkInfo wifiInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+//				NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-				if(wifiInfo != null && wifiInfo.isConnected()) {
+				if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION) || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+					NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
+					NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+					if (netInfo.getState() == android.net.NetworkInfo.State.CONNECTED || mobileInfo.getState() == android.net.NetworkInfo.State.CONNECTED) {
+						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED") ;
+						if( cppController!=null && !cppController.isKeyProvisioned())
+						{
+							ALog.i(ALog.MAINACTIVITY, "startprovisioning on network change if not provisioned") ;
+							cppController.startKeyProvisioning();
+//							cppController.init();
+						}
+						else if(cppController != null &&
+								cppController.isKeyProvisioned() && !cppController.isSignOn()) {
+							ALog.i(ALog.MAINACTIVITY, "startsignon on network change if not signed on") ;
+							
+							cppController.onSignon();
+						}
+						
+						if(SessionDto.getInstance().getOutdoorEventDto() == null)
+							getDashboard().startOutdoorAQITask();
+
+						List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
+						if(weatherDto==null || weatherDto.size() < 1)
+							getDashboard().startWeatherDataTask();
+					}
+				}
+				/**if(wifiInfo != null && wifiInfo.isConnected()) {
 					isNetworkAvailable=true;
 					if(SessionDto.getInstance().getOutdoorEventDto()==null)
 						getDashboard().startOutdoorAQITask();
@@ -320,8 +344,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				}
 				else if( mobileInfo != null && mobileInfo.isConnected() ) {
 					isNetworkAvailable=true;
-					getDashboard().startOutdoorAQITask();
-					getDashboard().startWeatherDataTask();
+					if(SessionDto.getInstance().getOutdoorEventDto()==null)
+						getDashboard().startOutdoorAQITask();
+
+					List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
+					if(weatherDto==null || weatherDto.size()<1)
+						getDashboard().startWeatherDataTask();
 					//toggleConnection(false) ;				
 					
 				}
@@ -334,9 +362,10 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				{
 					if(cppController!=null && !cppController.isSignOn())
 					{
-						cppController.startProvisioning();
+						cppController.startKeyProvisioning();
+//						cppController.init();
 					}
-				}
+				}**/
 			}
 		};
 	}

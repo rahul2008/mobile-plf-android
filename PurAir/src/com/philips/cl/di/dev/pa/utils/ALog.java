@@ -24,6 +24,7 @@ public class ALog {
 	public static final String KPS = "KPS";
 	public static final String MAINACTIVITY = "MainActivityAir" ;
 	public static final String DATABASE = "DatabaseAir" ;
+	public static final String CPPCONTROLLER="CppController";
 	
 	private static boolean isLoggingEnabled = true;
 	

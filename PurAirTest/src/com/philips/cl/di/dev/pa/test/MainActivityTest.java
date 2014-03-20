@@ -43,73 +43,73 @@ public class MainActivityTest extends
 	/**
 	 * SSDP
 	 */
-	public void testSsdpDiscoveryStart() {
-		SsdpService ssdpService = SsdpService.getInstance();
-		ssdpService.startDeviceDiscovery(activity);
-		Field keysField;
-		try {
-			keysField = SsdpService.class.getDeclaredField("mServiceState");
-			keysField.setAccessible(true);
-			DiscoveryServiceState mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
-			assertEquals(DiscoveryServiceState.STARTED, mServiceState);
-			
-		} catch (NoSuchFieldException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// NOP
-			e.printStackTrace();
-		}
-		
-	}
-	
-	public void testSsdpDiscoveryStop() {
-		SsdpService ssdpService = SsdpService.getInstance();
-		ssdpService.stopDeviceDiscovery();
-		Field keysField;
-		try {
-			keysField = SsdpService.class.getDeclaredField("mServiceState");
-			keysField.setAccessible(true);
-			DiscoveryServiceState mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
-			assertEquals(DiscoveryServiceState.STOPPED, mServiceState);
-			
-		} catch (NoSuchFieldException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// NOP
-			e.printStackTrace();
-		}
-		
-	}
-	
-	@SuppressWarnings("unchecked")
-	public void testGetAllDeviceInfo_1() {
-		
-		Field keysField;
-		try {
-			keysField = MainActivity.class.getDeclaredField("deviceInfoDtoList");
-			keysField.setAccessible(true);
-			List<DeviceInfoDto> deviceInfoList1 = (List<DeviceInfoDto>) keysField.get(activity);
-			assertNotNull(deviceInfoList1);
-			assertEquals(deviceInfoList.size(), deviceInfoList1.size());
-			
-		} catch (NoSuchFieldException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// NOP
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// NOP
-			e.printStackTrace();
-		}
-	}
+//	public void testSsdpDiscoveryStart() {
+//		SsdpService ssdpService = SsdpService.getInstance();
+//		ssdpService.startDeviceDiscovery(activity);
+//		Field keysField;
+//		try {
+//			keysField = SsdpService.class.getDeclaredField("mServiceState");
+//			keysField.setAccessible(true);
+//			DiscoveryServiceState mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
+//			assertEquals(DiscoveryServiceState.STARTED, mServiceState);
+//			
+//		} catch (NoSuchFieldException e) {
+//			// NOP
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			// NOP
+//			e.printStackTrace();
+//		} catch (IllegalArgumentException e) {
+//			// NOP
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	
+//	public void testSsdpDiscoveryStop() {
+//		SsdpService ssdpService = SsdpService.getInstance();
+//		ssdpService.stopDeviceDiscovery();
+//		Field keysField;
+//		try {
+//			keysField = SsdpService.class.getDeclaredField("mServiceState");
+//			keysField.setAccessible(true);
+//			DiscoveryServiceState mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
+//			assertEquals(DiscoveryServiceState.STOPPED, mServiceState);
+//			
+//		} catch (NoSuchFieldException e) {
+//			// NOP
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			// NOP
+//			e.printStackTrace();
+//		} catch (IllegalArgumentException e) {
+//			// NOP
+//			e.printStackTrace();
+//		}
+//		
+//	}
+//	
+//	@SuppressWarnings("unchecked")
+//	public void testGetAllDeviceInfo_1() {
+//		
+//		Field keysField;
+//		try {
+//			keysField = MainActivity.class.getDeclaredField("deviceInfoDtoList");
+//			keysField.setAccessible(true);
+//			List<DeviceInfoDto> deviceInfoList1 = (List<DeviceInfoDto>) keysField.get(activity);
+//			assertNotNull(deviceInfoList1);
+//			assertEquals(deviceInfoList.size(), deviceInfoList1.size());
+//			
+//		} catch (NoSuchFieldException e) {
+//			// NOP
+//			e.printStackTrace();
+//		} catch (IllegalAccessException e) {
+//			// NOP
+//			e.printStackTrace();
+//		} catch (IllegalArgumentException e) {
+//			// NOP
+//			e.printStackTrace();
+//		}
+//	}
 	
 }
