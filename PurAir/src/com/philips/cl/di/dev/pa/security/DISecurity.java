@@ -18,12 +18,12 @@ import com.philips.cl.di.dev.pa.utils.ALog;
 
 public class DISecurity implements ServerResponseListener {
 
-	public static Hashtable<String, String> 
+	private static Hashtable<String, String> 
 			securityHashtable = new Hashtable<String,String>();
 	private static Hashtable<String, Boolean> 
 			isExchangingKeyTable = new Hashtable<String, Boolean>();
 	
-	public static Hashtable<String, String> 
+	private static Hashtable<String, String> 
 			urlsTable = new Hashtable<String, String>();
 	private String pValue;
 	private String gValue;
@@ -31,6 +31,7 @@ public class DISecurity implements ServerResponseListener {
 	private KeyDecryptListener keyDecryptListener;
 	
 	private int counterExchangeKey;
+	
 
 	/**
 	 * Constructor
@@ -276,8 +277,6 @@ public class DISecurity implements ServerResponseListener {
 		
 	}
 	
-	
-
 	private boolean isKeyExchanging(String deviceId) {
 		// First time exchange
 		ALog.i(ALog.SECURITY, "isKeyExchanging: "+isExchangingKeyTable.get(deviceId)) ;
@@ -286,5 +285,13 @@ public class DISecurity implements ServerResponseListener {
 		if (!isExchangingKeyTable.get(deviceId)) return false;
 		
 		return true;
+	}
+	
+	public static void setKeyIntoSecurityHashTable(String devId, String key) {
+		securityHashtable.put(devId, key);
+	}
+	
+	public static void setUrlIntoUrlsTable(String devId, String url) {
+		urlsTable.put(devId, url);
 	}
 }

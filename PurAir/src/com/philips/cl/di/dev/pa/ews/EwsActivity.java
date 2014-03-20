@@ -43,7 +43,9 @@ import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.BaseActivity;
+import com.philips.cl.di.dev.pa.utils.ALog;
 import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class EwsActivity extends BaseActivity implements OnClickListener, EWSListener, Callback{
 
@@ -78,7 +80,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private RelativeLayout advSettingLayoutStep3;
 	private LinearLayout advSettingBtnLayoutStep3;
 	private boolean isPasswordVisibelStep3 = true;
-	//private String placeBtnTxtStep3;
 	private View viewStep3;
 	/**
 	 * Congratulation variable declare
@@ -109,8 +110,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private String networkSSID ;
 	private String password ;
 
-	private SsdpService ssdpService ;
-	
 	private Dialog progressDialogForStep2 ;
 	
 	private EWSService ewsService ;
@@ -124,7 +123,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setContentView(R.layout.ews_error_purifier_not_detect);
 
 		initActionBar();
 		
@@ -288,7 +286,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			actionbarTitle.setText(getString(R.string.wifi_setup));
 			break;
 		case 2:
-			//congra
+			//Congratulation
 			actionBarCancelBtn.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.congratulations));
 			break;
@@ -298,7 +296,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			actionbarTitle.setText(getString(R.string.support));
 			break;
 		case 4:
-			//notconnect
+			//Not connected
 			actionBarCancelBtn.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
 			break;
@@ -314,10 +312,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			ewsService.unRegisterListener() ;
 		
 		stopDiscovery();
-//		if(ssdpService != null) {
-//			ssdpService.stopDeviceDiscovery() ;
-//			ssdpService = null ;
-//		}
 		super.onStop();
 	}
 
@@ -357,8 +351,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			connectToAirPurifier() ;
 			break;
 		case R.id.ews_step2_no_btn:
-			//setContentView(viewStep1);
-			// TODO - Show the dialog here
 			showEWSSetUpInstructionsDialog() ;
 			break;	
 		case R.id.ews_password_enable_img:
@@ -415,13 +407,9 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			showHomeScreen() ;
 			break;
 		case R.id.contact_support_phone_layout:
-			//TODO : Uncomment SIM_STATE check, commented for testing.
-//			TelephonyManager tm = (TelephonyManager)getSystemService(TELEPHONY_SERVICE);
-//			if(tm != null && tm.getSimState() == TelephonyManager.SIM_STATE_READY) {
-				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
-				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
-				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
-//			}
+			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
+			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
+			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 			break;
 		case R.id.contact_support_email_layout:
 			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
@@ -454,14 +442,12 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	//Activity Override methods - End
 	
-	
 	private void onCancel() {
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show() ;
 	}
 	
 	//
 	private void checkWifiConnectivity() {
-		//wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		Log.i("wifi", "mWifi.isConnected()== " +mWifi.isConnected());
@@ -549,12 +535,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void stopDiscovery() {
-		Log.i("discover", "11 EWS Stop Discovery   " + ssdpService);
-		if(ssdpService != null) {
-			Log.i("discover", "EWS Stop Discovery");
-			ssdpService.stopDeviceDiscovery() ;
-			ssdpService = null ;
-		}
+		SsdpService.getInstance().stopDeviceDiscovery() ;
 		
 	}
 	
@@ -578,12 +559,10 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	}
 
-
 	@Override
 	public void onSelectHomeNetwork() {
 
 	}
-
 
 	@Override
 	public void onHandShakeWithDevice() {
@@ -623,8 +602,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	@Override
 	public void onDeviceConnectToHomeNetwork() {
 		Toast.makeText(this, "Start Device Discovery", Toast.LENGTH_LONG).show() ;
-		ssdpService = SsdpService.getInstance() ;
-		ssdpService.startDeviceDiscovery(this) ;
+		SsdpService.getInstance().startDeviceDiscovery(this) ;
 	}
 	
 	@Override
@@ -635,7 +613,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onErrorOccurred(int errorCode) {
-		//Toast.makeText(this, "Error Code: "+errorCode, Toast.LENGTH_LONG).show() ;
 		if( progressDialogForStep2.isShowing())
 			progressDialogForStep2.dismiss() ;
 		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
@@ -663,15 +640,12 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	public void onWifiDisabled() {
 		switch (step) {
 		case 1:
-			//checkWifiConnectivity() ;
 			break;
 		}		
 	}
-	
 	// Override methods - EWSListener - End
 	
 	private void showErrorScreen() {
-        //wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if(!wifiManager.isWifiEnabled()) {
         	setActionBarHeading(4);
             setContentView(viewErrorSSID) ;
@@ -714,47 +688,50 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 					return false    ;
 				}
 				
-				Log.i("Discover", "Set up CppId: " + cppId);
-				
 				if (cppId == null || cppId.length() <= 0) {
 					return  false ;
 				}
 								
-				String ssdpCppId = device.getSsdpDevice().getCppId();
-				if (ssdpCppId == null || ssdpCppId.length() <= 0) {
-					return false;
-				}
-				
-				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
-						&& cppId.equalsIgnoreCase(ssdpCppId)) {
-					
-					Log.i("Discover", "SSDP CppId: " + device.getSsdpDevice().getCppId());
-					deviceInfoDto = new DeviceInfoDto();
-					deviceInfoDto.setUsn(device.getUsn());
-					deviceInfoDto.setCppId(device.getSsdpDevice().getCppId());
-					deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
-					
-					if (device.getBootID() != null && device.getBootID().length() > 0) {
-						deviceInfoDto.setBootId(Long.parseLong(device.getBootID().trim()));
-					}
-					if ( ewsService != null) {
-						deviceInfoDto.setDeviceKey(ewsService.getDevKey());
-					}
-					
-					com.philips.cl.di.dev.pa.utils.Utils.setIPAddress(device.getIpAddress(), EwsActivity.this) ;
-					deviceDiscoveryCompleted();
-				}
+				deviceDiscovered(device);
 				break;
 			case DEVICE_LOST:
 				break;
 			default:
-				//Log.i(TAG, "default");
 				break;
 			}
 			return false;
 		}
 		return false;
 	}	
+	
+	private boolean deviceDiscovered(DeviceModel device) {
+		String ssdpCppId = device.getSsdpDevice().getCppId();
+		ALog.i(ALog.EWS, "SSDP CppId: " + ssdpCppId +", ews cppid: " + cppId);
+		if (ssdpCppId == null || ssdpCppId.length() <= 0) {
+			return false;
+		}
+		
+		if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
+				&& cppId.equalsIgnoreCase(ssdpCppId)) {
+			
+			deviceInfoDto = new DeviceInfoDto();
+			deviceInfoDto.setUsn(device.getUsn());
+			deviceInfoDto.setCppId(device.getSsdpDevice().getCppId());
+			deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
+			
+			if (device.getBootID() != null && device.getBootID().length() > 0) {
+				deviceInfoDto.setBootId(Long.parseLong(device.getBootID()));
+			}
+			if ( ewsService != null) {
+				deviceInfoDto.setDeviceKey(ewsService.getDevKey());
+			}
+			
+			Utils.setIPAddress(device.getIpAddress(), EwsActivity.this) ;
+			deviceDiscoveryCompleted();
+		}
+		return true;
+	}
+	
 	private void deviceDiscoveryCompleted() {
 		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
@@ -774,9 +751,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void airPurifierInSetupMode() {
-		
-        //wifiManager.disconnect();
-		
 		if ( step == 2 ) {
 			connectToAirPurifier() ;			
 		}
@@ -786,9 +760,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			setActionBarHeading(1);
 			setContentView(viewStep2) ;
 		}
-		/*if( step == 2 ) {
-			connectToAirPurifier() ;
-		} */
 		
  	}
 	
@@ -803,12 +774,4 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	    }
 	}
 
-//	@Override
-//	public void keyDecrypt(String key) {
-//		Log.i("ews", "EWS final step key== " +key);
-//		if (key != null && key.length() > 0) {
-//			deviceDiscoveryCompleted();
-//		}
-//		
-//	}
 }

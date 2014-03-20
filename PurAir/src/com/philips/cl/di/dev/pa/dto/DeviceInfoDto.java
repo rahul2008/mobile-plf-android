@@ -8,7 +8,14 @@ public class DeviceInfoDto {
 	private String cppId;
 	private String deviceKey;
 	private String deviceName;
+	private String deviceIp;
 	
+	public String getDeviceIp() {
+		return deviceIp;
+	}
+	public void setDeviceIp(String deviceIp) {
+		this.deviceIp = deviceIp;
+	}
 	public String getDeviceName() {
 		return deviceName;
 	}

@@ -147,7 +147,6 @@ public class EWSService extends BroadcastReceiver
 						
 						List<ScanResult> results = wifiManager.getScanResults();
 						processWifiList(results);
-						// Handshake with the Air Purifier
 					} else {
 						// Connected to device, but homeSSID is null - Should never happen
 						// TODO add an error case for this?
@@ -186,19 +185,15 @@ public class EWSService extends BroadcastReceiver
 	}
 	
 	private static boolean isOpenNetwork;
-	private String networkCapability = "";
 	private void processWifiList(List<ScanResult> results) {
 		for (ScanResult scanResult : results) {
 			if (scanResult.SSID != null && homeSSID != null && scanResult.SSID.equals(homeSSID)) {
 				if (scanResult.capabilities.contains("WPA")) {
 					isOpenNetwork = false;
-					networkCapability = "WPA";
 				}else if(scanResult.capabilities.contains("WEP")) {
 					isOpenNetwork = false;
-					networkCapability = "WEP";
 					Log.i("WEPWPA", "scanResult " + scanResult);
 				}else {
-					networkCapability = "";
 					isOpenNetwork = true;
 				} 
 			}
@@ -276,12 +271,6 @@ public class EWSService extends BroadcastReceiver
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		/*if (mPassword != null && mPassword.equals("") == false) {
-			String s = Base64.encodeToString(encrypt(mPassword.getBytes()),
-					Base64.DEFAULT);
-			holder.put("password", s);
-		}*/
 		String js = holder.toString();
 
 		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.DEVICEID);
@@ -292,13 +281,6 @@ public class EWSService extends BroadcastReceiver
 
 	public void connectToDeviceAP() {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		/*if (wifiManager.getConnectionInfo().getSSID() != null 
-				&& wifiManager.getConnectionInfo().getSSID().contains(DEVICE_SSID)) {
-			wifiManager.disconnect();
-			//Toast.makeText(context, wifiManager.getConnectionInfo().getSSID(), Toast.LENGTH_LONG).show();
-		} else {
-			connectTo(DEVICE_SSID, "") ;
-		}*/
 		wifiManager.disconnect();
 		connectToPhilipsSetup();
 		startScanForDeviceAp() ;
