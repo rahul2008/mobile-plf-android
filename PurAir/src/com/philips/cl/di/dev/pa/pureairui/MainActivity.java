@@ -3,13 +3,10 @@ package com.philips.cl.di.dev.pa.pureairui;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -178,6 +175,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		 * Initialize database
 		 */
 		ssdpDeviceInfoTable = new Hashtable<String, DeviceInfoDto>();
+		/**
+		 * Create database and tables
+		 */
 		new DBHelper(this);
 		deviceInfoController = new DeviceInfoController(this);
 		dbDeviceInfoDtoList = deviceInfoController.getAllDeviceInfo();
@@ -294,8 +294,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			public void onReceive(Context context, Intent intent) {
 
 				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-//				NetworkInfo wifiInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-//				NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
 				if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION) || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
 					NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -306,7 +304,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 						{
 							ALog.i(ALog.MAINACTIVITY, "startprovisioning on network change if not provisioned") ;
 							cppController.startKeyProvisioning();
-//							cppController.init();
 						}
 						else if(cppController != null &&
 								cppController.isKeyProvisioned() && !cppController.isSignOn()) {
@@ -323,38 +320,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 							getDashboard().startWeatherDataTask();
 					}
 				}
-				/**if(wifiInfo != null && wifiInfo.isConnected()) {
-					isNetworkAvailable=true;
-					if(SessionDto.getInstance().getOutdoorEventDto()==null)
-						getDashboard().startOutdoorAQITask();
-
-					List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
-					if(weatherDto==null || weatherDto.size()<1)
-						getDashboard().startWeatherDataTask();
-				}
-				else if( mobileInfo != null && mobileInfo.isConnected() ) {
-					isNetworkAvailable=true;
-					if(SessionDto.getInstance().getOutdoorEventDto()==null)
-						getDashboard().startOutdoorAQITask();
-
-					List<Weatherdto> weatherDto = SessionDto.getInstance().getWeatherDetails();
-					if(weatherDto==null || weatherDto.size()<1)
-						getDashboard().startWeatherDataTask();
-					
-				}
-				else
-				{
-					isNetworkAvailable=false;
-				}
-				
-				if(isNetworkAvailable)
-				{
-					if(cppController!=null && !cppController.isSignOn())
-					{
-						cppController.startKeyProvisioning();
-//						cppController.init();
-					}
-				}**/
 			}
 		};
 	}
