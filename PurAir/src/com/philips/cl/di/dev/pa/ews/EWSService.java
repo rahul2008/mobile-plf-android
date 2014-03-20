@@ -25,6 +25,7 @@ import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.DeviceDto;
 import com.philips.cl.di.dev.pa.dto.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.pureairui.PurAirApplication;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 
@@ -40,7 +41,6 @@ public class EWSService extends BroadcastReceiver
 
 	public static final String DEVICE_SSID = "PHILIPS Setup" ;
 	private EWSListener listener ;
-	private Context context ;
 	private String homeSSID ;
 
 	public static final int DEVICE_GET = 1;
@@ -73,9 +73,8 @@ public class EWSService extends BroadcastReceiver
 	 * @param homeSSID
 	 * @param password
 	 */
-	public EWSService(EWSListener listener, Context context, String homeSSID, String password) {
+	public EWSService(EWSListener listener, String homeSSID, String password) {
 		this.listener = listener ;
-		this.context = context ;
 		this.homeSSID = homeSSID ;
 		this.password = password ;
 
@@ -94,14 +93,14 @@ public class EWSService extends BroadcastReceiver
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
 		if( !isRegistered ) {
-			context.registerReceiver(this, filter);
+			PurAirApplication.getAppContext().registerReceiver(this, filter);
 			isRegistered = true ;
 		}
 	}
 
 	public void startScanForDeviceAp() {
 
-		mWifiManager = (WifiManager) context
+		mWifiManager = (WifiManager) PurAirApplication.getAppContext()
 				.getSystemService(Context.WIFI_SERVICE);
 
 		registerListener() ;
@@ -117,7 +116,7 @@ public class EWSService extends BroadcastReceiver
 		if( isRegistered ) {
 			
 			stop = true ;
-			context.unregisterReceiver(this) ;
+			PurAirApplication.getAppContext().unregisterReceiver(this) ;
 			isRegistered = false ;
 		}
 	}
@@ -171,7 +170,7 @@ public class EWSService extends BroadcastReceiver
 	
 	private String getSsidOfConnectedNetwork() {
 		if (mWifiManager == null) {
-			mWifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+			mWifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		}
 
 		WifiInfo connectedWifiNetwork = mWifiManager.getConnectionInfo();
@@ -281,7 +280,7 @@ public class EWSService extends BroadcastReceiver
 
 
 	public void connectToDeviceAP() {
-		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
 		connectToPhilipsSetup();
 		startScanForDeviceAp() ;
@@ -323,7 +322,7 @@ public class EWSService extends BroadcastReceiver
      * @return
      */
 	public boolean connectToConfiguredNetwork(String ssid) {
-		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		WifiConfiguration config = getWifiConfiguration(ssid);
 		if (config == null) {
 			Log.i("ews", "Failed to connect to network - configuration null");
@@ -430,7 +429,7 @@ public class EWSService extends BroadcastReceiver
 	private WifiConfiguration getWifiConfiguration(String ssid) {
 		ssid = ssid.replace("\"", "");
 		
-		WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		List<WifiConfiguration> configuredNetworks = wifiMan.getConfiguredNetworks();
 		
 		for (WifiConfiguration config : configuredNetworks) {
@@ -460,7 +459,7 @@ public class EWSService extends BroadcastReceiver
 		wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.CCMP);
 		wfc.allowedGroupCiphers.set(WifiConfiguration.GroupCipher.TKIP);
 		
-		WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		int networkId = wifiMan.addNetwork(wfc);
 		
 		if (networkId != -1) {

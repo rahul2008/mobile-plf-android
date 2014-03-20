@@ -47,7 +47,7 @@ import com.philips.cl.di.dev.pa.utils.ALog;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class EwsActivity extends BaseActivity implements OnClickListener, EWSListener, Callback{
+public class EwsActivity extends BaseActivity implements OnClickListener, EWSListener, Callback {
 
 	private int step = -1;
 	/**
@@ -341,7 +341,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		case R.id.ews_step1_no_btn:
 			step = 0 ;
 			if( ewsService == null ) {
-				ewsService = new EWSService(this, this, null, null) ;
+				ewsService = new EWSService(this, null, null) ;
 			}
 			ewsService.setSSID(null) ;
 			setActionBarHeading(1);
@@ -455,7 +455,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			step = 0 ;
 			setActionBarHeading(1);
 			setContentView(viewErrorConnect2Network) ;
-			ewsService = new EWSService(this, this, networkSSID, password) ;
+			ewsService = new EWSService(this, networkSSID, password) ;
 		}
 		else {
 			showStepOne() ;
@@ -496,7 +496,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	public void connectToAirPurifier() {
 		progressDialogForStep2.show();
 		if ( ewsService == null)
-			ewsService = new EWSService(this, this, networkSSID, password) ;
+			ewsService = new EWSService(this, networkSSID, password) ;
 		ewsService.setSSID(networkSSID) ;
 		ewsService.connectToDeviceAP() ;
 	}
@@ -509,7 +509,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private void registerNetworkListener() {
 		if( step == 0 || step == 1) {
 			if( ewsService == null ) {
-				ewsService = new EWSService(this, this, null, null) ;
+				ewsService = new EWSService(this, null, null) ;
 			}
 			ewsService.setSSID(null) ;
 			ewsService.registerListener() ;
