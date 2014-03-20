@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import java.net.HttpURLConnection;
+import java.util.Comparator;
 import java.util.List;
 
 import org.json.JSONException;
@@ -293,7 +294,7 @@ public class EWSService extends BroadcastReceiver
 			return false;
 		}
 		int networkId = getConfiguredNetworkId(homeSSID);
-		if (!connectToNetwork(networkId)) {
+		if (!connectToConfiguredNetwork(homeSSID)) {
 			Log.i("ews", "Failed to connect to Home network");
 			return false;
 		}
@@ -308,7 +309,7 @@ public class EWSService extends BroadcastReceiver
 			networkId = configureOpenNetwork(DEVICE_SSID);
 		}
 		
-		if (!connectToNetwork(networkId)) {
+		if (!connectToConfiguredNetwork(DEVICE_SSID)) {
 			Log.i("ews", "Failed to connect to Philips setup");
 			return false;
 		}
@@ -317,26 +318,116 @@ public class EWSService extends BroadcastReceiver
 		return true;
 	}
 	
-	private boolean connectToNetwork(int networkId) {
-		if (networkId < 0) {
-			Log.i("ews", "Failed to connect to network - configuration failed");
-			return false;
-		}
-		
+	/**
+     * Connect to a configured network.
+     * @return
+     */
+	public boolean connectToConfiguredNetwork(String ssid) {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		if (!wifiManager.enableNetwork(networkId, true)) {
-			Log.i("ews", "Failed to connect to network - enabling failed");
+		WifiConfiguration config = getWifiConfiguration(ssid);
+		if (config == null) {
+			Log.i("ews", "Failed to connect to network - configuration null");
 			return false;
 		}
 		
+		int oldPri = config.priority;
+
+		// Make it the highest priority.
+		int newPri = getMaxPriority(wifiManager) + 1;
+		if (newPri > 99999) {
+			newPri = shiftPriorityAndSave(wifiManager);
+			config = getWifiConfiguration(ssid);
+			if (config == null) {
+				return false;
+			}
+		}
+
+		// Set highest priority to this configured network
+		config.priority = newPri;
+		int networkId = wifiManager.updateNetwork(config);
+		if (networkId == -1) {
+			return false;
+		}
+
+		// Do not disable others
+		if (!wifiManager.enableNetwork(networkId, false)) {
+			config.priority = oldPri;
+			return false;
+		}
+
+		if (!wifiManager.saveConfiguration()) {
+			config.priority = oldPri;
+			return false;
+		}
+
+		// We have to retrieve the WifiConfiguration after save.
+		config = getWifiConfiguration(ssid);
+		if (config == null) {
+			return false;
+		}
+
+		// Disable others, but do not save.
+		// Just to force the WifiManager to connect to it.
+		if (!wifiManager.enableNetwork(config.networkId, true)) {
+			return false;
+		}
+
+		final boolean connect = wifiManager.reconnect();
+		if (!connect) {
+			Log.i("ews", "Failed to connect to network - reconnect failed");
+			return false;
+		}
+
 		Log.i("ews", "Successfully connected to network");
 		return true;
 	}
+    
+    private static int getMaxPriority(final WifiManager wifiManager) {
+        final List<WifiConfiguration> configurations = wifiManager.getConfiguredNetworks();
+        int pri = 0;
+        for(final WifiConfiguration config : configurations) {
+                if(config.priority > pri) {
+                        pri = config.priority;
+                }
+        }
+        return pri;
+    }
+    
+    private static int shiftPriorityAndSave(final WifiManager wifiMgr) {
+        final List<WifiConfiguration> configurations = wifiMgr.getConfiguredNetworks();
+        sortByPriority(configurations);
+        final int size = configurations.size();
+        for(int i = 0; i < size; i++) {
+                final WifiConfiguration config = configurations.get(i);
+                config.priority = i;
+                wifiMgr.updateNetwork(config);
+        }
+        wifiMgr.saveConfiguration();
+        return size;
+    }
+    
+    private static void sortByPriority(final List<WifiConfiguration> configurations) {
+        java.util.Collections.sort(configurations, new Comparator<WifiConfiguration>() {
+
+                @Override
+                public int compare(WifiConfiguration object1,
+                                WifiConfiguration object2) {
+                        return object1.priority - object2.priority;
+                }
+        });
+    }
 	
 	/**
 	 * @return -1 if not yet configured, else network id
 	 */
 	private int getConfiguredNetworkId(String ssid) {
+		WifiConfiguration config = getWifiConfiguration(ssid);
+		if (config == null) return -1; 
+		
+		return config.networkId;
+	}
+	
+	private WifiConfiguration getWifiConfiguration(String ssid) {
 		ssid = ssid.replace("\"", "");
 		
 		WifiManager wifiMan = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
@@ -345,10 +436,10 @@ public class EWSService extends BroadcastReceiver
 		for (WifiConfiguration config : configuredNetworks) {
 			String configSsid = config.SSID.replace("\"", "");
 			if (configSsid.equals(ssid)) {
-				return config.networkId;				
+				return config;			
 			}
 		}
-		return -1;
+		return null;
 	}
 	
 	private int configureOpenNetwork(String ssid) {
