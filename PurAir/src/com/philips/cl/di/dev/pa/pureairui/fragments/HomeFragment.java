@@ -130,15 +130,15 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		if(SessionDto.getSessionDto() != null && SessionDto.getSessionDto().getCityDetails() != null)
 			Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
 		
-//		purifierName = getString(R.string.philips_home);
-		
 		if(MainActivity.getAirPurifierEventDto() != null) {
 			setIndoorDashBoardValues(indoorAQIValue);
 			setHomeName(purifierName);
+		} else {
+			ivIndoorMeter.setVisibility(View.INVISIBLE);
 		}
 		if(updateOutdoorDashboard)
 			setOutdoorDashboardValues(outdoorAQIValue);
-		ivIndoorMeter.setVisibility(View.INVISIBLE);
+		
 		
 		return vMain;
 	}
@@ -156,7 +156,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			bBtnTakeActionVisible = false;
 			takeAction.setVisibility(View.INVISIBLE);
 		}
-
+		showIndoorGuage();
 		tvIndoorAQI.setText(setIndoorPSenseText(pSense));
 		setIndoorAQIStatusAndComment(indoorPSense);
 		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(pSense));

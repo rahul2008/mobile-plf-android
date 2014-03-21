@@ -112,33 +112,6 @@ public class Utils {
 	}
 
 	/**
-	 * Create a new typeface from the specified font data.
-	 * 
-	 * @param context
-	 *            the context
-	 * @return The new Typeface
-	 */
-	public static Typeface getTypeFace(Context context) {
-		return Typeface.createFromAsset(context.getAssets(), AppConstants.FONT);
-
-	}
-
-	/**
-	 * Returns the screen width of the device.
-	 * 
-	 * @param context
-	 *            the context
-	 * @return screen width
-	 */
-	@SuppressWarnings("deprecation")
-	public static int getScreenWidth(Context context) {
-		WindowManager wm = (WindowManager) context
-				.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-		return display.getWidth();
-	}
-
-	/**
 	 * Gets the iP address of the air purifier.
 	 * 
 	 * @param context
@@ -155,8 +128,7 @@ public class Utils {
 	 * 
 	 */
 
-	public static void storeCPPKeys(Context context,
-			CppDatabaseModel cppDataModel) {
+	public static void storeCPPKeys(Context context, CppDatabaseModel cppDataModel) {
 		SharedPreferences settings = context.getSharedPreferences(
 				"cpp_preferences01", 0);
 		SharedPreferences.Editor editor = settings.edit();
@@ -222,72 +194,6 @@ public class Utils {
 	}
 
 	/**
-	 * Show incorrect ip dialog.(This method will be removed after IFA)
-	 * 
-	 * @param context
-	 *            the context
-	 */
-	public static void showIncorrectIpDialog(Context context) {
-		final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(
-				context);
-		dialogBuilder.setTitle(AppConstants.MESSAGE_INCORRECT_IP);
-		dialogBuilder.setPositiveButton(AppConstants.MESSAGE_OK, null);
-		dialogBuilder.show();
-
-	}
-
-	/**
-	 * Gets the time remaining.
-	 * 
-	 * @param filterValue
-	 *            the filter value
-	 * @return the time remaining
-	 */
-	public static String getTimeRemaining(int filterType, int filterValue) {
-		String timeRemaining = "Needs to be implemented";
-
-		return timeRemaining;
-	}
-
-	/**
-	 * Checks if is json.
-	 * 
-	 * @param result
-	 *            the result
-	 * @return true, if is json
-	 */
-	public static boolean isJson(String result) {
-		if (result == null)
-			return false;
-		if (result.length() < 2)
-			return false;
-		if (result.charAt(0) != '{' && result.charAt(0) != '[')
-			return false;
-		return true;
-	}
-
-	/**
-	 * Gets the filter status color.
-	 * 
-	 * @param filterStatusValue
-	 *            the filter status value
-	 * @return the filter status color
-	 */
-	public static int getFilterStatusColor(float filterStatusValue) {
-		float filterRange = (filterStatusValue / (AppConstants.MAXIMUMFILTER - AppConstants.MINIMUNFILTER)) * 100;
-		if (filterRange >= 0 && filterRange <= 25) {
-			return AppConstants.COLOR_BAD;
-		} else if (filterRange > 25 && filterRange <= 50) {
-			return AppConstants.COLOR_FAIR;
-		} else if (filterRange > 50 && filterRange <= 75) {
-			return AppConstants.COLOR_GOOD;
-		} else if (filterRange > 75 && filterRange <= 100) {
-			return AppConstants.COLOR_VGOOD;
-		}
-		return 0;
-	}
-
-	/**
 	 * Gets the current date time.
 	 * 
 	 * @return the current date time
@@ -310,30 +216,6 @@ public class Utils {
 	public static int getResourceID(String drawableName, Context context) {
 		return context.getResources().getIdentifier(drawableName, "drawable",
 				context.getPackageName());
-	}
-
-	/**
-	 * Gets the outdoor aqi date time.
-	 * 
-	 * @param datetime
-	 *            the datetime
-	 * @return the outdoor aqi date time
-	 */
-	public static String getOutdoorAQIDateTime(String datetime) {
-		String dateToReturn = null;
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
-		try {
-			Date startDate = sdf.parse(datetime);
-
-			sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-
-			dateToReturn = sdf.format(startDate);
-
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return dateToReturn;
 	}
 
 	/**
@@ -410,132 +292,6 @@ public class Utils {
 		}
 	}
 
-	/**
-	 * Gets the maximum aqi from the given array of aqi values.
-	 * 
-	 * @param arrayAQIValues
-	 *            the array_ aqi
-	 * @return the maximum aqi
-	 */
-	public static int getMaximumAQI(ArrayList<Integer> arrayAQIValues) {
-		int max = Integer.MIN_VALUE;
-		for (int i = 0; i < arrayAQIValues.size(); i++) {
-			if (arrayAQIValues.get(i) > max) {
-				max = arrayAQIValues.get(i);
-			}
-		}
-
-		return max;
-	}
-
-	/**
-	 * Gets the minimum aqi from the given array of aqi values.
-	 * 
-	 * @param array_AQI
-	 *            the array_ aqi
-	 * @return the minimum aqi
-	 */
-	public static int getMinimumAQI(ArrayList<Integer> array_AQI) {
-		int min = Integer.MAX_VALUE;
-		for (int i = 0; i < array_AQI.size(); i++) {
-			if (array_AQI.get(i) < 0) {
-				continue;
-			}
-			if (array_AQI.get(i) < min) {
-				min = array_AQI.get(i);
-			}
-		}
-		return min;
-	}
-
-	/**
-	 * Gets the good air percentage in the given array of aqi values.
-	 * 
-	 * @param listAQIIndoor
-	 *            the array_ aqi
-	 * @return the good air percentage
-	 */
-	public static int getGoodAirPercentage(List<Integer> listAQIIndoor) {
-		int percent = 0;
-		int count = listAQIIndoor.size();
-		int countGood_VGood = 0;
-		for (int i = 0; i < listAQIIndoor.size(); i++) {
-			// Discard the value if it is negative
-			if (listAQIIndoor.get(i) < 0) {
-				count--;
-				continue;
-			}
-
-			if (listAQIIndoor.get(i) <= 250) {
-				countGood_VGood++;
-			}
-		}
-		if (count > 0)
-			percent = (countGood_VGood * 100) / count;
-		return percent;
-	}
-
-	/**
-	 * Gets the average aqi.
-	 * 
-	 * @param listAQIIndoor
-	 *            the array_ aqi
-	 * @return the average aqi
-	 */
-	public static int getAverageAQI(List<Integer> listAQIIndoor) {
-		int sum = 0;
-		int count = listAQIIndoor.size();
-		for (int i = 0; i < listAQIIndoor.size(); i++) {
-			if (listAQIIndoor.get(i) < 0) {
-				count--;
-				continue;
-			}
-			sum = sum + listAQIIndoor.get(i);
-		}
-		if (count > 0)
-			return (sum / count);
-		else
-			return 0;
-	}
-
-	public static int[] getArrayForAQIGraph(ArrayList<Integer> alAQIValues) {
-		int[] array_aqi = new int[24];
-		int i = 0;
-		for (int iAQI : alAQIValues) {
-			if (i > 23)
-				break;
-
-			array_aqi[i] = iAQI;
-			i++;
-		}
-		return array_aqi;
-	}
-
-	public static String getToday() {
-		Calendar now = Calendar.getInstance();
-		int month = now.get(Calendar.MONTH);
-		int date = now.get(Calendar.DATE);
-
-		return getMonthForInt(month) + " " + date;
-	}
-
-	private static String getMonthForInt(int num) {
-		String month = "wrong";
-		DateFormatSymbols dfs = new DateFormatSymbols();
-		String[] months = dfs.getMonths();
-		if (num >= 0 && num <= 11) {
-			month = months[num];
-		}
-		return month;
-	}
-
-	public static String getCurrentDateForDB() {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-		Date now = new Date(System.currentTimeMillis());
-		return sdf.format(now);
-
-	}
-
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date,
 			String date0) {
 		// Log.i("DOWNLOAD", "date: " + date + " : prev date: " + date0);
@@ -585,11 +341,6 @@ public class Utils {
 		}
 
 		return noOfHrs;
-	}
-
-	public static String getRDCPQueryForIndoorHistory() {
-
-		return null;
 	}
 
 	public static void parseIndoorDetails(String downloadedData) {
@@ -822,7 +573,7 @@ public class Utils {
 		return qry;
 	}
 	
-	public static String get2DigitHr( int hr) {
+	private static String get2DigitHr( int hr) {
 		String hrStr = null;
 		if (hr == 0) {
 			hrStr = "00";
@@ -1001,23 +752,6 @@ public class Utils {
 		} else {
 			return AppConstants.FILTER_LOCK;
 		}
-	}
-
-	public static String getFanSpeedText(String fanSpeed) {
-		if (AppConstants.FAN_SPEED_SILENT.equals(fanSpeed)) {
-			return "Silent";
-		} else if (AppConstants.FAN_SPEED_TURBO.equals(fanSpeed)) {
-			return "Turbo";
-		} else if (AppConstants.FAN_SPEED_AUTO.equals(fanSpeed)) {
-			return "Auto";
-		} else if (AppConstants.FAN_SPEED_ONE.equals(fanSpeed)) {
-			return "1";
-		} else if (AppConstants.FAN_SPEED_TWO.equals(fanSpeed)) {
-			return "2";
-		} else if (AppConstants.FAN_SPEED_THREE.equals(fanSpeed)) {
-			return "3";
-		}
-		return "";
 	}
 
 	public static String getMode(String fanSpeed, Context context) {
@@ -1365,42 +1099,5 @@ public class Utils {
 			}
 		}
 		return newTime;
-	}
-
-	/**
-	 * This will use for writing number on text
-	 * */
-	public static Bitmap writeTextOnDrawable(Context ctx, int drawableId,
-			String text) {
-
-		Bitmap bm = BitmapFactory
-				.decodeResource(ctx.getResources(), drawableId).copy(
-						Bitmap.Config.ARGB_8888, true);
-
-		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
-
-		Paint paint = new Paint();
-		paint.setStyle(Style.FILL);
-		paint.setColor(Color.BLACK);
-		paint.setTypeface(tf);
-		paint.setTextAlign(Align.CENTER);
-
-		if (Coordinates.getInstance(ctx) != null) {
-			paint.setTextSize(Coordinates.getInstance(ctx).getIdTxtSize());
-		}
-
-		Rect textRect = new Rect();
-		paint.getTextBounds(text, 0, text.length(), textRect);
-
-		Canvas canvas = new Canvas(bm);
-
-		// Calculate the positions
-		int xPos = (canvas.getWidth() / 2) - 2;
-
-		int yPos = (canvas.getHeight()) - 5;
-
-		canvas.drawText(text, xPos, yPos, paint);
-
-		return bm;
 	}
 }

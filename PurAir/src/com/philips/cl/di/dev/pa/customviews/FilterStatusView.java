@@ -70,12 +70,6 @@ public class FilterStatusView extends ImageView {
 
 	}
 
-	public void setFilterValue(float filterValue) {
-		float filterRange = (filterValue / (AppConstants.MAXIMUMFILTER - AppConstants.MINIMUNFILTER)) * 100;
-		length = AppConstants.MAXWIDTH - (int) ((filterRange / 100) * AppConstants.MAXWIDTH);
-		setColorAndLength(Utils.getFilterStatusColor(filterValue), length);
-	}
-	
 	public void setPrefilterValue(int filterValue) {
 		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.PRE_FILTER_MAX_VALUE;
 		setColorAndLength(Utils.getPreFilterStatusColour(filterValue), length);

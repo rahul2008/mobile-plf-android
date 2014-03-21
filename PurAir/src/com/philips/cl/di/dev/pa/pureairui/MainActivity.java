@@ -460,6 +460,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		} else if(fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();			
 		}else {
+			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			finish();
 		}
 	}
