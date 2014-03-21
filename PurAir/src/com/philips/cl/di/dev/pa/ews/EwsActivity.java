@@ -468,7 +468,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			if ( networkSSID != null ) {
 				Log.i("ews", networkSSID) ;
 				networkSSID = networkSSID.replace("\"", "") ;
-				if( ! networkSSID.contains(EWSService.DEVICE_SSID)) {
+				if( ! networkSSID.contains(EWSWifiManager.DEVICE_SSID)) {
 					if( step != 1 ) {
 						step = 1 ;
 						setActionBarHeading(1);
