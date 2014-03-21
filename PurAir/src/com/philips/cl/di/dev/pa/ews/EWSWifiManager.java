@@ -87,59 +87,18 @@ public class EWSWifiManager {
 	 * @return
 	 */
 	private static boolean connectToConfiguredNetwork(String ssid) {
-		ALog.i(ALog.EWS, "connecttoConfiguredNetwork: "+ssid);
-		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
-		WifiConfiguration config = getWifiConfiguration(ssid);
-		if (config == null) {
-			ALog.i(ALog.EWS, "Failed to connect to network - configuration null");
-			return false;
-		}
-		
-		int oldPri = config.priority;
-	
-		// Make it the highest priority.
-		int newPri = getMaxPriority(wifiManager) + 1;
-		if (newPri > 99999) {
-			newPri = shiftPriorityAndSave(wifiManager);
-			config = getWifiConfiguration(ssid);
-			if (config == null) {
-				return false;
-			}
-		}
-	
-		// Set highest priority to this configured network
-		config.priority = newPri;
-		int networkId = wifiManager.updateNetwork(config);
-		if (networkId == -1) {
-			return false;
-		}
-	
-		wifiManager.disconnect();
-		
-		// Do not disable others
-		if (!wifiManager.enableNetwork(networkId, false)) {
-			config.priority = oldPri;
-			return false;
-		}
-	
-		if (!wifiManager.saveConfiguration()) {
-			config.priority = oldPri;
-			return false;
-		}
-	
-		// We have to retrieve the WifiConfiguration after save.
-		config = getWifiConfiguration(ssid);
-		if (config == null) {
-			return false;
-		}
-	
-		// Disable others, but do not save.
-		// Just to force the WifiManager to connect to it.
-		if (!wifiManager.enableNetwork(config.networkId, true)) {
-			return false;
-		}
-	
-		final boolean connect = wifiManager.reconnect();
+		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
+		ScanResult result = getScanResult(ssid);
+
+		// Fix for WEP networks
+		wifiMan.startScan();
+
+		Wifi wifi = new Wifi();
+		final String security = wifi.ConfigSec.getScanResultSecurity(result);
+		final WifiConfiguration config = wifi.getWifiConfiguration(wifiMan,
+				result, security);
+		final boolean connect = wifi.connectToConfiguredNetwork(PurAirApplication.getAppContext(), wifiMan, config, false);
+
 		if (!connect) {
 			ALog.i(ALog.EWS, "Failed to connect to network - reconnect failed");
 			return false;
@@ -236,6 +195,20 @@ public class EWSWifiManager {
 	            }
 	    }
 	    return pri;
+	}
+	
+	private static ScanResult getScanResult(String ssid) {
+		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
+		List<ScanResult> foundNetworks = wifiMan.getScanResults();
+		
+		for (ScanResult foundNetwork : foundNetworks) {
+			if (foundNetwork.SSID.equals(ssid)) {
+				ALog.d(ALog.EWS, "found scanresult");
+				return foundNetwork;
+			}
+		}
+		ALog.d(ALog.EWS, "unable to find scanresult");
+		return null;
 	}
 
 }
