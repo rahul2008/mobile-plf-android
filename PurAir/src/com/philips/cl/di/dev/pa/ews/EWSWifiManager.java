@@ -88,7 +88,11 @@ public class EWSWifiManager {
 	 */
 	private static boolean connectToConfiguredNetwork(String ssid) {
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
-		ScanResult result = getScanResult(ssid);
+		
+		ScanResult result = getScanResult(ssid, 6);
+		if (result == null) {
+			return false;
+		}
 
 		// Fix for WEP networks
 		wifiMan.startScan();
@@ -195,6 +199,28 @@ public class EWSWifiManager {
 	            }
 	    }
 	    return pri;
+	}
+	
+	private static ScanResult getScanResult(String ssid, int maxAttempts) {
+		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
+		ScanResult result = null;
+		int attempt = 0;
+		
+		while (result == null && attempt < maxAttempts) {
+			attempt++;
+			result = getScanResult(ssid);
+			
+			if (result == null) {
+				wifiMan.startScan();
+				try {
+					Thread.sleep(500);
+				} catch (Exception e) {
+					// NOP
+				}
+			}
+		}
+		
+		return result;
 	}
 	
 	private static ScanResult getScanResult(String ssid) {
