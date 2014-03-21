@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import java.net.HttpURLConnection;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,10 +10,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
-import android.net.wifi.ScanResult;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,7 +28,6 @@ import com.philips.cl.di.dev.pa.utils.ALog;
 public class EWSService extends BroadcastReceiver 
 	implements KeyDecryptListener, EWSTaskListener, Runnable {
 
-	private static final String TAG = EWSService.class.getSimpleName() ;
 	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/0/wifi";
 	public static final String DEVICE_URI = "http://192.168.1.1/di/v1/products/1/device";
 	public static final String SECURITY_URI = "http://192.168.1.1/di/v1/products/0/security";
@@ -121,7 +117,7 @@ public class EWSService extends BroadcastReceiver
 			NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 			
 			if (netInfo.getState() == android.net.NetworkInfo.State.CONNECTED) {
-				Log.i(TAG, "Connected in  onReceive= "+ intent.getAction());
+				ALog.i(ALog.EWS, "Connected in  onReceive= "+ intent.getAction());
 				
 				String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
 				if (ssid == null) {
@@ -177,7 +173,7 @@ public class EWSService extends BroadcastReceiver
 	}
 
 	private void initializeKey() {
-		Log.i("ews", "initiliazekey") ;
+		ALog.i(ALog.EWS, "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
 		di.exchangeKey(SECURITY_URI, cppId) ;
 	}
