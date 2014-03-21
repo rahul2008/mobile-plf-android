@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.pureairui;
 import android.app.Application;
-import android.content.Context;
 
 
 public class PurAirApplication extends Application {
@@ -9,7 +8,7 @@ public class PurAirApplication extends Application {
 	
 	@Override
 	public void onCreate() {
-		mInstance = this;
+		mInstance = (PurAirApplication) getApplicationContext();
 		super.onCreate();
 	}
 	

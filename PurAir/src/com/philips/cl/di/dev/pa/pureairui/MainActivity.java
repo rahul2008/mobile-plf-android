@@ -368,10 +368,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	}
 
 	private void stopLocalConnection() {
-		ALog.i(ALog.MAINACTIVITY, "stopLocalConnection") ;
+		ALog.i(ALog.MAINACTIVITY, "stopLocalConnection: "+sensorDataController) ;
 		isDeviceDiscovered = false ;
-		if( sensorDataController != null)
+		if( sensorDataController != null) {
+			
 			sensorDataController.stopPolling() ;
+		}
 		isLocalPollingStarted = false ;
 	}
 
@@ -1139,7 +1141,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				if (device.getSsdpDevice() == null) {
 					return false;
 				}
-				ALog.i(ALog.MAINACTIVITY, "Device discovered usn: " + device.getUsn() + ", Ip: " + device.getIpAddress());
+				ALog.i(ALog.MAINACTIVITY, "Device discovered usn: " + device.getUsn() + ", Ip: " + device.getIpAddress()
+						+", isDeviceDiscovered: " + isDeviceDiscovered + ", isEWSStarted: " + isEWSStarted);
 				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
 						&& !isDeviceDiscovered && !isEWSStarted) {
 					onFirstDeviceDiscovered(device) ;
