@@ -101,15 +101,15 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
 				CPPController.getInstance(this) != null) {
-			if(CPPController.getInstance(this).isSignOn()) {
+//			if(CPPController.getInstance(this).isSignOn()) {
 				CPPController.getInstance(this).setDownloadDataListener(this) ;
 				//"Clientid=1c5a6bfffe6341fe;datatype=airquality.1;startDate=2014-01-12T05:46:05.1508314Z;endDate=2014-02-13T06:46:05.1508314Z"
 				CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(this), 2048) ;
-			}
-			else {
-				Toast.makeText(this, "Please signon", Toast.LENGTH_LONG).show() ;
-				parseReading();
-			}
+//			}
+//			else {
+//				Toast.makeText(this, "Please signon", Toast.LENGTH_LONG).show() ;
+//				parseReading();
+//			}
 		} 
 		else if( SessionDto.getInstance().getIndoorTrendDto()  != null ) {
 			hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;

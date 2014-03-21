@@ -58,6 +58,7 @@ import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DeviceListModel;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
@@ -332,20 +333,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		SsdpService.getInstance().stopDeviceDiscovery();
 	}
 
-	private void startCPP() {
-		ALog.i(ALog.MAINACTIVITY, "startCPP") ;
-		stopLocalConnection() ;
-		if (cppController.isSignOn() ||
-				(Utils.getAirPurifierID(this) != null &&
-				Utils.getAirPurifierID(this).length() > 0 )) {
-			if( ! isCPPPollingStarted ) {
-				cppController.startDCSService() ;
-				sensorDataController.startCPPPolling() ;
-				isCPPPollingStarted = true ;
-			}				
-		}
-	}
-
 	private void stopCPP() {
 		isCPPPollingStarted = false ;
 		if( sensorDataController != null ) {
@@ -375,6 +362,13 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			sensorDataController.stopPolling() ;
 		}
 		isLocalPollingStarted = false ;
+		DeviceListModel deviceListModel = new DeviceListModel();
+		if( deviceListModel.getAliveDevices() != null ) {
+			deviceListModel.getAliveDevices().clear();
+		}
+		if( deviceListModel.getAliveDevicesMap() != null ) {
+			deviceListModel.getAliveDevicesMap().clear() ;
+		}
 	}
 
 	@Override
@@ -430,9 +424,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		if( stopService ) {
 			sensorDataController.addListener(this) ;
 			startDeviceDiscovery() ;
-			if(!isEWSSuccessful) {
-				startCPP() ;
-			}
 			isEWSSuccessful = false ;
 			stopService = false ;
 		}
@@ -1050,7 +1041,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			startLocalConnection();
 		}
 		else {			
-			startCPP() ;			
+			stopLocalConnection() ;
 		}
 	}
 	
@@ -1169,6 +1160,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
 			return true;
 		}
+		
+		getSharedPreferences("cpp_preferences01", 0).edit().putString(
+				"airpurifierid", device.getSsdpDevice().getCppId()).commit();
 		
 		long ssdpDiscoveredBootId = 0L;
 		try {

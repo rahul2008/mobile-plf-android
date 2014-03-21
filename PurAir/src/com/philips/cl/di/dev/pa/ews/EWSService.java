@@ -28,6 +28,7 @@ import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.pureairui.PurAirApplication;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
+import com.philips.cl.di.dev.pa.utils.ALog;
 
 
 public class EWSService extends BroadcastReceiver 
@@ -125,7 +126,7 @@ public class EWSService extends BroadcastReceiver
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-		Log.i("ews", "On Receive:"+intent.getAction()) ;
+		ALog.i(ALog.EWS, "On Receive:"+intent.getAction()) ;
 		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)) {
 			NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
 			
@@ -134,12 +135,12 @@ public class EWSService extends BroadcastReceiver
 				
 				String ssid = getSsidOfConnectedNetwork();
 				if (ssid == null) {
-					Log.i("ews", "Failed to get ssid of connected network");
+					ALog.i(ALog.EWS, "Failed to get ssid of connected network");
 					return;
 				}
 				
 				if (ssid.contains(DEVICE_SSID)) {
-					Log.i("ews", "Connected to AirPurifier - Ssid= "+ ssid);
+					ALog.i(ALog.EWS, "Connected to AirPurifier - Ssid= "+ ssid);
 					if (homeSSID != null) {
 						errorCodeStep2 = EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE ;
 						listener.onDeviceAPMode() ;
@@ -154,14 +155,14 @@ public class EWSService extends BroadcastReceiver
 					return;
 				}
 				
-				Log.i("ews", "Connected to HomeNetwork - Ssid= "+ ssid);
+				ALog.i(ALog.EWS,"Connected to HomeNetwork - Ssid= "+ ssid);
 				if (homeSSID == null ) {
 					listener.foundHomeNetwork() ;
 				}
 
 			} else if (netInfo.getState() == NetworkInfo.State.DISCONNECTED ||
 					netInfo.getState() == NetworkInfo.State.DISCONNECTING) {
-				Log.i(TAG, "Network State: "+ netInfo.getState()) ;
+				ALog.i(ALog.EWS, "Network State: "+ netInfo.getState()) ;
 				listener.onWifiDisabled() ;
 			}
 		}
@@ -169,6 +170,7 @@ public class EWSService extends BroadcastReceiver
 	}
 	
 	private String getSsidOfConnectedNetwork() {
+		ALog.i(ALog.EWS, "getSSIDofConnectedNetwork");
 		if (mWifiManager == null) {
 			mWifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		}
@@ -179,7 +181,7 @@ public class EWSService extends BroadcastReceiver
 		String currentSsid = connectedWifiNetwork.getSSID();
 		if (currentSsid == null) return null;
 		
-		Log.i("ews", "Ssid of connected network: " + currentSsid);
+		ALog.i(ALog.EWS, "Ssid of connected network: " + currentSsid);
 		currentSsid = currentSsid.replace("\"", "");
 		return currentSsid;
 	}
@@ -224,6 +226,7 @@ public class EWSService extends BroadcastReceiver
 
 
 	public void putWifiDetails() {
+		ALog.i(ALog.EWS, "putWifiDetails");
 		sendNetworkDetailsTimer.start() ;
 		taskType = WIFI_PUT ;
 
@@ -232,6 +235,7 @@ public class EWSService extends BroadcastReceiver
 	}
 
 	public void putDeviceDetails() {
+		ALog.i(ALog.EWS, "putDeviceDetails");
 		taskType = DEVICE_PUT ;
 
 		EWSTasks task = new EWSTasks(taskType,getDevicePortJson(),"PUT",this) ;
@@ -239,7 +243,7 @@ public class EWSService extends BroadcastReceiver
 	}
 
 	private void getDeviceDetails() {
-		Log.i("ews", "device details") ;
+		ALog.i(ALog.EWS,"device details") ;
 		taskType = DEVICE_GET ;
 		EWSTasks task = new EWSTasks(taskType, this) ;
 		task.execute(DEVICE_URI);
@@ -248,6 +252,7 @@ public class EWSService extends BroadcastReceiver
 
 
 	private String getWifiPortJson() {
+		ALog.i(ALog.EWS, "getWifiPortJson");
 		JSONObject holder = new JSONObject();
 		try {
 			holder.put("ssid", homeSSID);
@@ -264,6 +269,7 @@ public class EWSService extends BroadcastReceiver
 	}
 
 	private String getDevicePortJson() {
+		ALog.i(ALog.EWS, "getDevicePortJson");
 		JSONObject holder = new JSONObject();
 		try {
 			holder.put("name", deviceName);
@@ -280,6 +286,7 @@ public class EWSService extends BroadcastReceiver
 
 
 	public void connectToDeviceAP() {
+		ALog.i(ALog.EWS, "connecttoDevice AP");
 		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
 		connectToPhilipsSetup();
@@ -288,32 +295,33 @@ public class EWSService extends BroadcastReceiver
 	}
 
 	private boolean connectToHomeNetwork() {
+		ALog.i(ALog.EWS, "connectto Home Network");
 		if (homeSSID == null) {
-			Log.i("ews", "Failed to connect to Home network - ssid is null");
+			ALog.i(ALog.EWS, "Failed to connect to Home network - ssid is null");
 			return false;
 		}
-		int networkId = getConfiguredNetworkId(homeSSID);
 		if (!connectToConfiguredNetwork(homeSSID)) {
-			Log.i("ews", "Failed to connect to Home network");
+			ALog.i(ALog.EWS, "Failed to connect to Home network");
 			return false;
 		}
 		
-		Log.i("ews", "Successfully connected to Home network");
+		ALog.i(ALog.EWS,"Successfully connected to Home network");
 		return true;
 	}
 	
 	private boolean connectToPhilipsSetup() {
+		ALog.i(ALog.EWS, "connectToPhilipsSetup");
 		int networkId = getConfiguredNetworkId(DEVICE_SSID);
 		if (networkId == -1) {
 			networkId = configureOpenNetwork(DEVICE_SSID);
 		}
 		
 		if (!connectToConfiguredNetwork(DEVICE_SSID)) {
-			Log.i("ews", "Failed to connect to Philips setup");
+			ALog.i(ALog.EWS,"Failed to connect to Philips setup");
 			return false;
 		}
 		
-		Log.i("ews", "Successfully connected to Philips setup");
+		ALog.i(ALog.EWS, "Successfully connected to Philips setup");
 		return true;
 	}
 	
@@ -322,10 +330,11 @@ public class EWSService extends BroadcastReceiver
      * @return
      */
 	public boolean connectToConfiguredNetwork(String ssid) {
+		ALog.i(ALog.EWS, "connecttoConfiguredNetwork: "+ssid);
 		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		WifiConfiguration config = getWifiConfiguration(ssid);
 		if (config == null) {
-			Log.i("ews", "Failed to connect to network - configuration null");
+			ALog.i(ALog.EWS, "Failed to connect to network - configuration null");
 			return false;
 		}
 		
@@ -373,11 +382,11 @@ public class EWSService extends BroadcastReceiver
 
 		final boolean connect = wifiManager.reconnect();
 		if (!connect) {
-			Log.i("ews", "Failed to connect to network - reconnect failed");
+			ALog.i(ALog.EWS, "Failed to connect to network - reconnect failed");
 			return false;
 		}
 
-		Log.i("ews", "Successfully connected to network");
+		ALog.i(ALog.EWS, "Successfully connected to network");
 		return true;
 	}
     
@@ -463,16 +472,16 @@ public class EWSService extends BroadcastReceiver
 		int networkId = wifiMan.addNetwork(wfc);
 		
 		if (networkId != -1) {
-			Log.i("ews", "Successfully configured open network: " + ssid);
+			ALog.i(ALog.EWS, "Successfully configured open network: " + ssid);
 		} else {
-			Log.i("ews", "Failed to configure open network: " + ssid);
+			ALog.i(ALog.EWS, "Failed to configure open network: " + ssid);
 		}
 		return networkId;
 	}
 
 	@Override
 	public void keyDecrypt(String key, String deviceId) {
-		Log.i("ews", "Key: "+key) ;
+		ALog.i(ALog.EWS, "Key: "+key) ;
 		if ( key != null ) {
 			setDevKey(key);
 			getDeviceDetails() ;
@@ -480,6 +489,7 @@ public class EWSService extends BroadcastReceiver
 	}
 
 	private void getWifiDetails() {
+		ALog.i(ALog.EWS, "gettWifiDetails");
 		taskType = WIFI_GET ;
 
 		EWSTasks task = new EWSTasks(taskType,this) ;
@@ -489,13 +499,13 @@ public class EWSService extends BroadcastReceiver
 	@Override
 	public void onTaskCompleted(int responseCode, String response) {
 		stop = true ;
-		Log.i("ews", "onTaskCompleted:"+responseCode) ;
+		ALog.i(ALog.EWS, "onTaskCompleted:"+responseCode) ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				if( decryptedResponse != null ) {
-					Log.i("ews", decryptedResponse) ;
+					ALog.i(ALog.EWS,decryptedResponse) ;
 					storeDeviceDetails(decryptedResponse) ;
 					getWifiDetails() ;
 				}				
@@ -503,6 +513,7 @@ public class EWSService extends BroadcastReceiver
 			else if(taskType == WIFI_GET) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
 				if( decryptedResponse != null ) {
+					ALog.i(ALog.EWS,decryptedResponse) ;
 					storeDeviceWifiDetails(decryptedResponse);
 					deviceSSIDTimer.cancel() ;
 					listener.onHandShakeWithDevice() ;
@@ -510,7 +521,7 @@ public class EWSService extends BroadcastReceiver
 			}
 			else if(taskType == DEVICE_PUT ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
-				Log.i("ews", decryptedResponse) ;
+				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					storeDeviceDetails(decryptedResponse) ;
 					listener.onHandShakeWithDevice() ;
@@ -518,7 +529,7 @@ public class EWSService extends BroadcastReceiver
 			}
 			else if(taskType == WIFI_PUT ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
-				Log.i("ews", decryptedResponse) ;
+				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					connectToHomeNetwork();
 					listener.onDeviceConnectToHomeNetwork() ;

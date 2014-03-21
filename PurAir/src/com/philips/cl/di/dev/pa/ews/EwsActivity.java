@@ -366,7 +366,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 				passwordStep3.setTransformationMethod(null);
 				Editable editable = passwordStep3.getText();
 				Selection.setSelection(editable, passwordStep3.length());
-
 			}
 			break;
 		case R.id.ews_adv_config_img:
@@ -374,7 +373,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			advSettingBtnLayoutStep3.setVisibility(View.INVISIBLE);
 			break;
 		case R.id.ews_step3_edit_name_btn:
-
 			if (editSavePlaceNameBtnStep3.getText().toString().equals(
 					getResources().getString(R.string.edit))) {
 				deviceNameStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
@@ -384,6 +382,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 				Selection.setSelection(editable, deviceNameStep3.length());
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.save));
 			} else {
+				ALog.i(ALog.EWS, "step3 save name button click");
 				deviceNameStep3.setBackgroundColor(Color.WHITE);
 				deviceNameStep3.setEnabled(false);
 				deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
@@ -398,6 +397,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 			break;
 		case R.id.ews_step3_next_btn:
+			ALog.i(ALog.EWS, "step3 next button click");
 			sendNetworkDetails() ;
 			break;
 		case R.id.ews_purifier_not_dect_btn:
@@ -545,6 +545,8 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		
 		if (deviceInfoDto != null) {
 			new DeviceInfoController(this).insertDeviceInfo(deviceInfoDto);
+			getSharedPreferences(
+					"cpp_preferences01", 0).edit().putString("airpurifierid", deviceInfoDto.getCppId()).commit();
 		}
 		Intent intent = new Intent(this,MainActivity.class) ;
 		intent.putExtra("deviceDiscovered", true) ;
