@@ -19,7 +19,7 @@ public class EWSServiceTest extends AndroidTestCase {
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
-		ewsService = new EWSService(ewsListener, mockContext, "WHF2012TEST", "");
+		ewsService = new EWSService(ewsListener, "WHF2012TEST", "");
 		mockContext = new MockContext();
 		
 	}
