@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Method;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -129,6 +130,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 		
 	}
 	
+	@SuppressLint("NewApi")
 	public void testCheckWifiConnectivity() {
 		
 		try {
