@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.TermsAndConditionsActivity;
+import com.philips.cl.di.dev.pa.utils.NetworkUtils;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener{
 	
@@ -58,7 +59,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener{
 		case R.id.tv_rate_this_app:
 		case R.id.iv_rate_this_app:
 			// TODO : Change this, it's a placeholder. We should replace it with getPackageName() once the app is published.
-			if(((MainActivity)getActivity()).isNetworkAvailable()) {
+			if(NetworkUtils.isNetworkConnected(getActivity())) {
 				String appName = "com.philips.airstudioplus";
 				startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appName)));
 			} else {
@@ -67,7 +68,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener{
 			break;
 		case R.id.tv_send_us_feedback:
 		case R.id.iv_send_us_feedback:
-			if(((MainActivity)getActivity()).isNetworkAvailable()) {
+			if(NetworkUtils.isNetworkConnected(getActivity())) {
 				Intent feedbackIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
 				feedbackIntent.putExtra(Intent.EXTRA_SUBJECT, "App feedback");
 				feedbackIntent.putExtra(Intent.EXTRA_TEXT, "Give feedback");

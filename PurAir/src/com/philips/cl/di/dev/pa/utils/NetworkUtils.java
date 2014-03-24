@@ -10,6 +10,10 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
 
 public class NetworkUtils {
@@ -119,6 +123,24 @@ public class NetworkUtils {
 		}
 
 		return sb.toString();
+	}
+	
+	/**
+	 * return network connection status
+	 */
+	public static boolean isNetworkConnected(Context context)
+	{
+		ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = connManager.getActiveNetworkInfo();
+		if(netInfo!=null && netInfo.isConnected())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+		
 	}
 
 }

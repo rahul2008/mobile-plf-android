@@ -7,6 +7,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -63,7 +64,6 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
-import com.philips.cl.di.dev.pa.controller.CPPController.KEY_PROVISION;
 import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
@@ -140,7 +140,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
 	private int mVisits;
-	private boolean isNetworkAvailable = false;
 	private BroadcastReceiver networkReceiver;
 	private CPPController cppController ;
 
@@ -430,6 +429,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			startDeviceDiscovery() ;
 			isEWSSuccessful = false ;
 			stopService = false ;
+			this.registerReceiver(networkReceiver, filter);
 		}
 		super.onRestart();
 	}
@@ -980,9 +980,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		return mVisits;
 	}
 
-	public boolean isNetworkAvailable() {
-		return isNetworkAvailable;
-	}
 
 	public boolean isGooglePlayServiceAvailable() {
 		if(ConnectionResult.SUCCESS == isGooglePlayServiceAvailable) {
