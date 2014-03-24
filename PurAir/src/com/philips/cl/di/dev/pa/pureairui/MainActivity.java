@@ -362,12 +362,14 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			sensorDataController.stopPolling() ;
 		}
 		isLocalPollingStarted = false ;
+		removeLostDeviceFromMap();
+	}
+	
+	private void removeLostDeviceFromMap() {
 		DeviceListModel deviceListModel = new DeviceListModel();
-		if( deviceListModel.getAliveDevices() != null ) {
-			deviceListModel.getAliveDevices().clear();
-		}
-		if( deviceListModel.getAliveDevicesMap() != null ) {
-			deviceListModel.getAliveDevicesMap().clear() ;
+		ALog.i(ALog.MAINACTIVITY, "Going to remove device info from devicemap usn : " + localDeviceUsn);
+		if (localDeviceUsn != null && localDeviceUsn.length() > 0) {
+			deviceListModel.removeDevice(localDeviceUsn);
 		}
 	}
 
@@ -1161,6 +1163,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			return true;
 		}
 		
+		localDeviceUsn = ssdpDiscoveredUsn;
+		
 		getSharedPreferences("cpp_preferences01", 0).edit().putString(
 				"airpurifierid", device.getSsdpDevice().getCppId()).commit();
 		
@@ -1188,7 +1192,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					long dbBootId = infoDto.getBootId();
 					if (dbBootId == ssdpDiscoveredBootId && infoDto.getDeviceKey() != null ) {
 						ALog.i(ALog.MAINACTIVITY, "Device boot id is same: " +dbBootId+" ssdp bootid: "+ssdpDiscoveredBootId) ;
-						localDeviceUsn = infoDto.getUsn();
 						String cppId = infoDto.getCppId();
 						AppConstants.DEVICEID = cppId;
 						String key = infoDto.getDeviceKey();
