@@ -88,7 +88,7 @@ public class ConfigurationSecurities {
         config.allowedPairwiseCiphers.clear();
         config.allowedProtocols.clear();
         
-        final int sec = security == null ? SECURITY_NONE : Integer.valueOf(security);
+        final int sec = security == null ? SECURITY_NONE : Integer.parseInt(security);
         final int passwordLen = password == null ? 0 : password.length();
         switch (sec) {
         case SECURITY_NONE:
