@@ -38,7 +38,7 @@ import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PeripheralDevice;
 
 public class CPPController implements ICPClientToAppInterface, ICPEventListener {
-
+	
 	private static final String TAG = CPPController.class.getName();
 
 	private static CPPController icpStateInstance;
@@ -47,7 +47,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private SignOn signon;
 	private boolean isSignOn;
-	private boolean isKeyProvisioned ;
 	private SignonListener signOnListener;
 
 	private ICPCallbackHandler callbackHandler;
@@ -66,7 +65,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private ICPDownloadListener downloadDataListener;
 	private StringBuilder downloadDataBuilder;
 	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
-
+	
+	public enum KEY_PROVISION {
+		NOT_PROVISIONED,
+		PROVISIONING,
+		PROVISIONED
+	}
+	
+	private KEY_PROVISION keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+	
 	private CPPController(Context context) {
 		this.context = context;
 		listeners = new ArrayList<ICPDeviceDetailsListener>();
@@ -91,9 +98,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	public void startKeyProvisioning() {
 		ALog.i(ALog.ICPCLIENT, "Start provision");
-		if( !isKeyProvisioned ) {
-			isKeyProvisioned = true ;			
-	
+		if( keyProvisioningState == KEY_PROVISION.NOT_PROVISIONED ) {
+			keyProvisioningState = KEY_PROVISION.PROVISIONING ;
 			String appID = null;
 			String appType = "AC4373APP";
 			String appVersion = null;
@@ -130,7 +136,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 				rv = prv.executeCommand();
 				if(rv != Errors.SUCCESS ) {
-					isKeyProvisioned = false ;
+					keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 				}
 			}
 		}
@@ -140,9 +146,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		return isSignOn;
 	}
 
-	public boolean isKeyProvisioned() {
-		return isKeyProvisioned ;
+	public KEY_PROVISION getKeyProvisioningState() {
+		return keyProvisioningState ;
 	}
+	
 	/**
 	 * This method will not be there in the final step.
 	 */
@@ -430,14 +437,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		} else if (eventType == Commands.KEY_PROVISION) {
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.ICPCLIENT, "PROVISION-SUCCESS");
-				isKeyProvisioned = true ;
+				keyProvisioningState = KEY_PROVISION.PROVISIONED ;
 				Provision provision = (Provision) obj;
 				ALog.i(ALog.ICPCLIENT, "EUI64(APP-KEY): "+provision.getEUI64());
 				onSignon();
 			}
 			else {
 				ALog.e(ALog.ICPCLIENT, "PROVISION-FAILED");
-				isKeyProvisioned = false ;
+				keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 			}
 		} else if (eventType == Commands.SUBSCRIBE_EVENTS) {
 			String dcsEvents = "";

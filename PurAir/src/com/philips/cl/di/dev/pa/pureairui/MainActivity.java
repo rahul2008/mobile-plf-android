@@ -63,6 +63,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
+import com.philips.cl.di.dev.pa.controller.CPPController.KEY_PROVISION;
 import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
@@ -259,8 +260,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 
 		filter = new IntentFilter() ;
-		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION) ;		
 
 		this.registerReceiver(networkReceiver, filter);
 
@@ -297,17 +299,17 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 
 				if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION) || intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
-					NetworkInfo netInfo = intent.getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
-					NetworkInfo mobileInfo = conMan.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-					if (netInfo.getState() == android.net.NetworkInfo.State.CONNECTED || mobileInfo.getState() == android.net.NetworkInfo.State.CONNECTED) {
+					NetworkInfo netInfo = conMan.getActiveNetworkInfo();
+					if (netInfo!=null && netInfo.isConnected()) {
 						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED") ;
-						if( cppController!=null && !cppController.isKeyProvisioned())
+						if( cppController!=null && cppController.getKeyProvisioningState() == CPPController.KEY_PROVISION.NOT_PROVISIONED)
 						{
 							ALog.i(ALog.MAINACTIVITY, "startprovisioning on network change if not provisioned") ;
 							cppController.startKeyProvisioning();
 						}
 						else if(cppController != null &&
-								cppController.isKeyProvisioned() && !cppController.isSignOn()) {
+								cppController.getKeyProvisioningState() == CPPController.KEY_PROVISION.PROVISIONED
+								&& !cppController.isSignOn()) {
 							ALog.i(ALog.MAINACTIVITY, "startsignon on network change if not signed on") ;
 							
 							cppController.onSignon();
