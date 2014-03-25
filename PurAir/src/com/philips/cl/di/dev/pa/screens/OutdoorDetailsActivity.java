@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.screens;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,7 +33,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorAQIExplainedDialogFra
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
-public class OutdoorDetailsActivity extends BaseActivity implements OnClickListener {
+public class OutdoorDetailsActivity extends ActionBarActivity implements OnClickListener {
 
 	private ActionBar mActionBar;
 	private GoogleMap mMap;

@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.util.List;
-import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
-import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -22,9 +19,9 @@ public class MainActivityTest extends
 
 		activity = getActivity();
 	}
-
-//	public void testActivityTitle() {
-//		assertEquals("PHILIPS Smart Air Purifier", activity.getTitle());
-//	}
+	
+	public void testActivityTitle() {
+		assertEquals("PHILIPS Smart Air Purifier", activity.getTitle());
+	}
 	
 }
