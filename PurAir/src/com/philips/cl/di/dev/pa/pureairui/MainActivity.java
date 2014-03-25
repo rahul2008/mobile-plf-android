@@ -428,7 +428,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			sensorDataController.addListener(this) ;
 			startDeviceDiscovery() ;
 			isEWSSuccessful = false ;
-			stopService = false ;
+			stopService = false ;			
 			this.registerReceiver(networkReceiver, filter);
 		}
 		super.onRestart();
@@ -484,7 +484,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 		if ( networkReceiver != null ) {
 			this.unregisterReceiver(networkReceiver) ;
-			networkReceiver = null ;
 		}
 		stopDiscovery() ;
 		isDeviceDiscovered = false ;
