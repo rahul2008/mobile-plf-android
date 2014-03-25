@@ -1,16 +1,18 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.Field;
+import java.util.Iterator;
+import java.util.Set;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DeviceListModel;
+import com.philips.cl.di.common.ssdp.models.DeviceModel;
+import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
@@ -130,30 +132,96 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 		
 	}
 	
-	@SuppressLint("NewApi")
-	public void testCheckWifiConnectivity() {
-		
+	/**
+	 * SSDP
+	 */
+	public void testSsdpDiscoveryStart() {
+		SsdpService ssdpService = SsdpService.getInstance();
+		ssdpService.startDeviceDiscovery(activity);
+		DiscoveryServiceState mServiceState = null;
+		Field keysField;
 		try {
-			Method checkWifiConnectivityMethod = EwsActivity.class.getDeclaredMethod("checkWifiConnectivity", (Class<?>[])null);
-			checkWifiConnectivityMethod.setAccessible(true);
-			checkWifiConnectivityMethod.invoke(activity, (Object[])null);
-			ConnectivityManager connManager = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			if(!mWifi.isConnected()) {
-				View view = activity.getLayoutInflater().inflate(R.layout.ews_connect_2_your_network, null);
-				assertEquals(true, view.isInLayout());
-			}
-				
-		} catch (Exception e) {
+			keysField = SsdpService.class.getDeclaredField("mServiceState");
+			keysField.setAccessible(true);
+			mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
 			
+			
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+		if (mServiceState != null) {
+			assertEquals(DiscoveryServiceState.STARTED, mServiceState);
+		} else {
+			assertNull(mServiceState);
 		}
 		
 	}
 	
-//	public void testOnHandShakeWithDevice() {
-//		activity.onHandShakeWithDevice();
-//		View view = activity.getLayoutInflater().inflate(R.layout.ews_step3, null);
-//		assertEquals(true, view.isInLayout());
-//	}
+	public void testSsdpDiscoveryStop() {
+		SsdpService ssdpService = SsdpService.getInstance();
+		ssdpService.stopDeviceDiscovery();
+		Field keysField;
+		DiscoveryServiceState mServiceState = null;
+		try {
+			keysField = SsdpService.class.getDeclaredField("mServiceState");
+			keysField.setAccessible(true);
+			mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
+			
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+			fail(e.getMessage());		
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		if (mServiceState != null) {
+			assertEquals(DiscoveryServiceState.STOPPED, mServiceState);
+		} else {
+			assertNull(mServiceState);
+		}
+		
+	}
+	
+	
+	public void testGetAliveDevice() {
+		
+		SsdpService.getInstance().startDeviceDiscovery(activity);
+		
+		Set<DeviceModel> mAliveDevices = new DeviceListModel().getAliveDevices();
+		
+		Iterator<DeviceModel> iterator = mAliveDevices.iterator();
+		
+		if (!iterator.hasNext()) {
+			assertFalse(iterator.hasNext());
+		}
+		
+		while (iterator.hasNext()) {
+			DeviceModel deviceModel = iterator.next();
+			if (deviceModel.getSsdpDevice() != null) {
+				if (deviceModel.getSsdpDevice().getModelName().contains("AirPurifier")) {
+					assertNotNull(deviceModel.getSsdpDevice().getFriendlyName());
+					assertNotNull(deviceModel.getSsdpDevice().getCppId());
+					assertNotNull(deviceModel.getIpAddress());
+					assertNotNull(deviceModel.getBootID());
+				} else {
+					assertFalse(deviceModel.getSsdpDevice().getModelName().contains("AirPurifier"));
+				}
+				
+			} else {
+				assertNull(deviceModel.getSsdpDevice());
+			}
+		}
+	}
  
 }

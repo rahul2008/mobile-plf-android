@@ -7,8 +7,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
-
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
 import com.philips.cl.di.dev.pa.utils.ALog;
@@ -16,7 +14,6 @@ import com.philips.cl.di.dev.pa.utils.DBHelper;
 
 public class DeviceInfoController {
 	
-	public static final String TAG = "DatabaseAir";
 	private SQLiteDatabase db;
 	private DBHelper dbHelper;
 	/**
