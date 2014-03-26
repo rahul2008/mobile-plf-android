@@ -179,7 +179,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		/**
 		 * Create database and tables
 		 */
-		new DBHelper(this);
 		deviceInfoController = new DeviceInfoController(this);
 		dbDeviceInfoDtoList = deviceInfoController.getAllDeviceInfo();
 		/**
