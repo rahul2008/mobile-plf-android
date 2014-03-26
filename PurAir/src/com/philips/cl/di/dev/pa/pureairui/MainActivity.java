@@ -482,7 +482,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		}
 
 		if ( networkReceiver != null ) {
-			this.unregisterReceiver(networkReceiver) ;
+			try {
+				this.unregisterReceiver(networkReceiver) ;
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 		stopDiscovery() ;
 		isDeviceDiscovered = false ;
