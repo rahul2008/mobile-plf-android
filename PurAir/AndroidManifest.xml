@@ -44,7 +44,7 @@
         <activity
             android:name=".pureairui.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,59 +53,59 @@
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.FilterDetailsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.TrendsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.AirTutorialActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.MapOdActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.TutorialPagerActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.TermsAndConditionsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.NotificationSelectDayActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.CreateNotificationActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.OutdoorAirColorIndicationActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.IndoorAirColorIndicationActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
          <activity
             android:name="com.philips.cl.di.dev.pa.ews.EwsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="sensorPortrait" >
         </activity>
     </application>
 
