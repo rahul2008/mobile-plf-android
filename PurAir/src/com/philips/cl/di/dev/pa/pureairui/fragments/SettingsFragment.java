@@ -79,7 +79,8 @@ public class SettingsFragment extends BaseFragment implements OnClickListener{
 			
 			break;
 		case R.id.tv_t_and_c:
-			getActivity().startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class));
+			//TODO : Add Terms and conditions when recieved.
+//			getActivity().startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class));
 			break;
 
 		default:
