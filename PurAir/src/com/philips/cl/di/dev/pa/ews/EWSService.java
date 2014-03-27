@@ -175,6 +175,7 @@ public class EWSService extends BroadcastReceiver
 	private void initializeKey() {
 		ALog.i(ALog.EWS, "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
+		di.initializeExchangeKeyCounter(cppId);
 		di.exchangeKey(SECURITY_URI, cppId) ;
 	}
 

@@ -62,7 +62,7 @@ public class DeviceInfoController {
 				closeDb();
 			}
 		} else {
-			updateDeviceInfo(id, deviceInfoDto.getBootId(), deviceInfoDto.getDeviceKey());
+			updateDeviceInfo(id, deviceInfoDto.getBootId(), deviceInfoDto.getDeviceKey(), deviceInfoDto.getDeviceName());
 		}
 		//getDeviceInfo();
 		
@@ -155,7 +155,7 @@ public class DeviceInfoController {
 					deviceInfoDto.setDeviceKey(
 							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_KEY)));
 	
-					ALog.i(ALog.DATABASE, "Query Usn: " + deviceInfoDto.getUsn()
+					ALog.i(ALog.DATABASE, "Database device details: " + deviceInfoDto.getUsn()
 							+ ", CppId: " + deviceInfoDto.getCppId()
 							+ ", BootId: " + deviceInfoDto.getBootId()
 							+ ", ID: " + deviceInfoDto.getId()
@@ -185,8 +185,9 @@ public class DeviceInfoController {
 	 * @param devKey
 	 * @return
 	 */
-	public long updateDeviceInfo(long id, long bootId, String devKey) {
-		ALog.i(ALog.DATABASE, "Update before id: " + id +", bootId: " + bootId + ", devKey: " + devKey);
+	public long updateDeviceInfo(long id, long bootId, String devKey, String purifierName) {
+		ALog.i(ALog.DATABASE, "Update before id: " + id +", bootId: " 
+				+ bootId + ", devKey: " + devKey +", purfier name: " + purifierName);
 		long rowId = -1;
 		try {
 			ALog.i(ALog.DATABASE, "Update");
@@ -195,6 +196,7 @@ public class DeviceInfoController {
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.AIRPUR_BOOT_ID, bootId);
 			values.put(AppConstants.AIRPUR_KEY, devKey);
+			values.put(AppConstants.AIRPUR_DEVICE_NAME, purifierName);
 			
 			rowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
 					values, AppConstants.ID + "= ?", new String[] {String.valueOf(id)});

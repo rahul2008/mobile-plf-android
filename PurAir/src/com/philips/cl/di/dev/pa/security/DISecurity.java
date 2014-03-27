@@ -19,19 +19,18 @@ import com.philips.cl.di.dev.pa.utils.ALog;
 public class DISecurity implements ServerResponseListener {
 
 	private static Hashtable<String, String> 
-			securityHashtable = new Hashtable<String,String>();
+			securityKeyHashtable = new Hashtable<String,String>();
 	private static Hashtable<String, Boolean> 
 			isExchangingKeyTable = new Hashtable<String, Boolean>();
-	
 	private static Hashtable<String, String> 
 			urlsTable = new Hashtable<String, String>();
+	private static Hashtable<String, Integer> 
+			exchangeKeyCounterTable = new Hashtable<String, Integer>();
+	
 	private String pValue;
 	private String gValue;
 	private String rValue;
 	private KeyDecryptListener keyDecryptListener;
-	
-	private int counterExchangeKey;
-	
 
 	/**
 	 * Constructor
@@ -41,8 +40,11 @@ public class DISecurity implements ServerResponseListener {
 		this.keyDecryptListener = keyDecryptListener;
 		pValue = Util.pValue;
 		gValue = Util.gValue;
-		counterExchangeKey = 0;
 		ALog.i(ALog.SECURITY, "Initialized DISecurity") ;
+	}
+	
+	public void initializeExchangeKeyCounter(String deviceId) {
+		exchangeKeyCounterTable.put(deviceId, 0);
 	}
 	
 	/**
@@ -52,9 +54,12 @@ public class DISecurity implements ServerResponseListener {
 	 * @throws Exception
 	 */ 
 	public void exchangeKey(String url, String deviceId)  {
-		if (counterExchangeKey < 3) {
-			counterExchangeKey++;
-			ALog.i(ALog.SECURITY, "requested Key exchange for device: " + deviceId+":"+isKeyExchanging(deviceId)) ;
+		int counter = exchangeKeyCounter(deviceId);
+		ALog.i(ALog.SECURITY, "DeviceId: " + deviceId + ", exchange key counter: " + counter) ;
+		if (counter < 3) {
+			counter++;
+			exchangeKeyCounterTable.put(deviceId, counter);
+			ALog.i(ALog.SECURITY, "Requested Key exchange for device: " + deviceId+":"+isKeyExchanging(deviceId)) ;
 			urlsTable.put(deviceId, url);
 			if (!isKeyExchanging(deviceId)) {
 				ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceId) ;
@@ -90,7 +95,7 @@ public class DISecurity implements ServerResponseListener {
 	 * @return
 	 */
 	public String encryptData(String data, String deviceId) {
-		String key = securityHashtable.get(deviceId);
+		String key = securityKeyHashtable.get(deviceId);
 		
 		if (key == null) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
@@ -117,7 +122,7 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	public String decryptData(String data, String deviceId) {
 		
-		String key = securityHashtable.get(deviceId);
+		String key = securityKeyHashtable.get(deviceId);
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
@@ -131,7 +136,7 @@ public class DISecurity implements ServerResponseListener {
 			byte[] bytesDecData = aesDecryptData(bytesEncData, key);
 			decryptData = new String(bytesDecData,Charset.defaultCharset());
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
-			counterExchangeKey = 0;
+			exchangeKeyCounterTable.put(deviceId, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
@@ -141,7 +146,6 @@ public class DISecurity implements ServerResponseListener {
 
 		return decryptData;
 	}
-	
 	
 	/**
 	 * Encrypting, decrypt data using AES algorithm
@@ -239,7 +243,7 @@ public class DISecurity implements ServerResponseListener {
 		ALog.i(ALog.SECURITY, "Received response from device: " + deviceId + "    ResponseCode: " + responseCode) ;
 		isExchangingKeyTable.put(deviceId, false);
 		if ( responseCode == 200 ) {
-			counterExchangeKey = 0;
+			exchangeKeyCounterTable.put(deviceId, 0);
 			JSONObject json;
 			try {
 				json = new JSONObject(responseData);
@@ -260,7 +264,7 @@ public class DISecurity implements ServerResponseListener {
 				
 				String key = Util.bytesToHex(bytesDecKey);
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
-				securityHashtable.put(deviceId, key);
+				securityKeyHashtable.put(deviceId, key);
 				
 				AppConstants.DEVICEID = deviceId;
 				
@@ -271,7 +275,6 @@ public class DISecurity implements ServerResponseListener {
 				e.printStackTrace();
 			}
 		} else {
-			
 			exchangeKey(urlsTable.get(deviceId), deviceId);
 		}
 		
@@ -288,10 +291,21 @@ public class DISecurity implements ServerResponseListener {
 	}
 	
 	public static void setKeyIntoSecurityHashTable(String devId, String key) {
-		securityHashtable.put(devId, key);
+		securityKeyHashtable.put(devId, key);
 	}
 	
 	public static void setUrlIntoUrlsTable(String devId, String url) {
 		urlsTable.put(devId, url);
+	}
+	
+	private int exchangeKeyCounter(String deviceId) {
+		int counter = 0;
+		if (exchangeKeyCounterTable.get(deviceId) == null) {
+			exchangeKeyCounterTable.put(deviceId, 0);
+			counter = 0;
+		} else {
+			counter = exchangeKeyCounterTable.get(deviceId);
+		}
+		return counter;
 	}
 }

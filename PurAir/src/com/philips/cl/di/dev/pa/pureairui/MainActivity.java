@@ -1252,7 +1252,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		ssdpDeviceInfoTable.put(cppId, deviceInfoDto);
 		
 		if( isDeviceDiscovered) {
-			
+			diSecurity.initializeExchangeKeyCounter(cppId);
 			diSecurity.exchangeKey(String.format(
 					AppConstants.URL_SECURITY, device.getIpAddress()), cppId);
 		}
