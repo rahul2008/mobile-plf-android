@@ -62,7 +62,7 @@ public class DISecurityTest extends TestCase {
 		DISecurity security = new DISecurity(null);
 		
 		try {
-			Field keysField = DISecurity.class.getDeclaredField("securityHashtable");
+			Field keysField = DISecurity.class.getDeclaredField("securityKeyHashtable");
 			keysField.setAccessible(true);
 			@SuppressWarnings("unchecked")
 			Hashtable<String, String> keysTable = (Hashtable<String, String>) keysField.get(security);
