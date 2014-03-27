@@ -15,7 +15,9 @@ import android.os.Message;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputFilter;
 import android.text.Selection;
+import android.text.Spanned;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -220,8 +222,26 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 		showPasswordImgStep3.setOnClickListener(this);
 		editSavePlaceNameBtnStep3.setOnClickListener(this);
+		
+		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter });
 
 	}
+	
+	private InputFilter purifierNamefilter = new InputFilter() {
+
+		@Override
+		public CharSequence filter(CharSequence source, int start, int end,
+				Spanned dest, int dstart, int dend) {
+			if (source.equals(" ")) { 
+				return source;
+			}
+			if (source.toString().matches("[%^<>;&+*():'\"`~!#{}|=?, ]")) {
+				return source.subSequence(0, source.length() - 1);
+			} else {
+				return source;
+			}
+		}
+	};
 
 	/*Initialize action bar */
 	private void initActionBar() {
@@ -387,8 +407,9 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 				deviceNameStep3.setEnabled(false);
 				deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 				editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
-				if (deviceNameStep3.getText().toString() != null && deviceNameStep3.getText().toString().length() > 0) {
-					sendDeviceNameToPurifier(deviceNameStep3.getText().toString().trim()) ;
+				String purifierName = deviceNameStep3.getText().toString();
+				if (purifierName != null && purifierName.trim().length() > 0) {
+					sendDeviceNameToPurifier(purifierName.trim()) ;
 				} else {
 					deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName());
 				}
