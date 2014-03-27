@@ -12,7 +12,7 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.utils.DBHelper;
+import com.philips.cl.di.dev.pa.utils.PurifierDBHelper;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 /**
@@ -26,7 +26,7 @@ public class DatabaseAdapter {
 	Context context;
 
 	/** The db helper. */
-	DBHelper dbHelper;
+	PurifierDBHelper dbHelper;
 
 	/** The db. */
 	SQLiteDatabase db;
@@ -48,7 +48,7 @@ public class DatabaseAdapter {
 	 */
 	public SQLiteDatabase open() {
 		Log.i(TAG, "Open") ;
-		dbHelper = new DBHelper(context);
+		dbHelper = new PurifierDBHelper(context);
 		File dbfile = new File(context.getFilesDir() +"/"+AppConstants.DATABASE);
 		db = SQLiteDatabase.openOrCreateDatabase(dbfile, null);
 		return db;

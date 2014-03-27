@@ -64,14 +64,14 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
-import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
+import com.philips.cl.di.dev.pa.controller.PurifierDatabase;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
 import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.customviews.adapters.ListItemAdapter;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.City;
-import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
+import com.philips.cl.di.dev.pa.dto.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
@@ -92,7 +92,7 @@ import com.philips.cl.di.dev.pa.screens.BaseActivity;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.utils.ALog;
-import com.philips.cl.di.dev.pa.utils.DBHelper;
+import com.philips.cl.di.dev.pa.utils.PurifierDBHelper;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
@@ -158,9 +158,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	
 	private String purifierName;
 	public boolean isDiagnostics;
-	private DeviceInfoController deviceInfoController;
-	private List<DeviceInfoDto> dbDeviceInfoDtoList;
-	private Hashtable<String, DeviceInfoDto> ssdpDeviceInfoTable;
+	private PurifierDatabase purifierDatabase;
+	private List<PurifierDetailDto> dbPurifierDetailDtoList;
+	private Hashtable<String, PurifierDetailDto> ssdpDeviceInfoTable;
 	
 	private String localDeviceUsn;
 	
@@ -175,12 +175,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		/**
 		 * Initialize database
 		 */
-		ssdpDeviceInfoTable = new Hashtable<String, DeviceInfoDto>();
+		ssdpDeviceInfoTable = new Hashtable<String, PurifierDetailDto>();
 		/**
 		 * Create database and tables
 		 */
-		deviceInfoController = new DeviceInfoController(this);
-		dbDeviceInfoDtoList = deviceInfoController.getAllDeviceInfo();
+		purifierDatabase = new PurifierDatabase(this);
+		dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
 		/**
 		 * Diffie Hellman key exchange
 		 */
@@ -388,7 +388,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		/**
 		 * Close Database
 		 */
-		deviceInfoController.closeDb();
+		purifierDatabase.closeDb();
 		/**
 		 * 
 		 */
@@ -1093,11 +1093,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			
 		}
 		
-		if (dbDeviceInfoDtoList != null && dbDeviceInfoDtoList.size() > 0) {
-			dbDeviceInfoDtoList.clear();
+		if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size() > 0) {
+			dbPurifierDetailDtoList.clear();
 		}
 		
-		dbDeviceInfoDtoList = deviceInfoController.getAllDeviceInfo();
+		dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
 		
 		startDeviceDiscovery() ;
 
@@ -1181,9 +1181,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			
 		}
 		
-		if (dbDeviceInfoDtoList != null ) {
+		if (dbPurifierDetailDtoList != null ) {
 			boolean isDeviceInDb = false;
-			for (DeviceInfoDto infoDto : dbDeviceInfoDtoList) {
+			for (PurifierDetailDto infoDto : dbPurifierDetailDtoList) {
 				String dbUsn = infoDto.getUsn();
 				if (dbUsn == null || dbUsn.length() <= 0) {
 					continue;
@@ -1243,7 +1243,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"+isDeviceDiscovered) ;
 		long bootId = Long.parseLong(device.getBootID());
 		String cppId = device.getSsdpDevice().getCppId();
-		DeviceInfoDto deviceInfoDto = new DeviceInfoDto();
+		PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
 		deviceInfoDto.setUsn(device.getUsn());
 		deviceInfoDto.setBootId(bootId);
 		deviceInfoDto.setCppId(cppId);
@@ -1266,16 +1266,16 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			
 			toggleConnection(true) ;
 			
-			DeviceInfoDto deviceInfoDto  = ssdpDeviceInfoTable.get(devId);
+			PurifierDetailDto deviceInfoDto  = ssdpDeviceInfoTable.get(devId);
 			deviceInfoDto.setDeviceKey(key);
 			
-			deviceInfoController.insertDeviceInfo(deviceInfoDto);
+			purifierDatabase.insertPurifierDetail(deviceInfoDto);
 			
-			if (dbDeviceInfoDtoList != null && dbDeviceInfoDtoList.size()  > 0) {
-				dbDeviceInfoDtoList.clear();
+			if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size()  > 0) {
+				dbPurifierDetailDtoList.clear();
 			}
 			
-			dbDeviceInfoDtoList = deviceInfoController.getAllDeviceInfo();
+			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
 		}
 	}
 

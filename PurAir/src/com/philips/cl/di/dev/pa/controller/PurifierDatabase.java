@@ -8,27 +8,27 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
+import com.philips.cl.di.dev.pa.dto.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.utils.ALog;
-import com.philips.cl.di.dev.pa.utils.DBHelper;
+import com.philips.cl.di.dev.pa.utils.PurifierDBHelper;
 
-public class DeviceInfoController {
+public class PurifierDatabase {
 	
 	private SQLiteDatabase db;
-	private DBHelper dbHelper;
+	private PurifierDBHelper dbHelper;
 	/**
 	 * 
 	 * @param context
 	 */
-	public DeviceInfoController(Context context) {
-		dbHelper = new DBHelper(context);
+	public PurifierDatabase(Context context) {
+		dbHelper = new PurifierDBHelper(context);
 	}
 	/**
 	 * 
 	 * @param deviceInfoDto
 	 * @return
 	 */
-	public long insertDeviceInfo(DeviceInfoDto deviceInfoDto) {
+	public long insertPurifierDetail(PurifierDetailDto deviceInfoDto) {
 		
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + deviceInfoDto.getUsn()
 				+ ", CppId: " + deviceInfoDto.getCppId()
@@ -38,7 +38,7 @@ public class DeviceInfoController {
 		
 		long rowId = -1L;
 		
-		long id = getIdUsnExistsInTable(deviceInfoDto.getUsn());
+		long id = getRowIdOfPurifier(deviceInfoDto.getUsn());
 		
 		Cursor cursor = null;
 		if (id == -1L) {
@@ -55,17 +55,14 @@ public class DeviceInfoController {
 				
 				rowId = db.insert(AppConstants.AIRPUR_INFO_TABLE, null, values);
 			} catch (Exception e) {
-				// NOP
-				e.printStackTrace();
+				ALog.e(ALog.DATABASE, e.getMessage());
 			} finally {
 				closeCursor(cursor);
 				closeDb();
 			}
 		} else {
-			updateDeviceInfo(id, deviceInfoDto.getBootId(), deviceInfoDto.getDeviceKey(), deviceInfoDto.getDeviceName());
+			updatePurifierDetail(id, deviceInfoDto.getBootId(), deviceInfoDto.getDeviceKey(), deviceInfoDto.getDeviceName());
 		}
-		//getDeviceInfo();
-		
 		return rowId;
 	}
 	/**
@@ -77,21 +74,19 @@ public class DeviceInfoController {
 				db.close();
 			}
 		} catch (Exception e) {
-			// NOP
-			e.printStackTrace();
+			ALog.e(ALog.DATABASE, e.getMessage());
 		}
 	}
 	/**
 	 * Close cursor
 	 */
-	public void closeCursor(Cursor c) {
+	private void closeCursor(Cursor c) {
 		try {
 			if (c != null && !c.isClosed() ) {
 				c.close();
 			}
 		} catch (Exception e) {
-			// NOP
-			e.printStackTrace();
+			ALog.e(ALog.DATABASE, e.getMessage());
 		}
 		
 	}
@@ -100,7 +95,7 @@ public class DeviceInfoController {
 	 * @param usn
 	 * @return
 	 */
-	public long getIdUsnExistsInTable(String usn) {
+	private long getRowIdOfPurifier(String usn) {
 		long id = -1;
 		if (usn != null) {
 			Cursor cursor = null;
@@ -116,8 +111,7 @@ public class DeviceInfoController {
 					ALog.i(ALog.DATABASE, "All exists");
 				}
 			} catch (Exception e) {
-				// NOP
-				e.printStackTrace();
+				ALog.e(ALog.DATABASE, e.getMessage());
 			} finally {
 				closeCursor(cursor);
 				closeDb();
@@ -129,8 +123,8 @@ public class DeviceInfoController {
 	 * 
 	 * @return
 	 */
-	public List<DeviceInfoDto> getAllDeviceInfo() {
-		List<DeviceInfoDto> deviceInfoDtoList = new ArrayList<DeviceInfoDto>();
+	public List<PurifierDetailDto> getAllPurifierDetail() {
+		List<PurifierDetailDto> deviceInfoDtoList = new ArrayList<PurifierDetailDto>();
 		ALog.i(ALog.DATABASE, "getAllDeviceInfo()");
 		Cursor cursor = null;
 		try {
@@ -140,7 +134,7 @@ public class DeviceInfoController {
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				do {
-					DeviceInfoDto deviceInfoDto = new DeviceInfoDto();
+					PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
 					
 					deviceInfoDto.setId(
 							cursor.getLong(cursor.getColumnIndex(AppConstants.ID)));
@@ -169,8 +163,7 @@ public class DeviceInfoController {
 				ALog.i(ALog.DATABASE,"Empty device table");
 			}
 		} catch (Exception e) {
-			// NOP
-			e.printStackTrace();
+			ALog.e(ALog.DATABASE, e.getMessage());
 		} finally {
 			closeCursor(cursor);
 			closeDb();
@@ -185,7 +178,7 @@ public class DeviceInfoController {
 	 * @param devKey
 	 * @return
 	 */
-	public long updateDeviceInfo(long id, long bootId, String devKey, String purifierName) {
+	public long updatePurifierDetail(long id, long bootId, String devKey, String purifierName) {
 		ALog.i(ALog.DATABASE, "Update before id: " + id +", bootId: " 
 				+ bootId + ", devKey: " + devKey +", purfier name: " + purifierName);
 		long rowId = -1;
@@ -201,12 +194,10 @@ public class DeviceInfoController {
 			rowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
 					values, AppConstants.ID + "= ?", new String[] {String.valueOf(id)});
 		} catch (Exception e) {
-			// NOP
-			e.printStackTrace();
+			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
 		} finally {
 			closeDb();
 		}
-		
 		return rowId;
 	}
 	/**
@@ -214,7 +205,7 @@ public class DeviceInfoController {
 	 * @param id
 	 * @return
 	 */
-	public long deleteDeviceInfo(int id) {
+	public long deletePurifierDetail(int id) {
 		long rowId = -1;
 		try {
 			db = dbHelper.getWritableDatabase();
@@ -222,8 +213,7 @@ public class DeviceInfoController {
 			rowId = db.delete(AppConstants.AIRPUR_INFO_TABLE, 
 					AppConstants.ID + "= ?", new String[] {String.valueOf(id)});
 		} catch (Exception e) {
-			// NOP
-			e.printStackTrace();
+			ALog.e(ALog.DATABASE, "Failed to delete row "+e.getMessage());
 		} finally {
 			closeDb();
 		}

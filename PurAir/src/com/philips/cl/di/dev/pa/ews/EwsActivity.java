@@ -38,10 +38,10 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.controller.DeviceInfoController;
+import com.philips.cl.di.dev.pa.controller.PurifierDatabase;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
-import com.philips.cl.di.dev.pa.dto.DeviceInfoDto;
+import com.philips.cl.di.dev.pa.dto.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.screens.BaseActivity;
@@ -120,7 +120,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	private String cppId;
 	
-	private DeviceInfoDto deviceInfoDto;
+	private PurifierDetailDto deviceInfoDto;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -565,7 +565,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		stopDiscovery();
 		
 		if (deviceInfoDto != null) {
-			new DeviceInfoController(this).insertDeviceInfo(deviceInfoDto);
+			new PurifierDatabase(this).insertPurifierDetail(deviceInfoDto);
 			getSharedPreferences(
 					"cpp_preferences01", 0).edit().putString("airpurifierid", deviceInfoDto.getCppId()).commit();
 		}
@@ -737,7 +737,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
 				&& cppId.equalsIgnoreCase(ssdpCppId)) {
 			
-			deviceInfoDto = new DeviceInfoDto();
+			deviceInfoDto = new PurifierDetailDto();
 			deviceInfoDto.setUsn(device.getUsn());
 			deviceInfoDto.setCppId(device.getSsdpDevice().getCppId());
 			deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
