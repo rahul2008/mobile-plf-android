@@ -137,4 +137,28 @@ public class DataParserTest extends TestCase {
 		final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
 		assertEquals("1c5a6bfffe6341fe", deviceList.get(0).getCppId());
 	}
+	
+	public void testSSDPDeviceNameError() {
+		final String xmlDescription = "<?xml version=\"1.0\"?><root xmlns=\"urn:schemas-upnp-org:device-1-0\"><specVersion><major>1</major><minor>1</minor></specVersion><device><deviceType1>urn:philips-com:device:DiProduct:1</deviceType1><friendlyName1>living room cl</friendlyName1><manufacturer1>Royal Philips Electronics</manufacturer1><modelName>AirPurifier</modelName><UDN>uuid:12345678-1234-1234-1234-1c5a6b6341fe</UDN><cppId>1c5a6bfffe6341fe</cppId></device></root>";
+		BaseUrlParser mBaseParser = new BaseUrlParser();
+		mBaseParser.parse(xmlDescription);
+		final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
+		assertNull(deviceList.get(0).getFriendlyName());
+	}
+	
+	public void testSSDPDeviceNameWithSpecialCharator() {
+		final String xmlDescription = "<?xml version=\"1.0\"?><root xmlns=\"urn:schemas-upnp-org:device-1-0\"><specVersion><major>1</major><minor>1</minor></specVersion><device><deviceType>urn:philips-com:device:DiProduct:1</deviceType><friendlyName>living room @4$/@$@-_</friendlyName><manufacturer>Royal Philips Electronics</manufacturer><modelName>AirPurifier</modelName><UDN>uuid:12345678-1234-1234-1234-1c5a6b6341fe</UDN><cppId>1c5a6bfffe6341fe</cppId></device></root>";
+		BaseUrlParser mBaseParser = new BaseUrlParser();
+		mBaseParser.parse(xmlDescription);
+		final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
+		assertEquals("living room @4$/@$@-_", deviceList.get(0).getFriendlyName());
+	}
+	
+	public void testSSDPDeviceNameWithSpecialCharatorError() {
+		final String xmlDescription = "<?xml version=\"1.0\"?><root xmlns=\"urn:schemas-upnp-org:device-1-0\"><specVersion><major>1</major><minor>1</minor></specVersion><device><deviceType>urn:philips-com:device:DiProduct:1</deviceType><friendlyName>living room &;</friendlyName><manufacturer>Royal Philips Electronics</manufacturer><modelName>AirPurifier</modelName><UDN>uuid:12345678-1234-1234-1234-1c5a6b6341fe</UDN><cppId>1c5a6bfffe6341fe</cppId></device></root>";
+		BaseUrlParser mBaseParser = new BaseUrlParser();
+		mBaseParser.parse(xmlDescription);
+		final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
+		assertNull(deviceList.get(0).getFriendlyName());
+	}
 }
