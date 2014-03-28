@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -49,6 +51,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -87,6 +90,7 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
+import com.philips.cl.di.dev.pa.pureairui.fragments.NewFirmware;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
 import com.philips.cl.di.dev.pa.screens.BaseActivity;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -118,7 +122,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	private ImageView ivConnectedImage;
 	private Menu menu;
 	private boolean connected;
-
+	
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
 
@@ -198,7 +202,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		screenHeight = displayMetrics.heightPixels;
 
 		initActionBar();
-
+	
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
@@ -209,9 +213,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
-				mRightDrawerOpened = false;
-				supportInvalidateOptionsMenu();
-				drawerOpen = false;
+					mRightDrawerOpened = false;
+					supportInvalidateOptionsMenu();
+					drawerOpen = false;
 			}
 
 			@Override
@@ -439,15 +443,17 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-
+		
 		if(fragment instanceof OutdoorLocationsFragment && android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
 			invalidateOptionsMenu(); 
 		}
+		
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			drawerOpen = false;
-		} else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)) {
+		} 
+		else if(count > 1 && !(fragment instanceof HomeFragment) && !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager. popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
 			setTitle(getString(R.string.dashboard_title));
@@ -548,6 +554,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications, R.drawable.icon_4_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc, R.drawable.icon_5_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_settings, R.drawable.icon_6_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware, R.drawable.icon_8_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_prod_reg, R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online, R.drawable.icon_8_2x));
 		leftMenuItems.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
@@ -695,9 +702,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(mActionBarDrawerToggle.onOptionsItemSelected(item)) {
 			mDrawerLayout.closeDrawer(mScrollViewRight);
-			
 			return true;
 		}
+	
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
@@ -815,6 +822,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
+			leftMenuItems.add(new NewFirmware());
 			leftMenuItems.add(new ProductRegFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
@@ -855,19 +863,23 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				setTitle(getString(R.string.list_item_settings));
 				break;
 			case 6:
-				//Product registration
+				//Firmware update
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_firmware));
 				break;
 			case 7:
+				//Product registration
+				break;
+			case 8:
 				//Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
 				break;
-			case 8:
+			case 9:
 				//Tools
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.tools));
 				break;
-
 			default:
 				break;
 			}
