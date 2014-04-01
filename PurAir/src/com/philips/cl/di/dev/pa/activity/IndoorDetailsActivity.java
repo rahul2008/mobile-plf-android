@@ -27,7 +27,7 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.fragments.IndoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;

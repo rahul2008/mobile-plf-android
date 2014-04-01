@@ -28,7 +28,7 @@ import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.fragments.OutdoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
 

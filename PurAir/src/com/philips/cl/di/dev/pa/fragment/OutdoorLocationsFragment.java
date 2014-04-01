@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.fragments;
+package com.philips.cl.di.dev.pa.fragment;
 
 import java.io.IOException;
 import java.io.InputStream;
