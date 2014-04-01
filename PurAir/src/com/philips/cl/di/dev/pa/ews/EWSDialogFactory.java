@@ -310,6 +310,8 @@ public class EWSDialogFactory implements OnClickListener{
 				activity.showSupportScreen() ;
 			}
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -329,6 +331,8 @@ public class EWSDialogFactory implements OnClickListener{
 			break;
 		case ERROR_TS01_05:
 			errorDialogTS01_05.dismiss();
+			break;
+		default:
 			break;
 		}
 	}
@@ -397,6 +401,8 @@ public class EWSDialogFactory implements OnClickListener{
 			break;
 		case ERROR_TS01_05:
 			getDialog(ERROR_TS01_05).dismiss();
+			break;
+		default:
 			break;
 		}
 		getDialog(SUPPORT_TS01).show();

@@ -154,9 +154,9 @@ public class EWSService extends BroadcastReceiver
 		
 	}
 	
-	private static boolean isOpenNetwork;
+	private boolean isOpenNetwork;
 	
-	public static boolean isNoPasswordSSID() {
+	public boolean isNoPasswordSSID() {
 		return isOpenNetwork;
 	}
 

@@ -320,6 +320,8 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			actionBarCancelBtn.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
 			break;
+		default:
+			break;
 		}
 	}
 	
@@ -596,7 +598,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		setActionBarHeading(1);
 		setContentView(viewStep3);
 		
-		if (EWSService.isNoPasswordSSID()) {
+		if (ewsService.isNoPasswordSSID()) {
 			passwordStep3.setEnabled(false);
 			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg_gray);
 		} else {
@@ -656,6 +658,8 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		case EWSListener.ERROR_CODE_INVALID_PASSWORD:
 			Toast.makeText(this, getString(R.string.wrong_wifi_password), Toast.LENGTH_LONG).show() ;
 			break;
+		default:
+			break;
 		}
 	}
 	
@@ -663,6 +667,8 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	public void onWifiDisabled() {
 		switch (step) {
 		case 1:
+			break;
+		default:
 			break;
 		}		
 	}

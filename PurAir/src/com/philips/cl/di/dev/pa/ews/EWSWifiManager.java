@@ -20,7 +20,7 @@ public class EWSWifiManager {
 		ALog.i(ALog.EWS, "connectToPhilipsSetup");
 		int networkId = getConfiguredNetworkId(DEVICE_SSID);
 		if (networkId == -1) {
-			networkId = configureOpenNetwork(DEVICE_SSID);
+			configureOpenNetwork(DEVICE_SSID);
 		}
 		
 		if (!connectToConfiguredNetwork(DEVICE_SSID)) {
