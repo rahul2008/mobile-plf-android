@@ -15,11 +15,11 @@ import android.os.CountDownTimer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.DeviceDto;
 import com.philips.cl.di.dev.pa.dto.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.pureairui.PurAirApplication;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.utils.ALog;

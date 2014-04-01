@@ -9,7 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class ProductRegFragment extends BaseFragment implements OnClickListener {

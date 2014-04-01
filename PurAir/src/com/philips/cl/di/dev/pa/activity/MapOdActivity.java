@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens;
+package com.philips.cl.di.dev.pa.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens;
+package com.philips.cl.di.dev.pa.activity;
 
 import android.content.Intent;
 import android.content.res.Resources;
@@ -11,7 +11,6 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class AirTutorialActivity extends BaseActivity implements OnClickListener {

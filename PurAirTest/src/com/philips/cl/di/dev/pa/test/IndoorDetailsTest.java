@@ -5,8 +5,8 @@ import android.test.UiThreadTest;
 import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity;
 
 public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDetailsActivity> {
 	

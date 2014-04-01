@@ -27,7 +27,7 @@
         android:xlargeScreens="true" />
 
     <application
-        android:name="com.philips.cl.di.dev.pa.pureairui.PurAirApplication"
+        android:name="com.philips.cl.di.dev.pa.PurAirApplication"
         android:allowBackup="true"
         android:icon="@drawable/purair_icon"
         android:label="@string/app_name"
@@ -42,7 +42,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".pureairui.MainActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorPortrait" >
             <intent-filter>
@@ -52,56 +52,56 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.FilterDetailsActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.FilterDetailsActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.TrendsActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.TrendsActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.AirTutorialActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.AirTutorialActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.IndoorDetailsActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.MapOdActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.MapOdActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.TutorialPagerActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.TutorialPagerActivity"
             android:theme="@style/WhiteBackground"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.TermsAndConditionsActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.TermsAndConditionsActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.NotificationSelectDayActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.NotificationSelectDayActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.CreateNotificationActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.CreateNotificationActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.OutdoorAirColorIndicationActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.OutdoorAirColorIndicationActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.IndoorAirColorIndicationActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.IndoorAirColorIndicationActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.AirColorExplainedStaticActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
          <activity

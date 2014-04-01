@@ -5,9 +5,9 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.utils.NetworkUtils;
 

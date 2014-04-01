@@ -9,7 +9,7 @@ import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.philips.cl.di.dev.pa.pureairui.PurAirApplication;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.utils.ALog;
 
 public class EWSWifiManager {

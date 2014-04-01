@@ -2,7 +2,7 @@ package com.philips.cl.di.dev.pa.constants;
 
 import android.util.Log;
 
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 
 public class AnimatorConstants {
 	

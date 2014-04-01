@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens;
+package com.philips.cl.di.dev.pa.activity;
 
 import android.annotation.TargetApi;
 import android.os.Bundle;
@@ -11,16 +11,15 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
-public class OutdoorAirColorIndicationActivity extends BaseActivity {
+public class IndoorAirColorIndicationActivity extends BaseActivity {
+
 
 	/**
 	 * strings for group elements
 	 */
 	private static final int arrGroupelements[] ={
-		R.string.hazardous,
+		R.string.very_unhealthy,
 		R.string.unhealthy,
-		R.string.moderately_polluted,
-		R.string.slightly_polluted,
 		R.string.moderate,
 		R.string.good
 	};
@@ -28,45 +27,36 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	/**
 	 * strings for child elements
 	 */
-	private static final int arrChildelements[][] =
+	private static final int arrChildelements[][] ={
 		{
-		{
-			R.string.outdoor_hazardous
+			R.string.indoor_very_unhealthy
 		},
 		{
-			R.string.outdoor_unhealthy
+			R.string.indoor_unhealthy
+		},		
+		{
+			R.string.indoor_moderate
 		},
 		{
-			R.string.outdoor_moderately_polluted
-		},
-		{
-			R.string.outdoor_slightly_polluted
-		},
-		{
-			R.string.outdoor_moderate
-		},
-		{
-			R.string.outdoor_good
+			R.string.indoor_good
 		}
-		};
+	};
 
 	private static final int colorList[]={
 		R.drawable.circle_1,
 		R.drawable.circle_2,
 		R.drawable.circle_3,
-		R.drawable.circle_4,
-		R.drawable.circle_5,
 		R.drawable.circle_6
 	};
 
 	private static final String colorListLabel[]={
-		"500+", "300","200","150","100","50"
+		"10+", "4","3","2"
 	};
 
 	private ExpandableListView expListView;
 	private ExpandableListAdapter listAdapter;
 
-	private ActionBar mActionBar;	
+	private ActionBar mActionBar;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +70,8 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.colors_list); 
 		listAdapter = new ExpandableListAdapter(this, arrGroupelements, arrChildelements,colorList,colorListLabel);
-		setGroupIndicatorToRight();
 		expListView.setAdapter(listAdapter);
+		setGroupIndicatorToRight();
 	}
 	
 	/*Initialize action bar */
@@ -90,20 +80,20 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		mActionBar.setIcon(null);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);	
-		setActionBarTitle(R.string.outdoor_colors_explained);
+		setActionBarTitle(R.string.indoor_colors_explained);
 	}
 
 	/*Sets Action bar title */
-	public void setActionBarTitle(int title) {    	
+	public void setActionBarTitle(int tutorialTitle) {    	
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
 		textView.setTypeface(Fonts.getGillsansLight(this));
 		textView.setTextSize(24);
-		textView.setText(this.getText(title));
+		textView.setText(this.getText(tutorialTitle));
 	}
 
 	@TargetApi(18)
 	private void setGroupIndicatorToRight() {
-		/* Get the screen width */
+		//Get the screen width 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		int width = dm.widthPixels;
@@ -111,10 +101,11 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2) {
 			expListView.setIndicatorBounds(width - getDipsFromPixel(60), width
 					- getDipsFromPixel(30));
-		} else {
+		} else {			
 			expListView.setIndicatorBoundsRelative(width - getDipsFromPixel(60), width
 					- getDipsFromPixel(30));
-		}		
+		}
+
 	}
 
 	// Convert pixel to dip
@@ -124,4 +115,5 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		// Convert the dps to pixels, based on density scale
 		return (int) (pixels * scale + 0.5f);
 	}
+
 }

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens;
+package com.philips.cl.di.dev.pa.activity;
 
 public class TrendsActivity extends BaseActivity {
 

@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.TutorialPagerActivity;
 import com.philips.cl.di.dev.pa.pureairui.fragments.AirTutorialViewFragment;
-import com.philips.cl.di.dev.pa.screens.TutorialPagerActivity;
 import com.viewpagerindicator.IconPagerAdapter;
 
 

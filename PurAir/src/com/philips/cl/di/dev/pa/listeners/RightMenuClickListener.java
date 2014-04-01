@@ -14,12 +14,12 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.constants.ParserConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 
 public class RightMenuClickListener implements OnClickListener {
 	

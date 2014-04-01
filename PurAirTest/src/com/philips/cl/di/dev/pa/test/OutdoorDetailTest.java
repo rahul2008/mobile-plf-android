@@ -11,11 +11,11 @@ import android.test.UiThreadTest;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.detail.utils.GraphPathDraw;
-import com.philips.cl.di.dev.pa.screens.OutdoorDetailsActivity;
 
 public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorDetailsActivity> {
 	

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constants.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseAdapter;
@@ -31,7 +32,6 @@ import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.interfaces.SignonListener;
 import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData.DiagnosticsDataListener;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class ToolsFragment extends BaseFragment implements OnClickListener,

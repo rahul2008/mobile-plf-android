@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens;
+package com.philips.cl.di.dev.pa.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.pureairui;
+package com.philips.cl.di.dev.pa.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -92,7 +92,6 @@ import com.philips.cl.di.dev.pa.pureairui.fragments.ProductRegistrationStepsFrag
 import com.philips.cl.di.dev.pa.pureairui.fragments.SettingsFragment;
 import com.philips.cl.di.dev.pa.pureairui.fragments.NewFirmware;
 import com.philips.cl.di.dev.pa.pureairui.fragments.ToolsFragment;
-import com.philips.cl.di.dev.pa.screens.BaseActivity;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.utils.ALog;

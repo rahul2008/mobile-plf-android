@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.screens.AirColorExplainedStaticActivity;
-import com.philips.cl.di.dev.pa.screens.IndoorAirColorIndicationActivity;
-import com.philips.cl.di.dev.pa.screens.OutdoorAirColorIndicationActivity;
+import com.philips.cl.di.dev.pa.activity.AirColorExplainedStaticActivity;
+import com.philips.cl.di.dev.pa.activity.IndoorAirColorIndicationActivity;
+import com.philips.cl.di.dev.pa.activity.OutdoorAirColorIndicationActivity;
 
 public class AirQualityFragment extends BaseFragment implements OnClickListener {
 	public static final int INDOOR_POLLUTANT_SCREEN = 11;

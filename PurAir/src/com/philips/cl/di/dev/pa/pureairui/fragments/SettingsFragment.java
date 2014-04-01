@@ -12,8 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.MainActivity;
-import com.philips.cl.di.dev.pa.screens.TermsAndConditionsActivity;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.activity.TermsAndConditionsActivity;
 import com.philips.cl.di.dev.pa.utils.NetworkUtils;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener{
