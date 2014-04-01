@@ -17,7 +17,7 @@
  * Copyright Jonas Gehring
  */
 
-package com.philips.cl.di.dev.pa.interfaces;
+package com.philips.cl.di.dev.pa.util;
 
 /**
  * the base interface for the graphview data.

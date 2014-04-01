@@ -10,10 +10,9 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 /**
@@ -145,7 +144,7 @@ public class AirPurifierController implements ServerResponseListener
 
 	/**
 	 * (non-Javadoc)
-	 * @see com.philips.cl.di.dev.pa.interfaces.ServerResponseListener#receiveServerResponse(int, java.lang.String)
+	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int, java.lang.String)
 	 * This is a call back to async task.
 	 */
 	@Override

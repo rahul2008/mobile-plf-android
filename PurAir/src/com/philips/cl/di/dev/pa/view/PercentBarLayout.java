@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
+import com.philips.cl.di.dev.pa.util.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 

@@ -18,10 +18,6 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.interfaces.ICPDeviceDetailsListener;
-import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
-import com.philips.cl.di.dev.pa.interfaces.SignonListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Utils;

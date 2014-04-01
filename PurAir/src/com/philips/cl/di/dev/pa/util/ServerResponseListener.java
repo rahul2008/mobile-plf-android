@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.interfaces;
+package com.philips.cl.di.dev.pa.util;
 
 /**
  * The listener interface for receiving serverResponse events.

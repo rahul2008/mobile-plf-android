@@ -3,8 +3,8 @@ package com.philips.cl.di.dev.pa.purifier;
 import android.os.AsyncTask;
 
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
-import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 /**
  * This class will call the sensor data. It gets the sensor data from the server
  * @author 310124914

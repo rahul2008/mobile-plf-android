@@ -18,7 +18,7 @@ Version 1:
 package com.philips.cl.di.dev.pa.cpp;
 
 import android.os.Handler;
-import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
+
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;

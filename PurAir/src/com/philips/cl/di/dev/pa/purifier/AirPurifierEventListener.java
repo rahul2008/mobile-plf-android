@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.interfaces;
+package com.philips.cl.di.dev.pa.purifier;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 

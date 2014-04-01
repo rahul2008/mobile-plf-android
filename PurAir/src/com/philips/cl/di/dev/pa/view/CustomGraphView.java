@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface;
+import com.philips.cl.di.dev.pa.util.GraphViewDataInterface;
 
 /**
  * The Class CustomGraphView.

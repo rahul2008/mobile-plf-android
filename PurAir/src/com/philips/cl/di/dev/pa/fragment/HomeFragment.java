@@ -46,13 +46,13 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
-import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData.WeatherDataListener;
 import com.philips.cl.di.dev.pa.util.AnimationListener;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class HomeFragment extends BaseFragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {

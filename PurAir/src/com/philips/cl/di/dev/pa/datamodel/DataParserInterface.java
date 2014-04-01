@@ -1,11 +1,7 @@
-package com.philips.cl.di.dev.pa.interfaces;
+package com.philips.cl.di.dev.pa.datamodel;
 
 
 import java.util.List;
-
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
-import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 
 /**
  * This interface will be implemented by DataParser to parse all types of response data from Server

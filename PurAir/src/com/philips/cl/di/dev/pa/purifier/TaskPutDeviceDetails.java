@@ -9,8 +9,8 @@ import java.nio.charset.Charset;
 
 import android.util.Log;
 
-import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
 public class TaskPutDeviceDetails implements Runnable {
 	private static final String TAG = TaskPutDeviceDetails.class.getSimpleName();
