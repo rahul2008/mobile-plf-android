@@ -3,9 +3,7 @@
     android:id="@+id/take_tour_pop_up_alert"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:padding="15dp"
-    >
+    android:padding="15dp" >
 
     <TextView
         android:id="@+id/take_tour_alert"
