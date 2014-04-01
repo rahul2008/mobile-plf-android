@@ -177,9 +177,7 @@ int openSocket() {
 		return -1;	
 	};
 
-	setMulticastInterface(listeningSocket);
-    
-	return 0;
+	return setMulticastInterface(listeningSocket);
 }
 
 
