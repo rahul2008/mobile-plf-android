@@ -27,10 +27,6 @@ import com.philips.cl.di.dev.pa.utils.Utils;
 public class AirPurifierController implements ServerResponseListener
 {
 	
-	/** The ip address. */
-	private String ipAddress ;
-	
-	
 	/** The sensor data handler. */
 	private AirPurifierEventListener airPurifierEventListener;
 	
@@ -123,13 +119,10 @@ public class AirPurifierController implements ServerResponseListener
 	public AirPurifierController(AirPurifierEventListener sensorDataListener,Context context) {
 		this.airPurifierEventListener = sensorDataListener ;
 		this.context = context ;
-		// Taking it from Shared Preferences
-		this.ipAddress = Utils.getIPAddress(context);
 	}
 	
 	public AirPurifierController(Context context) {
 		this.context = context ;
-		this.ipAddress = Utils.getIPAddress(context);
 	}
 	
 	public void setDeviceDetailsLocally(String key, String value )

@@ -14,7 +14,7 @@ import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 public class AirView extends View {
 
 	private int percent;
-	private final int X = 0;
+	public static final int X = 0;
 	private float fwidth;
 	private float fheight;
 	private float ftopline;

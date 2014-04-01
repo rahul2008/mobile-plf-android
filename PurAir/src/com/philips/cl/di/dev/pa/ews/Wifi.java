@@ -28,6 +28,8 @@ package com.philips.cl.di.dev.pa.ews;
 import java.util.Comparator;
 import java.util.List;
 
+import com.philips.cl.di.dev.pa.utils.ALog;
+
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
@@ -67,9 +69,9 @@ import android.util.Log;
 public class Wifi {
 	
 	public final ConfigurationSecurities ConfigSec = new ConfigurationSecurities();
-    
-	private final String TAG = "Wifi Connecter";
 	
+	private static final int MAX_PRIORITY = 99999;
+    
 	/**
 	 * Change the password of an existing configured network and connect to it
 	 * @param wifiMgr
@@ -112,9 +114,7 @@ public class Wifi {
 		try {
 			id = wifiMgr.addNetwork(config);
 		} catch(NullPointerException e) {
-			Log.e(TAG, "Weird!! Really!! What's wrong??", e);
-			// Weird!! Really!!
-			// This exception is reported by user to Android Developer Console(https://market.android.com/publish/Home)
+			ALog.e(ALog.WIFI, "Weird!! Really!! What's wrong??  " + e.getMessage());
 		}
 		if(id == -1) {
 			return false;
@@ -139,7 +139,8 @@ public class Wifi {
 	 * @param numOpenNetworksKept Settings.Secure.WIFI_NUM_OPEN_NETWORKS_KEPT
 	 * @return
 	 */
-	public boolean connectToConfiguredNetwork(final Context ctx, final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
+	public boolean connectToConfiguredNetwork(final Context ctx, 
+			final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
 		final String security = ConfigSec.getWifiConfigurationSecurity(config);
 		
 		int oldPri = config.priority;
@@ -177,8 +178,6 @@ public class Wifi {
 			return false;
 		}
 		
-//		ReenableAllApsWhenNetworkStateChanged.schedule(ctx);
-		
 		// Disable others, but do not save.
 		// Just to force the WifiManager to connect to it.
 		if(!wifiMgr.enableNetwork(config.networkId, true)) {
@@ -210,7 +209,8 @@ public class Wifi {
 	 * @param numOpenNetworksKept
 	 * @return Operation succeed or not.
 	 */
-	private boolean checkForExcessOpenNetworkAndSave(final WifiManager wifiMgr, final int numOpenNetworksKept) {
+	private boolean checkForExcessOpenNetworkAndSave(
+			final WifiManager wifiMgr, final int numOpenNetworksKept) {
 		final List<WifiConfiguration> configurations = wifiMgr.getConfiguredNetworks();
 		sortByPriority(configurations);
 		
@@ -232,8 +232,6 @@ public class Wifi {
 		
 		return true;
 	}
-	
-	private final int MAX_PRIORITY = 99999;
 	
 	private int shiftPriorityAndSave(final WifiManager wifiMgr) {
 		final List<WifiConfiguration> configurations = wifiMgr.getConfiguredNetworks();
@@ -259,7 +257,8 @@ public class Wifi {
 		return pri;
 	}
 
-	public WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final ScanResult hotsopt, String hotspotSecurity) {
+	public WifiConfiguration getWifiConfiguration(
+			final WifiManager wifiMgr, final ScanResult hotsopt, String hotspotSecurity) {
 		final String ssid = convertToQuotedString(hotsopt.SSID);
 		if(ssid.length() == 0) {
 			return null;
@@ -293,7 +292,8 @@ public class Wifi {
 		return null;
 	}
 	
-	public WifiConfiguration getWifiConfiguration(final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
+	public WifiConfiguration getWifiConfiguration(
+			final WifiManager wifiMgr, final WifiConfiguration configToFind, String security) {
 		final String ssid = configToFind.SSID;
 		if(ssid.length() == 0) {
 			return null;

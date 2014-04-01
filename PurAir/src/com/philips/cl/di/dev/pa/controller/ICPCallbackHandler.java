@@ -1,5 +1,3 @@
-package com.philips.cl.di.dev.pa.controller;
-
 /*----------------------------------------------------------------------------
 Copyright(c) Philips Electronics India Ltd
 All rights reserved. Reproduction in whole or in part is prohibited without 
@@ -17,12 +15,9 @@ Version 1:
     Original author: Haranadh Kaki
     Description: Updated version    
 ----------------------------------------------------------------------------*/
-
-
-import java.io.OutputStream;
+package com.philips.cl.di.dev.pa.controller;
 
 import android.os.Handler;
-
 import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
@@ -37,11 +32,6 @@ public class ICPCallbackHandler implements CallbackHandler
 {
 
 	ICPEventListener listener;
-	int cntOffset = 0;
-	int fileSize = 0;
-	byte mybyte[];
-	int index = 0;
-	OutputStream out = null; 
 
 	/**
 	 *Callback function for executeCommand.

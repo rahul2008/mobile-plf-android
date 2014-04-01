@@ -20,75 +20,61 @@ import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class PercentBarLayout extends LinearLayout {
 
-	 PercentDetailsClickListener mCallback;
 	/**
 	 * Constructor
 	 * @param Context
 	 * @param AttributeSet
 	 * @param int number of view to show
 	 * */
-	public PercentBarLayout(final Context context, AttributeSet attrs,  
-			List<Integer> goodAirInfos, PercentDetailsClickListener pCallback, final int index, final int position) {
+	public PercentBarLayout(final Context context, AttributeSet attrs, List<Integer> goodAirInfos, 
+			PercentDetailsClickListener pCallback, final int index, final int position) {
 		super(context, attrs);
-		mCallback = pCallback;
-		Log.i("DOWNLOAD", "goodAirInfos: " + goodAirInfos);
-			for (int i = 0; i < 2; i++) {
-				LayoutInflater inflater = (LayoutInflater) context
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				View v = inflater.inflate(R.layout.indoor_dboard_percent_bar, null);
-				RelativeLayout indoorDashboardBarPerc = (RelativeLayout)v.findViewById(R.id.indoorDashboardBarPerc);
-				TextView serialNum = (TextView)v.findViewById(R.id.indoorDashboardBarNum);
-				CustomTextView name = (CustomTextView)v.findViewById(R.id.indoorDashboardBarName);
-				final ImageView indexBg = (ImageView) v.findViewById(R.id.indoorDashboardBarNumBg);
-				
-				serialNum.setText(""+(i + 1));
-				v.setPadding(10, 10, 10, 10);
-				
-				if (i == 1) {
-					name.setText(context.getString(R.string.outdoor_db));
-					try {
-						if (Utils.outdoorAQIPercentageList != null) {
-							indoorDashboardBarPerc.addView(
-									new AirView(context, Utils.outdoorAQIPercentageList.get(index), 60, 80));
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
+		for (int i = 0; i < 2; i++) {
+			LayoutInflater inflater = (LayoutInflater) context
+					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View v = inflater.inflate(R.layout.indoor_dboard_percent_bar, null);
+			RelativeLayout indoorDashboardBarPerc = 
+					(RelativeLayout)v.findViewById(R.id.indoorDashboardBarPerc);
+			TextView serialNum = (TextView)v.findViewById(R.id.indoorDashboardBarNum);
+			CustomTextView name = (CustomTextView)v.findViewById(R.id.indoorDashboardBarName);
+			final ImageView indexBg = (ImageView) v.findViewById(R.id.indoorDashboardBarNumBg);
+			
+			serialNum.setText(""+(i + 1));
+			v.setPadding(10, 10, 10, 10);
+			
+			if (i == 1) {
+				name.setText(context.getString(R.string.outdoor_db));
+				try {
+					if (Utils.outdoorAQIPercentageList != null) {
+						indoorDashboardBarPerc.addView(
+								new AirView(context, Utils.outdoorAQIPercentageList.get(index), 60, 80));
 					}
-				}else {
-					try {
-						if (goodAirInfos != null) {
-							indoorDashboardBarPerc.addView(new AirView(context, goodAirInfos.get(index), 60, 80));
-						}
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}else {
+				try {
+					if (goodAirInfos != null) {
+						indoorDashboardBarPerc.addView(new AirView(context, goodAirInfos.get(index), 60, 80));
 					}
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				/**
-				 * Item click listener
-				 * */
-				//final int tempi = i;
-				
-				if (i == position) {
-					indexBg.setImageResource(R.drawable.circle_5);
-				}
-				
-				/*if (tempi != num - 1) {
-					v.setOnClickListener(new OnClickListener() {
-						
-						@Override
-						public void onClick(View v) {
-							mCallback.clickedPosition(tempi, index);
-						}
-					});
-				}else {
-					v.setBackgroundColor(Color.TRANSPARENT);
-				}*/
-				LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				this.addView(v, parentParams);
 			}
+				
+			/**
+			 * Item click listener
+			 * */
+			
+			if (i == position) {
+				indexBg.setImageResource(R.drawable.circle_5);
+			}
+				
+			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
+					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			this.addView(v, parentParams);
+		}
 		
 	}
 

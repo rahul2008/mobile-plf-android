@@ -16,8 +16,6 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	private ResponseDto responseObj;
 	private ProgressDialog pDialog;
 	private DiagnosticsDataListener listener;
-	private MainActivity mainActivity;
-	
 
 	public interface DiagnosticsDataListener {
 		public void diagnosticsDataUpdated(String[] data);
@@ -27,7 +25,6 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 			DiagnosticsDataListener pListener, MainActivity pActivity) {
 		context = pContext;
 		listener = pListener;
-		mainActivity=pActivity;
 	}
 
 	@Override

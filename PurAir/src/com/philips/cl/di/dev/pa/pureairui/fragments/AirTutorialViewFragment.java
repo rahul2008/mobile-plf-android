@@ -19,7 +19,6 @@ public class AirTutorialViewFragment extends BaseFragment {
     private int mTutorialDesc;
     private int mTutorialImage;
     private int mTutorialInstruction;
-    private int[] mInstructionList;
 
     public static AirTutorialViewFragment newInstance(int content, int image, int instruction, int[] instructionList) {
     	AirTutorialViewFragment fragment = new AirTutorialViewFragment();
@@ -27,7 +26,6 @@ public class AirTutorialViewFragment extends BaseFragment {
     	fragment.mTutorialDesc = content;
         fragment.mTutorialImage= image;
         fragment.mTutorialInstruction=instruction;
-        fragment.mInstructionList=instructionList;
         return fragment;
     }    
 

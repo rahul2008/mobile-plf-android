@@ -24,18 +24,16 @@ import com.philips.cl.di.dev.pa.utils.Fonts;
  */
 public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 	
-	private Context context;
-
 	public ListItemAdapter(Context context, List<ListViewItem> items) {
 		super(context, R.layout.list_item, items);
-		this.context = context;
 	}
 	
 	@Override
 	public View getView(int position, View view, ViewGroup parent) {
 		 if (view == null)
 		 {
-			 LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			 LayoutInflater inflater = 
+					 (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			 view = inflater.inflate(R.layout.list_item, parent, false);
 		 }
 		 

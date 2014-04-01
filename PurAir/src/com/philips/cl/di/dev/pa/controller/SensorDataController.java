@@ -27,11 +27,7 @@ import com.philips.cl.di.dev.pa.utils.Utils;
  */
 public class SensorDataController implements ServerResponseListener {
 	
-	private static final String TAG = "SensorDataController" ;
-	
 	private List<SensorEventListener> listeners ;
-	
-	private SensorEventListener sensorListener ;
 	
 	private static Context context ;
 	/** Handler for posting the runnable **/
