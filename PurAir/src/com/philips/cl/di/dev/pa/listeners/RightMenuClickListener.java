@@ -251,10 +251,10 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_child_lock:
 			if(!isChildLockOn) {
 				childLock.setChecked(true);
-				controlDevice(ParserConstants.CL, "1") ;
+				controlDevice(ParserConstants.CHILD_LOCK, "1") ;
 			} else {
 				childLock.setChecked(false);
-				controlDevice(ParserConstants.CL, "0") ;
+				controlDevice(ParserConstants.CHILD_LOCK, "0") ;
 			}
 			isChildLockOn = !isChildLockOn;
 			collapseFanSpeedMenu(true);

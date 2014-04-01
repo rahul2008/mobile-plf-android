@@ -10,7 +10,7 @@ public class ParserConstants {
 	public static final String MACHINE_MODE = "om" ;
 	public static final String DEVICE_TIMER = "dt" ;
 	public static final String AQI = "aqi" ;
-	public static final String CL = "cl" ;
+	public static final String CHILD_LOCK = "cl" ;
 	public static final String AQI_LIGHT = "aqil" ;
 	public static final String FILTER_STATUS_1 = "fs1" ;
 	public static final String FILTER_STATUS_2 = "fs2" ;

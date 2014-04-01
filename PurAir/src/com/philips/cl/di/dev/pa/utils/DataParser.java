@@ -57,7 +57,7 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.setReplaceFilter2(jsonObj.getString(ParserConstants.REP_FILTER_2)) ;
 			airPurifierEvent.setReplaceFilter3(jsonObj.getString(ParserConstants.REP_FILTER_3)) ;
 			airPurifierEvent.setReplaceFilter4(jsonObj.getString(ParserConstants.REP_FILTER_4)) ;
-			airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CL))) ;
+			airPurifierEvent.setChildLock(Integer.parseInt(jsonObj.getString(ParserConstants.CHILD_LOCK))) ;
 			airPurifierEvent.setpSensor(Integer.parseInt(jsonObj.getString(ParserConstants.PSENS))) ;
 			airPurifierEvent.settFav(Integer.parseInt(jsonObj.getString(ParserConstants.TFAV))) ;	
 			airPurifierEvent.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
@@ -133,7 +133,7 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.setReplaceFilter2(airPuriferJson.getString(ParserConstants.REP_FILTER_2)) ;
 			airPurifierEvent.setReplaceFilter3(airPuriferJson.getString(ParserConstants.REP_FILTER_3)) ;
 			airPurifierEvent.setReplaceFilter4(airPuriferJson.getString(ParserConstants.REP_FILTER_4)) ;
-			airPurifierEvent.setChildLock(Integer.parseInt(airPuriferJson.getString(ParserConstants.CL))) ;
+			airPurifierEvent.setChildLock(Integer.parseInt(airPuriferJson.getString(ParserConstants.CHILD_LOCK))) ;
 			airPurifierEvent.setpSensor(Integer.parseInt(airPuriferJson.getString(ParserConstants.PSENS))) ;
 			airPurifierEvent.settFav(Integer.parseInt(airPuriferJson.getString(ParserConstants.TFAV))) ;
 
