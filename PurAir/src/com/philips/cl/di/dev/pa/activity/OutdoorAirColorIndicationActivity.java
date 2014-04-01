@@ -8,7 +8,7 @@ import android.widget.ExpandableListView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.screens.adapters.ExpandableListAdapter;
+import com.philips.cl.di.dev.pa.adapter.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class OutdoorAirColorIndicationActivity extends BaseActivity {

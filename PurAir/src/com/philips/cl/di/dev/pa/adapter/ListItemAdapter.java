@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.customviews.adapters;
+package com.philips.cl.di.dev.pa.adapter;
 
 import java.util.List;
 

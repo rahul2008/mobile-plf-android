@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens.adapters;
+package com.philips.cl.di.dev.pa.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

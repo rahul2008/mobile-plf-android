@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.screens.adapters;
+package com.philips.cl.di.dev.pa.adapter;
 
 import java.io.File;
 import java.util.ArrayList;
