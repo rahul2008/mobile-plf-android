@@ -14,7 +14,7 @@
      limitations under the License.
 -->
 
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Themes in the "Theme.AppCompat" family will contain an action bar by default.
          If Holo themes are available on the current platform version they will be used.
@@ -127,7 +127,10 @@
         </item>
 
     </style>
-
+    
+    <style name="WhiteBackground" parent="Theme.Base.AppCompat.Light">
+        <item name="android:background">@android:color/white</item>
+	</style>
     <!-- Platform-independent theme providing an action bar in a dark-themed activity. -->
     <style name="Theme.AppCompat.Light.DarkActionBar"
            parent="Theme.Base.AppCompat.Light.DarkActionBar">
