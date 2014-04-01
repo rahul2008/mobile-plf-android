@@ -37,7 +37,7 @@
 
         <!-- Weather report -->
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odWeatherHeading"
             android:layout_width="match_parent"
@@ -47,8 +47,7 @@
             android:text="@string/weather_forecast"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <HorizontalScrollView
             android:id="@+id/odTodayWetherReportHSV"
@@ -85,7 +84,7 @@
             android:layout_marginRight="16dp"
             android:background="@color/gray" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/detailsOutdoorSecondMsg"
             android:layout_width="match_parent"
@@ -94,8 +93,7 @@
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="18sp"
-            custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <LinearLayout
             android:id="@+id/detailsOutdoorlayoutGraph"

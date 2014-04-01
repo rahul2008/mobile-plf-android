@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:paddingBottom="8dp" >
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_connect_2_your_network_message3_index"
             android:layout_width="wrap_content"
@@ -24,7 +24,7 @@
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_connect_2_your_network_message3"
             android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp" >
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_connect_2_your_network_message4_index"
             android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_connect_2_your_network_message4"
             android:layout_width="wrap_content"
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_connect_2_your_network_message5_index"
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_connect_2_your_network_message5"
             android:layout_width="wrap_content"

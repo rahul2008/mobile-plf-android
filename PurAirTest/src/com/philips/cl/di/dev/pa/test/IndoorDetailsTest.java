@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDetailsActivity> {
 	
@@ -23,9 +23,9 @@ public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDe
 	}
 	
 	public void testClickEvents() {
-		CustomTextView lastDayBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
-		CustomTextView lastWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
-		CustomTextView lastFourWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
+		FontTextView lastDayBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
+		FontTextView lastWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
+		FontTextView lastFourWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		
 		assertEquals(true, lastDayBtn.isClickable());
 		assertEquals(true, lastWeekBtn.isClickable());

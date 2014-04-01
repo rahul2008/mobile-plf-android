@@ -82,8 +82,8 @@ public class WeatherReportLayout extends  LinearLayout {
 			View v = inflater.inflate(R.layout.od_today_weather_layout, null);
 			v.setPadding(10, 10, 10, 10);
 			
-			CustomTextView timeTxt = (CustomTextView) v.findViewById(R.id.odTodyWeatherTime);
-			CustomTextView tempTxt = (CustomTextView) v.findViewById(R.id.odTodyWeatherTemp);
+			FontTextView timeTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTime);
+			FontTextView tempTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTemp);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
 			timeTxt.setText(Utils.splitToHr(time));
@@ -137,10 +137,10 @@ public class WeatherReportLayout extends  LinearLayout {
 			View v = inflater.inflate(R.layout.od_last_five_weather_forcast, null);
 			v.setPadding(10, 10, 10, 10);
 			
-			CustomTextView dayTxt = (CustomTextView) v.findViewById(R.id.odDayWeatherForcast);
-			CustomTextView maxTempTxt = (CustomTextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
-			CustomTextView minTempTxt = (CustomTextView) v.findViewById(R.id.odWeatherForcastMinTemp);
-			CustomTextView windSpeedTxt = (CustomTextView) v.findViewById(R.id.odWeatherForcastWind);
+			FontTextView dayTxt = (FontTextView) v.findViewById(R.id.odDayWeatherForcast);
+			FontTextView maxTempTxt = (FontTextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
+			FontTextView minTempTxt = (FontTextView) v.findViewById(R.id.odWeatherForcastMinTemp);
+			FontTextView windSpeedTxt = (FontTextView) v.findViewById(R.id.odWeatherForcastWind);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odWeatherForcastImg);
 			ImageView windDirImg = (ImageView) v.findViewById(R.id.odWeatherForcastWindImg);
 			

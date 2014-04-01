@@ -40,7 +40,7 @@
 
         <!-- First Message -->
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idFirstMsg"
             android:layout_width="match_parent"
@@ -49,8 +49,7 @@
             android:text="@string/good_air_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="18sp"
-            custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <!-- Detail Percentage Bar -->
 
@@ -80,7 +79,7 @@
 
         <!-- Second Message -->
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idSecondMsg"
             android:layout_width="match_parent"
@@ -89,8 +88,7 @@
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="18sp"
-            custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+            custom:fontAssetName="fonts/gillsans.ttf" />
 
         <!-- Graph Layout -->
 
@@ -108,7 +106,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/indoorcircle" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexBott"
                 android:layout_width="32dp"
@@ -118,10 +116,9 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                custom:fontAssetName="fonts/gillsans.ttf" >
-            </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                custom:fontAssetName="fonts/gillsans.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexName"
                 android:layout_width="match_parent"

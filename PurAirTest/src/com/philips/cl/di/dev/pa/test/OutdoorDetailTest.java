@@ -15,7 +15,7 @@ import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.detail.utils.GraphPathDraw;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorDetailsActivity> {
 	
@@ -39,9 +39,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 	}
 	
 	public void testClickedEventText() {
-		CustomTextView lastDayBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
-		CustomTextView lastWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
-		CustomTextView lastFourWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
+		FontTextView lastDayBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
+		FontTextView lastWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
+		FontTextView lastFourWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		ImageView mapClickImg = (ImageView) activity.findViewById(R.id.oDmapInlarge);
 		
 		assertEquals(true, lastDayBtn.isClickable());
@@ -51,9 +51,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 	}
 	
 	public void testButtonText() {
-		CustomTextView lastDayBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
-		CustomTextView lastWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
-		CustomTextView lastFourWeekBtn = (CustomTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
+		FontTextView lastDayBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
+		FontTextView lastWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
+		FontTextView lastFourWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		
 		assertEquals("Last day", lastDayBtn.getText().toString());
 		assertEquals("Last 7 days", lastWeekBtn.getText().toString());
@@ -67,9 +67,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 			setAdviceIconTexMethod.setAccessible(true);
 			setAdviceIconTexMethod.invoke(activity, 0);
 
-			CustomTextView avoidTxt = (CustomTextView) activity.findViewById(R.id.avoidOutdoorTxt); 
-			CustomTextView openWindowTxt = (CustomTextView) activity.findViewById(R.id.openWindowTxt); 
-			CustomTextView maskTxt = (CustomTextView) activity.findViewById(R.id.maskTxt);
+			FontTextView avoidTxt = (FontTextView) activity.findViewById(R.id.avoidOutdoorTxt); 
+			FontTextView openWindowTxt = (FontTextView) activity.findViewById(R.id.openWindowTxt); 
+			FontTextView maskTxt = (FontTextView) activity.findViewById(R.id.maskTxt);
 			
 			assertEquals("OK for outdoor activities", avoidTxt.getText().toString());
 			assertEquals("Masks not needed", maskTxt.getText().toString());

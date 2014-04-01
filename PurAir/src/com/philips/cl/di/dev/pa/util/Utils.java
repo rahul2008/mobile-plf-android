@@ -47,7 +47,7 @@ import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.HomeFragment;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -631,7 +631,7 @@ public class Utils {
 	 * @param summary
 	 */
 	public static void setIndoorAQIStatusAndComment
-	(Context ctx, float indoorAQI, CustomTextView status, CustomTextView summary, String purifierName) {
+	(Context ctx, float indoorAQI, FontTextView status, FontTextView summary, String purifierName) {
 
 		if(indoorAQI <= 1.4f && indoorAQI > 0) {
 			status.setText(ctx.getString(R.string.good)) ;

@@ -19,7 +19,7 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/help_close" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle5"
             android:layout_width="match_parent"
@@ -31,8 +31,7 @@
             android:text="@string/outdoor_aiq_analysis_head5"
             android:textColor="@color/cornflowerblue"
             android:textSize="24sp"
-            custom:fontAssetName="fonts/gillsans.ttf" >
-        </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+            custom:fontAssetName="fonts/gillsans.ttf" />
        
         <LinearLayout android:id="@+id/aqiAnalysisLayout8"
             android:layout_width="match_parent"
@@ -54,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg80"
                     android:layout_width="match_parent"
@@ -63,10 +62,9 @@
                     android:text="@string/outdoor_aiq_analysis_title1"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg81"
                     android:layout_width="match_parent"
@@ -76,8 +74,7 @@
                     android:text="@string/outdoor_analysis_detail_h5_t1"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </LinearLayout>
         </LinearLayout>
 		<View
@@ -107,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg90"
                     android:layout_width="match_parent"
@@ -116,10 +113,9 @@
                     android:text="@string/outdoor_aiq_analysis_title2"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg91"
                     android:layout_width="match_parent"
@@ -129,8 +125,7 @@
                     android:text="@string/outdoor_analysis_detail_h5_t2"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </LinearLayout>
         </LinearLayout>
         <View
@@ -160,7 +155,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg100"
                     android:layout_width="match_parent"
@@ -169,10 +164,9 @@
                     android:text="@string/outdoor_aiq_analysis_title3"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg101"
                     android:layout_width="match_parent"
@@ -182,8 +176,7 @@
                     android:text="@string/outdoor_analysis_detail_h5_t3"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </LinearLayout>
         </LinearLayout>
         <View
@@ -213,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg110"
                     android:layout_width="match_parent"
@@ -222,10 +215,9 @@
                     android:text="@string/outdoor_aiq_analysis_title4"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg111"
                     android:layout_width="match_parent"
@@ -235,8 +227,7 @@
                     android:text="@string/outdoor_analysis_detail_h5_t4"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </LinearLayout>
         </LinearLayout>
         <View
@@ -266,7 +257,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg120"
                     android:layout_width="match_parent"
@@ -275,10 +266,9 @@
                     android:text="@string/outdoor_aiq_analysis_title5"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg121"
                     android:layout_width="match_parent"
@@ -288,8 +278,7 @@
                     android:text="@string/outdoor_analysis_detail_h5_t5"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </LinearLayout>
         </LinearLayout>
         <View
@@ -319,7 +308,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg130"
                     android:layout_width="match_parent"
@@ -328,10 +317,9 @@
                     android:text="@string/outdoor_aiq_analysis_title6"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" > 
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" /> 
 
-                <com.philips.cl.di.dev.pa.view.CustomTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg131"
                     android:layout_width="match_parent"
@@ -341,8 +329,7 @@
                     android:text="@string/outdoor_analysis_detail_h5_t6"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" >
-                </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+                    custom:fontAssetName="fonts/gillsans.ttf" />
             </LinearLayout>
         </LinearLayout>
 

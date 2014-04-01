@@ -10,7 +10,7 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 	
@@ -46,7 +46,7 @@ public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
 		String indoorTitle = getArguments().getString(EXTRA_INDOORTITLE);
 		
-		((CustomTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText
+		((FontTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText
 			(getString(R.string.outdoor_analysis_detail2_head100)+" '"+indoorTitle+"'  " +
 			getString(R.string.outdoor_analysis_detail2_head102)+" '"+outdoorTitle+"' " +
 					getString(R.string.outdoor_analysis_detail2_head102));

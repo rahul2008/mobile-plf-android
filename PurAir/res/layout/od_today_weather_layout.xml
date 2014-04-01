@@ -5,7 +5,7 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <com.philips.cl.di.dev.pa.view.CustomTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odTodyWeatherTime"
         android:layout_width="wrap_content"
@@ -14,8 +14,7 @@
         android:layout_margin="8dp"
         android:textColor="@color/gray"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
     <ImageView
         android:id="@+id/odTodyWeatherImg"
@@ -24,7 +23,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_connected" />
     
-    <com.philips.cl.di.dev.pa.view.CustomTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odTodyWeatherTemp"
         android:layout_width="wrap_content"
@@ -33,8 +32,7 @@
         android:layout_margin="8dp"
         android:textColor="@color/gray"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
     
 

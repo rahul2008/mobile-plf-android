@@ -16,7 +16,7 @@ import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivity> {
 	
@@ -38,8 +38,8 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 	public void testIntroScreen() {
 		View view = activity.getLayoutInflater().inflate(R.layout.ews_intro_screen, null);
 		Button button = (Button) view.findViewById(R.id.ews_get_start_btn);
-		CustomTextView tv = (CustomTextView) view.findViewById(R.id.ews_intro_message1_txt);
-		CustomTextView tv2 = (CustomTextView) view.findViewById(R.id.ews_intro_message2_txt);
+		FontTextView tv = (FontTextView) view.findViewById(R.id.ews_intro_message1_txt);
+		FontTextView tv2 = (FontTextView) view.findViewById(R.id.ews_intro_message2_txt);
 		
         assertEquals(true, button.isClickable());
         assertEquals("Get Started", button.getText().toString());
@@ -58,7 +58,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
         assertEquals(true, button.isClickable());
         assertEquals("No", button.getText().toString());
         
-        CustomTextView tv = (CustomTextView) view.findViewById(R.id.ews_step1_instruction);
+        FontTextView tv = (FontTextView) view.findViewById(R.id.ews_step1_instruction);
         assertEquals("Confirm your Wi-Fi connection.", tv.getText().toString());
 
 	}

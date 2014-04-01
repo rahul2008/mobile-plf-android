@@ -8,18 +8,18 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.FontLoader;
 
-public class CustomTextView extends TextView {
+public class FontTextView extends TextView {
 
-	public CustomTextView(Context context) {
+	public FontTextView(Context context) {
 		super(context);
 	}
 
-	public CustomTextView(Context context, AttributeSet attrs) {
+	public FontTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		applyAttributes(this, context, attrs);
 	}
 
-	public CustomTextView(Context context, AttributeSet attrs, int defStyle) {
+	public FontTextView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		applyAttributes(this, context, attrs);
 	}
@@ -28,9 +28,9 @@ public class CustomTextView extends TextView {
 
 		if (attrs != null) {
 			final TypedArray a = context.obtainStyledAttributes(attrs,
-					R.styleable.CustomTextView);
+					R.styleable.FontTextView);
 			final String typeface =
-					a.getString(R.styleable.CustomTextView_fontAssetName);
+					a.getString(R.styleable.FontTextView_fontAssetName);
 			a.recycle();
 
 			//set the font using class FontLoader

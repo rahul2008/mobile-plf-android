@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp" >
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_title"
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:textColor="@color/title_gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_instruction"
             android:layout_width="match_parent"
@@ -31,7 +31,7 @@
             android:textSize="21sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_message"
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_wifi_network"
             android:layout_width="match_parent"
@@ -57,7 +57,7 @@
             android:textSize="19sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step1_alert_msg"
             android:layout_width="match_parent"

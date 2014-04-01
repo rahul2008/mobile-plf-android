@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_purifier_not_dect_msg1"
             android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:textSize="19sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_purifier_not_dect_network"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:textSize="19sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_purifier_not_dect_msg2"
             android:layout_width="match_parent"

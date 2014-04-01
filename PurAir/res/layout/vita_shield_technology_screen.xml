@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:padding="15dp" >
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
             android:textColor="#7F8595" 
             custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/sieving" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/sieving_heading"
                 android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
                 android:textSize="19sp"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/sieving_intro"
                 android:layout_width="wrap_content"
@@ -94,7 +94,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/inertial_impaction" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/inertial_impaction_heading"
                 android:layout_width="wrap_content"
@@ -108,7 +108,7 @@
                 android:textSize="19sp"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/inertial_impaction_intro"
                 android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/interception" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/interception_heading"
                 android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                 android:textSize="19sp"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/interception_intro"
                 android:layout_width="wrap_content"
@@ -196,7 +196,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/diffusion_absorbtion" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/diffusion_absorbtion_heading"
                 android:layout_width="wrap_content"
@@ -210,7 +210,7 @@
                 android:textSize="19sp"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.CustomTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/diffusion_absorbtion_intro"
                 android:layout_width="wrap_content"
@@ -222,7 +222,7 @@
                 custom:fontAssetName="fonts/gillsans.ttf" />
         </RelativeLayout>
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -241,7 +241,7 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/nanometer_desc" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -252,7 +252,7 @@
             android:textSize="20sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"

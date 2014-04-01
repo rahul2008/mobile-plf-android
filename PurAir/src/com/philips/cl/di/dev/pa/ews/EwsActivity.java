@@ -47,7 +47,7 @@ import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EwsActivity extends BaseActivity implements OnClickListener, EWSListener, Callback {
 
@@ -56,7 +56,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	 * Action bar variable
 	 */
 	private ActionBar mActionBar;
-	private CustomTextView actionbarTitle;
+	private FontTextView actionbarTitle;
 	private Button actionBarCancelBtn;
 	/**
 	 * Step1 variable declare
@@ -65,7 +65,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	/**
 	 * Step1 variable declare
 	 */
-	private CustomTextView wifiNetworkNameStep1;
+	private FontTextView wifiNetworkNameStep1;
 	private View viewStep1;
 	/**
 	 * Step2 variable declare
@@ -74,7 +74,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	/**
 	 * Step3 variable declare
 	 */
-	private CustomTextView passwordLabelStep3, wifiNetworkAddStep3;
+	private FontTextView passwordLabelStep3, wifiNetworkAddStep3;
 	private EditText passwordStep3, deviceNameStep3, 
 	ipAddStep3, subnetMaskStep3, routerAddStep3;
 	private ImageView showPasswordImgStep3;
@@ -91,7 +91,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	 * Congratulation variable declare
 	 */
 	private View viewErrorPurifierNotDect;
-	private CustomTextView errorPurifierNotDectNetwork;
+	private FontTextView errorPurifierNotDectNetwork;
 	/**
 	 * Error connect to your network variable declare
 	 */
@@ -100,7 +100,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	 * Error SSID variable declare
 	 */
 	private View viewErrorSSID;
-	private CustomTextView errorSSIDNetwork;
+	private FontTextView errorSSIDNetwork;
 	/**
 	 * Contact Philips support variable declare
 	 */
@@ -156,7 +156,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private void initializeStep1Variable() {
 		viewStep1 = inflater.inflate(R.layout.ews_step1, null);
 
-		wifiNetworkNameStep1 = (CustomTextView) viewStep1.findViewById(R.id.ews_step1_wifi_network);
+		wifiNetworkNameStep1 = (FontTextView) viewStep1.findViewById(R.id.ews_step1_wifi_network);
 
 		((Button) viewStep1.findViewById(R.id.ews_step1_yes_btn)).setOnClickListener(this);
 		((Button) viewStep1.findViewById(R.id.ews_step1_yes_btn)).setTypeface(Fonts.getGillsansLight(this));
@@ -169,8 +169,8 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private void initializeStep2Variable() {
 		viewStep2 = inflater.inflate(R.layout.ews_step2, null);
 
-		CustomTextView step2Message1 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message1);
-		CustomTextView step2Message2 = (CustomTextView) viewStep2.findViewById(R.id.ews_step2_message2);
+		FontTextView step2Message1 = (FontTextView) viewStep2.findViewById(R.id.ews_step2_message1);
+		FontTextView step2Message2 = (FontTextView) viewStep2.findViewById(R.id.ews_step2_message2);
 
 		String msg1 = getString(R.string.step2_msg1) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>.";
 		step2Message1.setText(Html.fromHtml(msg1));
@@ -190,8 +190,8 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 		viewStep3 = inflater.inflate(R.layout.ews_step3, null);
 
-		passwordLabelStep3 = (CustomTextView) viewStep3.findViewById(R.id.ews_step3_password_lb);
-		wifiNetworkAddStep3 = (CustomTextView) viewStep3.findViewById(R.id.ews_step3_wifi_add);
+		passwordLabelStep3 = (FontTextView) viewStep3.findViewById(R.id.ews_step3_password_lb);
+		wifiNetworkAddStep3 = (FontTextView) viewStep3.findViewById(R.id.ews_step3_wifi_add);
 
 		passwordStep3 = (EditText) viewStep3.findViewById(R.id.ews_step3_password);
 		passwordStep3.setTypeface(Fonts.getGillsansLight(this));
@@ -251,7 +251,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
 		mActionBar.setBackgroundDrawable(d);
 		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);
-		actionbarTitle = (CustomTextView) view.findViewById(R.id.ews_actionbar_title);
+		actionbarTitle = (FontTextView) view.findViewById(R.id.ews_actionbar_title);
 		actionbarTitle.setText(getString(R.string.wifi_setup));
 		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
@@ -271,7 +271,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		viewErrorPurifierNotDect = inflater.inflate(R.layout.ews_error_purifier_not_detect, null);
 
 		errorPurifierNotDectNetwork = 
-				(CustomTextView) viewErrorPurifierNotDect.findViewById(R.id.ews_purifier_not_dect_network);
+				(FontTextView) viewErrorPurifierNotDect.findViewById(R.id.ews_purifier_not_dect_network);
 		((Button) viewErrorPurifierNotDect.findViewById(R.id.ews_purifier_not_dect_btn)).setOnClickListener(this);
 		((Button) viewErrorPurifierNotDect.findViewById(R.id.ews_purifier_not_dect_btn)).setTypeface(Fonts.getGillsansLight(this));
 
@@ -292,7 +292,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	private void initializeErrorSSID() {
 		viewErrorSSID  = inflater.inflate(R.layout.ews_error_ssid, null) ;
-		errorSSIDNetwork = (CustomTextView) viewErrorSSID.findViewById(R.id.ews_error_ssid_network); 
+		errorSSIDNetwork = (FontTextView) viewErrorSSID.findViewById(R.id.ews_error_ssid_network); 
 	}
 
 	private void initializeErrorConnect2Network() {

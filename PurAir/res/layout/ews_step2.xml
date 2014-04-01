@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp" >
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step2_title"
             android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:textColor="@color/title_gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step2_instruction"
             android:layout_width="match_parent"
@@ -42,7 +42,7 @@
             android:layout_marginTop="32dp"
             android:src="@drawable/ews_help_bg4_2x" />
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step2_message1"
             android:layout_width="match_parent"
@@ -56,7 +56,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step2_message2"
             android:layout_width="match_parent"

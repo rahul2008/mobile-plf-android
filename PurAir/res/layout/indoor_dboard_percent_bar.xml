@@ -34,7 +34,7 @@
             android:background="@color/gray" />
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.view.CustomTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDashboardBarName"
         android:layout_width="60dp"
@@ -47,8 +47,7 @@
         android:text="@string/indoor_db"
         android:textColor="@color/gray"
         android:textSize="12sp"
-        custom:fontAssetName="fonts/gillsans.ttf" >
-    </com.philips.cl.di.dev.pa.customviews.CustomTextView>
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
     <include 
         android:layout_width="60dp"

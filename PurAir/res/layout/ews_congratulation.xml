@@ -18,7 +18,7 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/large_purifier" />
         
-        <com.philips.cl.di.dev.pa.view.CustomTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_congratulation_msg"
             android:layout_width="match_parent"

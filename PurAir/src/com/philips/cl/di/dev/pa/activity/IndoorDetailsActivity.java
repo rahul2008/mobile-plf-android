@@ -31,7 +31,7 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
@@ -45,13 +45,13 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
 	private ImageView circleImg, modeIcon, filterIcon;
-	private CustomTextView msgFirst, msgSecond, indoorDbIndexName;
+	private FontTextView msgFirst, msgSecond, indoorDbIndexName;
 	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
 	private ProgressBar rdcpDownloadProgressBar;
 	private PercentBarLayout percentBarLayout;
-	private CustomTextView barTopNum, barTopName, selectedIndexBottom;
-	private CustomTextView modeLabel, filterLabel, mode, filter, aqiStatus, aqiSummary;
+	private FontTextView barTopNum, barTopName, selectedIndexBottom;
+	private FontTextView modeLabel, filterLabel, mode, filter, aqiStatus, aqiSummary;
 	private List<int[]> powerOnReadingsValues;
 	private List<float[]> lastDayRDCPValues;
 	private List<float[]> last7daysRDCPValues;
@@ -147,20 +147,20 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
 		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
 
-		msgFirst = (CustomTextView) findViewById(R.id.idFirstMsg);
-		msgSecond = (CustomTextView) findViewById(R.id.idSecondMsg);
-		modeLabel = (CustomTextView) findViewById(R.id.inModeTxt);
-		mode = (CustomTextView) findViewById(R.id.inModeType);
-		filterLabel = (CustomTextView) findViewById(R.id.inFilterTxt);
-		filter = (CustomTextView) findViewById(R.id.inFilterType);
-		aqiStatus = (CustomTextView) findViewById(R.id.inDetailsDbStatus);
-		aqiSummary = (CustomTextView) findViewById(R.id.inDetailsDbSummary);
-		indoorDbIndexName = (CustomTextView) findViewById(R.id.indoorDbIndexName);
+		msgFirst = (FontTextView) findViewById(R.id.idFirstMsg);
+		msgSecond = (FontTextView) findViewById(R.id.idSecondMsg);
+		modeLabel = (FontTextView) findViewById(R.id.inModeTxt);
+		mode = (FontTextView) findViewById(R.id.inModeType);
+		filterLabel = (FontTextView) findViewById(R.id.inFilterTxt);
+		filter = (FontTextView) findViewById(R.id.inFilterType);
+		aqiStatus = (FontTextView) findViewById(R.id.inDetailsDbStatus);
+		aqiSummary = (FontTextView) findViewById(R.id.inDetailsDbSummary);
+		indoorDbIndexName = (FontTextView) findViewById(R.id.indoorDbIndexName);
 
 		horizontalScrollView = (HorizontalScrollView) findViewById(R.id.indoorDbHorizontalScroll);
-		barTopNum = (CustomTextView) findViewById(R.id.indoorDbBarTopNum);
-		barTopName = (CustomTextView) findViewById(R.id.indoorDbBarTopName);
-		selectedIndexBottom = (CustomTextView) findViewById(R.id.indoorDbIndexBott);
+		barTopNum = (FontTextView) findViewById(R.id.indoorDbBarTopNum);
+		barTopName = (FontTextView) findViewById(R.id.indoorDbBarTopName);
+		selectedIndexBottom = (FontTextView) findViewById(R.id.indoorDbIndexBott);
 		selectedIndexBottom.setText(String.valueOf(1));
 		
 		rdcpDownloadProgressBar = (ProgressBar) findViewById(R.id.rdcpDownloadProgressBar);

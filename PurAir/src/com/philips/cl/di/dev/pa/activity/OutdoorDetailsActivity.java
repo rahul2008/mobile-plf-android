@@ -21,14 +21,14 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
@@ -38,14 +38,14 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private HorizontalScrollView wetherScrollView;
-	private CustomTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private CustomTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
+	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
+	private FontTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
 	private TextView heading;
 	private ImageView circleImg;
 	private ImageView avoidImg, openWindowImg, maskImg;
 	private ImageView mapClickImg;
-	private CustomTextView avoidTxt, openWindowTxt, maskTxt;
-	private CustomTextView msgSecond;
+	private FontTextView avoidTxt, openWindowTxt, maskTxt;
+	private FontTextView msgSecond;
 	private Coordinates coordinates;
 	private SessionDto sessionDto;
 	private float lastDayAQIReadings[] = new float[24];
@@ -349,17 +349,17 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		wetherScrollView = (HorizontalScrollView) findViewById(R.id.odTodayWetherReportHSV);
 		wetherForcastLayout = (LinearLayout) findViewById(R.id.odWetherForcastLL);
 
-		lastDayBtn = (CustomTextView) findViewById(R.id.detailsOutdoorLastDayLabel);
-		lastWeekBtn = (CustomTextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
-		lastFourWeekBtn = (CustomTextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
-		aqiValue = (CustomTextView) findViewById(R.id.od_detail_aqi_reading);
-		location = (CustomTextView) findViewById(R.id.od_detail_location);
-		summaryTitle = (CustomTextView) findViewById(R.id.odStatusTitle);
-		summary = (CustomTextView) findViewById(R.id.odStatusDescr);
-		pm1 = (CustomTextView) findViewById(R.id.odPMValue1);
-		pm2 = (CustomTextView) findViewById(R.id.odPMValue2);
-		pm3 = (CustomTextView) findViewById(R.id.odPMValue3);
-		pm4 = (CustomTextView) findViewById(R.id.odPMValue4);
+		lastDayBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastDayLabel);
+		lastWeekBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
+		lastFourWeekBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
+		aqiValue = (FontTextView) findViewById(R.id.od_detail_aqi_reading);
+		location = (FontTextView) findViewById(R.id.od_detail_location);
+		summaryTitle = (FontTextView) findViewById(R.id.odStatusTitle);
+		summary = (FontTextView) findViewById(R.id.odStatusDescr);
+		pm1 = (FontTextView) findViewById(R.id.odPMValue1);
+		pm2 = (FontTextView) findViewById(R.id.odPMValue2);
+		pm3 = (FontTextView) findViewById(R.id.odPMValue3);
+		pm4 = (FontTextView) findViewById(R.id.odPMValue4);
 
 		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
@@ -368,10 +368,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		mapClickImg = (ImageView) findViewById(R.id.oDmapInlarge); 
 
 
-		msgSecond = (CustomTextView) findViewById(R.id.detailsOutdoorSecondMsg);
-		avoidTxt = (CustomTextView) findViewById(R.id.avoidOutdoorTxt); 
-		openWindowTxt = (CustomTextView) findViewById(R.id.openWindowTxt); 
-		maskTxt = (CustomTextView) findViewById(R.id.maskTxt);
+		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
+		avoidTxt = (FontTextView) findViewById(R.id.avoidOutdoorTxt); 
+		openWindowTxt = (FontTextView) findViewById(R.id.openWindowTxt); 
+		maskTxt = (FontTextView) findViewById(R.id.maskTxt);
 
 		
 
