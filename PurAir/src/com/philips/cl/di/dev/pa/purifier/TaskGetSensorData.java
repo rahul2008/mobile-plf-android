@@ -2,7 +2,7 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import android.os.AsyncTask;
 
-import com.philips.cl.di.dev.pa.dto.ResponseDto;
+import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 /**

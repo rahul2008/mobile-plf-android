@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.dto;
+package com.philips.cl.di.dev.pa.datamodel;
 
 import java.util.Map;
 

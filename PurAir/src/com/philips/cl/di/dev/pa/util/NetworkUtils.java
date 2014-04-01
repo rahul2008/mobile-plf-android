@@ -14,7 +14,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.philips.cl.di.dev.pa.dto.ResponseDto;
+import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 
 public class NetworkUtils {
 

@@ -12,11 +12,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
-import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
-import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.dto.Weatherdto;
+import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
+import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.interfaces.DataParserInterface;
 
 /***

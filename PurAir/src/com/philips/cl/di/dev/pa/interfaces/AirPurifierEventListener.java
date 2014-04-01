@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.interfaces;
 
-import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 
 /**
  * The listener interface for receiving airPurifierEvent events.

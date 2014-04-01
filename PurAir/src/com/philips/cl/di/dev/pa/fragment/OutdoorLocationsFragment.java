@@ -24,8 +24,8 @@ import com.google.gson.GsonBuilder;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.dto.CityDetails;
-import com.philips.cl.di.dev.pa.dto.SessionDto;
+import com.philips.cl.di.dev.pa.datamodel.CityDetails;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 

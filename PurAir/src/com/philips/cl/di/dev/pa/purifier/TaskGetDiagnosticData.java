@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dto.ResponseDto;
+import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 

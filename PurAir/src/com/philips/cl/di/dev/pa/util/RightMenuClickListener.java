@@ -17,7 +17,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 

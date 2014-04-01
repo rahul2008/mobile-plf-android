@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.dto.Weatherdto;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
 
