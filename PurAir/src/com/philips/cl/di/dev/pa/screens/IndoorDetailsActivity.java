@@ -321,6 +321,8 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 			msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 			break;
 		}
+		default:
+			break;
 		}
 
 	}

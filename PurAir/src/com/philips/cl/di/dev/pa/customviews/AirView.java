@@ -73,7 +73,7 @@ public class AirView extends View {
 		paint.setTextSize(getPxWithRespectToDip(20));
 		paint.setTextAlign(Paint.Align.CENTER);
         String txt = String.valueOf(percent) + "%";
-        float x1 = (canvas.getWidth() / 2);
+        float x1 = (canvas.getWidth() / (float)2);
         float y1 = (fheight / 2) + getPxWithRespectToDip(10);
         canvas.drawText(txt, x1, y1, paint);
         paint.getTextBounds(txt, 0, txt.length(), rect);

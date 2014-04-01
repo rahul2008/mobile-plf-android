@@ -74,6 +74,8 @@ public class AirQualityFragment extends BaseFragment implements OnClickListener 
 			in.putExtra("AIR_QUALITY_ACTIVITY", GUARD_EVNVIRONMENT_SCREEN);
 			startActivity(in);
 			break;
+		default:
+			break;
 		}
 	}
 	

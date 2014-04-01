@@ -42,6 +42,8 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 			Intent in= new Intent(this, NotificationSelectDayActivity.class);
 			startActivityForResult(in, SELECT_DAY_ACTIVITY);
 			break;
+		default:
+			break;
 		}
 	}
 

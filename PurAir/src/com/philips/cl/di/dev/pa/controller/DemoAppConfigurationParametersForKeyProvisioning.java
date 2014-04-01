@@ -19,8 +19,10 @@ Version 1:
 ----------------------------------------------------------------------------*/
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
+import com.philips.cl.di.dev.pa.utils.ALog;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 
 /**
@@ -113,9 +115,13 @@ public class DemoAppConfigurationParametersForKeyProvisioning extends KeyProvisi
 				}
 			}
 		}
+		catch(RuntimeException e)
+		{
+			ALog.e(ALog.KPS, e.getMessage());
+		}
 		catch(Exception e)
 		{
-			System.out.println("Exception Raised While reading NVM");
+			ALog.e(ALog.KPS, e.getMessage());
 		}
 		
 	}

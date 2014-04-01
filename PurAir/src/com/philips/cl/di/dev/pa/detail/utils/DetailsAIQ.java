@@ -419,15 +419,8 @@ public class DetailsAIQ {
 		paint.setTextSize(coordinates.getIdTxtSize());
 		paint.setTextAlign(Paint.Align.CENTER);
 		for (int i = 0; i < xLabels.length; i++) {
-			if (i == xLabels.length -1) {
-				/**Draw last x-axis label*/
-				canvas.drawText(xLabels[i], 
-						xCoordinates[i] , yMinus, paint);
-			} else {
-				/**Draw other x-axis label*/
-				canvas.drawText(xLabels[i], 
-						xCoordinates[i] , yMinus, paint);
-			}
+			canvas.drawText(xLabels[i], 
+					xCoordinates[i] , yMinus, paint);
 	        paint.getTextBounds(xLabels[0], 0, len, rect);
 	        
 		}

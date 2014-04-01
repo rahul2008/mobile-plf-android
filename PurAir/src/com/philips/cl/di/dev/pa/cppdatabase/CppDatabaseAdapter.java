@@ -61,6 +61,8 @@ public class CppDatabaseAdapter {
 					o.write(buffer, 0, len);
 				}
 				o.flush();
+			} catch (final RuntimeException e) {
+				return;
 			} catch (final Exception e) {
 				return;
 			} finally {

@@ -79,7 +79,8 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		case R.id.btn_finish_tour:
 			AirTutorialActivity.this.finish();
 			break;
-		
+		default:
+			break;
 		}
 			
 	}

@@ -110,6 +110,8 @@ public class TutorialPagerActivity extends BaseActivity {
 		case R.id.right_menu:
 			TutorialPagerActivity.this.finish();
 			break;
+		default:
+			break;
 		}
 		return false;
 	}

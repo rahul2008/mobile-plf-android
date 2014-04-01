@@ -234,7 +234,6 @@ public class RightMenuClickListener implements OnClickListener {
 			activity.startActivityForResult(new Intent(activity,EwsActivity.class), 20) ;
 			break;
 		case R.id.btn_rm_power:
-//			Log.i(TAG, "power is on :: " + isPowerOn);
 			if(!isPowerOn) {				
 				power.setChecked(true);
 				enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());

@@ -779,6 +779,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				});
 			}
 			break;
+		default:
+			break;
 		}
 		return false;
 	}
@@ -1046,6 +1048,8 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			actionMode.finish();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+			break;
+		default:
 			break;
 		}
 	}	

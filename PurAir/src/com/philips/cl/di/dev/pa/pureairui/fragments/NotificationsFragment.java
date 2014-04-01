@@ -79,6 +79,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			break;
 		case R.id.filters_notification_toggle:
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -140,6 +142,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 				btn_delete.setVisibility(View.VISIBLE);
 				notificationToggle.setVisibility(View.GONE);
 			}
+			break;
+		default:
 			break;
 		}
 	}

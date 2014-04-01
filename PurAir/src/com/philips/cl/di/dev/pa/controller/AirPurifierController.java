@@ -37,9 +37,6 @@ public class AirPurifierController implements ServerResponseListener
 	/** request type **/
 	private int requestType ;
 	
-	/** server error message **/
-	public String errorMessage ;
-	
 	/** The handler. */
 	final Handler handler = new Handler();	
 	/**  **/
@@ -161,9 +158,6 @@ public class AirPurifierController implements ServerResponseListener
 				parseSensorData(responseData) ;
 			}
 			break;
-			//Handle the error scenarios
-		case HttpsURLConnection.HTTP_BAD_REQUEST:
-		case HttpsURLConnection.HTTP_NOT_FOUND:
 		default:
 			if( airPurifierEventListener != null) {
 				airPurifierEventListener.airPurifierEventReceived(null) ;

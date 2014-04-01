@@ -266,7 +266,7 @@ public class DISecurity implements ServerResponseListener {
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
 				securityKeyHashtable.put(deviceId, key);
 				
-				AppConstants.DEVICEID = deviceId;
+				AppConstants.DEVICEID = deviceId;//TODO Remove when multiple purifier handle
 				
 				keyDecryptListener.keyDecrypt(key, deviceId);
 			} catch (JSONException e) {

@@ -508,6 +508,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			showTutorialDialog();
 			break;
+		default:
+			break;
 		}
 	}
 
@@ -619,12 +621,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			return;
 		}
 
-		float ratio = (float) (300.0/10.0);
-		Log.i(TAG, "rotateIndoorAQICircle aqi " + aqi + "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
 		float rotation = aqi * (300.0f/10.0f);
-		ViewHelper.setPivotX(iv, iv.getWidth()/2);
-		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
-		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
+		ViewHelper.setPivotX(iv, iv.getWidth()/(float)2);
+		ViewHelper.setPivotY(iv, iv.getHeight()/(float)2 + rotationPivot());
 		ObjectAnimator.ofFloat(iv, ANIM_ROTATION, 0, rotation).setDuration(2000).start();
 	}
 
@@ -639,12 +638,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			return;
 		}
 
-		float ratio = (float) (300.0/500.0);
-		Log.i(TAG, "ratio " + ratio + " pivot " + (iv.getHeight()/2 + rotationPivot()));
 		float rotation = aqi * (300.0f/500.0f);
-		ViewHelper.setPivotX(iv, iv.getWidth()/2);
-		ViewHelper.setPivotY(iv, iv.getHeight()/2 + rotationPivot());
-		Log.i(TAG, "OutdoorCircleDimensions " + iv.getWidth() + " X " + (iv.getHeight()/2) + " roatation " + rotation);
+		ViewHelper.setPivotX(iv, iv.getWidth()/(float)2);
+		ViewHelper.setPivotY(iv, iv.getHeight()/(float)2 + rotationPivot());
 		ObjectAnimator.ofFloat(iv, ANIM_ROTATION, 0, rotation).setDuration(2000).start();
 		dergreeRotatePointer = String.valueOf(rotation);
 	}
