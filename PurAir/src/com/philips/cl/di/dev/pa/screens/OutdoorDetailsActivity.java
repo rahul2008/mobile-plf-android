@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.screens;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;

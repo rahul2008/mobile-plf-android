@@ -10,7 +10,6 @@ import com.philips.cl.di.dev.pa.dto.ResponseDto;
 import com.philips.cl.di.dev.pa.pureairui.MainActivity;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.utils.NetworkUtils;
-import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	private Context context;

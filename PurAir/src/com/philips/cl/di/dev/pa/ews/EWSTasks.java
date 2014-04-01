@@ -11,7 +11,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.nio.charset.CharsetEncoder;
 
 import android.os.AsyncTask;
 import android.util.Log;

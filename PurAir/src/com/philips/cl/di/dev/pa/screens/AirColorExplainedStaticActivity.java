@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.screens;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
