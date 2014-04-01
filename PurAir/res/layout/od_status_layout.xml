@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     
-     <com.philips.cl.di.dev.pa.customviews.CustomTextView
+     <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odStatusTitle"
         android:layout_width="match_parent"
@@ -18,7 +18,7 @@
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odStatusDescr"
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:paddingBottom="16dp"
         android:orientation="horizontal" >
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue1"
             android:layout_weight="1"
@@ -53,7 +53,7 @@
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue2"
             android:layout_weight="1"
@@ -66,7 +66,7 @@
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue3"
             android:layout_weight="1"
@@ -79,7 +79,7 @@
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue4"
             android:layout_weight="1"

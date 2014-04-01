@@ -20,7 +20,7 @@
         layout="@layout/od_details_aqi_layout"
         android:layout_marginTop="30dp" />
 
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorDbLabel"
         android:layout_width="match_parent"

@@ -14,9 +14,9 @@ import com.philips.cl.di.common.ssdp.models.DeviceListModel;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
+import com.philips.cl.di.dev.pa.view.CustomTextView;
 
 public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivity> {
 	

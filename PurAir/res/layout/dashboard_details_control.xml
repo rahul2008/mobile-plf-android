@@ -5,7 +5,7 @@
     android:layout_margin="8dp"
     android:orientation="horizontal" >
 
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorLastDayLabel"
         android:layout_width="0dp"
@@ -20,7 +20,7 @@
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorLastWeekLabel"
         android:layout_width="0dp"
@@ -35,7 +35,7 @@
         custom:fontAssetName="fonts/gillsans.ttf" >
     </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/detailsOutdoorLastFourWeekLabel"
         android:layout_width="0dp"

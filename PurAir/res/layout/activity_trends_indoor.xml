@@ -40,7 +40,7 @@
 
         <!-- First Message -->
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idFirstMsg"
             android:layout_width="match_parent"
@@ -80,7 +80,7 @@
 
         <!-- Second Message -->
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idSecondMsg"
             android:layout_width="match_parent"
@@ -108,7 +108,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/indoorcircle" />
 
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexBott"
                 android:layout_width="32dp"
@@ -121,7 +121,7 @@
                 custom:fontAssetName="fonts/gillsans.ttf" >
             </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexName"
                 android:layout_width="match_parent"

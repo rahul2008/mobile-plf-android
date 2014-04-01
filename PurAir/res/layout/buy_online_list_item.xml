@@ -69,7 +69,7 @@
         android:textStyle="bold"
         android:text="@string/pre_filter" />
 
-    <com.philips.cl.di.dev.pa.customviews.FilterStatusView
+    <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/seekbar_filter"
         android:layout_width="236dp"

@@ -6,7 +6,7 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
-import com.philips.cl.di.dev.pa.customviews.CustomTextView;
+import com.philips.cl.di.dev.pa.view.CustomTextView;
 
 public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDetailsActivity> {
 	

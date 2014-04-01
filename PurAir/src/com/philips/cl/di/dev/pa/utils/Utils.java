@@ -41,13 +41,13 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
-import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.HomeFragment;
+import com.philips.cl.di.dev.pa.view.CustomTextView;
 
 // TODO: Auto-generated Javadoc
 /**

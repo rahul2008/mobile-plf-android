@@ -33,7 +33,7 @@
         android:textStyle="bold"
         android:text="@string/pre_filter" />
 
-    <com.philips.cl.di.dev.pa.customviews.FilterStatusView
+    <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_pre_filter"
         android:layout_width="236dp"
@@ -62,7 +62,7 @@
         android:textStyle="bold"
         android:text="@string/multicarefilter" />
 
-    <com.philips.cl.di.dev.pa.customviews.FilterStatusView
+    <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_multi_care_filter"
         android:layout_width="236dp"
@@ -91,7 +91,7 @@
         android:textStyle="bold"
         android:text="@string/activecarbonfilter" />
 
-    <com.philips.cl.di.dev.pa.customviews.FilterStatusView
+    <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_active_carbon_filter"
         android:layout_width="236dp"
@@ -120,7 +120,7 @@
         android:textStyle="bold"
         android:text="@string/hepa_filter" />
 
-    <com.philips.cl.di.dev.pa.customviews.FilterStatusView
+    <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_hepa_filter"
         android:layout_width="236dp"

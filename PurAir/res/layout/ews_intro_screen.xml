@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:padding="16dp" >
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_intro_message1_txt"
             android:layout_width="match_parent"
@@ -44,7 +44,7 @@
             android:src="@drawable/ews_attention_2x" />
         
         
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_intro_message2_txt"
             android:layout_width="match_parent"

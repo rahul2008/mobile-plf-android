@@ -20,9 +20,6 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.controller.CPPController;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
-import com.philips.cl.di.dev.pa.customviews.CustomTextView;
-import com.philips.cl.di.dev.pa.customviews.GraphView;
-import com.philips.cl.di.dev.pa.customviews.PercentBarLayout;
 import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
@@ -34,6 +31,9 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.utils.ALog;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.view.CustomTextView;
+import com.philips.cl.di.dev.pa.view.GraphView;
+import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,

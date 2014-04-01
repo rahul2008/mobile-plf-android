@@ -70,8 +70,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
 import com.philips.cl.di.dev.pa.controller.PurifierDatabase;
 import com.philips.cl.di.dev.pa.controller.SensorDataController;
-import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
-import com.philips.cl.di.dev.pa.customviews.ListViewItem;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.City;
 import com.philips.cl.di.dev.pa.dto.PurifierDetailDto;
@@ -98,6 +96,8 @@ import com.philips.cl.di.dev.pa.utils.ALog;
 import com.philips.cl.di.dev.pa.utils.PurifierDBHelper;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.view.FilterStatusView;
+import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 
 public class MainActivity extends BaseActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener {

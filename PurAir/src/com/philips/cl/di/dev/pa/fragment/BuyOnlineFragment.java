@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.customviews.FilterStatusView;
 import com.philips.cl.di.dev.pa.dto.ProductDto;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.view.FilterStatusView;
 
 public class BuyOnlineFragment extends BaseFragment {
 	private BuyDataAdapter mAdapter;

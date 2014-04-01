@@ -11,7 +11,7 @@
         android:clickable="true"
         android:focusableInTouchMode="true">
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_title"
             android:layout_width="match_parent"
@@ -23,7 +23,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_instruction"
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
             android:textSize="21sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
  
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_password_lb"
             android:layout_width="match_parent"
@@ -84,7 +84,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_password_on_2x" />
 
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_password_enable_label"
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_message2"
             android:layout_width="match_parent"
@@ -153,7 +153,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp" >
 
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_ip_lb"
                 android:layout_width="wrap_content"
@@ -185,7 +185,7 @@
                 android:textSize="14sp" >
             </EditText>
             
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_subnet_lb"
                 android:layout_width="wrap_content"
@@ -217,7 +217,7 @@
             </EditText>
             
             
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_router_lb"
                 android:layout_width="wrap_content"
@@ -249,7 +249,7 @@
                 android:textSize="14sp" >
             </EditText>
             
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add_lb"
                 android:layout_width="wrap_content"
@@ -261,7 +261,7 @@
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
             
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add"
                 android:layout_width="wrap_content"
@@ -311,7 +311,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_setting_selector" />
 
-            <com.philips.cl.di.dev.pa.customviews.CustomTextView
+            <com.philips.cl.di.dev.pa.view.CustomTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_adv_config_lb"
                 android:layout_width="match_parent"

@@ -37,7 +37,7 @@
 
         <!-- Weather report -->
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odWeatherHeading"
             android:layout_width="match_parent"
@@ -85,7 +85,7 @@
             android:layout_marginRight="16dp"
             android:background="@color/gray" />
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/detailsOutdoorSecondMsg"
             android:layout_width="match_parent"

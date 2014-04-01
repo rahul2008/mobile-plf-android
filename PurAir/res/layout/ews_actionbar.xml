@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="90dp" >
 
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/ews_actionbar_title"
         android:layout_width="wrap_content"

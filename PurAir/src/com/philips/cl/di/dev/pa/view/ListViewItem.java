@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.customviews;
+package com.philips.cl.di.dev.pa.view;
 
 public class ListViewItem {
 	private int textId;

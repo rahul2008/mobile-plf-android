@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal" >
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odDayWeatherForcast"
         android:layout_weight="1"
@@ -26,7 +26,7 @@
         android:src="@drawable/wifi_connected" />
     
     
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMaxTemp"
         android:layout_weight="1"
@@ -42,7 +42,7 @@
 
     
     
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMinTemp"
         android:layout_weight="1"
@@ -57,7 +57,7 @@
     
     
     
-    <com.philips.cl.di.dev.pa.customviews.CustomTextView
+    <com.philips.cl.di.dev.pa.view.CustomTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastWind"
         android:layout_weight="1"

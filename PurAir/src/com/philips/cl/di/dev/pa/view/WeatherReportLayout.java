@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.customviews;
+package com.philips.cl.di.dev.pa.view;
 
 import java.util.Calendar;
 import java.util.List;

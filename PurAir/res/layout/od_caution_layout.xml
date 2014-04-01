@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/avoidOutdoorTxt"
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/openWindowTxt"
             android:layout_width="match_parent"
@@ -65,7 +65,7 @@
             custom:fontAssetName="fonts/gillsans.ttf" >
         </com.philips.cl.di.dev.pa.customviews.CustomTextView>
 
-        <com.philips.cl.di.dev.pa.customviews.CustomTextView
+        <com.philips.cl.di.dev.pa.view.CustomTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/maskTxt"
             android:layout_width="match_parent"
