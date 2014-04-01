@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.detail.utils;
+package com.philips.cl.di.dev.pa.util;
 
 import android.content.Context;
 

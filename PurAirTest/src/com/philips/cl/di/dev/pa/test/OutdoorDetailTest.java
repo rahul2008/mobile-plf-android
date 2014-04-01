@@ -12,9 +12,9 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
-import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
-import com.philips.cl.di.dev.pa.detail.utils.GraphPathDraw;
+import com.philips.cl.di.dev.pa.util.Coordinates;
+import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.GraphPathDraw;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorDetailsActivity> {

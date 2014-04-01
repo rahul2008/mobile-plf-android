@@ -9,7 +9,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+import com.philips.cl.di.dev.pa.util.GraphConst;
 
 public class AirView extends View {
 

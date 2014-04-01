@@ -14,9 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.detail.utils.Coordinates;
-import com.philips.cl.di.dev.pa.detail.utils.DetailsAIQ;
-import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
+import com.philips.cl.di.dev.pa.util.Coordinates;
+import com.philips.cl.di.dev.pa.util.DetailsAIQ;
+import com.philips.cl.di.dev.pa.util.GraphConst;
 
 
 public class GraphView extends View {

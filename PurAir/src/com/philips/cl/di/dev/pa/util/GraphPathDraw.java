@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.detail.utils;
+package com.philips.cl.di.dev.pa.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
