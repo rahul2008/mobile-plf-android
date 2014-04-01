@@ -105,7 +105,8 @@
         </activity>
          <activity
             android:name="com.philips.cl.di.dev.pa.ews.EwsActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/WhiteBackground" >
         </activity>
     </application>
 
