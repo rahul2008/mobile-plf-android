@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.pureairui.fragments;
+package com.philips.cl.di.dev.pa.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,14 +7,12 @@ import android.view.ViewGroup;
 
 import com.philips.cl.di.dev.pa.R;
 
-public class HomeOutDoorFragment extends BaseFragment {
-	
-	private View vMain;
+public class HomeIndoorFragment extends BaseFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		vMain = inflater.inflate(R.layout.ll_home_outdoor_container, container, false);
-		return vMain;
+		View view = inflater.inflate(R.layout.ll_home_indoor_container, container, false);
+		return view;
 	}
 }

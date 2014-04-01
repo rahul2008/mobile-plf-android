@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.pureairui.fragments;
+package com.philips.cl.di.dev.pa.fragments;
 
 import com.philips.cl.di.dev.pa.utils.ALog;
 

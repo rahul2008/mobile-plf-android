@@ -47,7 +47,7 @@ import com.philips.cl.di.dev.pa.dto.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.dto.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.fragments.HomeFragment;
 
 // TODO: Auto-generated Javadoc
 /**

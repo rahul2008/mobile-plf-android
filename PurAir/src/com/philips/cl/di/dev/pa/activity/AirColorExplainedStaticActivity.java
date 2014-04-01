@@ -6,7 +6,7 @@ import android.support.v7.app.ActionBar;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.pureairui.fragments.AirQualityFragment;
+import com.philips.cl.di.dev.pa.fragments.AirQualityFragment;
 import com.philips.cl.di.dev.pa.utils.Fonts;
 
 public class AirColorExplainedStaticActivity extends BaseActivity {

@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;
-import com.philips.cl.di.dev.pa.pureairui.fragments.HomeFragment;
+import com.philips.cl.di.dev.pa.fragments.HomeFragment;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
