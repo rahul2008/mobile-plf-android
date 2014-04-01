@@ -18,14 +18,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.controller.CPPController;
-import com.philips.cl.di.dev.pa.controller.SensorDataController;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.interfaces.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
+import com.philips.cl.di.dev.pa.purifier.SensorDataController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;

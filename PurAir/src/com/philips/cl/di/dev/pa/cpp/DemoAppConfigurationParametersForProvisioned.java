@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.controller;
+package com.philips.cl.di.dev.pa.cpp;
 
 /*----------------------------------------------------------------------------
 Copyright(c) Philips Electronics India Ltd

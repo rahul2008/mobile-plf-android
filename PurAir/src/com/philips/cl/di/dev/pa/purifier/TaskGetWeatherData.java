@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.network;
+package com.philips.cl.di.dev.pa.purifier;
 
 
 import java.net.HttpURLConnection;

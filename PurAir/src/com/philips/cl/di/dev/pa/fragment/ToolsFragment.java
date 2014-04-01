@@ -26,12 +26,12 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.controller.CPPController;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseAdapter;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.interfaces.SignonListener;
-import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData;
-import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData.DiagnosticsDataListener;
+import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData;
+import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData.DiagnosticsDataListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ToolsFragment extends BaseFragment implements OnClickListener,

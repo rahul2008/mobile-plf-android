@@ -15,7 +15,7 @@ Version 1:
     Original author: Haranadh Kaki
     Description: Updated version    
 ----------------------------------------------------------------------------*/
-package com.philips.cl.di.dev.pa.controller;
+package com.philips.cl.di.dev.pa.cpp;
 
 import android.os.Handler;
 import com.philips.cl.di.dev.pa.interfaces.ICPEventListener;

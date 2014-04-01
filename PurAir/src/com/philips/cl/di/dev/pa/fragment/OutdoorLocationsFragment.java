@@ -27,7 +27,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dto.CityDetails;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
-import com.philips.cl.di.dev.pa.network.TaskGetHttp;
+import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 
 public class OutdoorLocationsFragment extends BaseFragment implements ServerResponseListener, ConnectionCallbacks, OnConnectionFailedListener{
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();

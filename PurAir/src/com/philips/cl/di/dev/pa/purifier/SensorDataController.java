@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.controller;
+package com.philips.cl.di.dev.pa.purifier;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -10,10 +10,10 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
-import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Utils;

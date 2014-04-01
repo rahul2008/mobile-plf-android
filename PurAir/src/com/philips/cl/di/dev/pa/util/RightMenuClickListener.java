@@ -17,9 +17,9 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 
 public class RightMenuClickListener implements OnClickListener {
 	

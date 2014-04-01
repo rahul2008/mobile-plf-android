@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.controller;
+package com.philips.cl.di.dev.pa.cpp;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
