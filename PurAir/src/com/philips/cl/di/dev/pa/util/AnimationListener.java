@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.listeners;
+package com.philips.cl.di.dev.pa.util;
 
 import android.app.Activity;
 import android.content.Context;
