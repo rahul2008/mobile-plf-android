@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.interfaces.PercentDetailsClickListener;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 
 public class PercentBarLayout extends LinearLayout {

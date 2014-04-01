@@ -22,7 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import com.philips.cl.di.dev.pa.utils.ALog;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 
 /**

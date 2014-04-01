@@ -32,7 +32,7 @@ import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.interfaces.SignonListener;
 import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.network.TaskGetDiagnosticData.DiagnosticsDataListener;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ToolsFragment extends BaseFragment implements OnClickListener,
 SignonListener, DiagnosticsDataListener {

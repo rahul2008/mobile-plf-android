@@ -1,16 +1,16 @@
 package com.philips.cl.di.dev.pa.network;
 
 import java.io.IOException;
-
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
+
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
-import com.philips.cl.di.dev.pa.utils.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.NetworkUtils;
 
 public class TaskPutDeviceDetails implements Runnable {
 	private static final String TAG = TaskPutDeviceDetails.class.getSimpleName();

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.utils;
+package com.philips.cl.di.dev.pa.util;
 
 import android.content.Context;
 import android.graphics.Typeface;

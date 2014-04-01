@@ -44,9 +44,9 @@ import com.philips.cl.di.dev.pa.controller.PurifierDatabase;
 import com.philips.cl.di.dev.pa.detail.utils.GraphConst;
 import com.philips.cl.di.dev.pa.dto.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
-import com.philips.cl.di.dev.pa.utils.ALog;
-import com.philips.cl.di.dev.pa.utils.Fonts;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.CustomTextView;
 
 public class EwsActivity extends BaseActivity implements OnClickListener, EWSListener, Callback {

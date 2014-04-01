@@ -22,7 +22,7 @@ import com.philips.cl.di.dev.pa.dto.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
-import com.philips.cl.di.dev.pa.utils.ALog;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 
 public class EWSService extends BroadcastReceiver 

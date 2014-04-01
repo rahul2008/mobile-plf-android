@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import com.philips.cl.di.dev.pa.utils.ALog;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

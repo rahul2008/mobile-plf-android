@@ -4,7 +4,7 @@ package com.philips.cl.di.dev.pa.network;
 import java.net.HttpURLConnection;
 
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
-import com.philips.cl.di.dev.pa.utils.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.NetworkUtils;
 
 public class TaskGetWeatherData extends Thread {
 

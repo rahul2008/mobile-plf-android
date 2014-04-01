@@ -12,9 +12,9 @@ import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.interfaces.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskPutDeviceDetails;
-import com.philips.cl.di.dev.pa.utils.DataParser;
-import com.philips.cl.di.dev.pa.utils.JSONBuilder;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 /**
  *

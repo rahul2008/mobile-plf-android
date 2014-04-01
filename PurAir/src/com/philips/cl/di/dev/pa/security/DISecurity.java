@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.utils.ALog;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class DISecurity implements ServerResponseListener {
 

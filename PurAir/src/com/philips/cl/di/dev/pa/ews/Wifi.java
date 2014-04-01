@@ -28,7 +28,7 @@ package com.philips.cl.di.dev.pa.ews;
 import java.util.Comparator;
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.utils.ALog;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 import android.content.Context;
 import android.net.wifi.ScanResult;

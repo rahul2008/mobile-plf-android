@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.TermsAndConditionsActivity;
-import com.philips.cl.di.dev.pa.utils.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.NetworkUtils;
 
 public class NewFirmware extends BaseFragment implements OnClickListener{
 		

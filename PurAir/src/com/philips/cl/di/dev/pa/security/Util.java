@@ -3,7 +3,7 @@ package com.philips.cl.di.dev.pa.security;
 import java.nio.charset.Charset;
 import java.util.Random;
 
-import com.philips.cl.di.dev.pa.utils.ALog;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 import android.util.Base64;
 import android.util.Log;

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.utils;
+package com.philips.cl.di.dev.pa.util;
 
 import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_ROTATION;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR;

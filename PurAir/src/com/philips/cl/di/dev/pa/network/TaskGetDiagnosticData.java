@@ -9,7 +9,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dto.ResponseDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.utils.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.NetworkUtils;
 
 public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	private Context context;

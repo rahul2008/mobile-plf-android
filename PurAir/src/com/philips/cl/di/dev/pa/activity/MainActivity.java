@@ -92,10 +92,10 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.listeners.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
-import com.philips.cl.di.dev.pa.utils.ALog;
-import com.philips.cl.di.dev.pa.utils.PurifierDBHelper;
-import com.philips.cl.di.dev.pa.utils.Fonts;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 

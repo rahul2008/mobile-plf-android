@@ -15,8 +15,8 @@ import com.philips.cl.di.dev.pa.interfaces.SensorEventListener;
 import com.philips.cl.di.dev.pa.interfaces.ServerResponseListener;
 import com.philips.cl.di.dev.pa.network.TaskGetSensorData;
 import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.utils.DataParser;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 /**
  * This Class will get the Sensor Data every specified interval of time

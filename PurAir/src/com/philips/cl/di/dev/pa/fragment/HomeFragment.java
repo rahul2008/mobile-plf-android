@@ -51,9 +51,9 @@ import com.philips.cl.di.dev.pa.listeners.AnimationListener;
 import com.philips.cl.di.dev.pa.network.TaskGetHttp;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.network.TaskGetWeatherData.WeatherDataListener;
-import com.philips.cl.di.dev.pa.utils.DataParser;
-import com.philips.cl.di.dev.pa.utils.Fonts;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class HomeFragment extends BaseFragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {
 

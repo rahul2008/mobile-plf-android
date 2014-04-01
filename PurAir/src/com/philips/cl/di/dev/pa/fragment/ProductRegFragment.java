@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class ProductRegFragment extends BaseFragment implements OnClickListener {
 	@Override

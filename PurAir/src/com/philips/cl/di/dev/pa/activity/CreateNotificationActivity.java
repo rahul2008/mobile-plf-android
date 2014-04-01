@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class CreateNotificationActivity extends BaseActivity implements OnClickListener{
 

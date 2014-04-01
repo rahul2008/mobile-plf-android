@@ -12,8 +12,8 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.utils.PurifierDBHelper;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 /**
  * The Class DatabaseAdapter.

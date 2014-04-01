@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
-import com.philips.cl.di.dev.pa.utils.Utils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DetailsAIQ {
 	

@@ -3,7 +3,7 @@ import java.util.List;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
-import com.philips.cl.di.dev.pa.utils.DataParser;
+import com.philips.cl.di.dev.pa.util.DataParser;
 
 import junit.framework.TestCase;
 

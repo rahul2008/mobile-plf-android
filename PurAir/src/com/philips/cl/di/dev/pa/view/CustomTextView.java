@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.utils.FontLoader;
+import com.philips.cl.di.dev.pa.util.FontLoader;
 
 public class CustomTextView extends TextView {
 

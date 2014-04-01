@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.utils.Fonts;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class EWSDialogFactory implements OnClickListener{
 	private static final String TAG = EWSDialogFactory.class.getSimpleName();
