@@ -13,7 +13,7 @@ import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.interfaces.GraphViewDataInterface;
 
 /**

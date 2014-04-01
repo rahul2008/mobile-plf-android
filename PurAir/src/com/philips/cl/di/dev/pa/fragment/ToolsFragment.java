@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.controller.CPPController;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseAdapter;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;

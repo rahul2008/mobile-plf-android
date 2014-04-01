@@ -1,8 +1,8 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 
-import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.*;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.*;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.*;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.*;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
-import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dto.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.dto.SessionDto;
 import com.philips.cl.di.dev.pa.dto.Weatherdto;

@@ -15,8 +15,8 @@ import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constants.AppConstants;
-import com.philips.cl.di.dev.pa.constants.ParserConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.controller.AirPurifierController;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.ews.EwsActivity;
@@ -395,10 +395,10 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	private void controlDevice(String key, String value) {
-		if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constants.AppConstants.CONNECTED) {
+		if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constant.AppConstants.CONNECTED) {
 			airPurifierController.setDeviceDetailsLocally(key, value) ;
 		}
-		else if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constants.AppConstants.CONNECTED_VIA_PHILIPS) {
+		else if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constant.AppConstants.CONNECTED_VIA_PHILIPS) {
 				airPurifierController.setDeviceDetailsRemotely(key, value) ;
 		}
 	}

@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.constants;
+package com.philips.cl.di.dev.pa.constant;
 
 import android.graphics.Color;
 

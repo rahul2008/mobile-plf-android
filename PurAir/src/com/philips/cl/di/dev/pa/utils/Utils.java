@@ -1,21 +1,21 @@
 package com.philips.cl.di.dev.pa.utils;
 
-import static com.philips.cl.di.dev.pa.constants.AnimatorConstants.ANIM_ROTATION;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.CLEAR_SKIES;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.CLOUDY;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.HEAVY_RAIN_AT_TIMES;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_DRIZZLE;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.LIGHT_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.MIST;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.PARTLY_CLOUDY;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.SNOW;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.SUNNY;
-import static com.philips.cl.di.dev.pa.constants.AppConstants.TORRENTIAL_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_ROTATION;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR_SKIES;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.CLOUDY;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.HEAVY_RAIN;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.HEAVY_RAIN_AT_TIMES;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.LIGHT_DRIZZLE;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.LIGHT_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.MIST;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.PARTLY_CLOUDY;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -39,7 +39,7 @@ import android.widget.ImageView;
 
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cppdatabase.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.customviews.CustomTextView;
 import com.philips.cl.di.dev.pa.dto.AirPurifierEventDto;

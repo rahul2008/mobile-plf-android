@@ -7,7 +7,7 @@ import android.graphics.Paint.Style;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.philips.cl.di.dev.pa.constants.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.utils.Utils;
 
 public class FilterStatusView extends ImageView {
