@@ -81,8 +81,6 @@
     <string name="eighthour">8H</string>
     <string name="off">OFF</string>
     <string name="set_timer">Set Timer</string>
-<!--     <string name="warning">Warning</string> -->
-<!--     <string name="ok">OK</string> -->
     <string name="healthy">Moderate</string>
     <string name="very_healthy">Good</string>
     <string name="very_unhealthy">Very unhealthy</string>
@@ -336,6 +334,8 @@
     <string name="cancel">Cancel</string>
     
     <string name="weather_forecast">Weather Forecast</string>
+    <string name="one_zero">0</string>
+    <string name="colon_2_zero">:00</string>
     
     <!-- Diagnostics -->
     <string name="diagnostics">Diagnostics</string>

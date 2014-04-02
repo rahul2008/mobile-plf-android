@@ -63,7 +63,6 @@ public class AirView extends View {
 		if (percent != 0 && (fheight + ftopline) - y < 20) {
 			y = fheight + ftopline - getPxWithRespectToDip(6);
 		}
-		//Log.i("goodair", "X="+X+", y="+y+", fwidth="+fwidth+", (fheight + ftopline)="+(fheight + ftopline));
 		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);
 		
 		/** Percentage Text*/
@@ -73,8 +72,8 @@ public class AirView extends View {
 		paint.setTextSize(getPxWithRespectToDip(20));
 		paint.setTextAlign(Paint.Align.CENTER);
         String txt = String.valueOf(percent) + "%";
-        float x1 = (canvas.getWidth() / (float)2);
-        float y1 = (fheight / 2) + getPxWithRespectToDip(10);
+        float x1 = canvas.getWidth() / (float)2;
+        float y1 = fheight / 2 + getPxWithRespectToDip(10);
         canvas.drawText(txt, x1, y1, paint);
         paint.getTextBounds(txt, 0, txt.length(), rect);
 	}

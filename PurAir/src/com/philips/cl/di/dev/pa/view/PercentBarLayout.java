@@ -75,41 +75,5 @@ public class PercentBarLayout extends LinearLayout {
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			this.addView(v, parentParams);
 		}
-		
-	}
-
-	@Override
-	public void setClickable(boolean clickable) {
-		super.setClickable(clickable);
-	}
-
-	@Override
-	public void setOnClickListener(OnClickListener l) {
-		super.setOnClickListener(l);
-	}
-
-	@Override
-	public View getChildAt(int index) {
-		// TODO Auto-generated method stub
-		return super.getChildAt(index);
-	}
-
-	@Override
-	public int getChildCount() {
-		// TODO Auto-generated method stub
-		return super.getChildCount();
-	}
-
-	@Override
-	public int indexOfChild(View child) {
-		// TODO Auto-generated method stub
-		return super.indexOfChild(child);
-	}
-
-	@Override
-	@CapturedViewProperty
-	public int getId() {
-		// TODO Auto-generated method stub
-		return super.getId();
 	}
 }

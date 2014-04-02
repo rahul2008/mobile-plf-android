@@ -185,9 +185,9 @@ public class WeatherReportLayout extends  LinearLayout {
 		for (int j = 0; j < hrsDays.length; j++) {
 			String tempHr = null;
 			if (hourOfDay < 10) {
-				tempHr = "0" + hourOfDay + ":00";
+				tempHr = context.getString(R.string.one_zero) + hourOfDay + context.getString(R.string.colon_2_zero);
 			} else {
-				tempHr = hourOfDay + ":00";
+				tempHr = hourOfDay + context.getString(R.string.colon_2_zero);
 			}
 			hrsDays[j] = tempHr;
 			hourOfDay = hourOfDay + 3;
