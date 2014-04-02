@@ -816,7 +816,6 @@ public class Utils {
 		if (totalAir > 0) {
 			percent = (goodAir * 100) / totalAir;
 		}
-		//Log.i("percent", "goodAir="+ goodAir+"  totalAir="+totalAir+"  percent= " + percent);
 		return percent;
 	}
 

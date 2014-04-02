@@ -1092,10 +1092,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
 		ALog.i(ALog.MAINACTIVITY, "onActivityResult: "+resultCode) ;
 		if ( resultCode == RESULT_OK ) {		
-			if( intent != null &&  intent.getExtras()  != null )
+			if( intent != null &&  intent.getExtras()  != null ) {
 				isDeviceDiscovered = intent.getBooleanExtra("deviceDiscovered", false) ;
 				purifierName = intent.getStringExtra("pname");
-				homeFragment.setHomeName(purifierName);
+			}
+			homeFragment.setHomeName(purifierName);
 			if( isDeviceDiscovered ) {
 				isEWSSuccessful = true ;
 			}

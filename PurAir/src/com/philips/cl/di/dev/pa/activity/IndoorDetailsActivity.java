@@ -40,18 +40,18 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 	private ActionBar mActionBar;
-	private final String TAG = "IndoorDetailsActivity";
+//	private final String TAG = "IndoorDetailsActivity";
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
-	private ImageView circleImg, modeIcon, filterIcon;
+	private ImageView circleImg;
 	private FontTextView msgFirst, msgSecond, indoorDbIndexName;
 	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
 	private ProgressBar rdcpDownloadProgressBar;
 	private PercentBarLayout percentBarLayout;
 	private FontTextView barTopNum, barTopName, selectedIndexBottom;
-	private FontTextView modeLabel, filterLabel, mode, filter, aqiStatus, aqiSummary;
+	private FontTextView mode, filter, aqiStatus, aqiSummary;
 	private List<int[]> powerOnReadingsValues;
 	private List<float[]> lastDayRDCPValues;
 	private List<float[]> last7daysRDCPValues;
@@ -142,16 +142,16 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		lastWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
 		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 
-		modeIcon = (ImageView) findViewById(R.id.inModeIcon); 
-		filterIcon = (ImageView) findViewById(R.id.inFilterIcon); 
+//		modeIcon = (ImageView) findViewById(R.id.inModeIcon); 
+//		filterIcon = (ImageView) findViewById(R.id.inFilterIcon); 
 		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
 		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
 
 		msgFirst = (FontTextView) findViewById(R.id.idFirstMsg);
 		msgSecond = (FontTextView) findViewById(R.id.idSecondMsg);
-		modeLabel = (FontTextView) findViewById(R.id.inModeTxt);
+//		modeLabel = (FontTextView) findViewById(R.id.inModeTxt);
 		mode = (FontTextView) findViewById(R.id.inModeType);
-		filterLabel = (FontTextView) findViewById(R.id.inFilterTxt);
+//		filterLabel = (FontTextView) findViewById(R.id.inFilterTxt);
 		filter = (FontTextView) findViewById(R.id.inFilterType);
 		aqiStatus = (FontTextView) findViewById(R.id.inDetailsDbStatus);
 		aqiSummary = (FontTextView) findViewById(R.id.inDetailsDbSummary);
@@ -201,16 +201,16 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	 * */
 	public void parseReading() {
 
-		if (goodAirInfos != null) {
+		if (goodAirInfos.size() > 0) {
 			goodAirInfos.clear();
 		}
 
 		/**Last day*/
-		if (lastDayRDCPValues != null) {
+		if (lastDayRDCPValues.size() > 0) {
 			lastDayRDCPValues.clear();
 		} 
 
-		if (powerOnReadingsValues != null) {
+		if (powerOnReadingsValues.size() > 0) {
 			powerOnReadingsValues.clear();
 		} 
 
@@ -236,11 +236,11 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 		powerOnReadingsValues.add(powerOnReadings);
 
 		/**Last 7 days and last 4 weeks*/
-		if (last7daysRDCPValues != null) {
+		if (last7daysRDCPValues.size() > 0) {
 			last7daysRDCPValues.clear();
 		} 
 
-		if (last4weeksRDCPValues != null) {
+		if (last4weeksRDCPValues.size() > 0) {
 			last4weeksRDCPValues.clear();
 		} 
 
