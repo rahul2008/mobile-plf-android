@@ -312,4 +312,5 @@ public class AppConstants {
 	public static String DEVICEID = "none" ;
 	
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
+	public static final String APP_TYPE="AC4373APP";
 }

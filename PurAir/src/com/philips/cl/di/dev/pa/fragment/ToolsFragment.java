@@ -135,7 +135,7 @@ SignonListener, DiagnosticsDataListener {
 						Utils.storeCPPKeys(getActivity(), cppDatabaseModel);
 						CPPController.getInstance(getActivity())
 						.addSignonListener(this);
-						CPPController.getInstance(getActivity()).init();
+						//CPPController.getInstance(getActivity()).init();
 					} else {
 						Toast.makeText(getActivity(), "Invalid Key",
 								Toast.LENGTH_LONG).show();

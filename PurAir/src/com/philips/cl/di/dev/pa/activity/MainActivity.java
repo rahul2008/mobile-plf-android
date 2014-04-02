@@ -287,8 +287,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	private void initializeCPPController() {
 		cppController = CPPController.getInstance(this) ;		
 		cppController.addDeviceDetailsListener(this) ;
-		
-		cppController.init() ;
 	}
 
 	private void createNetworkReceiver() {
@@ -303,17 +301,10 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					NetworkInfo netInfo = conMan.getActiveNetworkInfo();
 					if (netInfo!=null && netInfo.isConnected()) {
 						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED") ;
-						if( cppController!=null && cppController.getKeyProvisioningState() == CPPController.KEY_PROVISION.NOT_PROVISIONED)
+						
+						if(cppController!=null)
 						{
-							ALog.i(ALog.MAINACTIVITY, "startprovisioning on network change if not provisioned") ;
-							cppController.startKeyProvisioning();
-						}
-						else if(cppController != null &&
-								cppController.getKeyProvisioningState() == CPPController.KEY_PROVISION.PROVISIONED
-								&& !cppController.isSignOn()) {
-							ALog.i(ALog.MAINACTIVITY, "startsignon on network change if not signed on") ;
-							
-							cppController.onSignon();
+							cppController.signOnWithProvisioning();
 						}
 						
 						if(SessionDto.getInstance().getOutdoorEventDto() == null)

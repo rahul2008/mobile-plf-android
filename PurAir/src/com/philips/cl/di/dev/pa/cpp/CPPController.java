@@ -63,7 +63,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private StringBuilder downloadDataBuilder;
 	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
 	
-	public enum KEY_PROVISION {
+	private enum KEY_PROVISION {
 		NOT_PROVISIONED,
 		PROVISIONING,
 		PROVISIONED
@@ -77,6 +77,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
 		eventPublisher = new EventPublisher(callbackHandler);
+		
+		init() ;
 	}
 
 	/**
@@ -92,13 +94,27 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		return icpStateInstance;
 	}
+	
+	public void signOnWithProvisioning()
+	{
+		if( getKeyProvisioningState() == KEY_PROVISION.NOT_PROVISIONED)
+		{
+			ALog.i(ALog.ICPCLIENT, "startprovisioning on network change if not provisioned") ;
+			startKeyProvisioning();
+		}
+		else if(getKeyProvisioningState() == KEY_PROVISION.PROVISIONED
+				&& !isSignOn()) {
+			ALog.i(ALog.ICPCLIENT, "startsignon on network change if not signed on") ;
+			
+			onSignon();
+		}
+	}
 
-	public void startKeyProvisioning() {
-		ALog.i(ALog.ICPCLIENT, "Start provision");
-		if( keyProvisioningState == KEY_PROVISION.NOT_PROVISIONED ) {
+	private void startKeyProvisioning() {
+		ALog.i(ALog.KPS, "Start provision");
+		
 			keyProvisioningState = KEY_PROVISION.PROVISIONING ;
 			String appID = null;
-			String appType = "AC4373APP";
 			String appVersion = null;
 			int rv = 0;
 	
@@ -120,12 +136,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			ALog.i(ALog.ICPCLIENT, appID + ":" + appType + ":" + appVersion);
-			prv.setApplicationInfo(appID, appType, appVersion);
+			ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
+			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
 	
 			rv = prv.executeCommand();
 			if (rv != Errors.SUCCESS) {
-				ALog.i(ALog.ICPCLIENT, "PROVISION-FAILED");
+				ALog.i(ALog.KPS, "PROVISION-FAILED");
 				try {
 					Thread.sleep(1000);
 				} catch (Exception e) {
@@ -136,14 +152,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 				}
 			}
-		}
+		
 	}
 
 	public boolean isSignOn() {
 		return isSignOn;
 	}
 
-	public KEY_PROVISION getKeyProvisioningState() {
+	private KEY_PROVISION getKeyProvisioningState() {
 		return keyProvisioningState ;
 	}
 	
@@ -172,7 +188,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	/**
 	 * Method to inialize
 	 */
-	public void init() {
+	private void init() {
 		Log.i("cpp", "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled()
 				+ " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
 		if (SignOn.isKPSEnabled()) {
@@ -234,7 +250,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will call the signon On Callback the status of the signon is
 	 * known.
 	 */
-	public void onSignon() {
+	private void onSignon() {
 		ALog.i(ALog.ICPCLIENT, "onSignOn");
 		if(! isSignOn ) {
 			isSignOn = true ;
@@ -433,14 +449,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			signOnListener = null;
 		} else if (eventType == Commands.KEY_PROVISION) {
 			if (status == Errors.SUCCESS) {
-				ALog.i(ALog.ICPCLIENT, "PROVISION-SUCCESS");
+				ALog.i(ALog.KPS, "PROVISION-SUCCESS");
 				keyProvisioningState = KEY_PROVISION.PROVISIONED ;
 				Provision provision = (Provision) obj;
-				ALog.i(ALog.ICPCLIENT, "EUI64(APP-KEY): "+provision.getEUI64());
+				ALog.i(ALog.KPS, "EUI64(APP-KEY): "+provision.getEUI64());
 				onSignon();
 			}
 			else {
-				ALog.e(ALog.ICPCLIENT, "PROVISION-FAILED");
+				ALog.e(ALog.KPS, "PROVISION-FAILED");
 				keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 			}
 		} else if (eventType == Commands.SUBSCRIBE_EVENTS) {
