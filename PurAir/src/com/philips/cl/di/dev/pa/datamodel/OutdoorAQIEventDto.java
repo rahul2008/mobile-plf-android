@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.datamodel ;
 
-public class OutdoorAQIEventDto{
+public class OutdoorAQIEventDto {
 	
 	/**
 	 * 
@@ -9,36 +9,36 @@ public class OutdoorAQIEventDto{
 	private int [] pm10 ;
 	private int [] pm25 ;
 	private int [] so2 ;
-	
 	private int [] no2 ;
+	
 	public int[] getPm10() {
-		return pm10;
+		return pm10.clone();
 	}
 	public void setPm10(int[] pm10) {
 		this.pm10 = pm10;
 	}
 	private String t ;
 	public int[] getIdx() {
-		return idx;
+		return idx.clone();
 	}
 	public void setIdx(int[] idx) {
 		this.idx = idx;
 	}
 	
 	public int[] getPm25() {
-		return pm25;
+		return pm25.clone();
 	}
 	public void setPm25(int[] pm25) {
 		this.pm25 = pm25;
 	}
 	public int[] getSo2() {
-		return so2;
+		return so2.clone();
 	}
 	public void setSo2(int[] so2) {
 		this.so2 = so2;
 	}
 	public int[] getNo2() {
-		return no2;
+		return no2.clone();
 	}
 	public void setNo2(int[] no2) {
 		this.no2 = no2;
