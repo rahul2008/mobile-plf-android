@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+    <Match>
+
+        <Class name="com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto" />
+
+        <Or>
+
+            <Method name="getPm10" />
+
+            <Method name="setPm10" />
+
+            <Method name="getIdx" />
+
+            <Method name="setIdx" />
+
+            <Method name="getPm25" />
+
+            <Method name="setPm25" />
+
+            <Method name="getSo2" />
+
+            <Method name="setSo2" />
+
+            <Method name="getNo2" />
+
+            <Method name="setNo2" />
+
+            <Method name="getT" />
+
+            <Method name="setT" />
+        </Or>
+
+        <Bug pattern="EI_EXPOSE_REP" />
+    </Match>
+
+</FindBugsFilter>
