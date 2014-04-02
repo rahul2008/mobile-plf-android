@@ -128,7 +128,7 @@
 
     </style>
     
-    <style name="WhiteBackground" parent="Theme.Base.AppCompat.Light">
+    <style name="WhiteBackground" parent="Theme.AppCompat.Light">
         <item name="android:background">@android:color/white</item>
 	</style>
     <!-- Platform-independent theme providing an action bar in a dark-themed activity. -->
