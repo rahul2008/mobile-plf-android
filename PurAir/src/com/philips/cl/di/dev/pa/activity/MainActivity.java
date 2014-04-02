@@ -757,7 +757,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 							return false;
 						}
 						if(cityNamesList.contains(text.toString())) {
-							if((outdoorLocationsAdapter.getPosition(text.toString())) != -1) {
+							if(outdoorLocationsAdapter.getPosition(text.toString()) != -1) {
 								return false;
 							}
 							outdoorLocationsAdapter.add(text.toString());
@@ -1257,7 +1257,13 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	
 	private void startKeyExchange(DeviceModel device) {
 		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"+isDeviceDiscovered) ;
-		long bootId = Long.parseLong(device.getBootID());
+		long bootId = 0;
+		try {
+			bootId = Long.parseLong(device.getBootID());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		String cppId = device.getSsdpDevice().getCppId();
 		PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
 		deviceInfoDto.setUsn(device.getUsn());

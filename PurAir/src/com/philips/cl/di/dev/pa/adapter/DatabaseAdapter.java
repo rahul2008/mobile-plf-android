@@ -96,7 +96,7 @@ public class DatabaseAdapter {
 					cvInsert);
 		}
 		// return true if insert or update is successful
-		return (iRowAffected > 0) ? true : false;
+		return iRowAffected > 0 ? true : false;
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class DatabaseAdapter {
 				cvInsert);
 		
 		// return true if insert or update is successful
-		return (iRowAffected > 0) ? true : false;
+		return iRowAffected > 0 ? true : false;
 	}
 	
 	

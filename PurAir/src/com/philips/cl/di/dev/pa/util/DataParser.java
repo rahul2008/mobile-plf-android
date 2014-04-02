@@ -138,7 +138,7 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.settFav(Integer.parseInt(airPuriferJson.getString(ParserConstants.TFAV))) ;
 
 		} catch (JSONException e) {
-			
+			ALog.e("Exception", "JSONException -- "+ e.getMessage()) ;
 		}catch(NumberFormatException nfe ) {
 			ALog.e("Exception", "Number Format exception -- "+ nfe.getMessage()) ;
 		}

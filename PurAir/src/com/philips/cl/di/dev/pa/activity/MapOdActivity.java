@@ -106,11 +106,11 @@ public class MapOdActivity extends BaseActivity {
 	    Canvas canvas = new Canvas(bm);
 
 	    //Calculate the positions
-	    int xPos = (canvas.getWidth() / 2) - 2;     //-2 is for regulating the x position offset
+	    int xPos = canvas.getWidth() / 2 - 2;     //-2 is for regulating the x position offset
 
 	    //"- ((paint.descent() + paint.ascent()) / 2)" is the distance from the baseline to the center.
 	    //int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;  
-	    int yPos = (canvas.getHeight()) - 5 ;  
+	    int yPos = canvas.getHeight() - 5 ;  
 	    canvas.drawText(text, xPos, yPos, paint);
 
 	    return  bm;

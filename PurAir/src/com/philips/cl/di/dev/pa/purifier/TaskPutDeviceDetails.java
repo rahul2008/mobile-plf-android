@@ -56,6 +56,7 @@ public class TaskPutDeviceDetails implements Runnable {
 			}
 
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		finally {

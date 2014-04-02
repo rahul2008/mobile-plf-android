@@ -85,7 +85,7 @@ public class Util {
 	
 	public static String generateRandomNum() {
 		Random random = new Random();
-		String randStr = String.valueOf(random.nextInt((MAX - MIN) + 1) + MIN);
+		String randStr = String.valueOf(random.nextInt(MAX - MIN) + 1 + MIN);
 		return randStr;
 	}
 	

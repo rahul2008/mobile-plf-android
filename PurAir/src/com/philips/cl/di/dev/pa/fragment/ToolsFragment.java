@@ -224,7 +224,7 @@ SignonListener, DiagnosticsDataListener {
 						.getInetAddresses());
 				for (InetAddress addr : addrs) {
 					String ipAddr = addr.getHostAddress();
-					if ((ipAddr).compareTo(ipAddress) == 0) {
+					if (ipAddr.compareTo(ipAddress) == 0) {
 						byte[] mac = intf.getHardwareAddress();
 						if (mac == null){
 							return "";

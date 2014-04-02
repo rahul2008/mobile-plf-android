@@ -96,16 +96,16 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	}
 
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		
-	}
+//	@Override
+//	protected void onResume() {
+//		super.onResume();
+//		
+//	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-	}
+//	@Override
+//	protected void onPause() {
+//		super.onPause();
+//	}
 
 	/**
 	 * Reading data from server
@@ -192,7 +192,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			 * Calculate 7 days hours 6 days hours plus current hours Calculate
 			 * average of every days hours value
 			 */
-			int last7dayHrs = (6 * 24) + hr;
+			int last7dayHrs = 6 * 24 + hr;
 
 			if (idx != null) {
 				float sum = 0;
@@ -222,7 +222,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			 * Calculate last 4 weeks hours Calculate average of every days
 			 * hours value
 			 */
-			int last4WeekHrs = (3 * 7 * 24) + (6 * 24) + hr;
+			int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
 
 			if (idx != null) {
 				int count = 1;

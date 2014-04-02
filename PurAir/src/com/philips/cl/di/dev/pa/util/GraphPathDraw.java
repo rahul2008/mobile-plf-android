@@ -158,7 +158,8 @@ public class GraphPathDraw {
 		if (y <= 0) {
 			return yFloat;
 		} else {
-			yFloat = yFloat - (y*coordinates.getIdY9());
+			float ft = y*coordinates.getIdY9();
+			yFloat = yFloat - ft;
 			if (yFloat < 0) {
 				yFloat = 0;
 			}
@@ -173,7 +174,8 @@ public class GraphPathDraw {
 		if (y <= 0) {
 			return yfloat;
 		} else {
-			yfloat = yfloat - (y * coordinates.getMultiplyConst());
+			float ft = y * coordinates.getMultiplyConst();
+			yfloat = yfloat - ft;
 			if (yfloat < 0) {
 				yfloat = 0;
 			}

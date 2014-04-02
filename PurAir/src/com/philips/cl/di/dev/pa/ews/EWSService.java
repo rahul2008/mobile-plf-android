@@ -133,10 +133,11 @@ public class EWSService extends BroadcastReceiver
 						initializeKey() ;
 						
 						isOpenNetwork = EWSWifiManager.isOpenNetwork(homeSSID);
-					} else {
-						// Connected to device, but homeSSID is null - Should never happen
-						// TODO add an error case for this?
-					}
+					} 
+//					else {
+//						// Connected to device, but homeSSID is null - Should never happen
+//						// TODO add an error case for this?
+//					}
 					return;
 				}
 				

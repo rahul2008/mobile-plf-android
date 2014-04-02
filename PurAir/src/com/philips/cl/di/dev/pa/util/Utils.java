@@ -402,12 +402,9 @@ public class Utils {
 							}
 						}
 
-						if (index == indoorAQIHistory.size() - 1) {
-							if (counterHr != 0) {
-								aqiSumHr = aqiSumHr / counterHr;
-								//hrlyAqiValues.add(aqiSumHr / 100);
-								hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
-							} 
+						if (index == indoorAQIHistory.size() - 1 && counterHr != 0) {
+							aqiSumHr = aqiSumHr / counterHr;
+							hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
 						}
 						currentAQIDateHr = date;
 					}
@@ -528,8 +525,8 @@ public class Utils {
 		String qryPart3 = "endDate=" + endDate + "T" + endTime + ".1508314Z";
 		//currentDateHr = endDate + " " + hrOffDay;
 
-		long startDateDiff = cal.getTimeInMillis()
-				- (28 * 24 * 60 * 60 * 1000L);
+		long lt28 = 28 * 24 * 60 * 60 * 1000L;
+		long startDateDiff = cal.getTimeInMillis() - lt28;
 		Date dateStart = new Date(startDateDiff);
 		String startDate = formatDate.format(dateStart);
 		String startTime = hrOffDay + formatTime.format(dateStart);
@@ -540,8 +537,8 @@ public class Utils {
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP,
 				getAirPurifierID(context)) + qryPart2 + qryPart3;
 		ALog.i(ALog.INDOOR_RDCP, "rdcp qry:   "+qry);
-
-		long endDateDiff = cal.getTimeInMillis() - (24 * 60 * 60 * 1000);
+		long lt1 = 24 * 60 * 60 * 1000;
+		long endDateDiff = cal.getTimeInMillis() - lt1;
 		Date dateEnd = new Date(endDateDiff);
 		hrOffDayInt = hrOffDayInt + 1; 
 		if (hrOffDayInt >= 24) {
@@ -839,13 +836,13 @@ public class Utils {
 			return null;
 		}
 
-		if ((weatherDesc.compareToIgnoreCase(SUNNY)) == 0) {
+		if (weatherDesc.compareToIgnoreCase(SUNNY) == 0) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
-		} else if ((weatherDesc.compareToIgnoreCase(MIST)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(MIST) == 0) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.mist);
-		} else if ((weatherDesc.compareToIgnoreCase(CLOUDY)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(CLOUDY) == 0) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.cloudy);
-		} else if ((weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) == 0) {
 
 			if (isDayTime.compareToIgnoreCase("Yes") == 0)
 				weatherImage = contex.getResources().getDrawable(
@@ -855,7 +852,7 @@ public class Utils {
 						R.drawable.partly_cloudy_night);
 			// weatherImage =
 			// contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
-		} else if ((weatherDesc.compareToIgnoreCase(CLEAR_SKIES)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(CLEAR_SKIES) == 0) {
 			if (isDayTime.compareToIgnoreCase("Yes") == 0)
 				weatherImage = contex.getResources().getDrawable(
 						R.drawable.sunny);
@@ -864,41 +861,38 @@ public class Utils {
 						R.drawable.clear_sky_night);
 			// weatherImage =
 			// contex.getResources().getDrawable(R.drawable.clear_sky_night);
-		} else if ((weatherDesc.compareToIgnoreCase(SNOW)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(SNOW) == 0) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.snow);
-		} else if ((weatherDesc.compareToIgnoreCase(LIGHT_RAIN_SHOWER) == 0)
-				|| (weatherDesc.compareToIgnoreCase(LIGHT_DRIZZLE) == 0)) {
+		} else if (weatherDesc.compareToIgnoreCase(LIGHT_RAIN_SHOWER) == 0
+				|| weatherDesc.compareToIgnoreCase(LIGHT_DRIZZLE) == 0) {
 			weatherImage = contex.getResources().getDrawable(
 					R.drawable.light_rain_shower);
-		} else if ((weatherDesc
-				.compareToIgnoreCase(PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER)) == 0) {
+		} else if (weatherDesc
+				.compareToIgnoreCase(PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER) == 0) {
 			weatherImage = contex.getResources().getDrawable(
 					R.drawable.light_rain_with_thunder);
-		} else if ((weatherDesc
-				.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_SHOWER) == 0)
-				|| (weatherDesc.compareToIgnoreCase(TORRENTIAL_RAIN_SHOWER) == 0)
-				|| (weatherDesc.compareToIgnoreCase(HEAVY_RAIN) == 0)) {
+		} else if (weatherDesc
+				.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_SHOWER) == 0
+				|| weatherDesc.compareToIgnoreCase(TORRENTIAL_RAIN_SHOWER) == 0
+				|| weatherDesc.compareToIgnoreCase(HEAVY_RAIN) == 0) {
 			weatherImage = contex.getResources().getDrawable(
 					R.drawable.heavy_rain);
-		} else if ((weatherDesc.compareToIgnoreCase(HEAVY_RAIN_AT_TIMES)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(HEAVY_RAIN_AT_TIMES) == 0) {
 			// TODO : Replace with proper icon. Icon not found, replacing with
 			// heavy raind
 			weatherImage = contex.getResources().getDrawable(
 					R.drawable.heavy_rain);
-		} else if ((weatherDesc
-				.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER)) == 0) {
+		} else if (weatherDesc
+				.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER) == 0) {
 			weatherImage = contex.getResources().getDrawable(
 					R.drawable.moderate_rain_with_thunder);
-		} else if ((weatherDesc.compareToIgnoreCase(CLEAR)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(CLEAR) == 0) {
 			if (isDayTime.compareToIgnoreCase("Yes") == 0)
-				weatherImage = contex.getResources().getDrawable(
-						R.drawable.sunny);
+				weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
 			else
-				weatherImage = contex.getResources().getDrawable(
-						R.drawable.clear_sky_night);
+				weatherImage = contex.getResources().getDrawable(R.drawable.clear_sky_night);
 		} else {
-			weatherImage = contex.getResources().getDrawable(
-					R.drawable.light_rain_shower);
+			weatherImage = contex.getResources().getDrawable(R.drawable.light_rain_shower);
 		}
 
 		return weatherImage;
@@ -979,7 +973,7 @@ public class Utils {
 			if (hr == 0) {
 				hr = 24;
 			}
-			int last7dayHrs = (6 * 24) + hr;
+			int last7dayHrs = 6 * 24 + hr;
 
 			if (idx != null) {
 				float sum = 0;
@@ -1022,7 +1016,7 @@ public class Utils {
 			/**
 			 * TODO - Explain the logic in 3lines
 			 */
-			int last4WeekHrs = (3 * 7 * 24) + (6 * 24) + hr;
+			int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
 
 			if (idx != null) {
 				int count = 1;

@@ -225,11 +225,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		});
 
 		LayoutParams params = (LayoutParams) llIndoor.getLayoutParams();
-		indoorHeight = params.height = (int) ((MainActivity.getScreenHeight() * 0.7) - (MainActivity.getScreenHeight() * 0.075));
+		int ht = (int) (MainActivity.getScreenHeight() * 0.7);
+		int width = (int) (MainActivity.getScreenHeight() * 0.075);
+		indoorHeight = params.height = ht- width;
 
 		llIndoor.setLayoutParams(params);
 		params = (LayoutParams) llOutdoor.getLayoutParams(); 
-		outdoorHeight = params.height = (int) ((MainActivity.getScreenHeight() * 0.7) - (MainActivity.getScreenHeight() * 0.075));
+		outdoorHeight = params.height = ht - width;
 		llOutdoor.setLayoutParams(params);
 		Log.i(TAG, " llindoor " + params.height + " lloutdoor " + llOutdoor.getLayoutParams().height + " :: " + indoorHeight + " :: " + outdoorHeight);
 		ivIndoorCircle = (ImageView) vMain.findViewById(R.id.indoor_circle_pointer);
@@ -434,9 +436,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			TaskGetHttp shanghaiAQI = new TaskGetHttp(AppConstants.SHANGHAI_OUTDOOR_AQI_URL,getActivity(),this);
 			shanghaiAQI.start() ;		
 		}
-		else {
-			//updateOutdoorAQIFields() ;
-		}
+		
 	}
 	
 
@@ -446,9 +446,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(String.format(AppConstants.WEATHER_SERVICE_URL,"31.2000,121.5000"),this);
 			statusUpdateTask.start();
 		}
-		else {
-			//updateWeatherFields() ;
-		}
+		
 	}
 
 	@Override
@@ -566,7 +564,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			return false;
 		}
 		Log.i(TAG, "Processing onFling isIndoorExpanded " + isIndoorExpanded + " screenWidth " + MainActivity.getScreenWidth() + " screenHeight " + MainActivity.getScreenHeight() + " layoutHeight " + indoorHeight);
-		float differenceY = (e2.getY() - e1.getY());
+		float differenceY = e2.getY() - e1.getY();
 			
 		if(Math.abs(differenceY) > SWIPE_THRESHOLD
 				&& Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
@@ -578,13 +576,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 					if (bBtnTakeActionVisible)
 						takeAction.setVisibility(View.VISIBLE);
 				}
-			} else if (differenceY < 0) {
-				if(isIndoorExpanded) {
-					scaleDownIndoorFragment.start();
-					scaleUpOutdoorFragment.start();
-					isIndoorExpanded = false;
-					takeAction.setVisibility(View.INVISIBLE); 
-				}
+			} else if (differenceY < 0 && isIndoorExpanded) {
+				scaleDownIndoorFragment.start();
+				scaleUpOutdoorFragment.start();
+				isIndoorExpanded = false;
+				takeAction.setVisibility(View.INVISIBLE);
 			}
 		}
 		return false;
@@ -722,32 +718,35 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			return;
 		}
 
-		if((weatherDesc.compareToIgnoreCase(SUNNY)) == 0) {
+		if(weatherDesc.compareToIgnoreCase(SUNNY) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.sunny_white);
-		} else if ((weatherDesc.compareToIgnoreCase(MIST)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(MIST) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.mist_white);
-		} else if ((weatherDesc.compareToIgnoreCase(CLOUDY)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(CLOUDY) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.cloudy_white);
-		} else if ((weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) /* && daytime*/) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.partly_cloudy_white);
-		} else if ((weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) /* && nighttime*/) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.partly_cloudy_night_white);
-		} else if ((weatherDesc.compareToIgnoreCase(CLEAR_SKIES)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(CLEAR_SKIES) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.clear_sky_night_white);
-		} else if ((weatherDesc.compareToIgnoreCase(SNOW)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(SNOW) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.snow_white);
-		} else if ((weatherDesc.compareToIgnoreCase(LIGHT_RAIN_SHOWER) == 0) || (weatherDesc.compareToIgnoreCase(LIGHT_DRIZZLE) == 0)) {
+		} else if (weatherDesc.compareToIgnoreCase(LIGHT_RAIN_SHOWER) == 0 
+				|| weatherDesc.compareToIgnoreCase(LIGHT_DRIZZLE) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.light_rain_shower_white);
-		} else if ((weatherDesc.compareToIgnoreCase(PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.light_rain_with_thunder_white);
-		} else if ((weatherDesc.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_SHOWER) == 0) || (weatherDesc.compareToIgnoreCase(TORRENTIAL_RAIN_SHOWER) == 0) || (weatherDesc.compareToIgnoreCase(HEAVY_RAIN) == 0)) {
+		} else if (weatherDesc.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_SHOWER) == 0 
+				|| weatherDesc.compareToIgnoreCase(TORRENTIAL_RAIN_SHOWER) == 0 
+				|| weatherDesc.compareToIgnoreCase(HEAVY_RAIN) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.heavy_rain_white);
-		} else if ((weatherDesc.compareToIgnoreCase(HEAVY_RAIN_AT_TIMES)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(HEAVY_RAIN_AT_TIMES) == 0) {
 			//TODO : Replace with proper icon. Icon not found, replacing with heavy raind
 			weatherImage = getResources().getDrawable(R.drawable.heavy_rain_white);
-		} else if ((weatherDesc.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER) == 0) {
 			weatherImage = getResources().getDrawable(R.drawable.moderate_rain_with_thunder_white);
-		} else if ((weatherDesc.compareToIgnoreCase(CLEAR)) == 0) {
+		} else if (weatherDesc.compareToIgnoreCase(CLEAR) == 0) {
 			if(isDayTime.compareToIgnoreCase("Yes") == 0)
 				weatherImage = getResources().getDrawable(R.drawable.sunny_white);
 			else
@@ -812,13 +811,13 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			return "";
 		}
 		if(aqi <= 1.4f) {
-			return (getString(R.string.good)) ;
+			return getString(R.string.good) ;
 		} else if(aqi > 1.4f && aqi <= 2.3f) {
-			return (getString(R.string.moderate)) ;
+			return getString(R.string.moderate) ;
 		} else if(aqi > 2.3f && aqi <= 3.5f) {
-			return (getString(R.string.unhealthy)) ;
+			return getString(R.string.unhealthy) ;
 		} else if(aqi > 3.5f) {
-			return (getString(R.string.very_unhealthy_split)) ;
+			return getString(R.string.very_unhealthy_split);
 		} 
 		return "";
 	}
@@ -942,13 +941,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		//Log.i(TAG, "respCode " + responseCode + " respData " + responseData);
-		if (getActivity() != null) {
-			if ( responseCode == 200 ) {
-				new DataParser(responseData).parseOutdoorAQIData() ;
-//				CityDetails city = new GsonBuilder().create().fromJson(responseData, CityDetails.class);
-//				SessionDto.getInstance().setCityDetails(city) ;
-				updateOutdoorAQI() ;
-			}
+		if (getActivity() != null && responseCode == 200) {
+			new DataParser(responseData).parseOutdoorAQIData();
+			updateOutdoorAQI();
 		}
 	}
 	

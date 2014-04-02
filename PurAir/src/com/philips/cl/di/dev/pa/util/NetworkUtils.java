@@ -49,7 +49,7 @@ public class NetworkUtils {
 
 			// Convert the InputStream into a string
 			data = readFully(inputStream);			
-			return (new ResponseDto(responseCode, data));
+			return new ResponseDto(responseCode, data);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,7 +68,7 @@ public class NetworkUtils {
 					inputStream.close();
 					inputStream = null ;
 				} catch (IOException e) {
-
+					e.printStackTrace();
 				}				
 			} 
 			if( conn != null ) {

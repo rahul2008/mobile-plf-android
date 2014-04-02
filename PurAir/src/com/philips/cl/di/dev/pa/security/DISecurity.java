@@ -155,7 +155,7 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	private byte[] aesEncryptData(String data, String keyStr) throws Exception {
 		Cipher c = Cipher.getInstance("AES/CBC/PKCS7Padding");
-		byte[] longKey = (new BigInteger(keyStr,16)).toByteArray();
+		byte[] longKey = new BigInteger(keyStr,16).toByteArray();
 		byte[] key;
 		if(longKey[0]== 0){
 			key = Arrays.copyOfRange(longKey, 1, 17);	
@@ -181,7 +181,7 @@ public class DISecurity implements ServerResponseListener {
 	private byte[] aesDecryptData(byte[] data, String keyStr) throws Exception {
 		
 		Cipher c = Cipher.getInstance("AES/CBC/PKCS7Padding");
-		byte[] longKey = (new BigInteger(keyStr,16)).toByteArray();
+		byte[] longKey = new BigInteger(keyStr,16).toByteArray();
 		byte[] key;
 		if(longKey[0]== 0){
 			key = Arrays.copyOfRange(longKey, 1, 17);	

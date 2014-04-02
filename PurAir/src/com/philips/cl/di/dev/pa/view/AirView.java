@@ -51,7 +51,7 @@ public class AirView extends View {
 		super.draw(canvas);
 		
 		/** Draw rect and color*/
-		float y = fheight - ((fheight * percent ) / 100) + ftopline;
+		float y = fheight - (fheight * percent ) / 100 + ftopline;
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
 		if (percent < 50) {
@@ -61,7 +61,7 @@ public class AirView extends View {
 		}
 		
 		if (percent != 0 && (fheight + ftopline) - y < 20) {
-			y = (fheight + ftopline) - getPxWithRespectToDip(6);
+			y = fheight + ftopline - getPxWithRespectToDip(6);
 		}
 		//Log.i("goodair", "X="+X+", y="+y+", fwidth="+fwidth+", (fheight + ftopline)="+(fheight + ftopline));
 		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);

@@ -43,11 +43,6 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	// onPostExecute displays the results of the AsyncTask.
 	@Override
 	protected void onPostExecute(String response) {
-		//Log.i(TAG, "onPOstExecute") ;
-		if (response != null) {
-			//Log.e(TAG, response);
-		}
-
 		if (listener!=null) {
 			listener.receiveServerResponse(responseCode,response);
 		}

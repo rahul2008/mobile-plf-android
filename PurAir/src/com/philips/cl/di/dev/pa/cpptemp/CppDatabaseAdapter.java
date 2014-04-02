@@ -70,12 +70,14 @@ public class CppDatabaseAdapter {
 					try {
 						o.close();
 					} catch (final IOException e) {
+						e.printStackTrace();
 					}
 				}
 				if (in != null) {
 					try {
 						in.close();
 					} catch (final IOException e) {
+						e.printStackTrace();
 					}
 				}
 			}
