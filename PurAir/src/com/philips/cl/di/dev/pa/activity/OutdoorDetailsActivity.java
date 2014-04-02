@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -277,7 +278,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			}
 		}
 		
-		aqiEventDto = (OutdoorAQIEventDto) getIntent().getSerializableExtra("outdoorAqi");
+		aqiEventDto = HomeFragment.getOutdoorAQIEventDto();
 	
 	}
 

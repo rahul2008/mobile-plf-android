@@ -491,7 +491,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 				outdoorInfos[8] = dergreeRotatePointer;
 				outdoorInfos[9] = isDayTime;
 				intent.putExtra("outdoor", outdoorInfos);
-				intent.putExtra("outdoorAqi", outdoorAQIEventDto);
+//				intent.putExtra("outdoorAqi", outdoorAQIEventDto);
 				startActivity(intent);
 			}
 			break;

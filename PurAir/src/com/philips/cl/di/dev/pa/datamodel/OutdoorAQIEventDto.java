@@ -1,13 +1,10 @@
 package com.philips.cl.di.dev.pa.datamodel ;
 
-import java.io.Serializable;
-
-public class OutdoorAQIEventDto implements Serializable{
+public class OutdoorAQIEventDto{
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private int [] idx ;
 	private int [] pm10 ;
 	private int [] pm25 ;
