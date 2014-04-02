@@ -27,6 +27,7 @@ public class ALog {
 	public static final String CPPCONTROLLER="CppController";
 
 	public static final String INDOOR_DETAILS = "IndoorDetails";
+	public static final String INDOOR_RDCP = "IndoorRdcp";
 	
 	private static boolean isLoggingEnabled = true;
 	

@@ -305,7 +305,6 @@ public class Utils {
 	}
 
 	public static int getDifferenceBetweenHrFromCurrentHr(String date, String date0) {
-		Log.i("QUERY", "getDifferenceBetweenHrFromCurrentHr ==download date "+date+" :::  "+date0);
 		int noOfHrs = 0;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
@@ -330,7 +329,7 @@ public class Utils {
 	}
 
 	public static void parseIndoorDetails(String downloadedData) {
-		// TODO Auto-generated method stub
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp values downloaded successfully");
 
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		List<Float> dailyAqiValues = new ArrayList<Float>();
@@ -356,8 +355,6 @@ public class Utils {
 			if (indoorAQIHistory != null) {
 				
 				for (int index = 0; index < indoorAQIHistory.size(); index++) {
-					Log.i("rdcp", "rdcp:::== TimeStamp:=    " +indoorAQIHistory.get(index).getTimeStamp()
-							+"    Aqi:=  "+indoorAQIHistory.get(index).getAqi());
 					String date = indoorAQIHistory.get(index).getTimeStamp();
 					/**
 					 * Hourly
@@ -414,7 +411,6 @@ public class Utils {
 						}
 						currentAQIDateHr = date;
 					}
-
 					
 					/**
 					 * Daily
@@ -485,29 +481,26 @@ public class Utils {
 					currentAQIDate = date;
 				}
 
-				//Log.i("rdcp", "hrlyAqiValuesBefore==  " + hrlyAqiValues);
-				//Log.i("rdcp", "dailyAqiValuesBefore==  " + dailyAqiValues);
-
 				IndoorTrendDto indoorTrend = new IndoorTrendDto();
-				if (hrlyAqiValues != null && hrlyAqiValues.size() > 0) {
+				
+				if (hrlyAqiValues.size() > 24) {
+					int diff = hrlyAqiValues.size() - 24;
+					for (int i = 0; i < diff; i++) {
+						hrlyAqiValues.remove(0);
+					}
+				}
+				ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
+				indoorTrend.setHourlyList(hrlyAqiValues);
 
-					if (hrlyAqiValues.size() > 24) {
-						int diff = hrlyAqiValues.size() - 24;
-						for (int i = 0; i < diff; i++) {
-							hrlyAqiValues.remove(0);
-						}
+				if (dailyAqiValues.size() > 28) {
+					int diff = dailyAqiValues.size() - 28;
+					for (int i = 0; i < diff; i++) {
+						dailyAqiValues.remove(0);
 					}
-					indoorTrend.setHourlyList(hrlyAqiValues);
 				}
-				if (dailyAqiValues != null && dailyAqiValues.size() > 0) {
-					if (dailyAqiValues.size() > 28) {
-						int diff = dailyAqiValues.size() - 28;
-						for (int i = 0; i < diff; i++) {
-							dailyAqiValues.remove(0);
-						}
-					}
-					indoorTrend.setDailyList(dailyAqiValues);
-				}
+				ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
+				indoorTrend.setDailyList(dailyAqiValues);
+				
 				SessionDto.getInstance().setIndoorTrendDto(indoorTrend);
 			}
 		}
@@ -546,7 +539,7 @@ public class Utils {
 
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP,
 				getAirPurifierID(context)) + qryPart2 + qryPart3;
-		Log.i("QUERY", "rdcp qry:   "+qry);
+		ALog.i(ALog.INDOOR_RDCP, "rdcp qry:   "+qry);
 
 		long endDateDiff = cal.getTimeInMillis() - (24 * 60 * 60 * 1000);
 		Date dateEnd = new Date(endDateDiff);

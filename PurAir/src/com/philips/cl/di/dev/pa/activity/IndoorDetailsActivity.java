@@ -441,7 +441,7 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 	 */
 	@Override
 	public void onDataDownload(int status, String downloadedData) {
-		
+		ALog.i(ALog.INDOOR_DETAILS, "onDataDownload status: " + status);
 		if( status == Errors.SUCCESS) {
 			Utils.parseIndoorDetails(downloadedData) ;
 			
@@ -454,8 +454,6 @@ PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 				ALog.i(ALog.INDOOR_DETAILS, "powerOnStatusList==  " + powerOnStatusList);
 			}
 			parseReading();
-		} else  {
-			ALog.i(ALog.INDOOR_DETAILS, "onDataDownload status: " + status);
 		}
 	}
 
