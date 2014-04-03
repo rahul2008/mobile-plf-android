@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +38,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -51,7 +49,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -75,6 +72,7 @@ import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -93,7 +91,6 @@ import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
@@ -856,8 +853,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				break;
 			case 6:
 				//Firmware update
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_firmware));
+				Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
+				startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
+				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 7:
 				//Product registration
@@ -1081,37 +1079,48 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 	public boolean isEWSStarted ;
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-		ALog.i(ALog.MAINACTIVITY, "onActivityResult: "+resultCode) ;
-		if ( resultCode == RESULT_OK ) {		
-			if( intent != null &&  intent.getExtras()  != null ) {
-				isDeviceDiscovered = intent.getBooleanExtra("deviceDiscovered", false) ;
-				purifierName = intent.getStringExtra("pname");
+		ALog.i(ALog.MAINACTIVITY, "onActivityResult: "+resultCode + " requestCode " + requestCode) ;
+		switch (requestCode) {
+		case AppConstants.EWS_REQUEST_CODE:
+			if ( resultCode == RESULT_OK ) {		
+				if( intent != null &&  intent.getExtras()  != null ) {
+					isDeviceDiscovered = intent.getBooleanExtra("deviceDiscovered", false) ;
+					purifierName = intent.getStringExtra("pname");
+				}
+				homeFragment.setHomeName(purifierName);
+				if( isDeviceDiscovered ) {
+					isEWSSuccessful = true ;
+				}
+				if( sensorDataController == null ) {
+					sensorDataController = SensorDataController.getInstance(this) ;
+					sensorDataController.removeAllListeners(); 
+					sensorDataController.addListener(this);
+				}
+				toggleConnection(true) ;
+				
 			}
-			homeFragment.setHomeName(purifierName);
-			if( isDeviceDiscovered ) {
-				isEWSSuccessful = true ;
+		
+			if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size() > 0) {
+				dbPurifierDetailDtoList.clear();
 			}
-			if( sensorDataController == null ) {
-				sensorDataController = SensorDataController.getInstance(this) ;
-				sensorDataController.removeAllListeners(); 
-				sensorDataController.addListener(this);
-			}
-			toggleConnection(true) ;
 			
-		}
-		
-		if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size() > 0) {
-			dbPurifierDetailDtoList.clear();
-		}
-		
-		dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
-		
-		startDeviceDiscovery() ;
+			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
+			
+			startDeviceDiscovery() ;
+	
+			this.registerReceiver(networkReceiver, filter) ;
+			
+			isEWSStarted = false ;
+			break;
+			
+		case AppConstants.FIRMWARE_REQUEST_CODE :
+			ALog.i(ALog.ACTIVITY, "MainActivity$onActivityResult FIRMWARE_REQUEST_CODE");
+			break;
 
-		this.registerReceiver(networkReceiver, filter) ;
-		
-		isEWSStarted = false ;
-	};
+		default:
+			break;
+		}
+	}
 
 	@Override
 	protected void onUserLeaveHint() {

@@ -313,4 +313,7 @@ public class AppConstants {
 	
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 	public static final String APP_TYPE="AC4373APP";
+	
+	public static final int EWS_REQUEST_CODE = 101;
+	public static final int FIRMWARE_REQUEST_CODE = 102;
 }

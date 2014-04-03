@@ -108,6 +108,10 @@
             android:screenOrientation="sensorPortrait"
             android:theme="@style/WhiteBackground" >
         </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity"
+            android:screenOrientation="sensorPortrait" >
+        </activity>
     </application>
 
 </manifest>
