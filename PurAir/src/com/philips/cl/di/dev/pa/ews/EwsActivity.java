@@ -55,7 +55,6 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	/**
 	 * Action bar variable
 	 */
-	private ActionBar mActionBar;
 	private FontTextView actionbarTitle;
 	private Button actionBarCancelBtn;
 	/**
@@ -245,18 +244,18 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	/*Initialize action bar */
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
-		mActionBar.setBackgroundDrawable(d);
+		actionBar.setBackgroundDrawable(d);
 		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);
 		actionbarTitle = (FontTextView) view.findViewById(R.id.ews_actionbar_title);
 		actionbarTitle.setText(getString(R.string.wifi_setup));
 		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
 		actionBarCancelBtn.setOnClickListener(this);
-		mActionBar.setCustomView(view);	
+		actionBar.setCustomView(view);	
 	}
 
 	private void initializeCongraltVariable() {
