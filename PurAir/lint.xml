@@ -5,7 +5,5 @@
     <issue id="SmallSp" severity="ignore" />
     <issue id="IconDensities" severity="ignore" />
     <issue id="ButtonOrder" severity="ignore" />
-    <issue id = "Overdraw" severity="ignore"> 
-       <ignore path="res/layout/tutorial_pager_layout" />
-    </issue>
+    <issue id = "Overdraw" severity="ignore" /> 
 </lint>

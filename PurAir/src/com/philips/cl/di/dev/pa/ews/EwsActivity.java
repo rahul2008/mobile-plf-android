@@ -56,7 +56,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	 * Action bar variable
 	 */
 	private FontTextView actionbarTitle;
-	private Button actionBarCancelBtn;
+	private ImageView actionbarBackImg;
 	/**
 	 * Step1 variable declare
 	 */
@@ -252,9 +252,9 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);
 		actionbarTitle = (FontTextView) view.findViewById(R.id.ews_actionbar_title);
 		actionbarTitle.setText(getString(R.string.wifi_setup));
-		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
-		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
-		actionBarCancelBtn.setOnClickListener(this);
+		((Button) view.findViewById(R.id.ews_actionbar_cancel_btn)).setVisibility(View.INVISIBLE);
+		actionbarBackImg = (ImageView) view.findViewById(R.id.ews_actionbar_back_img);
+		actionbarBackImg.setOnClickListener(this);
 		actionBar.setCustomView(view);	
 	}
 
@@ -301,22 +301,22 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 	private void setActionBarHeading (int index) {
 		switch (index) {
 		case 1:
-			actionBarCancelBtn.setVisibility(View.VISIBLE);
+			actionbarBackImg.setVisibility(View.VISIBLE);
 			actionbarTitle.setText(getString(R.string.wifi_setup));
 			break;
 		case 2:
 			//Congratulation
-			actionBarCancelBtn.setVisibility(View.INVISIBLE);
+			actionbarBackImg.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.congratulations));
 			break;
 		case 3:
 			//support
-			actionBarCancelBtn.setVisibility(View.VISIBLE);
+			actionbarBackImg.setVisibility(View.VISIBLE);
 			actionbarTitle.setText(getString(R.string.support));
 			break;
 		case 4:
 			//Not connected
-			actionBarCancelBtn.setVisibility(View.INVISIBLE);
+			actionbarBackImg.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
 			break;
 		default:
@@ -353,6 +353,7 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			checkWifiConnectivity() ;
 			break;
 		case R.id.ews_step1_yes_btn:
+			step = 2 ;
 			if( ewsService != null ) {
 				ewsService.setSSID(networkSSID) ;
 			}
@@ -444,8 +445,9 @@ public class EwsActivity extends BaseActivity implements OnClickListener, EWSLis
 			gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
 			startActivity(gotoSupportWebisteIntent);
 			break;
-		case R.id.ews_actionbar_cancel_btn:
-			onCancel() ;
+		case R.id.ews_actionbar_back_img:
+			Toast.makeText(getApplicationContext(), "Step: " + step, Toast.LENGTH_SHORT).show();
+//			onCancel() ;
 			break;
 		default:
 			break;
