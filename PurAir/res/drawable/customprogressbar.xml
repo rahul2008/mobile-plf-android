@@ -6,11 +6,11 @@
 	    <corners
                     android:radius="5dp" />
 
-            <gradient
-                    android:startColor="#ADD8E6"
-                    android:centerColor="#ADD8E6"
+            <gradient                
+                    android:startColor="@color/progressbar_gray2"
+                    android:centerColor="@color/progressbar_gray2"
                     android:centerY="1.0"
-                    android:endColor="#ADD8E6"
+                    android:endColor="@color/progressbar_gray2"
                     android:angle="270"
             />
         </shape>
@@ -24,10 +24,10 @@
                     android:radius="5dp" />
 
                 <gradient
-                    android:startColor="#B0E0E6"
-                    android:centerColor="#B0E0E6"
+                    android:startColor="@color/philips_blue" 
+                    android:centerColor="@color/philips_blue" 
                     android:centerY="1.0"
-                    android:endColor="#B0E0E6"
+                    android:endColor="@color/philips_blue" 
                     android:angle="270"
                 />
             </shape>
