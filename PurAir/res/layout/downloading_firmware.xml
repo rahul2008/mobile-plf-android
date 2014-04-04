@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
         android:textSize="18sp"
         android:textColor="@color/title_gray"
 		android:text="@string/downloading_firmware_step" 
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
 		android:layout_below="@+id/downloading_firmware_step"
         android:textSize="24sp"
+        android:layout_marginLeft="16dp"
         android:textColor="@color/philips_blue"  
 		android:text="@string/downloading_firmware_for_purifier_msg" 
 		custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -31,8 +33,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_below="@+id/downloading_firmware_for_purifier_msg"
-        android:layout_marginTop="75dp"
-        android:layout_marginLeft="65dp"
+		android:layout_marginTop="75dp"
+		android:layout_marginLeft="16dp"
+		android:layout_centerHorizontal="true"
         android:lineSpacingExtra="5dp"
         android:textSize="18sp"
         android:textColor="@color/philips_blue"  
@@ -47,8 +50,22 @@
 		android:layout_below="@+id/downloading_firmware_text"        
     	android:layout_width="400dp"
     	android:layout_height="50dp"
+    	android:max="100"
 		android:layout_marginLeft="16dp" 
 		android:layout_marginRight="16dp"/>
+     
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/Progressbar_increasestatus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/downloading_firmware_text"
+        android:textSize="16sp"
+		android:padding ="16dp"
+		android:text="50%" 
+		android:textColor="@color/white"
+		android:layout_centerHorizontal="true"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

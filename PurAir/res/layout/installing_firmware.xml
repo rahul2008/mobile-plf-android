@@ -9,6 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
         android:textSize="18sp"
         android:textColor="@color/title_gray"
 		android:text="@string/downloading_firmware_step" 
@@ -20,6 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_below="@+id/downloading_firmware_step"
+		android:layout_marginLeft="16dp"
         android:textSize="24sp"
         android:textColor="@color/philips_blue"  
 		android:text="@string/installing_firmware_for_purifier_msg" 
@@ -32,6 +34,7 @@
         android:layout_height="wrap_content"
 		android:layout_below="@+id/installing_firmware_for_purifier_msg"
         android:layout_marginTop="75dp"
+        android:layout_marginLeft="16dp"
         android:layout_centerHorizontal="true"
         android:lineSpacingExtra="5dp"
         android:textSize="18sp"
@@ -46,8 +49,9 @@
 		android:layout_height="30dp"          
 		style="@android:style/Widget.ProgressBar.Small" 
 		android:progressDrawable="@drawable/customprogressbar"   
+		android:indeterminateDrawable="@drawable/progress_circle"
 		android:layout_below="@+id/downloading_firmware_text"
-		android:layout_marginTop="25dp"
+		android:layout_marginTop="15dp"
 		android:layout_centerHorizontal="true" />
     
     <com.philips.cl.di.dev.pa.view.FontTextView
