@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 public class EWSDialogFactory implements OnClickListener{
 	private static final String TAG = EWSDialogFactory.class.getSimpleName();
 
-	private Dialog errorDialogTS01_01, errorDialogTS01_02, errorDialogTS01_03, errorDialogTS01_04, errorDialogTS01_05;
+	private Dialog errorDialogTS0101, errorDialogTS0102, errorDialogTS0103, errorDialogTS0104, errorDialogTS0105;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
 	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
 
@@ -34,13 +34,13 @@ public class EWSDialogFactory implements OnClickListener{
 		this.networkName = networkName;
 	}
 
-	private static EWSDialogFactory _instance;
+	private static EWSDialogFactory ewsDialogInstance;
 
 	public static EWSDialogFactory getInstance(Context context) {
-		if(_instance == null) {
-			_instance = new EWSDialogFactory(context);
+		if(ewsDialogInstance == null) {
+			ewsDialogInstance = new EWSDialogFactory(context);
 		}
-		return _instance;
+		return ewsDialogInstance;
 	}
 
 	private EWSDialogFactory(Context context) {
@@ -71,30 +71,30 @@ public class EWSDialogFactory implements OnClickListener{
 			supportID = SUPPORT_TS05;
 			return supportDialogTS05;
 		case ERROR_TS01_01:
-			if(errorDialogTS01_01 == null)
-				errorDialogTS01_01 = getErrorDialog(context.getString(R.string.error_ts01_01_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_01);
+			if(errorDialogTS0101 == null)
+				errorDialogTS0101 = getErrorDialog(context.getString(R.string.error_ts01_01_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_01);
 			errorID = ERROR_TS01_01;
-			return errorDialogTS01_01;
+			return errorDialogTS0101;
 		case ERROR_TS01_02:
-			if(errorDialogTS01_02 == null)
-				errorDialogTS01_02 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_02_message), context.getString(R.string.next), ERROR_TS01_02);
+			if(errorDialogTS0102 == null)
+				errorDialogTS0102 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_02_message), context.getString(R.string.next), ERROR_TS01_02);
 			errorID = ERROR_TS01_02;
-			return errorDialogTS01_02;
+			return errorDialogTS0102;
 		case ERROR_TS01_03:
-			if(errorDialogTS01_03 == null)
-				errorDialogTS01_03 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_03_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_03);
+			if(errorDialogTS0103 == null)
+				errorDialogTS0103 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_03_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_03);
 			errorID = ERROR_TS01_03;
-			return errorDialogTS01_03;
+			return errorDialogTS0103;
 		case ERROR_TS01_04:
-			if(errorDialogTS01_04 == null)
-				errorDialogTS01_04 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_04_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_04);
+			if(errorDialogTS0104 == null)
+				errorDialogTS0104 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_04_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_04);
 			errorID = ERROR_TS01_04;
-			return errorDialogTS01_04;
+			return errorDialogTS0104;
 		case ERROR_TS01_05:
-			if(errorDialogTS01_05 == null)
-				errorDialogTS01_05 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_05_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_05);
+			if(errorDialogTS0105 == null)
+				errorDialogTS0105 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_05_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_05);
 			errorID = ERROR_TS01_05;
-			return errorDialogTS01_05;
+			return errorDialogTS0105;
 		case CANCEL_WIFI_SETUP:
 			if(cancelWifiSetup == null)
 				cancelWifiSetup = getCancelWifiSetupDialog();
@@ -318,19 +318,19 @@ public class EWSDialogFactory implements OnClickListener{
 	private void closeErrorPopUp(int errorID2) {
 		switch (errorID2) {
 		case ERROR_TS01_01:
-			errorDialogTS01_01.dismiss();
+			errorDialogTS0101.dismiss();
 			break;
 		case ERROR_TS01_02:
-			errorDialogTS01_02.dismiss();
+			errorDialogTS0102.dismiss();
 			break;
 		case ERROR_TS01_03:
-			errorDialogTS01_03.dismiss();
+			errorDialogTS0103.dismiss();
 			break;
 		case ERROR_TS01_04:
-			errorDialogTS01_04.dismiss();
+			errorDialogTS0104.dismiss();
 			break;
 		case ERROR_TS01_05:
-			errorDialogTS01_05.dismiss();
+			errorDialogTS0105.dismiss();
 			break;
 		default:
 			break;
@@ -409,11 +409,11 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 
 	public void cleanUp() {
-		errorDialogTS01_01 = null;
-		errorDialogTS01_02 = null;
-		errorDialogTS01_03 = null;
-		errorDialogTS01_04 = null;
-		errorDialogTS01_05 = null;
+		errorDialogTS0101 = null;
+		errorDialogTS0102 = null;
+		errorDialogTS0103 = null;
+		errorDialogTS0104 = null;
+		errorDialogTS0105 = null;
 
 		supportDialogTS01 = null;
 		supportDialogTS02 = null;
@@ -425,7 +425,7 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 	
 	private static void cleanUpInstance() {
-		_instance = null;
+		ewsDialogInstance = null;
 	}
 
 	//Dialog constants
