@@ -18,7 +18,7 @@ public class Stations {
 
 	String so2;
 
-	String station_name;
+	String stationName;
 
 	String t;
 
@@ -88,8 +88,8 @@ public class Stations {
 	/**
 	 * @return the station_name
 	 */
-	public String getStation_name() {
-		return station_name;
+	public String getStationName() {
+		return stationName;
 	}
 
 	/**
@@ -172,11 +172,11 @@ public class Stations {
 	}
 
 	/**
-	 * @param station_name
+	 * @param stationName
 	 *            the station_name to set
 	 */
-	public void setStation_name(String station_name) {
-		this.station_name = station_name;
+	public void setStationName(String stationName) {
+		this.stationName = stationName;
 	}
 
 	/**
@@ -197,7 +197,7 @@ public class Stations {
 
 		        pm10 + " pm25:" + pm25 + " so2:" +
 
-		        so2 + " station_name: " + station_name + " t:" +
+		        so2 + " station_name: " + stationName + " t:" +
 
 		        t;
 	}

@@ -43,7 +43,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 			responseObj = NetworkUtils.downloadUrl(urls[i]);
 			if (responseObj != null)
 				result[i] = new DISecurity(null).decryptData(
-						responseObj.getResponseData(), AppConstants.DEVICEID);
+						responseObj.getResponseData(), AppConstants.deviceId);
 			// Escape early if cancel() is called
 			if (isCancelled())
 				break;

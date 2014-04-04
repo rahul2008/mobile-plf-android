@@ -17,7 +17,7 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 	/**
 	 * strings for group elements
 	 */
-	private static final int arrGroupelements[] ={
+	private static final int ARR_GROUP_ELEMENTS[] ={
 		R.string.very_unhealthy,
 		R.string.unhealthy,
 		R.string.moderate,
@@ -27,7 +27,7 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 	/**
 	 * strings for child elements
 	 */
-	private static final int arrChildelements[][] ={
+	private static final int ARR_CHILD_ELEMENTS[][] ={
 		{
 			R.string.indoor_very_unhealthy
 		},
@@ -42,14 +42,14 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 		}
 	};
 
-	private static final int colorList[]={
+	private static final int COLOR_LIST[]={
 		R.drawable.circle_1,
 		R.drawable.circle_2,
 		R.drawable.circle_3,
 		R.drawable.circle_6
 	};
 
-	private static final String colorListLabel[]={
+	private static final String COLOR_LIST_LABEL[]={
 		"10+", "4","3","2"
 	};
 
@@ -69,7 +69,7 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.colors_list); 
-		listAdapter = new ExpandableListAdapter(this, arrGroupelements, arrChildelements,colorList,colorListLabel);
+		listAdapter = new ExpandableListAdapter(this, ARR_GROUP_ELEMENTS, ARR_CHILD_ELEMENTS,COLOR_LIST,COLOR_LIST_LABEL);
 		expListView.setAdapter(listAdapter);
 		setGroupIndicatorToRight();
 	}

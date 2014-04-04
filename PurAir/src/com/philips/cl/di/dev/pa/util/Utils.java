@@ -60,7 +60,7 @@ public class Utils {
 	private static final String TAG = "Utils";
 	//private static String currentDateHr = "";
 	private static String ago24DateHr = "";
-	public static final List<Integer> outdoorAQIPercentageList = new ArrayList<Integer>();
+	public static final List<Integer> OUTDOOR_AQI_PERCENTAGE_LIST = new ArrayList<Integer>();
 
 	/**
 	 * Populates the image names for the left menu.
@@ -106,7 +106,7 @@ public class Utils {
 	 */
 	public static String getIPAddress(Context context) {
 		String ipAddress = context.getSharedPreferences("sharedPreferences", 0)
-				.getString("ipAddress", AppConstants.defaultIPAddress);
+				.getString("ipAddress", AppConstants.DEFAULT_IPADDRESS);
 		return ipAddress;
 	}
 
@@ -928,8 +928,8 @@ public class Utils {
 		int totalAirCount = 0;
 		OutdoorAQIEventDto outdoorAQIEventDto = HomeFragment.getOutdoorAQIEventDto();
 		if (outdoorAQIEventDto != null){
-			if (outdoorAQIPercentageList != null ) {
-				outdoorAQIPercentageList.clear();
+			if (OUTDOOR_AQI_PERCENTAGE_LIST != null ) {
+				OUTDOOR_AQI_PERCENTAGE_LIST.clear();
 			}
 			int idx[] = outdoorAQIEventDto.getIdx();
 			float[] lastDayAQIReadings = new float[24];
@@ -955,7 +955,7 @@ public class Utils {
 					}
 					totalAirCount++;
 				}
-				outdoorAQIPercentageList.add(Utils.getPercentage(goodAirCount,
+				OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
 						totalAirCount));
 			}
 
@@ -1008,7 +1008,7 @@ public class Utils {
 						avg = 0;
 					}
 				}
-				outdoorAQIPercentageList.add(Utils.getPercentage(goodAirCount,
+				OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
 						totalAirCount));
 			}
 
@@ -1053,12 +1053,12 @@ public class Utils {
 					}
 					count++;
 				}
-				outdoorAQIPercentageList.add(Utils.getPercentage(goodAirCount,
+				OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
 						totalAirCount));
 			}
 		}
 		
-		Log.i("percent", "outdoorAQIPercentageList==" +outdoorAQIPercentageList);
+		Log.i("percent", "outdoorAQIPercentageList==" +OUTDOOR_AQI_PERCENTAGE_LIST);
 	}
 
 	public static String splitToHr(String timeStr) {

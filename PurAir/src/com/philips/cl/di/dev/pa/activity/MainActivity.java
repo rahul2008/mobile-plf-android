@@ -1210,7 +1210,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					if (dbBootId == ssdpDiscoveredBootId && infoDto.getDeviceKey() != null ) {
 						ALog.i(ALog.MAINACTIVITY, "Device boot id is same: " +dbBootId+" ssdp bootid: "+ssdpDiscoveredBootId) ;
 						String cppId = infoDto.getCppId();
-						AppConstants.DEVICEID = cppId;
+						AppConstants.deviceId = cppId;
 						String key = infoDto.getDeviceKey();
 						DISecurity.setKeyIntoSecurityHashTable(cppId, key);
 						DISecurity.setUrlIntoUrlsTable(cppId,

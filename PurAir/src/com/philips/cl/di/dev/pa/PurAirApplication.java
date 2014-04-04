@@ -8,10 +8,8 @@ public class PurAirApplication extends Application {
 	
 	@Override
 	public void onCreate() {
-//		mInstance = (PurAirApplication) getApplicationContext();
-		setApplication(this);
-		
 		super.onCreate();
+		setApplication(this);
 	}
 	
 	private static void setApplication(Application application) {

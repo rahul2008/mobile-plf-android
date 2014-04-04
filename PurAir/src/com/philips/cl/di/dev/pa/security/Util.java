@@ -13,16 +13,16 @@ public class Util {
 	public static final int MIN = 101;
 	public static final int MAX = Integer.MAX_VALUE;
 	
-	private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
+	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 	
-	public final static String pValue = "B10B8F96A080E01DDE92DE5EAE5D54EC52C99FBCFB06A3C6"
+	public final static String PVALUE = "B10B8F96A080E01DDE92DE5EAE5D54EC52C99FBCFB06A3C6"
 			+ "9A6A9DCA52D23B616073E28675A23D189838EF1E2EE652C0"
 			+ "13ECB4AEA906112324975C3CD49B83BFACCBDD7D90C4BD70"
 			+ "98488E9C219A73724EFFD6FAE5644738FAA31A4FF55BCCC0"
 			+ "A151AF5F0DC8B4BD45BF37DF365C1A65E68CFDA76D4DA708"
 			+ "DF1FB2BC2E4A4371";
 
-	public final static String gValue = "A4D1CBD5C3FD34126765A442EFB99905F8104DD258AC507F"
+	public final static String GVALUE = "A4D1CBD5C3FD34126765A442EFB99905F8104DD258AC507F"
 			+ "D6406CFF14266D31266FEA1E5C41564B777E690F5504F213"
 			+ "160217B4B01B886A5E91547F9E2749F4D7FBD7D3B9A92EE1"
 			+ "909D0D2263F80A76A6A24C087A091F531DBF0A0169B6A28A"
@@ -77,8 +77,8 @@ public class Util {
 		int v;
 		for ( int j = 0; j < bytes.length; j++ ) {
 			v = bytes[j] & 0xFF;
-			hexChars[j * 2] = hexArray[v >>> 4];
-			hexChars[j * 2 + 1] = hexArray[v & 0x0F];
+			hexChars[j * 2] = HEX_ARRAY[v >>> 4];
+			hexChars[j * 2 + 1] = HEX_ARRAY[v & 0x0F];
 		}
 		return new String(hexChars);
 	}

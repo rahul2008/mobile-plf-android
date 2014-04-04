@@ -83,7 +83,7 @@ public class AppConstants {
 
 	
 	/** The Constant defaultIPAddress. */
-	public static final String defaultIPAddress = "192.168.10.198";
+	public static final String DEFAULT_IPADDRESS = "192.168.10.198";
 
 	/** The Constant MESSAGE_INCORRECT_IP. */
 	public static final String MESSAGE_INCORRECT_IP = "Incorrect IP Address";
@@ -164,10 +164,10 @@ public class AppConstants {
 	public static final String AIRPUR_KEY = "airpur_key";
 	public static final String AIRPUR_DEVICE_NAME = "dev_name";
 
-	public static final String sCityNameQuery = "Select distinct "
+	public static final String SCITY_NAME_QUERY = "Select distinct "
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
 	
-	public static final String airPurifierEventQuery = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
+	public static final String AIRPURIFIER_EVENT_QUERY = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
 	
 	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 and cityID = %s order by " + LOG_DATETIME + " DESC"  ;
 	
@@ -309,7 +309,7 @@ public class AppConstants {
 	public static final String URL_PORT = "http://%s/di/v1/products/1/";
 	public static final String URL_FIRMWARE_PORT = "http://%s/di/v1/products/0/firmware";
 	
-	public static String DEVICEID = "none" ;
+	public static String deviceId = "none" ;
 	
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 	public static final String APP_TYPE="AC4373APP";

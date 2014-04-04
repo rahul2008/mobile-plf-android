@@ -19,6 +19,7 @@ package com.philips.cl.di.dev.pa.cpp;
 
 import android.os.Handler;
 
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.CallbackHandler;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.data.Commands;
@@ -48,31 +49,31 @@ public class ICPCallbackHandler implements CallbackHandler
 		switch (command)
 		{
 		case Commands.SIGNON:
-			PerformSignOn_CB(status, obj);
+			performSignOnCB(status, obj);
 			break;
 
 		case Commands.GET_DATETIME:
-			GetDateTime_CB(status, obj);
+			getDateTimeCB(status, obj);
 			break;
 
 		case Commands.GET_TIMEZONES:
-			GetTimeZones_CB(status, obj);
+			getTimeZonesCB(status, obj);
 			break;
 
 		case Commands.GET_SERVICE_URL:
-			GetServicePortal_CB(status, obj);
+			getServicePortalCB(status, obj);
 			break;
 
 		case Commands.RESET:
-			ClientReset_CB(status, obj);
+			clientResetCB(status, obj);
 			break;
 
 		case Commands.FETCH_EVENTS:
-			Events_CB(status, obj);
+			eventsCB(status, obj);
 			break;
 
 		case Commands.GET_COMPONENT_DETAILS:
-			icpClientGetComponentDetails_CB(status, obj);
+			icpClientGetComponentDetailsCB(status, obj);
 			break;
 
 		case Commands.DOWNLOAD_FILE:
@@ -80,11 +81,11 @@ public class ICPCallbackHandler implements CallbackHandler
 			break;
 
 		case Commands.EVENT_NOTIFICATION:
-			EventNotification_CB(status, obj);
+			eventNotificationCB(status, obj);
 			break;
 
 		case Commands.DATA_COLLECTION:
-			DataCollection_CB(status, obj);
+			dataCollectionCB(status, obj);
 			break;
 
 		case Commands.REGISTER_PRODUCT:
@@ -92,49 +93,49 @@ public class ICPCallbackHandler implements CallbackHandler
 		case Commands.QUERY_REGISTRATION_STATUS:
 		case Commands.QUERY_TC_STATUS:
 		case Commands.ACCEPT_TERMSANDCONDITIONS:
-			Registeration_CB(status, obj);
+			registerationCB(status, obj);
 			break;
 
 		case Commands.KEY_PROVISION:			
 		case Commands.KEY_DEPROVISION:
-			Provisioning_CB(status,obj);
+			provisioningCB(status,obj);
 			break;
 
 		case Commands.SUBSCRIBE_EVENTS:
-			EventSubscription_CB(status,obj);
+			eventSubscriptionCB(status,obj);
 			break;
 
 		case Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS:
-			ThirdParyNotification_CB(status,obj);
+			thirdParyNotificationCB(status,obj);
 			break;
 
 		case Commands.DOWNLOAD_DATA:
-			DownloadData_CB(status,obj);
+			downloadDataCB(status,obj);
 			break;
 
 		case Commands.PUBLISH_EVENT:
-			PublishEvent_CB(status,obj);
+			publishEventCB(status,obj);
 			break;
 		case Commands.CANCEL_EVENT:
-			CancelEvent_CB(status,obj);
+			cancelEventCB(status,obj);
 			break;
 		case Commands.EVENT_DISTRIBUTION_LIST :
-			EventDistributionList_CB(status,obj);
+			eventDistributionListCB(status,obj);
 			break;
 		case Commands.PAIRING_ADD_RELATIONSHIP:
-			PairingAddRelatioship_CB(status,obj);
+			pairingAddRelatioshipCB(status,obj);
 			break;
 		case Commands.PAIRING_GET_RELATIONSHIPS:
-			PairingGetRelations_CB(status,obj);
+			pairingGetRelationsCB(status,obj);
 			break;
 		case Commands.PAIRING_ADD_PERMISSIONS:
-			PairingAddPermissions_CB(status,obj);
+			pairingAddPermissionsCB(status,obj);
 			break;
 		case Commands.PAIRING_REMOVE_PERMISSIONS:
-			PairingRemovePermissions_CB(status,obj);
+			pairingRemovePermissionsCB(status,obj);
 			break;
 		case Commands.PAIRING_GET_PERMISSIONS:
-			PairingGetPermissions_CB(status,obj);
+			pairingGetPermissionsCB(status,obj);
 			break;
 		default:
 			System.out.println("No callback function found!!!");
@@ -148,124 +149,118 @@ public class ICPCallbackHandler implements CallbackHandler
 		this.listener = listener;
 	}
 
-	public void PerformSignOn_CB(int status, ICPClient obj)
+	public void performSignOnCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.SIGNON,status,obj) ;
 	}
 
-	public void GetTimeZones_CB(int status, ICPClient obj)
+	public void getTimeZonesCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.GET_TIMEZONES,status,obj) ;
 	}
 
-	public void GetDateTime_CB(int status, ICPClient obj)
+	public void getDateTimeCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.GET_DATETIME,status,obj) ;
 	}
 
-	public void GetServicePortal_CB(int status, ICPClient obj)
+	public void getServicePortalCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.GET_SERVICE_URL,status,obj) ;
 	}
 
-	public void ClientReset_CB(int status, ICPClient obj)
+	public void clientResetCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.RESET,status,obj) ;
 	}
 
-	public void Events_CB(int status, ICPClient obj)
+	public void eventsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.EVENT_DISTRIBUTION_LIST,status,obj) ;
 	}
 
-	public void icpClientGetComponentDetails_CB(int status, ICPClient obj)
+	public void icpClientGetComponentDetailsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.GET_COMPONENT_DETAILS,status,obj) ;
 	}
 
 
-	public void EventNotification_CB(int status, ICPClient obj)
+	public void eventNotificationCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.EVENT_NOTIFICATION,status,obj) ;
 	}
 
-	public void DataCollection_CB(int status, ICPClient obj)
+	public void dataCollectionCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.DATA_COLLECTION,status,obj) ;
 	}
 
-	public void Registeration_CB(int status, ICPClient obj)
+	public void registerationCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.REGISTER_PRODUCT,status,obj) ;
 	}
 
-	public void Provisioning_CB(int status, ICPClient obj)
+	public void provisioningCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.KEY_PROVISION,status,obj) ;
 	}
 
-	public void EventSubscription_CB(int status, ICPClient obj)
+	public void eventSubscriptionCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.SUBSCRIBE_EVENTS,status,obj) ;
 	}
 
-	public void ThirdParyNotification_CB(int status, ICPClient obj)
+	public void thirdParyNotificationCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS,status,obj) ;
 	}
 
-	public void DownloadData_CB(int status, ICPClient obj)
+	public void downloadDataCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.DOWNLOAD_DATA, status, obj) ;
 	}
 
-	public void PublishEvent_CB(int status, ICPClient obj)
+	public void publishEventCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;
 	}
 
-	public void CancelEvent_CB(int status, ICPClient obj)
+	public void cancelEventCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;
 	}
 
-	public void EventDistributionList_CB(int status, ICPClient obj)
+	public void eventDistributionListCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;
 	}
-	public void PairingAddRelatioship_CB(int status, ICPClient obj)
-	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;
-	}
-
-	public void PairingGetRelations_CB(int status, ICPClient obj)
+	public void pairingAddRelatioshipCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;
 	}
 
-	public void PairingAddPermissions_CB(int status, ICPClient obj)
+	public void pairingGetRelationsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;
 	}
 
-	public void PairingRemovePermissions_CB(int status, ICPClient obj)
+	public void pairingAddPermissionsCB(int status, ICPClient obj)
+	{
+		listener.onICPCallbackEventOccurred(7,status,obj) ;
+	}
+
+	public void pairingRemovePermissionsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;		}
 
-	public void PairingGetPermissions_CB(int status, ICPClient obj)
+	public void pairingGetPermissionsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(7,status,obj) ;
 	}
 
-
-
-
-	
-
-
 	@Override
 	public void setHandler(Handler handler) {
-		// TODO Auto-generated method stub
-
+		//TODO
+		ALog.i(ALog.TEMP, "setHandler: " + handler);
 	}
 }

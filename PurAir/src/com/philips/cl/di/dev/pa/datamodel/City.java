@@ -2,7 +2,7 @@ package com.philips.cl.di.dev.pa.datamodel;
 
 public class City {
 	private String lon;
-	private String city_name;
+	private String cityName;
 	private String weather;
 	private String key;
 
@@ -12,8 +12,8 @@ public class City {
 	/**
 	 * @return the city_name
 	 */
-	public String getCity_name() {
-		return city_name;
+	public String getCityName() {
+		return cityName;
 	}
 
 	/**
@@ -52,11 +52,11 @@ public class City {
 	}
 
 	/**
-	 * @param city_name
+	 * @param cityName
 	 *            the city_name to set
 	 */
-	public void setCity_name(String city_name) {
-		this.city_name = city_name;
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class City {
 
 	@Override
 	public String toString() {
-		return "lon " + lon + " city_name " + city_name + " weather " + weather + " key "
+		return "lon " + lon + " city_name " + cityName + " weather " + weather + " key "
 		        + key + " lat" + lat  + "gov"+gov;
 	}
 }

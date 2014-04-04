@@ -12,10 +12,8 @@ import android.util.Log;
 public class ALog {
 	
 	public static final String TEMP = "Temp"; // Use for temporary logs during development
-	
 	public static final String ACTIVITY = "ActivityLifecycle";
 	public static final String FRAGMENT = "FragmentLifecycle";
-	
 	public static final String EWS = "EasyWifiSetup";
 	public static final String WIFI = "WifiNetworks ";
 	public static final String ICPCLIENT = "IcpClient";
@@ -25,9 +23,10 @@ public class ALog {
 	public static final String MAINACTIVITY = "MainActivityAir" ;
 	public static final String DATABASE = "DatabaseAir" ;
 	public static final String CPPCONTROLLER="CppController";
-
 	public static final String INDOOR_DETAILS = "IndoorDetails";
 	public static final String INDOOR_RDCP = "IndoorRdcp";
+	public static final String ANIMATOR_CONST = "AnimatorConstants";
+	public static final String AIRPURIFIER_CONTROLER = "AirPurifierController";
 	
 	private static boolean isLoggingEnabled = true;
 	
@@ -39,33 +38,33 @@ public class ALog {
 		isLoggingEnabled = false;
 	}
 
-	public static void d(String TAG, String message) {
+	public static void d(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.d(TAG, message);
+			Log.d(tag, message);
 		}
 	}
 	
-	public static void e(String TAG, String message) {
+	public static void e(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.e(TAG, message);
+			Log.e(tag, message);
 		}
 	}
 	
-	public static void i(String TAG, String message) {
+	public static void i(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.i(TAG, message);
+			Log.i(tag, message);
 		}
 	}
 	
-	public static void v(String TAG, String message) {
+	public static void v(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.v(TAG, message);
+			Log.v(tag, message);
 		}
 	}
 	
-	public static void w(String TAG, String message) {
+	public static void w(String tag, String message) {
 		if (isLoggingEnabled) {
-			Log.w(TAG, message);
+			Log.w(tag, message);
 		}
 	}
 }

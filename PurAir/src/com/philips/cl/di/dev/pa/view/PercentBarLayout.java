@@ -45,9 +45,9 @@ public class PercentBarLayout extends LinearLayout {
 			if (i == 1) {
 				name.setText(context.getString(R.string.outdoor_db));
 				try {
-					if (Utils.outdoorAQIPercentageList != null) {
+					if (Utils.OUTDOOR_AQI_PERCENTAGE_LIST != null) {
 						indoorDashboardBarPerc.addView(
-								new AirView(context, Utils.outdoorAQIPercentageList.get(index), 60, 80));
+								new AirView(context, Utils.OUTDOOR_AQI_PERCENTAGE_LIST.get(index), 60, 80));
 					}
 				} catch (Exception e) {
 					e.printStackTrace();

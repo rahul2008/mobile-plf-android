@@ -36,7 +36,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements IconPagerA
 		R.string.indoor_outdoor_aqi_instruction
 	};
 	
-	private static final int[] instruction_list= new int[]{
+	private static final int[] INSTRUCTION_LIST= new int[]{
 		R.string.dashboard_instruction_1,
 		R.string.dashboard_instruction_2,
 		R.string.dashboard_instruction_3,
@@ -54,7 +54,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter implements IconPagerA
 	@Override
 	public Fragment getItem(int position) {			
 		if(position==0)
-			return AirTutorialViewFragment.newInstance(CONTENT[position], IMAGES[position], INSTRUCTION[position], instruction_list);
+			return AirTutorialViewFragment.newInstance(CONTENT[position], IMAGES[position], INSTRUCTION[position], INSTRUCTION_LIST);
 		else
 			return AirTutorialViewFragment.newInstance(CONTENT[position], IMAGES[position], INSTRUCTION[position], null);
 	}

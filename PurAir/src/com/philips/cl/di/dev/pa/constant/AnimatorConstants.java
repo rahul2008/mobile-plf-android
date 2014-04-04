@@ -1,12 +1,9 @@
 package com.philips.cl.di.dev.pa.constant;
 
-import android.util.Log;
-
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class AnimatorConstants {
-	
-	private static String TAG = "AnimatorConstants";
 	
 	public static final String ANIM_TRANSLATION_X 		= "translationX";
 	public static final String ANIM_TRANSLATION_Y 		= "translationY";
@@ -73,7 +70,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * -0.5575f;
-		Log.i(TAG, "indoorBackgroundTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "indoorBackgroundTranslationY " + translationY);
 		return translationY;
 	}
 	
@@ -81,7 +78,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * -0.17f;
-		Log.i(TAG, "outdoorTextScaleDownTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "outdoorTextScaleDownTranslationY " + translationY);
 		return translationY;
 	}
 	
@@ -89,7 +86,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * -0.725f;
-		Log.i(TAG, "outdoorTextScaleUpTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "outdoorTextScaleUpTranslationY " + translationY);
 		return translationY;
 	}
 	
@@ -97,7 +94,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * -0.7664f;
-		Log.i(TAG, "indoorTextScaleUpTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "indoorTextScaleUpTranslationY " + translationY);
 		return translationY;
 	}
 	
@@ -105,7 +102,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * -0.2104f;
-		Log.i(TAG, "indoorTextScaleDownTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "indoorTextScaleDownTranslationY " + translationY);
 		return translationY;
 	}
 	
@@ -113,7 +110,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * 0.2705f;
-		Log.i(TAG, "indoorCircleScaleDownTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "indoorCircleScaleDownTranslationY " + translationY);
 		return translationY;
 	}
 	
@@ -121,7 +118,7 @@ public class AnimatorConstants {
 		float translationY = 0;
 		
 		translationY = layoutHeight * 0.335f;
-		Log.i(TAG, "indoorCircleScaleDownTranslationY " + translationY);
+		ALog.i(ALog.ANIMATOR_CONST, "indoorCircleScaleDownTranslationY " + translationY);
 		return translationY;
 	}
 	

@@ -105,7 +105,7 @@ public class DatabaseAdapter {
 	 */
 	public List<String> getCityNames() {
 		List<String> alCitiNames = new ArrayList<String>();
-		Cursor curCityNames = db.rawQuery(AppConstants.sCityNameQuery, null);
+		Cursor curCityNames = db.rawQuery(AppConstants.SCITY_NAME_QUERY, null);
 		while (curCityNames.moveToNext()) {
 			alCitiNames.add(curCityNames.getString(0));
 		}
@@ -142,7 +142,7 @@ public class DatabaseAdapter {
 	 */
 	public AirPurifierEventDto getLastUpdatedEvent() {
 		AirPurifierEventDto dto = null ;
-		Cursor event = db.rawQuery(AppConstants.airPurifierEventQuery, null);
+		Cursor event = db.rawQuery(AppConstants.AIRPURIFIER_EVENT_QUERY, null);
 		if (event.moveToNext()) {
 			
 			dto = new AirPurifierEventDto() ;	
@@ -164,9 +164,9 @@ public class DatabaseAdapter {
 	public  ArrayList<Integer>  getAQIValuesForDay(String sDay, int iCityId)
 	{
 		ArrayList<Integer> arrayAQI = new ArrayList<Integer>();
-		String QUERY_AQIVALUES = "Select aqi from aqitable where cityid="+ iCityId+" and date like '"+sDay+"%' " + " order by date";
+		String queryAqiValues = "Select aqi from aqitable where cityid="+ iCityId+" and date like '"+sDay+"%' " + " order by date";
 		
-		Cursor curAQI = db.rawQuery(QUERY_AQIVALUES, null);
+		Cursor curAQI = db.rawQuery(queryAqiValues, null);
 		while (curAQI.moveToNext())
 		{
 			arrayAQI.add(curAQI.getInt(0));

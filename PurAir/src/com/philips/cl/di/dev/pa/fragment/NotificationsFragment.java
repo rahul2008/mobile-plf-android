@@ -28,7 +28,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private LinearLayout notificationLayout;
 	private View separator;
 	private ImageButton deleteImgBtn;
-	private Button btn_delete;
+	private Button deleteBtn;
 	private ToggleButton notificationToggle;
 	private View inflatedLayout;
 	private RadioGroup indoorAqiLevels,outdoorAqiLevels;
@@ -130,7 +130,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		case R.id.daily_notification_btn_add:
 			if(inflatedLayout!=null){
 				deleteImgBtn.setVisibility(View.GONE);
-				btn_delete.setVisibility(View.GONE);
+				deleteBtn.setVisibility(View.GONE);
 				notificationToggle.setVisibility(View.VISIBLE);
 			}
 			Intent in=new Intent(getActivity(), CreateNotificationActivity.class);
@@ -139,7 +139,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		case R.id.daily_notification_btn_edit:
 			if(inflatedLayout!=null){
 				deleteImgBtn.setVisibility(View.VISIBLE);
-				btn_delete.setVisibility(View.VISIBLE);
+				deleteBtn.setVisibility(View.VISIBLE);
 				notificationToggle.setVisibility(View.GONE);
 			}
 			break;
@@ -167,7 +167,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		TextView selectedTimeLbl=(TextView) inflatedLayout.findViewById(R.id.notification_selected_time);
 		notificationToggle=(ToggleButton) inflatedLayout.findViewById(R.id.independent_notification_toggle);
 		deleteImgBtn=(ImageButton) inflatedLayout.findViewById(R.id.deleteImageButton);
-		btn_delete=(Button) inflatedLayout.findViewById(R.id.btn_delete);
+		deleteBtn=(Button) inflatedLayout.findViewById(R.id.btn_delete);
 
 		selectedDaysLbl.setText(days);
 		selectedTimeLbl.setText(time);

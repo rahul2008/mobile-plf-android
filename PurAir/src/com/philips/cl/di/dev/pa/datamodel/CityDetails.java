@@ -11,7 +11,7 @@ public class CityDetails {
 
 	Map<String, City> cities;
 
-	List<String> hot_cities;
+	List<String> hotCities;
 
 	/**
 	 * @return the cities
@@ -23,8 +23,8 @@ public class CityDetails {
 	/**
 	 * @return the hot_cities
 	 */
-	public List<String> getHot_cities() {
-		return hot_cities;
+	public List<String> getHotCities() {
+		return hotCities;
 	}
 
 	/**
@@ -43,11 +43,11 @@ public class CityDetails {
 	}
 
 	/**
-	 * @param hot_cities
+	 * @param hotCities
 	 *            the hot_cities to set
 	 */
-	public void setHot_cities(List<String> hot_cities) {
-		this.hot_cities = hot_cities;
+	public void setHotCities(List<String> hotCities) {
+		this.hotCities = hotCities;
 	}
 
 	/**
@@ -77,7 +77,7 @@ public class CityDetails {
 	
 	@Override
 	public String toString() {
-		return "provs " + provs + " cities " + cities + " hot_cities " + hot_cities;
+		return "provs " + provs + " cities " + cities + " hot_cities " + hotCities;
 	}
 
 }

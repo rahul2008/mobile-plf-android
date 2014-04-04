@@ -10,6 +10,7 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
@@ -28,10 +29,6 @@ public class AirPurifierController implements ServerResponseListener
 	
 	/** The sensor data handler. */
 	private AirPurifierEventListener airPurifierEventListener;
-	
-	
-	/** The tag. */
-	private String TAG = getClass().getName();
 	
 	/** request type **/
 	private int requestType ;
@@ -150,7 +147,7 @@ public class AirPurifierController implements ServerResponseListener
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		// TODO 
-		Log.i(TAG, "Response: "+responseData);
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Response: "+responseData);
 		switch (responseCode) {
 		case HttpsURLConnection.HTTP_OK:	
 			if( requestType == AppConstants.GET_SENSOR_DATA_REQUEST_TYPE ) {
@@ -170,7 +167,7 @@ public class AirPurifierController implements ServerResponseListener
 	 * @param dataToParse
 	 */
 	private void parseSensorData(String dataToParse) {
-		Log.i(TAG, "parse sensor data");
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "parse sensor data");
 		AirPurifierEventDto airPurifierEvent = null ;
 		if( dataToParse != null) {
 			airPurifierEvent = new DataParser(dataToParse).parseAirPurifierEventData() ;
@@ -180,7 +177,7 @@ public class AirPurifierController implements ServerResponseListener
 	}
 	
 	public void getFilterStatus() {
-		Log.i(TAG, "Get Filter Status") ;
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Get Filter Status") ;
 //		TaskGetFilterStatus filterStatusTask = new TaskGetFilterStatus();
 //		executeTask(filterStatusTask, AppConstants.URL_FILTER_STATUS);
 	}	

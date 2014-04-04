@@ -16,7 +16,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	/**
 	 * strings for group elements
 	 */
-	private static final int arrGroupelements[] ={
+	private static final int ARR_GROUP_ELEMENTS[] ={
 		R.string.hazardous,
 		R.string.unhealthy,
 		R.string.moderately_polluted,
@@ -28,7 +28,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	/**
 	 * strings for child elements
 	 */
-	private static final int arrChildelements[][] =
+	private static final int ARR_CHILD_ELEMENTS[][] =
 		{
 		{
 			R.string.outdoor_hazardous
@@ -50,7 +50,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		}
 		};
 
-	private static final int colorList[]={
+	private static final int COLOR_LIST[]={
 		R.drawable.circle_1,
 		R.drawable.circle_2,
 		R.drawable.circle_3,
@@ -59,7 +59,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		R.drawable.circle_6
 	};
 
-	private static final String colorListLabel[]={
+	private static final String COLOR_LIST_LABEL[]={
 		"500+", "300","200","150","100","50"
 	};
 
@@ -79,7 +79,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.colors_list); 
-		listAdapter = new ExpandableListAdapter(this, arrGroupelements, arrChildelements,colorList,colorListLabel);
+		listAdapter = new ExpandableListAdapter(this, ARR_GROUP_ELEMENTS, ARR_CHILD_ELEMENTS,COLOR_LIST,COLOR_LIST_LABEL);
 		setGroupIndicatorToRight();
 		expListView.setAdapter(listAdapter);
 	}

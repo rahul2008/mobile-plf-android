@@ -38,8 +38,8 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	public DISecurity(KeyDecryptListener keyDecryptListener) {
 		this.keyDecryptListener = keyDecryptListener;
-		pValue = Util.pValue;
-		gValue = Util.gValue;
+		pValue = Util.PVALUE;
+		gValue = Util.GVALUE;
 		ALog.i(ALog.SECURITY, "Initialized DISecurity") ;
 	}
 	
@@ -266,7 +266,7 @@ public class DISecurity implements ServerResponseListener {
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
 				securityKeyHashtable.put(deviceId, key);
 				
-				AppConstants.DEVICEID = deviceId;//TODO Remove when multiple purifier handle
+				AppConstants.deviceId = deviceId;//TODO Remove when multiple purifier handle
 				
 				keyDecryptListener.keyDecrypt(key, deviceId);
 			} catch (JSONException e) {

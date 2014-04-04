@@ -28,13 +28,13 @@ public class Coordinates {
 	private float idPaddingRight;
 	private float idRectMarginLeft;
 	private float idRectWidth;  
-	private float idY10_0;
-	private float idY5_5;
-	private float idY4_5; 
-	private float idY3_5;
-	private float idY2_5;
-	private float idY1_5;
-	private float idY0_0;
+	private float idY10Point0;
+	private float idY5Point5;
+	private float idY4Point5; 
+	private float idY3Point5;
+	private float idY2Point5;
+	private float idY1Point5;
+	private float idY0Point0;
 	
 	private float idY10;
 	private float idY9;
@@ -99,13 +99,13 @@ public class Coordinates {
 		idPaddingRight = getPxWithRespectToDip(ctx, GraphConst.ID_PADDING_RIGHT);
 		idRectMarginLeft = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
 		idRectWidth = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_WIDTH);
-		idY10_0 = 0;
-		idY5_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5_5);
-		idY4_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_4_5);
-		idY3_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3_5);
-		idY2_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2_5);
-		idY1_5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1_5);
-		idY0_0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0);
+		idY10Point0 = 0;
+		idY5Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5_5);
+		idY4Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_4_5);
+		idY3Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3_5);
+		idY2Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2_5);
+		idY1Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1_5);
+		idY0Point0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0);
 		idX0 = getPxWithRespectToDip(ctx, GraphConst.XAXIS0);
 		idRadius = getPxWithRespectToDip(ctx, GraphConst.RADIUS);
 		idYxLabelPadding = getPxWithRespectToDip(ctx, GraphConst.FIVE);
@@ -217,32 +217,32 @@ public class Coordinates {
 		return idRectWidth;
 	}
 
-	public float getIdY10_0() {
-		return idY10_0;
+	public float getIdY10Point0() {
+		return idY10Point0;
 	}
 
-	public float getIdY5_5() {
-		return idY5_5;
+	public float getIdY5Point5() {
+		return idY5Point5;
 	}
 
-	public float getIdY4_5() {
-		return idY4_5;
+	public float getIdY4Point5() {
+		return idY4Point5;
 	}
 
-	public float getIdY3_5() {
-		return idY3_5;
+	public float getIdY3Point5() {
+		return idY3Point5;
 	}
 
-	public float getIdY2_5() {
-		return idY2_5;
+	public float getIdY2Point5() {
+		return idY2Point5;
 	}
 
-	public float getIdY1_5() {
-		return idY1_5;
+	public float getIdY1Point5() {
+		return idY1Point5;
 	}
 
-	public float getIdY0_0() {
-		return idY0_0;
+	public float getIdY0Point0() {
+		return idY0Point0;
 	}
 
 	public float getIdX0() {

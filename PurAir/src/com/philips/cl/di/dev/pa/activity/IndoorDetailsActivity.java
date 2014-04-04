@@ -37,7 +37,7 @@ import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
+		PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
 
 	private ActionBar mActionBar;
 //	private final String TAG = "IndoorDetailsActivity";

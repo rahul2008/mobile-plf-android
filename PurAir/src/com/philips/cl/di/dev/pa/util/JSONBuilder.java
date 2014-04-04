@@ -15,7 +15,7 @@ public class JSONBuilder {
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, AppConstants.DEVICEID) ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, AppConstants.deviceId) ;
 		return dataToSend ;
 	}
 

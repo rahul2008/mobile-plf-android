@@ -60,7 +60,7 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 
 	}
 
-	private static String padding_str(int c) {
+	private static String paddingStr(int c) {
 		if (c >= 10)
 			return String.valueOf(c);
 		else
@@ -92,7 +92,7 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 	
 	public void returnSelectedDays()
 	{
-		String selectedTime= new StringBuilder().append(padding_str(mTimePicker.getCurrentHour())).append(":").append(padding_str(mTimePicker.getCurrentMinute())).toString();
+		String selectedTime= new StringBuilder().append(paddingStr(mTimePicker.getCurrentHour())).append(":").append(paddingStr(mTimePicker.getCurrentMinute())).toString();
 		        
         Intent in= new Intent();
         in.putExtra("SELECTED_DAYS_STRING", strDays);

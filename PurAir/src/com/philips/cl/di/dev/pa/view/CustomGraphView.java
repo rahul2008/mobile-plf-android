@@ -311,11 +311,11 @@ public class CustomGraphView extends RelativeLayout {
 	/**
 	 * Gets the scaled y.
 	 * 
-	 * @param YValue
+	 * @param yValue
 	 *            the y value
 	 * @return the scaled y
 	 */
-	private double getScaledY(double YValue) {
-		return ((viewHeight - offset) / AppConstants.MAX_AQI) * YValue;
+	private double getScaledY(double yValue) {
+		return ((viewHeight - offset) / AppConstants.MAX_AQI) * yValue;
 	}
 }
