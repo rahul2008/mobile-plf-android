@@ -10,20 +10,20 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 
 
-public class FirmwareDownloadFailedFragment extends BaseFragment implements OnClickListener{
-		
-			
+public class DownloadingFirmwareFragment extends BaseFragment implements OnClickListener{
+				
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.firmware_download_failed, container, false);
+		View view = inflater.inflate(R.layout.downloading_firmware, container, false);
 		initViews(view);
+		
 		return view;
 	}
 
 	private void initViews(View view) {
 	}
-
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
