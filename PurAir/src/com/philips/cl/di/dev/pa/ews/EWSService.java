@@ -219,7 +219,7 @@ public class EWSService extends BroadcastReceiver
 		}
 		String js = holder.toString();
 
-		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.DEVICEID);
+		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.deviceId);
 
 		return encryptedData ;
 	}
@@ -235,7 +235,7 @@ public class EWSService extends BroadcastReceiver
 		}
 		String js = holder.toString();
 
-		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.DEVICEID);
+		String encryptedData = new DISecurity(null).encryptData(js, AppConstants.deviceId);
 
 		return encryptedData ;
 	}
@@ -274,7 +274,7 @@ public class EWSService extends BroadcastReceiver
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.deviceId);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					storeDeviceDetails(decryptedResponse) ;
@@ -282,7 +282,7 @@ public class EWSService extends BroadcastReceiver
 				}				
 			}
 			else if(taskType == WIFI_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.deviceId);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					storeDeviceWifiDetails(decryptedResponse);
@@ -291,7 +291,7 @@ public class EWSService extends BroadcastReceiver
 				}	
 			}
 			else if(taskType == DEVICE_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.deviceId);
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					storeDeviceDetails(decryptedResponse) ;
@@ -299,7 +299,7 @@ public class EWSService extends BroadcastReceiver
 				}	
 			}
 			else if(taskType == WIFI_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.DEVICEID);
+				String decryptedResponse = new DISecurity(null).decryptData(response, AppConstants.deviceId);
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					EWSWifiManager.connectToHomeNetwork(homeSSID);
