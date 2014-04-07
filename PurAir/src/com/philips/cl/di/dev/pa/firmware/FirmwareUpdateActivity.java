@@ -7,25 +7,27 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
+import android.content.Intent;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FirmwareUpdateActivity extends BaseActivity implements OnClickListener{
+	private static String s_purifierName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.firmware_container);
 		initActionBar();
-		
+		Intent intent = getIntent(); 
+		s_purifierName = intent.getStringExtra("purifierName");
 		getSupportFragmentManager().beginTransaction()
 		.add(R.id.firmware_container, new NewFirmware(), "NewFirmware")
 		.commit();
 	}
-	
+			
 	/*Initialize action bar */
 	private void initActionBar() {
 		ActionBar mActionBar;
@@ -42,7 +44,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
 		actionBarCancelBtn.setOnClickListener(this);
-		mActionBar.setCustomView(view);	
+		mActionBar.setCustomView(view);
 	}
 
 	@Override
@@ -57,5 +59,9 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			break;
 		}
 		
+	}
+	
+	public static String getPurifierName() {
+		return s_purifierName;
 	}
 }

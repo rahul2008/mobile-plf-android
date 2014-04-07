@@ -5,13 +5,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 
 public class FirmwareFailedSupportFragment extends BaseFragment implements OnClickListener{
 		
-			
+	private TextView tvFirmwareFailedUpd; 
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -21,6 +24,8 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 	}
 
 	private void initViews(View view) {
+		tvFirmwareFailedUpd = (TextView) view.findViewById(R.id.firmware_failed_update);
+		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update, FirmwareUpdateActivity.getPurifierName())) ;
 	}
 
 	@Override
