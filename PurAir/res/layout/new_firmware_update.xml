@@ -64,6 +64,7 @@
                 android:text="@string/firmware_version"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
+                android:visibility="gone"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <ImageView
@@ -104,6 +105,7 @@
                 android:text="@string/firmware_releasedate"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
+                android:visibility="gone"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <ImageView
