@@ -854,6 +854,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			case 6:
 				//Firmware update
 				Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
+				firmwareIntent.putExtra("purifierName", purifierName);
 				startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
@@ -883,7 +884,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	public static int getScreenHeight() {
 		return screenHeight;
 	}
-
+	
 	private int statusCounter = 0;
 	
 	@Override
@@ -983,7 +984,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	{
 		return mVisits;
 	}
-
 
 	public boolean isGooglePlayServiceAvailable() {
 		if(ConnectionResult.SUCCESS == isGooglePlayServiceAvailable) {
