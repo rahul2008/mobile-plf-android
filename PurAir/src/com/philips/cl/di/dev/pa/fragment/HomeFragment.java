@@ -103,6 +103,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	private String dergreeRotatePointer;
 
 	private LinearLayout takeTourLayout;
+	private LinearLayout firmwareUpdateLayout;
 
 	private static OutdoorAQIEventDto outdoorAQIEventDto;
 	private static List<Weatherdto> weatherDtoList; 
@@ -291,6 +292,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			lblTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
 			ImageButton btnCloseTourLayout=(ImageButton) vMain.findViewById(R.id.btn_close_tour_layout);
 			btnCloseTourLayout.setOnClickListener(this);
+		}
+		
+		if (false) {
+			firmwareUpdateLayout = (LinearLayout) vMain.findViewById(R.id.firmware_update_available);
+			firmwareUpdateLayout.setVisibility(View.VISIBLE);
 		}
 	}
 
