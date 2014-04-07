@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -14,10 +13,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class EWSDialogFactory implements OnClickListener{
-	private static final String TAG = EWSDialogFactory.class.getSimpleName();
 
 	private Dialog errorDialogTS0101, errorDialogTS0102, errorDialogTS0103, errorDialogTS0104, errorDialogTS0105;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
@@ -30,17 +29,17 @@ public class EWSDialogFactory implements OnClickListener{
 	private String networkName = "";
 	
 	public void setNetworkName(String networkName) {
-		Log.i(TAG, "setNetworkName : networkName " + networkName);
+		ALog.i(ALog.EWS, "setNetworkName : networkName " + networkName);
 		this.networkName = networkName;
 	}
 
-	private static EWSDialogFactory ewsDialogInstance;
+	private static EWSDialogFactory _instance;
 
 	public static EWSDialogFactory getInstance(Context context) {
-		if(ewsDialogInstance == null) {
-			ewsDialogInstance = new EWSDialogFactory(context);
+		if(_instance == null) {
+			_instance = new EWSDialogFactory(context);
 		}
-		return ewsDialogInstance;
+		return _instance;
 	}
 
 	private EWSDialogFactory(Context context) {
@@ -149,7 +148,10 @@ public class EWSDialogFactory implements OnClickListener{
 		Button confirmWifiEnabledNo = (Button) alertLayout.findViewById(R.id.btn_confirm_wifi_enabled_no);
 		confirmWifiEnabledNo.setTypeface(Fonts.getGillsansLight(context));
 		confirmWifiEnabledNo.setOnClickListener(this);
+		((TextView) alertLayout.findViewById(
+				R.id.tv_ts05_confirm_wifi_mode_enabled_header)).setTypeface(Fonts.getGillsansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
+		tvMessage.setTypeface(Fonts.getGillsansLight(context));
 		String msg1 = context.getString(R.string.support_ts05_message) + " <font color=#EF6921>"+context.getString(R.string.orange)+"</font>" + " " + context.getString(R.string.now);
 		tvMessage.setText(Html.fromHtml(msg1));
 		ImageView ivGotoSupport = (ImageView) alertLayout.findViewById(R.id.iv_support);
@@ -208,7 +210,7 @@ public class EWSDialogFactory implements OnClickListener{
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.connecting_to_product, null); 
 		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_check_signal_header);
-		Log.i(TAG, "getDialog networkName " + networkName);
+		ALog.i(ALog.EWS, "getDialog networkName " + networkName);
 		tvHeader.setText(context.getString(R.string.checking_signal_strength_title) + " " + networkName + ".");
 		tvHeader.setTypeface(Fonts.getGillsansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_check_signal_message);
@@ -243,7 +245,7 @@ public class EWSDialogFactory implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		Log.i(TAG, "onClick");
+		ALog.i(ALog.EWS, "onClick");
 		switch(v.getId()) {
 		case R.id.btn_error_popup:
 			handleErrorDialog(errorID);
@@ -258,10 +260,10 @@ public class EWSDialogFactory implements OnClickListener{
 			closePopUp(supportID);
 			break;
 		case R.id.iv_support:
-			if ( context instanceof EwsActivity ) {
-				EwsActivity activity = (EwsActivity) context ;
+			if ( context instanceof EWSActivity ) {
+				EWSActivity activity = (EWSActivity) context ;
 
-				activity.showSupportScreen() ;
+				activity.showSupportFragment() ;
 			}
 			closePopUp(supportID);
 			break;
@@ -271,10 +273,10 @@ public class EWSDialogFactory implements OnClickListener{
 			break;
 			
 		case R.id.iv_goto_support:
-			if ( context instanceof EwsActivity ) {
-				EwsActivity activity = (EwsActivity) context ;
+			if ( context instanceof EWSActivity ) {
+				EWSActivity activity = (EWSActivity) context ;
 
-				activity.showSupportScreen() ;
+				activity.showSupportFragment() ;
 			}
 			closeErrorPopUp(errorID);
 			break;
@@ -282,8 +284,8 @@ public class EWSDialogFactory implements OnClickListener{
 		case R.id.btn_cancel_wifi_yes:
 			//			closeErrorPopUp(CANCEL_WIFI_SETUP) ;
 			getDialog(CANCEL_WIFI_SETUP).dismiss();
-			if ( context instanceof EwsActivity ) {
-				EwsActivity activity = (EwsActivity) context ;
+			if ( context instanceof EWSActivity ) {
+				EWSActivity activity = (EWSActivity) context ;
 				activity.stopDiscovery();
 				activity.finish() ;
 			}
@@ -297,17 +299,17 @@ public class EWSDialogFactory implements OnClickListener{
 			 * This is to check if Wifi is enabled on the Purifier or not*/
 		case R.id.btn_confirm_wifi_enabled_yes:
 			getDialog(SUPPORT_TS05).dismiss() ;
-			if ( context instanceof EwsActivity) {
-				EwsActivity activity = (EwsActivity) context ;
+			if ( context instanceof EWSActivity) {
+				EWSActivity activity = (EWSActivity) context ;
 				activity.airPurifierInSetupMode() ;
 			}
 			break;
 
 		case R.id.btn_confirm_wifi_enabled_no:
 			getDialog(SUPPORT_TS05).dismiss() ;
-			if ( context instanceof EwsActivity) {
-				EwsActivity activity = (EwsActivity) context ;
-				activity.showSupportScreen() ;
+			if ( context instanceof EWSActivity) {
+				EWSActivity activity = (EWSActivity) context ;
+				activity.showSupportFragment() ;
 			}
 			break;
 		default:
@@ -361,7 +363,7 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 
 	private void handleSupportDialog(int supportDialogID2) {
-		Log.i(TAG, "handleSupportDialog dialogId" + supportDialogID2);
+		ALog.i(ALog.EWS, "handleSupportDialog dialogId" + supportDialogID2);
 		switch (supportDialogID2) {
 		case SUPPORT_TS01:
 			getDialog(SUPPORT_TS01).dismiss();
@@ -385,7 +387,7 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 
 	private void handleErrorDialog(int errorDialogID2) {
-		Log.i(TAG, "handleErrorDialog dialogId "  + errorDialogID2);	
+		ALog.i(ALog.EWS, "handleErrorDialog dialogId "  + errorDialogID2);	
 		switch (errorDialogID2) {
 		case ERROR_TS01_01:
 			getDialog(ERROR_TS01_01).dismiss();			
@@ -425,7 +427,7 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 	
 	private static void cleanUpInstance() {
-		ewsDialogInstance = null;
+		_instance = null;
 	}
 
 	//Dialog constants

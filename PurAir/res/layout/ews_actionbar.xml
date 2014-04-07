@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="90dp" >
+    android:layout_height="90dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -19,7 +21,6 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:layout_marginRight="8dp"
         android:background="@drawable/blue_button_selector"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
@@ -33,9 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:paddingRight="16dp"
+        android:padding="12dp"
         android:clickable="true"
         android:background="@drawable/clickable_image_bg_selector"
         android:contentDescription="@string/img_description"

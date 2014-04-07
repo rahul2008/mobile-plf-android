@@ -74,6 +74,7 @@
                 android:layout_below="@+id/contact_support_phone_lanbel"
                 android:drawablePadding="16dp"
                 android:lineSpacingExtra="10dp"
+                android:gravity="left"
                 android:text="@string/contact_philips_support_phone_num"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"

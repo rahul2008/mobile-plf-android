@@ -25,7 +25,7 @@ import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 
-public class EWSService extends BroadcastReceiver 
+public class EWSBroadcastReceiver extends BroadcastReceiver 
 	implements KeyDecryptListener, EWSTaskListener, Runnable {
 
 	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/0/wifi";
@@ -66,7 +66,7 @@ public class EWSService extends BroadcastReceiver
 	 * @param homeSSID
 	 * @param password
 	 */
-	public EWSService(EWSListener listener, String homeSSID, String password) {
+	public EWSBroadcastReceiver(EWSListener listener, String homeSSID, String password) {
 		this.listener = listener ;
 		this.homeSSID = homeSSID ;
 		this.password = password ;
@@ -134,10 +134,6 @@ public class EWSService extends BroadcastReceiver
 						
 						isOpenNetwork = EWSWifiManager.isOpenNetwork(homeSSID);
 					} 
-//					else {
-//						// Connected to device, but homeSSID is null - Should never happen
-//						// TODO add an error case for this?
-//					}
 					return;
 				}
 				

@@ -20,7 +20,7 @@
             android:lineSpacingExtra="10dp"
             android:text="@string/error_purifier_not_detect_msg1"
             android:textColor="@color/title_gray"
-            android:textSize="19sp"
+            android:textSize="14sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -32,7 +32,7 @@
             android:layout_below="@+id/ews_purifier_not_dect_msg1"
             android:text=""
             android:textColor="@color/philips_blue"
-            android:textSize="19sp"
+            android:textSize="14sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -46,7 +46,7 @@
             android:lineSpacingExtra="10dp"
             android:text="@string/error_purifier_not_detect_msg2"
             android:textColor="@color/title_gray"
-            android:textSize="19sp"
+            android:textSize="14sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <Button
@@ -61,7 +61,7 @@
             android:paddingRight="16dp"
             android:text="@string/error_purifier_not_detect_btn_txt"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </ScrollView>

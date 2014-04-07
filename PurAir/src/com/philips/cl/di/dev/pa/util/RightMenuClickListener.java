@@ -18,7 +18,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.ews.EwsActivity;
+import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 
 public class RightMenuClickListener implements OnClickListener {
@@ -231,7 +231,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.connect:
 			((MainActivity) activity).isEWSStarted = true ;
 			((MainActivity) activity).stopAllServices() ;
-			activity.startActivityForResult(new Intent(activity,EwsActivity.class), AppConstants.EWS_REQUEST_CODE) ;
+			activity.startActivityForResult(new Intent(activity,EWSActivity.class), AppConstants.EWS_REQUEST_CODE) ;
 			break;
 		case R.id.btn_rm_power:
 			if(!isPowerOn) {				

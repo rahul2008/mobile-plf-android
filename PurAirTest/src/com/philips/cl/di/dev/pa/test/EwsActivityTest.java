@@ -14,16 +14,16 @@ import com.philips.cl.di.common.ssdp.models.DeviceListModel;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
-import com.philips.cl.di.dev.pa.ews.EwsActivity;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivity> {
+public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivity> {
 	
-	private EwsActivity activity;
+	private EWSActivity activity;
 
 	public EwsActivityTest() {
-		super(EwsActivity.class);
+		super(EWSActivity.class);
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EwsActivit
 		FontTextView tv2 = (FontTextView) view.findViewById(R.id.ews_intro_message2_txt);
 		
         assertEquals(true, button.isClickable());
-        assertEquals("Get Started", button.getText().toString());
+        assertEquals("Get started", button.getText().toString());
         assertEquals("Follow these 3 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.", tv.getText().toString());
         assertEquals("For a successful Wi-Fi connection, position the Philips Smart Air Purifier within reach of your router. Obstacles such as walls may affect the Wi-Fi performance.", tv2.getText().toString());
 	}
