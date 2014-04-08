@@ -27,6 +27,7 @@
 		android:layout_marginRight="16dp"
 		android:textColor="@color/title_gray"
         android:layout_below="@+id/new_firmware"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/separator" />
 
      <com.philips.cl.di.dev.pa.view.FontTextView
@@ -70,6 +71,7 @@
         android:lineSpacingExtra="5dp"
 		android:layout_marginRight="16dp"
 		android:textColor="@color/title_gray"
+		android:contentDescription="@string/img_description"
         android:layout_below="@+id/firmware_version_txt"
         android:src="@drawable/separator" />
 
@@ -114,6 +116,7 @@
         android:lineSpacingExtra="5dp"
 		android:layout_marginRight="16dp"
 		android:textColor="@color/title_gray"
+		android:contentDescription="@string/img_description"
         android:layout_below="@+id/releasedate_txt"
         android:src="@drawable/separator" />
 
