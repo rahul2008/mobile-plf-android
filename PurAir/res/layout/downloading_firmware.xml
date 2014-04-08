@@ -62,7 +62,6 @@
         android:layout_below="@+id/downloading_firmware_text"
         android:textSize="16sp"
 		android:padding ="16dp"
-		android:text="50%" 
 		android:textColor="@color/white"
 		android:layout_centerHorizontal="true"
 		custom:fontAssetName="fonts/gillsanslight.ttf" />
