@@ -364,6 +364,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_scheduler:
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
+			break;
 		default:
 			break;
 		}

@@ -66,6 +66,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 			if (inputStream != null) {
 				try {
 					inputStream.close();
+					out.close();
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

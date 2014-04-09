@@ -78,8 +78,9 @@ public class DataParser implements DataParserInterface {
 			try {
 				jsonObject = new JSONObject(dataToParse);
 				JSONArray seriesJson = jsonObject.getJSONArray(ParserConstants.SERIES) ;
-				Log.i("PARSE", "Series: "+seriesJson.length()) ;
+				
 				if( seriesJson != null && seriesJson.length() > 0 ) {
+					Log.i("PARSE", "Series: "+seriesJson.length()) ;
 					indoorHistoryList = new ArrayList<IndoorHistoryDto>() ;
 					int seriesArrayLength = seriesJson.length() ;
 					for ( int index = 0 ; index < seriesArrayLength ; index ++ ) {
