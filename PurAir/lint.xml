@@ -6,4 +6,5 @@
     <issue id="IconDensities" severity="ignore" />
     <issue id="ButtonOrder" severity="ignore" />
     <issue id = "Overdraw" severity="ignore" /> 
+    <issue id = "EI_EXPOSE_REP2" severity="ignore" /> 
 </lint>

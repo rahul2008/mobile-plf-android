@@ -941,23 +941,20 @@ public class Utils {
 			 * 719
 			 */
 			int lastDayHr = 24;
-			if (idx != null) {
-				goodAirCount = 0;
-				totalAirCount = 0;
-				for (int i = 0; i < lastDayAQIReadings.length; i++) {
-					if (i == 0 && idx[i] == 0) {
-						idx[i] = idx[i+1];
-						//lastDayHr = 25;
-					}
-					lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
-					if (idx[lastDayHr - 1 - i] <= 50) {
-						goodAirCount++;
-					}
-					totalAirCount++;
+			goodAirCount = 0;
+			totalAirCount = 0;
+			for (int i = 0; i < lastDayAQIReadings.length; i++) {
+				if (i == 0 && idx[i] == 0) {
+					idx[i] = idx[i + 1];
+					// lastDayHr = 25;
 				}
-				OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
-						totalAirCount));
+				lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
+				if (idx[lastDayHr - 1 - i] <= 50) {
+					goodAirCount++;
+				}
+				totalAirCount++;
 			}
+			OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount, totalAirCount));
 
 			/** last 7 days */
 			/**
@@ -975,42 +972,40 @@ public class Utils {
 			}
 			int last7dayHrs = 6 * 24 + hr;
 
-			if (idx != null) {
-				float sum = 0;
-				float avg = 0;
-				int j = 0;
-				goodAirCount = 0;
-				totalAirCount = 0;
-				for (int i = 0; i < last7dayHrs; i++) {
-					float x = idx[last7dayHrs - 1 - i];
-					sum = sum + x;
-					if (i == 23 || i == 47 || i == 71 || i == 95 || i == 119
-							|| i == 143) {
-						avg = sum / (float) 24;
-						last7dayAQIReadings[j] = avg;
-						if (avg <= 50) {
-							goodAirCount++;
-						}
-						totalAirCount++;
-
-						j++;
-						sum = 0;
-						avg = 0;
-					} else if (i == last7dayHrs - 1) {
-						avg = sum / (float) hr;
-						last7dayAQIReadings[j] = avg;
-						if (avg <= 50) {
-							goodAirCount++;
-						}
-						totalAirCount++;
-
-						sum = 0;
-						avg = 0;
+			float sum = 0;
+			float avg = 0;
+			int j = 0;
+			goodAirCount = 0;
+			totalAirCount = 0;
+			for (int i = 0; i < last7dayHrs; i++) {
+				float x = idx[last7dayHrs - 1 - i];
+				sum = sum + x;
+				if (i == 23 || i == 47 || i == 71 || i == 95 
+						|| i == 119 || i == 143) {
+					avg = sum / (float) 24;
+					last7dayAQIReadings[j] = avg;
+					if (avg <= 50) {
+						goodAirCount++;
 					}
+					totalAirCount++;
+
+					j++;
+					sum = 0;
+					avg = 0;
+				} else if (i == last7dayHrs - 1) {
+					avg = sum / (float) hr;
+					last7dayAQIReadings[j] = avg;
+					if (avg <= 50) {
+						goodAirCount++;
+					}
+					totalAirCount++;
+
+					sum = 0;
+					avg = 0;
 				}
-				OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
-						totalAirCount));
 			}
+			OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
+					totalAirCount));
 
 			/** last 4 weeks */
 			/**
@@ -1018,44 +1013,42 @@ public class Utils {
 			 */
 			int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
 
-			if (idx != null) {
-				int count = 1;
-				float sum = 0;
-				float avg = 0;
-				int j = 0;
-				goodAirCount = 0;
-				totalAirCount = 0;
-				for (int i = 0; i < last4WeekHrs; i++) {
+			int count = 1;
+			sum = 0;
+			avg = 0;
+			j = 0;
+			goodAirCount = 0;
+			totalAirCount = 0;
+			for (int i = 0; i < last4WeekHrs; i++) {
 
-					float x = idx[last4WeekHrs - 1 - i];
-					sum = sum + x;
-					if (count == 24 && j < 21) {
-						avg = sum / (float) 24;
-						last4weekAQIReadings[j] = avg;
-						if (avg <= 50) {
+				float x = idx[last4WeekHrs - 1 - i];
+				sum = sum + x;
+				if (count == 24 && j < 21) {
+					avg = sum / (float) 24;
+					last4weekAQIReadings[j] = avg;
+					if (avg <= 50) {
+						goodAirCount++;
+					}
+					totalAirCount++;
+					j++;
+					sum = 0;
+					avg = 0;
+					count = 0;
+				} else if (j >= 21) {
+					for (int m = 0; m < last7dayAQIReadings.length; m++) {
+						last4weekAQIReadings[j] = last7dayAQIReadings[m];
+						if (last7dayAQIReadings[m] <= 50) {
 							goodAirCount++;
 						}
 						totalAirCount++;
 						j++;
-						sum = 0;
-						avg = 0;
-						count = 0;
-					} else if (j >= 21) {
-						for (int m = 0; m < last7dayAQIReadings.length; m++) {
-							last4weekAQIReadings[j] = last7dayAQIReadings[m];
-							if (last7dayAQIReadings[m] <= 50) {
-								goodAirCount++;
-							}
-							totalAirCount++;
-							j++;
-						}
-						break;
 					}
-					count++;
+					break;
 				}
-				OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
-						totalAirCount));
+				count++;
 			}
+			OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount,
+					totalAirCount));
 		}
 		
 		Log.i("percent", "outdoorAQIPercentageList==" +OUTDOOR_AQI_PERCENTAGE_LIST);

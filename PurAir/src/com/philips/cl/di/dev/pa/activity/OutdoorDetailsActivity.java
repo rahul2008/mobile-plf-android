@@ -150,9 +150,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			}
 
 			int idx[] = aqiEventDto.getIdx();
-			if (idx == null ) {
-				return;
-			}
 
 			/** last day days */
 			/**
