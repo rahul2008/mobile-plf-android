@@ -25,7 +25,8 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 
 	private void initViews(View view) {
 		tvFirmwareFailedUpd = (TextView) view.findViewById(R.id.firmware_failed_update);
-		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update, FirmwareUpdateActivity.getPurifierName())) ;
+		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
+		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update, activity.getPurifierName())) ;
 	}
 
 	@Override

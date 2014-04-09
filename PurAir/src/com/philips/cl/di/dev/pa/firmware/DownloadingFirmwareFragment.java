@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 
 
@@ -26,7 +27,8 @@ public class DownloadingFirmwareFragment extends BaseFragment implements OnClick
 
 	private void initViews(View view) {
 		tvDownloadingFirmware = (TextView) view.findViewById(R.id.downloading_firmware_for_purifier_msg);
-		tvDownloadingFirmware.setText(getString(R.string.downloading_firmware_for_purifier_msg, FirmwareUpdateActivity.getPurifierName())) ;
+		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
+		tvDownloadingFirmware.setText(getString(R.string.downloading_firmware_for_purifier_msg, activity.getPurifierName())) ;
 	}
 	
 	@Override

@@ -24,7 +24,8 @@ public class InstallingFirmwareFragment extends BaseFragment implements OnClickL
 
 	private void initViews(View view) {
 		tvInstallingFirmware = (TextView) view.findViewById(R.id.installing_firmware_for_purifier_msg);
-		tvInstallingFirmware.setText(getString(R.string.installing_firmware_for_purifier_msg, FirmwareUpdateActivity.getPurifierName())) ;
+		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
+		tvInstallingFirmware.setText(getString(R.string.installing_firmware_for_purifier_msg, activity.getPurifierName())) ;
 	}
 
 	@Override

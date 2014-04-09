@@ -24,8 +24,9 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 	}
 
 	private void initViews(View view) {
-		tvFirmwareUpdMsg = (TextView) view.findViewById(R.id.firmware_update_msg);
-		tvFirmwareUpdMsg.setText(getString(R.string.firmware_failed_msg, FirmwareUpdateActivity.getPurifierName())) ;
+		tvFirmwareUpdMsg = (TextView) view.findViewById(R.id.firmware_update_msg);		
+		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
+		tvFirmwareUpdMsg.setText(getString(R.string.firmware_failed_msg, activity.getPurifierName())) ;
 	}
 
 	@Override

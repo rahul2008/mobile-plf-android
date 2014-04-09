@@ -15,14 +15,14 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FirmwareUpdateActivity extends BaseActivity implements OnClickListener{
-	private static String s_purifierName;
+	private  String sPurifierName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.firmware_container);
 		initActionBar();
 		Intent intent = getIntent(); 
-		s_purifierName = intent.getStringExtra("purifierName");
+		sPurifierName = intent.getStringExtra("purifierName");
 		getSupportFragmentManager().beginTransaction()
 		.add(R.id.firmware_container, new NewFirmware(), "NewFirmware")
 		.commit();
@@ -61,7 +61,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		
 	}
 	
-	public static String getPurifierName() {
-		return s_purifierName;
+	public String getPurifierName() {
+		return sPurifierName;
 	}
 }
