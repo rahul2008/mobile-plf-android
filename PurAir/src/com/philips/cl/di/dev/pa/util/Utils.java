@@ -928,7 +928,7 @@ public class Utils {
 		int totalAirCount = 0;
 		OutdoorAQIEventDto outdoorAQIEventDto = HomeFragment.getOutdoorAQIEventDto();
 		if (outdoorAQIEventDto != null){
-			if (OUTDOOR_AQI_PERCENTAGE_LIST != null ) {
+			if (OUTDOOR_AQI_PERCENTAGE_LIST.size() > 0 ) {
 				OUTDOOR_AQI_PERCENTAGE_LIST.clear();
 			}
 			int idx[] = outdoorAQIEventDto.getIdx();
@@ -954,7 +954,7 @@ public class Utils {
 				}
 				totalAirCount++;
 			}
-			OUTDOOR_AQI_PERCENTAGE_LIST.add(Utils.getPercentage(goodAirCount, totalAirCount));
+			OUTDOOR_AQI_PERCENTAGE_LIST.add(getPercentage(goodAirCount, totalAirCount));
 
 			/** last 7 days */
 			/**
