@@ -105,8 +105,9 @@ public class PurifierDatabase {
 				cursor = db.query(AppConstants.AIRPUR_INFO_TABLE, 
 						new String[] {AppConstants.ID, AppConstants.AIRPUR_USN}, 
 						AppConstants.AIRPUR_USN + "= ?", new String[]{usn}, null, null, null);
-				ALog.i(ALog.DATABASE, "All exists cursor count: " + cursor.getCount());
+
 				if (cursor != null && cursor.getCount() > 0) {
+					ALog.i(ALog.DATABASE, "All exists cursor count: " + cursor.getCount());
 					cursor.moveToNext();
 					id = cursor.getLong(cursor.getColumnIndex(AppConstants.ID));
 					ALog.i(ALog.DATABASE, "All exists");
