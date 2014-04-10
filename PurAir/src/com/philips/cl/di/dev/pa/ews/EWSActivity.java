@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.ews;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;

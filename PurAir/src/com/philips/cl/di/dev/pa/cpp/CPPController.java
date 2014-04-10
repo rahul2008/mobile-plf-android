@@ -204,12 +204,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		int rv = 0;
 
-		if(signon==null)
+		if(signon == null)
 		{
-			SignOn.create(callbackHandler, configParams);
+			signon = SignOn.getInstance(callbackHandler, configParams);
 		}
 
-		signon = SignOn.getInstance();
 		// For TLS/KPS enabled case to load-certificates/chek network & other
 		// information
 		// Need android context
@@ -223,13 +222,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 
 	}
-
+	
 	/**
 	 * This method will be used for signon.
 	 */
 	private void signon() {
 		Log.i(TAG, "signon");
-		signon = SignOn.getInstance();
 		signon.setIsFirstTime(true);
 		int rv = signon.executeCommand();
 		if( rv != Errors.SUCCESS ) {
@@ -258,7 +256,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			callbackHandler.setHandler(this);
 			DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(
 					context);
-			SignOn.create(callbackHandler, configParams);
 			signon();
 		}
 	}
@@ -269,6 +266,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param downloadDataListener
 	 */
 	public void setDownloadDataListener(ICPDownloadListener downloadDataListener) {
+		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
 		this.downloadDataListener = downloadDataListener;
 	}
 
@@ -307,7 +305,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			if (isSignOn) {
 				Log.i(TAG, "Signon Success");
 				int numberOfEvents = 20;
-				eventSubscription = EventSubscription.create(callbackHandler,
+				eventSubscription = EventSubscription.getInstance(callbackHandler,
 						numberOfEvents);
 				eventSubscription.setFilter("");
 				eventSubscription.setServiceTag("");
@@ -396,6 +394,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
+		ALog.i(ALog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + isSignOn);
 		try {
 			if (isSignOn) {
 				downloadData = new DownloadData(callbackHandler);
@@ -474,7 +473,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 			}
 		} else if (eventType == Commands.DOWNLOAD_DATA) {
-
+			ALog.i(ALog.INDOOR_RDCP, "ICP client callbacked");
 			byte[] bufferOriginal = ((DownloadData) obj).getBuffer().array();
 			byte[] buffer = bufferOriginal.clone();
 
@@ -484,8 +483,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 			downloadDataBuilder.append(new String(buffer, Charset
 					.defaultCharset()));
+			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + downloadDataBuilder.toString());
+			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + ((DownloadData) obj).getIsDownloadComplete());
 
-			if (((DownloadData) obj).getIsDownloadComplete() == true) {
+			if (((DownloadData) obj).getIsDownloadComplete()) {
 				Log.i(TAG, "Download complete");
 				if (downloadDataListener != null) {
 					String downloadedData = downloadDataBuilder.toString();
@@ -551,8 +552,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 */
 	public String getICPClientVersion() {
 		if (signon == null) {
-			SignOn.create(callbackHandler, configParams);
-			signon = SignOn.getInstance();
+			signon = SignOn.getInstance(callbackHandler, configParams);
 		}
 
 		return signon.clientVersion();
