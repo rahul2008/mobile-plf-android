@@ -55,7 +55,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private String networkSSID ;
 	private String password ;
 
-	private Dialog progressDialogForStep2 ;
+//	private Dialog progressDialogForStep2 ;
 	
 	private EWSBroadcastReceiver ewsService ;
 	private String purifierName;
@@ -77,8 +77,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		
-		progressDialogForStep2 = EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH) ;
 	}
 
 	/*Initialize action bar */
@@ -103,6 +101,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private void setActionBarHeading (int index) {
 		switch (index) {
 		case EWSConstant.EWS_STEP_START:
+		case EWSConstant.EWS_STEP_CHANGE_NETWORK:	
 		case EWSConstant.EWS_STEP_ONE:
 		case EWSConstant.EWS_STEP_TWO:
 		case EWSConstant.EWS_STEP_THREE:
@@ -183,10 +182,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
 			return true;
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:
-			mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-			if (!mWifi.isConnected() || wifiManager.getConnectionInfo() == null 
-				|| networkSSID == null || networkSSID.length() == 0 
-				|| networkSSID.contains(EWSWifiManager.DEVICE_SSID)) {
+			if (!isHomeNeworkSelected()) {
 				showEwsStartFragment();
 			} else {
 				showStepOneFragment();
@@ -357,7 +353,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void connectToAirPurifier() {
-		progressDialogForStep2.show();
+		dismissCheckSingnalStrengthDialog();
+		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		if ( ewsService == null)
 			ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
 		ewsService.setSSID(networkSSID) ;
@@ -390,9 +387,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onHandShakeWithDevice() {
-		if( progressDialogForStep2.isShowing() ) {
-			progressDialogForStep2.dismiss() ;
-		}
+		dismissCheckSingnalStrengthDialog();
 		mStep = EWSConstant.EWS_STEP_THREE ;
 		showFragment(new EWSStepThreeFragment(), EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
 		
@@ -424,8 +419,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onErrorOccurred(int errorCode) {
-		if( progressDialogForStep2.isShowing())
-			progressDialogForStep2.dismiss() ;
+		if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
+		}
 		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		switch (errorCode) {
@@ -557,6 +553,23 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public String getNetworkSSID() {
 		return networkSSID;
+	}
+	
+	private void dismissCheckSingnalStrengthDialog() {
+		if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
+		}
+	}
+	
+	private boolean isHomeNeworkSelected() {
+		mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		if (!mWifi.isConnected() || wifiManager.getConnectionInfo() == null 
+			|| networkSSID == null || networkSSID.length() == 0 
+			|| networkSSID.contains(EWSWifiManager.DEVICE_SSID)) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 }

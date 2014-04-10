@@ -935,6 +935,11 @@ public class Utils {
 			float[] lastDayAQIReadings = new float[24];
 			float[] last7dayAQIReadings = new float[7];
 			float[] last4weekAQIReadings = new float[28];
+			
+			if (idx.length == 0) {
+				return;
+			}
+			
 			/** last day days */
 			/**
 			 * Adding last 24 data into lastDayReadings array, from index 696 t0

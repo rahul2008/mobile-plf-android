@@ -95,18 +95,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		wetherForcastLayout.addView(weatherReportLayout);
 	}
 
-
-//	@Override
-//	protected void onResume() {
-//		super.onResume();
-//		
-//	}
-
-//	@Override
-//	protected void onPause() {
-//		super.onPause();
-//	}
-
 	/**
 	 * Reading data from server
 	 * */
@@ -150,6 +138,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			}
 
 			int idx[] = aqiEventDto.getIdx();
+			
+			if (idx.length == 0) {
+				return;
+			}
 
 			/** last day days */
 			/**
