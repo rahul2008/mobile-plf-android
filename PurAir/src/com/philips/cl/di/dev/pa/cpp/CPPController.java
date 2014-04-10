@@ -254,8 +254,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			isSignOn = true ;
 			ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 			callbackHandler.setHandler(this);
-			DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(
-					context);
+//			DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(context);
 			signon();
 		}
 	}

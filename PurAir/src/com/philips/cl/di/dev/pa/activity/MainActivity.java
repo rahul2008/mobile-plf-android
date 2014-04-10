@@ -55,7 +55,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -78,8 +77,8 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
-import com.philips.cl.di.dev.pa.firmware.NewFirmware;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListener;
+import com.philips.cl.di.dev.pa.firmware.NewFirmware;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -1346,5 +1345,4 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			getDashboard().showFirmwareUpdatePopup(upgradeVersion, currentVersion);
 		}
 	}
-
 }

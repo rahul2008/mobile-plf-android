@@ -1,12 +1,9 @@
 package com.philips.cl.di.dev.pa.firmware;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.ProgressBar;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -24,8 +21,6 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.installing_firmware, null);
-		ProgressBar bar = (ProgressBar) view.findViewById(R.id.progress_firmware_install);
-		
 		getProps();
 		return view;
 	}

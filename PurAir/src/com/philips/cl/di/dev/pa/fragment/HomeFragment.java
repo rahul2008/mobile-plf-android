@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -30,8 +29,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.nineoldandroids.animation.AnimatorSet;
@@ -46,7 +45,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData.WeatherDataListener;
@@ -107,9 +105,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	private LinearLayout takeTourLayout;
 	private LinearLayout firmwareUpdateLayout;
 
-	private String upgradeVersion;
-	private String currentVersion;
-	
 	private static OutdoorAQIEventDto outdoorAQIEventDto;
 	private static List<Weatherdto> weatherDtoList; 
 	private static String currentCityTime;
@@ -440,8 +435,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	
 	public void showFirmwareUpdatePopup(String upgradeVersion, String currentVersion) {
 		firmwareUpdateLayout.setVisibility(View.VISIBLE);
-		this.upgradeVersion = upgradeVersion;
-		this.currentVersion = currentVersion;
+//		this.upgradeVersion = upgradeVersion;
+//		this.currentVersion = currentVersion;
 	}
 	
 	public void hideFirmwareUpdatePopup() {
