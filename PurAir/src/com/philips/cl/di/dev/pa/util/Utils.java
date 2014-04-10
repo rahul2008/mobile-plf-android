@@ -105,6 +105,9 @@ public class Utils {
 	 * @return the iP address
 	 */
 	public static String getIPAddress(Context context) {
+		if(context == null) {
+			return "";
+		}
 		String ipAddress = context.getSharedPreferences("sharedPreferences", 0)
 				.getString("ipAddress", AppConstants.DEFAULT_IPADDRESS);
 		return ipAddress;

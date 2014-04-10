@@ -22,7 +22,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	}
 
 	public TaskGetDiagnosticData(Context pContext,
-			DiagnosticsDataListener pListener, MainActivity pActivity) {
+			DiagnosticsDataListener pListener) {
 		context = pContext;
 		listener = pListener;
 	}

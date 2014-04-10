@@ -51,13 +51,14 @@
     <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
     <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
     <string name="firmware_current_version">Current version: 6.0</string>
-    <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit</string>
+    <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
     <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string>
     <string name="downloading_firmware_step">Step X of Y</string>
     <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
     <string name="downloading_firmware_text">Downloading firmware</string>
     <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
     <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
+    <string name="installed">Installed</string>
     <string name="update">Update</string>
     <string name="call">Call</string>
     <string name="send_email">Send e-mail</string>

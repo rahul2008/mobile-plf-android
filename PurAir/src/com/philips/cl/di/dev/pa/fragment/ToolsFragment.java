@@ -157,7 +157,7 @@ SignonListener, DiagnosticsDataListener {
 					Utils.getIPAddress(getActivity()));
 
 			//fetch all ports data
-			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this, ((MainActivity)getActivity()));
+			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);
 			task.execute(wifiUrl, wifiUiUrl, deviceUrl, firmwareUrl, logUrl);
 			break;
 

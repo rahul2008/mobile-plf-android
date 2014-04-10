@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" 
+    android:background="@color/white"
     android:padding="16dp">
 	
      <com.philips.cl.di.dev.pa.view.FontTextView
@@ -56,7 +57,7 @@
      
      <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/Progressbar_increasestatus"
+        android:id="@+id/progressbar_increasestatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/downloading_firmware_text"

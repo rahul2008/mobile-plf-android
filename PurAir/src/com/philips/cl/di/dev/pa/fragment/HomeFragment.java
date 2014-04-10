@@ -46,6 +46,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData.WeatherDataListener;
@@ -54,6 +55,7 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class HomeFragment extends BaseFragment implements OnClickListener, OnGestureListener, WeatherDataListener, ServerResponseListener {
 
@@ -105,6 +107,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	private LinearLayout takeTourLayout;
 	private LinearLayout firmwareUpdateLayout;
 
+	private String upgradeVersion;
+	private String currentVersion;
+	
 	private static OutdoorAQIEventDto outdoorAQIEventDto;
 	private static List<Weatherdto> weatherDtoList; 
 	private static String currentCityTime;
@@ -294,10 +299,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			btnCloseTourLayout.setOnClickListener(this);
 		}
 		
-		if (false) {
-			firmwareUpdateLayout = (LinearLayout) vMain.findViewById(R.id.firmware_update_available);
-			firmwareUpdateLayout.setVisibility(View.VISIBLE);
-		}
+		firmwareUpdateLayout = (LinearLayout) vMain.findViewById(R.id.firmware_update_available);
+		ImageButton btnFirmwareUpgrade=(ImageButton) vMain.findViewById(R.id.btn_firmware_update_available);
+		btnFirmwareUpgrade.setOnClickListener(this);
+		FontTextView ftvFirmwareUpgrade = (FontTextView) vMain.findViewById(R.id.lbl_firmware_update_available);
+		ftvFirmwareUpgrade.setOnClickListener(this);
 	}
 
 	private void initAnimations() {
@@ -432,6 +438,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		ivOutdoorMeter.setVisibility(View.VISIBLE);
 	}
 	
+	public void showFirmwareUpdatePopup(String upgradeVersion, String currentVersion) {
+		firmwareUpdateLayout.setVisibility(View.VISIBLE);
+		this.upgradeVersion = upgradeVersion;
+		this.currentVersion = currentVersion;
+	}
+	
+	public void hideFirmwareUpdatePopup() {
+		firmwareUpdateLayout.setVisibility(View.GONE);
+	}
+	
 
 	/**
 	 * Starts the Outdoor AQI task. This method calls a webservice and fetches
@@ -511,6 +527,14 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			takeTourLayout.setVisibility(View.GONE);
 			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			showTutorialDialog();
+			break;
+		case R.id.btn_firmware_update_available:
+			hideFirmwareUpdatePopup();
+			break;
+		case R.id.lbl_firmware_update_available:
+			Toast.makeText(getActivity(), "Do what now?", Toast.LENGTH_SHORT).show();
+			hideFirmwareUpdatePopup();
+			((MainActivity) getActivity()).startFirmwareUpgradeActivity();
 			break;
 		default:
 			break;

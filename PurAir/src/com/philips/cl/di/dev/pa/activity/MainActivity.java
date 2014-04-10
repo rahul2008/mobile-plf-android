@@ -55,6 +55,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -73,7 +77,9 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
 import com.philips.cl.di.dev.pa.firmware.NewFirmware;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListener;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -97,7 +103,7 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 
-public class MainActivity extends BaseActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener {
+public class MainActivity extends BaseActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener, FirmwareUpdatesListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -166,6 +172,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	
 	public boolean isClickEvent;
 	public boolean isEWSSuccessful ;
+	
+	private String upgradeVersion;
+	private String currentVersion;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -853,9 +862,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				break;
 			case 6:
 				//Firmware update
-				Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
-				firmwareIntent.putExtra("purifierName", purifierName);
-				startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
+				startFirmwareUpgradeActivity();
 				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 7:
@@ -875,6 +882,14 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				break;
 			}
 		}
+	}
+	
+	public void startFirmwareUpgradeActivity() {
+		Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
+		firmwareIntent.putExtra(AppConstants.PURIFIER_NAME, purifierName);
+		firmwareIntent.putExtra(AppConstants.UPGRADE_VERSION, upgradeVersion);
+		firmwareIntent.putExtra(AppConstants.CURRENT_VERSION, currentVersion);
+		startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
 	}
 
 	public static int getScreenWidth() {
@@ -1098,6 +1113,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				}
 				toggleConnection(true) ;
 				
+				//TODO : Check for firmware updates here.
+				String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
+				FirmwareUpdateTask task = new FirmwareUpdateTask(this);
+				task.execute(firmwareUrl);
+				
 			}
 		
 			if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size() > 0) {
@@ -1228,6 +1248,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				startKeyExchange(device);
 			}
 		}
+		
+		//TODO : Check for firmware updates here.
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
+		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
+		task.execute(firmwareUrl);
+		
 		return true ;
 	}
 	
@@ -1298,6 +1324,26 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			}
 			
 			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
+		}
+	}
+
+	@Override
+	public void firmwareDataRecieved(String data) {
+		if(data == null || data.isEmpty() || data.length() <= 0) {
+			return;
+		}
+		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
+		ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
+		ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
+		JsonElement upgrade = jsonObject.get("upgrade");
+		upgradeVersion = upgrade.getAsString();
+		JsonElement current = jsonObject.get("version");
+		currentVersion = current.getAsString();
+		ALog.i(ALog.FIRMWARE, "upgradeVersion " + upgradeVersion);
+		if(!(upgradeVersion.equals(""))) {
+			//TODO : Update dashboard UI.
+			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+			getDashboard().showFirmwareUpdatePopup(upgradeVersion, currentVersion);
 		}
 	}
 

@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 
-public class FirmwareInstallSuccessFragment extends BaseFragment {
+public class FirmwareInstallSuccessFragment extends BaseFragment{
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

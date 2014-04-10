@@ -7,7 +7,7 @@
         android:id="@+id/scrollview_firmware"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/btn_cancel" >
+        android:layout_alignParentTop="true" >
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -62,10 +62,8 @@
                 android:layout_alignLeft="@+id/firmware_releasedate"
                 android:layout_marginTop="3dp"
                 android:padding="16dp"
-                android:text="@string/firmware_version"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                android:visibility="gone"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <ImageView
@@ -104,10 +102,8 @@
                 android:padding="16dp"
                 android:layout_marginRight="20dp"
         		android:layout_alignParentRight="true"
-                android:text="@string/firmware_releasedate"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                android:visibility="gone"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <ImageView
@@ -133,7 +129,8 @@
                 android:text="@string/release_notes_txt"
                 android:textColor="@color/philips_blue"
                 android:textSize="24sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" 
+                android:visibility="gone"/>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -146,7 +143,8 @@
                 android:text="@string/release_notes_detailedtxt"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" 
+                android:visibility="gone"/>
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -159,12 +157,13 @@
                 android:text="@string/release_notes_detailedtxt2"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" 
+                android:visibility="gone" />
         </RelativeLayout>
     </ScrollView>
 
     <Button
-        android:id="@+id/btn_cancel"
+        android:id="@+id/btn_installed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

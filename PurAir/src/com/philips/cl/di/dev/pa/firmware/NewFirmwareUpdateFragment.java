@@ -5,12 +5,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class NewFirmwareUpdateFragment extends BaseFragment implements OnClickListener{
 		
+	private FontTextView firmwareVersion;
+//	private FontTextView firmwareReleaseDate;
+	private Button btnInstalled;
 			
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -21,6 +27,14 @@ public class NewFirmwareUpdateFragment extends BaseFragment implements OnClickLi
 	}
 
 	private void initViews(View view) {
+		firmwareVersion = (FontTextView) view.findViewById(R.id.firmware_version);
+		ALog.i(ALog.FIRMWARE, "NFUFrag$init((FirmwareUpdateActivity) getActivity()).getCurrentVersion() " + ((FirmwareUpdateActivity) getActivity()).getCurrentVersion());
+		firmwareVersion.setText(((FirmwareUpdateActivity) getActivity()).getCurrentVersion());
+//		firmwareReleaseDate = (FontTextView) view.findViewById(R.id.firmware_releasedate);
+		btnInstalled = (Button) view.findViewById(R.id.btn_installed);
+		btnInstalled.setText(getString(R.string.installed));
+		btnInstalled.setBackgroundResource(R.drawable.button_bg_gray);
+		btnInstalled.setClickable(false);
 	}
 
 	@Override

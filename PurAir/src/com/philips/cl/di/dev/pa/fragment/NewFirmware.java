@@ -10,11 +10,10 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.firmware.FirmwareDownloadFragment;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 
 public class NewFirmware extends BaseFragment implements OnClickListener{
-		
-			
+
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -31,23 +30,19 @@ public class NewFirmware extends BaseFragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		
+
 		case R.id.btn_firmware_update:
-//			getActivity().getSupportFragmentManager().beginTransaction()
-//			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), "NewDownloadFirmware")
-//			.commit();
 			getFragmentManager()
 			.beginTransaction()
 			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), "NewDownloadFirmware")
 			.commit();
-//			((FirmwareUpdateActivity) getActivity()).replaceFragment(new FirmwareDownloadFragment());
-			
+
 			Toast.makeText(getActivity(), "Firmware Update", Toast.LENGTH_SHORT).show();
 			break;
-		
+
 		default:
 			break;
-		
-	 }
+
+		}
 	}
 }

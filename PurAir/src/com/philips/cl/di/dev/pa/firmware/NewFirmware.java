@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -32,16 +31,12 @@ public class NewFirmware extends BaseFragment implements OnClickListener{
 		switch (v.getId()) {
 		
 		case R.id.btn_firmware_update:
-//			getActivity().getSupportFragmentManager().beginTransaction()
-//			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), "NewDownloadFirmware")
-//			.commit();
+			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("version", ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+			
 			getFragmentManager()
 			.beginTransaction()
 			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), "NewDownloadFirmware")
 			.commit();
-//			((FirmwareUpdateActivity) getActivity()).replaceFragment(new FirmwareDownloadFragment());
-			
-			//Toast.makeText(getActivity(), "Firmware Update", Toast.LENGTH_SHORT).show();
 			break;
 		
 		default:
@@ -49,4 +44,5 @@ public class NewFirmware extends BaseFragment implements OnClickListener{
 		
 	 }
 	}
+
 }
