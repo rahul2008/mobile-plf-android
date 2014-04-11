@@ -10,7 +10,7 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
 public class SubscriptionManager implements UDPEventListener, ServerResponseListener {
 	
-	private final int TTL = 3360 ;
+	private static final int TTL = 3360 ;
 	
 	private static SubscriptionManager subscriptionManager ;
 	

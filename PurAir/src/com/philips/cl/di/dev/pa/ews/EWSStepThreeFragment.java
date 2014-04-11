@@ -146,7 +146,7 @@ public class EWSStepThreeFragment extends Fragment {
 			if (source.equals(" ")) { 
 				return source;
 			}
-			if (source.toString().matches("[%^<>;&+*():'\"`~!#{}|=?, ]")) {
+			if (source.toString().matches("[%^<>;&+*():'\"`~!#{}|=?¶†, ]")) {
 				return source.subSequence(0, source.length() - 1);
 			} else {
 				return source;

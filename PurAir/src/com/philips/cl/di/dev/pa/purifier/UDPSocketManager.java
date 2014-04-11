@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.nio.charset.Charset;
 
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -32,7 +33,7 @@ public class UDPSocketManager extends Thread {
 			try {
 				socket.receive(packet) ;
 				
-				String packetReceived = new String(packet.getData()).trim();
+				String packetReceived = new String(packet.getData(), Charset.defaultCharset()).trim();
 				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListener != null) {
 					ALog.i(ALog.SUBSCRIPTION, "UDP Data Received") ;
 					String [] packetsReceived = packetReceived.split("\n") ;
