@@ -536,7 +536,7 @@ public class MainActivity extends BaseActivity implements
 						if (cppController != null) {
 							cppController.signOnWithProvisioning();
 						}
-						startRemoteConnection() ;
+						discoveryTimer.start() ;
 						if (SessionDto.getInstance().getOutdoorEventDto() == null)
 							getDashboard().startOutdoorAQITask();
 
@@ -1179,6 +1179,7 @@ public class MainActivity extends BaseActivity implements
 		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + isLocal);
 		
 		if (isLocal) {
+			discoveryTimer.cancel() ;
 			ALog.i(ALog.CONNECTIVITY, "local connection true") ;
 			rightMenuClickListener.disableControlPanel(true, airPurifierEventDto) ;
 			tvConnectionStatus.setText(getString(R.string.connected));

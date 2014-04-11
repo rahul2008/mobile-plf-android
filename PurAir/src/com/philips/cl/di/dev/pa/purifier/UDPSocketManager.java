@@ -54,7 +54,9 @@ public class UDPSocketManager extends Thread {
 	public void stopUDPListener() {
 		ALog.i(ALog.SUBSCRIPTION, "stop UDP") ;
 		stop = true ;
-		socket.close() ;
-		socket = null ;
+		if( socket != null && !socket.isClosed()) {
+			socket.close() ;
+			socket = null ;
+		}
 	}
 }
