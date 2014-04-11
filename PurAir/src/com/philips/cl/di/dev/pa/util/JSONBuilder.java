@@ -38,6 +38,13 @@ public class JSONBuilder {
 		return builder.toString() ;
 	}
 	
+	public static String getPublishEventBuilderForSubscribe(String key, String value) {
+		StringBuilder builder = new StringBuilder("{ \"product\":\"1\",\"port\":\"air\",\"data\":{") ;
+		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
+		builder.append(",\"ttl\":3360}}") ;		
+		return builder.toString() ;
+	}
+	
 	public static String getDICOMMPairingJSON(String secretKey) {
 		StringBuilder builder = new StringBuilder("{\"Pair\":[\"");
 		builder.append(AppConstants.APP_TYPE) ;

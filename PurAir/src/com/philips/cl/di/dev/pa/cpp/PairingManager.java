@@ -184,7 +184,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		pairingRelationshipData.pairingRelationshipIsAllowDelegation = true;
 		pairingRelationshipData.pairingRelationshipMetadata = null;
 		pairingRelationshipData.pairingRelationshipRelationType = relationshipType;
-		pairingRelationshipData.pairingRelationshipTTL = 12;
+		pairingRelationshipData.pairingRelationshipTTL = 120;
 		pairingRelationshipData.pairingRelationshipPermissionArray = permission;
 	}
 

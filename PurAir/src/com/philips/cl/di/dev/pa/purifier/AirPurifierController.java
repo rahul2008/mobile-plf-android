@@ -1,15 +1,16 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.net.ssl.HttpsURLConnection;
 
-import android.content.Context;
-import android.os.Handler;
-import android.util.Log;
-
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -24,84 +25,19 @@ import com.philips.cl.di.dev.pa.util.Utils;
  * parses it and sends it back to the user interface.
  *
  */
-public class AirPurifierController implements ServerResponseListener
+public class AirPurifierController implements ServerResponseListener, SubscriptionEventListener
 {
+	
+	private static AirPurifierController airPurifierController ;
 	
 	/** The sensor data handler. */
 	private AirPurifierEventListener airPurifierEventListener;
 	
-	/** request type **/
-	private int requestType ;
-	
-	/** The handler. */
-	final Handler handler = new Handler();	
-	/**  **/
-	private Context context ;
-	
-	
-	
-	/**
-	 * The Enum DeviceMode.
-	 */
-	public enum DeviceMode {
-		/** The auto. */
-		auto,
-		/** The manual. */
-		manual, 
-		
-		silent,
-		
-		turbo,
+	private List<AirPurifierEventListener> subscriptionEventListeners ;
 
-		/** The test. */
-		one,
-		
-		two,
-		
-		three
-	};
+	private SubscriptionManager subscriptionManager ;
+	
 
-	/**
-	 * The Enum RingColor.
-	 */
-	public enum RingColor {
-
-		/** The off. */
-		off(0),
-		/** The hazardous. */
-		hazardous(1),
-		/** The very_unhealthy. */
-		very_unhealthy(2),
-		/** The unhealthy. */
-		unhealthy(3),
-		/** The unhealthy_for_sensitive. */
-		unhealthy_for_sensitive(4),
-		/** The moderate. */
-		moderate(5),
-		/** The good. */
-		good(6);
-	 
- 		/** The value. */
- 		private int value;
-		 
-		 /**
- 		 * Instantiates a new ring color.
- 		 *
- 		 * @param value the value
- 		 */
- 		private RingColor(int value) {
-		   this.value = value;
-		 }
-		 
-		 /**
- 		 * Gets the value.
- 		 *
- 		 * @return the value
- 		 */
- 		public int getValue() {
-		   return value;
-		 }
-	}
 	
 	/**
 	 * Instantiates a new air purifier controller.
@@ -109,14 +45,19 @@ public class AirPurifierController implements ServerResponseListener
 	 * @param sensorDataHandler the sensor data handler
 	 * @param context the context
 	 */
-	public AirPurifierController(AirPurifierEventListener sensorDataListener,Context context) {
-		this.airPurifierEventListener = sensorDataListener ;
-		this.context = context ;
+	private AirPurifierController() {
+		subscriptionManager = SubscriptionManager.getInstance() ;
+		subscriptionManager.setSubscriptionListener(this) ;
+		subscriptionEventListeners = new ArrayList<AirPurifierEventListener>() ;
 	}
 	
-	public AirPurifierController(Context context) {
-		this.context = context ;
+	public static AirPurifierController getInstance() {
+		if( null == airPurifierController ) {
+			airPurifierController = new AirPurifierController() ;
+		}
+		return airPurifierController ;
 	}
+	
 	
 	public void setDeviceDetailsLocally(String key, String value )
 	{
@@ -126,7 +67,7 @@ public class AirPurifierController implements ServerResponseListener
 	public void setDeviceDetailsRemotely(String key, String value) {
 		String eventData = JSONBuilder.getPublishEventBuilder(key, value) ;
 		// Publish events
-		CPPController.getInstance(context).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, "", "", 20, 120) ;
+		CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, SessionDto.getInstance().getEui64(), "", 20, 120) ;
 	}
 
 	/**
@@ -134,7 +75,7 @@ public class AirPurifierController implements ServerResponseListener
 	 * @param nameValuePair
 	 */
 	private void startServerTask(String dataToUpload) {
-		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload,String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)),this) ;
+		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload,String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(PurAirApplication.getAppContext())),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
@@ -149,10 +90,8 @@ public class AirPurifierController implements ServerResponseListener
 		// TODO 
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Response: "+responseData);
 		switch (responseCode) {
-		case HttpsURLConnection.HTTP_OK:	
-			if( requestType == AppConstants.GET_SENSOR_DATA_REQUEST_TYPE ) {
+		case HttpsURLConnection.HTTP_OK:
 				parseSensorData(responseData) ;
-			}
 			break;
 		default:
 			if( airPurifierEventListener != null) {
@@ -176,9 +115,39 @@ public class AirPurifierController implements ServerResponseListener
 			airPurifierEventListener.airPurifierEventReceived(airPurifierEvent) ;
 	}
 	
-	public void getFilterStatus() {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Get Filter Status") ;
-//		TaskGetFilterStatus filterStatusTask = new TaskGetFilterStatus();
-//		executeTask(filterStatusTask, AppConstants.URL_FILTER_STATUS);
-	}	
+
+	public void setAirPurifierEventListner(AirPurifierEventListener subscriptionEventListener) {
+		subscriptionEventListeners.add(subscriptionEventListener) ;
+	}
+	
+	public void removeSubscriptionListner(SubscriptionEventListener subscriptionEventListener) {
+		subscriptionEventListeners.remove(subscriptionEventListener) ;
+	}
+	
+	public void notifyListeners(String data) {
+		AirPurifierEventDto airPurifier = new DataParser(data).parseAirPurifierEventData() ;
+		if( subscriptionEventListeners != null ) {
+			int listeners = subscriptionEventListeners.size() ;
+			for( int index = 0 ; index < listeners ; index ++ ) {
+				subscriptionEventListeners.get(index).airPurifierEventReceived(airPurifier) ;
+			}
+		}
+	}
+	
+	public void subscribe(String cppID, String url, boolean isLocal) {
+		ALog.i("Subscription", "cppID: "+cppID) ;
+		subscriptionManager.subscribe(cppID, url,isLocal) ;
+	}
+
+	public void unSubscribe(String cppID,String url) {
+		subscriptionManager.unSubscribe(cppID, url) ;
+	}
+	
+	@Override
+	public void onSubscribeEventOccurred(String data) {
+		if( data != null ) {
+			notifyListeners(data) ;
+		}
+		
+	}
 }

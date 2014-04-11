@@ -315,7 +315,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				isDCSRunning = true;
 			} else {
 				Log.i(TAG, "Not signed on");
-				init();
+				signOnWithProvisioning() ;
 			}
 		}
 	}
@@ -340,18 +340,18 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param icpClientObj
 	 */
 	private void notifyListeners(String dataReceived) {
-		Log.i(TAG, "notifyListeners()= " + dataReceived);
+		ALog.i(ALog.ICPCLIENT, "notifyListeners()= " + dataReceived);
 		if (dataReceived.contains(AppConstants.PRODUCT)) {
 			AirPurifierEventDto airPurifierDetails = new DataParser(
 					dataReceived).parseAirPurifierEventDataFromCPP();
 			int numberOfListerners = listeners.size();
+			ALog.i(ALog.ICPCLIENT, "Air Purifier Details: "+airPurifierDetails) ;
 			for (int index = 0; index < numberOfListerners; index++) {
 				listeners.get(index)
 				.onReceivedDeviceDetails(airPurifierDetails);
 			}
 		}
 	}
-
 	/**
 	 * This method will be used to publish the events from App to Air Purifier
 	 * via CPP
@@ -367,16 +367,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void publishEvent(String eventData, String eventType,
 			String actionName, String replyTo, String conversationId,
 			int priority, int ttl) {
-		Log.i(TAG, "publishEvent eventData " + eventData + " eventType "
-				+ eventType + " isSignOn " + isSignOn);
+		ALog.i(ALog.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
+				+ eventType + " Action Name: " +actionName +
+				" replyTo: " +replyTo +" + isSignOn "+isSignOn);
 		if (isSignOn) {
 			String airPurifierID = Utils.getAirPurifierID(context);
-
-			// if( airPurifierID == null ) {
-			// airPurifierID = AppConstants.AIRPURIFIER_ID ;
-			// }
 			eventPublisher.setEventInformation(eventType, actionName,
-					airPurifierID, conversationId, priority, ttl);
+					replyTo, conversationId, priority, ttl);
 			eventPublisher.setEventData(eventData);
 			eventPublisher.setTargets(new String[] { airPurifierID });
 			eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);

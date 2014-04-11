@@ -2,7 +2,10 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import java.net.HttpURLConnection;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -33,11 +36,17 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		this.subscriptionEventListener = subscriptionEventListener ;
 	}
  	
-	public void subscribe(String cppID, String url) {
+	public void subscribe(String cppID, String url, boolean isLocal) {
 		ALog.i(ALog.SUBSCRIPTION, "subscribe") ;
-		TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(cppID,TTL), url, this,AppConstants.REQUEST_METHOD_POST) ;
-		Thread subscibeThread = new Thread(subscribe) ;
-		subscibeThread.start() ;
+		if( isLocal) {
+			TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(cppID,TTL), url, this,AppConstants.REQUEST_METHOD_POST) ;
+			Thread subscibeThread = new Thread(subscribe) ;
+			subscibeThread.start() ;
+		}
+		else {
+			CPPController.getInstance(PurAirApplication.getAppContext()).
+			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe("subscriber",SessionDto.getInstance().getEui64()),"DICOMM-REQUEST","SUBSCRIBE",SessionDto.getInstance().getEui64(),"",20,120) ;
+		}
 	}
 	
 	public void unSubscribe(String cppID,String url) {
@@ -80,6 +89,9 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		//if response code not 200? retry?
 		if( responseCode != HttpURLConnection.HTTP_OK ) {
 			ALog.i(ALog.SUBSCRIPTION, "Subscription failed") ;
+		}
+		else {
+			ALog.i(ALog.SUBSCRIPTION, "Subscription successfull") ;
 		}
  	}
 } 

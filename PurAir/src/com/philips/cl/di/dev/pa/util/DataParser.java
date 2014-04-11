@@ -137,6 +137,7 @@ public class DataParser implements DataParserInterface {
 			airPurifierEvent.setChildLock(Integer.parseInt(airPuriferJson.getString(ParserConstants.CHILD_LOCK))) ;
 			airPurifierEvent.setpSensor(Integer.parseInt(airPuriferJson.getString(ParserConstants.PSENS))) ;
 			airPurifierEvent.settFav(Integer.parseInt(airPuriferJson.getString(ParserConstants.TFAV))) ;
+			airPurifierEvent.setActualFanSpeed(airPuriferJson.getString(ParserConstants.ACTUAL_FAN_SPEED));
 
 		} catch (JSONException e) {
 			ALog.e("Exception", "JSONException -- "+ e.getMessage()) ;

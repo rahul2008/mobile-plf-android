@@ -30,6 +30,7 @@ public class ALog {
 	public static final String PAIRING="Pairing";
 	public static final String SUBSCRIPTION = "Subscription" ;
 	public static final String FIRMWARE = "Firmware";
+	public static final String CONNECTIVITY = "Connectivity" ;
 
 	
 	private static boolean isLoggingEnabled = true;

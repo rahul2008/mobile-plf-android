@@ -88,7 +88,7 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		connect = (Button) activity.findViewById(R.id.connect) ;
 		
-		this.airPurifierController = new AirPurifierController(context) ;
+		airPurifierController = AirPurifierController.getInstance() ;
  		
 	}
 	
@@ -184,9 +184,7 @@ public class RightMenuClickListener implements OnClickListener {
 	private boolean getPowerButtonState(AirPurifierEventDto airPurifierEventDto) {
 //		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
 		if(airPurifierEventDto == null) {
-			disableControlPanelButtonsOnPowerOff();
-			isPowerOn = false;
-			return false;
+			return false ;
 		}
 		String powerMode = airPurifierEventDto.getPowerMode();
 		if(powerMode != null && powerMode.equals(AppConstants.POWER_ON)) {
@@ -396,6 +394,9 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	private void controlDevice(String key, String value) {
+		if( MainActivity.getAirPurifierEventDto() == null ) {
+			return ;
+		}
 		if ( MainActivity.getAirPurifierEventDto().getConnectionStatus() == com.philips.cl.di.dev.pa.constant.AppConstants.CONNECTED) {
 			airPurifierController.setDeviceDetailsLocally(key, value) ;
 		}
@@ -435,29 +436,25 @@ public class RightMenuClickListener implements OnClickListener {
 	private void enableButtonsOnPowerOn(AirPurifierEventDto airPurifierEventDto) {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
-		fanSpeed.setClickable(true);
-
 		if(airPurifierEventDto != null) {
-			setFanSpeed(airPurifierEventDto);
-		}
-		timer.setClickable(true);
-		timer.setBackgroundDrawable(enabledButton);
-		
-		schedule.setClickable(true);
-		schedule.setBackgroundDrawable(enabledButton);
-		
-		if(airPurifierEventDto != null) {
-			childLock.setClickable(true);
-			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));
-			
+			fanSpeed.setClickable(true);
 			indicatorLight.setClickable(true);
-			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
-		} else {
-			childLock.setClickable(false);
-			childLock.setChecked(false);
+			childLock.setClickable(true);
+			timer.setClickable(true);
+			timer.setBackgroundDrawable(enabledButton);
 			
+			schedule.setClickable(true);
+			schedule.setBackgroundDrawable(enabledButton);
+			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));			
+			setFanSpeed(airPurifierEventDto);
+			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
+		}
+		else {
+			fanSpeed.setClickable(false);
 			indicatorLight.setClickable(false);
-			indicatorLight.setChecked(false);
+			childLock.setClickable(false);
+			timer.setClickable(false);			
+			schedule.setClickable(false);
 		}
 	}
 	
@@ -536,11 +533,16 @@ public class RightMenuClickListener implements OnClickListener {
 			connect.setVisibility(View.VISIBLE) ;
 		} else {
 			connect.setVisibility(View.GONE) ;
-			power.setClickable(true);
-			
-			power.setChecked(getPowerButtonState(airPurifierEventDto));
-			if(isPowerOn)
-				enableButtonsOnPowerOn(airPurifierEventDto);
+		
+			if( airPurifierEventDto != null ) {
+				power.setClickable(true);
+				power.setChecked(getPowerButtonState(airPurifierEventDto));
+				if(isPowerOn)
+					enableButtonsOnPowerOn(airPurifierEventDto);
+			}
+			else {
+				disableControlPanelButtonsOnPowerOff() ;
+			}
 		}
 	}
 }
