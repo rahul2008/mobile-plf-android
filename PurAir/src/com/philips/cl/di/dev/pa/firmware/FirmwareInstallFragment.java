@@ -42,17 +42,31 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject " + jsonObject);
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
-		JsonElement progressElemt = jsonObject.get("upgrade");
-		JsonElement stateElemt = jsonObject.get("state");
-		String upgradeString = progressElemt.getAsString();
-		String stateString = stateElemt.getAsString();
+		
+		String upgradeString = getUpgrade(jsonObject);
+		String stateString = getState(jsonObject);
+		
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
 		if((stateString.equals("idle")) && upgradeString.equals("")) {
-			getFragmentManager()
-			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareInstallSuccessFragment(), "FirmwareInstallSuccessFragment")
-			.commit();
+			showNextFragment();
 		}
 		getProps();
+	}
+	
+	public String getUpgrade(JsonObject jsonObject) {
+		JsonElement progressElemt = jsonObject.get("upgrade");
+		return progressElemt.getAsString();
+	}
+
+	public String getState(JsonObject jsonObject) {
+		JsonElement stateElemt = jsonObject.get("state");
+		return stateElemt.getAsString();
+	}
+	
+	public void showNextFragment() {
+		getFragmentManager()
+		.beginTransaction()
+		.replace(R.id.firmware_container, new FirmwareInstallSuccessFragment(), "FirmwareInstallSuccessFragment")
+		.commit();
 	}
 }

@@ -89,10 +89,10 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
 		ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
 		ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("progress"));
-		JsonElement progressElemt = jsonObject.get("progress");
-		JsonElement stateElemt = jsonObject.get("state");
-		String progressString = progressElemt.getAsString();
-		String stateString = stateElemt.getAsString();
+		
+		String progressString = getProgress(jsonObject);
+		String stateString = getState(jsonObject);
+
 		ALog.i(ALog.FIRMWARE, "upgradeString " + progressString);
 		if(!(progressString.equals(""))) {
 			progressPercent.setText(progressString + "%");
@@ -100,12 +100,26 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 			
 			if(progressString.equals("100") && stateString.equals("ready")) {
 				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("state", "go");
-				getFragmentManager()
-				.beginTransaction()
-				.replace(R.id.firmware_container, new FirmwareInstallFragment(), "FirmwareInstallFragment")
-				.commit();
+				showNextFragment();
 			}
 		}
 		getProps();
+	}
+	
+	public String getProgress(JsonObject jsonObject) {
+		JsonElement progressElemt = jsonObject.get("progress");
+		return progressElemt.getAsString();
+	}
+	
+	public String getState(JsonObject jsonObject) {
+		JsonElement stateElemt = jsonObject.get("state");
+		return stateElemt.getAsString();
+	}
+	
+	public void showNextFragment() {
+		getFragmentManager()
+		.beginTransaction()
+		.replace(R.id.firmware_container, new FirmwareInstallFragment(), "FirmwareInstallFragment")
+		.commit();
 	}
 }
