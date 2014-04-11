@@ -176,6 +176,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	private boolean replaceFragmentOnBackPress() {
+		ALog.i(ALog.EWS, "replaceFragmentOnBackPress: " + mStep);
 		switch (mStep) {
 		case EWSConstant.EWS_STEP_START:
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
@@ -282,7 +283,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void showHomeScreen() {
-		
+		mStep = EWSConstant.EWS_START_MAIN;
 		stopDiscovery();
 		
 		if (deviceInfoDto != null) {
