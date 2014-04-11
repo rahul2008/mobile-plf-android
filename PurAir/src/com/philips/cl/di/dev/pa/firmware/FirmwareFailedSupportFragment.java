@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -27,11 +28,26 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 		tvFirmwareFailedUpd = (TextView) view.findViewById(R.id.firmware_failed_update);
 		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
 		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update, activity.getPurifierName())) ;
+		Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+		btnCancel.setOnClickListener(this);
+		Button btnSupport = (Button) view.findViewById(R.id.btn_support);
+		btnSupport.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.btn_cancel:
+			((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(0);
+			getActivity().finish();
+			break;
+		case R.id.btn_support:
+			((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(0);
+			getFragmentManager()
+			.beginTransaction()
+			.replace(R.id.firmware_container, new FirmwareContactSupportFragment(), "FirmwareContactSupportFragment")
+			.commit();
+			break;
 		
 		default:
 			break;

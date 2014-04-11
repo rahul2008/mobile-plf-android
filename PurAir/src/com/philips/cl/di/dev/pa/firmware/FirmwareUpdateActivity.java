@@ -24,6 +24,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private String purifierName;
 	private String upgradeVersion;
 	private String currentVersion;
+	private int downloadFailedCount;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		switch (v.getId()) {
 		case R.id.ews_actionbar_cancel_btn:
 			Toast.makeText(this, "Cancel button clicked", Toast.LENGTH_SHORT).show();
+			setDeviceDetailsLocally("state", "cancel");
 			finish();
 			break;
 
@@ -113,5 +115,13 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	
 	public String getPurifierName() {
 		return purifierName;
+	}
+	
+	public int getDownloadFailedCount() {
+		return downloadFailedCount;
+	}
+
+	public void setDownloadFailedCount(int downloadFailedCount) {
+		this.downloadFailedCount = downloadFailedCount;
 	}
 }

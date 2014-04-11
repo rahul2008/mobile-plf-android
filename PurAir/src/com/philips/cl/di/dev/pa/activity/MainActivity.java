@@ -1256,7 +1256,6 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			}
 		}
 		
-		//TODO : Check for firmware updates here.
 		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
 		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
 		task.execute(firmwareUrl);

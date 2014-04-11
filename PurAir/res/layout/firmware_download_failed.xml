@@ -39,7 +39,7 @@
         android:padding="16dp" >
 
         <Button
-            android:id="@+id/btn_confirm_wifi_enabled_no"
+            android:id="@+id/btn_cancel_firmware_failed"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
@@ -51,7 +51,7 @@
             android:textSize="14sp" />
 
         <Button
-            android:id="@+id/btn_confirm_wifi_enabled_yes"
+            android:id="@+id/btn_try_again_firmware_failed"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="35dp"
