@@ -347,7 +347,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		
 	}
 
-	private CountDownTimer deviceSSIDTimer = new CountDownTimer(30000, 1000) {
+	private CountDownTimer deviceSSIDTimer = new CountDownTimer(60000, 1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
 		}
