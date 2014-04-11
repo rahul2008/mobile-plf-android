@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -1313,12 +1315,17 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 	private void checkForPairing() {
 		if(cppController.isSignOn()) {
-			String eui64 = Utils.getAirPurifierID(this) ;
+			final String eui64 = Utils.getAirPurifierID(this) ;
 			long pairedOn = purifierDatabase.getPurifierLastPairedOn(eui64);
 			if( !isPairingDialogShown && pairedOn <= 0 )
 			{
 				isPairingDialogShown = true;
-				showPairingDialog(eui64);
+				this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						showPairingDialog(eui64);
+					}
+				});				
 			}
 			else
 			{
