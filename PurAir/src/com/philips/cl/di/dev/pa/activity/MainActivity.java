@@ -69,6 +69,8 @@ import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
+import com.philips.cl.di.dev.pa.cpp.PairingManager;
+import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
@@ -102,7 +104,7 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 
-public class MainActivity extends BaseActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener, FirmwareUpdatesListener {
+public class MainActivity extends BaseActivity implements SensorEventListener, ICPDeviceDetailsListener, Callback , KeyDecryptListener, OnClickListener, FirmwareUpdatesListener, SignonListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -123,7 +125,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	private ImageView ivConnectedImage;
 	private Menu menu;
 	private boolean connected;
-	
+
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView, activeCarbonFilterView, hepaFilterView;
 
@@ -160,26 +162,28 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	private IntentFilter filter ;
 
 	private static boolean stopService;
-	
+
 	private String purifierName;
 	public boolean isDiagnostics;
 	private PurifierDatabase purifierDatabase;
 	private List<PurifierDetailDto> dbPurifierDetailDtoList;
 	private Hashtable<String, PurifierDetailDto> ssdpDeviceInfoTable;
-	
+
 	private String localDeviceUsn;
-	
+
 	public boolean isClickEvent;
 	public boolean isEWSSuccessful ;
-	
+	public boolean isPairingDialogShown;
+
 	private String upgradeVersion;
 	private String currentVersion;
+
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_aj);
 		purifierName = getString(R.string.philips_home);
-		
+
 		/**
 		 * Initialize database
 		 */
@@ -206,7 +210,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		screenHeight = displayMetrics.heightPixels;
 
 		initActionBar();
-	
+
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
@@ -217,9 +221,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
-					mRightDrawerOpened = false;
-					supportInvalidateOptionsMenu();
-					drawerOpen = false;
+				mRightDrawerOpened = false;
+				supportInvalidateOptionsMenu();
+				drawerOpen = false;
 			}
 
 			@Override
@@ -292,6 +296,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	private void initializeCPPController() {
 		cppController = CPPController.getInstance(this) ;		
 		cppController.addDeviceDetailsListener(this) ;
+		cppController.addSignonListener(this) ;
 	}
 
 	private void createNetworkReceiver() {
@@ -306,12 +311,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					NetworkInfo netInfo = conMan.getActiveNetworkInfo();
 					if (netInfo!=null && netInfo.isConnected()) {
 						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED") ;
-						
+
 						if(cppController!=null)
 						{
 							cppController.signOnWithProvisioning();
 						}
-						
+
 						if(SessionDto.getInstance().getOutdoorEventDto() == null)
 							getDashboard().startOutdoorAQITask();
 
@@ -357,13 +362,13 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		ALog.i(ALog.MAINACTIVITY, "stopLocalConnection: "+sensorDataController) ;
 		isDeviceDiscovered = false ;
 		if( sensorDataController != null) {
-			
+
 			sensorDataController.stopPolling() ;
 		}
 		isLocalPollingStarted = false ;
 		removeLostDeviceFromMap();
 	}
-	
+
 	private void removeLostDeviceFromMap() {
 		DeviceListModel deviceListModel = new DeviceListModel();
 		ALog.i(ALog.MAINACTIVITY, "Going to remove device info from devicemap usn : " + localDeviceUsn);
@@ -438,11 +443,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		FragmentManager manager = getSupportFragmentManager();
 		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		
+
 		if(fragment instanceof OutdoorLocationsFragment && android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
 			invalidateOptionsMenu(); 
 		}
-		
+
 		if(drawerOpen) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -459,11 +464,11 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			finish();
 		}
 	}
-	
+
 	public DrawerLayout getDrawerLayout(){
 		return mDrawerLayout;
 	}
-	
+
 	public ScrollView getScrollViewRight() {
 		return mScrollViewRight;
 	}
@@ -699,7 +704,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			return true;
 		}
-	
+
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
@@ -898,12 +903,12 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 	public static int getScreenHeight() {
 		return screenHeight;
 	}
-	
+
 	private int statusCounter = 0;
-	
+
 	@Override
 	public void sensorDataReceived(AirPurifierEventDto airPurifierDetails) {
-		
+
 		if ( airPurifierDetails != null ) {
 			ALog.i(ALog.MAINACTIVITY, "SensorData Received") ;
 			statusCounter = 0 ;
@@ -918,7 +923,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 				statusCounter = 0 ;
 				secretKey = null ; 
 				isDeviceDiscovered = false ;
-				
+
 				disableRightMenuControls() ;
 				toggleConnection(false) ;
 			}
@@ -1065,7 +1070,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			stopLocalConnection() ;
 		}
 	}
-	
+
 	private CountDownTimer timer = new CountDownTimer(AppConstants.DCS_TIMEOUT,1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
@@ -1111,27 +1116,27 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					sensorDataController.addListener(this);
 				}
 				toggleConnection(true) ;
-				
+
 				//TODO : Check for firmware updates here.
 				String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
 				FirmwareUpdateTask task = new FirmwareUpdateTask(this);
 				task.execute(firmwareUrl);
 				
 			}
-		
+
 			if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size() > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
-			
+
 			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
-			
+
 			startDeviceDiscovery() ;
-	
+
 			this.registerReceiver(networkReceiver, filter) ;
-			
+
 			isEWSStarted = false ;
 			break;
-			
+
 		case AppConstants.FIRMWARE_REQUEST_CODE :
 			ALog.i(ALog.ACTIVITY, "MainActivity$onActivityResult FIRMWARE_REQUEST_CODE");
 			break;
@@ -1152,7 +1157,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		isClickEvent = false ;
 		super.onUserLeaveHint();
 	}
-	
+
 	@Override
 	public boolean handleMessage(Message msg) {
 		DeviceModel device = null ;
@@ -1165,7 +1170,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			if (device == null ) {
 				return false;
 			}
-			
+
 			switch (message) {
 			case DEVICE_DISCOVERED:
 				if (device.getSsdpDevice() == null) {
@@ -1188,22 +1193,23 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		}
 		return false;
 	}
-	
+
 	private boolean onFirstDeviceDiscovered(DeviceModel device) {
 		isDeviceDiscovered = true ; 
 		Utils.setIPAddress(device.getIpAddress(), this) ;
-		
+
 		setPurifierName(device.getSsdpDevice().getFriendlyName()) ;
 		String ssdpDiscoveredUsn = device.getUsn();
 		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
 			return true;
 		}
-		
+
 		localDeviceUsn = ssdpDiscoveredUsn;
-		
+
 		getSharedPreferences("cpp_preferences01", 0).edit().putString(
 				"airpurifierid", device.getSsdpDevice().getCppId()).commit();
-		
+
+
 		long ssdpDiscoveredBootId = 0L;
 		try {
 			ssdpDiscoveredBootId = Long.parseLong(device.getBootID());
@@ -1213,9 +1219,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		}
 		if (ssdpDiscoveredBootId == 0L) {
 			startKeyExchange(device);
-			
+
 		}
-		
+
 		if (dbPurifierDetailDtoList != null ) {
 			boolean isDeviceInDb = false;
 			for (PurifierDetailDto infoDto : dbPurifierDetailDtoList) {
@@ -1242,7 +1248,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 					break;
 				} 
 			}
-			
+
 			if (!isDeviceInDb) {
 				startKeyExchange(device);
 			}
@@ -1255,13 +1261,13 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		
 		return true ;
 	}
-	
+
 	private boolean onDeviceLost(DeviceModel device) {
 		String ssdpDeviceUsn = device.getId();
 		if (ssdpDeviceUsn == null || ssdpDeviceUsn.length() <= 0) {
 			return false;
 		}
-		
+
 		if (ssdpDeviceUsn.equalsIgnoreCase(localDeviceUsn)) {
 			ALog.i(ALog.MAINACTIVITY, "Device Lost: "+ssdpDeviceUsn) ;
 			disableRightMenuControls() ;
@@ -1271,7 +1277,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		}
 		return true ;
 	}
-	
+
 	private void setPurifierName(String name) {
 		purifierName = name;
 		/**
@@ -1279,7 +1285,7 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		 */
 		homeFragment.setHomeName(purifierName);
 	}
-	
+
 	private void startKeyExchange(DeviceModel device) {
 		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"+isDeviceDiscovered) ;
 		long bootId = 0;
@@ -1295,9 +1301,9 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		deviceInfoDto.setBootId(bootId);
 		deviceInfoDto.setCppId(cppId);
 		deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
-		
+
 		ssdpDeviceInfoTable.put(cppId, deviceInfoDto);
-		
+
 		if( isDeviceDiscovered) {
 			diSecurity.initializeExchangeKeyCounter(cppId);
 			diSecurity.exchangeKey(String.format(
@@ -1305,23 +1311,43 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 		}
 	}
 
+	private void checkForPairing() {
+		if(cppController.isSignOn()) {
+			String eui64 = Utils.getAirPurifierID(this) ;
+			long pairedOn = purifierDatabase.getPurifierLastPairedOn(eui64);
+			if( !isPairingDialogShown && pairedOn <= 0 )
+			{
+				isPairingDialogShown = true;
+				showPairingDialog(eui64);
+			}
+			else
+			{
+				long diffInDays = Utils.getDiffInDays(pairedOn) ;
+	
+				if (diffInDays != 0) {
+					startPairing(eui64) ;
+				}
+			}
+		}
+	}
+	
 	@Override
 	public void keyDecrypt(String key, String devId) {
 		ALog.i(ALog.MAINACTIVITY, "Key Decrypt: "+key+" DeviceID: "+devId) ;
 		if ( secretKey == null && key != null ) {
 			this.secretKey = key ;
-			
+			checkForPairing() ;
 			toggleConnection(true) ;
-			
+
 			PurifierDetailDto deviceInfoDto  = ssdpDeviceInfoTable.get(devId);
 			deviceInfoDto.setDeviceKey(key);
-			
+
 			purifierDatabase.insertPurifierDetail(deviceInfoDto);
-			
+
 			if (dbPurifierDetailDtoList != null && dbPurifierDetailDtoList.size()  > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
-			
+
 			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
 		}
 	}
@@ -1344,5 +1370,14 @@ public class MainActivity extends BaseActivity implements SensorEventListener, I
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
 			getDashboard().showFirmwareUpdatePopup(upgradeVersion, currentVersion);
 		}
+	}
+
+
+	@Override
+	public void signonStatus(boolean signon) {
+		if( signon && isDeviceDiscovered ) {
+			checkForPairing() ;
+		}
+		
 	}
 }

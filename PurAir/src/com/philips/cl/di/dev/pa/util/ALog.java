@@ -27,8 +27,10 @@ public class ALog {
 	public static final String INDOOR_RDCP = "IndoorRdcp";
 	public static final String ANIMATOR_CONST = "AnimatorConstants";
 	public static final String AIRPURIFIER_CONTROLER = "AirPurifierController";
+	public static final String PAIRING="Pairing";
 	public static final String SUBSCRIPTION = "Subscription" ;
 	public static final String FIRMWARE = "Firmware";
+
 	
 	private static boolean isLoggingEnabled = true;
 	

@@ -1073,4 +1073,15 @@ public class Utils {
 		}
 		return newTime;
 	}
+
+	public static long getDiffInDays(long pairedOn) {
+		java.util.Date currentDate = new java.util.Date();
+		long currenttimeInMillis = currentDate.getTime();
+
+		// Difference between current and previous timestamp
+		long diff = currenttimeInMillis - pairedOn;
+		long diffInDays = diff / (1000 * 60 * 60 * 24);
+		
+		return diffInDays ;
+	}
 }

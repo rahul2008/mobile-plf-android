@@ -9,6 +9,8 @@ public class PurifierDetailDto {
 	private String deviceKey;
 	private String deviceName;
 	private String deviceIp;
+	private boolean isPaired;
+	private long lastPairedMillisec;
 	
 	public String getDeviceIp() {
 		return deviceIp;
@@ -52,5 +54,20 @@ public class PurifierDetailDto {
 	public void setDeviceKey(String deviceKey) {
 		this.deviceKey = deviceKey;
 	}
-	
+	public void setPairedStatus(int isPaired){
+		if(isPaired==0){
+			this.isPaired=false;
+		}else{
+			this.isPaired=true;
+		}
+	}
+	public boolean getPairedStatus(){
+		return isPaired;
+	}
+	public void setLastPaired(long lastPaired){
+		this.lastPairedMillisec=lastPaired;
+	}
+	public long getLastpaired(){
+		return lastPairedMillisec;
+	}
 }

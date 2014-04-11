@@ -17,6 +17,7 @@ public class SessionDto {
 	
 	private DeviceDto deviceDto ;
 	private DeviceWifiDto deviceWifiDto ;
+	private String Eui64;
 	
 	public DeviceDto getDeviceDto() {
 		return deviceDto;
@@ -67,6 +68,15 @@ public class SessionDto {
 
 	public void setWeatherDetails(List<Weatherdto> weatherDetails) {
 		this.weatherDetails = weatherDetails;
+	}
+	
+	
+	public void setAppEui64(String eui64) {
+		this.Eui64 = eui64;
+	}
+	
+	public String getEui64() {
+		return Eui64;		
 	}
 
 	/**

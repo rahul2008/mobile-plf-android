@@ -65,6 +65,8 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 				+ AppConstants.AIRPUR_CPP_ID + " TEXT UNIQUE," 
 				+ AppConstants.AIRPUR_DEVICE_NAME + " TEXT," 
 				+ AppConstants.AIRPUR_BOOT_ID + " NUMERIC,"
+				+ AppConstants.IS_PAIRED + " SMALLINT NOT NULL  DEFAULT 0,"
+				+ AppConstants.LAST_PAIRED + " NUMERIC,"
 				+ AppConstants.AIRPUR_KEY + " TEXT" + ")";
 		
 		db.execSQL(createSQL);

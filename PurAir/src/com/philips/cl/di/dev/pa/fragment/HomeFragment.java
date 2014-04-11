@@ -547,7 +547,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 
 		TextView takeTourAlertLbl=(TextView) dialog.findViewById(R.id.take_tour_alert);
 		Button btnClose=(Button) dialog.findViewById(R.id.btn_close);			
-		Button btnTakeTour=(Button) dialog.findViewById(R.id.btn_take_tour);
+		Button btnTakeTour=(Button) dialog.findViewById(R.id.btn_yes);
 
 		takeTourAlertLbl.setTypeface(Fonts.getGillsans(getActivity()));
 		btnClose.setTypeface(Fonts.getGillsans(getActivity()));

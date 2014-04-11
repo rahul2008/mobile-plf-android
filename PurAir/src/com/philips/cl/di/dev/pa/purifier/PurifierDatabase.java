@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -14,7 +15,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
 
 public class PurifierDatabase {
-	
+
 	private SQLiteDatabase db;
 	private PurifierDBHelper dbHelper;
 	/**
@@ -30,30 +31,30 @@ public class PurifierDatabase {
 	 * @return
 	 */
 	public long insertPurifierDetail(PurifierDetailDto deviceInfoDto) {
-		
+
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + deviceInfoDto.getUsn()
 				+ ", CppId: " + deviceInfoDto.getCppId()
 				+ ", BootId: " + deviceInfoDto.getBootId()
 				+ ", Name: " + deviceInfoDto.getDeviceName()
 				+ ", Key: " + deviceInfoDto.getDeviceKey());
-		
+
 		long rowId = -1L;
-		
+
 		long id = getRowIdOfPurifier(deviceInfoDto.getUsn());
-		
+
 		Cursor cursor = null;
 		if (id == -1L) {
 			ALog.i(ALog.DATABASE, "First time adding");
 			try {
 				db = dbHelper.getWritableDatabase();
-				
+
 				ContentValues values = new ContentValues();
 				values.put(AppConstants.AIRPUR_USN, deviceInfoDto.getUsn());
 				values.put(AppConstants.AIRPUR_CPP_ID, deviceInfoDto.getCppId());
 				values.put(AppConstants.AIRPUR_BOOT_ID, deviceInfoDto.getBootId());
 				values.put(AppConstants.AIRPUR_DEVICE_NAME, deviceInfoDto.getDeviceName());
 				values.put(AppConstants.AIRPUR_KEY, deviceInfoDto.getDeviceKey());
-				
+
 				rowId = db.insert(AppConstants.AIRPUR_INFO_TABLE, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, e.getMessage());
@@ -89,7 +90,7 @@ public class PurifierDatabase {
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, e.getMessage());
 		}
-		
+
 	}
 	/**
 	 * 
@@ -137,7 +138,7 @@ public class PurifierDatabase {
 				cursor.moveToFirst();
 				do {
 					PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
-					
+
 					deviceInfoDto.setId(
 							cursor.getLong(cursor.getColumnIndex(AppConstants.ID)));
 					deviceInfoDto.setUsn(
@@ -150,17 +151,22 @@ public class PurifierDatabase {
 							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_DEVICE_NAME)));
 					deviceInfoDto.setDeviceKey(
 							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_KEY)));
-	
+					deviceInfoDto.setLastPaired(
+							cursor.getLong(cursor.getColumnIndex(AppConstants.LAST_PAIRED)));
+					deviceInfoDto.setPairedStatus(
+							cursor.getInt(cursor.getColumnIndex(AppConstants.IS_PAIRED)));
+
 					ALog.i(ALog.DATABASE, "Database device details: " + deviceInfoDto.getUsn()
 							+ ", CppId: " + deviceInfoDto.getCppId()
 							+ ", BootId: " + deviceInfoDto.getBootId()
 							+ ", ID: " + deviceInfoDto.getId()
 							+ ", Name: " + deviceInfoDto.getDeviceName()
-							+ ", Key: " + deviceInfoDto.getDeviceKey());
-					
+							+ ", Key: " + deviceInfoDto.getDeviceKey()
+							+ ", lastPaired: " + deviceInfoDto.getLastpaired());
+
 					deviceInfoDtoList.add(deviceInfoDto);
 				} while (cursor.moveToNext());
-					
+
 			} else {
 				ALog.i(ALog.DATABASE,"Empty device table");
 			}
@@ -170,7 +176,7 @@ public class PurifierDatabase {
 			closeCursor(cursor);
 			closeDb();
 		}
-		
+
 		return deviceInfoDtoList;
 	}
 	/**
@@ -187,12 +193,12 @@ public class PurifierDatabase {
 		try {
 			ALog.i(ALog.DATABASE, "Update");
 			db = dbHelper.getWritableDatabase();
-			
+
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.AIRPUR_BOOT_ID, bootId);
 			values.put(AppConstants.AIRPUR_KEY, devKey);
 			values.put(AppConstants.AIRPUR_DEVICE_NAME, purifierName);
-			
+
 			rowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
 					values, AppConstants.ID + "= ?", new String[] {String.valueOf(id)});
 		} catch (Exception e) {
@@ -211,7 +217,7 @@ public class PurifierDatabase {
 		long rowId = -1;
 		try {
 			db = dbHelper.getWritableDatabase();
-			
+
 			rowId = db.delete(AppConstants.AIRPUR_INFO_TABLE, 
 					AppConstants.ID + "= ?", new String[] {String.valueOf(id)});
 		} catch (Exception e) {
@@ -219,9 +225,66 @@ public class PurifierDatabase {
 		} finally {
 			closeDb();
 		}
-		
+
 		return rowId;
-		
+
 	}
 
+	/**
+	 * Method updatePairingStatus.
+	 * @param purifierId String
+	 * @param isPaired int
+	 * @param lastPaired long
+	 * @return long
+	 */
+	public long updatePairingStatus(String purifierId) {
+		ALog.i(ALog.DATABASE, "purfier id: " + purifierId);
+		long rowId = -1;
+		try {
+			ALog.i(ALog.DATABASE, "Update pairing status");
+			db = dbHelper.getWritableDatabase();
+
+			ContentValues values = new ContentValues();
+			values.put(AppConstants.IS_PAIRED, 1);
+			values.put(AppConstants.LAST_PAIRED, new Date().getTime());
+
+			rowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
+					values, AppConstants.AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifierId)});
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
+		} finally {
+			closeDb();
+		}
+		return rowId;
+	}
+
+	/**
+	 * Method getPurifierLastPairedOn.
+	 * @param purifierId String
+	 * @return long
+	 */
+	public long getPurifierLastPairedOn(String purifierId) {
+		long lastPaired = -1;
+		if (purifierId != null) {
+			Cursor cursor = null;
+			try {
+				db = dbHelper.getReadableDatabase();
+				cursor = db.query(AppConstants.AIRPUR_INFO_TABLE, 
+						new String[] {AppConstants.LAST_PAIRED}, 
+						AppConstants.AIRPUR_CPP_ID + "= ?", new String[]{purifierId}, null, null, null);
+				ALog.i(ALog.DATABASE, "All exists cursor count: " + cursor.getCount());
+				if (cursor != null && cursor.getCount() > 0) {
+					cursor.moveToNext();
+					lastPaired = cursor.getLong(cursor.getColumnIndex(AppConstants.LAST_PAIRED));
+					ALog.i(ALog.DATABASE, "All exists");
+				}
+			} catch (Exception e) {
+				ALog.e(ALog.DATABASE, e.getMessage());
+			} finally {
+				closeCursor(cursor);
+				closeDb();
+			}
+		}	
+		return lastPaired;
+	}
 }

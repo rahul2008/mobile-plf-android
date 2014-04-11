@@ -18,6 +18,7 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -435,7 +436,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				isSignOn = true;
 				if (signOnListener != null) {
 					signOnListener.signonStatus(true);
-				}
+				}				
 				// startDCSService();
 			} else {
 				ALog.e(ALog.ICPCLIENT, "SIGNON-FAILED") ;
@@ -451,6 +452,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				keyProvisioningState = KEY_PROVISION.PROVISIONED ;
 				Provision provision = (Provision) obj;
 				ALog.i(ALog.KPS, "EUI64(APP-KEY): "+provision.getEUI64());
+				SessionDto.getInstance().setAppEui64(provision.getEUI64());
 				onSignon();
 			}
 			else {
@@ -558,7 +560,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	public static void reset() {
-		icpStateInstance = null;
+		icpStateInstance = null;		
 	}
 
 }

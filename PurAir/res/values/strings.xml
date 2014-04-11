@@ -455,5 +455,12 @@
 	<string name="submit">Submit</string>
 	<string name="regid_label">Please enter Registration ID</string>
 	<string name="sign_on">Sign On</string>
-		
+	
+	<!-- Pairing -->
+	<string name="pair_title">Do you want to pair your purifier?</string>
+	<string name="pair">Pair</string>
+	<string name="not_now">Not now</string>
+	<string name="error_title">We are sorry!</string>
+	<string name="paring_done">Your purifier is now paired. yay!</string>
+	<string name="paring_incomplete">Some error occurred while pairing, please try again later</string>
 </resources>

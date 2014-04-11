@@ -163,6 +163,8 @@ public class AppConstants {
 	public static final String AIRPUR_BOOT_ID = "bootid";
 	public static final String AIRPUR_KEY = "airpur_key";
 	public static final String AIRPUR_DEVICE_NAME = "dev_name";
+	public static final String IS_PAIRED="is_paired";
+	public static final String LAST_PAIRED = "last_paired";
 
 	public static final String SCITY_NAME_QUERY = "Select distinct "
 			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
@@ -308,6 +310,7 @@ public class AppConstants {
 	
 	public static final String URL_PORT = "http://%s/di/v1/products/1/";
 	public static final String URL_FIRMWARE_PORT = "http://%s/di/v1/products/0/firmware";
+	public static final String URL_PAIRING_PORT="http://%s/di/v1/products/0/pairing";
 	
 	public static String deviceId = "none" ;
 	
@@ -318,6 +321,12 @@ public class AppConstants {
 	public static final int EWS_REQUEST_CODE = 101;
 	public static final int FIRMWARE_REQUEST_CODE = 102;
 	
+	public static final String[] PERMISSIONS= new String[]{"Request", "Response", "Change"};
+	public static final String DI_COMM_RELATIONSHIP="DI-COMM";
+	public static final String NOTIFY_RELATIONSHIP="NOTIFY";
+	public static final String[] NOTIFY_PERMISSIONS= new String[]{"Request"};
+
+	
 	/** Activity intent key strings*/
 	//Firmware upgrade intent keys
 	public static final String UPGRADE_VERSION = "upgradeVersion";
@@ -327,4 +336,5 @@ public class AppConstants {
 	public static final String REQUEST_METHOD_POST = "POST" ;
 	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
 	public static final String REQUEST_METHOD_PUT = "PUT" ;
+
 }

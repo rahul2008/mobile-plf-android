@@ -236,12 +236,12 @@ public class ICPCallbackHandler implements CallbackHandler
 	}
 	public void pairingAddRelatioshipCB(int status, ICPClient obj)
 	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;
+		listener.onICPCallbackEventOccurred(Commands.PAIRING_ADD_RELATIONSHIP,status,obj) ;
 	}
 
 	public void pairingGetRelationsCB(int status, ICPClient obj)
 	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;
+		listener.onICPCallbackEventOccurred(Commands.PAIRING_GET_RELATIONSHIPS,status,obj) ;
 	}
 
 	public void pairingAddPermissionsCB(int status, ICPClient obj)

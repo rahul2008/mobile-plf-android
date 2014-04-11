@@ -6,7 +6,8 @@
     android:background="@color/white"
     android:padding="15dp" >
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
         android:id="@+id/take_tour_alert"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -15,7 +16,8 @@
         android:gravity="center"
         android:text="@string/alert_text"
         android:textColor="@color/philips_blue"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -35,7 +37,7 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/btn_take_tour"
+            android:id="@+id/btn_yes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"

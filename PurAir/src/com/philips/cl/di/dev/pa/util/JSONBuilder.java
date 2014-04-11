@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class JSONBuilder {
@@ -34,6 +35,17 @@ public class JSONBuilder {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"1\",\"port\":\"air\",\"data\":{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append("}}") ;		
+		return builder.toString() ;
+	}
+	
+	public static String getDICOMMPairingJSON(String secretKey) {
+		StringBuilder builder = new StringBuilder("{\"Pair\":[\"");
+		builder.append(AppConstants.APP_TYPE) ;
+		builder.append("\",\"") ;
+		builder.append(SessionDto.getInstance().getEui64());
+		builder.append("\",\"").append(secretKey);
+		builder.append("\"]}");
+		
 		return builder.toString() ;
 	}
 
