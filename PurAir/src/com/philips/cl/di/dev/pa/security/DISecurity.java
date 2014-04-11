@@ -121,7 +121,9 @@ public class DISecurity implements ServerResponseListener {
 	 * @return
 	 */
 	public String decryptData(String data, String deviceId) {
-		
+		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
+//		data = "+jEMhY7AVkPIixc3mza+95zPalRNuAYxWy32RazpYz3ILUH7asDA5K9YAwDuEVbINlgId2Cj6tcZdZJVyi12JwgmeYqa+ZWAg1JH7ND2ZVEneqAM5qpbvOIoaLK8MZypKsdUuvaSfrQ4Aax6AUiiHmYKhvPx1NVr0ijimrdTG1dLzljJvfWjapBYMoRCY9FCYcRhA8wIZ9t/A3GchPGFiPphAk2TKWHgofm34BqAiJEVzXePHPzSPYd117s/QsJlAowPNg/SkXuQM9sdhTwhrN0+Do1P4ZqCVlu6p9h4EIY=" ;
+		data = data.trim() ;
 		String key = securityKeyHashtable.get(deviceId);
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;

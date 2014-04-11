@@ -323,4 +323,8 @@ public class AppConstants {
 	public static final String UPGRADE_VERSION = "upgradeVersion";
 	public static final String CURRENT_VERSION = "currentVersion";
 	public static final String PURIFIER_NAME = "purifierName";
+	
+	public static final String REQUEST_METHOD_POST = "POST" ;
+	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
+	public static final String REQUEST_METHOD_PUT = "PUT" ;
 }

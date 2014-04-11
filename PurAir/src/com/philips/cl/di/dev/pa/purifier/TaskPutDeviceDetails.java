@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 
 import android.util.Log;
 
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
@@ -20,6 +21,8 @@ public class TaskPutDeviceDetails implements Runnable {
 
 	private int responseCode ;
 	private String url;
+	
+	private String requestMethod = "PUT" ;
 
 	public TaskPutDeviceDetails(String dataToUpload,String url, ServerResponseListener responseListener) {
 		this.dataToUpload = dataToUpload;
@@ -27,7 +30,12 @@ public class TaskPutDeviceDetails implements Runnable {
 		this.url = url ;
 	}
 
-	
+	public TaskPutDeviceDetails(String dataToUpload,String url, ServerResponseListener responseListener, String requestMethod) {
+		this.dataToUpload = dataToUpload;
+		this.responseListener = responseListener;
+		this.url = url ;
+		this.requestMethod = requestMethod ;
+	}
 
 	@Override
 	public void run() {
@@ -36,18 +44,18 @@ public class TaskPutDeviceDetails implements Runnable {
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
 		try {
-			Log.i(TAG, url) ;
+			ALog.i(ALog.SUBSCRIPTION, requestMethod) ;
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection();
-			conn.setRequestProperty("content-type", "application/json") ;
+			//conn.setRequestProperty("content-type", "application/json") ;
 			conn.setDoOutput(true);
-			conn.setRequestMethod("PUT");
+			conn.setRequestMethod(requestMethod);
 			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 			out.write(dataToUpload);
 			out.flush() ;
 
 			conn.connect();
-			int responseCode = conn.getResponseCode() ;
+			responseCode = conn.getResponseCode() ;
 
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();	
