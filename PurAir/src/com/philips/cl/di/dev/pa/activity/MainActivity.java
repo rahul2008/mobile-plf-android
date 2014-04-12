@@ -1039,7 +1039,8 @@ public class MainActivity extends BaseActivity implements
 	@Override
 	public void airPurifierEventReceived(AirPurifierEventDto airPurifierDetails) {
 		if (airPurifierDetails != null) {
-			airPurifierEventDto = airPurifierDetails;
+//			airPurifierEventDto = airPurifierDetails;
+			setAirPurifierEventDto(airPurifierDetails);
 			handler.sendEmptyMessage(0);
 		}
 	}

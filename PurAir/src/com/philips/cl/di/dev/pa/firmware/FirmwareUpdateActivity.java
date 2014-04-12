@@ -61,7 +61,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		cancelled = false;
+		setCancelled(false);
 		FirmwareDownloadFragment.setCounter(0);
 		FirmwareInstallFragment.setCounter(0);
 	}
@@ -89,7 +89,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ews_actionbar_cancel_btn:
-			cancelled = true;
+			setCancelled(true);
 			Toast.makeText(this, "Cancel button clicked", Toast.LENGTH_SHORT).show();
 			setDeviceDetailsLocally("state", "cancel");
 			finish();
