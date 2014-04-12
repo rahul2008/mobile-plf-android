@@ -562,7 +562,7 @@ public class MainActivity extends BaseActivity implements
 		connected = true;
 		stopRemoteConnection() ;
 		String appEUI64 = getAppEUI64() ;
-		ALog.i(ALog.SUBSCRIPTION, appEUI64) ;
+		ALog.i(ALog.SUBSCRIPTION, "appEUI64 "+appEUI64) ;
 		airPurifierController.subscribe(appEUI64,
 				String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress(this)),true);
 		SubscriptionManager.getInstance().openUDPSocket();

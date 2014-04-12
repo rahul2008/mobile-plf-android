@@ -21,14 +21,15 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 
 	private ProgressBar progressBar;
 	private FontTextView progressPercent;
+	private Thread timerThread;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.downloading_firmware, null);
 		progressBar = (ProgressBar) view.findViewById(R.id.downloading_progressbar);
-		counter = 0;
-		Thread timerThread = new Thread(timerRunnable);
+		
+		timerThread = new Thread(timerRunnable);
 		timerThread.start();
 		getProps();
 		progressPercent = (FontTextView) view.findViewById(R.id.progressbar_increasestatus);
@@ -45,9 +46,13 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 	
 	private static int counter = 0;
 	
+	public static void setCounter(int counter) {
+		FirmwareDownloadFragment.counter = counter;
+	}
+
 	Runnable timerRunnable = new Runnable() {
 		public void run() {
-			while(counter < 60) {
+			while(counter < 60 && !FirmwareUpdateActivity.isCancelled()) {
 				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$counter " + counter);
 				try {
 					Thread.sleep(1000);
@@ -60,11 +65,13 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$COUNT > 60 call failed fragment counter " + counter );
 				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("state", "cancel");
 				if(((FirmwareUpdateActivity) getActivity()).getDownloadFailedCount() > 3) {
+					FirmwareUpdateActivity.setCancelled(true);
 					getFragmentManager()
 					.beginTransaction()
 					.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), "FirmwareFailedSupportFragment")
 					.commit();
 				} else {
+					FirmwareUpdateActivity.setCancelled(true);
 					int failCount = ((FirmwareUpdateActivity) getActivity()).getDownloadFailedCount();
 					ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$failCount " + failCount);
 					((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(++failCount);
@@ -77,10 +84,12 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 		}
 	};
 	
-	
 	@Override
 	public void firmwareDataRecieved(String data) {
 		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareDataRecieved data " + data + " emptyDataResponseCount ");
+		if(FirmwareUpdateActivity.isCancelled()) {
+			return;
+		}
 		if(data == null || data.isEmpty() || data.length() <= 0) {
 			getProps();
 			return;
@@ -99,6 +108,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 			progressBar.setProgress(Integer.parseInt(progressString));
 			
 			if(progressString.equals("100") && stateString.equals("ready")) {
+				FirmwareUpdateActivity.setCancelled(true);
 				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("state", "go");
 				showNextFragment();
 			}

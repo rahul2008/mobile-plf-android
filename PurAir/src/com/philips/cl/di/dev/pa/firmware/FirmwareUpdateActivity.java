@@ -25,6 +25,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private String upgradeVersion;
 	private String currentVersion;
 	private int downloadFailedCount;
+	private static boolean cancelled;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,19 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		}
 		
 	}
+	
+	@Override
+	public void onBackPressed() {
+		
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		cancelled = false;
+		FirmwareDownloadFragment.setCounter(0);
+		FirmwareInstallFragment.setCounter(0);
+	}
 
 	/*Initialize action bar */
 	private void initActionBar() {
@@ -75,6 +89,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.ews_actionbar_cancel_btn:
+			cancelled = true;
 			Toast.makeText(this, "Cancel button clicked", Toast.LENGTH_SHORT).show();
 			setDeviceDetailsLocally("state", "cancel");
 			finish();
@@ -123,5 +138,18 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 
 	public void setDownloadFailedCount(int downloadFailedCount) {
 		this.downloadFailedCount = downloadFailedCount;
+	}
+	
+	public String getFirmwareURL() {
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
+		return firmwareUrl;
+	}
+	
+	public static void setCancelled(boolean cancelled) {
+		FirmwareUpdateActivity.cancelled = cancelled;
+	}
+	
+	public static boolean isCancelled() {
+		return cancelled;
 	}
 }

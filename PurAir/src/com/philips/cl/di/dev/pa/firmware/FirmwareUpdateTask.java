@@ -28,10 +28,14 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 	}
 	@Override
 	protected String doInBackground(String... firmwareUrl) {
+		ALog.i(ALog.FIRMWARE, "doInBackground firmwareUrl " + firmwareUrl[0]);
 		String result = "";
 		responseObj = NetworkUtils.downloadUrl(firmwareUrl[0]);
 		if (responseObj != null) {
 			result = new DISecurity(null).decryptData(responseObj.getResponseData(), AppConstants.deviceId);
+		}
+		if(isCancelled()) {
+			cancel(true);
 		}
 		
 		ALog.i(ALog.FIRMWARE, "doInBackground " + result);

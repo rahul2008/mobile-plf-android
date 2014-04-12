@@ -31,6 +31,7 @@ public class NewFirmware extends BaseFragment implements OnClickListener{
 		switch (v.getId()) {
 		
 		case R.id.btn_firmware_update:
+			FirmwareUpdateActivity.setCancelled(false);
 			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("version", ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
 			
 			getFragmentManager()

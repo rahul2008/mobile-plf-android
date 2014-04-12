@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class FirmwareFailedSupportFragment extends BaseFragment implements OnClickListener{
 		
@@ -29,8 +30,10 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
 		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update, activity.getPurifierName())) ;
 		Button btnCancel = (Button) view.findViewById(R.id.btn_cancel);
+		btnCancel.setTypeface(Fonts.getGillsans(getActivity()));
 		btnCancel.setOnClickListener(this);
 		Button btnSupport = (Button) view.findViewById(R.id.btn_support);
+		btnSupport.setTypeface(Fonts.getGillsans(getActivity()));
 		btnSupport.setOnClickListener(this);
 	}
 
