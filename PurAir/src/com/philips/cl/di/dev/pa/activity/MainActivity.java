@@ -176,7 +176,6 @@ public class MainActivity extends BaseActivity implements
 	private String localDeviceUsn;
 
 	public boolean isClickEvent;
-	public boolean isEWSSuccessful;
 
 	public boolean isPairingDialogShown;
 	protected ProgressDialog progressDialog;
@@ -345,7 +344,6 @@ public class MainActivity extends BaseActivity implements
 		isEWSStarted = false;
 		if (stopService) {
 			startDeviceDiscovery();
-			isEWSSuccessful = false;
 			stopService = false;
 			this.registerReceiver(networkReceiver, filter);
 		}
@@ -418,7 +416,6 @@ public class MainActivity extends BaseActivity implements
 				}
 				homeFragment.setHomeName(purifierName);
 				if (isDeviceDiscovered) {
-					isEWSSuccessful = true;
 				}
 				airPurifierController.subscribe(Utils.getAirPurifierID(this),
 						String.format(AppConstants.URL_CURRENT,
