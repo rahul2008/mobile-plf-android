@@ -6,6 +6,7 @@ import java.util.List;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.SensorDataController;
 import com.philips.cl.di.dev.pa.purifier.SensorEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -421,6 +423,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	protected void onStop() {
 		super.onStop();
 		SensorDataController.getInstance(this).removeListener(this) ;
+	}
+
+	public void aqiAnalysisClick(View v) {
+		FragmentManager fragMan = getSupportFragmentManager();
+		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatus.getText().toString(), outdoorTitle), "outdoor").commit();
 	}
 
 	@Override
