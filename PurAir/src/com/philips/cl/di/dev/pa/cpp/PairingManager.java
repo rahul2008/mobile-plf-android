@@ -3,9 +3,6 @@ package com.philips.cl.di.dev.pa.cpp;
 import java.net.HttpURLConnection;
 import java.util.UUID;
 
-import android.content.Context;
-
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
@@ -313,86 +310,6 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		} else {
 			notifyListenerFailed();
 			ALog.e(ALog.PAIRING, "pairingPort-FAILED");
-		}
-	}
-	
-	
-	/**
-	 * Method addPermission- adds permission to a existing relationship
-	 * @param relationType String
-	 * @param permission String[]
-	 */
-	private void addPermission(String relationType, String[] permission){
-		PairingService addPermission = new PairingService(callbackHandler);
-		int retStatus;
-		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
-		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
-		retStatus = addPermission.addPermissionsRequest(pairingTrustee, relationType, permission);
-		if(Errors.SUCCESS != retStatus)
-		{
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
-			return;
-		}
-		addPermission.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
-		retStatus = addPermission.executeCommand();
-		if(Errors.SUCCESS != retStatus)
-		{
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
-		}
-	}
-	
-	/**
-	 * Method getPermission-get permissions of a existing relationship
-	 * @param relationType String
-	 * @param permission String[]
-	 */
-	private void getPermission(String relationType, String[] permission){
-		int    iMaxPermissons = 5;
-		int    iPermIndex = 0;
-		PairingService getPermission = new PairingService(callbackHandler);
-		int retStatus;
-				
-		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
-		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
-		
-		retStatus = getPermission.getPermissionsRequest(pairingTrustor, pairingTrustee, relationType, iMaxPermissons, iPermIndex);
-		if(Errors.SUCCESS != retStatus)
-		{
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
-			return;
-		}
-		getPermission.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
-		retStatus = getPermission.executeCommand();
-		if(Errors.SUCCESS != retStatus)
-		{
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
-			
-		}
-	}
-	
-	/**
-	 * Method removePermission-remove permission from a existing relationship
-	 * @param relationType String
-	 * @param permission String[]
-	 */
-	private void removePermission(String relationType, String[] permission){
-		PairingService removePermissions = new PairingService(callbackHandler);
-		int retStatus;
-		
-		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
-		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
-		
-		retStatus = removePermissions.removePermissionsRequest(pairingTrustee, relationType, permission);
-		if(Errors.SUCCESS != retStatus)
-		{
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
-			return;
-		}
-		removePermissions.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
-		retStatus = removePermissions.executeCommand();
-		if(Errors.SUCCESS != retStatus)
-		{
-			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
 		}
 	}
 	
