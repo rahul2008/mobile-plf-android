@@ -461,6 +461,7 @@
 	<string name="pair">Pair</string>
 	<string name="not_now">Not now</string>
 	<string name="error_title">We are sorry!</string>
-	<string name="paring_done">Your purifier is now paired. yay!</string>
-	<string name="paring_incomplete">Some error occurred while pairing, please try again later</string>
+	<string name="pairing_progress">Pairing will take some time, please wait&#8230;</string>
+	<string name="pairing_success">Your purifier is now paired. yay!</string>
+	<string name="pairing_failed">Some error occurred while pairing, please try again later</string>
 </resources>

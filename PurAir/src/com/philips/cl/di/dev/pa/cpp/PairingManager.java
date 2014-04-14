@@ -4,7 +4,6 @@ import java.net.HttpURLConnection;
 import java.util.UUID;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -67,9 +66,10 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @param permission
 	 *            String[]
 	 */
-	public void startPairing(String relationshipType, String[] permission) {
-			strRelType = relationshipType;
-			getRelationship(relationshipType, purifierEui64);
+	public void startPairing() {
+		String relationshipType = AppConstants.DI_COMM_RELATIONSHIP;
+		strRelType = relationshipType;
+		getRelationship(relationshipType, purifierEui64);
 	}
 
 	/**
@@ -267,12 +267,11 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 					ALog.i(ALog.PAIRING, "Started AddRelation-NOTIFY");
 				} else if (strRelType.equals(AppConstants.NOTIFY_RELATIONSHIP)) {
 					purifierDatabase.updatePairingStatus(purifierEui64);
-					pairingListener.onPairingStateReceived(status, eventType,
-							obj);
+					notifyListenerSuccess();
 					ALog.i(ALog.PAIRING, "GetRelation-AlreadyPaired");
 				}
 			} else {
-				pairingListener.onPairingStateReceived(status, eventType, obj);
+				notifyListenerFailed();
 				ALog.e(ALog.PAIRING, "GetRelation-FAILED");
 			}
 		} else if (eventType == Commands.PAIRING_ADD_RELATIONSHIP) {
@@ -287,16 +286,14 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 								AppConstants.NOTIFY_PERMISSIONS.toArray(new String[AppConstants.NOTIFY_PERMISSIONS.size()]), null);
 						ALog.i(ALog.PAIRING, "Started AddRelation-NOTIFY");
 					} else {
-						pairingListener.onPairingStateReceived(status,
-								eventType, obj);
+						notifyListenerSuccess();
 						purifierDatabase.updatePairingStatus(purifierEui64);
 					}
 				} else {
-					pairingListener.onPairingStateReceived(status, eventType,
-							obj);
+					notifyListenerFailed();
 				}
 			} else {
-				pairingListener.onPairingStateReceived(status, eventType, obj);
+				notifyListenerFailed();
 				ALog.e(ALog.PAIRING, "AddRelation-FAILED");
 			}
 		}
@@ -316,7 +313,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 
 			addRelationship(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]), secretKey);
 		} else {
-			pairingListener.onPairingPortTaskFailed();
+			notifyListenerFailed();
 			ALog.e(ALog.PAIRING, "pairingPort-FAILED");
 		}
 	}
@@ -399,5 +396,15 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		{
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
 		}
+	}
+	
+	private void notifyListenerSuccess() {
+		if (pairingListener == null) return;
+		pairingListener.onPairingSuccess();
+	}
+	
+	private void notifyListenerFailed() {
+		if (pairingListener == null) return;
+		pairingListener.onPairingFailed();
 	}
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -39,6 +41,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -69,6 +72,8 @@ import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
+import com.philips.cl.di.dev.pa.cpp.PairingListener;
+import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.City;
@@ -86,6 +91,7 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
+import com.philips.cl.di.dev.pa.fragment.PairingDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
@@ -102,10 +108,14 @@ import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
+import com.philips.icpinterface.ICPClient;
+import com.philips.icpinterface.PairingService;
+import com.philips.icpinterface.data.Commands;
+import com.philips.icpinterface.data.Errors;
 
 public class MainActivity extends BaseActivity implements
 		ICPDeviceDetailsListener, Callback, KeyDecryptListener,
-		OnClickListener, FirmwareUpdatesListener, AirPurifierEventListener, SignonListener {
+		OnClickListener, FirmwareUpdatesListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -175,6 +185,7 @@ public class MainActivity extends BaseActivity implements
 	public boolean isEWSSuccessful;
 
 	public boolean isPairingDialogShown;
+	protected ProgressDialog progressDialog;
 
 
 	private String upgradeVersion;
@@ -1465,5 +1476,37 @@ public class MainActivity extends BaseActivity implements
 			checkForPairing() ;
 		}
 		
+	}
+	
+	private void showPairingDialog(String purifierEui64) {
+		PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64);
+		FragmentManager fragMan = getSupportFragmentManager();
+		dialog.show(fragMan, null);
+	}
+	
+	public void startPairing(String purifierEui64) {
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage(getString(R.string.pairing_progress));
+		progressDialog.show();
+
+		PairingManager pm = new PairingManager(this, this, purifierEui64);
+		pm.startPairing();
+	}
+	
+	@Override
+	public void onPairingSuccess() {		
+		if (progressDialog != null) {
+			progressDialog.cancel();
+		}
+		showAlert(R.string.congratulations, R.string.pairing_success);
+	}
+	
+	
+	@Override
+	public void onPairingFailed() {
+		if (progressDialog != null) {
+			progressDialog.cancel();
+		}
+		showAlert(R.string.error_title, R.string.pairing_failed);
 	}
 }
