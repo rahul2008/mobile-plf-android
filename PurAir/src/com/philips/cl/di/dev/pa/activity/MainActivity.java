@@ -93,7 +93,6 @@ import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.purifier.SensorDataController;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
@@ -1435,9 +1434,20 @@ public class MainActivity extends BaseActivity implements
 		if (!(upgradeVersion.equals(""))) {
 			// TODO : Update dashboard UI.
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-			getDashboard().showFirmwareUpdatePopup(upgradeVersion,
-					currentVersion);
+			getDashboard().showFirmwareUpdatePopup(upgradeVersion, currentVersion);
+			//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
+			setFirmwareSuperScript(1);
 		}
+	}
+	
+	private void setFirmwareSuperScript(int superscriptNumber) {
+		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
+		ListViewItem item = adapter.getItem(6);
+		adapter.remove(item);
+		item.setSuperScriptNumber(superscriptNumber);
+		adapter.insert(item, 6);
+		adapter.notifyDataSetChanged();
+		ALog.i(ALog.FIRMWARE, "LeftMenuList$firmwareItem " + item.getTextId());
 	}
 	
 	private Handler handler = new Handler() {

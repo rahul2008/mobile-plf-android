@@ -122,16 +122,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements ServerResp
 		mListView.setDragScrollProfile(ssProfile);
 		mListView.setAdapter(adapter);
 		
-//		mListView.setOnItemClickListener(new OnItemClickListener() {
-//
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				Toast.makeText(getActivity(), "item click", 0).show();
-//				
-//			}
-//			
-//		});
-		
 		return view;
 	}
 	
