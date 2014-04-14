@@ -1380,36 +1380,12 @@ public class MainActivity extends BaseActivity implements
 		}
 	}
 
-	private void checkForPairing() {
-		if(cppController.isSignOn()) {
-			final String eui64 = Utils.getAirPurifierID(this) ;
-			long pairedOn = purifierDatabase.getPurifierLastPairedOn(eui64);
-			if (!isPairingDialogShown && pairedOn <= 0) {
-				isPairingDialogShown = true;
-				this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						showPairingDialog(eui64);
-					}
-				});				
-			} else {
-				long diffInDays = Utils.getDiffInDays(pairedOn);
-
-				if (diffInDays != 0) {
-					startPairing(eui64);
-				}
-			}
-		}
-	}
-
 	@Override
 	public void keyDecrypt(String key, String devId) {
 		ALog.i(ALog.MAINACTIVITY, "Key Decrypt: " + key + " DeviceID: " + devId);
 		if (secretKey == null && key != null) {
 			this.secretKey = key;
-			if(cppController.isSignOn()){
-			checkForPairing();
-			}
+			pairToPurifierIfNecessary();
 
 			PurifierDetailDto deviceInfoDto = ssdpDeviceInfoTable.get(devId);
 			deviceInfoDto.setDeviceKey(key);
@@ -1473,9 +1449,25 @@ public class MainActivity extends BaseActivity implements
 	@Override
 	public void signonStatus(boolean signon) {
 		if( signon && isDeviceDiscovered) {
-			checkForPairing() ;
+			pairToPurifierIfNecessary() ;
 		}
 		
+	}
+	
+	private void pairToPurifierIfNecessary() {
+		if (!cppController.isSignOn()) return;
+			
+		final String purifierEui64 = Utils.getAirPurifierID(this);
+		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifierEui64);
+		if (lastPairingCheckTime <= 0) {
+			showPairingDialog(purifierEui64);
+			return;
+		}
+		
+		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
+		if (diffInDays != 0) {
+			startPairingWithoutListener(purifierEui64);
+		}
 	}
 	
 	private void showPairingDialog(String purifierEui64) {
@@ -1490,6 +1482,11 @@ public class MainActivity extends BaseActivity implements
 		progressDialog.show();
 
 		PairingManager pm = new PairingManager(this, purifierEui64);
+		pm.startPairing();
+	}
+	
+	private void startPairingWithoutListener(String purifierEui64) {
+		PairingManager pm = new PairingManager(null, purifierEui64);
 		pm.startPairing();
 	}
 	
