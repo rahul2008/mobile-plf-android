@@ -211,7 +211,7 @@ public class MainActivity extends BaseActivity implements
 		/**
 		 * Create database and tables
 		 */
-		purifierDatabase = new PurifierDatabase(this);
+		purifierDatabase = new PurifierDatabase();
 		dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
 		/**
 		 * Diffie Hellman key exchange
@@ -428,13 +428,13 @@ public class MainActivity extends BaseActivity implements
 				}
 				airPurifierController.subscribe(Utils.getAirPurifierID(this),
 						String.format(AppConstants.URL_CURRENT,
-						Utils.getIPAddress(this)), true) ;
+						Utils.getIPAddress()), true) ;
 				toggleConnection(true);
 
 				// TODO : Check for firmware updates here.
 				String firmwareUrl = String.format(
 						AppConstants.URL_FIRMWARE_PORT,
-						Utils.getIPAddress(this));
+						Utils.getIPAddress());
 				FirmwareUpdateTask task = new FirmwareUpdateTask(this);
 				task.execute(firmwareUrl);
 				
@@ -574,7 +574,7 @@ public class MainActivity extends BaseActivity implements
 		String appEUI64 = getAppEUI64() ;
 		ALog.i(ALog.SUBSCRIPTION, "appEUI64 "+appEUI64) ;
 		airPurifierController.subscribe(appEUI64,
-				String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress(this)),true);
+				String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress()),true);
 		SubscriptionManager.getInstance().openUDPSocket();
 	}
 
@@ -1322,7 +1322,7 @@ public class MainActivity extends BaseActivity implements
 			}
 		}
 		
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
 		task.execute(firmwareUrl);
 
@@ -1489,7 +1489,7 @@ public class MainActivity extends BaseActivity implements
 		progressDialog.setMessage(getString(R.string.pairing_progress));
 		progressDialog.show();
 
-		PairingManager pm = new PairingManager(this, this, purifierEui64);
+		PairingManager pm = new PairingManager(this, purifierEui64);
 		pm.startPairing();
 	}
 	

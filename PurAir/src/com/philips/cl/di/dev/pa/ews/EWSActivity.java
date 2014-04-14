@@ -287,7 +287,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		stopDiscovery();
 		
 		if (deviceInfoDto != null) {
-			new PurifierDatabase(this).insertPurifierDetail(deviceInfoDto);
+			new PurifierDatabase().insertPurifierDetail(deviceInfoDto);
 			getSharedPreferences(
 					"cpp_preferences01", 0).edit().putString("airpurifierid", deviceInfoDto.getCppId()).commit();
 		}

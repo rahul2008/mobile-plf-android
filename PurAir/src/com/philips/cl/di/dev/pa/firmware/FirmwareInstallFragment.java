@@ -31,7 +31,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 	}
 
 	private void getProps() {
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(getActivity()));
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareInstallFragment.this);
 		task.execute(firmwareUrl);
 	}

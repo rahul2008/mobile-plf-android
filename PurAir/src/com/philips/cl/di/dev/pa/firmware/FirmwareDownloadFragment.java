@@ -39,7 +39,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 
 	private void getProps() {
 		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$getProps");
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(getActivity()));
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareDownloadFragment.this);
 		task.execute(firmwareUrl);
 	}

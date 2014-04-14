@@ -9,6 +9,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -22,8 +23,8 @@ public class PurifierDatabase {
 	 * 
 	 * @param context
 	 */
-	public PurifierDatabase(Context context) {
-		dbHelper = new PurifierDBHelper(context);
+	public PurifierDatabase() {
+		dbHelper = new PurifierDBHelper(PurAirApplication.getAppContext());
 	}
 	/**
 	 * 

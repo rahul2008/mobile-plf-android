@@ -65,7 +65,7 @@ SignonListener, DiagnosticsDataListener {
 
 	private void initViews() {
 		tvIpaddress = (EditText) vMain.findViewById(R.id.tvipaddress);
-		tvIpaddress.setText(Utils.getIPAddress(getActivity()));
+		tvIpaddress.setText(Utils.getIPAddress());
 		submitButton = (Button) vMain.findViewById(R.id.submitButton);
 		submitButton.setOnClickListener(this);
 
@@ -146,15 +146,15 @@ SignonListener, DiagnosticsDataListener {
 		case R.id.btn_diagnostics:
 			((MainActivity)getActivity()).isDiagnostics=true;
 			String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT,
-					Utils.getIPAddress(getActivity()));
+					Utils.getIPAddress());
 			String wifiUrl = String.format(AppConstants.URL_PORT.concat(WIFI),
-					Utils.getIPAddress(getActivity()));
+					Utils.getIPAddress());
 			String wifiUiUrl = String.format(AppConstants.URL_PORT.concat(WIFIUI),
-					Utils.getIPAddress(getActivity()));
+					Utils.getIPAddress());
 			String deviceUrl = String.format(AppConstants.URL_PORT.concat(DEVICE),
-					Utils.getIPAddress(getActivity()));
+					Utils.getIPAddress());
 			String logUrl = String.format(AppConstants.URL_PORT.concat(LOG),
-					Utils.getIPAddress(getActivity()));
+					Utils.getIPAddress());
 
 			//fetch all ports data
 			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);
@@ -272,7 +272,7 @@ SignonListener, DiagnosticsDataListener {
 
 		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:"
-				+ Utils.getIPAddress(getActivity());
+				+ Utils.getIPAddress();
 		String euid = "AirPurifier EUI64:" + Utils.getEuid(getActivity());
 		String macAddress = Utils.getMacAddress(getActivity()).toUpperCase();
 		macAddress = "Air Purifier MAC Address:"

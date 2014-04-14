@@ -107,7 +107,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	private void startServerTask(String dataToUpload) {
-		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this)),this) ;
+		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress()),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
@@ -141,7 +141,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getFirmwareURL() {
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress(this));
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
 		return firmwareUrl;
 	}
 	

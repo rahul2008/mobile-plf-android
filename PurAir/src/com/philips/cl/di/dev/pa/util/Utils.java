@@ -38,6 +38,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.nineoldandroids.animation.ObjectAnimator;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseModel;
@@ -104,11 +105,8 @@ public class Utils {
 	 *            the context
 	 * @return the iP address
 	 */
-	public static String getIPAddress(Context context) {
-		if(context == null) {
-			return "";
-		}
-		String ipAddress = context.getSharedPreferences("sharedPreferences", 0)
+	public static String getIPAddress() {
+		String ipAddress = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
 				.getString("ipAddress", AppConstants.DEFAULT_IPADDRESS);
 		return ipAddress;
 	}

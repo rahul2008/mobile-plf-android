@@ -38,7 +38,7 @@ public class SensorDataController implements ServerResponseListener {
 	private final Runnable getSensorDataRunnable = new Runnable() {
 		@Override
 		public void run() {
-			getSensorData(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress(context)));
+			getSensorData(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress()));
 			handler.postDelayed(this, AppConstants.UPDATE_INTERVAL);
 		}
 	};

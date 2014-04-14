@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import android.content.Context;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
@@ -31,7 +32,6 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	private PairingInfo pairingTypeInfo = null;
 	private PairingRelationship pairingRelationshipData = null;
 	private ICPCallbackHandler callbackHandler;
-	private Context context;
 	private String purifierEui64 = null;
 	private String strRelType = null;
 	private PairingListener pairingListener;
@@ -48,11 +48,10 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @param purifierEui64
 	 *            String
 	 */
-	public PairingManager(Context context, PairingListener iPairingListener,
+	public PairingManager(PairingListener iPairingListener,
 			String purifierEui64) {
-		this.context = context;
 		this.purifierEui64 = purifierEui64;
-		purifierDatabase = new PurifierDatabase(context);
+		purifierDatabase = new PurifierDatabase();
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
@@ -119,12 +118,12 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 *            Context
 	 */
 	private void startPairingPortTask(final String relationshipType,
-			final String[] permission, Context context) {
+			final String[] permission) {
 
 		if (relationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 			secretKey = generateRandomSecretKey();
 			String pairing_url = String.format(AppConstants.URL_PAIRING_PORT,
-					Utils.getIPAddress(context));
+					Utils.getIPAddress());
 			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(secretKey);
 			dataToUpload = new DISecurity(null).encryptData(dataToUpload,
 					AppConstants.deviceId);
@@ -259,8 +258,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				PairingService pairingObj = (PairingService) obj;
 				int relations = pairingObj.getNumberOfRelationsReturned();
 				if (relations < 1) {
-					startPairingPortTask(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]),
-							context);
+					startPairingPortTask(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]));
 				} else if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 					strRelType = AppConstants.NOTIFY_RELATIONSHIP;
 					getRelationship(strRelType, purifierEui64);
