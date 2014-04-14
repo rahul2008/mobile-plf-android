@@ -601,8 +601,8 @@ public class MainActivity extends BaseActivity implements
 			for (PurifierDetailDto deviceInfo : dbPurifierDetailDtoList) {
 				if( deviceInfo.getCppId().equals(cppId)) {
 					appEUI64 = String.valueOf(deviceInfo.getBootId()) ;
+					break;
 				}
-				break;
 			}
 		}
 		return appEUI64 ;
