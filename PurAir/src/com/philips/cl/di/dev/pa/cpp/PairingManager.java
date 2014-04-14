@@ -256,7 +256,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				PairingService pairingObj = (PairingService) obj;
 				int relations = pairingObj.getNumberOfRelationsReturned();
 				if (relations < 1) {
-					startPairingPortTask(strRelType, (String[]) AppConstants.PERMISSIONS.toArray(),
+					startPairingPortTask(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]),
 							context);
 				} else if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 					strRelType = AppConstants.NOTIFY_RELATIONSHIP;
@@ -281,7 +281,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 					if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 						strRelType = AppConstants.NOTIFY_RELATIONSHIP;
 						addRelationship(AppConstants.NOTIFY_RELATIONSHIP,
-								(String[]) AppConstants.NOTIFY_PERMISSIONS.toArray(), null);
+								AppConstants.NOTIFY_PERMISSIONS.toArray(new String[AppConstants.NOTIFY_PERMISSIONS.size()]), null);
 						ALog.i(ALog.PAIRING, "Started AddRelation-NOTIFY");
 					} else {
 						pairingListener.onPairingStateReceived(status,
@@ -305,7 +305,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				+ responseData);
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 
-			addRelationship(strRelType, (String[]) AppConstants.PERMISSIONS.toArray(), secretKey);
+			addRelationship(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]), secretKey);
 		} else {
 			pairingListener.onPairingPortTaskFailed();
 			ALog.e(ALog.PAIRING, "pairingPort-FAILED");

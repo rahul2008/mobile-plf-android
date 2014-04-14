@@ -112,7 +112,7 @@ public class BaseActivity extends ActionBarActivity implements PairingListener {
 	protected void startPairing(String eui64) {
 		PairingManager pm = new PairingManager(this,this, eui64);
 		pm.startPairing(AppConstants.DI_COMM_RELATIONSHIP,
-				(String[]) AppConstants.PERMISSIONS.toArray());
+				AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]));
 	}
 
 	@Override
