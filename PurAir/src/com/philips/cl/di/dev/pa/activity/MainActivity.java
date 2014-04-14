@@ -1397,7 +1397,9 @@ public class MainActivity extends BaseActivity implements
 		ALog.i(ALog.MAINACTIVITY, "Key Decrypt: " + key + " DeviceID: " + devId);
 		if (secretKey == null && key != null) {
 			this.secretKey = key;
+			if(cppController.isSignOn()){
 			checkForPairing();
+			}
 
 			PurifierDetailDto deviceInfoDto = ssdpDeviceInfoTable.get(devId);
 			deviceInfoDto.setDeviceKey(key);

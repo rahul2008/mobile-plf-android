@@ -116,15 +116,15 @@ public class BaseActivity extends ActionBarActivity implements PairingListener {
 	}
 
 	@Override
-	public void onPairingStateReceived(int status, int eventType, ICPClient obj) {
-		if (progressDialog != null) {
-			progressDialog.cancel();
-		}
+	public void onPairingStateReceived(int status, int eventType, ICPClient obj) {		
 		if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {
 			if (status != Errors.SUCCESS) {
 				ALog.e(ALog.ACTIVITY, "GetRelation-FAILED");
 				showAlert(R.string.error_title, R.string.paring_incomplete);
 			} else {
+				if (progressDialog != null) {
+				showAlert(R.string.congratulations, R.string.paring_done);
+				}
 				ALog.e(ALog.ACTIVITY, "GetRelation-AlreadyPaired");
 			}
 		} else if (eventType == Commands.PAIRING_ADD_RELATIONSHIP) {
@@ -143,6 +143,10 @@ public class BaseActivity extends ActionBarActivity implements PairingListener {
 				ALog.e(ALog.ACTIVITY, "AddRelation-FAILED");
 				showAlert(R.string.error_title, R.string.paring_incomplete);
 			}
+		}
+		
+		if (progressDialog != null) {
+			progressDialog.cancel();
 		}
 	}
 	

@@ -1,8 +1,10 @@
 package com.philips.cl.di.dev.pa.cpp;
 
 import java.net.HttpURLConnection;
+import java.util.UUID;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -20,10 +22,11 @@ import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
 import com.philips.icpinterface.data.PairingRelationship;
 
+/**
+ */
 public class PairingManager implements ICPEventListener, ServerResponseListener {
 
 	private PairingEntitiyReference pairingTrustor = null;
-	private PairingEntitiyReference pairingTrustee = null;
 	private PairingEntitiyReference pairingDelegator = null;
 	private PairingEntitiyReference pairingTarget = null;
 	private PairingInfo pairingTypeInfo = null;
@@ -74,8 +77,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * 
 	 * @param relationshipType
 	 *            String
-	 * @param permission
-	 *            String[]
+	
 	 * @param purifierEui64
 	 *            String
 	 */
@@ -151,6 +153,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			String secretKey) {
 
 		addPairingRelationshipData(relationshipType, permission);
+		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
 		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
 		if (secretKey != null) {
 			addPairingInfo(secretKey);
@@ -194,8 +197,8 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @param purifierEui64
 	 * @param pairingTrustee
 	 * 
-	 * @return PairingEntitiyReference
-	 */
+	
+	 * @return PairingEntitiyReference */
 	private PairingEntitiyReference addTrustee(String purifierEui64,
 			PairingEntitiyReference pairingTrustee) {
 		if (pairingTrustee == null) {
@@ -226,10 +229,10 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * generates random key
 	 * 
 	 * 
-	 * @return random secret key
-	 */
-	private String generateRandomSecretKey() {
-		return Long.toHexString(Double.doubleToLongBits(Math.random()));
+	
+	 * @return random secret key */
+	private String generateRandomSecretKey() {		
+		return UUID.randomUUID().toString();
 	}
 
 	/**
@@ -241,9 +244,9 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 *            int
 	 * @param obj
 	 *            ICPClient
+	
 	 * @see com.philips.cl.di.dev.pa.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
-	 *      int, ICPClient)
-	 */
+	 *      int, ICPClient) */
 	@Override
 	public void onICPCallbackEventOccurred(int eventType, int status,
 			ICPClient obj) {
@@ -299,6 +302,12 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		}
 	}
 
+	/**
+	 * Method receiveServerResponse.
+	 * @param responseCode int
+	 * @param responseData String
+	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int, String)
+	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		ALog.d(ALog.PAIRING, "responseCode: " + responseCode + "responseData: "
@@ -311,5 +320,84 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			ALog.e(ALog.PAIRING, "pairingPort-FAILED");
 		}
 	}
-
+	
+	
+	/**
+	 * Method addPermission- adds permission to a existing relationship
+	 * @param relationType String
+	 * @param permission String[]
+	 */
+	private void addPermission(String relationType, String[] permission){
+		PairingService addPermission = new PairingService(callbackHandler);
+		int retStatus;
+		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
+		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
+		retStatus = addPermission.addPermissionsRequest(pairingTrustee, relationType, permission);
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			return;
+		}
+		addPermission.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
+		retStatus = addPermission.executeCommand();
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
+		}
+	}
+	
+	/**
+	 * Method getPermission-get permissions of a existing relationship
+	 * @param relationType String
+	 * @param permission String[]
+	 */
+	private void getPermission(String relationType, String[] permission){
+		int    iMaxPermissons = 5;
+		int    iPermIndex = 0;
+		PairingService getPermission = new PairingService(callbackHandler);
+		int retStatus;
+				
+		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
+		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
+		
+		retStatus = getPermission.getPermissionsRequest(pairingTrustor, pairingTrustee, relationType, iMaxPermissons, iPermIndex);
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			return;
+		}
+		getPermission.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
+		retStatus = getPermission.executeCommand();
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			
+		}
+	}
+	
+	/**
+	 * Method removePermission-remove permission from a existing relationship
+	 * @param relationType String
+	 * @param permission String[]
+	 */
+	private void removePermission(String relationType, String[] permission){
+		PairingService removePermissions = new PairingService(callbackHandler);
+		int retStatus;
+		
+		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
+		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
+		
+		retStatus = removePermissions.removePermissionsRequest(pairingTrustee, relationType, permission);
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			return;
+		}
+		removePermissions.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
+		retStatus = removePermissions.executeCommand();
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
+		}
+	}
 }
