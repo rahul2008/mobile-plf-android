@@ -256,7 +256,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				PairingService pairingObj = (PairingService) obj;
 				int relations = pairingObj.getNumberOfRelationsReturned();
 				if (relations < 1) {
-					startPairingPortTask(strRelType, AppConstants.PERMISSIONS,
+					startPairingPortTask(strRelType, (String[]) AppConstants.PERMISSIONS.toArray(),
 							context);
 				} else if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 					strRelType = AppConstants.NOTIFY_RELATIONSHIP;
@@ -281,7 +281,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 					if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 						strRelType = AppConstants.NOTIFY_RELATIONSHIP;
 						addRelationship(AppConstants.NOTIFY_RELATIONSHIP,
-								AppConstants.NOTIFY_PERMISSIONS, null);
+								(String[]) AppConstants.NOTIFY_PERMISSIONS.toArray(), null);
 						ALog.i(ALog.PAIRING, "Started AddRelation-NOTIFY");
 					} else {
 						pairingListener.onPairingStateReceived(status,
@@ -305,7 +305,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				+ responseData);
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 
-			addRelationship(strRelType, AppConstants.PERMISSIONS, secretKey);
+			addRelationship(strRelType, (String[]) AppConstants.PERMISSIONS.toArray(), secretKey);
 		} else {
 			pairingListener.onPairingPortTaskFailed();
 			ALog.e(ALog.PAIRING, "pairingPort-FAILED");
