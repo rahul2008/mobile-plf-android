@@ -5,58 +5,15 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class AnimatorConstants {
 	
-	public static final String ANIM_TRANSLATION_X 		= "translationX";
 	public static final String ANIM_TRANSLATION_Y 		= "translationY";
 	public static final String ANIM_ROTATION 			= "rotation";
-	public static final String ANIM_ROTATION_X 			= "rotationX";
-	public static final String ANIM_ROTATION_Y 			= "rotationY";
 	public static final String ANIM_SCALE_X 			= "scaleX";
 	public static final String ANIM_SCALE_Y 			= "scaleY";
-	public static final String ANIM_PIVOT_X 			= "pivotX";
-	public static final String ANIM_PIVOT_Y 			= "pivotY"; 
-	public static final String ANIM_X 					= "x";
-	public static final String ANIM_Y 					= "y";
 	public static final String ANIM_ALPHA 				= "alpha";
 	
 	public static final int ANIM_DURATION				= 1000;
 	
 	
-	public static float getIndoorBGTranslationY() {
-		float translationY = 0;
-		translationY = MainActivity.getScreenHeight() * 0.36f * -1;
-//		Log.i(TAG, "getIndoorBGTranslationY " + translationY);
-		return translationY;
-	}
-	
-	public static float getIndoorGaugeTranslationY() {
-		float translationY = 0;
-		translationY = MainActivity.getScreenHeight() * 0.16f * -1;
-//		Log.i(TAG, "getIndoorGaugeTranslationY " + translationY);
-		return translationY;
-	}
-	
-	public static float getOutdoorGaugeTranslationY() {
-		float translationY = 0;
-		translationY = MainActivity.getScreenHeight() * 0.21f;
-//		Log.i(TAG, "getOutdoorGaugeTranslationY " + translationY);
-		return translationY;
-	}
-	
-	public static float getOutdoorCityInfoTranslationY() {
-		float translationY = 0;
-		float ft = MainActivity.getScreenHeight() * 0.47f * -1;
-		translationY = ft + 25;
-//		Log.i(TAG, "getOutdoorCityInfoTranslationY " + translationY);
-		return translationY;
-	}
-	
-	public static float getCityInfoScaleUpTransformY() {
-		float translationY = 0;
-		float ft = MainActivity.getScreenHeight() * 0.115f * -1;
-		translationY = ft  + 0;
-//		Log.i(TAG, "getCityInfoScaleUpTransformY " + translationY);
-		return translationY;
-	}
 	
 	public static float rotationPivot() {
 		float pivot = 0;

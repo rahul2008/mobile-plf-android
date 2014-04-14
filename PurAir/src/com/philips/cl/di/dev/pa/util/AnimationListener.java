@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 

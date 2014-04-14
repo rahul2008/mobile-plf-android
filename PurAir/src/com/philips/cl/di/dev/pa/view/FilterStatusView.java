@@ -11,7 +11,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class FilterStatusView extends ImageView {
-	private static final String TAG = FilterStatusView.class.getSimpleName();
 
 	Paint paint;
 

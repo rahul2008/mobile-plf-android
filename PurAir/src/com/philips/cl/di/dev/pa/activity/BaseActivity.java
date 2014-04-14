@@ -1,27 +1,11 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.TextView;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.PairingListener;
-import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.icpinterface.ICPClient;
-import com.philips.icpinterface.PairingService;
-import com.philips.icpinterface.data.Commands;
-import com.philips.icpinterface.data.Errors;
 
 /**
  * The Class BaseActivity. This class contains all the base / common
