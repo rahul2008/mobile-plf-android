@@ -16,12 +16,8 @@ public class AnimationListener implements AnimatorListener {
 	private static final String TAG = AnimationListener.class.getSimpleName();
 	
 	private boolean ignoreGesture;
-	private Context context;
-	private Activity activity;
 	
 	public AnimationListener(Context context) {
-		this.context = context;
-		this.activity = (Activity) context;
 	}
 
 	public boolean isIgnoreGesture() {
