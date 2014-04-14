@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -41,7 +40,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -108,10 +106,6 @@ import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
-import com.philips.icpinterface.ICPClient;
-import com.philips.icpinterface.PairingService;
-import com.philips.icpinterface.data.Commands;
-import com.philips.icpinterface.data.Errors;
 
 public class MainActivity extends BaseActivity implements
 		ICPDeviceDetailsListener, Callback, KeyDecryptListener,
