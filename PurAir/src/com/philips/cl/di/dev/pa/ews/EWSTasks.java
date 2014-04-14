@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 import android.os.AsyncTask;
+import android.os.Build;
 
 public class EWSTasks extends AsyncTask<String, Void, String>{
 
@@ -71,7 +72,9 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			// Starts the query
 			
 			if(! requestType.equals("GET")) {
-				conn.setDoOutput(true);
+				if (Build.VERSION.SDK_INT <= 10) {
+					conn.setDoOutput(true);
+				}
 				os = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 				os.write(postData);
 				os.flush() ;
