@@ -351,6 +351,14 @@ public class MainActivity extends BaseActivity implements
 	}
 	
 	@Override
+	protected void onStop() {
+		if (progressDialog != null) {
+			progressDialog.cancel();
+		}
+		super.onStop();
+	}
+	
+	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO Auto-generated method stub
 		super.onWindowFocusChanged(hasFocus);
@@ -500,8 +508,8 @@ public class MainActivity extends BaseActivity implements
 	
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		stopAllServices();
+		super.onDestroy();
 	}
 	
 	private void startDeviceDiscovery() {
@@ -1445,6 +1453,9 @@ public class MainActivity extends BaseActivity implements
 	}
 	
 	private void pairToPurifierIfNecessary() {
+		// Only show PairingDialog once (can be called via discovery and signon)
+		if (isPairingDialogShown) return;
+
 		if (!cppController.isSignOn()) return;
 			
 		final String purifierEui64 = Utils.getAirPurifierID(this);
@@ -1464,11 +1475,13 @@ public class MainActivity extends BaseActivity implements
 		PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64);
 		FragmentManager fragMan = getSupportFragmentManager();
 		dialog.show(fragMan, null);
+		isPairingDialogShown = true;
 	}
 	
 	public void startPairing(String purifierEui64) {
-		progressDialog = new ProgressDialog(this);
+		progressDialog = new ProgressDialog(MainActivity.this);
 		progressDialog.setMessage(getString(R.string.pairing_progress));
+		progressDialog.setCancelable(false);
 		progressDialog.show();
 
 		PairingManager pm = new PairingManager(this, purifierEui64);
