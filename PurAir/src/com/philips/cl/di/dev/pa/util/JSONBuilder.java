@@ -45,11 +45,11 @@ public class JSONBuilder {
 		return builder.toString() ;
 	}
 	
-	public static String getDICOMMPairingJSON(String secretKey) {
+	public static String getDICOMMPairingJSON(String appEui64, String secretKey) {
 		StringBuilder builder = new StringBuilder("{\"Pair\":[\"");
 		builder.append(AppConstants.APP_TYPE) ;
 		builder.append("\",\"") ;
-		builder.append(SessionDto.getInstance().getEui64());
+		builder.append(appEui64);
 		builder.append("\",\"").append(secretKey);
 		builder.append("\"]}");
 		
