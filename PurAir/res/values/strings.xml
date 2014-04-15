@@ -457,11 +457,12 @@
 	<string name="sign_on">Sign On</string>
 	
 	<!-- Pairing -->
-	<string name="pair_title">Do you want to pair your purifier?</string>
-	<string name="pair">Pair</string>
+	<string name="pair_title">Remote control</string>
+	<string name="pair_text">Do you to control your AirPurifier outside of your home network?</string>
+	<string name="pair">Yes</string>
 	<string name="not_now">Not now</string>
 	<string name="error_title">We are sorry!</string>
-	<string name="pairing_progress">Pairing will take some time, please wait&#8230;</string>
-	<string name="pairing_success">Your purifier is now paired. yay!</string>
-	<string name="pairing_failed">Some error occurred while pairing, please try again later</string>
+	<string name="pairing_progress">Enabling remote control. Please wait&#8230;</string>
+	<string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
+	<string name="pairing_failed">Failed to enable remote control, please try again later.</string>
 </resources>

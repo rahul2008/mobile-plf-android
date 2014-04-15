@@ -34,7 +34,6 @@ public class PairingDialogFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.tutorial_custom_dialog, container, false);
-		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		setCancelable(false);
 		
 		final Activity activity = this.getActivity();
@@ -43,7 +42,8 @@ public class PairingDialogFragment extends DialogFragment {
 		Button btnClose = (Button) view.findViewById(R.id.btn_close);
 		Button btn_pair = (Button) view.findViewById(R.id.btn_yes);
 
-		message.setText(R.string.pair_title);
+		getDialog().setTitle(R.string.pair_title);
+		message.setText(R.string.pair_text);
 		btn_pair.setText(R.string.pair);
 
 		btnClose.setTypeface(Fonts.getGillsans(activity));
