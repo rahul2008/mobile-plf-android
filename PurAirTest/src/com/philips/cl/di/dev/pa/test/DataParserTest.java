@@ -9,27 +9,62 @@ import junit.framework.TestCase;
 
 public class DataParserTest extends TestCase {
 	
-	public void testIndoorAQI_1() {
+	public void testAirPurifierValidData() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
 		assertNotNull(new DataParser(parseData)) ;
 	}
 
-	public void testIndoorAQI_2() {
-		String parseData = "No response" ;
+	public void testAirPurifierInvalidData() {
+		String parseData = "invalid data" ;
 		assertNull(new DataParser(parseData).parseAirPurifierEventData()) ;
 	}
 	
-	public void testIndoorAQI_4() {
+	public void testAirPurifierNullData() {
+		String parseData = null ;
+		assertNull(new DataParser(parseData).parseAirPurifierEventData()) ;
+	}
+	
+	public void testAirPurifierInvalidJSON() {
+		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\"" ;
+		assertNull(new DataParser(parseData).parseAirPurifierEventData()) ;
+	}
+	
+	public void testAirPurifierPowerMode() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
 		assertEquals("1",new DataParser(parseData).parseAirPurifierEventData().getPowerMode()) ;
 	}
 	
-	public void testIndoorAQI_5() {
+	public void testAirPurifierMachineMode() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
 		assertTrue(new DataParser(parseData).parseAirPurifierEventData().getMachineMode().equals("a")) ;
 	}
 	
-	public void testIndoorAQI_6() {
+	public void testAirPurifierAQILight() {
+		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
+		assertTrue(new DataParser(parseData).parseAirPurifierEventData().getAqiL() == 1) ;
+	}
+	
+	public void testAirPurifierChildLock() {
+		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
+		assertTrue(new DataParser(parseData).parseAirPurifierEventData().getChildLock() == 0) ;
+	}
+	
+	public void testAirPurifierAQIValue() {
+		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
+		assertTrue(new DataParser(parseData).parseAirPurifierEventData().getIndoorAQI() == 1) ;
+	}
+	
+	public void testAirPurifierFanSpeed() {
+		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
+		assertTrue(new DataParser(parseData).parseAirPurifierEventData().getActualFanSpeed().equals("1")) ;
+	}
+	
+	public void testAirPurifierAQIThreshold() {
+		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
+		assertTrue(new DataParser(parseData).parseAirPurifierEventData().getAqiThreshold() == 500) ;
+	}
+	
+	public void testAirPurifierPowerModeNotEquals() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
 		assertFalse(new DataParser(parseData).parseAirPurifierEventData().getPowerMode().equals("0")) ;
 	}
