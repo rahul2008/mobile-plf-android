@@ -458,7 +458,7 @@
 	
 	<!-- Pairing -->
 	<string name="pair_title">Remote control</string>
-	<string name="pair_text">Do you to control your AirPurifier outside of your home network?</string>
+	<string name="pair_text">Do you want to control your AirPurifier outside of your home network?</string>
 	<string name="pair">Yes</string>
 	<string name="not_now">Not now</string>
 	<string name="error_title">We are sorry!</string>
