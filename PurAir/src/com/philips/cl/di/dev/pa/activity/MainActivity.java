@@ -1412,7 +1412,7 @@ public class MainActivity extends BaseActivity implements
 		if (!(upgradeVersion.equals(""))) {
 			// TODO : Update dashboard UI.
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-			getDashboard().showFirmwareUpdatePopup(upgradeVersion, currentVersion);
+			getDashboard().showFirmwareUpdatePopup();
 			//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
 			setFirmwareSuperScript(1);
 		}

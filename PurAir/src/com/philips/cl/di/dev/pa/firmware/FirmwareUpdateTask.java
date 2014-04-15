@@ -38,14 +38,14 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 			cancel(true);
 		}
 		
-		ALog.i(ALog.FIRMWARE, "doInBackground " + result);
+//		ALog.i(ALog.FIRMWARE, "doInBackground " + result);
 		
 		return result;
 	}
 	
 	@Override
 	protected void onPostExecute(String result) {
-		ALog.i(ALog.FIRMWARE, "onPostExecute result " + result);
+//		ALog.i(ALog.FIRMWARE, "onPostExecute result " + result);
 		firmwareUpdatesListener.firmwareDataRecieved(result);
 	}
 }

@@ -1,11 +1,14 @@
 package com.philips.cl.di.dev.pa.firmware;
 
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -23,6 +26,7 @@ public class NewFirmwareUpdateFragment extends BaseFragment implements OnClickLi
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.new_firmware_update, container, false);
 		initViews(view);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(1);
 		return view;
 	}
 

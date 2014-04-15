@@ -22,6 +22,7 @@ public class FirmwareContactSupportFragment extends BaseFragment implements OnCl
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_contact_support, container, false);
 		initViews(view);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(6);
 		return view;
 	}
 

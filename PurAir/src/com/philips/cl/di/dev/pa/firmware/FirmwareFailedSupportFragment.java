@@ -22,6 +22,7 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_failed_support, container, false);
 		initViews(view);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(7);
 		return view;
 	}
 

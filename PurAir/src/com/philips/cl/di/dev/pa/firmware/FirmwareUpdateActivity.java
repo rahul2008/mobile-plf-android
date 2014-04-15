@@ -3,10 +3,13 @@ package com.philips.cl.di.dev.pa.firmware;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
@@ -26,13 +29,16 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private String currentVersion;
 	private int downloadFailedCount;
 	private static boolean cancelled;
+	private Button actionBarCancelBtn;
+	private ImageView actionBarBackBtn;
+	private FontTextView actionbarTitle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.firmware_container);
 		initActionBar();
-		Intent intent = getIntent(); 
+		Intent intent = getIntent();  
 		purifierName = intent.getStringExtra(AppConstants.PURIFIER_NAME);
 		upgradeVersion = intent.getStringExtra(AppConstants.UPGRADE_VERSION);
 		currentVersion = intent.getStringExtra(AppConstants.CURRENT_VERSION);
@@ -59,9 +65,20 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	@Override
+	protected void onPause() {
+		super.onPause();
+		setCancelled(true);
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setCancelled(false);
+	}
+	
+	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		setCancelled(false);
 		FirmwareDownloadFragment.setCounter(0);
 		FirmwareInstallFragment.setCounter(0);
 	}
@@ -69,8 +86,6 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	/*Initialize action bar */
 	private void initActionBar() {
 		ActionBar actionBar;
-		FontTextView actionbarTitle;
-		Button actionBarCancelBtn;
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
@@ -82,9 +97,45 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
 		actionBarCancelBtn.setOnClickListener(this);
+		actionBarBackBtn = (ImageView) view.findViewById(R.id.ews_actionbar_back_img);
+		actionBarBackBtn.setOnClickListener(this);
 		actionBar.setCustomView(view);
 	}
 
+	public void setActionBar(int state) {
+		switch (state) {
+		case 1:
+		case 2:
+			setActionBar(R.string.firmware, View.INVISIBLE, View.VISIBLE);
+			break;
+		case 3:
+			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
+			break;
+		case 4:
+		case 8:
+			setActionBar(R.string.firmware_update, View.INVISIBLE, View.INVISIBLE);
+			break;
+		case 5:
+			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
+			break;
+		case 6:
+			setActionBar(R.string.contact_support, View.INVISIBLE, View.VISIBLE);
+			break;
+		case 7:
+			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	private void setActionBar(int textId, int cancelButton, int backButton) {
+		actionbarTitle.setText(textId);
+		actionBarCancelBtn.setVisibility(cancelButton);
+		actionBarBackBtn.setVisibility(backButton);
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -94,9 +145,25 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			setDeviceDetailsLocally("state", "cancel");
 			finish();
 			break;
-
+		case R.id.ews_actionbar_back_img:
+			showPreviousFragment();
+			break;
 		default:
 			break;
+		}
+	}
+	
+	private void showPreviousFragment() {
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.firmware_container);
+		ALog.i(ALog.FIRMWARE, " NewFirmwareUpdateFragment " + (fragment instanceof NewFirmware));
+		
+		if(fragment instanceof NewFirmware || fragment instanceof NewFirmwareUpdateFragment) {
+			finish();
+		} else if (fragment instanceof FirmwareContactSupportFragment) {
+			getSupportFragmentManager().beginTransaction()
+			.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), "FirmwareFailedSupportFragment")
+			.commit();
 		}
 	}
 

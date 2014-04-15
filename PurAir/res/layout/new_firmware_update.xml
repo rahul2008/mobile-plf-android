@@ -53,19 +53,6 @@
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/firmware_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divider1"
-                android:layout_alignLeft="@+id/firmware_releasedate"
-                android:layout_marginTop="3dp"
-                android:padding="16dp"
-                android:textColor="@color/title_gray"
-                android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
-
             <ImageView
                 android:id="@+id/divider2"
                 android:layout_width="wrap_content"
@@ -159,6 +146,22 @@
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" 
                 android:visibility="gone" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/firmware_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/firmware_version_txt"
+                android:layout_alignBottom="@+id/firmware_version_txt"
+                android:layout_alignRight="@+id/firmware_releasedate"
+                android:layout_marginRight="16dp"
+                android:padding="16dp"
+                android:text="22"
+                android:textColor="@color/title_gray"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
         </RelativeLayout>
     </ScrollView>
 

@@ -14,6 +14,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListe
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpdatesListener {
 	
@@ -24,12 +25,28 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.installing_firmware, null);
-		timerThread = new Thread(timerRunnable);
-		timerThread.start();
+		FontTextView tvInstallingFirmware = (FontTextView) view.findViewById(R.id.installing_firmware_for_purifier_msg);
+		tvInstallingFirmware.setText(getString(R.string.installing_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
+		FirmwareUpdateActivity.setCancelled(false);
 		getProps();
+		((FirmwareUpdateActivity) getActivity()).setActionBar(4);
 		return view;
 	}
-
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		getProps();
+		timerThread = new Thread(timerRunnable);
+		timerThread.start();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		timerThread = null;
+	}
+	
 	private void getProps() {
 		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareInstallFragment.this);
@@ -69,7 +86,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data);
 		
-		if(installed) {
+		if(installed || FirmwareUpdateActivity.isCancelled()) {
 			return;
 		}
 		

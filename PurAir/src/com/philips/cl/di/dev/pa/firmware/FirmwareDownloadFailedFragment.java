@@ -22,6 +22,7 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_download_failed, container, false);
 		initViews(view);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(5);
 		return view;
 	}
 

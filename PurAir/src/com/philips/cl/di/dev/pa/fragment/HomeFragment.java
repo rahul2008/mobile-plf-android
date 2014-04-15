@@ -433,10 +433,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		ivOutdoorMeter.setVisibility(View.VISIBLE);
 	}
 	
-	public void showFirmwareUpdatePopup(String upgradeVersion, String currentVersion) {
+	public void showFirmwareUpdatePopup() {
 		firmwareUpdateLayout.setVisibility(View.VISIBLE);
-//		this.upgradeVersion = upgradeVersion;
-//		this.currentVersion = currentVersion;
 	}
 	
 	public void hideFirmwareUpdatePopup() {

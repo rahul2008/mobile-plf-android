@@ -17,6 +17,7 @@ public class FirmwareInstallSuccessFragment extends BaseFragment{
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_update_successful, container, false);
 		Button button = (Button) view.findViewById(R.id.btn_start_app);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(8);
 		button.setOnClickListener(new OnClickListener() {
 			
 			@Override

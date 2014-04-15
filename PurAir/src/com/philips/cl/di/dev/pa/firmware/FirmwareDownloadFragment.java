@@ -22,21 +22,38 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 	private ProgressBar progressBar;
 	private FontTextView progressPercent;
 	private Thread timerThread;
+	private int downloadProgress;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.downloading_firmware, null);
 		progressBar = (ProgressBar) view.findViewById(R.id.downloading_progressbar);
+		FontTextView downloadFirmwareTv = (FontTextView) view.findViewById(R.id.downloading_firmware_for_purifier_msg);
+		downloadFirmwareTv.setText(getString(R.string.downloading_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
 		
-		timerThread = new Thread(timerRunnable);
-		timerThread.start();
 		getProps();
 		progressPercent = (FontTextView) view.findViewById(R.id.progressbar_increasestatus);
 		progressPercent.setText("0%");
+		((FirmwareUpdateActivity) getActivity()).setActionBar(3);
+		FirmwareUpdateActivity.setCancelled(false);
 		return view;
 	}
-
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		getProps();
+		timerThread = new Thread(timerRunnable);
+		timerThread.start();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		timerThread = null;
+	}
+	
 	private void getProps() {
 		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$getProps");
 		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
@@ -49,11 +66,11 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 	public static void setCounter(int counter) {
 		FirmwareDownloadFragment.counter = counter;
 	}
-
+	
 	Runnable timerRunnable = new Runnable() {
 		public void run() {
 			while(counter < 60 && !FirmwareUpdateActivity.isCancelled()) {
-				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$counter " + counter);
+				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$counter " + counter + " FirmwareUpdateActivity.isCancelled() " +FirmwareUpdateActivity.isCancelled());
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -86,7 +103,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 	
 	@Override
 	public void firmwareDataRecieved(String data) {
-		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareDataRecieved data " + data + " emptyDataResponseCount ");
+		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareDataRecieved data " + data);
 		if(FirmwareUpdateActivity.isCancelled()) {
 			return;
 		}
@@ -94,26 +111,41 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUp
 			getProps();
 			return;
 		}
-		counter = 0;
+		
 		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
 		ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
-		ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("progress"));
-		
+		ALog.i(ALog.FIRMWARE, "jsonObject.get(progress) " + jsonObject.get("progress"));
+		processFirmwareData(jsonObject);
+		getProps();
+	}
+	
+	public void processFirmwareData(JsonObject jsonObject) {
 		String progressString = getProgress(jsonObject);
 		String stateString = getState(jsonObject);
-
-		ALog.i(ALog.FIRMWARE, "upgradeString " + progressString);
+		
+		ALog.i(ALog.FIRMWARE, "FDF$processFirmwareData progress " + progressString + " downloadProgress " + downloadProgress);
+		
 		if(!(progressString.equals(""))) {
+			int progress = Integer.parseInt(progressString);
+//			if(progress <= downloadProgress) {
+////				getProps();
+//				return;
+//			}
+			counter = 0;
 			progressPercent.setText(progressString + "%");
-			progressBar.setProgress(Integer.parseInt(progressString));
-			
+			progressBar.setProgress(progress);
+			downloadProgress = progress;
 			if(progressString.equals("100") && stateString.equals("ready")) {
 				FirmwareUpdateActivity.setCancelled(true);
 				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("state", "go");
 				showNextFragment();
 			}
+			
+			if(stateString.equals("idle")) {
+				return;
+			}
 		}
-		getProps();
+
 	}
 	
 	public String getProgress(JsonObject jsonObject) {
