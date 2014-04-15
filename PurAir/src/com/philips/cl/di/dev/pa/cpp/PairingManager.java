@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.cpp;
 import java.net.HttpURLConnection;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -27,7 +28,6 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	private static final String PAIRING_REFERENCETYPE = "AC4373GENDEV";
 	private static final String PAIRING_REFERENCEPROVIDER = "cpp";
 	
-	private PairingEntitiyReference pairingTarget = null;
 	private ICPCallbackHandler callbackHandler;
 	private String purifierEui64 = null;
 	private String currentRelationshipType = null;
@@ -80,7 +80,6 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	private void getRelationship(String relationshipType, String purifierEui64) {
 		ALog.i(ALog.PAIRING, "Requesting existing relationships");
 		
-		pairingTarget = addTrustee(purifierEui64, pairingTarget);
 		boolean bincludeIncoming = true;
 		boolean bincludeOutgoing = true;
 		int iMetadataSize = 0;
@@ -92,7 +91,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 
 		getRelations
 		.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
-		retValue = getRelations.getRelationShipRequest(pairingTarget,
+		retValue = getRelations.getRelationShipRequest(getPurifierEntity(purifierEui64),
 				relationshipType, bincludeIncoming, bincludeOutgoing,
 				iMetadataSize, iMaxPermissions, iMaxRelations, iRelOffset);
 		if (Errors.SUCCESS != retValue) {
@@ -122,7 +121,8 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			secretKey = generateRandomSecretKey();
 			String pairing_url = String.format(AppConstants.URL_PAIRING_PORT,
 					Utils.getIPAddress());
-			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(secretKey);
+			String appEui64 = SessionDto.getInstance().getEui64();
+			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
 			dataToUpload = new DISecurity(null).encryptData(dataToUpload,
 					AppConstants.deviceId);
 			TaskPutDeviceDetails pairingRunnable = new TaskPutDeviceDetails(
@@ -149,22 +149,18 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	private void addRelationship(String relationshipType, String[] permission,
 			String secretKey) {
 
-		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
-		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
-
 		int status;
 		PairingService addPSRelation = new PairingService(callbackHandler);
 		
 		if (secretKey != null) {
-			addPSRelation.addRelationShipRequest(null, pairingTrustee,
+			addPSRelation.addRelationShipRequest(null, getPurifierEntity(purifierEui64),
 				null, getPairingRelationshipData(relationshipType, permission), getPairingInfo(secretKey));
 		} else {
-			addPSRelation.addRelationShipRequest(null, pairingTrustee,
+			addPSRelation.addRelationShipRequest(null, getPurifierEntity(purifierEui64),
 					null, getPairingRelationshipData(relationshipType, permission), null);
 		}
 
-		addPSRelation
-		.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
+		addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
 		status = addPSRelation.executeCommand();
 		if (Errors.SUCCESS != status) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: ");
@@ -187,7 +183,6 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		pairingRelationshipData.pairingRelationshipRelationType = relationshipType;
 		pairingRelationshipData.pairingRelationshipTTL = PAIRING_TTL;
 		pairingRelationshipData.pairingRelationshipPermissionArray = permission;
-		
 		return pairingRelationshipData;
 	}
 
@@ -199,11 +194,8 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * 
 	
 	 * @return PairingEntitiyReference */
-	private PairingEntitiyReference addTrustee(String purifierEui64,
-			PairingEntitiyReference pairingTrustee) {
-		if (pairingTrustee == null) {
-			pairingTrustee = new PairingEntitiyReference();
-		}
+	private PairingEntitiyReference getPurifierEntity(String purifierEui64) {
+		PairingEntitiyReference pairingTrustee = new PairingEntitiyReference();	
 		pairingTrustee.entityRefId = purifierEui64;
 		pairingTrustee.entityRefProvider = PAIRING_REFERENCEPROVIDER;
 		pairingTrustee.entityRefType = PAIRING_REFERENCETYPE;
@@ -229,7 +221,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * generates random key
 	 * 
 	 * @return random secret key */
-	private String generateRandomSecretKey() {		
+	public String generateRandomSecretKey() {		
 		return Long.toHexString(Double.doubleToLongBits(Math.random()));
 
 	}
