@@ -23,7 +23,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	private String requestType = "GET"  ; 
 	private int responseCode ;
 	private EWSTaskListener ewsTaskListener ;
-	private static final int EWS_CONNECTION_TIMEOUT = 30 * 1000 ;
+//	private static final int EWS_CONNECTION_TIMEOUT = 30 * 1000 ;
 	public EWSTasks(int taskType, EWSTaskListener ewsTaskListener) {
 		this.ewsTaskListener = ewsTaskListener ;
 	}
@@ -68,7 +68,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod(requestType);			
 			conn.setRequestProperty("Content-Type", "application/json") ;
-			conn.setConnectTimeout(EWS_CONNECTION_TIMEOUT) ;
+//			conn.setConnectTimeout(EWS_CONNECTION_TIMEOUT) ;
 			// Starts the query
 			
 			if(! requestType.equals("GET")) {

@@ -913,7 +913,6 @@ public class MainActivity extends BaseActivity implements
 	}
 
 	public void showFragment(Fragment fragment) {
-		isClickEvent = true;
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
@@ -963,7 +962,7 @@ public class MainActivity extends BaseActivity implements
 		@Override
 		public void onItemClick(AdapterView<?> listView, View listItem,
 				int position, long id) {
-
+			isClickEvent = true;
 			switch (position) {
 			case 0:
 				showFragment(leftMenuItems.get(position));
