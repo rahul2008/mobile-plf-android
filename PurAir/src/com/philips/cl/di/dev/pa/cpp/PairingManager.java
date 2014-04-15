@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.cpp;
 
 import java.net.HttpURLConnection;
-import java.util.UUID;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -17,7 +16,6 @@ import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
-import com.philips.icpinterface.data.PairingReceivedRelationships;
 import com.philips.icpinterface.data.PairingRelationship;
 
 /**
@@ -64,6 +62,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 *            String[]
 	 */
 	public void startPairing() {
+		ALog.i(ALog.PAIRING, "Started pairing with purifier - eui64= " + purifierEui64);
 		strRelType = AppConstants.DI_COMM_RELATIONSHIP;
 		getRelationship(strRelType, purifierEui64);
 	}
@@ -78,7 +77,8 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 *            String
 	 */
 	private void getRelationship(String relationshipType, String purifierEui64) {
-
+		ALog.i(ALog.PAIRING, "Requesting existing relationships");
+		
 		pairingTarget = addTrustee(purifierEui64, pairingTarget);
 		boolean bincludeIncoming = true;
 		boolean bincludeOutgoing = true;
@@ -151,14 +151,18 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		addPairingRelationshipData(relationshipType, permission);
 		PairingEntitiyReference pairingTrustee= new PairingEntitiyReference();
 		pairingTrustee = addTrustee(purifierEui64, pairingTrustee);
-		if (secretKey != null) {
-			addPairingInfo(secretKey);
-		}
 
 		int status;
 		PairingService addPSRelation = new PairingService(callbackHandler);
-		addPSRelation.addRelationShipRequest(pairingTrustor, pairingTrustee,
+		
+		if (secretKey != null) {
+			initializePairingInfo(secretKey);
+			addPSRelation.addRelationShipRequest(pairingTrustor, pairingTrustee,
 				pairingDelegator, pairingRelationshipData, pairingTypeInfo);
+		} else {
+			addPSRelation.addRelationShipRequest(pairingTrustor, pairingTrustee,
+					pairingDelegator, pairingRelationshipData, null);
+		}
 
 		addPSRelation
 		.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
@@ -183,7 +187,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		pairingRelationshipData.pairingRelationshipIsAllowDelegation = true;
 		pairingRelationshipData.pairingRelationshipMetadata = null;
 		pairingRelationshipData.pairingRelationshipRelationType = relationshipType;
-		pairingRelationshipData.pairingRelationshipTTL = 10; // TODO tweak for release
+		pairingRelationshipData.pairingRelationshipTTL = 1; // TODO tweak for release
 		pairingRelationshipData.pairingRelationshipPermissionArray = permission;
 	}
 
@@ -212,7 +216,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * 
 	 * @param secretKey
 	 */
-	private void addPairingInfo(String secretKey) {
+	private void initializePairingInfo(String secretKey) {
 		if (pairingTypeInfo == null) {
 			pairingTypeInfo = new PairingInfo();
 		}
@@ -247,28 +251,31 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	@Override
 	public void onICPCallbackEventOccurred(int eventType, int status,
 			ICPClient obj) {
-		ALog.i(ALog.PAIRING, "onICPCallbackEventOccurred eventType "
-				+ eventType + " status " + status);
+		ALog.d(ALog.PAIRING, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
 
 		if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {
 			if (status == Errors.SUCCESS) {
-				ALog.i(ALog.PAIRING, "GetRelation-SUCCESS");
+				ALog.i(ALog.PAIRING, "GetRelation call-SUCCESS");
 				PairingService pairingObj = (PairingService) obj;
-				int relations = pairingObj.getNumberOfRelationsReturned();
-				if (relations < 1) {
+				int diCommRelationships = pairingObj.getNumberOfRelationsReturned();
+				if (diCommRelationships < 1) {
+					ALog.i(ALog.PAIRING, "No existing relationships - Requesting Purifier to start pairing");
+					startPairingPortTask(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]));
+				} else if (diCommRelationships < 2) {
+					ALog.i(ALog.PAIRING, "Only one existing relationship (one expired) - Need to start pairing again");
 					startPairingPortTask(strRelType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]));
 				} else if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 					strRelType = AppConstants.NOTIFY_RELATIONSHIP;
 					getRelationship(strRelType, purifierEui64);
-					ALog.i(ALog.PAIRING, "Started AddRelation-NOTIFY");
+					ALog.i(ALog.PAIRING, "DI COMM relationship exists, checking for notify relationship");
 				} else if (strRelType.equals(AppConstants.NOTIFY_RELATIONSHIP)) {
 					purifierDatabase.updatePairingStatus(purifierEui64);
+					ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
 					notifyListenerSuccess();
-					ALog.i(ALog.PAIRING, "GetRelation-AlreadyPaired");
 				}
 			} else {
 				notifyListenerFailed();
-				ALog.e(ALog.PAIRING, "GetRelation-FAILED");
+				ALog.e(ALog.PAIRING, "GetRelation call-FAILED");
 			}
 		} else if (eventType == Commands.PAIRING_ADD_RELATIONSHIP) {
 			if (status == Errors.SUCCESS) {
@@ -277,12 +284,12 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				String relationStatus = pairingObj.getAddRelationStatus();
 				if (relationStatus.equalsIgnoreCase("completed")) {
 					if (strRelType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
-						ALog.i(ALog.PAIRING, "Added pairing relationships - Requesting Notification relationship");
+						ALog.i(ALog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
 						strRelType = AppConstants.NOTIFY_RELATIONSHIP;
 						addRelationship(AppConstants.NOTIFY_RELATIONSHIP,
 								AppConstants.NOTIFY_PERMISSIONS.toArray(new String[AppConstants.NOTIFY_PERMISSIONS.size()]), null);
 					} else {
-						ALog.i(ALog.PAIRING, "Added Notification relationship - Pairing completed");
+						ALog.i(ALog.PAIRING, "Notification relationship added successfully - Pairing completed");
 						notifyListenerSuccess();
 						purifierDatabase.updatePairingStatus(purifierEui64);
 					}
