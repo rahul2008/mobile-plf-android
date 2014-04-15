@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -33,6 +34,8 @@ public class PairingDialogFragment extends DialogFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.tutorial_custom_dialog, container, false);
+		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+		setCancelable(false);
 		
 		final Activity activity = this.getActivity();
 		
