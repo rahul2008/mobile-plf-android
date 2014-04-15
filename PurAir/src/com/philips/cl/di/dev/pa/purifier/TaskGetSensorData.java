@@ -26,7 +26,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 		// params comes from the execute() call: params[0] is the url.
 		//Log.i(TAG, urls[0]) ;
 
-		responseObj = NetworkUtils.downloadUrl(urls[0], 5000);
+		responseObj = NetworkUtils.downloadUrl(urls[0], 10000);
 
 		if(responseObj!=null)
 		{

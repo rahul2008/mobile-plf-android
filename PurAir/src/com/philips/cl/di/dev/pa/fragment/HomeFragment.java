@@ -945,7 +945,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
-			System.out.println("msg: "+msg.what+":"+msg.arg1+":"+msg.arg2);
 			if ( msg.what == 1 )
 				updateOutdoorAQIFields();
 			else if ( msg.what == 2 ) 

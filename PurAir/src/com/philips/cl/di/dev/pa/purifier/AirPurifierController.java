@@ -6,11 +6,14 @@ import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import android.os.AsyncTask;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -29,9 +32,6 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 {
 	
 	private static AirPurifierController airPurifierController ;
-	
-	/** The sensor data handler. */
-	private AirPurifierEventListener airPurifierEventListener;
 	
 	private List<AirPurifierEventListener> subscriptionEventListeners ;
 
@@ -75,11 +75,18 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 * @param nameValuePair
 	 */
 	private void startServerTask(String dataToUpload) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Start the server task for subscribe") ;
 		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload,String.format(AppConstants.URL_CURRENT, Utils.getIPAddress()),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
 
+	public void getPurifierDetails(String url) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Get Purifier details") ;
+		AsyncTask<String, ?, ?> sensorDataTask = null;
+		sensorDataTask = new TaskGetSensorData(this);
+		sensorDataTask.execute(url);
+	}
 	/**
 	 * (non-Javadoc)
 	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int, java.lang.String)
@@ -91,12 +98,10 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Response: "+responseData);
 		switch (responseCode) {
 		case HttpsURLConnection.HTTP_OK:
-				parseSensorData(responseData) ;
+				String decryptedData = new DISecurity(null).decryptData(responseData, AppConstants.deviceId) ;
+				parseSensorData(decryptedData) ;
 			break;
-		default:
-			if( airPurifierEventListener != null) {
-				airPurifierEventListener.airPurifierEventReceived(null) ;
-			}
+		default:			
 			break;
 		}
 	}
@@ -106,13 +111,8 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 * @param dataToParse
 	 */
 	private void parseSensorData(String dataToParse) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "parse sensor data");
-		AirPurifierEventDto airPurifierEvent = null ;
-		if( dataToParse != null) {
-			airPurifierEvent = new DataParser(dataToParse).parseAirPurifierEventData() ;
-		}
-		if ( airPurifierEventListener != null)
-			airPurifierEventListener.airPurifierEventReceived(airPurifierEvent) ;
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "parse sensor data: \n"+dataToParse);
+		notifyListeners(dataToParse) ;
 	}
 	
 

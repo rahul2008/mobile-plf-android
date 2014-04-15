@@ -423,11 +423,6 @@ public class MainActivity extends BaseActivity implements
 					purifierName = intent.getStringExtra("pname");
 				}
 				homeFragment.setHomeName(purifierName);
-				if (isDeviceDiscovered) {
-				}
-				airPurifierController.subscribe(Utils.getAirPurifierID(this),
-						String.format(AppConstants.URL_CURRENT,
-						Utils.getIPAddress()), true) ;
 				toggleConnection(true);
 
 				// TODO : Check for firmware updates here.
@@ -567,13 +562,14 @@ public class MainActivity extends BaseActivity implements
 	}
 
 	private void startLocalConnection() {
-		ALog.i(ALog.CONNECTIVITY, "Start LocalConnection") ;
-		connected = true;
-		stopRemoteConnection() ;
+		String ipAddress = String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress()) ;
 		String appEUI64 = getAppEUI64() ;
-		ALog.i(ALog.SUBSCRIPTION, "appEUI64 "+appEUI64) ;
-		airPurifierController.subscribe(appEUI64,
-				String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress()),true);
+		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection EUI64 - "+appEUI64) ;
+		connected = true;
+		stopRemoteConnection() ;	
+		// Start the subscription every time it discovers the Purifier
+		airPurifierController.getPurifierDetails(ipAddress) ;
+		airPurifierController.subscribe(appEUI64,ipAddress,true);
 		SubscriptionManager.getInstance().openUDPSocket();
 	}
 
@@ -1046,6 +1042,7 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void airPurifierEventReceived(AirPurifierEventDto airPurifierDetails) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Controller callback: "+airPurifierDetails) ;
 		if (airPurifierDetails != null) {
 //			airPurifierEventDto = airPurifierDetails;
 			setAirPurifierEventDto(airPurifierDetails);
@@ -1189,11 +1186,7 @@ public class MainActivity extends BaseActivity implements
 		
 		if (isLocal) {
 			discoveryTimer.cancel() ;
-			ALog.i(ALog.CONNECTIVITY, "local connection true") ;
-			rightMenuClickListener.disableControlPanel(true, airPurifierEventDto) ;
-			tvConnectionStatus.setText(getString(R.string.connected));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(
-					R.drawable.wifi_icon_blue_2x));
+			
 			startLocalConnection();
 		} else {
 			startRemoteConnection() ;
