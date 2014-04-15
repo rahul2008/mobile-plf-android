@@ -5,20 +5,19 @@ import java.util.List;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.content.Intent;
 
 import com.google.gson.JsonObject;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareDownloadFragment;
 import com.philips.cl.di.dev.pa.firmware.FirmwareInstallFragment;
+import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -68,11 +67,15 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<MainAct
 	public void testFirmwareAvailableNotificationForHomeScreen() {
 		try {
 			
-			LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-			FontTextView lblfirmwareUpdAvailable = (FontTextView) activity.findViewById(R.id.lbl_firmware_update_available);
-			ImageButton btnfirmwareUpdAvailable = (ImageButton) activity.findViewById(R.id.btn_firmware_update_available);
+			View view = activity.getLayoutInflater().inflate(R.layout.rl_home_master_fragment, null);
+						
+			final LinearLayout llfirmwareUpdAvailable = (LinearLayout) view.findViewById(R.id.firmware_update_available);
+			final FontTextView lblfirmwareUpdAvailable = (FontTextView) view.findViewById(R.id.lbl_firmware_update_available);
+			ImageButton btnfirmwareUpdAvailable = (ImageButton) view.findViewById(R.id.btn_firmware_update_available);
 			
-			assertEquals(false, llfirmwareUpdAvailable.isShown());		
+			assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
+			llfirmwareUpdAvailable.setVisibility(LinearLayout.VISIBLE);			
+			assertEquals(LinearLayout.VISIBLE, llfirmwareUpdAvailable.getVisibility());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -248,5 +251,4 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<MainAct
 			fail(e.getMessage());
 		}
 	}
-	
 }
