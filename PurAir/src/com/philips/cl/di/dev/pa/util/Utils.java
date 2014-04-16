@@ -111,6 +111,9 @@ public class Utils {
 		return ipAddress;
 	}
 
+	public static String getURL(String port, String ipAddress) {		
+			return String.format(AppConstants.URL_CURRENT,ipAddress,port) ;
+	}
 	/**
 	 * 
 	 */

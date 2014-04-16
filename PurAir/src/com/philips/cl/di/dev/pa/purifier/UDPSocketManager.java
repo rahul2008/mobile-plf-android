@@ -18,6 +18,10 @@ public class UDPSocketManager extends Thread {
 	
 	private boolean stop ;
 	
+	public UDPSocketManager(UDPEventListener udpEventListener) {
+		this.udpEventListener = udpEventListener ;
+	}
+	
 	@Override
 	public void run() {
 		ALog.i(ALog.SUBSCRIPTION, "started udp listener") ;
@@ -35,20 +39,18 @@ public class UDPSocketManager extends Thread {
 				
 				String packetReceived = new String(packet.getData(), Charset.defaultCharset()).trim();
 				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListener != null) {
-					ALog.i(ALog.SUBSCRIPTION, "UDP Data Received") ;
 					String [] packetsReceived = packetReceived.split("\n") ;
-					
-					udpEventListener.onUDPEventReceived(packetsReceived[packetsReceived.length-1]) ;
+					if(packetsReceived != null && packetsReceived.length > 0 ) {
+						ALog.i(ALog.SUBSCRIPTION, "UDP Data Received") ;
+						String lastLine = packetsReceived[packetsReceived.length-1];
+						udpEventListener.onUDPEventReceived(lastLine) ;
+					}
 				}
 				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
-	}
-	
-	public void setUDPEventListener(UDPEventListener udpEventListener ) {
-		this.udpEventListener = udpEventListener ;
 	}
 	
 	public void stopUDPListener() {

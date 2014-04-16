@@ -194,7 +194,7 @@ public class MainActivity extends BaseActivity implements
 
 		setContentView(R.layout.activity_main_aj);
 		airPurifierController = AirPurifierController.getInstance();
-		airPurifierController.setAirPurifierEventListner(this);
+		airPurifierController.addAirPurifierEventListner(this);
 		purifierName = getString(R.string.philips_home);
 
 		/**
@@ -562,14 +562,16 @@ public class MainActivity extends BaseActivity implements
 	}
 
 	private void startLocalConnection() {
-		String ipAddress = String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress()) ;
+		String purifierUrl = String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress()) ;
 		String appEUI64 = getAppEUI64() ;
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection EUI64 - "+appEUI64) ;
 		connected = true;
-		stopRemoteConnection() ;	
-		// Start the subscription every time it discovers the Purifier
-		airPurifierController.getPurifierDetails(ipAddress) ;
-		airPurifierController.subscribe(appEUI64,ipAddress,true);
+		stopRemoteConnection() ;
+		
+		//To speed up the subscription result, we are calling GET
+		//Start the subscription every time it discovers the Purifier
+		airPurifierController.getPurifierDetails(purifierUrl) ;
+		airPurifierController.subscribe(appEUI64,purifierUrl,true);
 		SubscriptionManager.getInstance().openUDPSocket();
 	}
 

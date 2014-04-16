@@ -22,7 +22,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	private UDPSocketManager udpManagerThread ;
 		
 	private SubscriptionManager() {
-		udpManagerThread = new UDPSocketManager() ;
+		udpManagerThread = new UDPSocketManager(this) ;
 	}
 	
 	public static SubscriptionManager getInstance() {
@@ -59,9 +59,8 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	public void openUDPSocket() {
 		ALog.i(ALog.SUBSCRIPTION, "startUDPListener") ;
 		if( udpManagerThread == null ) {
-			udpManagerThread = new UDPSocketManager() ;
+			udpManagerThread = new UDPSocketManager(this) ;
 		}
-		udpManagerThread.setUDPEventListener(this) ;
 		if( udpManagerThread != null && !udpManagerThread.isAlive() ) {
 			udpManagerThread.start() ;
 		}
@@ -86,7 +85,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-		//if response code not 200? retry?
+		//TODO if response code not 200? retry?
 		if( responseCode != HttpURLConnection.HTTP_OK ) {
 			ALog.i(ALog.SUBSCRIPTION, "Subscription failed") ;
 		}
