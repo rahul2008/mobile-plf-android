@@ -9,8 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class FirmwareDownloadFailedFragment extends BaseFragment implements OnClickListener{
@@ -22,7 +22,7 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_download_failed, container, false);
 		initViews(view);
-		((FirmwareUpdateActivity) getActivity()).setActionBar(5);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_DOWNLOAD_FAILED);
 		return view;
 	}
 
@@ -47,17 +47,16 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 		case R.id.btn_try_again_firmware_failed:
 			FirmwareDownloadFragment.setCounter(0);
 			FirmwareUpdateActivity.setCancelled(false);
-			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("version", ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.VERSION, ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
 
 			getFragmentManager()
 			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), "NewDownloadFirmware")
+			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), FirmwareConstants.FIRMWARE_DOWNLOAD_FRAGMENT)
 			.commit();
 			break;
 
 		default:
 			break;
-
 		}
 	}
 }

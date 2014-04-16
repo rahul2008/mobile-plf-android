@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
@@ -22,7 +23,7 @@ public class FirmwareContactSupportFragment extends BaseFragment implements OnCl
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_contact_support, container, false);
 		initViews(view);
-		((FirmwareUpdateActivity) getActivity()).setActionBar(6);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_CONTACT_SUPPORT);
 		return view;
 	}
 
@@ -47,8 +48,8 @@ public class FirmwareContactSupportFragment extends BaseFragment implements OnCl
 			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 			break;
 		case R.id.btn_send_email:
-			Intent supportEmailIntent = new Intent(
-					Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+			//TODO : Replace email with Philips support email.
+			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
 			supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
 			supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
 			startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));

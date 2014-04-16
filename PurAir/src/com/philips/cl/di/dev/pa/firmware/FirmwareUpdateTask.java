@@ -9,23 +9,24 @@ import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import android.os.AsyncTask;
 
 public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
-	
+
 	private FirmwareUpdatesListener firmwareUpdatesListener;
 	private ResponseDto responseObj;
-	
+
 	public interface FirmwareUpdatesListener {
 		public void firmwareDataRecieved(String data);
 	}
-	
+
 	public FirmwareUpdateTask(FirmwareUpdatesListener listener) {
 		firmwareUpdatesListener = listener;
 	}
 
-	//TODO : Remove before release.
+	//TODO : Remove, used for testing if request has been initiated. 
 	@Override
 	protected void onPreExecute() {
 		ALog.i(ALog.FIRMWARE, "FirmwareUpdateTask$onPreExecute");
 	}
+	
 	@Override
 	protected String doInBackground(String... firmwareUrl) {
 		ALog.i(ALog.FIRMWARE, "doInBackground firmwareUrl " + firmwareUrl[0]);
@@ -37,15 +38,11 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 		if(isCancelled()) {
 			cancel(true);
 		}
-		
-//		ALog.i(ALog.FIRMWARE, "doInBackground " + result);
-		
 		return result;
 	}
-	
+
 	@Override
 	protected void onPostExecute(String result) {
-//		ALog.i(ALog.FIRMWARE, "onPostExecute result " + result);
 		firmwareUpdatesListener.firmwareDataRecieved(result);
 	}
 }

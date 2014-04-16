@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -49,11 +50,11 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private void showFragment(String upgradeVersion) {
 		if(upgradeVersion == null || upgradeVersion.equals("")) {
 			getSupportFragmentManager().beginTransaction()
-			.add(R.id.firmware_container, new NewFirmwareUpdateFragment(), "NewFirmwareUpdateFragment")
+			.add(R.id.firmware_container, new FirmwareInstalledFragment(), "NewFirmwareUpdateFragment")
 			.commit();
 		} else {
 			getSupportFragmentManager().beginTransaction()
-			.add(R.id.firmware_container, new NewFirmware(), "NewFirmware")
+			.add(R.id.firmware_container, new FirmwareUpdateFragment(), "NewFirmware")
 			.commit();
 		}
 		
@@ -102,28 +103,29 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		actionBar.setCustomView(view);
 	}
 
-	public void setActionBar(int state) {
-		switch (state) {
-		case 1:
-		case 2:
+	public void setActionBar(FragmentID id) {
+		switch (id) {
+		case FIRMWARE_INSTALLED:
+		case FIRMWARE_UPDATE:
 			setActionBar(R.string.firmware, View.INVISIBLE, View.VISIBLE);
 			break;
-		case 3:
+		case FIRMWARE_DOWNLOAD:
 			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
 			break;
-		case 4:
-		case 8:
+		case FIRMWARE_INSTALL:
+		case FIRMWARE_INSTALL_SUCCESS:
 			setActionBar(R.string.firmware_update, View.INVISIBLE, View.INVISIBLE);
 			break;
-		case 5:
+		case FIRMWARE_DOWNLOAD_FAILED:
 			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
 			break;
-		case 6:
+		case FIRMWARE_CONTACT_SUPPORT:
 			setActionBar(R.string.contact_support, View.INVISIBLE, View.VISIBLE);
 			break;
-		case 7:
+		case FIRMWARE_FAILED_SUPPORT:
 			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
 			break;
+			
 
 		default:
 			break;
@@ -156,9 +158,9 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private void showPreviousFragment() {
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.firmware_container);
-		ALog.i(ALog.FIRMWARE, " NewFirmwareUpdateFragment " + (fragment instanceof NewFirmware));
+		ALog.i(ALog.FIRMWARE, " NewFirmwareUpdateFragment " + (fragment instanceof FirmwareUpdateFragment));
 		
-		if(fragment instanceof NewFirmware || fragment instanceof NewFirmwareUpdateFragment) {
+		if(fragment instanceof FirmwareUpdateFragment || fragment instanceof FirmwareInstalledFragment) {
 			finish();
 		} else if (fragment instanceof FirmwareContactSupportFragment) {
 			getSupportFragmentManager().beginTransaction()
@@ -184,7 +186,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + responseData);
+//		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + responseData);
 	}
 	
 	public String getUpgradeVersion() {

@@ -10,19 +10,20 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class FirmwareFailedSupportFragment extends BaseFragment implements OnClickListener{
-		
+
 	private TextView tvFirmwareFailedUpd; 
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.firmware_failed_support, container, false);
 		initViews(view);
-		((FirmwareUpdateActivity) getActivity()).setActionBar(7);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_FAILED_SUPPORT);
 		return view;
 	}
 
@@ -49,13 +50,12 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 			((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(0);
 			getFragmentManager()
 			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareContactSupportFragment(), "FirmwareContactSupportFragment")
+			.replace(R.id.firmware_container, new FirmwareContactSupportFragment(), FirmwareConstants.FIRMWARE_CONTACT_SUPPORT_FRAGMENT)
 			.commit();
 			break;
-		
+
 		default:
 			break;
-		
-	 }
+		}
 	}
 }

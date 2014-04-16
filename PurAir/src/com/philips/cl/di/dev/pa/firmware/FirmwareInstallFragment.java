@@ -10,6 +10,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -29,7 +30,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 		tvInstallingFirmware.setText(getString(R.string.installing_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
 		FirmwareUpdateActivity.setCancelled(false);
 		getProps();
-		((FirmwareUpdateActivity) getActivity()).setActionBar(4);
+		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_INSTALL);
 		return view;
 	}
 	
@@ -75,7 +76,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 				FirmwareUpdateActivity.setCancelled(true);
 				getFragmentManager()
 				.beginTransaction()
-				.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), "FirmwareFailedSupportFragment")
+				.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareConstants.FIRMWARE_FAILED_SUPPORT_FRAGMENT)
 				.commit();
 			}
 		}
@@ -83,7 +84,6 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 	
 	@Override
 	public void firmwareDataRecieved(String data) {
-
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data);
 		
 		if(installed || FirmwareUpdateActivity.isCancelled()) {
@@ -94,21 +94,25 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 			getProps();
 			return;
 		}
-		counter = 0;
+		
 		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject " + jsonObject);
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
-		
+		processFirmwareData(jsonObject);
+		getProps();
+	}
+	
+	public void processFirmwareData(JsonObject jsonObject) {
 		String upgradeString = getUpgrade(jsonObject);
 		String stateString = getState(jsonObject);
 		
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
+		counter = 0;
 		if((stateString.equals("idle")) && upgradeString.equals("")) {
 			installed = true;
 			FirmwareUpdateActivity.setCancelled(true);
 			showNextFragment();
 		}
-		getProps();
 	}
 	
 	public String getUpgrade(JsonObject jsonObject) {
@@ -124,7 +128,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareUpd
 	public void showNextFragment() {
 		getFragmentManager()
 		.beginTransaction()
-		.replace(R.id.firmware_container, new FirmwareInstallSuccessFragment(), "FirmwareInstallSuccessFragment")
+		.replace(R.id.firmware_container, new FirmwareInstallSuccessFragment(), FirmwareConstants.FIRMWARE_INSTALL_SUCCESS_FRAGMENT)
 		.commit();
 	}
 }
