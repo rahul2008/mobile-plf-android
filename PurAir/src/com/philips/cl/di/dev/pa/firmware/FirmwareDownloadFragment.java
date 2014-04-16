@@ -81,7 +81,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 			}
 			if(counter >= 60) {
 				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$COUNT > 60 call failed fragment counter " + counter );
-				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("state", "cancel");
+				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 				if(((FirmwareUpdateActivity) getActivity()).getDownloadFailedCount() >= 3) {
 					FirmwareUpdateActivity.setCancelled(true);
 					getFragmentManager()
@@ -138,7 +138,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 			downloadProgress = progress;
 			if(progressString.equals("100") && stateString.equals("ready")) {
 				FirmwareUpdateActivity.setCancelled(true);
-				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, "go");
+				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.GO);
 				showNextFragment();
 			}
 

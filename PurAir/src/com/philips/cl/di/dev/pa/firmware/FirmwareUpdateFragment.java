@@ -38,7 +38,7 @@ public class FirmwareUpdateFragment extends BaseFragment implements OnClickListe
 		switch (v.getId()) {
 		case R.id.btn_firmware_update:
 			FirmwareUpdateActivity.setCancelled(false);
-			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("version", ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.VERSION, ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
 
 			getFragmentManager()
 			.beginTransaction()

@@ -26,4 +26,10 @@ public class FirmwareConstants {
 	public static final String VERSION = "version";
 	public static final String PROGRESS = "progress";
 	public static final String STATE = "state";
+	public static final String UPGRADE = "upgrade";
+	public static final String IDLE = "idle";
+	
+	//Firmware properties.
+	public static final String CANCEL = "cancel";
+	public static final String GO = "go";
 }

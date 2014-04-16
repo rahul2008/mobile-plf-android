@@ -144,7 +144,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		case R.id.ews_actionbar_cancel_btn:
 			setCancelled(true);
 			Toast.makeText(this, "Cancel button clicked", Toast.LENGTH_SHORT).show();
-			setDeviceDetailsLocally("state", "cancel");
+			setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 			finish();
 			break;
 		case R.id.ews_actionbar_back_img:

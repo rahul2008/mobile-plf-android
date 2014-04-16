@@ -72,7 +72,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 			}
 			if(counter >= 60) {
 				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$COUNT > 60 call failed fragment counter " + counter );
-				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally("state", "cancel");
+				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 				FirmwareUpdateActivity.setCancelled(true);
 				getFragmentManager()
 				.beginTransaction()
@@ -85,11 +85,9 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	@Override
 	public void firmwareDataRecieved(String data) {
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data);
-		
 		if(installed || FirmwareUpdateActivity.isCancelled()) {
 			return;
 		}
-		
 		if(data == null || data.isEmpty() || data.length() <= 0) {
 			getProps();
 			return;
@@ -108,7 +106,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 		
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
 		counter = 0;
-		if((stateString.equals("idle")) && upgradeString.equals("")) {
+		if((stateString.equals(FirmwareConstants.IDLE)) && (upgradeString.trim().length() <= 0)) {
 			installed = true;
 			FirmwareUpdateActivity.setCancelled(true);
 			showNextFragment();
@@ -116,12 +114,12 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	}
 	
 	public String getUpgrade(JsonObject jsonObject) {
-		JsonElement progressElemt = jsonObject.get("upgrade");
+		JsonElement progressElemt = jsonObject.get(FirmwareConstants.UPGRADE);
 		return progressElemt.getAsString();
 	}
 
 	public String getState(JsonObject jsonObject) {
-		JsonElement stateElemt = jsonObject.get("state");
+		JsonElement stateElemt = jsonObject.get(FirmwareConstants.STATE);
 		return stateElemt.getAsString();
 	}
 	
