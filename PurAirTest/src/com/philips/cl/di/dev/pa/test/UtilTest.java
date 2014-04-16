@@ -63,6 +63,14 @@ public class UtilTest extends TestCase {
 		assertEquals(expectedUrl, actualUrl);
 	}
 	
+	public void testGetPurifierSecurityPortUrl() {
+		String ipAddress = "192.168.1.23";
+		String expectedUrl = "http://" + ipAddress + "/di/v1/products/1/security";
+		String actualUrl = Utils.getPortUrl(Port.SECURITY, ipAddress);
+		
+		assertEquals(expectedUrl, actualUrl);
+	}
+	
 	public void testGetPurifierWrongPortUrl() {
 		String ipAddress = "192.168.1.23";
 		String expectedUrl = "http://" + ipAddress + "/di/v1/products/1/air";

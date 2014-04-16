@@ -1302,8 +1302,7 @@ public class MainActivity extends BaseActivity implements
 						DISecurity.setKeyIntoSecurityHashTable(cppId, key);
 						DISecurity.setUrlIntoUrlsTable(
 								cppId,
-								String.format(AppConstants.URL_SECURITY,
-										device.getIpAddress()));
+								Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()));
 						toggleConnection(true);
 					} else {
 						startKeyExchange(device);
@@ -1367,9 +1366,7 @@ public class MainActivity extends BaseActivity implements
 
 		if (isDeviceDiscovered) {
 			diSecurity.initializeExchangeKeyCounter(cppId);
-			diSecurity.exchangeKey(
-					String.format(AppConstants.URL_SECURITY,
-							device.getIpAddress()), cppId);
+			diSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()), cppId);
 		}
 	}
 

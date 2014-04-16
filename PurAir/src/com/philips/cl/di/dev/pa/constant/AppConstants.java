@@ -298,8 +298,6 @@ public class AppConstants {
 	public static final String DICOMM_REQUEST = "DICOMM-REQUEST" ;
 	public static final String PUT_PROPS = "PUTPROPS" ;
 	public static final String GET_PROPS = "GETPROPS" ;
-		
-	public static final String URL_SECURITY = "http://%s/di/v1/products/0/security" ;
 
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
 	public static final String MODEL_NAME = "AirPurifier" ;
@@ -309,7 +307,8 @@ public class AppConstants {
 	// Constants related to Subscription
 	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/1/%s";
 	public enum Port {
-		AIR("air"), WIFI("wifi"), WIFIUI("wifiui"), FIRMWARE("firmware"), DEVICE("device"), PAIRING("pairing"), LOG("log");
+		AIR("air"), WIFI("wifi"), WIFIUI("wifiui"), FIRMWARE("firmware"), DEVICE("device"), PAIRING("pairing"), 
+		SECURITY("security"), LOG("log");
 		
 		public final String urlPart;
 		Port (String urlPart) {
