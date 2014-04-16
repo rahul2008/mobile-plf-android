@@ -14,9 +14,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
  */
 public class AppConstants {
 	
-	public static final int SUCCESS = 0 ;
-	
-	public static final String EMPTY_STRING = "" ;
 	// Icon for left menu
 	/** The icon home. */
 	public static final String ICON_HOME = "icon_home";
@@ -55,65 +52,21 @@ public class AppConstants {
 	/** The label setting. */
 	public static final String LABEL_SETTING = "Settings";
 
-	// Font file -
-	/** The font. */
-	public static final String FONT = "fonts/gillsans.ttf";
-
-	// Drawable
-	/** The drawable. */
-	public static final String DRAWABLE = "drawable";
-
-	/** The scrolltoviewid. */
-	public static final int SCROLLTOVIEWID = 1;
-
-	/** The scaleleftmenu. */
-	public static final float SCALELEFTMENU = .75f;
-
 	// Network related data
 	/** The Constant UPDATE_INTERVAL. */
 	public static final long UPDATE_INTERVAL = 3 * 1000;
 	
 	public static final long UPDATE_INTERVAL_CPP = 15  * 1000 ;
-	public static final int DCS_TIMEOUT = 45 * 1000 ;
 
 	/** The Constant URL. */
 
 	/** The Constant URL_CURRENT. */	
 	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
 	
-	public static final String OUTDOOR_LOCATIONS_URL = "http://ixuanwu.com.cn/app/citys.php";
 
 	
 	/** The Constant defaultIPAddress. */
 	public static final String DEFAULT_IPADDRESS = "192.168.10.198";
-
-	/** The Constant MESSAGE_INCORRECT_IP. */
-	public static final String MESSAGE_INCORRECT_IP = "Incorrect IP Address";
-
-	/** The Constant MESSAGE_OK. */
-	public static final String MESSAGE_OK = "OK";
-
-	
-	/** The Constant HOME. */
-	public static final int HOME = 1;
-
-	/** The Constant MYCITIES. */
-	public static final int MYCITIES = 2;
-
-	/** The Constant ABOUTAQI. */
-	public static final int ABOUTAQI = 3;
-
-	/** The Constant PRODUCTREG. */
-	public static final int PRODUCTREG = 4;
-
-	/** The Constant HELP. */
-	public static final int HELP = 5;
-
-	/** The Constant SETTINGS. */
-	public static final int SETTINGS = 6;
-
-	/** Server Request Type **/
-	public static final int GET_SENSOR_DATA_REQUEST_TYPE = 1;
 
 	/** The Constant TABLENAME. */
 	public static final String TABLENAME = "CityDetails";
@@ -146,7 +99,6 @@ public class AppConstants {
 
 	public static final String AQI_TABLE = "AQITable" ;
 	public static final String ID = "id" ;
-	public static final String OUTDOOR_AQI = "aqi" ;
 	public static final String LOG_DATETIME = "date" ;
 	public static final String CITY_ID = "cityId" ;
 	
@@ -168,73 +120,21 @@ public class AppConstants {
 	public static final String IS_PAIRED="is_paired";
 	public static final String LAST_PAIRED = "last_paired";
 
-	public static final String SCITY_NAME_QUERY = "Select distinct "
-			+ AppConstants.KEY_CITY + " from " + AppConstants.TABLENAME;
-	
-	public static final String AIRPURIFIER_EVENT_QUERY = "Select * from " + AppConstants.TABLE_AIRPURIFIER_EVENT ;
-	
-	public static String selectLatestOutdoorAQI = "Select * from " + AppConstants.AQI_TABLE + " where aqi > 0 and cityID = %s order by " + LOG_DATETIME + " DESC"  ;
-	
-	public static String selectOutdoorAQIOnLogDateTime = "Select * from " + AppConstants.AQI_TABLE + " where " + AppConstants.LOG_DATETIME + "= '%s' and " + AppConstants.CITY_ID + "= %s" ;
-
-	
 	public static final String INDOOR_AQI = "aqi" ;
 
 	public static final float SWIPE_THRESHOLD = 100;
 
 	public static final float SWIPE_VELOCITY_THRESHOLD = 100;
 
-	public static final long DURATION = 1000;
-	
-	public static final long FADEDURATION = 600;
-	
-	public static final long FADEDELAY = 100;
-
-	public static final float MINIMUNFILTER = 0;
-	public static final float MAXIMUMFILTER = 1000;
-
-	
-	public static final float  DAYWIDTH = 680;
-
-	public static final int OUTDOOR_AQI_UPDATE_DURATION = 60 * 60 * 1000 ;
-
-	public static final String WARNING_VGOOD = "warning_vgood";
-	public static final String WARNING_GOOD = "warning_good";
-	public static final String WARNING_FAIR = "warning_fair";
-	public static final String WARNING_BAD = "warning_bad";
-	
-	public static final float HOURS = 24;
-	public static final  float MAX_AQI = 500;
-
 	public static final String DATABASE = "purair.db";
-	
-	public static final String QUERY_AQIVALUES = "Select aqi from aqitable where cityid= %s  and date like '"+"%s"+" %' ";
-
-	public static final String CITYNAME = "city_name";
-
-	public static final String LAST_UPDATED_TIME = "last_updated_time";
-
-	public static final String LAST_UPDATED_DAY = "last_updated_day";
 	
 	public static final String SHANGHAI_OUTDOOR_AQI_URL = "http://ixuanwu.com.cn/app/city-hourly-gov.php?key=shanghai" ;
 	
-	public static final String CITIES_URL = "http://ixuanwu.com.cn/app/citys.php" ;
-	public static final String INDOOR = "indoor";
-
-	public static final String OUTDOOR = "outdoor";
-	
-	
-	public static final String EVENT_DATA = "" ;
-	
-	
 	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
-	public static final String DI_ACTION_PUTPROPS = "PUTPROPS" ;
-	public static final String DI_ACTION_GETPROPS = "GETPROPS" ;
 	
 	
 	public static final String ACT_NOW = "Act Now" ;
 	public static final String ACT_SOON = "Act Soon" ;
-	public static final String NORMAL_OPERATION = "Normal Operation" ;
 	public static final String FILTER_LOCK = "Filter Lock" ;
 	public static final String CLEAN_SOON = "Clean Soon" ;
 	public static final String CLEAN_NOW = "Clean Now" ;
@@ -248,15 +148,12 @@ public class AppConstants {
 	public static final float MAXWIDTH = MainActivity.getScreenWidth() * 0.655f;
 	
 	// Colors for each category
-	public static final int COLOR_NA= Color.rgb(192, 192, 192);
-	public static final int COLOR_VGOOD = Color.rgb(0, 169, 231); // Not used
 	public static final int COLOR_GOOD = Color.rgb(43, 166, 81);
 	public static final int COLOR_FAIR = Color.rgb(225, 138, 53);
 	public static final int COLOR_BAD = Color.rgb(209, 37, 49);
 	
 	//Power mode
 	public static final String POWER_ON = "1";
-	public static final String POWER_OFF = "0";
 	
 	//Fan speeds
 	public static final String FAN_SPEED_SILENT = "s";
@@ -270,9 +167,6 @@ public class AppConstants {
 	public static final String SUNNY = "Sunny";
 	public static final String LIGHT_RAIN_SHOWER = "Light rain shower";
 	public static final String LIGHT_DRIZZLE = "Light drizzle";
-	public static final String PATCHY_RAIN_NEARBY = "Patchy rain nearby";
-	public static final String PATCHY_LIGHT_DRIZZLE = "Patchy light drizzle";
-	public static final String PATCHY_LIGHT_RAIN = "Patchy light rain";
 	public static final String PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER = "Patchy light rain in area with thunder";
 	public static final String MODERATE_OR_HEAVY_RAIN_SHOWER = "Moderate or heavy rain shower";
 	public static final String TORRENTIAL_RAIN_SHOWER = "Torrential rain shower";
@@ -282,7 +176,6 @@ public class AppConstants {
 	public static final String MIST = "Mist";
 	public static final String CLOUDY = "Cloudy";
 	public static final String PARTLY_CLOUDY = "Partly Cloudy";
-	public static final String DAY_TIME = "Day time";
 	public static final String CLEAR_SKIES = "Clear Skies";
 	public static final String SNOW = "Snow";
 	public static final String CLEAR = "Clear";
@@ -295,7 +188,6 @@ public class AppConstants {
 	public static final int CONNECTED_VIA_PHILIPS = 2 ;
 	
 	// Constants related to ICP client
-	public static final String DICOMM_REQUEST = "DICOMM-REQUEST" ;
 	public static final String PUT_PROPS = "PUTPROPS" ;
 	public static final String GET_PROPS = "GETPROPS" ;
 
@@ -318,7 +210,6 @@ public class AppConstants {
 		
 	//Child lock and indicator light status.
 	public static final int ON = 1;
-	public static final int OFF = 0;
 	
 	
 	public static String deviceId = "none" ;
@@ -330,11 +221,9 @@ public class AppConstants {
 	public static final int EWS_REQUEST_CODE = 101;
 	public static final int FIRMWARE_REQUEST_CODE = 102;
 	
-//	public static final String[] PERMISSIONS= new String[]{"Request", "Response", "Change"};
 	public static final List<String> PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request", "Response", "Change"));
 	public static final String DI_COMM_RELATIONSHIP="DI-COMM";
 	public static final String NOTIFY_RELATIONSHIP="NOTIFY";
-//	public static final String[] NOTIFY_PERMISSIONS= new String[]{"Request"};
 	public static final List<String> NOTIFY_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request"));
 	
 	/** Activity intent key strings*/
@@ -345,6 +234,5 @@ public class AppConstants {
 	
 	public static final String REQUEST_METHOD_POST = "POST" ;
 	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
-	public static final String REQUEST_METHOD_PUT = "PUT" ;
 
 }

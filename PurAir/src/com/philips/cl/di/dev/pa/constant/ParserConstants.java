@@ -27,9 +27,6 @@ public class ParserConstants {
 	public static final String PSENS = "psens" ;
 	public static final String ACTUAL_FAN_SPEED = "fspd";
 	
- 	
-	public static final String TIMESTAMP = "time_stamp" ;
-	
 	// Weather details constants
 	public static final String DATA = "data" ;
 	public static final String WEATHER = "weather" ;
