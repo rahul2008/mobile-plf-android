@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -76,7 +77,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 */
 	private void startServerTask(String dataToUpload) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Start the server task for subscribe") ;
-		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload,String.format(AppConstants.URL_CURRENT, Utils.getIPAddress()),this) ;
+		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload, Utils.getPortUrl(Port.AIR, Utils.getIPAddress()),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}

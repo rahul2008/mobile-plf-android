@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.cpp;
 import java.net.HttpURLConnection;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
@@ -119,8 +120,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 
 		if (relationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 			secretKey = generateRandomSecretKey();
-			String pairing_url = String.format(AppConstants.URL_PAIRING_PORT,
-					Utils.getIPAddress());
+			String pairing_url = Utils.getPortUrl(Port.PAIRING, Utils.getIPAddress());
 			String appEui64 = SessionDto.getInstance().getEui64();
 			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
 			dataToUpload = new DISecurity(null).encryptData(dataToUpload,

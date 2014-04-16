@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -57,7 +58,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 
 	private void getProps() {
 		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$getProps");
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
+		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareDownloadFragment.this);
 		task.execute(firmwareUrl);
 	}

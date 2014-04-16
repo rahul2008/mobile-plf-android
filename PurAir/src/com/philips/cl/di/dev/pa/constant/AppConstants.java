@@ -78,9 +78,7 @@ public class AppConstants {
 
 	/** The Constant URL. */
 
-	/** The Constant URL_CURRENT. */
-	public static final String URL_CURRENT = "http://%s/di/v1/products/1/air";
-	
+	/** The Constant URL_CURRENT. */	
 	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
 	
 	public static final String OUTDOOR_LOCATIONS_URL = "http://ixuanwu.com.cn/app/citys.php";
@@ -307,14 +305,22 @@ public class AppConstants {
 	public static final String MODEL_NAME = "AirPurifier" ;
 	
 	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
+	
+	// Constants related to Subscription
+	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/1/%s";
+	public enum Port {
+		AIR("air"), WIFI("wifi"), WIFIUI("wifiui"), FIRMWARE("firmware"), DEVICE("device"), PAIRING("pairing"), LOG("log");
+		
+		public final String urlPart;
+		Port (String urlPart) {
+			this.urlPart = urlPart;
+		}
+	};
 		
 	//Child lock and indicator light status.
 	public static final int ON = 1;
 	public static final int OFF = 0;
 	
-	public static final String URL_PORT = "http://%s/di/v1/products/1/";
-	public static final String URL_FIRMWARE_PORT = "http://%s/di/v1/products/0/firmware";
-	public static final String URL_PAIRING_PORT="http://%s/di/v1/products/0/pairing";
 	
 	public static String deviceId = "none" ;
 	

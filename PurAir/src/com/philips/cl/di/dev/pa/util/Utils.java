@@ -41,6 +41,7 @@ import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
@@ -111,12 +112,9 @@ public class Utils {
 		return ipAddress;
 	}
 
-	public static String getURL(String port, String ipAddress) {		
-			return String.format(AppConstants.URL_CURRENT,ipAddress,port) ;
+	public static String getPortUrl(Port port, String ipAddress) {		
+		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.urlPart) ;
 	}
-	/**
-	 * 
-	 */
 
 	public static void storeCPPKeys(Context context, CppDatabaseModel cppDataModel) {
 		SharedPreferences settings = context.getSharedPreferences(

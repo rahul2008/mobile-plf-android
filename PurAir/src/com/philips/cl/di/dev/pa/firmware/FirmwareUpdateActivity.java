@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -176,7 +177,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	private void startServerTask(String dataToUpload) {
-		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress()),this) ;
+		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress()),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
@@ -210,7 +211,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getFirmwareURL() {
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
+		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
 		return firmwareUrl;
 	}
 	

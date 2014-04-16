@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseAdapter;
@@ -145,16 +146,11 @@ SignonListener, DiagnosticsDataListener {
 			break;
 		case R.id.btn_diagnostics:
 			((MainActivity)getActivity()).isDiagnostics=true;
-			String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT,
-					Utils.getIPAddress());
-			String wifiUrl = String.format(AppConstants.URL_PORT.concat(WIFI),
-					Utils.getIPAddress());
-			String wifiUiUrl = String.format(AppConstants.URL_PORT.concat(WIFIUI),
-					Utils.getIPAddress());
-			String deviceUrl = String.format(AppConstants.URL_PORT.concat(DEVICE),
-					Utils.getIPAddress());
-			String logUrl = String.format(AppConstants.URL_PORT.concat(LOG),
-					Utils.getIPAddress());
+			String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
+			String wifiUrl = Utils.getPortUrl(Port.WIFI, Utils.getIPAddress());
+			String wifiUiUrl = Utils.getPortUrl(Port.WIFIUI, Utils.getIPAddress());
+			String deviceUrl = Utils.getPortUrl(Port.DEVICE, Utils.getIPAddress());
+			String logUrl = Utils.getPortUrl(Port.LOG, Utils.getIPAddress());
 
 			//fetch all ports data
 			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);

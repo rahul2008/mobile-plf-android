@@ -68,6 +68,7 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
@@ -454,7 +455,7 @@ public class MainActivity extends BaseActivity implements
 	}
 	
 	private void checkForFirmwareUpdate() {
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
+		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
 		task.execute(firmwareUrl);
 	}
@@ -563,7 +564,7 @@ public class MainActivity extends BaseActivity implements
 	}
 
 	private void startLocalConnection() {
-		String purifierUrl = String.format(AppConstants.URL_CURRENT,	Utils.getIPAddress()) ;
+		String purifierUrl = Utils.getPortUrl(Port.AIR, Utils.getIPAddress());
 		String appEUI64 = getAppEUI64() ;
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection EUI64 - "+appEUI64) ;
 		connected = true;

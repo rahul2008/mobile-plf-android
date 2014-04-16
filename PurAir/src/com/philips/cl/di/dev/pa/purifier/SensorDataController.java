@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -38,7 +39,7 @@ public class SensorDataController implements ServerResponseListener {
 	private final Runnable getSensorDataRunnable = new Runnable() {
 		@Override
 		public void run() {
-			getSensorData(String.format(AppConstants.URL_CURRENT, Utils.getIPAddress()));
+			getSensorData(Utils.getPortUrl(Port.AIR, Utils.getIPAddress()));
 			handler.postDelayed(this, AppConstants.UPDATE_INTERVAL);
 		}
 	};
