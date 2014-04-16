@@ -10,18 +10,18 @@ import android.os.AsyncTask;
 
 public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 
-	private FirmwareUpdatesListener firmwareUpdatesListener;
+	private FirmwareResponseListener firmwareUpdatesListener;
 	private ResponseDto responseObj;
 
-	public interface FirmwareUpdatesListener {
+	public interface FirmwareResponseListener {
 		public void firmwareDataRecieved(String data);
 	}
 
-	public FirmwareUpdateTask(FirmwareUpdatesListener listener) {
+	public FirmwareUpdateTask(FirmwareResponseListener listener) {
 		firmwareUpdatesListener = listener;
 	}
 
-	//TODO : Remove, used for testing if request has been initiated. 
+	//TODO : Remove, used for testing to see if request has been initiated. 
 	@Override
 	protected void onPreExecute() {
 		ALog.i(ALog.FIRMWARE, "FirmwareUpdateTask$onPreExecute");

@@ -80,9 +80,9 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListener;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -109,7 +109,7 @@ import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements
 		ICPDeviceDetailsListener, Callback, KeyDecryptListener,
-		OnClickListener, FirmwareUpdatesListener, AirPurifierEventListener, SignonListener, PairingListener {
+		OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -426,12 +426,7 @@ public class MainActivity extends BaseActivity implements
 				toggleConnection(true);
 
 				// TODO : Check for firmware updates here.
-				String firmwareUrl = String.format(
-						AppConstants.URL_FIRMWARE_PORT,
-						Utils.getIPAddress());
-				FirmwareUpdateTask task = new FirmwareUpdateTask(this);
-				task.execute(firmwareUrl);
-				
+				checkForFirmwareUpdate();
 			}
 
 			if (dbPurifierDetailDtoList != null
@@ -456,6 +451,12 @@ public class MainActivity extends BaseActivity implements
 		default:
 			break;
 		}
+	}
+	
+	private void checkForFirmwareUpdate() {
+		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
+		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
+		task.execute(firmwareUrl);
 	}
 	
 	@Override
@@ -1315,9 +1316,7 @@ public class MainActivity extends BaseActivity implements
 			}
 		}
 		
-		String firmwareUrl = String.format(AppConstants.URL_FIRMWARE_PORT, Utils.getIPAddress());
-		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
-		task.execute(firmwareUrl);
+		checkForFirmwareUpdate();
 
 		return true;
 	}

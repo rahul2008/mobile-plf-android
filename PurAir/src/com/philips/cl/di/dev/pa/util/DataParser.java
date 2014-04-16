@@ -165,5 +165,5 @@ public class DataParser implements DataParserInterface {
 	public List<Weatherdto> parseWeatherData() {
 		return new WeatherDataParser().parseWeatherData(dataToParse) ;
 	}
-
+	
 }

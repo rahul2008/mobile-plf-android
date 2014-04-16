@@ -12,13 +12,13 @@ import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListener;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FirmwareDownloadFragment extends BaseFragment implements FirmwareUpdatesListener{
+public class FirmwareDownloadFragment extends BaseFragment implements FirmwareResponseListener{
 
 	private ProgressBar progressBar;
 	private FontTextView progressPercent;
