@@ -268,7 +268,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 		    String name;
 		    for(Fragment frg : lstFragment) {
 		    	name = frg.getClass().getSimpleName();
-		    	if (frg != null && !name.equals("NewFirmwareUpdateFragment")) {
+		    	if (frg != null && !name.equals("FirmwareInstalledFragment")) {
 		    		assertEquals("FirmwareInstallFragment", frg.getClass().getSimpleName());
 		    	}
 		    }		    
