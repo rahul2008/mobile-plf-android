@@ -2,9 +2,9 @@ package com.philips.cl.di.dev.pa.test;
 
 import java.util.List;
 
-import android.app.ActivityManager;
+import android.support.v4.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
@@ -14,34 +14,19 @@ import android.widget.ProgressBar;
 
 import com.google.gson.JsonObject;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareDownloadFragment;
 import com.philips.cl.di.dev.pa.firmware.FirmwareInstallFragment;
-import com.philips.cl.di.dev.pa.fragment.HomeFragment;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-//import static org.junit.Assert.assertThat;
-//import org.hamcrest.Matchers;
-
-public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<MainActivity>  {
+public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<FirmwareUpdateActivity>  {
 		
-	private MainActivity activity;
+	private FirmwareUpdateActivity activity;
 	private Context mCtx;
 	
-	//Constructors
-	public FirmwareUpdateTest(Class<MainActivity> activityClass) {
-		super(activityClass);
-		// TODO Auto-generated constructor stub
-	}	
-	
 	public FirmwareUpdateTest() {
-	    super(MainActivity.class);
-	}
-
-	public FirmwareUpdateTest(Context context) {
-	    super(MainActivity.class);
-	    mCtx = context;
+	    super(FirmwareUpdateActivity.class);
 	}
 	
 	@Override
@@ -49,7 +34,6 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<MainAct
 		super.setUp();	
 		setActivityInitialTouchMode(false);
 		activity = getActivity();
-		mCtx = this.getInstrumentation().getTargetContext().getApplicationContext();
 	}
 	
 	public void onPause() {     
@@ -82,11 +66,9 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<MainAct
 			fail(e.getMessage());
 		}
 	}
-
 	
 	//********************************************** Test Cases for UI Testing ***************************************************//
-	
-	
+		
 	/*  
 	 * Class Name  : Newfirmware
 	 * TestCase ID :
@@ -247,6 +229,53 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<MainAct
 			assertEquals(jo.get("state").getAsString(), sGetState);
 			
 		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+	}
+	
+	//*********************************************** Test Cases for Crucial Transitions  ******************************************** //
+	
+	/*  
+	 * Class Name  : FirmwareDownloadFragment
+	 * TestCase ID :
+	 */
+
+	public void testTransitionDownloadFailed(){
+		try {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("name", "Jaguar");
+			jo.addProperty("version", "19");			
+			jo.addProperty("upgrade", "21");
+			jo.addProperty("state", "ready");
+			jo.addProperty("progress", "100");
+			jo.addProperty("statusmsg", "");
+			jo.addProperty("is_mandatory_upgrade", "false");
+			
+			ALog.i(ALog.MAINACTIVITY, "Firmware Update => testTransitionDownloadFailed testcase started") ;			
+							
+			FirmwareDownloadFragment fragment = new FirmwareDownloadFragment();
+		    android.support.v4.app.FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
+		    ft.replace(R.id.firmware_container, fragment);
+		    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		    ft.commit();
+		    
+		    if(jo.get("progress").getAsString().equals("100") && jo.get("state").getAsString().equals("ready")) {
+		    fragment.showNextFragment(); }		    
+		    
+		    List<android.support.v4.app.Fragment> lstFragment = activity.getSupportFragmentManager().getFragments();
+		    
+		    String name;
+		    for(Fragment frg : lstFragment) {
+		    	name = frg.getClass().getSimpleName();
+		    	if (frg != null && !name.equals("NewFirmwareUpdateFragment")) {
+		    		assertEquals("FirmwareInstallFragment", frg.getClass().getSimpleName());
+		    	}
+		    }		    
+		    
+			ALog.i(ALog.MAINACTIVITY, "Firmware Update => testTransitionDownloadFailed testcase Completed ") ;
+			
+		 } catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
 		}
