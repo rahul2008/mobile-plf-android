@@ -82,7 +82,7 @@ import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareUpdatesListener;
-import com.philips.cl.di.dev.pa.firmware.NewFirmware;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -957,7 +957,7 @@ public class MainActivity extends BaseActivity implements
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
-			leftMenuItems.add(new NewFirmware());
+			leftMenuItems.add(new FirmwareUpdateFragment());
 			leftMenuItems.add(new ProductRegFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
@@ -1402,8 +1402,7 @@ public class MainActivity extends BaseActivity implements
 		}
 		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
 		ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
-		ALog.i(ALog.FIRMWARE,
-				"jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
+		ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
 		JsonElement upgrade = jsonObject.get("upgrade");
 		upgradeVersion = upgrade.getAsString();
 		JsonElement current = jsonObject.get("version");
