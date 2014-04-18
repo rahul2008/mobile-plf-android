@@ -112,7 +112,10 @@ public class Utils {
 		return ipAddress;
 	}
 
-	public static String getPortUrl(Port port, String ipAddress) {		
+	public static String getPortUrl(Port port, String ipAddress) {
+		if (port == null) {
+			return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, "invalidport") ;
+		}
 		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.urlPart) ;
 	}
 

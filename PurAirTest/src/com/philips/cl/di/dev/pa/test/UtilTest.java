@@ -86,5 +86,21 @@ public class UtilTest extends TestCase {
 		
 		assertFalse(expectedUrl.equals(actualUrl));
 	}
+	
+	public void testGetPurifierAirPortUrlNullIp() {
+		String ipAddress = null;
+		String expectedUrl = "http://" + null + "/di/v1/products/1/air";
+		String actualUrl = Utils.getPortUrl(Port.AIR, ipAddress);
+		
+		assertTrue(expectedUrl.equals(actualUrl));
+	}
+	
+	public void testGetPurifierAirPortUrlNullPort() {
+		String ipAddress = "192.168.1.23";
+		String expectedUrl = "http://" + "192.168.1.23" + "/di/v1/products/1/invalidport";
+		String actualUrl = Utils.getPortUrl(null, ipAddress);
+		
+		assertTrue(expectedUrl.equals(actualUrl));
+	}
 
 }
