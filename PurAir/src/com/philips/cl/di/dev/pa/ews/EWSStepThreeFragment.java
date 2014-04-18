@@ -80,6 +80,9 @@ public class EWSStepThreeFragment extends Fragment {
 	}
 
 	private void enablePasswordFild() {
+		if (((EWSActivity) getActivity()).getEWSServiceObject() == null ) {
+			return;
+		}
 		if (((EWSActivity) getActivity()).getEWSServiceObject().isNoPasswordSSID()) {
 			passwordStep3.setEnabled(false);
 			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg_gray);

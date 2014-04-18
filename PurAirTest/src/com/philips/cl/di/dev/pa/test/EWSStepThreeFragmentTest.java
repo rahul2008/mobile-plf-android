@@ -5,13 +5,13 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.ews.EWSStepTwoFragment;
+import com.philips.cl.di.dev.pa.ews.EWSStepThreeFragment;
 
-public class EWSStepTwoFragmentTest extends
+public class EWSStepThreeFragmentTest extends
 		ActivityInstrumentationTestCase2<EWSActivity> {
 	private EWSActivity activity;
 
-	public EWSStepTwoFragmentTest() {
+	public EWSStepThreeFragmentTest() {
 		super(EWSActivity.class);
 	}
 
@@ -25,12 +25,13 @@ public class EWSStepTwoFragmentTest extends
 	}
 
 	public void testFragmentTag() {
-		EWSStepTwoFragment ewsStepTwoFragment = new EWSStepTwoFragment();
+		EWSStepThreeFragment ewsStepThreeFragment = new EWSStepThreeFragment();
 		activity.getSupportFragmentManager()
 				.beginTransaction()
-				.add(R.id.ews_fragment_container, ewsStepTwoFragment,
-						EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG).commit();
+				.add(R.id.ews_fragment_container, ewsStepThreeFragment,
+						EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG).commit();
 
-		assertEquals(EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG,	ewsStepTwoFragment.getTag());
+		assertEquals(EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG,
+				ewsStepThreeFragment.getTag());
 	}
 }
