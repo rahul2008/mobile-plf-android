@@ -137,6 +137,7 @@
             android:background="@color/white"
             android:paddingLeft="16dp"
             android:ems="10"
+            android:maxLength="30"
             android:singleLine="true"
             android:hint=""
             android:enabled="false"

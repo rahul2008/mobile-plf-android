@@ -122,7 +122,6 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	public String decryptData(String data, String deviceId) {
 		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
-//		data = "+jEMhY7AVkPIixc3mza+95zPalRNuAYxWy32RazpYz3ILUH7asDA5K9YAwDuEVbINlgId2Cj6tcZdZJVyi12JwgmeYqa+ZWAg1JH7ND2ZVEneqAM5qpbvOIoaLK8MZypKsdUuvaSfrQ4Aax6AUiiHmYKhvPx1NVr0ijimrdTG1dLzljJvfWjapBYMoRCY9FCYcRhA8wIZ9t/A3GchPGFiPphAk2TKWHgofm34BqAiJEVzXePHPzSPYd117s/QsJlAowPNg/SkXuQM9sdhTwhrN0+Do1P4ZqCVlu6p9h4EIY=" ;
 		data = data.trim() ;
 		String key = securityKeyHashtable.get(deviceId);
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
@@ -136,7 +135,11 @@ public class DISecurity implements ServerResponseListener {
 		try {
 			byte[] bytesEncData = Util.decodeFromBase64(data.trim());
 			byte[] bytesDecData = aesDecryptData(bytesEncData, key);
+			//For remove random bytes
+//			byte[] bytesDecData1 = Util.removeRandomBytes(bytesDecData);
+			
 			decryptData = new String(bytesDecData,Charset.defaultCharset());
+			
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
 			exchangeKeyCounterTable.put(deviceId, 0);
 		} catch (Exception e) {
@@ -169,7 +172,8 @@ public class DISecurity implements ServerResponseListener {
 		byte[] ivBytes=new byte[]{0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0};
 		IvParameterSpec iv = new IvParameterSpec(ivBytes);
 		c.init(Cipher.ENCRYPT_MODE, keySpec,iv);
-
+//		byte[] dataBytes = Util.addRandomBytes(data.getBytes(Charset.defaultCharset()));// for add random bytes
+//		ALog.i(ALog.SECURITY, "dataBytes length: " + dataBytes.length);// for add random bytes
 		return c.doFinal(data.getBytes(Charset.defaultCharset()));
 	}
 
@@ -236,6 +240,7 @@ public class DISecurity implements ServerResponseListener {
 		BigInteger r= new BigInteger(rValue);
 		return Util.bytesToHex(g.modPow(r, p).toByteArray());
 	}
+	
 	
 	/**
 	 * 

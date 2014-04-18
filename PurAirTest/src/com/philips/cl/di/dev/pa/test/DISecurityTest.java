@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Hashtable;
 
@@ -114,5 +115,67 @@ public class DISecurityTest extends TestCase {
 		
 		String newKey = Util.getEvenNumberSecretKey(key256bit);
 		assertEquals(256, newKey.length());
+	}
+	
+	public void testGetRandomBytes() {
+		byte[] byteArr1 = Util.getRandomByteArray(2);
+		byte[] byteArr2 = Util.getRandomByteArray(2);
+		
+		assertFalse(byteArr1[0] == byteArr2[0]);
+		assertFalse(byteArr1[1] == byteArr2[1]);
+	}
+	
+	public void testAddRandomBytesCaseOne() {
+		String testStr = "Hello Security";
+		byte[] testBytes = testStr.getBytes();
+		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
+		assertEquals(testRandomBytes.length, testBytes.length + Util.RANDOM_BYTE_ARR_SIZE);
+	}
+	
+	public void testAddRandomBytesCaseTwo() {
+		byte[] testBytes = null;
+		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
+		assertNull(testRandomBytes);
+	}
+	
+	public void testAddRandomBytesCaseThree() {
+		String testStr = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
+		byte[] testBytes = testStr.getBytes();
+		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
+		assertEquals(testRandomBytes.length, testBytes.length + Util.RANDOM_BYTE_ARR_SIZE);
+	}
+	
+	public void testRemoveRandomBytesCaseOne() {
+		String testStr = "Hello Security";
+		byte[] testBytes = testStr.getBytes();
+		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
+		byte[] afterRemoveBytes = Util.removeRandomBytes(testRandomBytes);
+		
+		String testStr1 = new String(afterRemoveBytes,Charset.defaultCharset());
+		assertEquals(testStr, testStr1);
+	}
+	
+	public void testRemoveRandomBytesCaseTwo() {
+		String testStr = "H";
+		byte[] testBytes = testStr.getBytes();
+		byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
+		String testStr1 = new String(afterRemoveBytes,Charset.defaultCharset());
+		assertEquals(testStr, testStr1);
+	}
+	
+	public void testRemoveRandomBytesCaseThree() {
+		byte[] testBytes = null;
+		byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
+		assertNull(afterRemoveBytes);
+	}
+	
+	public void testRemoveRandomBytesCaseFour() {
+		String testStr = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
+		byte[] testBytes = testStr.getBytes();
+		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
+		byte[] afterRemoveBytes = Util.removeRandomBytes(testRandomBytes);
+		
+		String testStr1 = new String(afterRemoveBytes,Charset.defaultCharset());
+		assertEquals(testStr, testStr1);
 	}
 }

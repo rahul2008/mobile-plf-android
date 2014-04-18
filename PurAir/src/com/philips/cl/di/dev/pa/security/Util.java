@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.security;
 
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.Random;
 
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -11,6 +12,7 @@ public class Util {
 	
 	public static final int MIN = 101;
 	public static final int MAX = Integer.MAX_VALUE;
+	public static final int RANDOM_BYTE_ARR_SIZE = 2;
 	
 	private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
 	
@@ -102,5 +104,42 @@ public class Util {
 		return tempKey;
 	}
 
+	// for add random bytes
+	public static byte[] getRandomByteArray(int size) {
+		byte[] result = new byte[size];
+		Random random = new Random();
+		random.nextBytes(result);
+		return result;
+	}
 
+	// for add random bytes
+	public static byte[] addRandomBytes(byte[] data) {
+		
+		if (data == null) {
+			return null;
+		}
+		
+		byte[] randomBytes = getRandomByteArray(RANDOM_BYTE_ARR_SIZE);
+		
+		int dataLength = data.length;
+		int randomBytesLength = randomBytes.length;
+		
+		byte[] dataBytes = new byte[dataLength + randomBytesLength];
+		
+		System.arraycopy(randomBytes, 0, dataBytes, 0, randomBytesLength);
+		System.arraycopy(data, 0, dataBytes, randomBytesLength, dataLength);
+		
+		return dataBytes;
+	}
+	
+	//for remove random bytes
+	public static byte[] removeRandomBytes(byte[] data) {
+		
+		if (data == null || data.length < 3) {
+			return data;
+		}
+		
+		byte[] dataBytes = Arrays.copyOfRange(data, RANDOM_BYTE_ARR_SIZE, data.length);
+		return dataBytes;
+	}
 }
