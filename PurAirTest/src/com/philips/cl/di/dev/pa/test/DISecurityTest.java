@@ -17,6 +17,7 @@ public class DISecurityTest extends TestCase {
 	
 	public final static String DEVICE_ID = "deviceId";
 	public final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
+	String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
 
 	public void testRandom() {
 		assertNotSame(Util.generateRandomNum(), Util.generateRandomNum());
@@ -74,10 +75,8 @@ public class DISecurityTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
-		String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
 		String encryptedData = security.encryptData(data, DEVICE_ID);
 		String decrytedData = security.decryptData(encryptedData, DEVICE_ID);
-		
 		assertEquals(data, decrytedData);
 		
 	}
@@ -139,8 +138,7 @@ public class DISecurityTest extends TestCase {
 	}
 	
 	public void testAddRandomBytesCaseThree() {
-		String testStr = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
-		byte[] testBytes = testStr.getBytes();
+		byte[] testBytes = data.getBytes();
 		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
 		assertEquals(testRandomBytes.length, testBytes.length + Util.RANDOM_BYTE_ARR_SIZE);
 	}
@@ -163,6 +161,14 @@ public class DISecurityTest extends TestCase {
 		assertEquals(testStr, testStr1);
 	}
 	
+	public void testRemoveRandomBytesCaseEmptyStr() {
+		String testStr = "";
+		byte[] testBytes = testStr.getBytes();
+		byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
+		String testStr1 = new String(afterRemoveBytes,Charset.defaultCharset());
+		assertEquals(testStr, testStr1);
+	}
+	
 	public void testRemoveRandomBytesCaseThree() {
 		byte[] testBytes = null;
 		byte[] afterRemoveBytes = Util.removeRandomBytes(testBytes);
@@ -170,12 +176,32 @@ public class DISecurityTest extends TestCase {
 	}
 	
 	public void testRemoveRandomBytesCaseFour() {
-		String testStr = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
-		byte[] testBytes = testStr.getBytes();
+		
+		byte[] testBytes = data.getBytes();
 		byte[] testRandomBytes = Util.addRandomBytes(testBytes);
 		byte[] afterRemoveBytes = Util.removeRandomBytes(testRandomBytes);
 		
 		String testStr1 = new String(afterRemoveBytes,Charset.defaultCharset());
-		assertEquals(testStr, testStr1);
+		assertEquals(data, testStr1);
 	}
+	
+//	public void testDataEncryptionWithRandomBytes() {
+//		DISecurity security = new DISecurity(null);
+//		
+//		try {
+//			Field keysField = DISecurity.class.getDeclaredField("securityKeyHashtable");
+//			keysField.setAccessible(true);
+//			@SuppressWarnings("unchecked")
+//			Hashtable<String, String> keysTable = (Hashtable<String, String>) keysField.get(security);
+//			keysTable.put(DEVICE_ID, KEY);
+//			
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			fail(e.getMessage());
+//		}
+//		
+//		String encryptedData1 = security.encryptData(data, DEVICE_ID);
+//		String encryptedData2 = security.encryptData(data, DEVICE_ID);
+//		assertFalse(encryptedData1.equals(encryptedData2));
+//	}
 }

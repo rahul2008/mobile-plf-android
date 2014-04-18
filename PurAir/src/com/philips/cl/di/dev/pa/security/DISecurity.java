@@ -138,7 +138,7 @@ public class DISecurity implements ServerResponseListener {
 			//For remove random bytes
 //			byte[] bytesDecData1 = Util.removeRandomBytes(bytesDecData);
 			
-			decryptData = new String(bytesDecData,Charset.defaultCharset());
+			decryptData = new String(bytesDecData, Charset.defaultCharset());
 			
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
 			exchangeKeyCounterTable.put(deviceId, 0);

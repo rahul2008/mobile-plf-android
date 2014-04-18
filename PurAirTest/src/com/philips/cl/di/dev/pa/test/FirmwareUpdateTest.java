@@ -258,7 +258,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 		    android.support.v4.app.FragmentTransaction ft = activity.getSupportFragmentManager().beginTransaction();
 		    ft.replace(R.id.firmware_container, fragment);
 		    ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-		    ft.commit();
+		    ft.commitAllowingStateLoss();
 		    
 		    if(jo.get("progress").getAsString().equals("100") && jo.get("state").getAsString().equals("ready")) {
 		    fragment.showNextFragment(); }		    
