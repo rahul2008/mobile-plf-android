@@ -128,6 +128,10 @@ public class EWSWifiManager {
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		List<WifiConfiguration> configuredNetworks = wifiMan.getConfiguredNetworks();
 		
+		if (configuredNetworks == null) {
+			return null;
+		}
+		
 		for (WifiConfiguration config : configuredNetworks) {
 			String configSsid = config.SSID.replace("\"", "");
 			if (configSsid.equals(ssid)) {
