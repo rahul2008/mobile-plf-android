@@ -135,13 +135,14 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 		}
 	}
 	
-	public void subscribe(String cppID, String url, boolean isLocal) {
-		ALog.i("Subscription", "cppID: "+cppID) ;
-		subscriptionManager.subscribe(cppID, url,isLocal) ;
+	public void subscribeToAllEvents(String purifierCppID, String purifierIp, boolean isLocalSubscription) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Subscribe to all events for purifier: " + purifierCppID) ;
+		subscriptionManager.subscribeToPurifierEvents(purifierCppID, purifierIp, isLocalSubscription);
 	}
 
-	public void unSubscribe(String cppID,String url) {
-		subscriptionManager.unSubscribe(cppID, url) ;
+	public void unSubscribeFromAllEvents(String purifierCppID, String purifierIp, boolean isLocalSubscription) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "UnSubscribe from all events from purifier: " + purifierCppID) ;
+		subscriptionManager.unSubscribeFromPurifierEvents(purifierCppID, purifierIp, isLocalSubscription);
 	}
 	
 	@Override

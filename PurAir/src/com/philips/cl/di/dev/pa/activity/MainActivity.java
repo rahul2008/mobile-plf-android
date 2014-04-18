@@ -573,13 +573,13 @@ public class MainActivity extends BaseActivity implements
 		//To speed up the subscription result, we are calling GET
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.getPurifierDetails(purifierUrl) ;
-		airPurifierController.subscribe(appEUI64,purifierUrl,true);
-		SubscriptionManager.getInstance().openUDPSocket();
+		airPurifierController.subscribeToAllEvents(appEUI64,purifierUrl,true);
+		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop LocalConnection") ;
-		SubscriptionManager.getInstance().closeUDPSocket();
+		SubscriptionManager.getInstance().disableLocalSubscription();
 	}
 
 	private void startRemoteConnection() {
@@ -588,7 +588,7 @@ public class MainActivity extends BaseActivity implements
 		long pairedOn = purifierDatabase.getPurifierLastPairedOn(cppId);
 		if( pairedOn > 0 ) {
 			stopLocalConnection() ;
-			airPurifierController.subscribe(SessionDto.getInstance().getEui64(), "", false ) ;
+			airPurifierController.subscribeToAllEvents(SessionDto.getInstance().getEui64(), "", false ) ;
 			cppController.startDCSService() ;
 		}
 	}

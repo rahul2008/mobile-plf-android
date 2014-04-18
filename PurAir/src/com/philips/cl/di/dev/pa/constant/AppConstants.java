@@ -207,6 +207,9 @@ public class AppConstants {
 			this.urlPart = urlPart;
 		}
 	};
+	public static final String SUBSCRIBE = "SUBSCRIBE";
+	public static final String UNSUBSCRIBE = "UNSUBSCRIBE";
+	public static final String EVENTSUBSCRIBER_KEY = "subscriber";
 		
 	//Child lock and indicator light status.
 	public static final int ON = 1;
