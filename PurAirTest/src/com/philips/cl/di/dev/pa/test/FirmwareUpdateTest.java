@@ -39,34 +39,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 	public void onPause() {     
 		this.onPause();  
 		} 
-	
-	//********************************************** Test Cases for Entry Criteria ************************************************//
-	
-	/*  
-	 * Class Name  : NA
-	 * TestCase ID :
-	 */
-	
-	//Test Case ID: 1
-	public void testFirmwareAvailableNotificationForHomeScreen() {
-		try {
 			
-			View view = activity.getLayoutInflater().inflate(R.layout.rl_home_master_fragment, null);
-						
-			final LinearLayout llfirmwareUpdAvailable = (LinearLayout) view.findViewById(R.id.firmware_update_available);
-			final FontTextView lblfirmwareUpdAvailable = (FontTextView) view.findViewById(R.id.lbl_firmware_update_available);
-			ImageButton btnfirmwareUpdAvailable = (ImageButton) view.findViewById(R.id.btn_firmware_update_available);
-			
-			assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
-			llfirmwareUpdAvailable.setVisibility(LinearLayout.VISIBLE);			
-			assertEquals(LinearLayout.VISIBLE, llfirmwareUpdAvailable.getVisibility());
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
 	//********************************************** Test Cases for UI Testing ***************************************************//
 		
 	/*  
