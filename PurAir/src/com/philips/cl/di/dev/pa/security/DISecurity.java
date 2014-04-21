@@ -97,7 +97,7 @@ public class DISecurity implements ServerResponseListener {
 	public String encryptData(String data, String deviceId) {
 		String key = securityKeyHashtable.get(deviceId);
 		
-		if (key == null) {
+		if (key == null || data == null) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
 			return null; // TODO return unencrypted data?
 		}
@@ -122,7 +122,7 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	public String decryptData(String data, String deviceId) {
 		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
-		data = data.trim() ;
+		
 		String key = securityKeyHashtable.get(deviceId);
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
@@ -131,6 +131,8 @@ public class DISecurity implements ServerResponseListener {
 			ALog.i(ALog.SECURITY, "Did not decrypt data - Key is null");
 			return null; // TODO return undecrypted data?
 		}
+		
+		data = data.trim() ;
 
 		try {
 			byte[] bytesEncData = Util.decodeFromBase64(data.trim());
