@@ -1398,23 +1398,27 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void firmwareDataRecieved(String data) {
-		if (data == null || data.isEmpty() || data.length() <= 0) {
-			return;
-		}
-		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
-		ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
-		ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
-		JsonElement upgrade = jsonObject.get("upgrade");
-		upgradeVersion = upgrade.getAsString();
-		JsonElement current = jsonObject.get("version");
-		currentVersion = current.getAsString();
-		ALog.i(ALog.FIRMWARE, "upgradeVersion " + upgradeVersion);
-		if (!(upgradeVersion.equals(""))) {
-			// TODO : Update dashboard UI.
-			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-			getDashboard().showFirmwareUpdatePopup();
-			//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-			setFirmwareSuperScript(1);
+		try{
+			if (data == null || data.isEmpty() || data.length() <= 0) {
+				return;
+			}
+			JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
+			ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
+			ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
+			JsonElement upgrade = jsonObject.get("upgrade");
+			upgradeVersion = upgrade.getAsString();
+			JsonElement current = jsonObject.get("version");
+			currentVersion = current.getAsString();
+			ALog.i(ALog.FIRMWARE, "upgradeVersion " + upgradeVersion);
+			if (!(upgradeVersion.equals(""))) {
+				// TODO : Update dashboard UI.
+				ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+				getDashboard().showFirmwareUpdatePopup();
+				//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
+				setFirmwareSuperScript(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 	
