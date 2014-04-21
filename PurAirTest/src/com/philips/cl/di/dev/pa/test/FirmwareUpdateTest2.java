@@ -44,7 +44,7 @@ public class FirmwareUpdateTest2 extends ActivityInstrumentationTestCase2<MainAc
 	 * Class Name  : NA
 	 * TestCase ID :
 	 */
-	
+	/*
 	//Test Case ID: 1
 	@UiThreadTest
 	public void testNewFWAvailable() {
@@ -100,7 +100,7 @@ public class FirmwareUpdateTest2 extends ActivityInstrumentationTestCase2<MainAc
 		activity.firmwareDataRecieved(data);
 		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
 	}
-	
+	*/
 	
 	
 }
