@@ -53,11 +53,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private Context context;
 
-	private static EventSubscription eventSubscription; //Hari
+	private EventSubscription eventSubscription; 
 	private List<ICPDeviceDetailsListener> listeners;
 	private boolean isDCSRunning;
 
-	private static EventPublisher eventPublisher; //Hari
+	private EventPublisher eventPublisher; 
 
 	private DownloadData downloadData;
 	private ICPDownloadListener downloadDataListener;
