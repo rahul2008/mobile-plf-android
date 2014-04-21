@@ -114,9 +114,9 @@ public class Utils {
 
 	public static String getPortUrl(Port port, String ipAddress) {
 		if (port == null) {
-			return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, "invalidport") ;
+			return String.format(AppConstants.URL_BASEALLPORTS, ipAddress,"1", "invalidport") ;
 		}
-		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.urlPart) ;
+		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.port,port.urlPart) ;
 	}
 
 	public static void storeCPPKeys(Context context, CppDatabaseModel cppDataModel) {

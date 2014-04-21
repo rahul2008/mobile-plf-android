@@ -197,14 +197,16 @@ public class AppConstants {
 	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
 	
 	// Constants related to Subscription
-	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/1/%s";
+	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/%s/%s";
 	public enum Port {
-		AIR("air"), WIFI("wifi"), WIFIUI("wifiui"), FIRMWARE("firmware"), DEVICE("device"), PAIRING("pairing"), 
-		SECURITY("security"), LOG("log");
+		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",1), FIRMWARE("firmware",0), DEVICE("device",0), PAIRING("pairing",0), 
+		SECURITY("security",1), LOG("log",0);
 		
 		public final String urlPart;
-		Port (String urlPart) {
+		public final int port ;
+		Port (String urlPart,int port) {
 			this.urlPart = urlPart;
+			this.port = port ;
 		}
 	};
 	public static final String SUBSCRIBE = "SUBSCRIBE";
