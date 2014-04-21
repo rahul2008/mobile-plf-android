@@ -275,9 +275,8 @@ public class MainActivity extends BaseActivity implements
 
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
-				.addToBackStack(null).commit();
-
-		
+				.addToBackStack(null)
+				.commit();
 
 		filter = new IntentFilter();
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
