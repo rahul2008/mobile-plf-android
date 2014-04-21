@@ -31,7 +31,7 @@
         android:background="#ffffff"/>
     
     <ScrollView 
-        android:id="@+id/right_menu"
+        android:id="@+id/right_menu_scrollView"
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="end"

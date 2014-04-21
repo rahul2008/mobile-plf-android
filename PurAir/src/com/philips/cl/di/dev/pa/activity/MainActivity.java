@@ -243,7 +243,7 @@ public class MainActivity extends BaseActivity implements
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				if (drawerView.getId() == R.id.right_menu) {
+				if (drawerView.getId() == R.id.right_menu_scrollView) {
 					mRightDrawerOpened = true;
 				}
 				drawerOpen = true;
@@ -259,7 +259,7 @@ public class MainActivity extends BaseActivity implements
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 
 		/** Initiazlise right menu items and click listener */
-		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu);
+		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu_scrollView);
 		rightMenuClickListener = new RightMenuClickListener(this);
 
 		ViewGroup group = (ViewGroup) findViewById(R.id.right_menu_layout);
