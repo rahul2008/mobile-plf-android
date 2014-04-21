@@ -53,11 +53,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private Context context;
 
-	private EventSubscription eventSubscription;
+	private static EventSubscription eventSubscription; //Hari
 	private List<ICPDeviceDetailsListener> listeners;
 	private boolean isDCSRunning;
 
-	private EventPublisher eventPublisher;
+	private static EventPublisher eventPublisher; //Hari
 
 	private DownloadData downloadData;
 	private ICPDownloadListener downloadDataListener;
@@ -472,7 +472,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		} else if (eventType == Commands.DOWNLOAD_DATA) {
 			ALog.i(ALog.INDOOR_RDCP, "ICP client callbacked");
-			byte[] bufferOriginal = ((DownloadData) obj).getBuffer().array();
+//			byte[] bufferOriginal = ((DownloadData) obj).getBuffer().array();
+			
+			byte[] bufferOriginal = new byte[((DownloadData)obj).getBuffer().capacity()];
+			for(int i = 0 ;i < ((DownloadData)obj).getBuffer().capacity(); i++)
+			{
+				bufferOriginal[i] = ((DownloadData)obj).getBuffer().get(i);
+			}
+			
 			byte[] buffer = bufferOriginal.clone();
 
 			if (downloadDataBuilder == null) {
