@@ -49,7 +49,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 			
 	private void showFragment(String upgradeVersion) {
-		if(upgradeVersion == null || upgradeVersion.equals("")) {
+		if(upgradeVersion == null || upgradeVersion.isEmpty()) {
 			getSupportFragmentManager().beginTransaction()
 			.add(R.id.firmware_container, new FirmwareInstalledFragment(), "NewFirmwareUpdateFragment")
 			.commit();
@@ -58,7 +58,6 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			.add(R.id.firmware_container, new FirmwareUpdateFragment(), "NewFirmware")
 			.commit();
 		}
-		
 	}
 	
 	@Override
@@ -97,7 +96,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		actionbarTitle = (FontTextView) view.findViewById(R.id.ews_actionbar_title);
 		actionbarTitle.setText(getString(R.string.firmware));
 		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
-		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
+		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
 		actionBarCancelBtn.setOnClickListener(this);
 		actionBarBackBtn = (ImageView) view.findViewById(R.id.ews_actionbar_back_img);
 		actionBarBackBtn.setOnClickListener(this);
@@ -126,8 +125,6 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		case FIRMWARE_FAILED_SUPPORT:
 			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
 			break;
-			
-
 		default:
 			break;
 		}

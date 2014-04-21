@@ -35,9 +35,6 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 		if (responseObj != null) {
 			result = new DISecurity(null).decryptData(responseObj.getResponseData(), AppConstants.deviceId);
 		}
-		if(isCancelled()) {
-			cancel(true);
-		}
 		return result;
 	}
 

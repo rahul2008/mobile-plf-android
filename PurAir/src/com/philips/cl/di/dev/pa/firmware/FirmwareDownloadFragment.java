@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
@@ -19,12 +18,13 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FirmwareDownloadFragment extends BaseFragment implements FirmwareResponseListener{
+public class FirmwareDownloadFragment extends BaseFragment implements FirmwareResponseListener {
 
 	private ProgressBar progressBar;
 	private FontTextView progressPercent;
 	private Thread timerThread;
 	private int downloadProgress;
+	private boolean downloaded;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -33,7 +33,8 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 		progressBar = (ProgressBar) view.findViewById(R.id.downloading_progressbar);
 		FontTextView downloadFirmwareTv = (FontTextView) view.findViewById(R.id.downloading_firmware_for_purifier_msg);
 		downloadFirmwareTv.setText(getString(R.string.downloading_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
-
+		
+		downloaded = false;
 		getProps();
 		progressPercent = (FontTextView) view.findViewById(R.id.progressbar_increasestatus);
 		progressPercent.setText("0%");
@@ -71,7 +72,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 
 	Runnable timerRunnable = new Runnable() {
 		public void run() {
-			while(counter < 60 && !FirmwareUpdateActivity.isCancelled()) {
+			while(counter < 60 && !FirmwareUpdateActivity.isCancelled() && !downloaded) {
 				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$counter " + counter + " FirmwareUpdateActivity.isCancelled() " +FirmwareUpdateActivity.isCancelled());
 				try {
 					Thread.sleep(1000);
@@ -106,7 +107,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 	@Override
 	public void firmwareDataRecieved(String data) {
 		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareDataRecieved data " + data);
-		if(FirmwareUpdateActivity.isCancelled()) {
+		if(downloaded || FirmwareUpdateActivity.isCancelled()) {
 			return;
 		}
 		if(data == null || data.isEmpty() || data.length() <= 0) {
@@ -127,7 +128,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 
 		ALog.i(ALog.FIRMWARE, "FDF$processFirmwareData progress " + progressString + " downloadProgress " + downloadProgress);
 
-		if(!(progressString.equals(""))) {
+		if(!(progressString.isEmpty() && stateString.isEmpty())) {
 			int progress = Integer.parseInt(progressString);
 			//			if(progress <= downloadProgress) {
 			////				getProps();
@@ -138,6 +139,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 			progressBar.setProgress(progress);
 			downloadProgress = progress;
 			if(progressString.equals("100") && stateString.equals("ready")) {
+				downloaded = true;
 				FirmwareUpdateActivity.setCancelled(true);
 				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.GO);
 				showNextFragment();

@@ -9,7 +9,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
@@ -21,7 +20,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 public class FirmwareInstallFragment extends BaseFragment implements FirmwareResponseListener {
 	
 	private Thread timerThread;
-	private static boolean installed = false;
+	private boolean installed = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,6 +51,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	private void getProps() {
 		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareInstallFragment.this);
+		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$getProps installed " + installed + " FirmwareUpdateActivity.isCancelled() " + FirmwareUpdateActivity.isCancelled());
 		task.execute(firmwareUrl);
 	}
 	
@@ -62,8 +62,8 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	
 	Runnable timerRunnable = new Runnable() {
 		public void run() {
-			while(counter < 60 && !FirmwareUpdateActivity.isCancelled()) {
-				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$counter " + counter);
+			while(counter < 60 && !FirmwareUpdateActivity.isCancelled() && !installed) {
+				ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$counter " + counter);
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -72,7 +72,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 				counter++;
 			}
 			if(counter >= 60) {
-				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$COUNT > 60 call failed fragment counter " + counter );
+				ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$COUNT > 60 call failed fragment counter " + counter );
 				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 				FirmwareUpdateActivity.setCancelled(true);
 				getFragmentManager()
@@ -85,7 +85,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	
 	@Override
 	public void firmwareDataRecieved(String data) {
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data);
+		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data + " installed " + installed + " FirmwareUpdateActivity.isCancelled() " + FirmwareUpdateActivity.isCancelled());
 		if(installed || FirmwareUpdateActivity.isCancelled()) {
 			return;
 		}
@@ -107,7 +107,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 		
 		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
 		counter = 0;
-		if((stateString.equals(FirmwareConstants.IDLE)) && (upgradeString.trim().length() <= 0)) {
+		if((stateString.equals(FirmwareConstants.IDLE)) && (upgradeString.isEmpty())) {
 			installed = true;
 			FirmwareUpdateActivity.setCancelled(true);
 			showNextFragment();
