@@ -1228,7 +1228,10 @@ public class MainActivity extends BaseActivity implements
 
 			switch (message) {
 			case DEVICE_DISCOVERED:
-				if (device.getSsdpDevice() == null) {
+				if (device.getSsdpDevice() == null 
+					|| device.getSsdpDevice().getCppId() == null
+					|| device.getSsdpDevice().getModelName() == null
+					|| device.getSsdpDevice().getFriendlyName() == null) {
 					return false;
 				}
 				ALog.i(ALog.MAINACTIVITY,
@@ -1236,8 +1239,7 @@ public class MainActivity extends BaseActivity implements
 								+ device.getIpAddress()
 								+ ", isDeviceDiscovered: " + isDeviceDiscovered
 								+ ", isEWSStarted: " + isEWSStarted);
-				if (device.getSsdpDevice().getModelName()
-						.contains(AppConstants.MODEL_NAME)
+				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME)
 						&& !isDeviceDiscovered && !isEWSStarted) {
 					onFirstDeviceDiscovered(device);
 				}

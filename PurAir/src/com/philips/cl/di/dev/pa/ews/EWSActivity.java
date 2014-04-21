@@ -473,7 +473,10 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			switch (message) {
 			case DEVICE_DISCOVERED:
 				
-				if (device.getSsdpDevice() == null) {
+				if (device.getSsdpDevice() == null 
+					|| device.getSsdpDevice().getCppId() == null
+					|| device.getSsdpDevice().getModelName() == null
+					|| device.getSsdpDevice().getFriendlyName() == null) {
 					return false    ;
 				}
 				
