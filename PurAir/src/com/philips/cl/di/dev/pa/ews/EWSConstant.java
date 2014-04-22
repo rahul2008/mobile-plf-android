@@ -24,4 +24,5 @@ public class EWSConstant {
 	public static final int EWS_START_MAIN = 8;
 	public static final int EWS_PURIFIER_NAME_LENGTH = 30;
 	
+	public static final String PURIFIER_ADHOCIP = "192.168.1.1";
 }

@@ -17,21 +17,18 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 
 public class EWSBroadcastReceiver extends BroadcastReceiver 
 	implements KeyDecryptListener, EWSTaskListener, Runnable {
-
-	public static final String WIFI_URI = "http://192.168.1.1/di/v1/products/0/wifi";
-	public static final String DEVICE_URI = "http://192.168.1.1/di/v1/products/1/device";
-	public static final String SECURITY_URI = "http://192.168.1.1/di/v1/products/0/security";
-	public static final String WIFI_UI_URI = "http://192.168.1.1/di/v1/products/0/wifiui";
 
 	private EWSListener listener ;
 	private String homeSSID ;
@@ -167,7 +164,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		ALog.i(ALog.EWS, "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
 		di.initializeExchangeKeyCounter(cppId);
-		di.exchangeKey(SECURITY_URI, cppId) ;
+		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), cppId) ;
 	}
 
 
@@ -177,7 +174,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_PUT ;
 
 		EWSTasks task = new EWSTasks(taskType,getWifiPortJson(),"PUT",this) ;
-		task.execute(WIFI_URI);
+		task.execute(Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
 	public void putDeviceDetails() {
@@ -185,14 +182,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = DEVICE_PUT ;
 
 		EWSTasks task = new EWSTasks(taskType,getDevicePortJson(),"PUT",this) ;
-		task.execute(DEVICE_URI);
+		task.execute(Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
 	private void getDeviceDetails() {
 		ALog.i(ALog.EWS,"device details") ;
 		taskType = DEVICE_GET ;
 		EWSTasks task = new EWSTasks(taskType, this) ;
-		task.execute(DEVICE_URI);
+		task.execute(Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
 
@@ -254,7 +251,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		taskType = WIFI_GET ;
 
 		EWSTasks task = new EWSTasks(taskType,this) ;
-		task.execute(WIFI_URI);
+		task.execute(Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
 	@Override

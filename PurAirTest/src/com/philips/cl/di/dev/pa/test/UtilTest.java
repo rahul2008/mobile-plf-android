@@ -33,7 +33,7 @@ public class UtilTest extends TestCase {
 	
 	public void testGetPurifierWifiuiPortUrl() {
 		String ipAddress = "192.168.1.23";
-		String expectedUrl = "http://" + ipAddress + "/di/v1/products/1/wifiui";
+		String expectedUrl = "http://" + ipAddress + "/di/v1/products/0/wifiui";
 		String actualUrl = Utils.getPortUrl(Port.WIFIUI, ipAddress);
 		
 		assertEquals(expectedUrl, actualUrl);
@@ -41,7 +41,7 @@ public class UtilTest extends TestCase {
 	
 	public void testGetPurifierDevicePortUrl() {
 		String ipAddress = "192.168.1.23";
-		String expectedUrl = "http://" + ipAddress + "/di/v1/products/0/device";
+		String expectedUrl = "http://" + ipAddress + "/di/v1/products/1/device";
 		String actualUrl = Utils.getPortUrl(Port.DEVICE, ipAddress);
 		
 		assertEquals(expectedUrl, actualUrl);
@@ -65,7 +65,7 @@ public class UtilTest extends TestCase {
 	
 	public void testGetPurifierSecurityPortUrl() {
 		String ipAddress = "192.168.1.23";
-		String expectedUrl = "http://" + ipAddress + "/di/v1/products/1/security";
+		String expectedUrl = "http://" + ipAddress + "/di/v1/products/0/security";
 		String actualUrl = Utils.getPortUrl(Port.SECURITY, ipAddress);
 		
 		assertEquals(expectedUrl, actualUrl);

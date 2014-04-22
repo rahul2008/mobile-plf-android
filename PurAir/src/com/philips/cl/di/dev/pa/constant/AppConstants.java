@@ -199,8 +199,8 @@ public class AppConstants {
 	// Constants related to Subscription
 	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/%s/%s";
 	public enum Port {
-		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",1), FIRMWARE("firmware",0), DEVICE("device",0), PAIRING("pairing",0), 
-		SECURITY("security",1), LOG("log",0);
+		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",0), FIRMWARE("firmware",0), DEVICE("device",1), PAIRING("pairing",0), 
+		SECURITY("security",0), LOG("log",0);
 		
 		public final String urlPart;
 		public final int port ;
@@ -209,6 +209,7 @@ public class AppConstants {
 			this.port = port ;
 		}
 	};
+	
 	public static final String SUBSCRIBE = "SUBSCRIBE";
 	public static final String UNSUBSCRIBE = "UNSUBSCRIBE";
 	public static final String EVENTSUBSCRIBER_KEY = "subscriber";
@@ -239,5 +240,4 @@ public class AppConstants {
 	
 	public static final String REQUEST_METHOD_POST = "POST" ;
 	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
-
 }
