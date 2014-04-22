@@ -57,7 +57,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 //	private Dialog progressDialogForStep2 ;
 	
 	private EWSBroadcastReceiver ewsService ;
-	private String purifierName;
 	
 	private String cppId;
 	
@@ -293,7 +292,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		}
 		Intent intent = new Intent(this,MainActivity.class) ;
 		intent.putExtra("deviceDiscovered", true) ;
-		intent.putExtra("pname", purifierName) ;
+		intent.putExtra("pname", SessionDto.getInstance().getDeviceDto().getName()) ;
 		setResult(RESULT_OK,intent) ;
 		finish() ;
 	}
@@ -391,13 +390,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		mStep = EWSConstant.EWS_STEP_THREE ;
 		showFragment(new EWSStepThreeFragment(), EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
 		
-		if (SessionDto.getInstance().getDeviceDto() != null) {
-			purifierName = SessionDto.getInstance().getDeviceDto().getName();
-		}
 		
 		if (SessionDto.getInstance().getDeviceWifiDto() != null) {
 			cppId = SessionDto.getInstance().getDeviceWifiDto().getCppid(); 
-			purifierName = SessionDto.getInstance().getDeviceDto().getName();
 		}
 	}
 

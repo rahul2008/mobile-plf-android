@@ -76,13 +76,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	private IntentFilter filter = new IntentFilter();
 
 	public void registerListener() {
-		filter.addAction(WifiManager.NETWORK_IDS_CHANGED_ACTION);
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
-		filter.addAction(WifiManager.RSSI_CHANGED_ACTION);
-		filter.addAction(WifiManager.EXTRA_WIFI_STATE) ;
-		filter.addAction(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION);
-		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-		filter.addAction(WifiManager.SUPPLICANT_STATE_CHANGED_ACTION);
 		if( !isRegistered ) {
 			PurAirApplication.getAppContext().registerReceiver(this, filter);
 			isRegistered = true ;
@@ -291,7 +285,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					storeDeviceDetails(decryptedResponse) ;
-					listener.onHandShakeWithDevice() ;
+					//listener.onHandShakeWithDevice() ;
 				}	
 			}
 			else if(taskType == WIFI_PUT ) {
