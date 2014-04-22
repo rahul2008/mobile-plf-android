@@ -175,8 +175,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		mActionBar.setHomeButtonEnabled(false);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
 		mActionBar.setCustomView(R.layout.action_bar);
-		setActionBarTitle("__");
-
 	}
 
 	/*Sets Action bar title */
@@ -184,10 +182,15 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		heading = (TextView) findViewById(R.id.action_bar_title);
 		heading.setTypeface(Fonts.getGillsansLight(this));
 		heading.setTextSize(24);
-		heading.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
-		indoorDbIndexName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
-		barTopName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
-
+		if (name == null || name.trim().length() == 0) {
+			heading.setText("");
+			indoorDbIndexName.setText("");
+			barTopName.setText("");
+		} else {
+			heading.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
+			indoorDbIndexName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
+			barTopName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
+		}
 	}
 
 	/**
@@ -404,14 +407,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				outdoorTitle = datas[5];
 			}
 			
-			if (datas[6] != null) {
-				setActionBarTitle(datas[6]);
-			}
+			setActionBarTitle(datas[6]);
 		}
 		
 	}
-
-	
 
 	@Override
 	protected void onStop() {
