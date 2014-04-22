@@ -196,7 +196,7 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 
 		setContentView(R.layout.activity_main_aj);
 		airPurifierController = AirPurifierController.getInstance();
-		airPurifierController.addAirPurifierEventListner(this);
+		airPurifierController.addAirPurifierEventListener(this);
 		purifierName = getString(R.string.philips_home);
 
 		/**

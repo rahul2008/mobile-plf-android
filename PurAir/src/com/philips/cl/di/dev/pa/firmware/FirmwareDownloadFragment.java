@@ -6,26 +6,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FirmwareDownloadFragment extends BaseFragment implements FirmwareResponseListener {
+public class FirmwareDownloadFragment extends BaseFragment implements AirPurifierEventListener {
 
 	private ProgressBar progressBar;
 	private FontTextView progressPercent;
 	private Thread timerThread;
-	private int downloadProgress;
 	private boolean downloaded;
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -35,7 +32,6 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 		downloadFirmwareTv.setText(getString(R.string.downloading_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
 		
 		downloaded = false;
-		getProps();
 		progressPercent = (FontTextView) view.findViewById(R.id.progressbar_increasestatus);
 		progressPercent.setText("0%");
 		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_DOWNLOAD);
@@ -46,22 +42,18 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 	@Override
 	public void onResume() {
 		super.onResume();
-		getProps();
 		timerThread = new Thread(timerRunnable);
 		timerThread.start();
+		
+		AirPurifierController.getInstance().addAirPurifierEventListener(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
 		timerThread = null;
-	}
-
-	private void getProps() {
-		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$getProps");
-		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
-		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareDownloadFragment.this);
-		task.execute(firmwareUrl);
+		
+		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	private static int counter = 0;
@@ -103,74 +95,36 @@ public class FirmwareDownloadFragment extends BaseFragment implements FirmwareRe
 			}
 		}
 	};
-
-	@Override
-	public void firmwareDataRecieved(String data) {
-		ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareDataRecieved data " + data);
-		if(downloaded || FirmwareUpdateActivity.isCancelled()) {
-			return;
-		}
-		if(data == null || data.isEmpty() || data.length() <= 0) {
-			getProps();
-			return;
-		}
-
-		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
-		ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
-		ALog.i(ALog.FIRMWARE, "jsonObject.get(progress) " + jsonObject.get("progress"));
-		processFirmwareData(jsonObject);
-		getProps();
-	}
-
-	public void processFirmwareData(JsonObject jsonObject) {
-		String progressString = getJsonPropertyAsString(jsonObject, FirmwareConstants.PROGRESS); //getProgress(jsonObject);
-		String stateString = getJsonPropertyAsString(jsonObject, FirmwareConstants.STATE);
-
-		ALog.i(ALog.FIRMWARE, "FDF$processFirmwareData progress " + progressString + " downloadProgress " + downloadProgress);
-
-		if(!(progressString.isEmpty() && stateString.isEmpty())) {
-			int progress = Integer.parseInt(progressString);
-			//			if(progress <= downloadProgress) {
-			////				getProps();
-			//				return;
-			//			}
-			counter = 0;
-			progressPercent.setText(progressString + "%");
-			progressBar.setProgress(progress);
-			downloadProgress = progress;
-			if(progressString.equals("100") && stateString.equals("ready")) {
-				downloaded = true;
-				FirmwareUpdateActivity.setCancelled(true);
-				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.GO);
-				showNextFragment();
-			}
-
-			if(stateString.equals("idle")) {
-				return;
-			}
-		}
-	}
 	
-	public String getJsonPropertyAsString(JsonObject jsonObject, String property) {
-		JsonElement progressElemt = jsonObject.get(property);
-		return progressElemt.getAsString();
-	}
-	
-	//TODO : Remove methods getProgress getState
-	public String getProgress(JsonObject jsonObject) {
-		JsonElement progressElemt = jsonObject.get("progress");
-		return progressElemt.getAsString();
-	}
-
-	public String getState(JsonObject jsonObject) {
-		JsonElement stateElemt = jsonObject.get("state");
-		return stateElemt.getAsString();
-	}
-
 	public void showNextFragment() {
 		getFragmentManager()
 		.beginTransaction()
 		.replace(R.id.firmware_container, new FirmwareInstallFragment(), FirmwareConstants.FIRMWARE_INSTALL_FRAGMENT)
 		.commit();
+	}
+
+	@Override
+	public void airPurifierEventReceived(AirPurifierEventDto airPurifierEvent) {
+		// NOP
+	}
+
+	@Override
+	public void firmwareEventReceived(final FirmwareEventDto firmwareEventDto) {
+		ALog.d(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareEventReceived progress " + firmwareEventDto.getProgress());
+		counter = 0;
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				progressPercent.setText(firmwareEventDto.getProgress() + "%");
+				progressBar.setProgress(firmwareEventDto.getProgress());
+			}
+		});
+		
+		if(firmwareEventDto.getProgress() == 100 && firmwareEventDto.getState() == FirmwareState.READY) {
+			downloaded = true;
+			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.GO);
+			showNextFragment();
+		}
 	}
 }

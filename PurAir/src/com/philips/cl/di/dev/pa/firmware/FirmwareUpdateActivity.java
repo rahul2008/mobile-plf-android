@@ -17,6 +17,8 @@ import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -69,12 +71,21 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	protected void onPause() {
 		super.onPause();
 		setCancelled(true);
+		
+		// TODO add bootid
+		AirPurifierController.getInstance().unSubscribeFromAllEvents("",Utils.getIPAddress(), true);
+		SubscriptionManager.getInstance().disableLocalSubscription();
+		
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setCancelled(false);
+		
+		// TODO add bootid
+		AirPurifierController.getInstance().subscribeToAllEvents("", Utils.getIPAddress(), true);
+		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 	
 	@Override

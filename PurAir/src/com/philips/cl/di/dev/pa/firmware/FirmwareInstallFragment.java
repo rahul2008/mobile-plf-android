@@ -5,19 +5,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FirmwareInstallFragment extends BaseFragment implements FirmwareResponseListener {
+public class FirmwareInstallFragment extends BaseFragment implements AirPurifierEventListener {
 	
 	private Thread timerThread;
 	private boolean installed = false;
@@ -29,7 +27,6 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 		FontTextView tvInstallingFirmware = (FontTextView) view.findViewById(R.id.installing_firmware_for_purifier_msg);
 		tvInstallingFirmware.setText(getString(R.string.installing_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
 		FirmwareUpdateActivity.setCancelled(false);
-		getProps();
 		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_INSTALL);
 		return view;
 	}
@@ -37,22 +34,18 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	@Override
 	public void onResume() {
 		super.onResume();
-		getProps();
 		timerThread = new Thread(timerRunnable);
-		timerThread.start();
+//		timerThread.start();
+		
+		AirPurifierController.getInstance().addAirPurifierEventListener(this);
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
 		timerThread = null;
-	}
-	
-	private void getProps() {
-		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
-		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareInstallFragment.this);
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$getProps installed " + installed + " FirmwareUpdateActivity.isCancelled() " + FirmwareUpdateActivity.isCancelled());
-		task.execute(firmwareUrl);
+		
+		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
 	}
 	
 	private static int counter = 0;
@@ -83,51 +76,57 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 		}
 	};
 	
-	@Override
-	public void firmwareDataRecieved(String data) {
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data + " installed " + installed + " FirmwareUpdateActivity.isCancelled() " + FirmwareUpdateActivity.isCancelled());
-		if(installed || FirmwareUpdateActivity.isCancelled()) {
-			return;
-		}
-		if(data == null || data.isEmpty() || data.length() <= 0) {
-			getProps();
-			return;
-		}
-		
-		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject " + jsonObject);
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
-		processFirmwareData(jsonObject);
-		getProps();
-	}
+//	@Override
+//	public void firmwareDataRecieved(String data) {
+//		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareDataRecieved data " + data + " installed " + installed + " FirmwareUpdateActivity.isCancelled() " + FirmwareUpdateActivity.isCancelled());
+//		if(installed || FirmwareUpdateActivity.isCancelled()) {
+//			return;
+//		}
+//		if(data == null || data.isEmpty() || data.length() <= 0) {
+//			getProps();
+//			return;
+//		}
+//		
+//		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
+//		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject " + jsonObject);
+//		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
+//		processFirmwareData(jsonObject);
+//		getProps();
+//	}
 	
-	public void processFirmwareData(JsonObject jsonObject) {
-		String upgradeString = getUpgrade(jsonObject);
-		String stateString = getState(jsonObject);
-		
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
-		counter = 0;
-		if((stateString.equals(FirmwareConstants.IDLE)) && (upgradeString.isEmpty())) {
-			installed = true;
-			FirmwareUpdateActivity.setCancelled(true);
-			showNextFragment();
-		}
-	}
-	
-	public String getUpgrade(JsonObject jsonObject) {
-		JsonElement progressElemt = jsonObject.get(FirmwareConstants.UPGRADE);
-		return progressElemt.getAsString();
-	}
-
-	public String getState(JsonObject jsonObject) {
-		JsonElement stateElemt = jsonObject.get(FirmwareConstants.STATE);
-		return stateElemt.getAsString();
-	}
+//	public void processFirmwareData(JsonObject jsonObject) {
+//		String upgradeString = getUpgrade(jsonObject);
+//		String stateString = getState(jsonObject);
+//		
+//		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
+//		counter = 0;
+//		if((stateString.equals(FirmwareConstants.IDLE)) && (upgradeString.isEmpty())) {
+//			installed = true;
+//			FirmwareUpdateActivity.setCancelled(true);
+//			showNextFragment();
+//		}
+//	}
 	
 	public void showNextFragment() {
 		getFragmentManager()
 		.beginTransaction()
 		.replace(R.id.firmware_container, new FirmwareInstallSuccessFragment(), FirmwareConstants.FIRMWARE_INSTALL_SUCCESS_FRAGMENT)
 		.commit();
+	}
+
+	@Override
+	public void airPurifierEventReceived(AirPurifierEventDto airPurifierEvent) {
+		// NOP
+		
+	}
+
+	@Override
+	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
+		ALog.d(ALog.FIRMWARE, "FirmwareInstallFragment$firmwareEventReceived state " + firmwareEventDto.getState() + " Upgrade " + firmwareEventDto.getUpgrade());
+		counter = 0;
+
+		if(firmwareEventDto.getUpgrade().isEmpty() && firmwareEventDto.getState() == FirmwareState.IDLE) {
+			showNextFragment();
+		}
 	}
 }

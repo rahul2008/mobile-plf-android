@@ -118,12 +118,12 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	}
 	
 
-	public void addAirPurifierEventListner(AirPurifierEventListener subscriptionEventListener) {
-		subscriptionEventListeners.add(subscriptionEventListener) ;
+	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
+		subscriptionEventListeners.add(airPurifierEventListener) ;
 	}
 	
-	public void removeSubscriptionListner(SubscriptionEventListener subscriptionEventListener) {
-		subscriptionEventListeners.remove(subscriptionEventListener) ;
+	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
+		subscriptionEventListeners.remove(airPurifierEventListener) ;
 	}
 	
 	public void notifyListeners(String data) {
