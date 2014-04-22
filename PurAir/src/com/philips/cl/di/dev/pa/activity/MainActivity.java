@@ -1051,7 +1051,8 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 	
 	@Override
 	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
-		
+		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade());
+		// TODO handle FW callbacks
 	}
 
 	private void updatePurifierUIFields() {

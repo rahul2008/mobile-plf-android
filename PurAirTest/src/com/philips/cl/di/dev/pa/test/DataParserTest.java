@@ -3,6 +3,8 @@ import java.util.List;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
 import junit.framework.TestCase;
@@ -190,5 +192,80 @@ public class DataParserTest extends TestCase {
 		mBaseParser.parse(xmlDescription);
 		final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
 		assertNull(deviceList.get(0).getFriendlyName());
+	}
+	
+//	{“name”:“HCN_DEVGEN”,“version”:“1.1”,“upgrade”:“1.2”,“state”:“idle”,“progress”:0,“statusmsg”:“”,“mandatory”:false}
+	public void testParseFirmwareEventNullData() {
+		String parseData = null;
+		assertNull(DataParser.parseFirmwareEventData(parseData)) ;
+	}
+	
+	public void testParseFirmwareEventEmptyData() {
+		String parseData = "";
+		assertNull(DataParser.parseFirmwareEventData(parseData)) ;
+	}
+	
+	public void testParseFirmwareEventProperData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		
+		assertNotNull(result);
+		assertEquals(result.getName(), "HCN_DEVGEN");
+		assertEquals(result.getVersion(), "1.1");
+		assertEquals(result.getUpgrade(), "1.2");
+		assertEquals(result.getState(), FirmwareState.IDLE);
+		assertEquals(result.getProgress(), 0);
+		assertEquals(result.getStatusmsg(), "");
+		assertEquals(result.isMandatory(), false);
+	}
+	
+	public void testParseFirmwareEventIncompleteData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgra";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertNull(result);
+	}
+	
+	public void testParseFirmwareEventNoUpgradeData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertEquals(result.getUpgrade(), "");
+	}
+	
+	public void testParseFirmwareEventNoVersionData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"upgrade\":\"1.1\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertEquals(result.getVersion(), "");
+	}
+	
+	public void testParseFirmwareEventValidStateData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertEquals(result.getState(), FirmwareState.READY);
+	}
+	
+	public void testParseFirmwareEventInValidStateData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertNull(result.getState());
+	}
+	
+	public void testParseFirmwareEventTooBigProgressData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":150,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertEquals(result.getProgress(), 100);
+	}
+	
+	public void testParseFirmwareEvenNegativeProgressData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":-1,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		FirmwareEventDto result = DataParser.parseFirmwareEventData(parseData);
+		assertEquals(result.getProgress(), 0);
 	}
 }
