@@ -34,13 +34,14 @@ public class EWSStepThreeFragment extends Fragment {
 	private FontTextView passwordLabelStep3, wifiNetworkAddStep3;
 	private EditText passwordStep3, deviceNameStep3, 
 					ipAddStep3, subnetMaskStep3, routerAddStep3;
-	private ImageView showPasswordImgStep3, showAdvanceConfigImg;
+	private ImageView showPasswordImgStep3, showAdvanceConfigImg, hideAdvanceConfigImg;
 	private Button editSavePlaceNameBtnStep3, nextBtn;
 	private RelativeLayout advSettingLayoutStep3;
 	private LinearLayout advSettingBtnLayoutStep3;
 	private boolean isPasswordVisibelStep3 = true;
 	private OnFocusChangeListener focusListener;
 	private ButtonClickListener buttonClickListener;
+	private String ssid;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,13 +59,15 @@ public class EWSStepThreeFragment extends Fragment {
 		setFontStyle();
 		initializeListener();
 		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter });
+		
 		enablePasswordFild();
 		setPurifierDetils();
 	}
 	
 	private void setPurifierDetils() {
+		ssid = ((EWSActivity) getActivity()).getNetworkSSID();
 		String passwordLabel = getString(R.string.step3_msg1) +
-				" <font color=#3285FF>"+((EWSActivity) getActivity()).getNetworkSSID()+"</font>";
+				" <font color=#3285FF>"+ssid+"</font>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		if (SessionDto.getInstance().getDeviceDto() != null) {
 			deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
@@ -110,6 +113,7 @@ public class EWSStepThreeFragment extends Fragment {
 
 		showPasswordImgStep3 = (ImageView) getView().findViewById(R.id.ews_password_enable_img);
 		showAdvanceConfigImg = (ImageView) getView().findViewById(R.id.ews_adv_config_img);
+		hideAdvanceConfigImg = (ImageView) getView().findViewById(R.id.ews_hide_adv_setting);
 
 		nextBtn = (Button) getView().findViewById(R.id.ews_step3_next_btn);
 		editSavePlaceNameBtnStep3 = (Button) getView().findViewById(R.id.ews_step3_edit_name_btn);
@@ -136,10 +140,11 @@ public class EWSStepThreeFragment extends Fragment {
 		subnetMaskStep3.setOnFocusChangeListener(focusListener);
 		routerAddStep3.setOnFocusChangeListener(focusListener);
 		showAdvanceConfigImg.setOnClickListener(buttonClickListener);
+		hideAdvanceConfigImg.setOnClickListener(buttonClickListener);
 		nextBtn.setOnClickListener(buttonClickListener);
 		showPasswordImgStep3.setOnClickListener(buttonClickListener);
 		editSavePlaceNameBtnStep3.setOnClickListener(buttonClickListener);
-	}
+	}  
 	
 	private InputFilter purifierNamefilter = new InputFilter() {
 
@@ -147,7 +152,7 @@ public class EWSStepThreeFragment extends Fragment {
 		public CharSequence filter(CharSequence source, int start, int end,
 				Spanned dest, int dstart, int dend) {
 			if (source.equals(" ")) { 
-				return source;
+				return maxLength(source);
 			}
 			if (source.toString().length() >=0) {
 				for (char ch : source.toString().toCharArray()) {
@@ -155,10 +160,24 @@ public class EWSStepThreeFragment extends Fragment {
 						return source.subSequence(0, 0);
 					} 
 				}
-				return source;
+				return maxLength(source);
 			} else {
-				return source;
+				return maxLength(source);
 			}
+		}
+		
+		private CharSequence maxLength(CharSequence cs) {
+			CharSequence rcs = cs;
+			ALog.i(ALog.EWS, "character enter: " + cs);
+			String pname = deviceNameStep3.getText().toString();
+			if (pname == null) {
+				return rcs;
+			}
+			
+			if (pname.trim().length() > EWSConstant.EWS_PURIFIER_NAME_LENGTH) {
+				rcs = cs.subSequence(0, 0);
+			}
+			return rcs;
 		}
 	};
 	
@@ -174,12 +193,20 @@ public class EWSStepThreeFragment extends Fragment {
 				advSettingLayoutStep3.setVisibility(View.VISIBLE);
 				advSettingBtnLayoutStep3.setVisibility(View.INVISIBLE);
 				break;
+			case R.id.ews_hide_adv_setting:
+				advSettingLayoutStep3.setVisibility(View.INVISIBLE);
+				advSettingBtnLayoutStep3.setVisibility(View.VISIBLE);
+				break;
 			case R.id.ews_step3_edit_name_btn:
 				editPurifierNameClickEvent();
 				break;
 			case R.id.ews_step3_next_btn:
 				ALog.i(ALog.EWS, "step3 next button click");
-				((EWSActivity) getActivity()).sendNetworkDetails(passwordStep3.getText().toString()) ;
+				if (ssid == null || ssid.isEmpty())
+				{
+					return;
+				}
+				((EWSActivity) getActivity()).sendNetworkDetails(ssid, passwordStep3.getText().toString()) ;
 				break;
 			default:
 				ALog.i(ALog.EWS, "Default...");
@@ -223,6 +250,9 @@ public class EWSStepThreeFragment extends Fragment {
 			if (purifierName != null && purifierName.trim().length() > 0) {
 				((EWSActivity) getActivity()).sendDeviceNameToPurifier(purifierName.trim()) ;
 			} else {
+				if (SessionDto.getInstance().getDeviceDto() == null) {
+					return;
+				}
 				deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName());
 			}
 		}

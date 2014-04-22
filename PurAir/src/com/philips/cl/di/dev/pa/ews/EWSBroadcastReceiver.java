@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
@@ -307,28 +308,40 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			}
 			break;
 		default: 
-				stop = true ;
-				stopNetworkDetailsTimer() ;
-				stopSSIDTimer() ;
-				if( taskType == WIFI_GET || taskType == DEVICE_GET) {
-					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE) ;
-				}
-				else if( taskType == WIFI_PUT || taskType == DEVICE_PUT) {
-					listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE) ;
-				}
-			 	break;			
+			stop = true ;
+			stopNetworkDetailsTimer() ;
+			stopSSIDTimer() ;
+			
+			if( taskType == WIFI_GET || taskType == DEVICE_GET) {
+				listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE) ;
+			}
+			else if( taskType == WIFI_PUT || taskType == DEVICE_PUT) {
+				listener.onErrorOccurred(EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE) ;
+			}
+			break;			
 		}
 	}
 
 	private void storeDeviceDetails(String data) {
 		Gson gson = new GsonBuilder().create() ;
-		DeviceDto deviceDto = gson.fromJson(data, DeviceDto.class) ;
+		DeviceDto deviceDto = null;
+		try {
+			deviceDto = gson.fromJson(data, DeviceDto.class) ;
+		} catch (JsonSyntaxException e) {
+			e.printStackTrace();
+		}
 		SessionDto.getInstance().setDeviceDto(deviceDto) ;
 	}
 
 	private void storeDeviceWifiDetails(String data) {
 		Gson gson = new GsonBuilder().create() ;
-		DeviceWifiDto deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
+		DeviceWifiDto deviceWifiDto = null;
+		try {
+			deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
+		} catch (JsonSyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 		

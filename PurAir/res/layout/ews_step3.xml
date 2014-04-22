@@ -136,7 +136,7 @@
             android:layout_toLeftOf="@+id/ews_step3_edit_name_btn"
             android:background="@color/white"
             android:paddingLeft="16dp"
-            android:ems="10"
+            android:maxEms="10"
             android:maxLength="30"
             android:singleLine="true"
             android:hint=""
@@ -154,6 +154,17 @@
             android:visibility="invisible"
             android:layout_marginRight="16dp"
             android:layout_marginTop="16dp" >
+            
+            <ImageView 
+                android:id="@+id/ews_hide_adv_setting"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_marginLeft="5dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:contentDescription="@string/img_description"
+                android:background="@drawable/help_close"/>
+            
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -166,8 +177,7 @@
                 android:text="@string/ip"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
-
+                custom:fontAssetName="fonts/gillsanslight.ttf" />            
             <EditText
                 android:id="@+id/ews_step3_ip_edittxt"
                 android:layout_width="match_parent"
@@ -176,6 +186,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="32dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
                 android:enabled="false"
@@ -206,6 +217,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="32dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:layout_below="@+id/ews_step3_ip_edittxt"
                 android:background="@drawable/ews_edit_txt_bg"
@@ -238,6 +250,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="16dp"
+                android:layout_marginRight="32dp"
                 android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:layout_below="@+id/ews_step3_subnet_edittxt"
@@ -308,7 +321,7 @@
                 android:id="@+id/ews_adv_config_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="8dp"
+                android:padding="12dp"
                 android:clickable="true"
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_setting_selector" />

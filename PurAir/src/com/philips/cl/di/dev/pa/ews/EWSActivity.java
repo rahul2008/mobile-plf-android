@@ -178,6 +178,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		ALog.i(ALog.EWS, "replaceFragmentOnBackPress: " + mStep);
 		switch (mStep) {
 		case EWSConstant.EWS_STEP_START:
+			if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).isShowing()) {
+				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).dismiss();
+			}
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
 			return true;
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:
@@ -315,6 +318,10 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	// This method will send the Device name to the AirPurifier when user selects Save
 	public void sendDeviceNameToPurifier(String deviceName) {
+		System.out.println("deviceName:"+deviceName+" SessionDto.getInstance().getDeviceDto(): "+ SessionDto.getInstance().getDeviceDto());
+		if (deviceName.equals("") || SessionDto.getInstance().getDeviceDto() == null) {
+			return;
+		}
 		if( ! deviceName.equals("") && !deviceName.equals(SessionDto.getInstance().getDeviceDto().getName())) {
 			ewsService.setDeviceName(deviceName) ;
 			ewsService.putDeviceDetails() ;
@@ -364,7 +371,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_01).show() ;
 	}	
 	
-	public void sendNetworkDetails(String password) {
+	public void sendNetworkDetails(String ssid, String password) {
+		networkSSID = ssid;
 		EWSDialogFactory.getInstance(this).setNetworkName(networkSSID);
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).show() ;
 		ewsService.setSSID(networkSSID) ;
@@ -414,11 +422,15 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onErrorOccurred(int errorCode) {
+		
+		ALog.i(ALog.EWS, "onErrorOccurred: "+errorCode) ;
 		if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
 		}
-		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing())
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
+		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing()) {
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss();
+		}
+		
 		switch (errorCode) {
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
