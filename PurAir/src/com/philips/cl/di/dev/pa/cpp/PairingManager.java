@@ -18,6 +18,8 @@ import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
 import com.philips.icpinterface.data.PairingEntitiyReference;
 import com.philips.icpinterface.data.PairingInfo;
+import com.philips.icpinterface.data.PairingReceivedRelationships;
+import com.philips.icpinterface.data.PairingReceivedRelationships.PairingEntity;
 import com.philips.icpinterface.data.PairingRelationship;
 
 /**
@@ -252,21 +254,22 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		PairingService pairingObj = (PairingService) obj;
 		if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {			
 			ALog.i(ALog.PAIRING, "GetRelation call-SUCCESS");
+			int noOfRelations= getNumberOfRelation(pairingObj);
 			int diCommRelationships = pairingObj.getNumberOfRelationsReturned();
-			if (diCommRelationships < 1) {
+			if (diCommRelationships < 1 || noOfRelations<1) {
 				ALog.i(ALog.PAIRING, "No existing relationships - Requesting Purifier to start pairing");
 				startPairingPortTask(currentRelationshipType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]));
 			} 
-			else if (diCommRelationships < 2) {
+			else if (diCommRelationships < 2 || noOfRelations<1) {
 				ALog.i(ALog.PAIRING, "Only one existing relationship (one expired) - Need to start pairing again");
 				startPairingPortTask(currentRelationshipType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]));
 			} 
-			else if (currentRelationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
+			else if (currentRelationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP) && noOfRelations>0) {
 				currentRelationshipType = AppConstants.NOTIFY_RELATIONSHIP;
 				getRelationship(currentRelationshipType, purifierEui64);
 				ALog.i(ALog.PAIRING, "DI COMM relationship exists, checking for notify relationship");
 			} 
-			else if (currentRelationshipType.equals(AppConstants.NOTIFY_RELATIONSHIP)) {
+			else if (currentRelationshipType.equals(AppConstants.NOTIFY_RELATIONSHIP) && noOfRelations>0) {
 				purifierDatabase.updatePairingStatus(purifierEui64);
 				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
 				notifyListenerSuccess();
@@ -294,6 +297,17 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				notifyListenerFailed();
 			}
 		}
+	}
+
+	private int getNumberOfRelation(PairingService pairingObj) {
+		int noOfRelationReturned=0;
+		for(int i=0; i<pairingObj.getNumberOfRelationsReturned();i++){
+			PairingReceivedRelationships relation= pairingObj.getReceivedRelationsAtIndex(i);
+			PairingEntity entity= relation.pairingRcvdRelEntityTo;
+			if(entity.PairingEntityId.equalsIgnoreCase(purifierEui64))
+				noOfRelationReturned++;
+		}
+		return noOfRelationReturned;
 	}
 
 	/**

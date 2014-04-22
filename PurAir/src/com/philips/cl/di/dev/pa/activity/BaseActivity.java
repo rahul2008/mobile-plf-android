@@ -1,11 +1,16 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 /**
  * The Class BaseActivity. This class contains all the base / common
@@ -50,7 +55,7 @@ public class BaseActivity extends ActionBarActivity {
 	}
 
 	/**
-	 * method display an alert box with custom title and message
+	 * method display a dialog with custom title and message
 	 * 
 	 * @param title
 	 * @param message
@@ -59,16 +64,32 @@ public class BaseActivity extends ActionBarActivity {
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				new AlertDialog.Builder(BaseActivity.this)
-						.setMessage(message)
-						.setTitle(title)
-						.setCancelable(true)
-						.setNeutralButton(android.R.string.ok,
-								new DialogInterface.OnClickListener() {
-									public void onClick(DialogInterface dialog,
-											int whichButton) {
-									}
-								}).show();
+				// Created a new Dialog
+				final Dialog dialog = new Dialog(BaseActivity.this);
+				// inflate the layout
+				dialog.setContentView(R.layout.tutorial_custom_dialog);
+				dialog.setTitle(title);
+
+				TextView dialogMessage = (TextView) dialog
+						.findViewById(R.id.take_tour_alert);
+				Button btnNo = (Button) dialog.findViewById(R.id.btn_close);
+				Button btnYes = (Button) dialog.findViewById(R.id.btn_yes);
+
+				dialogMessage.setText(message);
+				btnYes.setVisibility(View.GONE);
+				btnNo.setText(android.R.string.ok);
+
+				btnNo.setTypeface(Fonts.getGillsans(BaseActivity.this));
+				btnNo.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						dialog.dismiss();
+					}
+				});
+				
+				// Display the dialog
+				dialog.show();
 			}
 		});
 

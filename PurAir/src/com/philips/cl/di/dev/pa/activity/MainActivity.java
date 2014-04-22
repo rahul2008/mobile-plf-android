@@ -109,8 +109,8 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements
-		ICPDeviceDetailsListener, Callback, KeyDecryptListener,
-		OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListener, PairingListener {
+ICPDeviceDetailsListener, Callback, KeyDecryptListener,
+OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -134,11 +134,11 @@ public class MainActivity extends BaseActivity implements
 
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
-			activeCarbonFilterView, hepaFilterView;
+	activeCarbonFilterView, hepaFilterView;
 
 	// Filter status texts
 	private TextView preFilterText, multiCareFilterText,
-			activeCarbonFilterText, hepaFilterText;
+	activeCarbonFilterText, hepaFilterText;
 
 	private static HomeFragment homeFragment;
 
@@ -147,7 +147,7 @@ public class MainActivity extends BaseActivity implements
 	private boolean mRightDrawerOpened = false, drawerOpen = false;
 	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
-	
+
 	public static AirPurifierEventDto airPurifierEventDto;
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity implements
 
 	private String upgradeVersion;
 	private String currentVersion;
-	
+
 	private ConnectivityManager connManager ;
 	private String secretKey;
 	private ActionMode actionMode;
@@ -278,6 +278,7 @@ public class MainActivity extends BaseActivity implements
 				.addToBackStack(null)
 				.commit();
 
+
 		filter = new IntentFilter();
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -303,7 +304,7 @@ public class MainActivity extends BaseActivity implements
 		this.registerReceiver(networkReceiver, filter);
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -337,7 +338,7 @@ public class MainActivity extends BaseActivity implements
 			isClickEvent = false;
 		}
 	}
-	
+
 	@Override
 	protected void onRestart() {
 		ALog.i(ALog.MAINACTIVITY, "onRestart: stopService is: " + stopService);
@@ -349,7 +350,7 @@ public class MainActivity extends BaseActivity implements
 		}
 		super.onRestart();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		if (progressDialog != null) {
@@ -357,7 +358,7 @@ public class MainActivity extends BaseActivity implements
 		}
 		super.onStop();
 	}
-	
+
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		// TODO Auto-generated method stub
@@ -366,7 +367,7 @@ public class MainActivity extends BaseActivity implements
 			disableRightMenuControls();
 		}
 	}
-	
+
 	@SuppressLint("NewApi")
 	@Override
 	public void onBackPressed() {
@@ -397,7 +398,7 @@ public class MainActivity extends BaseActivity implements
 			finish();
 		}
 	}
-	
+
 	@Override
 	protected void onUserLeaveHint() {
 		ALog.i(ALog.MAINACTIVITY, "onUserLeaveHint");
@@ -409,7 +410,7 @@ public class MainActivity extends BaseActivity implements
 		isClickEvent = false;
 		super.onUserLeaveHint();
 	}
-	
+
 	protected void onActivityResult(int requestCode, int resultCode,
 			Intent intent) {
 		ALog.i(ALog.MAINACTIVITY, "onActivityResult: " + resultCode
@@ -452,13 +453,13 @@ public class MainActivity extends BaseActivity implements
 			break;
 		}
 	}
-	
+
 	private void checkForFirmwareUpdate() {
 		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
 		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
 		task.execute(firmwareUrl);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -473,7 +474,7 @@ public class MainActivity extends BaseActivity implements
 			break;
 		}
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
@@ -501,35 +502,35 @@ public class MainActivity extends BaseActivity implements
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	
+
 	@Override
 	protected void onDestroy() {
 		stopAllServices();
 		super.onDestroy();
 	}
-	
+
 	private void startDeviceDiscovery() {
 		SsdpService.getInstance().startDeviceDiscovery(this);
 	}
 
 	private void stopDiscovery() {
-		 SsdpService.getInstance().stopDeviceDiscovery();
+		SsdpService.getInstance().stopDeviceDiscovery();
 	}
-	
+
 	private void initializeCPPController() {
 		cppController = CPPController.getInstance(this);
 		cppController.addDeviceDetailsListener(this);
 		cppController.addSignonListener(this) ;
 	}
-	
+
 	private void createNetworkReceiver() {
 		ALog.i(ALog.MAINACTIVITY, "createNetworkReceiver");
 		networkReceiver = new BroadcastReceiver() {
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				
+
 				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-				
+
 				if (intent.getAction().equals(
 						WifiManager.NETWORK_STATE_CHANGED_ACTION)
 						|| intent.getAction().equals(
@@ -551,10 +552,10 @@ public class MainActivity extends BaseActivity implements
 							getDashboard().startWeatherDataTask();
 					}
 				}
-				
+
 				NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 				NetworkInfo mobileWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) ;
-				
+
 				if( !mWifi.isConnected() && !mobileWifi.isConnected() ) {
 					disableRightMenuControls() ;
 				}
@@ -568,7 +569,7 @@ public class MainActivity extends BaseActivity implements
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier - " + bootId) ;
 		connected = true;
 		stopRemoteConnection() ;
-		
+
 		//To speed up the subscription result, we are calling GET
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.getPurifierDetails(purifierUrl) ;
@@ -591,12 +592,12 @@ public class MainActivity extends BaseActivity implements
 			cppController.startDCSService() ;
 		}
 	}
-	
+
 	private void stopRemoteConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop RemoteConnection") ;
 		cppController.stopDCSService() ;
 	}
-	
+
 	private String getCurrentPurifierBootId() {
 		String cppId = Utils.getAirPurifierID(this) ;
 		for (PurifierDetailDto deviceInfo : dbPurifierDetailDtoList) {
@@ -683,8 +684,8 @@ public class MainActivity extends BaseActivity implements
 		leftMenuItems.add(new ListViewItem(R.string.list_item_home,
 				R.drawable.icon_1_2x));
 		leftMenuItems
-				.add(new ListViewItem(R.string.list_item_air_quality_explained,
-						R.drawable.icon_2_2x));
+		.add(new ListViewItem(R.string.list_item_air_quality_explained,
+				R.drawable.icon_2_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
 				R.drawable.icon_3_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications,
@@ -700,7 +701,7 @@ public class MainActivity extends BaseActivity implements
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_8_2x));
 		leftMenuItems
-				.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
+		.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
 		return leftMenuItems;
 	}
 
@@ -750,7 +751,7 @@ public class MainActivity extends BaseActivity implements
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
 			} else if (status == AppConstants.CONNECTED_VIA_PHILIPS) {
 				tvConnectionStatus
-						.setText(getString(R.string.connected_via_philips));
+				.setText(getString(R.string.connected_via_philips));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.wifi_icon_blue_2x));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
@@ -775,7 +776,7 @@ public class MainActivity extends BaseActivity implements
 		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
 	}
 
-	
+
 	private ActionMode.Callback callback = new ActionMode.Callback() {
 
 		@Override
@@ -1042,7 +1043,7 @@ public class MainActivity extends BaseActivity implements
 	public void airPurifierEventReceived(AirPurifierEventDto airPurifierDetails) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Controller callback: "+airPurifierDetails) ;
 		if (airPurifierDetails != null) {
-//			airPurifierEventDto = airPurifierDetails;
+			//			airPurifierEventDto = airPurifierDetails;
 			setAirPurifierEventDto(airPurifierDetails);
 			handler.sendEmptyMessage(0);
 		}
@@ -1095,7 +1096,7 @@ public class MainActivity extends BaseActivity implements
 		preFilterView.setPrefilterValue(preFilterStatus);
 		multiCareFilterView.setMultiCareFilterValue(multiCareFilterStatus);
 		activeCarbonFilterView
-				.setActiveCarbonFilterValue(activeCarbonFilterStatus);
+		.setActiveCarbonFilterValue(activeCarbonFilterStatus);
 		hepaFilterView.setHEPAfilterValue(hepaFilterStatus);
 
 		/** Update filter texts */
@@ -1113,7 +1114,7 @@ public class MainActivity extends BaseActivity implements
 		if (homeFragment != null && homeFragment.getActivity() != null) {
 			homeFragment.showIndoorGuage();
 			homeFragment
-					.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI() / 10.0f);
+			.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI() / 10.0f);
 			homeFragment.setFilterStatus(Utils
 					.getFilterStatusForDashboard(airPurifierEventDto));
 			homeFragment.setMode(Utils.getMode(
@@ -1168,7 +1169,7 @@ public class MainActivity extends BaseActivity implements
 				+ airPurifierDetails);
 		if (airPurifierDetails != null) {
 			airPurifierDetails
-					.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS);
+			.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS);
 			setAirPurifierEventDto(airPurifierDetails);
 			this.runOnUiThread(new Runnable() {
 				@Override
@@ -1181,10 +1182,10 @@ public class MainActivity extends BaseActivity implements
 
 	public void toggleConnection(boolean isLocal) {
 		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + isLocal);
-		
+
 		if (isLocal) {
 			discoveryTimer.cancel() ;
-			
+
 			startLocalConnection();
 		} else {
 			startRemoteConnection() ;
@@ -1195,7 +1196,7 @@ public class MainActivity extends BaseActivity implements
 	private CountDownTimer discoveryTimer = new CountDownTimer(10000, 1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
-			
+
 		}
 
 		@Override
@@ -1250,7 +1251,7 @@ public class MainActivity extends BaseActivity implements
 	}
 
 	private boolean onFirstDeviceDiscovered(DeviceModel device) {
-		
+
 		isDeviceDiscovered = true;
 		Utils.setIPAddress(device.getIpAddress(), this);
 
@@ -1263,8 +1264,8 @@ public class MainActivity extends BaseActivity implements
 		localDeviceUsn = ssdpDiscoveredUsn;
 
 		getSharedPreferences("cpp_preferences01", 0).edit()
-				.putString("airpurifierid", device.getSsdpDevice().getCppId())
-				.commit();
+		.putString("airpurifierid", device.getSsdpDevice().getCppId())
+		.commit();
 
 		long ssdpDiscoveredBootId = 0L;
 		try {
@@ -1294,8 +1295,8 @@ public class MainActivity extends BaseActivity implements
 								+ ssdpDiscoveredBootId);
 						String cppId = infoDto.getCppId();
 						AppConstants.deviceId = cppId;
-						String key = infoDto.getDeviceKey();
-						DISecurity.setKeyIntoSecurityHashTable(cppId, key);
+						secretKey = infoDto.getDeviceKey();
+						DISecurity.setKeyIntoSecurityHashTable(cppId, secretKey);
 						DISecurity.setUrlIntoUrlsTable(
 								cppId,
 								Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()));
@@ -1311,7 +1312,7 @@ public class MainActivity extends BaseActivity implements
 				startKeyExchange(device);
 			}
 		}
-		
+
 		checkForFirmwareUpdate();
 
 		return true;
@@ -1375,7 +1376,7 @@ public class MainActivity extends BaseActivity implements
 
 			PurifierDetailDto deviceInfoDto = ssdpDeviceInfoTable.get(devId);
 			deviceInfoDto.setDeviceKey(key);
-			
+
 			purifierDatabase.insertPurifierDetail(deviceInfoDto);
 
 			if (dbPurifierDetailDtoList != null
@@ -1415,7 +1416,7 @@ public class MainActivity extends BaseActivity implements
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void setFirmwareSuperScript(int superscriptNumber) {
 		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
 		ListViewItem item = adapter.getItem(6);
@@ -1425,7 +1426,7 @@ public class MainActivity extends BaseActivity implements
 		adapter.notifyDataSetChanged();
 		ALog.i(ALog.FIRMWARE, "LeftMenuList$firmwareItem " + item.getTextId());
 	}
-	
+
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			ALog.i(ALog.MAINACTIVITY, "UDP Event Received");
@@ -1437,38 +1438,38 @@ public class MainActivity extends BaseActivity implements
 
 	@Override
 	public void signonStatus(boolean signon) {
-		if( signon && isDeviceDiscovered) {
+		if( signon && isDeviceDiscovered && secretKey != null) {
 			pairToPurifierIfNecessary() ;
 		}
-		
+
 	}
-	
+
 	private void pairToPurifierIfNecessary() {
 		// Only show PairingDialog once (can be called via discovery and signon)
 		if (isPairingDialogShown) return;
 
 		if (!cppController.isSignOn()) return;
-			
+
 		final String purifierEui64 = Utils.getAirPurifierID(this);
 		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifierEui64);
 		if (lastPairingCheckTime <= 0) {
 			showPairingDialog(purifierEui64);
 			return;
 		}
-		
+
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
 		if (diffInDays != 0) {
 			startPairingWithoutListener(purifierEui64);
 		}
 	}
-	
+
 	private void showPairingDialog(String purifierEui64) {
-		PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64);
-		FragmentManager fragMan = getSupportFragmentManager();
-		dialog.show(fragMan, null);
-		isPairingDialogShown = true;
+			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64);
+			FragmentManager fragMan = getSupportFragmentManager();
+			dialog.show(fragMan, null);
+			isPairingDialogShown = true;
 	}
-	
+
 	public void startPairing(String purifierEui64) {
 		progressDialog = new ProgressDialog(MainActivity.this);
 		progressDialog.setMessage(getString(R.string.pairing_progress));
@@ -1478,12 +1479,12 @@ public class MainActivity extends BaseActivity implements
 		PairingManager pm = new PairingManager(this, purifierEui64);
 		pm.startPairing();
 	}
-	
+
 	private void startPairingWithoutListener(String purifierEui64) {
 		PairingManager pm = new PairingManager(null, purifierEui64);
 		pm.startPairing();
 	}
-	
+
 	@Override
 	public void onPairingSuccess() {		
 		if (progressDialog != null) {
@@ -1491,8 +1492,8 @@ public class MainActivity extends BaseActivity implements
 		}
 		showAlert(R.string.congratulations, R.string.pairing_success);
 	}
-	
-	
+
+
 	@Override
 	public void onPairingFailed() {
 		if (progressDialog != null) {
