@@ -44,7 +44,7 @@ public class TaskPutDeviceDetails implements Runnable {
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
 		try {
-			ALog.i(ALog.SUBSCRIPTION, requestMethod) ;
+			ALog.i(ALog.SUBSCRIPTION, "TastPutDeviceDetails$run requestMethod " + requestMethod + " url " + url) ;
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection();
 			//conn.setRequestProperty("content-type", "application/json") ;

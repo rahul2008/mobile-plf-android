@@ -51,18 +51,18 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private void showFragment(String upgradeVersion) {
 		if(upgradeVersion == null || upgradeVersion.isEmpty()) {
 			getSupportFragmentManager().beginTransaction()
-			.add(R.id.firmware_container, new FirmwareInstalledFragment(), "NewFirmwareUpdateFragment")
+			.add(R.id.firmware_container, new FirmwareInstalledFragment(), FirmwareInstalledFragment.class.getSimpleName())
 			.commit();
 		} else {
 			getSupportFragmentManager().beginTransaction()
-			.add(R.id.firmware_container, new FirmwareUpdateFragment(), "NewFirmware")
+			.add(R.id.firmware_container, new FirmwareUpdateFragment(), FirmwareUpdateFragment.class.getSimpleName())
 			.commit();
 		}
 	}
 	
 	@Override
 	public void onBackPressed() {
-		
+		showPreviousFragment();
 	}
 	
 	@Override
@@ -162,7 +162,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			finish();
 		} else if (fragment instanceof FirmwareContactSupportFragment) {
 			getSupportFragmentManager().beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), "FirmwareFailedSupportFragment")
+			.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareFailedSupportFragment.class.getSimpleName())
 			.commit();
 		}
 	}
