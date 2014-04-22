@@ -354,8 +354,7 @@ public class Utils {
 		int indexHrlyAqi = 0;
 
 		if (downloadedData != null) {
-			List<IndoorHistoryDto> indoorAQIHistory = new DataParser(
-					downloadedData).parseHistoryData();
+			List<IndoorHistoryDto> indoorAQIHistory = DataParser.parseHistoryData(downloadedData);
 			
 			if (indoorAQIHistory != null) {
 				

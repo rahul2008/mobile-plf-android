@@ -31,6 +31,7 @@ public class ALog {
 	public static final String SUBSCRIPTION = "Subscription" ;
 	public static final String FIRMWARE = "Firmware";
 	public static final String CONNECTIVITY = "Connectivity" ;
+	public static final String PARSER = "DataParser" ;
 
 	
 	private static boolean isLoggingEnabled = true;

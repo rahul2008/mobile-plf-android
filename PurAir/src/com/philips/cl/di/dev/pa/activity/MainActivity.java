@@ -80,6 +80,7 @@ import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
@@ -564,7 +565,6 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 	}
 
 	private void startLocalConnection() {
-		String purifierUrl = Utils.getPortUrl(Port.AIR, Utils.getIPAddress());
 		String bootId = getCurrentPurifierBootId();
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier - " + bootId) ;
 		connected = true;
@@ -572,8 +572,8 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 
 		//To speed up the subscription result, we are calling GET
 		//Start the subscription every time it discovers the Purifier
-		airPurifierController.getPurifierDetails(purifierUrl) ;
-		airPurifierController.subscribeToAllEvents(bootId,purifierUrl,true);
+		airPurifierController.getPurifierDetails(Utils.getPortUrl(Port.AIR, Utils.getIPAddress())) ;
+		airPurifierController.subscribeToAllEvents(bootId,Utils.getIPAddress(),true);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
@@ -1047,6 +1047,11 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 			setAirPurifierEventDto(airPurifierDetails);
 			handler.sendEmptyMessage(0);
 		}
+	}
+	
+	@Override
+	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
+		
 	}
 
 	private void updatePurifierUIFields() {

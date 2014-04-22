@@ -10,30 +10,26 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.datamodel.DataParserInterface;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 
 /***
  * This class it used to parse data for AirPurifier event
  * @author 310124914
  *
  */
-public class DataParser implements DataParserInterface {
-	//private static final String TAG = DataParser.class.getSimpleName() ;
-	private String dataToParse ;
+public class DataParser {
 
-	public DataParser(String dataToParse) {
-		this.dataToParse = dataToParse ;
+	private DataParser() {
 	}
 
-	@Override
-	public AirPurifierEventDto parseAirPurifierEventData() {
+	public static AirPurifierEventDto parseAirPurifierEventData(String dataToParse) {
 		AirPurifierEventDto airPurifierEvent = null ;
 		try {			
 			if( dataToParse != null ) {
@@ -69,9 +65,23 @@ public class DataParser implements DataParserInterface {
 
 		return airPurifierEvent ;
 	}
+	
+	public static FirmwareEventDto parseFirmwareEventData(String dataToParse) {
+		Gson gson = new GsonBuilder().create();
+		
+		try {
+			FirmwareEventDto firmwareEventDto = gson.fromJson(dataToParse, FirmwareEventDto.class);
+			return firmwareEventDto;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "Invalid FirmWareEvent data");
+			return null;
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "Invalid FirmWareEvent data");
+			return null;
+		}
+	}
 
-	@Override
-	public  List<IndoorHistoryDto> parseHistoryData() {
+	public  static List<IndoorHistoryDto> parseHistoryData(String dataToParse) {
 		//Log.i("PARSE", "Parse History Data\n"+dataToParse) ;
 		List<IndoorHistoryDto> indoorHistoryList = null ;
 		IndoorHistoryDto indoorAQIHistoryDto = null ;
@@ -108,8 +118,7 @@ public class DataParser implements DataParserInterface {
 			return indoorHistoryList ;
 	}
 
-	@Override
-	public AirPurifierEventDto parseAirPurifierEventDataFromCPP()  {
+	public static AirPurifierEventDto parseAirPurifierEventDataFromCPP(String dataToParse)  {
 		AirPurifierEventDto airPurifierEvent = null ;
 		JSONObject jsonObject = null ;
 		try {
@@ -149,21 +158,88 @@ public class DataParser implements DataParserInterface {
 	}
 
 
-	@Override
-	public void parseOutdoorAQIData() {
+	public static OutdoorAQIEventDto parseOutdoorAQIData(String dataToParse) {
 		try {
 			Gson gson = new GsonBuilder().create() ;
 			OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
-			//Log.i("outdoor", "set outdoor aqi == " +outdoorAQI);
-			SessionDto.getInstance().setOutdoorEventDto(outdoorAQI) ;
+			return outdoorAQI;
 		} catch (JsonSyntaxException e) {
-			e.printStackTrace();
+			ALog.e(ALog.PARSER, "Invalid Outdoor AQI event data");
+			return null;
+		} catch (JsonIOException ioe) {
+			ALog.e(ALog.PARSER, "Invalid Outdoor AQI event data");
+			return null;
 		}
 	}
 
-	@Override
-	public List<Weatherdto> parseWeatherData() {
-		return new WeatherDataParser().parseWeatherData(dataToParse) ;
+	public static List<Weatherdto> parseWeatherData(String dataToParse) {
+		List<Weatherdto> weatherForecastList = null ;
+		Weatherdto weatherDto = new Weatherdto()  ;
+		String date = "";
+		
+		try {
+			JSONObject jsonObj = new JSONObject(dataToParse) ;
+			
+			JSONObject dataObj = jsonObj.getJSONObject(ParserConstants.DATA) ;
+			
+			JSONArray currentCondition = dataObj.getJSONArray(ParserConstants.CURRENT_CONDITION) ;
+			
+			weatherForecastList = new ArrayList<Weatherdto>() ;
+			
+			JSONObject currentConditionObj = currentCondition.getJSONObject(0) ;
+			
+			weatherDto.setTempInCentigrade(Float.parseFloat(currentConditionObj.getString("temp_C"))) ;
+			weatherDto.setTempInFahrenheit(Float.parseFloat(currentConditionObj.getString("temp_F"))) ;
+			weatherDto.setTime(currentConditionObj.getString(ParserConstants.OBSERVATION_TIME)) ;
+			weatherDto.setWeatherDesc(currentConditionObj.getJSONArray(ParserConstants.WEATHER_DESC).optJSONObject(0).getString(ParserConstants.VALUE));
+			weatherDto.setIsdaytime(currentConditionObj.getString(ParserConstants.IS_DAY_TIME));
+			weatherForecastList.add(weatherDto) ;
+			
+			JSONArray weatherArray = dataObj.getJSONArray(ParserConstants.WEATHER) ;
+			
+			if ( weatherArray != null && weatherArray.length() > 0 ) {				
+				int length = weatherArray.length() ;
+				
+				for( int index = 0 ; index < length ; index ++ ) {
+					JSONObject weatherJSON = weatherArray.getJSONObject(index) ;
+					float maxTempC = Float.parseFloat(weatherJSON.getString(ParserConstants.MAXTEMPC)) ;
+					float maxTempF = Float.parseFloat(weatherJSON.getString(ParserConstants.MAXTEMPF)) ;
+					float minTempC = Float.parseFloat(weatherJSON.getString(ParserConstants.MINTEMPC)) ;
+					float minTempF = Float.parseFloat(weatherJSON.getString(ParserConstants.MINTEMPF)) ;
+					date = weatherJSON.getString(ParserConstants.DATE) ;
+					
+					JSONArray hourlyDetails = weatherJSON.getJSONArray(ParserConstants.HOURLY) ;
+					
+					if ( null != hourlyDetails ) {
+						
+						int hourlyDetailsLength = hourlyDetails.length() ;
+						
+						for( int i = 0 ; i < hourlyDetailsLength ; i ++ ) {
+							JSONObject hourlyJSON = hourlyDetails.getJSONObject(i) ;
+							weatherDto = new Weatherdto() ;
+							weatherDto.setDate(date) ;
+							weatherDto.setTempInCentigrade(Float.parseFloat(hourlyJSON.getString(ParserConstants.TEMP_C))) ;
+							weatherDto.setTempInFahrenheit(Float.parseFloat(hourlyJSON.getString(ParserConstants.TEMP_F))) ;
+							weatherDto.setTime(hourlyJSON.getString(ParserConstants.TIME)) ;
+							weatherDto.setIsdaytime(hourlyJSON.getString(ParserConstants.IS_DAY_TIME));
+							weatherDto.setWindSpeed(Float.parseFloat(hourlyJSON.getString(ParserConstants.WIND_SPEED))) ;
+							weatherDto.setWindDirection(hourlyJSON.getString(ParserConstants.WIND_DIRECTION)) ;
+							weatherDto.setWeatherDesc(hourlyJSON.getJSONArray(ParserConstants.WEATHER_DESC).optJSONObject(0).getString(ParserConstants.VALUE));
+							weatherDto.setMaxTempC(maxTempC) ;
+							weatherDto.setMaxTempF(maxTempF) ;
+							weatherDto.setMinTempC(minTempC) ;
+							weatherDto.setMinTempF(minTempF) ;
+							weatherDto.setWindDegree(Float.parseFloat(hourlyJSON.getString(ParserConstants.WIND_DEGREE))) ;
+							weatherForecastList.add(weatherDto) ;
+						}
+					}
+				}
+			}
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return weatherForecastList ;
 	}
-	
 }

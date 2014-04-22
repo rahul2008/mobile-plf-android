@@ -8,12 +8,14 @@ import javax.net.ssl.HttpsURLConnection;
 
 import android.os.AsyncTask;
 
+import com.google.gson.Gson;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -126,7 +128,9 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	}
 	
 	public void notifyListeners(String data) {
-		AirPurifierEventDto airPurifier = new DataParser(data).parseAirPurifierEventData() ;
+		ALog.d(ALog.SUBSCRIPTION, "AirPurifierController$notifyListeners data " + data);
+		AirPurifierEventDto airPurifier = DataParser.parseAirPurifierEventData(data) ;
+//		FirmwareEventDto firmwareEventDto = DataParser.parseFirmwareEventData(data);
 		if( subscriptionEventListeners != null ) {
 			int listeners = subscriptionEventListeners.size() ;
 			for( int index = 0 ; index < listeners ; index ++ ) {

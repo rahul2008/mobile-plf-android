@@ -891,7 +891,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	public void weatherDataUpdated(String weatherData) {
 		if ( getActivity() != null &&
 				weatherData != null ) {
-			SessionDto.getInstance().setWeatherDetails(new DataParser(weatherData).parseWeatherData()) ;
+			SessionDto.getInstance().setWeatherDetails(DataParser.parseWeatherData(weatherData)) ;
 			updateWeatherDetails() ;
 		}
 
@@ -964,7 +964,7 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	public void receiveServerResponse(int responseCode, String responseData) {
 		//Log.i(TAG, "respCode " + responseCode + " respData " + responseData);
 		if (getActivity() != null && responseCode == 200) {
-			new DataParser(responseData).parseOutdoorAQIData();
+			SessionDto.getInstance().setOutdoorEventDto(DataParser.parseOutdoorAQIData(responseData)) ;
 			updateOutdoorAQI();
 		}
 	}
