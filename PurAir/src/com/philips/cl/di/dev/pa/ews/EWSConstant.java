@@ -22,4 +22,6 @@ public class EWSConstant {
 	public static final int EWS_STEP_SUPPORT = 6;
 	public static final int EWS_STEP_FINAL = 7;
 	public static final int EWS_START_MAIN = 8;
+	public static final int EWS_PURIFIER_NAME_LENGTH = 30;
+	
 }
