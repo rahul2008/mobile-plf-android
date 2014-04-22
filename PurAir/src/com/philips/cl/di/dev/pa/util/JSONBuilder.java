@@ -20,13 +20,13 @@ public class JSONBuilder {
 		return dataToSend ;
 	}
 	
-	public static String getDICommBuilderForSubscribe(String cppID, int ttl) {
+	public static String getDICommBuilderForSubscribe(String subscriberId, int ttl) {
 		StringBuilder builder = new StringBuilder("{") ;
-		builder.append("\"").append("subscriber").append("\"").append(":").append("\"").append(cppID).append("\",") ;
+		builder.append("\"").append("subscriber").append("\"").append(":").append("\"").append(subscriberId).append("\",") ;
 		builder.append("\"").append("ttl\"").append(":").append(ttl) ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
-		ALog.i(ALog.SUBSCRIPTION, dataToSend) ;
+		ALog.i(ALog.SUBSCRIPTION, "dataToSend " + dataToSend) ;
 		dataToSend = new DISecurity(null).encryptData(dataToSend, AppConstants.deviceId) ;
 		return dataToSend ;
 	}

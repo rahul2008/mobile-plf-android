@@ -39,18 +39,29 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		this.subscriptionEventListener = subscriptionEventListener ;
 	}
 	
-	public void subscribeToPurifierEvents(String purifierCppID, String purifierIp, boolean isLocalSubscription) {
-		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Purifier events for purifier: " + purifierCppID + "   " +  (isLocalSubscription ? "(local)" : "(cpp)"));
+	public void subscribeToPurifierEvents(String bootId, String purifierIp, boolean isLocalSubscription) {
+		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Purifier events for purifier: " + bootId + "   " +  (isLocalSubscription ? "(local)" : "(cpp)"));
 		String portUrl = Utils.getPortUrl(Port.AIR, purifierIp);
-		subscribe(purifierCppID, portUrl, isLocalSubscription);
+		subscribe(bootId, portUrl, isLocalSubscription);
 	}
 	
-	public void unSubscribeFromPurifierEvents(String purifierCppID, String purifierIp, boolean isLocalSubscription) {
-		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing to Purifier events for purifier: " + purifierCppID + "   " +  (isLocalSubscription ? "(local)" : "(cpp)"));
+	public void unSubscribeFromPurifierEvents(String bootId, String purifierIp, boolean isLocalSubscription) {
+		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing to Purifier events for purifier: " + bootId + "   " +  (isLocalSubscription ? "(local)" : "(cpp)"));
 		String portUrl = Utils.getPortUrl(Port.AIR, purifierIp);
-		unSubscribe(purifierCppID, portUrl, isLocalSubscription);
+		unSubscribe(bootId, portUrl, isLocalSubscription);
 	}
- 	
+	
+	public void subscribeToFirmwareEvents(String bootId, String purifierIp) {
+		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Firmware events appEui64 " + bootId + " purifierIp " + purifierIp);
+		String portUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
+		subscribe(bootId, portUrl, true);
+	}
+	
+	public void unSubscribeFromFirmwareEvents(String bootId, String purifierIp) {
+		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing from Firmware events appEui64: " + bootId);
+		String portUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
+		unSubscribe(bootId, portUrl, true);
+	}
 	
 	public void enableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Enabling local subscription (start udp)") ;
@@ -70,37 +81,49 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		}
 	}
 	
-	private void subscribe(String cppID, String url, boolean isLocal) {
-		if( isLocal) {
-			TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(cppID,LOCAL_SUBSCRIPTIONTIME), url, this,AppConstants.REQUEST_METHOD_POST) ;
+	private void subscribe(String bootId, String url, boolean isLocal) {
+		String subscriberId = getSubscriberId(bootId, isLocal);
+		ALog.d(ALog.SUBSCRIPTION, "SubscriptionManager$subscribe bootId " + bootId + " URL " + url + " isLocal " + isLocal);
+		if(isLocal) {
+			TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(subscriberId, LOCAL_SUBSCRIPTIONTIME), url, this,AppConstants.REQUEST_METHOD_POST) ;
 			Thread subscibeThread = new Thread(subscribe) ;
 			subscibeThread.start();
 		}
 		else {
 			CPPController.getInstance(PurAirApplication.getAppContext()).
-			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, SessionDto.getInstance().getEui64()), 
-					AppConstants.DI_COMM_REQUEST, AppConstants.SUBSCRIBE,SessionDto.getInstance().getEui64(),"", 20,CPP_SUBSCRIPTIONTIME) ;
+			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId), 
+					AppConstants.DI_COMM_REQUEST, AppConstants.SUBSCRIBE, subscriberId,"", 20,CPP_SUBSCRIPTIONTIME) ;
 		}
 	}
 	
-	private void unSubscribe(String cppID,String url, boolean isLocal) {
+	private void unSubscribe(String bootId,String url, boolean isLocal) {
+		String subscriberId = getSubscriberId(bootId, isLocal);
 		if (isLocal) {
-			TaskPutDeviceDetails unSubscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(cppID,LOCAL_SUBSCRIPTIONTIME), url, this,AppConstants.REQUEST_METHOD_DELETE) ;
+			TaskPutDeviceDetails unSubscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(subscriberId,LOCAL_SUBSCRIPTIONTIME), url, this,AppConstants.REQUEST_METHOD_DELETE) ;
 			Thread unSubscibeThread = new Thread(unSubscribe) ;
 			unSubscibeThread.start() ;
 		}
 		else {
 			CPPController.getInstance(PurAirApplication.getAppContext()).
-			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, SessionDto.getInstance().getEui64()),
-					AppConstants.DI_COMM_REQUEST, AppConstants.UNSUBSCRIBE, SessionDto.getInstance().getEui64(),"", 20, CPP_SUBSCRIPTIONTIME) ;
+			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId),
+					AppConstants.DI_COMM_REQUEST, AppConstants.UNSUBSCRIBE, subscriberId,"", 20, CPP_SUBSCRIPTIONTIME) ;
 		}
+	}
+	
+	private String getSubscriberId(String bootId, boolean isLocal) {
+		String appEui64 = SessionDto.getInstance().getEui64();
+		if (appEui64 != null) return appEui64;
+		if (isLocal) return bootId; // Fallback for local subscription when no cpp connection
+		return null;
 	}
 	
 	@Override
 	public void onUDPEventReceived(String data) {
 		String decryptedData = new DISecurity(null).decryptData(data, AppConstants.deviceId) ;
-		if(decryptedData != null ) {
-			ALog.i(ALog.SUBSCRIPTION, decryptedData) ;
+		if(decryptedData == null ) return;
+		
+		ALog.i(ALog.SUBSCRIPTION, decryptedData) ;
+		if (subscriptionEventListener != null) {
 			subscriptionEventListener.onSubscribeEventOccurred(decryptedData) ;
 		}
 	}

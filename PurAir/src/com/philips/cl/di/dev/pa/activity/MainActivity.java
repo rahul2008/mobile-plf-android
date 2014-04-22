@@ -564,15 +564,15 @@ public class MainActivity extends BaseActivity implements
 
 	private void startLocalConnection() {
 		String purifierUrl = Utils.getPortUrl(Port.AIR, Utils.getIPAddress());
-		String appEUI64 = getAppEUI64() ;
-		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection EUI64 - "+appEUI64) ;
+		String bootId = getCurrentPurifierBootId();
+		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier - " + bootId) ;
 		connected = true;
 		stopRemoteConnection() ;
 		
 		//To speed up the subscription result, we are calling GET
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.getPurifierDetails(purifierUrl) ;
-		airPurifierController.subscribeToAllEvents(appEUI64,purifierUrl,true);
+		airPurifierController.subscribeToAllEvents(bootId,purifierUrl,true);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
@@ -597,19 +597,14 @@ public class MainActivity extends BaseActivity implements
 		cppController.stopDCSService() ;
 	}
 	
-	private String getAppEUI64() {
-		String appEUI64 = SessionDto.getInstance().getEui64() ;
-		ALog.i(ALog.CONNECTIVITY,"EUI64: "+ appEUI64) ;
-		if( appEUI64 == null || appEUI64.isEmpty()) {
-			String cppId = Utils.getAirPurifierID(this) ;
-			for (PurifierDetailDto deviceInfo : dbPurifierDetailDtoList) {
-				if( deviceInfo.getCppId().equals(cppId)) {
-					appEUI64 = String.valueOf(deviceInfo.getBootId()) ;
-					break;
-				}
+	private String getCurrentPurifierBootId() {
+		String cppId = Utils.getAirPurifierID(this) ;
+		for (PurifierDetailDto deviceInfo : dbPurifierDetailDtoList) {
+			if( deviceInfo.getCppId().equals(cppId)) {
+				return String.valueOf(deviceInfo.getBootId()) ;
 			}
 		}
-		return appEUI64 ;
+		return null ;
 	}
 
 	public DrawerLayout getDrawerLayout() {
