@@ -8,11 +8,30 @@ import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 public class SubscriptionManagerTest extends TestCase {
 	
 	public void testUDPEventReceivedNull() {
-		
 		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
 		SubscriptionManager manager = SubscriptionManager.getInstance();
 		manager.setSubscriptionListener(listener);
 		manager.onUDPEventReceived(null);
+
+		assertFalse(listener.callbackOccured);
+	}
+	
+	public void testUDPEventReceivedEmptyString() {
+		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
+		SubscriptionManager manager = SubscriptionManager.getInstance();
+		manager.setSubscriptionListener(listener);
+		manager.onUDPEventReceived("");
+
+		assertFalse(listener.callbackOccured);
+	}
+	
+	public void testUDPEventReceivedNonDecryptableString() {
+		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
+		SubscriptionManager manager = SubscriptionManager.getInstance();
+		manager.setSubscriptionListener(listener);
+		
+		String expected = "dfjalsjdfl";
+		manager.onUDPEventReceived(expected);
 
 		assertFalse(listener.callbackOccured);
 	}
