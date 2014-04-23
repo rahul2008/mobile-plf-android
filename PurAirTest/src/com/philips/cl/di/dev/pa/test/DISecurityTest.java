@@ -81,6 +81,35 @@ public class DISecurityTest extends TestCase {
 		
 	}
 	
+	public void testDecryptNullKey() {
+		DISecurity security = new DISecurity(null);
+		String dummyData = "blablabla";
+		String decrytedData = security.decryptData(dummyData, DEVICE_ID);
+		
+		assertNull(decrytedData);
+	}
+	
+	public void testDecryptNullData() {
+		DISecurity security = new DISecurity(null);
+		
+		try {
+			Field keysField = DISecurity.class.getDeclaredField("securityKeyHashtable");
+			keysField.setAccessible(true);
+			@SuppressWarnings("unchecked")
+			Hashtable<String, String> keysTable = (Hashtable<String, String>) keysField.get(security);
+			keysTable.put(DEVICE_ID, KEY);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
+		
+		String nullData = null;
+		String decrytedData = security.decryptData(nullData, DEVICE_ID);
+		
+		assertNull(decrytedData);
+	}
+	
 	public void testDiffieGeneration() {
 		DISecurity security = new DISecurity(null);
 		
