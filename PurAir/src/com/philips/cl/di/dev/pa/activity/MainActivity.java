@@ -111,7 +111,7 @@ import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements
 ICPDeviceDetailsListener, Callback, KeyDecryptListener,
-OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListener, PairingListener {
+OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -427,9 +427,6 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 				}
 				homeFragment.setHomeName(purifierName);
 				toggleConnection(true);
-
-				// TODO : Check for firmware updates here.
-				checkForFirmwareUpdate();
 			}
 
 			if (dbPurifierDetailDtoList != null
@@ -456,11 +453,11 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 		}
 	}
 
-	private void checkForFirmwareUpdate() {
-		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
-		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
-		task.execute(firmwareUrl);
-	}
+//	private void checkForFirmwareUpdate() {
+//		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
+//		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
+//		task.execute(firmwareUrl);
+//	}
 
 	@Override
 	public void onClick(View v) {
@@ -1053,7 +1050,18 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 	@Override
 	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
 		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade());
-		// TODO handle FW callbacks
+
+		if (!(firmwareEventDto.getUpgrade().equals(""))) {
+			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					getDashboard().showFirmwareUpdatePopup();
+					//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
+					setFirmwareSuperScript(1);
+				}
+			});
+		}
 	}
 
 	private void updatePurifierUIFields() {
@@ -1324,8 +1332,6 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 			}
 		}
 
-		checkForFirmwareUpdate();
-
 		return true;
 	}
 
@@ -1399,32 +1405,6 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 
 			toggleConnection(true);
 
-		}
-	}
-
-	@Override
-	public void firmwareDataRecieved(String data) {
-		try{
-			if (data == null || data.isEmpty() || data.length() <= 0) {
-				return;
-			}
-			JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
-			ALog.i(ALog.FIRMWARE, "jsonObject " + jsonObject);
-			ALog.i(ALog.FIRMWARE, "jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
-			JsonElement upgrade = jsonObject.get("upgrade");
-			upgradeVersion = upgrade.getAsString();
-			JsonElement current = jsonObject.get("version");
-			currentVersion = current.getAsString();
-			ALog.i(ALog.FIRMWARE, "upgradeVersion " + upgradeVersion);
-			if (!(upgradeVersion.equals(""))) {
-				// TODO : Update dashboard UI.
-				ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-				getDashboard().showFirmwareUpdatePopup();
-				//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-				setFirmwareSuperScript(1);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
