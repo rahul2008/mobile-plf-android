@@ -5,6 +5,7 @@ import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 import android.os.AsyncTask;
 
@@ -33,7 +34,7 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 		String result = "";
 		responseObj = NetworkUtils.downloadUrl(firmwareUrl[0]);
 		if (responseObj != null) {
-			result = new DISecurity(null).decryptData(responseObj.getResponseData(), AppConstants.deviceId);
+			result = new DISecurity(null).decryptData(responseObj.getResponseData(), Utils.getPurifierId());
 		}
 		return result;
 	}

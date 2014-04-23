@@ -126,7 +126,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			String appEui64 = SessionDto.getInstance().getEui64();
 			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
 			dataToUpload = new DISecurity(null).encryptData(dataToUpload,
-					AppConstants.deviceId);
+					Utils.getPurifierId());
 			TaskPutDeviceDetails pairingRunnable = new TaskPutDeviceDetails(
 					dataToUpload, pairing_url, this);
 			Thread pairingThread = new Thread(pairingRunnable);

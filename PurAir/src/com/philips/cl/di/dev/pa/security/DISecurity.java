@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DISecurity implements ServerResponseListener {
 
@@ -275,7 +276,7 @@ public class DISecurity implements ServerResponseListener {
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
 				securityKeyHashtable.put(deviceId, key);
 				
-				AppConstants.deviceId = deviceId;//TODO Remove when multiple purifier handle
+				Utils.setPurifierId(deviceId);//TODO Remove when multiple purifier handle
 				
 				keyDecryptListener.keyDecrypt(key, deviceId);
 			} catch (JSONException e) {

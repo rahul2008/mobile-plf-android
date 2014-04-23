@@ -67,6 +67,7 @@ public class AppConstants {
 	
 	/** The Constant defaultIPAddress. */
 	public static final String DEFAULT_IPADDRESS = "192.168.10.198";
+	public static final String DEFAULT_PURIFIERID = "none";
 
 	/** The Constant TABLENAME. */
 	public static final String TABLENAME = "CityDetails";
@@ -216,9 +217,6 @@ public class AppConstants {
 		
 	//Child lock and indicator light status.
 	public static final int ON = 1;
-	
-	
-	public static String deviceId = "none" ;
 	
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 	public static final String APP_TYPE="AC4373APP";

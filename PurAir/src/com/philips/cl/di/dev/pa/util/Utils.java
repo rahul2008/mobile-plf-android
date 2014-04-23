@@ -111,6 +111,12 @@ public class Utils {
 				.getString("ipAddress", AppConstants.DEFAULT_IPADDRESS);
 		return ipAddress;
 	}
+	
+	public static String getPurifierId() {
+		String purifierId = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
+				.getString("purifierId", AppConstants.DEFAULT_PURIFIERID);
+		return purifierId;
+	}
 
 	public static String getPortUrl(Port port, String ipAddress) {
 		if (port == null) {
@@ -181,6 +187,14 @@ public class Utils {
 				"sharedPreferences", 0);
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("ipAddress", ipAddress);
+		editor.commit();
+	}
+	
+	public static void setPurifierId(String purifierId) {
+
+		SharedPreferences settings = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0);
+		SharedPreferences.Editor editor = settings.edit();
+		editor.putString("purifierId", purifierId);
 		editor.commit();
 	}
 

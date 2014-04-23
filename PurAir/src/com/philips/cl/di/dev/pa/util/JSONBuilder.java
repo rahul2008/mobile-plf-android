@@ -16,7 +16,7 @@ public class JSONBuilder {
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, AppConstants.deviceId) ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, Utils.getPurifierId()) ;
 		return dataToSend ;
 	}
 	
@@ -27,7 +27,7 @@ public class JSONBuilder {
 		builder.append("}") ;
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SUBSCRIPTION, "dataToSend " + dataToSend) ;
-		dataToSend = new DISecurity(null).encryptData(dataToSend, AppConstants.deviceId) ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, Utils.getPurifierId()) ;
 		return dataToSend ;
 	}
 

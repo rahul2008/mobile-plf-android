@@ -1300,7 +1300,7 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 								+ dbBootId + " ssdp bootid: "
 								+ ssdpDiscoveredBootId);
 						String cppId = infoDto.getCppId();
-						AppConstants.deviceId = cppId;
+						Utils.setPurifierId(cppId);
 						secretKey = infoDto.getDeviceKey();
 						DISecurity.setKeyIntoSecurityHashTable(cppId, secretKey);
 						DISecurity.setUrlIntoUrlsTable(

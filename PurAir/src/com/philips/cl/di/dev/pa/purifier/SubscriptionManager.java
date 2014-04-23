@@ -119,8 +119,8 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	
 	@Override
 	public void onUDPEventReceived(String data) {
-		String decryptedData = new DISecurity(null).decryptData(data, AppConstants.deviceId) ;
-		if(decryptedData == null ) return;
+		String decryptedData = new DISecurity(null).decryptData(data, Utils.getPurifierId()) ;
+		if (decryptedData == null ) return;
 		
 		ALog.i(ALog.SUBSCRIPTION, decryptedData) ;
 		if (subscriptionEventListener != null) {

@@ -10,6 +10,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	private Context context;
@@ -43,7 +44,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 			responseObj = NetworkUtils.downloadUrl(urls[i]);
 			if (responseObj != null)
 				result[i] = new DISecurity(null).decryptData(
-						responseObj.getResponseData(), AppConstants.deviceId);
+						responseObj.getResponseData(), Utils.getPurifierId());
 			// Escape early if cancel() is called
 			if (isCancelled())
 				break;

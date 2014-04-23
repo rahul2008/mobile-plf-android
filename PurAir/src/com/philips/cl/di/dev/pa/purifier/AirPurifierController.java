@@ -100,7 +100,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Response: "+responseData);
 		switch (responseCode) {
 		case HttpsURLConnection.HTTP_OK:
-				String decryptedData = new DISecurity(null).decryptData(responseData, AppConstants.deviceId) ;
+				String decryptedData = new DISecurity(null).decryptData(responseData, Utils.getPurifierId()) ;
 				parseSensorData(decryptedData) ;
 			break;
 		default:			
