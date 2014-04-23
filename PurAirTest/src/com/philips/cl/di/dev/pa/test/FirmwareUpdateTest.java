@@ -144,69 +144,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 			fail(e.getMessage());
 		}
 	}
-	
-	//*********************************************** Test Cases for Parsing Logic ******************************************** //
-	
-	/*  
-	 * Class Name  : FirmwareDownloadFragment
-	 * TestCase ID :
-	 */
-	
-	public void testParsingFirmwareDownload(){
-		try {
-			JsonObject jo = new JsonObject();
-			jo.addProperty("name", "Jaguar");
-			jo.addProperty("version", "19");			
-			jo.addProperty("upgrade", "21");
-			jo.addProperty("state", "idle");
-			jo.addProperty("progress", "0");
-			jo.addProperty("statusmsg", "");
-			jo.addProperty("is_mandatory_upgrade", "false");
-			
-			String sGetProgress, sGetState;
-			FirmwareDownloadFragment objFirwareDldFrag = new FirmwareDownloadFragment();
-			sGetProgress = objFirwareDldFrag.getProgress(jo);
-			assertEquals(jo.get("progress").getAsString(), sGetProgress);
-			
-			sGetState = objFirwareDldFrag.getState(jo);
-			assertEquals(jo.get("state").getAsString(), sGetState);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
-	/*  
-	 * Class Name  : FirmwareInstalledFragment
-	 * TestCase ID :
-	 */
-	
-	public void testParsingFirmwareInstall(){
-		try {
-			JsonObject jo = new JsonObject();
-			jo.addProperty("name", "Jaguar");
-			jo.addProperty("version", "19");			
-			jo.addProperty("upgrade", "21");
-			jo.addProperty("state", "idle");
-			jo.addProperty("progress", "0");
-			jo.addProperty("statusmsg", "");
-			jo.addProperty("is_mandatory_upgrade", "false");
-			
-			String sGetUpgrade, sGetState;
-			FirmwareInstallFragment objFirwareDldFrag = new FirmwareInstallFragment();
-			sGetUpgrade = objFirwareDldFrag.getUpgrade(jo);
-			assertEquals(jo.get("upgrade").getAsString(), sGetUpgrade);
-			
-			sGetState = objFirwareDldFrag.getState(jo);
-			assertEquals(jo.get("state").getAsString(), sGetState);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-	}
-	
+
 	//*********************************************** Test Cases for Crucial Transitions  ******************************************** //
 	
 	/*  
