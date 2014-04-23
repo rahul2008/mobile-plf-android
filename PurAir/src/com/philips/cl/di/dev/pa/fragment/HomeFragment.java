@@ -525,7 +525,6 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			hideFirmwareUpdatePopup();
 			break;
 		case R.id.lbl_firmware_update_available:
-			Toast.makeText(getActivity(), "Do what now?", Toast.LENGTH_SHORT).show();
 			hideFirmwareUpdatePopup();
 			((MainActivity) getActivity()).startFirmwareUpgradeActivity();
 			break;
