@@ -57,9 +57,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -83,8 +80,6 @@ import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
