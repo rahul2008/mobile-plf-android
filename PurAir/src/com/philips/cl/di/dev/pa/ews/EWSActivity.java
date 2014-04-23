@@ -179,11 +179,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).isShowing()) {
 				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).dismiss();
 			}
-			try {
-				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
-			} catch (Exception e) {
-				ALog.e(ALog.EWS, "Coudn't create dialog") ;
-			}
+			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
 			return true;
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:
 			if (!isHomeNeworkSelected()) {
