@@ -305,6 +305,7 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 		this.registerReceiver(networkReceiver, filter);
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
+	
 
 	@Override
 	protected void onPause() {
@@ -1060,7 +1061,6 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 		if (null != airPurifierEventDto) {
 			connected = true;
 			float indoorAQIUsableValue = airPurifierEventDto.getIndoorAQI() / 10.0f;
-			setAirPurifierEventDto(airPurifierEventDto);
 			updateDashboardFields(airPurifierEventDto);
 			setRightMenuAQIValue(indoorAQIUsableValue);
 			rightMenuClickListener.setSensorValues(airPurifierEventDto);
@@ -1123,8 +1123,13 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 			.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI() / 10.0f);
 			homeFragment.setFilterStatus(Utils
 					.getFilterStatusForDashboard(airPurifierEventDto));
-			homeFragment.setMode(Utils.getMode(
-					airPurifierEventDto.getFanSpeed(), this));
+			if( airPurifierEventDto.getPowerMode().equals("0")) {
+				homeFragment.setMode(getString(R.string.off));
+			}
+			else {
+				homeFragment.setMode(Utils.getMode(
+						airPurifierEventDto.getFanSpeed(), this));
+			}
 		}
 	}
 
@@ -1437,7 +1442,6 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 		public void handleMessage(Message msg) {
 			ALog.i(ALog.MAINACTIVITY, "UDP Event Received");
 			airPurifierEventDto.setConnectionStatus(AppConstants.CONNECTED);
-			setAirPurifierEventDto(airPurifierEventDto);
 			updatePurifierUIFields();
 		}
 	};
