@@ -30,9 +30,6 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 		tvFirmwareUpdMsg = (TextView) view.findViewById(R.id.firmware_update_msg);		
 		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
 		tvFirmwareUpdMsg.setText(getString(R.string.firmware_failed_msg, activity.getPurifierName())) ;
-		Button btnCancelFirmwareFailed = (Button) view.findViewById(R.id.btn_cancel_firmware_failed);
-		btnCancelFirmwareFailed.setTypeface(Fonts.getGillsans(getActivity()));
-		btnCancelFirmwareFailed.setOnClickListener(this);
 		Button btnTryAgainFirmwareFailed = (Button) view.findViewById(R.id.btn_try_again_firmware_failed);
 		btnTryAgainFirmwareFailed.setTypeface(Fonts.getGillsans(getActivity()));
 		btnTryAgainFirmwareFailed.setOnClickListener(this);
@@ -41,9 +38,6 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_cancel_firmware_failed:
-			getActivity().finish();
-			break;
 		case R.id.btn_try_again_firmware_failed:
 			FirmwareDownloadFragment.setCounter(0);
 			FirmwareUpdateActivity.setCancelled(false);
