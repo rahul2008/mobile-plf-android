@@ -160,7 +160,7 @@ public class EWSStepThreeFragment extends Fragment {
 			}
 			if (source.toString().length() >=0) {
 				for (char ch : source.toString().toCharArray()) {
-					if (String.valueOf(ch).matches("[¶†%^<>;&+*():'\"`~!#{}|=?, ]")) {
+					if (String.valueOf(ch).matches("[£€¶†%^<>;&+*():'\"`~!#{}|=?, ]")) {
 						return source.subSequence(0, 0);
 					} 
 				}

@@ -404,7 +404,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onDeviceConnectToHomeNetwork() {
-		Toast.makeText(this, "Start Device Discovery", Toast.LENGTH_LONG).show() ;
 		SsdpService.getInstance().startDeviceDiscovery(this) ;
 	}
 	
@@ -455,7 +454,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	//SSDP Discovery
 	private void deviceDiscoveryCompleted() {
-		Toast.makeText(this, "Device discovered ", Toast.LENGTH_LONG).show() ;
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		if( ewsService != null ) {
 			ewsService.stopNetworkDetailsTimer() ;
