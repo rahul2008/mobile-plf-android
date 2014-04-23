@@ -18,7 +18,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	private static final int LOCAL_SUBSCRIPTIONTIME = 3360; // IN SEC
 	private static final int CPP_SUBSCRIPTIONTIME = 120; // IN MIN
 	
-	private static SubscriptionManager subscriptionManager ;
+	private static SubscriptionManager mInstance ;
 	
 	private SubscriptionEventListener subscriptionEventListener ;
 	
@@ -29,10 +29,10 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	}
 	
 	public static SubscriptionManager getInstance() {
-		if( null == subscriptionManager ) {
-			subscriptionManager = new SubscriptionManager() ;
+		if( null == mInstance ) {
+			mInstance = new SubscriptionManager() ;
 		}
-		return subscriptionManager ;
+		return mInstance ;
 	}
 	
 	public void setSubscriptionListener(SubscriptionEventListener subscriptionEventListener) {
@@ -131,7 +131,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		//TODO if response code not 200? retry?
-		if( responseCode != HttpURLConnection.HTTP_OK ) {
+		if(responseCode != HttpURLConnection.HTTP_OK ) {
 			ALog.i(ALog.SUBSCRIPTION, "Subscription failed") ;
 		}
 		else {

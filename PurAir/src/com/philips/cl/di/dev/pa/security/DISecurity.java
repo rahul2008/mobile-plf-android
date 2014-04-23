@@ -122,7 +122,7 @@ public class DISecurity implements ServerResponseListener {
 	 */
 	public String decryptData(String data, String deviceId) {
 		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
-		
+
 		String key = securityKeyHashtable.get(deviceId);
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
