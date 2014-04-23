@@ -563,9 +563,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		connected = true;
 		stopRemoteConnection() ;
 
-		//To speed up the subscription result, we are calling GET
 		//Start the subscription every time it discovers the Purifier
-		airPurifierController.getPurifierDetails(Utils.getPortUrl(Port.AIR, Utils.getIPAddress())) ;
 		airPurifierController.subscribeToAllEvents(bootId,Utils.getIPAddress(),true);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
