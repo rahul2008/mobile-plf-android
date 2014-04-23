@@ -25,12 +25,12 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseAdapter;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseModel;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData.DiagnosticsDataListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -46,10 +46,6 @@ SignonListener, DiagnosticsDataListener {
 	private Button signOnButton;
 	private TextView tvCPPDetails;
 	private CppDatabaseModel cppDatabaseModel;
-	private static final String WIFI = "wifi";
-	private static final String WIFIUI = "wifiui";
-	private static final String DEVICE = "device";
-	private static final String LOG = "log";
 	private String[] header = new String[] { "Wifi Port:", "WifiUi Port:",
 			"Device Port:", "Firmware Port:", "Logs Port:" };
 	private char lineSeparator='\n';
@@ -145,7 +141,7 @@ SignonListener, DiagnosticsDataListener {
 			}
 			break;
 		case R.id.btn_diagnostics:
-			((MainActivity)getActivity()).isDiagnostics=true;
+			((MainActivity)getActivity()).isDiagnostics=true;			
 			String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
 			String wifiUrl = Utils.getPortUrl(Port.WIFI, Utils.getIPAddress());
 			String wifiUiUrl = Utils.getPortUrl(Port.WIFIUI, Utils.getIPAddress());
@@ -255,6 +251,7 @@ SignonListener, DiagnosticsDataListener {
 		CPPController controller = CPPController.getInstance(getActivity());
 
 		//get device dignostics info
+		String appVersion= "App Version: "+((MainActivity) getActivity()).getVersionNumber();
 		String dDns1 = "DNS: " + intToIp(dhcpInfo.dns1);
 		String dGateway = "Default Gateway: " + intToIp(dhcpInfo.gateway);
 		String dIpAddress = "IP Address: " + intToIp(dhcpInfo.ipAddress);
@@ -269,8 +266,8 @@ SignonListener, DiagnosticsDataListener {
 		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:"
 				+ Utils.getIPAddress();
-		String euid = "AirPurifier EUI64:" + Utils.getEuid(getActivity());
-		String macAddress = Utils.getMacAddress(getActivity()).toUpperCase();
+		String euid = "AirPurifier EUI64:" + Utils.getAirPurifierID(getActivity());
+		String macAddress = SessionDto.getInstance().getPurifierMacAddress();
 		macAddress = "Air Purifier MAC Address:"
 				+ formatMacAddress(macAddress);
 
@@ -280,6 +277,8 @@ SignonListener, DiagnosticsDataListener {
 		String isSignOn = "Is SignOn Successful: " + controller.isSignOn();
 
 		StringBuilder data = new StringBuilder("Device Network Info\n");
+		data.append(appVersion);
+		data.append(lineSeparator);
 		data.append(dIpAddress);
 		data.append(lineSeparator);
 		data.append(dMacaddress);
@@ -290,7 +289,7 @@ SignonListener, DiagnosticsDataListener {
 		data.append(lineSeparator);
 		data.append(registrationId);
 		data.append(lineSeparator);
-		data.append("AirPurifier Network Info:\n");
+		data.append("AirPurifier Network Info\n");
 		data.append(airpurifierIpAddress);
 		data.append(lineSeparator);
 		data.append(euid);

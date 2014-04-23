@@ -1099,4 +1099,15 @@ public class Utils {
 		
 		return diffInDays ;
 	}
+	
+	public static void extractMacAddress(String usn){
+		String[] usnArray=usn.split("::");
+		if(usnArray!=null && usnArray.length>0){
+			String mac=usnArray[0];
+			mac=mac.substring(mac.length()-12);
+			SessionDto session= SessionDto.getInstance();
+			session.setPurifierMacAddress(mac);
+			ALog.d(ALog.DIAGNOSTICS, "Mac Address: "+mac);
+		}
+	}
 }

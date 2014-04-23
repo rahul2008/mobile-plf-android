@@ -41,7 +41,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 		String[] result = new String[urls.length];
 
 		for (int i = 0; i < urls.length; i++) {
-			responseObj = NetworkUtils.downloadUrl(urls[i]);
+			responseObj = NetworkUtils.downloadUrl(urls[i], 60000);
 			if (responseObj != null)
 				result[i] = new DISecurity(null).decryptData(
 						responseObj.getResponseData(), Utils.getPurifierId());

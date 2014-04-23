@@ -32,6 +32,7 @@ public class ALog {
 	public static final String FIRMWARE = "Firmware";
 	public static final String CONNECTIVITY = "Connectivity" ;
 	public static final String PARSER = "DataParser" ;
+	public static final String DIAGNOSTICS="Diagnostics";
 
 	
 	private static boolean isLoggingEnabled = true;

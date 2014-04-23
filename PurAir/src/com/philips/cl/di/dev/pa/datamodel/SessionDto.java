@@ -18,6 +18,7 @@ public class SessionDto {
 	private DeviceDto deviceDto ;
 	private DeviceWifiDto deviceWifiDto ;
 	private String Eui64;
+	private String macAddress;
 	
 	public DeviceDto getDeviceDto() {
 		return deviceDto;
@@ -77,6 +78,14 @@ public class SessionDto {
 	
 	public String getEui64() {
 		return Eui64;		
+	}
+	
+	public void setPurifierMacAddress(String macAddress){
+		this.macAddress=macAddress;
+	}
+	
+	public String getPurifierMacAddress(){
+		return macAddress;
 	}
 
 	/**

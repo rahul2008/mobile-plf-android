@@ -1160,11 +1160,11 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		return false;
 	}
 
-	public int getVersionNumber() {
-		int versionCode = 0;
+	public String getVersionNumber() {
+		String versionCode = "";
 		try {
 			versionCode = getPackageManager().getPackageInfo(getPackageName(),
-					0).versionCode;
+					0).versionName;
 		} catch (NameNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -1275,6 +1275,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			return true;
 		}
 
+		//used to fetch the MAC address of purifier then save it
+		Utils.extractMacAddress(ssdpDiscoveredUsn);
 		localDeviceUsn = ssdpDiscoveredUsn;
 
 		getSharedPreferences("cpp_preferences01", 0).edit()
