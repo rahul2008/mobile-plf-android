@@ -132,10 +132,11 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	public void receiveServerResponse(int responseCode, String responseData) {
 		//TODO if response code not 200? retry?
 		if(responseCode != HttpURLConnection.HTTP_OK ) {
-			ALog.i(ALog.SUBSCRIPTION, "Subscription failed") ;
+			ALog.i(ALog.SUBSCRIPTION, "Subscription failed");
+			return;
 		}
-		else {
-			ALog.i(ALog.SUBSCRIPTION, "Subscription successfull") ;
-		}
+
+		ALog.i(ALog.SUBSCRIPTION, "Subscription successfull");
+		onUDPEventReceived(responseData); // Response already contains first DCS event, treat as UDP
  	}
 } 
