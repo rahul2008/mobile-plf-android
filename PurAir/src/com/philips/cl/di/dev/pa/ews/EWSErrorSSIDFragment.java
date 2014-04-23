@@ -26,6 +26,9 @@ public class EWSErrorSSIDFragment  extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_ERROR_SSID);
+		
 		String ssid = ((EWSActivity) getActivity()).getNetworkSSID();
 		((FontTextView) getView().findViewById(R.id.ews_error_ssid_network)).setText(ssid); 
 	}

@@ -68,6 +68,10 @@ public class EWSWifiManager {
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		List<ScanResult> results = wifiMan.getScanResults();
 		
+		if (results == null || results.size() < 1) {
+			return false;
+		}
+		
 		for (ScanResult scanResult : results) {
 			if (scanResult.SSID != null && scanResult.SSID.equals(ssid)) {
 				if (scanResult.capabilities.contains("WPA")) {
@@ -128,7 +132,7 @@ public class EWSWifiManager {
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		List<WifiConfiguration> configuredNetworks = wifiMan.getConfiguredNetworks();
 		
-		if (configuredNetworks == null) {
+		if (configuredNetworks == null || configuredNetworks.size() < 1) {
 			return null;
 		}
 		
@@ -230,6 +234,10 @@ public class EWSWifiManager {
 	private static ScanResult getScanResult(String ssid) {
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		List<ScanResult> foundNetworks = wifiMan.getScanResults();
+		
+		if (foundNetworks == null || foundNetworks.size() < 1) {
+			return null;
+		}
 		
 		for (ScanResult foundNetwork : foundNetworks) {
 			if (foundNetwork.SSID.equals(ssid)) {

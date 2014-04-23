@@ -1,9 +1,11 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +25,8 @@ public class EWSStartFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_START);
 		
 		Button startEwsBtn = (Button) getView().findViewById(R.id.ews_get_start_btn);
 		startEwsBtn.setTypeface(Fonts.getGillsansLight(getActivity()));

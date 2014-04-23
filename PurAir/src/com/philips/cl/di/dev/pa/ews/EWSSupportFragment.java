@@ -33,6 +33,9 @@ public class EWSSupportFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_SUPPORT);
+		
 		((RelativeLayout) getView().findViewById
 				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener);  
 		((RelativeLayout) getView().findViewById

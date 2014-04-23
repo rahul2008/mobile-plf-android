@@ -379,8 +379,8 @@
 	<string name="step2_instruction">Confirm Wi-Fi on your Philips Smart Air Purifier.</string>
 	<string name="step3_instruction">Connect your Philips Smart Air Purifier to your home Wi-Fi network.</string>
 	<string name="step1_msg1">You are currently using</string>
-	<string name="step2_msg1">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED starts blinking</string>
-	<string name="step2_msg2">Is the LED light blinking</string>
+	<string name="step2_msg1">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED</string>
+	<string name="step2_msg2">Is the LED</string>
 	<string name="orange">ORANGE</string>
 	<string name="step3_msg1">Enter the password for</string>
 	<string name="step3_msg2">In which room will you place the Philips Smart Air Purifier (e.g. the living room)?</string>
@@ -427,7 +427,7 @@
 	<string name="error_ts01_02_message">Please follow these 3 easy steps to resolve the problem.</string>
 	<string name="error_ts01_03_title">Your phone could not receive data from the Philips Smart Air Purifier.</string>
 	<string name="error_ts01_03_message">Please follow these 3 easy steps to resolve the problem.</string>
-	<string name="error_ts01_04_title">Your phone could not send data to the Philips Smart Air Purifier.</string>
+	<string name="error_ts01_04_title">We’re having trouble connecting to your Air Purifier.</string>
 	<string name="error_ts01_04_message">Please follow these 3 easy steps to resolve the problem.</string>
 	<string name="error_ts01_05_title">Your phone could not find a Philips Smart Air Purifier on your wireless network.</string>
 	<string name="error_ts01_05_message">Please follow these 3 easy steps to resolve the problem.</string>
@@ -436,8 +436,8 @@
 	<string name="congratulations">Congratulations!</string>
 	<string name="support_ts01_message">Unplug your Philips Smart Air Purifier.</string>
 	<string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in.</string>
-	<string name="support_ts03_message">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED starts blinking ORANGE.</string>
-	<string name="support_ts05_message">Is the Wi-Fi LED blinking</string>
+	<string name="support_ts03_message">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED ORANGE.</string>
+	<string name="support_ts05_message">Is the Wi-Fi LED</string>
 	<string name="now">now?</string>
 	<string name="wrong_wifi_password">You have entered wrong password</string>
 	

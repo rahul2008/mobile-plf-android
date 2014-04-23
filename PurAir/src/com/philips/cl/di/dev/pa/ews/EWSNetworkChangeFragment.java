@@ -20,6 +20,8 @@ public class EWSNetworkChangeFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_CHANGE_NETWORK);
 	}
 	
 }

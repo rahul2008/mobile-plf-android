@@ -26,6 +26,9 @@ public class EWSStepTwoFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO);
+		
 		String msg1 = getString(R.string.step2_msg1) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>.";
 		((FontTextView) getView().findViewById(R.id.ews_step2_message1)).setText(Html.fromHtml(msg1));
 

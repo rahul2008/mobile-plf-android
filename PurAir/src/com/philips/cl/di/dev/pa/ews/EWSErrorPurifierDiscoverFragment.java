@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.ews;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,6 +30,9 @@ public class EWSErrorPurifierDiscoverFragment  extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_ERROR_DISCOVERY);
+		
 		FontTextView errorPurifierNotDectNetwork = 
 				(FontTextView) getView().findViewById(R.id.ews_purifier_not_dect_network);
 		Button tryAgainBtn = (Button) getView().findViewById(R.id.ews_purifier_not_dect_btn);
@@ -37,7 +41,10 @@ public class EWSErrorPurifierDiscoverFragment  extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				EWSDialogFactory.getInstance(getActivity()).getDialog(EWSDialogFactory.ERROR_TS01_05).show();
+//				EWSDialogFactory.getInstance(getActivity()).getDialog(EWSDialogFactory.ERROR_TS01_05).show();
+				FragmentManager fragMan = getActivity().getSupportFragmentManager();
+				fragMan.beginTransaction().add(
+						EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
 			}
 		});
 		

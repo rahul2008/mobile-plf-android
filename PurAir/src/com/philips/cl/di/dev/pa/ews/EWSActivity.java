@@ -53,8 +53,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private NetworkInfo mWifi;
 	private String networkSSID ;
 	private String password ;
-
-//	private Dialog progressDialogForStep2 ;
 	
 	private EWSBroadcastReceiver ewsService ;
 	
@@ -96,7 +94,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		actionBar.setCustomView(view);	
 	}
 	
-	private void setActionBarHeading (int index) {
+	public void setActionBarHeading (int index) {
 		switch (index) {
 		case EWSConstant.EWS_STEP_START:
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:	
@@ -432,14 +430,17 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		}
 		
 		switch (errorCode) {
-		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
-			break;
 		case EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND:				
 			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_01).show() ;
 			break;
+		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
+//			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_03).show() ;
+//			break;
 		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_04).show() ;
+//			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_04).show() ;
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction().add(
+					EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
 			showErrorScreen();
@@ -544,7 +545,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void showFragment(Fragment fragment, String tag) {
-		setActionBarHeading(mStep) ;
+//		setActionBarHeading(mStep) ;
 		try {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

@@ -25,6 +25,8 @@ public class EWSStepOneFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_ONE);
+		
 		Button noBtn = (Button) getView().findViewById(R.id.ews_step1_no_btn);
 		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		noBtn.setOnClickListener(new OnClickListener() {

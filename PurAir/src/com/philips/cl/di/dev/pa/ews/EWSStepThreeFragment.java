@@ -53,6 +53,9 @@ public class EWSStepThreeFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_THREE);
+		
 		focusListener = new EditTextFocusChangeListener();
 		buttonClickListener = new ButtonClickListener();
 		initializeXmlVariable();
@@ -151,6 +154,7 @@ public class EWSStepThreeFragment extends Fragment {
 		@Override
 		public CharSequence filter(CharSequence source, int start, int end,
 				Spanned dest, int dstart, int dend) {
+			
 			if (source.equals(" ")) { 
 				return maxLength(source);
 			}
@@ -168,13 +172,12 @@ public class EWSStepThreeFragment extends Fragment {
 		
 		private CharSequence maxLength(CharSequence cs) {
 			CharSequence rcs = cs;
-			ALog.i(ALog.EWS, "character enter: " + cs);
 			String pname = deviceNameStep3.getText().toString();
 			if (pname == null) {
 				return rcs;
 			}
 			
-			if (pname.trim().length() > EWSConstant.EWS_PURIFIER_NAME_LENGTH) {
+			if (pname.length() > EWSConstant.EWS_PURIFIER_NAME_LENGTH) {
 				rcs = cs.subSequence(0, 0);
 			}
 			return rcs;
