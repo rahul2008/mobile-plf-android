@@ -1,13 +1,12 @@
 package com.philips.cl.di.dev.pa.firmware;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants;
+import android.os.AsyncTask;
+
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
-
-import android.os.AsyncTask;
 
 public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 

@@ -70,18 +70,30 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/downloading_firmware_version_text"
+        android:id="@+id/upgrade_version_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 		android:layout_alignParentBottom="true"
-    	android:layout_alignParentLeft="true"
-        android:layout_marginTop="6dp"
-        android:lineSpacingExtra="5dp"
+   		android:layout_alignParentLeft="true"
         android:textSize="16sp"
         android:textColor="@color/title_gray"  
 		android:maxLines="2"
-		android:padding ="16dp"
-		android:text="@string/downloading_firmware_version_text" 
+		android:paddingLeft="16dp"
+		android:text="@string/firmware_new_version" 
 		custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/current_version_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/upgrade_version_number"
+        android:layout_alignLeft="@+id/upgrade_version_number"
+        android:textSize="16sp"
+        android:paddingLeft="16dp"
+        android:textColor="@color/title_gray"  
+        android:text="@string/firmware_current_version"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
 
 </RelativeLayout>

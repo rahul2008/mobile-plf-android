@@ -50,7 +50,7 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 			((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(0);
 			getFragmentManager()
 			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareContactSupportFragment(), FirmwareConstants.FIRMWARE_CONTACT_SUPPORT_FRAGMENT)
+			.replace(R.id.firmware_container, new FirmwareContactSupportFragment(), FirmwareContactSupportFragment.class.getSimpleName())
 			.commit();
 			break;
 

@@ -3,19 +3,15 @@ package com.philips.cl.di.dev.pa.test;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.google.gson.JsonObject;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.firmware.FirmwareDownloadFragment;
-import com.philips.cl.di.dev.pa.firmware.FirmwareInstallFragment;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -23,7 +19,6 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<FirmwareUpdateActivity>  {
 		
 	private FirmwareUpdateActivity activity;
-	private Context mCtx;
 	
 	public FirmwareUpdateTest() {
 	    super(FirmwareUpdateActivity.class);
@@ -50,7 +45,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 	
 	public void testNewFirmwareFragmentContentText() {
 		try {			
-			View view = activity.getLayoutInflater().inflate(R.layout.new_firmware, null);
+			View view = activity.getLayoutInflater().inflate(R.layout.update_firmware, null);
 			ALog.i(ALog.MAINACTIVITY, "Firmware Update => testNewFirmwareFragmentContentText Testcase Started") ;
 			FontTextView txtNewFirmware = (FontTextView) view.findViewById(R.id.new_firmware);
 	        assertEquals("New firmware", txtNewFirmware.getText());
@@ -63,9 +58,6 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 	        
 	        FontTextView txtReleaseNotes = (FontTextView) view.findViewById(R.id.release_notes_txt);
 	        assertEquals("Release notes", txtReleaseNotes.getText());
-	        
-	        FontTextView txtFirmwareStatus= (FontTextView) view.findViewById(R.id.firmware_status);
-	        assertEquals("!App Update needed", txtFirmwareStatus.getText());
 	        
 	        Button btnFirmwareUpdate = (Button) view.findViewById(R.id.btn_firmware_update);
 	        assertEquals("Update", btnFirmwareUpdate.getText());

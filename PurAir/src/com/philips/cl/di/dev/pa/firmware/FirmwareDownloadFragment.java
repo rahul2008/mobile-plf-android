@@ -27,18 +27,25 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.downloading_firmware, null);
-		progressBar = (ProgressBar) view.findViewById(R.id.downloading_progressbar);
-		FontTextView downloadFirmwareTv = (FontTextView) view.findViewById(R.id.downloading_firmware_for_purifier_msg);
-		downloadFirmwareTv.setText(getString(R.string.downloading_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
-		
+		initViews(view);
 		downloaded = false;
-		progressPercent = (FontTextView) view.findViewById(R.id.progressbar_increasestatus);
-		progressPercent.setText("0%");
 		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_DOWNLOAD);
 		FirmwareUpdateActivity.setCancelled(false);
 		return view;
 	}
 
+	private void initViews(View view) {
+		progressBar = (ProgressBar) view.findViewById(R.id.downloading_progressbar);
+		progressPercent = (FontTextView) view.findViewById(R.id.progressbar_increasestatus);
+		progressPercent.setText("0%");
+		FontTextView downloadFirmwareTv = (FontTextView) view.findViewById(R.id.downloading_firmware_for_purifier_msg);
+		downloadFirmwareTv.setText(getString(R.string.downloading_firmware_for_purifier_msg, ((FirmwareUpdateActivity) getActivity()).getPurifierName())) ;
+		FontTextView currentVersion = (FontTextView) view.findViewById(R.id.current_version_number);
+		currentVersion.setText(getString(R.string.firmware_current_version) + " " + ((FirmwareUpdateActivity) getActivity()).getCurrentVersion());
+		FontTextView upgradeVersion = (FontTextView) view.findViewById(R.id.upgrade_version_number);
+		upgradeVersion.setText(getString(R.string.firmware_new_version) + " " + ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -80,7 +87,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 					FirmwareUpdateActivity.setCancelled(true);
 					getFragmentManager()
 					.beginTransaction()
-					.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareConstants.FIRMWARE_FAILED_SUPPORT_FRAGMENT)
+					.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareFailedSupportFragment.class.getSimpleName())
 					.commit();
 				} else {
 					FirmwareUpdateActivity.setCancelled(true);
@@ -89,7 +96,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 					((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(++failCount);
 					getFragmentManager()
 					.beginTransaction()
-					.replace(R.id.firmware_container, new FirmwareDownloadFailedFragment(), FirmwareConstants.FIRMWARE_DOWNLOAD_FAILED_FRAGMENT)
+					.replace(R.id.firmware_container, new FirmwareDownloadFailedFragment(), FirmwareDownloadFailedFragment.class.getSimpleName())
 					.commit();
 				}
 			}
@@ -99,7 +106,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	public void showNextFragment() {
 		getFragmentManager()
 		.beginTransaction()
-		.replace(R.id.firmware_container, new FirmwareInstallFragment(), FirmwareConstants.FIRMWARE_INSTALL_FRAGMENT)
+		.replace(R.id.firmware_container, new FirmwareInstallFragment(), FirmwareInstallFragment.class.getSimpleName())
 		.commit();
 	}
 

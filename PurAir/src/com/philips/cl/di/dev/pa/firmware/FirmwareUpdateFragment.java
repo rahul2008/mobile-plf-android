@@ -19,7 +19,7 @@ public class FirmwareUpdateFragment extends BaseFragment implements OnClickListe
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.new_firmware, container, false);
+		View view = inflater.inflate(R.layout.update_firmware, container, false);
 		initViews(view);
 		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_UPDATE);
 		return view;
@@ -42,7 +42,7 @@ public class FirmwareUpdateFragment extends BaseFragment implements OnClickListe
 
 			getFragmentManager()
 			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), FirmwareConstants.FIRMWARE_DOWNLOAD_FRAGMENT)
+			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), FirmwareDownloadFragment.class.getSimpleName())
 			.commit();
 			break;
 

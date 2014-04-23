@@ -45,7 +45,7 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 
 			getFragmentManager()
 			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), FirmwareConstants.FIRMWARE_DOWNLOAD_FRAGMENT)
+			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), FirmwareDownloadFragment.class.getSimpleName())
 			.commit();
 			break;
 

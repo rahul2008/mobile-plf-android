@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
@@ -100,7 +99,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
 		actionBar.setBackgroundDrawable(d);
 		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);

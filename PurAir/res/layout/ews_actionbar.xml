@@ -10,8 +10,7 @@
         android:id="@+id/ews_actionbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:layout_centerInParent="true"
+		android:layout_centerInParent="true"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />

@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/firmware_update"
         android:layout_marginTop="6dp"
-        android:lineSpacingExtra="5dp"
+        android:lineSpacingExtra="10dp"
         android:padding="16dp"
         android:text="@string/firmware_failed_msg"
         android:textColor="@color/title_gray"
