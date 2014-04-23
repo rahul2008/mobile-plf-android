@@ -81,14 +81,6 @@ public class DISecurityTest extends TestCase {
 		
 	}
 	
-	public void testDecryptNullKey() {
-		DISecurity security = new DISecurity(null);
-		String dummyData = "blablabla";
-		String decrytedData = security.decryptData(dummyData, DEVICE_ID);
-		
-		assertNull(decrytedData);
-	}
-	
 	public void testDecryptNullData() {
 		DISecurity security = new DISecurity(null);
 		
