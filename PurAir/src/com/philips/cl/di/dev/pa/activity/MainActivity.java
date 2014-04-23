@@ -1470,10 +1470,15 @@ OnClickListener, FirmwareResponseListener, AirPurifierEventListener, SignonListe
 	}
 
 	private void showPairingDialog(String purifierEui64) {
+		try
+		{
 			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64);
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);
 			isPairingDialogShown = true;
+		}catch(IllegalStateException e){
+			isPairingDialogShown = false;
+		}
 	}
 
 	public void startPairing(String purifierEui64) {
