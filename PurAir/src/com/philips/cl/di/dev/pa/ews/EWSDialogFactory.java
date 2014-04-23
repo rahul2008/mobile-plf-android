@@ -223,6 +223,9 @@ public class EWSDialogFactory implements OnClickListener{
 	}
 
 	private Dialog getCancelWifiSetupDialog() {
+		if( context == null ) {
+			return null ;
+		}
 		Dialog temp = new Dialog(context);
 		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.cancel_wifi_setup, null); 

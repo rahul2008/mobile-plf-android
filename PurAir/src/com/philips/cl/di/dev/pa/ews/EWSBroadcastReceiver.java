@@ -174,7 +174,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		sendNetworkDetailsTimer.start() ;
 		taskType = WIFI_PUT ;
 
-		EWSTasks task = new EWSTasks(taskType,getWifiPortJson(),"PUT",this) ;
+		task = new EWSTasks(taskType,getWifiPortJson(),"PUT",this) ;
 		task.execute(Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
@@ -182,14 +182,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		ALog.i(ALog.EWS, "putDeviceDetails");
 		taskType = DEVICE_PUT ;
 
-		EWSTasks task = new EWSTasks(taskType,getDevicePortJson(),"PUT",this) ;
+		task = new EWSTasks(taskType,getDevicePortJson(),"PUT",this) ;
 		task.execute(Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
 	private void getDeviceDetails() {
 		ALog.i(ALog.EWS,"device details") ;
 		taskType = DEVICE_GET ;
-		EWSTasks task = new EWSTasks(taskType, this) ;
+		task = new EWSTasks(taskType, this) ;
 		task.execute(Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
@@ -246,12 +246,12 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			getDeviceDetails() ;
 		}
 	}
-
+	private EWSTasks task ;
 	private void getWifiDetails() {
 		ALog.i(ALog.EWS, "gettWifiDetails");
 		taskType = WIFI_GET ;
 
-		EWSTasks task = new EWSTasks(taskType,this) ;
+		task = new EWSTasks(taskType,this) ;
 		task.execute(Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
@@ -360,9 +360,16 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		public void onFinish() {
 			stop = true ;
 			unRegisterListener() ;
+			cancelEWSTasks() ;
 			listener.onErrorOccurred(errorCodeStep2) ;
 		}
 	};
+	
+	private void cancelEWSTasks() {
+		if( task != null && !task.isCancelled()) {
+			task.cancel(true) ;
+		}
+	}
 	
 	private CountDownTimer sendNetworkDetailsTimer = new CountDownTimer(90000, 1000) {
 	
@@ -374,6 +381,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		public void onFinish() {
 			stop = true ;
 			unRegisterListener() ;
+			cancelEWSTasks() ;
 			listener.onErrorOccurred(errorCodeStep3) ;
 		}
 	};

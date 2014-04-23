@@ -38,6 +38,10 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	@Override
 	protected String doInBackground(String... url) {
 		String response = downloadUrl(url[0]) ;
+		if(isCancelled()) {
+			cancel(true) ;
+			return null ;
+		}
 		return response;
 	}
 	
