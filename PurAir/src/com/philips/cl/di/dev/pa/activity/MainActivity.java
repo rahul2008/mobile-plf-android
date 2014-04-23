@@ -1046,6 +1046,10 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		if (firmwareEventDto.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+			
+			upgradeVersion = firmwareEventDto.getUpgrade();
+			currentVersion = firmwareEventDto.getVersion();
+			
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
