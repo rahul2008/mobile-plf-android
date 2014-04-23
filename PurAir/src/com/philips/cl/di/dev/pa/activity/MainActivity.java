@@ -1046,7 +1046,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
 		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade());
 
-		if (!(firmwareEventDto.getUpgrade().equals(""))) {
+		if (firmwareEventDto.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
 			this.runOnUiThread(new Runnable() {
 				@Override

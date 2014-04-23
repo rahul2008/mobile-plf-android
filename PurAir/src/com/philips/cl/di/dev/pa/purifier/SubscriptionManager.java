@@ -137,6 +137,6 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		}
 
 		ALog.i(ALog.SUBSCRIPTION, "Subscription successfull");
-		onUDPEventReceived(responseData); // Response already contains first DCS event, treat as UDP
+		onUDPEventReceived(responseData); // Response already contains first subscription events, treat as UDP
  	}
 } 

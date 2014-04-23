@@ -55,4 +55,9 @@ public class FirmwareEventDto {
 	public boolean isMandatory() {
 		return mandatory;
 	}
+	
+	public boolean isUpdateAvailable() {
+		if (upgrade == null || upgrade.equalsIgnoreCase("")) return false;
+		return true;
+	}
 }
