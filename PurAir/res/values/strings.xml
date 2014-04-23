@@ -427,7 +427,7 @@
 	<string name="error_ts01_02_message">Please follow these 3 easy steps to resolve the problem.</string>
 	<string name="error_ts01_03_title">Your phone could not receive data from the Philips Smart Air Purifier.</string>
 	<string name="error_ts01_03_message">Please follow these 3 easy steps to resolve the problem.</string>
-	<string name="error_ts01_04_title">We’re having trouble connecting to your Air Purifier.</string>
+	<string name="error_ts01_04_title">Cannot connect to your Air Purifier.</string>
 	<string name="error_ts01_04_message">Please follow these 3 easy steps to resolve the problem.</string>
 	<string name="error_ts01_05_title">Your phone could not find a Philips Smart Air Purifier on your wireless network.</string>
 	<string name="error_ts01_05_message">Please follow these 3 easy steps to resolve the problem.</string>
