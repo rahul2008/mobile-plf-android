@@ -26,7 +26,7 @@ import com.philips.icpinterface.data.PairingRelationship;
  */
 public class PairingManager implements ICPEventListener, ServerResponseListener {
 
-	private static final int PAIRING_TTL = 10;  // TODO tweak for release
+	private static final int PAIRING_TTL = 480;  // two years
 	private static final int PAIRING_REQUESTTTL = 1234;
 	private static final String PAIRING_REFERENCETYPE = "AC4373GENDEV";
 	private static final String PAIRING_REFERENCEPROVIDER = "cpp";
