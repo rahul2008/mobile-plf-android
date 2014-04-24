@@ -24,6 +24,7 @@ public class FirmwareInstallSuccessFragment extends BaseFragment{
 		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_INSTALL_SUCCESS);
 		FontTextView firmwareVersion = (FontTextView) view.findViewById(R.id.firmware_current_version);
 		firmwareVersion.setText(getString(R.string.firmware_current_version) + " " + ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+		
 		startAppBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override

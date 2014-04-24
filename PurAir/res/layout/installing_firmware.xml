@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
 		android:layout_below="@+id/downloading_firmware_step"
 		android:layout_marginLeft="16dp"
+		android:lineSpacingExtra="10dp"
         android:textSize="24sp"
         android:textColor="@color/philips_blue"  
 		android:text="@string/installing_firmware_for_purifier_msg" 

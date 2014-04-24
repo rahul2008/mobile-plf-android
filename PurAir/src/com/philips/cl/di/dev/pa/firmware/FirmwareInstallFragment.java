@@ -5,15 +5,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -28,8 +27,11 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 		View view = inflater.inflate(R.layout.installing_firmware, null);
 		initViews(view);
 		FirmwareUpdateActivity.setCancelled(false);
-//		getProps();
 		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_INSTALL);
+		
+		((FirmwareUpdateActivity) getActivity()).setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.GO);
+
+		getProps();
 		return view;
 	}
 	
@@ -69,8 +71,8 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	
 	Runnable timerRunnable = new Runnable() {
 		public void run() {
-			while(counter < 60 && !FirmwareUpdateActivity.isCancelled()) {
-				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$counter " + counter);
+			while(counter < 90 && !FirmwareUpdateActivity.isCancelled()) {
+				ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$counter " + counter);
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
@@ -78,9 +80,9 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 				}
 				counter++;
 			}
-			if(counter >= 60) {
-				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$COUNT > 60 call failed fragment counter " + counter );
-				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
+			if(counter >= 90) {
+				ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$COUNT > 60 call failed fragment counter " + counter );
+				((FirmwareUpdateActivity) getActivity()).setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 				FirmwareUpdateActivity.setCancelled(true);
 				getFragmentManager()
 				.beginTransaction()
@@ -96,39 +98,23 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 		if(installed || FirmwareUpdateActivity.isCancelled()) {
 			return;
 		}
-		if(data == null || data.isEmpty() || data.length() <= 0) {
+		
+		FirmwareEventDto firmwareEventDto = DataParser.parseFirmwareEventData(data);
+		
+		if(firmwareEventDto == null) {
 			getProps();
 			return;
 		}
-		
-		JsonObject jsonObject = (JsonObject) new JsonParser().parse(data);
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject " + jsonObject);
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$jsonObject.get(upgrade) " + jsonObject.get("upgrade"));
-		processFirmwareData(jsonObject);
-		getProps();
-	}
-	
-	public void processFirmwareData(JsonObject jsonObject) {
-		String upgradeString = getUpgrade(jsonObject);
-		String stateString = getState(jsonObject);
-		
-		ALog.i(ALog.FIRMWARE, "FirmwareInstallFragment$upgradeString " + upgradeString);
+		ALog.i(ALog.FIRMWARE, "(state == IDLE) " + (firmwareEventDto.getState() == FirmwareState.IDLE));
 		counter = 0;
-		if((stateString.equals(FirmwareConstants.IDLE)) && (upgradeString.trim().length() <= 0)) {
+		if(firmwareEventDto.getState() == FirmwareState.IDLE) {
+			ALog.i(   ALog.FIRMWARE, "Firmware install was successful");
 			installed = true;
 			FirmwareUpdateActivity.setCancelled(true);
 			showNextFragment();
 		}
-	}
-	
-	public String getUpgrade(JsonObject jsonObject) {
-		JsonElement progressElemt = jsonObject.get(FirmwareConstants.UPGRADE);
-		return progressElemt.getAsString();
-	}
-
-	public String getState(JsonObject jsonObject) {
-		JsonElement stateElemt = jsonObject.get(FirmwareConstants.STATE);
-		return stateElemt.getAsString();
+		
+		getProps();
 	}
 	
 	public void showNextFragment() {

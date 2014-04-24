@@ -82,7 +82,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 			}
 			if(counter >= 60) {
 				ALog.i(ALog.FIRMWARE, "FirmwareDownloadFragment$COUNT > 60 call failed fragment counter " + counter );
-				((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
+				((FirmwareUpdateActivity) getActivity()).setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 				if(((FirmwareUpdateActivity) getActivity()).getDownloadFailedCount() >= 3) {
 					FirmwareUpdateActivity.setCancelled(true);
 					getFragmentManager()
@@ -130,7 +130,6 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 		
 		if(firmwareEventDto.getProgress() == 100 && firmwareEventDto.getState() == FirmwareState.READY) {
 			downloaded = true;
-			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.GO);
 			showNextFragment();
 		}
 	}

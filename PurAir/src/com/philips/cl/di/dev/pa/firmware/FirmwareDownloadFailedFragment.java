@@ -41,7 +41,7 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 		case R.id.btn_try_again_firmware_failed:
 			FirmwareDownloadFragment.setCounter(0);
 			FirmwareUpdateActivity.setCancelled(false);
-			((FirmwareUpdateActivity) getActivity()).setDeviceDetailsLocally(FirmwareConstants.VERSION, ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+			((FirmwareUpdateActivity) getActivity()).setFirmwareUpdateJsonParams(FirmwareConstants.VERSION, ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
 
 			getFragmentManager()
 			.beginTransaction()

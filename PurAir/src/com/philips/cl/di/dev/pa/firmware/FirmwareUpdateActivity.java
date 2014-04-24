@@ -18,6 +18,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -150,7 +151,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		switch (v.getId()) {
 		case R.id.ews_actionbar_cancel_btn:
 			setCancelled(true);
-			setDeviceDetailsLocally(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
+			setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 			finish();
 			break;
 		case R.id.ews_actionbar_back_img:
@@ -175,7 +176,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		}
 	}
 
-	public void setDeviceDetailsLocally(String key, String value )
+	public void setFirmwareUpdateJsonParams(String key, String value )
 	{
 		String dataToUpload = JSONBuilder.getDICommBuilder(key,value) ;
 		startServerTask(dataToUpload) ;
@@ -192,7 +193,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-//		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + responseData);
+		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, Utils.getPurifierId()));
 	}
 	
 	public String getUpgradeVersion() {
