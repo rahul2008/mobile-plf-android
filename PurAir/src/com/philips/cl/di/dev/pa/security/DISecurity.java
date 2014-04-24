@@ -139,9 +139,9 @@ public class DISecurity implements ServerResponseListener {
 			byte[] bytesEncData = Util.decodeFromBase64(data.trim());
 			byte[] bytesDecData = aesDecryptData(bytesEncData, key);
 			//For remove random bytes
-//			byte[] bytesDecData1 = Util.removeRandomBytes(bytesDecData);
+			byte[] bytesDecData1 = Util.removeRandomBytes(bytesDecData);
 			
-			decryptData = new String(bytesDecData, Charset.defaultCharset());
+			decryptData = new String(bytesDecData1, Charset.defaultCharset());
 			
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
 			exchangeKeyCounterTable.put(deviceId, 0);
@@ -175,9 +175,9 @@ public class DISecurity implements ServerResponseListener {
 		byte[] ivBytes=new byte[]{0,0,0,0,0,0,0,0, 0,0,0,0,0,0,0,0};
 		IvParameterSpec iv = new IvParameterSpec(ivBytes);
 		c.init(Cipher.ENCRYPT_MODE, keySpec,iv);
-//		byte[] dataBytes = Util.addRandomBytes(data.getBytes(Charset.defaultCharset()));// for add random bytes
-//		ALog.i(ALog.SECURITY, "dataBytes length: " + dataBytes.length);// for add random bytes
-		return c.doFinal(data.getBytes(Charset.defaultCharset()));
+		byte[] dataBytes = Util.addRandomBytes(data.getBytes(Charset.defaultCharset()));// for add random bytes
+		ALog.i(ALog.SECURITY, "dataBytes length: " + dataBytes.length);// for add random bytes
+		return c.doFinal(dataBytes);
 	}
 
 

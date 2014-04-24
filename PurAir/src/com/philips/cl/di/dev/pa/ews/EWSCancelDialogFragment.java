@@ -23,7 +23,6 @@ public class EWSCancelDialogFragment extends DialogFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		
 		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		View view = inflater.inflate(R.layout.cancel_wifi_setup, container, false);
 	
@@ -62,6 +61,7 @@ public class EWSCancelDialogFragment extends DialogFragment {
 				dismiss();
 			}
 		});
+		setCancelable(false);
 		
 	}
 	

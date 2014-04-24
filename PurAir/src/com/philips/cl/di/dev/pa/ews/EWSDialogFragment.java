@@ -54,6 +54,7 @@ public class EWSDialogFragment extends DialogFragment {
 		ivGotoSupport.setOnClickListener(buttonClickEvent);
 		button.setOnClickListener(buttonClickEvent);
 		ivCloseErrorPopup.setOnClickListener(buttonClickEvent);
+		setCancelable(false);
 	}
 	
 	private OnClickListener buttonClickEvent = new OnClickListener() {
