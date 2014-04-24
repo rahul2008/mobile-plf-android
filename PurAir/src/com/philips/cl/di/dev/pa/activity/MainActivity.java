@@ -191,7 +191,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		setContentView(R.layout.activity_main_aj);
 		airPurifierController = AirPurifierController.getInstance();
-		airPurifierController.addAirPurifierEventListener(this);
 		purifierName = getString(R.string.philips_home);
 
 		/**
@@ -564,12 +563,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		stopRemoteConnection() ;
 
 		//Start the subscription every time it discovers the Purifier
+		airPurifierController.addAirPurifierEventListener(this);
 		airPurifierController.subscribeToAllEvents(bootId,Utils.getIPAddress(),true);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop LocalConnection") ;
+		airPurifierController.removeAirPurifierEventListener(this);
 		SubscriptionManager.getInstance().disableLocalSubscription();
 	}
 
