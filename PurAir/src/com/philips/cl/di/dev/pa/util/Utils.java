@@ -353,7 +353,7 @@ public class Utils {
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		List<Float> dailyAqiValues = new ArrayList<Float>();
 		
-		hrlyAqiValues = addMinusOneIntoList(24);
+		hrlyAqiValues = addMinusOneIntoList(28);
 		
 		dailyAqiValues = addMinusOneIntoList(28);
 
@@ -405,7 +405,11 @@ public class Utils {
 							} else {
 								aqiSumHr = aqiSumHr / counterHr;
 								//hrlyAqiValues.add(aqiSumHr / 100);
-								hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
+								try {
+									hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
+								} catch (ArrayIndexOutOfBoundsException e) {
+									e.printStackTrace();
+								}
 								
 								aqiSumHr = indoorAQIHistory.get(index).getAqi();
 								counterHr = 1;
@@ -422,7 +426,11 @@ public class Utils {
 
 						if (index == indoorAQIHistory.size() - 1 && counterHr != 0) {
 							aqiSumHr = aqiSumHr / counterHr;
-							hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
+							try {
+								hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
+							} catch (ArrayIndexOutOfBoundsException e) {
+								e.printStackTrace();
+							}
 						}
 						currentAQIDateHr = date;
 					}
