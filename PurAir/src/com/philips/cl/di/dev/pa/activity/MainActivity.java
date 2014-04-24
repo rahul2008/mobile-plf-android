@@ -1442,7 +1442,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		final String purifierEui64 = Utils.getAirPurifierID(this);
 		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifierEui64);
-		if (lastPairingCheckTime <= 0) {
+		if (lastPairingCheckTime <= 0) 
+		{
 			showPairingDialog(purifierEui64);
 			return;
 		}
@@ -1456,7 +1457,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private void showPairingDialog(String purifierEui64) {
 		try
 		{
-			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64);
+			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64, PairingDialogFragment.dialog_type.SHOW_DIALOG);
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);
 			isPairingDialogShown = true;
@@ -1485,7 +1486,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
-		showAlert(R.string.congratulations, R.string.pairing_success);
+		try{
+			PairingDialogFragment dialog = PairingDialogFragment.newInstance(null, PairingDialogFragment.dialog_type.PAIRING_SUCCESS);
+			FragmentManager fragMan = getSupportFragmentManager();
+			dialog.show(fragMan, null);
+		}catch(IllegalStateException ex){
+			ex.printStackTrace();
+		}
+		
 	}
 
 
@@ -1494,6 +1502,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
-		showAlert(R.string.error_title, R.string.pairing_failed);
+		try{
+		PairingDialogFragment dialog = PairingDialogFragment.newInstance(Utils.getAirPurifierID(this), PairingDialogFragment.dialog_type.PAIRING_FAILED);
+		FragmentManager fragMan = getSupportFragmentManager();
+		dialog.show(fragMan, null);
+		}catch(IllegalStateException ex){
+			ex.printStackTrace();
+		}
 	}
 }

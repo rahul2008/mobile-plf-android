@@ -54,45 +54,4 @@ public class BaseActivity extends ActionBarActivity {
 		super.onDestroy();
 	}
 
-	/**
-	 * method display a dialog with custom title and message
-	 * 
-	 * @param title
-	 * @param message
-	 */
-	protected void showAlert(final int title, final int message) {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				// Created a new Dialog
-				final Dialog dialog = new Dialog(BaseActivity.this);
-				// inflate the layout
-				dialog.setContentView(R.layout.tutorial_custom_dialog);
-				dialog.setTitle(title);
-
-				TextView dialogMessage = (TextView) dialog
-						.findViewById(R.id.take_tour_alert);
-				Button btnNo = (Button) dialog.findViewById(R.id.btn_close);
-				Button btnYes = (Button) dialog.findViewById(R.id.btn_yes);
-
-				dialogMessage.setText(message);
-				btnYes.setVisibility(View.GONE);
-				btnNo.setText(android.R.string.ok);
-
-				btnNo.setTypeface(Fonts.getGillsans(BaseActivity.this));
-				btnNo.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						dialog.dismiss();
-					}
-				});
-				
-				// Display the dialog
-				dialog.show();
-			}
-		});
-
-	}
-
 }
