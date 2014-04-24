@@ -33,7 +33,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 	
 	public void onPause() {     
 		this.onPause();  
-		} 
+	} 
 			
 	//********************************************** Test Cases for UI Testing ***************************************************//
 		

@@ -80,6 +80,7 @@ import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
+import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -300,6 +301,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		removeFirmwareUpdateUI();
+	}
+	
+
+	private void removeFirmwareUpdateUI() {
+		getDashboard().hideFirmwareUpdatePopup();
+		setFirmwareSuperScript(0, false);
+	}
 
 	@Override
 	protected void onPause() {
@@ -853,8 +865,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				}
 				Collections.sort(cityNamesList);
 
-				ArrayAdapter adapter = new ArrayAdapter(this,
-						android.R.layout.simple_list_item_1, cityNamesList);
+				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cityNamesList);
 				final DragSortListView listView = (DragSortListView) findViewById(R.id.outdoor_locations_list);
 				AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.actv_cities_list);
 				actv.setAdapter(adapter);
@@ -1042,8 +1053,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 	
 	@Override
-	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
-		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade());
+	public void firmwareEventReceived(final FirmwareEventDto firmwareEventDto) {
+		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade() + " UpdateAvailable " + firmwareEventDto.isUpdateAvailable());
 
 		if (firmwareEventDto.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
@@ -1056,7 +1067,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				public void run() {
 					getDashboard().showFirmwareUpdatePopup();
 					//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-					setFirmwareSuperScript(1);
+					setFirmwareSuperScript(1, true);
 				}
 			});
 		}
@@ -1408,11 +1419,15 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 
-	private void setFirmwareSuperScript(int superscriptNumber) {
+	private void setFirmwareSuperScript(int superscriptNumber, boolean isUpdateAvailable) {
 		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
 		ListViewItem item = adapter.getItem(6);
 		adapter.remove(item);
-		item.setSuperScriptNumber(superscriptNumber);
+		if(isUpdateAvailable) {
+			item.setSuperScriptNumber(0);
+		} else {
+			item.setSuperScriptNumber(superscriptNumber);
+		}
 		adapter.insert(item, 6);
 		adapter.notifyDataSetChanged();
 		ALog.i(ALog.FIRMWARE, "LeftMenuList$firmwareItem " + item.getTextId());

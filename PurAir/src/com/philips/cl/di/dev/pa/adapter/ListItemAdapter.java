@@ -47,7 +47,9 @@ public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 		 tv.setText(item.getTextId());
 		 TextView superscriptTv = (TextView) view.findViewById(R.id.list_superscript);
 		 int superscript = item.getSuperScriptValue();
-		 if(superscript > 0) {
+		 if(superscript <= 0) {
+			 superscriptTv.setVisibility(View.INVISIBLE);
+		 } else if(superscript > 0) {
 			 superscriptTv.setVisibility(View.VISIBLE);
 			 superscriptTv.setText(String.valueOf(superscript));
 		 }
