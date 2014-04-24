@@ -33,7 +33,7 @@ public class UtilTest extends TestCase {
 	
 	public void testGetPurifierWifiuiPortUrl() {
 		String ipAddress = "192.168.1.23";
-		String expectedUrl = "http://" + ipAddress + "/di/v1/products/0/wifiui";
+		String expectedUrl = "http://" + ipAddress + "/di/v1/products/1/wifiui";
 		String actualUrl = Utils.getPortUrl(Port.WIFIUI, ipAddress);
 		
 		assertEquals(expectedUrl, actualUrl);

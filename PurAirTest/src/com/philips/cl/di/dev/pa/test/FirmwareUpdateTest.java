@@ -53,12 +53,6 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 	        FontTextView txtFirmwareVersion = (FontTextView) view.findViewById(R.id.firmware_version_txt);
 	        assertEquals("Firmware version", txtFirmwareVersion.getText());
 	        
-	        FontTextView txtReleaseDate = (FontTextView) view.findViewById(R.id.releasedate_txt);
-	        assertEquals("Release date", txtReleaseDate.getText());
-	        
-	        FontTextView txtReleaseNotes = (FontTextView) view.findViewById(R.id.release_notes_txt);
-	        assertEquals("Release notes", txtReleaseNotes.getText());
-	        
 	        Button btnFirmwareUpdate = (Button) view.findViewById(R.id.btn_firmware_update);
 	        assertEquals("Update", btnFirmwareUpdate.getText());
 	        
@@ -82,7 +76,7 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 			ALog.i(ALog.MAINACTIVITY, "Firmware Update => testDownloadingFirmwareFragmentContentText Testcase Started") ;
 			
 			FontTextView txtDownloadingFirmware = (FontTextView) view.findViewById(R.id.downloading_firmware_step);
-	        assertEquals("Step X of Y", txtDownloadingFirmware.getText());
+	        assertEquals("Step 1 of 2", txtDownloadingFirmware.getText());
 	        	        
 	        FontTextView txtDownloadingFirmwareForPurifierMsg = (FontTextView) view.findViewById(R.id.downloading_firmware_for_purifier_msg);
 	        String sText = "Downloading Firmware for %s";
@@ -90,12 +84,6 @@ public class FirmwareUpdateTest extends ActivityInstrumentationTestCase2<Firmwar
 	        
 	        FontTextView txtDownloadingFirmwareText = (FontTextView) view.findViewById(R.id.downloading_firmware_text);
 	        assertEquals("Downloading firmware", txtDownloadingFirmwareText.getText());
-	        
-	        FontTextView txtDownloadingFirmwareVersionText = (FontTextView) view.findViewById(R.id.downloading_firmware_version_text);
-	        sText = txtDownloadingFirmwareVersionText.getText().toString();
-	        assertTrue(sText.contains("Current version"));
-	        sText = txtDownloadingFirmwareVersionText.getText().toString();
-	        assertTrue(sText.contains("New version"));
 	        
 	        ALog.i(ALog.MAINACTIVITY, "Firmware Update => testDownloadingFirmwareFragmentContentText Testcase Completed") ;
 		} catch (Exception e) {
