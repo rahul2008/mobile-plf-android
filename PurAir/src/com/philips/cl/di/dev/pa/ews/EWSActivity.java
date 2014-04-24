@@ -156,7 +156,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			replaceFragmentOnBackPress();
 			break;
 		case R.id.ews_actionbar_cancel_btn:
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
+			try {
+				FragmentManager fragMan = getSupportFragmentManager();
+				fragMan.beginTransaction().add(
+						EWSCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
+			} catch (Exception e) {
+				ALog.e(ALog.EWS, e.getMessage());
+			}
 			break;
 		default:
 			break;
@@ -177,13 +183,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		switch (mStep) {
 		case EWSConstant.EWS_STEP_START:
 			try {
-				if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).isShowing()) {
-					EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).dismiss();
-				}
-				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
+				FragmentManager fragMan = getSupportFragmentManager();
+				fragMan.beginTransaction().add(
+						EWSCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
 			} catch (Exception e) {
 				ALog.e(ALog.EWS, e.getMessage());
-				return false;
 			}
 			return true;
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:
