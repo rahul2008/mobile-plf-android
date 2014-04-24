@@ -304,7 +304,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (!isDCSRunning) {
 			if (isSignOn) {
 				Log.i(TAG, "Signon Success");
-				int numberOfEvents = 20;
+				int numberOfEvents = 1;
 				eventSubscription = EventSubscription.getInstance(callbackHandler,
 						numberOfEvents);
 				eventSubscription.setFilter("");
