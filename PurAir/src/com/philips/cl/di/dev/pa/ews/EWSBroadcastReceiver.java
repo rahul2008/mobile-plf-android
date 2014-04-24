@@ -15,6 +15,7 @@ import android.os.CountDownTimer;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -329,6 +330,10 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			deviceDto = gson.fromJson(data, DeviceDto.class) ;
 		} catch (JsonSyntaxException e) {
 			e.printStackTrace();
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
 		}
 		SessionDto.getInstance().setDeviceDto(deviceDto) ;
 	}
@@ -339,8 +344,11 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		try {
 			deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
 		} catch (JsonSyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (JsonIOException e) {
+			e.printStackTrace();
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
 		}
 		
 		SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;

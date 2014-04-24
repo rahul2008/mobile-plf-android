@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -42,9 +43,15 @@ public class EWSErrorPurifierDiscoverFragment  extends Fragment {
 			@Override
 			public void onClick(View v) {
 //				EWSDialogFactory.getInstance(getActivity()).getDialog(EWSDialogFactory.ERROR_TS01_05).show();
-				FragmentManager fragMan = getActivity().getSupportFragmentManager();
-				fragMan.beginTransaction().add(
-						EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
+				try {
+					FragmentManager fragMan = getActivity().getSupportFragmentManager();
+					fragMan.beginTransaction().add(
+							EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
+				} catch (IllegalStateException  e) {
+					ALog.e(ALog.EWS, e.getMessage());
+				} catch (Exception e) {
+					ALog.e(ALog.EWS, e.getMessage());
+				}
 			}
 		});
 		

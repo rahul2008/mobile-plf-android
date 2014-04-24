@@ -60,7 +60,17 @@ public class DataParser {
 				airPurifierEvent.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
 			}
 		} catch (JSONException e) {
-			return null ;
+			ALog.e(ALog.PARSER, "JSONException") ;
+			return null;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+			return null;
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null;
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+			return null;
 		}
 
 		return airPurifierEvent ;
@@ -73,10 +83,13 @@ public class DataParser {
 			FirmwareEventDto firmwareEventDto = gson.fromJson(dataToParse, FirmwareEventDto.class);
 			return firmwareEventDto;
 		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "Invalid FirmWareEvent data");
+			ALog.e(ALog.PARSER, "JsonIOException");
 			return null;
 		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "Invalid FirmWareEvent data");
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null;
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
 			return null;
 		}
 	}
@@ -108,9 +121,14 @@ public class DataParser {
 					}
 				}
 			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				Log.i("PARSE", "EXCEPTION") ;
+				ALog.e(ALog.PARSER, "JSONException") ;
+			} catch (JsonIOException e) {
+				ALog.e(ALog.PARSER, "JsonIOException");
+			} catch (JsonSyntaxException e2) {
+				ALog.e(ALog.PARSER, "JsonSyntaxException");
+			} catch (Exception e2) {
+				ALog.e(ALog.PARSER, "Exception");
+				return null;
 			}
 			if (indoorHistoryList != null && indoorHistoryList.size() > 0 ) {
 				Log.i("PARSE", "Size: "+indoorHistoryList.size()) ;
@@ -153,6 +171,13 @@ public class DataParser {
 			ALog.e("Exception", "JSONException -- "+ e.getMessage()) ;
 		}catch(NumberFormatException nfe ) {
 			ALog.e("Exception", "Number Format exception -- "+ nfe.getMessage()) ;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+			return null;
 		}
 		return airPurifierEvent ;
 	}
@@ -164,10 +189,13 @@ public class DataParser {
 			OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
 			return outdoorAQI;
 		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.PARSER, "Invalid Outdoor AQI event data");
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
 			return null;
 		} catch (JsonIOException ioe) {
-			ALog.e(ALog.PARSER, "Invalid Outdoor AQI event data");
+			ALog.e(ALog.PARSER, "JsonIOException");
+			return null;
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
 			return null;
 		}
 	}
@@ -237,8 +265,14 @@ public class DataParser {
 			}
 			
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ALog.e(ALog.PARSER, "JSONException") ;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+			return null;
 		}
 		return weatherForecastList ;
 	}

@@ -176,10 +176,15 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		ALog.i(ALog.EWS, "replaceFragmentOnBackPress: " + mStep);
 		switch (mStep) {
 		case EWSConstant.EWS_STEP_START:
-			if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).isShowing()) {
-				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).dismiss();
+			try {
+				if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).isShowing()) {
+					EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).dismiss();
+				}
+				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
+			} catch (Exception e) {
+				ALog.e(ALog.EWS, e.getMessage());
+				return false;
 			}
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP).show();
 			return true;
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:
 			if (!isHomeNeworkSelected()) {
@@ -437,9 +442,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 //			break;
 		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
 //			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_04).show() ;
-			FragmentManager fragMan = getSupportFragmentManager();
-			fragMan.beginTransaction().add(
-					EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
+			try {
+				FragmentManager fragMan = getSupportFragmentManager();
+				fragMan.beginTransaction().add(
+						EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
+			} catch (Exception e) {
+				ALog.e(ALog.EWS, e.getMessage());
+			}
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
 			showErrorScreen();
