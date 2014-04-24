@@ -51,10 +51,12 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		unSubscribe(bootId, portUrl, isLocalSubscription);
 	}
 	
-	public void subscribeToFirmwareEvents(String bootId, String purifierIp) {
-		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Firmware events appEui64 " + bootId + " purifierIp " + purifierIp);
-		String portUrl = Utils.getPortUrl(Port.FIRMWARE, purifierIp);
-		subscribe(bootId, portUrl, true);
+	public void subscribeToFirmwareEvents(String bootId, String purifierIp,boolean isLocalSubscription) {
+		if (isLocalSubscription) {
+			ALog.d(ALog.SUBSCRIPTION, "Subscribing to Firmware events appEui64 " + bootId + " purifierIp " + purifierIp);
+			String portUrl = Utils.getPortUrl(Port.FIRMWARE, purifierIp);
+			subscribe(bootId, portUrl, true);
+		}
 	}
 	
 	public void unSubscribeFromFirmwareEvents(String bootId, String purifierIp) {

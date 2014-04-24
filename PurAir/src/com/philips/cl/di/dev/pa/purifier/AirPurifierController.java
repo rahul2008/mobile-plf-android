@@ -147,7 +147,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	public void subscribeToAllEvents(String bootId, String purifierIp, boolean isLocalSubscription) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Subscribe to all events for purifier: " + bootId + " purifierIp " + purifierIp) ;
 		subscriptionManager.subscribeToPurifierEvents(bootId, purifierIp, isLocalSubscription);
-		subscriptionManager.subscribeToFirmwareEvents(bootId, purifierIp);
+		subscriptionManager.subscribeToFirmwareEvents(bootId, purifierIp,isLocalSubscription);
 	}
 
 	public void unSubscribeFromAllEvents(String bootId, String purifierIp, boolean isLocalSubscription) {
