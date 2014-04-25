@@ -511,6 +511,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	@Override
 	protected void onDestroy() {
+		resetSessionObject();
 		stopAllServices();
 		super.onDestroy();
 	}
@@ -623,7 +624,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	public void stopAllServices() {
 		secretKey = null;
-		resetSessionObject();
 		stopRemoteConnection() ;
 		stopLocalConnection() ;
 
@@ -1483,6 +1483,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void startPairing(String purifierEui64) {
+		isClickEvent = true ;
 		progressDialog = new ProgressDialog(MainActivity.this);
 		progressDialog.setMessage(getString(R.string.pairing_progress));
 		progressDialog.setCancelable(false);
