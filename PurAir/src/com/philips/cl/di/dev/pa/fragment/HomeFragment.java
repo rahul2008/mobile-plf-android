@@ -279,11 +279,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		tvLocality = (TextView) vMain.findViewById(R.id.tv_location);
 		ivOutdoorWeatherImage = (ImageView) vMain.findViewById(R.id.iv_outdoor_weather_image);
 		tvOutdoorTemperature = (TextView) vMain.findViewById(R.id.tv_outdoor_weather_value);
-
+		takeTourLayout= (LinearLayout) vMain.findViewById(R.id.take_tour_prompt_drawer);
 		//if a new user show tutorial prompt, visible for only three visits
 		if(((MainActivity)getActivity()).getVisits()<=3 && !((MainActivity)getActivity()).isTutorialPromptShown){
 			//tutorial tour prompt			
-			takeTourLayout= (LinearLayout) vMain.findViewById(R.id.take_tour_prompt_drawer);
+			
 			Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
 			takeTourLayout.startAnimation(bottomUp);
 			takeTourLayout.setVisibility(View.VISIBLE);			
