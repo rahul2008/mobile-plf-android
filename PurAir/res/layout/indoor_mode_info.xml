@@ -6,11 +6,12 @@
 
     <ImageView
         android:id="@+id/inModeIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/img_description"
+        android:layout_marginTop="3dp"
         android:src="@drawable/fan_icon_white_2x" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -19,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/inModeIcon"
-        android:layout_alignTop="@+id/inModeIcon"
         android:layout_toRightOf="@+id/inModeIcon"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"
@@ -41,10 +41,12 @@
 
     <ImageView
         android:id="@+id/inFilterIcon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="2dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/filter_icon_2x" />
 
@@ -54,7 +56,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/inFilterIcon"
-        android:layout_alignTop="@+id/inFilterIcon"
         android:layout_toLeftOf="@+id/inFilterIcon"
         android:gravity="center_vertical"
         android:paddingRight="8dp"

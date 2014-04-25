@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="#000">
     
     <ImageView
         android:id="@+id/iv_fan_speed_icon"
@@ -8,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="4dp"
         android:layout_marginLeft="10dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/fan_icon_white_2x" />
@@ -59,7 +60,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:contentDescription="@string/img_description"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="4dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/filter_icon_2x" />
 
