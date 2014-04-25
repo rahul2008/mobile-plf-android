@@ -1235,6 +1235,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	};	
 
+	private long ssdpDiscoveredBootId = 0L;
 	@Override
 	public boolean handleMessage(Message msg) {
 		DeviceModel device = null;
@@ -1263,6 +1264,18 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 								+ device.getIpAddress()
 								+ ", isDeviceDiscovered: " + isDeviceDiscovered
 								+ ", isEWSStarted: " + isEWSStarted);
+				long newDiscoveredBootId = 0L;
+				try {
+					newDiscoveredBootId = Long.parseLong(device.getBootID());
+				} catch (NumberFormatException e) {
+					// NOP
+					e.printStackTrace();
+				}
+				
+				if (newDiscoveredBootId != ssdpDiscoveredBootId) {
+					isDeviceDiscovered = false;
+				}
+				
 				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME)
 						&& !isDeviceDiscovered && !isEWSStarted) {
 					onFirstDeviceDiscovered(device);
@@ -1298,7 +1311,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		.putString("airpurifierid", device.getSsdpDevice().getCppId())
 		.commit();
 
-		long ssdpDiscoveredBootId = 0L;
+		
 		try {
 			ssdpDiscoveredBootId = Long.parseLong(device.getBootID());
 		} catch (NumberFormatException e) {

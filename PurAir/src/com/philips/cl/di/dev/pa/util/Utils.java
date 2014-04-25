@@ -353,9 +353,9 @@ public class Utils {
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		List<Float> dailyAqiValues = new ArrayList<Float>();
 		
-		hrlyAqiValues = addMinusOneIntoList(28);
+		hrlyAqiValues = addMinusOneIntoList(45);
 		
-		dailyAqiValues = addMinusOneIntoList(28);
+		dailyAqiValues = addMinusOneIntoList(45);
 
 		int counter = 0;
 		float aqiSum = 0.0f;
@@ -407,7 +407,7 @@ public class Utils {
 								//hrlyAqiValues.add(aqiSumHr / 100);
 								try {
 									hrlyAqiValues.set(indexHrlyAqi, aqiSumHr / 100);
-								} catch (ArrayIndexOutOfBoundsException e) {
+								} catch (IndexOutOfBoundsException e) {
 									e.printStackTrace();
 								}
 								
@@ -439,8 +439,7 @@ public class Utils {
 					 * Daily
 					 */
 					if (index == 0) {
-						int numberOfDays = Utils
-								.getDifferenceBetweenDaysFromCurrentDay(
+						int numberOfDays = Utils.getDifferenceBetweenDaysFromCurrentDay(
 										date.substring(0, 10), null);
 						if (numberOfDays < 28) {
 							for (int i = 0; i < (28 - numberOfDays - 1); i++) {
