@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.util;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class JSONBuilder {

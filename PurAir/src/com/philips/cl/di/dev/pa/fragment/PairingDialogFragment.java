@@ -38,7 +38,7 @@ public class PairingDialogFragment extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.tutorial_custom_dialog, container, false);
+		View view = inflater.inflate(R.layout.air_purifier_dialog, container, false);
 		setCancelable(false);
 
 		initializeView(view);
@@ -47,7 +47,7 @@ public class PairingDialogFragment extends DialogFragment {
 	}
 
 	private void initializeView(View view) {	
-		message = (TextView) view.findViewById(R.id.take_tour_alert);
+		message = (TextView) view.findViewById(R.id.alert_message);
 		btnClose = (Button) view.findViewById(R.id.btn_close);
 		btn_pair = (Button) view.findViewById(R.id.btn_yes);
 		message.setTypeface(Fonts.getGillsans(getActivity()));

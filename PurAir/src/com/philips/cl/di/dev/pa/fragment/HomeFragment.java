@@ -548,9 +548,9 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		final Dialog dialog = new Dialog(getActivity());
 		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// inflate the layout
-		dialog.setContentView(R.layout.tutorial_custom_dialog);
+		dialog.setContentView(R.layout.air_purifier_dialog);
 
-		TextView takeTourAlertLbl=(TextView) dialog.findViewById(R.id.take_tour_alert);
+		TextView takeTourAlertLbl=(TextView) dialog.findViewById(R.id.alert_message);
 		Button btnClose=(Button) dialog.findViewById(R.id.btn_close);			
 		Button btnTakeTour=(Button) dialog.findViewById(R.id.btn_yes);
 
