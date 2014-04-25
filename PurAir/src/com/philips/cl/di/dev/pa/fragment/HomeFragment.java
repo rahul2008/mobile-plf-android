@@ -511,13 +511,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		case R.id.lbl_take_tour:
 			intent = new Intent(getActivity(), AirTutorialActivity.class);
 			startActivity(intent);
-			takeTourLayout.setVisibility(View.GONE);
+			hideTakeATour(false);
 			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			break;
 		case R.id.btn_close_tour_layout:
-			Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_down);
-			takeTourLayout.startAnimation(bottomDown);
-			takeTourLayout.setVisibility(View.GONE);
+			hideTakeATour(true);
 			((MainActivity)getActivity()).isTutorialPromptShown=true;
 			showTutorialDialog();
 			break;
@@ -530,6 +528,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			break;
 		default:
 			break;
+		}
+	}
+	
+	public void hideTakeATour(boolean animate) {
+		if(animate) {
+			Animation bottomDown = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_down);
+			takeTourLayout.startAnimation(bottomDown);
+			takeTourLayout.setVisibility(View.GONE);
+		} else {
+			takeTourLayout.setVisibility(View.GONE);
 		}
 	}
 

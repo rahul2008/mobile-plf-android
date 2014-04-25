@@ -80,7 +80,6 @@ import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -239,6 +238,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
+				getDashboard().hideTakeATour(false);
+				getDashboard().hideFirmwareUpdatePopup();
 				if (drawerView.getId() == R.id.right_menu_scrollView) {
 					mRightDrawerOpened = true;
 				}
@@ -1056,11 +1057,11 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	public void firmwareEventReceived(final FirmwareEventDto firmwareEventDto) {
 		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade() + " UpdateAvailable " + firmwareEventDto.isUpdateAvailable());
 
+		upgradeVersion = firmwareEventDto.getUpgrade();
+		currentVersion = firmwareEventDto.getVersion();
+		
 		if (firmwareEventDto.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-			
-			upgradeVersion = firmwareEventDto.getUpgrade();
-			currentVersion = firmwareEventDto.getVersion();
 			
 			this.runOnUiThread(new Runnable() {
 				@Override
