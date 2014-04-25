@@ -6,6 +6,11 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.nio.charset.Charset;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
+import android.net.wifi.WifiManager.MulticastLock;
+
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class UDPSocketManager extends Thread {
@@ -18,6 +23,8 @@ public class UDPSocketManager extends Thread {
 	
 	private boolean stop ;
 	
+	private MulticastLock multicastLock ;
+	
 	public UDPSocketManager(UDPEventListener udpEventListener) {
 		this.udpEventListener = udpEventListener ;
 	}
@@ -26,6 +33,13 @@ public class UDPSocketManager extends Thread {
 	public void run() {
 		ALog.i(ALog.SUBSCRIPTION, "started udp listener") ;
 		try {
+			WifiManager wifi = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
+			if (wifi != null) {
+				multicastLock = wifi.createMulticastLock(getName());
+				multicastLock.setReferenceCounted(true);
+				multicastLock.acquire();
+			}
+			
 			socket = new DatagramSocket(UDP_PORT) ;
 			
 		} catch (SocketException e) {
@@ -47,6 +61,7 @@ public class UDPSocketManager extends Thread {
 					}
 				}
 				
+				
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -60,5 +75,10 @@ public class UDPSocketManager extends Thread {
 			socket.close() ;
 			socket = null ;
 		}
+		if (multicastLock != null) {
+			multicastLock.release();
+			multicastLock = null;
+		}
+		
 	}
 }

@@ -435,14 +435,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				toggleConnection(true);
 			}
 
+			startDeviceDiscovery();
+			
 			if (dbPurifierDetailDtoList != null
 					&& dbPurifierDetailDtoList.size() > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
 
 			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
-
-			startDeviceDiscovery();
 
 			this.registerReceiver(networkReceiver, filter);
 
