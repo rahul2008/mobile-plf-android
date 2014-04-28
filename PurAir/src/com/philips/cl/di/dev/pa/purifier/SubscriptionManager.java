@@ -21,9 +21,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	private static final int CPP_SUBSCRIPTIONTIME = 120; // IN MIN
 	
 	private static SubscriptionManager mInstance ;
-	
 	private SubscriptionEventListener subscriptionEventListener ;
-	
 	private UDPSocketManager udpManagerThread ;
 		
 	private SubscriptionManager() {
