@@ -42,6 +42,7 @@ public class EWSStepThreeFragment extends Fragment {
 	private OnFocusChangeListener focusListener;
 	private ButtonClickListener buttonClickListener;
 	private String ssid;
+	private String specialCharacters = "[©®°@¶•&‰%≠≈∞=±+–—-†‡*÷/()¡!¿?`´'“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦…~^`§¤' ]";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,10 +62,12 @@ public class EWSStepThreeFragment extends Fragment {
 		initializeXmlVariable();
 		setFontStyle();
 		initializeListener();
-		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter });
+//		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter, new InputFilter.LengthFilter(30) });
 		
 		enablePasswordFild();
 		setPurifierDetils();
+		
+		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter, new InputFilter.LengthFilter(EWSConstant.EWS_PURIFIER_NAME_LENGTH) });
 	}
 	
 	private void setPurifierDetils() {
@@ -73,7 +76,9 @@ public class EWSStepThreeFragment extends Fragment {
 				" <font color=#3285FF>"+ssid+"</font>";
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		if (SessionDto.getInstance().getDeviceDto() != null) {
-			deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName()) ;
+			String name = SessionDto.getInstance().getDeviceDto().getName();
+			ALog.i(ALog.EWS, "Name: " + name);
+			deviceNameStep3.setText(name) ;
 		}
 		
 		if (SessionDto.getInstance().getDeviceWifiDto() != null) {
@@ -156,31 +161,18 @@ public class EWSStepThreeFragment extends Fragment {
 				Spanned dest, int dstart, int dend) {
 			
 			if (source.equals(" ")) { 
-				return maxLength(source);
+				return source;
 			}
 			if (source.toString().length() >=0) {
 				for (char ch : source.toString().toCharArray()) {
-					if (String.valueOf(ch).matches("[����%^<>;&+*():'\"`~!#{}|=?, ]")) {
+					if (String.valueOf(ch).matches(specialCharacters)) {
 						return source.subSequence(0, 0);
 					} 
 				}
-				return maxLength(source);
+				return source;
 			} else {
-				return maxLength(source);
+				return source;
 			}
-		}
-		
-		private CharSequence maxLength(CharSequence cs) {
-			CharSequence rcs = cs;
-			String pname = deviceNameStep3.getText().toString();
-			if (pname == null) {
-				return rcs;
-			}
-			
-			if (pname.length() > EWSConstant.EWS_PURIFIER_NAME_LENGTH) {
-				rcs = cs.subSequence(0, 0);
-			}
-			return rcs;
 		}
 	};
 	
@@ -250,6 +242,7 @@ public class EWSStepThreeFragment extends Fragment {
 			deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
 			editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
 			String purifierName = deviceNameStep3.getText().toString();
+			ALog.i(ALog.EWS, "Edit text value: " + purifierName);
 			if (purifierName != null && purifierName.trim().length() > 0) {
 				((EWSActivity) getActivity()).sendDeviceNameToPurifier(purifierName.trim()) ;
 			} else {
