@@ -97,7 +97,7 @@ public class PurAirDevice {
 		this.mAirPortInfo = airPortInfo;
 	}
 
-	public FirmwareEventDto getmFirmwarePortInfo() {
+	public FirmwareEventDto getFirmwarePortInfo() {
 		return mFirmwarePortInfo;
 	}
 

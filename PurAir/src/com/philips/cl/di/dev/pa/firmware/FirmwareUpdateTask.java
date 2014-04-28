@@ -12,12 +12,13 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 
 	private FirmwareResponseListener firmwareUpdatesListener;
 	private ResponseDto responseObj;
+	private String purifierEui64;
 
 	public interface FirmwareResponseListener {
 		public void firmwareDataRecieved(String data);
 	}
 
-	public FirmwareUpdateTask(FirmwareResponseListener listener) {
+	public FirmwareUpdateTask(FirmwareResponseListener listener, String purifierEui64) {
 		firmwareUpdatesListener = listener;
 	}
 
@@ -33,7 +34,7 @@ public class FirmwareUpdateTask extends AsyncTask<String, Void, String> {
 		String result = "";
 		responseObj = NetworkUtils.downloadUrl(firmwareUrl[0]);
 		if (responseObj != null) {
-			result = new DISecurity(null).decryptData(responseObj.getResponseData(), Utils.getPurifierId());
+			result = new DISecurity(null).decryptData(responseObj.getResponseData(), purifierEui64);
 		}
 		return result;
 	}

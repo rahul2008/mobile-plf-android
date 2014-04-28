@@ -1026,13 +1026,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void startFirmwareUpgradeActivity() {
-		Intent firmwareIntent = new Intent(MainActivity.this,
-				FirmwareUpdateActivity.class);
-		firmwareIntent.putExtra(AppConstants.PURIFIER_NAME, purifierName);
-		firmwareIntent.putExtra(AppConstants.UPGRADE_VERSION, upgradeVersion);
-		firmwareIntent.putExtra(AppConstants.CURRENT_VERSION, currentVersion);
-		startActivityForResult(firmwareIntent,
-				AppConstants.FIRMWARE_REQUEST_CODE);
+		if (PurifierManager.getInstance().getCurrentPurifier() == null) {
+			ALog.d(ALog.MAINACTIVITY, "Did not start FirmwareUpdateActivity - Current Purifier null");
+			Toast.makeText(MainActivity.this, R.string.firmware_toast_nodeviceselected, Toast.LENGTH_SHORT).show();
+			return;
+		}
+		Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
+		startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
 	}
 
 	public static int getScreenWidth() {

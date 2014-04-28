@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.firmware;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,8 +60,13 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 	}
 	
 	private void getProps() {
-		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
-		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareInstallFragment.this);
+		Activity parent = getActivity();
+		if (parent == null || !(parent instanceof FirmwareUpdateActivity)) return;
+		
+		String purifierIp = ((FirmwareUpdateActivity) parent).getPurifierIp();
+		String purifierEui64 = ((FirmwareUpdateActivity) parent).getPurifierEui64();
+		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, purifierIp);
+		FirmwareUpdateTask task = new FirmwareUpdateTask(FirmwareInstallFragment.this, purifierEui64);
 		task.execute(firmwareUrl);
 	}
 	

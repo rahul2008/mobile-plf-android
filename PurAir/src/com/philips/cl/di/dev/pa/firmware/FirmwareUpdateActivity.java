@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.firmware;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,9 +12,10 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -28,9 +28,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FirmwareUpdateActivity extends BaseActivity implements OnClickListener, ServerResponseListener{
 	
-	private String purifierName;
-	private String upgradeVersion;
-	private String currentVersion;
+	private PurAirDevice currentPurifier;
 	private int downloadFailedCount;
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
@@ -42,12 +40,20 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.firmware_container);
 		initActionBar();
-		Intent intent = getIntent();  
-		purifierName = intent.getStringExtra(AppConstants.PURIFIER_NAME);
-		upgradeVersion = intent.getStringExtra(AppConstants.UPGRADE_VERSION);
-		currentVersion = intent.getStringExtra(AppConstants.CURRENT_VERSION);
-		ALog.i(ALog.FIRMWARE, "Intent params purifierName " + purifierName + " upgradeVersion " + upgradeVersion + " currentVersion " + currentVersion);
-		showFragment(upgradeVersion);
+
+		currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (currentPurifier == null) {
+			ALog.d(ALog.FIRMWARE, "Did not start FWUpdate activity - Purifier cannot be null");
+			finish();
+			return;
+		}
+		
+		if (currentPurifier.getFirmwarePortInfo() == null) {
+			ALog.d(ALog.FIRMWARE, "No firmware update information available for purifier");
+		}
+		
+		ALog.i(ALog.FIRMWARE, "Intent params purifierName " + getPurifierName() + " upgradeVersion " + getUpgradeVersion() + " currentVersion " + getCurrentVersion());
+		showFragment(getUpgradeVersion());
 	}
 			
 	private void showFragment(String upgradeVersion) {
@@ -83,7 +89,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		setCancelled(false);
 		
 		// TODO add bootid
-		AirPurifierController.getInstance().subscribeToAllEvents("", Utils.getIPAddress(), true);
+		AirPurifierController.getInstance().subscribeToAllEvents("", currentPurifier.getIpAddress(), true);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 	
@@ -183,7 +189,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	private void startServerTask(String dataToUpload) {
-		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress()),this) ;
+		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, Utils.getPortUrl(Port.FIRMWARE, currentPurifier.getIpAddress()),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
@@ -193,19 +199,35 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, Utils.getPurifierId()));
+		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, currentPurifier.getEui64()));
 	}
 	
 	public String getUpgradeVersion() {
-		return upgradeVersion;
+		FirmwareEventDto firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
+		if (firmwarePortInfo == null) {
+			return null;
+		}
+		return firmwarePortInfo.getUpgrade();
 	}
 	
 	public String getCurrentVersion() {
-		return currentVersion;
+		FirmwareEventDto firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
+		if (firmwarePortInfo == null) {
+			return null;
+		}
+		return firmwarePortInfo.getVersion();
 	}
 	
 	public String getPurifierName() {
-		return purifierName;
+		return currentPurifier.getName();
+	}
+
+	public String getPurifierIp() {
+		return currentPurifier.getIpAddress();
+	}
+
+	public String getPurifierEui64() {
+		return currentPurifier.getEui64();
 	}
 	
 	public int getDownloadFailedCount() {
@@ -217,7 +239,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getFirmwareURL() {
-		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
+		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, currentPurifier.getEui64());
 		return firmwareUrl;
 	}
 	

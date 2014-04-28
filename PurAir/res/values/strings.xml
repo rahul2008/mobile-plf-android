@@ -85,6 +85,7 @@
     <string name="done">Done</string>
     <string name="lbl_firmware_update_available">Firmware update available</string>
     <string name="contact_support">Contact Support</string>
+    <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
 
 
     <!-- Timer texts -->
