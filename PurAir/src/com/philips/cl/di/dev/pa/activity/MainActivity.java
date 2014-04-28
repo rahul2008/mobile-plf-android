@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -432,7 +433,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 							"deviceDiscovered", false);
 					purifierName = intent.getStringExtra("pname");
 				}
-				homeFragment.setHomeName(purifierName);
+				setPurifierName(purifierName) ;
 				toggleConnection(true);
 			}
 

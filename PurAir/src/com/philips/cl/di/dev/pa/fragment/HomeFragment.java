@@ -873,9 +873,11 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 
 	public void setHomeName(String name) {
 		//TODO : Replace hard coded string.
-		purifierName = name;
-		if (name != null && getActivity() != null) {
-			tvFilterHome.setText(name + getString(R.string.apos_s) + "\n" +  getString(R.string.room));
+		if( name != null ) {
+			purifierName = name;
+			if (name != null && getActivity() != null) {
+				tvFilterHome.setText(name + getString(R.string.apos_s) + "\n" +  getString(R.string.room));
+			}
 		}
 	}
 	
