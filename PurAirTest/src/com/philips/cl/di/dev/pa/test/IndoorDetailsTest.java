@@ -33,20 +33,20 @@ public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDe
 	}
 	
 	public void testParseReading_1() {
-		activity.parseReading();
+		activity.addAqiReading();
 		float testLast7daysRDCPVal[] = activity.last7daysRDCPVal;
 		assertEquals(7, testLast7daysRDCPVal.length);
 			
 	}
 	
 	public void testParseReading_2() {
-		activity.parseReading();
+		activity.addAqiReading();
 		float testLastDayRDCPVal[] = activity.lastDayRDCPVal;
 		assertEquals(24, testLastDayRDCPVal.length);
 	}
 	
 	public void testParseReading_3() {
-		activity.parseReading();
+		activity.addAqiReading();
 		float testLast4weeksRDCPVal[] = activity.last4weeksRDCPVal;
 		assertEquals(28, testLast4weeksRDCPVal.length);
 	}
