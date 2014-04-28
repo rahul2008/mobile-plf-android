@@ -431,12 +431,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		switch (requestCode) {
 		case AppConstants.EWS_REQUEST_CODE:
 			if (resultCode == RESULT_OK) {
-				if (intent != null && intent.getExtras() != null) {
-					isDeviceDiscovered = intent.getBooleanExtra(
-							"deviceDiscovered", false);
-					purifierName = intent.getStringExtra("pname");
-				}
-				setPurifierName(purifierName) ;
+				isDeviceDiscovered = true;
+				updatePurifierName();
 				toggleConnection(true);
 			}
 
@@ -1305,7 +1301,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		
 		Utils.setIPAddress(purifier.getIpAddress(), this);
 		
-		setPurifierName(purifier.getName());
+		updatePurifierName();
 		String ssdpDiscoveredUsn = purifier.getUsn();
 		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
 			return true;
@@ -1384,12 +1380,15 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		return true;
 	}
 
-	private void setPurifierName(String name) {
-		purifierName = name;
-		/**
-		 * set purifier name in dashboard
-		 */
-		homeFragment.setHomeName(purifierName);
+	private void updatePurifierName() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (purifier != null) {
+			// set purifier name in dashboard
+			homeFragment.setHomeName(purifier.getName());
+		} else {
+			// TODO decide on what to show when not connected
+			homeFragment.setHomeName(getString(R.string.not_connected));
+		}
 	}
 
 	private void startKeyExchange(PurAirDevice purifier) {

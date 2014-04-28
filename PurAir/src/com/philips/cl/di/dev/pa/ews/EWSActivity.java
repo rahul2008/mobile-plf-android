@@ -30,6 +30,9 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -301,8 +304,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 					"cpp_preferences01", 0).edit().putString("airpurifierid", deviceInfoDto.getCppId()).commit();
 		}
 		Intent intent = new Intent(this,MainActivity.class) ;
-		intent.putExtra("deviceDiscovered", true) ;
-		intent.putExtra("pname", SessionDto.getInstance().getDeviceDto().getName()) ;
 		setResult(RESULT_OK,intent) ;
 		finish() ;
 	}
@@ -525,6 +526,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
 				&& cppId.equalsIgnoreCase(ssdpCppId)) {
 			
+			
 			deviceInfoDto = new PurifierDetailDto();
 			deviceInfoDto.setUsn(device.getUsn());
 			deviceInfoDto.setCppId(device.getSsdpDevice().getCppId());
@@ -536,8 +538,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			if ( ewsService != null) {
 				deviceInfoDto.setDeviceKey(ewsService.getDevKey());
 			}
+
+			// START NEW CODE
+			PurAirDevice purifier = new PurAirDevice(device.getSsdpDevice().getCppId(), device.getUsn(), device.getIpAddress(), device.getSsdpDevice().getFriendlyName(), "" + deviceInfoDto.getBootId(), ConnectionState.CONNECTED_LOCALLY);
+			PurifierManager.getInstance().setCurrentPurifier(purifier);
+			// STOP NEW CODE
 			
-			Utils.setIPAddress(device.getIpAddress(), EWSActivity.this) ;
+			Utils.setIPAddress(purifier.getIpAddress(), EWSActivity.this) ;
 			deviceDiscoveryCompleted();
 		}
 		return true;
