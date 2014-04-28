@@ -15,6 +15,7 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -144,16 +145,16 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 		}
 	}
 	
-	public void subscribeToAllEvents(String bootId, String purifierIp, boolean isLocalSubscription) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Subscribe to all events for purifier: " + bootId + " purifierIp " + purifierIp) ;
-		subscriptionManager.subscribeToPurifierEvents(bootId, purifierIp, isLocalSubscription);
-		subscriptionManager.subscribeToFirmwareEvents(bootId, purifierIp,isLocalSubscription);
+	public void subscribeToAllEvents(PurAirDevice purifier) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Subscribe to all events for purifier: " + purifier) ;
+		subscriptionManager.subscribeToPurifierEvents(purifier);
+		subscriptionManager.subscribeToFirmwareEvents(purifier);
 	}
 
-	public void unSubscribeFromAllEvents(String bootId, String purifierIp, boolean isLocalSubscription) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "UnSubscribe from all events from purifier: " + bootId) ;
-		subscriptionManager.unSubscribeFromPurifierEvents(bootId, purifierIp, isLocalSubscription);
-		subscriptionManager.unSubscribeFromFirmwareEvents(bootId, purifierIp);
+	public void unSubscribeFromAllEvents(PurAirDevice purifier) {
+		ALog.i(ALog.AIRPURIFIER_CONTROLER, "UnSubscribe from all events from purifier: " + purifier) ;
+		subscriptionManager.unSubscribeFromPurifierEvents(purifier);
+		subscriptionManager.unSubscribeFromFirmwareEvents(purifier);
 	}
 	
 	@Override

@@ -576,9 +576,11 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		connected = true;
 		stopRemoteConnection() ;
 
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.addAirPurifierEventListener(this);
-		airPurifierController.subscribeToAllEvents(bootId,Utils.getIPAddress(),true);
+		airPurifierController.subscribeToAllEvents(purifier);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
@@ -590,11 +592,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private void startRemoteConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Start RemoteConnection") ;
-		String cppId = Utils.getAirPurifierID(this);
-		long pairedOn = purifierDatabase.getPurifierLastPairedOn(cppId);
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		
+		long pairedOn = purifierDatabase.getPurifierLastPairedOn(purifier.getEui64());
 		if( pairedOn > 0 ) {
 			stopLocalConnection() ;
-			airPurifierController.subscribeToAllEvents(SessionDto.getInstance().getEui64(), "", false ) ;
+			
+			airPurifierController.subscribeToAllEvents(purifier) ;
 			cppController.startDCSService() ;
 		}
 	}

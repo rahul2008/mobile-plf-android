@@ -88,8 +88,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		super.onResume();
 		setCancelled(false);
 		
-		// TODO add bootid
-		AirPurifierController.getInstance().subscribeToAllEvents("", currentPurifier.getIpAddress(), true);
+		AirPurifierController.getInstance().subscribeToAllEvents(currentPurifier);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 	
