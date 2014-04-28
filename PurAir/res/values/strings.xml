@@ -32,7 +32,22 @@
     <string name="auto">Auto</string>
     <string name="turbo">Turbo</string>
     <string name="silent">Silent</string>
-
+    <string name="scheduler">Scheduler</string>
+    <string name="child_lock">Child lock</string>
+    <string name="indicator_light">Indicator light</string>
+    <!-- Filter texts and messages -->
+    <string name="filter_status">Filter Status</string>
+    <string name="pre_filter">1 Pre filter</string>
+    <string name="multicarefilter">2 Multi-care Filter</string>
+    <string name="activecarbonfilter">3 Active carbon filter</string>
+    <string name="hepa_filter">4 HEPA filter</string>
+    <string name="act_soon">Act soon</string>
+    <string name="act_now">Act now</string>
+    <string name="onehour">1H</string>
+    <string name="fourhour">4H</string>
+    <string name="eighthour">8H</string>
+    <string name="off">OFF</string>
+    
     <!-- Firmware Screen text -->
     <string name="firmware">Firmware</string>
     <string name="firmware_update">Firmware update</string>
@@ -73,22 +88,11 @@
 
 
     <!-- Timer texts -->
-    <string name="scheduler">Scheduler</string>
-    <string name="child_lock">Child lock</string>
-    <string name="indicator_light">Indicator light</string>
+    
     <string name="rm_air_quality_title">Indoor Air Quality Status</string>
     <string name="rm_air_quality_message">Connect device to begin reading indoor air quality</string>
 
-    <!-- Filter texts and messages -->
-
-    <string name="filter_status">Filter Status</string>
-    <string name="pre_filter">1 Pre filter</string>
-    <string name="multicarefilter">2 Multi-care Filter</string>
-    <string name="activecarbonfilter">3 Active carbon filter</string>
-    <string name="hepa_filter">4 HEPA filter</string>
-    <string name="act_soon">Act soon</string>
-    <string name="act_now">Act now</string>
-
+    
     <!-- Dashboard texts -->
 
     <string name="mode">Mode</string>
@@ -99,22 +103,15 @@
     <string name="updated">Last Updated</string>
     <string name="n_a">N.A.</string>
     <string name="take_action">Take action</string>
-
-
-    <!-- AQI Status Messages -->
-
+  		<!-- AQI status -->
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>
-    <string name="onehour">1H</string>
-    <string name="fourhour">4H</string>
-    <string name="eighthour">8H</string>
-    <string name="off">OFF</string>
     <string name="set_timer">Set Timer</string>
-    <string name="healthy">Moderate</string>
+    <string name="healthy">Healthy</string>
     <string name="very_healthy">Good</string>
     <string name="very_unhealthy">Very unhealthy</string>
     <string name="very_unhealthy_split">Very \n unhealthy</string>
-    <string name="unhealthy">Very unhealthy</string>
+    <string name="unhealthy">Unhealthy</string>
     <string name="hazardous">Hazardous</string>
     <string name="slightly_polluted">Unhealthy for sensitive groups</string>
     <string name="moderately_polluted">Unhealthy</string>
@@ -184,7 +181,7 @@
 
     <!-- Buy Online -->
 
-    <string name="buy_online_lbl">Buy online</string>
+    <string name="buy_online_lbl">Buy Online</string>
 
     <!-- Details -->
     <string name="indoor_db">Indoor</string>
@@ -290,15 +287,14 @@
     <string name="notification_indoor_aqi_lbl_2">2&#8211;3</string>
     <string name="notification_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notification_indoor_aqi_lbl_4">4+</string>
+    
+    <!-- Settings -->
     <string name="rate_this_app">Rate this app</string>
     <string name="send_us_feedback">Send us feedback</string>
     <string name="version_number">App Version</string>
     <string name="t_and_c">"<u>Terms &amp; Conditions</u>"</string>
-    <string name="t_and_c_full">Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum 
-	    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum 
-	    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum 
-	    Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum </string>
-
+    <string name="terms_and_conditions"></string>
+   	
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">Nobody can avoid the increasingly alarming air quality issues as we live in an urban setting. To purify indoor air in a natural and holistic way, count on the Philips VitaShield Intelligent Purification System.</string>
     <string name="purifier_feature_lbl_1">Removes ultra-fine particles of down to 20 nanometres.</string>
