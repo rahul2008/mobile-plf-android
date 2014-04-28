@@ -5,10 +5,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 
 public class AirView extends View {
@@ -25,7 +25,6 @@ public class AirView extends View {
 	public AirView(Context context, int percent, int width, int height) {
 		this(context);
 		this.percent = percent;
-		//this.percent = 4;
 		fwidth = getPxWithRespectToDip(width);
 		fheight = getPxWithRespectToDip(height);
 		ftopline = getPxWithRespectToDip(4);
@@ -60,22 +59,14 @@ public class AirView extends View {
 			paint.setColor(GraphConst.COLOR_STATE_BLUE);
 		}
 		
-		if (percent != 0 && (fheight + ftopline) - y < 20) {
+		float fh = fheight * 6;
+		float height10Percent = fh / 100;
+		
+		if (percent != 0 && percent < height10Percent) {
 			y = fheight + ftopline - getPxWithRespectToDip(6);
 		}
-		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);
 		
-		/** Percentage Text*/
-		Rect rect = new Rect();
-		paint.setAntiAlias(true);
-		paint.setColor(Color.WHITE);
-		paint.setTextSize(getPxWithRespectToDip(20));
-		paint.setTextAlign(Paint.Align.CENTER);
-        String txt = String.valueOf(percent) + "%";
-        float x1 = canvas.getWidth() / (float)2;
-        float y1 = fheight / 2 + getPxWithRespectToDip(10);
-        canvas.drawText(txt, x1, y1, paint);
-        paint.getTextBounds(txt, 0, txt.length(), rect);
+		canvas.drawRect(X, y, fwidth, fheight + ftopline, paint);
 	}
 	
 	private float getPxWithRespectToDip(int dip) {

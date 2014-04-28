@@ -20,7 +20,6 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 	private int responseCode;
 	private String deviceId;
 	private String url;
-	private final String TAG = DISecurityTask.class.getSimpleName();
 	
 	public DISecurityTask(ServerResponseListener listener) {
 		this.listener = listener;

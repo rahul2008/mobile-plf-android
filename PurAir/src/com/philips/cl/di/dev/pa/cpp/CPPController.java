@@ -470,7 +470,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 			}
 		} else if (eventType == Commands.DOWNLOAD_DATA) {
-			ALog.i(ALog.INDOOR_RDCP, "ICP client callbacked");
+//			ALog.i(ALog.INDOOR_RDCP, "ICP client callbacked");
 //			byte[] bufferOriginal = ((DownloadData) obj).getBuffer().array();
 			
 			byte[] bufferOriginal = new byte[((DownloadData)obj).getBuffer().capacity()];
@@ -485,10 +485,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				downloadDataBuilder = new StringBuilder();
 			}
 
-			downloadDataBuilder.append(new String(buffer, Charset
-					.defaultCharset()));
-			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + downloadDataBuilder.toString());
-			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + ((DownloadData) obj).getIsDownloadComplete());
+			downloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
+//			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + downloadDataBuilder.toString());
+//			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + ((DownloadData) obj).getIsDownloadComplete());
 
 			if (((DownloadData) obj).getIsDownloadComplete()) {
 				Log.i(TAG, "Download complete");

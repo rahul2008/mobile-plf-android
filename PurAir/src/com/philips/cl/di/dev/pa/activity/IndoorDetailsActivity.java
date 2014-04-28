@@ -102,7 +102,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 			dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 			powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-			parseReading();
+			addAqiReading();
 		} 
 	}
 
@@ -173,7 +173,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		mActionBar = getSupportActionBar();
 		mActionBar.setIcon(null);
 		mActionBar.setHomeButtonEnabled(false);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		mActionBar.setCustomView(R.layout.action_bar);
 	}
 
@@ -196,7 +196,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	/**
 	 * Parsing reading
 	 * */
-	public void parseReading() {
+	public void addAqiReading() {
 
 		if (goodAirInfos.size() > 0) {
 			goodAirInfos.clear();
@@ -436,7 +436,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	public void onDataDownload(int status, String downloadedData) {
 		ALog.i(ALog.INDOOR_DETAILS, "onDataDownload status: " + status);
 		if( status == Errors.SUCCESS) {
-			Utils.parseIndoorDetails(downloadedData) ;
+			Utils.getIndoorAqiValues(downloadedData) ;
 			
 			if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
@@ -446,7 +446,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				ALog.i(ALog.INDOOR_DETAILS, "dailyAqiValues==  " + dailyAqiValues);
 				ALog.i(ALog.INDOOR_DETAILS, "powerOnStatusList==  " + powerOnStatusList);
 			}
-			parseReading();
+			addAqiReading();
 		}
 	}
 

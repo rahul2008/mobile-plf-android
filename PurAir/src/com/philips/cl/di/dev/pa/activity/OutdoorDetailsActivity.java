@@ -99,143 +99,181 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	 * Reading data from server
 	 * */
 	private void getXCoordinates() {
-		if (aqiEventDto != null) {
+		if (aqiEventDto == null) {
+			return;
+		}
 
-			int pm25s[] = aqiEventDto.getPm25();
-			if (pm25s != null && pm25s.length > 0) {
-				String pm25 = String.valueOf(pm25s[0]);
-				if (pm25s[0] == 0 && pm25s.length > 1) {
-					pm25 = String.valueOf(pm25s[1]);
-				}
-				pm1.setText(getString(R.string.pm25) + "  " + pm25);
-			}
+		setPM25();	
+		setPM10();	
+		setSO2();	
+		setNO2();	
 
-			int pm10s[] = aqiEventDto.getPm10();
-			if (pm10s != null && pm10s.length > 0) {
-				String pm10 = String.valueOf(pm10s[0]);
-				if (pm10s[0] == 0 && pm10s.length > 1) {
-					pm10 = String.valueOf(pm10s[1]);
-				}
-				pm2.setText(getString(R.string.pm10) + "  " + pm10);
-			}
-
-			int so2s[] = aqiEventDto.getSo2();
-			if (so2s != null && so2s.length > 0) {
-				String so2 = String.valueOf(so2s[0]);
-				if (so2s[0] == 0 && so2s.length > 1) {
-					so2 = String.valueOf(so2s[1]);
-				}
-				pm3.setText(getString(R.string.so2) + "  " + so2);
-			}
-
-			int no2s[] = aqiEventDto.getNo2();
-			if (no2s != null && no2s.length > 0) {
-				String no2 = String.valueOf(no2s[0]);
-				if (no2s[0] == 0 && no2s.length > 1) {
-					no2 = String.valueOf(no2s[1]);
-				}
-				pm4.setText(getString(R.string.no2) + "  " + no2);
-			}
-
-			int idx[] = aqiEventDto.getIdx();
+		int idx[] = aqiEventDto.getIdx();
 			
-			if (idx.length == 0) {
-				return;
-			}
+		if (idx.length == 0) {
+			return;
+		}
+		
+		int hr = calculatelastDayTime();
 
-			/** last day days */
-			/**
-			 * Calculate last 24 hours values and add in to last day AQI value
-			 * array
-			 */
-			int lastDayHr = 24;
-
-			for (int i = 0; i < lastDayAQIReadings.length; i++) {
-				if (i == 0 && idx[i] == 0) {
-					idx[i] = idx[i + 1];
-					// lastDayHr = 25;
-				}
-				lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
-			}
-
-			/** last 7 days */
-			/**
-			 * Calculate last 7 day values and add in to last 7 day AQI value
-			 * array Calculate current day hours
-			 */
-			currentCityTime = aqiEventDto.getT();
-			String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
-			int hr = 0;
-			if (currentCityTimeHr != null) {
-				try {
-					hr = Integer.parseInt(currentCityTimeHr);
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
-			}
+		calculatelastDayAQIReadings(idx);	
+		calculatelast7DayAQIReadings(idx, hr);	
+		calculatelast4WeeksAQIReadings(idx, hr);
 			
-			if (hr == 0) {
-				hr = 24;
+	}
+	
+	private void calculatelastDayAQIReadings(int idx[]) {
+		/** last day days */
+		/**
+		 * Calculate last 24 hours values and add in to last day AQI value
+		 * array
+		 */
+		int lastDayHr = 24;
+
+		for (int i = 0; i < lastDayAQIReadings.length; i++) {
+			if (i == 0 && idx[i] == 0) {
+				idx[i] = idx[i + 1];
+				// lastDayHr = 25;
 			}
+			lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
+		}
+	}
+	
+	private int calculatelastDayTime() {
+		/** last 7 days */
+		/**
+		 * Calculate last 7 day values and add in to last 7 day AQI value
+		 * array Calculate current day hours
+		 */
+		currentCityTime = aqiEventDto.getT();
+		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
+		int hr = 0;
+		if (currentCityTimeHr != null) {
+			try {
+				hr = Integer.parseInt(currentCityTimeHr);
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		if (hr == 0) {
+			hr = 24;
+		}
+		return hr;
+	}
+	
+	private void calculatelast7DayAQIReadings(int idx[], int hr) {
+		/**
+		 * Calculate 7 days hours 6 days hours plus current hours Calculate
+		 * average of every days hours value
+		 */
+		int last7dayHrs = 6 * 24 + hr;
 
-			/**
-			 * Calculate 7 days hours 6 days hours plus current hours Calculate
-			 * average of every days hours value
-			 */
-			int last7dayHrs = 6 * 24 + hr;
+		float sum = 0;
+		float avg = 0;
+		int j = 0;
+		for (int i = 0; i < last7dayHrs; i++) {
+			float x = idx[last7dayHrs - 1 - i];
+			sum = sum + x;
+			if (is24Hours(i)) {
+				avg = sum / (float) 24;
+				last7dayAQIReadings[j] = avg;
+				j++;
+				sum = 0;
+				avg = 0;
+			} else if (i == last7dayHrs - 1) {
+				avg = sum / (float) hr;
+				last7dayAQIReadings[j] = avg;
+				sum = 0;
+				avg = 0;
+			}
+		}
+	}
+	
+	private boolean is24Hours(int index) {
+		boolean is24Hr = false;
+		index = index + 1;
+		if (index % 24 == 0) {
+			is24Hr = true;
+		}
+		return is24Hr;
+	}
+	
+	private void calculatelast4WeeksAQIReadings(int idx[], int hr) {
+		/** last 4 weeks */
+		/**
+		 * Calculate last 4 weeks hours Calculate average of every days
+		 * hours value
+		 */
+		int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
 
-			float sum = 0;
-			float avg = 0;
-			int j = 0;
-			for (int i = 0; i < last7dayHrs; i++) {
-				float x = idx[last7dayHrs - 1 - i];
-				sum = sum + x;
-				if (i == 23 || i == 47 || i == 71 || i == 95 || i == 119
-						|| i == 143) {
-					avg = sum / (float) 24;
-					last7dayAQIReadings[j] = avg;
+		int count = 1;
+		float sum = 0;
+		float avg = 0;
+		int j = 0;
+		for (int i = 0; i < last4WeekHrs; i++) {
+
+			float x = idx[last4WeekHrs - 1 - i];
+			sum = sum + x;
+			if (count == 24 && j < 21) {
+				avg = sum / (float) 24;
+				last4weekAQIReadings[j] = avg;
+				j++;
+				sum = 0;
+				avg = 0;
+				count = 0;
+			} else if (j >= 21) {
+				for (int m = 0; m < last7dayAQIReadings.length; m++) {
+					last4weekAQIReadings[j] = last7dayAQIReadings[m];
 					j++;
-					sum = 0;
-					avg = 0;
-				} else if (i == last7dayHrs - 1) {
-					avg = sum / (float) hr;
-					last7dayAQIReadings[j] = avg;
-					sum = 0;
-					avg = 0;
 				}
+				break;
 			}
-
-			/** last 4 weeks */
-			/**
-			 * Calculate last 4 weeks hours Calculate average of every days
-			 * hours value
-			 */
-			int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
-
-			int count = 1;
-			sum = 0;
-			avg = 0;
-			j = 0;
-			for (int i = 0; i < last4WeekHrs; i++) {
-
-				float x = idx[last4WeekHrs - 1 - i];
-				sum = sum + x;
-				if (count == 24 && j < 21) {
-					avg = sum / (float) 24;
-					last4weekAQIReadings[j] = avg;
-					j++;
-					sum = 0;
-					avg = 0;
-					count = 0;
-				} else if (j >= 21) {
-					for (int m = 0; m < last7dayAQIReadings.length; m++) {
-						last4weekAQIReadings[j] = last7dayAQIReadings[m];
-						j++;
-					}
-					break;
-				}
-				count++;
+			count++;
+		}
+	}
+	
+	private void setPM25() {
+		int pm25s[] = aqiEventDto.getPm25();
+		if (pm25s != null && pm25s.length > 0) {
+			String pm25 = String.valueOf(pm25s[0]);
+			if (pm25s[0] == 0 && pm25s.length > 1) {
+				pm25 = String.valueOf(pm25s[1]);
 			}
+			pm1.setText(getString(R.string.pm25) + "  " + pm25);
+		}
+	}
+	
+	private void setPM10() {
+		int pm10s[] = aqiEventDto.getPm10();
+		if (pm10s != null && pm10s.length > 0) {
+			String pm10 = String.valueOf(pm10s[0]);
+			if (pm10s[0] == 0 && pm10s.length > 1) {
+				pm10 = String.valueOf(pm10s[1]);
+			}
+			pm2.setText(getString(R.string.pm10) + "  " + pm10);
+		}
+	}
+	
+	private void setSO2() {
+		int so2s[] = aqiEventDto.getSo2();
+		if (so2s != null && so2s.length > 0) {
+			String so2 = String.valueOf(so2s[0]);
+			if (so2s[0] == 0 && so2s.length > 1) {
+				so2 = String.valueOf(so2s[1]);
+			}
+			pm3.setText(getString(R.string.so2) + "  " + so2);
+		}
+	}
+	
+	private void setNO2() {
+		int no2s[] = aqiEventDto.getNo2();
+		if (no2s != null && no2s.length > 0) {
+			String no2 = String.valueOf(no2s[0]);
+			if (no2s[0] == 0 && no2s.length > 1) {
+				no2 = String.valueOf(no2s[1]);
+			}
+			pm4.setText(getString(R.string.no2) + "  " + no2);
 		}
 	}
 
@@ -400,36 +438,17 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		switch (v.getId()) {
 			case R.id.detailsOutdoorLastDayLabel: {
 				removeChildViewFromBar();
-				if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
-					graphLayout.addView(
-							new GraphView(this, lastDayAQIReadings, coordinates));
-				}
-				lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
-				lastWeekBtn.setTextColor(Color.LTGRAY);
-				lastFourWeekBtn.setTextColor(Color.LTGRAY);
-				msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
+				setViewlastDayAQIReadings();
 				break;
 			}
 			case R.id.detailsOutdoorLastWeekLabel: {
 				removeChildViewFromBar();
-				if (last7dayAQIReadings != null && last7dayAQIReadings.length > 0) {
-					graphLayout.addView(new GraphView(this, last7dayAQIReadings, coordinates));
-				}
-				lastDayBtn.setTextColor(Color.LTGRAY);
-				lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
-				lastFourWeekBtn.setTextColor(Color.LTGRAY);
-				msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
+				setViewlast7DayAQIReadings();
 				break;
 			}
 			case R.id.detailsOutdoorLastFourWeekLabel: {
 				removeChildViewFromBar();
-				if (last4weekAQIReadings != null && last4weekAQIReadings.length > 0) {
-					graphLayout.addView(new GraphView(this, last4weekAQIReadings, coordinates));
-				}
-				lastDayBtn.setTextColor(Color.LTGRAY);
-				lastWeekBtn.setTextColor(Color.LTGRAY);
-				lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
-				msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
+				setViewlast4WeeksAQIReadings();
 				break;
 			}
 			case R.id.oDmapInlarge: {
@@ -442,6 +461,37 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 				break;
 			}
 		}
+	}
+	
+	private void setViewlastDayAQIReadings() {
+		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
+			graphLayout.addView(
+					new GraphView(this, lastDayAQIReadings, coordinates));
+		}
+		lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+		lastWeekBtn.setTextColor(Color.LTGRAY);
+		lastFourWeekBtn.setTextColor(Color.LTGRAY);
+		msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
+	}
+	
+	private void setViewlast7DayAQIReadings() {
+		if (last7dayAQIReadings != null && last7dayAQIReadings.length > 0) {
+			graphLayout.addView(new GraphView(this, last7dayAQIReadings, coordinates));
+		}
+		lastDayBtn.setTextColor(Color.LTGRAY);
+		lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+		lastFourWeekBtn.setTextColor(Color.LTGRAY);
+		msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
+	}
+
+	private void setViewlast4WeeksAQIReadings() {
+		if (last4weekAQIReadings != null && last4weekAQIReadings.length > 0) {
+			graphLayout.addView(new GraphView(this, last4weekAQIReadings, coordinates));
+		}
+		lastDayBtn.setTextColor(Color.LTGRAY);
+		lastWeekBtn.setTextColor(Color.LTGRAY);
+		lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
+		msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 	}
 
 	/**
