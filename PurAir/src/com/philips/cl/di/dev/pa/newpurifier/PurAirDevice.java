@@ -10,7 +10,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
 public class PurAirDevice {
 
 	private final String mEui64;
-	private final String mUdn;
+	private final String mUsn;
 	
 	private String mIpAddress;
 	private String mName;
@@ -23,11 +23,11 @@ public class PurAirDevice {
 	private AirPurifierEventDto mAirPortInfo;
 	private FirmwareEventDto	mFirmwarePortInfo;
 
-	public PurAirDevice(String eui64, String udn, String ipAddress, String name, 
+	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			String bootId, ConnectionState connectionState) {
 		mBootId = bootId;
 		mEui64 = eui64;
-		mUdn = udn;
+		mUsn = usn;
 		mIpAddress = ipAddress;
 		mName = name;
 		mConnectionState = connectionState;
@@ -37,8 +37,8 @@ public class PurAirDevice {
 		return mEui64;
 	}
 
-	public String getUdn() {
-		return mUdn;
+	public String getUsn() {
+		return mUsn;
 	}
 	
 	public synchronized String getIpAddress() {
@@ -105,4 +105,12 @@ public class PurAirDevice {
 		this.mFirmwarePortInfo = firmwarePortInfo;
 	}
 
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("name: ").append(getName()).append("   ip: ").append(getIpAddress())
+				.append("   eui64: ").append(getEui64()).append("   bootId: ").append(getBootId())
+				.append("   usn: ").append(getUsn()).append("   paired: ").append(isPaired())
+				.append("   connectedState: ").append(getConnectionState());
+		return builder.toString();
+	}
 }

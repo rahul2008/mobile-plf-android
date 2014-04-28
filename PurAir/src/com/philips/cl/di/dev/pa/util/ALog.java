@@ -33,6 +33,8 @@ public class ALog {
 	public static final String CONNECTIVITY = "Connectivity" ;
 	public static final String PARSER = "DataParser" ;
 	public static final String DIAGNOSTICS="Diagnostics";
+	
+	public static final String PURIFIER_MANAGER = "PurifierManager";
 
 	
 	private static boolean isLoggingEnabled = true;

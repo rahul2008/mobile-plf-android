@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import com.philips.cl.di.dev.pa.util.ALog;
+
 /**
  * Purifier Manager is the one point contact for all UI layers to communicate
  * with the device after it has been discovered. It provides the following
@@ -27,9 +29,12 @@ public class PurifierManager {
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
+
 		// TODO unsubscribe listeners from previous purifier
 		mCurrentPurifier = purifier;
 		// TODO subscribe listeners to new purifier
+		
+		ALog.d(ALog.AIRPURIFIER_CONTROLER, "Current purifier set to: " + ((purifier == null) ? "none" : purifier));
 	}
 	
 	public synchronized PurAirDevice getCurrentPurifier() {
