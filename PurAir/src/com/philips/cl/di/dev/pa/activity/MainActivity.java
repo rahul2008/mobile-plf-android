@@ -92,6 +92,9 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -1293,13 +1296,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		return false;
 	}
 
-	private boolean onFirstDeviceDiscovered(DeviceModel device) {
+	private boolean onFirstDeviceDiscovered(DeviceModel deviceModel) {
 
 		isDeviceDiscovered = true;
-		Utils.setIPAddress(device.getIpAddress(), this);
-
-		setPurifierName(device.getSsdpDevice().getFriendlyName());
-		String ssdpDiscoveredUsn = device.getUsn();
+		
+		PurAirDevice purifier = new PurAirDevice(deviceModel.getSsdpDevice().getCppId(), deviceModel.getUsn(), deviceModel.getIpAddress(), deviceModel.getSsdpDevice().getFriendlyName(), deviceModel.getBootID(), ConnectionState.CONNECTED_LOCALLY);
+		PurifierManager.getInstance().setCurrentPurifier(purifier);
+		
+		Utils.setIPAddress(purifier.getIpAddress(), this);
+		
+		setPurifierName(purifier.getName());
+		String ssdpDiscoveredUsn = purifier.getUsn();
 		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
 			return true;
 		}
@@ -1309,19 +1316,19 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		localDeviceUsn = ssdpDiscoveredUsn;
 
 		getSharedPreferences("cpp_preferences01", 0).edit()
-		.putString("airpurifierid", device.getSsdpDevice().getCppId())
+		.putString("airpurifierid", purifier.getEui64())
 		.commit();
 
 		
 		try {
-			ssdpDiscoveredBootId = Long.parseLong(device.getBootID());
+			ssdpDiscoveredBootId = Long.parseLong(purifier.getBootId());
 		} catch (NumberFormatException e) {
 			// NOP
 			e.printStackTrace();
 		}
 
 		if (ssdpDiscoveredBootId == 0L) {
-			startKeyExchange(device);
+			startKeyExchange(purifier);
 		}
 		if (dbPurifierDetailDtoList != null) {
 			boolean isDeviceInDb = false;
@@ -1344,17 +1351,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 						DISecurity.setKeyIntoSecurityHashTable(cppId, secretKey);
 						DISecurity.setUrlIntoUrlsTable(
 								cppId,
-								Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()));
+								Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()));
 						toggleConnection(true);
 					} else {
-						startKeyExchange(device);
+						startKeyExchange(purifier);
 					}
 					break;
 				}
 			}
 
 			if (!isDeviceInDb) {
-				startKeyExchange(device);
+				startKeyExchange(purifier);
 			}
 		}
 
@@ -1385,28 +1392,28 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		homeFragment.setHomeName(purifierName);
 	}
 
-	private void startKeyExchange(DeviceModel device) {
+	private void startKeyExchange(PurAirDevice purifier) {
 		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"
 				+ isDeviceDiscovered);
 		long bootId = 0;
 		try {
-			bootId = Long.parseLong(device.getBootID());
+			bootId = Long.parseLong(purifier.getBootId());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String cppId = device.getSsdpDevice().getCppId();
+		String cppId = purifier.getEui64();
 		PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
-		deviceInfoDto.setUsn(device.getUsn());
+		deviceInfoDto.setUsn(purifier.getUsn());
 		deviceInfoDto.setBootId(bootId);
 		deviceInfoDto.setCppId(cppId);
-		deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
+		deviceInfoDto.setDeviceName(purifier.getName());
 
 		ssdpDeviceInfoTable.put(cppId, deviceInfoDto);
 
 		if (isDeviceDiscovered) {
 			diSecurity.initializeExchangeKeyCounter(cppId);
-			diSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()), cppId);
+			diSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()), cppId);
 		}
 	}
 
