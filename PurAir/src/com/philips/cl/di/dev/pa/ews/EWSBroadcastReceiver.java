@@ -12,11 +12,6 @@ import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonIOException;
-import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
@@ -26,6 +21,7 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 
@@ -266,7 +262,8 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
-					storeDeviceDetails(decryptedResponse) ;
+					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
+					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					getWifiDetails() ;
 				}				
 			}
@@ -274,7 +271,13 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
-					storeDeviceWifiDetails(decryptedResponse);
+					DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(decryptedResponse);
+					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
+					
+					if (deviceWifiDto != null) {
+						cppId = deviceWifiDto.getCppid();
+					}
+					
 					deviceSSIDTimer.cancel() ;
 					listener.onHandShakeWithDevice() ;
 				}	
@@ -283,7 +286,8 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
-					storeDeviceDetails(decryptedResponse) ;
+					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
+					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					//listener.onHandShakeWithDevice() ;
 				}	
 			}
@@ -321,42 +325,6 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			}
 			break;			
 		}
-	}
-
-	private void storeDeviceDetails(String data) {
-		Gson gson = new GsonBuilder().create() ;
-		DeviceDto deviceDto = null;
-		try {
-			deviceDto = gson.fromJson(data, DeviceDto.class) ;
-		} catch (JsonSyntaxException e) {
-			e.printStackTrace();
-		} catch (JsonIOException e) {
-			e.printStackTrace();
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-		}
-		SessionDto.getInstance().setDeviceDto(deviceDto) ;
-	}
-
-	private void storeDeviceWifiDetails(String data) {
-		Gson gson = new GsonBuilder().create() ;
-		DeviceWifiDto deviceWifiDto = null;
-		try {
-			deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
-		} catch (JsonSyntaxException e) {
-			e.printStackTrace();
-		} catch (JsonIOException e) {
-			e.printStackTrace();
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-		}
-		
-		SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
-		
-		if (deviceWifiDto != null) {
-			cppId = deviceWifiDto.getCppid();
-		}
-		
 	}
 
 	private CountDownTimer deviceSSIDTimer = new CountDownTimer(60000, 1000) {

@@ -14,6 +14,8 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
+import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -275,5 +277,35 @@ public class DataParser {
 			return null;
 		}
 		return weatherForecastList ;
+	}
+	
+	public static DeviceDto getEWSDeviceDetails(String data) {
+		Gson gson = new GsonBuilder().create() ;
+		DeviceDto deviceDto = null;
+		try {
+			deviceDto = gson.fromJson(data, DeviceDto.class) ;
+		} catch (JsonSyntaxException e) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+		}
+		return deviceDto;
+	}
+
+	public static DeviceWifiDto getEWSDeviceWifiDetails(String data) {
+		Gson gson = new GsonBuilder().create() ;
+		DeviceWifiDto deviceWifiDto = null;
+		try {
+			deviceWifiDto = gson.fromJson(data, DeviceWifiDto.class) ;
+		} catch (JsonSyntaxException e) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+		}
+		return deviceWifiDto;
 	}
 }
