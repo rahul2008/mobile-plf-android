@@ -54,10 +54,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.activity.FilterDetailsActivity"
-            android:screenOrientation="sensorPortrait" >
-        </activity>
-        <activity
             android:name="com.philips.cl.di.dev.pa.activity.TrendsActivity"
             android:screenOrientation="sensorPortrait" >
         </activity>
