@@ -543,8 +543,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			PurAirDevice purifier = new PurAirDevice(device.getSsdpDevice().getCppId(), device.getUsn(), device.getIpAddress(), device.getSsdpDevice().getFriendlyName(), "" + deviceInfoDto.getBootId(), ConnectionState.CONNECTED_LOCALLY);
 			PurifierManager.getInstance().setCurrentPurifier(purifier);
 			// STOP NEW CODE
-			
-			Utils.setIPAddress(purifier.getIpAddress(), EWSActivity.this) ;
+
 			deviceDiscoveryCompleted();
 		}
 		return true;
