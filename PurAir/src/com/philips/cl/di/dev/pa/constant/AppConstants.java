@@ -184,6 +184,7 @@ public class AppConstants {
 	
 	public static final String PRODUCT = "product";
 	
+	// TODO remove
 	public static final int CONNECTED = 1 ;
 	public static final int NOT_CONNECTED = 0 ;
 	public static final int CONNECTED_VIA_PHILIPS = 2 ;

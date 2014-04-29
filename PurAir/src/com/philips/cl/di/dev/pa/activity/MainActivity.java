@@ -577,6 +577,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		stopRemoteConnection() ;
 
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.addAirPurifierEventListener(this);
@@ -592,14 +593,22 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private void startRemoteConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Start RemoteConnection") ;
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		PurAirDevice purifier = getCurrentPurifier();
+		
+		if (purifier == null) {
+			ALog.e(ALog.CONNECTIVITY, "Failed to start RemoteConnection - purifier was null") ;
+			return;
+		}
+		ALog.e(ALog.CONNECTIVITY, "Trying to remote connect to Purifier with eui64 - " + purifier.getEui64()) ;
 		
 		long pairedOn = purifierDatabase.getPurifierLastPairedOn(purifier.getEui64());
 		if( pairedOn > 0 ) {
 			stopLocalConnection() ;
 			
+			purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			airPurifierController.subscribeToAllEvents(purifier) ;
 			cppController.startDCSService() ;
+			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
 		}
 	}
 
@@ -749,16 +758,16 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
 
-	private void setRightMenuConnectedStatus(int status) {
+	private void setRightMenuConnectedStatus(ConnectionState state) {
 		MenuItem item = null;
 		if (menu != null) {
 			item = menu.getItem(0);
-			if (status == AppConstants.CONNECTED) {
+			if (state.equals(ConnectionState.CONNECTED_LOCALLY)) {
 				tvConnectionStatus.setText(getString(R.string.connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(
 						R.drawable.wifi_icon_blue_2x));
 				item.setIcon(R.drawable.right_bar_icon_blue_2x);
-			} else if (status == AppConstants.CONNECTED_VIA_PHILIPS) {
+			} else if (state.equals(ConnectionState.CONNECTED_REMOTELY)) {
 				tvConnectionStatus
 				.setText(getString(R.string.connected_via_philips));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(
@@ -1080,6 +1089,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
+		PurAirDevice purifier = getCurrentPurifier();
 		if (null != airPurifierEventDto) {
 			connected = true;
 			float indoorAQIUsableValue = airPurifierEventDto.getIndoorAQI() / 10.0f;
@@ -1090,8 +1100,11 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 					airPurifierEventDto.getFilterStatus2(),
 					airPurifierEventDto.getFilterStatus3(),
 					airPurifierEventDto.getFilterStatus4());
-			setRightMenuConnectedStatus(airPurifierEventDto
-					.getConnectionStatus());
+			if (purifier != null) {
+				setRightMenuConnectedStatus(purifier.getConnectionState());
+			} else {
+				setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+			}
 			setRightMenuAirStatusMessage(getString(
 					Utils.getIndoorAQIMessage(indoorAQIUsableValue),
 					purifierName));
@@ -1105,7 +1118,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private void disableRightMenuControls() {
 		ALog.i(ALog.MAINACTIVITY, "disableRightMenuControls");
 		connected = false;
-		setRightMenuConnectedStatus(AppConstants.NOT_CONNECTED);
+		setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
 		rightMenuClickListener.disableControlPanel(connected,
 				airPurifierEventDto);
 		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
@@ -1513,12 +1526,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 
-		PairingManager pm = new PairingManager(this, purifierEui64);
+		PairingManager pm = new PairingManager(this, getCurrentPurifier());
 		pm.startPairing();
 	}
 
 	private void startPairingWithoutListener(String purifierEui64) {
-		PairingManager pm = new PairingManager(null, purifierEui64);
+		PairingManager pm = new PairingManager(null, getCurrentPurifier());
 		pm.startPairing();
 	}
 
@@ -1537,7 +1550,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		
 	}
 
-
 	@Override
 	public void onPairingFailed() {
 		if (progressDialog != null) {
@@ -1550,5 +1562,10 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}catch(IllegalStateException ex){
 			ex.printStackTrace();
 		}
+	}
+	
+	private PurAirDevice getCurrentPurifier() {
+		// TODO change to field in class
+		return PurifierManager.getInstance().getCurrentPurifier();
 	}
 }
