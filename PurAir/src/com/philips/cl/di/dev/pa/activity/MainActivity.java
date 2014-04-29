@@ -1316,8 +1316,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		PurAirDevice purifier = new PurAirDevice(deviceModel.getSsdpDevice().getCppId(), deviceModel.getUsn(), deviceModel.getIpAddress(), deviceModel.getSsdpDevice().getFriendlyName(), deviceModel.getBootID(), ConnectionState.CONNECTED_LOCALLY);
 		PurifierManager.getInstance().setCurrentPurifier(purifier);
 		
-		Utils.setIPAddress(purifier.getIpAddress(), this);
-		
 		updatePurifierName();
 		String ssdpDiscoveredUsn = purifier.getUsn();
 		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
@@ -1564,7 +1562,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 	
-	private PurAirDevice getCurrentPurifier() {
+	public PurAirDevice getCurrentPurifier() {
 		// TODO change to field in class
 		return PurifierManager.getInstance().getCurrentPurifier();
 	}

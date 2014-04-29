@@ -62,10 +62,10 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	}
 	
 	
-	public void setDeviceDetailsLocally(String key, String value )
+	public void setDeviceDetailsLocally(String key, String value, PurAirDevice purifier)
 	{
 		String dataToUpload = JSONBuilder.getDICommBuilder(key,value) ;
-		startServerTask(dataToUpload) ;
+		startServerTask(dataToUpload, purifier.getIpAddress()) ;
 	}	
 	public void setDeviceDetailsRemotely(String key, String value) {
 		String eventData = JSONBuilder.getPublishEventBuilder(key, value) ;
@@ -77,9 +77,9 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 * Method to call the Server task
 	 * @param nameValuePair
 	 */
-	private void startServerTask(String dataToUpload) {
+	private void startServerTask(String dataToUpload, String purifierIp) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Start the server task for subscribe") ;
-		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload, Utils.getPortUrl(Port.AIR, Utils.getIPAddress()),this) ;
+		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload, Utils.getPortUrl(Port.AIR, purifierIp),this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
