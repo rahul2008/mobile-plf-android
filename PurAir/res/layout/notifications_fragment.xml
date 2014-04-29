@@ -177,7 +177,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/very_healthy"
+                    android:text="@string/good"
                     android:textSize="10sp" 
                     android:visibility="gone"/>
 

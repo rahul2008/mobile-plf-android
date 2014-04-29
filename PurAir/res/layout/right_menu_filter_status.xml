@@ -154,7 +154,7 @@
         android:layout_alignTop="@id/filter_status_legend_good"
         android:layout_toRightOf="@id/filter_status_legend_good"
         android:layout_marginLeft="48dp"
-        android:text="@string/act_soon"
+        android:text="@string/change_soon"
         />
     
     <TextView 
@@ -164,7 +164,7 @@
         android:layout_alignTop="@id/filter_status_legend_good"
         android:layout_toRightOf="@id/filter_status_legend_act_soon"
         android:layout_marginLeft="24dp"
-        android:text="@string/act_now"
+        android:text="@string/change_now"
         />
     
     

@@ -622,12 +622,13 @@ public class Utils {
 	}
 
 	public static String getPreFilterStatusText(int filterStatusValue) {
+		Context context=PurAirApplication.getAppContext();
 		if (filterStatusValue < 96) {
-			return AppConstants.GOOD;
+			return context.getString(R.string.good);
 		} else if (filterStatusValue >= 96 && filterStatusValue < 112) {
-			return AppConstants.CLEAN_SOON;
+			return context.getString(R.string.clean_soon);
 		} else {
-			return AppConstants.CLEAN_NOW;
+			return context.getString(R.string.change_now);
 		}
 	}
 
@@ -642,14 +643,15 @@ public class Utils {
 	}
 
 	public static String getMultiCareFilterStatusText(int filterStatusValue) {
+		Context context=PurAirApplication.getAppContext();
 		if (filterStatusValue < 784) {
-			return AppConstants.GOOD;
+			return context.getString(R.string.good);
 		} else if (filterStatusValue >= 784 && filterStatusValue < 840) {
-			return AppConstants.ACT_SOON;
+			return context.getString(R.string.change_soon);
 		} else if (filterStatusValue >= 840 && filterStatusValue < 960) {
-			return AppConstants.ACT_NOW;
+			return context.getString(R.string.change_now);
 		} else {
-			return AppConstants.FILTER_LOCK;
+			return context.getString(R.string.filter_lock);
 		}
 	}
 
@@ -664,14 +666,15 @@ public class Utils {
 	}
 
 	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
+		Context context=PurAirApplication.getAppContext();
 		if (filterStatusValue < 2704) {
-			return AppConstants.GOOD;
+			return context.getString(R.string.good);
 		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return AppConstants.ACT_SOON;
+			return context.getString(R.string.change_soon);
 		} else if (filterStatusValue >= 2760 && filterStatusValue < 2880) {
-			return AppConstants.ACT_NOW;
+			return context.getString(R.string.change_now);
 		} else {
-			return AppConstants.FILTER_LOCK;
+			return context.getString(R.string.filter_lock);
 		}
 	}
 
@@ -686,14 +689,15 @@ public class Utils {
 	}
 
 	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
+		Context context=PurAirApplication.getAppContext();
 		if (filterStatusValue < 2704) {
-			return AppConstants.GOOD;
+			return context.getString(R.string.good);
 		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return AppConstants.ACT_SOON;
+			return context.getString(R.string.change_soon);
 		} else if (filterStatusValue >= 2760 && filterStatusValue < 2880) {
-			return AppConstants.ACT_NOW;
+			return context.getString(R.string.change_now);
 		} else {
-			return AppConstants.FILTER_LOCK;
+			return context.getString(R.string.filter_lock);
 		}
 	}
 
@@ -719,7 +723,8 @@ public class Utils {
 			AirPortInfo airPurifierEventDto) {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
-			filterStatus = AppConstants.GOOD;
+			Context context=PurAirApplication.getAppContext();
+			filterStatus = context.getString(R.string.good);
 			String preFilterStatus = getPreFilterStatusText(airPurifierEventDto
 					.getFilterStatus1());
 			String multiCareFilterStatus = getMultiCareFilterStatusText(airPurifierEventDto
@@ -732,19 +737,19 @@ public class Utils {
 			if (multiCareFilterStatus.equals(AppConstants.ACT_NOW)
 					|| activeFilterStatus.equals(AppConstants.ACT_NOW)
 					|| hepaFilterStatus.equals(AppConstants.ACT_NOW)) {
-				filterStatus = AppConstants.ACT_NOW;
+				filterStatus = context.getString(R.string.change_now);
 			} else if (preFilterStatus.equals(AppConstants.CLEAN_NOW)) {
-				filterStatus = AppConstants.CLEAN_NOW;
+				filterStatus = context.getString(R.string.clean_now);
 			} else if (preFilterStatus.equals(AppConstants.CLEAN_SOON)) {
-				filterStatus = AppConstants.CLEAN_SOON;
+				filterStatus =context.getString(R.string.clean_soon);
 			} else if (multiCareFilterStatus.equals(AppConstants.ACT_SOON)
 					|| activeFilterStatus.equals(AppConstants.ACT_SOON)
 					|| hepaFilterStatus.equals(AppConstants.ACT_SOON)) {
-				filterStatus = AppConstants.ACT_SOON;
+				filterStatus = context.getString(R.string.change_now);
 			} else if (multiCareFilterStatus.equals(AppConstants.FILTER_LOCK)
 					|| activeFilterStatus.equals(AppConstants.FILTER_LOCK)
 					|| hepaFilterStatus.equals(AppConstants.FILTER_LOCK)) {
-				filterStatus = AppConstants.FILTER_LOCK;
+				filterStatus = context.getString(R.string.filter_lock);
 			}
 		}
 		return filterStatus;
