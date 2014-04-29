@@ -116,7 +116,7 @@ public class Utils {
 	
 	public static String getPurifierId() {
 		String purifierId = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
-				.getString("purifierId", AppConstants.DEFAULT_PURIFIERID);
+				.getString("airpurifierid", AppConstants.DEFAULT_PURIFIERID);
 		return purifierId;
 	}
 
@@ -196,7 +196,7 @@ public class Utils {
 
 		SharedPreferences settings = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0);
 		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("purifierId", purifierId);
+		editor.putString("airpurifierid", purifierId);
 		editor.commit();
 	}
 
