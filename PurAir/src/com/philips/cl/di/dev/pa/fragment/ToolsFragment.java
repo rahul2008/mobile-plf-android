@@ -31,6 +31,9 @@ import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseAdapter;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData.DiagnosticsDataListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -39,6 +42,9 @@ public class ToolsFragment extends BaseFragment implements OnClickListener,
 SignonListener, DiagnosticsDataListener {
 
 	private static final String TAG = ToolsFragment.class.getSimpleName();
+	
+	private PurAirDevice mPurifier;
+	
 	private TextView tvIpaddress;
 	private Button submitButton;
 	private View vMain;
@@ -51,6 +57,12 @@ SignonListener, DiagnosticsDataListener {
 	private char lineSeparator='\n';
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		mPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		super.onCreate(savedInstanceState);
+	}
+	
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		vMain = inflater.inflate(R.layout.tools_fragment, container,
@@ -62,7 +74,7 @@ SignonListener, DiagnosticsDataListener {
 
 	private void initViews() {
 		tvIpaddress = (EditText) vMain.findViewById(R.id.tvipaddress);
-		tvIpaddress.setText(Utils.getIPAddress());
+		tvIpaddress.setText(getPurifierIpAddress());
 		submitButton = (Button) vMain.findViewById(R.id.submitButton);
 		submitButton.setOnClickListener(this);
 
@@ -103,7 +115,9 @@ SignonListener, DiagnosticsDataListener {
 		switch (v.getId()) {
 		case R.id.submitButton:
 			Log.i(TAG, "Submit button");
-			Utils.setIPAddress(tvIpaddress.getText().toString(), getActivity());
+			PurAirDevice dummyDevice = new PurAirDevice(null, null, tvIpaddress.getText().toString(), "ToolsPurifier", null, ConnectionState.CONNECTED_LOCALLY);
+			PurifierManager.getInstance().setCurrentPurifier(dummyDevice);
+			
 			InputMethodManager imm = (InputMethodManager) getActivity()
 					.getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getActivity().getWindow()
@@ -142,11 +156,11 @@ SignonListener, DiagnosticsDataListener {
 			break;
 		case R.id.btn_diagnostics:
 			((MainActivity)getActivity()).isDiagnostics=true;			
-			String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
-			String wifiUrl = Utils.getPortUrl(Port.WIFI, Utils.getIPAddress());
-			String wifiUiUrl = Utils.getPortUrl(Port.WIFIUI, Utils.getIPAddress());
-			String deviceUrl = Utils.getPortUrl(Port.DEVICE, Utils.getIPAddress());
-			String logUrl = Utils.getPortUrl(Port.LOG, Utils.getIPAddress());
+			String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, getPurifierIpAddress());
+			String wifiUrl = Utils.getPortUrl(Port.WIFI, getPurifierIpAddress());
+			String wifiUiUrl = Utils.getPortUrl(Port.WIFIUI, getPurifierIpAddress());
+			String deviceUrl = Utils.getPortUrl(Port.DEVICE, getPurifierIpAddress());
+			String logUrl = Utils.getPortUrl(Port.LOG, getPurifierIpAddress());
 
 			//fetch all ports data
 			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);
@@ -264,8 +278,7 @@ SignonListener, DiagnosticsDataListener {
 		}
 
 		//get AirPurifier diagnostics info
-		String airpurifierIpAddress = "AirPurifier IpAddress:"
-				+ Utils.getIPAddress();
+		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();
 		String euid = "AirPurifier EUI64:" + Utils.getAirPurifierID(getActivity());
 		String macAddress = SessionDto.getInstance().getPurifierMacAddress();
 		macAddress = "Air Purifier MAC Address:"
@@ -333,6 +346,13 @@ SignonListener, DiagnosticsDataListener {
 		}
 		Log.d("Diagnostic", portData.toString());
 		sendMail(portData.toString(), "sangamesh.bn@philips.com");
+	}
+	
+	private String getPurifierIpAddress() {
+		if (mPurifier == null) {
+			return "< unknown >"; // TODO localize
+		}
+		return mPurifier.getIpAddress();
 	}
 
 }
