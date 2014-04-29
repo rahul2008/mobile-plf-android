@@ -66,7 +66,6 @@ public class AppConstants {
 
 	
 	/** The Constant defaultIPAddress. */
-	public static final String DEFAULT_IPADDRESS = "192.168.10.198";
 	public static final String DEFAULT_PURIFIERID = "none";
 
 	/** The Constant TABLENAME. */

@@ -100,19 +100,6 @@ public class Utils {
 		alNames.add(AppConstants.LABEL_SETTING);
 		return alNames;
 	}
-
-	/**
-	 * Gets the iP address of the air purifier.
-	 * 
-	 * @param context
-	 *            the context
-	 * @return the iP address
-	 */
-	public static String getIPAddress() {
-		String ipAddress = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
-				.getString("ipAddress", AppConstants.DEFAULT_IPADDRESS);
-		return ipAddress;
-	}
 	
 	public static String getPurifierId() {
 		String purifierId = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
@@ -173,23 +160,6 @@ public class Utils {
 	public static void clearCPPDetails(Context context) {
 		context.getSharedPreferences("cpp_preferences01", 0).edit().clear()
 		.commit();
-	}
-
-	/**
-	 * Sets the ip address.
-	 * 
-	 * @param ipAddress
-	 *            the ip address
-	 * @param context
-	 *            the context
-	 */
-	public static void setIPAddress(String ipAddress, Context context) {
-
-		SharedPreferences settings = context.getSharedPreferences(
-				"sharedPreferences", 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("ipAddress", ipAddress);
-		editor.commit();
 	}
 	
 	public static void setPurifierId(String purifierId) {
