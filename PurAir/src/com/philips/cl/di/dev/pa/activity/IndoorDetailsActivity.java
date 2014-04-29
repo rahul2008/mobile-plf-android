@@ -23,8 +23,6 @@ import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
-import com.philips.cl.di.dev.pa.purifier.SensorDataController;
-import com.philips.cl.di.dev.pa.purifier.SensorEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -37,7 +35,7 @@ import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-		PercentDetailsClickListener, SensorEventListener, ICPDownloadListener {
+		PercentDetailsClickListener, ICPDownloadListener {
 
 	private ActionBar mActionBar;
 //	private final String TAG = "IndoorDetailsActivity";
@@ -88,7 +86,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		coordinates = Coordinates.getInstance(this);
 		initializeUI();
 
-		SensorDataController.getInstance(this).addListener(this) ;
 		initActionBar();
 		getDataFromDashboard();
 
@@ -415,18 +412,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	protected void onStop() {
 		super.onStop();
-		SensorDataController.getInstance(this).removeListener(this) ;
 	}
 
 	public void aqiAnalysisClick(View v) {
 		FragmentManager fragMan = getSupportFragmentManager();
 		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatus.getText().toString(), outdoorTitle), "outdoor").commit();
-	}
-
-	@Override
-	public void sensorDataReceived(AirPortInfo airPurifierEventDto) {
-		// TODO Auto-generated method stub
-		Log.i("Indoor", "Sensor Event Received") ;
 	}
 
 	/**
