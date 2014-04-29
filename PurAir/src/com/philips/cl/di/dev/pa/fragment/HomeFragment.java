@@ -712,22 +712,22 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		String title = "";
 		String message = "";
 		if(aqi >= 0 && aqi <= 50) {
-			title = getString(R.string.very_healthy);
-			message = getString(R.string.very_healthy_msg_outdoor) + "\n";
+			title = getString(R.string.good);
+			message = getString(R.string.outdoor_aqi_good_tip1) + "\n";
 		} else if(aqi > 50 && aqi <= 100) {
-			title = getString(R.string.healthy);
-			message = getString(R.string.healthy_msg_outdoor) + "\n";
+			title = getString(R.string.moderate);
+			message = getString(R.string.outdoor_aqi_moderate_tip1) + "\n";
 		} else if(aqi > 100 && aqi <= 150) {
-			title = getString(R.string.slightly_polluted);
-			message = getString(R.string.slightly_polluted_msg_outdoor) + "\n";
+			title = getString(R.string.unhealthy_for_sensitive_groups);
+			message = getString(R.string.outdoor_aqi_unhealthy_sensitive_group_tip1) + "\n";
 		} else if(aqi > 150 && aqi <= 200) {
-			title = getString(R.string.moderately_polluted);
-			message = getString(R.string.moderately_polluted_msg_outdoor) + "\n";
+			title = getString(R.string.unhealthy);
+			message = getString(R.string.outdoor_aqi_unhealthy_tip1) + "\n";
 		} else if(aqi > 200 && aqi <= 300) {
 			title = getString(R.string.unhealthy);
-			message = getString(R.string.unhealthy_msg_outdoor) + "\n";
+			message = getString(R.string.outdoor_aqi_very_unhealthy_tip1) + "\n";
 		} else if(aqi > 300 && aqi <= 500) {
-			title = getString(R.string.hazardous_msg_outdoor);
+			title = getString(R.string.outdoor_aqi_hazardous_tip1);
 			message = getString(R.string.hazardous) + "\n";
 		}
 		tvOutdoorTitle.setText(title);
@@ -858,16 +858,16 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 			tvIndoorComment.setText("") ;
 		} else if(indoorAQI >= 0 && indoorAQI <= 1.4f) {
 			tvIndoorTitle.setText(getString(R.string.good)) ;
-			tvIndoorComment.setText(getString(R.string.very_healthy_msg_indoor, purifierName)) ;
+			tvIndoorComment.setText(getString(R.string.indoor_aqi_good_tip1, purifierName)) ;
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
 			tvIndoorTitle.setText(getString(R.string.moderate)) ;
-			tvIndoorComment.setText(getString(R.string.healthy_msg_indoor, purifierName)) ;
+			tvIndoorComment.setText(getString(R.string.indoor_aqi_moderate_tip1, purifierName)) ;
 		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			tvIndoorTitle.setText(getString(R.string.unhealthy)) ;
-			tvIndoorComment.setText(getString(R.string.slightly_polluted_msg_indoor, purifierName)) ;
+			tvIndoorComment.setText(getString(R.string.indoor_aqi_unhealthy_tip1, purifierName)) ;
 		} else if(indoorAQI > 3.5f) {
 			tvIndoorTitle.setText(getString(R.string.very_unhealthy)) ;
-			tvIndoorComment.setText(getString(R.string.moderately_polluted_msg_indoor, purifierName)) ;
+			tvIndoorComment.setText(getString(R.string.indoor_aqi_very_unhealthy_tip1, purifierName)) ;
 		}
 	}
 

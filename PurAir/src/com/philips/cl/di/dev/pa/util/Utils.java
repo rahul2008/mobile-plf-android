@@ -592,13 +592,13 @@ public class Utils {
 
 		if(indoorAQI <= 1.4f && indoorAQI > 0) {
 			status.setText(ctx.getString(R.string.good)) ;
-			summary.setText(ctx.getString(R.string.very_healthy_msg_indoor, purifierName)) ;
+			summary.setText(ctx.getString(R.string.indoor_aqi_good_tip1, purifierName)) ;
 		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
 			status.setText(ctx.getString(R.string.moderate)) ;
-			summary.setText(ctx.getString(R.string.healthy_msg_indoor, purifierName)) ;
+			summary.setText(ctx.getString(R.string.indoor_aqi_moderate_tip1, purifierName)) ;
 		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			status.setText(ctx.getString(R.string.unhealthy)) ;
-			summary.setText(ctx.getString(R.string.slightly_polluted_msg_indoor, purifierName)) ;
+			summary.setText(ctx.getString(R.string.indoor_aqi_unhealthy_tip1, purifierName)) ;
 		} else if(indoorAQI > 3.5f) {
 			String tempStatus[] = ctx.getString(R.string.very_unhealthy).trim().split(" ");
 			if (tempStatus != null && tempStatus.length > 1) {
@@ -607,7 +607,7 @@ public class Utils {
 				status.setText(ctx.getString(R.string.very_unhealthy));
 			}
 			summary.setText(ctx
-					.getString(R.string.moderately_polluted_msg_indoor, purifierName));
+					.getString(R.string.indoor_aqi_very_unhealthy_tip1, purifierName));
 		}
 	}
 
@@ -752,13 +752,13 @@ public class Utils {
 
 	public static int getIndoorAQIMessage(float aqi) {
 		if (aqi <= 1.4f) {
-			return R.string.very_healthy_msg_indoor;
+			return R.string.indoor_aqi_good_tip1;
 		} else if (aqi > 1.4f && aqi <= 2.3f) {
-			return R.string.healthy_msg_indoor;
+			return R.string.indoor_aqi_moderate_tip1;
 		} else if (aqi > 2.3f && aqi <= 3.5f) {
-			return R.string.slightly_polluted_msg_indoor;
+			return R.string.indoor_aqi_unhealthy_tip1;
 		} else if (aqi > 3.5f) {
-			return R.string.moderately_polluted_msg_indoor;
+			return R.string.indoor_aqi_very_unhealthy_tip1;
 		}
 		return R.string.n_a;
 	}

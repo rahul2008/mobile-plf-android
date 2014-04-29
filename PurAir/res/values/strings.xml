@@ -114,19 +114,8 @@
     <string name="very_unhealthy_split">Very \n unhealthy</string>
     <string name="unhealthy">Unhealthy</string>
     <string name="hazardous">Hazardous</string>
-    <string name="slightly_polluted">Unhealthy for sensitive groups</string>
-    <string name="moderately_polluted">Unhealthy</string>
-    <string name="very_healthy_msg_indoor">The Air in %s\'s room is very healthy</string>
-    <string name="healthy_msg_indoor">The air in %s\'s room is healthy</string>
-    <string name="slightly_polluted_msg_indoor">The Air in %s\'s room is Slightly Polluted</string>
-    <string name="moderately_polluted_msg_indoor">The Air in %s\'s room is Moderately Polluted</string>
-    <string name="very_healthy_msg_outdoor">Great day for a walk in the park.\nYou can do all your outdoor exercises.</string>
-    <string name="healthy_msg_outdoor">Enjoy your usual outdoor activities.\nSensitive people should take care.</string>
-    <string name="slightly_polluted_msg_outdoor">Consider reducing outdoor activities.\nConsider rescheduling outdoor activities.\nConsider staying indoors.\nConsider children or elderly people to stay at home</string>
-    <string name="moderately_polluted_msg_outdoor">Limit outdoor acitivities.\nConsider staying indoors.\nConsider rescheduling outdoor activities.\nDon not do any outdoor sports.</string>
-    <string name="unhealthy_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
-    <string name="hazardous_msg_outdoor">Be only outside if you really have to.\nWear a mask if you go outside. Please stay indoors.</string>
-
+    <string name="unhealthy_for_sensitive_groups">Unhealthy for sensitive groups</string>
+    
     <!-- Help and Documentation -->
 
     <string name="subtitle_app_tutorial">App tutorial</string>
@@ -184,17 +173,69 @@
 
     <string name="buy_online_lbl">Buy Online</string>
 
-    <!-- Details -->
+    <!-- Indoor and Outdoor Details -->
     <string name="indoor_db">Indoor</string>
     <string name="outdoor_db">Outdoor</string>
     <string name="current_location">Current location</string>
     <string name="title_outdoor_db">Outdoor Dashboard</string>
-    <string name="mask_od_msg1">Masks recommended </string>
-    <string name="mask_od_msg2">Masks not needed</string>
-    <string name="openwindow_od_msg1">Don not open windows </string>
-    <string name="openwindow_od_msg2">OK to open windows</string>
-    <string name="advice_od_msg1">Avoid outdoor activities </string>
-    <string name="advice_od_msg2">OK for outdoor activities</string>
+    
+    <!-- Indoor details tips -->
+    <string name="indoor_aqi_good_tip1">Low pollution, low PM2.5: poses little or no risk to health.</string>
+    <string name="indoor_aqi_good_tip2">You could open or close windows or switch your Philips Smart Air Purifier to Auto.</string>
+    
+    <string name="indoor_aqi_moderate_tip1">Pollution, particle level and PM2.5 all at moderate level.</string>
+    <string name="indoor_aqi_moderate_tip2">Close windows and turn on your Philips Smart Air Purifier to speed 1 or above.</string>
+    
+    <string name="indoor_aqi_unhealthy_tip1">High particle level PM2.5: irritation may occur.</string>
+    <string name="indoor_aqi_unhealthy_tip2">Turn on your Philips Smart Air Purifier to speed 2 or above. </string>
+    
+    <string name="indoor_aqi_very_unhealthy_tip1">Very high particle levels: PM2.5.</string>
+    <string name="indoor_aqi_very_unhealthy_tip2">Switch on your Philips Smart Air Purifier to speed 3 or Turbo.</string>
+    
+	<!-- Outdoor details -->
+	<string name="mask_od_msg1">Masks not needed</string>
+	<string name="openwindow_od_msg1">Open your windows for ventilation.</string>
+    <string name="advice_od_msg1">Great for outdoor activities</string>
+	
+	<string name="mask_od_msg2">Masks not needed</string>
+	<string name="openwindow_od_msg2">Open your windows for ventilation</string>
+	<string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
+	
+	<string name="mask_od_msg3">It’s a good idea to wear a mask</string>
+	<string name="openwindow_od_msg3">Occasionally open your windows for ventilation</string>
+	<string name="advice_od_msg3">Reduce outdoor activities</string>
+	
+	<string name="mask_od_msg4">It’s a good idea to wear a mask</string>
+	<string name="openwindow_od_msg4">Close your windows</string>
+	<string name="advice_od_msg4">Reduce outdoor activities</string>
+	
+	<string name="mask_od_msg5">It’s a good idea to wear a mask</string>
+	<string name="openwindow_od_msg5">OK to open windows</string>
+	<string name="advice_od_msg5">OK for outdoor activities</string>
+	
+	<string name="mask_od_msg6">Masks not needed</string>
+	<string name="openwindow_od_msg6">OK to open windows</string>
+	<string name="advice_od_msg6">OK for outdoor activities</string>
+	<!-- Outdoor Detail Tips -->
+	<string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
+	<string name="outdoor_aqi_good_tip2"> Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
+	
+	<string name="outdoor_aqi_moderate_tip1"> Good for outdoor activities but hyper-sensitive people should take care.</string>
+	<string name="outdoor_aqi_moderate_tip2"> Hyper-sensitive people should reduce activities.</string>
+	
+	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">Reduce outdoor activities and occasionally open your windows for ventilation.</string>
+	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">Unhealthy for sensitive groups like babies and the elderly.</string>
+	
+	<string name="outdoor_aqi_unhealthy_tip1">Reduce outdoor activities and close your windows.</string>
+	<string name="outdoor_aqi_unhealthy_tip2">Slight irritation may occur.</string>
+	
+	<string name="outdoor_aqi_very_unhealthy_tip1">It’s a good idea to wear a mask.</string>
+	<string name="outdoor_aqi_very_unhealthy_tip2">Postpone outdoor activities.</string>
+	
+	<string name="outdoor_aqi_hazardous_tip1">Avoid going outdoors or wear a mask. Close windows at your home.</string>
+	<string name="outdoor_aqi_hazardous_tip2">Go outside only if you really have to.</string>
+	
+	<string name="advice_od_msg4"></string>
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
     <string name="od_yaxis_label3">150</string>
