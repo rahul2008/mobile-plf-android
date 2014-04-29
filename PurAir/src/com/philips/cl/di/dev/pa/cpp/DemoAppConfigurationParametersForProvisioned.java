@@ -63,8 +63,8 @@ public class DemoAppConfigurationParametersForProvisioned extends ProvisionedCon
 					token = parser.nextToken();
 					if("EUI64".equals(token)) 
 					{
-						if ( Utils.getEuid(context) != null ) {
-							this.ICPClientEui64 = Utils.getEuid(context);
+						if ( Utils.getAppEuid(context) != null ) {
+							this.ICPClientEui64 = Utils.getAppEuid(context);
 						}
 						else {
 							this.ICPClientEui64 = parser.nextToken();

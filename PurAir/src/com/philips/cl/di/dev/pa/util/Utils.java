@@ -17,11 +17,6 @@ import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +28,6 @@ import java.util.List;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
@@ -52,7 +46,6 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class Utils.
  */
@@ -66,40 +59,6 @@ public class Utils {
 	private static String ago27DayDate = "";
 	public static final List<Integer> OUTDOOR_AQI_PERCENTAGE_LIST = new ArrayList<Integer>();
 
-	/**
-	 * Populates the image names for the left menu.
-	 * 
-	 * @return the icon array
-	 */
-
-	public static ArrayList<String> getIconArray() {
-		ArrayList<String> alImageNames = new ArrayList<String>();
-		alImageNames.add(AppConstants.ICON_HOME);
-		alImageNames.add(AppConstants.ICON_MYCITY);
-		alImageNames.add(AppConstants.ICON_CLOUD);
-		alImageNames.add(AppConstants.ICON_REG);
-		alImageNames.add(AppConstants.ICON_HELP);
-		alImageNames.add(AppConstants.ICON_SETTING);
-		return alImageNames;
-
-	}
-
-	/**
-	 * Populates the Labels for the left menu.
-	 * 
-	 * @return the label array
-	 */
-
-	public static ArrayList<String> getLabelArray() {
-		ArrayList<String> alNames = new ArrayList<String>();
-		alNames.add(AppConstants.LABEL_HOME);
-		alNames.add(AppConstants.LABEL_MYCITY);
-		alNames.add(AppConstants.LABEL_CLOUD);
-		alNames.add(AppConstants.LABEL_REG);
-		alNames.add(AppConstants.LABEL_HELP);
-		alNames.add(AppConstants.LABEL_SETTING);
-		return alNames;
-	}
 	
 	public static String getPurifierId() {
 		String purifierId = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
@@ -127,11 +86,6 @@ public class Utils {
 		editor.commit();
 	}
 
-	public static String getMacAddress(Context context) {
-		return context.getSharedPreferences("cpp_preferences01", 0).getString(
-				"mac_address", "");
-	}
-
 	public static String getPrivateKey(Context context) {
 		String privateKey = context
 				.getSharedPreferences("cpp_preferences01", 0).getString(
@@ -145,7 +99,7 @@ public class Utils {
 		return registrationid;
 	}
 
-	public static String getEuid(Context context) {
+	public static String getAppEuid(Context context) {
 		String euid = context.getSharedPreferences("cpp_preferences01", 0)
 				.getString("euid", "");
 		return euid;
@@ -168,105 +122,6 @@ public class Utils {
 		SharedPreferences.Editor editor = settings.edit();
 		editor.putString("airpurifierid", purifierId);
 		editor.commit();
-	}
-
-	/**
-	 * Gets the current date time.
-	 * 
-	 * @return the current date time
-	 */
-	public static String getCurrentDateTime() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		Date now = new Date(System.currentTimeMillis());
-		return sdf.format(now);
-	}
-
-	/**
-	 * Gets the resource id.
-	 * 
-	 * @param drawableName
-	 *            the drawable name
-	 * @param context
-	 *            the context
-	 * @return the resource id
-	 */
-	public static int getResourceID(String drawableName, Context context) {
-		return context.getResources().getIdentifier(drawableName, "drawable",
-				context.getPackageName());
-	}
-
-	/**
-	 * Copy database from assets to s dcard.
-	 * 
-	 * @param context
-	 *            the context
-	 */
-	public static void copyDatabaseFromAssetsToSDcard(Context context) {
-		if (!isFileExists(context)) {
-			AssetManager assetManager = context.getAssets();
-			try {
-				String filenames[] = assetManager.list("");
-
-				for (String filename : filenames) {
-					if (filename.equalsIgnoreCase(AppConstants.DATABASE)) {
-						Log.i("File name => ", filename);
-						InputStream in = null;
-						OutputStream out = null;
-						try {
-							in = assetManager.open(filename); // if files
-							// resides
-							// inside the
-							// "Files"
-							// directory
-							// itself
-							out = new FileOutputStream(context.getFilesDir()
-									+ "/" + filename);
-							copyFile(in, out);
-							in.close();
-							in = null;
-							out.flush();
-							out.close();
-							out = null;
-						} catch (Exception e) {
-							Log.e("tag", e.getMessage());
-							e.printStackTrace();
-						}
-					}
-				}
-			} catch (IOException e) {
-				Log.e("tag", e.getMessage());
-				e.printStackTrace();
-			}
-		}
-	}
-
-	/**
-	 * Checks if is file exists.
-	 * 
-	 * @return true, if is file exists
-	 */
-	private static boolean isFileExists(Context context) {
-		File file = new File(context.getFilesDir(), AppConstants.DATABASE);
-		return file.exists();
-	}
-
-	/**
-	 * Copy file.
-	 * 
-	 * @param in
-	 *            the in
-	 * @param out
-	 *            the out
-	 * @throws IOException
-	 *             Signals that an I/O exception has occurred.
-	 */
-	private static void copyFile(InputStream in, OutputStream out)
-			throws IOException {
-		byte[] buffer = new byte[1024];
-		int read;
-		while ((read = in.read(buffer)) != -1) {
-			out.write(buffer, 0, read);
-		}
 	}
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {
