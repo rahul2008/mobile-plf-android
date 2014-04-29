@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.SensorDataController;
@@ -424,7 +424,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
-	public void sensorDataReceived(AirPurifierEventDto airPurifierEventDto) {
+	public void sensorDataReceived(AirPortInfo airPurifierEventDto) {
 		// TODO Auto-generated method stub
 		Log.i("Indoor", "Sensor Event Received") ;
 	}

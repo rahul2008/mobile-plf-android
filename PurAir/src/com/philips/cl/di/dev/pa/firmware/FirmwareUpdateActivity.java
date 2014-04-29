@@ -202,7 +202,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getUpgradeVersion() {
-		FirmwareEventDto firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
+		FirmwarePortInfo firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
 		if (firmwarePortInfo == null) {
 			return null;
 		}
@@ -210,7 +210,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getCurrentVersion() {
-		FirmwareEventDto firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
+		FirmwarePortInfo firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
 		if (firmwarePortInfo == null) {
 			return null;
 		}

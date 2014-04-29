@@ -17,7 +17,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 
@@ -105,7 +105,7 @@ public class RightMenuClickListener implements OnClickListener {
 	 * @param airPurifierEventDto
 	 */
 	
-	public void setSensorValues(AirPurifierEventDto airPurifierEventDto) {
+	public void setSensorValues(AirPortInfo airPurifierEventDto) {
 //		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed " + airPurifierEventDto.getFanSpeed());
 		Log.i(TAG, "setSensorValues " + airPurifierEventDto.getPowerMode());
 		if(airPurifierEventDto.getPowerMode().equals(AppConstants.POWER_ON)) {
@@ -137,7 +137,7 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	@SuppressWarnings("deprecation")
-	private void setFanSpeed(AirPurifierEventDto airPurifierEventDto) {
+	private void setFanSpeed(AirPortInfo airPurifierEventDto) {
 		String fanSpeedText = airPurifierEventDto.getFanSpeed();
 		String sActualFanSpeed = airPurifierEventDto.getActualFanSpeed();
 		Drawable buttonImage = null;
@@ -181,7 +181,7 @@ public class RightMenuClickListener implements OnClickListener {
 		fanSpeed.setBackgroundDrawable(buttonImage);
 	}
 
-	private boolean getPowerButtonState(AirPurifierEventDto airPurifierEventDto) {
+	private boolean getPowerButtonState(AirPortInfo airPurifierEventDto) {
 //		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
 		if(airPurifierEventDto == null) {
 			return false ;
@@ -200,7 +200,7 @@ public class RightMenuClickListener implements OnClickListener {
 		return isPowerOn;
 	}
 
-	private String getTimerText(AirPurifierEventDto airPurifierEventDto) {
+	private String getTimerText(AirPortInfo airPurifierEventDto) {
 		int timeRemaining = airPurifierEventDto.getDtrs();
 		if(timeRemaining > 0 && timeRemaining <= 3600) {
 			return context.getString(R.string.onehour);
@@ -433,7 +433,7 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 	
 	@SuppressWarnings("deprecation")
-	private void enableButtonsOnPowerOn(AirPurifierEventDto airPurifierEventDto) {
+	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
 		Drawable enabledButton = context.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
 		if(airPurifierEventDto != null) {
@@ -524,7 +524,7 @@ public class RightMenuClickListener implements OnClickListener {
 	    }
 	}
 
-	public void disableControlPanel(boolean connected, AirPurifierEventDto airPurifierEventDto) {
+	public void disableControlPanel(boolean connected, AirPortInfo airPurifierEventDto) {
 //		Log.i(TAG, "disableControlPanel connected " + connected);
 		if(!connected) {
 			power.setClickable(false);

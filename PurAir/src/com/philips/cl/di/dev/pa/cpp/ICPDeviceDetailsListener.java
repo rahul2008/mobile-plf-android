@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.cpp;
 
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 
 /**
  * 
@@ -8,5 +8,5 @@ import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
  *
  */
 public interface ICPDeviceDetailsListener {
-	public void onReceivedDeviceDetails(AirPurifierEventDto airPurifierDetails) ;
+	public void onReceivedDeviceDetails(AirPortInfo airPurifierDetails) ;
 }

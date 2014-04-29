@@ -13,13 +13,13 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 
 /***
  * This class it used to parse data for AirPurifier event
@@ -31,12 +31,12 @@ public class DataParser {
 	private DataParser() {
 	}
 
-	public static AirPurifierEventDto parseAirPurifierEventData(String dataToParse) {
-		AirPurifierEventDto airPurifierEvent = null ;
+	public static AirPortInfo parseAirPurifierEventData(String dataToParse) {
+		AirPortInfo airPurifierEvent = null ;
 		try {			
 			if( dataToParse != null ) {
 				JSONObject jsonObj = new JSONObject(dataToParse) ;
-				airPurifierEvent = new AirPurifierEventDto() ;			
+				airPurifierEvent = new AirPortInfo() ;			
 	
 				airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
 				airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
@@ -78,11 +78,11 @@ public class DataParser {
 		return airPurifierEvent ;
 	}
 	
-	public static FirmwareEventDto parseFirmwareEventData(String dataToParse) {
+	public static FirmwarePortInfo parseFirmwareEventData(String dataToParse) {
 		Gson gson = new GsonBuilder().create();
 		
 		try {
-			FirmwareEventDto firmwareEventDto = gson.fromJson(dataToParse, FirmwareEventDto.class);
+			FirmwarePortInfo firmwareEventDto = gson.fromJson(dataToParse, FirmwarePortInfo.class);
 			return firmwareEventDto;
 		} catch (JsonIOException e) {
 			ALog.e(ALog.PARSER, "JsonIOException");
@@ -138,13 +138,13 @@ public class DataParser {
 			return indoorHistoryList ;
 	}
 
-	public static AirPurifierEventDto parseAirPurifierEventDataFromCPP(String dataToParse)  {
-		AirPurifierEventDto airPurifierEvent = null ;
+	public static AirPortInfo parseAirPurifierEventDataFromCPP(String dataToParse)  {
+		AirPortInfo airPurifierEvent = null ;
 		JSONObject jsonObject = null ;
 		try {
 			jsonObject = new JSONObject(dataToParse);
 			JSONObject airPuriferJson = jsonObject.getJSONObject("data") ;
-			airPurifierEvent = new AirPurifierEventDto() ;	
+			airPurifierEvent = new AirPortInfo() ;	
 
 			airPurifierEvent.setMachineMode(airPuriferJson.getString(ParserConstants.MACHINE_MODE)) ;
 			airPurifierEvent.setFanSpeed(airPuriferJson.getString(ParserConstants.FAN_SPEED)) ;

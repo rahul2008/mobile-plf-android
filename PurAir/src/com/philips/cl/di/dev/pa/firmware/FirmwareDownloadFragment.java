@@ -7,9 +7,9 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -111,12 +111,12 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	}
 
 	@Override
-	public void airPurifierEventReceived(AirPurifierEventDto airPurifierEvent) {
+	public void airPurifierEventReceived(AirPortInfo airPurifierEvent) {
 		// NOP
 	}
 
 	@Override
-	public void firmwareEventReceived(final FirmwareEventDto firmwareEventDto) {
+	public void firmwareEventReceived(final FirmwarePortInfo firmwareEventDto) {
 		ALog.d(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareEventReceived progress " + firmwareEventDto.getProgress());
 		counter = 0;
 		getActivity().runOnUiThread(new Runnable() {

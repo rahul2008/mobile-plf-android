@@ -44,7 +44,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseModel;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
@@ -716,7 +716,7 @@ public class Utils {
 	}
 
 	public static String getFilterStatusForDashboard(
-			AirPurifierEventDto airPurifierEventDto) {
+			AirPortInfo airPurifierEventDto) {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
 			filterStatus = AppConstants.GOOD;

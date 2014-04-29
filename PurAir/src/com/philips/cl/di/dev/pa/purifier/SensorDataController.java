@@ -12,7 +12,7 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
@@ -85,7 +85,7 @@ public class SensorDataController implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
 		if ( responseCode == HttpURLConnection.HTTP_OK) {
-				AirPurifierEventDto airpurifierEventDto = null ;
+				AirPortInfo airpurifierEventDto = null ;
 				responseData = new DISecurity(null).decryptData(responseData, Utils.getPurifierId()) ;
 				if( responseData != null ) {
 					airpurifierEventDto = DataParser.parseAirPurifierEventData(responseData) ;

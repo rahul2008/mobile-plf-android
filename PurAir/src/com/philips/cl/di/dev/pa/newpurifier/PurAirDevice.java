@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 
 /**
  * @author Jeroen Mols
@@ -20,8 +20,8 @@ public class PurAirDevice {
 	private boolean 		isPaired = false;
 	private String 			mEncryptionKey;
 
-	private AirPurifierEventDto mAirPortInfo;
-	private FirmwareEventDto	mFirmwarePortInfo;
+	private AirPortInfo 		mAirPortInfo;
+	private FirmwarePortInfo	mFirmwarePortInfo;
 
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			String bootId, ConnectionState connectionState) {
@@ -89,19 +89,19 @@ public class PurAirDevice {
 		this.mEncryptionKey = encryptionKey;
 	}
 	
-	public AirPurifierEventDto getAirPortInfo() {
+	public AirPortInfo getAirPortInfo() {
 		return mAirPortInfo;
 	}
 
-	public void setAirPortInfo(AirPurifierEventDto airPortInfo) {
+	public void setAirPortInfo(AirPortInfo airPortInfo) {
 		this.mAirPortInfo = airPortInfo;
 	}
 
-	public FirmwareEventDto getFirmwarePortInfo() {
+	public FirmwarePortInfo getFirmwarePortInfo() {
 		return mFirmwarePortInfo;
 	}
 
-	public void setFirmwarePortInfo(FirmwareEventDto firmwarePortInfo) {
+	public void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
 		this.mFirmwarePortInfo = firmwarePortInfo;
 	}
 

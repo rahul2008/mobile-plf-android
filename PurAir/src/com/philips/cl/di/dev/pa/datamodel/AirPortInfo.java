@@ -8,7 +8,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
  * @author 310124914
  *
  */
-public class AirPurifierEventDto {
+public class AirPortInfo {
 	
 	private static final String TAG = "AirPurifierEvent";
 	

@@ -17,7 +17,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -342,7 +342,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private void notifyListeners(String dataReceived) {
 		ALog.i(ALog.ICPCLIENT, "notifyListeners()= " + dataReceived);
 		if (dataReceived.contains(AppConstants.PRODUCT)) {
-			AirPurifierEventDto airPurifierDetails = DataParser.parseAirPurifierEventDataFromCPP(dataReceived);
+			AirPortInfo airPurifierDetails = DataParser.parseAirPurifierEventDataFromCPP(dataReceived);
 			int numberOfListerners = listeners.size();
 			ALog.i(ALog.ICPCLIENT, "Air Purifier Details: "+airPurifierDetails) ;
 			for (int index = 0; index < numberOfListerners; index++) {

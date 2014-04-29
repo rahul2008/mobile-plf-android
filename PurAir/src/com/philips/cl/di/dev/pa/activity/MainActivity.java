@@ -72,13 +72,13 @@ import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
@@ -148,7 +148,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
-	public static AirPurifierEventDto airPurifierEventDto;
+	public static AirPortInfo airPurifierEventDto;
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
 	private int mVisits;
@@ -1057,7 +1057,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	@Override
-	public void airPurifierEventReceived(AirPurifierEventDto airPurifierDetails) {
+	public void airPurifierEventReceived(AirPortInfo airPurifierDetails) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Controller callback: "+airPurifierDetails) ;
 		if (airPurifierDetails != null) {
 			//			airPurifierEventDto = airPurifierDetails;
@@ -1067,13 +1067,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 	
 	@Override
-	public void firmwareEventReceived(final FirmwareEventDto firmwareEventDto) {
-		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwareEventDto.getVersion() + " Upgrade " + firmwareEventDto.getUpgrade() + " UpdateAvailable " + firmwareEventDto.isUpdateAvailable());
+	public void firmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
+		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
 
-		upgradeVersion = firmwareEventDto.getUpgrade();
-		currentVersion = firmwareEventDto.getVersion();
+		upgradeVersion = firmwarePortInfo.getUpgrade();
+		currentVersion = firmwarePortInfo.getVersion();
 		
-		if (firmwareEventDto.isUpdateAvailable()) {
+		if (firmwarePortInfo.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
 			
 			this.runOnUiThread(new Runnable() {
@@ -1150,7 +1150,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				.getHEPAFilterFilterStatusText(hepaFilterStatus));
 	}
 
-	private void updateDashboardFields(AirPurifierEventDto airPurifierEventDto) {
+	private void updateDashboardFields(AirPortInfo airPurifierEventDto) {
 		ALog.i(ALog.MAINACTIVITY, "updateDashboardFields");
 		if (homeFragment != null && homeFragment.getActivity() != null) {
 			homeFragment.showIndoorGuage();
@@ -1168,12 +1168,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 
-	public static AirPurifierEventDto getAirPurifierEventDto() {
+	public static AirPortInfo getAirPurifierEventDto() {
 		return airPurifierEventDto;
 	}
 
 	private static void setAirPurifierEventDto(
-			AirPurifierEventDto airPurifierEventDto) {
+			AirPortInfo airPurifierEventDto) {
 		MainActivity.airPurifierEventDto = airPurifierEventDto;
 	}
 
@@ -1210,7 +1210,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	 * 
 	 */
 	@Override
-	public void onReceivedDeviceDetails(AirPurifierEventDto airPurifierDetails) {
+	public void onReceivedDeviceDetails(AirPortInfo airPurifierDetails) {
 		ALog.i(ALog.MAINACTIVITY, "OnReceive device details from DCS: "
 				+ airPurifierDetails);
 		if (airPurifierDetails != null) {

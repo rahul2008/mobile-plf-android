@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto.FirmwareState;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -105,7 +105,7 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 			return;
 		}
 		
-		FirmwareEventDto firmwareEventDto = DataParser.parseFirmwareEventData(data);
+		FirmwarePortInfo firmwareEventDto = DataParser.parseFirmwareEventData(data);
 		
 		if(firmwareEventDto == null) {
 			getProps();

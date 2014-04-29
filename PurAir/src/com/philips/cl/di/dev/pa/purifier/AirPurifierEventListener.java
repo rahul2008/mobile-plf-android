@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.purifier;
 
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 
 /**
  * The listener interface for receiving airPurifierEvent events.
@@ -10,7 +10,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
  * the airPurifierEvent event occurs, that object's appropriate
  * method is invoked.
  *
- * @see AirPurifierEventDto
+ * @see AirPortInfo
  */
 public interface AirPurifierEventListener {
 	
@@ -19,7 +19,7 @@ public interface AirPurifierEventListener {
 	 *
 	 * @param airPurifierEvent the air purifier event
 	 */
-	public void airPurifierEventReceived(AirPurifierEventDto airPurifierEvent) ;
+	public void airPurifierEventReceived(AirPortInfo airPurifierEvent) ;
 	
-	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto);
+	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo);
 }

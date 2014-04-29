@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.firmware;
 
-public class FirmwareEventDto {
+public class FirmwarePortInfo {
 	
 	public enum FirmwareState {
 		IDLE, DOWNLOADING, CHECKING, READY, PROGRAMMING, CANCELING, ERROR
