@@ -188,8 +188,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		setContentView(R.layout.activity_main_aj);
 		
+		// TODO move start/stop to onResume and onPause
 		DiscoveryManager.getInstance().start(this);
-		
 		
 		airPurifierController = AirPurifierController.getInstance();
 
