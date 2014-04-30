@@ -33,7 +33,7 @@ public class SubscriptionManagerTest extends TestCase {
 		String expected = "dfjalsjdfl";
 		manager.onUDPEventReceived(expected);
 
-		assertFalse(listener.callbackOccured);
+		assertTrue(listener.callbackOccured);
 	}
 
 	private class SubscriptionTestEventListener implements SubscriptionEventListener {

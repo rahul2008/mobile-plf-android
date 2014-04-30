@@ -21,6 +21,6 @@ public class MainActivityTest extends
 	}
 
 	public void testActivityTitle() {
-		assertEquals("PHILIPS Smart Air Purifier", activity.getTitle());
+		assertEquals("Smart Air Purifier", activity.getTitle());
 	}
 }

@@ -72,9 +72,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 			FontTextView openWindowTxt = (FontTextView) activity.findViewById(R.id.openWindowTxt); 
 			FontTextView maskTxt = (FontTextView) activity.findViewById(R.id.maskTxt);
 			
-			assertEquals("OK for outdoor activities", avoidTxt.getText().toString());
+			assertEquals("Hyper-sensitive people should reduce activities.", avoidTxt.getText().toString());
 			assertEquals("Masks not needed", maskTxt.getText().toString());
-			assertEquals("OK to open windows", openWindowTxt.getText().toString());
+			assertEquals("Open your windows for ventilation", openWindowTxt.getText().toString());
 			
 				
 		} catch (Exception e) {

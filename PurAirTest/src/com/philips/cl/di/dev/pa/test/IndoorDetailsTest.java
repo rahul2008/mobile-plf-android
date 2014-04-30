@@ -50,11 +50,5 @@ public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDe
 		float testLast4weeksRDCPVal[] = activity.last4weeksRDCPVal;
 		assertEquals(28, testLast4weeksRDCPVal.length);
 	}
-	
-	
-	@UiThreadTest
-	public void testAqiAnalysisClick() {
-		Button button = (Button) activity.findViewById(R.id.idAnExplain);
-		assertEquals("Air quality explained", button.getText().toString());
-	}
+
 }
