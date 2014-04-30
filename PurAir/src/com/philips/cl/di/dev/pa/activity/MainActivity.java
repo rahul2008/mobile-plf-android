@@ -60,7 +60,6 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
-import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -92,6 +91,7 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
@@ -187,6 +187,10 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main_aj);
+		
+		DiscoveryManager.getInstance().start(this);
+		
+		
 		airPurifierController = AirPurifierController.getInstance();
 
 		/**
@@ -291,7 +295,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		outdoorLocationsAdapter = new ArrayAdapter<String>(this,
 				R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
-		startDeviceDiscovery();
+		
 		initializeCPPController();
 		createNetworkReceiver();
 		this.registerReceiver(networkReceiver, filter);
@@ -349,7 +353,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ALog.i(ALog.MAINACTIVITY, "onRestart: stopService is: " + stopService);
 		isEWSStarted = false;
 		if (stopService) {
-			startDeviceDiscovery();
+			DiscoveryManager.getInstance().start(this);
 			stopService = false;
 			this.registerReceiver(networkReceiver, filter);
 		}
@@ -428,7 +432,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				toggleConnection(true);
 			}
 
-			startDeviceDiscovery();
+			DiscoveryManager.getInstance().start(this);
 			
 			if (dbPurifierDetailDtoList != null
 					&& dbPurifierDetailDtoList.size() > 0) {
@@ -506,14 +510,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		resetSessionObject();
 		stopAllServices();
 		super.onDestroy();
-	}
-
-	private void startDeviceDiscovery() {
-		SsdpService.getInstance().startDeviceDiscovery(this);
-	}
-
-	private void stopDiscovery() {
-		SsdpService.getInstance().stopDeviceDiscovery();
 	}
 
 	private void initializeCPPController() {
@@ -632,7 +628,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				e.printStackTrace();
 			}
 		}
-		stopDiscovery();
+		DiscoveryManager.getInstance().stop();
 		isDeviceDiscovered = false;
 		CPPController.reset();
 	}
