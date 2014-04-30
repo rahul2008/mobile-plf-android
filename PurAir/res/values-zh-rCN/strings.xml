@@ -140,6 +140,12 @@
     <!-- Buy Online -->
 
     <string name="buy_online_lbl">在线购买</string>
+    <string name="buy_hepa_filter">HEPA 过滤网r</string>
+    <string name="buy_active_carbon_filter">活性炭过滤网</string>
+    <string name="buy_multi_care_filter">Multi-Care 过滤网</string>
+    <string name="buy_pre_filter">预过滤网</string>
+    <string name="buy_philips_smart_air_purifier">飞利浦智能空气净化器</string>
+    <string name="available_from">可从购买</string>
 
     <!-- Indoor and Outdoor Details -->
     <string name="indoor_db">室內</string>

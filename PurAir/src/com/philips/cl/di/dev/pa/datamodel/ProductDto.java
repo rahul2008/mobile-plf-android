@@ -2,19 +2,19 @@ package com.philips.cl.di.dev.pa.datamodel;
 
 public class ProductDto {
 
-	private String mProductName;
+	private int mProductName;
 	private String mProductPrice;
 	private String mAvailableFrom;
 	private int mProductImg;
 	
-	public ProductDto(String productName, String productPrice, String availableFrom, int productImg) {
-		mProductName=productName;
+	public ProductDto(int buyPhilipsSmartAirPurifier, String productPrice, String availableFrom, int productImg) {
+		mProductName=buyPhilipsSmartAirPurifier;
 		mProductPrice=productPrice;
 		mAvailableFrom=availableFrom;
 		mProductImg=productImg;
 	}
 	
-	public String getProductName(){
+	public int getProductName(){
 		return mProductName;
 	}
 	

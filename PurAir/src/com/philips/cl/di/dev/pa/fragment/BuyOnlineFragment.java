@@ -47,15 +47,15 @@ public class BuyOnlineFragment extends BaseFragment {
 		
 		/* Create a list with known data */
 		ArrayList<ProductDto> list = new ArrayList<ProductDto>();
-		list.add(new ProductDto("Philips Smart Air Purifier", "000 000 000",
+		list.add(new ProductDto(R.string.buy_philips_smart_air_purifier, "000 000 000",
 				"Philips.com.cn", R.drawable.purifier));
-		list.add(new ProductDto("Pre-Filter", "000 000 000", "Philips.com.cn",
+		list.add(new ProductDto(R.string.buy_pre_filter, "000 000 000", "Philips.com.cn",
 				R.drawable.filter));
-		list.add(new ProductDto("Multi Care Filter", "000 000 000",
+		list.add(new ProductDto(R.string.buy_multi_care_filter, "000 000 000",
 				"Philips.com.cn", R.drawable.multi_care));
-		list.add(new ProductDto("Active Carbon", "000 000 000",
+		list.add(new ProductDto(R.string.buy_active_carbon_filter, "000 000 000",
 				"Philips.com.cn", R.drawable.carbon_filter));
-		list.add(new ProductDto("HEPA Filter", "000 000 000", "Philips.com.cn",
+		list.add(new ProductDto(R.string.buy_hepa_filter, "000 000 000", "Philips.com.cn",
 				R.drawable.hepa_filter));
 
 		/* Create an adapter to display the loaded data. */
@@ -170,9 +170,9 @@ public class BuyOnlineFragment extends BaseFragment {
 			availability.setTypeface(Fonts.getGillsans(getActivity()));
 			buyOnline.setTypeface(Fonts.getGillsans(getActivity()));
 
-			productName.setText(item.getProductName());
+			productName.setText(getActivity().getString(item.getProductName()));
 			productPrice.setText(item.getProductPrice());
-			availability.setText("available to purchase from "
+			availability.setText(getActivity().getString(R.string.available_from)
 					+ item.getAvailability());
 			productImg.setImageResource(item.getProductImg());
 

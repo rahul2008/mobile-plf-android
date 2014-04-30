@@ -143,6 +143,12 @@
     <!-- Buy Online -->
 
     <string name="buy_online_lbl">Buy Online</string>
+    <string name="buy_hepa_filter">HEPA Filter</string>
+    <string name="buy_active_carbon_filter">Active Carbon Filter</string>
+    <string name="buy_multi_care_filter">Multi Care Filter</string>
+    <string name="buy_pre_filter">Pre-Filter</string>
+    <string name="buy_philips_smart_air_purifier">Philips Smart Air Purifier</string>
+    <string name="available_from">Available to purchase from</string>
 
     <!-- Indoor and Outdoor Details -->
     <string name="indoor_db">Indoor</string>
