@@ -8,6 +8,7 @@ import java.util.Hashtable;
 
 import junit.framework.TestCase;
 
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.Util;
 
@@ -75,8 +76,10 @@ public class DISecurityTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
-		String encryptedData = security.encryptData(data, DEVICE_ID);
-		String decrytedData = security.decryptData(encryptedData, DEVICE_ID);
+		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, null, null);
+		
+		String encryptedData = security.encryptData(data, helperDevice);
+		String decrytedData = security.decryptData(encryptedData, helperDevice);
 		assertEquals(data, decrytedData);
 		
 	}
@@ -96,8 +99,10 @@ public class DISecurityTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
+		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, null, null);
+		
 		String nullData = null;
-		String decrytedData = security.decryptData(nullData, DEVICE_ID);
+		String decrytedData = security.decryptData(nullData, helperDevice);
 		
 		assertNull(decrytedData);
 	}

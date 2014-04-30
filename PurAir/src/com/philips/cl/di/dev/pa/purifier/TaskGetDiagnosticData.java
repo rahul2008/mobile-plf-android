@@ -8,24 +8,28 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
+	
 	private Context context;
 	private ResponseDto responseObj;
 	private ProgressDialog pDialog;
 	private DiagnosticsDataListener listener;
+	private PurAirDevice purifier;
 
 	public interface DiagnosticsDataListener {
 		public void diagnosticsDataUpdated(String[] data);
 	}
 
 	public TaskGetDiagnosticData(Context pContext,
-			DiagnosticsDataListener pListener) {
+			DiagnosticsDataListener pListener, PurAirDevice purifier) {
 		context = pContext;
 		listener = pListener;
+		this.purifier = purifier;
 	}
 
 	@Override
@@ -43,8 +47,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 		for (int i = 0; i < urls.length; i++) {
 			responseObj = NetworkUtils.downloadUrl(urls[i], 60000);
 			if (responseObj != null)
-				result[i] = new DISecurity(null).decryptData(
-						responseObj.getResponseData(), Utils.getPurifierId());
+				result[i] = new DISecurity(null).decryptData(responseObj.getResponseData(), purifier);
 			// Escape early if cancel() is called
 			if (isCancelled())
 				break;

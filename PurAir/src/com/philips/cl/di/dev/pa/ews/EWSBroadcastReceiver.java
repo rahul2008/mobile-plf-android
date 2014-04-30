@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.ews;
 
 import java.net.HttpURLConnection;
+import java.util.UUID;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -12,12 +13,15 @@ import android.content.IntentFilter;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.CountDownTimer;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -39,7 +43,6 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	private int taskType ;
 	private String password;
-	private String deviceName ;
 
 	private boolean isRegistered ;
 	
@@ -53,7 +56,8 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	/**
 	 * 
 	 */
-	private String cppId = "";
+	private PurAirDevice tempEWSPurifier;
+	
 	/**
 	 * 
 	 * @param listener
@@ -65,7 +69,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		this.listener = listener ;
 		this.homeSSID = homeSSID ;
 		this.password = password ;
-
+		generateTempEWSDevice();
 	}
 
 	private IntentFilter filter = new IntentFilter();
@@ -155,14 +159,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	}
 
 	public void setDeviceName(String deviceName) {
-		this.deviceName = deviceName ;
+		tempEWSPurifier.setName(deviceName);
 	}
 
 	private void initializeKey() {
 		ALog.i(ALog.EWS, "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
-		di.initializeExchangeKeyCounter(cppId);
-		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), cppId) ;
+		di.initializeExchangeKeyCounter(tempEWSPurifier.getEui64());
+		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getEui64()) ;
 	}
 
 
@@ -204,7 +208,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		}
 		String js = holder.toString();
 
-		String encryptedData = new DISecurity(null).encryptData(js, Utils.getPurifierId());
+		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier);
 
 		return encryptedData ;
 	}
@@ -213,14 +217,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		ALog.i(ALog.EWS, "getDevicePortJson");
 		JSONObject holder = new JSONObject();
 		try {
-			holder.put("name", deviceName);
+			holder.put("name", tempEWSPurifier.getName());
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String js = holder.toString();
 
-		String encryptedData = new DISecurity(null).encryptData(js, Utils.getPurifierId());
+		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier);
 
 		return encryptedData ;
 	}
@@ -238,6 +242,8 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	@Override
 	public void keyDecrypt(String key, String deviceId) {
 		ALog.i(ALog.EWS, "Key: "+key) ;
+		tempEWSPurifier.setEncryptionKey(key);
+
 		if ( key != null ) {
 			setDevKey(key);
 			getDeviceDetails() ;
@@ -259,23 +265,24 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DEVICE_GET ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
+					tempEWSPurifier.setName(deviceDto.getName());
 					getWifiDetails() ;
 				}				
 			}
 			else if(taskType == WIFI_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(decryptedResponse);
 					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 					
 					if (deviceWifiDto != null) {
-						cppId = deviceWifiDto.getCppid();
+						this.updateTempDevice(deviceWifiDto.getCppid());
 					}
 					
 					deviceSSIDTimer.cancel() ;
@@ -283,7 +290,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}	
 			}
 			else if(taskType == DEVICE_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
@@ -292,7 +299,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}	
 			}
 			else if(taskType == WIFI_PUT ) {
-				String decryptedResponse = new DISecurity(null).decryptData(response, Utils.getPurifierId());
+				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					EWSWifiManager.connectToHomeNetwork(homeSSID);
@@ -401,4 +408,19 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	public String getDevKey() {
 		return devKey;
 	}
+	
+	private void generateTempEWSDevice() {
+		String tempEui64 = UUID.randomUUID().toString();
+		tempEWSPurifier = new PurAirDevice(tempEui64, null, EWSConstant.PURIFIER_ADHOCIP, null, null, ConnectionState.CONNECTED_LOCALLY);
+	}
+	
+	private void updateTempDevice(String eui64) {
+		String encryptionKey = tempEWSPurifier.getEncryptionKey();
+		String purifierName = tempEWSPurifier.getName();
+		tempEWSPurifier = new PurAirDevice(eui64, null, EWSConstant.PURIFIER_ADHOCIP, purifierName, "", ConnectionState.CONNECTED_LOCALLY);
+		tempEWSPurifier.setEncryptionKey(encryptionKey);
+		
+		DISecurity.setKeyIntoSecurityHashTable(tempEWSPurifier.getEui64(), tempEWSPurifier.getEncryptionKey());
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class JSONBuilder {
@@ -10,23 +11,23 @@ public class JSONBuilder {
 	public static final int CHILD_LOCK = 3 ;
 	public static final int INDICATOR_LIGHT = 4 ;
 	
-	public static String getDICommBuilder(String key, String value) {
+	public static String getDICommBuilder(String key, String value, PurAirDevice purifier) {
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
-		dataToSend = new DISecurity(null).encryptData(dataToSend, Utils.getPurifierId()) ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier) ;
 		return dataToSend ;
 	}
 	
-	public static String getDICommBuilderForSubscribe(String subscriberId, int ttl) {
+	public static String getDICommBuilderForSubscribe(String subscriberId, int ttl, PurAirDevice purifier) {
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append("subscriber").append("\"").append(":").append("\"").append(subscriberId).append("\",") ;
 		builder.append("\"").append("ttl\"").append(":").append(ttl) ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SUBSCRIPTION, "dataToSend " + dataToSend) ;
-		dataToSend = new DISecurity(null).encryptData(dataToSend, Utils.getPurifierId()) ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier) ;
 		return dataToSend ;
 	}
 

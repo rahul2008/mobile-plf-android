@@ -59,26 +59,11 @@ public class Utils {
 	private static String ago27DayDate = "";
 	public static final List<Integer> OUTDOOR_AQI_PERCENTAGE_LIST = new ArrayList<Integer>();
 
-	
-	public static String getPurifierId() {
-		String purifierId = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0)
-				.getString("airpurifierid", AppConstants.DEFAULT_PURIFIERID);
-		return purifierId;
-	}
-
 	public static String getPortUrl(Port port, String ipAddress) {
 		if (port == null) {
 			return String.format(AppConstants.URL_BASEALLPORTS, ipAddress,"1", "invalidport") ;
 		}
 		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.port,port.urlPart) ;
-	}
-	
-	public static void setPurifierId(String purifierId) {
-
-		SharedPreferences settings = PurAirApplication.getAppContext().getSharedPreferences("sharedPreferences", 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("airpurifierid", purifierId);
-		editor.commit();
 	}
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {

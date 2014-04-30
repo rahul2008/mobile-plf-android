@@ -1334,7 +1334,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 								+ dbBootId + " ssdp bootid: "
 								+ ssdpDiscoveredBootId);
 						String cppId = infoDto.getCppId();
-						Utils.setPurifierId(cppId);
 						secretKey = infoDto.getDeviceKey();
 						DISecurity.setKeyIntoSecurityHashTable(cppId, secretKey);
 						DISecurity.setUrlIntoUrlsTable(

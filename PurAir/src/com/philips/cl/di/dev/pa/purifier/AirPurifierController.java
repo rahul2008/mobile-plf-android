@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -64,7 +65,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	
 	public void setDeviceDetailsLocally(String key, String value, PurAirDevice purifier)
 	{
-		String dataToUpload = JSONBuilder.getDICommBuilder(key,value) ;
+		String dataToUpload = JSONBuilder.getDICommBuilder(key, value, purifier) ;
 		startServerTask(dataToUpload, purifier.getIpAddress()) ;
 	}	
 	public void setDeviceDetailsRemotely(String key, String value, PurAirDevice purifier) {
@@ -101,7 +102,8 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Response: "+responseData);
 		switch (responseCode) {
 		case HttpsURLConnection.HTTP_OK:
-				String decryptedData = new DISecurity(null).decryptData(responseData, Utils.getPurifierId()) ;
+				PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+				String decryptedData = new DISecurity(null).decryptData(responseData, purifier) ;
 				parseSensorData(decryptedData) ;
 			break;
 		default:			
@@ -158,9 +160,13 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	}
 	
 	@Override
-	public void onSubscribeEventOccurred(String data) {
-		if( data != null ) {
-			notifyListeners(data) ;
-		}
+	public void onSubscribeEventOccurred(String encryptedData) {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (purifier == null) return;
+		
+		String decryptedData = new DISecurity(null).decryptData(encryptedData, purifier) ;
+		if (decryptedData == null ) return;
+
+		notifyListeners(decryptedData) ;
 	}
 }

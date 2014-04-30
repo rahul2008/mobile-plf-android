@@ -183,7 +183,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 
 	public void setFirmwareUpdateJsonParams(String key, String value )
 	{
-		String dataToUpload = JSONBuilder.getDICommBuilder(key,value) ;
+		String dataToUpload = JSONBuilder.getDICommBuilder(key,value, getCurrentPurifier()) ;
 		startServerTask(dataToUpload) ;
 	}
 	
@@ -198,7 +198,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	 */
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData) {
-		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, currentPurifier.getEui64()));
+		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, currentPurifier));
 	}
 	
 	public String getUpgradeVersion() {
@@ -217,18 +217,14 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		return firmwarePortInfo.getVersion();
 	}
 	
+	public PurAirDevice getCurrentPurifier() {
+		return currentPurifier;
+	}
+	
 	public String getPurifierName() {
 		return currentPurifier.getName();
 	}
 
-	public String getPurifierIp() {
-		return currentPurifier.getIpAddress();
-	}
-
-	public String getPurifierEui64() {
-		return currentPurifier.getEui64();
-	}
-	
 	public int getDownloadFailedCount() {
 		return downloadFailedCount;
 	}

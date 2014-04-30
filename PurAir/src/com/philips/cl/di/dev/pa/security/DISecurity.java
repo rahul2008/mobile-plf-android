@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -43,8 +44,8 @@ public class DISecurity implements ServerResponseListener {
 		ALog.i(ALog.SECURITY, "Initialized DISecurity") ;
 	}
 	
-	public void initializeExchangeKeyCounter(String deviceId) {
-		exchangeKeyCounterTable.put(deviceId, 0);
+	public void initializeExchangeKeyCounter(String deviceEui64) {
+		exchangeKeyCounterTable.put(deviceEui64, 0);
 	}
 	
 	/**
@@ -53,17 +54,17 @@ public class DISecurity implements ServerResponseListener {
 	 * @throws UnsupportedEncodingException 
 	 * @throws Exception
 	 */ 
-	public void exchangeKey(String url, String deviceId)  {
-		int counter = exchangeKeyCounter(deviceId);
-		ALog.i(ALog.SECURITY, "DeviceId: " + deviceId + ", exchange key counter: " + counter) ;
+	public void exchangeKey(String url, String deviceEui64)  {
+		int counter = exchangeKeyCounter(deviceEui64);
+		ALog.i(ALog.SECURITY, "deviceEui64: " + deviceEui64 + ", exchange key counter: " + counter) ;
 		if (counter < 3) {
 			counter++;
-			exchangeKeyCounterTable.put(deviceId, counter);
-			ALog.i(ALog.SECURITY, "Requested Key exchange for device: " + deviceId+":"+isKeyExchanging(deviceId)) ;
-			urlsTable.put(deviceId, url);
-			if (!isKeyExchanging(deviceId)) {
-				ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceId) ;
-				isExchangingKeyTable.put(deviceId, true);
+			exchangeKeyCounterTable.put(deviceEui64, counter);
+			ALog.i(ALog.SECURITY, "Requested Key exchange for device: " + deviceEui64+":"+isKeyExchanging(deviceEui64)) ;
+			urlsTable.put(deviceEui64, url);
+			if (!isKeyExchanging(deviceEui64)) {
+				ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceEui64) ;
+				isExchangingKeyTable.put(deviceEui64, true);
 				
 				//Get diffie key
 				String sdiffie = generateDiffieKey();
@@ -75,11 +76,11 @@ public class DISecurity implements ServerResponseListener {
 					String js = holder.toString();
 					
 					//Send diffie to http
-					sendDiffie(url, deviceId, js);
+					sendDiffie(url, deviceEui64, js);
 					
 				} catch (JSONException e) {
 					e.printStackTrace();
-					isExchangingKeyTable.put(deviceId, false);
+					isExchangingKeyTable.put(deviceEui64, false);
 				}
 				ALog.d(ALog.SECURITY, "Generated diffie key: "+sdiffie);
 			}
@@ -91,11 +92,17 @@ public class DISecurity implements ServerResponseListener {
 	/**
 	 * 
 	 * @param data
-	 * @param deviceId
+	 * @param deviceEui64
 	 * @return
 	 */
-	public String encryptData(String data, String deviceId) {
-		String key = securityKeyHashtable.get(deviceId);
+	public String encryptData(String data, PurAirDevice purifier) {
+		if (purifier == null) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - Purifier is null");
+			return null;
+		}
+		
+		String deviceEui64 = purifier.getEui64();
+		String key = securityKeyHashtable.get(deviceEui64);
 		
 		if (key == null || data == null) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
@@ -117,13 +124,19 @@ public class DISecurity implements ServerResponseListener {
 	/**
 	 * 
 	 * @param data
-	 * @param deviceId
+	 * @param deviceEui64
 	 * @return
 	 */
-	public String decryptData(String data, String deviceId) {
+	public String decryptData(String data, PurAirDevice purifier) {
 		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
 
-		String key = securityKeyHashtable.get(deviceId);
+		if (purifier == null) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - Purifier is null");
+			return null;
+		}
+		
+		String deviceEui64 = purifier.getEui64();
+		String key = securityKeyHashtable.get(deviceEui64);
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
@@ -143,12 +156,12 @@ public class DISecurity implements ServerResponseListener {
 			decryptData = new String(bytesDecData1, Charset.defaultCharset());
 			
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
-			exchangeKeyCounterTable.put(deviceId, 0);
+			exchangeKeyCounterTable.put(deviceEui64, 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
 			
-			exchangeKey(urlsTable.get(deviceId), deviceId);
+			exchangeKey(urlsTable.get(deviceEui64), deviceEui64);
 		}
 
 		return decryptData;
@@ -224,10 +237,10 @@ public class DISecurity implements ServerResponseListener {
 	 * 
 	 * @param strEntity
 	 */
-	private void sendDiffie(String url, String deviceId, String strEntity)  {
+	private void sendDiffie(String url, String deviceEui64, String strEntity)  {
 		
 		DISecurityTask diSecurityTask = new DISecurityTask(this);
-		diSecurityTask.execute(new String[]{url, deviceId, strEntity});
+		diSecurityTask.execute(new String[]{url, deviceEui64, strEntity});
 		
 	}
 
@@ -248,11 +261,11 @@ public class DISecurity implements ServerResponseListener {
 	 * 
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String deviceId, String url) {
-		ALog.i(ALog.SECURITY, "Received response from device: " + deviceId + "    ResponseCode: " + responseCode) ;
-		isExchangingKeyTable.put(deviceId, false);
+	public void receiveServerResponse(int responseCode, String responseData, String deviceEui64, String url) {
+		ALog.i(ALog.SECURITY, "Received response from device: " + deviceEui64 + "    ResponseCode: " + responseCode) ;
+		isExchangingKeyTable.put(deviceEui64, false);
 		if ( responseCode == 200 ) {
-			exchangeKeyCounterTable.put(deviceId, 0);
+			exchangeKeyCounterTable.put(deviceEui64, 0);
 			JSONObject json;
 			try {
 				json = new JSONObject(responseData);
@@ -273,47 +286,45 @@ public class DISecurity implements ServerResponseListener {
 				
 				String key = Util.bytesToHex(bytesDecKey);
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
-				securityKeyHashtable.put(deviceId, key);
+				securityKeyHashtable.put(deviceEui64, key);
 				
-				Utils.setPurifierId(deviceId);//TODO Remove when multiple purifier handle
-				
-				keyDecryptListener.keyDecrypt(key, deviceId);
+				keyDecryptListener.keyDecrypt(key, deviceEui64);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		} else {
-			exchangeKey(urlsTable.get(deviceId), deviceId);
+			exchangeKey(urlsTable.get(deviceEui64), deviceEui64);
 		}
 		
 	}
 	
-	private boolean isKeyExchanging(String deviceId) {
+	private boolean isKeyExchanging(String deviceEui64) {
 		// First time exchange
-		ALog.i(ALog.SECURITY, "isKeyExchanging: "+isExchangingKeyTable.get(deviceId)) ;
-		if (!isExchangingKeyTable.containsKey(deviceId)) return false;
+		ALog.i(ALog.SECURITY, "isKeyExchanging: "+isExchangingKeyTable.get(deviceEui64)) ;
+		if (!isExchangingKeyTable.containsKey(deviceEui64)) return false;
 		// No exchange ongoing
-		if (!isExchangingKeyTable.get(deviceId)) return false;
+		if (!isExchangingKeyTable.get(deviceEui64)) return false;
 		
 		return true;
 	}
 	
-	public static void setKeyIntoSecurityHashTable(String devId, String key) {
-		securityKeyHashtable.put(devId, key);
+	public static void setKeyIntoSecurityHashTable(String deviceEui64, String key) {
+		securityKeyHashtable.put(deviceEui64, key);
 	}
 	
 	public static void setUrlIntoUrlsTable(String devId, String url) {
 		urlsTable.put(devId, url);
 	}
 	
-	private int exchangeKeyCounter(String deviceId) {
+	private int exchangeKeyCounter(String deviceEui64) {
 		int counter = 0;
-		if (exchangeKeyCounterTable.get(deviceId) == null) {
-			exchangeKeyCounterTable.put(deviceId, 0);
+		if (exchangeKeyCounterTable.get(deviceEui64) == null) {
+			exchangeKeyCounterTable.put(deviceEui64, 0);
 			counter = 0;
 		} else {
-			counter = exchangeKeyCounterTable.get(deviceId);
+			counter = exchangeKeyCounterTable.get(deviceEui64);
 		}
 		return counter;
 	}

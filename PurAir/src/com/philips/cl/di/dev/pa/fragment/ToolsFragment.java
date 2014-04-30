@@ -101,7 +101,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 			String logUrl = Utils.getPortUrl(Port.LOG, getPurifierIpAddress());
 
 			//fetch all ports data
-			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this);
+			TaskGetDiagnosticData task = new TaskGetDiagnosticData(getActivity(), this, mPurifier);
 			task.execute(wifiUrl, wifiUiUrl, deviceUrl, firmwareUrl, logUrl);
 			break;
 
