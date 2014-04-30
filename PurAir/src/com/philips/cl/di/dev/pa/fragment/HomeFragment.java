@@ -1,11 +1,41 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 
-import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.*;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.*;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_ALPHA;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_DURATION;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_ROTATION;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_SCALE_X;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_SCALE_Y;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.ANIM_TRANSLATION_Y;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.indoorBackgroundTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.indoorCircleScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.indoorTextScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.indoorTextScaleUpTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.outdoorCircleScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.outdoorTextScaleDownTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.outdoorTextScaleUpTranslationY;
+import static com.philips.cl.di.dev.pa.constant.AnimatorConstants.rotationPivot;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR_SKIES;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.CLOUDY;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.HEAVY_RAIN;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.HEAVY_RAIN_AT_TIMES;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.LIGHT_DRIZZLE;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.LIGHT_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.MIST;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.PARTLY_CLOUDY;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.SWIPE_THRESHOLD;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.SWIPE_VELOCITY_THRESHOLD;
+import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
 import java.util.List;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -42,6 +72,7 @@ import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -109,6 +140,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 	private static List<Weatherdto> weatherDtoList; 
 	private static String currentCityTime;
 	
+	private AirPortInfo airPortInfo;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -131,7 +164,12 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		if(SessionDto.getSessionDto() != null && SessionDto.getSessionDto().getCityDetails() != null)
 			Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
 		
-		if(MainActivity.getAirPurifierEventDto() != null) {
+		Activity parent = this.getActivity();
+		if (parent != null && (parent instanceof MainActivity)) {
+			airPortInfo = ((MainActivity)parent).getAirPortInfo();
+		}
+		
+		if (airPortInfo != null) {
 			setIndoorDashBoardValues(indoorAQIValue);
 			setHomeName(purifierName);
 		} else {
@@ -161,8 +199,8 @@ public class HomeFragment extends BaseFragment implements OnClickListener, OnGes
 		tvIndoorAQI.setText(setIndoorPSenseText(pSense));
 		setIndoorAQIStatusAndComment(indoorPSense);
 		ivIndoorCircle.setImageDrawable(setIndoorCircleBackground(pSense));
-		setMode(Utils.getMode(MainActivity.getAirPurifierEventDto().getFanSpeed(), getActivity()));
-		setFilterStatus(Utils.getFilterStatusForDashboard(MainActivity.getAirPurifierEventDto()));
+		setMode(Utils.getMode(airPortInfo.getFanSpeed(), getActivity()));
+		setFilterStatus(Utils.getFilterStatusForDashboard(airPortInfo));
 	}
 
 	/** Update dashboard values on resume*/

@@ -148,7 +148,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
-	public static AirPortInfo airPurifierEventDto;
+	private AirPortInfo airPurifierEventDto;
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
 	private int mVisits;
@@ -168,7 +168,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private AirPurifierController airPurifierController;
 
-	private String purifierName;
 	public boolean isDiagnostics;
 	private PurifierDatabase purifierDatabase;
 	private List<PurifierDetailDto> dbPurifierDetailDtoList;
@@ -191,7 +190,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		setContentView(R.layout.activity_main_aj);
 		airPurifierController = AirPurifierController.getInstance();
-		purifierName = getString(R.string.philips_home);
 
 		/**
 		 * Initialize database
@@ -570,7 +568,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		connected = true;
 		stopRemoteConnection() ;
 
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		PurAirDevice purifier = getCurrentPurifier();
 		purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier: " + purifier) ;
 		
@@ -1024,7 +1022,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void startFirmwareUpgradeActivity() {
-		if (PurifierManager.getInstance().getCurrentPurifier() == null) {
+		if (getCurrentPurifier() == null) {
 			ALog.d(ALog.MAINACTIVITY, "Did not start FirmwareUpdateActivity - Current Purifier null");
 			Toast.makeText(MainActivity.this, R.string.firmware_toast_nodeviceselected, Toast.LENGTH_SHORT).show();
 			return;
@@ -1047,7 +1045,19 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (airPurifierDetails != null) {
 			//			airPurifierEventDto = airPurifierDetails;
 			setAirPurifierEventDto(airPurifierDetails);
-			handler.sendEmptyMessage(0);
+			
+			ALog.i(ALog.MAINACTIVITY, "UDP Event Received");
+			PurAirDevice purifier = getCurrentPurifier();
+			if (purifier != null) {
+				purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+			}
+			
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					updatePurifierUIFields();
+				}
+			});
 		}
 	}
 	
@@ -1089,7 +1099,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			}
 			setRightMenuAirStatusMessage(getString(
 					Utils.getIndoorAQIMessage(indoorAQIUsableValue),
-					purifierName));
+					getString(R.string.philips_home)));
 			setRightMenuAirStatusBackground(indoorAQIUsableValue);
 			rightMenuClickListener.disableControlPanel(connected,
 					airPurifierEventDto);
@@ -1150,13 +1160,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 
-	public static AirPortInfo getAirPurifierEventDto() {
+	public AirPortInfo getAirPortInfo() {
 		return airPurifierEventDto;
 	}
 
-	private static void setAirPurifierEventDto(
+	private void setAirPurifierEventDto(
 			AirPortInfo airPurifierEventDto) {
-		MainActivity.airPurifierEventDto = airPurifierEventDto;
+		this.airPurifierEventDto = airPurifierEventDto;
 	}
 
 	public void setRightMenuVisibility(boolean visible) {
@@ -1192,13 +1202,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	 * 
 	 */
 	@Override
-	public void onReceivedDeviceDetails(AirPortInfo airPurifierDetails) {
-		ALog.i(ALog.MAINACTIVITY, "OnReceive device details from DCS: "
-				+ airPurifierDetails);
-		if (airPurifierDetails != null) {
-			airPurifierDetails
-			.setConnectionStatus(AppConstants.CONNECTED_VIA_PHILIPS);
-			setAirPurifierEventDto(airPurifierDetails);
+	public void onReceivedDeviceDetails(AirPortInfo airPortInfo) {
+		ALog.i(ALog.MAINACTIVITY, "OnReceive device details from DCS: " + airPortInfo);
+		if (airPortInfo != null) {
+			PurAirDevice purifier = getCurrentPurifier();
+			if (purifier != null) {
+				purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			}
+			setAirPurifierEventDto(airPortInfo);
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -1372,7 +1383,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	private void updatePurifierName() {
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier != null) {
 			// set purifier name in dashboard
 			homeFragment.setHomeName(purifier.getName());
@@ -1444,14 +1455,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		adapter.notifyDataSetChanged();
 		ALog.i(ALog.FIRMWARE, "LeftMenuList$firmwareItem " + item.getTextId());
 	}
-
-	private Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			ALog.i(ALog.MAINACTIVITY, "UDP Event Received");
-			airPurifierEventDto.setConnectionStatus(AppConstants.CONNECTED);
-			updatePurifierUIFields();
-		}
-	};
 
 	@Override
 	public void signonStatus(boolean signon) {

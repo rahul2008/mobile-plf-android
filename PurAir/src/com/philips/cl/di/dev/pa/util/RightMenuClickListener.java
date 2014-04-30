@@ -184,7 +184,7 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 		String powerMode = airPurifierEventDto.getPowerMode();
 		if(powerMode != null && powerMode.equals(AppConstants.POWER_ON)) {
-			enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());
+			enableButtonsOnPowerOn(mainActivity.getAirPortInfo());
 			isPowerOn = true;
 		} else {
 			disableControlPanelButtonsOnPowerOff();
@@ -230,7 +230,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_power:
 			if(!isPowerOn) {				
 				power.setChecked(true);
-				enableButtonsOnPowerOn(MainActivity.getAirPurifierEventDto());
+				enableButtonsOnPowerOn(mainActivity.getAirPortInfo());
 				controlDevice(ParserConstants.POWER_MODE, "1") ;
 				
 			} else {

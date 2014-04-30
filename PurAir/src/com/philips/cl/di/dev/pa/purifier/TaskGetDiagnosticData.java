@@ -8,7 +8,9 @@ import android.widget.Toast;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -60,6 +62,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	@Override
 	protected void onPostExecute(String[] response) {
 		pDialog.dismiss();
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if(!NetworkUtils.isNetworkConnected(context))
 		{
 			Toast.makeText(
@@ -67,7 +70,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 					"Could not fetch details, please check your data connection.",
 					Toast.LENGTH_LONG).show();
 		}
-		else if (MainActivity.airPurifierEventDto==null || MainActivity.airPurifierEventDto.getConnectionStatus()== AppConstants.NOT_CONNECTED) {
+		else if (purifier == null || purifier.getConnectionState().equals(ConnectionState.DISCONNECTED)) {
 			Toast.makeText(
 					context,
 					"Could not fetch Airpurifier details, please sign on, to fetch complete information.",

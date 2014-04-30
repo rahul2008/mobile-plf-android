@@ -261,7 +261,8 @@ public class Utils {
 //		String qry = String.format(
 //				AppConstants.CLIENT_ID_RDCP, "1c5a6bfffe6c74b1") + qryPart2 + qryPart3;
 		
-		String qry = String.format(AppConstants.CLIENT_ID_RDCP, purifier.getEui64()) + qryPart2 + qryPart3;
+		String eui64 = (purifier == null ? "" : purifier.getEui64());
+		String qry = String.format(AppConstants.CLIENT_ID_RDCP, eui64) + qryPart2 + qryPart3;
 
 		ALog.i(ALog.INDOOR_RDCP, "rdcp qry:   "+qry);
 		long lt1 = 24 * 60 * 60 * 1000;

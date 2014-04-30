@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.ProductDto;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -28,6 +30,7 @@ public class BuyOnlineFragment extends BaseFragment {
 	private FilterStatusView filterView;
 	private TextView lblFilter;
 	private TextView txtFilterStatus;
+	private AirPortInfo airPortInfo;
 	
 	private ListView mList;
 	
@@ -37,13 +40,11 @@ public class BuyOnlineFragment extends BaseFragment {
 		View view = inflater.inflate(R.layout.buy_online_fragment, container, false);
 		mList = (ListView) view.findViewById(R.id.list);
 		
-		return view;
-	}
-
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-
+		Activity parent = this.getActivity();
+		if (parent == null || !(parent instanceof MainActivity)) return view;
+		
+		airPortInfo = ((MainActivity) parent).getAirPortInfo();
+		
 		/* Create a list with known data */
 		ArrayList<ProductDto> list = new ArrayList<ProductDto>();
 		list.add(new ProductDto("Philips Smart Air Purifier", "000 000 000",
@@ -60,7 +61,10 @@ public class BuyOnlineFragment extends BaseFragment {
 		/* Create an adapter to display the loaded data. */
 		mAdapter = new BuyDataAdapter(getActivity(), list);
 		mList.setAdapter(mAdapter);
+		
+		return view;
 	}
+	
 
 	/* Custom Adapter to inflate custom rows of list */
 	class BuyDataAdapter extends ArrayAdapter<ProductDto> {
@@ -100,7 +104,7 @@ public class BuyOnlineFragment extends BaseFragment {
 			txtFilterStatus = (TextView) view
 					.findViewById(R.id.txt_filter_status);
 
-			if (MainActivity.airPurifierEventDto != null) {
+			if (airPortInfo != null) {
 				switch (position) {
 				case 0:
 					filterView.setVisibility(View.GONE);
@@ -113,12 +117,10 @@ public class BuyOnlineFragment extends BaseFragment {
 					lblFilter.setVisibility(View.VISIBLE);
 					lblFilter.setText(R.string.pre_filter);
 					filterView
-							.setPrefilterValue(MainActivity.airPurifierEventDto
-									.getFilterStatus1());
+							.setPrefilterValue(airPortInfo.getFilterStatus1());
 					txtFilterStatus
 							.setText(Utils
-									.getPreFilterStatusText(MainActivity.airPurifierEventDto
-											.getFilterStatus1()));
+									.getPreFilterStatusText(airPortInfo.getFilterStatus1()));
 					break;
 				case 2:
 					filterView.setVisibility(View.VISIBLE);
@@ -126,12 +128,10 @@ public class BuyOnlineFragment extends BaseFragment {
 					lblFilter.setVisibility(View.VISIBLE);
 					lblFilter.setText(R.string.multicarefilter);
 					filterView
-							.setMultiCareFilterValue(MainActivity.airPurifierEventDto
-									.getFilterStatus2());
+							.setMultiCareFilterValue(airPortInfo.getFilterStatus2());
 					txtFilterStatus
 							.setText(Utils
-									.getMultiCareFilterStatusText(MainActivity.airPurifierEventDto
-											.getFilterStatus2()));
+									.getMultiCareFilterStatusText(airPortInfo.getFilterStatus2()));
 					break;
 				case 3:
 					filterView.setVisibility(View.VISIBLE);
@@ -139,12 +139,10 @@ public class BuyOnlineFragment extends BaseFragment {
 					lblFilter.setVisibility(View.VISIBLE);
 					lblFilter.setText(R.string.activecarbonfilter);
 					filterView
-							.setActiveCarbonFilterValue(MainActivity.airPurifierEventDto
-									.getFilterStatus3());
+							.setActiveCarbonFilterValue(airPortInfo.getFilterStatus3());
 					txtFilterStatus
 							.setText(Utils
-									.getActiveCarbonFilterStatusText(MainActivity.airPurifierEventDto
-											.getFilterStatus3()));
+									.getActiveCarbonFilterStatusText(airPortInfo.getFilterStatus3()));
 					break;
 				case 4:
 					filterView.setVisibility(View.VISIBLE);
@@ -152,12 +150,10 @@ public class BuyOnlineFragment extends BaseFragment {
 					lblFilter.setVisibility(View.VISIBLE);
 					lblFilter.setText(R.string.hepa_filter);
 					filterView
-							.setHEPAfilterValue(MainActivity.airPurifierEventDto
-									.getFilterStatus4());
+							.setHEPAfilterValue(airPortInfo.getFilterStatus4());
 					txtFilterStatus
 							.setText(Utils
-									.getHEPAFilterFilterStatusText(MainActivity.airPurifierEventDto
-											.getFilterStatus4()));
+									.getHEPAFilterFilterStatusText(airPortInfo.getFilterStatus4()));
 					break;
 
 				default:

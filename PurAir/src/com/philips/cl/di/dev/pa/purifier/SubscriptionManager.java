@@ -124,7 +124,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	
 	@Override
 	public void onUDPEventReceived(String data) {
-		if (data == null) return;
+		if (data == null || data.isEmpty()) return;
 		
 		ALog.i(ALog.SUBSCRIPTION, data) ;
 		if (subscriptionEventListener != null) {

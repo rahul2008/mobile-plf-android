@@ -14,13 +14,6 @@ public class AirPortInfo {
 	
 	private boolean isValid;
 	
-	private int connectionStatus ;
-	public int getConnectionStatus() {
-		return connectionStatus;
-	}
-	public void setConnectionStatus(int connectionStatus) {
-		this.connectionStatus = connectionStatus;
-	}
 	public int getFilterStatus1() {
 		return AppConstants.PRE_FILTER_MAX_VALUE - filterStatus1;
 	}
