@@ -54,46 +54,6 @@
     <string name="clean_soon">Clean Soon</string>
     <string name="clean_now">Clean Now</string>
 
-    <!-- Firmware Screen text -->
-
-    <string name="firmware">Firmware</string>
-    <string name="firmware_update">Firmware update</string>
-    <string name="download_failed">Download Failed!</string>
-    <string name="firmware_failed_msg">Please make sure your %s is powered and connected to WiFi.</string>
-    <string name="firmware_failed_update">The firmware installation for %s failed.</string>
-    <string name="firmware_failed_update_msg">Please Contact Philips for support</string>
-    <string name="new_firmware">New firmware</string>
-    <string name="firmware_version_txt">Firmware version</string>
-    <string name="releasedate_txt">Release date</string>
-    <string name="release_notes_txt">Release notes</string>
-    <string name="firmware_status">!App Update needed</string>
-    <string name="firmware_version">6.0</string>
-    <string name="firmware_releasedate">14 Oct. 2013</string>
-    <string name="firmware_update_successful">Firmware update successful!</string>
-    <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
-    <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
-    <string name="firmware_current_version">Current version: </string>
-    <string name="firmware_new_version">New version: </string>
-    <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
-    <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string>
-    <string name="installing_firmware_step">Step 2 of 2</string>
-    <string name="downloading_firmware_step">Step 1 of 2</string>
-    <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
-    <string name="downloading_firmware_text">Downloading firmware</string>
-    <string name="installing_firmware_text">Installing firmware</string>
-    <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
-    <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
-    <string name="installed">Installed</string>
-    <string name="update">Update</string>
-    <string name="call">Call</string>
-    <string name="send_email">Send e-mail</string>
-    <string name="send_report">Send report</string>
-    <string name="try_again">Try again</string>
-    <string name="done">Done</string>
-    <string name="lbl_firmware_update_available">Firmware update available</string>
-    <string name="contact_support">Contact Support</string>
-    <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
-
     <!-- Timer texts -->
 
     <string name="rm_air_quality_title">Indoor Air Level Status</string>
@@ -127,7 +87,7 @@
     <string name="subtitle_FAQ">FAQ</string>
     <string name="subtitle_user_manual">PHILIPS Smart Air Purifier User Manual</string>
     <string name="subtitle_wifi_connectivity">WI-FI connectivity step-by-step guide</string>
-    <string name="subitle_philips_support">Please contact PHILIPS Support</string>
+    <string name="subitle_philips_support">Connect with Philips Support</string>
     <string name="subtitle_call_us">Call us:</string>
     <string name="subtitle_email_us">Send us an email:</string>
     <string name="subtitle_help_section">Visit our Help section:</string>
@@ -263,9 +223,6 @@
     <string name="lastday">Last day</string>
     <string name="last7day">Last 7 days</string>
     <string name="last4week">Last 4 weeks</string>
-    <string name="good_air_message_last_day">During the last day, how much good air did you have?</string>
-    <string name="goor_air_message_last7day">During the last 7 days, how much good air did you have?</string>
-    <string name="good_air_message_last4week">During the last 4 weeks, how much good air did you have?</string>
     <string name="detail_aiq_message_last_day">Detailed air quality for the last day?</string>
     <string name="detail_aiq_message_last7day">Detailed air quality for the last 7 days?</string>
     <string name="detail_aiq_message_last4week">Detailed air quality for the last 4 weeks?</string>
@@ -506,4 +463,43 @@
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
     <string name="pairing_failed">Failed to enable remote control, please try again later.</string>
 
+    <!-- Firmware Screen text -->
+
+    <string name="firmware">Firmware</string>
+    <string name="firmware_update">Firmware update</string>
+    <string name="download_failed">Download Failed!</string>
+    <string name="firmware_failed_msg">Please make sure your %s is powered and connected to WiFi.</string>
+    <string name="firmware_failed_update">The firmware installation for %s failed.</string>
+    <string name="firmware_failed_update_msg">Please Contact Philips for support</string>
+    <string name="new_firmware">New firmware</string>
+    <string name="firmware_version_txt">Firmware version</string>
+    <string name="releasedate_txt">Release date</string>
+    <string name="release_notes_txt">Release notes</string>
+    <string name="firmware_status">!App Update needed</string>
+    <string name="firmware_version">6.0</string>
+    <string name="firmware_releasedate">14 Oct. 2013</string>
+    <string name="firmware_update_successful">Firmware update successful!</string>
+    <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
+    <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
+    <string name="firmware_current_version">Current version: </string>
+    <string name="firmware_new_version">New version: </string>
+    <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
+    <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string>
+    <string name="installing_firmware_step">Step 2 of 2</string>
+    <string name="downloading_firmware_step">Step 1 of 2</string>
+    <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
+    <string name="downloading_firmware_text">Downloading firmware</string>
+    <string name="installing_firmware_text">Installing firmware</string>
+    <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
+    <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
+    <string name="installed">Installed</string>
+    <string name="update">Update</string>
+    <string name="call">Call</string>
+    <string name="send_email">Send e-mail</string>
+    <string name="send_report">Send report</string>
+    <string name="try_again">Try again</string>
+    <string name="done">Done</string>
+    <string name="lbl_firmware_update_available">Firmware update available</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
 </resources>

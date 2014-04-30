@@ -46,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/good_air_message_last_day"
+            android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="18sp"
             custom:fontAssetName="fonts/gillsans.ttf" />

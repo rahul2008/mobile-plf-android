@@ -25,9 +25,9 @@
 
     <string name="connection_status">连接状态</string>
     <string name="connected">已连接</string>
-    <string name="connected_via_philips">Connected Via PHILIPS</string>
+    <string name="connected_via_philips">已连接 Via PHILIPS</string>
     <string name="not_connected">未连接</string>
-    <string name="connect">Connect</string>
+    <string name="connect">连接</string>
     <string name="power">Power</string>
     <string name="fan_speed">风扇速度</string>
     <string name="auto">自动</string>
@@ -39,60 +39,22 @@
     <string name="set_timer">设置时间</string>
 
     <!-- Filter texts and messages -->
-    <string name="filter_status">Filter Status</string>
-    <string name="pre_filter">1 Pre-filter</string>
-    <string name="multicarefilter">2 Multi-care Filter</string>
-    <string name="activecarbonfilter">3 Active carbon filter</string>
-    <string name="hepa_filter">4 HEPA filter</string>
-    <string name="change_soon">Change soon</string>
-    <string name="change_now">Change now</string>
-    <string name="onehour">1 hours</string>
-    <string name="fourhour">4 hours</string>
-    <string name="eighthour">8 hours</string>
-    <string name="off">OFF</string>
+    <string name="filter_status">过滤网状态</string>
+    <string name="pre_filter">1 预过滤网</string>
+    <string name="multicarefilter">2 Multi-Care 过滤网</string>
+    <string name="activecarbonfilter">3 活性炭过滤网</string>
+    <string name="hepa_filter">4 HEPA 过滤网</string>
+    <string name="change_soon">即将更换。</string>
+    <string name="change_now">立即更换。</string>
+    <string name="onehour">1 小时</string>
+    <string name="fourhour">4 小时</string>
+    <string name="eighthour">8 小时</string>
+    <string name="off">关</string>
     <string name="filter_lock">Filter Lock</string>
     <string name="clean_soon">Clean Soon</string>
     <string name="clean_now">Clean Now</string>
 
-    <!-- Firmware Screen text -->
-
-    <string name="firmware">Firmware</string>
-    <string name="firmware_update">Firmware update</string>
-    <string name="download_failed">Download Failed!</string>
-    <string name="firmware_failed_msg">Please make sure your %s is powered and connected to WiFi.</string>
-    <string name="firmware_failed_update">The firmware installation for %s failed.</string>
-    <string name="firmware_failed_update_msg">Please Contact Philips for support</string>
-    <string name="new_firmware">New firmware</string>
-    <string name="firmware_version_txt">Firmware version</string>
-    <string name="releasedate_txt">Release date</string>
-    <string name="release_notes_txt">Release notes</string>
-    <string name="firmware_status">!App Update needed</string>
-    <string name="firmware_version">6.0</string>
-    <string name="firmware_releasedate">14 Oct. 2013</string>
-    <string name="firmware_update_successful">Firmware update successful!</string>
-    <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
-    <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
-    <string name="firmware_current_version">Current version: </string>
-    <string name="firmware_new_version">New version: </string>
-    <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
-    <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string>
-    <string name="installing_firmware_step">Step 2 of 2</string>
-    <string name="downloading_firmware_step">Step 1 of 2</string>
-    <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
-    <string name="downloading_firmware_text">Downloading firmware</string>
-    <string name="installing_firmware_text">Installing firmware</string>
-    <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
-    <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
-    <string name="installed">Installed</string>
-    <string name="update">Update</string>
-    <string name="call">Call</string>
-    <string name="send_email">Send e-mail</string>
-    <string name="send_report">Send report</string>
-    <string name="try_again">Try again</string>
-    <string name="done">Done</string>
-    <string name="lbl_firmware_update_available">Firmware update available</string>
-    <string name="contact_support">Contact Support</string>
-    <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
+    
 
     <!-- Timer texts -->
 
@@ -103,96 +65,95 @@
 
     <string name="mode">Mode</string>
     <string name="filters">Filters</string>
-    <string name="speed1">Speed 1</string>
-    <string name="speed2">Speed 2</string>
-    <string name="speed3">Speed 3</string>
-    <string name="updated">Last Updated</string>
+    <string name="speed1">速度 1</string>
+    <string name="speed2">速度 2</string>
+    <string name="speed3">速度 3</string>
+    <string name="updated">最近更新。</string>
     <string name="n_a">N.A.</string>
-    <string name="take_action">Take action</string>
+    <string name="take_action">采取措施。</string>
 
     <!-- AQI status -->
 
-    <string name="good">Good</string>
-    <string name="moderate">Moderate</string>
+    <string name="good">良好</string>
+    <string name="moderate">适中</string>
     <string name="healthy">Healthy</string>
-    <string name="unhealthy_for_sensitive_groups">Unhealthy for sensitive groups</string>
-    <string name="unhealthy">Unhealthy</string>
-    <string name="very_unhealthy">Very unhealthy</string>
-    <string name="very_unhealthy_split">Very \n unhealthy</string>
-    <string name="hazardous">Hazardous</string>
+    <string name="unhealthy_for_sensitive_groups">对敏感人群不健康</string>
+    <string name="unhealthy">不健康</string>
+    <string name="very_unhealthy">非常不健康</string>
+    <string name="very_unhealthy_split">非常 \n 不健康</string>
+    <string name="hazardous">危险</string>
 
     <!-- Help and Documentation -->
 
-    <string name="subtitle_app_tutorial">App tutorial</string>
-    <string name="subtitle_FAQ">FAQ</string>
-    <string name="subtitle_user_manual">PHILIPS Smart Air Purifier User Manual</string>
-    <string name="subtitle_wifi_connectivity">WI-FI connectivity step-by-step guide</string>
-    <string name="subitle_philips_support">Please contact PHILIPS Support</string>
-    <string name="subtitle_call_us">Call us:</string>
-    <string name="subtitle_email_us">Send us an email:</string>
-    <string name="subtitle_help_section">Visit our Help section:</string>
+    <string name="subtitle_app_tutorial">应用程序教程</string>
+    <string name="subtitle_FAQ">常见问题解答</string>
+    <string name="subtitle_user_manual">飞利浦智能空气净化器用户手册</string>
+    <string name="subtitle_wifi_connectivity">Wi-Fi 连接分步指南</string>
+    <string name="subitle_philips_support">联系飞利浦支持</string>
+    <string name="subtitle_call_us">致电我们 :</string>
+    <string name="subtitle_email_us">给我们发邮件：</string>
+    <string name="subtitle_help_section">访问我们的帮助板块：</string>
 
     <!-- Air Tutorial -->
 
     <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor AQI</string>
-    <string name="tutorial_lOC_desc">Left of canvas contains links to different sections of the app.</string>
-    <string name="tutorial_rOC_desc">Right of canvas contains controls for your Philips Smart Air Purifier.</string>
-    <string name="tutorial_device_status_desc">You will see the status of your Philips Smart Air Purifier on the dashboard.</string>
-    <string name="tutorial_indoor_aqi_desc">The indoor detail page shows the air level readings and history from your Philips Smart Air Purifier.</string>
-    <string name="tutorial_outdoor_aqi_desc">Outdoor detail page shows the air quality readings, history and weather from your chosen locations.</string>
+    <string name="tutorial_lOC_desc">画布左侧包含应用程序不同部分的链接。</string>
+    <string name="tutorial_rOC_desc">画布右侧包含飞利浦智能空气净化器的控件。</string>
+    <string name="tutorial_device_status_desc">在仪表板上可以看到飞利浦智能空气净化器的状态。</string>
+    <string name="tutorial_indoor_aqi_desc">室内详情页面显示飞利浦智能空气净化器的提供的空气水平读数和历史记录。</string>
+    <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气。</string>
     <string name="dashboard_instruction">Tap once to enlarge each category, tap second time to view details.</string>
-    <string name="loc_roc_remote_instruction">Tap to open and close the canvas.</string>
-    <string name="status_instruction">Tap to open and close the canvas.</string>
-    <string name="indoor_outdoor_aqi_instruction">Tap the arrow to go back to the dashboard.</string>
-    <string name="dashboard_instruction_1">App navigation</string>
-    <string name="dashboard_instruction_2">Air purifier controls</string>
-    <string name="dashboard_instruction_3">Indoor air level readings</string>
-    <string name="dashboard_instruction_4">Outdoor AQI readings</string>
-    <string name="tutorial_title_1">Dashboard</string>
-    <string name="tutorial_title_2">App Navigation</string>
-    <string name="tutorial_title_3">Air Purifier Controls</string>
-    <string name="tutorial_title_4">Device Status</string>
-    <string name="tutorial_title_5">Indoor Air Level Readings</string>
-    <string name="tutorial_title_6">Outdoor AQI readings</string>
-    <string name="finish_tutorial">Finish the tour</string>
-    <string name="prompt_take_tour">Take a tour of the app</string>
-    <string name="alert_take_tour">Take the tour</string>
-    <string name="alert_text">If you want to take the tour of the app in the future you can find it under \'Help and Documentation\' in your left hand navigation.</string>
-    <string name="close">Close</string>
+    <string name="loc_roc_remote_instruction">轻击可打开和关闭画布。</string>
+    <string name="indoor_outdoor_aqi_instruction">轻击箭头可返回仪表板。</string>
+    <string name="dashboard_instruction_1">应用程序导航</string>
+    <string name="dashboard_instruction_2">空气净化器控件</string>
+    <string name="dashboard_instruction_3">室内空气水平读数</string>
+    <string name="dashboard_instruction_4">室外 AQI 读数</string>
+    <string name="tutorial_title_1">仪表板</string>
+    <string name="tutorial_title_2">应用程序导航</string>
+    <string name="tutorial_title_3">空气净化器控件</string>
+    <string name="tutorial_title_4">设备状态</string>
+    <string name="tutorial_title_5">室内空气水平读数</string>
+    <string name="tutorial_title_6">室外 AQI 读数</string>
+    <string name="finish_tutorial">结束体验</string>
+    <string name="prompt_take_tour">体验应用程序</string>
+    <string name="alert_take_tour">体验</string>
+    <string name="alert_text">如果您想体验应用程序以后可在左侧导航中的“帮助和文档”下找到。</string>
+    <string name="close">關閉</string>
 
     <!-- Product Registration -->
 
-    <string name="registration_instruction">Select the purifier you want to register.</string>
+    <string name="registration_instruction">选择要注册的净化器。</string>
     <string name="lbl_kitchen">Kitchen</string>
     <string name="lbl_living_room">Living Room</string>
-    <string name="registration_ques">Is the purifier you want to register not listed here?</string>
-    <string name="registration_step_email">Step 1: Email Address</string>
-    <string name="registration_email_ques">What is your email address?</string>
-    <string name="promotion_ques">Philips can email you promotions and offers.</string>
+    <string name="registration_ques">您要注册的净化器在这里没有列出？</string>
+    <string name="registration_step_email">步骤 1：电子邮件地址</string>
+    <string name="registration_email_ques">您的电子邮件地址是什么？</string>
+    <string name="promotion_ques">飞利浦将通过电子邮件向您发送促销和优惠信息</string>
     <string name="lbl_register">Register</string>
-    <string name="lbl_connected_purifiers">Connected purifiers</string>
-    <string name="reg_step1_title">You are registering the purifier \'Kitchen\'</string>
-    <string name="next_step">Next Step</string>
+    <string name="lbl_connected_purifiers">已连接的净化器</string>
+    <string name="reg_step1_title">现在注册 净化器名称 净化器。</string>
+    <string name="next_step">下一步</string>
 
     <!-- Buy Online -->
 
     <string name="buy_online_lbl">Buy Online</string>
 
     <!-- Indoor and Outdoor Details -->
-    <string name="indoor_db">Indoor</string>
-    <string name="outdoor_db">Outdoor</string>
-    <string name="current_location">Current location</string>
+    <string name="indoor_db">室內</string>
+    <string name="outdoor_db">戶外</string>
+    <string name="current_location">当前位置</string>
     <string name="title_outdoor_db">Outdoor Dashboard</string>
 
     <!-- Indoor details tips -->
-    <string name="indoor_aqi_good_tip1">Low pollution, low PM2.5: poses little or no risk to health.</string>
-    <string name="indoor_aqi_good_tip2">You could open or close windows or switch your Philips Smart Air Purifier to Auto.</string>
-    <string name="indoor_aqi_moderate_tip1">Pollution, particle level and PM2.5 all at moderate level.</string>
-    <string name="indoor_aqi_moderate_tip2">Close windows and turn on your Philips Smart Air Purifier to speed 1 or above.</string>
-    <string name="indoor_aqi_unhealthy_tip1">High particle level PM2.5: irritation may occur.</string>
-    <string name="indoor_aqi_unhealthy_tip2">Turn on your Philips Smart Air Purifier to speed 2 or above. </string>
-    <string name="indoor_aqi_very_unhealthy_tip1">Very high particle levels: PM2.5.</string>
-    <string name="indoor_aqi_very_unhealthy_tip2">Switch on your Philips Smart Air Purifier to speed 3 or Turbo.</string>
+    <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：对健康危害极小或无危害。</string>
+    <string name="indoor_aqi_good_tip2">您可以打开或关闭窗户或将飞利浦智能空气净化器切换至自动。 </string>
+    <string name="indoor_aqi_moderate_tip1">污染、颗粒水平和 PM2.5 均处于中级。 </string>
+    <string name="indoor_aqi_moderate_tip2">关闭窗户并打开飞利浦智能空气净化器，调到速度 1 或更高速度。</string>
+    <string name="indoor_aqi_unhealthy_tip1">PM2.5 颗粒水平很高：可能会出现过敏。</string>
+    <string name="indoor_aqi_unhealthy_tip2">打开飞利浦智能空气净化器，调到速度 2 或更高速度。</string>
+    <string name="indoor_aqi_very_unhealthy_tip1">颗粒水平极高：PM2.5。</string>
+    <string name="indoor_aqi_very_unhealthy_tip2">打开飞利浦智能空气净化器，调到速度 3 或强力模式。</string>
 
     <!-- Outdoor details -->
     <string name="mask_od_msg1">Masks not needed</string>
@@ -220,23 +181,23 @@
 	<string name="advice_od_msg6">OK for outdoor activities</string>
 	
 	<!-- Outdoor Detail Tips -->
-	<string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
-	<string name="outdoor_aqi_good_tip2"> Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
+	<string name="outdoor_aqi_good_tip1"> 特别适合室外运动。 开窗通风。 .</string>
+	<string name="outdoor_aqi_good_tip2"> 洁净空气，对健康危害极小或无危害。 可以参加日常室外活动。</string>
 	
-	<string name="outdoor_aqi_moderate_tip1"> Good for outdoor activities but hyper-sensitive people should take care.</string>
-	<string name="outdoor_aqi_moderate_tip2"> Hyper-sensitive people should reduce activities.</string>
+	<string name="outdoor_aqi_moderate_tip1"> 适合室外运动，但高度敏感人群应多加小心。</string>
+	<string name="outdoor_aqi_moderate_tip2"> 高度敏感人群应减少运动。</string>
 	
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">Reduce outdoor activities and occasionally open your windows for ventilation.</string>
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">Unhealthy for sensitive groups like babies and the elderly.</string>
+	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">减少室外运动并偶尔开窗通风。 </string>
+	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">对婴儿和老人等敏感人群不健康。</string>
 	
-	<string name="outdoor_aqi_unhealthy_tip1">Reduce outdoor activities and close your windows.</string>
-	<string name="outdoor_aqi_unhealthy_tip2">Slight irritation may occur.</string>
+	<string name="outdoor_aqi_unhealthy_tip1">减少室外运动并关闭窗户。 </string>
+	<string name="outdoor_aqi_unhealthy_tip2">可能会发生轻微过敏。</string>
 	
-	<string name="outdoor_aqi_very_unhealthy_tip1">It’s a good idea to wear a mask.</string>
-	<string name="outdoor_aqi_very_unhealthy_tip2">Postpone outdoor activities.</string>
+	<string name="outdoor_aqi_very_unhealthy_tip1">最好戴上口罩。</string>
+	<string name="outdoor_aqi_very_unhealthy_tip2">延缓室外活动。</string>
 	
-	<string name="outdoor_aqi_hazardous_tip1">Avoid going outdoors or wear a mask. Close windows at your home.</string>
-	<string name="outdoor_aqi_hazardous_tip2">Go outside only if you really have to.</string>
+	<string name="outdoor_aqi_hazardous_tip1">避免前往室外或戴上口罩。 关闭家里的窗户。</string>
+	<string name="outdoor_aqi_hazardous_tip2">除非必要，否则不要外出。</string>
 	
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
@@ -250,26 +211,23 @@
     <string name="id_yaxis_label3">4</string>
     <string name="id_yaxis_label4">10+</string>
     <string name="sun">Sun</string>
-    <string name="mon">Mon</string>
-    <string name="tue">Tue</string>
-    <string name="wed">Wed</string>
-    <string name="thu">Thu</string>
-    <string name="fri">Fri</string>
+    <string name="mon">周一</string>
+    <string name="tue">周二</string>
+    <string name="wed">周三</string>
+    <string name="thu">周四</string>
+    <string name="fri">周五</string>
     <string name="sat">Sat</string>
     <string name="week1">Week1</string>
     <string name="week2">Week2</string>
     <string name="week3">Week3</string>
     <string name="week4">Week4</string>
-    <string name="lastday">Last day</string>
-    <string name="last7day">Last 7 days</string>
-    <string name="last4week">Last 4 weeks</string>
-    <string name="good_air_message_last_day">During the last day, how much good air did you have?</string>
-    <string name="goor_air_message_last7day">During the last 7 days, how much good air did you have?</string>
-    <string name="good_air_message_last4week">During the last 4 weeks, how much good air did you have?</string>
-    <string name="detail_aiq_message_last_day">Detailed air quality for the last day?</string>
-    <string name="detail_aiq_message_last7day">Detailed air quality for the last 7 days?</string>
-    <string name="detail_aiq_message_last4week">Detailed air quality for the last 4 weeks?</string>
-    <string name="outdoor_aiq_analysis_head1">Air Analysis Explained</string>
+    <string name="lastday">最近 1 天</string>
+    <string name="last7day">最近 7 天</string>
+    <string name="last4week">最近 4 周</string>
+    <string name="detail_aiq_message_last_day">最近 1 天空气质量详情。</string>
+    <string name="detail_aiq_message_last7day">最近 7 天空气质量详情。</string>
+    <string name="detail_aiq_message_last4week">最近 4 周空气质量详情。</string>
+    <string name="outdoor_aiq_analysis_head1">空气分析说明</string>
     <string name="outdoor_aiq_analysis_head2">Indoor air quality level and PM2.5</string>
     <string name="outdoor_aiq_analysis_head3">Correlation between indoor and outdoor air quality, and how they are measured</string>
     <string name="outdoor_aiq_analysis_head4">Indoor air quality explained</string>
@@ -506,4 +464,43 @@
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
     <string name="pairing_failed">Failed to enable remote control, please try again later.</string>
 
+    <!-- Firmware Screen text -->
+
+    <string name="firmware">Firmware</string>
+    <string name="firmware_update">Firmware update</string>
+    <string name="download_failed">Download Failed!</string>
+    <string name="firmware_failed_msg">Please make sure your %s is powered and connected to WiFi.</string>
+    <string name="firmware_failed_update">The firmware installation for %s failed.</string>
+    <string name="firmware_failed_update_msg">Please Contact Philips for support</string>
+    <string name="new_firmware">New firmware</string>
+    <string name="firmware_version_txt">Firmware version</string>
+    <string name="releasedate_txt">Release date</string>
+    <string name="release_notes_txt">Release notes</string>
+    <string name="firmware_status">!App Update needed</string>
+    <string name="firmware_version">6.0</string>
+    <string name="firmware_releasedate">14 Oct. 2013</string>
+    <string name="firmware_update_successful">Firmware update successful!</string>
+    <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
+    <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
+    <string name="firmware_current_version">Current version: </string>
+    <string name="firmware_new_version">New version: </string>
+    <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
+    <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string>
+    <string name="installing_firmware_step">Step 2 of 2</string>
+    <string name="downloading_firmware_step">Step 1 of 2</string>
+    <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
+    <string name="downloading_firmware_text">Downloading firmware</string>
+    <string name="installing_firmware_text">Installing firmware</string>
+    <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
+    <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
+    <string name="installed">Installed</string>
+    <string name="update">Update</string>
+    <string name="call">Call</string>
+    <string name="send_email">Send e-mail</string>
+    <string name="send_report">Send report</string>
+    <string name="try_again">Try again</string>
+    <string name="done">Done</string>
+    <string name="lbl_firmware_update_available">Firmware update available</string>
+    <string name="contact_support">Contact Support</string>
+    <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
 </resources>
