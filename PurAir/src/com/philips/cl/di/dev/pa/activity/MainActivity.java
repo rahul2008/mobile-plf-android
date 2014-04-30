@@ -181,10 +181,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	public boolean isPairingDialogShown;
 	protected ProgressDialog progressDialog;
 
-
-	private String upgradeVersion;
-	private String currentVersion;
-
 	private ConnectivityManager connManager ;
 	private String secretKey;
 	private ActionMode actionMode;
@@ -1058,9 +1054,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	@Override
 	public void firmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
-
-		upgradeVersion = firmwarePortInfo.getUpgrade();
-		currentVersion = firmwarePortInfo.getVersion();
 		
 		if (firmwarePortInfo.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
