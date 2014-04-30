@@ -163,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_t1"
+                    android:text="@string/indoor_very_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -216,7 +216,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_t2"
+                    android:text="@string/indoor_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -267,7 +267,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_T3"
+                    android:text="@string/indoor_moderate"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -318,7 +318,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h4_t4"
+                    android:text="@string/indoor_good"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />

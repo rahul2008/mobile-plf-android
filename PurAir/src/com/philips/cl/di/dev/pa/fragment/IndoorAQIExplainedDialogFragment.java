@@ -46,10 +46,9 @@ public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
 		String indoorTitle = getArguments().getString(EXTRA_INDOORTITLE);
 		
-		((FontTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText
-			(getString(R.string.outdoor_analysis_detail2_head100)+" '"+indoorTitle+"'  " +
-			getString(R.string.outdoor_analysis_detail2_head102)+" '"+outdoorTitle+"' " +
-					getString(R.string.outdoor_analysis_detail2_head102));
+		// TODO - Include indoorTitle and OutdoorTitle
+		String aqiAnalysis = String.format(getString(R.string.outdoor_analysis_detail2_head100),"7days", indoorTitle,outdoorTitle) ;
+		((FontTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText(aqiAnalysis);
 		
 		return view; 
 	}

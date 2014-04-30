@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_t1"
+                    android:text="@string/outdoor_hazardous"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_t2"
+                    android:text="@string/outdoor_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -173,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_t3"
+                    android:text="@string/outdoor_moderately_polluted"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -224,7 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_t4"
+                    android:text="@string/outdoor_slightly_polluted"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -275,7 +275,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_t5"
+                    android:text="@string/outdoor_moderate"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -326,7 +326,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
                     android:paddingTop="4dp"
-                    android:text="@string/outdoor_analysis_detail_h5_t6"
+                    android:text="@string/outdoor_good"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
