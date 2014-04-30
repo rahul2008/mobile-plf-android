@@ -5,8 +5,6 @@
     <string name="dashboard_title">Smart Air Purifier</string>
     <string name="action_settings">Settings</string>
     <string name="philips_home">Philips</string>
-    <string name="apos_s">\'s</string>
-    <string name="room">Room</string>
 
     <!-- Left menu items -->
 
@@ -59,6 +57,14 @@
     <string name="rm_air_quality_title">Indoor Air Level Status</string>
     <string name="rm_air_quality_message">Connect device to begin reading indoor air quality</string>
 
+    <!-- Outdoor Locations -->
+	
+	<string name="enter_city_name">Enter location</string>
+    <string name="cancel">Cancel</string>
+    <string name="weather_forecast">Weather Forecast</string>
+    <string name="one_zero">0</string>
+    <string name="colon_2_zero">:00</string>
+        
     <!-- Dashboard texts -->
 
     <string name="mode">Mode</string>
@@ -346,11 +352,7 @@
     <string name="indoor_moderate">Moderate air. Moderate particle levels in the air. The PM2.5 level is also expected to be moderate. Adults and children with lung problems, and adults with heart problems who experience symptoms should consider reducing strenuous physical activity.</string>
     <string name="indoor_good">Good air. Overall there is low dust and particle levels in the air. The PM2.5 level is expected to be low. Health risk is considered to be minor. Enjoy your usual indoor activities.</string>
     <string name="indoor_color_explained_intro">The Philips Smart Air app shows real-time air particle level on a scale of 1&#8211;10 measured by a smart built-in sensor. You can read update air quality information in your home, including PM2.5 concentration.</string>
-    <string name="enter_city_name">Enter city name</string>
-    <string name="cancel">Cancel</string>
-    <string name="weather_forecast">Weather Forecast</string>
-    <string name="one_zero">0</string>
-    <string name="colon_2_zero">:00</string>
+    
 
     <!-- Diagnostics -->
     <string name="diagnostics">Diagnostics</string>

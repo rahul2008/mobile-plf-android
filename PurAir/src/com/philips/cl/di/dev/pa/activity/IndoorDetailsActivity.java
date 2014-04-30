@@ -194,9 +194,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			indoorDbIndexName.setText("");
 			barTopName.setText("");
 		} else {
-			heading.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
-			indoorDbIndexName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
-			barTopName.setText(name + getString(R.string.apos_s)  + " "+  getString(R.string.room));
+			heading.setText(name);
+			indoorDbIndexName.setText(name);
+			barTopName.setText(name);
 		}
 	}
 
