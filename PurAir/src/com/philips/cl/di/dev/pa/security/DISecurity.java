@@ -15,7 +15,6 @@ import org.json.JSONObject;
 
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DISecurity implements ServerResponseListener {
 
