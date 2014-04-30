@@ -1314,11 +1314,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		//used to fetch the MAC address of purifier then save it
 		Utils.extractMacAddress(ssdpDiscoveredUsn);
 		localDeviceUsn = ssdpDiscoveredUsn;
-
-		getSharedPreferences("cpp_preferences01", 0).edit()
-		.putString("airpurifierid", purifier.getEui64())
-		.commit();
-
 		
 		try {
 			ssdpDiscoveredBootId = Long.parseLong(purifier.getBootId());

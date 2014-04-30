@@ -300,8 +300,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		
 		if (deviceInfoDto != null) {
 			new PurifierDatabase().insertPurifierDetail(deviceInfoDto);
-			getSharedPreferences(
-					"cpp_preferences01", 0).edit().putString("airpurifierid", deviceInfoDto.getCppId()).commit();
 		}
 		Intent intent = new Intent(this,MainActivity.class) ;
 		setResult(RESULT_OK,intent) ;
