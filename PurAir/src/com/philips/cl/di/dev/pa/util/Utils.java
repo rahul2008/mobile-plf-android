@@ -37,13 +37,13 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.cpptemp.CppDatabaseModel;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.HomeFragment;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 /**
@@ -73,47 +73,10 @@ public class Utils {
 		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.port,port.urlPart) ;
 	}
 
-	public static void storeCPPKeys(Context context, CppDatabaseModel cppDataModel) {
-		SharedPreferences settings = context.getSharedPreferences(
-				"cpp_preferences01", 0);
-		SharedPreferences.Editor editor = settings.edit();
-		editor.putString("airpurifierid", cppDataModel.getDistribution());
-		editor.putString("euid", cppDataModel.getEuId());
-		editor.putString("privatekey",
-				cppDataModel.getSysKey() + cppDataModel.getPrivateKey());
-		editor.putString("registrationid", cppDataModel.getRegId());
-		editor.putString("mac_address", cppDataModel.getMacId());
-		editor.commit();
-	}
-
-	public static String getPrivateKey(Context context) {
-		String privateKey = context
-				.getSharedPreferences("cpp_preferences01", 0).getString(
-						"privatekey", "");
-		return privateKey;
-	}
-
-	public static String getRegistrationID(Context context) {
-		String registrationid = context.getSharedPreferences(
-				"cpp_preferences01", 0).getString("registrationid", "");
-		return registrationid;
-	}
-
-	public static String getAppEuid(Context context) {
-		String euid = context.getSharedPreferences("cpp_preferences01", 0)
-				.getString("euid", "");
-		return euid;
-	}
-
 	public static String getAirPurifierID(Context context) {
 		String airPurifierID = context.getSharedPreferences(
 				"cpp_preferences01", 0).getString("airpurifierid", "");
 		return airPurifierID;
-	}
-
-	public static void clearCPPDetails(Context context) {
-		context.getSharedPreferences("cpp_preferences01", 0).edit().clear()
-		.commit();
 	}
 	
 	public static void setPurifierId(String purifierId) {
@@ -297,7 +260,7 @@ public class Utils {
 	}
 
 	@SuppressLint("SimpleDateFormat")
-	public static String getCPPQuery(Context context) {
+	public static String getCPPQuery(PurAirDevice purifier) {
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatTime = new SimpleDateFormat(":mm:ss");
 		
@@ -320,8 +283,7 @@ public class Utils {
 //		String qry = String.format(
 //				AppConstants.CLIENT_ID_RDCP, "1c5a6bfffe6c74b1") + qryPart2 + qryPart3;
 		
-		String qry = String.format(
-				AppConstants.CLIENT_ID_RDCP, getAirPurifierID(context)) + qryPart2 + qryPart3;
+		String qry = String.format(AppConstants.CLIENT_ID_RDCP, purifier.getEui64()) + qryPart2 + qryPart3;
 
 		ALog.i(ALog.INDOOR_RDCP, "rdcp qry:   "+qry);
 		long lt1 = 24 * 60 * 60 * 1000;

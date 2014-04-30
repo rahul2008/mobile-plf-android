@@ -397,7 +397,7 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		switch (purifier.getConnectionState()) {
 			case CONNECTED_LOCALLY 	: airPurifierController.setDeviceDetailsLocally(key, value, purifier);
-			case CONNECTED_REMOTELY : airPurifierController.setDeviceDetailsRemotely(key, value);
+			case CONNECTED_REMOTELY : airPurifierController.setDeviceDetailsRemotely(key, value, purifier);
 			case DISCONNECTED		: //NOP
 		}
 	}

@@ -23,6 +23,8 @@ import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -37,6 +39,8 @@ import com.philips.icpinterface.data.Errors;
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
 		PercentDetailsClickListener, ICPDownloadListener {
 
+	private PurAirDevice currentPurifier;
+	
 	private ActionBar mActionBar;
 //	private final String TAG = "IndoorDetailsActivity";
 	private LinearLayout graphLayout;
@@ -82,6 +86,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (currentPurifier == null) {
+			ALog.d(ALog.INDOOR_DETAILS, "Not starting indoor activity - Current purifier cannot be null");
+			finish();
+		}
+		
 		setContentView(R.layout.activity_trends_indoor);
 		coordinates = Coordinates.getInstance(this);
 		initializeUI();
@@ -93,7 +103,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
 				CPPController.getInstance(this) != null) {
 				CPPController.getInstance(this).setDownloadDataListener(this) ;
-				CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(this), 2048) ;
+				CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
 		} 
 		else if( SessionDto.getInstance().getIndoorTrendDto()  != null ) {
 			hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;

@@ -365,16 +365,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 */
 	public void publishEvent(String eventData, String eventType,
 			String actionName, String replyTo, String conversationId,
-			int priority, int ttl) {
+			int priority, int ttl, String purifierEui64) {
 		ALog.i(ALog.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
 				+ eventType + " Action Name: " +actionName +
 				" replyTo: " +replyTo +" + isSignOn "+isSignOn);
 		if (isSignOn) {
-			String airPurifierID = Utils.getAirPurifierID(context);
 			eventPublisher.setEventInformation(eventType, actionName,
 					replyTo, conversationId, priority, ttl);
 			eventPublisher.setEventData(eventData);
-			eventPublisher.setTargets(new String[] { airPurifierID });
+			eventPublisher.setTargets(new String[] { purifierEui64 });
 			eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
 
 			eventPublisher.executeCommand();
