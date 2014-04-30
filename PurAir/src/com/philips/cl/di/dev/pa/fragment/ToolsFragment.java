@@ -69,12 +69,9 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 
 		tvCPPDetails = (TextView) view.findViewById(R.id.tv_cpp_details);
 
-		if (Utils.getAirPurifierID(getActivity()) != null
-				&& Utils.getAirPurifierID(getActivity()).length() > 0) {
+		if (mPurifier != null) {
 			tvCPPDetails.setVisibility(View.VISIBLE);
-
-			tvCPPDetails.setText("AirPurifier ID: "
-					+ Utils.getAirPurifierID(getActivity()));
+			tvCPPDetails.setText("AirPurifier ID: " + getPurifierEui64());
 		}
 
 		Button diagnostics = (Button) view.findViewById(R.id.btn_diagnostics);
@@ -180,7 +177,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		String dIpAddress = "IP Address: " + intToIp(dhcpInfo.ipAddress);
 		String dMacaddress = "MAC Address:"
 				+ getMACAddress(intToIp(dhcpInfo.ipAddress));
-		String registrationId = Utils.getRegistrationID(getActivity());
+		String registrationId = null; // TODO fix registration ID
 		if (registrationId != null && registrationId.length() > 0) {
 			registrationId = "Registration Id: "
 					+ registrationId.substring(registrationId.length() - 5);
@@ -188,7 +185,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 
 		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();
-		String euid = "AirPurifier EUI64:" + Utils.getAirPurifierID(getActivity());
+		String euid = "AirPurifier EUI64:" + getPurifierEui64();
 		String macAddress = SessionDto.getInstance().getPurifierMacAddress();
 		macAddress = "Air Purifier MAC Address:"
 				+ formatMacAddress(macAddress);
@@ -262,6 +259,13 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 			return "< unknown >"; // TODO localize
 		}
 		return mPurifier.getIpAddress();
+	}
+	
+	private String getPurifierEui64() {
+		if (mPurifier == null) {
+			return "< unknown >"; // TODO localize
+		}
+		return mPurifier.getEui64();
 	}
 
 }

@@ -63,21 +63,11 @@ public class DemoAppConfigurationParametersForProvisioned extends ProvisionedCon
 					token = parser.nextToken();
 					if("EUI64".equals(token)) 
 					{
-						if ( Utils.getAppEuid(context) != null ) {
-							this.ICPClientEui64 = Utils.getAppEuid(context);
-						}
-						else {
-							this.ICPClientEui64 = parser.nextToken();
-						}
+						this.ICPClientEui64 = parser.nextToken();
 					}
 					else if("PRIVATEKEY".equals(token))
 					{
-						if ( Utils.getPrivateKey(context) != null ) {
-							this.ICPClientPrivateKey = Utils.getPrivateKey(context) ;
-						}
-						else {
-							this.ICPClientPrivateKey = parser.nextToken();
-						}
+						this.ICPClientPrivateKey = parser.nextToken();
 					}
 					else if("PRODUCT_ID".equals(token))
 					{

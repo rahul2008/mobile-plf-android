@@ -72,12 +72,6 @@ public class Utils {
 		}
 		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.port,port.urlPart) ;
 	}
-
-	public static String getAirPurifierID(Context context) {
-		String airPurifierID = context.getSharedPreferences(
-				"cpp_preferences01", 0).getString("airpurifierid", "");
-		return airPurifierID;
-	}
 	
 	public static void setPurifierId(String purifierId) {
 
