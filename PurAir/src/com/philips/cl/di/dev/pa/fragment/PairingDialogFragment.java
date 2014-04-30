@@ -29,7 +29,7 @@ public class PairingDialogFragment extends DialogFragment {
 
 		Bundle args = new Bundle();
 		args.putSerializable(DIALOG_SELECTED, showDialog);
-		if(purifier != null) {
+		if (purifier != null) {
 			args.putString(EXTRA_EUI64, purifier.getEui64());
 		}
 
