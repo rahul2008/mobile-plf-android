@@ -25,7 +25,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.os.PowerManager;
@@ -148,7 +147,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
-	private AirPortInfo airPurifierEventDto;
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
 	private int mVisits;
@@ -1043,15 +1041,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	public void airPurifierEventReceived(AirPortInfo airPurifierDetails) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Controller callback: "+airPurifierDetails) ;
 		if (airPurifierDetails != null) {
-			//			airPurifierEventDto = airPurifierDetails;
-			setAirPurifierEventDto(airPurifierDetails);
+			setAirPortInfo(airPurifierDetails);
 			
 			ALog.i(ALog.MAINACTIVITY, "UDP Event Received");
 			PurAirDevice purifier = getCurrentPurifier();
 			if (purifier != null) {
 				purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 			}
-			
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
@@ -1082,16 +1078,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
 		PurAirDevice purifier = getCurrentPurifier();
-		if (null != airPurifierEventDto) {
+		AirPortInfo info = getAirPortInfo();
+		if (null != info) {
 			connected = true;
-			float indoorAQIUsableValue = airPurifierEventDto.getIndoorAQI() / 10.0f;
-			updateDashboardFields(airPurifierEventDto);
+			float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
+			updateDashboardFields(info);
 			setRightMenuAQIValue(indoorAQIUsableValue);
-			rightMenuClickListener.setSensorValues(airPurifierEventDto);
-			updateFilterStatus(airPurifierEventDto.getFilterStatus1(),
-					airPurifierEventDto.getFilterStatus2(),
-					airPurifierEventDto.getFilterStatus3(),
-					airPurifierEventDto.getFilterStatus4());
+			rightMenuClickListener.setSensorValues(info);
+			updateFilterStatus(info.getFilterStatus1(),
+					info.getFilterStatus2(),
+					info.getFilterStatus3(),
+					info.getFilterStatus4());
 			if (purifier != null) {
 				setRightMenuConnectedStatus(purifier.getConnectionState());
 			} else {
@@ -1102,7 +1099,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 					getString(R.string.philips_home)));
 			setRightMenuAirStatusBackground(indoorAQIUsableValue);
 			rightMenuClickListener.disableControlPanel(connected,
-					airPurifierEventDto);
+					info);
 		}
 		homeFragment.rotateOutdoorCircle();
 	}
@@ -1112,7 +1109,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		connected = false;
 		setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
 		rightMenuClickListener.disableControlPanel(connected,
-				airPurifierEventDto);
+				getAirPortInfo());
 		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 		setRightMenuAirStatusBackground(0);
 		homeFragment.setMode("-");
@@ -1161,12 +1158,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public AirPortInfo getAirPortInfo() {
-		return airPurifierEventDto;
+		PurAirDevice currentPurifier = getCurrentPurifier();
+		if (currentPurifier == null) return null;
+		
+		return currentPurifier.getAirPortInfo();
 	}
 
-	private void setAirPurifierEventDto(
-			AirPortInfo airPurifierEventDto) {
-		this.airPurifierEventDto = airPurifierEventDto;
+	private void setAirPortInfo(AirPortInfo airPortInfo) {
+		PurAirDevice currentPurifier = getCurrentPurifier();
+		if (currentPurifier == null) return;
+		
+		currentPurifier.setAirPortInfo(airPortInfo);
 	}
 
 	public void setRightMenuVisibility(boolean visible) {
@@ -1209,7 +1211,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			if (purifier != null) {
 				purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			}
-			setAirPurifierEventDto(airPortInfo);
+			setAirPortInfo(airPortInfo);
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
