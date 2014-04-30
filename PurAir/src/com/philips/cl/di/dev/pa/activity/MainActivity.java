@@ -571,13 +571,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	private void startLocalConnection() {
-		String bootId = getCurrentPurifierBootId();
-		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier - " + bootId) ;
 		connected = true;
 		stopRemoteConnection() ;
 
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier: " + purifier) ;
 		
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.addAirPurifierEventListener(this);
@@ -615,16 +614,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private void stopRemoteConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop RemoteConnection") ;
 		cppController.stopDCSService() ;
-	}
-
-	private String getCurrentPurifierBootId() {
-		String cppId = Utils.getAirPurifierID(this) ;
-		for (PurifierDetailDto deviceInfo : dbPurifierDetailDtoList) {
-			if( deviceInfo.getCppId().equals(cppId)) {
-				return String.valueOf(deviceInfo.getBootId()) ;
-			}
-		}
-		return null ;
 	}
 
 	public DrawerLayout getDrawerLayout() {
@@ -1491,24 +1480,24 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		if (!cppController.isSignOn()) return;
 
-		final String purifierEui64 = Utils.getAirPurifierID(this);
-		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifierEui64);
+		PurAirDevice purifier = getCurrentPurifier();
+		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifier.getEui64());
 		if (lastPairingCheckTime <= 0) 
 		{
-			showPairingDialog(purifierEui64);
+			showPairingDialog(purifier);
 			return;
 		}
 
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
 		if (diffInDays != 0) {
-			startPairingWithoutListener(purifierEui64);
+			startPairingWithoutListener(purifier);
 		}
 	}
 
-	private void showPairingDialog(String purifierEui64) {
+	private void showPairingDialog(PurAirDevice purifier) {
 		try
 		{
-			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifierEui64, PairingDialogFragment.dialog_type.SHOW_DIALOG);
+			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifier, PairingDialogFragment.dialog_type.SHOW_DIALOG);
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);
 			isPairingDialogShown = true;
@@ -1517,19 +1506,19 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 
-	public void startPairing(String purifierEui64) {
+	public void startPairing(PurAirDevice purifier) {
 		isClickEvent = true ;
 		progressDialog = new ProgressDialog(MainActivity.this);
 		progressDialog.setMessage(getString(R.string.pairing_progress));
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 
-		PairingManager pm = new PairingManager(this, getCurrentPurifier());
+		PairingManager pm = new PairingManager(this, purifier);
 		pm.startPairing();
 	}
 
-	private void startPairingWithoutListener(String purifierEui64) {
-		PairingManager pm = new PairingManager(null, getCurrentPurifier());
+	private void startPairingWithoutListener(PurAirDevice purifier) {
+		PairingManager pm = new PairingManager(null, purifier);
 		pm.startPairing();
 	}
 
@@ -1554,7 +1543,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			progressDialog.cancel();
 		}
 		try{
-		PairingDialogFragment dialog = PairingDialogFragment.newInstance(Utils.getAirPurifierID(this), PairingDialogFragment.dialog_type.PAIRING_FAILED);
+		PairingDialogFragment dialog = PairingDialogFragment.newInstance(getCurrentPurifier(), PairingDialogFragment.dialog_type.PAIRING_FAILED);
 		FragmentManager fragMan = getSupportFragmentManager();
 		dialog.show(fragMan, null);
 		}catch(IllegalStateException ex){

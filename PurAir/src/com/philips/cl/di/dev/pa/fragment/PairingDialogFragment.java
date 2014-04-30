@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class PairingDialogFragment extends DialogFragment {
@@ -22,13 +24,13 @@ public class PairingDialogFragment extends DialogFragment {
 	private Button btnClose;
 	private Button btn_pair;
 
-	public static PairingDialogFragment newInstance(String purifierEui64, dialog_type showDialog) {
+	public static PairingDialogFragment newInstance(PurAirDevice purifier, dialog_type showDialog) {
 		PairingDialogFragment fragment = new PairingDialogFragment();
 
 		Bundle args = new Bundle();
 		args.putSerializable(DIALOG_SELECTED, showDialog);
-		if(purifierEui64!=null) {
-			args.putString(EXTRA_EUI64, purifierEui64);
+		if(purifier != null) {
+			args.putString(EXTRA_EUI64, purifier.getEui64());
 		}
 
 		fragment.setArguments(args);		
@@ -100,7 +102,7 @@ public class PairingDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				dismiss();
 				if (getActivity() instanceof MainActivity) {
-					((MainActivity) getActivity()).startPairing(getArguments().getString(EXTRA_EUI64));
+					((MainActivity) getActivity()).startPairing(getPurifier());
 				}
 
 			}
@@ -128,11 +130,23 @@ public class PairingDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				dismiss();
 				if (getActivity() instanceof MainActivity) {
-					((MainActivity) getActivity()).startPairing(getArguments().getString(EXTRA_EUI64));
+					((MainActivity) getActivity()).startPairing(getPurifier());
 				}
 
 			}
 		});
+	}
+	
+	private PurAirDevice getPurifier() {
+		String purifierEui64 = getArguments().getString(EXTRA_EUI64);
+		
+		//TODO use PurifierDiscovery to get the purifier to pair to
+		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
+		
+		if (current != null && current.getEui64().equals(purifierEui64)) {
+			return current;
+		}
+		return null;
 	}
 
 
