@@ -70,6 +70,7 @@ import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
+import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
@@ -82,7 +83,6 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
-import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.PairingDialogFragment;
@@ -130,6 +130,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private ImageView ivConnectedImage;
 	private Menu menu;
 	private boolean connected;
+	
+	/**
+	 * Action bar
+	 */
+	private ImageView rightMenu;
+	private ImageView leftMenu;
+	private ImageView addLocation;
+	private ImageView backToHome;
 
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
@@ -143,7 +151,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private boolean isDeviceDiscovered;
 
-	private boolean mRightDrawerOpened = false, drawerOpen = false;
+	private boolean mRightDrawerOpened, mLeftDrawerOpened;
 	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
@@ -231,19 +239,26 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 			@Override
 			public void onDrawerClosed(View drawerView) {
-				mRightDrawerOpened = false;
+				if (drawerView.getId() == R.id.right_menu_scrollView) {
+					ALog.i(ALog.MAINACTIVITY, "Right drawer close");
+					mRightDrawerOpened = false;
+				} else if (drawerView.getId() == R.id.left_menu_listView) {
+					ALog.i(ALog.MAINACTIVITY, "Left drawer close");
+					mLeftDrawerOpened = false;
+				}
+				
 				supportInvalidateOptionsMenu();
-				drawerOpen = false;
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
-				getDashboard().hideTakeATour(false);
-				getDashboard().hideFirmwareUpdatePopup();
 				if (drawerView.getId() == R.id.right_menu_scrollView) {
 					mRightDrawerOpened = true;
+					ALog.i(ALog.MAINACTIVITY, "Right drawer open");
+				} else if (drawerView.getId() == R.id.left_menu_listView) {
+					mLeftDrawerOpened = true;
+					ALog.i(ALog.MAINACTIVITY, "Left drawer open");
 				}
-				drawerOpen = true;
 				supportInvalidateOptionsMenu();
 			}
 		};
@@ -251,7 +266,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
 		/** Initialise left menu items and click listener */
-		mListViewLeft = (ListView) findViewById(R.id.left_menu);
+		mListViewLeft = (ListView) findViewById(R.id.left_menu_listView);
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 
@@ -269,9 +284,9 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		initFilterStatusViews();
 		connected = false;
-
+		
 		getSupportFragmentManager().beginTransaction()
-				.add(R.id.llContainer, getDashboard(), HomeFragment.TAG)
+				.add(R.id.llContainer, getDashboard())
 				.addToBackStack(null)
 				.commit();
 
@@ -310,7 +325,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	
 
 	private void removeFirmwareUpdateUI() {
-		getDashboard().hideFirmwareUpdatePopup();
 		setFirmwareSuperScript(0, false);
 	}
 
@@ -389,15 +403,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			invalidateOptionsMenu();
 		}
 
-		if (drawerOpen) {
+		if (mLeftDrawerOpened || mRightDrawerOpened) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
-			drawerOpen = false;
+			mLeftDrawerOpened = false;
+			mRightDrawerOpened = false;
 		} else if (count > 1 && !(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(getDashboard());
+			setDashboardActionbarIconVisible();
 			setTitle(getString(R.string.dashboard_title));
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
@@ -477,7 +493,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 
-	@Override
+	/*@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		this.menu = menu;
@@ -502,7 +518,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			item.setVisible(false);
 		}
 		return super.onPrepareOptionsMenu(menu);
-	}
+	}*/
 
 
 	@Override
@@ -538,13 +554,17 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 							cppController.signOnWithProvisioning();
 						}
 						discoveryTimer.start() ;
-						if (SessionDto.getInstance().getOutdoorEventDto() == null)
-							getDashboard().startOutdoorAQITask();
+						if (SessionDto.getInstance().getOutdoorEventDto() == null) {
+							//TODO : 
+//							getDashboard().startOutdoorAQITask();
+						}
 
 						List<Weatherdto> weatherDto = SessionDto.getInstance()
 								.getWeatherDetails();
-						if (weatherDto == null || weatherDto.size() < 1)
-							getDashboard().startWeatherDataTask();
+						if (weatherDto == null || weatherDto.size() < 1) {
+							//TODO
+//							getDashboard().startWeatherDataTask();
+						}
 					}
 				}
 
@@ -663,13 +683,64 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(R.drawable.left_slidermenu_icon_2x);
-		mActionBar.setHomeButtonEnabled(true);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM
-				| ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);
-		setTitle(getString(R.string.dashboard_title));
+		ActionBar mActionBar = getSupportActionBar();
+		mActionBar.setIcon(null);
+		mActionBar.setHomeButtonEnabled(false);
+		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		rightMenu = (ImageView) view.findViewById(R.id.right_menu_img);
+		leftMenu = (ImageView) view.findViewById(R.id.left_menu_img);
+		backToHome = (ImageView) view.findViewById(R.id.back_to_home_img);
+		addLocation = (ImageView) view.findViewById(R.id.add_location_img);
+		rightMenu.setOnClickListener(actionBarClickListener);
+		leftMenu.setOnClickListener(actionBarClickListener);
+		backToHome.setOnClickListener(actionBarClickListener);
+		addLocation.setOnClickListener(actionBarClickListener);
+		mActionBar.setCustomView(view);
+		
+		//setTitle(getString(R.string.dashboard_title));
+	}
+	
+	private OnClickListener actionBarClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View view) {
+			switch (view.getId()) {
+			case R.id.right_menu_img:
+				
+				if (mRightDrawerOpened) {
+					mDrawerLayout.closeDrawer(mScrollViewRight);
+				} else {
+					mDrawerLayout.closeDrawer(mListViewLeft);
+					mDrawerLayout.openDrawer(mScrollViewRight);
+				}
+				break;
+			case R.id.left_menu_img:
+				if (mLeftDrawerOpened) {
+					mDrawerLayout.closeDrawer(mListViewLeft);
+				} else {
+					mDrawerLayout.closeDrawer(mScrollViewRight);
+					mDrawerLayout.openDrawer(mListViewLeft);
+				}
+				break;
+			case R.id.add_location_img:
+				Toast.makeText(getApplicationContext(), "Add location actionBar click event!", 0).show();
+				break;
+			case R.id.back_to_home_img:
+				Toast.makeText(getApplicationContext(), "Back to home click event!", 0).show();
+				break;
+			default:
+				break;
+			}
+			
+		}
+	}; 
+	
+	private void setDashboardActionbarIconVisible() {
+		rightMenu.setVisibility(View.VISIBLE);
+		leftMenu.setVisibility(View.VISIBLE);
+		backToHome.setVisibility(View.INVISIBLE);
+		addLocation.setVisibility(View.INVISIBLE);
 	}
 
 	/** Create the left menu items. */
@@ -758,7 +829,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			}
 		}
 	}
-
+	
 	private void initFilterStatusViews() {
 		preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
 		multiCareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
@@ -960,6 +1031,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		public void onItemClick(AdapterView<?> listView, View listItem,
 				int position, long id) {
 			isClickEvent = true;
+			setDashboardActionbarIconVisible();
 			switch (position) {
 			case 0:
 				showFragment(leftMenuItems.get(position));
@@ -975,6 +1047,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				// Outdoor locations
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
+				rightMenu.setVisibility(View.INVISIBLE);
+				addLocation.setVisibility(View.VISIBLE);
 				break;
 			case 3:
 				// Notifications
@@ -1063,7 +1137,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			this.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					getDashboard().showFirmwareUpdatePopup();
+					//TODO
+//					getDashboard().showFirmwareUpdatePopup();
 					//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
 					setFirmwareSuperScript(1, true);
 				}
@@ -1097,7 +1172,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			rightMenuClickListener.disableControlPanel(connected,
 					info);
 		}
-		homeFragment.rotateOutdoorCircle();
 	}
 
 	private void disableRightMenuControls() {
@@ -1108,11 +1182,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				getAirPortInfo());
 		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 		setRightMenuAirStatusBackground(0);
-		homeFragment.setMode("-");
-		homeFragment.setIndoorAQIValue(-1.0f);
-
-		homeFragment.setFilterStatus("-");
-		homeFragment.hideIndoorGuage();
 	}
 
 	private void updateFilterStatus(int preFilterStatus,
@@ -1137,20 +1206,20 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private void updateDashboardFields(AirPortInfo airPurifierEventDto) {
 		ALog.i(ALog.MAINACTIVITY, "updateDashboardFields");
-		if (homeFragment != null && homeFragment.getActivity() != null) {
-			homeFragment.showIndoorGuage();
-			homeFragment
-			.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI() / 10.0f);
-			homeFragment.setFilterStatus(Utils
-					.getFilterStatusForDashboard(airPurifierEventDto));
-			if( airPurifierEventDto.getPowerMode().equals("0")) {
-				homeFragment.setMode(getString(R.string.off));
-			}
-			else {
-				homeFragment.setMode(Utils.getMode(
-						airPurifierEventDto.getFanSpeed(), this));
-			}
-		}
+//		if (homeFragment != null && homeFragment.getActivity() != null) {
+//			homeFragment.showIndoorGuage();
+//			homeFragment
+//			.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI() / 10.0f);
+//			homeFragment.setFilterStatus(Utils
+//					.getFilterStatusForDashboard(airPurifierEventDto));
+//			if( airPurifierEventDto.getPowerMode().equals("0")) {
+//				homeFragment.setMode(getString(R.string.off));
+//			}
+//			else {
+//				homeFragment.setMode(Utils.getMode(
+//						airPurifierEventDto.getFanSpeed(), this));
+//			}
+//		}
 	}
 
 	public AirPortInfo getAirPortInfo() {
@@ -1384,10 +1453,11 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier != null) {
 			// set purifier name in dashboard
-			homeFragment.setHomeName(purifier.getName());
+			//TODO : Set purifier name in IndoorFragment
+//			homeFragment.setHomeName(purifier.getName());
 		} else {
 			// TODO decide on what to show when not connected
-			homeFragment.setHomeName(getString(R.string.not_connected));
+//			homeFragment.setHomeName(getString(R.string.not_connected));
 		}
 	}
 
