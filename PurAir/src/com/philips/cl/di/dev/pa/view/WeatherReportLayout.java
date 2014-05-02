@@ -14,7 +14,6 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
-import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
@@ -45,7 +44,9 @@ public class WeatherReportLayout extends  LinearLayout {
 	public WeatherReportLayout(final Context context, AttributeSet attrs,  final int num, String timeStr) {
 		super(context, attrs);
 		
-		List<Weatherdto> weatherDetails = HomeFragment.getWeatherDetails();
+		//TODO : HomeFragment.getWeatherDetails(); 
+		//Get weather details here.
+		List<Weatherdto> weatherDetails = null;
 		
 		if (weatherDetails == null) {
 			return;
