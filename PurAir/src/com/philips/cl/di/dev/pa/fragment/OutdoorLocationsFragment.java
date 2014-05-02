@@ -1,14 +1,8 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +14,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.google.android.gms.location.LocationClient;
-import com.google.gson.GsonBuilder;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.datamodel.CityDetails;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
-public class OutdoorLocationsFragment extends BaseFragment implements ServerResponseListener, ConnectionCallbacks, OnConnectionFailedListener{
+public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks, OnConnectionFailedListener{
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;
@@ -78,27 +67,12 @@ public class OutdoorLocationsFragment extends BaseFragment implements ServerResp
 		Log.i(TAG, "isGooglePlayServiceAvailable " + isGooglePlayServiceAvailable);
 		
 		locationClient = new LocationClient(getActivity(), this, this);
-		createCitiesList();
 		adapter = ((MainActivity) getActivity()).getOutdoorLocationsAdapter();
 		super.onCreate(savedInstanceState);
 	}
 	
-	private void createCitiesList() {
-		String citiesString = null;
-		try {
-			InputStream is = getResources().getAssets().open("cities.json");
-			byte[] data = new byte[is.available()];
-			is.read(data);
-			is.close();
-			citiesString = new String(data, Charset.defaultCharset());
-		} catch (IOException e) {
-			Log.e(TAG, "JSON Parse ERROR while creating Cities list");
-		}
-//		Log.i(TAG, "citiesJson " + citiesString);
-		CityDetails city = new GsonBuilder().create().fromJson(citiesString, CityDetails.class);
-		SessionDto.getInstance().setCityDetails(city) ;
-	}
-
+	//TODO : Get locations from OutdoorManager.
+	
 	@Override
 	public void onStart() {
 		locationClient.connect();
@@ -115,7 +89,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements ServerResp
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView");
 		View view = inflater.inflate(R.layout.outdoor_locations_fragment, container, false);
-		startGetCitiesListTask();
 		mListView = (DragSortListView) view.findViewById(R.id.outdoor_locations_list);
 		mListView.setDropListener(onDrop);
 		mListView.setRemoveListener(onRemove);
@@ -123,47 +96,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements ServerResp
 		mListView.setAdapter(adapter);
 		
 		return view;
-	}
-	
-/*	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		MenuItem item = menu.getItem(0);
-		//item.setIcon(R.drawable.plus_blue);
-		super.onCreateOptionsMenu(menu, inflater);
-	}*/
-	
-	private void startGetCitiesListTask() {
-		Log.i(TAG, "startGetCitiesListTask");
-		if(SessionDto.getInstance().getCityDetails() == null) {
-			Log.i(TAG, "start task");
-			TaskGetHttp citiesList = new TaskGetHttp("ixuanwu.com.cn/app/citys.php", getActivity(), this);
-			citiesList.start();
-		}
-	}
-	
-	private final Handler handler = new Handler() {
-		public void handleMessage(Message msg) {
-			System.out.println("msg: "+msg.what+":"+msg.arg1+":"+msg.arg2);
-			if ( msg.what == 1 ) {
-				Log.i(TAG, "OutdoorLocations " + SessionDto.getSessionDto().getCityDetails().getCities());
-			}
-		};
-	};
-	
-	private void updateOutdoorAQI() {
-		handler.sendEmptyMessage(1);
-	}
-
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
-		Log.i(TAG, "respCode " + responseCode + " respData " + responseData);
-		if (getActivity() != null) {
-			if ( responseCode == 200 ) {
-				CityDetails city = new GsonBuilder().create().fromJson(responseData, CityDetails.class);
-				SessionDto.getInstance().setCityDetails(city) ;
-				updateOutdoorAQI();
-			}
-		}
 	}
 	
 	@Override
