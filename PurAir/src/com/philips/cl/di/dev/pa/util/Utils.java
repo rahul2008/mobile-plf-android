@@ -41,7 +41,6 @@ import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -664,7 +663,7 @@ public class Utils {
 	public static void calculateOutdoorAQIValues() {
 		int goodAirCount = 0;
 		int totalAirCount = 0;
-		OutdoorAQIEventDto outdoorAQIEventDto = HomeFragment.getOutdoorAQIEventDto();
+		OutdoorAQIEventDto outdoorAQIEventDto = null; //HomeFragment.getOutdoorAQIEventDto();
 		if (outdoorAQIEventDto != null){
 			if (OUTDOOR_AQI_PERCENTAGE_LIST.size() > 0 ) {
 				OUTDOOR_AQI_PERCENTAGE_LIST.clear();
@@ -706,10 +705,10 @@ public class Utils {
 			 */
 			Calendar calender = Calendar.getInstance();
 			int hr = calender.get(Calendar.HOUR_OF_DAY);
-			Log.i("outdoor", "Current Hour Avg condition: " + HomeFragment.getCurrentHour());
-			if (HomeFragment.getCurrentHour() != -1) {
-				hr = HomeFragment.getCurrentHour();
-			}
+//			Log.i("outdoor", "Current Hour Avg condition: " + HomeFragment.getCurrentHour());
+//			if (HomeFragment.getCurrentHour() != -1) {
+//				hr = HomeFragment.getCurrentHour();
+//			}
 			if (hr == 0) {
 				hr = 24;
 			}
