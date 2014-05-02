@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,6 +15,8 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.City;
+import com.philips.cl.di.dev.pa.datamodel.CityDetails;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
@@ -307,5 +310,28 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "Exception");
 		}
 		return deviceWifiDto;
+	}
+	
+	//TODO : Unit test.
+	public static List<City> parseLocationData(String dataToParse) {
+		if(dataToParse == null) {
+			return null;
+		}
+		
+		try {
+			CityDetails cities = new GsonBuilder().create().fromJson(dataToParse, CityDetails.class);
+			Map<String, City> citiesMap = cities.getCities();
+			List<City> citiesList = new ArrayList<City>(citiesMap.values());
+			return citiesList;
+		} catch (JsonSyntaxException jse) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null;
+		} catch (JsonIOException jioe) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+			return null;
+		} catch (Exception e) {
+			ALog.e(ALog.PARSER, "parseLocationData");
+			return null;
+		}
 	}
 }
