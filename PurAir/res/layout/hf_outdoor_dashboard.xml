@@ -37,7 +37,6 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
-        android:text="Shanghai"
         android:textColor="@color/white"
         android:textSize="22sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -51,7 +50,6 @@
         android:layout_below="@+id/hf_outdoor_weather_image"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="2dp"
-        android:text="14:23"
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
@@ -64,7 +62,6 @@
         android:layout_below="@+id/hf_outdoor_city"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
-        android:text="Us Consolidate"
         android:textColor="@color/white"
         android:textSize="11sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
@@ -78,7 +75,6 @@
         android:layout_below="@+id/hf_outdoor_time_update_lb"
         android:layout_marginRight="16dp"
         android:layout_marginTop="2dp"
-        android:text="18C"
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
@@ -114,7 +110,6 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="290"
             android:textColor="@color/white"
             android:textSize="22sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
