@@ -1,12 +1,14 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.io.Serializable;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 
 
-public class OutdoorDto {
+public class OutdoorDto implements Serializable{
 
-	//TODO : Fix aqiTitle, aqiSummary, weatherIcon
+	private static final long serialVersionUID = 1L;
 	
 	private String updatedTime;
 	private String cityName;

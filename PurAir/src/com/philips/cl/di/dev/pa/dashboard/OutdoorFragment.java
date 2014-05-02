@@ -16,20 +16,16 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment {
 	
+	private static final String CITY = "city";
+	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary;
+	private ImageView aqiPointerCircle;
+	
 	public static OutdoorFragment newInstance(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment$newInstance");
 		OutdoorFragment fragment = new OutdoorFragment();
 		if(outdoorDto != null) {
 			Bundle args = new Bundle();
-			args.putString("updated", outdoorDto.getUpdatedTime());
-			args.putString("cityName", outdoorDto.getCityName());
-			args.putString("temp", outdoorDto.getTemperature());
-			args.putString("aqi", outdoorDto.getAqi());
-			args.putString("icon", outdoorDto.getWeatherIcon());
-			args.putString("aqiTitle", outdoorDto.getAqiTitle());
-			args.putString("aqiSummary", outdoorDto.getAqiSummary());
-			args.putInt("pointerImageResId", outdoorDto.getAqiPointerImageResId());
-			args.putFloat("pointerRotation", outdoorDto.getAqiPointerRotaion());
+			args.putSerializable(CITY, outdoorDto);
 			fragment.setArguments(args);
 		}
 		return fragment;
@@ -39,43 +35,39 @@ public class OutdoorFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
-		updateUi(getView());
+		initViews(getView());
 	}
 	
-	private void updateUi(View view) {
-		FontTextView cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
-		FontTextView updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
-		FontTextView temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
-		FontTextView aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
-		FontTextView aqiTitle = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_title);
-		FontTextView aqiSummary = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary);
-		ImageView aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
-		
-		OutdoorDto outdoorDto = OutdoorManager.getInstance().getOutdoorDashboardData(0);
+	private void initViews(View view) {
+		OutdoorManager.getInstance().getOutdoorDashboardData(0);
+		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
+		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
+		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
+		aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
+		aqiTitle = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_title);
+		aqiSummary = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary);
+		aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
 		Bundle bundle = getArguments();
-		
+
 		if(bundle != null) {
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUi getArgs " + getArguments().getString("cityName"));
-			cityName.setText(bundle.getString("cityName"));
-			updated.setText(bundle.getString("updated"));
-			temp.setText(bundle.getString("temp"));
-			aqi.setText(bundle.getString("aqi"));
-			aqiTitle.setText(bundle.getString("aqiTitle"));
-			aqiSummary.setText(bundle.getString("aqiSummary"));
-			aqiPointerCircle.setImageResource(bundle.getInt("pointerImageResId"));
-			setRotationAnimation(aqiPointerCircle, bundle.getFloat("pointerRotation"));
-		} else if (outdoorDto != null) {
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUi update from OutdoorDto");
-			cityName.setText(outdoorDto.getCityName());
-			updated.setText(outdoorDto.getUpdatedTime());
-			temp.setText(outdoorDto.getTemperature());
-			aqi.setText(outdoorDto.getAqi());
-			aqiTitle.setText(outdoorDto.getAqiTitle());
-			aqiSummary.setText(outdoorDto.getAqiSummary());
-			aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
-			aqiPointerCircle.invalidate();
-			setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
-		}
+			ALog.i(ALog.DASHBOARD, "OutdoorFragment$onCreateView");
+			OutdoorDto city= (OutdoorDto) getArguments().getSerializable(
+					CITY);
+			updateUI(city);
+		} 
+	}
+	
+	private void updateUI(OutdoorDto city) {
+		ALog.i(ALog.DASHBOARD, "UpdateUI");		
+		cityName.setText(city.getCityName());		
+		updated.setText(city.getUpdatedTime());		
+		temp.setText(city.getTemperature());		
+		aqi.setText(city.getAqi());
+		aqiTitle.setText(city.getAqiTitle());
+		aqiSummary.setText(city.getAqiSummary());
+		aqiPointerCircle.setImageResource(city.getAqiPointerImageResId());
+		aqiPointerCircle.invalidate();
+		setRotationAnimation(aqiPointerCircle, city.getAqiPointerRotaion());
 	}
 
 	@Override

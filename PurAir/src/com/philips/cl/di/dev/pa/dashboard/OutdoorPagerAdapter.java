@@ -1,13 +1,12 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
-public class OutdoorPagerAdapter extends FragmentPagerAdapter {
+import com.philips.cl.di.dev.pa.util.ALog;
+
+public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 
 	public OutdoorPagerAdapter(FragmentManager fm) {
 		super(fm);

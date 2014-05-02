@@ -13,7 +13,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	
 	private static OutdoorManager smInstance;
 	
-	private OutdoorDataUpdated outdoorDataUpdated;
+	private UpdateUIonDataChange iListener;
 	
 	private OutdoorManager() {
 		outdoorLocations = new ArrayList<OutdoorDto>();
@@ -21,8 +21,8 @@ public class OutdoorManager implements OutdoorEventListener {
 		OutdoorController.getInstance().startCitiesTask();
 	}
 	
-	public void setOutdoorDataUpdatedListener(OutdoorDataUpdated outdoorDataUpdated) {
-		this.outdoorDataUpdated = outdoorDataUpdated;
+	public void setUIChangeListener(UpdateUIonDataChange listener){
+		iListener=listener;
 	}
 	
 	public static OutdoorManager getInstance() {
@@ -65,7 +65,6 @@ public class OutdoorManager implements OutdoorEventListener {
 				outdoorLocations.add(outdoorDto);
 			}
 		}
-		
-		outdoorDataUpdated.updateOutdoorData();
+		iListener.notifyUIOnDataChange();
 	}
 }

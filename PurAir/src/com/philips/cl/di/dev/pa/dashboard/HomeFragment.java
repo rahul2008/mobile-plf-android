@@ -12,7 +12,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class HomeFragment extends BaseFragment implements OutdoorDataUpdated{
+public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
@@ -50,7 +50,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataUpdated{
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initDashboardViewPager();
-		OutdoorManager.getInstance().setOutdoorDataUpdatedListener(this);
+		OutdoorManager.getInstance().setUIChangeListener(this);
 	}
 
 	private void initDashboardViewPager() {
@@ -67,16 +67,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataUpdated{
 	public void onPause() {
 		super.onPause();
 	}
-
+	
 	@Override
-	public void updateOutdoorData() {
-		ALog.i(ALog.DASHBOARD, "HomeFragment$updateOutdoorData");
+	public void notifyUIOnDataChange() {
+		ALog.i(ALog.DASHBOARD, "notifyUIOnDataChange");	
 		getActivity().runOnUiThread(new Runnable() {
-			
 			@Override
 			public void run() {
-				outdoorPagerAdapter.notifyDataSetChanged();
+				outdoorViewPager.setAdapter(null);
+				outdoorViewPager.setAdapter(outdoorPagerAdapter);
 			}
 		});
 	}
+
 }
