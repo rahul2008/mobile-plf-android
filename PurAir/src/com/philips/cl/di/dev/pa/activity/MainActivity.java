@@ -116,7 +116,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private static int screenWidth, screenHeight;
 
-	private ActionBar mActionBar;
 	private DrawerLayout mDrawerLayout;
 	private ListView mListViewLeft;
 	private ScrollView mScrollViewRight;
@@ -807,26 +806,19 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	private void setRightMenuConnectedStatus(ConnectionState state) {
-		MenuItem item = null;
-		if (menu != null) {
-			item = menu.getItem(0);
-			if (state.equals(ConnectionState.CONNECTED_LOCALLY)) {
-				tvConnectionStatus.setText(getString(R.string.connected));
-				ivConnectedImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.wifi_icon_blue_2x));
-				item.setIcon(R.drawable.right_bar_icon_blue_2x);
-			} else if (state.equals(ConnectionState.CONNECTED_REMOTELY)) {
-				tvConnectionStatus
-				.setText(getString(R.string.connected_via_philips));
-				ivConnectedImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.wifi_icon_blue_2x));
-				item.setIcon(R.drawable.right_bar_icon_blue_2x);
-			} else {
-				tvConnectionStatus.setText(getString(R.string.not_connected));
-				ivConnectedImage.setImageDrawable(getResources().getDrawable(
-						R.drawable.wifi_icon_lost_connection_2x));
-				item.setIcon(R.drawable.right_bar_icon_orange_2x);
-			}
+		ALog.i(ALog.MAINACTIVITY, "Connection status: " + state);
+		if (state.equals(ConnectionState.CONNECTED_LOCALLY)) {
+			tvConnectionStatus.setText(getString(R.string.connected));
+			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
+			rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x)); 
+		} else if (state.equals(ConnectionState.CONNECTED_REMOTELY)) {
+			tvConnectionStatus.setText(getString(R.string.connected_via_philips));
+			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
+			rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x));
+		} else {
+			tvConnectionStatus.setText(getString(R.string.not_connected));
+			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
+			rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 		}
 	}
 	
