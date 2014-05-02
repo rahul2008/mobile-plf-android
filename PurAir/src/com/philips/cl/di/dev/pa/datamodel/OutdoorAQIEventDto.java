@@ -7,6 +7,7 @@ public class OutdoorAQIEventDto {
 	private int [] pm25 ;
 	private int [] so2 ;
 	private int [] no2 ;
+	private String t;
 	
 	public int[] getPm10() {
 		return pm10.clone();
@@ -14,7 +15,7 @@ public class OutdoorAQIEventDto {
 	public void setPm10(final int[] pm10) {
 		this.pm10 = pm10;
 	}
-	private String t ;
+	
 	public int[] getIdx() {
 		return idx.clone();
 	}

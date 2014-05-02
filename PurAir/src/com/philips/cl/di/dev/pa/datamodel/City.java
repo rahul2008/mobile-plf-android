@@ -3,11 +3,11 @@ package com.philips.cl.di.dev.pa.datamodel;
 public class City {
 	private String lon;
 	private String cityName;
-	private String weather;
 	private String key;
 
 	private String lat;
 	private Gov gov;
+	private Weather weather_ex;
 
 	/**
 	 * @return the city_name
@@ -42,13 +42,6 @@ public class City {
 	 */
 	public String getLon() {
 		return lon;
-	}
-
-	/**
-	 * @return the weather
-	 */
-	public String getWeather() {
-		return weather;
 	}
 
 	/**
@@ -91,14 +84,6 @@ public class City {
 		this.lon = lon;
 	}
 
-	/**
-	 * @param weather
-	 *            the weather to set
-	 */
-	public void setWeather(String weather) {
-		this.weather = weather;
-	}
-
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof City) {
@@ -116,10 +101,16 @@ public class City {
 	public int hashCode() {
 		return key.hashCode();
 	}
+	
+	
+
+	public Weather getWeather() {
+		return weather_ex;
+	}
 
 	@Override
 	public String toString() {
-		return "lon " + lon + " city_name " + cityName + " weather " + weather + " key "
+		return "lon " + lon + " city_name " + cityName + " key "
 		        + key + " lat" + lat  + "gov"+gov;
 	}
 }
