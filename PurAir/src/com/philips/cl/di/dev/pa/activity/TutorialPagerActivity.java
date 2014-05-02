@@ -6,6 +6,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -17,8 +19,6 @@ public class TutorialPagerActivity extends BaseActivity {
 
 	private ViewPagerAdapter mAdapter;
 	private ViewPager mPager;
-
-	private ActionBar mActionBar;
 
 	private static final int[] TITLE_LIST= new int[]{
 		R.string.tutorial_title_1,
@@ -80,10 +80,15 @@ public class TutorialPagerActivity extends BaseActivity {
 
 	/*Initialize action bar */
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);	
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
+		actionBar.setCustomView(view);	
 		setActionBarTitle(R.string.tutorial_title_1);
 	}
 

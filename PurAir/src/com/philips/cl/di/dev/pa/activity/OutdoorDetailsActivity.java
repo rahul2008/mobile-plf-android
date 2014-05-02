@@ -23,7 +23,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.fragment.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -35,7 +34,6 @@ import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
 public class OutdoorDetailsActivity extends ActionBarActivity implements OnClickListener {
 
-	private ActionBar mActionBar;
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private HorizontalScrollView wetherScrollView;
@@ -302,7 +300,8 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 			}
 		}
 		
-		aqiEventDto = HomeFragment.getOutdoorAQIEventDto();
+		//TODO : AJ
+//		aqiEventDto = HomeFragment.getOutdoorAQIEventDto();
 	
 	}
 
@@ -413,11 +412,15 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	 * InitActionBar
 	 */
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setHomeButtonEnabled(false);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
+		actionBar.setCustomView(view);
 		
 	}
 	

@@ -4,7 +4,9 @@ import android.annotation.TargetApi;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
+import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -66,8 +68,6 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	private ExpandableListView expListView;
 	private ExpandableListAdapter listAdapter;
 
-	private ActionBar mActionBar;	
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -86,10 +86,15 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	
 	/*Initialize action bar */
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);	
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
+		actionBar.setCustomView(view);
 		setActionBarTitle(R.string.outdoor_colors_explained);
 	}
 

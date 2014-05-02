@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -19,7 +20,6 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 	private static final int SELECT_DAY_ACTIVITY = 10;
 	private String strDays="";
 	TimePicker mTimePicker;
-	private ActionBar mActionBar;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -103,10 +103,15 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 	
 	/*Initialize action bar */
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
-		mActionBar.setCustomView(R.layout.action_bar);			
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
+		actionBar.setCustomView(view);		
 	}
 
 	/*Sets Action bar title */

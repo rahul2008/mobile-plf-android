@@ -39,8 +39,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	private PurAirDevice currentPurifier;
 	
-	private ActionBar mActionBar;
-//	private final String TAG = "IndoorDetailsActivity";
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
@@ -175,13 +173,18 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 * InitActionBar
 	 */
 	private void initActionBar() {
-		mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setHomeButtonEnabled(false);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		mActionBar.setCustomView(R.layout.action_bar);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
+		actionBar.setCustomView(view);
 	}
-
+	
+	
 	/*Sets Action bar title */
 	public void setActionBarTitle(String name) {    	
 		heading = (TextView) findViewById(R.id.action_bar_title);
