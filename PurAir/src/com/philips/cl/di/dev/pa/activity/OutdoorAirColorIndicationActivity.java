@@ -75,7 +75,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		setContentView(R.layout.air_quality_indication);
 		initActionBar();
 		TextView indoorColorExplained=(TextView) findViewById(R.id.color_explained_intro);
-		indoorColorExplained.setText(R.string.indoor_color_explained_intro);
+		indoorColorExplained.setText(R.string.outdoor_color_explained_intro);
 
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.colors_list); 

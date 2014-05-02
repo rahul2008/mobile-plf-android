@@ -155,13 +155,9 @@
 
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：对健康危害极小或无危害。</string>
-    <string name="indoor_aqi_good_tip2">您可以打开或关闭窗户或将飞利浦智能空气净化器切换至自动。 </string>
     <string name="indoor_aqi_moderate_tip1">污染、颗粒水平和 PM2.5 均处于中级。 </string>
-    <string name="indoor_aqi_moderate_tip2">关闭窗户并打开飞利浦智能空气净化器，调到速度 1 或更高速度。</string>
     <string name="indoor_aqi_unhealthy_tip1">PM2.5 颗粒水平很高：可能会出现过敏。</string>
-    <string name="indoor_aqi_unhealthy_tip2">打开飞利浦智能空气净化器，调到速度 2 或更高速度。</string>
     <string name="indoor_aqi_very_unhealthy_tip1">颗粒水平极高：PM2.5。</string>
-    <string name="indoor_aqi_very_unhealthy_tip2">打开飞利浦智能空气净化器，调到速度 3 或强力模式。</string>
 
     <!-- Outdoor details -->
     <string name="mask_od_msg1">Masks not needed</string>
@@ -172,40 +168,18 @@
 	<string name="openwindow_od_msg2">Open your windows for ventilation</string>
 	<string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
 	
-	<string name="mask_od_msg3">It’s a good idea to wear a mask</string>
-	<string name="openwindow_od_msg3">Occasionally open your windows for ventilation</string>
-	<string name="advice_od_msg3">Reduce outdoor activities</string>
-	
-	<string name="mask_od_msg4">It’s a good idea to wear a mask</string>
-	<string name="openwindow_od_msg4">Close your windows</string>
-	<string name="advice_od_msg4">Reduce outdoor activities</string>
-	
-	<string name="mask_od_msg5">It’s a good idea to wear a mask</string>
-	<string name="openwindow_od_msg5">OK to open windows</string>
-	<string name="advice_od_msg5">OK for outdoor activities</string>
-	
-	<string name="mask_od_msg6">Masks not needed</string>
-	<string name="openwindow_od_msg6">OK to open windows</string>
-	<string name="advice_od_msg6">OK for outdoor activities</string>
-	
 	<!-- Outdoor Detail Tips -->
 	<string name="outdoor_aqi_good_tip1"> 特别适合室外运动。 开窗通风。 .</string>
-	<string name="outdoor_aqi_good_tip2"> 洁净空气，对健康危害极小或无危害。 可以参加日常室外活动。</string>
 	
 	<string name="outdoor_aqi_moderate_tip1"> 适合室外运动，但高度敏感人群应多加小心。</string>
-	<string name="outdoor_aqi_moderate_tip2"> 高度敏感人群应减少运动。</string>
 	
 	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">减少室外运动并偶尔开窗通风。 </string>
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">对婴儿和老人等敏感人群不健康。</string>
 	
 	<string name="outdoor_aqi_unhealthy_tip1">减少室外运动并关闭窗户。 </string>
-	<string name="outdoor_aqi_unhealthy_tip2">可能会发生轻微过敏。</string>
 	
 	<string name="outdoor_aqi_very_unhealthy_tip1">最好戴上口罩。</string>
-	<string name="outdoor_aqi_very_unhealthy_tip2">延缓室外活动。</string>
 	
 	<string name="outdoor_aqi_hazardous_tip1">避免前往室外或戴上口罩。 关闭家里的窗户。</string>
-	<string name="outdoor_aqi_hazardous_tip2">除非必要，否则不要外出。</string>
 	
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
@@ -295,7 +269,6 @@
     <string name="terms_and_conditions"></string>
 
     <!-- Air Quality Explained -->
-    <string name="air_quality_explained_header">空气质量说明</string>
     <string name="air_quality_explained_intro">生活在城市中的人无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
     <string name="purifier_feature_lbl_1">滤除最小 20 纳米的微小颗粒</string>
     <string name="purifier_feature_lbl_2">自然过滤可确保家人健康</string>
@@ -443,14 +416,11 @@
     <!-- Tools fragments -->
     <string name="ipaddress">IPAddress</string>
     <string name="submit">Submit</string>
-    <string name="regid_label">Please enter Registration ID</string>
-    <string name="sign_on">Sign On</string>
 
     <!-- Pairing -->
     <string name="pair_title">Remote control</string>
     <string name="pair_text">Do you want to control your AirPurifier outside of your home network?</string>
     <string name="pair">Yes</string>
-    <string name="not_now">Not now</string>
     <string name="error_title">We are sorry!</string>
     <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string>
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
@@ -468,12 +438,7 @@
     <string name="firmware_version_txt">Firmware version</string>
     <string name="releasedate_txt">Release date</string>
     <string name="release_notes_txt">Release notes</string>
-    <string name="firmware_status">!App Update needed</string>
-    <string name="firmware_version">6.0</string>
-    <string name="firmware_releasedate">14 Oct. 2013</string>
     <string name="firmware_update_successful">Firmware update successful!</string>
-    <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
-    <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
     <string name="firmware_current_version">Current version: </string>
     <string name="firmware_new_version">New version: </string>
     <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
@@ -483,7 +448,6 @@
     <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
     <string name="downloading_firmware_text">Downloading firmware</string>
     <string name="installing_firmware_text">Installing firmware</string>
-    <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
     <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
     <string name="installed">Installed</string>
     <string name="update">Update</string>

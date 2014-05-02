@@ -158,13 +158,9 @@
 
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">Low pollution, low PM2.5: poses little or no risk to health.</string>
-    <string name="indoor_aqi_good_tip2">You could open or close windows or switch your Philips Smart Air Purifier to Auto.</string>
     <string name="indoor_aqi_moderate_tip1">Pollution, particle level and PM2.5 all at moderate level.</string>
-    <string name="indoor_aqi_moderate_tip2">Close windows and turn on your Philips Smart Air Purifier to speed 1 or above.</string>
     <string name="indoor_aqi_unhealthy_tip1">High particle level PM2.5: irritation may occur.</string>
-    <string name="indoor_aqi_unhealthy_tip2">Turn on your Philips Smart Air Purifier to speed 2 or above. </string>
     <string name="indoor_aqi_very_unhealthy_tip1">Very high particle levels: PM2.5.</string>
-    <string name="indoor_aqi_very_unhealthy_tip2">Switch on your Philips Smart Air Purifier to speed 3 or Turbo.</string>
 
     <!-- Outdoor details -->
     <string name="mask_od_msg1">Masks not needed</string>
@@ -175,40 +171,18 @@
 	<string name="openwindow_od_msg2">Open your windows for ventilation</string>
 	<string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
 	
-	<string name="mask_od_msg3">It’s a good idea to wear a mask</string>
-	<string name="openwindow_od_msg3">Occasionally open your windows for ventilation</string>
-	<string name="advice_od_msg3">Reduce outdoor activities</string>
-	
-	<string name="mask_od_msg4">It’s a good idea to wear a mask</string>
-	<string name="openwindow_od_msg4">Close your windows</string>
-	<string name="advice_od_msg4">Reduce outdoor activities</string>
-	
-	<string name="mask_od_msg5">It’s a good idea to wear a mask</string>
-	<string name="openwindow_od_msg5">OK to open windows</string>
-	<string name="advice_od_msg5">OK for outdoor activities</string>
-	
-	<string name="mask_od_msg6">Masks not needed</string>
-	<string name="openwindow_od_msg6">OK to open windows</string>
-	<string name="advice_od_msg6">OK for outdoor activities</string>
-	
 	<!-- Outdoor Detail Tips -->
 	<string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
-	<string name="outdoor_aqi_good_tip2"> Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
 	
 	<string name="outdoor_aqi_moderate_tip1"> Good for outdoor activities but hyper-sensitive people should take care.</string>
-	<string name="outdoor_aqi_moderate_tip2"> Hyper-sensitive people should reduce activities.</string>
 	
 	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">Reduce outdoor activities and occasionally open your windows for ventilation.</string>
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">Unhealthy for sensitive groups like babies and the elderly.</string>
 	
 	<string name="outdoor_aqi_unhealthy_tip1">Reduce outdoor activities and close your windows.</string>
-	<string name="outdoor_aqi_unhealthy_tip2">Slight irritation may occur.</string>
 	
 	<string name="outdoor_aqi_very_unhealthy_tip1">It’s a good idea to wear a mask.</string>
-	<string name="outdoor_aqi_very_unhealthy_tip2">Postpone outdoor activities.</string>
 	
 	<string name="outdoor_aqi_hazardous_tip1">Avoid going outdoors or wear a mask. Close windows at your home.</string>
-	<string name="outdoor_aqi_hazardous_tip2">Go outside only if you really have to.</string>
 	
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
@@ -298,7 +272,6 @@
     <string name="terms_and_conditions"></string>
 
     <!-- Air Quality Explained -->
-    <string name="air_quality_explained_header">Air Quality Explained</string>
     <string name="air_quality_explained_intro">Nobody can avoid the increasingly alarming air quality issues as we live in an urban setting. To purify indoor air in a natural and holistic way, count on the Philips VitaShield Intelligent Purification System.</string>
     <string name="purifier_feature_lbl_1">Removes ultra-fine particles of down to 20 nanometres.</string>
     <string name="purifier_feature_lbl_2">Natural filtration ensures the family\'s well-being.</string>
@@ -447,14 +420,11 @@
     <!-- Tools fragments -->
     <string name="ipaddress">IPAddress</string>
     <string name="submit">Submit</string>
-    <string name="regid_label">Please enter Registration ID</string>
-    <string name="sign_on">Sign On</string>
 
     <!-- Pairing -->
     <string name="pair_title">Remote control</string>
     <string name="pair_text">Do you want to control your AirPurifier outside of your home network?</string>
     <string name="pair">Yes</string>
-    <string name="not_now">Not now</string>
     <string name="error_title">We are sorry!</string>
     <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string>
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
@@ -472,12 +442,7 @@
     <string name="firmware_version_txt">Firmware version</string>
     <string name="releasedate_txt">Release date</string>
     <string name="release_notes_txt">Release notes</string>
-    <string name="firmware_status">!App Update needed</string>
-    <string name="firmware_version">6.0</string>
-    <string name="firmware_releasedate">14 Oct. 2013</string>
     <string name="firmware_update_successful">Firmware update successful!</string>
-    <string name="firmware_update_successful_msg">The firmware update unlocked new features on your app, such as</string>
-    <string name="firmware_update_successful_msg2">Update your app to make use of these features!</string>
     <string name="firmware_current_version">Current version: </string>
     <string name="firmware_new_version">New version: </string>
     <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string>
@@ -487,7 +452,6 @@
     <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
     <string name="downloading_firmware_text">Downloading firmware</string>
     <string name="installing_firmware_text">Installing firmware</string>
-    <string name="downloading_firmware_version_text">Current version: RC5.06  \nNew version: RC6.01</string>
     <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
     <string name="installed">Installed</string>
     <string name="update">Update</string>
