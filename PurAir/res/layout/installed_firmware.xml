@@ -157,7 +157,6 @@
                 android:layout_alignRight="@+id/firmware_releasedate"
                 android:layout_marginRight="16dp"
                 android:padding="16dp"
-                android:text="22"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />

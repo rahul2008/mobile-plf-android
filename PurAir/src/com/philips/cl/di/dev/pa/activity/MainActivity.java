@@ -127,7 +127,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private TextView tvAirStatusMessage;
 	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
-	private Menu menu;
 	private boolean connected;
 	
 	/**
@@ -723,10 +722,10 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				}
 				break;
 			case R.id.add_location_img:
-				Toast.makeText(getApplicationContext(), "Add location actionBar click event!", 0).show();
+				//TODO
 				break;
 			case R.id.back_to_home_img:
-				Toast.makeText(getApplicationContext(), "Back to home click event!", 0).show();
+				//TODO
 				break;
 			default:
 				break;
