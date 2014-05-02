@@ -10,8 +10,8 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPurifierEventDto;
-import com.philips.cl.di.dev.pa.firmware.FirmwareEventDto;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -44,19 +44,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		super.onPause();
 		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
 	}
-
-	@Override
-	public void airPurifierEventReceived(final AirPurifierEventDto airPurifierEvent) {
-		getActivity().runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				updateDashboard(airPurifierEvent);
-			}
-		});
-	}
 	
-	private void updateDashboard(AirPurifierEventDto airPurifierEvent) {
+	private void updateDashboard(AirPortInfo airPurifierEvent) {
 		int indoorAqi = airPurifierEvent.getIndoorAQI();
 		
 		FontTextView fanMode = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
@@ -76,6 +65,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	//TODO : Move all following methods to DashboardUtils.
+	//TODO : Change strings
 	private void setFanSpeedText(FontTextView fanMode, String fanSpeed) {
 		if(fanSpeed.equals(AppConstants.FAN_SPEED_SILENT)) {
 			fanMode.setText(R.string.silent);
@@ -86,13 +76,13 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_ONE)) {
 			fanMode.setText(R.string.one);
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TWO)) {
-			fanMode.setText(R.string.two);
+			fanMode.setText(R.string.one);
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_THREE)) {
-			fanMode.setText(R.string.three);
+			fanMode.setText(R.string.one);
 		}
 	}
 	
-	private void setFilterStatus(FontTextView filterStatus, AirPurifierEventDto airPurifierEvent) {
+	private void setFilterStatus(FontTextView filterStatus, AirPortInfo airPurifierEvent) {
 		filterStatus.setText(Utils.getFilterStatusForDashboard(airPurifierEvent));
 	}
 	
@@ -154,11 +144,20 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
-
-
 	
 	@Override
-	public void firmwareEventReceived(FirmwareEventDto firmwareEventDto) {
+	public void airPurifierEventReceived(final AirPortInfo airPurifierEvent) {
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				updateDashboard(airPurifierEvent);
+			}
+		});
+	}
+
+	@Override
+	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
 		//NOP
 	}
 
