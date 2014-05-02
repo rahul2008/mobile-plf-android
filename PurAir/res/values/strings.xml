@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	<string name="todo">TODO</string>
     <string name="app_name">Smart Air</string>
     <string name="dashboard_title">Smart Air Purifier</string>
     <string name="action_settings">Settings</string>

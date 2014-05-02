@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/air_dashboard_outdoor_shanghai_300" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_time_update_lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="2dp"
+        android:text="@string/update"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <ImageView
+        android:id="@+id/hf_outdoor_weather_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="2dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/cloudy" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_city"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:text="Shanghai"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_time_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/hf_outdoor_weather_image"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="2dp"
+        android:text="14:23"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hf_outdoor_city"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:text="Us Consolidate"
+        android:textColor="@color/white"
+        android:textSize="11sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_temprature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/hf_outdoor_time_update_lb"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="2dp"
+        android:text="18C"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <RelativeLayout
+        android:id="@+id/hf_outdoor_circle_layt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hf_outdoor_location"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp" >
+
+        <ImageView
+            android:id="@+id/hf_outdoor_circle_meter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/colour_circle_big_2x" />
+
+        <ImageView
+            android:id="@+id/hf_outdoor_circle_pointer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/blue_circle_with_arrow_small" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/hf_outdoor_aqi_reading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="290"
+            android:textColor="@color/white"
+            android:textSize="22sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+    </RelativeLayout>
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_aqi_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hf_outdoor_circle_layt"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_aqi_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hf_outdoor_aqi_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+</RelativeLayout>

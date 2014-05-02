@@ -4,6 +4,7 @@
         android:id="@+id/right_menu"
         android:icon="@drawable/right_bar_icon_blue_2x"
         android:title="@string/a_capital"
+        android:visible="false"
         pureAirUI:showAsAction="always">
     </item>
     <item

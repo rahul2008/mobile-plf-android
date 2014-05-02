@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hf_indoor_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_indoor_bg_2x" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_indoor_fan_mode_lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="8dp"
+        android:drawableLeft="@drawable/fan_icon_white_2x"
+        android:drawablePadding="4dp"
+        android:text="@string/mode"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:textColor="@color/white" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:id="@+id/hf_indoor_filter_lb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:drawablePadding="4dp"
+        android:drawableRight="@drawable/filter_icon_2x"
+        android:text="@string/filters"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:id="@+id/hf_indoor_purifier_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textSize="21sp"
+        android:text="Living Room"
+        android:textColor="@color/white" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsans.ttf"
+        android:id="@+id/hf_indoor_fan_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/hf_indoor_filter_lb"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="2dp"
+        android:text="Auto"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsans.ttf"
+        android:id="@+id/hf_indoor_filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/hf_indoor_fan_mode_lb"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="2dp"
+        android:text="Good"
+        android:textSize="14sp"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:id="@+id/hf_indoor_circle_layt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hf_indoor_filter"
+        android:layout_centerHorizontal="true" >
+
+        <ImageView
+            android:id="@+id/hf_indoor_circle_meter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/all_colour_circle_2x" />
+
+        <ImageView
+            android:id="@+id/hf_indoor_circle_pointer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/blue_circle_with_arrow_2x" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        	custom:fontAssetName="fonts/gillsans.ttf"
+        	android:textSize="22sp"
+            android:id="@+id/hf_indoor_aqi_reading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="Very\nHealthy"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+       	custom:fontAssetName="fonts/gillsans.ttf"
+        android:textSize="11sp"
+        android:id="@+id/hf_indoor_aqi_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/hf_indoor_circle_layt"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:text="PM25 polution........."
+        android:textColor="@color/white" />
+
+</RelativeLayout>
