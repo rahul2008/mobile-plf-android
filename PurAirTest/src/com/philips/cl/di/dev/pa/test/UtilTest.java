@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.test;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -102,5 +104,85 @@ public class UtilTest extends TestCase {
 		
 		assertTrue(expectedUrl.equals(actualUrl));
 	}
-
+	
+	public void testGetLastDayHoursNull() {
+		int hr = Utils.getLastDayHours(null);
+		assertEquals(0, hr);
+	}
+	
+	public void testGetLastDayHoursEmpty() {
+		int hr = Utils.getLastDayHours("");
+		assertEquals(0, hr);
+	}
+	
+	public void testGetLastDayHoursWrongFormat() {
+		int hr = Utils.getLastDayHours("hello");
+		assertEquals(0, hr);
+	}
+	
+	public void testGetDiffInDays() {
+		long rl = Utils.getDiffInDays(0L);
+		assertTrue(rl != 0);
+	}
+	
+	public void testGetPercentageBothZero() {
+		int percent = Utils.getPercentage(0, 0);
+		assertEquals(0, percent);
+	}
+	
+	public void testGetPercentageFirstZero() {
+		int percent = Utils.getPercentage(0, 4);
+		assertEquals(0, percent);
+	}
+	
+	public void testGetPercentageLastZero() {
+		int percent = Utils.getPercentage(4, 0);
+		assertEquals(0, percent);
+	}
+	
+	public void testGetDayOfWeekNine() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 9);
+		assertNull(day);
+	}
+	
+	public void testGetDayOfWeekZero() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 0);
+		assertNull(day);
+	}
+	
+	public void testGetDayOfWeekOne() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 1);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.sun), day);
+	}
+	
+	public void testGetDayOfWeekTwo() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 2);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.mon), day);
+	}
+	
+	public void testGetDayOfWeekThree() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 3);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.tue), day);
+	}
+	
+	public void testGetDayOfWeekFour() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 4);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.wed), day);
+	}
+	
+	public void testGetDayOfWeekFive() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 5);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.thu), day);
+	}
+	
+	public void testGetDayOfWeekSix() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 6);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.fri), day);
+	}
+	
+	public void testGetDayOfWeekSeven() {
+		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 7);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.sat), day);
+	}
+	
 }

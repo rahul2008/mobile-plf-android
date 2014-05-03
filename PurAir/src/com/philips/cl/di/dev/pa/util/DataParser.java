@@ -290,6 +290,9 @@ public class DataParser {
 	}
 	
 	public static DeviceDto getEWSDeviceDetails(String data) {
+		if (data == null || data.isEmpty()) {
+			return null;
+		}
 		Gson gson = new GsonBuilder().create() ;
 		DeviceDto deviceDto = null;
 		try {
@@ -305,6 +308,9 @@ public class DataParser {
 	}
 
 	public static DeviceWifiDto getEWSDeviceWifiDetails(String data) {
+		if (data == null || data.isEmpty()) {
+			return null;
+		}
 		Gson gson = new GsonBuilder().create() ;
 		DeviceWifiDto deviceWifiDto = null;
 		try {
@@ -324,7 +330,6 @@ public class DataParser {
 		if(dataToParse == null) {
 			return null;
 		}
-		
 		try {
 			CityDetails cities = new GsonBuilder().create().fromJson(dataToParse, CityDetails.class);
 			Map<String, City> citiesMap = cities.getCities();

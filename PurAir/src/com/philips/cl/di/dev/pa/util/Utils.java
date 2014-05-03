@@ -694,12 +694,14 @@ public class Utils {
 	
 	public static int getLastDayHours(String currentCityTimeHr) {
 		int hr = 0;
-		if (currentCityTimeHr != null) {
-			try {
-				hr = Integer.parseInt(currentCityTimeHr);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
+		if (currentCityTimeHr == null || currentCityTimeHr.isEmpty()) {
+			return hr;
+		}
+		try {
+			hr = Integer.parseInt(currentCityTimeHr);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			return hr;
 		}
 		
 		if (hr == 0) {

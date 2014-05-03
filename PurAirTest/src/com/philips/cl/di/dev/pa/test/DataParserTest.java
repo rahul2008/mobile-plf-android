@@ -3,6 +3,9 @@ import java.util.List;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cl.di.dev.pa.datamodel.City;
+import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
+import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -266,5 +269,50 @@ public class DataParserTest extends TestCase {
 		
 		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
 		assertEquals(result.getProgress(), 0);
+	}
+	
+	public void testParseLocationDataNull() {
+		List<City> cities = DataParser.parseLocationData(null);
+		assertNull(cities);
+	}
+	
+	public void testParseLocationDataEmpty() {
+		List<City> cities = DataParser.parseLocationData("");
+		assertNull(cities);
+	}
+	
+	public void testParseLocationDataNoneFormat() {
+		List<City> cities = DataParser.parseLocationData("{hello}");
+		assertNull(cities);
+	}
+	
+	public void testGetEWSDeviceWifiDetailsNull() {
+		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(null);
+		assertNull(deviceWifiDto);
+	}
+	
+	public void testGetEWSDeviceWifiDetailsEmpty() {
+		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails("");
+		assertNull(deviceWifiDto);
+	}
+	
+	public void testGetEWSDeviceWifiDetailsNoneFormat() {
+		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails("{hello}");
+		assertNull(deviceWifiDto);
+	}
+	
+	public void testGetEWSDeviceDetailsNull() {
+		DeviceDto deviceDto  = DataParser.getEWSDeviceDetails(null);
+		assertNull(deviceDto);
+	}
+	
+	public void testGetEWSDeviceDetailsEmpty() {
+		DeviceDto deviceDto  = DataParser.getEWSDeviceDetails("");
+		assertNull(deviceDto);
+	}
+	
+	public void testGetEWSDeviceDetailsNoneFormat() {
+		DeviceDto deviceDto  = DataParser.getEWSDeviceDetails("{hello}");
+		assertNull(deviceDto);
 	}
 }

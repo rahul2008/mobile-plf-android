@@ -70,7 +70,10 @@ public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 	
 	@Override
 	public void notifyUIOnDataChange() {
-		ALog.i(ALog.DASHBOARD, "notifyUIOnDataChange");	
+		ALog.i(ALog.DASHBOARD, "notifyUIOnDataChange " + getActivity());	
+		if (getActivity() == null) {
+			return;
+		}
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
