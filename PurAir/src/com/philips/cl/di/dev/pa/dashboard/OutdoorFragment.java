@@ -1,22 +1,26 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment {
 	
-	private static final String CITY = "city";
 	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary;
 	private ImageView aqiPointerCircle;
 	
@@ -25,7 +29,7 @@ public class OutdoorFragment extends BaseFragment {
 		OutdoorFragment fragment = new OutdoorFragment();
 		if(outdoorDto != null) {
 			Bundle args = new Bundle();
-			args.putSerializable(CITY, outdoorDto);
+			args.putSerializable(AppConstants.KEY_CITY, outdoorDto);
 			fragment.setArguments(args);
 		}
 		return fragment;
@@ -51,8 +55,7 @@ public class OutdoorFragment extends BaseFragment {
 
 		if(bundle != null) {
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$onCreateView");
-			OutdoorDto city= (OutdoorDto) getArguments().getSerializable(
-					CITY);
+			OutdoorDto city= (OutdoorDto) getArguments().getSerializable(AppConstants.KEY_CITY);
 			updateUI(city);
 		} 
 	}
@@ -66,6 +69,7 @@ public class OutdoorFragment extends BaseFragment {
 		aqiTitle.setText(city.getAqiTitle());
 		aqiSummary.setText(city.getAqiSummary());
 		aqiPointerCircle.setImageResource(city.getAqiPointerImageResId());
+		aqiPointerCircle.setOnClickListener(pointerImageClickListener);
 		aqiPointerCircle.invalidate();
 		setRotationAnimation(aqiPointerCircle, city.getAqiPointerRotaion());
 	}
@@ -91,4 +95,17 @@ public class OutdoorFragment extends BaseFragment {
 	 
 	    aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
+	
+	private OnClickListener pointerImageClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Bundle bundle = getArguments();
+			if (bundle != null) {
+				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+		}
+	};
 }

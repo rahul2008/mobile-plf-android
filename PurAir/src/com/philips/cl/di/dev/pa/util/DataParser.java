@@ -189,6 +189,10 @@ public class DataParser {
 
 
 	public static OutdoorAQIEventDto parseOutdoorAQIData(String dataToParse) {
+		ALog.i(ALog.OUTDOOR_DETAILS, "parseOutdoorAQIData parsing");
+		if (dataToParse == null) {
+			return null;
+		}
 		try {
 			Gson gson = new GsonBuilder().create() ;
 			OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
@@ -206,6 +210,9 @@ public class DataParser {
 	}
 
 	public static List<Weatherdto> parseWeatherData(String dataToParse) {
+		if (dataToParse == null) {
+			return null;
+		}
 		List<Weatherdto> weatherForecastList = null ;
 		Weatherdto weatherDto = new Weatherdto()  ;
 		String date = "";

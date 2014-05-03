@@ -18,8 +18,6 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
 	
-	private static final String TAG = WeatherReportLayout.class.getSimpleName();
-	
 	String[] nextFiveDays;
 	String[] hrsDays;
 	
@@ -41,12 +39,9 @@ public class WeatherReportLayout extends  LinearLayout {
 	 * @param AttributeSet
 	 * @param int number of view to show
 	 * */
-	public WeatherReportLayout(final Context context, AttributeSet attrs,  final int num, String timeStr) {
+	public WeatherReportLayout(final Context context, AttributeSet attrs,  final int num, String timeStr, 
+			List<Weatherdto> weatherDetails) {
 		super(context, attrs);
-		
-		//TODO : HomeFragment.getWeatherDetails(); 
-		//Get weather details here.
-		List<Weatherdto> weatherDetails = null;
 		
 		if (weatherDetails == null) {
 			return;
@@ -98,7 +93,6 @@ public class WeatherReportLayout extends  LinearLayout {
 	}
 	
 	private void fourDaysWeatherForecast(Context context, List<Weatherdto> weatherDetails) {
-		Log.i(TAG, "Weatherdto NExt 4== "+ weatherDetails.size());
 		/** Next 4 days weather report*/
 		int count = 9;
 		for (int i = 0; i < 5; i++) {
@@ -160,7 +154,6 @@ public class WeatherReportLayout extends  LinearLayout {
 	}
 	
 	private void weatherForecatDays(Context context, String timeStr) {
-		Log.i(TAG, "Weather forecat days");
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		
 		int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);

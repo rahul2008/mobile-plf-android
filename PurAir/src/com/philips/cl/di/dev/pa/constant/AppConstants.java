@@ -62,8 +62,7 @@ public class AppConstants {
 
 	/** The Constant URL_CURRENT. */	
 	public static final String WEATHER_SERVICE_URL = "http://ixuanwu.com.cn/app/weather.php?q=%s" ;
-	
-
+	public static final String OUTDOOR_AQI_URL = "http://ixuanwu.com.cn/app/city-hourly-gov.php?key=%s" ;
 	
 	/** The Constant defaultIPAddress. */
 	public static final String DEFAULT_PURIFIERID = "none";

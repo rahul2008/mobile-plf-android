@@ -24,6 +24,7 @@ public class ALog {
 	public static final String DATABASE = "DatabaseAir" ;
 	public static final String CPPCONTROLLER="CppController";
 	public static final String INDOOR_DETAILS = "IndoorDetails";
+	public static final String OUTDOOR_DETAILS = "OutdoorDetails";
 	public static final String INDOOR_RDCP = "IndoorRdcp";
 	public static final String ANIMATOR_CONST = "AnimatorConstants";
 	public static final String AIRPURIFIER_CONTROLER = "AirPurifierController";
@@ -36,6 +37,7 @@ public class ALog {
 	public static final String PURIFIER_MANAGER = "PurifierManager";
 	public static final String DASHBOARD="Dashboard";
 	public static final String OUTDOOR_LOCATION="OutdoorLocation";
+	public static final String TASK_GET="TaskGetHttp";
 	
 	private static boolean isLoggingEnabled = true;
 	

@@ -62,6 +62,7 @@ public class OutdoorManager implements OutdoorEventListener {
 				outdoorDto.setTemperature(city.getWeather().getTemp_c());
 				outdoorDto.setUpdatedTime(city.getGov().getT());
 				outdoorDto.setWeatherIcon(city.getWeather().getIcon());
+				outdoorDto.setGeo(city.getLat()+","+city.getLon());
 				outdoorLocations.add(outdoorDto);
 			}
 		}

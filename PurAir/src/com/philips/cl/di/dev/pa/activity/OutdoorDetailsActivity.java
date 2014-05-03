@@ -1,8 +1,11 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +15,7 @@ import android.view.View.OnClickListener;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,18 +25,27 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
+import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData;
+import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData.WeatherDataListener;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
-public class OutdoorDetailsActivity extends ActionBarActivity implements OnClickListener {
+public class OutdoorDetailsActivity extends ActionBarActivity 
+	implements OnClickListener, ServerResponseListener, WeatherDataListener {
 
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
@@ -45,8 +58,9 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	private ImageView mapClickImg;
 	private FontTextView avoidTxt, openWindowTxt, maskTxt;
 	private FontTextView msgSecond;
+	private ProgressBar aqiProgressBar;
+	private ProgressBar weatherProgressBar;
 	private Coordinates coordinates;
-	private SessionDto sessionDto;
 	private float lastDayAQIReadings[] = new float[24];
 	private float last7dayAQIReadings[] = new float[7];
 	private float last4weekAQIReadings[] = new float[28];
@@ -56,47 +70,24 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		setContentView(R.layout.activity_details_outdoor);
-
 		coordinates = Coordinates.getInstance(this);
-
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 		initializeUI();
-		
 		initActionBar();
 		setActionBarTitle();
-
 		setUpMapIfNeeded();
-		
 		getDataFromDashboard();
-		
-		if (aqiEventDto != null) {
-			getXCoordinates();
-		}
-		if (graphLayout.getChildCount() > 0) {
-			graphLayout.removeAllViews();
-		}
-		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
-			graphLayout.addView(
-					new GraphView(this, lastDayAQIReadings, coordinates));
-		}
-		
-		/**Add today weather*/
-		wetherScrollView.addView(new WeatherReportLayout(this, null, 8, currentCityTime));
-
-		/**Add weather forecast*/
-		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5, currentCityTime);
-		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
-		wetherForcastLayout.addView(weatherReportLayout);
 	}
 
 	/**
 	 * Reading data from server
 	 * */
 	private void getXCoordinates() {
+		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
+		aqiEventDto = SessionDto.getInstance().getOutdoorEventDto();
 		if (aqiEventDto == null) {
 			return;
 		}
@@ -117,6 +108,14 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		calculatelastDayAQIReadings(idx);	
 		calculatelast7DayAQIReadings(idx, hr);	
 		calculatelast4WeeksAQIReadings(idx, hr);
+		
+		if (graphLayout.getChildCount() > 0) {
+			graphLayout.removeAllViews();
+		}
+		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
+			graphLayout.addView(
+					new GraphView(OutdoorDetailsActivity.this, lastDayAQIReadings, coordinates));
+		}
 			
 	}
 	
@@ -143,7 +142,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		 * Calculate last 7 day values and add in to last 7 day AQI value
 		 * array Calculate current day hours
 		 */
-		currentCityTime = aqiEventDto.getT();
+//		currentCityTime = aqiEventDto.getT();
 		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
 		int hr = 0;
 		if (currentCityTimeHr != null) {
@@ -277,34 +276,36 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 
 	/** Getting data from Main screen*/
 	private void getDataFromDashboard() {
-		String []datas = getIntent().getStringArrayExtra("outdoor");
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		if (datas != null && datas.length > 0) {
-			//locationCity.setText(bundleDatas[1]);
-			heading.setText(datas[1]);
-			location.setText(datas[2]);
-			summaryTitle.setText(datas[5]);
-			summary.setText(datas[6]);
+		Bundle bundle = getIntent().getExtras();
 
-			aqiValue.setText(datas[7]);
-			
-			try {
-				int aqiInt = Integer.parseInt(datas[7].trim());
-				circleImg.setImageDrawable(Utils.getOutdoorAQICircleBackground(this, aqiInt));
-				
-				setAdviceIconTex(aqiInt);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
+		if(bundle != null) {
+			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
+			OutdoorDto city= (OutdoorDto) bundle.getSerializable(AppConstants.KEY_CITY);
+			heading.setText(city.getCityName());
+			location.setText("");
+			summaryTitle.setText(city.getAqiTitle());
+			summary.setText(city.getAqiSummary());
+			aqiValue.setText(city.getAqi());
+			if (city.getAqi() != null) {
+				try {
+					int aqiInt = Integer.parseInt(city.getAqi().trim());
+					circleImg.setImageDrawable(Utils.getOutdoorAQICircleBackground(this, aqiInt));
+					
+					setAdviceIconTex(aqiInt);
+				} catch (NumberFormatException e) {
+					e.printStackTrace();
+				}
 			}
-		}
-		
-		//TODO : AJ
-//		aqiEventDto = HomeFragment.getOutdoorAQIEventDto();
+			startOutdoorAQITask(city.getCityName());
+			currentCityTime = city.getUpdatedTime();
+			startWeatherDataTask(city.getGeo());
+		} 
 	
 	}
-
+	
 	/**Set advice icon and text*/ 
 	private void setAdviceIconTex(int aqiInt) {
 		
@@ -397,7 +398,8 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		openWindowTxt = (FontTextView) findViewById(R.id.openWindowTxt); 
 		maskTxt = (FontTextView) findViewById(R.id.maskTxt);
 
-		
+		aqiProgressBar = (ProgressBar) findViewById(R.id.outdoorAqiDownloadProgressBar);
+		weatherProgressBar = (ProgressBar) findViewById(R.id.weatherProgressBar);
 
 		/**
 		 * Set click listener
@@ -496,6 +498,18 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 		msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 	}
+	
+	private void updateWeatherFields() {
+		/**Add today weather*/
+		wetherScrollView.addView(new WeatherReportLayout(this, null, 8, 
+				currentCityTime, SessionDto.getInstance().getWeatherDetails()));
+
+		/**Add weather forecast*/
+		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5, 
+				currentCityTime, SessionDto.getInstance().getWeatherDetails());
+		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
+		wetherForcastLayout.addView(weatherReportLayout);
+	}
 
 	/**
 	 * 
@@ -503,9 +517,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 	private void removeChildViewFromBar() {
 		if (graphLayout.getChildCount() > 0) {
 			graphLayout.removeAllViews();
-		}
-		if (sessionDto != null) {
-			getXCoordinates();
 		}
 	}
 
@@ -558,9 +569,61 @@ public class OutdoorDetailsActivity extends ActionBarActivity implements OnClick
 		return currentCityTime;
 	}
 
-	
 	@Override
 	public void onBackPressed() {
 		finish();
+	}
+	
+	private void startOutdoorAQITask(String cityName) {
+		if (cityName == null) {
+			return;
+		}
+	
+		TaskGetHttp shanghaiAQI = new TaskGetHttp(String.format(
+				AppConstants.OUTDOOR_AQI_URL,cityName.trim()), OutdoorDetailsActivity.this, this);
+		shanghaiAQI.start();
+
+	}
+	
+	private void startWeatherDataTask(String geoCoordinate) {
+		ALog.i(ALog.OUTDOOR_DETAILS, "Latitute and Longitude: " + geoCoordinate);
+		if (geoCoordinate == null) {
+			return;
+		}
+		TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(
+				String.format(AppConstants.WEATHER_SERVICE_URL,"31.2000,121.5000"), this);
+		statusUpdateTask.start();
+
+	}
+	
+	private final Handler handler = new Handler() {
+		public void handleMessage(Message msg) {
+			if ( msg.what == 1 ) {
+				aqiProgressBar.setVisibility(View.GONE);
+				getXCoordinates();
+			} else if ( msg.what == 2 ) {
+				weatherProgressBar.setVisibility(View.GONE);
+				updateWeatherFields() ;
+			}
+		};
+	};
+	
+
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData) {
+		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
+		if (responseCode == 200) {
+			SessionDto.getInstance().setOutdoorEventDto(DataParser.parseOutdoorAQIData(responseData)) ;
+			handler.sendEmptyMessage(1);
+		}
+		
+	}
+
+	@SuppressLint("HandlerLeak")
+	@Override
+	public void weatherDataUpdated(String weatherData) {
+		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather downloaded");
+		SessionDto.getInstance().setWeatherDetails(DataParser.parseWeatherData(weatherData)) ;
+		handler.sendEmptyMessage(2) ;
 	}
 }

@@ -7,6 +7,7 @@ import java.net.URL;
 
 import android.content.Context;
 
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
@@ -16,6 +17,7 @@ public class TaskGetHttp extends Thread {
 	private ServerResponseListener listener ;
 
 	public TaskGetHttp(String url,Context context, ServerResponseListener listener) {
+		ALog.i(ALog.TASK_GET, "Url: " + url);
 		this.url = url ;
 		this.listener = listener ;
 	}

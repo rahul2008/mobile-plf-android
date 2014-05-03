@@ -15,6 +15,18 @@ public class OutdoorDto implements Serializable{
 	private String temperature;
 	private String weatherIcon;
 	private String aqi;
+	private String geo;
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	
+	public String getGeo() {
+		return geo;
+	}
+	public void setGeo(String geo) {
+		this.geo = geo;
+	}
 	
 	public String getUpdatedTime() {
 		return updatedTime;
