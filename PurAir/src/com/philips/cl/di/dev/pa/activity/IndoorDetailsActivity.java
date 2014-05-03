@@ -282,7 +282,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		goodAirInfos.add(Utils.getPercentage(goodAirCount, totalAirCount));
 		last7daysRDCPValues.add(last7daysRDCPVal);
 		last4weeksRDCPValues.add(last4weeksRDCPVal);
-		Utils.calculateOutdoorAQIValues();
+//		Utils.calculateOutdoorAQIValues();
 
 		handler.removeCallbacks(downloadDataRunnble);
 		handler.post(downloadDataRunnble);
@@ -386,10 +386,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 */
 	private void getDataFromDashboard() {
 		String datas[] = getIntent().getStringArrayExtra("indoor");
+		String purifierName = currentPurifier.getName();
+		setActionBarTitle(purifierName);
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		//Log.i(TAG, "Data from Dashboard= " + datas);
 		if (datas != null && datas.length > 0) {
 
 			if (datas[0] != null) {
@@ -405,19 +406,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					float indoorAQI = Float.parseFloat(datas[2].trim());
 					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
-					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary, datas[6]);
+					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary, purifierName);
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
 			}
-
-			if (datas[5] != null) {
-				outdoorTitle = datas[5];
-			}
-			
-			setActionBarTitle(datas[6]);
 		}
-		
 	}
 
 	@Override
@@ -443,9 +437,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-				ALog.i(ALog.INDOOR_DETAILS, "hrlyAqiValues==  " + hrlyAqiValues);
-				ALog.i(ALog.INDOOR_DETAILS, "dailyAqiValues==  " + dailyAqiValues);
-				ALog.i(ALog.INDOOR_DETAILS, "powerOnStatusList==  " + powerOnStatusList);
+//				ALog.i(ALog.INDOOR_DETAILS, "hrlyAqiValues==  " + hrlyAqiValues);
+//				ALog.i(ALog.INDOOR_DETAILS, "dailyAqiValues==  " + dailyAqiValues);
+//				ALog.i(ALog.INDOOR_DETAILS, "powerOnStatusList==  " + powerOnStatusList);
 			}
 			addAqiReading();
 		}

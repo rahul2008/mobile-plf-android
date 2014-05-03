@@ -1,25 +1,37 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class IndoorFragment extends BaseFragment implements AirPurifierEventListener{
+public class IndoorFragment extends BaseFragment implements AirPurifierEventListener {
+	
+	private FontTextView fanModeTxt;
+	private FontTextView filterStatusTxt; 
+	private FontTextView aqiStatusTxt;
+//	private FontTextView aqiSummaryTxt; 
+	private FontTextView purifierNameTxt;
+//	private ImageView aqiPointer;
+	private int indoorAQIValue;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -31,6 +43,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		//Start download purifier city AQI
+		HomeOutdoorData.getInstance().startOutdoorAQITask();
 	}
 
 	@Override
@@ -47,18 +61,25 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private void updateDashboard(AirPortInfo airPurifierEvent) {
 		int indoorAqi = airPurifierEvent.getIndoorAQI();
+		indoorAQIValue = indoorAqi;
+		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
+		setFanSpeedText(fanModeTxt, airPurifierEvent.getFanSpeed());
 		
-		FontTextView fanMode = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
-		setFanSpeedText(fanMode, airPurifierEvent.getFanSpeed());
+		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
+		setFilterStatus(filterStatusTxt, airPurifierEvent);
 		
-		FontTextView filterStatus = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
-		setFilterStatus(filterStatus, airPurifierEvent);
+		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
+		setAqiText(aqiStatusTxt, indoorAqi);
 		
-		FontTextView aqiStatus = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
-		setAqiText(aqiStatus, indoorAqi);
+//		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
+		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
+		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
+			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
+		}
 		
 		ImageView aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 		
+		aqiPointer.setOnClickListener(pointerImageClickListener);
 		setAqiPointerBackground(aqiPointer, indoorAqi);
 		aqiPointer.invalidate();
 		setAqiPointerRotation(aqiPointer, indoorAqi);
@@ -160,5 +181,22 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
 		//NOP
 	}
-
+	
+	private OnClickListener pointerImageClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
+			String indoorDashboardInfos[] = new String[5];
+			indoorDashboardInfos[0] = fanModeTxt.getText().toString();
+			indoorDashboardInfos[1] = filterStatusTxt.getText().toString();
+			indoorDashboardInfos[2] = String.valueOf(indoorAQIValue);
+//			indoorDashboardInfos[3] = aqiStatusTxt.getText().toString();
+//			indoorDashboardInfos[4] = aqiSummaryTxt.getText().toString();
+			intent.putExtra("indoor", indoorDashboardInfos);
+			startActivity(intent);
+			
+		}
+	};
+	
 }

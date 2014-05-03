@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.City;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;

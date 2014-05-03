@@ -7,8 +7,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
-
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 
 public class AirView extends View {

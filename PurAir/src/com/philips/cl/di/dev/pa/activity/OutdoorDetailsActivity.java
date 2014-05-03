@@ -102,8 +102,8 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		if (idx.length == 0) {
 			return;
 		}
-		
-		int hr = calculatelastDayTime();
+		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
+		int hr = Utils.getLastDayHours(currentCityTimeHr);
 
 		calculatelastDayAQIReadings(idx);	
 		calculatelast7DayAQIReadings(idx, hr);	
@@ -126,37 +126,15 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		 * array
 		 */
 		int lastDayHr = 24;
-
+		if (idx.length < lastDayHr) {
+			return;
+		}
 		for (int i = 0; i < lastDayAQIReadings.length; i++) {
 			if (i == 0 && idx[i] == 0) {
 				idx[i] = idx[i + 1];
-				// lastDayHr = 25;
 			}
 			lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
 		}
-	}
-	
-	private int calculatelastDayTime() {
-		/** last 7 days */
-		/**
-		 * Calculate last 7 day values and add in to last 7 day AQI value
-		 * array Calculate current day hours
-		 */
-//		currentCityTime = aqiEventDto.getT();
-		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
-		int hr = 0;
-		if (currentCityTimeHr != null) {
-			try {
-				hr = Integer.parseInt(currentCityTimeHr);
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		if (hr == 0) {
-			hr = 24;
-		}
-		return hr;
 	}
 	
 	private void calculatelast7DayAQIReadings(int idx[], int hr) {
@@ -165,6 +143,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		 * average of every days hours value
 		 */
 		int last7dayHrs = 6 * 24 + hr;
+		
+		if (idx.length < last7dayHrs) {
+			return;
+		}
 
 		float sum = 0;
 		float avg = 0;
@@ -203,6 +185,10 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		 * hours value
 		 */
 		int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
+		
+		if (idx.length < last4WeekHrs) {
+			return;
+		}
 
 		int count = 1;
 		float sum = 0;

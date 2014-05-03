@@ -14,10 +14,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.PercentDetailsClickListener;
-import com.philips.cl.di.dev.pa.util.Utils;
-
 
 public class PercentBarLayout extends LinearLayout {
 
@@ -52,12 +51,14 @@ public class PercentBarLayout extends LinearLayout {
 			if (i == 1) {
 				name.setText(context.getString(R.string.outdoor_db));
 				try {
-					if (Utils.OUTDOOR_AQI_PERCENTAGE_LIST != null) {
+					List<Integer> outdoorAqiPercentList = HomeOutdoorData.getInstance().getOutdoorPercentList();
+					if (outdoorAqiPercentList != null && outdoorAqiPercentList.size() > 0) {
 						indoorDashboardBarPerc.addView(
-								new AirView(context, Utils.OUTDOOR_AQI_PERCENTAGE_LIST.get(index), 60, 80));
-						percentTxt.setText(Utils.OUTDOOR_AQI_PERCENTAGE_LIST.get(index)+"%");
+								new AirView(context, outdoorAqiPercentList.get(index), 60, 80));
+						percentTxt.setText(outdoorAqiPercentList.get(index)+"%");
 						indoorDashboardBarPerc.addView(percentTxt, percentTxtParams);
 					}
+					
 				} catch (Exception e) {
 					ALog.e(ALog.INDOOR_RDCP, e.getMessage());
 				}
@@ -87,7 +88,4 @@ public class PercentBarLayout extends LinearLayout {
 		}
 	}
 	
-	private float getPxWithRespectToDip(int dip) {
-		return getResources().getDisplayMetrics().density * dip;
-	}
 }
