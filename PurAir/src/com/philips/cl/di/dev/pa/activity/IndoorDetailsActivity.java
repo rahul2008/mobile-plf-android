@@ -386,7 +386,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 */
 	private void getDataFromDashboard() {
 		String datas[] = getIntent().getStringArrayExtra("indoor");
-		String purifierName = currentPurifier.getName();
+		String purifierName = "";
+		if (currentPurifier != null) {
+			purifierName = currentPurifier.getName();
+		}
 		setActionBarTitle(purifierName);
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
