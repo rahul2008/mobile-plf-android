@@ -8,4 +8,5 @@
     <issue id = "Overdraw" severity="ignore" /> 
     <issue id = "EI_EXPOSE_REP2" severity="ignore" /> 
     <issue id = "DefaultLocale" severity="ignore" /> 
+    <issue id = "IconDipSize" severity="ignore" /> 
 </lint>
