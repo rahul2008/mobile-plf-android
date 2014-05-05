@@ -1,0 +1,160 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="@color/white">
+	
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/auto"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+		android:text="@string/auto"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+	custom:fontAssetName="fonts/gillsanslight.ttf" />
+      
+      <ImageView
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+		android:textColor="@color/title_gray"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+        android:layout_below="@+id/auto"
+        android:contentDescription="@string/img_description"
+        android:background="@android:color/black"/> 
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/silent"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+		android:gravity="center_vertical"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp"
+		android:text="@string/silent"
+        android:textSize="24sp"
+        android:layout_below="@+id/divider1"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+      <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+		android:textColor="@color/title_gray"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+        android:layout_below="@+id/silent"
+        android:contentDescription="@string/img_description"
+        android:background="@android:color/black" /> 
+    
+      <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/one"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+		android:gravity="center_vertical"
+		android:text="@string/fanspeed_one"
+        android:textSize="24sp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@+id/divider2"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+        android:id="@+id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+		android:textColor="@color/title_gray"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+        android:layout_below="@+id/one"
+        android:contentDescription="@string/img_description"
+        android:background="@android:color/black" /> 
+    
+      <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/two"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+		android:gravity="center_vertical"
+		android:text="@string/fanspeed_two"
+        android:textSize="24sp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_below="@+id/divider3"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+	custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+		android:textColor="@color/title_gray"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+        android:layout_below="@+id/two"
+        android:contentDescription="@string/img_description"
+        android:background="@android:color/black" /> 
+    
+      <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/three"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+		android:gravity="center_vertical"
+		android:text="@string/fanspeed_three"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/divider4"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+        android:id="@+id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+		android:textColor="@color/title_gray"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+        android:layout_below="@+id/three"
+        android:contentDescription="@string/img_description"
+        android:background="@android:color/black" /> 
+    
+      <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/turbo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+		android:gravity="center_vertical"
+		android:text="@string/turbo"
+		android:paddingLeft="16dp"
+		android:paddingRight="16dp"
+        android:textSize="24sp"
+        android:layout_below="@+id/divider5"
+        android:textStyle="bold"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+      
+      <ImageView
+        android:id="@+id/divider6"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+		android:textColor="@color/title_gray"
+		android:layout_marginLeft="16dp"
+		android:layout_marginRight="16dp"
+        android:layout_below="@+id/turbo"
+        android:contentDescription="@string/img_description"
+        android:background="@android:color/black" />
+</RelativeLayout>

@@ -1,0 +1,162 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="@color/white"
+    android:paddingRight="16dp">
+	
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tvAddTime"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingTop="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingLeft="16dp"
+        android:text="@string/time"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tvAddSchdeduler"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:paddingTop="50dp"
+        android:paddingLeft="16dp"
+        android:layout_alignBottom="@+id/tvAddTime"
+        android:textSize="16sp"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+         android:id="@+id/btnTime"
+         android:layout_width="32dp"
+         android:layout_height="40dp"
+         android:textColor="@color/title_gray"
+         android:layout_marginTop="30dp"
+         android:layout_gravity="center"
+         android:layout_alignParentRight="true"
+         android:contentDescription="@string/img_description"
+         android:src="@drawable/about_air_quality_goto"/> 
+     
+      <ImageView
+        android:id="@+id/divider1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+		android:textColor="@color/title_gray"
+        android:layout_below="@+id/tvAddSchdeduler"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" /> 
+        
+      <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/repeat"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_below="@+id/divider1"
+         android:paddingTop="17dp"
+         android:paddingLeft="16dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold|italic"
+         android:text="@string/days"
+         android:textColor="@color/title_gray"
+         android:textSize="20sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+      
+        <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/repeattext"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_alignBottom="@+id/repeat"
+         android:paddingLeft="16dp"
+         android:layout_below="@+id/divider1"
+         android:paddingRight="32dp"
+         android:paddingTop="50dp"
+         android:lineSpacingExtra="5dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold"
+         android:text="@string/never"
+         android:textColor="@color/title_gray"
+         android:textSize="16sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+         android:id="@+id/btnrepeat"
+         android:layout_width="32dp"
+         android:layout_height="40dp"
+         android:textColor="@color/title_gray"
+         android:layout_alignParentRight="true"
+         android:layout_below="@+id/divider1"
+         android:layout_marginTop="30dp"
+         android:layout_gravity="center"
+         android:contentDescription="@string/img_description"
+         android:src="@drawable/about_air_quality_goto"/> 
+        
+      <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor="@color/title_gray"
+		android:paddingLeft="16dp"
+        android:layout_below="@+id/repeat"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" />
+      
+      <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/fanspeed"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_below="@+id/divider2"
+         android:paddingTop="20dp"
+         android:paddingBottom="10dp"
+         android:paddingLeft="16dp"
+         android:text="@string/fanspeed"
+         android:textStyle="bold"
+         android:textColor="@color/title_gray"
+         android:textSize="20sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+      
+       <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/fanspeedtext"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_alignBottom="@+id/fanspeed"
+         android:layout_below="@+id/divider2"
+         android:paddingRight="32dp"
+         android:paddingLeft="16dp"
+         android:paddingTop="50dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold"
+         android:text="@string/auto"
+         android:textColor="@color/title_gray"
+         android:textSize="16sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+       
+       <ImageView
+         android:id="@+id/btnFanSpeed"
+         android:layout_width="32dp"
+         android:layout_height="40dp"
+         android:textColor="@color/title_gray"
+         android:layout_alignParentRight="true"
+         android:layout_marginTop="30dp"
+         android:layout_gravity="center"
+         android:layout_below="@+id/divider2"
+         android:contentDescription="@string/img_description"
+         android:src="@drawable/about_air_quality_goto"/> 
+      
+      <ImageView
+        android:id="@+id/divider3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor="@color/title_gray"
+		android:paddingLeft="16dp"
+        android:layout_below="@+id/fanspeed"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" />
+
+</RelativeLayout>
