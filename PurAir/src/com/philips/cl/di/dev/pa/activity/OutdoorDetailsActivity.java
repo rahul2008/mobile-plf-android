@@ -273,7 +273,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 			heading.setText(city.getCityName());
 			location.setText("");
 			summaryTitle.setText(city.getAqiTitle());
-			summary.setText(city.getAqiSummary());
+			summary.setText(city.getAqiSummary()[0]);
 			aqiValue.setText(city.getAqi());
 			if (city.getAqi() != null) {
 				try {

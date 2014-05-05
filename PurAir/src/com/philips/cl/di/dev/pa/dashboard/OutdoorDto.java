@@ -2,6 +2,8 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import java.io.Serializable;
 
+import android.content.Context;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 
@@ -85,30 +87,39 @@ public class OutdoorDto implements Serializable{
 		return "";
 	}
 
-	public String getAqiSummary() {
+	public String[] getAqiSummary() {
+		String [] outdoorAQISummary = new String [2] ;
+		Context appContext = PurAirApplication.getAppContext() ;
 		if(aqi == null || aqi.isEmpty()) {
-			return "";
+			return null;
 		}
 		
 		try {
 			int aqiInt = Integer.parseInt(aqi);
 			if(aqiInt >= 0 && aqiInt <= 50) {
-				 return PurAirApplication.getAppContext().getString(R.string.todo);
+				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_good_tip1);
+				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_good_tip2);
 			} else if(aqiInt > 50 && aqiInt <= 100) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_moderate_tip1);
+				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_moderate_tip2);
 			} else if(aqiInt > 100 && aqiInt <= 150) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_unhealthy_sensitive_group_tip1);
+				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_unhealthy_sensitive_group_tip2);
 			} else if(aqiInt > 150 && aqiInt <= 200) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_unhealthy_tip1);
+				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_unhealthy_tip2);
 			} else if(aqiInt > 200 && aqiInt <= 300) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_very_unhealthy_tip1) ;
+				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_very_unhealthy_tip2) ;
 			} else if(aqiInt > 300 && aqiInt <= 500) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_hazardous_tip1) ;
+				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_hazardous_tip2) ;
 			}
 		} catch (NumberFormatException e) {
-			return "";
+			return outdoorAQISummary;
 		}
-		return "";
+		
+		return outdoorAQISummary;
 	}
 	
 	public int getAqiPointerImageResId() {

@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment {
 	
-	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary;
+	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	
@@ -48,7 +48,8 @@ public class OutdoorFragment extends BaseFragment {
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
 		aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
 		aqiTitle = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_title);
-		aqiSummary = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary);
+		aqiSummary1 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary1);
+		aqiSummary2 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary2);
 		aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
 		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
 		Bundle bundle = getArguments();
@@ -62,12 +63,23 @@ public class OutdoorFragment extends BaseFragment {
 	
 	private void updateUI(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
-		cityName.setText(outdoorDto.getCityName());		
-		updated.setText(outdoorDto.getUpdatedTime());		
-		temp.setText(outdoorDto.getTemperature());		
+		cityName.setText(outdoorDto.getCityName());
+		if( outdoorDto.getUpdatedTime() != null && !outdoorDto.getUpdatedTime().isEmpty()) {
+			String [] splitDateandTime = outdoorDto.getUpdatedTime().split(" ") ;
+			if( splitDateandTime.length > 1 ) {
+				// Updating only time - Ignoring the date
+				updated.setText(splitDateandTime[1]);
+			}			
+		}
+				
+		temp.setText(outdoorDto.getTemperature()+AppConstants.UNICODE_DEGREE);		
 		aqi.setText(outdoorDto.getAqi());
 		aqiTitle.setText(outdoorDto.getAqiTitle());
-		aqiSummary.setText(outdoorDto.getAqiSummary());
+		String outdoorAQISummary [] = outdoorDto.getAqiSummary() ;
+		if( outdoorAQISummary != null && outdoorAQISummary.length > 1 ) {
+			aqiSummary1.setText(outdoorDto.getAqiSummary()[0]);
+			aqiSummary2.setText(outdoorDto.getAqiSummary()[1]);
+		}
 		aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
 		aqiPointerCircle.setOnClickListener(pointerImageClickListener);
 		aqiPointerCircle.invalidate();

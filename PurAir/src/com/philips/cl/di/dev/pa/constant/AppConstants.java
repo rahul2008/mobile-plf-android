@@ -179,8 +179,11 @@ public class AppConstants {
 	public static final String SNOW = "Snow";
 	public static final String CLEAR = "Clear";
 	
+	public static final String UNICODE_DEGREE = "\u2103" ;
+	
 	
 	public static final String PRODUCT = "product";
+	public static final String STATUS = "status" ;
 	
 	// Constants related to ICP client
 	public static final String PUT_PROPS = "PUTPROPS" ;

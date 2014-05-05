@@ -13,7 +13,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="2dp"
-        android:text="@string/update"
+        android:text="@string/updated"
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -26,8 +26,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="16dp"
         android:layout_marginTop="2dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/cloudy" />
+        android:contentDescription="@string/img_description"/>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -128,7 +127,7 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/hf_outdoor_aqi_summary"
+        android:id="@+id/hf_outdoor_aqi_summary1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hf_outdoor_aqi_title"
@@ -138,4 +137,16 @@
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_aqi_summary2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hf_outdoor_aqi_summary1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
 </RelativeLayout>

@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -83,7 +84,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
 			timeTxt.setText(Utils.splitToHr(time));
-			tempTxt.setText(tempInCentigrade+"\u2103");
+			tempTxt.setText(tempInCentigrade+AppConstants.UNICODE_DEGREE);
 			weatherImg.setImageDrawable(
 					Utils.getOutdoorTemperatureImage(context,weatherDesc, isdaytime));
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(

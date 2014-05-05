@@ -173,16 +173,22 @@
 	
 	<!-- Outdoor Detail Tips -->
 	<string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
+	<string name="outdoor_aqi_good_tip2">Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
 	
 	<string name="outdoor_aqi_moderate_tip1"> Good for outdoor activities but hyper-sensitive people should take care.</string>
+	<string name="outdoor_aqi_moderate_tip2"> Hyper-sensitive people should reduce activities. </string>
 	
 	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">Reduce outdoor activities and occasionally open your windows for ventilation.</string>
+	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">Unhealthy for sensitive groups like babies and the elderly.</string>
 	
 	<string name="outdoor_aqi_unhealthy_tip1">Reduce outdoor activities and close your windows.</string>
+	<string name="outdoor_aqi_unhealthy_tip2">Slight irritation may occur.</string>
 	
 	<string name="outdoor_aqi_very_unhealthy_tip1">It’s a good idea to wear a mask.</string>
+	<string name="outdoor_aqi_very_unhealthy_tip2">Postpone outdoor activities.</string>
 	
 	<string name="outdoor_aqi_hazardous_tip1">Avoid going outdoors or wear a mask. Close windows at your home.</string>
+	<string name="outdoor_aqi_hazardous_tip2">Go outside only if you really have to.</string>
 	
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
