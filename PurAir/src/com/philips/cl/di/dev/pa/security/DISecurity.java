@@ -13,17 +13,15 @@ import javax.crypto.spec.SecretKeySpec;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DISecurity implements ServerResponseListener {
 
-	private static Hashtable<String, String> 
-			securityKeyHashtable = new Hashtable<String,String>();
 	private static Hashtable<String, Boolean> 
 			isExchangingKeyTable = new Hashtable<String, Boolean>();
-	private static Hashtable<String, String> 
-			urlsTable = new Hashtable<String, String>();
 	private static Hashtable<String, Integer> 
 			exchangeKeyCounterTable = new Hashtable<String, Integer>();
 	
@@ -60,7 +58,6 @@ public class DISecurity implements ServerResponseListener {
 			counter++;
 			exchangeKeyCounterTable.put(deviceEui64, counter);
 			ALog.i(ALog.SECURITY, "Requested Key exchange for device: " + deviceEui64+":"+isKeyExchanging(deviceEui64)) ;
-			urlsTable.put(deviceEui64, url);
 			if (!isKeyExchanging(deviceEui64)) {
 				ALog.i(ALog.SECURITY, "Exchanging key for device: " + deviceEui64) ;
 				isExchangingKeyTable.put(deviceEui64, true);
@@ -100,9 +97,7 @@ public class DISecurity implements ServerResponseListener {
 			return null;
 		}
 		
-		String deviceEui64 = purifier.getEui64();
-		String key = securityKeyHashtable.get(deviceEui64);
-		
+		String key = purifier.getEncryptionKey();
 		if (key == null || data == null) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
 			return null; // TODO return unencrypted data?
@@ -134,8 +129,7 @@ public class DISecurity implements ServerResponseListener {
 			return null;
 		}
 		
-		String deviceEui64 = purifier.getEui64();
-		String key = securityKeyHashtable.get(deviceEui64);
+		String key = purifier.getEncryptionKey();
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
@@ -155,12 +149,13 @@ public class DISecurity implements ServerResponseListener {
 			decryptData = new String(bytesDecData1, Charset.defaultCharset());
 			
 			ALog.i(ALog.SECURITY, "Decrypted data: " + decryptData);
-			exchangeKeyCounterTable.put(deviceEui64, 0);
+			exchangeKeyCounterTable.put(purifier.getEui64(), 0);
 		} catch (Exception e) {
 			e.printStackTrace();
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
 			
-			exchangeKey(urlsTable.get(deviceEui64), deviceEui64);
+			String portUrl = Utils.getPortUrl(Port.SECURITY, purifier.getIpAddress());
+			exchangeKey(portUrl, purifier.getEui64());
 		}
 
 		return decryptData;
@@ -285,7 +280,6 @@ public class DISecurity implements ServerResponseListener {
 				
 				String key = Util.bytesToHex(bytesDecKey);
 				ALog.i(ALog.SECURITY, "decryted key= " + key);
-				securityKeyHashtable.put(deviceEui64, key);
 				
 				keyDecryptListener.keyDecrypt(key, deviceEui64);
 			} catch (JSONException e) {
@@ -294,7 +288,7 @@ public class DISecurity implements ServerResponseListener {
 				e.printStackTrace();
 			}
 		} else {
-			exchangeKey(urlsTable.get(deviceEui64), deviceEui64);
+			exchangeKey(url, deviceEui64);
 		}
 		
 	}
@@ -307,14 +301,6 @@ public class DISecurity implements ServerResponseListener {
 		if (!isExchangingKeyTable.get(deviceEui64)) return false;
 		
 		return true;
-	}
-	
-	public static void setKeyIntoSecurityHashTable(String deviceEui64, String key) {
-		securityKeyHashtable.put(deviceEui64, key);
-	}
-	
-	public static void setUrlIntoUrlsTable(String devId, String url) {
-		urlsTable.put(devId, url);
 	}
 	
 	private int exchangeKeyCounter(String deviceEui64) {

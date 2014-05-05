@@ -60,6 +60,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
+import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -90,7 +91,6 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
@@ -192,8 +192,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		setContentView(R.layout.activity_main_aj);
 		
-		// TODO move start/stop to onResume and onPause
-		DiscoveryManager.getInstance().start(this);
+		// TODO replace with discoveryManager
+		SsdpService.getInstance().startDeviceDiscovery(this);
 		
 		airPurifierController = AirPurifierController.getInstance();
 
@@ -201,7 +201,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		 * Create database and tables
 		 */
 		purifierDatabase = new PurifierDatabase();
-		dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers();
+		dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 		/**
 		 * Diffie Hellman key exchange
 		 */
@@ -359,7 +359,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ALog.i(ALog.MAINACTIVITY, "onRestart: stopService is: " + stopService);
 		isEWSStarted = false;
 		if (stopService) {
-			DiscoveryManager.getInstance().start(this);
+			SsdpService.getInstance().startDeviceDiscovery(this);
 			stopService = false;
 			this.registerReceiver(networkReceiver, filter);
 		}
@@ -439,14 +439,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				toggleConnection(true);
 			}
 
-			DiscoveryManager.getInstance().start(this);
+			SsdpService.getInstance().startDeviceDiscovery(this);
 			
 			if (dbPurifierDetailDtoList != null
 					&& dbPurifierDetailDtoList.size() > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
 
-			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers();
+			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 
 			this.registerReceiver(networkReceiver, filter);
 
@@ -639,7 +639,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				e.printStackTrace();
 			}
 		}
-		DiscoveryManager.getInstance().stop();
+		SsdpService.getInstance().stopDeviceDiscovery();
 		isDeviceDiscovered = false;
 		CPPController.reset();
 	}
@@ -1401,12 +1401,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 						ALog.i(ALog.MAINACTIVITY, "Device boot id is same: "
 								+ dbBootId + " ssdp bootid: "
 								+ ssdpDiscoveredBootId);
-						String eui64 = infoDto.getEui64();
 						secretKey = infoDto.getEncryptionKey();
-						DISecurity.setKeyIntoSecurityHashTable(eui64, secretKey);
-						DISecurity.setUrlIntoUrlsTable(
-								eui64,
-								Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()));
+						purifier.setEncryptionKey(infoDto.getEncryptionKey());
 						toggleConnection(true);
 					} else {
 						startKeyExchange();
@@ -1482,7 +1478,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 					&& dbPurifierDetailDtoList.size() > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
-			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers();
+			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 
 			toggleConnection(true);
 

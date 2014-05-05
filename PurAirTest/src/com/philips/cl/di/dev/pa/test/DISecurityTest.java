@@ -64,19 +64,8 @@ public class DISecurityTest extends TestCase {
 		
 		DISecurity security = new DISecurity(null);
 		
-		try {
-			Field keysField = DISecurity.class.getDeclaredField("securityKeyHashtable");
-			keysField.setAccessible(true);
-			@SuppressWarnings("unchecked")
-			Hashtable<String, String> keysTable = (Hashtable<String, String>) keysField.get(security);
-			keysTable.put(DEVICE_ID, KEY);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-		
 		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
+		helperDevice.setEncryptionKey(KEY);
 		
 		String encryptedData = security.encryptData(data, helperDevice);
 		String decrytedData = security.decryptData(encryptedData, helperDevice);
@@ -86,20 +75,9 @@ public class DISecurityTest extends TestCase {
 	
 	public void testDecryptNullData() {
 		DISecurity security = new DISecurity(null);
-		
-		try {
-			Field keysField = DISecurity.class.getDeclaredField("securityKeyHashtable");
-			keysField.setAccessible(true);
-			@SuppressWarnings("unchecked")
-			Hashtable<String, String> keysTable = (Hashtable<String, String>) keysField.get(security);
-			keysTable.put(DEVICE_ID, KEY);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-		
+
 		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
+		helperDevice.setEncryptionKey(KEY);
 		
 		String nullData = null;
 		String decrytedData = security.decryptData(nullData, helperDevice);

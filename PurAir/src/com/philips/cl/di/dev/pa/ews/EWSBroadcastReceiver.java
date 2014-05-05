@@ -419,8 +419,6 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		String purifierName = tempEWSPurifier.getName();
 		tempEWSPurifier = new PurAirDevice(eui64, null, EWSConstant.PURIFIER_ADHOCIP, purifierName, -1, ConnectionState.CONNECTED_LOCALLY);
 		tempEWSPurifier.setEncryptionKey(encryptionKey);
-		
-		DISecurity.setKeyIntoSecurityHashTable(tempEWSPurifier.getEui64(), tempEWSPurifier.getEncryptionKey());
 	}
 
 }
