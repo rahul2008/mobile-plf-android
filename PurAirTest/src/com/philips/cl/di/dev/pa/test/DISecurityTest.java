@@ -76,7 +76,7 @@ public class DISecurityTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
-		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, null, null);
+		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
 		
 		String encryptedData = security.encryptData(data, helperDevice);
 		String decrytedData = security.decryptData(encryptedData, helperDevice);
@@ -99,7 +99,7 @@ public class DISecurityTest extends TestCase {
 			fail(e.getMessage());
 		}
 		
-		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, null, null);
+		PurAirDevice helperDevice = new PurAirDevice(DEVICE_ID, null, null, null, -1, null);
 		
 		String nullData = null;
 		String decrytedData = security.decryptData(nullData, helperDevice);
