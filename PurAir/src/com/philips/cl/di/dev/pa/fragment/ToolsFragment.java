@@ -178,10 +178,6 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		String dMacaddress = "MAC Address:"
 				+ getMACAddress(intToIp(dhcpInfo.ipAddress));
 		String registrationId = null; // TODO fix registration ID
-		if (registrationId != null && registrationId.length() > 0) {
-			registrationId = "Registration Id: "
-					+ registrationId.substring(registrationId.length() - 5);
-		}
 
 		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();

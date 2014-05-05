@@ -41,7 +41,7 @@ import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.view.FontTextView;
+
 
 /**
  * The Class Utils.
@@ -341,37 +341,6 @@ public class Utils {
 			return ctx.getResources().getDrawable(R.drawable.aqi_red_circle_2x);
 		}
 		return null;
-	}
-
-	/**
-	 * 
-	 * @param ctx
-	 * @param pSense
-	 * @param status
-	 * @param summary
-	 */
-	public static void setIndoorAQIStatusAndComment
-	(Context ctx, int indoorAQI, FontTextView status, FontTextView summary, String purifierName) {
-
-		if(indoorAQI > 0 && indoorAQI <= 14) {
-			status.setText(ctx.getString(R.string.good)) ;
-			summary.setText(ctx.getString(R.string.indoor_aqi_good_tip1, purifierName)) ;
-		} else if(indoorAQI > 14 && indoorAQI <= 23) {
-			status.setText(ctx.getString(R.string.moderate)) ;
-			summary.setText(ctx.getString(R.string.indoor_aqi_moderate_tip1, purifierName)) ;
-		} else if(indoorAQI > 23 && indoorAQI <= 35) {
-			status.setText(ctx.getString(R.string.unhealthy)) ;
-			summary.setText(ctx.getString(R.string.indoor_aqi_unhealthy_tip1, purifierName)) ;
-		} else if(indoorAQI > 35) {
-			String tempStatus[] = ctx.getString(R.string.very_unhealthy).trim().split(" ");
-			if (tempStatus != null && tempStatus.length > 1) {
-				status.setText(tempStatus[0] + "\n" + tempStatus[1]);
-			} else {
-				status.setText(ctx.getString(R.string.very_unhealthy));
-			}
-			summary.setText(ctx
-					.getString(R.string.indoor_aqi_very_unhealthy_tip1, purifierName));
-		}
 	}
 
 	public static int getPreFilterStatusColour(int filterStatusValue) {
@@ -708,5 +677,23 @@ public class Utils {
 			hr = 24;
 		}
 		return hr;
+	}
+	
+	public static String[] getAQIStatusAndSummary(int indoorAQI) {
+		String [] aqiStatusArray = new String[2] ;
+		if(indoorAQI > 0 && indoorAQI <= 14) {
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.good) ;
+			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_good_tip1) ;
+		} else if(indoorAQI > 14 && indoorAQI <= 23) {
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.moderate) ;
+			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_moderate_tip1) ;
+		} else if(indoorAQI > 23 && indoorAQI <= 35) {
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.unhealthy) ;
+			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_unhealthy_tip1) ;
+		} else if(indoorAQI > 35) {
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split) ;
+			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_very_unhealthy_tip1) ;
+		}
+		return aqiStatusArray;
 	}
 }

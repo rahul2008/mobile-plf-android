@@ -24,22 +24,22 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener {
-	
+
 	private FontTextView fanModeTxt;
 	private FontTextView filterStatusTxt; 
 	private FontTextView aqiStatusTxt;
-//	private FontTextView aqiSummaryTxt; 
+	private FontTextView aqiSummaryTxt; 
 	private FontTextView purifierNameTxt;
-//	private ImageView aqiPointer;
+	//	private ImageView aqiPointer;
 	private int indoorAQIValue;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.hf_indoor_dashboard, null);
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -52,33 +52,33 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		super.onResume();
 		AirPurifierController.getInstance().addAirPurifierEventListener(this);
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
 	}
-	
+
 	private void updateDashboard(AirPortInfo airPurifierEvent) {
 		int indoorAqi = airPurifierEvent.getIndoorAQI();
 		indoorAQIValue = indoorAqi;
 		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
 		setFanSpeedText(fanModeTxt, airPurifierEvent.getFanSpeed());
-		
+
 		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
 		setFilterStatus(filterStatusTxt, airPurifierEvent);
-		
+
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
-		setAqiText(aqiStatusTxt, indoorAqi);
+		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		
-//		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
+		setAqiText(aqiStatusTxt, indoorAqi);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
 			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
 		}
-		
+
 		ImageView aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
-		
+
 		aqiPointer.setOnClickListener(pointerImageClickListener);
 		setAqiPointerBackground(aqiPointer, indoorAqi);
 		aqiPointer.invalidate();
@@ -102,25 +102,23 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			fanMode.setText(R.string.one);
 		}
 	}
-	
+
 	private void setFilterStatus(FontTextView filterStatus, AirPortInfo airPurifierEvent) {
 		filterStatus.setText(Utils.getFilterStatusForDashboard(airPurifierEvent));
 	}
-	
+
 
 	private void setAqiText(FontTextView aqiStatus, int indoorAQI) {
 		ALog.i(ALog.DASHBOARD, "setAqiText indoorAqi " + indoorAQI);
-		if(indoorAQI >= 0 && indoorAQI <= 14) {
-			aqiStatus.setText(R.string.good);
-		} else if (indoorAQI > 14 && indoorAQI <= 23) {
-			aqiStatus.setText(R.string.moderate);
-		} else if (indoorAQI > 23 && indoorAQI <= 35) {
-			aqiStatus.setText(R.string.unhealthy);
-		} else if (indoorAQI > 35) {
-			aqiStatus.setText(R.string.very_unhealthy_split);
+		String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
+		if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
+			return ;
 		}
+		aqiStatus.setText(aqiStatusAndCommentArray[0]);
+		aqiSummaryTxt.setText(aqiStatusAndCommentArray[1]) ;
+
 	}
-	
+
 
 	private void setAqiPointerBackground(ImageView aqiPointer, int indoorAQI) {
 		ALog.i(ALog.DASHBOARD, "setAqiPointerBackground indoorAqi " + indoorAQI);
@@ -158,18 +156,18 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		ALog.i(ALog.DASHBOARD, "blue_circle_with_arrow_2x indoorAqi " + indoorAQI + " rotation " + rotation + " aqiPointer.getWidth()/2 " + aqiPointer.getWidth()/2);
 		Animation aqiCircleRotateAnim = new RotateAnimation(0.0f, rotation, aqiPointer.getWidth()/2, aqiPointer.getWidth()/2);
-	
-	    aqiCircleRotateAnim.setDuration(2000);  
-	    aqiCircleRotateAnim.setRepeatCount(0);     
-	    aqiCircleRotateAnim.setFillAfter(true);
+
+		aqiCircleRotateAnim.setDuration(2000);  
+		aqiCircleRotateAnim.setRepeatCount(0);     
+		aqiCircleRotateAnim.setFillAfter(true);
 
 		aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
-	
+
 	@Override
 	public void airPurifierEventReceived(final AirPortInfo airPurifierEvent) {
 		getActivity().runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				updateDashboard(airPurifierEvent);
@@ -181,9 +179,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
 		//NOP
 	}
-	
+
 	private OnClickListener pointerImageClickListener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
@@ -191,12 +189,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			indoorDashboardInfos[0] = fanModeTxt.getText().toString();
 			indoorDashboardInfos[1] = filterStatusTxt.getText().toString();
 			indoorDashboardInfos[2] = String.valueOf(indoorAQIValue);
-//			indoorDashboardInfos[3] = aqiStatusTxt.getText().toString();
-//			indoorDashboardInfos[4] = aqiSummaryTxt.getText().toString();
+			//			indoorDashboardInfos[3] = aqiStatusTxt.getText().toString();
+			//			indoorDashboardInfos[4] = aqiSummaryTxt.getText().toString();
 			intent.putExtra("indoor", indoorDashboardInfos);
 			startActivity(intent);
-			
+
 		}
 	};
-	
+
 }

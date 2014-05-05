@@ -410,7 +410,13 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
 					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
-					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary, purifierName);
+					String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
+					if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
+						return ;
+					}
+					aqiStatus.setText(aqiStatusAndCommentArray[0]);
+					aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
+					
 				} catch (NumberFormatException e) {
 					e.printStackTrace();
 				}
