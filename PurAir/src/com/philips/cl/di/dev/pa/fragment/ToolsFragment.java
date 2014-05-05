@@ -84,7 +84,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		switch (v.getId()) {
 		case R.id.submitButton:
 			Log.i(TAG, "Submit button");
-			PurAirDevice dummyDevice = new PurAirDevice(null, null, tvIpaddress.getText().toString(), "ToolsPurifier", null, ConnectionState.CONNECTED_LOCALLY);
+			PurAirDevice dummyDevice = new PurAirDevice(null, null, tvIpaddress.getText().toString(), "ToolsPurifier", -1, ConnectionState.CONNECTED_LOCALLY);
 			PurifierManager.getInstance().setCurrentPurifier(dummyDevice);
 			
 			InputMethodManager imm = (InputMethodManager) getActivity()

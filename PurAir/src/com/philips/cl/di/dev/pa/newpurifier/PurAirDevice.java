@@ -14,7 +14,7 @@ public class PurAirDevice {
 	
 	private String mIpAddress;
 	private String mName;
-	private String mBootId;
+	private long mBootId;
 	
 	private ConnectionState mConnectionState;
 	private boolean 		isPaired = false;
@@ -24,7 +24,7 @@ public class PurAirDevice {
 	private FirmwarePortInfo	mFirmwarePortInfo;
 
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
-			String bootId, ConnectionState connectionState) {
+			long bootId, ConnectionState connectionState) {
 		mBootId = bootId;
 		mEui64 = eui64;
 		mUsn = usn;
@@ -57,11 +57,11 @@ public class PurAirDevice {
 		this.mName = name;
 	}
 
-	public synchronized String getBootId() {
+	public synchronized long getBootId() {
 		return mBootId;
 	}
 
-	public synchronized void setBootId(String bootId) {
+	public synchronized void setBootId(long bootId) {
 		this.mBootId = bootId;
 	}
 

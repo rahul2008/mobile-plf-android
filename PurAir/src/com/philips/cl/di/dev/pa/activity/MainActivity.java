@@ -1368,7 +1368,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		isDeviceDiscovered = true;
 		
-		PurAirDevice purifier = new PurAirDevice(deviceModel.getSsdpDevice().getCppId(), deviceModel.getUsn(), deviceModel.getIpAddress(), deviceModel.getSsdpDevice().getFriendlyName(), deviceModel.getBootID(), ConnectionState.CONNECTED_LOCALLY);
+		Long bootId = -1l;
+		if (deviceModel.getBootID() != null && deviceModel.getBootID().length() > 0) {
+			bootId = Long.parseLong(deviceModel.getBootID());
+		}
+		
+		PurAirDevice purifier = new PurAirDevice(deviceModel.getSsdpDevice().getCppId(), deviceModel.getUsn(), deviceModel.getIpAddress(), deviceModel.getSsdpDevice().getFriendlyName(), bootId, ConnectionState.CONNECTED_LOCALLY);
 		PurifierManager.getInstance().setCurrentPurifier(purifier);
 		
 		updatePurifierName();
@@ -1382,7 +1387,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		localDeviceUsn = ssdpDiscoveredUsn;
 		
 		try {
-			ssdpDiscoveredBootId = Long.parseLong(purifier.getBootId());
+			ssdpDiscoveredBootId = purifier.getBootId();
 		} catch (NumberFormatException e) {
 			// NOP
 			e.printStackTrace();
@@ -1459,17 +1464,10 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private void startKeyExchange(PurAirDevice purifier) {
 		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"
 				+ isDeviceDiscovered);
-		long bootId = 0;
-		try {
-			bootId = Long.parseLong(purifier.getBootId());
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		String cppId = purifier.getEui64();
 		PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
 		deviceInfoDto.setUsn(purifier.getUsn());
-		deviceInfoDto.setBootId(bootId);
+		deviceInfoDto.setBootId(purifier.getBootId());
 		deviceInfoDto.setCppId(cppId);
 		deviceInfoDto.setDeviceName(purifier.getName());
 
