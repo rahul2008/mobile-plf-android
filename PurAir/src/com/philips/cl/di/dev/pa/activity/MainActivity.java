@@ -599,7 +599,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 		ALog.e(ALog.CONNECTIVITY, "Trying to remote connect to Purifier with eui64 - " + purifier.getEui64()) ;
 		
-		long pairedOn = purifierDatabase.getPurifierLastPairedOn(purifier.getEui64());
+		long pairedOn = purifierDatabase.getPurifierLastPairedOn(purifier);
 		if( pairedOn > 0 ) {
 			stopLocalConnection() ;
 			
@@ -1518,7 +1518,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (!cppController.isSignOn()) return;
 
 		PurAirDevice purifier = getCurrentPurifier();
-		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifier.getEui64());
+		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifier);
 		if (lastPairingCheckTime <= 0) 
 		{
 			showPairingDialog(purifier);

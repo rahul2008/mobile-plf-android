@@ -270,7 +270,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				ALog.i(ALog.PAIRING, "DI COMM relationship exists, checking for notify relationship");
 			} 
 			else if (currentRelationshipType.equals(AppConstants.NOTIFY_RELATIONSHIP) && noOfRelations>0) {
-				purifierDatabase.updatePairingStatus(purifier.getEui64());
+				purifierDatabase.updatePairingStatus(purifier);
 				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
 				notifyListenerSuccess();
 			}
@@ -290,7 +290,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				else {
 					ALog.i(ALog.PAIRING, "Notification relationship added successfully - Pairing completed");
 					notifyListenerSuccess();
-					purifierDatabase.updatePairingStatus(purifier.getEui64());
+					purifierDatabase.updatePairingStatus(purifier);
 				}
 			} else {
 				ALog.i(ALog.PAIRING, "Pairing status is PENDING");

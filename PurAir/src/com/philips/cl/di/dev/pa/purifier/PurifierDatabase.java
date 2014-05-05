@@ -41,7 +41,7 @@ public class PurifierDatabase {
 
 		long rowId = -1L;
 
-		long id = getRowIdOfPurifier(purifier.getUsn());
+		long id = getRowIdOfPurifier(purifier);
 
 		Cursor cursor = null;
 		if (id == -1L) {
@@ -55,6 +55,7 @@ public class PurifierDatabase {
 				values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
 				values.put(AppConstants.AIRPUR_DEVICE_NAME, purifier.getName());
 				values.put(AppConstants.AIRPUR_KEY, purifier.getEncryptionKey());
+				values.put(AppConstants.IS_PAIRED, purifier.isPaired() ? 1 : 0);
 
 				rowId = db.insert(AppConstants.AIRPUR_INFO_TABLE, null, values);
 			} catch (Exception e) {
@@ -64,65 +65,11 @@ public class PurifierDatabase {
 				closeDb();
 			}
 		} else {
-			updatePurifierDetail(id, purifier.getBootId(), purifier.getEncryptionKey(), purifier.getName());
+			updatePurifier(rowId, purifier);
 		}
 		return rowId;
 	}
-	/**
-	 * 
-	 */
-	public void closeDb() {
-		try {
-			if (db != null && db.isOpen()) {
-				db.close();
-			}
-		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
-		}
-	}
-	/**
-	 * Close cursor
-	 */
-	private void closeCursor(Cursor c) {
-		try {
-			if (c != null && !c.isClosed() ) {
-				c.close();
-			}
-		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
-		}
-
-	}
-	/**
-	 * 
-	 * @param usn
-	 * @return
-	 */
-	private long getRowIdOfPurifier(String usn) {
-		long id = -1;
-		if (usn != null) {
-			Cursor cursor = null;
-			try {
-				db = dbHelper.getReadableDatabase();
-				cursor = db.query(AppConstants.AIRPUR_INFO_TABLE, 
-						new String[] {AppConstants.ID, AppConstants.AIRPUR_USN}, 
-						AppConstants.AIRPUR_USN + "= ?", new String[]{usn}, null, null, null);
-
-				if (cursor != null && cursor.getCount() > 0) {
-					ALog.i(ALog.DATABASE, "All exists cursor count: " + cursor.getCount());
-					cursor.moveToNext();
-					id = cursor.getLong(cursor.getColumnIndex(AppConstants.ID));
-					ALog.i(ALog.DATABASE, "All exists");
-				}
-			} catch (Exception e) {
-				ALog.e(ALog.DATABASE, e.getMessage());
-			} finally {
-				closeCursor(cursor);
-				closeDb();
-			}
-		}	
-		return id;
-	}
+	
 	/**
 	 * 
 	 * @return
@@ -173,105 +120,158 @@ public class PurifierDatabase {
 	 * @param devKey
 	 * @return
 	 */
-	public long updatePurifierDetail(long id, long bootId, String devKey, String purifierName) {
-		ALog.i(ALog.DATABASE, "Update before id: " + id +", bootId: " 
-				+ bootId + ", devKey: " + devKey +", purfier name: " + purifierName);
-		long rowId = -1;
+	public long updatePurifier(long rowId, PurAirDevice purifier) {
+		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
+		long newRowId = -1;
 		try {
-			ALog.i(ALog.DATABASE, "Update");
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(AppConstants.AIRPUR_BOOT_ID, bootId);
-			values.put(AppConstants.AIRPUR_KEY, devKey);
-			values.put(AppConstants.AIRPUR_DEVICE_NAME, purifierName);
+			values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
+			values.put(AppConstants.AIRPUR_KEY, purifier.getEncryptionKey());
+			values.put(AppConstants.AIRPUR_DEVICE_NAME, purifier.getName());
+			values.put(AppConstants.IS_PAIRED, purifier.isPaired() ? 1 : 0);
 
-			rowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
-					values, AppConstants.ID + "= ?", new String[] {String.valueOf(id)});
+			newRowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
+					values, AppConstants.ID + "= ?", new String[] {String.valueOf(rowId)});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
 		} finally {
 			closeDb();
 		}
-		return rowId;
+		return newRowId;
 	}
 	/**
 	 * 
 	 * @param id
 	 * @return
 	 */
-	public long deletePurifierDetail(int id) {
-		long rowId = -1;
+	public long deletePurifier(PurAirDevice purifier) {
+		ALog.i(ALog.DATABASE, "Deleting purifier: " + purifier);
+		long rowId = getRowIdOfPurifier(purifier);
+		if (rowId <= 0) return -1;
+		
+		long newRowId = -1;
 		try {
 			db = dbHelper.getWritableDatabase();
 
-			rowId = db.delete(AppConstants.AIRPUR_INFO_TABLE, 
-					AppConstants.ID + "= ?", new String[] {String.valueOf(id)});
+			newRowId = db.delete(AppConstants.AIRPUR_INFO_TABLE, 
+					AppConstants.ID + "= ?", new String[] {String.valueOf(rowId)});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to delete row "+e.getMessage());
 		} finally {
 			closeDb();
 		}
 
-		return rowId;
+		return newRowId;
 
 	}
 
 	/**
 	 * Method updatePairingStatus.
-	 * @param purifierId String
+	 * @param purifierEui64 String
 	 * @param isPaired int
 	 * @param lastPaired long
 	 * @return long
 	 */
-	public long updatePairingStatus(String purifierId) {
-		ALog.i(ALog.DATABASE, "purfier id: " + purifierId);
-		long rowId = -1;
+	public long updatePairingStatus(PurAirDevice purifier) {
+		ALog.i(ALog.DATABASE, "Updating pairing status: " + purifier);
+		long newRowId = -1;
 		try {
-			ALog.i(ALog.DATABASE, "Update pairing status");
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.IS_PAIRED, 1);
 			values.put(AppConstants.LAST_PAIRED, new Date().getTime());
 
-			rowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
-					values, AppConstants.AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifierId)});
+			newRowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 
+					values, AppConstants.AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getEui64())});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
 		} finally {
 			closeDb();
 		}
-		return rowId;
+		return newRowId;
 	}
 
 	/**
 	 * Method getPurifierLastPairedOn.
-	 * @param purifierId String
+	 * @param purifierEui64 String
 	 * @return long
 	 */
-	public long getPurifierLastPairedOn(String purifierId) {
+	public long getPurifierLastPairedOn(PurAirDevice purifier) {
+		ALog.i(ALog.DATABASE, "Getting purifier last Paired on: " + purifier);
 		long lastPaired = -1;
-		if (purifierId != null) {
-			Cursor cursor = null;
-			try {
-				db = dbHelper.getReadableDatabase();
-				cursor = db.query(AppConstants.AIRPUR_INFO_TABLE, 
-						new String[] {AppConstants.LAST_PAIRED}, 
-						AppConstants.AIRPUR_CPP_ID + "= ?", new String[]{purifierId}, null, null, null);
-				ALog.i(ALog.DATABASE, "All exists cursor count: " + cursor.getCount());
-				if (cursor != null && cursor.getCount() > 0) {
-					cursor.moveToNext();
-					lastPaired = cursor.getLong(cursor.getColumnIndex(AppConstants.LAST_PAIRED));
-					ALog.i(ALog.DATABASE, "All exists");
-				}
-			} catch (Exception e) {
-				ALog.e(ALog.DATABASE, e.getMessage());
-			} finally {
-				closeCursor(cursor);
-				closeDb();
+		if (purifier == null) return -1;
+		
+		Cursor cursor = null;
+		try {
+			db = dbHelper.getReadableDatabase();
+			cursor = db.query(AppConstants.AIRPUR_INFO_TABLE, 
+					new String[] {AppConstants.LAST_PAIRED}, 
+					AppConstants.AIRPUR_CPP_ID + "= ?", new String[]{purifier.getEui64()}, null, null, null);
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToNext();
+				lastPaired = cursor.getLong(cursor.getColumnIndex(AppConstants.LAST_PAIRED));
 			}
-		}	
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Failed to get Last paired on: " +e.getMessage());
+			ALog.e(ALog.DATABASE, e.getMessage());
+		} finally {
+			closeCursor(cursor);
+			closeDb();
+		}
 		return lastPaired;
 	}
+	
+	private long getRowIdOfPurifier(PurAirDevice purifier) {
+		long id = -1;
+		if (purifier == null) return -1;
+
+		Cursor cursor = null;
+		try {
+			db = dbHelper.getReadableDatabase();
+			cursor = db.query(AppConstants.AIRPUR_INFO_TABLE, 
+					new String[] {AppConstants.ID, AppConstants.AIRPUR_USN}, 
+					AppConstants.AIRPUR_USN + "= ?", new String[]{purifier.getUsn()}, null, null, null);
+
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToNext();
+				id = cursor.getLong(cursor.getColumnIndex(AppConstants.ID));
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, e.getMessage());
+		} finally {
+			closeCursor(cursor);
+			closeDb();
+		}
+		return id;
+	}
+	
+	/**
+	 * 
+	 */
+	public void closeDb() {
+		try {
+			if (db != null && db.isOpen()) {
+				db.close();
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, e.getMessage());
+		}
+	}
+	/**
+	 * Close cursor
+	 */
+	private void closeCursor(Cursor c) {
+		try {
+			if (c != null && !c.isClosed() ) {
+				c.close();
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, e.getMessage());
+		}
+
+	}
+	
 }
