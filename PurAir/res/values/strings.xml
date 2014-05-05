@@ -435,6 +435,22 @@
     <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string>
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
     <string name="pairing_failed">Failed to enable remote control, please try again later.</string>
+    
+    <!-- Scheduler texts -->
+    <string name="list_item_scheduler">Scheduler</string>
+    <string name="time">Time</string>
+    <string name="never">Never</string>
+    <string name="fanspeed">Fan speed</string>
+    <string name="fanspeed_one">1</string>
+    <string name="fanspeed_two">2</string>
+    <string name="fanspeed_three">3</string>
+    <string name="sunday">Sunday</string>
+    <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thursday">Thursday</string>
+    <string name="friday">Friday</string>
+    <string name="saturday">Saturday</string>
 
     <!-- Firmware Screen text -->
 
