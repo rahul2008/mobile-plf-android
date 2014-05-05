@@ -3,73 +3,87 @@
     android:id="@+id/action_bar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="4dp"
-    android:background="@drawable/ews_nav_bar_2x">
-    
-    <ImageView 
+    android:background="@drawable/ews_nav_bar_2x"
+    android:padding="4dp" >
+
+    <ImageView
         android:id="@+id/left_menu_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/img_description"
-        android:clickable="true"
         android:background="@drawable/clickable_image_bg_selector"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/left_slidermenu_icon_2x" />
-    
-    <ImageView 
+
+    <ImageView
         android:id="@+id/back_to_home_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:padding="8dp"
-        android:contentDescription="@string/img_description"
-        android:clickable="true"
-        android:visibility="invisible"
         android:background="@drawable/clickable_image_bg_selector"
-        android:src="@drawable/lef_arrow_blue_2x" />
-    
-    
-	<com.philips.cl.di.dev.pa.view.FontTextView
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:padding="8dp"
+        android:src="@drawable/lef_arrow_blue_2x"
+        android:visibility="invisible" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-       	android:id="@+id/action_bar_title" 
+        android:id="@+id/action_bar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/right_menu_img"
+        android:layout_toRightOf="@+id/left_menu_img"
+        android:ellipsize="end"
         android:gravity="center"
         android:paddingLeft="1dp"
         android:paddingRight="1dp"
-        android:layout_toLeftOf="@+id/right_menu_img"
-        android:layout_toRightOf="@+id/left_menu_img"
         android:singleLine="true"
-        android:ellipsize="end"
         android:text="@string/dashboard_title"
+        android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
-        android:textColor="@color/philips_blue" />
-	
-	<ImageView 
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <ImageView
         android:id="@+id/right_menu_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/img_description"
-        android:clickable="true"
         android:background="@drawable/clickable_image_bg_selector"
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/right_bar_icon_blue_2x" />
-	
-	<ImageView 
+
+    <ImageView
         android:id="@+id/add_location_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/img_description"
-        android:clickable="true"
-        android:visibility="invisible"
         android:background="@drawable/clickable_image_bg_selector"
-        android:src="@drawable/plus_blue" />
-	
+        android:clickable="true"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/plus_blue"
+        android:visibility="invisible" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/actionbar_firmware_no_off_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/left_menu_img"
+        android:layout_alignTop="@+id/left_menu_img"
+        android:background="@drawable/circle_background"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/white"
+        android:textSize="10sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:visibility="invisible" />
+
 </RelativeLayout>
