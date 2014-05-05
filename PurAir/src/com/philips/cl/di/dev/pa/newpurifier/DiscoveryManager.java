@@ -33,8 +33,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 
 	private static DiscoveryManager mInstance;
 	private LinkedHashMap<String, PurAirDevice> mDevicesMap;
+
 	private PurifierDatabase mDatabase;
 	private DISecurity mSecurity;
+	
 	private DiscoveryEventListener mListener;
 
 	public static DiscoveryManager getInstance() {
@@ -46,10 +48,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 
 	private DiscoveryManager() {
 		// Enforce Singleton
-		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
 		mDatabase = new PurifierDatabase();
 		mSecurity = new DISecurity(this);
-		initializeDevicesFromDataBase();
+		initializeDevicesMapFromDataBase();
 	}
 	
 	public void start(DiscoveryEventListener listener) {
@@ -62,6 +63,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		mListener = null;
 	}
 	
+	/**
+	 * Callback from SSDP service
+	 */
 	@Override
 	public boolean handleMessage(Message msg) {
 		if (msg == null) return false;
@@ -92,6 +96,15 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		return true;
 	}
 	
+	private boolean onDeviceLost(DeviceModel deviceModel) {
+		PurAirDevice purifier = getPurAirDevice(deviceModel);
+		if (purifier == null) return false;
+		
+		// TODO support network events
+		purifier.setConnectionState(ConnectionState.DISCONNECTED);
+		return false;
+	}
+	
 	private void updateExistingDevice(PurAirDevice newPurifier) {
 		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getEui64());
 		boolean notifyListeners = false;
@@ -107,6 +120,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 
 		if (!existingPurifier.getName().equals(newPurifier.getName())) {
 			existingPurifier.setName(newPurifier.getName());
+			mDatabase.insertPurAirDevice(existingPurifier);
 			notifyListeners = true;
 		}
 		
@@ -122,13 +136,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		}
 		ALog.d(ALog.DISCOVERY, "Successfully updated purifier: " + existingPurifier);
 	}
-	
-	private void notifyDiscoveryListener() {
-		if (mListener == null) return;
-		mListener.onDiscoveredDevicesListChanged();
-		ALog.v(ALog.DISCOVERY, "Notified listeners of change event");
-	}
-	
+
 	/**
 	 * Completely new device - never seen before
 	 */
@@ -136,7 +144,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		mDevicesMap.put(purifier.getEui64(), purifier);
 		startKeyExchange(purifier);
 		
-		// Listener notified when key exchanged
+		// Listener notified when key is exchanged
 		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
 	}
 	
@@ -188,10 +196,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		return true;
 	}
 	
-	private boolean onDeviceLost(DeviceModel device) {
-		return false;
-	}
-	
 	private DeviceModel getDeviceModelFromMessage(Message msg) {
 		if (msg == null) return null;
 		
@@ -204,7 +208,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		return null;
 	}
 	
-	private void initializeDevicesFromDataBase() {
+	private void initializeDevicesMapFromDataBase() {
+		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
 		List<PurAirDevice> storedDevices = mDatabase.getAllPurifiers(ConnectionState.CONNECTED_REMOTELY);
 		// TODO set default connectionState to CPP?
 		if (storedDevices == null) return;
@@ -212,12 +217,13 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		ALog.d(ALog.DISCOVERY, "Successfully loaded stored devices: " + storedDevices.size());
 		for (PurAirDevice device : storedDevices) {
 			mDevicesMap.put(device.getEui64(), device);
-			
-			// TODO remove key to Purifier
-			DISecurity.setKeyIntoSecurityHashTable(device.getEui64(), device.getEncryptionKey());
-			// TODO ipaddress is always null!!!!!
-			DISecurity.setUrlIntoUrlsTable(device.getEui64(), Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()));
 		}
+	}
+	
+	private void notifyDiscoveryListener() {
+		if (mListener == null) return;
+		mListener.onDiscoveredDevicesListChanged();
+		ALog.v(ALog.DISCOVERY, "Notified listeners of change event");
 	}
 
 	private void startKeyExchange(PurAirDevice purifier) {
@@ -233,6 +239,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		if (device == null || key == null) return;
 		
 		device.setEncryptionKey(key);
+		mDatabase.insertPurAirDevice(device);
 		notifyDiscoveryListener();
 	}
 	
