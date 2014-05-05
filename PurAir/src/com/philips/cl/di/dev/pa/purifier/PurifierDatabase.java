@@ -42,7 +42,6 @@ public class PurifierDatabase {
 		long rowId = -1L;
 
 		long id = getRowIdOfPurifier(purifier);
-
 		Cursor cursor = null;
 		if (id == -1L) {
 			ALog.i(ALog.DATABASE, "First time adding");
