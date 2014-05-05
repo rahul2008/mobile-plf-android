@@ -73,7 +73,7 @@ public class PurifierDatabase {
 	 * 
 	 * @return
 	 */
-	public List<PurAirDevice> getAllPurifiers() {
+	public List<PurAirDevice> getAllPurifiers(ConnectionState state) {
 		List<PurAirDevice> purAirDevicesList = new ArrayList<PurAirDevice>();
 		ALog.i(ALog.DATABASE, "getAllDeviceInfo()");
 		Cursor cursor = null;
@@ -91,7 +91,7 @@ public class PurifierDatabase {
 					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_KEY));
 					boolean isPaired = cursor.getInt(cursor.getColumnIndex(AppConstants.IS_PAIRED)) == 1;
 					
-					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, ConnectionState.DISCONNECTED);
+					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
 					purifier.setEncryptionKey(encryptionKey);
 					purifier.setPairing(isPaired);
 
