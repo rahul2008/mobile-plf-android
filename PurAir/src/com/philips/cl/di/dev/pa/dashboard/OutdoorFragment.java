@@ -21,6 +21,7 @@ public class OutdoorFragment extends BaseFragment {
 	
 	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary;
 	private ImageView aqiPointerCircle;
+	private ImageView weatherIcon ;
 	
 	public static OutdoorFragment newInstance(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment$newInstance");
@@ -49,6 +50,7 @@ public class OutdoorFragment extends BaseFragment {
 		aqiTitle = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_title);
 		aqiSummary = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary);
 		aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
+		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
 		Bundle bundle = getArguments();
 
 		if(bundle != null) {
@@ -58,18 +60,68 @@ public class OutdoorFragment extends BaseFragment {
 		} 
 	}
 	
-	private void updateUI(OutdoorDto city) {
+	private void updateUI(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
-		cityName.setText(city.getCityName());		
-		updated.setText(city.getUpdatedTime());		
-		temp.setText(city.getTemperature());		
-		aqi.setText(city.getAqi());
-		aqiTitle.setText(city.getAqiTitle());
-		aqiSummary.setText(city.getAqiSummary());
-		aqiPointerCircle.setImageResource(city.getAqiPointerImageResId());
+		cityName.setText(outdoorDto.getCityName());		
+		updated.setText(outdoorDto.getUpdatedTime());		
+		temp.setText(outdoorDto.getTemperature());		
+		aqi.setText(outdoorDto.getAqi());
+		aqiTitle.setText(outdoorDto.getAqiTitle());
+		aqiSummary.setText(outdoorDto.getAqiSummary());
+		aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
 		aqiPointerCircle.setOnClickListener(pointerImageClickListener);
 		aqiPointerCircle.invalidate();
-		setRotationAnimation(aqiPointerCircle, city.getAqiPointerRotaion());
+		setOutdoorTemperatureImage(outdoorDto.getWeatherIcon(), "Yes") ;
+		setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
+	}
+	
+	private void setOutdoorTemperatureImage(String weatherDesc, String isDayTime) {
+		if(getActivity() != null) {
+		Drawable weatherImage = null;
+		ALog.i(ALog.OUTDOOR_DETAILS, "setOutdoorTemperatureImage " + weatherDesc);
+		if(weatherDesc == null || weatherDesc.equals("") || getActivity() == null) {
+			return;
+		}
+
+		if(weatherDesc.compareToIgnoreCase(AppConstants.SUNNY) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.sunny_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.MIST) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.mist_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.CLOUDY) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.cloudy_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.PARTLY_CLOUDY) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.partly_cloudy_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.PARTLY_CLOUDY) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.partly_cloudy_night_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.CLEAR_SKIES) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.clear_sky_night_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.SNOW) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.snow_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.LIGHT_RAIN_SHOWER) == 0 
+				|| weatherDesc.compareToIgnoreCase(AppConstants.LIGHT_DRIZZLE) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.light_rain_shower_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.light_rain_with_thunder_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER) == 0 
+				|| weatherDesc.compareToIgnoreCase(AppConstants.TORRENTIAL_RAIN_SHOWER) == 0 
+				|| weatherDesc.compareToIgnoreCase(AppConstants.HEAVY_RAIN) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.heavy_rain_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.HEAVY_RAIN_AT_TIMES) == 0) {
+			//TODO : Replace with proper icon. Icon not found, replacing with heavy raind
+			weatherImage = getResources().getDrawable(R.drawable.heavy_rain_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER) == 0) {
+			weatherImage = getResources().getDrawable(R.drawable.moderate_rain_with_thunder_white);
+		} else if (weatherDesc.compareToIgnoreCase(AppConstants.CLEAR) == 0) {
+			if(isDayTime.compareToIgnoreCase("Yes") == 0)
+				weatherImage = getResources().getDrawable(R.drawable.sunny_white);
+			else
+				weatherImage = getResources().getDrawable(R.drawable.clear_sky_night_white);
+		} else {
+			weatherImage = getResources().getDrawable(R.drawable.light_rain_shower_white);
+		}	
+
+		weatherIcon.setImageDrawable(weatherImage);
+		}
 	}
 
 	@Override
