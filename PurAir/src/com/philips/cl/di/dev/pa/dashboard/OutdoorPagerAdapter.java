@@ -1,8 +1,10 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.View;
 
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -27,6 +29,17 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public int getCount() {
 		return 20;
+	}
+	
+	@Override
+	public boolean isViewFromObject(View view, Object object) {
+	    return ((Fragment)object).getView() == view;
+	}
+	
+	@Override
+	public Parcelable saveState() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

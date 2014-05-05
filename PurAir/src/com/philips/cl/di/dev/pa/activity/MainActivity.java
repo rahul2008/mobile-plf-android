@@ -25,6 +25,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
 import android.os.PowerManager;
@@ -977,7 +978,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				.beginTransaction();
 		fragmentTransaction.replace(R.id.llContainer, fragment,
 				fragment.getTag());
-		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.addToBackStack(fragment.getTag()) ;
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
@@ -1109,12 +1110,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			if (purifier != null) {
 				purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 			}
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					updatePurifierUIFields();
-				}
-			});
+			handler.sendEmptyMessage(0) ;
 		}
 	}
 	
@@ -1136,6 +1132,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			});
 		}
 	}
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			// TODO Auto-generated method stub
+			updatePurifierUIFields() ;
+		}
+	};
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
