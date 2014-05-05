@@ -18,7 +18,6 @@ public class SessionDto {
 	private DeviceDto deviceDto ;
 	private DeviceWifiDto deviceWifiDto ;
 	private String Eui64;
-	private String macAddress;
 	
 	public DeviceDto getDeviceDto() {
 		return deviceDto;

@@ -61,8 +61,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	private String cppId;
 	
-	private PurifierDetailDto deviceInfoDto;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -298,9 +296,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		mStep = EWSConstant.EWS_START_MAIN;
 		stopDiscovery();
 		
-		if (deviceInfoDto != null) {
-			new PurifierDatabase().insertPurifierDetail(deviceInfoDto);
+		// TODO move code to discovery manager
+		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
+		if (current != null) {
+			new PurifierDatabase().insertPurAirDevice(current);
 		}
+		// STOP move code
+		
 		Intent intent = new Intent(this,MainActivity.class) ;
 		setResult(RESULT_OK,intent) ;
 		finish() ;
@@ -524,21 +526,18 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
 				&& cppId.equalsIgnoreCase(ssdpCppId)) {
 			
-			
-			deviceInfoDto = new PurifierDetailDto();
-			deviceInfoDto.setUsn(device.getUsn());
-			deviceInfoDto.setCppId(device.getSsdpDevice().getCppId());
-			deviceInfoDto.setDeviceName(device.getSsdpDevice().getFriendlyName());
-			
-			if (device.getBootID() != null && device.getBootID().length() > 0) {
-				deviceInfoDto.setBootId(Long.parseLong(device.getBootID()));
+			Long bootId = -1l;
+			try {
+				bootId = Long.parseLong(device.getBootID());
+			} catch (NumberFormatException e) {
+				// NOP
 			}
-			if ( ewsService != null) {
-				deviceInfoDto.setDeviceKey(ewsService.getDevKey());
-			}
-
+			
 			// START NEW CODE
-			PurAirDevice purifier = new PurAirDevice(device.getSsdpDevice().getCppId(), device.getUsn(), device.getIpAddress(), device.getSsdpDevice().getFriendlyName(), deviceInfoDto.getBootId(), ConnectionState.CONNECTED_LOCALLY);
+			PurAirDevice purifier = new PurAirDevice(device.getSsdpDevice().getCppId(), device.getUsn(), device.getIpAddress(), device.getSsdpDevice().getFriendlyName(), bootId, ConnectionState.CONNECTED_LOCALLY);
+			if ( ewsService != null) {
+				purifier.setEncryptionKey(ewsService.getDevKey());
+			}
 			PurifierManager.getInstance().setCurrentPurifier(purifier);
 			// STOP NEW CODE
 

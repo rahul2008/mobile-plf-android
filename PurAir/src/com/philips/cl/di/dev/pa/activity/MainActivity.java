@@ -176,7 +176,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	public boolean isDiagnostics;
 	private PurifierDatabase purifierDatabase;
 	private List<PurifierDetailDto> dbPurifierDetailDtoList;
-	private Hashtable<String, PurifierDetailDto> ssdpDeviceInfoTable;
 
 	private String localDeviceUsn;
 
@@ -200,10 +199,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		
 		airPurifierController = AirPurifierController.getInstance();
 
-		/**
-		 * Initialize database
-		 */
-		ssdpDeviceInfoTable = new Hashtable<String, PurifierDetailDto>();
 		/**
 		 * Create database and tables
 		 */
@@ -1391,7 +1386,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 
 		if (ssdpDiscoveredBootId == 0L) {
-			startKeyExchange(purifier);
+			startKeyExchange();
 		}
 		if (dbPurifierDetailDtoList != null) {
 			boolean isDeviceInDb = false;
@@ -1416,14 +1411,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 								Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()));
 						toggleConnection(true);
 					} else {
-						startKeyExchange(purifier);
+						startKeyExchange();
 					}
 					break;
 				}
 			}
 
 			if (!isDeviceInDb) {
-				startKeyExchange(purifier);
+				startKeyExchange();
 			}
 		}
 
@@ -1458,41 +1453,37 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 
-	private void startKeyExchange(PurAirDevice purifier) {
+	private void startKeyExchange() {
+		PurAirDevice purifier = getCurrentPurifier();
+		if (purifier == null) return;
+		
 		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"
 				+ isDeviceDiscovered);
-		String cppId = purifier.getEui64();
-		PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
-		deviceInfoDto.setUsn(purifier.getUsn());
-		deviceInfoDto.setBootId(purifier.getBootId());
-		deviceInfoDto.setCppId(cppId);
-		deviceInfoDto.setDeviceName(purifier.getName());
-
-		ssdpDeviceInfoTable.put(cppId, deviceInfoDto);
 
 		if (isDeviceDiscovered) {
-			diSecurity.initializeExchangeKeyCounter(cppId);
-			diSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()), cppId);
+			diSecurity.initializeExchangeKeyCounter(purifier.getEui64());
+			diSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()), purifier.getEui64());
 		}
 	}
 
 	@Override
-	public void keyDecrypt(String key, String devId) {
-		ALog.i(ALog.MAINACTIVITY, "Key Decrypt: " + key + " DeviceID: " + devId);
+	public void keyDecrypt(String key, String deviceEui64) {
+		ALog.i(ALog.MAINACTIVITY, "Key Decrypt: " + key + " DeviceID: " + deviceEui64);
 		if (secretKey == null && key != null) {
 			this.secretKey = key;
 			pairToPurifierIfNecessary();
 
-			PurifierDetailDto deviceInfoDto = ssdpDeviceInfoTable.get(devId);
-			deviceInfoDto.setDeviceKey(key);
+			PurAirDevice purifier = getCurrentPurifier();
+			if (purifier != null && purifier.getEui64().equals(deviceEui64)) {
+				purifier.setEncryptionKey(key);
+				purifierDatabase.insertPurAirDevice(purifier);
+			}
 
-			purifierDatabase.insertPurifierDetail(deviceInfoDto);
 
 			if (dbPurifierDetailDtoList != null
 					&& dbPurifierDetailDtoList.size() > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
-
 			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
 
 			toggleConnection(true);

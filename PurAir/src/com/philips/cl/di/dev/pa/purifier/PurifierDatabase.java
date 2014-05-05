@@ -11,6 +11,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
 
@@ -30,17 +31,17 @@ public class PurifierDatabase {
 	 * @param deviceInfoDto
 	 * @return
 	 */
-	public long insertPurifierDetail(PurifierDetailDto deviceInfoDto) {
+	public long insertPurAirDevice(PurAirDevice purifier) {
 
-		ALog.i(ALog.DATABASE, "Insert into table Usn: " + deviceInfoDto.getUsn()
-				+ ", CppId: " + deviceInfoDto.getCppId()
-				+ ", BootId: " + deviceInfoDto.getBootId()
-				+ ", Name: " + deviceInfoDto.getDeviceName()
-				+ ", Key: " + deviceInfoDto.getDeviceKey());
+		ALog.i(ALog.DATABASE, "Insert into table Usn: " + purifier.getUsn()
+				+ ", CppId: " + purifier.getEui64()
+				+ ", BootId: " + purifier.getBootId()
+				+ ", Name: " + purifier.getName()
+				+ ", Key: " + purifier.getEncryptionKey());
 
 		long rowId = -1L;
 
-		long id = getRowIdOfPurifier(deviceInfoDto.getUsn());
+		long id = getRowIdOfPurifier(purifier.getUsn());
 
 		Cursor cursor = null;
 		if (id == -1L) {
@@ -49,11 +50,11 @@ public class PurifierDatabase {
 				db = dbHelper.getWritableDatabase();
 
 				ContentValues values = new ContentValues();
-				values.put(AppConstants.AIRPUR_USN, deviceInfoDto.getUsn());
-				values.put(AppConstants.AIRPUR_CPP_ID, deviceInfoDto.getCppId());
-				values.put(AppConstants.AIRPUR_BOOT_ID, deviceInfoDto.getBootId());
-				values.put(AppConstants.AIRPUR_DEVICE_NAME, deviceInfoDto.getDeviceName());
-				values.put(AppConstants.AIRPUR_KEY, deviceInfoDto.getDeviceKey());
+				values.put(AppConstants.AIRPUR_USN, purifier.getUsn());
+				values.put(AppConstants.AIRPUR_CPP_ID, purifier.getEui64());
+				values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
+				values.put(AppConstants.AIRPUR_DEVICE_NAME, purifier.getName());
+				values.put(AppConstants.AIRPUR_KEY, purifier.getEncryptionKey());
 
 				rowId = db.insert(AppConstants.AIRPUR_INFO_TABLE, null, values);
 			} catch (Exception e) {
@@ -63,7 +64,7 @@ public class PurifierDatabase {
 				closeDb();
 			}
 		} else {
-			updatePurifierDetail(id, deviceInfoDto.getBootId(), deviceInfoDto.getDeviceKey(), deviceInfoDto.getDeviceName());
+			updatePurifierDetail(id, purifier.getBootId(), purifier.getEncryptionKey(), purifier.getName());
 		}
 		return rowId;
 	}
