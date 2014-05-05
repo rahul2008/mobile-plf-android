@@ -406,7 +406,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			
 			if (datas[2] != null) {
 				try {
-					float indoorAQI = Float.parseFloat(datas[2].trim());
+					int indoorAQI = Integer.parseInt(datas[2].trim());
+					ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
 					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
 					Utils.setIndoorAQIStatusAndComment(this, indoorAQI, aqiStatus, aqiSummary, purifierName);

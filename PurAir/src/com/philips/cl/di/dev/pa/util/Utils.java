@@ -326,18 +326,18 @@ public class Utils {
 	 * @return
 	 */
 	public static Drawable getIndoorAQICircleBackground(Context ctx,
-			float indoorAQI) {
+			int indoorAQI) {
 		Log.i(TAG, "aqi=  " + indoorAQI);
-		if (indoorAQI <= 1.4f) {
+		if(indoorAQI <= 14) {
 			return ctx.getResources()
 					.getDrawable(R.drawable.aqi_blue_circle_2x);
-		} else if (indoorAQI > 1.4f && indoorAQI <= 2.3f) {
+		} else if (indoorAQI > 14 && indoorAQI <= 23) {
 			return ctx.getResources().getDrawable(
 					R.drawable.aqi_purple_circle_2x);
-		} else if (indoorAQI > 2.3f && indoorAQI <= 3.5f) {
+		} else if (indoorAQI > 23 && indoorAQI <= 35) {
 			return ctx.getResources().getDrawable(
 					R.drawable.aqi_fusia_circle_2x);
-		} else if (indoorAQI > 3.5f) {
+		} else if (indoorAQI > 35) {
 			return ctx.getResources().getDrawable(R.drawable.aqi_red_circle_2x);
 		}
 		return null;
@@ -351,18 +351,18 @@ public class Utils {
 	 * @param summary
 	 */
 	public static void setIndoorAQIStatusAndComment
-	(Context ctx, float indoorAQI, FontTextView status, FontTextView summary, String purifierName) {
+	(Context ctx, int indoorAQI, FontTextView status, FontTextView summary, String purifierName) {
 
-		if(indoorAQI <= 1.4f && indoorAQI > 0) {
+		if(indoorAQI > 0 && indoorAQI <= 14) {
 			status.setText(ctx.getString(R.string.good)) ;
 			summary.setText(ctx.getString(R.string.indoor_aqi_good_tip1, purifierName)) ;
-		} else if(indoorAQI > 1.4f && indoorAQI <= 2.3f) {
+		} else if(indoorAQI > 14 && indoorAQI <= 23) {
 			status.setText(ctx.getString(R.string.moderate)) ;
 			summary.setText(ctx.getString(R.string.indoor_aqi_moderate_tip1, purifierName)) ;
-		} else if(indoorAQI > 2.3f && indoorAQI <= 3.5f) {
+		} else if(indoorAQI > 23 && indoorAQI <= 35) {
 			status.setText(ctx.getString(R.string.unhealthy)) ;
 			summary.setText(ctx.getString(R.string.indoor_aqi_unhealthy_tip1, purifierName)) ;
-		} else if(indoorAQI > 3.5f) {
+		} else if(indoorAQI > 35) {
 			String tempStatus[] = ctx.getString(R.string.very_unhealthy).trim().split(" ");
 			if (tempStatus != null && tempStatus.length > 1) {
 				status.setText(tempStatus[0] + "\n" + tempStatus[1]);
