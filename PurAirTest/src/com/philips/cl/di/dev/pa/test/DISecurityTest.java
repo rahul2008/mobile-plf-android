@@ -1,10 +1,8 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.Arrays;
-import java.util.Hashtable;
 
 import junit.framework.TestCase;
 
