@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import android.os.Handler.Callback;
 import android.os.Message;
@@ -12,8 +13,9 @@ import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.security.DISecurity;
+import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -27,10 +29,13 @@ import com.philips.cl.di.dev.pa.util.Utils;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager implements Callback {
+public class DiscoveryManager implements Callback, KeyDecryptListener {
 
 	private static DiscoveryManager mInstance;
 	private LinkedHashMap<String, PurAirDevice> mDevicesMap;
+	private PurifierDatabase mDatabase;
+	private DISecurity mSecurity;
+	private DiscoveryEventListener mListener;
 
 	public static DiscoveryManager getInstance() {
 		if (mInstance == null) {
@@ -42,15 +47,19 @@ public class DiscoveryManager implements Callback {
 	private DiscoveryManager() {
 		// Enforce Singleton
 		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
-		// TODO add paired devices to list
+		mDatabase = new PurifierDatabase();
+		mSecurity = new DISecurity(this);
+		initializeDevicesFromDataBase();
 	}
-
-	public void start(Callback callback) {
-		SsdpService.getInstance().startDeviceDiscovery(callback);
+	
+	public void start(DiscoveryEventListener listener) {
+		SsdpService.getInstance().startDeviceDiscovery(this);
+		mListener = listener;
 	}
 	
 	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
+		mListener = null;
 	}
 	
 	@Override
@@ -80,60 +89,55 @@ public class DiscoveryManager implements Callback {
 			addNewDevice(purifier);
 		}
 			
-//		if (device.getSsdpDevice() == null 
-//				|| device.getSsdpDevice().getCppId() == null
-//				|| device.getSsdpDevice().getModelName() == null
-//				|| device.getSsdpDevice().getFriendlyName() == null) {
-//				return false;
-//			}
-//			ALog.i(ALog.MAINACTIVITY,
-//					"Device discovered usn: " + device.getUsn() + ", Ip: "
-//							+ device.getIpAddress()
-//							+ ", isDeviceDiscovered: " + isDeviceDiscovered
-//							+ ", isEWSStarted: " + isEWSStarted);
-//			long newDiscoveredBootId = 0L;
-//			try {
-//				newDiscoveredBootId = Long.parseLong(device.getBootID());
-//			} catch (NumberFormatException e) {
-//				// NOP
-//				e.printStackTrace();
-//			}
-//			
-//			if (newDiscoveredBootId != ssdpDiscoveredBootId) {
-//				isDeviceDiscovered = false;
-//			}
-//			
-//			if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME)
-//					&& !isDeviceDiscovered && !isEWSStarted) {
-//				onFirstDeviceDiscovered(device);
-//			}
 		return true;
 	}
 	
 	private void updateExistingDevice(PurAirDevice newPurifier) {
 		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getEui64());
+		boolean notifyListeners = false;
+		
+		if (!existingPurifier.getIpAddress().equals(newPurifier.getIpAddress())) {
+			existingPurifier.setIpAddress(newPurifier.getIpAddress());
+		}
 		
 		if (existingPurifier.getConnectionState() != newPurifier.getConnectionState()) {
 			existingPurifier.setConnectionState(newPurifier.getConnectionState());
-			// TODO notify UI
+			notifyListeners = true;
 		}
 
 		if (!existingPurifier.getName().equals(newPurifier.getName())) {
 			existingPurifier.setName(newPurifier.getName());
-			// TODO notify UI
+			notifyListeners = true;
 		}
 		
 		if (existingPurifier.getBootId() != newPurifier.getBootId()) {
 			existingPurifier.setEncryptionKey(null);
 			existingPurifier.setBootId(newPurifier.getBootId());
-			// TODO initialize key exchange
+			startKeyExchange(existingPurifier);
+			notifyListeners = false; // only sent events when we have new key
 		}
 		
+		if (notifyListeners) {
+			notifyDiscoveryListener();
+		}
 		ALog.d(ALog.DISCOVERY, "Successfully updated purifier: " + existingPurifier);
 	}
 	
+	private void notifyDiscoveryListener() {
+		if (mListener == null) return;
+		mListener.onDiscoveredDevicesListChanged();
+		ALog.v(ALog.DISCOVERY, "Notified listeners of change event");
+	}
+	
+	/**
+	 * Completely new device - never seen before
+	 */
 	private void addNewDevice(PurAirDevice purifier) {
+		mDevicesMap.put(purifier.getEui64(), purifier);
+		startKeyExchange(purifier);
 		
+		// Listener notified when key exchanged
+		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
 	}
 	
 	private PurAirDevice getPurAirDevice(DeviceModel deviceModel) {
@@ -184,78 +188,6 @@ public class DiscoveryManager implements Callback {
 		return true;
 	}
 	
-	
-	
-	
-	
-//	private boolean onFirstDeviceDiscovered(DeviceModel deviceModel) {
-//
-//		isDeviceDiscovered = true;
-//		
-//		Long bootId = -1l;
-//		if (deviceModel.getBootID() != null && deviceModel.getBootID().length() > 0) {
-//			bootId = Long.parseLong(deviceModel.getBootID());
-//		}
-//		
-//		PurAirDevice purifier = new PurAirDevice(deviceModel.getSsdpDevice().getCppId(), deviceModel.getUsn(), deviceModel.getIpAddress(), deviceModel.getSsdpDevice().getFriendlyName(), bootId, ConnectionState.CONNECTED_LOCALLY);
-//		PurifierManager.getInstance().setCurrentPurifier(purifier);
-//		
-//		updatePurifierName();
-//		String ssdpDiscoveredUsn = purifier.getUsn();
-//		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
-//			return true;
-//		}
-//
-//		//used to fetch the MAC address of purifier then save it
-//		localDeviceUsn = ssdpDiscoveredUsn;
-//		
-//		try {
-//			ssdpDiscoveredBootId = purifier.getBootId();
-//		} catch (NumberFormatException e) {
-//			// NOP
-//			e.printStackTrace();
-//		}
-//
-//		if (ssdpDiscoveredBootId == 0L) {
-//			startKeyExchange(purifier);
-//		}
-//		if (dbPurifierDetailDtoList != null) {
-//			boolean isDeviceInDb = false;
-//			for (PurifierDetailDto infoDto : dbPurifierDetailDtoList) {
-//				String dbUsn = infoDto.getUsn();
-//				if (dbUsn == null || dbUsn.length() <= 0) {
-//					continue;
-//				}
-//				if (dbUsn.equalsIgnoreCase(ssdpDiscoveredUsn)) {
-//					isDeviceInDb = true;
-//					long dbBootId = infoDto.getBootId();
-//					if (dbBootId == ssdpDiscoveredBootId
-//							&& infoDto.getDeviceKey() != null) {
-//						ALog.i(ALog.MAINACTIVITY, "Device boot id is same: "
-//								+ dbBootId + " ssdp bootid: "
-//								+ ssdpDiscoveredBootId);
-//						String cppId = infoDto.getCppId();
-//						secretKey = infoDto.getDeviceKey();
-//						DISecurity.setKeyIntoSecurityHashTable(cppId, secretKey);
-//						DISecurity.setUrlIntoUrlsTable(
-//								cppId,
-//								Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()));
-//						toggleConnection(true);
-//					} else {
-//						startKeyExchange(purifier);
-//					}
-//					break;
-//				}
-//			}
-//
-//			if (!isDeviceInDb) {
-//				startKeyExchange(purifier);
-//			}
-//		}
-//
-//		return true;
-//	}
-	
 	private boolean onDeviceLost(DeviceModel device) {
 		return false;
 	}
@@ -272,61 +204,36 @@ public class DiscoveryManager implements Callback {
 		return null;
 	}
 	
+	private void initializeDevicesFromDataBase() {
+		List<PurAirDevice> storedDevices = mDatabase.getAllPurifiers(ConnectionState.CONNECTED_REMOTELY);
+		// TODO set default connectionState to CPP?
+		if (storedDevices == null) return;
+		
+		ALog.d(ALog.DISCOVERY, "Successfully loaded stored devices: " + storedDevices.size());
+		for (PurAirDevice device : storedDevices) {
+			mDevicesMap.put(device.getEui64(), device);
+			
+			// TODO remove key to Purifier
+			DISecurity.setKeyIntoSecurityHashTable(device.getEui64(), device.getEncryptionKey());
+			// TODO ipaddress is always null!!!!!
+			DISecurity.setUrlIntoUrlsTable(device.getEui64(), Utils.getPortUrl(Port.SECURITY,	device.getIpAddress()));
+		}
+	}
+
+	private void startKeyExchange(PurAirDevice purifier) {
+		ALog.d(ALog.DISCOVERY, "Starting key exchange: " + purifier);
+
+		mSecurity.initializeExchangeKeyCounter(purifier.getEui64());
+		mSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()), purifier.getEui64());
+	}
 	
+	@Override
+	public void keyDecrypt(String key, String deviceEui64) {
+		PurAirDevice device = mDevicesMap.get(deviceEui64);
+		if (device == null || key == null) return;
+		
+		device.setEncryptionKey(key);
+		notifyDiscoveryListener();
+	}
 	
-//	@Override
-//	public boolean handleMessage(Message msg) {
-//		DeviceModel device = null;
-//		if (null != msg) {
-//			final DiscoveryMessageID message = DiscoveryMessageID
-//					.getID(msg.what);
-//			final InternalMessage internalMessage = (InternalMessage) msg.obj;
-//			if (null != internalMessage
-//					&& internalMessage.obj instanceof DeviceModel) {
-//				device = (DeviceModel) internalMessage.obj;
-//			}
-//			if (device == null) {
-//				return false;
-//			}
-//
-//			switch (message) {
-//			case DEVICE_DISCOVERED:
-//				if (device.getSsdpDevice() == null 
-//					|| device.getSsdpDevice().getCppId() == null
-//					|| device.getSsdpDevice().getModelName() == null
-//					|| device.getSsdpDevice().getFriendlyName() == null) {
-//					return false;
-//				}
-//				ALog.i(ALog.MAINACTIVITY,
-//						"Device discovered usn: " + device.getUsn() + ", Ip: "
-//								+ device.getIpAddress()
-//								+ ", isDeviceDiscovered: " + isDeviceDiscovered
-//								+ ", isEWSStarted: " + isEWSStarted);
-//				long newDiscoveredBootId = 0L;
-//				try {
-//					newDiscoveredBootId = Long.parseLong(device.getBootID());
-//				} catch (NumberFormatException e) {
-//					// NOP
-//					e.printStackTrace();
-//				}
-//				
-//				if (newDiscoveredBootId != ssdpDiscoveredBootId) {
-//					isDeviceDiscovered = false;
-//				}
-//				
-//				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME)
-//						&& !isDeviceDiscovered && !isEWSStarted) {
-//					onFirstDeviceDiscovered(device);
-//				}
-//				break;
-//			case DEVICE_LOST:
-//				onDeviceLost(device);
-//				break;
-//			default:
-//				break;
-//			}
-//			return false;
-//		}
-//		return false;
-//	}
 }
