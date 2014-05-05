@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -11,8 +12,11 @@ import com.philips.cl.di.common.ssdp.controller.InternalMessage;
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkStates;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
@@ -29,12 +33,13 @@ import com.philips.cl.di.dev.pa.util.Utils;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager implements Callback, KeyDecryptListener {
+public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkChangedCallback {
 
 	private static DiscoveryManager mInstance;
 	private LinkedHashMap<String, PurAirDevice> mDevicesMap;
 
 	private PurifierDatabase mDatabase;
+	private NetworkMonitor mNetwork;
 	private DISecurity mSecurity;
 	
 	private DiscoveryEventListener mListener;
@@ -49,20 +54,87 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 	private DiscoveryManager() {
 		// Enforce Singleton
 		mDatabase = new PurifierDatabase();
+		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
 		mSecurity = new DISecurity(this);
 		initializeDevicesMapFromDataBase();
+		mNetwork.getCurrentNetworkState(); // Callback will enforce state update
 	}
 	
 	public void start(DiscoveryEventListener listener) {
 		SsdpService.getInstance().startDeviceDiscovery(this);
+		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = listener;
 	}
 	
 	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
+		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = null;
 	}
 	
+	public ArrayList<PurAirDevice> getDiscoveredDevices() {
+		return new ArrayList<PurAirDevice>(mDevicesMap.values());
+	}
+	
+	@Override
+	public void onNetworkChanged(NetworkStates networkState) {
+		if (networkState == null) return; //TODO fix bug
+		
+		// Assumption: Wifi switch will go through the none state
+		switch(networkState) {
+		case NONE : 
+			markAllDevicesOffline();
+			break;
+		case MOBILE:
+			markPairedDevicesOnline();
+			break;
+		case WIFI_NO_INTERNET:
+			markPairedDevicesOffline();
+			break;
+		case WIFI_WITH_INTERNET:
+			markPairedDevicesOnline();
+			break;
+		default:
+			break;
+		}
+		
+	}
+	
+	private void markPairedDevicesOffline() {
+		ALog.d(ALog.DISCOVERY, "Marking paired devices offline");
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.isPaired()) {
+				device.setConnectionState(ConnectionState.DISCONNECTED);
+			} else {
+				// NOP - local devices will go offline if neccessary through ssdp
+			}
+		}
+		notifyDiscoveryListener();
+	}
+
+	private void markPairedDevicesOnline() {
+		ALog.d(ALog.DISCOVERY, "Marking paired devices online");
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.isPaired()) {
+				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			} else {
+				device.setConnectionState(ConnectionState.DISCONNECTED);
+			}
+		}
+		notifyDiscoveryListener();
+	}
+
+	private void markAllDevicesOffline() {
+		ALog.d(ALog.DISCOVERY, "Marking all devices offline");
+		for (PurAirDevice device : mDevicesMap.values()) {
+			device.setConnectionState(ConnectionState.DISCONNECTED);
+		}
+		notifyDiscoveryListener();
+		// TODO stop discovery service?
+	}
+	
+	
+
 	/**
 	 * Callback from SSDP service
 	 */
@@ -109,7 +181,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getEui64());
 		boolean notifyListeners = false;
 		
-		if (!existingPurifier.getIpAddress().equals(newPurifier.getIpAddress())) {
+		if (!newPurifier.getIpAddress().equals(existingPurifier.getIpAddress())) {
 			existingPurifier.setIpAddress(newPurifier.getIpAddress());
 		}
 		
@@ -153,7 +225,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener {
 		if (ssdpDevice == null) return null;
 		
 		String modelName = ssdpDevice.getModelName();
-		if (modelName == null || modelName.contains(AppConstants.MODEL_NAME)) {
+		if (modelName == null || !modelName.contains(AppConstants.MODEL_NAME)) {
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - model: " + modelName);
 			return null;
 		}
