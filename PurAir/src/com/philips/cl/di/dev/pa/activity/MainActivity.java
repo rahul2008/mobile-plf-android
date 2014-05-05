@@ -4,7 +4,6 @@ package com.philips.cl.di.dev.pa.activity;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +73,6 @@ import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
-import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
@@ -175,7 +173,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	public boolean isDiagnostics;
 	private PurifierDatabase purifierDatabase;
-	private List<PurifierDetailDto> dbPurifierDetailDtoList;
+	private List<PurAirDevice> dbPurifierDetailDtoList;
 
 	private String localDeviceUsn;
 
@@ -1390,7 +1388,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 		if (dbPurifierDetailDtoList != null) {
 			boolean isDeviceInDb = false;
-			for (PurifierDetailDto infoDto : dbPurifierDetailDtoList) {
+			for (PurAirDevice infoDto : dbPurifierDetailDtoList) {
 				String dbUsn = infoDto.getUsn();
 				if (dbUsn == null || dbUsn.length() <= 0) {
 					continue;
@@ -1399,15 +1397,15 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 					isDeviceInDb = true;
 					long dbBootId = infoDto.getBootId();
 					if (dbBootId == ssdpDiscoveredBootId
-							&& infoDto.getDeviceKey() != null) {
+							&& infoDto.getEncryptionKey() != null) {
 						ALog.i(ALog.MAINACTIVITY, "Device boot id is same: "
 								+ dbBootId + " ssdp bootid: "
 								+ ssdpDiscoveredBootId);
-						String cppId = infoDto.getCppId();
-						secretKey = infoDto.getDeviceKey();
-						DISecurity.setKeyIntoSecurityHashTable(cppId, secretKey);
+						String eui64 = infoDto.getEui64();
+						secretKey = infoDto.getEncryptionKey();
+						DISecurity.setKeyIntoSecurityHashTable(eui64, secretKey);
 						DISecurity.setUrlIntoUrlsTable(
-								cppId,
+								eui64,
 								Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()));
 						toggleConnection(true);
 					} else {

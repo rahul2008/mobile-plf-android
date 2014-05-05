@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.PurifierDetailDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
@@ -127,8 +127,8 @@ public class PurifierDatabase {
 	 * 
 	 * @return
 	 */
-	public List<PurifierDetailDto> getAllPurifierDetail() {
-		List<PurifierDetailDto> deviceInfoDtoList = new ArrayList<PurifierDetailDto>();
+	public List<PurAirDevice> getAllPurifierDetail() {
+		List<PurAirDevice> purAirDevicesList = new ArrayList<PurAirDevice>();
 		ALog.i(ALog.DATABASE, "getAllDeviceInfo()");
 		Cursor cursor = null;
 		try {
@@ -138,34 +138,20 @@ public class PurifierDatabase {
 			if (cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				do {
-					PurifierDetailDto deviceInfoDto = new PurifierDetailDto();
+					String usn = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_USN));
+					String eui64 = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_CPP_ID));
+					long bootId = cursor.getLong(cursor.getColumnIndex(AppConstants.AIRPUR_BOOT_ID));
+					String name = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_DEVICE_NAME));
+					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_KEY));
+					boolean isPaired = cursor.getInt(cursor.getColumnIndex(AppConstants.IS_PAIRED)) == 1;
+					
+					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, ConnectionState.DISCONNECTED);
+					purifier.setEncryptionKey(encryptionKey);
+					purifier.setPairing(isPaired);
 
-					deviceInfoDto.setId(
-							cursor.getLong(cursor.getColumnIndex(AppConstants.ID)));
-					deviceInfoDto.setUsn(
-							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_USN)));
-					deviceInfoDto.setCppId(
-							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_CPP_ID)));
-					deviceInfoDto.setBootId(
-							cursor.getLong(cursor.getColumnIndex(AppConstants.AIRPUR_BOOT_ID)));
-					deviceInfoDto.setDeviceName(
-							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_DEVICE_NAME)));
-					deviceInfoDto.setDeviceKey(
-							cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_KEY)));
-					deviceInfoDto.setLastPaired(
-							cursor.getLong(cursor.getColumnIndex(AppConstants.LAST_PAIRED)));
-					deviceInfoDto.setPairedStatus(
-							cursor.getInt(cursor.getColumnIndex(AppConstants.IS_PAIRED)));
+					ALog.i(ALog.DATABASE, "Loaded purifier: " + purifier);
 
-					ALog.i(ALog.DATABASE, "Database device details: " + deviceInfoDto.getUsn()
-							+ ", CppId: " + deviceInfoDto.getCppId()
-							+ ", BootId: " + deviceInfoDto.getBootId()
-							+ ", ID: " + deviceInfoDto.getId()
-							+ ", Name: " + deviceInfoDto.getDeviceName()
-							+ ", Key: " + deviceInfoDto.getDeviceKey()
-							+ ", lastPaired: " + deviceInfoDto.getLastpaired());
-
-					deviceInfoDtoList.add(deviceInfoDto);
+					purAirDevicesList.add(purifier);
 				} while (cursor.moveToNext());
 
 			} else {
@@ -178,7 +164,7 @@ public class PurifierDatabase {
 			closeDb();
 		}
 
-		return deviceInfoDtoList;
+		return purAirDevicesList;
 	}
 	/**
 	 * 
