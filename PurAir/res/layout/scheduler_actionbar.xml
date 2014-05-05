@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="90dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/scheduler_actionbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textColor="@color/philips_blue"
+        android:textSize="24sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <Button
+        android:id="@+id/scheduler_actionbar_add_btn"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:background="@drawable/save"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:text="@string/save" />   
+
+    <Button
+        android:id="@+id/larrow"        
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:background="@drawable/lef_arrow_blue_2x"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:text="@string/cancel" />   
+    
+</RelativeLayout>
