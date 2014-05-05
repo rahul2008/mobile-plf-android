@@ -185,4 +185,30 @@ public class UtilTest extends TestCase {
 		assertEquals(PurAirApplication.getAppContext().getString(R.string.sat), day);
 	}
 	
+	public void testGetAQIStatusAndSummaryNegativeCase() {
+		String[] statusSummaries = Utils.getAQIStatusAndSummary(0);
+		assertNull(statusSummaries[0]);
+		assertNull(statusSummaries[1]);
+	}
+	
+	public void testGetAQIStatusAndSummaryCase1() {
+		String[] statusSummaries = Utils.getAQIStatusAndSummary(5);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.good), statusSummaries[0]);
+	}
+	
+	public void testGetAQIStatusAndSummaryCase2() {
+		String[] statusSummaries = Utils.getAQIStatusAndSummary(15);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.moderate), statusSummaries[0]);
+	}
+	
+	public void testGetAQIStatusAndSummaryCase3() {
+		String[] statusSummaries = Utils.getAQIStatusAndSummary(25);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.unhealthy), statusSummaries[0]);
+	}
+	
+	public void testGetAQIStatusAndSummaryCase4() {
+		String[] statusSummaries = Utils.getAQIStatusAndSummary(40);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split), statusSummaries[0]);
+	}
+	
 }
