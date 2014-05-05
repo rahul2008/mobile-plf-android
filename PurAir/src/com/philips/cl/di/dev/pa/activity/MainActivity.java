@@ -1382,8 +1382,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			return true;
 		}
 
-		//used to fetch the MAC address of purifier then save it
-		Utils.extractMacAddress(ssdpDiscoveredUsn);
 		localDeviceUsn = ssdpDiscoveredUsn;
 		
 		try {

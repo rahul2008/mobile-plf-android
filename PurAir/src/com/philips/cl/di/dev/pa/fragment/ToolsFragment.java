@@ -182,7 +182,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();
 		String euid = "AirPurifier EUI64:" + getPurifierEui64();
-		String macAddress = SessionDto.getInstance().getPurifierMacAddress();
+		String macAddress = getPurifierMacAddress();
 		macAddress = "Air Purifier MAC Address:"
 				+ formatMacAddress(macAddress);
 
@@ -262,6 +262,17 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 			return "< unknown >"; // TODO localize
 		}
 		return mPurifier.getEui64();
+	}
+
+	private String getPurifierMacAddress() {
+		if (mPurifier == null) {
+			return "< unknown >"; // TODO localize
+		}
+		String macAddress = Utils.getMacAddressFromUsn(mPurifier.getUsn());
+		if (macAddress == null) {
+			return "< unknown >"; // TODO localize
+		}
+		return macAddress;
 	}
 
 }

@@ -79,14 +79,6 @@ public class SessionDto {
 	public String getEui64() {
 		return Eui64;		
 	}
-	
-	public void setPurifierMacAddress(String macAddress){
-		this.macAddress=macAddress;
-	}
-	
-	public String getPurifierMacAddress(){
-		return macAddress;
-	}
 
 	/**
 	 * Private Constructor for Session object
