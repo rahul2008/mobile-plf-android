@@ -286,6 +286,14 @@ public class DataParserTest extends TestCase {
 		assertNull(cities);
 	}
 	
+	public void testParseLocationData() {
+		List<City> cities = DataParser.parseLocationData("{\"cities\": {\"泰安\": {\"weather_ex\": {\"wind_degrees\": 140,\"wind_kph\": 11,\"temp_c\": 7,\"high\": 13,\"weather\": \"\",\"low\": 3,\"icon\": \"clear\"},\"lon\": 117.08675,\"city_name\": \"泰安\",\"weather\": \"晴转多云 23~11°C 南风小于3级转3-4级\",\"key\": \"taian\",\"lat\": 36.200546,\"gov\": {\"co\": 776,\"idx\": 70,\"pm10\": 96,\"stations\": {\"交通技校\": {\"co\": 1090,\"idx\": 59,\"pm10\": 90,\"lon\": 117.041115,\"so2\": 12,\"no2\": 16,\"lat\": 36.201946,\"station_name\": \"交通技校\",\"o3\": 64,\"pm25\": 32,\"t\": \"2014-05-05 12:00\"}},\"so2\": 18,\"no2\": 17,\"o3\": 48,\"pm25\": 46,\"t\": \"2014-05-05 12:00\"}}}}");
+		String keyStr = cities.get(0).getKey().trim();
+		String iconStr = cities.get(0).getWeather().getIcon().trim();
+		assertEquals("taian", keyStr);
+		assertEquals("clear", iconStr);
+	}
+	
 	public void testGetEWSDeviceWifiDetailsNull() {
 		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(null);
 		assertNull(deviceWifiDto);
