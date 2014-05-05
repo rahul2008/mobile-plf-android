@@ -201,7 +201,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		 * Create database and tables
 		 */
 		purifierDatabase = new PurifierDatabase();
-		dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
+		dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers();
 		/**
 		 * Diffie Hellman key exchange
 		 */
@@ -446,7 +446,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				dbPurifierDetailDtoList.clear();
 			}
 
-			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
+			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers();
 
 			this.registerReceiver(networkReceiver, filter);
 
@@ -1482,7 +1482,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 					&& dbPurifierDetailDtoList.size() > 0) {
 				dbPurifierDetailDtoList.clear();
 			}
-			dbPurifierDetailDtoList = purifierDatabase.getAllPurifierDetail();
+			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers();
 
 			toggleConnection(true);
 

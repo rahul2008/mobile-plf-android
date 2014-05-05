@@ -73,7 +73,7 @@ public class PurifierDatabase {
 	 * 
 	 * @return
 	 */
-	public List<PurAirDevice> getAllPurifierDetail() {
+	public List<PurAirDevice> getAllPurifiers() {
 		List<PurAirDevice> purAirDevicesList = new ArrayList<PurAirDevice>();
 		ALog.i(ALog.DATABASE, "getAllDeviceInfo()");
 		Cursor cursor = null;
