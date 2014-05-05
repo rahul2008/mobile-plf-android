@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import com.philips.cl.di.dev.pa.util.ALog;
+import java.lang.reflect.Field;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,8 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cl.di.dev.pa.util.ALog;
+
 public class BaseFragment extends Fragment {
 
+	private static final Field sChildFragmentManagerField;
+	
+	static {
+        Field f = null;
+        try {
+            f = Fragment.class.getDeclaredField("mChildFragmentManager");
+            f.setAccessible(true);
+        } catch (NoSuchFieldException e) {
+            ALog.e(ALog.FRAGMENT, "Error getting mChildFragmentManager field");
+        }
+        sChildFragmentManagerField = f;
+    }
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		ALog.d(ALog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
@@ -57,6 +72,19 @@ public class BaseFragment extends Fragment {
 	public void onDestroy() {
 		ALog.d(ALog.FRAGMENT, "OnDestroy on " + this.getClass().getSimpleName());
 		super.onDestroy();
+	}
+	
+	@Override
+	public void onDetach() {
+		super.onDetach();
+		
+		if (sChildFragmentManagerField != null) {
+            try {
+                sChildFragmentManagerField.set(this, null);
+            } catch (Exception e) {
+                ALog.e(ALog.FRAGMENT, "Error setting mChildFragmentManager field");
+            }
+        }
 	}
 	
 }

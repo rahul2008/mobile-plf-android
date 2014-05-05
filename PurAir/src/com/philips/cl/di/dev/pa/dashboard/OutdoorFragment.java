@@ -87,6 +87,7 @@ public class OutdoorFragment extends BaseFragment {
 		setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
 	}
 	
+	//TODO : Move to dto
 	private void setOutdoorTemperatureImage(String weatherDesc, String isDayTime) {
 		if(getActivity() != null) {
 		Drawable weatherImage = null;

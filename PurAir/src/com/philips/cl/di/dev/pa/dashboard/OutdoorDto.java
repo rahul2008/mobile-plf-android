@@ -123,28 +123,28 @@ public class OutdoorDto implements Serializable{
 	}
 	
 	public int getAqiPointerImageResId() {
-//		if(aqi == null || aqi.isEmpty()) {
-//			return R.drawable.blue_circle_with_arrow_small;
-//		}
-//		
-//		try {
-//			int aqiInt = Integer.parseInt(aqi);
-//			if(aqiInt >= 0 && aqiInt <= 50) {
-//				 return R.drawable.blue_circle_with_arrow_small;
-//			} else if(aqiInt > 50 && aqiInt <= 100) {
-//				return R.drawable.pink_circle_with_arrow_small;
-//			} else if(aqiInt > 100 && aqiInt <= 150) {
-//				return R.drawable.light_pink_circle_arrow_small;
-//			} else if(aqiInt > 150 && aqiInt <= 200) {
-//				return R.drawable.light_pink_circle_arrow1_small;
-//			} else if(aqiInt > 200 && aqiInt <= 300) {
-//				return R.drawable.red_circle_arrow_small;
-//			} else if(aqiInt > 300 && aqiInt <= 500) {
-//				return R.drawable.light_red_circle_arrow_small;
-//			}
-//		} catch (NumberFormatException e) {
-//			return R.drawable.blue_circle_with_arrow_small;
-//		}
+		if(aqi == null || aqi.isEmpty()) {
+			return R.drawable.blue_circle_with_arrow_small;
+		}
+		
+		try {
+			int aqiInt = Integer.parseInt(aqi);
+			if(aqiInt >= 0 && aqiInt <= 50) {
+				 return R.drawable.blue_circle_with_arrow_small;
+			} else if(aqiInt > 50 && aqiInt <= 100) {
+				return R.drawable.pink_circle_with_arrow_small;
+			} else if(aqiInt > 100 && aqiInt <= 150) {
+				return R.drawable.light_pink_circle_arrow_small;
+			} else if(aqiInt > 150 && aqiInt <= 200) {
+				return R.drawable.light_pink_circle_arrow1_small;
+			} else if(aqiInt > 200 && aqiInt <= 300) {
+				return R.drawable.red_circle_arrow_small;
+			} else if(aqiInt > 300 && aqiInt <= 500) {
+				return R.drawable.light_red_circle_arrow_small;
+			}
+		} catch (NumberFormatException e) {
+			return R.drawable.blue_circle_with_arrow_small;
+		}
 		return R.drawable.blue_circle_with_arrow_small;
 	}
 	

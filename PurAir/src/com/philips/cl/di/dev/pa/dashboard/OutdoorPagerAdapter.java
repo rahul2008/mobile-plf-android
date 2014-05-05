@@ -38,7 +38,6 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 	
 	@Override
 	public Parcelable saveState() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
