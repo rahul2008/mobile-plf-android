@@ -14,7 +14,7 @@ import android.widget.TimePicker;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
@@ -186,7 +186,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i("Scheduler",	"Scheduler Activity - onTimeSet method is completed");
 	}
 
-	public void setActionBar(FragmentID id) {
+	public void setActionBar(SchedulerID id) {
 		switch (id) {
 		case OVERVIEW_EVENT:
 			setActionBar("Scheduler", View.INVISIBLE, View.INVISIBLE);

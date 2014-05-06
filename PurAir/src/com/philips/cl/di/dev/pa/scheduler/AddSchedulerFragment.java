@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -27,7 +27,7 @@ public class AddSchedulerFragment extends BaseFragment {
 		sSelectedFanspeed = getArguments().getString("fanspeed");
 		View view = inflater.inflate(R.layout.add_scheduler, null);
 		initViews(view);
-		((SchedulerActivity) getActivity()).setActionBar(FragmentID.ADD_EVENT);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
 		ALog.i("Scheduler", "AddSchedulerFragment::onCreateView method ending is called");
 		return view;
 	}

@@ -9,7 +9,7 @@ import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.GraphConst;
@@ -43,7 +43,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i("Scheduler", "RepeatFragment::onCreateView() method beginning is called ");
 		View view = inflater.inflate(R.layout.repeat_scheduler, null);
 		initViews(view);
-		((SchedulerActivity) getActivity()).setActionBar(FragmentID.REPEAT);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.REPEAT);
 		ALog.i("Scheduler", "RepeatFragment::onCreateView() method ending is called ");
 		return view;
 	}

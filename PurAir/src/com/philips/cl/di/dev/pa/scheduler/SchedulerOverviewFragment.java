@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -25,7 +25,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		ALog.i("Scheduler", "SchedulerOverview::onCreateView() method beginning is called");
 		View view = inflater.inflate(R.layout.scheduler_overview, null);
-		((SchedulerActivity) getActivity()).setActionBar(FragmentID.OVERVIEW_EVENT);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.OVERVIEW_EVENT);
 		
 		Bundle bundle = getActivity().getIntent().getExtras();
 		String extras = "";

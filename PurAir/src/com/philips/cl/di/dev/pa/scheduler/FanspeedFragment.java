@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.GraphConst;
@@ -40,7 +40,7 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::onCreateView method beginning is called ");
 		View view = inflater.inflate(R.layout.fanspeed_scheduler, null);
 		initViews(view);
-		((SchedulerActivity) getActivity()).setActionBar(FragmentID.FAN_SPEED);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.FAN_SPEED);
 		ALog.i("Scheduler", "FanspeedFragment::onCreateView method ending is called ");
 		return view;
 	}
