@@ -112,7 +112,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		@Override
 		public void onClick(View v) {
-			MainActivity.isClickEvent = true ;
+			((MainActivity)getActivity()).isClickEvent = true ;
+			
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 			startActivity(intent);
 

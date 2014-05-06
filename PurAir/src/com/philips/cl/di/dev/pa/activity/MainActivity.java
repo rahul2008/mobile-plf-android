@@ -154,13 +154,13 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	private IntentFilter filter;
 
-	private static boolean stopService;
+	private boolean stopService;
 
 	private AirPurifierController airPurifierController;
 
 	public boolean isDiagnostics;
 
-	public static boolean isClickEvent;
+	public boolean isClickEvent;
 
 	public boolean isPairingDialogShown;
 	protected ProgressDialog progressDialog;

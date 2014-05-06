@@ -164,7 +164,7 @@ public class OutdoorFragment extends BaseFragment {
 		
 		@Override
 		public void onClick(View v) {
-			MainActivity.isClickEvent = true ;
+			((MainActivity)getActivity()).isClickEvent = true ;
 			Bundle bundle = getArguments();
 			if (bundle != null) {
 				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
