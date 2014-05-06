@@ -9,6 +9,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 
@@ -21,7 +22,6 @@ import android.net.NetworkInfo;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -35,7 +35,6 @@ public class NetworkMonitor {
 
 	public enum NetworkState {
 		MOBILE,
-		WIFI_NO_INTERNET,
 		WIFI_WITH_INTERNET,
 		NONE
 	}
@@ -128,31 +127,34 @@ public class NetworkMonitor {
 						return;
 					}
 					
-					boolean isInternetAvailable = checkForInternetConnection();
-					if (isInternetAvailable) {
-						ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet");
-						updateNetworkState(NetworkState.WIFI_WITH_INTERNET);
-						return;
-					}
+					// Assume internet access - check for internet is too slow
+					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet");
+					updateNetworkState(NetworkState.WIFI_WITH_INTERNET);
+					return;
 					
-					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi without internet");
-					updateNetworkState(NetworkState.WIFI_NO_INTERNET);
+//					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi without internet");
+//					updateNetworkState(NetworkState.WIFI_NO_INTERNET);
 				}
 			};
 
 			Looper.loop();
 		}
 	}
-	
+
+	/**
+	 * DOES NOT WORK PROPERLY, TIMEOUT WHEN NO INTERNET CONNECTION
+	 * CANNOT BE SET, NOR CAN THE REQUEST BE CANCELLED.
+	 * @return
+	 */
 	private boolean checkForInternetConnection() {
 		String uri = "http://www.google.com";
 		boolean isInternetAvailable = false;
 
 		long start = System.currentTimeMillis();
-		final HttpClient httpClient = new DefaultHttpClient();
-		final HttpParams params = httpClient.getParams();
+		final HttpParams params = new BasicHttpParams();
 		HttpConnectionParams.setConnectionTimeout(params, 2000);
 		HttpConnectionParams.setSoTimeout(params, 2000);
+		final HttpClient httpClient = new DefaultHttpClient(params);
 		final HttpGet get = new HttpGet(uri);
 
 		try {

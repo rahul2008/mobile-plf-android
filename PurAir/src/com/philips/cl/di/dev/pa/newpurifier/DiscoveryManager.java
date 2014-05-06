@@ -91,9 +91,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		case MOBILE:
 			markOnlyPairedDevicesOnline();
 			break;
-		case WIFI_NO_INTERNET:
-			markPairedDevicesOffline();
-			break;
 		case WIFI_WITH_INTERNET:
 			markOnlyPairedDevicesOnline();
 			break;
