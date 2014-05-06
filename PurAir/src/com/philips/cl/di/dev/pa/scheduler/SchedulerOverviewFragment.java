@@ -39,10 +39,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		ivEdit1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				DeleteSchedulerFragment fragEditSch = new DeleteSchedulerFragment();
+				/*DeleteSchedulerFragment fragEditSch = new DeleteSchedulerFragment();
 				getFragmentManager()
 				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragEditSch,"DeleteSchedulerFragment").commit();
+				.replace(R.id.ll_scheduler_container, fragEditSch,"DeleteSchedulerFragment").commit();*/
 			}
 		});
 		
