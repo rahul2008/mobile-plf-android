@@ -225,6 +225,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getPurifierName() {
+		if (currentPurifier == null) return null;
 		return currentPurifier.getName();
 	}
 
@@ -237,6 +238,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 	
 	public String getFirmwareURL() {
+		if (currentPurifier == null) return null;
 		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, currentPurifier.getEui64());
 		return firmwareUrl;
 	}

@@ -1,23 +1,19 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
-import android.widget.LinearLayout;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 
-public class FirmwareUpdateTest2 extends ActivityInstrumentationTestCase2<MainActivity>  {
+public class FirmwareUpdateTest2 extends ActivityInstrumentationTestCase2<FirmwareUpdateActivity>  {
 	
-	private MainActivity activity;
-	Lock sequential = new ReentrantLock();
+	private FirmwareUpdateActivity activity;
 
 	public FirmwareUpdateTest2() {
-	    super(MainActivity.class);
+		
+	    super(FirmwareUpdateActivity.class);
+	    
 	}
 	
 	@Override
@@ -25,82 +21,37 @@ public class FirmwareUpdateTest2 extends ActivityInstrumentationTestCase2<MainAc
 		super.setUp();	
 		setActivityInitialTouchMode(false);
 		activity = getActivity();
-		sequential.lock();
 	}
 	
-	@Override
-	protected void tearDown() throws Exception {
-	    sequential.unlock();
-	    super.tearDown();
-	}
-	
-	public void onPause() {     
-		this.onPause();  
-	} 
-	
-	//********************************************** Test Cases for Entry Criteria ************************************************//
-	
-	/*  
-	 * Class Name  : NA
-	 * TestCase ID :
-	 */
-	/*
-	//Test Case ID: 1
-	@UiThreadTest
-	public void testNewFWAvailable() {
-		final LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-		String data = "{'name':'Jaguar','version':'19','upgrade':'21','state':'idle','progress':'0','statusmsg':'' ,'is_mandatory_upgrade':'false'}";
+	public void testGetCurrentPurifier() {
+		PurAirDevice currentPurAirDevice = PurifierManager.getInstance().getCurrentPurifier();
+		PurAirDevice purAirDevice = activity.getCurrentPurifier();
+		if (currentPurAirDevice == null) {
+			assertNull(purAirDevice);
+		} else {
+			assertNotNull(purAirDevice);
+		}
 		
-		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
-		activity.firmwareDataRecieved(data);
-		assertEquals(LinearLayout.VISIBLE, llfirmwareUpdAvailable.getVisibility());
 	}
 	
-	@UiThreadTest
-	public void testNoFWAvailble() {
-		final LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-		String data = "{'name':'Jaguar','version':'19','upgrade':'','state':'idle','progress':'0','statusmsg':'' ,'is_mandatory_upgrade':'false'}";
+	public void testGetCurrentPurifierName() {
+		PurAirDevice currentPurAirDevice = PurifierManager.getInstance().getCurrentPurifier();
+		String purAirName = activity.getPurifierName();
+		if (currentPurAirDevice == null) {
+			assertNull(purAirName);
+		} else {
+			assertNotNull(purAirName);
+		}
 		
-		activity.firmwareDataRecieved(data);
-		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
 	}
 	
-	@UiThreadTest
-	public void testPropertyMissing() {
-		final LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-		String data = "{'name':'Jaguar','state':'idle','progress':'0','statusmsg':'' ,'is_mandatory_upgrade':'false'}";
-		
-		activity.firmwareDataRecieved(data);
-		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
+	public void testGetFirmwareURL() {
+		PurAirDevice currentPurAirDevice = PurifierManager.getInstance().getCurrentPurifier();
+		String url = activity.getFirmwareURL();
+		if (currentPurAirDevice == null) {
+			assertNull(url);
+		} else {
+			assertNotNull(url);
+		}
 	}
-	
-	@UiThreadTest
-	public void testNullResponse() {
-		final LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-		String data = null;
-		
-		activity.firmwareDataRecieved(data);
-		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
-	}
-	
-	@UiThreadTest
-	public void testNoJsonResponse() {
-		final LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-		String data = "jdfaljfgladjglad";
-		
-		activity.firmwareDataRecieved(data);
-		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
-	}
-	
-	@UiThreadTest
-	public void testEmptyResponse() {
-		final LinearLayout llfirmwareUpdAvailable = (LinearLayout) activity.findViewById(R.id.firmware_update_available);
-		String data = "";
-		
-		activity.firmwareDataRecieved(data);
-		assertEquals(LinearLayout.GONE, llfirmwareUpdAvailable.getVisibility());
-	}
-	*/
-	
-	
 }
