@@ -131,10 +131,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hf_outdoor_aqi_title"
-        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"        
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -147,6 +150,9 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="12sp"
+        android:gravity="center_horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
     
 </RelativeLayout>
