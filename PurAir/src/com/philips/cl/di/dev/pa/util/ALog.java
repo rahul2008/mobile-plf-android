@@ -39,6 +39,7 @@ public class ALog {
 	public static final String OUTDOOR_LOCATION="OutdoorLocation";
 	public static final String TASK_GET="TaskGetHttp";
 	public static final String DISCOVERY = "DiscoveryManager";
+	public static final String NETWORKMONITOR = "NetworkMonitor";
 	
 	private static boolean isLoggingEnabled = true;
 	

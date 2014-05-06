@@ -16,7 +16,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkStates;
+import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
@@ -57,7 +57,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
 		mSecurity = new DISecurity(this);
 		initializeDevicesMapFromDataBase();
-		mNetwork.getCurrentNetworkState(); // Callback will enforce state update
+		mNetwork.getLastKnownNetworkState(); // Callback will enforce state update
 	}
 	
 	public void start(DiscoveryEventListener listener) {
@@ -77,7 +77,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	@Override
-	public void onNetworkChanged(NetworkStates networkState) {
+	public void onNetworkChanged(NetworkState networkState) {
 		if (networkState == null) return; //TODO fix bug
 		
 		// Assumption: Wifi switch will go through the none state
