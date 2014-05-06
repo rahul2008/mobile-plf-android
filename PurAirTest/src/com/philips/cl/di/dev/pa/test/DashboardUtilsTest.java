@@ -10,48 +10,48 @@ import junit.framework.TestCase;
 public class DashboardUtilsTest extends TestCase {
 	
 	public void testGetFanSpeedTextNull() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(null);
-		assertEquals("", fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(null);
+		assertEquals(fanSpeed, R.string.empty_string);
 	}
 	
 	public void testGetFanSpeedTextEmpty() {
-		String fanSpeed = DashboardUtils.getFanSpeedText("");
-		assertEquals("", fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText("");
+		assertEquals(fanSpeed, R.string.empty_string);
 	}
 	
 	public void testGetFanSpeedTextNegative() {
-		String fanSpeed = DashboardUtils.getFanSpeedText("hello");
-		assertEquals("", fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText("hello");
+		assertEquals(fanSpeed, R.string.empty_string);
 	}
 	
 	public void testGetFanSpeedTextCase1() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_SILENT);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.silent), fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_SILENT);
+		assertEquals(R.string.silent, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase2() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_AUTO);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.auto), fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_AUTO);
+		assertEquals(R.string.auto, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase3() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TURBO);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.turbo), fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TURBO);
+		assertEquals(R.string.turbo, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase4() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_ONE);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.one), fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_ONE);
+		assertEquals(R.string.one, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase5() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TWO);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.two), fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TWO);
+		assertEquals(R.string.two, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase6() {
-		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_THREE);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.three), fanSpeed);
+		int fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_THREE);
+		assertEquals(R.string.three, fanSpeed);
 	}
 	
 	public void testGetAqiPointerBackgroundIdZero() {

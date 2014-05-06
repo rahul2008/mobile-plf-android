@@ -19,10 +19,16 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
+import com.philips.cl.di.dev.pa.dashboard.DashboardUtils;
+import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -35,7 +41,7 @@ import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-		PercentDetailsClickListener, ICPDownloadListener {
+		PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 
 	private PurAirDevice currentPurifier;
 	
@@ -89,11 +95,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 		
 		setContentView(R.layout.activity_trends_indoor);
+		HomeOutdoorData.getInstance().startOutdoorAQITask();
 		coordinates = Coordinates.getInstance(this);
 		initializeUI();
 
 		initActionBar();
-		getDataFromDashboard();
 
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
@@ -106,10 +112,23 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 			powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
 			addAqiReading();
-		} 
+		}
+		
+		getDataFromDashboard(currentPurifier.getAirPortInfo());
 	}
 
+	@Override
+	protected void onPause() {
+		super.onPause();
+		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		AirPurifierController.getInstance().addAirPurifierEventListener(this);
+	}
+	
 	private Runnable downloadDataRunnble = new Runnable() {
 
 		@Override
@@ -384,8 +403,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	/**
 	 * 
 	 */
-	private void getDataFromDashboard() {
-		String datas[] = getIntent().getStringArrayExtra("indoor");
+	private void getDataFromDashboard(AirPortInfo airPortInfo) {
 		String purifierName = "";
 		if (currentPurifier != null) {
 			purifierName = currentPurifier.getName();
@@ -394,33 +412,23 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		if (datas != null && datas.length > 0) {
+		if (airPortInfo != null) {
 
-			if (datas[0] != null) {
-				mode.setText(datas[0]);
-			}
+			mode.setText(getString(DashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
 
-			if (datas[1] != null) {
-				filter.setText(datas[1]);
-			}
-			
-			if (datas[2] != null) {
-				try {
-					int indoorAQI = Integer.parseInt(datas[2].trim());
-					ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
-					circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
+			filter.setText(DashboardUtils.getFilterStatus(airPortInfo));
 
-					String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
-					if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
-						return ;
-					}
-					aqiStatus.setText(aqiStatusAndCommentArray[0]);
-					aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
-					
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
+			int indoorAQI = airPortInfo.getIndoorAQI();
+			ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
+			circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
+
+			String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
+			if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
+				return ;
 			}
+			aqiStatus.setText(aqiStatusAndCommentArray[0]);
+			aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
+
 		}
 	}
 
@@ -460,6 +468,23 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		super.onBackPressed();
 		handler.removeCallbacks(downloadDataRunnble);
 		finish();
+	}
+
+	@Override
+	public void airPurifierEventReceived(final AirPortInfo airPurifierEvent) {
+		//TODO : Update fields using this information.
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				getDataFromDashboard(airPurifierEvent);
+			}
+		});
+	}
+
+	@Override
+	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
+		//NOP
 	}
 }
 
