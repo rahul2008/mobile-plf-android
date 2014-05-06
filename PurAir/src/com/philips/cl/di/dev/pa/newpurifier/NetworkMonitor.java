@@ -74,8 +74,12 @@ public class NetworkMonitor {
 	}
 
 	public void stopNetworkChangedReceiver(Context context) {
-		context.unregisterReceiver(mNetworkChangedReceiver);
-		
+		try {
+			context.unregisterReceiver(mNetworkChangedReceiver);
+		} catch (IllegalArgumentException e) {
+			ALog.e(ALog.TEMP, e.getMessage());
+		}
+		if (mLooper ==  null) return;
 		mLooper.mHandler.getLooper().quit();
 	}
 
