@@ -51,7 +51,7 @@ public class NetworkMonitor {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				Log.d(ALog.NETWORKMONITOR, "onReceive connectivity action : " + intent.getAction());
+				ALog.d(ALog.NETWORKMONITOR, "onReceive connectivity action : " + intent.getAction());
 				updateNetworkStateAsync();
 			};
 		};
@@ -90,11 +90,11 @@ public class NetworkMonitor {
 
 	private void updateNetworkState(NetworkState newState) {
 		if (mLastKnownState == newState) {
-			Log.d(ALog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
+			ALog.d(ALog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
 			return;
 		}
 		
-		Log.d(ALog.NETWORKMONITOR, "NetworkState Changed - updating listener");
+		ALog.d(ALog.NETWORKMONITOR, "NetworkState Changed - updating listener");
 		mLastKnownState = newState;
 		mNetworkChangedCallback.onNetworkChanged(newState);
 	}
