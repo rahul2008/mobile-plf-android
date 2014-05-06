@@ -51,7 +51,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private String password ;
 	
 	private EWSBroadcastReceiver ewsService ;
-	
 	private String cppId;
 	
 	@Override
