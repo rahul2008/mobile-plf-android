@@ -316,6 +316,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	protected void onResume() {
 		super.onResume();
 		removeFirmwareUpdateUI();
+		hideFirmwareUpdateHomeIcon();
 	}
 	
 
@@ -1137,13 +1138,21 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 	
 	private void updateDashboardOnFirmwareUpdate() {
-		
+		showFirmwareUpdateHomeIcon();
+	}
+	
+	private void showFirmwareUpdateHomeIcon() {
+		noOffFirmwareUpdate.setVisibility(View.VISIBLE);
+		noOffFirmwareUpdate.setText(String.valueOf(1));
+	}
+	
+	private void hideFirmwareUpdateHomeIcon() {
+		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
 	}
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
 			updatePurifierUIFields() ;
 		}
 	};
