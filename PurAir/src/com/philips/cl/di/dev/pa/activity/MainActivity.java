@@ -179,7 +179,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private String localDeviceUsn;
 
-	public boolean isClickEvent;
+	public static boolean isClickEvent;
 
 	public boolean isPairingDialogShown;
 	protected ProgressDialog progressDialog;
@@ -969,20 +969,25 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void showFragment(Fragment fragment) {
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-		fragmentTransaction.replace(R.id.llContainer, fragment,
-				fragment.getTag());
-		fragmentTransaction.addToBackStack(fragment.getTag()) ;
-
-		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-					.getWindowToken(), 0);
+		stopService = false ;
+		try {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager
+					.beginTransaction();
+			fragmentTransaction.replace(R.id.llContainer, fragment,
+					fragment.getTag());
+			fragmentTransaction.addToBackStack(null) ;
+	
+			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+			if (getWindow() != null && getWindow().getCurrentFocus() != null) {
+				imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+						.getWindowToken(), 0);
+			}
+			fragmentTransaction.commit();
+			mDrawerLayout.closeDrawer(mListViewLeft);
+		} catch(IllegalStateException is) {
+			
 		}
-		fragmentTransaction.commit();
-		mDrawerLayout.closeDrawer(mListViewLeft);
 	}
 
 	public void setTitle(String title) {
@@ -1144,7 +1149,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (null != info) {
 			connected = true;
 			float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
-			updateDashboardFields(info);
 			setRightMenuAQIValue(indoorAQIUsableValue);
 			rightMenuClickListener.setSensorValues(info);
 			updateFilterStatus(info.getFilterStatus1(),
@@ -1193,24 +1197,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				.getActiveCarbonFilterStatusText(activeCarbonFilterStatus));
 		hepaFilterText.setText(Utils
 				.getHEPAFilterFilterStatusText(hepaFilterStatus));
-	}
-
-	private void updateDashboardFields(AirPortInfo airPurifierEventDto) {
-		ALog.i(ALog.MAINACTIVITY, "updateDashboardFields");
-//		if (homeFragment != null && homeFragment.getActivity() != null) {
-//			homeFragment.showIndoorGuage();
-//			homeFragment
-//			.setIndoorAQIValue(airPurifierEventDto.getIndoorAQI() / 10.0f);
-//			homeFragment.setFilterStatus(Utils
-//					.getFilterStatusForDashboard(airPurifierEventDto));
-//			if( airPurifierEventDto.getPowerMode().equals("0")) {
-//				homeFragment.setMode(getString(R.string.off));
-//			}
-//			else {
-//				homeFragment.setMode(Utils.getMode(
-//						airPurifierEventDto.getFanSpeed(), this));
-//			}
-//		}
 	}
 
 	public AirPortInfo getAirPortInfo() {

@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -163,6 +164,7 @@ public class OutdoorFragment extends BaseFragment {
 		
 		@Override
 		public void onClick(View v) {
+			MainActivity.isClickEvent = true ;
 			Bundle bundle = getArguments();
 			if (bundle != null) {
 				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);

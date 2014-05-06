@@ -12,6 +12,7 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
@@ -184,6 +185,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		@Override
 		public void onClick(View v) {
+			MainActivity.isClickEvent = true ;
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 			String indoorDashboardInfos[] = new String[5];
 			indoorDashboardInfos[0] = fanModeTxt.getText().toString();
