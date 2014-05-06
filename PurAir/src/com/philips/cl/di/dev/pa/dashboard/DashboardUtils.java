@@ -47,21 +47,16 @@ public class DashboardUtils {
 		return R.drawable.blue_circle_with_arrow_2x;
 	}
 
-	public static String getFilterStatus(
-			AirPortInfo airPurifierEventDto) {
+	public static String getFilterStatus(AirPortInfo airPurifierEventDto) {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
 			Context context=PurAirApplication.getAppContext();
 			filterStatus = context.getString(R.string.good);
-			String preFilterStatus = Utils.getPreFilterStatusText(airPurifierEventDto
-					.getFilterStatus1());
-			String multiCareFilterStatus = Utils.getMultiCareFilterStatusText(airPurifierEventDto
-					.getFilterStatus2());
-			String activeFilterStatus = Utils.getActiveCarbonFilterStatusText(airPurifierEventDto
-					.getFilterStatus3());
-			String hepaFilterStatus = Utils.getHEPAFilterFilterStatusText(airPurifierEventDto
-					.getFilterStatus4());
-	
+			String preFilterStatus = Utils.getPreFilterStatusText(airPurifierEventDto.getFilterStatus1());
+			String multiCareFilterStatus = Utils.getMultiCareFilterStatusText(airPurifierEventDto.getFilterStatus2());
+			String activeFilterStatus = Utils.getActiveCarbonFilterStatusText(airPurifierEventDto.getFilterStatus3());
+			String hepaFilterStatus = Utils.getHEPAFilterFilterStatusText(airPurifierEventDto.getFilterStatus4());
+
 			if (multiCareFilterStatus.equals(AppConstants.ACT_NOW)
 					|| activeFilterStatus.equals(AppConstants.ACT_NOW)
 					|| hepaFilterStatus.equals(AppConstants.ACT_NOW)) {

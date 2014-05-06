@@ -82,5 +82,72 @@ public class DashboardUtilsTest extends TestCase {
 		int resourceId = DashboardUtils.getAqiPointerBackgroundId(40);
 		assertEquals(R.drawable.light_red_circle_arrow_2x, resourceId);
 	}
-
+	
+	public void testGetAqiPointerRotationNegative() {
+		float rotation = DashboardUtils.getAqiPointerRotation(-1);
+		assertEquals(0.0f, rotation);
+	}
+	
+	public void testGetAqiPointerRotationZero() {
+		float rotation = DashboardUtils.getAqiPointerRotation(0);
+		assertEquals(0.0f, rotation);
+	}
+	
+	public void testGetAqiPointerRotationBig() {
+		float rotation = DashboardUtils.getAqiPointerRotation(1000);
+		assertEquals(302.0f, rotation);
+	}
+	
+	public void testGetAqiPointerRotationGood() {
+		float rotation = DashboardUtils.getAqiPointerRotation(10);
+		assertTrue((rotation < 27.0f));
+	}
+	
+	public void testGetAqiPointerRotationModerateBegin() {
+		float rotation = DashboardUtils.getAqiPointerRotation(15);
+		assertTrue((rotation > 27.0f));
+		assertTrue((rotation < 57.0f));
+	}
+	
+	public void testGetAqiPointerRotationModerate() {
+		float rotation = DashboardUtils.getAqiPointerRotation(20);
+		assertTrue((rotation > 27.0f));
+		assertTrue((rotation < 57.0f));
+	}
+	
+	public void testGetAqiPointerRotationModerateEnd() {
+		float rotation = DashboardUtils.getAqiPointerRotation(23);
+		assertTrue((rotation > 27.0f));
+		assertTrue((rotation < 57.0f));
+	}
+	
+	public void testGetAqiPointerRotationUnhealthyBegin() {
+		float rotation = DashboardUtils.getAqiPointerRotation(24);
+		assertTrue((rotation > 57.0f));
+		assertTrue((rotation < 84.0f));
+	}
+	
+	public void testGetAqiPointerRotationUnhealthy() {
+		float rotation = DashboardUtils.getAqiPointerRotation(30);
+		assertTrue((rotation > 57.0f));
+		assertTrue((rotation < 84.0f));
+	}
+	
+	public void testGetAqiPointerRotationUnhealthyEnd() {
+		float rotation = DashboardUtils.getAqiPointerRotation(35);
+		assertTrue((rotation > 57.0f));
+		assertTrue((rotation < 84.0f));
+	}
+	
+	public void testGetAqiPointerRotationVeryUnhealthyBegin() {
+		float rotation = DashboardUtils.getAqiPointerRotation(36);
+		assertTrue((rotation > 84.0f));
+		assertTrue((rotation < 302.0f));
+	}
+	
+	public void testGetAqiPointerRotationVeryUnhealthy() {
+		float rotation = DashboardUtils.getAqiPointerRotation(40);
+		assertTrue((rotation > 84.0f));
+		assertTrue((rotation < 302.0f));
+	}
 }
