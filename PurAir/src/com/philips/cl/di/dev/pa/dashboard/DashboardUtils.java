@@ -1,51 +1,131 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 import android.content.Context;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DashboardUtils {
 	
-	public static String getFanSpeedText(String fanSpeed) {
-		Context ctx = PurAirApplication.getAppContext();
-		String fanMode = "";
-		if (fanSpeed == null || fanSpeed.isEmpty()) {
-			return fanMode;
-		}
+	public static int getFanSpeedText(String fanSpeed) {
 	
-		if(fanSpeed.equals(AppConstants.FAN_SPEED_SILENT)) {
-			fanMode= ctx.getString(R.string.silent);
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_AUTO)) {
-			fanMode= ctx.getString(R.string.auto);
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TURBO)) {
-			fanMode= ctx.getString(R.string.turbo);
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_ONE)) {
-			fanMode= ctx.getString(R.string.one);
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TWO)) {
-			fanMode= ctx.getString(R.string.two);
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_THREE)) {
-			fanMode= ctx.getString(R.string.three);
+		if(fanSpeed == null || fanSpeed.isEmpty()) {
+			return R.string.empty_string;
 		}
 		
-		return fanMode;
+		if(fanSpeed.equals(AppConstants.FAN_SPEED_SILENT)) {
+			return R.string.silent;
+		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_AUTO)) {
+			return R.string.auto;
+		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TURBO)) {
+			return R.string.turbo;
+		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_ONE)) {
+			return R.string.one;
+		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TWO)) {
+			return R.string.two;
+		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_THREE)) {
+			return R.string.three;
+		}
+		
+		return R.string.empty_string;
 	}
 	
 	public static int getAqiPointerBackgroundId(int indoorAQI) {
-		int resourceId = R.drawable.blue_circle_with_arrow_2x;
 		if(indoorAQI >= 0 && indoorAQI <= 14) {
-			resourceId = R.drawable.blue_circle_with_arrow_2x;
+			return R.drawable.blue_circle_with_arrow_2x;
 		} else if (indoorAQI > 14 && indoorAQI <= 23) {
-			resourceId = R.drawable.light_pink_circle_arrow1_2x;
+			return R.drawable.light_pink_circle_arrow1_2x;
 		} else if (indoorAQI > 23 && indoorAQI <= 35) {
-			resourceId = R.drawable.red_circle_arrow_2x;
+			return R.drawable.red_circle_arrow_2x;
 		} else if (indoorAQI > 35) {
-			resourceId = R.drawable.light_red_circle_arrow_2x;
+			return R.drawable.light_red_circle_arrow_2x;
 		}
 		
-		return resourceId;
+		return R.drawable.blue_circle_with_arrow_2x;
+	}
+
+	public static String getFilterStatus(
+			AirPortInfo airPurifierEventDto) {
+		String filterStatus = "-";
+		if (airPurifierEventDto != null) {
+			Context context=PurAirApplication.getAppContext();
+			filterStatus = context.getString(R.string.good);
+			String preFilterStatus = Utils.getPreFilterStatusText(airPurifierEventDto
+					.getFilterStatus1());
+			String multiCareFilterStatus = Utils.getMultiCareFilterStatusText(airPurifierEventDto
+					.getFilterStatus2());
+			String activeFilterStatus = Utils.getActiveCarbonFilterStatusText(airPurifierEventDto
+					.getFilterStatus3());
+			String hepaFilterStatus = Utils.getHEPAFilterFilterStatusText(airPurifierEventDto
+					.getFilterStatus4());
+	
+			if (multiCareFilterStatus.equals(AppConstants.ACT_NOW)
+					|| activeFilterStatus.equals(AppConstants.ACT_NOW)
+					|| hepaFilterStatus.equals(AppConstants.ACT_NOW)) {
+				filterStatus = context.getString(R.string.change_now);
+			} else if (preFilterStatus.equals(AppConstants.CLEAN_NOW)) {
+				filterStatus = context.getString(R.string.clean_now);
+			} else if (preFilterStatus.equals(AppConstants.CLEAN_SOON)) {
+				filterStatus =context.getString(R.string.clean_soon);
+			} else if (multiCareFilterStatus.equals(AppConstants.ACT_SOON)
+					|| activeFilterStatus.equals(AppConstants.ACT_SOON)
+					|| hepaFilterStatus.equals(AppConstants.ACT_SOON)) {
+				filterStatus = context.getString(R.string.change_now);
+			} else if (multiCareFilterStatus.equals(AppConstants.FILTER_LOCK)
+					|| activeFilterStatus.equals(AppConstants.FILTER_LOCK)
+					|| hepaFilterStatus.equals(AppConstants.FILTER_LOCK)) {
+				filterStatus = context.getString(R.string.filter_lock);
+			}
+		}
+		return filterStatus;
+	}
+
+	public static float getAqiPointerRotation(int indoorAqi) {
+		float rotation = 0.0f;
+		if(indoorAqi >= 0 && indoorAqi <= 14) {
+			rotation = indoorAqi * 1.9f;
+		} else if (indoorAqi > 14 && indoorAqi <= 23) {
+			indoorAqi -= 14;
+			rotation = 27.0f + (indoorAqi * 3.25f);
+		} else if (indoorAqi > 23 && indoorAqi <= 35) {
+			indoorAqi -= 23;
+			rotation = 56.0f + (indoorAqi * 2.33f);
+		} else if (indoorAqi > 35) {
+			indoorAqi -= 35;
+			rotation = 86.0f + (indoorAqi * 1.0f);
+			if(rotation > 302) {
+				rotation = 302;
+			}
+		}
+		return rotation;
+	}
+	
+	public static int getAqiTitle(int indoorAqi) {
+		if(indoorAqi >= 0 && indoorAqi <= 14) {
+			return R.string.good;
+		} else if(indoorAqi > 14 && indoorAqi <= 23) {
+			return R.string.moderate;
+		} else if(indoorAqi > 23 && indoorAqi <= 35) {
+			return R.string.unhealthy;
+		} else if(indoorAqi > 35) {
+			return R.string.very_unhealthy_split;
+		}
+		return R.string.empty_string;
+	}
+	
+	public static int getAqiSummary(int indoorAqi) {
+		if(indoorAqi >= 0 && indoorAqi <= 14) {
+			return R.string.indoor_aqi_good_tip1;
+		} else if(indoorAqi > 14 && indoorAqi <= 23) {
+			return R.string.indoor_aqi_moderate_tip1;
+		} else if(indoorAqi > 23 && indoorAqi <= 35) {
+			return R.string.indoor_aqi_unhealthy_tip1;
+		} else if(indoorAqi > 35) {
+			return R.string.indoor_aqi_very_unhealthy_tip1;
+		}
+		return R.string.empty_string;
 	}
 }

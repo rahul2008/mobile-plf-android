@@ -36,7 +36,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -433,6 +432,7 @@ public class Utils {
 		}
 	}
 
+	//TODO : Remove Unused
 	public static String getMode(String fanSpeed, Context context) {
 		String mode = "";
 		if (AppConstants.FAN_SPEED_SILENT.equals(fanSpeed)) {
@@ -449,42 +449,6 @@ public class Utils {
 			mode = context.getString(R.string.speed3);
 		}
 		return mode;
-	}
-
-	public static String getFilterStatusForDashboard(
-			AirPortInfo airPurifierEventDto) {
-		String filterStatus = "-";
-		if (airPurifierEventDto != null) {
-			Context context=PurAirApplication.getAppContext();
-			filterStatus = context.getString(R.string.good);
-			String preFilterStatus = getPreFilterStatusText(airPurifierEventDto
-					.getFilterStatus1());
-			String multiCareFilterStatus = getMultiCareFilterStatusText(airPurifierEventDto
-					.getFilterStatus2());
-			String activeFilterStatus = getActiveCarbonFilterStatusText(airPurifierEventDto
-					.getFilterStatus3());
-			String hepaFilterStatus = getHEPAFilterFilterStatusText(airPurifierEventDto
-					.getFilterStatus4());
-
-			if (multiCareFilterStatus.equals(AppConstants.ACT_NOW)
-					|| activeFilterStatus.equals(AppConstants.ACT_NOW)
-					|| hepaFilterStatus.equals(AppConstants.ACT_NOW)) {
-				filterStatus = context.getString(R.string.change_now);
-			} else if (preFilterStatus.equals(AppConstants.CLEAN_NOW)) {
-				filterStatus = context.getString(R.string.clean_now);
-			} else if (preFilterStatus.equals(AppConstants.CLEAN_SOON)) {
-				filterStatus =context.getString(R.string.clean_soon);
-			} else if (multiCareFilterStatus.equals(AppConstants.ACT_SOON)
-					|| activeFilterStatus.equals(AppConstants.ACT_SOON)
-					|| hepaFilterStatus.equals(AppConstants.ACT_SOON)) {
-				filterStatus = context.getString(R.string.change_now);
-			} else if (multiCareFilterStatus.equals(AppConstants.FILTER_LOCK)
-					|| activeFilterStatus.equals(AppConstants.FILTER_LOCK)
-					|| hepaFilterStatus.equals(AppConstants.FILTER_LOCK)) {
-				filterStatus = context.getString(R.string.filter_lock);
-			}
-		}
-		return filterStatus;
 	}
 
 	public static int getIndoorAQIMessage(float aqi) {

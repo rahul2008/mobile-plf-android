@@ -13,6 +13,34 @@ public class AirPortInfo {
 	private static final String TAG = "AirPurifierEvent";
 	
 	private boolean isValid;
+	private int childLock;
+	private String timeStamp;
+	
+	private String fanSpeed;
+	private String powerMode; 
+	
+	
+	private int filterStatus1 ;
+	private int filterStatus2 ;
+	private int filterStatus3 ;
+	private int filterStatus4 ;
+	
+	private String replaceFilter1 ;
+	private String replaceFilter2 ;
+	private String replaceFilter3 ;
+	private String replaceFilter4 ;
+	
+	private int dtrs ;
+	private int aqiThreshold ;
+	
+	private int pSensor ;
+	private int tFav ;
+	private String actualFanSpeed ;
+	private int aqiL ;
+	private int indoorAQI ;
+
+	private int outdoorAirQuality;
+	private String machineMode;
 	
 	public int getFilterStatus1() {
 		return AppConstants.PRE_FILTER_MAX_VALUE - filterStatus1;
@@ -40,30 +68,6 @@ public class AirPortInfo {
 	}
 
 
-	private int childLock;
-	private String timeStamp;
-	
-	private String fanSpeed;
-	private String powerMode; 
-	
-	
-	private int filterStatus1 ;
-	private int filterStatus2 ;
-	private int filterStatus3 ;
-	private int filterStatus4 ;
-	
-	private String replaceFilter1 ;
-	private String replaceFilter2 ;
-	private String replaceFilter3 ;
-	private String replaceFilter4 ;
-	
-	private int dtrs ;
-	private int aqiThreshold ;
-	
-	private int pSensor ;
-	private int tFav ;
-	private String actualFanSpeed ;
-	
 	public int getChildLock() {
 		return childLock;
 	}
@@ -126,21 +130,12 @@ public class AirPortInfo {
 		this.aqiL = aqiL;
 	}
 
-
-	private int aqiL ;
-	
 	public int getIndoorAQI() {
 		return indoorAQI;
 	}
 	public void setIndoorAQI(int indoorAQI) {
 		this.indoorAQI = indoorAQI;
 	}
-
-
-	private int indoorAQI ;
-
-	private int outdoorAirQuality;
-	private String machineMode;
 	
 	public boolean isValid() {
 		return isValid;
@@ -189,6 +184,9 @@ public class AirPortInfo {
 	public void setActualFanSpeed(String actualFanSpeed) {
 		this.actualFanSpeed = actualFanSpeed;
 	}
+	
+	
+	
 	/**
 	 * ToString implementation
 	 */
