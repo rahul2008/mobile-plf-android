@@ -72,7 +72,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		
-		setAqiText(aqiStatusTxt, indoorAqi);
+		setAqiText(indoorAqi);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
 			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
@@ -109,13 +109,13 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 
-	private void setAqiText(FontTextView aqiStatus, int indoorAQI) {
+	private void setAqiText(int indoorAQI) {
 		ALog.i(ALog.DASHBOARD, "setAqiText indoorAqi " + indoorAQI);
 		String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
 		if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
 			return ;
 		}
-		aqiStatus.setText(aqiStatusAndCommentArray[0]);
+		aqiStatusTxt.setText(aqiStatusAndCommentArray[0]);
 		aqiSummaryTxt.setText(aqiStatusAndCommentArray[1]) ;
 
 	}

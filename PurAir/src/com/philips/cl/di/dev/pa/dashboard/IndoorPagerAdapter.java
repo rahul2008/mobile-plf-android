@@ -12,7 +12,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter {
 	private static IndoorFragment indoorFragment ;
 	public IndoorPagerAdapter(FragmentManager fm) {
 		super(fm);
-		if( indoorFragment == null )
+		if( indoorFragment == null)
 			indoorFragment = new IndoorFragment() ;
 	}
 

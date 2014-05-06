@@ -686,7 +686,7 @@ public class Utils {
 	
 	public static String[] getAQIStatusAndSummary(int indoorAQI) {
 		String [] aqiStatusArray = new String[2] ;
-		if(indoorAQI > 0 && indoorAQI <= 14) {
+		if(indoorAQI > -1 && indoorAQI <= 14) {
 			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.good) ;
 			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_good_tip1) ;
 		} else if(indoorAQI > 14 && indoorAQI <= 23) {

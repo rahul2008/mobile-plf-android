@@ -73,7 +73,7 @@ public class OutdoorDto implements Serializable{
 			} else if(aqiInt > 50 && aqiInt <= 100) {
 				return PurAirApplication.getAppContext().getString(R.string.moderate);
 			} else if(aqiInt > 100 && aqiInt <= 150) {
-				return PurAirApplication.getAppContext().getString(R.string.healthy);
+				return PurAirApplication.getAppContext().getString(R.string.unhealthy_for_sensitive_groups);
 			} else if(aqiInt > 150 && aqiInt <= 200) {
 				return PurAirApplication.getAppContext().getString(R.string.unhealthy);
 			} else if(aqiInt > 200 && aqiInt <= 300) {

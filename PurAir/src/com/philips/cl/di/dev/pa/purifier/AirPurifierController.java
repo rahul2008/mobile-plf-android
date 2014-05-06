@@ -66,6 +66,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	public void setDeviceDetailsLocally(String key, String value, PurAirDevice purifier)
 	{
 		String dataToUpload = JSONBuilder.getDICommBuilder(key, value, purifier) ;
+		
 		if(dataToUpload != null && !dataToUpload.isEmpty()) {
 			startServerTask(dataToUpload, purifier.getIpAddress()) ;
 		}
@@ -124,7 +125,17 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	
 
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		subscriptionEventListeners.add(airPurifierEventListener) ;
+		int subscriptionEventListenersLength = subscriptionEventListeners.size() ;
+		if( subscriptionEventListenersLength == 0 ) {
+			subscriptionEventListeners.add(airPurifierEventListener) ;
+		}
+		else {
+			for( int index = 0 ; index < subscriptionEventListenersLength ; index ++ ) {
+				if(!subscriptionEventListeners.contains(airPurifierEventListener)) {
+					subscriptionEventListeners.add(airPurifierEventListener) ;
+				}
+			}		
+		}
 	}
 	
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {

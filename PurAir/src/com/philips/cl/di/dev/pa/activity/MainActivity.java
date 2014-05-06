@@ -414,7 +414,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
-//			manager.popBackStackImmediate(null,	FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			finish();
 		}
 	}
@@ -575,6 +574,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private void startLocalConnection() {
 		connected = true;
+		secretKey = null ;
 		stopRemoteConnection() ;
 
 		PurAirDevice purifier = getCurrentPurifier();
