@@ -56,7 +56,7 @@ public class OutdoorDto implements Serializable{
 	}
 	public void setAqi(String aqi) {
 		if(aqi == null) {
-			aqi = "null";
+			aqi = "";
 		}
 		this.aqi = aqi;
 	}
@@ -73,13 +73,13 @@ public class OutdoorDto implements Serializable{
 			} else if(aqiInt > 50 && aqiInt <= 100) {
 				return PurAirApplication.getAppContext().getString(R.string.moderate);
 			} else if(aqiInt > 100 && aqiInt <= 150) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				return PurAirApplication.getAppContext().getString(R.string.healthy);
 			} else if(aqiInt > 150 && aqiInt <= 200) {
 				return PurAirApplication.getAppContext().getString(R.string.unhealthy);
 			} else if(aqiInt > 200 && aqiInt <= 300) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
-			} else if(aqiInt > 300 && aqiInt <= 500) {
-				return PurAirApplication.getAppContext().getString(R.string.todo);
+				return PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split);
+			} else if(aqiInt > 300) {
+				return PurAirApplication.getAppContext().getString(R.string.hazardous);
 			}
 		} catch (NumberFormatException e) {
 			return "";
@@ -91,7 +91,7 @@ public class OutdoorDto implements Serializable{
 		String [] outdoorAQISummary = new String [2] ;
 		Context appContext = PurAirApplication.getAppContext() ;
 		if(aqi == null || aqi.isEmpty()) {
-			return null;
+			return outdoorAQISummary;
 		}
 		
 		try {
@@ -111,7 +111,7 @@ public class OutdoorDto implements Serializable{
 			} else if(aqiInt > 200 && aqiInt <= 300) {
 				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_very_unhealthy_tip1) ;
 				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_very_unhealthy_tip2) ;
-			} else if(aqiInt > 300 && aqiInt <= 500) {
+			} else if(aqiInt > 300) {
 				outdoorAQISummary[0] = appContext.getString(R.string.outdoor_aqi_hazardous_tip1) ;
 				outdoorAQISummary[1] = appContext.getString(R.string.outdoor_aqi_hazardous_tip2) ;
 			}
@@ -123,6 +123,7 @@ public class OutdoorDto implements Serializable{
 	}
 	
 	public int getAqiPointerImageResId() {
+
 		if(aqi == null || aqi.isEmpty()) {
 			return R.drawable.blue_circle_with_arrow_small;
 		}
@@ -145,6 +146,7 @@ public class OutdoorDto implements Serializable{
 		} catch (NumberFormatException e) {
 			return R.drawable.blue_circle_with_arrow_small;
 		}
+
 		return R.drawable.blue_circle_with_arrow_small;
 	}
 	

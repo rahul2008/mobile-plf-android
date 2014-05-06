@@ -547,6 +547,10 @@ public class Utils {
 		} else if (weatherDesc.compareToIgnoreCase(CLOUDY) == 0) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.cloudy);
 		} else if (weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) == 0) {
+			
+			if (isDayTime == null) {
+				return contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
+			}
 
 			if (isDayTime.compareToIgnoreCase("Yes") == 0)
 				weatherImage = contex.getResources().getDrawable(
@@ -557,6 +561,9 @@ public class Utils {
 			// weatherImage =
 			// contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
 		} else if (weatherDesc.compareToIgnoreCase(CLEAR_SKIES) == 0) {
+			if (isDayTime == null) {
+				return contex.getResources().getDrawable(R.drawable.clear_sky_night);
+			}
 			if (isDayTime.compareToIgnoreCase("Yes") == 0)
 				weatherImage = contex.getResources().getDrawable(
 						R.drawable.sunny);
@@ -591,6 +598,9 @@ public class Utils {
 			weatherImage = contex.getResources().getDrawable(
 					R.drawable.moderate_rain_with_thunder);
 		} else if (weatherDesc.compareToIgnoreCase(CLEAR) == 0) {
+			if (isDayTime == null) {
+				return contex.getResources().getDrawable(R.drawable.clear_sky_night);
+			}
 			if (isDayTime.compareToIgnoreCase("Yes") == 0)
 				weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
 			else
@@ -604,12 +614,10 @@ public class Utils {
 
 	public static void setOutdoorWeatherDirImg(Context contex, float windSpeed,
 			String windDir, float degree, ImageView iv) {
-		// System.out.println("SETTING Wind Direction: windSpeed= "+windSpeed+"  degree= "+degree);
 		Drawable weatherImage = null;
 		if ((windDir == null || windDir.equals("")) || degree < 0) {
 			return;
 		}
-		// System.out.println("SETTING Wind Direction: windSpeed= "+windSpeed+"  degree= "+degree);
 		if (windSpeed < 15) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_1x);
 		} else if (windSpeed >= 15 && windSpeed < 25) {
