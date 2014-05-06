@@ -7,8 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.Handler.Callback;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,16 +18,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
-import com.philips.cl.di.common.ssdp.controller.InternalMessage;
-import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -37,7 +32,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EWSActivity extends BaseActivity implements OnClickListener, EWSListener, Callback {
+public class EWSActivity extends BaseActivity implements OnClickListener, EWSListener, DiscoveryEventListener {
 
 	private EWSStartFragment ewsIntroductionScreenFragment;
 	
@@ -412,7 +407,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onDeviceConnectToHomeNetwork() {
-		SsdpService.getInstance().startDeviceDiscovery(this) ;
+		DiscoveryManager.getInstance().start(this);
 	}
 	
 	@Override
@@ -474,79 +469,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		showFragment(new EWSFinalStepFragment(), EWSConstant.EWS_DISCOVERED_FRAGMENT_TAG);
 	}
 	
-	// SSDPListener Callback handler
-	public boolean handleMessage(Message msg) {
-		DeviceModel device = null ;
-		if (null != msg) {
-			final DiscoveryMessageID message = DiscoveryMessageID.getID(msg.what);
-			final InternalMessage internalMessage = (InternalMessage) msg.obj;
-			if (null != internalMessage && internalMessage.obj instanceof DeviceModel) {
-				device = (DeviceModel) internalMessage.obj;
-			}
-			
-			if (device == null ) {
-				return false;
-			}
-			
-			switch (message) {
-			case DEVICE_DISCOVERED:
-				
-				if (device.getSsdpDevice() == null 
-					|| device.getSsdpDevice().getCppId() == null
-					|| device.getSsdpDevice().getModelName() == null
-					|| device.getSsdpDevice().getFriendlyName() == null) {
-					return false    ;
-				}
-				
-				if (cppId == null || cppId.length() <= 0) {
-					return  false ;
-				}
-								
-				deviceDiscovered(device);
-				break;
-			case DEVICE_LOST:
-				break;
-			default:
-				break;
-			}
-			return false;
-		}
-		return false;
-	}	
-	
-	private boolean deviceDiscovered(DeviceModel device) {
-		String ssdpCppId = device.getSsdpDevice().getCppId();
-		ALog.i(ALog.EWS, "SSDP CppId: " + ssdpCppId +", ews cppid: " + cppId);
-		if (ssdpCppId == null || ssdpCppId.length() <= 0) {
-			return false;
-		}
-		
-		if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME) 
-				&& cppId.equalsIgnoreCase(ssdpCppId)) {
-			
-			Long bootId = -1l;
-			try {
-				bootId = Long.parseLong(device.getBootID());
-			} catch (NumberFormatException e) {
-				// NOP
-			}
-			
-			// START NEW CODE
-			PurAirDevice purifier = new PurAirDevice(device.getSsdpDevice().getCppId(), device.getUsn(), device.getIpAddress(), device.getSsdpDevice().getFriendlyName(), bootId, ConnectionState.CONNECTED_LOCALLY);
-			if ( ewsService != null) {
-				purifier.setEncryptionKey(ewsService.getDevKey());
-			}
-			PurifierManager.getInstance().setCurrentPurifier(purifier);
-			// STOP NEW CODE
-
-			deviceDiscoveryCompleted();
-		}
-		return true;
-	}
-	
 	public void stopDiscovery() {
-		SsdpService.getInstance().stopDeviceDiscovery() ;
-		
+		DiscoveryManager.getInstance().stop();
 	}
 	
 	private EWSStartFragment getIntroFragment() {
@@ -593,6 +517,17 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		} else {
 			return true;
 		}
+	}
+
+	@Override
+	public void onDiscoveredDevicesListChanged() {
+		PurAirDevice ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
+		if (ewsPurifier == null) return;
+		if (ewsPurifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+
+		ALog.d(ALog.EWS, "Successfully discovered EWS purifier");
+		PurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
+		deviceDiscoveryCompleted();
 	}
 
 }

@@ -144,6 +144,7 @@ public class NetworkMonitor {
 		String uri = "http://www.google.com";
 		boolean isInternetAvailable = false;
 
+		long start = System.currentTimeMillis();
 		final HttpClient httpClient = new DefaultHttpClient();
 		final HttpParams params = httpClient.getParams();
 		HttpConnectionParams.setConnectionTimeout(params, 2000);
@@ -164,6 +165,7 @@ public class NetworkMonitor {
 		} catch (final IOException e) {
 			// NOP
 		}
+		ALog.d(ALog.NETWORKMONITOR, "Check for internet took:" + (System.currentTimeMillis()-start) + "ms");
 		return isInternetAvailable;
 	}
 

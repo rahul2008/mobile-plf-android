@@ -76,23 +76,26 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return new ArrayList<PurAirDevice>(mDevicesMap.values());
 	}
 	
+	public PurAirDevice getDeviceByEui64(String eui64) {
+		if (eui64 == null) return null;
+		return mDevicesMap.get(eui64);
+	}
+	
 	@Override
 	public void onNetworkChanged(NetworkState networkState) {
-		if (networkState == null) return; //TODO fix bug
-		
 		// Assumption: Wifi switch will go through the none state
 		switch(networkState) {
 		case NONE : 
 			markAllDevicesOffline();
 			break;
 		case MOBILE:
-			markPairedDevicesOnline();
+			markOnlyPairedDevicesOnline();
 			break;
 		case WIFI_NO_INTERNET:
 			markPairedDevicesOffline();
 			break;
 		case WIFI_WITH_INTERNET:
-			markPairedDevicesOnline();
+			markOnlyPairedDevicesOnline();
 			break;
 		default:
 			break;
@@ -112,7 +115,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		notifyDiscoveryListener();
 	}
 
-	private void markPairedDevicesOnline() {
+	private void markOnlyPairedDevicesOnline() {
 		ALog.d(ALog.DISCOVERY, "Marking paired devices online");
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.isPaired()) {
