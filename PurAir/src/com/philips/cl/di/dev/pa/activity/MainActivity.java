@@ -104,6 +104,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements
@@ -135,6 +136,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private ImageView leftMenu;
 	private ImageView addLocation;
 	private ImageView backToHome;
+	private FontTextView noOffFirmwareUpdate;
 
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
@@ -683,6 +685,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		leftMenu = (ImageView) view.findViewById(R.id.left_menu_img);
 		backToHome = (ImageView) view.findViewById(R.id.back_to_home_img);
 		addLocation = (ImageView) view.findViewById(R.id.add_location_img);
+		noOffFirmwareUpdate = (FontTextView) view.findViewById(R.id.actionbar_firmware_no_off_update);
+		
 		rightMenu.setOnClickListener(actionBarClickListener);
 		leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
