@@ -432,11 +432,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 	}
 
-	@Override
-	protected void onStop() {
-		super.onStop();
-	}
-
 	public void aqiAnalysisClick(View v) {
 		FragmentManager fragMan = getSupportFragmentManager();
 		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatus.getText().toString(), outdoorTitle), "outdoor").commit();

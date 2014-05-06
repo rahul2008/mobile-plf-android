@@ -16,10 +16,6 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSErrorPurifierDiscoverFragment  extends Fragment {
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

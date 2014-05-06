@@ -1,14 +1,5 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Paint.Style;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,13 +13,12 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 public class MapOdActivity extends BaseActivity {
 	private GoogleMap mMap;
 	private float centerLatF, centerLngF;
-	private String centerCity;
-	private String otherInfo[];
+	//private String centerCity;
+	//private String otherInfo[];
 	private ImageView closeMapImg;
 	
 	@Override
@@ -41,8 +31,8 @@ public class MapOdActivity extends BaseActivity {
 		closeMapImg.setImageResource(R.drawable.close_icon_2x);
 		centerLatF = getIntent().getFloatExtra("centerLatF", 0.0F);
 		centerLngF = getIntent().getFloatExtra("centerLngF", 0.0F);
-		centerCity = getIntent().getStringExtra("centerCity");
-		otherInfo = getIntent().getStringArrayExtra("otherInfo");
+		//centerCity = getIntent().getStringExtra("centerCity");
+		//otherInfo = getIntent().getStringArrayExtra("otherInfo");
 		setUpMapIfNeeded();
 		
 		closeMapImg.setOnClickListener(new OnClickListener() {
@@ -85,7 +75,7 @@ public class MapOdActivity extends BaseActivity {
         
     }
 	
-	//Later i will use
+	/*//Later i will use
 	private Bitmap writeTextOnDrawable(int drawableId, String text) {
 
 	    Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
@@ -115,6 +105,6 @@ public class MapOdActivity extends BaseActivity {
 
 	    return  bm;
 	}
-
+*/
 
 }
