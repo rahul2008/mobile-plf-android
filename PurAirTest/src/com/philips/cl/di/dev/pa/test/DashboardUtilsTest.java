@@ -53,5 +53,35 @@ public class DashboardUtilsTest extends TestCase {
 		String fanSpeed = DashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_THREE);
 		assertEquals(PurAirApplication.getAppContext().getString(R.string.three), fanSpeed);
 	}
+	
+	public void testGetAqiPointerBackgroundIdZero() {
+		int resourceId = DashboardUtils.getAqiPointerBackgroundId(0);
+		assertEquals(R.drawable.blue_circle_with_arrow_2x, resourceId);
+	}
+	
+	public void testGetAqiPointerBackgroundIdNegative() {
+		int resourceId = DashboardUtils.getAqiPointerBackgroundId(-1);
+		assertEquals(R.drawable.blue_circle_with_arrow_2x, resourceId);
+	}
+	
+	public void testGetAqiPointerBackgroundIdCase1() {
+		int resourceId = DashboardUtils.getAqiPointerBackgroundId(5);
+		assertEquals(R.drawable.blue_circle_with_arrow_2x, resourceId);
+	}
+	
+	public void testGetAqiPointerBackgroundIdCase2() {
+		int resourceId = DashboardUtils.getAqiPointerBackgroundId(15);
+		assertEquals(R.drawable.light_pink_circle_arrow1_2x, resourceId);
+	}
+	
+	public void testGetAqiPointerBackgroundIdCase3() {
+		int resourceId = DashboardUtils.getAqiPointerBackgroundId(25);
+		assertEquals(R.drawable.red_circle_arrow_2x, resourceId);
+	}
+	
+	public void testGetAqiPointerBackgroundIdCase4() {
+		int resourceId = DashboardUtils.getAqiPointerBackgroundId(40);
+		assertEquals(R.drawable.light_red_circle_arrow_2x, resourceId);
+	}
 
 }
