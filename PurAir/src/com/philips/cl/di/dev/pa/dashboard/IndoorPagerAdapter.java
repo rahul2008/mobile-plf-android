@@ -18,6 +18,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
+		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$getItem");
 		return indoorFragment;
 	}
 
@@ -25,7 +26,6 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter {
 	public int getCount() {
 		return 1;
 	}
-	
 	
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
@@ -35,7 +35,6 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter {
 	
 	@Override
 	public Parcelable saveState() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

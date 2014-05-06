@@ -2,8 +2,6 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -54,10 +52,10 @@ public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 		initDashboardViewPager();
 		OutdoorManager.getInstance().setUIChangeListener(this);
 		
-//		ALog.i(ALog.DASHBOARD, "HF$onActivityCreated getChildFragmentManager() == null " + (getChildFragmentManager() == null ));
 	}
 	
 	private void initDashboardViewPager() {
+		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
 		indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager());
 		indoorViewPager.setAdapter(indoorPagerAdapter);
@@ -70,26 +68,11 @@ public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 	@Override
 	public void onResume() {
 		super.onResume();
-		
-//		Fragment fragment = getChildFragmentManager().findFragmentById(R.id.hf_indoor_dashboard_viewpager);
-//		if(fragment != null) {
-//		getChildFragmentManager().beginTransaction()
-//		.add(fragment, fragment.getTag())
-//		.commit();
-//		}
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		
-		Fragment fragment = getChildFragmentManager().findFragmentById(R.id.hf_indoor_dashboard_viewpager);
-		ALog.i(ALog.DASHBOARD, "onPause remove indoor fragment from stack fragment != null? " + (fragment != null));
-		if(fragment != null) {
-			getChildFragmentManager().beginTransaction()
-			.remove(fragment)
-			.commit();
-		}
 	}
 	
 	@Override

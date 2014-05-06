@@ -402,7 +402,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			mLeftDrawerOpened = false;
 			mRightDrawerOpened = false;
-		} else if (count > 1 && !(fragment instanceof HomeFragment)
+		} else if (!(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -969,25 +969,22 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void showFragment(Fragment fragment) {
+
 		stopService = false ;
-		try {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			FragmentTransaction fragmentTransaction = fragmentManager
-					.beginTransaction();
-			fragmentTransaction.replace(R.id.llContainer, fragment,
-					fragment.getTag());
-			fragmentTransaction.addToBackStack(null) ;
-	
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-				imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-						.getWindowToken(), 0);
-			}
-			fragmentTransaction.commit();
-			mDrawerLayout.closeDrawer(mListViewLeft);
-		} catch(IllegalStateException is) {
-			
-		}
+		FragmentManager fragmentManager = getSupportFragmentManager();
+		FragmentTransaction fragmentTransaction = fragmentManager
+				.beginTransaction();
+		fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		fragmentTransaction.add(R.id.llContainer, fragment,
+				fragment.getTag());
+		fragmentTransaction.addToBackStack(fragment.getTag()) ;
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+					.getWindowToken(), 0);
+		}		
+		
 	}
 
 	public void setTitle(String title) {
@@ -1479,7 +1476,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
 		ListViewItem item = adapter.getItem(6);
 		adapter.remove(item);
-		if(isUpdateAvailable) {
+		if(!isUpdateAvailable) {
 			item.setSuperScriptNumber(0);
 		} else {
 			item.setSuperScriptNumber(superscriptNumber);
