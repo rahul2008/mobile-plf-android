@@ -1,11 +1,10 @@
 package com.philips.cl.di.dev.pa.test;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DashboardUtils;
-
-import junit.framework.TestCase;
 
 public class DashboardUtilsTest extends TestCase {
 	

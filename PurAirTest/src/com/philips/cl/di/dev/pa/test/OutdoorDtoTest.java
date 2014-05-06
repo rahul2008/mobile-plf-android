@@ -47,7 +47,7 @@ public class OutdoorDtoTest extends TestCase {
 	public void testGetAqiTitleCase3() {
 		OutdoorDto outdoorDto = new OutdoorDto();
 		outdoorDto.setAqi("125");
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.healthy), outdoorDto.getAqiTitle());
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.unhealthy_for_sensitive_groups), outdoorDto.getAqiTitle());
 	}
 	
 	public void testGetAqiTitleCase4() {

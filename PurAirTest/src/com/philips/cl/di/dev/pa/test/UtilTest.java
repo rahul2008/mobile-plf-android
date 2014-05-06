@@ -188,7 +188,7 @@ public class UtilTest extends TestCase {
 	}
 	
 	public void testGetAQIStatusAndSummaryNegativeCase() {
-		String[] statusSummaries = Utils.getAQIStatusAndSummary(0);
+		String[] statusSummaries = Utils.getAQIStatusAndSummary(-1);
 		assertNull(statusSummaries[0]);
 		assertNull(statusSummaries[1]);
 	}
