@@ -974,12 +974,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 		stopService = false ;
 		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
 		fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 		fragmentTransaction.add(R.id.llContainer, fragment,
 				fragment.getTag());
 		fragmentTransaction.addToBackStack(fragment.getTag()) ;
+		fragmentTransaction.commit();
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
@@ -1024,16 +1024,15 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				int position, long id) {
 			isClickEvent = true;
 			setDashboardActionbarIconVisible();
+			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
 			case 0:
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.dashboard_title));
-				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 1:
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_air_quality_explained));
-				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 2:
 				// Outdoor locations
@@ -1060,7 +1059,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			case 6:
 				// Firmware update
 				startFirmwareUpgradeActivity();
-				mDrawerLayout.closeDrawer(mListViewLeft);
 				break;
 			case 7:
 				// Product registration
@@ -1129,7 +1127,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 						//TODO
 						// getDashboard().showFirmwareUpdatePopup();
 						// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-						updateDashboardOnFirmwareUpdate();
+						updateDashboardOnFirmwareUpdate(1);
 						setFirmwareSuperScript(1, true);
 					}
 				});
@@ -1137,13 +1135,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 	}
 	
-	private void updateDashboardOnFirmwareUpdate() {
-		showFirmwareUpdateHomeIcon();
+	private void updateDashboardOnFirmwareUpdate(int purifierCount) {
+		showFirmwareUpdateHomeIcon(purifierCount);
 	}
 	
-	private void showFirmwareUpdateHomeIcon() {
+	private void showFirmwareUpdateHomeIcon(int purifierCount) {
 		noOffFirmwareUpdate.setVisibility(View.VISIBLE);
-		noOffFirmwareUpdate.setText(String.valueOf(1));
+		noOffFirmwareUpdate.setText(String.valueOf(purifierCount));
 	}
 	
 	private void hideFirmwareUpdateHomeIcon() {
