@@ -78,7 +78,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		initializeUI();
 		initActionBar();
 		setActionBarTitle();
-		setUpMapIfNeeded();
 		getDataFromDashboard();
 	}
 
@@ -288,6 +287,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 			startOutdoorAQITask(city.getCityName());
 			currentCityTime = city.getUpdatedTime();
 			startWeatherDataTask(city.getGeo());
+			setUpMapIfNeeded(city.getGeo());
 		} 
 	
 	}
@@ -518,12 +518,12 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 	/**
 	 * 
 	 */
-	private void setUpMapIfNeeded() {
+	private void setUpMapIfNeeded(String geo) {
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
 					.getMap();
 			if (mMap != null) {
-				setUpMap();
+				setUpMap(geo);
 			}
 		}
 	}
@@ -531,23 +531,36 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 	/**
 	 * 
 	 */
-	private void setUpMap() {
-		CameraPosition cameraPosition = new CameraPosition.Builder()
-		.target(new LatLng(31.230638, 121.473584)) 
-		.zoom(13)              
-		.bearing(0)                
-		.tilt(30)                   
-		.build();                   
-		
-		mMap.getUiSettings().setZoomControlsEnabled(false);
-		mMap.getUiSettings().setScrollGesturesEnabled(false);
-		mMap.getUiSettings().setZoomGesturesEnabled(false);
-		mMap.getUiSettings().setAllGesturesEnabled(false);
-		mMap.getUiSettings().setCompassEnabled(false);
-		mMap.getUiSettings().setRotateGesturesEnabled(false);
-		mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+	private void setUpMap(String geo) {
+		if (geo == null) {
+			return;
+		}
+		String geoArr[] =geo.split(",");
+		if (geoArr == null || geoArr.length < 2) {
+			return;
+		}
+		try {
+			double lat = Double.parseDouble(geoArr[0].trim());
+			double lng = Double.parseDouble(geoArr[1].trim());
+			CameraPosition cameraPosition = new CameraPosition.Builder()
+			.target(new LatLng(lat, lng))
+			.zoom(13)              
+			.bearing(0)                
+			.tilt(30)                   
+			.build();                   
+			
+			mMap.getUiSettings().setZoomControlsEnabled(false);
+			mMap.getUiSettings().setScrollGesturesEnabled(false);
+			mMap.getUiSettings().setZoomGesturesEnabled(false);
+			mMap.getUiSettings().setAllGesturesEnabled(false);
+			mMap.getUiSettings().setCompassEnabled(false);
+			mMap.getUiSettings().setRotateGesturesEnabled(false);
+			mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-		mMap.addMarker(new MarkerOptions().position(new LatLng(31.230638, 121.473584)));
+			mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
+		} catch (NumberFormatException e) {
+			ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
+		}
 
 	}
 	
