@@ -66,7 +66,9 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	public void setDeviceDetailsLocally(String key, String value, PurAirDevice purifier)
 	{
 		String dataToUpload = JSONBuilder.getDICommBuilder(key, value, purifier) ;
-		startServerTask(dataToUpload, purifier.getIpAddress()) ;
+		if(dataToUpload != null && !dataToUpload.isEmpty()) {
+			startServerTask(dataToUpload, purifier.getIpAddress()) ;
+		}
 	}	
 	public void setDeviceDetailsRemotely(String key, String value, PurAirDevice purifier) {
 		String eventData = JSONBuilder.getPublishEventBuilder(key, value) ;

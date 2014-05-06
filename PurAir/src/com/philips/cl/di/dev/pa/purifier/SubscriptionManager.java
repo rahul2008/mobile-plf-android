@@ -89,7 +89,10 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		String subscriberId = getSubscriberId(purifier.getBootId(), isLocal);
 		ALog.d(ALog.SUBSCRIPTION, "SubscriptionManager$subscribe bootId " + purifier.getBootId() + " URL " + url + " isLocal " + isLocal);
 		if(isLocal) {
-			TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(subscriberId, LOCAL_SUBSCRIPTIONTIME, purifier), url, this,AppConstants.REQUEST_METHOD_POST) ;
+			String dataToUpload = JSONBuilder.getDICommBuilderForSubscribe(subscriberId, LOCAL_SUBSCRIPTIONTIME, purifier);
+			if(dataToUpload == null) return;
+			
+			TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(dataToUpload, url, this,AppConstants.REQUEST_METHOD_POST) ;
 			Thread subscibeThread = new Thread(subscribe) ;
 			subscibeThread.start();
 		}

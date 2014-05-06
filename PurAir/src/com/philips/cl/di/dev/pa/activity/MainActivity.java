@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1115,20 +1116,28 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	@Override
 	public void firmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
-		
-		if (firmwarePortInfo.isUpdateAvailable()) {
-			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-			
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					//TODO
-//					getDashboard().showFirmwareUpdatePopup();
-					//Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-					setFirmwareSuperScript(1, true);
-				}
-			});
+		if(firmwarePortInfo != null) {
+			setFirmwarePortInfo(firmwarePortInfo);
+
+			if (firmwarePortInfo.isUpdateAvailable()) {
+				ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+
+				this.runOnUiThread(new Runnable() {
+					@Override
+					public void run() {
+						//TODO
+						// getDashboard().showFirmwareUpdatePopup();
+						// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
+						updateDashboardOnFirmwareUpdate();
+						setFirmwareSuperScript(1, true);
+					}
+				});
+			}
 		}
+	}
+	
+	private void updateDashboardOnFirmwareUpdate() {
+		
 	}
 	
 	private Handler handler = new Handler() {
@@ -1208,6 +1217,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (currentPurifier == null) return;
 		
 		currentPurifier.setAirPortInfo(airPortInfo);
+	}
+	
+	private void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
+		PurAirDevice currentPurifier = getCurrentPurifier();
+		if (currentPurifier == null) return;
+		
+		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
 	}
 
 	public void setRightMenuVisibility(boolean visible) {

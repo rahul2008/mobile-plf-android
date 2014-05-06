@@ -57,6 +57,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	}
 			
 	private void showFragment(String upgradeVersion) {
+		ALog.i(ALog.FIRMWARE, "FWUpdateActivity$showFragment upgradeVersion " + upgradeVersion);
 		if(upgradeVersion == null || upgradeVersion.isEmpty()) {
 			getSupportFragmentManager().beginTransaction()
 			.add(R.id.firmware_container, new FirmwareInstalledFragment(), FirmwareInstalledFragment.class.getSimpleName())
@@ -184,7 +185,9 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	public void setFirmwareUpdateJsonParams(String key, String value )
 	{
 		String dataToUpload = JSONBuilder.getDICommBuilder(key,value, getCurrentPurifier()) ;
-		startServerTask(dataToUpload) ;
+		if(dataToUpload != null && !dataToUpload.isEmpty()) {
+			startServerTask(dataToUpload) ;
+		}
 	}
 	
 	private void startServerTask(String dataToUpload) {
