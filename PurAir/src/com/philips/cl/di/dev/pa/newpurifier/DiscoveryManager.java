@@ -81,6 +81,31 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return mDevicesMap.get(eui64);
 	}
 	
+	public void printDiscoveredDevicesInfo(String tag) {
+		if (tag == null || tag.isEmpty()) {
+			tag = ALog.DISCOVERY;
+		}
+		
+		if (mDevicesMap.size() <= 0) {
+			ALog.d(tag, "No devices discovered - map is 0");
+			return;
+		}
+		
+		String offline = "Offline devices %d: ";
+		String local = "Local devices %d: ";
+		String cpp = "Cpp devices %d: ";
+		for (PurAirDevice device : mDevicesMap.values()) {
+			switch (device.getConnectionState()) {
+			case DISCONNECTED: offline += device.getName() + ", "; break;
+			case CONNECTED_LOCALLY: local += device.getName() + ", "; break;
+			case CONNECTED_REMOTELY: cpp += device.getName() + ", "; break;
+			}
+		}
+		ALog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
+		ALog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
+		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
+	}
+	
 	@Override
 	public void onNetworkChanged(NetworkState networkState) {
 		// Assumption: Wifi switch will go through the none state
@@ -92,7 +117,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			markOnlyPairedDevicesOnline();
 			break;
 		case WIFI_WITH_INTERNET:
-			markOnlyPairedDevicesOnline();
+			markPairedNonLocalDevicesOnline();
 			break;
 		default:
 			break;
@@ -100,13 +125,13 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		
 	}
 	
-	private void markPairedDevicesOffline() {
+	private void markPairedNonLocalDevicesOnline() {
 		ALog.d(ALog.DISCOVERY, "Marking paired devices offline");
 		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.isPaired()) {
-				device.setConnectionState(ConnectionState.DISCONNECTED);
+			if (device.isPaired() && device.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			} else {
-				// NOP - local devices will go offline if neccessary through ssdp
+				// NOP - Local devices will be managed by ssdp
 			}
 		}
 		notifyDiscoveryListener();

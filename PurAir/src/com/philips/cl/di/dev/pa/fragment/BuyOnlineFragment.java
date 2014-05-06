@@ -21,6 +21,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.ProductDto;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
@@ -43,7 +44,10 @@ public class BuyOnlineFragment extends BaseFragment {
 		Activity parent = this.getActivity();
 		if (parent == null || !(parent instanceof MainActivity)) return view;
 		
-		airPortInfo = ((MainActivity) parent).getAirPortInfo();
+		PurAirDevice current = ((MainActivity) parent).getCurrentPurifier();
+		if (current != null) {
+			airPortInfo = current.getAirPortInfo();
+		}
 		
 		/* Create a list with known data */
 		ArrayList<ProductDto> list = new ArrayList<ProductDto>();

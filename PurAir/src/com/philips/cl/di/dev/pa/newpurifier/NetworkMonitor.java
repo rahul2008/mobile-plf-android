@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.security.acl.LastOwnerException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;

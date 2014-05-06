@@ -98,23 +98,23 @@ public class RightMenuClickListener implements OnClickListener {
 	 *  setBackground(Drawable drawable) is supported from API 16 onwards.
 	 *  And it calls setBackgroundDrawable internally.
 	 *  
-	 * @param airPurifierEventDto
+	 * @param airPortInfo
 	 */
 	
-	public void setSensorValues(AirPortInfo airPurifierEventDto) {
+	public void setSensorValues(AirPortInfo airPortInfo) {
 //		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed " + airPurifierEventDto.getFanSpeed());
-		Log.i(TAG, "setSensorValues " + airPurifierEventDto.getPowerMode());
-		if(airPurifierEventDto.getPowerMode().equals(AppConstants.POWER_ON)) {
-			power.setChecked(getPowerButtonState(airPurifierEventDto));
-			setFanSpeed(airPurifierEventDto);
-			timer.setText(getTimerText(airPurifierEventDto));
-			toggleButtonBackground(getButtonToBeHighlighted(getTimerText(airPurifierEventDto)));
+		Log.i(TAG, "setSensorValues " + airPortInfo.getPowerMode());
+		if(airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
+			power.setChecked(getPowerButtonState(airPortInfo));
+			setFanSpeed(airPortInfo);
+			timer.setText(getTimerText(airPortInfo));
+			toggleButtonBackground(getButtonToBeHighlighted(getTimerText(airPortInfo)));
 			schedule.setText("N.A.");
-			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));
-			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
+			childLock.setChecked(getOnOffStatus(airPortInfo.getChildLock()));
+			indicatorLight.setChecked(getOnOffStatus(airPortInfo.getAqiL()));
 		}
 		else {
-			power.setChecked(getPowerButtonState(airPurifierEventDto));
+			power.setChecked(getPowerButtonState(airPortInfo));
 			disableControlPanelButtonsOnPowerOff() ;
 		}
 	}
@@ -177,14 +177,14 @@ public class RightMenuClickListener implements OnClickListener {
 		fanSpeed.setBackgroundDrawable(buttonImage);
 	}
 
-	private boolean getPowerButtonState(AirPortInfo airPurifierEventDto) {
+	private boolean getPowerButtonState(AirPortInfo airportInfo) {
 //		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
-		if(airPurifierEventDto == null) {
+		if(airportInfo == null) {
 			return false ;
 		}
-		String powerMode = airPurifierEventDto.getPowerMode();
+		String powerMode = airportInfo.getPowerMode();
 		if(powerMode != null && powerMode.equals(AppConstants.POWER_ON)) {
-			enableButtonsOnPowerOn(mainActivity.getAirPortInfo());
+			enableButtonsOnPowerOn(airportInfo);
 			isPowerOn = true;
 		} else {
 			disableControlPanelButtonsOnPowerOff();
@@ -223,14 +223,15 @@ public class RightMenuClickListener implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.connect:
-			((MainActivity) mainActivity).isEWSStarted = true ;
-			((MainActivity) mainActivity).stopAllServices() ;
+			mainActivity.stopAllServices() ;
 			mainActivity.startActivityForResult(new Intent(mainActivity,EWSActivity.class), AppConstants.EWS_REQUEST_CODE) ;
 			break;
 		case R.id.btn_rm_power:
 			if(!isPowerOn) {				
 				power.setChecked(true);
-				enableButtonsOnPowerOn(mainActivity.getAirPortInfo());
+				PurAirDevice purifier = mainActivity.getCurrentPurifier();
+				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
+				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1") ;
 				
 			} else {

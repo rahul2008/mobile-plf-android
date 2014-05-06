@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Currency;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,10 +23,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.Handler;
-import android.os.Handler.Callback;
-import android.os.Message;
 import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
@@ -59,14 +54,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.mobeta.android.dslv.DragSortListView;
-import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
-import com.philips.cl.di.common.ssdp.controller.InternalMessage;
-import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
@@ -76,7 +66,6 @@ import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
@@ -92,14 +81,14 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
-import com.philips.cl.di.dev.pa.security.DISecurity;
-import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -109,8 +98,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements
-ICPDeviceDetailsListener, Callback, KeyDecryptListener,
-OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
+ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -128,7 +116,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private TextView tvAirStatusMessage;
 	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
-	private boolean connected;
 	
 	/**
 	 * Action bar
@@ -149,10 +136,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	private static HomeFragment homeFragment;
 
-	private boolean isDeviceDiscovered;
-
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
-	private DISecurity diSecurity;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 	private MenuItem rightMenuItem;
@@ -175,40 +159,20 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private AirPurifierController airPurifierController;
 
 	public boolean isDiagnostics;
-	private PurifierDatabase purifierDatabase;
-	private List<PurAirDevice> dbPurifierDetailDtoList;
-
-	private String localDeviceUsn;
 
 	public static boolean isClickEvent;
 
 	public boolean isPairingDialogShown;
 	protected ProgressDialog progressDialog;
 
-	private ConnectivityManager connManager ;
-	private String secretKey;
 	private ActionMode actionMode;
-	public boolean isEWSStarted;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_main_aj);
 		
-		// TODO replace with discoveryManager
-		SsdpService.getInstance().startDeviceDiscovery(this);
-		
 		airPurifierController = AirPurifierController.getInstance();
-
-		/**
-		 * Create database and tables
-		 */
-		purifierDatabase = new PurifierDatabase();
-		dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-		/**
-		 * Diffie Hellman key exchange
-		 */
-		diSecurity = new DISecurity(this);
 
 		mPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits = mPreferences.getInt("NoOfVisit", 0);
@@ -278,13 +242,11 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ivAirStatusBackground = (ImageView) findViewById(R.id.iv_rm_air_status_background);
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		initFilterStatusViews();
-		connected = false;
 		
 		getSupportFragmentManager().beginTransaction()
 				.add(R.id.llContainer, getDashboard())
 				.addToBackStack(null)
 				.commit();
-
 
 		filter = new IntentFilter();
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
@@ -309,7 +271,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		initializeCPPController();
 		createNetworkReceiver();
 		this.registerReceiver(networkReceiver, filter);
-		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	}
+	
+	@Override
+	protected void onStart() {
+		DiscoveryManager.getInstance().start(this);
+		super.onStart();
 	}
 	
 	@Override
@@ -327,13 +294,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		/**
-		 * Close Database
-		 */
-		purifierDatabase.closeDb();
-		/**
-		 * 
-		 */
 		if (outdoorLocationPrefs != null) {
 			Editor editor = outdoorLocationPrefs.edit();
 			editor.clear();
@@ -352,7 +312,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			if (!isClickEvent) {
 				disableRightMenuControls();
 				stopService = true;
-				stopAllServices();
+//				stopAllServices();
 			}
 			isClickEvent = false;
 		}
@@ -361,9 +321,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	@Override
 	protected void onRestart() {
 		ALog.i(ALog.MAINACTIVITY, "onRestart: stopService is: " + stopService);
-		isEWSStarted = false;
 		if (stopService) {
-			SsdpService.getInstance().startDeviceDiscovery(this);
 			stopService = false;
 			this.registerReceiver(networkReceiver, filter);
 		}
@@ -375,23 +333,14 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
+		DiscoveryManager.getInstance().stop();
 		super.onStop();
-	}
-
-	@Override
-	public void onWindowFocusChanged(boolean hasFocus) {
-		// TODO Auto-generated method stub
-		super.onWindowFocusChanged(hasFocus);
-		if (hasFocus && !connected) {
-			disableRightMenuControls();
-		}
 	}
 
 	@SuppressLint("NewApi")
 	@Override
 	public void onBackPressed() {
 		FragmentManager manager = getSupportFragmentManager();
-		int count = manager.getBackStackEntryCount();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 
 		if (fragment instanceof OutdoorLocationsFragment
@@ -424,7 +373,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (!isClickEvent && !isDiagnostics) {
 			disableRightMenuControls();
 			stopService = true;
-			stopAllServices();
+//			stopAllServices();
 		}
 		isClickEvent = false;
 		super.onUserLeaveHint();
@@ -436,24 +385,12 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				+ " requestCode " + requestCode);
 		switch (requestCode) {
 		case AppConstants.EWS_REQUEST_CODE:
+			// TODO should be removed
 			if (resultCode == RESULT_OK) {
-				isDeviceDiscovered = true;
-				updatePurifierName();
 				toggleConnection(true);
 			}
-
-			SsdpService.getInstance().startDeviceDiscovery(this);
 			
-			if (dbPurifierDetailDtoList != null
-					&& dbPurifierDetailDtoList.size() > 0) {
-				dbPurifierDetailDtoList.clear();
-			}
-
-			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-
 			this.registerReceiver(networkReceiver, filter);
-
-			isEWSStarted = false;
 			break;
 
 		case AppConstants.FIRMWARE_REQUEST_CODE:
@@ -542,43 +479,21 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 								ConnectivityManager.CONNECTIVITY_ACTION)) {
 					NetworkInfo netInfo = conMan.getActiveNetworkInfo();
 					if (netInfo != null && netInfo.isConnected()) {
-						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED");
+						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED - Signon to cpp");
 
 						if (cppController != null) {
 							cppController.signOnWithProvisioning();
 						}
-						discoveryTimer.start() ;
-						if (SessionDto.getInstance().getOutdoorEventDto() == null) {
-							//TODO : 
-//							getDashboard().startOutdoorAQITask();
-						}
-
-						List<Weatherdto> weatherDto = SessionDto.getInstance()
-								.getWeatherDetails();
-						if (weatherDto == null || weatherDto.size() < 1) {
-							//TODO
-//							getDashboard().startWeatherDataTask();
-						}
 					}
-				}
-
-				NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-				NetworkInfo mobileWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE) ;
-
-				if( !mWifi.isConnected() && !mobileWifi.isConnected() ) {
-					disableRightMenuControls() ;
 				}
 			}
 		};
 	}
 
 	private void startLocalConnection() {
-		connected = true;
-		secretKey = null ;
-		stopRemoteConnection() ;
+		stopRemoteConnection();
 
 		PurAirDevice purifier = getCurrentPurifier();
-		purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier: " + purifier) ;
 		
 		//Start the subscription every time it discovers the Purifier
@@ -603,11 +518,9 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		}
 		ALog.e(ALog.CONNECTIVITY, "Trying to remote connect to Purifier with eui64 - " + purifier.getEui64()) ;
 		
-		long pairedOn = purifierDatabase.getPurifierLastPairedOn(purifier);
-		if( pairedOn > 0 ) {
+		if(purifier.isPaired()) {
 			stopLocalConnection() ;
 			
-			purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			airPurifierController.subscribeToAllEvents(purifier) ;
 			cppController.startDCSService() ;
 			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
@@ -628,13 +541,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void stopAllServices() {
-		secretKey = null;
 		stopRemoteConnection() ;
 		stopLocalConnection() ;
-
-		if (discoveryTimer != null) {
-			discoveryTimer.cancel();
-		}
 
 		if (networkReceiver != null) {
 			try {
@@ -643,8 +551,6 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				e.printStackTrace();
 			}
 		}
-		SsdpService.getInstance().stopDeviceDiscovery();
-		isDeviceDiscovered = false;
 		CPPController.reset();
 	}
 
@@ -803,21 +709,26 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
 
-	private void setRightMenuConnectedStatus(ConnectionState state) {
+	private void setRightMenuConnectedStatus(final ConnectionState state) {
 		ALog.i(ALog.MAINACTIVITY, "Connection status: " + state);
-		if (state.equals(ConnectionState.CONNECTED_LOCALLY)) {
-			tvConnectionStatus.setText(getString(R.string.connected));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
-			rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x)); 
-		} else if (state.equals(ConnectionState.CONNECTED_REMOTELY)) {
-			tvConnectionStatus.setText(getString(R.string.connected_via_philips));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
-			rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x));
-		} else {
-			tvConnectionStatus.setText(getString(R.string.not_connected));
-			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
-			rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
-		}
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if (state.equals(ConnectionState.CONNECTED_LOCALLY)) {
+					tvConnectionStatus.setText(getString(R.string.connected));
+					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
+					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x)); 
+				} else if (state.equals(ConnectionState.CONNECTED_REMOTELY)) {
+					tvConnectionStatus.setText(getString(R.string.connected_via_philips));
+					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
+					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x));
+				} else {
+					tvConnectionStatus.setText(getString(R.string.not_connected));
+					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
+					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
+				}
+			}
+		});
 	}
 	
 	private void initFilterStatusViews() {
@@ -1108,7 +1019,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 			if (purifier != null) {
 				purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 			}
-			handler.sendEmptyMessage(0) ;
+			updatePurifierUIFields();
 		}
 	}
 	
@@ -1147,49 +1058,48 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	private void hideFirmwareUpdateHomeIcon() {
 		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
 	}
-	
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			updatePurifierUIFields() ;
-		}
-	};
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
-		PurAirDevice purifier = getCurrentPurifier();
-		AirPortInfo info = getAirPortInfo();
-		if (null != info) {
-			connected = true;
-			float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
-			setRightMenuAQIValue(indoorAQIUsableValue);
-			rightMenuClickListener.setSensorValues(info);
-			updateFilterStatus(info.getFilterStatus1(),
-					info.getFilterStatus2(),
-					info.getFilterStatus3(),
-					info.getFilterStatus4());
-			if (purifier != null) {
-				setRightMenuConnectedStatus(purifier.getConnectionState());
-			} else {
-				setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+		final PurAirDevice purifier = getCurrentPurifier();
+		final AirPortInfo info = getAirPortInfo(purifier);
+		if (info == null) return;
+		
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
+				setRightMenuAQIValue(indoorAQIUsableValue);
+				rightMenuClickListener.setSensorValues(info);
+				updateFilterStatus(info.getFilterStatus1(),
+						info.getFilterStatus2(),
+						info.getFilterStatus3(),
+						info.getFilterStatus4());
+				if (purifier != null) {
+					setRightMenuConnectedStatus(purifier.getConnectionState());
+				} else {
+					setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+				}
+				setRightMenuAirStatusMessage(getString(
+						Utils.getIndoorAQIMessage(indoorAQIUsableValue),
+						getString(R.string.philips_home)));
+				setRightMenuAirStatusBackground(indoorAQIUsableValue);
+				rightMenuClickListener.disableControlPanel(true,info);
 			}
-			setRightMenuAirStatusMessage(getString(
-					Utils.getIndoorAQIMessage(indoorAQIUsableValue),
-					getString(R.string.philips_home)));
-			setRightMenuAirStatusBackground(indoorAQIUsableValue);
-			rightMenuClickListener.disableControlPanel(connected,
-					info);
-		}
+		});
 	}
 
 	private void disableRightMenuControls() {
 		ALog.i(ALog.MAINACTIVITY, "disableRightMenuControls");
-		connected = false;
-		setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
-		rightMenuClickListener.disableControlPanel(connected,
-				getAirPortInfo());
-		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-		setRightMenuAirStatusBackground(0);
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+				rightMenuClickListener.disableControlPanel(false, getAirPortInfo(getCurrentPurifier()));
+				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+				setRightMenuAirStatusBackground(0);
+			}
+		});
 	}
 
 	private void updateFilterStatus(int preFilterStatus,
@@ -1212,11 +1122,9 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 				.getHEPAFilterFilterStatusText(hepaFilterStatus));
 	}
 
-	public AirPortInfo getAirPortInfo() {
-		PurAirDevice currentPurifier = getCurrentPurifier();
-		if (currentPurifier == null) return null;
-		
-		return currentPurifier.getAirPortInfo();
+	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {
+		if (purifier == null) return null;
+		return purifier.getAirPortInfo();
 	}
 
 	private void setAirPortInfo(AirPortInfo airPortInfo) {
@@ -1287,211 +1195,9 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + isLocal);
 
 		if (isLocal) {
-			discoveryTimer.cancel() ;
-
 			startLocalConnection();
 		} else {
 			startRemoteConnection() ;
-		}
-	}
-
-
-	private CountDownTimer discoveryTimer = new CountDownTimer(10000, 1000) {
-		@Override
-		public void onTick(long millisUntilFinished) {
-
-		}
-
-		@Override
-		public void onFinish() {
-			ALog.i(ALog.MAINACTIVITY, "Discovery timeout");
-			toggleConnection(false);
-		}
-	};	
-
-	private long ssdpDiscoveredBootId = 0L;
-	@Override
-	public boolean handleMessage(Message msg) {
-		DeviceModel device = null;
-		if (null != msg) {
-			final DiscoveryMessageID message = DiscoveryMessageID
-					.getID(msg.what);
-			final InternalMessage internalMessage = (InternalMessage) msg.obj;
-			if (null != internalMessage
-					&& internalMessage.obj instanceof DeviceModel) {
-				device = (DeviceModel) internalMessage.obj;
-			}
-			if (device == null) {
-				return false;
-			}
-
-			switch (message) {
-			case DEVICE_DISCOVERED:
-				if (device.getSsdpDevice() == null 
-					|| device.getSsdpDevice().getCppId() == null
-					|| device.getSsdpDevice().getModelName() == null
-					|| device.getSsdpDevice().getFriendlyName() == null) {
-					return false;
-				}
-				ALog.i(ALog.MAINACTIVITY,
-						"Device discovered usn: " + device.getUsn() + ", Ip: "
-								+ device.getIpAddress()
-								+ ", isDeviceDiscovered: " + isDeviceDiscovered
-								+ ", isEWSStarted: " + isEWSStarted);
-				long newDiscoveredBootId = 0L;
-				try {
-					newDiscoveredBootId = Long.parseLong(device.getBootID());
-				} catch (NumberFormatException e) {
-					// NOP
-					e.printStackTrace();
-				}
-				
-				if (newDiscoveredBootId != ssdpDiscoveredBootId) {
-					isDeviceDiscovered = false;
-				}
-				
-				if (device.getSsdpDevice().getModelName().contains(AppConstants.MODEL_NAME)
-						&& !isDeviceDiscovered && !isEWSStarted) {
-					onFirstDeviceDiscovered(device);
-				}
-				break;
-			case DEVICE_LOST:
-				onDeviceLost(device);
-				break;
-			default:
-				break;
-			}
-			return false;
-		}
-		return false;
-	}
-
-	private boolean onFirstDeviceDiscovered(DeviceModel deviceModel) {
-
-		isDeviceDiscovered = true;
-		
-		Long bootId = -1l;
-		if (deviceModel.getBootID() != null && deviceModel.getBootID().length() > 0) {
-			bootId = Long.parseLong(deviceModel.getBootID());
-		}
-		
-		PurAirDevice purifier = new PurAirDevice(deviceModel.getSsdpDevice().getCppId(), deviceModel.getUsn(), deviceModel.getIpAddress(), deviceModel.getSsdpDevice().getFriendlyName(), bootId, ConnectionState.CONNECTED_LOCALLY);
-		PurifierManager.getInstance().setCurrentPurifier(purifier);
-		
-		updatePurifierName();
-		String ssdpDiscoveredUsn = purifier.getUsn();
-		if (ssdpDiscoveredUsn == null || ssdpDiscoveredUsn.length() <= 0) {
-			return true;
-		}
-
-		localDeviceUsn = ssdpDiscoveredUsn;
-		
-		try {
-			ssdpDiscoveredBootId = purifier.getBootId();
-		} catch (NumberFormatException e) {
-			// NOP
-			e.printStackTrace();
-		}
-
-		if (ssdpDiscoveredBootId == 0L) {
-			startKeyExchange();
-		}
-		if (dbPurifierDetailDtoList != null) {
-			boolean isDeviceInDb = false;
-			for (PurAirDevice infoDto : dbPurifierDetailDtoList) {
-				String dbUsn = infoDto.getUsn();
-				if (dbUsn == null || dbUsn.length() <= 0) {
-					continue;
-				}
-				if (dbUsn.equalsIgnoreCase(ssdpDiscoveredUsn)) {
-					isDeviceInDb = true;
-					long dbBootId = infoDto.getBootId();
-					if (dbBootId == ssdpDiscoveredBootId
-							&& infoDto.getEncryptionKey() != null) {
-						ALog.i(ALog.MAINACTIVITY, "Device boot id is same: "
-								+ dbBootId + " ssdp bootid: "
-								+ ssdpDiscoveredBootId);
-						secretKey = infoDto.getEncryptionKey();
-						purifier.setEncryptionKey(infoDto.getEncryptionKey());
-						toggleConnection(true);
-					} else {
-						startKeyExchange();
-					}
-					break;
-				}
-			}
-
-			if (!isDeviceInDb) {
-				startKeyExchange();
-			}
-		}
-
-		return true;
-	}
-
-	private boolean onDeviceLost(DeviceModel device) {
-		String ssdpDeviceUsn = device.getId();
-		if (ssdpDeviceUsn == null || ssdpDeviceUsn.length() <= 0) {
-			return false;
-		}
-
-		if (ssdpDeviceUsn.equalsIgnoreCase(localDeviceUsn)) {
-			ALog.i(ALog.MAINACTIVITY, "Device Lost: " + ssdpDeviceUsn);
-			disableRightMenuControls();
-			toggleConnection(false);
-			isDeviceDiscovered = false;
-			secretKey = null;
-		}
-		return true;
-	}
-
-	private void updatePurifierName() {
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier != null) {
-			// set purifier name in dashboard
-			//TODO : Set purifier name in IndoorFragment
-//			homeFragment.setHomeName(purifier.getName());
-		} else {
-			// TODO decide on what to show when not connected
-//			homeFragment.setHomeName(getString(R.string.not_connected));
-		}
-	}
-
-	private void startKeyExchange() {
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null) return;
-		
-		ALog.i(ALog.MAINACTIVITY, "start key exchange: isDeviceDiscovered-"
-				+ isDeviceDiscovered);
-
-		if (isDeviceDiscovered) {
-			diSecurity.initializeExchangeKeyCounter(purifier.getEui64());
-			diSecurity.exchangeKey(Utils.getPortUrl(Port.SECURITY,	purifier.getIpAddress()), purifier.getEui64());
-		}
-	}
-
-	@Override
-	public void keyDecrypt(String key, String deviceEui64) {
-		ALog.i(ALog.MAINACTIVITY, "Key Decrypt: " + key + " DeviceID: " + deviceEui64);
-		if (secretKey == null && key != null) {
-			this.secretKey = key;
-			pairToPurifierIfNecessary();
-
-			PurAirDevice purifier = getCurrentPurifier();
-			if (purifier != null && purifier.getEui64().equals(deviceEui64)) {
-				purifier.setEncryptionKey(key);
-				purifierDatabase.insertPurAirDevice(purifier);
-			}
-
-
-			if (dbPurifierDetailDtoList != null
-					&& dbPurifierDetailDtoList.size() > 0) {
-				dbPurifierDetailDtoList.clear();
-			}
-			dbPurifierDetailDtoList = purifierDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-
-			toggleConnection(true);
-
 		}
 	}
 
@@ -1511,7 +1217,7 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 
 	@Override
 	public void signonStatus(boolean signon) {
-		if( signon && isDeviceDiscovered && secretKey != null) {
+		if (signon) {
 			pairToPurifierIfNecessary() ;
 		}
 
@@ -1524,9 +1230,13 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 		if (!cppController.isSignOn()) return;
 
 		PurAirDevice purifier = getCurrentPurifier();
-		long lastPairingCheckTime = purifierDatabase.getPurifierLastPairedOn(purifier);
-		if (lastPairingCheckTime <= 0) 
-		{
+		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+		
+		// TODO move this code
+		PurifierDatabase database = new PurifierDatabase();
+		long lastPairingCheckTime = database.getPurifierLastPairedOn(purifier);
+		database.closeDb();
+		if (lastPairingCheckTime <= 0) {
 			showPairingDialog(purifier);
 			return;
 		}
@@ -1550,6 +1260,8 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	}
 
 	public void startPairing(PurAirDevice purifier) {
+		if (purifier == null) return; // TODO why can this happen?
+			
 		isClickEvent = true ;
 		progressDialog = new ProgressDialog(MainActivity.this);
 		progressDialog.setMessage(getString(R.string.pairing_progress));
@@ -1597,5 +1309,46 @@ OnClickListener, AirPurifierEventListener, SignonListener, PairingListener {
 	public PurAirDevice getCurrentPurifier() {
 		// TODO change to field in class
 		return PurifierManager.getInstance().getCurrentPurifier();
+	}
+	
+	@Override
+	public void onDiscoveredDevicesListChanged() {
+		ALog.d(ALog.MAINACTIVITY, "**************************");
+		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
+		
+		PurAirDevice current = getCurrentPurifier();
+		if (current == null) {
+			int numDevices = DiscoveryManager.getInstance().getDiscoveredDevices().size();
+			if (numDevices <= 0) return;
+			
+			current = DiscoveryManager.getInstance().getDiscoveredDevices().get(numDevices-1);
+			if (current.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+				// Only select a local device
+				return;
+			}
+			PurifierManager.getInstance().setCurrentPurifier(current);
+			ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + current.getName());
+		}
+		
+		switch (current.getConnectionState()) {
+		case DISCONNECTED:
+			ALog.d(ALog.MAINACTIVITY, "Current purifier went offline");
+			setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+			disableRightMenuControls();
+			stopLocalConnection();
+			stopRemoteConnection();
+			break;
+		case CONNECTED_LOCALLY:
+			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
+			updatePurifierUIFields();
+			pairToPurifierIfNecessary();
+			startLocalConnection();
+			break;
+		case CONNECTED_REMOTELY:
+			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
+			updatePurifierUIFields();
+			startRemoteConnection();
+			break;
+		}
 	}
 }
