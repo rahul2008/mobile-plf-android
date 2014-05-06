@@ -57,7 +57,7 @@
         android:background="@drawable/clickable_image_bg_selector"
         android:clickable="true"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/right_bar_icon_blue_2x" />
+        android:src="@drawable/right_bar_icon_orange_2x" />
 
     <ImageView
         android:id="@+id/add_location_img"
