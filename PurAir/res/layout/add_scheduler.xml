@@ -60,7 +60,7 @@
          android:paddingLeft="16dp"
          android:paddingBottom="10dp"
          android:textStyle="bold|italic"
-         android:text="@string/days"
+         android:text="@string/days2"
          android:textColor="@color/title_gray"
          android:textSize="20sp"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
