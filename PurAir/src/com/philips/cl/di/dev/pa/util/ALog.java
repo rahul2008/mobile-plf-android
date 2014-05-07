@@ -31,6 +31,7 @@ public class ALog {
 	public static final String PAIRING="Pairing";
 	public static final String SUBSCRIPTION = "Subscription" ;
 	public static final String FIRMWARE = "Firmware";
+	public static final String SCHEDULER = "Scheduler";
 	public static final String CONNECTIVITY = "Connectivity" ;
 	public static final String PARSER = "DataParser" ;
 	public static final String DIAGNOSTICS="Diagnostics";
