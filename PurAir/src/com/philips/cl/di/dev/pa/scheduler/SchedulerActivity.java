@@ -1,18 +1,15 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
-import java.util.List;
-import com.philips.cl.di.dev.pa.R;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TimePicker;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import android.widget.TimePicker;import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -30,53 +27,74 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private String SelectedDays;
 	private String SelectedTime;
 	private String SelectedFanspeed;
-	private JsonArray arrSchedulers;
+	private String CRUDOperation = "";
+	private int UDOperationIndex = -1;
+	private JSONArray arrSchedulers;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		ALog.i("Scheduler", "onCreate method beginning");
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onCreate() method enter");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scheduler_container);
-		initActionBar();		
-		Intent intent = getIntent();
-		arrSchedulers = new JsonArray();
-		JsonArray arr = getSchedulerDataFromProduct();
+		initActionBar();
+		arrSchedulers = new JSONArray();
+		/*Intent intent = getIntent();
+		JSONArray arr = getSchedulerDataFromProduct();
 		Bundle b = new Bundle();
 		b.putString("events", arr.toString());
-		intent.putExtras(b);
-		showFragment();
-		ALog.i("Scheduler", "onCreate method ending");
+		intent.putExtras(b);*/
+		showSchedulerOverviewFragment();
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onCreate() method exit");
 	}
 
-	private void showFragment() {
+	private void showSchedulerOverviewFragment() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method enter");
 		getSupportFragmentManager()
 				.beginTransaction()
-				.add(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();
+				.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method exit");
+	}
+	
+	private void showAddSchedulerFragment(Bundle bundle) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method enter");
+		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+		fragAddSch.setArguments(bundle);
+		getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();
+
+		
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method exit");
+	}
+	
+	public JSONArray getSchedulerList() {
+		return arrSchedulers;
 	}
 
-	private JsonArray getSchedulerDataFromProduct() {
-		ALog.i("Scheduler", "getSchedulerDataFromProduct method beginning");
-		// TODO: To be replaced with actual code gets JSON values from the
+	private JSONArray getSchedulerDataFromProduct() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerDataFromProduct() method enter");
+		// TODO: To be replaced with actual data from Purifier
 		
 		try {
-			JsonObject jo = new JsonObject();
-			jo.addProperty("enabled", "true");
-			jo.addProperty("time", "06:15");
-			jo.addProperty("days", "0123456");
-			jo.addProperty("product", "2");
-			jo.addProperty("port", "air");
-			jo.addProperty("speed", "Silent");
-			jo.addProperty("command", "{“om” : “a”}");
-			arrSchedulers.add(jo);
+			JSONObject jo = new JSONObject();
+			jo.put(SchedulerConstants.ENABLED, "true");
+			jo.put(SchedulerConstants.TIME, "06:15");
+			jo.put(SchedulerConstants.DAYS, "0123456");
+			jo.put(SchedulerConstants.PRODUCT, "2");
+			jo.put(SchedulerConstants.PORT, "air");
+			jo.put(SchedulerConstants.SPEED, "Silent");
+			jo.put(SchedulerConstants.COMMAND, "om-a");
+			arrSchedulers.put(jo);
 		} catch (Exception e) {
-			ALog.i("Scheduler", "exception in getSchedulerDataFromProduct method");
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerDataFromProduct() method exception caught while adding object to Schedulers list");
 		}
 
-		ALog.i("Scheduler", "getSchedulerDataFromProduct method ending");
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerDataFromProduct() method exit");
 		return arrSchedulers;
 	}
 	
 	private void initActionBar() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::initActionBar() method enter");
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
@@ -98,132 +116,189 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		actionBarBackBtn.setOnClickListener(onClickListener);
 
 		actionBar.setCustomView(view);
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::initActionBar() method exit");
 	}
 	
-	private void SaveScheduler() {
-		ALog.i("Scheduler", "SaveScheduler method beginning");
-		JsonObject jo = new JsonObject();
-		jo.addProperty("enabled", "true");
-		jo.addProperty("time", SelectedTime);
-		jo.addProperty("days", SelectedDays);
-		jo.addProperty("product", "2");
-		jo.addProperty("port", "air");
-		jo.addProperty("speed", SelectedFanspeed);
-		jo.addProperty("command", "{“om” : “a”}");
-		arrSchedulers.add(jo);
-
+	private void Save() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");
+		
+		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			createScheduler();
+		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			updateScheduler();
+		} else if (CRUDOperation.isEmpty()) {
+			/*getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();*/
+			showSchedulerOverviewFragment();
+		}
+		
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method exit");
+	}
+	
+	private void createScheduler() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::createScheduler() method enter");
+		try{
+				JSONObject jo = new JSONObject();
+				jo.put(SchedulerConstants.ENABLED, "true");
+				jo.put(SchedulerConstants.TIME, SelectedTime);
+				jo.put(SchedulerConstants.DAYS, SelectedDays);
+				jo.put(SchedulerConstants.PRODUCT, "2");
+				jo.put(SchedulerConstants.PORT, "air");
+				jo.put(SchedulerConstants.SPEED, SelectedFanspeed);
+				jo.put(SchedulerConstants.COMMAND, "{“om” : “a”}");
+				arrSchedulers.put(jo);
+				} catch(Exception e) {
+		}
+			
 		Bundle b = new Bundle();
 		b.putString("events", arrSchedulers.toString());
 		getIntent().putExtras(b);
 
-		getSupportFragmentManager()
+		/*getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();
-		ALog.i("Scheduler", "SaveScheduler method ending");
+				.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();*/
+		showSchedulerOverviewFragment();
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::createScheduler() method exit");
 	}
 	
+	private void updateScheduler() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method enter");
+		try {
+			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
+			jo.put(SchedulerConstants.TIME, SelectedTime);
+			jo.put(SchedulerConstants.DAYS, SelectedDays);
+			
+			Bundle b = new Bundle();
+			b.putString("events", arrSchedulers.toString());
+			getIntent().putExtras(b);
+	
+			/*getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();*/
+			showSchedulerOverviewFragment();
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method exit");
+		}
+		catch(Exception e) {
+		}
+	}
+	
+	private void deleteScheduler() {
+		
+	}
 	private OnClickListener onClickListener = new OnClickListener() {
 		@Override
 		public void onClick(final View v) {
-			ALog.i("Scheduler", "onClick method beginning called");
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onClick() method enter");
 			
 			switch (v.getId()) {
 			case R.id.scheduler_actionbar_add_btn:
-				ALog.i("Scheduler", "onClick method - case scheduler_actionbar_add_btn is called");
-				SaveScheduler();
+				ALog.i(ALog.SCHEDULER, "onClick method - case scheduler_actionbar_add_btn is called");
+				Save();
 				break;
 				
 			case R.id.larrow:
-				ALog.i("Scheduler", "onClick method - case larrow is called");
+				ALog.i(ALog.SCHEDULER, "onClick method - case larrow is called");
 				Bundle bundle = new Bundle();
-				bundle.putString("time", SelectedTime);
-				bundle.putString("days", SelectedDays);
-				bundle.putString("fanspeed", SelectedFanspeed);
+				bundle.putString(SchedulerConstants.TIME, SelectedTime);
+				bundle.putString(SchedulerConstants.DAYS, SelectedDays);
+				bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
 
-				AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+				/*AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 				fragAddSch.setArguments(bundle);
 
 				getSupportFragmentManager()
 						.beginTransaction()
-						.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();
+						.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();*/
+				showAddSchedulerFragment(bundle);
 
-				ALog.i("Scheduler", "onClick method ending called");
+				ALog.i(ALog.SCHEDULER, "onClick method ending called");
 				break;
 			}
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onClick() method exit");
 		}
 	};
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method enter");
 		String time;
 		String name;
 		time = String.format("%d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
 		SelectedTime = time;
-
-		List<android.support.v4.app.Fragment> lstFragment = getSupportFragmentManager().getFragments();
 		
-		for (android.support.v4.app.Fragment frg : lstFragment) {
-			name = frg.getClass().getSimpleName();
-			if (frg != null) {
-				ALog.i("Scheduler", "To know fragment inside onTimeSet method "	+ frg.getClass().getSimpleName());
-			}
-		}
-
 		Bundle bundle = new Bundle();
 		bundle.putString("time", time);
-		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
-		fragAddSch.setArguments(bundle);
-
+		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			bundle.putString(SchedulerConstants.DAYS, SelectedDays);
+			bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
+		}
+		
 		actionbarTitle.setText("Add Event");
-
+		
+		/*AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+		fragAddSch.setArguments(bundle);
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragAddSch,
-						"AddSchedulerFragment").commit();
+						"AddSchedulerFragment").commit();*/
+		showAddSchedulerFragment(bundle);
 
-		ALog.i("Scheduler",	"Scheduler Activity - onTimeSet method is completed");
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method exit");
 	}
 
 	public void setActionBar(SchedulerID id) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
 		switch (id) {
 		case OVERVIEW_EVENT:
-			setActionBar("Scheduler", View.INVISIBLE, View.INVISIBLE);
+			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
 			break;
 		case ADD_EVENT:
-			setActionBar("Set Schedule", View.VISIBLE, View.VISIBLE);
+			setActionBar(R.string.set_schedule, View.VISIBLE, View.VISIBLE);
+			break;
+		case EDIT_EVENT:
+			setActionBar(R.string.edit_schedule, View.INVISIBLE, View.VISIBLE);
 			break;
 		case REPEAT:
-			ALog.i("Scheduler", "Repeat is called");
-			setActionBar("Repeat", View.INVISIBLE, View.VISIBLE);
+			setActionBar(R.string.repeat, View.INVISIBLE, View.VISIBLE);
 			break;
 		case FAN_SPEED:
-			ALog.i("Scheduler", "Repeat is called");
-			setActionBar("Fan speed", View.INVISIBLE, View.VISIBLE);
+			setActionBar(R.string.fanspeed, View.INVISIBLE, View.VISIBLE);
 			break;
 		default:
 			break;
 		}
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method exit");
 	}
 
-	private void setActionBar(String textId, int cancelButton, int backButton) {
+	private void setActionBar(int textId, int cancelButton, int backButton) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
 		actionbarTitle.setText(textId);
 		actionBarCancelBtn.setVisibility(cancelButton);
 		actionBarBackBtn.setVisibility(backButton);
-		// actionBarBackBtn.setVisibility(View.INVISIBLE);
-		ALog.i("Scheduler", "SetBackBtn is called");
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method exit");
 	}
 
 
 	public void dispatchInformations(String days) {
-		ALog.i("Scheduler", "dispaychInformations - days is " + days);
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations() method - days is " + days);
 		SelectedDays = days;
 	}
 
 	public void dispatchInformations2(String fanspeed) {
-		ALog.i("Scheduler", "dispatchInformation2 - fanspeed is " + fanspeed);
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations2() method - fanspeed is " + fanspeed);
 		SelectedFanspeed = fanspeed;
+	}
+	
+	public void dispatchInformationsForCRUD(String crud) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformationsForCRUD() method - crud is " + crud);
+		CRUDOperation = crud;
+	}
+	
+	public void dispatchInformationsForCRUDIndex(int index) {
+		ALog.i(ALog.SCHEDULER, "dispatchInformationsForCRUDIndex - index is " + index);
+		UDOperationIndex = index;
 	}
 
 	@Override
@@ -247,7 +322,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-
 	
 	@Override
 	public void onClick(View v) {

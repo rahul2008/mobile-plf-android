@@ -21,28 +21,28 @@ public class AddSchedulerFragment extends BaseFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		ALog.i("Scheduler", "AddSchedulerFragment::onCreateView method beginning is called");
-		sSelectedTime = getArguments().getString("time");
-		sSelectedDays = getArguments().getString("days");
-		sSelectedFanspeed = getArguments().getString("fanspeed");
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::onCreateView method enter");
+		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
+		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
+		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
 		View view = inflater.inflate(R.layout.add_scheduler, null);
 		initViews(view);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
-		ALog.i("Scheduler", "AddSchedulerFragment::onCreateView method ending is called");
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::onCreateView method exit");
 		return view;
 	}
 
 	private void initViews(View view) {
-		ALog.i("Scheduler", "AddSchedulerFragment::initViews method beginning is called");
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews method enter");
 		
 		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
-			ALog.i("Scheduler", "AddSchedulerFragment::initViews method - Both Time and Fanspeed are null");
+			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews method - Both Time and Fanspeed are null");
 			((SchedulerActivity)getActivity()).dispatchInformations("Never");
 			((SchedulerActivity)getActivity()).dispatchInformations2("Auto");
 		}
 		
 		if (sSelectedDays != null) { 
-			ALog.i("Scheduler", "AddSchedulerFragment::initViews method - Days is null");
+			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews method - Days is null");
 			sSelectedDays = setWeekDays2(sSelectedDays);
 		}
 		
@@ -99,60 +99,38 @@ public class AddSchedulerFragment extends BaseFragment {
 		  		.commit();
 			}
 		});
-		ALog.i("Scheduler", "AddSchedulerFragment::initViews method ending is called");
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews method exit");
 	}
 	
 	public void setTime(String time) {
 		sSelectedTime = time;
 	}
 	
-	/*private String setWeekDays(String days) {
-		String sWeekdays = "";
-		ALog.i("Scheduler", "setWeekDays method is called - days is " + "'" + days + "'");
-		String[] sParts = days.split("0123456");
-		String sTempStr = "";
-		
-		for(int i=0; i<sParts.length;i++) {
-			sTempStr = sParts[i];
-			if (sTempStr.contains("0")) sWeekdays = sWeekdays + "Sunday, ";
-			if (sTempStr.contains("1")) sWeekdays = sWeekdays + "Monday, ";
-			if (sTempStr.contains("2")) sWeekdays = sWeekdays + "Tuesday, ";
-			if (sTempStr.contains("3")) sWeekdays = sWeekdays + "Wednesday, ";
-			if (sTempStr.contains("4")) sWeekdays = sWeekdays + "Thursday, ";
-			if (sTempStr.contains("5")) sWeekdays = sWeekdays + "Friday, ";
-			if (sTempStr.contains("6")) sWeekdays = sWeekdays + "Saturday, ";
-		}
-		
-		sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
-		
-		return sWeekdays;
-	}*/
-	
 	private String setWeekDays2(String days) {
-		ALog.i("Scheduler", "AddSchedulerFragment::setWeekDays2() method is called ");
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method enter");
 		String sWeekdays = "";
 		
 		if (days.equals("Never"))
 			return days;
 		
-		String[] sParts = days.split("0123456789");
+		String[] sParts = days.split(SchedulerConstants.DIGITS);
 		String sTempStr = "";
 		//int beginIndex = 0;
 		
 		for(int i=0; i<sParts.length;i++) {
 			sTempStr = sParts[i];
-			ALog.i("Scheduler", "setWeekDays2 method - inside" + sTempStr);
-			if (sTempStr.contains("0")) sWeekdays = sWeekdays + "Sunday, ";
-			if (sTempStr.contains("1")) sWeekdays = sWeekdays + "Monday, ";
-			if (sTempStr.contains("2")) sWeekdays = sWeekdays + "Tuesday, ";
-			if (sTempStr.contains("3")) sWeekdays = sWeekdays + "Wednesday, ";
-			if (sTempStr.contains("4")) sWeekdays = sWeekdays + "Thursday, ";
-			if (sTempStr.contains("5")) sWeekdays = sWeekdays + "Friday, ";
-			if (sTempStr.contains("6")) sWeekdays = sWeekdays + "Saturday, ";
+			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2 method - sTempstr is " + sTempStr);
+			if (sTempStr.contains("0")) sWeekdays = sWeekdays + SchedulerConstants.SUNDAY + ", ";
+			if (sTempStr.contains("1")) sWeekdays = sWeekdays + SchedulerConstants.MONDAY + ", ";
+			if (sTempStr.contains("2")) sWeekdays = sWeekdays + SchedulerConstants.TUESDAY + ", ";
+			if (sTempStr.contains("3")) sWeekdays = sWeekdays + SchedulerConstants.WEDNESDAY + ", ";
+			if (sTempStr.contains("4")) sWeekdays = sWeekdays + SchedulerConstants.THURSDAY + ", ";
+			if (sTempStr.contains("5")) sWeekdays = sWeekdays + SchedulerConstants.FRIDAY + ", ";
+			if (sTempStr.contains("6")) sWeekdays = sWeekdays + SchedulerConstants.SATURDAY + ", ";
 		}
 		
 		sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
-		ALog.i("Scheduler", "AddSchedulerFragment::setWeekDays2() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method exit");
 		
 		return sWeekdays;
 	}	

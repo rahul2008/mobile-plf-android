@@ -1,21 +1,20 @@
 package com.philips.cl.di.dev.pa.scheduler;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateTask.FirmwareResponseListener;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -23,7 +22,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
-		ALog.i("Scheduler", "SchedulerOverview::onCreateView() method beginning is called");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::onCreateView() method enter");
 		View view = inflater.inflate(R.layout.scheduler_overview, null);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.OVERVIEW_EVENT);
 		
@@ -32,17 +31,18 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		if (bundle != null) {
 			extras = bundle.getString("events");
 			CreateEventList(extras, view);
-			ALog.i("Scheduler", "Extras is " + extras);
+			ALog.i("ALog.SCHEDULER", "SchedulerOverview::onCreateView() method - extras is " + extras);
 		}
 		
 		ImageView ivEdit1 = (ImageView) view.findViewById(R.id.edit);
 		ivEdit1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				/*DeleteSchedulerFragment fragEditSch = new DeleteSchedulerFragment();
+				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.UPDATE_EVENT);
+				DeleteSchedulerFragment fragEditSch = new DeleteSchedulerFragment();
 				getFragmentManager()
 				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragEditSch,"DeleteSchedulerFragment").commit();*/
+				.replace(R.id.ll_scheduler_container, fragEditSch,"DeleteSchedulerFragment").commit();
 			}
 		});
 		
@@ -50,46 +50,49 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		ivEdit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
 				DialogFragment newFragment = new TimePickerFragment();
 				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
 			}
 		});
 		
-		ALog.i("Scheduler", "SchedulerOverview::onCreateView() method ending is called");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::onCreateView() method exit");
 		return view;
 	}
 	
 	private void CreateEventList(String extras, View view) {
-		ALog.i("Scheduler", "SchedulerOverview::CreateEventList() method beginning is called  ");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method enter  ");
 		String sIsEnabled, sTime, sDays, sProduct, sPort, sSpeed, sCommand;
 		String sEventSetting = "";	
 		
-		JsonArray arrColl = new JsonParser().parse(extras).getAsJsonArray();
-		for (int i=0;i<arrColl.size();i++) {
-			ALog.i("Scheduler", "Printing Json object  " + i);
-		    JsonObject json = arrColl.get(i).getAsJsonObject();
+		try{
+		JSONArray arrColl = new JSONArray(extras);
+		
+		for (int i=0;i<arrColl.length();i++) {
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method - printing Json object  " + i);
+		    JSONObject json = arrColl.getJSONObject(i);
 		    
-		    sIsEnabled = getJsonPropertyAsString(json, "enabled");
-		    sTime = getJsonPropertyAsString(json, "time");
+		    sIsEnabled = json.getString(SchedulerConstants.ENABLED);
+		    sTime = json.getString(SchedulerConstants.TIME);
 		    
 		    try {
-		    sDays = getJsonPropertyAsString(json, "days");
+		    sDays = json.getString(SchedulerConstants.DAYS);
 		    } catch(Exception e) {
-		    	ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
+		    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
 		    	sDays = "Never";
 		    }
 		    sDays = setWeekDays2(sDays);
-		    sProduct = getJsonPropertyAsString(json, "product");
-		    sPort = getJsonPropertyAsString(json, "port");
+		    sProduct = json.getString(SchedulerConstants.PRODUCT);
+		    sPort = json.getString(SchedulerConstants.PORT);
 		    
 		    try {
-		    	sSpeed = getJsonPropertyAsString(json, "speed");
+		    	sSpeed = json.getString(SchedulerConstants.SPEED);
 		    } catch (Exception e) {
-		    	ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - Excpetion caught while getting speed property");
+		    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting speed property");
 		    	sSpeed = "Auto";
 		    }
 		    
-		    sCommand = getJsonPropertyAsString(json, "command");
+		    sCommand = json.getString(SchedulerConstants.COMMAND);
 		    sEventSetting = "";
 			//sEventSetting = sSpeed + ", " + sDays;
 		    sEventSetting = sDays;
@@ -111,19 +114,21 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 				break;
 			}
 			
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - Enabled value is  " + sIsEnabled);
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - time value is  " + sTime);
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - days value is  " + sDays);
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - product value is  " + sProduct);
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - port value is  " + sPort);
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - speed value is  " + sSpeed);
-			ALog.i("Scheduler", "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Enabled value is  " + sIsEnabled);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - time value is  " + sTime);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - days value is  " + sDays);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - product value is  " + sProduct);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - port value is  " + sPort);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - speed value is  " + sSpeed);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
 		}
-		ALog.i("Scheduler", "SchedulerOverview::CreateEventList() method ending is called  ");
+		} catch(Exception e) {
+		}
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method exit  ");
 	}
 	
 	private void CreateEvent(View view, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iButton, int iImgView, String time, String event) {
-		ALog.i("Scheduler", "SchedulerOverview::CreateEvent() method beginning is called  ");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEvent() method enter");
 		FontTextView txtOuterView, txtInnerOuterView;
 		FontTextView txtView1, txtView2;
 		Button btn;
@@ -140,8 +145,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		txtView1.setVisibility(View.VISIBLE);
 		
 		txtView2 = (FontTextView) view.findViewById(iTxtView2);
-		txtView2.setText(event);		
-		//txtView2.setTypeface(null, Typeface.BOLD);
+		txtView2.setText(event);
 		txtView2.setVisibility(View.VISIBLE);
 		
 		btn = (Button) view.findViewById(iButton);
@@ -149,61 +153,34 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		
 		//imgView = (ImageView) view.findViewById(iImgView);
 		//imgView.setVisibility(View.VISIBLE);
-		ALog.i("Scheduler", "SchedulerOverview::CreateEvent() method ending is called  ");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEvent() method exit");
 	}
 	
-	/*private String setWeekDays(String days) {
-		ALog.i("Scheduler", "SchedulerOverview::setWeekDays() method beginning is called  ");
-		
-		if (days.equals("Never"))
-			return "Never";
-		
-		String[] sParts = days.split("0123456");
-		String sTempStr = "";
-		String sWeekdays = "";
-		
-		for(int i=0; i<sParts.length;i++) {
-			sTempStr = sParts[i];
-			if (sTempStr.contains("0")) sWeekdays = sWeekdays + " " + "Sun";
-			if (sTempStr.contains("1")) sWeekdays = sWeekdays + " " + "Mon";
-			if (sTempStr.contains("2")) sWeekdays = sWeekdays + " " + "Tue";
-			if (sTempStr.contains("3")) sWeekdays = sWeekdays + " " + "Wed";
-			if (sTempStr.contains("4")) sWeekdays = sWeekdays + " " + "Thu";
-			if (sTempStr.contains("5")) sWeekdays = sWeekdays + " " + "Fri";
-			if (sTempStr.contains("6")) sWeekdays = sWeekdays + " " + "Sat";
-		}
-		
-		ALog.i("Scheduler", "SchedulerOverview::setWeekDays() method ending is called  ");
-		return sWeekdays;
-	}*/
-	
-	
 	private String setWeekDays2(String days) {
-		ALog.i("Scheduler", "SchedulerOverview::setWeekDays2() method beginning is called  ");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::setWeekDays2() method enter");
 		String sWeekdays = "";
 		
 		if (days.equals("Never"))
 			return days;
 		
-		String[] sParts = days.split("0123456789");
+		String[] sParts = days.split(SchedulerConstants.DIGITS);
 		String sTempStr = "";
 		//int beginIndex = 0;
 		
 		for(int i=0; i<sParts.length;i++) {
 			sTempStr = sParts[i];
-			ALog.i("Scheduler", "setWeekDays2 method - inside" + sTempStr);
-			if (sTempStr.contains("0")) sWeekdays = sWeekdays + "Sunday, ";
-			if (sTempStr.contains("1")) sWeekdays = sWeekdays + "Monday, ";
-			if (sTempStr.contains("2")) sWeekdays = sWeekdays + "Tuesday, ";
-			if (sTempStr.contains("3")) sWeekdays = sWeekdays + "Wednesday, ";
-			if (sTempStr.contains("4")) sWeekdays = sWeekdays + "Thursday, ";
-			if (sTempStr.contains("5")) sWeekdays = sWeekdays + "Friday, ";
-			if (sTempStr.contains("6")) sWeekdays = sWeekdays + "Saturday, ";
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::setWeekDays2() method - sTempStr is " + sTempStr);
+			if (sTempStr.contains("0")) sWeekdays = sWeekdays + SchedulerConstants.SUNDAY + ", ";
+			if (sTempStr.contains("1")) sWeekdays = sWeekdays + SchedulerConstants.MONDAY + ", ";
+			if (sTempStr.contains("2")) sWeekdays = sWeekdays + SchedulerConstants.TUESDAY + ", ";
+			if (sTempStr.contains("3")) sWeekdays = sWeekdays + SchedulerConstants.WEDNESDAY + ", ";
+			if (sTempStr.contains("4")) sWeekdays = sWeekdays + SchedulerConstants.THURSDAY + ", ";
+			if (sTempStr.contains("5")) sWeekdays = sWeekdays + SchedulerConstants.FRIDAY + ", ";
+			if (sTempStr.contains("6")) sWeekdays = sWeekdays + SchedulerConstants.SATURDAY + ", ";
 		}
 		
-		
 		sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
-		ALog.i("Scheduler", "SchedulerOverview::setWeekDays2() method ending is called  ");
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::setWeekDays2() method exit");
 		
 		return sWeekdays;
 	}

@@ -40,16 +40,16 @@ public class RepeatFragment extends BaseFragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		ALog.i("Scheduler", "RepeatFragment::onCreateView() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method enter");
 		View view = inflater.inflate(R.layout.repeat_scheduler, null);
 		initViews(view);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.REPEAT);
-		ALog.i("Scheduler", "RepeatFragment::onCreateView() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method exit");
 		return view;
 	}
 
 	private void initViews(View view) {
-		ALog.i("Scheduler", "RepeatFragment::initViews() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::initViews() method enter");
 		tvSun = (FontTextView) view.findViewById(R.id.tvSunday);
 		tvMon = (FontTextView) view.findViewById(R.id.tvMonday);
 		tvTue = (FontTextView) view.findViewById(R.id.tvTuesday);
@@ -75,7 +75,6 @@ public class RepeatFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				setClickSunday(v, tvSun, ivDiv1, chkBox1);
-				ALog.i("Scheduler", "Bundle is empty");
 				}
 		});
 		
@@ -169,13 +168,13 @@ public class RepeatFragment extends BaseFragment {
 				setClickSaturday(v, tvSat, chkBox7);
 			}
 		});
-		ALog.i("Scheduler", "RepeatFragment::initViews method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::initViews method exit");
 	}
 	
 	private void setClickSunday(View view, FontTextView tvSun, ImageView ivDiv1, CheckBox chkBox1) {
-		ALog.i("Scheduler", "RepeatFragment::setClickSunday method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSunday method enter");
 		if (chkBox1.isChecked() == false) {
-			ALog.i("Scheduler", "Sunday is pressed ");
+			ALog.i(ALog.SCHEDULER, "Sunday is clicked");
 			tvSun.setTextColor(Color.WHITE);	
 			tvSun.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv1.setBackgroundColor(Color.WHITE);
@@ -193,13 +192,13 @@ public class RepeatFragment extends BaseFragment {
 			sSelectedDays = sSelectedDays + "Sunday";
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickSunday method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSunday method exit");
 	}
 	
 	private void setClickMonday(View view, FontTextView tvMon, ImageView ivDiv2, CheckBox chkBox2) {
-		ALog.i("Scheduler", "RepeatFragment::setClickMonday() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickMonday() method enter");
 		if (chkBox2.isChecked() == false) {
-			ALog.i("Scheduler", "Monday is pressed ");
+			ALog.i(ALog.SCHEDULER, "Monday is clicked");
 			tvMon.setTextColor(Color.WHITE);	
 			tvMon.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv1.setBackgroundColor(Color.WHITE);
@@ -218,13 +217,13 @@ public class RepeatFragment extends BaseFragment {
 			ivDiv2.setBackgroundColor(Color.BLACK);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickMonday() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickMonday() method exit");
 	}
 	
 	private void setClickTuesday(View view, FontTextView tvTue, ImageView ivDiv3, CheckBox chkBox3) {
-		ALog.i("Scheduler", "RepeatFragment::setClickTuesday() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickTuesday() method enter");
 		if (chkBox3.isChecked() == false) {
-			ALog.i("Scheduler", "Tuesday is pressed ");
+			ALog.i(ALog.SCHEDULER, "Tuesday is clicked");
 			tvTue.setTextColor(Color.WHITE);	
 			tvTue.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv2.setBackgroundColor(Color.WHITE);
@@ -243,13 +242,13 @@ public class RepeatFragment extends BaseFragment {
 			ivDiv3.setBackgroundColor(Color.BLACK);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickTuesday() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickTuesday() method exit");
 	}
 	
 	private void setClickWednesday(View view, FontTextView tvWed, ImageView ivDiv4, CheckBox chkBox4) {
-		ALog.i("Scheduler", "RepeatFragment::setClickWednesday() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickWednesday() method enter");
 		if (chkBox4.isChecked() == false) {
-			ALog.i("Scheduler", "Wednesday is pressed ");
+			ALog.i(ALog.SCHEDULER, "Wednesday is clicked");
 			tvWed.setTextColor(Color.WHITE);	
 			tvWed.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv3.setBackgroundColor(Color.WHITE);
@@ -268,13 +267,13 @@ public class RepeatFragment extends BaseFragment {
 			ivDiv4.setBackgroundColor(Color.BLACK);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickWednesday() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickWednesday() method exit");
 	}
 	
 	private void setClickThursday(View view, FontTextView tvThu, ImageView ivDiv5, CheckBox chkBox5) {
-		ALog.i("Scheduler", "RepeatFragment::setClickThursday() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickThursday() method enter");
 		if (chkBox5.isChecked() == false) {
-			ALog.i("Scheduler", "Thursday is pressed ");
+			ALog.i(ALog.SCHEDULER, "Thursday is clicked");
 			tvThu.setTextColor(Color.WHITE);	
 			tvThu.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv4.setBackgroundColor(Color.WHITE);
@@ -293,13 +292,13 @@ public class RepeatFragment extends BaseFragment {
 			ivDiv5.setBackgroundColor(Color.BLACK);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickThursday() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickThursday() method exit");
 	}
 	
 	private void setClickFriday(View view, FontTextView tvFri, ImageView ivDiv6, CheckBox chkBox6) {
-		ALog.i("Scheduler", "RepeatFragment::setClickFriday() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickFriday() method enter");
 		if (chkBox6.isChecked() == false) {
-			ALog.i("Scheduler", "Friday is pressed ");
+			ALog.i(ALog.SCHEDULER, "Friday is clicked");
 			tvFri.setTextColor(Color.WHITE);	
 			tvFri.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv5.setBackgroundColor(Color.WHITE);
@@ -318,11 +317,11 @@ public class RepeatFragment extends BaseFragment {
 			ivDiv6.setBackgroundColor(Color.BLACK);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickFriday() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickFriday() method exit");
 	}
 	
 	private void setClickSaturday(View view, FontTextView tvSat, CheckBox chkBox7) {
-		ALog.i("Scheduler", "RepeatFragment::setClickSaturday() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSaturday() method enter");
 		if (chkBox7.isChecked() == false) {
 			ALog.i("Scheduler", "Saturday is pressed ");
 			tvSat.setTextColor(Color.WHITE);	
@@ -340,11 +339,11 @@ public class RepeatFragment extends BaseFragment {
 			chkBox7.setBackgroundColor(Color.WHITE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
-		ALog.i("Scheduler", "RepeatFragment::setClickSaturday() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSaturday() method exit");
 	}
 	
 	private String setDaysString() {
-		ALog.i("Scheduler", "RepeatFragment::setDaysString() method beginning is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setDaysString() method enter");
 		sSelectedDays = "";
 		
 		if (chkBox1.isChecked() == true) {
@@ -369,7 +368,7 @@ public class RepeatFragment extends BaseFragment {
 			sSelectedDays = sSelectedDays + "6";
 		}
 		
-		ALog.i("Scheduler", "RepeatFragment::setDaysString() method ending is called ");
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::setDaysString() method exit");
 		return sSelectedDays;
 	}
 }
