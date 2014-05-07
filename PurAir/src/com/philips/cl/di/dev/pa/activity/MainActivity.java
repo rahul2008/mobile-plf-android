@@ -148,8 +148,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	private IntentFilter filter;
 
-	private boolean stopService;
-
 	private AirPurifierController airPurifierController;
 
 	public boolean isDiagnostics;
@@ -268,7 +266,9 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	
 	@Override
 	protected void onStart() {
+		this.registerReceiver(networkReceiver, filter);
 		DiscoveryManager.getInstance().start(this);
+		toggleConnection();
 		super.onStart();
 	}
 	
@@ -279,11 +279,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		hideFirmwareUpdateHomeIcon();
 		
 		updatePurifierUIFields();
-	}
-	
-
-	private void removeFirmwareUpdateUI() {
-		setFirmwareSuperScript(0, false);
 	}
 
 	@Override
@@ -305,21 +300,10 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 		if (!isScreenOn && !isDiagnostics) {
 			if (!isClickEvent) {
-				stopService = true;
 //				stopAllServices();
 			}
 			isClickEvent = false;
 		}
-	}
-
-	@Override
-	protected void onRestart() {
-		ALog.i(ALog.MAINACTIVITY, "onRestart: stopService is: " + stopService);
-		if (stopService) {
-			stopService = false;
-			this.registerReceiver(networkReceiver, filter);
-		}
-		super.onRestart();
 	}
 
 	@Override
@@ -328,6 +312,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			progressDialog.cancel();
 		}
 		DiscoveryManager.getInstance().stop();
+		this.unregisterReceiver(networkReceiver);
+		stopAllServices();
 		super.onStop();
 	}
 
@@ -365,7 +351,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	protected void onUserLeaveHint() {
 		ALog.i(ALog.MAINACTIVITY, "onUserLeaveHint");
 		if (!isClickEvent && !isDiagnostics) {
-			stopService = true;
 //			stopAllServices();
 		}
 		isClickEvent = false;
@@ -378,14 +363,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 				+ " requestCode " + requestCode);
 		switch (requestCode) {
 		case AppConstants.EWS_REQUEST_CODE:
-			// TODO should be removed
-			if (resultCode == RESULT_OK) {
-				toggleConnection(true);
-			}
-			
-			this.registerReceiver(networkReceiver, filter);
 			break;
-
 		case AppConstants.FIRMWARE_REQUEST_CODE:
 			ALog.i(ALog.ACTIVITY,
 					"MainActivity$onActivityResult FIRMWARE_REQUEST_CODE");
@@ -395,12 +373,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			break;
 		}
 	}
-
-//	private void checkForFirmwareUpdate() {
-//		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, Utils.getIPAddress());
-//		FirmwareUpdateTask task = new FirmwareUpdateTask(this);
-//		task.execute(firmwareUrl);
-//	}
 
 	@Override
 	public void onClick(View v) {
@@ -416,34 +388,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			break;
 		}
 	}
-
-	/*@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		this.menu = menu;
-		MenuItem item = menu.findItem(R.id.right_menu);
-		rightMenuItem = menu.findItem(R.id.right_menu);
-
-		if (connected)
-			item.setIcon(R.drawable.right_bar_icon_blue_2x);
-		else
-			item.setIcon(R.drawable.right_bar_icon_orange_2x);
-		return true;
-	}
-
-	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		MenuItem item = this.menu.findItem(R.id.add_location_menu);
-		if (fragment instanceof OutdoorLocationsFragment) {
-			item.setVisible(true);
-		} else {
-			item.setVisible(false);
-		}
-		return super.onPrepareOptionsMenu(menu);
-	}*/
-
 
 	@Override
 	protected void onDestroy() {
@@ -536,14 +480,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	public void stopAllServices() {
 		stopRemoteConnection() ;
 		stopLocalConnection() ;
-
-		if (networkReceiver != null) {
-			try {
-				this.unregisterReceiver(networkReceiver);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
 		CPPController.reset();
 	}
 
@@ -876,7 +812,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	public void showFragment(Fragment fragment) {
 
-		stopService = false ;
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -993,6 +928,10 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
 	}
 
+	private void removeFirmwareUpdateUI() {
+		setFirmwareSuperScript(0, false);
+	}
+	
 	public static int getScreenWidth() {
 		return screenWidth;
 	}
@@ -1182,13 +1121,18 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		}
 	}
 
-	public void toggleConnection(boolean isLocal) {
-		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + isLocal);
-
-		if (isLocal) {
-			startLocalConnection();
-		} else {
-			startRemoteConnection() ;
+	public void toggleConnection() {
+		PurAirDevice purifier = getCurrentPurifier();
+		ConnectionState state = ConnectionState.DISCONNECTED;
+		if (purifier != null) {
+			state = purifier.getConnectionState();
+		}
+		
+		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + state);
+		switch (state) {
+			case CONNECTED_LOCALLY: startLocalConnection(); break;
+			case CONNECTED_REMOTELY: startRemoteConnection(); break;
+			case DISCONNECTED: /* NOP */ break;
 		}
 	}
 

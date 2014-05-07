@@ -458,6 +458,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				for (int i = 0; i < noOfEvents; i++) {
 					dcsEvents = eventSubscription.getData(i);
 					if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
+						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
 						notifyListeners(dcsEvents);
 					}
 				}
