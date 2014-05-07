@@ -64,6 +64,8 @@ public class UDPSocketManager extends Thread {
 				
 			} catch (IOException e) {
 				e.printStackTrace();
+			} catch (NullPointerException e2) {
+				// NOP -  Received after attempt to close socket.
 			}
 		}
 	}
