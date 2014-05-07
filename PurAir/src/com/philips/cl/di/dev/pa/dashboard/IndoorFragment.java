@@ -17,6 +17,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -41,6 +42,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onResume() {
 		super.onResume();
 		AirPurifierController.getInstance().addAirPurifierEventListener(this);
+		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
+			updateDashboard(PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo());
+		}
 	}
 
 	@Override
@@ -49,14 +53,18 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
 	}
 
-	private void updateDashboard(AirPortInfo airPurifierEvent) {
-		int indoorAqi = airPurifierEvent.getIndoorAQI();
+	private void updateDashboard(AirPortInfo airPortInfo) {
+		if(airPortInfo == null) {
+			return;
+		}
+		
+		int indoorAqi = airPortInfo.getIndoorAQI();
 		
 		FontTextView fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
-		fanModeTxt.setText(getString(DashboardUtils.getFanSpeedText(airPurifierEvent.getFanSpeed())));
+		fanModeTxt.setText(getString(DashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
 
 		FontTextView filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
-		filterStatusTxt.setText(DashboardUtils.getFilterStatus(airPurifierEvent));
+		filterStatusTxt.setText(DashboardUtils.getFilterStatus(airPortInfo));
 
 		FontTextView aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiStatusTxt.setText(getString(DashboardUtils.getAqiTitle(indoorAqi)));
