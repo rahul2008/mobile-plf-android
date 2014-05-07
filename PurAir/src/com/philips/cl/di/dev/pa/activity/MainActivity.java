@@ -1122,14 +1122,12 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			if (devices.size() <= 0) return;
 			
 			// Select the first locally connected device
-			PurAirDevice localDevice = null;
 			for (PurAirDevice device : devices) {
 				if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-					localDevice = device;
+					current = device;
 					break;
 				}
 			}
-			if (localDevice == null) return;
 			
 			PurifierManager.getInstance().setCurrentPurifier(current);
 			ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + current.getName());
