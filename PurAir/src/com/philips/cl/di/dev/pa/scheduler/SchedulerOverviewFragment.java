@@ -39,10 +39,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			@Override
 			public void onClick(View v) {
 				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.UPDATE_EVENT);
-				DeleteSchedulerFragment fragEditSch = new DeleteSchedulerFragment();
+				/*DeleteSchedulerFragment fragEditSch = new DeleteSchedulerFragment();
 				getFragmentManager()
 				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragEditSch,"DeleteSchedulerFragment").commit();
+				.replace(R.id.ll_scheduler_container, fragEditSch,"DeleteSchedulerFragment").commit();*/
 			}
 		});
 		
