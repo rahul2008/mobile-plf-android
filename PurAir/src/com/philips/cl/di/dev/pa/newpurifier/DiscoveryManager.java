@@ -194,11 +194,19 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	private boolean onDeviceLost(DeviceModel deviceModel) {
-		PurAirDevice purifier = getPurAirDevice(deviceModel);
-		if (purifier == null) return false;
+		String lostDeviceUsn = deviceModel.getId();
+		if (lostDeviceUsn == null || lostDeviceUsn.length() <= 0) return false;
+
+		ArrayList<PurAirDevice> devices = getDiscoveredDevices();
+		for (PurAirDevice purifier : devices) {
+			if (purifier.getUsn().equals(lostDeviceUsn)) {
+				purifier.setConnectionState(ConnectionState.DISCONNECTED);
+				notifyDiscoveryListener();
+				ALog.d(ALog.DISCOVERY, "Lost purifier: " + purifier);
+				return true;
+			}
+		}
 		
-		purifier.setConnectionState(ConnectionState.DISCONNECTED);
-		notifyDiscoveryListener();
 		return false;
 	}
 	
