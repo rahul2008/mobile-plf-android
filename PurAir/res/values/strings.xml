@@ -442,6 +442,7 @@
     <!-- Scheduler texts -->
     <string name="list_item_scheduler">Scheduler</string>
     <string name="time">Time</string>
+    <string name="days2">Date</string>
     <string name="never">Never</string>
     <string name="fanspeed">Fan speed</string>
     <string name="fanspeed_one">1</string>
