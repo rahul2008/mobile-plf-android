@@ -129,7 +129,9 @@ public class AddSchedulerFragment extends BaseFragment {
 			if (sTempStr.contains("6")) sWeekdays = sWeekdays + SchedulerConstants.SATURDAY + ", ";
 		}
 		
-		sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
+		if (!sWeekdays.isEmpty()) {
+			sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
+		}
 		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method exit");
 		
 		return sWeekdays;
