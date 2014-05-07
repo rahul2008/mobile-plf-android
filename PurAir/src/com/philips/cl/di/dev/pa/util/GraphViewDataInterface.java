@@ -25,6 +25,6 @@ package com.philips.cl.di.dev.pa.util;
  * this interface.
  */
 public interface GraphViewDataInterface {
-	public double getX();
-	public double getY();
+	double getX();
+	double getY();
 }

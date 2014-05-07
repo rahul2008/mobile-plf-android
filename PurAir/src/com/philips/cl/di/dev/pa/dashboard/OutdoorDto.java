@@ -157,25 +157,26 @@ public class OutdoorDto implements Serializable{
 		float rotation = 0.0f;
 		try {
 			int aqiInt = Integer.parseInt(aqi);
+			float aqiFloat = Float.parseFloat(aqi);
 			if(aqiInt >= 0 && aqiInt <= 50) {
-				rotation = aqiInt * 0.54f;
+				rotation = aqiFloat * 0.54f;
 			} else if(aqiInt > 50 && aqiInt <= 100) {
-				aqiInt -= 50;
-				rotation = 28 + aqiInt * 0.54f;
+				aqiFloat -= 50;
+				rotation = 28 + aqiFloat * 0.54f;
 			} else if(aqiInt > 100 && aqiInt <= 150) {
-				aqiInt -= 100;
-				rotation = 57 + aqiInt * 0.54f;
+				aqiFloat -= 100;
+				rotation = 57 + aqiFloat * 0.54f;
 			} else if(aqiInt > 150 && aqiInt <= 200) {
-				aqiInt -= 150;
-				rotation = 86 + aqiInt * 0.54f;
+				aqiFloat -= 150;
+				rotation = 86 + aqiFloat * 0.54f;
 			} else if(aqiInt > 200 && aqiInt <= 300) {
-				aqiInt -= 200;
-				rotation = 114 + aqiInt * 0.705f;
+				aqiFloat -= 200;
+				rotation = 114 + aqiFloat * 0.705f;
 			} else if(aqiInt > 300) {
-				aqiInt -= 300;
-				rotation = 187 + aqiInt * 0.163f;
+				aqiFloat -= 300;
+				rotation = 187 + aqiFloat * 0.163f;
 				if(rotation > 301) {
-					rotation = 301;
+					rotation = 301.0f;
 				}
 			}
 		} catch (NumberFormatException e) {

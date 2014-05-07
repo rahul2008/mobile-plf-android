@@ -19,8 +19,7 @@ public class NotificationSelectDayActivity extends BaseActivity {
 
 	private String[] days={"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday","Saturday"};
 	private ArrayAdapter<String> mAdapter; 
-	private ArrayList<String> selectedDaysList=new ArrayList<String>();
-	ListView lv;
+	private ListView lv;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

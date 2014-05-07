@@ -104,8 +104,7 @@ public class GraphView extends View {
 		yaxisIndoorLabel[3] = context.getString(R.string.id_yaxis_label4);
 		
 		if (coordinates != null && yCoordinates != null) {
-			mDetailsAIQ = new DetailsAIQ(context, graphWidh, 
-					yCoordinates, powerOnFlgs, coordinates, position);
+			mDetailsAIQ = new DetailsAIQ(context, graphWidh, yCoordinates, coordinates, position);
 		}
 		
 		mDetailsAIQ.setIndexImgBg(indexBgImage);

@@ -2,22 +2,22 @@ package com.philips.cl.di.dev.pa.ews;
 
 public interface EWSListener {
 	
-	public static final int ERROR_CODE_PHILIPS_SETUP_NOT_FOUND = 1 ;
-	public static final int ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE = 2 ;
-	public static final int ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE = 3 ;
-	public static final int ERROR_CODE_COULDNOT_FIND_DEVICE = 4 ;
-	public static final int ERROR_CODE_INVALID_PASSWORD = 5 ;
-	public void onDeviceAPMode() ;
+	static final int ERROR_CODE_PHILIPS_SETUP_NOT_FOUND = 1 ;
+	static final int ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE = 2 ;
+	static final int ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE = 3 ;
+	static final int ERROR_CODE_COULDNOT_FIND_DEVICE = 4 ;
+	static final int ERROR_CODE_INVALID_PASSWORD = 5 ;
+	void onDeviceAPMode() ;
 	
-	public void onSelectHomeNetwork() ;
+	void onSelectHomeNetwork() ;
 	
-	public void onHandShakeWithDevice() ;
+	void onHandShakeWithDevice() ;
 	
-	public void onDeviceConnectToHomeNetwork() ;
+	void onDeviceConnectToHomeNetwork() ;
 	
-	public void foundHomeNetwork() ;
+	void foundHomeNetwork() ;
 	
-	public void onErrorOccurred(int errorCode) ;
+	void onErrorOccurred(int errorCode) ;
 	
-	public void onWifiDisabled() ;
+	void onWifiDisabled() ;
 }

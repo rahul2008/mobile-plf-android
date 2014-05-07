@@ -7,5 +7,5 @@ import com.philips.cl.di.dev.pa.datamodel.City;
 
 public interface OutdoorEventListener {
 
-	public void outdoorLocationDataReceived(List<City> cities);
+	void outdoorLocationDataReceived(List<City> cities);
 }

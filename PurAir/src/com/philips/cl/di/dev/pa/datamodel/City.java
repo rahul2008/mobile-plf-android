@@ -101,8 +101,6 @@ public class City {
 	public int hashCode() {
 		return key.hashCode();
 	}
-	
-	
 
 	public Weather getWeather() {
 		return weather_ex;

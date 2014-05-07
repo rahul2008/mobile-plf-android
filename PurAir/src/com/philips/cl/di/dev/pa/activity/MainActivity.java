@@ -627,7 +627,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 				}
 				break;
 			case R.id.add_location_img:
-				//TODO
+				//TODO : Drop down city list
 				break;
 			case R.id.back_to_home_img:
 				//TODO
@@ -789,97 +789,97 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		this.outdoorLocationsAdapter = outdoorLocationsAdapter;
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
-			mDrawerLayout.closeDrawer(mScrollViewRight);
-			return true;
-		}
-
-		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-
-		switch (item.getItemId()) {
-		case R.id.right_menu:
-			if (mRightDrawerOpened) {
-				mDrawerLayout.closeDrawer(mListViewLeft);
-				mDrawerLayout.closeDrawer(mScrollViewRight);
-			} else {
-				mDrawerLayout.closeDrawer(mListViewLeft);
-				mDrawerLayout.openDrawer(mScrollViewRight);
-			}
-			break;
-		case R.id.add_location_menu:
-			if (fragment instanceof OutdoorLocationsFragment) {
-				actionMode = startSupportActionMode(callback);
-
-				Map<String, City> citiesMap = SessionDto.getInstance()
-						.getCityDetails().getCities();
-				List<City> citiesList = new ArrayList<City>(citiesMap.values());
-
-				final List<String> cityNamesList = new ArrayList<String>();
-				Iterator<City> iterator = citiesList.iterator();
-
-				while (iterator.hasNext()) {
-					String cityName = iterator.next().getKey();
-					cityName = cityName.substring(0, 1).toUpperCase()
-							+ cityName.substring(1);
-					cityNamesList.add(cityName);
-				}
-				Collections.sort(cityNamesList);
-
-				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cityNamesList);
-				final DragSortListView listView = (DragSortListView) findViewById(R.id.outdoor_locations_list);
-				AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.actv_cities_list);
-				actv.setAdapter(adapter);
-				actv.setThreshold(0);
-				actv.showDropDown();
-				actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> arg0, View arg1,
-							int arg2, long arg3) {
-						actionMode.finish();
-
-					}
-				});
-
-				actv.setValidator(new AutoCompleteTextView.Validator() {
-
-					@Override
-					public boolean isValid(CharSequence text) {
-						if (cancelSearch) {
-							cancelSearch = false;
-							return false;
-						}
-						if (cityNamesList.contains(text.toString())) {
-							if (outdoorLocationsAdapter.getPosition(text
-									.toString()) != -1) {
-								return false;
-							}
-							outdoorLocationsAdapter.add(text.toString());
-							outdoorLocationsAdapter.notifyDataSetChanged();
-							listView.invalidate();
-							return true;
-						} else {
-							Toast.makeText(MainActivity.this, "Inalid text",
-									Toast.LENGTH_LONG).show();
-							return false;
-						}
-					}
-
-					@Override
-					public CharSequence fixText(CharSequence invalidText) {
-						// TODO Auto-generated method stub
-						return null;
-					}
-				});
-			}
-			break;
-		default:
-			break;
-		}
-		return false;
-	}
+//	@Override
+//	public boolean onOptionsItemSelected(MenuItem item) {
+//		if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
+//			mDrawerLayout.closeDrawer(mScrollViewRight);
+//			return true;
+//		}
+//
+//		FragmentManager manager = getSupportFragmentManager();
+//		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+//
+//		switch (item.getItemId()) {
+//		case R.id.right_menu:
+//			if (mRightDrawerOpened) {
+//				mDrawerLayout.closeDrawer(mListViewLeft);
+//				mDrawerLayout.closeDrawer(mScrollViewRight);
+//			} else {
+//				mDrawerLayout.closeDrawer(mListViewLeft);
+//				mDrawerLayout.openDrawer(mScrollViewRight);
+//			}
+//			break;
+//		case R.id.add_location_menu:
+//			if (fragment instanceof OutdoorLocationsFragment) {
+//				actionMode = startSupportActionMode(callback);
+//
+//				Map<String, City> citiesMap = SessionDto.getInstance()
+//						.getCityDetails().getCities();
+//				List<City> citiesList = new ArrayList<City>(citiesMap.values());
+//
+//				final List<String> cityNamesList = new ArrayList<String>();
+//				Iterator<City> iterator = citiesList.iterator();
+//
+//				while (iterator.hasNext()) {
+//					String cityName = iterator.next().getKey();
+//					cityName = cityName.substring(0, 1).toUpperCase()
+//							+ cityName.substring(1);
+//					cityNamesList.add(cityName);
+//				}
+//				Collections.sort(cityNamesList);
+//
+//				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cityNamesList);
+//				final DragSortListView listView = (DragSortListView) findViewById(R.id.outdoor_locations_list);
+//				AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.actv_cities_list);
+//				actv.setAdapter(adapter);
+//				actv.setThreshold(0);
+//				actv.showDropDown();
+//				actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//					@Override
+//					public void onItemClick(AdapterView<?> arg0, View arg1,
+//							int arg2, long arg3) {
+//						actionMode.finish();
+//
+//					}
+//				});
+//
+//				actv.setValidator(new AutoCompleteTextView.Validator() {
+//
+//					@Override
+//					public boolean isValid(CharSequence text) {
+//						if (cancelSearch) {
+//							cancelSearch = false;
+//							return false;
+//						}
+//						if (cityNamesList.contains(text.toString())) {
+//							if (outdoorLocationsAdapter.getPosition(text
+//									.toString()) != -1) {
+//								return false;
+//							}
+//							outdoorLocationsAdapter.add(text.toString());
+//							outdoorLocationsAdapter.notifyDataSetChanged();
+//							listView.invalidate();
+//							return true;
+//						} else {
+//							Toast.makeText(MainActivity.this, "Inalid text",
+//									Toast.LENGTH_LONG).show();
+//							return false;
+//						}
+//					}
+//
+//					@Override
+//					public CharSequence fixText(CharSequence invalidText) {
+//						// TODO Auto-generated method stub
+//						return null;
+//					}
+//				});
+//			}
+//			break;
+//		default:
+//			break;
+//		}
+//		return false;
+//	}
 
 	public void showFragment(Fragment fragment) {
 

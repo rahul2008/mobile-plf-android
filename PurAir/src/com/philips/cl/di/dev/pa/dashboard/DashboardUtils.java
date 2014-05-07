@@ -80,17 +80,18 @@ public class DashboardUtils {
 
 	public static float getAqiPointerRotation(int indoorAqi) {
 		float rotation = 0.0f;
+		float indoorAqiFloat = (float) indoorAqi;
 		if(indoorAqi >= 0 && indoorAqi <= 14) {
-			rotation = indoorAqi * 1.9f;
+			rotation = indoorAqiFloat * 1.9f;
 		} else if (indoorAqi > 14 && indoorAqi <= 23) {
-			indoorAqi -= 14;
-			rotation = 27.0f + (indoorAqi * 3.25f);
+			indoorAqiFloat -= 14;
+			rotation = 27.0f + (indoorAqiFloat * 3.25f);
 		} else if (indoorAqi > 23 && indoorAqi <= 35) {
-			indoorAqi -= 23;
-			rotation = 56.0f + (indoorAqi * 2.33f);
+			indoorAqiFloat -= 23;
+			rotation = 56.0f + (indoorAqiFloat * 2.33f);
 		} else if (indoorAqi > 35) {
-			indoorAqi -= 35;
-			rotation = 86.0f + (indoorAqi * 1.0f);
+			indoorAqiFloat -= 35;
+			rotation = 86.0f + (indoorAqiFloat * 1.0f);
 			if(rotation > 302) {
 				rotation = 302;
 			}

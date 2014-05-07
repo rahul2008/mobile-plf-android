@@ -40,6 +40,7 @@ public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 		case DisplayMetrics.DENSITY_XXHIGH:
 			ALog.i(ALog.DASHBOARD, "Density XXHIGH");
 		default:
+			ALog.i(ALog.DASHBOARD, "DEFAULT");
 			break;
 		}
 		
@@ -63,16 +64,6 @@ public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
 		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager());
 		outdoorViewPager.setAdapter(outdoorPagerAdapter);
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
 	}
 	
 	@Override

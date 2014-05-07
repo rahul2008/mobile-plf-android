@@ -579,7 +579,7 @@ public class Utils {
 	public static void setOutdoorWeatherDirImg(Context contex, float windSpeed,
 			String windDir, float degree, ImageView iv) {
 		Drawable weatherImage = null;
-		if ((windDir == null || windDir.equals("")) || degree < 0) {
+		if (windDir == null || windDir.equals("") || degree < 0) {
 			return;
 		}
 		if (windSpeed < 15) {
@@ -612,7 +612,7 @@ public class Utils {
 	}
 
 	public static long getDiffInDays(long pairedOn) {
-		java.util.Date currentDate = new java.util.Date();
+		Date currentDate = new Date();
 		long currenttimeInMillis = currentDate.getTime();
 
 		// Difference between current and previous timestamp

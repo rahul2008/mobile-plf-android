@@ -72,7 +72,7 @@ public class DetailsAIQ {
 	 * @param isOutdoor
 	 */
 	public DetailsAIQ(Context context, float displayWidth, List<float[]> yAxisValues,
-			int powerOnFlgs[], Coordinates coordinates, int position) {
+			Coordinates coordinates, int position) {
 		this.yAxisValues = yAxisValues;
 		this.coordinates = coordinates;
 		this.displayWidth = displayWidth;
