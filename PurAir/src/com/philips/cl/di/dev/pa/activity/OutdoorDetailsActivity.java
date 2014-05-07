@@ -90,17 +90,26 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		if (aqiEventDto == null) {
 			return;
 		}
-
-		setPM25();	
-		setPM10();	
-		setSO2();	
-		setNO2();	
-
+		
 		int idx[] = aqiEventDto.getIdx();
 			
 		if (idx == null || idx.length == 0) {
 			return;
 		}
+	
+		if (aqiValue.getText().toString() == null) {
+			return;
+		}
+		
+		for(int i = 0; i < 5; i++) {
+			if (idx[i] != 0) return;
+			if (idx[i] == 0) {
+				idx[i] = Integer.parseInt(aqiValue.getText().toString());
+				break;
+			} 
+			
+		}
+		
 		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
 		int hr = Utils.getLastDayHours(currentCityTimeHr);
 
@@ -215,50 +224,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		}
 	}
 	
-	private void setPM25() {
-		int pm25s[] = aqiEventDto.getPm25();
-		if (pm25s != null && pm25s.length > 0) {
-			String pm25 = String.valueOf(pm25s[0]);
-			if (pm25s[0] == 0 && pm25s.length > 1) {
-				pm25 = String.valueOf(pm25s[1]);
-			}
-			pm1.setText(getString(R.string.pm25) + "  " + pm25);
-		}
-	}
-	
-	private void setPM10() {
-		int pm10s[] = aqiEventDto.getPm10();
-		if (pm10s != null && pm10s.length > 0) {
-			String pm10 = String.valueOf(pm10s[0]);
-			if (pm10s[0] == 0 && pm10s.length > 1) {
-				pm10 = String.valueOf(pm10s[1]);
-			}
-			pm2.setText(getString(R.string.pm10) + "  " + pm10);
-		}
-	}
-	
-	private void setSO2() {
-		int so2s[] = aqiEventDto.getSo2();
-		if (so2s != null && so2s.length > 0) {
-			String so2 = String.valueOf(so2s[0]);
-			if (so2s[0] == 0 && so2s.length > 1) {
-				so2 = String.valueOf(so2s[1]);
-			}
-			pm3.setText(getString(R.string.so2) + "  " + so2);
-		}
-	}
-	
-	private void setNO2() {
-		int no2s[] = aqiEventDto.getNo2();
-		if (no2s != null && no2s.length > 0) {
-			String no2 = String.valueOf(no2s[0]);
-			if (no2s[0] == 0 && no2s.length > 1) {
-				no2 = String.valueOf(no2s[1]);
-			}
-			pm4.setText(getString(R.string.no2) + "  " + no2);
-		}
-	}
-
 	/** Getting data from Main screen*/
 	private void getDataFromDashboard() {
 		/**
@@ -269,11 +234,16 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		if(bundle != null) {
 			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
 			OutdoorDto city= (OutdoorDto) bundle.getSerializable(AppConstants.KEY_CITY);
+			if (city == null) return;
 			heading.setText(city.getCityName());
 			location.setText("");
 			summaryTitle.setText(city.getAqiTitle());
 			summary.setText(city.getAqiSummary()[0]);
 			aqiValue.setText(city.getAqi());
+			pm1.setText(getString(R.string.pm25) + "  " + city.getPm25());
+			pm2.setText(getString(R.string.pm10) + "  " + city.getPm25());
+			pm3.setText(getString(R.string.so2) + "  " + city.getSo2());
+			pm4.setText(getString(R.string.no2) + "  " + city.getNo2());
 			if (city.getAqi() != null) {
 				try {
 					int aqiInt = Integer.parseInt(city.getAqi().trim());
