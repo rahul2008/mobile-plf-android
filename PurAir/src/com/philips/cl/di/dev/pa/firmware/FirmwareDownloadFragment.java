@@ -118,7 +118,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	@Override
 	public void firmwareEventReceived(final FirmwarePortInfo firmwareEventDto) {
 		ALog.d(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareEventReceived progress " + firmwareEventDto.getProgress());
-		counter = 0;
+		setCounter(0);
 		getActivity().runOnUiThread(new Runnable() {
 			
 			@Override

@@ -525,7 +525,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		addLocation.setOnClickListener(actionBarClickListener);
 		mActionBar.setCustomView(view);
 		
-		//setTitle(getString(R.string.dashboard_title));
 	}
 	
 	private OnClickListener actionBarClickListener = new OnClickListener() {

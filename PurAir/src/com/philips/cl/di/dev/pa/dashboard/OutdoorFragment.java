@@ -84,60 +84,10 @@ public class OutdoorFragment extends BaseFragment {
 		aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
 		aqiPointerCircle.setOnClickListener(pointerImageClickListener);
 		aqiPointerCircle.invalidate();
-		setOutdoorTemperatureImage(outdoorDto.getWeatherIcon(), "Yes") ;
+		weatherIcon.setImageDrawable(getResources().getDrawable(outdoorDto.getWeatherIconResId()));
 		setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
 	}
 	
-	//TODO : Move to dto
-	private void setOutdoorTemperatureImage(String weatherDesc, String isDayTime) {
-		if(getActivity() != null) {
-		Drawable weatherImage = null;
-		ALog.i(ALog.OUTDOOR_DETAILS, "setOutdoorTemperatureImage " + weatherDesc);
-		if(weatherDesc == null || weatherDesc.equals("") || getActivity() == null) {
-			return;
-		}
-
-		if(weatherDesc.compareToIgnoreCase(AppConstants.SUNNY) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.sunny_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.MIST) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.mist_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.CLOUDY) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.cloudy_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.PARTLY_CLOUDY) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.partly_cloudy_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.PARTLY_CLOUDY) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.partly_cloudy_night_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.CLEAR_SKIES) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.clear_sky_night_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.SNOW) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.snow_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.LIGHT_RAIN_SHOWER) == 0 
-				|| weatherDesc.compareToIgnoreCase(AppConstants.LIGHT_DRIZZLE) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.light_rain_shower_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.light_rain_with_thunder_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER) == 0 
-				|| weatherDesc.compareToIgnoreCase(AppConstants.TORRENTIAL_RAIN_SHOWER) == 0 
-				|| weatherDesc.compareToIgnoreCase(AppConstants.HEAVY_RAIN) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.heavy_rain_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.HEAVY_RAIN_AT_TIMES) == 0) {
-			//TODO : Replace with proper icon. Icon not found, replacing with heavy raind
-			weatherImage = getResources().getDrawable(R.drawable.heavy_rain_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER) == 0) {
-			weatherImage = getResources().getDrawable(R.drawable.moderate_rain_with_thunder_white);
-		} else if (weatherDesc.compareToIgnoreCase(AppConstants.CLEAR) == 0) {
-			if(isDayTime.compareToIgnoreCase("Yes") == 0)
-				weatherImage = getResources().getDrawable(R.drawable.sunny_white);
-			else
-				weatherImage = getResources().getDrawable(R.drawable.clear_sky_night_white);
-		} else {
-			weatherImage = getResources().getDrawable(R.drawable.light_rain_shower_white);
-		}	
-
-		weatherIcon.setImageDrawable(weatherImage);
-		}
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

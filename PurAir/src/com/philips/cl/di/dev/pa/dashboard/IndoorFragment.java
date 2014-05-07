@@ -9,7 +9,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
@@ -23,8 +25,10 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class IndoorFragment extends BaseFragment implements AirPurifierEventListener {
+public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 
+	private LinearLayout firmwareUpdatePopup;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -33,12 +37,33 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		initFirmwareUpdatePopup();
+	}
+	
+	private void initFirmwareUpdatePopup() {
+		firmwareUpdatePopup = (LinearLayout) getView().findViewById(R.id.firmware_update_available);
+		
+		FontTextView firmwareUpdateText = (FontTextView) getView().findViewById(R.id.lbl_firmware_update_available);
+		firmwareUpdateText.setOnClickListener(this);
+		
+		ImageButton firmwareUpdateCloseButton = (ImageButton) getView().findViewById(R.id.btn_firmware_update_available);
+		firmwareUpdateCloseButton.setOnClickListener(this);
+	}
+	
+	@Override
 	public void onResume() {
 		super.onResume();
 		AirPurifierController.getInstance().addAirPurifierEventListener(this);
 		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
 			updateDashboard(PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo());
 		}
+		hideFirmwareUpdatePopup();
+	}
+
+	private void hideFirmwareUpdatePopup() {
+		firmwareUpdatePopup.setVisibility(View.GONE);
 	}
 
 	@Override
@@ -73,7 +98,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		ImageView aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 
-		aqiPointer.setOnClickListener(pointerImageClickListener);
+		aqiPointer.setOnClickListener(this);
 		aqiPointer.setImageResource(DashboardUtils.getAqiPointerBackgroundId(indoorAqi));
 		aqiPointer.invalidate();
 		setRotationAnimation(aqiPointer, DashboardUtils.getAqiPointerRotation(indoorAqi));
@@ -93,6 +118,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	    aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
 	
+	private void showFirmwareUpdatePopup() {
+		firmwareUpdatePopup.setVisibility(View.VISIBLE);
+	}
 
 	@Override
 	public void airPurifierEventReceived(final AirPortInfo airPurifierEvent) {
@@ -104,22 +132,38 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 		});
 	}
-
+	
 	@Override
 	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
-		//NOP
+		if(getActivity() == null) return;
+		if(firmwarePortInfo.isUpdateAvailable()) {
+			getActivity().runOnUiThread(new Runnable() {
+
+				@Override
+				public void run() {
+					showFirmwareUpdatePopup();
+				}
+			});
+		}
 	}
 
-	private OnClickListener pointerImageClickListener = new OnClickListener() {
-
-		@Override
-		public void onClick(View v) {
-			((MainActivity)getActivity()).isClickEvent = true ;
-			
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.lbl_firmware_update_available:
+			((MainActivity)getActivity()).startFirmwareUpgradeActivity();
+			hideFirmwareUpdatePopup();
+			break;
+		case R.id.btn_firmware_update_available:
+			hideFirmwareUpdatePopup();
+			break;
+		case R.id.hf_indoor_circle_pointer:
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 			startActivity(intent);
-
+			break;
+		default:
+			break;
 		}
-	};
+	}
 
 }

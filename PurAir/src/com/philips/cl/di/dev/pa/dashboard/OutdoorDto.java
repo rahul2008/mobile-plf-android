@@ -6,6 +6,7 @@ import android.content.Context;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 
 
 public class OutdoorDto implements Serializable{
@@ -191,4 +192,59 @@ public class OutdoorDto implements Serializable{
 	public void setWeatherIcon(String weatherIcon) {
 		this.weatherIcon = weatherIcon;
 	}
+	
+	public int getWeatherIconResId() {
+		if(weatherIcon.compareToIgnoreCase(AppConstants.SUNNY) == 0) {
+			return R.drawable.sunny_white;
+		} 
+		if (weatherIcon.compareToIgnoreCase(AppConstants.MIST) == 0) {
+			return R.drawable.mist_white;
+		} 
+		if (weatherIcon.compareToIgnoreCase(AppConstants.CLOUDY) == 0) {
+			return R.drawable.cloudy_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.PARTLY_CLOUDY) == 0) {
+			return R.drawable.partly_cloudy_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.PARTLY_CLOUDY) == 0) {
+			return R.drawable.partly_cloudy_night_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.CLEAR_SKIES) == 0) {
+			return R.drawable.clear_sky_night_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.SNOW) == 0) {
+			return R.drawable.snow_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.LIGHT_RAIN_SHOWER) == 0 
+				|| weatherIcon.compareToIgnoreCase(AppConstants.LIGHT_DRIZZLE) == 0) {
+			return R.drawable.light_rain_shower_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER) == 0) {
+			return R.drawable.light_rain_with_thunder_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER) == 0 
+				|| weatherIcon.compareToIgnoreCase(AppConstants.TORRENTIAL_RAIN_SHOWER) == 0 
+				|| weatherIcon.compareToIgnoreCase(AppConstants.HEAVY_RAIN) == 0) {
+			return R.drawable.heavy_rain_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.HEAVY_RAIN_AT_TIMES) == 0) {
+			//TODO : Replace with proper icon. Icon not found, replacing with heavy rain
+			return R.drawable.heavy_rain_white; 
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER) == 0) {
+			return R.drawable.moderate_rain_with_thunder_white;
+		}
+		if (weatherIcon.compareToIgnoreCase(AppConstants.CLEAR) == 0) {
+			//TODO : Find isDayTime from webservice.
+			String isDayTime = "Yes";
+			if(isDayTime.compareToIgnoreCase("Yes") == 0) {
+				return R.drawable.sunny_white;
+			} else {
+				return R.drawable.clear_sky_night_white;
+			}
+		}
+		
+		return R.drawable.light_rain_shower_white;
+	}
+	
 }

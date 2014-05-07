@@ -112,15 +112,19 @@ public class FirmwareInstallFragment extends BaseFragment implements FirmwareRes
 			return;
 		}
 		ALog.i(ALog.FIRMWARE, "(state == IDLE) " + (firmwareEventDto.getState() == FirmwareState.IDLE));
-		counter = 0;
+		setCounter(0);
 		if(firmwareEventDto.getState() == FirmwareState.IDLE) {
 			ALog.i(   ALog.FIRMWARE, "Firmware install was successful");
-			installed = true;
+			setInstalled(true);
 			FirmwareUpdateActivity.setCancelled(true);
 			showNextFragment();
 		}
 		
 		getProps();
+	}
+	
+	private static void setInstalled(boolean installed) {
+		FirmwareInstallFragment.installed = installed;
 	}
 	
 	public void showNextFragment() {
