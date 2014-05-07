@@ -27,6 +27,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private String SelectedDays;
 	private String SelectedTime;
 	private String SelectedFanspeed;
+	private String updateSelectedDays;
+	private String updateSelectedTime;
+	private String updateSelectedFanspeed;
 	private String CRUDOperation = "";
 	private int UDOperationIndex = -1;
 	private JSONArray arrSchedulers;
@@ -166,8 +169,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method enter");
 		try {
 			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
-			jo.put(SchedulerConstants.TIME, SelectedTime);
-			jo.put(SchedulerConstants.DAYS, SelectedDays);
+			jo.put(SchedulerConstants.TIME, updateSelectedTime);
+			jo.put(SchedulerConstants.DAYS, updateSelectedDays);
+			jo.put(SchedulerConstants.SPEED, updateSelectedFanspeed);
 			
 			Bundle b = new Bundle();
 			b.putString("events", arrSchedulers.toString());
@@ -200,9 +204,15 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			case R.id.larrow:
 				ALog.i(ALog.SCHEDULER, "onClick method - case larrow is called");
 				Bundle bundle = new Bundle();
-				bundle.putString(SchedulerConstants.TIME, SelectedTime);
-				bundle.putString(SchedulerConstants.DAYS, SelectedDays);
-				bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
+				if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+					bundle.putString(SchedulerConstants.TIME, SelectedTime);
+					bundle.putString(SchedulerConstants.DAYS, SelectedDays);
+					bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
+				} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+					bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
+					bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
+					bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
+				}
 
 				/*AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 				fragAddSch.setArguments(bundle);
@@ -223,16 +233,20 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method enter");
 		String time;
-		String name;
 		time = String.format("%d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
-		SelectedTime = time;
-		
+		//SelectedTime = time;
 		Bundle bundle = new Bundle();
-		bundle.putString("time", time);
+		//bundle.putString("time", time);
+		
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
-			bundle.putString(SchedulerConstants.DAYS, SelectedDays);
-			bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
+			SelectedTime = time;
+			bundle.putString(SchedulerConstants.TIME, SelectedTime);
+		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			updateSelectedTime = time;
+			bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
+			bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
+			bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
 		}
 		
 		actionbarTitle.setText("Add Event");
@@ -283,12 +297,22 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	public void dispatchInformations(String days) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations() method - days is " + days);
-		SelectedDays = days;
+		/*if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			SelectedDays = days;
+		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			updateSelectedDays = days;
+		}*/
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING);
 	}
 
 	public void dispatchInformations2(String fanspeed) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations2() method - fanspeed is " + fanspeed);
-		SelectedFanspeed = fanspeed;
+		/*if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			SelectedFanspeed = fanspeed;
+		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			updateSelectedFanspeed = fanspeed;
+		}*/
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed);
 	}
 	
 	public void dispatchInformationsForCRUD(String crud) {
@@ -299,6 +323,31 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	public void dispatchInformationsForCRUDIndex(int index) {
 		ALog.i(ALog.SCHEDULER, "dispatchInformationsForCRUDIndex - index is " + index);
 		UDOperationIndex = index;
+		try {
+			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
+			updateSelectedTime = jo.getString(SchedulerConstants.TIME);
+			updateSelectedDays = jo.getString(SchedulerConstants.DAYS);
+			updateSelectedFanspeed = jo.getString(SchedulerConstants.SPEED);
+		} catch (Exception e) {
+		}
+	}
+	
+	private void updateCRUDOperationData(String time, String date, String speed) {
+		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			if (!time.isEmpty())
+				SelectedTime = time;
+			if (!date.isEmpty())
+				SelectedDays = date;
+			if (!speed.isEmpty())
+				SelectedFanspeed = speed;
+		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			if (!time.isEmpty())
+				updateSelectedTime = time;
+			if (!date.isEmpty())
+				updateSelectedDays = date;
+			if (!speed.isEmpty())
+				updateSelectedFanspeed = speed;
+		}
 	}
 
 	@Override
