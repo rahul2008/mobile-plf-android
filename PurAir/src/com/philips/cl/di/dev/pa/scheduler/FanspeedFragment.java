@@ -196,63 +196,63 @@ public class FanspeedFragment extends BaseFragment {
 	
 	private void toggleSelectionForOthers(String fanspeed) {
 		ALog.i("Scheduler", "FanspeedFragment::toggleSelectionForOthers() method beginning is called ");
-		if ( fanspeed != "auto") {
+		if(!fanspeed.equals("auto")) {
 			tvAuto.setTextColor(Color.BLACK);
 			tvAuto.setBackgroundColor(Color.WHITE);
 			sSelectedDays = sSelectedDays + "Auto";
 			bIsAutoSelected = false;
 			
-			if (fanspeed == "silent")
+			if(fanspeed.equals("silent"))
 				ivDiv1.setBackgroundColor(Color.WHITE);
 			else
 				ivDiv1.setBackgroundColor(Color.BLACK);
-		} 
+		}
 		
-		if (fanspeed != "silent") {
+		if(!fanspeed.equals("silent")) {
 			tvSilent.setTextColor(Color.BLACK);
 			tvSilent.setBackgroundColor(Color.WHITE);
 			bIsSilentSelected = false;
 			
-			if (fanspeed == "1")
+			if(fanspeed.equals("1"))
 				ivDiv2.setBackgroundColor(Color.WHITE);
 			else
 				ivDiv2.setBackgroundColor(Color.BLACK);
 		} 
 		
-		if (fanspeed != "1") {
+		if(!fanspeed.equals("1")) {
 			tvOne.setTextColor(Color.BLACK);
 			tvOne.setBackgroundColor(Color.WHITE);
 			bIsOneSelected = false;
 			
-			if (fanspeed == "2")
+			if(fanspeed.equals("2"))
 				ivDiv3.setBackgroundColor(Color.WHITE);
 			else
 				ivDiv3.setBackgroundColor(Color.BLACK);
 		} 
 		
-		if (fanspeed != "2") {
+		if(!fanspeed.equals("2")) {
 			tvTwo.setTextColor(Color.BLACK);
 			tvTwo.setBackgroundColor(Color.WHITE);
 			bIsTwoSelected = false;
 			
-			if (fanspeed == "3")
+			if(fanspeed.equals("3"))
 				ivDiv4.setBackgroundColor(Color.WHITE);
 			else
 				ivDiv4.setBackgroundColor(Color.BLACK);
 		} 
 		
-		if (fanspeed != "3") {
+		if(!fanspeed.equals("3")) {
 			tvThree.setTextColor(Color.BLACK);
 			tvThree.setBackgroundColor(Color.WHITE);
 			bIsThreeSelected = false;
 			
-			if (fanspeed == "turbo")
+			if(fanspeed.equals("turbo"))
 				ivDiv5.setBackgroundColor(Color.WHITE);
 			else
 				ivDiv5.setBackgroundColor(Color.BLACK);
 		} 
 		
-		if (fanspeed != "turbo") {
+		if(!fanspeed.equals("turbo")) {
 			tvTurbo.setTextColor(Color.BLACK);
 			tvTurbo.setBackgroundColor(Color.WHITE);
 			ivDiv6.setBackgroundColor(Color.BLACK);
