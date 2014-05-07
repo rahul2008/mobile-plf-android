@@ -98,7 +98,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 
 		int idx[] = aqiEventDto.getIdx();
 			
-		if (idx.length == 0) {
+		if (idx == null || idx.length == 0) {
 			return;
 		}
 		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);

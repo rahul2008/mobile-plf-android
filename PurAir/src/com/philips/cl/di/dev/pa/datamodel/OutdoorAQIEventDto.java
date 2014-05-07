@@ -10,6 +10,7 @@ public class OutdoorAQIEventDto {
 	private String t;
 	
 	public int[] getPm10() {
+		if (pm10 == null) return null;
 		return pm10.clone();
 	}
 	public void setPm10(final int[] pm10) {
@@ -17,6 +18,7 @@ public class OutdoorAQIEventDto {
 	}
 	
 	public int[] getIdx() {
+		if (idx == null) return null;
 		return idx.clone();
 	}
 	public void setIdx(final int[] idx) {
@@ -24,18 +26,21 @@ public class OutdoorAQIEventDto {
 	}
 	
 	public int[] getPm25() {
+		if (pm25 == null) return null;
 		return pm25.clone();
 	}
 	public void setPm25(final int[] pm25) {
 		this.pm25 = pm25;
 	}
 	public int[] getSo2() {
+		if (so2 == null) return null;
 		return so2.clone();
 	}
 	public void setSo2(final int[] so2) {
 		this.so2 = so2;
 	}
 	public int[] getNo2() {
+		if (no2 == null) return null;
 		return no2.clone();
 	}
 	public void setNo2(final int[] no2) {

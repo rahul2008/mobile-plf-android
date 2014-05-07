@@ -57,7 +57,7 @@ public class HomeOutdoorData implements ServerResponseListener {
 		}
 		int hr = Utils.getLastDayHours(currentCityTimeHr);
 		int idx[] = aqiEventDto.getIdx();
-		if (idx == null) {
+		if (idx == null ||idx.length == 0) {
 			return;
 		}
 		int last7dayHrs = 6 * 24 + hr;
