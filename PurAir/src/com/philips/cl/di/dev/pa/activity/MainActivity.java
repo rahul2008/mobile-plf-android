@@ -267,7 +267,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		outdoorLocationsAdapter = new ArrayAdapter<String>(this,
 				R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
-		
+		disableRightMenuControls() ;
 		initializeCPPController();
 		createNetworkReceiver();
 		this.registerReceiver(networkReceiver, filter);
@@ -1340,13 +1340,12 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			break;
 		case CONNECTED_LOCALLY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
-			updatePurifierUIFields();
-			pairToPurifierIfNecessary();
 			startLocalConnection();
+			pairToPurifierIfNecessary();
+			
 			break;
 		case CONNECTED_REMOTELY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
-			updatePurifierUIFields();
 			startRemoteConnection();
 			break;
 		}

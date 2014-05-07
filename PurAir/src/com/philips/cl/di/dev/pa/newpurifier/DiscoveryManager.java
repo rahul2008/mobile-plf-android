@@ -69,6 +69,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
+		mDevicesMap.clear() ;
 		mListener = null;
 	}
 	
