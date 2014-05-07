@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
 
+import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -632,23 +633,37 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
 
-	private void setRightMenuConnectedStatus(final ConnectionState state) {
-		ALog.i(ALog.MAINACTIVITY, "Connection status: " + state);
+	private void updateRightMenuConnectedStatus() {
+		PurAirDevice purifier = this.getCurrentPurifier();
+		ConnectionState purifierState = ConnectionState.DISCONNECTED;
+		if (purifier != null) {
+			purifierState = purifier.getConnectionState();
+		}
+		
+		final ConnectionState newState = purifierState;
+		ALog.i(ALog.MAINACTIVITY, "Connection status: " + purifierState);
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (state.equals(ConnectionState.CONNECTED_LOCALLY)) {
+				switch (newState) {
+				case CONNECTED_LOCALLY:
 					tvConnectionStatus.setText(getString(R.string.connected));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x)); 
-				} else if (state.equals(ConnectionState.CONNECTED_REMOTELY)) {
+					break;
+				case CONNECTED_REMOTELY:
 					tvConnectionStatus.setText(getString(R.string.connected_via_philips));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x));
-				} else {
+					break;
+				case DISCONNECTED:
 					tvConnectionStatus.setText(getString(R.string.not_connected));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
+					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+					setRightMenuAirStatusBackground(0);
+					rightMenuClickListener.toggleControlPanel(false, null);
+					break;
 				}
 			}
 		});
@@ -859,23 +874,9 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
+		updateRightMenuConnectedStatus();
+		
 		final PurAirDevice purifier = getCurrentPurifier();
-		
-		if (purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
-					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-					setRightMenuAirStatusBackground(0);
-					rightMenuClickListener.toggleControlPanel(false, null);
-				}
-			});
-			return;
-		}
-		
-		setRightMenuConnectedStatus(purifier.getConnectionState());
-		
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) return;
 		

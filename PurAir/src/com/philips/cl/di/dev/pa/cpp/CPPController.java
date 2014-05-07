@@ -334,15 +334,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param icpClientObj
 	 */
 	private void notifyListeners(String dataReceived) {
+		if (!dataReceived.contains(AppConstants.PRODUCT)) return;
+		
 		ALog.i(ALog.ICPCLIENT, "notifyListeners()= " + dataReceived);
-		if (dataReceived.contains(AppConstants.PRODUCT)) {
-			AirPortInfo airPurifierDetails = DataParser.parseAirPurifierEventDataFromCPP(dataReceived);
-			int numberOfListerners = listeners.size();
-			ALog.i(ALog.ICPCLIENT, "Air Purifier Details: "+airPurifierDetails) ;
-			for (int index = 0; index < numberOfListerners; index++) {
-				listeners.get(index)
-				.onReceivedDeviceDetails(airPurifierDetails);
-			}
+		AirPortInfo airPurifierDetails = DataParser.parseAirPurifierEventDataFromCPP(dataReceived);
+		int numberOfListerners = listeners.size();
+		ALog.i(ALog.ICPCLIENT, "Air Purifier Details: "+airPurifierDetails) ;
+		for (int index = 0; index < numberOfListerners; index++) {
+			listeners.get(index).onReceivedDeviceDetails(airPurifierDetails);
 		}
 	}
 	/**
