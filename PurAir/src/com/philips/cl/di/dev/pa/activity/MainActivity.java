@@ -1152,6 +1152,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	@Override
 	public void signonStatus(boolean signon) {
+		toggleConnection();
 		if (signon) {
 			pairToPurifierIfNecessary() ;
 		}
