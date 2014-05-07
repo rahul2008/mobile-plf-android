@@ -101,15 +101,6 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 			return;
 		}
 		
-		for(int i = 0; i < 5; i++) {
-			if (idx[i] != 0) return;
-			if (idx[i] == 0) {
-				idx[i] = Integer.parseInt(aqiValue.getText().toString());
-				break;
-			} 
-			
-		}
-		
 		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
 		int hr = Utils.getLastDayHours(currentCityTimeHr);
 
