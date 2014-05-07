@@ -31,7 +31,7 @@ public class UDPSocketManager extends Thread {
 	
 	@Override
 	public void run() {
-		ALog.i(ALog.SUBSCRIPTION, "started udp listener") ;
+		ALog.d(ALog.SUBSCRIPTION, "started udp listener") ;
 		try {
 			WifiManager wifi = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 			if (wifi != null) {
@@ -55,7 +55,7 @@ public class UDPSocketManager extends Thread {
 				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListener != null) {
 					String [] packetsReceived = packetReceived.split("\n") ;
 					if(packetsReceived != null && packetsReceived.length > 0 ) {
-						ALog.i(ALog.SUBSCRIPTION, "UDP Data Received") ;
+						ALog.d(ALog.SUBSCRIPTION, "UDP Data Received") ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
 						udpEventListener.onUDPEventReceived(lastLine) ;
 					}
@@ -69,7 +69,7 @@ public class UDPSocketManager extends Thread {
 	}
 	
 	public void stopUDPListener() {
-		ALog.i(ALog.SUBSCRIPTION, "stop UDP") ;
+		ALog.d(ALog.SUBSCRIPTION, "stop UDP") ;
 		stop = true ;
 		if( socket != null && !socket.isClosed()) {
 			socket.close() ;
