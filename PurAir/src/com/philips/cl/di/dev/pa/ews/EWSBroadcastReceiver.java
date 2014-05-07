@@ -269,7 +269,9 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
+					
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
+					if (deviceDto == null) return;
 					tempEWSPurifier.setName(deviceDto.getName());
 					getWifiDetails() ;
 				}				
@@ -279,6 +281,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
 					DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(decryptedResponse);
+					
 					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 					
 					if (deviceWifiDto != null) {
