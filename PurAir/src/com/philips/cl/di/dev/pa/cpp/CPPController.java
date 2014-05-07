@@ -14,14 +14,12 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
 import com.philips.icpinterface.EventSubscription;
@@ -37,8 +35,6 @@ import com.philips.icpinterface.data.PeripheralDevice;
 
 public class CPPController implements ICPClientToAppInterface, ICPEventListener {
 	
-	private static final String TAG = CPPController.class.getName();
-
 	private static CPPController icpStateInstance;
 
 	private static final String CERTIFICATE_EXTENSION = ".cer";
@@ -190,7 +186,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Method to inialize
 	 */
 	private void init() {
-		Log.i("cpp", "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled()
+		ALog.i(ALog.CPPCONTROLLER, "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled()
 				+ " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
 		if (SignOn.isKPSEnabled()) {
 			// Provision
@@ -228,7 +224,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will be used for signon.
 	 */
 	private void signon() {
-		Log.i(TAG, "signon");
+		ALog.i(ALog.CPPCONTROLLER, "Requested signOn");
 		signon.setIsFirstTime(true);
 		int rv = signon.executeCommand();
 		if( rv != Errors.SUCCESS ) {
@@ -299,11 +295,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * This method will subscribe to events
 	 */
 	public void startDCSService() {
-		Log.i("connect", "Start DCS: " + isDCSRunning + " isSIgnOn" + isSignOn);
+		ALog.d(ALog.SUBSCRIPTION, "Start DCS: " + isDCSRunning + " isSIgnOn" + isSignOn);
 
 		if (!isDCSRunning) {
 			if (isSignOn) {
-				Log.i(TAG, "Signon Success");
+				ALog.i(ALog.CPPCONTROLLER, "Starting DCS - Already Signed On");
 				int numberOfEvents = 1;
 				eventSubscription = EventSubscription.getInstance(callbackHandler,
 						numberOfEvents);
@@ -314,7 +310,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 				isDCSRunning = true;
 			} else {
-				Log.i(TAG, "Not signed on");
+				ALog.i(ALog.CPPCONTROLLER, "Failed to start DCS - not signed on");
 				signOnWithProvisioning() ;
 			}
 		}
@@ -324,14 +320,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Stop the DCS service
 	 */
 	public void stopDCSService() {
-		Log.i(TAG, "Stop DCS service");
-		if (eventSubscription != null) {
-			if (isDCSRunning) {
-				Log.i(TAG, "Stopped");
-				eventSubscription.stopCommand();
-				isDCSRunning = false;
-			}
-		}
+		if (eventSubscription == null) return;
+		if (!isDCSRunning) return;
+		
+		ALog.i(ALog.SUBSCRIPTION, "Stop DCS service");
+		eventSubscription.stopCommand();
+		isDCSRunning = false;
 	}
 
 	/**
@@ -489,7 +483,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 //			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + ((DownloadData) obj).getIsDownloadComplete());
 
 			if (((DownloadData) obj).getIsDownloadComplete()) {
-				Log.i(TAG, "Download complete");
+				ALog.d(ALog.CPPCONTROLLER, "Download complete");
 				if (downloadDataListener != null) {
 					String downloadedData = downloadDataBuilder.toString();
 					downloadDataBuilder.setLength(0);
