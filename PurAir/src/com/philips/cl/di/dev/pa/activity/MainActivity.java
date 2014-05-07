@@ -2,11 +2,8 @@ package com.philips.cl.di.dev.pa.activity;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -42,7 +39,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,7 +49,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -64,7 +59,6 @@ import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
@@ -706,15 +700,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 					R.drawable.aqi_small_circle_300_500_2x);
 		}
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
-	}
-	
-
-	private void disableRightMenuControls() {
-		ALog.i(ALog.MAINACTIVITY, "disableRightMenuControls");
-		setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
-		rightMenuClickListener.toggleControlPanel(false, getAirPortInfo(getCurrentPurifier()));
-		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-		setRightMenuAirStatusBackground(0);
 	}
 
 	private void setRightMenuConnectedStatus(final ConnectionState state) {
