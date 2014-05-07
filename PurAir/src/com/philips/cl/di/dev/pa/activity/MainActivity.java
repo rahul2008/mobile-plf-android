@@ -29,8 +29,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +39,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -140,7 +137,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	private CPPController cppController;
 
 	private int isGooglePlayServiceAvailable;
-	private TextView cancelSearchItem;
 	private SharedPreferences outdoorLocationPrefs;
 	private ArrayList<String> outdoorLocationsList;
 
@@ -378,7 +374,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_cancel_search:
-			cancelSearch = true;
 			actionMode.finish();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
@@ -672,41 +667,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
 	}
 
-
-	private ActionMode.Callback callback = new ActionMode.Callback() {
-
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return true;
-		}
-
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-					.getWindowToken(), 0);
-			actionMode = null;
-		}
-
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			MenuInflater inflater = mode.getMenuInflater();
-			inflater.inflate(R.menu.context_search_bar, menu);
-			LinearLayout searchlayout = (LinearLayout) getLayoutInflater()
-					.inflate(R.layout.search_bar, null);
-			cancelSearchItem = (TextView) searchlayout
-					.findViewById(R.id.tv_cancel_search);
-			cancelSearchItem.setOnClickListener(MainActivity.this);
-			mode.setCustomView(searchlayout);
-			return true;
-		}
-
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem menu) {
-			return true;
-		}
-	};
-
 	private ArrayAdapter<String> outdoorLocationsAdapter;
 
 	public ArrayAdapter<String> getOutdoorLocationsAdapter() {
@@ -717,98 +677,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			ArrayAdapter<String> outdoorLocationsAdapter) {
 		this.outdoorLocationsAdapter = outdoorLocationsAdapter;
 	}
-
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//		if (mActionBarDrawerToggle.onOptionsItemSelected(item)) {
-//			mDrawerLayout.closeDrawer(mScrollViewRight);
-//			return true;
-//		}
-//
-//		FragmentManager manager = getSupportFragmentManager();
-//		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-//
-//		switch (item.getItemId()) {
-//		case R.id.right_menu:
-//			if (mRightDrawerOpened) {
-//				mDrawerLayout.closeDrawer(mListViewLeft);
-//				mDrawerLayout.closeDrawer(mScrollViewRight);
-//			} else {
-//				mDrawerLayout.closeDrawer(mListViewLeft);
-//				mDrawerLayout.openDrawer(mScrollViewRight);
-//			}
-//			break;
-//		case R.id.add_location_menu:
-//			if (fragment instanceof OutdoorLocationsFragment) {
-//				actionMode = startSupportActionMode(callback);
-//
-//				Map<String, City> citiesMap = SessionDto.getInstance()
-//						.getCityDetails().getCities();
-//				List<City> citiesList = new ArrayList<City>(citiesMap.values());
-//
-//				final List<String> cityNamesList = new ArrayList<String>();
-//				Iterator<City> iterator = citiesList.iterator();
-//
-//				while (iterator.hasNext()) {
-//					String cityName = iterator.next().getKey();
-//					cityName = cityName.substring(0, 1).toUpperCase()
-//							+ cityName.substring(1);
-//					cityNamesList.add(cityName);
-//				}
-//				Collections.sort(cityNamesList);
-//
-//				ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cityNamesList);
-//				final DragSortListView listView = (DragSortListView) findViewById(R.id.outdoor_locations_list);
-//				AutoCompleteTextView actv = (AutoCompleteTextView) findViewById(R.id.actv_cities_list);
-//				actv.setAdapter(adapter);
-//				actv.setThreshold(0);
-//				actv.showDropDown();
-//				actv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//					@Override
-//					public void onItemClick(AdapterView<?> arg0, View arg1,
-//							int arg2, long arg3) {
-//						actionMode.finish();
-//
-//					}
-//				});
-//
-//				actv.setValidator(new AutoCompleteTextView.Validator() {
-//
-//					@Override
-//					public boolean isValid(CharSequence text) {
-//						if (cancelSearch) {
-//							cancelSearch = false;
-//							return false;
-//						}
-//						if (cityNamesList.contains(text.toString())) {
-//							if (outdoorLocationsAdapter.getPosition(text
-//									.toString()) != -1) {
-//								return false;
-//							}
-//							outdoorLocationsAdapter.add(text.toString());
-//							outdoorLocationsAdapter.notifyDataSetChanged();
-//							listView.invalidate();
-//							return true;
-//						} else {
-//							Toast.makeText(MainActivity.this, "Inalid text",
-//									Toast.LENGTH_LONG).show();
-//							return false;
-//						}
-//					}
-//
-//					@Override
-//					public CharSequence fixText(CharSequence invalidText) {
-//						// TODO Auto-generated method stub
-//						return null;
-//					}
-//				});
-//			}
-//			break;
-//		default:
-//			break;
-//		}
-//		return false;
-//	}
 
 	public void showFragment(Fragment fragment) {
 
@@ -1097,11 +965,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		return versionCode;
 	}
 
-	private boolean cancelSearch = false;
-
 	/**
 	 * Receive the device details from CPP
-	 * 
 	 */
 	@Override
 	public void onReceivedDeviceDetails(AirPortInfo airPortInfo) {
