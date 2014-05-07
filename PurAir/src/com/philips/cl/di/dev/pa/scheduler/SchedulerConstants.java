@@ -6,7 +6,6 @@ public class SchedulerConstants {
 	public enum SchedulerID {
 		OVERVIEW_EVENT,
 		ADD_EVENT,
-		EDIT_EVENT,
 		REPEAT,
 		FAN_SPEED,
 	}
