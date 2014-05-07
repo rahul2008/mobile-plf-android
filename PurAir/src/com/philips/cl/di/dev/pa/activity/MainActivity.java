@@ -1118,14 +1118,19 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		
 		PurAirDevice current = getCurrentPurifier();
 		if (current == null) {
-			int numDevices = DiscoveryManager.getInstance().getDiscoveredDevices().size();
-			if (numDevices <= 0) return;
+			ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+			if (devices.size() <= 0) return;
 			
-			current = DiscoveryManager.getInstance().getDiscoveredDevices().get(numDevices-1);
-			if (current.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
-				// Only select a local device
-				return;
+			// Select the first locally connected device
+			PurAirDevice localDevice = null;
+			for (PurAirDevice device : devices) {
+				if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+					localDevice = device;
+					break;
+				}
 			}
+			if (localDevice == null) return;
+			
 			PurifierManager.getInstance().setCurrentPurifier(current);
 			ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + current.getName());
 		}
