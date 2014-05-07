@@ -57,6 +57,7 @@
          android:layout_height="160dp"
          android:layout_below="@+id/edit"
          android:background="#C0C0C0"
+         android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
     
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -74,6 +75,7 @@
          android:layout_marginLeft="16dp"
          android:layout_marginRight="16dp"
          android:layout_marginBottom="16dp"
+         android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
     
     <com.philips.cl.di.dev.pa.view.FontTextView
