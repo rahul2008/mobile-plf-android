@@ -809,39 +809,38 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	@Override
 	public void airPurifierEventReceived(AirPortInfo airPurifierDetails) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Controller callback: "+airPurifierDetails) ;
-		if (airPurifierDetails != null) {
-			setAirPortInfo(airPurifierDetails);
-			
-			ALog.i(ALog.MAINACTIVITY, "UDP Event Received");
-			PurAirDevice purifier = getCurrentPurifier();
-			if (purifier != null) {
-				purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-			}
-			updatePurifierUIFields();
+		if (airPurifierDetails == null) return;
+		
+		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received (local): " + airPurifierDetails) ;
+		setAirPortInfo(airPurifierDetails);
+		
+		PurAirDevice purifier = getCurrentPurifier();
+		if (purifier != null) {
+			purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		}
+		updatePurifierUIFields();
 	}
 	
 	@Override
 	public void firmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
-		ALog.i(ALog.FIRMWARE, "MainActivity$firmwareEventReceived firmwareEventDto Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
-		if(firmwarePortInfo != null) {
-			setFirmwarePortInfo(firmwarePortInfo);
+		if(firmwarePortInfo == null) return;
+		
+		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
+		setFirmwarePortInfo(firmwarePortInfo);
 
-			if (firmwarePortInfo.isUpdateAvailable()) {
-				ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+		if (firmwarePortInfo.isUpdateAvailable()) {
+			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
 
-				this.runOnUiThread(new Runnable() {
-					@Override
-					public void run() {
-						//TODO
-						// getDashboard().showFirmwareUpdatePopup();
-						// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-						updateDashboardOnFirmwareUpdate(1);
-						setFirmwareSuperScript(1, true);
-					}
-				});
-			}
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					//TODO
+					// getDashboard().showFirmwareUpdatePopup();
+					// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
+					updateDashboardOnFirmwareUpdate(1);
+					setFirmwareSuperScript(1, true);
+				}
+			});
 		}
 	}
 	
@@ -969,20 +968,20 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	 */
 	@Override
 	public void onReceivedDeviceDetails(AirPortInfo airPortInfo) {
-		ALog.i(ALog.MAINACTIVITY, "OnReceive device details from DCS: " + airPortInfo);
-		if (airPortInfo != null) {
-			PurAirDevice purifier = getCurrentPurifier();
-			if (purifier != null) {
-				purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-			}
-			setAirPortInfo(airPortInfo);
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					updatePurifierUIFields();
-				}
-			});
+		if (airPortInfo == null) return;
+		ALog.d(ALog.SUBSCRIPTION, "OnReceive device details from DCS: " + airPortInfo);
+
+		PurAirDevice purifier = getCurrentPurifier();
+		if (purifier != null) {
+			purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 		}
+		setAirPortInfo(airPortInfo);
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				updatePurifierUIFields();
+			}
+		});
 	}
 
 	public void toggleConnection() {
@@ -1128,6 +1127,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 					break;
 				}
 			}
+			if (current == null) return;
 			
 			PurifierManager.getInstance().setCurrentPurifier(current);
 			ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + current.getName());
