@@ -69,7 +69,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mDevicesMap.clear() ;
 		mListener = null;
 	}
 	
@@ -198,8 +197,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		PurAirDevice purifier = getPurAirDevice(deviceModel);
 		if (purifier == null) return false;
 		
-		// TODO support network events
 		purifier.setConnectionState(ConnectionState.DISCONNECTED);
+		notifyDiscoveryListener();
 		return false;
 	}
 	

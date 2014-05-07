@@ -267,7 +267,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		outdoorLocationsAdapter = new ArrayAdapter<String>(this,
 				R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
-		disableRightMenuControls() ;
 		initializeCPPController();
 		createNetworkReceiver();
 		this.registerReceiver(networkReceiver, filter);
@@ -284,6 +283,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		super.onResume();
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
+		
+		updatePurifierUIFields();
 	}
 	
 
@@ -310,7 +311,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 		if (!isScreenOn && !isDiagnostics) {
 			if (!isClickEvent) {
-				disableRightMenuControls();
 				stopService = true;
 //				stopAllServices();
 			}
@@ -371,7 +371,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	protected void onUserLeaveHint() {
 		ALog.i(ALog.MAINACTIVITY, "onUserLeaveHint");
 		if (!isClickEvent && !isDiagnostics) {
-			disableRightMenuControls();
 			stopService = true;
 //			stopAllServices();
 		}
@@ -707,6 +706,15 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 					R.drawable.aqi_small_circle_300_500_2x);
 		}
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
+	}
+	
+
+	private void disableRightMenuControls() {
+		ALog.i(ALog.MAINACTIVITY, "disableRightMenuControls");
+		setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+		rightMenuClickListener.toggleControlPanel(false, getAirPortInfo(getCurrentPurifier()));
+		setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+		setRightMenuAirStatusBackground(0);
 	}
 
 	private void setRightMenuConnectedStatus(final ConnectionState state) {
@@ -1062,6 +1070,22 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
 		final PurAirDevice purifier = getCurrentPurifier();
+		
+		if (purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+			this.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
+					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+					setRightMenuAirStatusBackground(0);
+					rightMenuClickListener.toggleControlPanel(false, null);
+				}
+			});
+			return;
+		}
+		
+		setRightMenuConnectedStatus(purifier.getConnectionState());
+		
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) return;
 		
@@ -1075,29 +1099,11 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 						info.getFilterStatus2(),
 						info.getFilterStatus3(),
 						info.getFilterStatus4());
-				if (purifier != null) {
-					setRightMenuConnectedStatus(purifier.getConnectionState());
-				} else {
-					setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
-				}
 				setRightMenuAirStatusMessage(getString(
 						Utils.getIndoorAQIMessage(indoorAQIUsableValue),
 						getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
-				rightMenuClickListener.disableControlPanel(true,info);
-			}
-		});
-	}
-
-	private void disableRightMenuControls() {
-		ALog.i(ALog.MAINACTIVITY, "disableRightMenuControls");
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
-				rightMenuClickListener.disableControlPanel(false, getAirPortInfo(getCurrentPurifier()));
-				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-				setRightMenuAirStatusBackground(0);
+				rightMenuClickListener.toggleControlPanel(true,info);
 			}
 		});
 	}
@@ -1333,20 +1339,18 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		switch (current.getConnectionState()) {
 		case DISCONNECTED:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier went offline");
-			setRightMenuConnectedStatus(ConnectionState.DISCONNECTED);
-			disableRightMenuControls();
+			updatePurifierUIFields();
 			stopLocalConnection();
 			stopRemoteConnection();
 			break;
 		case CONNECTED_LOCALLY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
-			startLocalConnection();
+			startLocalConnection(); // Right menu updated when response from subscription
 			pairToPurifierIfNecessary();
-			
 			break;
 		case CONNECTED_REMOTELY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
-			startRemoteConnection();
+			startRemoteConnection(); // Right menu updated when response from subscription
 			break;
 		}
 	}

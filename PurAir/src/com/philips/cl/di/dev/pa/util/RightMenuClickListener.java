@@ -522,7 +522,7 @@ public class RightMenuClickListener implements OnClickListener {
 	    }
 	}
 
-	public void disableControlPanel(boolean connected, AirPortInfo airPurifierEventDto) {
+	public void toggleControlPanel(boolean connected, AirPortInfo airPurifierEventDto) {
 //		Log.i(TAG, "disableControlPanel connected " + connected);
 		if(!connected) {
 			power.setClickable(false);
