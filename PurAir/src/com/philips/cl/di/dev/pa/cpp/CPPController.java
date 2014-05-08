@@ -333,17 +333,19 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * 
 	 * @param icpClientObj
 	 */
-	private void notifyListeners(String dataReceived) {
-		if (!dataReceived.contains(AppConstants.PRODUCT)) return;
-		
+	private void notifyListeners(String dataReceived) {		
 		ALog.i(ALog.ICPCLIENT, "notifyListeners()= " + dataReceived);
 		AirPortInfo airPurifierDetails = DataParser.parseAirPurifierEventDataFromCPP(dataReceived);
-		int numberOfListerners = listeners.size();
-		ALog.i(ALog.ICPCLIENT, "Air Purifier Details: "+airPurifierDetails) ;
-		for (int index = 0; index < numberOfListerners; index++) {
-			listeners.get(index).onReceivedDeviceDetails(airPurifierDetails);
+		if (airPurifierDetails == null) {
+			ALog.i(ALog.SUBSCRIPTION, "Not notifying listeners - Airpurifier event is null");
+			return;
 		}
+		for (ICPDeviceDetailsListener listener : listeners) {
+			listener.onReceivedDeviceDetails(airPurifierDetails);
+		}
+		ALog.i(ALog.SUBSCRIPTION, "Notified " + listeners.size() + " of DCS event");
 	}
+
 	/**
 	 * This method will be used to publish the events from App to Air Purifier
 	 * via CPP
@@ -450,13 +452,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		} else if (eventType == Commands.SUBSCRIBE_EVENTS) {
 			String dcsEvents = "";
 			if (status == Errors.SUCCESS) {
-				int noOfEvents = 0;
-
-				noOfEvents = eventSubscription.getNumberOfEventsReturned();
-
-				for (int i = 0; i < noOfEvents; i++) {
-					dcsEvents = eventSubscription.getData(i);
-					if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
+				if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
+					int noOfEvents = 0;
+					noOfEvents = eventSubscription.getNumberOfEventsReturned();
+					for (int i = 0; i < noOfEvents; i++) {
+						dcsEvents = eventSubscription.getData(i);
+						
 						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
 						notifyListeners(dcsEvents);
 					}
