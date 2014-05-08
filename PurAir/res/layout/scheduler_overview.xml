@@ -4,7 +4,7 @@
 
 	<RelativeLayout 
     	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
+    	android:layout_height="70dp"
     	android:background="@color/white">    
 	    	
     <ImageView
@@ -98,6 +98,7 @@
     	android:layout_height="160dp"
     	android:layout_below="@+id/edit"
     	android:layout_alignTop="@+id/scheduler1_innerouter"
+    	android:visibility="gone"
     	android:orientation="horizontal">
     
      <com.philips.cl.di.dev.pa.view.FontTextView
@@ -175,7 +176,8 @@
     	android:layout_width="match_parent" 
     	android:layout_height="150dp"
     	android:layout_below="@+id/edit"
-    	android:layout_alignTop="@+id/scheduler2_innerouter"
+    	android:layout_alignTop="@+id/scheduler2_innerouter"    	
+    	android:visibility="gone"
     	android:orientation="horizontal">
     
      <com.philips.cl.di.dev.pa.view.FontTextView
@@ -253,7 +255,8 @@
     	android:layout_width="match_parent" 
     	android:layout_height="150dp"
     	android:layout_below="@+id/edit"
-    	android:layout_alignTop="@+id/scheduler3_innerouter"
+    	android:layout_alignTop="@+id/scheduler3_innerouter"    	    	
+    	android:visibility="gone"
     	android:orientation="horizontal">
     
      <com.philips.cl.di.dev.pa.view.FontTextView
@@ -332,6 +335,7 @@
     	android:layout_height="150dp"
     	android:layout_below="@+id/edit"
     	android:layout_alignTop="@+id/scheduler4_innerouter"
+    	android:visibility="gone"
     	android:orientation="horizontal">
     
      <com.philips.cl.di.dev.pa.view.FontTextView
