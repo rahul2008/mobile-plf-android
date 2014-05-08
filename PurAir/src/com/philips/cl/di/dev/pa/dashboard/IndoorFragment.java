@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -8,17 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
@@ -30,13 +25,20 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 
 	private LinearLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
+	
+	private FontTextView fanModeTxt ;
+	private FontTextView filterStatusTxt ;
+	private FontTextView aqiStatusTxt ;
+	private FontTextView aqiSummaryTxt ;
+	private FontTextView purifierNameTxt ;
+	private ImageView aqiPointer ;
+	private ImageView aqiMeter ;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,6 +50,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
+		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
+		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
+		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
+		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		initFirmwareUpdatePopup();
 	}
 	
@@ -87,21 +94,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
-		
-		FontTextView fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
+
 		fanModeTxt.setText(getString(DashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
-
-		FontTextView filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
 		filterStatusTxt.setText(DashboardUtils.getFilterStatus(airPortInfo));
-
-		FontTextView aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiStatusTxt.setText(getString(DashboardUtils.getAqiTitle(indoorAqi)));
-		
-		FontTextView aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		aqiSummaryTxt.setText(getString(DashboardUtils.getAqiSummary(indoorAqi)));
-		
-		FontTextView purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
-		ImageView aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
+		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
 			PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
 			purifierNameTxt.setText(currentPurifier.getName());
@@ -113,7 +111,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 		}
 
-		ImageView aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
+		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 
 		aqiPointer.setOnClickListener(this);
 		aqiPointer.setImageResource(DashboardUtils.getAqiPointerBackgroundId(indoorAqi));
