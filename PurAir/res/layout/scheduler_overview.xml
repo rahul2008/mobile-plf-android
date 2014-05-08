@@ -56,7 +56,7 @@
          android:layout_width="match_parent"
          android:layout_height="160dp"
          android:layout_below="@+id/edit"
-         android:background="#C0C0C0"
+         android:background="@color/lighter_gray"
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
     
@@ -135,7 +135,7 @@
          android:layout_width="match_parent"
          android:layout_height="150dp"
          android:layout_below="@+id/scheduler1_outer"
-         android:background="#C0C0C0"
+         android:background="@color/lighter_gray"
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
     
@@ -213,7 +213,7 @@
          android:layout_width="match_parent"
          android:layout_height="150dp"
          android:layout_below="@+id/scheduler2_outer"
-         android:background="#C0C0C0"
+         android:background="@color/lighter_gray"
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
     
@@ -291,7 +291,7 @@
          android:layout_width="match_parent"
          android:layout_height="150dp"
          android:layout_below="@+id/scheduler3_outer"
-         android:background="#C0C0C0"
+         android:background="@color/lighter_gray"
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
     
