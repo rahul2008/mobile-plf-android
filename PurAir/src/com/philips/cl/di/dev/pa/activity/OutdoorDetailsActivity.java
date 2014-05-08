@@ -130,8 +130,13 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		}
 		for (int i = 0; i < lastDayAQIReadings.length; i++) {
 			if (i == 0 && idx[i] == 0) {
-				idx[i] = idx[i + 1];
+				try {
+					idx[i] = Integer.parseInt(aqiValue.getText().toString());
+				} catch (NumberFormatException e) {
+					ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
+				}
 			}
+			
 			lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
 		}
 	}
