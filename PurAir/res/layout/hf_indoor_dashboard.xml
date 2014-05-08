@@ -88,7 +88,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/all_colour_circle_2x" />
+            android:src="@drawable/all_colour_circle_2x"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/hf_indoor_circle_pointer"

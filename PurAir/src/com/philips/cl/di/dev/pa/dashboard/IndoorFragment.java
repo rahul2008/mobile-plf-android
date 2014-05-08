@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -7,27 +8,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
 
 	private LinearLayout firmwareUpdatePopup;
+	private int prevIndoorAqi;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,8 +101,16 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiSummaryTxt.setText(getString(DashboardUtils.getAqiSummary(indoorAqi)));
 		
 		FontTextView purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
+		ImageView aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
-			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
+			PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+			purifierNameTxt.setText(currentPurifier.getName());
+			ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + currentPurifier.getConnectionState());
+			if(currentPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+				aqiMeter.setVisibility(View.INVISIBLE);
+			} else {
+				aqiMeter.setVisibility(View.VISIBLE);
+			}
 		}
 
 		ImageView aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
@@ -101,9 +118,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiPointer.setOnClickListener(this);
 		aqiPointer.setImageResource(DashboardUtils.getAqiPointerBackgroundId(indoorAqi));
 		aqiPointer.invalidate();
-		setRotationAnimation(aqiPointer, DashboardUtils.getAqiPointerRotation(indoorAqi));
+		if(prevIndoorAqi != indoorAqi) {
+			setRotationAnimation(aqiPointer, DashboardUtils.getAqiPointerRotation(indoorAqi));
+		}
+		prevIndoorAqi = indoorAqi;
 	}
-
 
 	private void setRotationAnimation(ImageView aqiPointer, float rotation) {
 		Drawable drawable = aqiPointer.getDrawable();
@@ -156,6 +175,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 		case R.id.btn_firmware_update_available:
 			hideFirmwareUpdatePopup();
+			
 			break;
 		case R.id.hf_indoor_circle_pointer:
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
