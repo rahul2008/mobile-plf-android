@@ -1,419 +1,162 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-
-	<RelativeLayout 
-    	android:layout_width="fill_parent"
-    	android:layout_height="fill_parent"
-    	android:background="@color/white">    
-	    	
-    <ImageView
-         android:id="@+id/edit"
-         android:layout_width="wrap_content"
-         android:layout_height="40dp"
-         android:scaleType="centerCrop"
-         android:layout_marginTop="16dp"
-         android:layout_marginLeft="32dp"
-         android:layout_marginBottom="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="12sp"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/delete"/> 
-         
-    <TextView
-	    android:id="@+id/edittext"
-	    android:layout_width="wrap_content"
-	    android:layout_height="40dp"
-	    android:layout_alignParentLeft="true"
-	    android:layout_marginTop="16dp"
-	    android:layout_marginLeft="28dp"
-        android:layout_marginBottom="16dp"
-        android:paddingLeft="16dp"
-        android:gravity="center"
-        android:textSize="16sp"
-	    android:text="@string/done"
-	    android:textColor="@color/white"/>
-    
-    <ImageView
-         android:id="@+id/add"
-         android:layout_width="wrap_content"
-         android:layout_height="40dp"
-         android:scaleType="centerCrop"
-         android:layout_alignParentRight="true"
-         android:layout_marginTop="16dp"
-         android:layout_marginBottom="16dp"
-         android:textSize="12sp"
-         android:paddingRight="32dp"
-         android:textColor="@color/white"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/plus_blue"
-         android:visibility="gone"/>	    
-     
-    <!-- Event 1 -->
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler1_outer"
-         android:layout_width="match_parent"
-         android:layout_height="160dp"
-         android:layout_below="@+id/edit"
-         android:background="#C0C0C0"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler1_innerouter"
-         android:layout_width="match_parent"
-         android:layout_height="160dp"
-         android:layout_below="@+id/edit"
-         android:background="@drawable/scheduler"
-         android:layout_alignTop="@+id/scheduler1_outer"
-         android:layout_alignLeft="@+id/scheduler1_outer"
-         android:layout_alignRight="@+id/scheduler1_outer"
-         android:layout_alignBottom="@+id/scheduler1_outer"
-         android:layout_marginTop="16dp"
-         android:layout_marginLeft="16dp"
-         android:layout_marginRight="16dp"
-         android:layout_marginBottom="16dp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler1_text1"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignTop="@+id/scheduler1_innerouter"
-         android:layout_marginTop="16dp"
-         android:layout_marginLeft="64dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="48sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <LinearLayout
-        android:id="@+id/event1"
-    	android:layout_width="match_parent" 
-    	android:layout_height="160dp"
-    	android:layout_below="@+id/edit"
-    	android:layout_alignTop="@+id/scheduler1_innerouter"
-    	android:orientation="horizontal">
-    	
-     <ImageView
-         android:id="@+id/delete1"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/delete_circle"
-         android:visibility="gone"/>      
-    
-     <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler1_text2"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_weight=".75"
-         android:layout_marginTop="64dp"
-         android:lineSpacingExtra="5dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="16sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-     
-     <ImageView
-         android:id="@+id/RightArrow1"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
-     
-     </LinearLayout>
-     
-    <!-- Event 2 -->
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler2_outer"
-         android:layout_width="match_parent"
-         android:layout_height="150dp"
-         android:layout_below="@+id/scheduler1_outer"
-         android:background="#C0C0C0"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler2_innerouter"
-         android:layout_width="match_parent"
-         android:layout_height="150dp"
-         android:layout_below="@+id/scheduler1_outer"
-         android:background="@drawable/scheduler"
-         android:layout_alignTop="@+id/scheduler2_outer"
-         android:layout_alignLeft="@+id/scheduler2_outer"
-         android:layout_alignRight="@+id/scheduler2_outer"
-         android:layout_alignBottom="@+id/scheduler2_outer"
-         android:layout_marginLeft="16dp"
-         android:layout_marginRight="16dp"
-         android:layout_marginBottom="16dp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler2_text1"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignTop="@+id/scheduler2_innerouter"
-         android:layout_marginLeft="64dp"
-         android:layout_marginTop="16dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="48sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <LinearLayout
-        android:id="@+id/event2"
-    	android:layout_width="match_parent" 
-    	android:layout_height="160dp"
-    	android:layout_below="@+id/scheduler1_outer"
-    	android:orientation="horizontal">
-    	
-     <ImageView
-         android:id="@+id/delete2"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/delete_circle"
-         android:visibility="gone"/> 
-     
-    
-     <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler2_text2"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_weight=".75"
-         android:layout_marginTop="64dp"
-         android:lineSpacingExtra="5dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="16sp"
-         custom:fontAssetName="fonts/gillsanslight.ttf" 
-         android:visibility="gone"/>
-     
-     <ImageView
-         android:id="@+id/RightArrow2"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
-     
-     </LinearLayout>
-     
-    <!-- Event 3 -->
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler3_outer"
-         android:layout_width="match_parent"
-         android:layout_height="150dp"
-         android:layout_below="@+id/scheduler2_outer"
-         android:background="#C0C0C0"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler3_innerouter"
-         android:layout_width="match_parent"
-         android:layout_height="150dp"
-         android:layout_below="@+id/scheduler2_outer"
-         android:background="@drawable/scheduler"
-         android:layout_alignTop="@+id/scheduler3_outer"
-         android:layout_alignLeft="@+id/scheduler3_outer"
-         android:layout_alignRight="@+id/scheduler3_outer"
-         android:layout_alignBottom="@+id/scheduler3_outer"
-         android:layout_marginLeft="16dp"
-         android:layout_marginRight="16dp"
-         android:layout_marginBottom="16dp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler3_text1"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignTop="@+id/scheduler3_innerouter"
-         android:layout_marginTop="16dp"
-         android:layout_marginLeft="64dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="48sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <LinearLayout
-        android:id="@+id/event3"
-    	android:layout_width="match_parent" 
-    	android:layout_height="160dp"
-    	android:layout_below="@+id/scheduler2_outer"
-    	android:orientation="horizontal">
-    	
-     <ImageView
-         android:id="@+id/delete3"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/delete_circle"
-         android:visibility="gone"/> 
-     
-    
-     <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler3_text2"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_weight=".75"
-         android:layout_marginTop="64dp"
-         android:lineSpacingExtra="5dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="16sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-     
-     <ImageView
-         android:id="@+id/RightArrow3"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
-     
-     </LinearLayout>
-     
-    <!-- Event 4 -->
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler4_outer"
-         android:layout_width="match_parent"
-         android:layout_height="150dp"
-         android:layout_below="@+id/scheduler3_outer"
-         android:background="#C0C0C0"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler4_innerouter"
-         android:layout_width="match_parent"
-         android:layout_height="150dp"
-         android:layout_below="@+id/scheduler3_outer"
-         android:background="@drawable/scheduler"
-         android:layout_alignTop="@+id/scheduler4_outer"
-         android:layout_alignLeft="@+id/scheduler4_outer"
-         android:layout_alignRight="@+id/scheduler4_outer"
-         android:layout_alignBottom="@+id/scheduler4_outer"
-         android:layout_marginLeft="16dp"
-         android:layout_marginRight="16dp"
-         android:layout_marginBottom="16dp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler4_text1"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:layout_alignTop="@+id/scheduler4_innerouter"
-         android:layout_marginTop="16dp"
-         android:layout_marginLeft="64dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="48sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
-    <LinearLayout
-        android:id="@+id/event4"
-    	android:layout_width="match_parent" 
-    	android:layout_height="160dp"
-    	android:layout_below="@+id/scheduler3_outer"
-    	android:orientation="horizontal">
-    	
-     <ImageView
-         android:id="@+id/delete4"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/delete_circle"
-         android:visibility="gone"/> 
-     
-    
-     <com.philips.cl.di.dev.pa.view.FontTextView
-         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-         android:id="@+id/scheduler4_text2"
-         android:layout_width="0dp"
-         android:layout_height="wrap_content"
-         android:layout_weight=".75"
-         android:layout_marginTop="64dp"
-         android:lineSpacingExtra="5dp"
-         android:paddingLeft="16dp"
-         android:textColor="@color/title_gray"
-         android:textSize="16sp"
-         android:visibility="gone"
-         custom:fontAssetName="fonts/gillsanslight.ttf" />
-     
-     <ImageView
-         android:id="@+id/RightArrow4"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
-     
-     </LinearLayout>
-    
-	</RelativeLayout>
+    android:layout_height="fill_parent" 
+    android:background="@color/white"
+    android:paddingRight="16dp">
 	
-</ScrollView>
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tvAddTime"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:paddingTop="20dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingLeft="16dp"
+        android:text="@string/time"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tvAddSchdeduler"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:paddingTop="50dp"
+        android:paddingLeft="16dp"
+        android:layout_alignBottom="@+id/tvAddTime"
+        android:textSize="16sp"
+        android:textColor="@color/title_gray"
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+         android:id="@+id/btnTime"
+         android:layout_width="32dp"
+         android:layout_height="40dp"
+         android:textColor="@color/title_gray"
+         android:layout_marginTop="30dp"
+         android:layout_gravity="center"
+         android:layout_alignParentRight="true"
+         android:contentDescription="@string/img_description"
+         android:src="@drawable/about_air_quality_goto"/> 
+     
+      <ImageView
+        android:id="@+id/divider1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+		android:textColor="@color/title_gray"
+        android:layout_below="@+id/tvAddSchdeduler"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" /> 
+        
+      <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/repeat"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_below="@+id/divider1"
+         android:paddingTop="17dp"
+         android:paddingLeft="16dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold|italic"
+         android:text="@string/days"
+         android:textColor="@color/title_gray"
+         android:textSize="20sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+      
+        <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/repeattext"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_alignBottom="@+id/repeat"
+         android:paddingLeft="16dp"
+         android:layout_below="@+id/divider1"
+         android:paddingRight="32dp"
+         android:paddingTop="50dp"
+         android:lineSpacingExtra="5dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold"
+         android:text="@string/never"
+         android:textColor="@color/title_gray"
+         android:textSize="16sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+      <ImageView
+         android:id="@+id/btnrepeat"
+         android:layout_width="32dp"
+         android:layout_height="40dp"
+         android:textColor="@color/title_gray"
+         android:layout_alignParentRight="true"
+         android:layout_below="@+id/divider1"
+         android:layout_marginTop="30dp"
+         android:layout_gravity="center"
+         android:contentDescription="@string/img_description"
+         android:src="@drawable/about_air_quality_goto"/> 
+        
+      <ImageView
+        android:id="@+id/divider2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor="@color/title_gray"
+		android:paddingLeft="16dp"
+        android:layout_below="@+id/repeat"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" />
+      
+      <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/fanspeed"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_below="@+id/divider2"
+         android:paddingTop="20dp"
+         android:paddingBottom="10dp"
+         android:paddingLeft="16dp"
+         android:text="@string/fanspeed"
+         android:textStyle="bold"
+         android:textColor="@color/title_gray"
+         android:textSize="20sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+      
+       <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/fanspeedtext"
+         android:layout_width="wrap_content"
+         android:layout_height="100dp"
+         android:layout_alignBottom="@+id/fanspeed"
+         android:layout_below="@+id/divider2"
+         android:paddingRight="32dp"
+         android:paddingLeft="16dp"
+         android:paddingTop="50dp"
+         android:paddingBottom="10dp"
+         android:textStyle="bold"
+         android:text="@string/auto"
+         android:textColor="@color/title_gray"
+         android:textSize="16sp"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+       
+       <ImageView
+         android:id="@+id/btnFanSpeed"
+         android:layout_width="32dp"
+         android:layout_height="40dp"
+         android:textColor="@color/title_gray"
+         android:layout_alignParentRight="true"
+         android:layout_marginTop="30dp"
+         android:layout_gravity="center"
+         android:layout_below="@+id/divider2"
+         android:contentDescription="@string/img_description"
+         android:src="@drawable/about_air_quality_goto"/> 
+      
+      <ImageView
+        android:id="@+id/divider3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:textColor="@color/title_gray"
+		android:paddingLeft="16dp"
+        android:layout_below="@+id/fanspeed"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" />
+
+</RelativeLayout>
