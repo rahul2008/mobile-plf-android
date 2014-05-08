@@ -156,4 +156,6 @@
     <color name="subtitle_gray">#C0C0C0</color>
     <color name="title_gray">#5D6577</color>
     <color name="contain_gray">#7C7C7C</color>
+    <color name="lighter_gray">#C4CCD4</color>
+   
     </resources>
