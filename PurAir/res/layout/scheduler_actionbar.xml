@@ -36,8 +36,6 @@
         android:background="@drawable/lef_arrow_blue_2x"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:textSize="12sp"
-        android:textColor="@color/white"
-        android:text="@string/cancel" />   
+        android:textSize="12sp"/>   
     
 </RelativeLayout>
