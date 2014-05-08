@@ -1,28 +1,39 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment {
+public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	
 	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
+	private LinearLayout takeATourPopup;
 	
 	public static OutdoorFragment newInstance(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment$newInstance");
@@ -43,7 +54,6 @@ public class OutdoorFragment extends BaseFragment {
 	}
 	
 	private void initViews(View view) {
-		OutdoorManager.getInstance().getOutdoorDashboardData(0);
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
@@ -60,6 +70,18 @@ public class OutdoorFragment extends BaseFragment {
 			OutdoorDto city= (OutdoorDto) getArguments().getSerializable(AppConstants.KEY_CITY);
 			updateUI(city);
 		} 
+		
+		if(((MainActivity)getActivity()).getVisits()<=3 && !((MainActivity)getActivity()).isTutorialPromptShown){
+			takeATourPopup = (LinearLayout) view.findViewById(R.id.take_tour_prompt_drawer);			
+			showTakeATourPopup();
+			
+			FontTextView takeATourText = (FontTextView) view.findViewById(R.id.lbl_take_tour);
+			takeATourText.setOnClickListener(this);
+			
+			ImageButton takeATourCloseButton = (ImageButton) view.findViewById(R.id.btn_close_tour_layout);
+			takeATourCloseButton.setOnClickListener(this);
+		}
+		
 	}
 	
 	private void updateUI(OutdoorDto outdoorDto) {
@@ -123,4 +145,76 @@ public class OutdoorFragment extends BaseFragment {
 			}
 		}
 	};
+	
+	private void showTakeATourPopup() {
+		takeATourPopup.setVisibility(View.VISIBLE);
+		Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
+		takeATourPopup .startAnimation(bottomUp);
+	}
+	
+	private void hideTakeATourPopup() {
+		takeATourPopup.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.hf_outdoor_circle_pointer:
+			Bundle bundle = getArguments();
+			if (bundle != null) {
+				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
+				intent.putExtras(bundle);
+				startActivity(intent);
+			}
+			break;
+			
+		case R.id.lbl_take_tour:
+			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+			startActivity(intentOd);
+			hideTakeATourPopup();
+			break;
+			
+		case R.id.btn_close_tour_layout:
+			hideTakeATourPopup();
+			showTutorialDialog();
+			break;
+		}
+	}
+	
+	private void showTutorialDialog()
+	{
+		// Created a new Dialog
+		final Dialog dialog = new Dialog(getActivity());
+		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// inflate the layout
+		dialog.setContentView(R.layout.air_purifier_dialog);
+
+		TextView takeTourAlertLbl=(TextView) dialog.findViewById(R.id.alert_message);
+		Button btnClose=(Button) dialog.findViewById(R.id.btn_close);			
+		Button btnTakeTour=(Button) dialog.findViewById(R.id.btn_yes);
+
+		takeTourAlertLbl.setTypeface(Fonts.getGillsans(getActivity()));
+		btnClose.setTypeface(Fonts.getGillsans(getActivity()));
+		btnTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
+
+		btnClose.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		btnTakeTour.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+				startActivity(intentOd);
+				dialog.dismiss();
+			}
+		});
+
+		// Display the dialog
+		dialog.show();
+	}
 }

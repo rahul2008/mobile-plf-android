@@ -166,7 +166,7 @@
         android:padding="0.5dp"
         android:visibility="gone" >
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
             android:id="@+id/lbl_take_tour"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
