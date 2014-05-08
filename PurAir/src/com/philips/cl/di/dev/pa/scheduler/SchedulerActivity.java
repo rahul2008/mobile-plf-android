@@ -70,6 +70,18 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method exit");
 	}
 	
+	private void showDeleteSchedulerFragment() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showDeleteSchedulerFragment() method enter");
+		DeleteSchedulerFragment fragDeleteSch = new DeleteSchedulerFragment();
+		//fragDeleteSch.setArguments(bundle);
+		getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.ll_scheduler_container, fragDeleteSch, "DeleteSchedulerFragment").commit();
+
+		
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showDeleteSchedulerFragment() method exit");
+	}
+	
 	public JSONArray getSchedulerList() {
 		return arrSchedulers;
 	}
@@ -180,7 +192,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			/*getSupportFragmentManager()
 					.beginTransaction()
 					.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();*/
-			showSchedulerOverviewFragment();
+			//showSchedulerOverviewFragment();
+			showDeleteSchedulerFragment();
 			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method exit");
 		}
 		catch(Exception e) {
