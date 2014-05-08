@@ -181,36 +181,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
 
-		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_launcher, R.string.app_name,
-				R.string.action_settings) {
-
-			@Override
-			public void onDrawerClosed(View drawerView) {
-				if (drawerView.getId() == R.id.right_menu_scrollView) {
-					ALog.i(ALog.MAINACTIVITY, "Right drawer close");
-					mRightDrawerOpened = false;
-				} else if (drawerView.getId() == R.id.left_menu_listView) {
-					ALog.i(ALog.MAINACTIVITY, "Left drawer close");
-					mLeftDrawerOpened = false;
-				}
-				
-				supportInvalidateOptionsMenu();
-			}
-
-			@Override
-			public void onDrawerOpened(View drawerView) {
-				if (drawerView.getId() == R.id.right_menu_scrollView) {
-					mRightDrawerOpened = true;
-					ALog.i(ALog.MAINACTIVITY, "Right drawer open");
-				} else if (drawerView.getId() == R.id.left_menu_listView) {
-					mLeftDrawerOpened = true;
-					ALog.i(ALog.MAINACTIVITY, "Left drawer open");
-				}
-				supportInvalidateOptionsMenu();
-			}
-		};
-
+		
 		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
 		/** Initialise left menu items and click listener */
@@ -274,8 +245,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		super.onResume();
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
-		
-		updatePurifierUIFields();
+		updatePurifierUIFields() ;
 	}
 
 	@Override
@@ -346,7 +316,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	@Override
 	protected void onUserLeaveHint() {
-		ALog.i(ALog.MAINACTIVITY, "onUserLeaveHint");
+		ALog.i(ALog.ACTIVITY, "onUserLeaveHint");
 		if (!isClickEvent && !isDiagnostics) {
 //			stopAllServices();
 		}
@@ -476,7 +446,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	public void stopAllServices() {
 		stopRemoteConnection() ;
 		stopLocalConnection() ;
-		CPPController.reset();
 	}
 
 	private void resetSessionObject() {
@@ -877,6 +846,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		updateRightMenuConnectedStatus();
 		
 		final PurAirDevice purifier = getCurrentPurifier();
+		if(purifier.getConnectionState() == ConnectionState.DISCONNECTED) return ;
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) return;
 		
@@ -894,6 +864,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 						Utils.getIndoorAQIMessage(indoorAQIUsableValue),
 						getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
+				
 				rightMenuClickListener.toggleControlPanel(true,info);
 			}
 		});
