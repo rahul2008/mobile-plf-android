@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -167,16 +168,16 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 			
 			switch(i) {
 			case 0:
-				CreateEvent(view, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.RightArrow1, R.id.divider1, R.id.delete1, sTime, sEventSetting);
+				CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.RightArrow1, R.id.divider1, R.id.delete1, sTime, sEventSetting);
 				break;
 			case 1:
-				CreateEvent(view, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.RightArrow2, R.id.divider2, R.id.delete2, sTime, sEventSetting);
+				CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.RightArrow2, R.id.divider2, R.id.delete2, sTime, sEventSetting);
 				break;
 			case 2:
-				CreateEvent(view, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.RightArrow3, R.id.divider3, R.id.delete3, sTime, sEventSetting);
+				CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.RightArrow3, R.id.divider3, R.id.delete3, sTime, sEventSetting);
 				break;
 			case 3:
-				CreateEvent(view, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.RightArrow4, R.id.divider4, R.id.delete4, sTime, sEventSetting);
+				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.RightArrow4, R.id.divider4, R.id.delete4, sTime, sEventSetting);
 				break;
 			default:
 				break;
@@ -185,13 +186,17 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method exit");
 	}
 	
-	private void CreateEvent(View view, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iImageView, int iImgView, int delete, String time, String event) {
+	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iImageView, int iImgView, int delete, String time, String event) {
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() method enter");
 		FontTextView txtOuterView, txtInnerOuterView;
 		FontTextView txtView1, txtView2;
 		ImageView ivImage;
 		//ImageView imgView;
 		ImageView ivDelete;
+		LinearLayout lLayout;
+		
+		lLayout = (LinearLayout) view.findViewById(layout);
+		lLayout.setVisibility(View.VISIBLE);
 		
 		txtOuterView = (FontTextView) view.findViewById(iTxtOuterView);
 		txtOuterView.setVisibility(View.VISIBLE);
