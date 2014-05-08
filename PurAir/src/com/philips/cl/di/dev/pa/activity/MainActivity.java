@@ -619,11 +619,13 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 					tvConnectionStatus.setText(getString(R.string.connected));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x)); 
+					ALog.d(ALog.MAINACTIVITY, "Updating right menu to connected");
 					break;
 				case CONNECTED_REMOTELY:
 					tvConnectionStatus.setText(getString(R.string.connected_via_philips));
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_blue_2x));
 					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_blue_2x));
+					ALog.d(ALog.MAINACTIVITY, "Updating right menu to connected via philips");
 					break;
 				case DISCONNECTED:
 					tvConnectionStatus.setText(getString(R.string.not_connected));
@@ -632,6 +634,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 					setRightMenuAirStatusBackground(0);
 					rightMenuClickListener.toggleControlPanel(false, null);
+					ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 					break;
 				}
 			}
@@ -846,8 +849,9 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		updateRightMenuConnectedStatus();
 		
 		final PurAirDevice purifier = getCurrentPurifier();
-		if(purifier == null || 
-				purifier.getConnectionState() == ConnectionState.DISCONNECTED) return ;
+		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) return ;
+		
+		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) return;
 		
@@ -944,17 +948,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		if (airPortInfo == null) return;
 		ALog.d(ALog.SUBSCRIPTION, "OnReceive device details from DCS: " + airPortInfo);
 
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier != null) {
-			purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-		}
 		setAirPortInfo(airPortInfo);
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				updatePurifierUIFields();
-			}
-		});
+		updatePurifierUIFields();
 	}
 
 	public void toggleConnection() {
