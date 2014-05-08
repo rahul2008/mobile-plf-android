@@ -288,6 +288,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				setActionBar(R.string.edit_schedule, View.VISIBLE, View.VISIBLE);
 			}
 			break;
+		case DELETE_EVENT:
+			setActionBar(R.string.set_schedule, View.INVISIBLE, View.VISIBLE);
+			break;
 		case REPEAT:
 			setActionBar(R.string.repeat, View.INVISIBLE, View.VISIBLE);
 			break;

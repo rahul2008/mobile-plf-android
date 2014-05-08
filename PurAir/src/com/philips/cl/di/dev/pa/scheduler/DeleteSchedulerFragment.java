@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +32,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onCreateView() method enter");
 		View view = inflater.inflate(R.layout.delete_scheduler, null);
-		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.OVERVIEW_EVENT);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.DELETE_EVENT);
 		Bundle bundle = getActivity().getIntent().getExtras();
 		String extras = "";
 		if (bundle != null) {
@@ -50,6 +51,8 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::initViews() method enter");
 		ImageView edit = (ImageView) view.findViewById(R.id.edit);
 		edit.setOnClickListener(onClickListener);
+		ImageView add = (ImageView) view.findViewById(R.id.add);
+		add.setOnClickListener(onClickListener);
 		ImageView ivRhtArr1 = (ImageView) view.findViewById(R.id.RightArrow1);
 		ivRhtArr1.setOnClickListener(onClickListener);
 		ImageView ivRhtArr2 = (ImageView) view.findViewById(R.id.RightArrow2);
@@ -85,6 +88,11 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 					break;
 				case R.id.edit:
 					showSchedulerOverviewFragment();
+					break;
+				case R.id.add:
+					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
+					DialogFragment newFragment = new TimePickerFragment();
+					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
 					break;
 			}
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
