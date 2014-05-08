@@ -19,7 +19,6 @@
         android:id="@+id/inModeTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/inModeIcon"
         android:layout_toRightOf="@+id/inModeIcon"
         android:gravity="center_vertical"
         android:paddingLeft="8dp"
@@ -34,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/inModeIcon"
+        android:layout_below="@+id/inModeTxt"
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
@@ -55,7 +54,6 @@
         android:id="@+id/inFilterTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/inFilterIcon"
         android:layout_toLeftOf="@+id/inFilterIcon"
         android:gravity="center_vertical"
         android:paddingRight="8dp"
@@ -70,7 +68,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/inFilterIcon"
+        android:layout_below="@+id/inFilterTxt"
         android:textColor="@color/white"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
