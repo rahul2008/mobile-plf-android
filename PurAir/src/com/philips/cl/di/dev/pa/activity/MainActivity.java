@@ -797,6 +797,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received (local): " + airPurifierDetails) ;
 		setAirPortInfo(airPurifierDetails);
 		
+		// TODO remove
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier != null) {
 			purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);

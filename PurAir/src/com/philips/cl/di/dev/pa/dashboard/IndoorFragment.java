@@ -13,9 +13,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -27,7 +30,7 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
+public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener, ICPDeviceDetailsListener {
 
 	private LinearLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -72,6 +75,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onResume() {
 		super.onResume();
 		AirPurifierController.getInstance().addAirPurifierEventListener(this);
+		CPPController.getInstance(PurAirApplication.getAppContext()).addDeviceDetailsListener(this);
 		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
 			updateDashboard(PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo());
 		}
@@ -86,6 +90,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onPause() {
 		super.onPause();
 		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
+		CPPController.getInstance(PurAirApplication.getAppContext()).removeDeviceDetailsListener(this);
 	}
 
 	private void updateDashboard(AirPortInfo airPortInfo) {
@@ -137,6 +142,17 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private void showFirmwareUpdatePopup() {
 		firmwareUpdatePopup.setVisibility(View.VISIBLE);
+	}
+	
+	@Override
+	public void onReceivedDeviceDetails(final AirPortInfo airPurifierDetails) {
+		getActivity().runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				updateDashboard(airPurifierDetails);
+			}
+		});
 	}
 
 	@Override
