@@ -846,7 +846,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		updateRightMenuConnectedStatus();
 		
 		final PurAirDevice purifier = getCurrentPurifier();
-		if(purifier.getConnectionState() == ConnectionState.DISCONNECTED) return ;
+		if(purifier == null || 
+				purifier.getConnectionState() == ConnectionState.DISCONNECTED) return ;
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) return;
 		
