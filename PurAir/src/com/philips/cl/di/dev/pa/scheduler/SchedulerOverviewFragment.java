@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.scheduler;
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,8 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.philips.cl.di.dev.pa.R;
@@ -99,16 +102,16 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			
 			switch(i) {
 			case 0:
-				CreateEvent(view, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.scheduler1_btnActivation, R.id.divider1, sTime, sEventSetting);
+				CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.scheduler1_btnActivation, R.id.divider1, sTime, sEventSetting);
 				break;
 			case 1:
-				CreateEvent(view, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.scheduler2_btnActivation, R.id.divider2, sTime, sEventSetting);
+				CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.scheduler2_btnActivation, R.id.divider2, sTime, sEventSetting);
 				break;
 			case 2:
-				CreateEvent(view, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.scheduler3_btnActivation, R.id.divider3, sTime, sEventSetting);
+				CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.scheduler3_btnActivation, R.id.divider3, sTime, sEventSetting);
 				break;
 			case 3:
-				CreateEvent(view, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting);
+				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting);
 				break;
 			default:
 				break;
@@ -127,12 +130,16 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method exit  ");
 	}
 	
-	private void CreateEvent(View view, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iButton, int iImgView, String time, String event) {
+	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iButton, int iImgView, String time, String event) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEvent() method enter");
 		FontTextView txtOuterView, txtInnerOuterView;
 		FontTextView txtView1, txtView2;
 		Button btn;
+		LinearLayout lLayout;
 		//ImageView imgView;
+		
+		lLayout = (LinearLayout) view.findViewById(layout);
+		lLayout.setVisibility(View.VISIBLE);
 		
 		txtOuterView = (FontTextView) view.findViewById(iTxtOuterView);
 		txtOuterView.setVisibility(View.VISIBLE);
