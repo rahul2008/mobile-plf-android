@@ -357,7 +357,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	@Override
 	protected void onDestroy() {
-		resetSessionObject();
 		stopAllServices();
 		super.onDestroy();
 	}
@@ -448,9 +447,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		stopLocalConnection() ;
 	}
 
-	private void resetSessionObject() {
-		SessionDto.reset();
-	}
 
 	/** Need to have only one instance of the HomeFragment */
 	public static HomeFragment getDashboard() {
