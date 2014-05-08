@@ -124,7 +124,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		if (relationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 			secretKey = generateRandomSecretKey();
 			String pairing_url = Utils.getPortUrl(Port.PAIRING, purifier.getIpAddress());
-			String appEui64 = SessionDto.getInstance().getEui64();
+			String appEui64 = SessionDto.getInstance().getAppEui64();
 			String dataToUpload = JSONBuilder.getDICOMMPairingJSON(appEui64, secretKey);
 			dataToUpload = new DISecurity(null).encryptData(dataToUpload, purifier);
 			TaskPutDeviceDetails pairingRunnable = new TaskPutDeviceDetails(

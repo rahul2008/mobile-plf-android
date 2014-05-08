@@ -75,7 +75,7 @@ public class SessionDto {
 		this.Eui64 = eui64;
 	}
 	
-	public String getEui64() {
+	public String getAppEui64() {
 		return Eui64;		
 	}
 

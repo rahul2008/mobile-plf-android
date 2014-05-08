@@ -74,7 +74,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	public void setDeviceDetailsRemotely(String key, String value, PurAirDevice purifier) {
 		String eventData = JSONBuilder.getPublishEventBuilder(key, value) ;
 		// Publish events
-		CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, SessionDto.getInstance().getEui64(), "", 20, 120, purifier.getEui64()) ;
+		CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
 	}
 
 	/**

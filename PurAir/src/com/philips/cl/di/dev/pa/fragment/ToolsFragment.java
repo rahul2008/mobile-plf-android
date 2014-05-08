@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,10 +27,12 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData.DiagnosticsDataListener;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ToolsFragment extends BaseFragment implements OnClickListener, DiagnosticsDataListener {
@@ -177,7 +180,10 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		String dIpAddress = "IP Address: " + intToIp(dhcpInfo.ipAddress);
 		String dMacaddress = "MAC Address:"
 				+ getMACAddress(intToIp(dhcpInfo.ipAddress));
-		String registrationId = null; // TODO fix registration ID
+		String registrationId = "App EUI64 " + SessionDto.getInstance().getAppEui64(); // TODO fix registration ID
+		
+		// get DiscoveryManagerInfo
+		String discoveryInfo = getDiscoveryManagerInformation();
 
 		//get AirPurifier diagnostics info
 		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();
@@ -203,6 +209,9 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		data.append(dDns1);
 		data.append(lineSeparator);
 		data.append(registrationId);
+		data.append(lineSeparator);
+		data.append(lineSeparator);
+		data.append(discoveryInfo);
 		data.append(lineSeparator);
 		data.append("AirPurifier Network Info\n");
 		data.append(airpurifierIpAddress);
@@ -273,6 +282,30 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 			return "< unknown >"; // TODO localize
 		}
 		return macAddress;
+	}
+	
+	private String getDiscoveryManagerInformation() {
+		String discoveryString = "DiscoveryManager information:\n";
+		
+		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+		if (devices == null || devices.size() <= 0) {
+			return discoveryString + "No devices discovered - map is 0 \n";
+		}
+		
+		String offline = "Offline devices %d: ";
+		String local = "Local devices %d: ";
+		String cpp = "Cpp devices %d: ";
+		for (PurAirDevice device :devices) {
+			switch (device.getConnectionState()) {
+			case DISCONNECTED: offline += "\n  - " + device.getName() + "(" + device.getEui64()+ "), "; break;
+			case CONNECTED_LOCALLY: local +=  "\n  - " + device.getName() + "(" + device.getEui64()+ "), "; break;
+			case CONNECTED_REMOTELY: cpp +=  "\n  - " + device.getName() + "(" + device.getEui64()+ "), "; break;
+			}
+		}
+		discoveryString += String.format(offline, offline.length() - offline.replace(",", "").length()) + "\n";
+		discoveryString += String.format(local, local.length() - local.replace(",", "").length()) + "\n";
+		discoveryString += String.format(cpp, cpp.length() - cpp.replace(",", "").length()) + "\n";
+		return discoveryString;
 	}
 
 }

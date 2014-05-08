@@ -119,7 +119,7 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	}
 	
 	private String getSubscriberId(long bootId, boolean isLocal) {
-		String appEui64 = SessionDto.getInstance().getEui64();
+		String appEui64 = SessionDto.getInstance().getAppEui64();
 		if (appEui64 != null) return appEui64;
 		if (isLocal) return String.valueOf(bootId); // Fallback for local subscription when no cpp connection
 		return null;
