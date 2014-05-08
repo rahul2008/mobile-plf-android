@@ -31,6 +31,9 @@
     <string name="auto">自动</string>
     <string name="turbo">强力</string>
     <string name="silent">静音</string>
+    <string name="one">Speed 1</string>
+    <string name="two">Speed 2</string>
+    <string name="three">Speed 3</string>
     <string name="scheduler">Scheduler</string>
     <string name="child_lock">儿童锁</string>
     <string name="indicator_light">指示灯</string>
@@ -193,7 +196,6 @@
     <string name="od_yaxis_label4">200</string>
     <string name="od_yaxis_label5">300</string>
     <string name="od_yaxis_label6">500+</string>
-    <string name="one">1</string>
     <string name="id_yaxis_label1">2</string>
     <string name="id_yaxis_label2">3</string>
     <string name="id_yaxis_label3">4</string>
