@@ -198,16 +198,16 @@ public class OutdoorDto implements Serializable{
 				rotation = aqiFloat * 0.54f;
 			} else if(aqiInt > 50 && aqiInt <= 100) {
 				aqiFloat -= 50;
-				rotation = 28 + aqiFloat * 0.54f;
+				rotation = 4 + 28 + aqiFloat * 0.54f;  //+5 offset to fix image mis-alignment.
 			} else if(aqiInt > 100 && aqiInt <= 150) {
 				aqiFloat -= 100;
 				rotation = 57 + aqiFloat * 0.54f;
 			} else if(aqiInt > 150 && aqiInt <= 200) {
 				aqiFloat -= 150;
-				rotation = 86 + aqiFloat * 0.54f;
+				rotation = -3 + 86 + aqiFloat * 0.54f; //-3 offset to fix image mis-alignment.
 			} else if(aqiInt > 200 && aqiInt <= 300) {
 				aqiFloat -= 200;
-				rotation = 114 + aqiFloat * 0.705f;
+				rotation = -3 + 114 + aqiFloat * 0.705f; //-3 offset to fix image mis-alignment.
 			} else if(aqiInt > 300) {
 				aqiFloat -= 300;
 				rotation = 187 + aqiFloat * 0.163f;
@@ -271,6 +271,7 @@ public class OutdoorDto implements Serializable{
 		}
 		if (weatherIcon.compareToIgnoreCase(AppConstants.CLEAR) == 0) {
 			//TODO : Find isDayTime from webservice.
+			// Moving to a different webservice, ignoring this.
 			String isDayTime = "Yes";
 			if(isDayTime.compareToIgnoreCase("Yes") == 0) {
 				return R.drawable.sunny_white;
