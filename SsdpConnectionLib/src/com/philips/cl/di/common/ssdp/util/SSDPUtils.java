@@ -16,6 +16,8 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
 
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
@@ -93,28 +95,28 @@ public class SSDPUtils {
 	public static String getHTTP(final URL url) {
 		String response = "";
 		if (url != null) {
-
+			/**
+			 * This was added because sometimes 
+			 * it was not able to download file if we don't add above line of code
+			 */
 			String line = null;
-			// if (Build.VERSION.SDK_INT >= 9) {
-			// StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-			// .permitAll().build();
-			// StrictMode.setThreadPolicy(policy);
-			// } // This was added because sometimes it was not able to download file if we don't
-			// add above line of code
+			if (Build.VERSION.SDK_INT >= 9) {
+				 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+				 StrictMode.setThreadPolicy(policy);
+			} 
+			
 			HttpURLConnection connection = null;
 			InputStreamReader is = null;
 			BufferedReader br = null;
 			try {
 				connection = (HttpURLConnection) url.openConnection();
 				if (null != connection) {
-					connection.setConnectTimeout(2000);
+					connection.setConnectTimeout(3000);
 					connection.connect();
 					is = new InputStreamReader(connection.getInputStream());
 					br = new BufferedReader(is);
 					final StringBuffer sb = new StringBuffer("");
-					while ((line = br.readLine()) != null) { // $codepro.audit.disable
-						                                     // methodInvocationInLoopCondition,
-						                                     // assignmentInCondition
+					while ((line = br.readLine()) != null) { 
 						sb.append(line);
 					}
 					response = sb.toString();
@@ -122,7 +124,7 @@ public class SSDPUtils {
 			} catch (final ClientProtocolException e) {
 				Log.e(ConnectionLibContants.LOG_TAG, "ClientProtocolException: " + e.getMessage());
 			} catch (final IOException e) {
-				Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage());
+				Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage() + ", url:" + url);
 			} finally {
 				if (null != br) {
 					try {
@@ -135,7 +137,7 @@ public class SSDPUtils {
 					try {
 						is.close();
 					} catch (final IOException e) {
-						Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage());
+						Log.e(ConnectionLibContants.LOG_TAG, "IOException: " + e.getMessage() + ", url:" + url);
 					}
 				}
 				if(null != connection) {

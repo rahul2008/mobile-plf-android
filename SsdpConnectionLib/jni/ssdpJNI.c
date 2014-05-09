@@ -1,4 +1,4 @@
-  #include "ssdp.h"
+#include "ssdp.h"
 #include <jni.h>
 #include "logger.h"
 #include "parser.h"
@@ -62,7 +62,7 @@ jint
 Java_com_philips_cl_di_common_ssdp_lib_SsdpService_registerListener( JNIEnv  *env, jobject this) {
 	LOGE("Java_com_philips_cl_di_common_ssdp_lib_SsdpService_registerListener");
 	context.clazz = (*env)->GetObjectClass(env, this);
-	context.methodNotifyDiscovery = (*env)->GetMethodID( env, context.clazz, "ssdpCallback", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V" );
+	context.methodNotifyDiscovery = (*env)->GetMethodID( env, context.clazz, "ssdpCallback", "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V" );//manzer
 	context.jSSDP			= (*env)->NewGlobalRef(env,this);
 	
 	if (0 == context.methodNotifyDiscovery) {
@@ -81,7 +81,8 @@ void callback(SsdpStruct * ssdpStruct) {
 								(*env)->NewStringUTF(env, (*ssdpStruct).NTS),
 								(*env)->NewStringUTF(env, (*ssdpStruct).USN),
 								(*env)->NewStringUTF(env, (*ssdpStruct).LOCATION),
-    							(*env)->NewStringUTF(env, (*ssdpStruct).BOOT_ID));
+								(*env)->NewStringUTF(env, (*ssdpStruct).SERVER),
+    							(*env)->NewStringUTF(env, (*ssdpStruct).BOOT_ID));//manzer
 	(*virutalMachine)->DetachCurrentThread(virutalMachine);
 }
 

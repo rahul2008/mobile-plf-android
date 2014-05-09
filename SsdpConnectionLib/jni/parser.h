@@ -4,7 +4,8 @@
 typedef struct {
 	char * NTS;
 	char * USN;
-	char * BOOT_ID; //Manzer for test
+	char * BOOT_ID; //Manzer
+	char * SERVER; //Manzer
 	char * LOCATION;
 } SsdpStruct;
 

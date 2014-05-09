@@ -11,6 +11,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -18,7 +19,6 @@ import android.util.Log;
 
 import com.philips.cl.di.common.ssdp.contants.ConnectionLibContants;
 import com.philips.cl.di.common.ssdp.contants.XmlParserConstants;
-import com.philips.cl.di.common.ssdp.models.Icon;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 
 /*
@@ -38,10 +38,6 @@ public class BaseUrlParser {
 	 */
 	class BaseUrlXmlHandler extends DefaultHandler {
 		private int devicesCount = -1;
-		private Icon icon;
-
-		private boolean insideIconList = false;
-		private boolean isSmallScreen = false;
 		private SSDPdevice mSsdpDevice;
 		/**
 		 * Method startDocument.
@@ -217,9 +213,11 @@ public class BaseUrlParser {
 				if (null != factory) {
 					final SAXParser parser = factory.newSAXParser();
 					if (null != parser) {
-						inputStream = new ByteArrayInputStream(xmlToParse.getBytes("ISO-8859-15"));
+						inputStream = new ByteArrayInputStream(xmlToParse.getBytes("UTF-8"));
+						InputSource is = new InputSource(inputStream);
+			    	    is.setEncoding("UTF-8");
 						final BaseUrlXmlHandler baseUrlXmlHandler = new BaseUrlXmlHandler();
-						parser.parse(inputStream, baseUrlXmlHandler);
+						parser.parse(is, baseUrlXmlHandler);
 					}
 				}
 			} catch (final ParserConfigurationException e) {

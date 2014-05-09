@@ -4,8 +4,11 @@ import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.os.Handler;
@@ -20,8 +23,8 @@ import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.controller.MessageController;
 import com.philips.cl.di.common.ssdp.models.DeviceListModel;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
+import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.common.ssdp.util.SSDPUtils;
 
 /**
@@ -48,6 +51,7 @@ public class SsdpService extends HandlerThread {
 	//private boolean mDevicesDiscovered;
 
 	private final Set<String> mDiscoveredDevicesSet;
+	private final Map<String, Integer> mDeviceDiscoverdCounterMap;
 
 	
 	static {
@@ -75,34 +79,47 @@ public class SsdpService extends HandlerThread {
 		return sInstance;
 	}
 
-	
+	private final Set<String> lostDevices = new HashSet<String>();
 	private final Runnable mDiscovery = new Runnable() {
 		/** */
-		private static final int DELAY_LOOP_COUNT = 2;
+		private static final int DELAY_LOOP_COUNT = 1;
 		/** */
 		private int loopCount = 0;
 		/** */
-		private final Set<String> lostDevices = new HashSet<String>();
+		
 
 		@Override
 		public void run() {
 			if (++loopCount == DELAY_LOOP_COUNT) {
+				Log.i(ConnectionLibContants.LOG_TAG, "  :run loop: ");
 				loopCount = 0;
 				final Set<String> aliveDevices = mDeviceListModel.getAliveDevicesMap().keySet();
 				for (final String usn : aliveDevices) {
+					if (mDeviceDiscoverdCounterMap.get(usn) != null) {
+						int discoveryCounter = mDeviceDiscoverdCounterMap.get(usn);
+						Log.i(ConnectionLibContants.LOG_TAG, usn+", discoveryCounter: " + discoveryCounter);
+						if (discoveryCounter > 2) {
+							Log.i(ConnectionLibContants.LOG_TAG, usn+", Device not sending notification: " + discoveryCounter);
+							mDiscoveredDevicesSet.remove(usn);
+						} else {
+							discoveryCounter++;
+							mDeviceDiscoverdCounterMap.put(usn, discoveryCounter);
+						}
+					}
+					
 					if (!mDiscoveredDevicesSet.contains(usn)) {
 						lostDevices.add(usn);
 					}
 				}
-				// Log.v(LOG, "%% lostDevices" + lostDevices);
+				
 				for (final String usn : lostDevices) {
-					Log.i(ConnectionLibContants.LOG_TAG, "SSDP bye bye: " + usn);
+					Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + usn);
 					mMessageController.sendInternalMessage(
 							DiscoveryMessageID.DEVICE_LOST, new DeviceModel(usn));
 					mDeviceListModel.removeDevice(usn);
+					mDeviceDiscoverdCounterMap.remove(usn);
 				}
 				lostDevices.clear();
-				mDiscoveredDevicesSet.clear();
 			}
 			sendBroadcastMX5();
 
@@ -129,6 +146,7 @@ public class SsdpService extends HandlerThread {
 
 	{
 		mDiscoveredDevicesSet = new HashSet<String>();
+		mDeviceDiscoverdCounterMap = new Hashtable<String, Integer>();
 		mBaseParser = new BaseUrlParser();
 		mServiceState = DiscoveryServiceState.STOPPED;
 		mRunDiscovery = false;
@@ -146,22 +164,31 @@ public class SsdpService extends HandlerThread {
 			if ((null == device.getNts()) 
 					|| device.getNts().contains(ConnectionLibContants.SSDP_ALIVE)) {
 				
+				mDeviceDiscoverdCounterMap.put(device.getUsn(), 0);
 				mDiscoveredDevicesSet.add(device.getUsn());
-				if (!mDeviceListModel.getAliveDevicesMap().containsKey(device.getUsn())) {
-					Log.i(ConnectionLibContants.LOG_TAG, "SSDP alive : " + device.getUsn());
+				
+				DeviceModel disciveredDeviceModel = mDeviceListModel.getAliveDevicesMap().get(device.getUsn());
+				String bootId = "";
+				if (disciveredDeviceModel != null) {
+					bootId = disciveredDeviceModel.getBootID();
+				}
+				Log.i(ConnectionLibContants.LOG_TAG, "Old bootId : " + bootId + " New bootId: "+device.getBootID());
+				
+				if (!mDeviceListModel.getAliveDevicesMap().containsKey(device.getUsn())
+						|| (device.getBootID()!= null && !device.getBootID().equals(bootId))) {
+					Log.i(ConnectionLibContants.LOG_TAG, "Device alive : " + device.getUsn());
 					final String location = device.getLocation();
 					if ((location != null) && !location.isEmpty()) {
 						try {
+							Log.i(ConnectionLibContants.LOG_TAG, "ssdp decription url: " + location);
 							final String xmlDescription = SSDPUtils.getHTTP(new URL(location));
-							Log.i(ConnectionLibContants.LOG_TAG, "xmlDescription:  " + xmlDescription);
+							Log.i(ConnectionLibContants.LOG_TAG, location+ "  xmlDescription:  " + xmlDescription);
 							mBaseParser.parse(xmlDescription);
 							final List<SSDPdevice> deviceList = mBaseParser.getDevicesList();
 							if ((deviceList != null) && (deviceList.size() > 0)) {
 								device = getRootPhilipsDevice(mBaseParser.getDevicesList(), device);
 								// Log.v(LOG, "[after device**]%% " + device);
 								if ((null != device) && (null != mMessageController)) {
-									
-									
 									mMessageController.sendInternalMessage(
 											DiscoveryMessageID.DEVICE_DISCOVERED, device);
 									mDeviceListModel.addNewDevice(device.getUsn(), device);
@@ -172,7 +199,7 @@ public class SsdpService extends HandlerThread {
 									
 								}
 							}
-						} catch (final MalformedURLException e) {
+						} catch (final Exception e) {
 							Log.e(ConnectionLibContants.LOG_TAG,
 							        "[MalformedURLException] MalformedURLException " + e.getMessage());
 						}
@@ -186,7 +213,8 @@ public class SsdpService extends HandlerThread {
 				}
 			} else if ((null != device.getNts()) 
 					&& device.getNts().contains(ConnectionLibContants.SSDP_BYEBYE)) {
-				Log.i(ConnectionLibContants.LOG_TAG, "SSDP bye bye: " + device.getUsn());
+				Log.i(ConnectionLibContants.LOG_TAG, "Device Lost bye bye: " + device.getUsn() +":" + device.getNts());
+				mDeviceDiscoverdCounterMap.remove(device.getUsn());
 				mDiscoveredDevicesSet.remove(device.getUsn());
 				mDeviceListModel.removeDevice(device);
 				mMessageController.sendInternalMessage(
@@ -256,7 +284,7 @@ public class SsdpService extends HandlerThread {
 			@Override
 			public void handleMessage(final Message message) {
 				if (null != message) {
-					Log.i("addDevice", "addDevice call from registerCallback()");
+					Log.i(ConnectionLibContants.LOG_TAG, "addDevice call from registerCallback()");
 					addDevice((DeviceModel) message.obj);
 				}
 			}
@@ -276,7 +304,7 @@ public class SsdpService extends HandlerThread {
 			@Override
 			public void handleMessage(final Message message) {
 				if (null != message) {
-					Log.i("addDevice", "addDevice call from registerHandler( )");
+					Log.i(ConnectionLibContants.LOG_TAG, "addDevice call from registerHandler( )");
 					addDevice((DeviceModel) message.obj);
 				}
 			}
@@ -306,16 +334,11 @@ public class SsdpService extends HandlerThread {
 
 	/**
 	 * Method ssdpCallback.
-	 * 
-	 * @param pNts
-	 *            String
-	 * @param pUsn
-	 *            String
-	 * @param pLocation
-	 *            String
 	 */
 	protected void ssdpCallback(
-			final String pNts, String pUsn, final String pLocation, final String bootId) {
+			final String pNts, String pUsn, final String pLocation,final String pServer, final String bootId) {
+		//Server name does not contains AirPurifier, return
+		if (pServer == null || !pServer.contains(ConnectionLibContants.SERVER_NAME)) return;
 		synchronized (SsdpService.class) {
 			
 			if ((pLocation != null) && (!pLocation.isEmpty())) {
@@ -325,11 +348,10 @@ public class SsdpService extends HandlerThread {
 				final URL url;
 				DeviceModel deviceParam = null;
 				try {
-					// Added to fetch ip and port from location/url
 					url = new URL(pLocation);
+					Log.i(ConnectionLibContants.LOG_TAG, "pNts: " + pNts);
 					final String ipAddress = (InetAddress.getByName(url.getHost()).getHostAddress());
 					final int port = url.getPort();
-					// End
 					deviceParam = new DeviceModel(pNts, pUsn, pLocation, ipAddress, port, bootId);
 				} catch (final MalformedURLException e) {
 					Log.e(ConnectionLibContants.LOG_TAG, "MalformedURLException : " + e.getMessage());
@@ -337,7 +359,6 @@ public class SsdpService extends HandlerThread {
 					Log.e(ConnectionLibContants.LOG_TAG, "UnknownHostException : " + e.getMessage());
 				}
 				if (deviceParam != null) {
-					//Log.i("addDevice", "addDevice call from ssdpCallback( )  " + pUsn+",  " + bootId);
 					addDevice(deviceParam);
 				}
 			}
@@ -384,7 +405,7 @@ public class SsdpService extends HandlerThread {
 			}
 		}
 		if (!mSocketOpen && (openSocket() == 0)) {
-			Log.i("addDevice", "register listener");
+			Log.i(ConnectionLibContants.LOG_TAG, "register listener");
 			mSocketOpen = true;
 			registerListener();
 			sendBroadcastMX3();
@@ -432,10 +453,19 @@ public class SsdpService extends HandlerThread {
 				mDiscoveredDevicesSet.clear();
 			}
 			
+			if (mDeviceDiscoverdCounterMap != null) {
+				mDeviceDiscoverdCounterMap.clear();
+			}
+			
+			if (lostDevices != null) {
+				lostDevices.clear();
+			}
+			
 			if (mDeviceListModel != null 
 					&& mDeviceListModel.getAliveDevicesMap() != null) {
 				mDeviceListModel.getAliveDevicesMap().clear();
 			}
+			
 			if (mDeviceListModel != null 
 					&& mDeviceListModel.getAliveDevices() != null) {
 				mDeviceListModel.getAliveDevices().clear();

@@ -13,6 +13,7 @@
 #define STR_USN			"USN:"
 #define STR_LOCATION	"LOCATION:"
 #define STR_BOOT_ID	    "BOOTID.UPNP.ORG:" //Manzer
+#define STR_SERVER	    "SERVER:" //Manzer
 
 
 // Removes spaces from beggining and replaces '\n' with '\0'
@@ -81,6 +82,7 @@ int parseSSDP(char * buffer, int bufferSize, SsdpStruct * ssdpStruct) {
 			(*ssdpStruct).USN = strstr(buffer, STR_USN);
 			(*ssdpStruct).LOCATION = strstr(buffer, STR_LOCATION);
 			(*ssdpStruct).BOOT_ID = strstr(buffer, STR_BOOT_ID); //Manzer
+			(*ssdpStruct).SERVER = strstr(buffer, STR_SERVER); //Manzer
 			if (NULL == (*ssdpStruct).USN || NULL == (*ssdpStruct).LOCATION) {
 				LOGE("Missing USN || LOCATION");
 				return -1;
@@ -92,6 +94,8 @@ int parseSSDP(char * buffer, int bufferSize, SsdpStruct * ssdpStruct) {
 			createNullTermString(&(*ssdpStruct).USN);
 			(*ssdpStruct).LOCATION += strlen(STR_LOCATION);			
 			createNullTermString(&(*ssdpStruct).LOCATION);
+			(*ssdpStruct).SERVER += strlen(STR_SERVER);	//Manzer
+			createNullTermString(&(*ssdpStruct).SERVER); //Manzer
 			if (NULL != (*ssdpStruct).BOOT_ID) {
 				(*ssdpStruct).BOOT_ID += strlen(STR_BOOT_ID);	//Manzer
 				createNullTermString(&(*ssdpStruct).BOOT_ID); //Manzer
