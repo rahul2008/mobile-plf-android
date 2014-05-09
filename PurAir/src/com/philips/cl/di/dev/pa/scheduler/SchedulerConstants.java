@@ -13,6 +13,7 @@ public class SchedulerConstants {
 	
 	public static final String CREATE_EVENT = "C";
 	public static final String UPDATE_EVENT = "U";
+	public static final String DELETE_EVENT = "D";
 	public static final String ENABLED = "enabled";
 	public static final String TIME = "time";
 	public static final String DAYS = "days";

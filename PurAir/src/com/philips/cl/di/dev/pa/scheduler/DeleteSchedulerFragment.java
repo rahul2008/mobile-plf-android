@@ -9,8 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -28,6 +30,10 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 	//private String selectedDays;
 	//private String selectedFanspeed;
 	private JSONArray schedulersList;
+	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4; 
+	Button deleteconf1, deleteconf2, deleteconf3, deleteconf4;
+	ImageView add, edit;
+	ImageView delete1, delete2, delete3, delete4;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -50,18 +56,37 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 	
 	private void initViews(View view) {
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::initViews() method enter");
-		ImageView edit = (ImageView) view.findViewById(R.id.edit);
+	
+		edit = (ImageView) view.findViewById(R.id.edit);
 		edit.setOnClickListener(onClickListener);
-		ImageView add = (ImageView) view.findViewById(R.id.add);
+		add = (ImageView) view.findViewById(R.id.add);
 		add.setOnClickListener(onClickListener);
-		ImageView ivRhtArr1 = (ImageView) view.findViewById(R.id.RightArrow1);
+		ivRhtArr1 = (ImageView) view.findViewById(R.id.RightArrow1);
 		ivRhtArr1.setOnClickListener(onClickListener);
-		ImageView ivRhtArr2 = (ImageView) view.findViewById(R.id.RightArrow2);
+		ivRhtArr2 = (ImageView) view.findViewById(R.id.RightArrow2);
 		ivRhtArr2.setOnClickListener(onClickListener);
-		ImageView ivRhtArr3 = (ImageView) view.findViewById(R.id.RightArrow3);
+		ivRhtArr3 = (ImageView) view.findViewById(R.id.RightArrow3);
 		ivRhtArr3.setOnClickListener(onClickListener);
-		ImageView ivRhtArr4 = (ImageView) view.findViewById(R.id.RightArrow4);
+		ivRhtArr4 = (ImageView) view.findViewById(R.id.RightArrow4);
 		ivRhtArr4.setOnClickListener(onClickListener);
+		delete1 = (ImageView) view.findViewById(R.id.delete1);
+		delete1.setOnClickListener(onClickListener);
+		delete2 = (ImageView) view.findViewById(R.id.delete2);
+		delete2.setOnClickListener(onClickListener);
+		delete3 = (ImageView) view.findViewById(R.id.delete3);
+		delete3.setOnClickListener(onClickListener);
+		delete4 = (ImageView) view.findViewById(R.id.delete4);
+		delete4.setOnClickListener(onClickListener);
+		deleteconf1 = (Button) view.findViewById(R.id.deleteconfirm1);
+		deleteconf1.setOnClickListener(onClickListener);
+		deleteconf2 = (Button) view.findViewById(R.id.deleteconfirm2);
+		deleteconf2.setOnClickListener(onClickListener);
+		deleteconf3 = (Button) view.findViewById(R.id.deleteconfirm3);
+		deleteconf3.setOnClickListener(onClickListener);
+		deleteconf4 = (Button) view.findViewById(R.id.deleteconfirm4);
+		deleteconf4.setOnClickListener(onClickListener);
+		double viewWidth = (double) view.getWidth();
+		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::initViews() method - View width is - " + viewWidth);
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::initViews() method exit");
 	}
 
@@ -74,6 +99,8 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 				case R.id.RightArrow1:
 					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
 					editSchededuler(0);
+					delete1.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
+					deleteconf1.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 					break;
 				case R.id.RightArrow2:
 					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow2 is invoked");
@@ -95,10 +122,44 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 					DialogFragment newFragment = new TimePickerFragment();
 					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
 					break;
+				case R.id.delete1:
+					ivRhtArr1.setVisibility(View.INVISIBLE);
+					deleteconf1.setVisibility(View.VISIBLE);
+					break;
+				case R.id.delete2:
+					ivRhtArr2.setVisibility(View.INVISIBLE);
+					deleteconf2.setVisibility(View.VISIBLE);
+					break;
+				case R.id.delete3:
+					ivRhtArr3.setVisibility(View.INVISIBLE);
+					deleteconf3.setVisibility(View.VISIBLE);
+					break;
+				case R.id.delete4:
+					ivRhtArr4.setVisibility(View.INVISIBLE);
+					deleteconf4.setVisibility(View.VISIBLE);
+					break;
+				case R.id.deleteconfirm1:
+					refreshDeleteSchedulerPage(0);
+					break;
+				case R.id.deleteconfirm2:
+					refreshDeleteSchedulerPage(1);
+					break;
+				case R.id.deleteconfirm3:
+					refreshDeleteSchedulerPage(2);
+					break;
+				case R.id.deleteconfirm4:
+					refreshDeleteSchedulerPage(3);
+					break;
 			}
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
 		}
 	};
+	
+	private void refreshDeleteSchedulerPage(int index) {
+		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::refreshDeleteSchedulerPage() method enter");
+		((SchedulerActivity)getActivity()).deleteScheduler(index);
+		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::refreshDeleteSchedulerPage() method exit");
+	}
 	
 	private void editSchededuler(int index) {
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::editSchededuler() method enter");
@@ -198,6 +259,9 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		lLayout = (LinearLayout) view.findViewById(layout);
 		lLayout.setVisibility(View.VISIBLE);
 		
+		ivDelete = (ImageView) view.findViewById(delete);
+		ivDelete.setVisibility(View.VISIBLE);
+		
 		txtOuterView = (FontTextView) view.findViewById(iTxtOuterView);
 		txtOuterView.setVisibility(View.VISIBLE);
 		
@@ -216,8 +280,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ivImage = (ImageView) view.findViewById(iImageView);
 		ivImage.setVisibility(View.VISIBLE);
 		
-		ivDelete = (ImageView) view.findViewById(delete);
-		ivDelete.setVisibility(View.VISIBLE);
+		
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() method exit");
 	}
 	

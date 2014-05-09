@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -9,7 +10,8 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TimePicker;import com.philips.cl.di.dev.pa.R;
+import android.widget.TimePicker;
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -200,8 +202,31 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 	
-	private void deleteScheduler() {
+	public void deleteScheduler(int index) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method enter");
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - index is " + index);
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - arrSchedulers length is " + arrSchedulers.length());
+		JSONArray newJArray = new JSONArray();
+		try{
+			for(int i=0;i<arrSchedulers.length();i++){     
+			    if(i != index)
+			    	newJArray.put(arrSchedulers.get(i));     
+			}
+		} catch(Exception e) {
+		}
 		
+		arrSchedulers = newJArray;
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - new arrSchedulers length is " + arrSchedulers.length());
+		
+		Bundle b = new Bundle();
+		b.putString("events", arrSchedulers.toString());
+		getIntent().putExtras(b);
+		
+		DeleteSchedulerFragment fragDeleteSch = new DeleteSchedulerFragment();
+		getSupportFragmentManager()
+		.beginTransaction()
+		.replace(R.id.ll_scheduler_container, fragDeleteSch,"DeleteSchedulerFragment").commit();
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method exit");
 	}
 	private OnClickListener onClickListener = new OnClickListener() {
 		@Override
