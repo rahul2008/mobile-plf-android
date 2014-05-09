@@ -289,6 +289,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		}
 		EWSDialogFactory.getInstance(this).cleanUp();
 
+		stopAllServices();
+		
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		boolean isScreenOn = powerManager.isScreenOn();
 
@@ -307,7 +309,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		}
 		DiscoveryManager.getInstance().stop();
 		this.unregisterReceiver(networkReceiver);
-		stopAllServices();
+//		stopAllServices();
 		super.onStop();
 	}
 
