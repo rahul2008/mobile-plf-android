@@ -17,7 +17,8 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		ALog.i(ALog.DASHBOARD, "OutdoorPagerAdapter$getItem position " + position);
-		return OutdoorFragment.newInstance(OutdoorManager.getInstance().getOutdoorDashboardData(position));
+		//TODO : replace with getOutdoorDashboardDataByCity
+		return OutdoorFragment.newInstance(OutdoorManager.getInstance().getOutdoorDashboardDataByIndex(position));
 	}
 
 	@Override
