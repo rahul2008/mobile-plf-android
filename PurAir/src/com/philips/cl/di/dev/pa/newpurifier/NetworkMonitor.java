@@ -1,18 +1,5 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -89,7 +76,10 @@ public class NetworkMonitor {
 		mLooper.mHandler.getLooper().quit();
 	}
 
-	public NetworkState getLastKnownNetworkState() {
+	/*
+	 * Synchronized to make mLastKnowState Threadsafe
+	 */
+	public synchronized NetworkState getLastKnownNetworkState() {
 		return mLastKnownState;
 	}
 	
@@ -98,7 +88,10 @@ public class NetworkMonitor {
 		mLooper.mHandler.sendEmptyMessage(0);
 	}
 
-	private void updateNetworkState(NetworkState newState, String ssid) {
+	/*
+	 * Synchronized to make mLastKnowState Threadsafe
+	 */
+	private synchronized void updateNetworkState(NetworkState newState, String ssid) {
 		if (mLastKnownState == newState && isLastKnowSsid(ssid)) {
 			ALog.d(ALog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
 			return;
@@ -141,13 +134,10 @@ public class NetworkMonitor {
 					}
 					
 					String ssid = getCurrentSsid(); 
-					// Assume internet access - check for internet is too slow
+					// Assume internet access - checking for internet technically difficult (slow DNS timeout)
 					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet");
 					updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
 					return;
-					
-//					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi without internet");
-//					updateNetworkState(NetworkState.WIFI_NO_INTERNET);
 				}
 			};
 
@@ -177,40 +167,5 @@ public class NetworkMonitor {
 		}
 		return ssid;
 	}
-
-	/**
-	 * DOES NOT WORK PROPERLY, TIMEOUT WHEN NO INTERNET CONNECTION
-	 * CANNOT BE SET, NOR CAN THE REQUEST BE CANCELLED.
-	 * @return
-	 */
-	private boolean checkForInternetConnection() {
-		String uri = "http://www.google.com";
-		boolean isInternetAvailable = false;
-
-		long start = System.currentTimeMillis();
-		final HttpParams params = new BasicHttpParams();
-		HttpConnectionParams.setConnectionTimeout(params, 2000);
-		HttpConnectionParams.setSoTimeout(params, 2000);
-		final HttpClient httpClient = new DefaultHttpClient(params);
-		final HttpGet get = new HttpGet(uri);
-
-		try {
-			final HttpResponse response = httpClient.execute(get);
-
-			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-				ALog.d(ALog.NETWORKMONITOR, "Internet connection available");
-				return true;
-			}
-		} catch (final UnsupportedEncodingException e) {
-			// NOP
-		} catch (final ClientProtocolException e) {
-			// NOP
-		} catch (final IOException e) {
-			// NOP
-		}
-		ALog.d(ALog.NETWORKMONITOR, "Check for internet took:" + (System.currentTimeMillis()-start) + "ms");
-		return isInternetAvailable;
-	}
-
 
 }
