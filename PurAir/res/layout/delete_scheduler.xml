@@ -127,31 +127,18 @@
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
      
-     <ImageView
-         android:id="@+id/RightArrow1"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".20"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="10dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/>
-     
-     <Button
-        android:id="@+id/deleteconfirm1"
+    <Button
+        android:id="@+id/RightArrow1"
         android:layout_width="0dp"
-        android:layout_height="32dp"  
+        android:layout_height="30dp"  
         android:layout_weight=".20"
         android:layout_marginTop="45dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="10dp"
         android:contentDescription="@string/img_description"
-        android:background="@drawable/delete"
+        android:background="@drawable/about_air_quality_goto"
         android:visibility="gone"
-        android:text="Delete"
         android:textColor="@color/white"
-        android:textSize="14sp" />  
+        android:textSize="14sp" />    
      
      </LinearLayout>
      
@@ -232,32 +219,19 @@
          android:textSize="16sp"
          custom:fontAssetName="fonts/gillsanslight.ttf" 
          android:visibility="gone"/>
-     
-     <ImageView
-         android:id="@+id/RightArrow2"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".20"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
          
      <Button
-        android:id="@+id/deleteconfirm2"
+        android:id="@+id/RightArrow2"
         android:layout_width="0dp"
-        android:layout_height="32dp"  
+        android:layout_height="30dp"  
         android:layout_weight=".20"
         android:layout_marginTop="45dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="10dp"
         android:contentDescription="@string/img_description"
-        android:background="@drawable/delete"
+        android:background="@drawable/about_air_quality_goto"
         android:visibility="gone"
-        android:text="Delete"
         android:textColor="@color/white"
-        android:textSize="14sp" />  
+        android:textSize="14sp" />   
      
      </LinearLayout>
      
@@ -339,31 +313,18 @@
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
      
-     <ImageView
-         android:id="@+id/RightArrow3"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
-         
-     <Button
-        android:id="@+id/deleteconfirm3"
+       <Button
+        android:id="@+id/RightArrow3"
         android:layout_width="0dp"
-        android:layout_height="32dp"  
+        android:layout_height="30dp"  
         android:layout_weight=".20"
         android:layout_marginTop="45dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="10dp"
         android:contentDescription="@string/img_description"
-        android:background="@drawable/delete"
+        android:background="@drawable/about_air_quality_goto"
         android:visibility="gone"
-        android:text="Delete"
         android:textColor="@color/white"
-        android:textSize="14sp" />  
+        android:textSize="14sp" /> 
      
      </LinearLayout>
      
@@ -445,31 +406,18 @@
          android:visibility="gone"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
      
-     <ImageView
-         android:id="@+id/RightArrow4"
-         android:layout_width="0dp"
-         android:layout_height="40dp"
-         android:layout_weight=".15"
-         android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
-         android:textColor="@color/title_gray"
-         android:contentDescription="@string/img_description"
-         android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
-         
-     <Button
-        android:id="@+id/deleteconfirm4"
+       <Button
+        android:id="@+id/RightArrow4"
         android:layout_width="0dp"
-        android:layout_height="32dp"  
+        android:layout_height="30dp"  
         android:layout_weight=".20"
         android:layout_marginTop="45dp"
-        android:layout_marginRight="25dp"
+        android:layout_marginRight="10dp"
         android:contentDescription="@string/img_description"
-        android:background="@drawable/delete"
+        android:background="@drawable/about_air_quality_goto"
         android:visibility="gone"
-        android:text="Delete"
         android:textColor="@color/white"
-        android:textSize="14sp" />  
+        android:textSize="14sp" /> 
      
      </LinearLayout>
     
