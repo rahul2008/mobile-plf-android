@@ -118,7 +118,7 @@
          android:id="@+id/scheduler1_text2"
          android:layout_width="0dp"
          android:layout_height="wrap_content"
-         android:layout_weight=".75"
+         android:layout_weight=".65"
          android:layout_marginTop="64dp"
          android:lineSpacingExtra="5dp"
          android:paddingLeft="16dp"
@@ -131,13 +131,27 @@
          android:id="@+id/RightArrow1"
          android:layout_width="0dp"
          android:layout_height="40dp"
-         android:layout_weight=".15"
+         android:layout_weight=".20"
          android:layout_marginTop="40dp"
-         android:layout_marginRight="16dp"
+         android:layout_marginRight="10dp"
          android:textColor="@color/title_gray"
          android:contentDescription="@string/img_description"
          android:src="@drawable/about_air_quality_goto"
-         android:visibility="gone"/> 
+         android:visibility="gone"/>
+     
+     <Button
+        android:id="@+id/deleteconfirm1"
+        android:layout_width="0dp"
+        android:layout_height="32dp"  
+        android:layout_weight=".20"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="25dp"
+        android:contentDescription="@string/img_description"
+        android:background="@drawable/delete"
+        android:visibility="gone"
+        android:text="Delete"
+        android:textColor="@color/white"
+        android:textSize="14sp" />  
      
      </LinearLayout>
      
@@ -210,7 +224,7 @@
          android:id="@+id/scheduler2_text2"
          android:layout_width="0dp"
          android:layout_height="wrap_content"
-         android:layout_weight=".75"
+         android:layout_weight=".65"
          android:layout_marginTop="64dp"
          android:lineSpacingExtra="5dp"
          android:paddingLeft="16dp"
@@ -223,13 +237,27 @@
          android:id="@+id/RightArrow2"
          android:layout_width="0dp"
          android:layout_height="40dp"
-         android:layout_weight=".15"
+         android:layout_weight=".20"
          android:layout_marginTop="40dp"
          android:layout_marginRight="16dp"
          android:textColor="@color/title_gray"
          android:contentDescription="@string/img_description"
          android:src="@drawable/about_air_quality_goto"
          android:visibility="gone"/> 
+         
+     <Button
+        android:id="@+id/deleteconfirm2"
+        android:layout_width="0dp"
+        android:layout_height="32dp"  
+        android:layout_weight=".20"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="25dp"
+        android:contentDescription="@string/img_description"
+        android:background="@drawable/delete"
+        android:visibility="gone"
+        android:text="Delete"
+        android:textColor="@color/white"
+        android:textSize="14sp" />  
      
      </LinearLayout>
      
@@ -302,7 +330,7 @@
          android:id="@+id/scheduler3_text2"
          android:layout_width="0dp"
          android:layout_height="wrap_content"
-         android:layout_weight=".75"
+         android:layout_weight=".65"
          android:layout_marginTop="64dp"
          android:lineSpacingExtra="5dp"
          android:paddingLeft="16dp"
@@ -322,6 +350,20 @@
          android:contentDescription="@string/img_description"
          android:src="@drawable/about_air_quality_goto"
          android:visibility="gone"/> 
+         
+     <Button
+        android:id="@+id/deleteconfirm3"
+        android:layout_width="0dp"
+        android:layout_height="32dp"  
+        android:layout_weight=".20"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="25dp"
+        android:contentDescription="@string/img_description"
+        android:background="@drawable/delete"
+        android:visibility="gone"
+        android:text="Delete"
+        android:textColor="@color/white"
+        android:textSize="14sp" />  
      
      </LinearLayout>
      
@@ -394,7 +436,7 @@
          android:id="@+id/scheduler4_text2"
          android:layout_width="0dp"
          android:layout_height="wrap_content"
-         android:layout_weight=".75"
+         android:layout_weight=".65"
          android:layout_marginTop="64dp"
          android:lineSpacingExtra="5dp"
          android:paddingLeft="16dp"
@@ -414,6 +456,20 @@
          android:contentDescription="@string/img_description"
          android:src="@drawable/about_air_quality_goto"
          android:visibility="gone"/> 
+         
+     <Button
+        android:id="@+id/deleteconfirm4"
+        android:layout_width="0dp"
+        android:layout_height="32dp"  
+        android:layout_weight=".20"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="25dp"
+        android:contentDescription="@string/img_description"
+        android:background="@drawable/delete"
+        android:visibility="gone"
+        android:text="Delete"
+        android:textColor="@color/white"
+        android:textSize="14sp" />  
      
      </LinearLayout>
     
