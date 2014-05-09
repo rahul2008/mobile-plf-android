@@ -105,38 +105,38 @@ public class IndoorDashboardUtilsTest extends TestCase {
 	
 	public void testGetAqiPointerRotationModerateBegin() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(15);
-		assertTrue((rotation > 27.0f));
-		assertTrue((rotation < 57.0f));
+		assertTrue((rotation > 23.0f));
+		assertTrue((rotation < 53.0f));
 	}
 	
 	public void testGetAqiPointerRotationModerate() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(20);
-		assertTrue((rotation > 27.0f));
-		assertTrue((rotation < 57.0f));
+		assertTrue((rotation > 23.0f));
+		assertTrue((rotation < 53.0f));
 	}
 	
 	public void testGetAqiPointerRotationModerateEnd() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(23);
-		assertTrue((rotation > 27.0f));
-		assertTrue((rotation < 57.0f));
+		assertTrue((rotation > 23.0f));
+		assertTrue((rotation < 53.0f));
 	}
 	
 	public void testGetAqiPointerRotationUnhealthyBegin() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(24);
-		assertTrue((rotation > 57.0f));
-		assertTrue((rotation < 84.0f));
+		assertTrue((rotation > 54.0f));
+		assertTrue((rotation < 81.0f));
 	}
 	
 	public void testGetAqiPointerRotationUnhealthy() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(30);
-		assertTrue((rotation > 57.0f));
-		assertTrue((rotation < 84.0f));
+		assertTrue((rotation > 54.0f));
+		assertTrue((rotation < 81.0f));
 	}
 	
 	public void testGetAqiPointerRotationUnhealthyEnd() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(35);
-		assertTrue((rotation > 57.0f));
-		assertTrue((rotation < 84.0f));
+		assertTrue((rotation > 54.0f));
+		assertTrue((rotation < 81.0f));
 	}
 	
 	public void testGetAqiPointerRotationVeryUnhealthyBegin() {
