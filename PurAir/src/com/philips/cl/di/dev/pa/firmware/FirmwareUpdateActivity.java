@@ -81,7 +81,6 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		
 		// TODO add bootid
 		SubscriptionManager.getInstance().disableLocalSubscription();
-		
 	}
 
 	@Override

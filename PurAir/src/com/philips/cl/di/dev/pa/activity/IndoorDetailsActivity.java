@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.dashboard.DashboardUtils;
+import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -414,9 +414,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		 */
 		if (airPortInfo != null) {
 
-			mode.setText(getString(DashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+			mode.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
 
-			filter.setText(DashboardUtils.getFilterStatus(airPortInfo));
+			filter.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 
 			int indoorAQI = airPortInfo.getIndoorAQI();
 			ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);

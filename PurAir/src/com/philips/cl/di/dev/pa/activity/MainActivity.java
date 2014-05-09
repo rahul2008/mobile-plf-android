@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 
 
-import java.net.ConnectException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +56,6 @@ import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
@@ -181,6 +179,35 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
 
+		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+				R.drawable.ic_launcher, R.string.app_name,
+				R.string.action_settings) {
+
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				if (drawerView.getId() == R.id.right_menu_scrollView) {
+					ALog.i(ALog.MAINACTIVITY, "Right drawer close");
+					mRightDrawerOpened = false;
+				} else if (drawerView.getId() == R.id.left_menu_listView) {
+					ALog.i(ALog.MAINACTIVITY, "Left drawer close");
+					mLeftDrawerOpened = false;
+				}
+				
+				supportInvalidateOptionsMenu();
+			}
+
+			@Override
+			public void onDrawerOpened(View drawerView) {
+				if (drawerView.getId() == R.id.right_menu_scrollView) {
+					mRightDrawerOpened = true;
+					ALog.i(ALog.MAINACTIVITY, "Right drawer open");
+				} else if (drawerView.getId() == R.id.left_menu_listView) {
+					mLeftDrawerOpened = true;
+					ALog.i(ALog.MAINACTIVITY, "Left drawer open");
+				}
+				supportInvalidateOptionsMenu();
+			}
+		};
 		
 		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
 
@@ -819,7 +846,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 				@Override
 				public void run() {
 					//TODO
-					// getDashboard().showFirmwareUpdatePopup();
 					// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
 					updateDashboardOnFirmwareUpdate(1);
 					setFirmwareSuperScript(1, true);

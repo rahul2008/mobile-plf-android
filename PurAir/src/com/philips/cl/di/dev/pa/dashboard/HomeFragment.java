@@ -12,7 +12,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
+public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener{
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
@@ -67,7 +67,7 @@ public class HomeFragment extends BaseFragment implements UpdateUIonDataChange{
 	}
 	
 	@Override
-	public void notifyUIOnDataChange() {
+	public void updateUIOnDataChange() {
 		ALog.i(ALog.DASHBOARD, "notifyUIOnDataChange " + getActivity());	
 		if (getActivity() == null) {
 			return;

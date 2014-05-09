@@ -13,15 +13,16 @@ public class OutdoorManager implements OutdoorEventListener {
 	
 	private static OutdoorManager smInstance;
 	
-	private UpdateUIonDataChange iListener;
+	private OutdoorDataChangeListener iListener;
 	
 	private OutdoorManager() {
 		outdoorLocations = new ArrayList<OutdoorDto>();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
 		OutdoorController.getInstance().startCitiesTask();
 	}
 	
-	public void setUIChangeListener(UpdateUIonDataChange listener){
+	public void setUIChangeListener(OutdoorDataChangeListener listener){
 		iListener=listener;
 	}
 	
@@ -32,7 +33,22 @@ public class OutdoorManager implements OutdoorEventListener {
 		return smInstance;
 	}
 	
-	public OutdoorDto getOutdoorDashboardData(int position) {
+	public OutdoorDto getOutdoorDashboardDataByCity(String city) {
+		if(outdoorLocations == null || outdoorLocations.size() <= 0) {
+			return null;
+		}
+		
+		Iterator<OutdoorDto> iterator = outdoorLocations.iterator();
+		while (iterator.hasNext()) {
+			OutdoorDto outdoorDto = (OutdoorDto) iterator.next();
+			if(outdoorDto.getCityName().equalsIgnoreCase(city)) {
+				return outdoorDto;
+			}
+		}
+		return null;
+	}
+	
+	public OutdoorDto getOutdoorDashboardDataByIndex(int position) {
 		if(outdoorLocations == null || outdoorLocations.size() <= 0) {
 			return null;
 		}
@@ -44,10 +60,11 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	@Override
 	public void outdoorLocationDataReceived(List<City> cities) {
-		addToOutdoorLocations(cities);
+		if(cities != null && !cities.isEmpty()) {
+			addToOutdoorLocations(cities);
+		}
 	}
 
-	//Handle null case.
 	private void addToOutdoorLocations(List<City> cities) {
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$addOutdoorLocations");
 		Iterator<City> iter = cities.iterator();
@@ -55,7 +72,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		while(iter.hasNext()) {
 			City city = iter.next();
 			OutdoorDto outdoorDto = new OutdoorDto();
-//			ALog.i(ALog.DASHBOARD, "outdoorDto " + (outdoorDto == null) + " city " + (city == null) + " gov " + (city.getGov() == null));
+			ALog.i(ALog.DASHBOARD, "outdoorDto " + (outdoorDto == null) + " city " + (city == null) + " gov " + (city.getGov() == null));
 			if(city != null && city.getGov() != null && city.getWeather() != null) {
 				outdoorDto.setAqi(city.getGov().getIdx());
 				outdoorDto.setCityName(city.getKey());
@@ -70,6 +87,6 @@ public class OutdoorManager implements OutdoorEventListener {
 				outdoorLocations.add(outdoorDto);
 			}
 		}
-		iListener.notifyUIOnDataChange();
+		iListener.updateUIOnDataChange();
 	}
 }

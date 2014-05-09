@@ -46,7 +46,7 @@
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.MainActivity"
             android:label="@string/app_name"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,59 +55,59 @@
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.AirTutorialActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.MapOdActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.TutorialPagerActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.TermsAndConditionsActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.NotificationSelectDayActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.CreateNotificationActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.OutdoorAirColorIndicationActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.IndoorAirColorIndicationActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.AirColorExplainedStaticActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
          <activity
             android:name="com.philips.cl.di.dev.pa.ews.EWSActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
          <activity
             android:name="com.philips.cl.di.dev.pa.scheduler.SchedulerActivity"
-            android:screenOrientation="sensorPortrait" >
+            android:screenOrientation="portrait" >
         </activity>
         
     </application>

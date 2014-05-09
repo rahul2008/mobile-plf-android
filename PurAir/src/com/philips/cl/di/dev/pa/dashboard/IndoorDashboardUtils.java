@@ -8,7 +8,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class DashboardUtils {
+public class IndoorDashboardUtils {
 	
 	public static int getFanSpeedText(String fanSpeed) {
 	

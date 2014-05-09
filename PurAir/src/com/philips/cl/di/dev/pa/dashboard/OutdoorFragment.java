@@ -104,7 +104,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			aqiSummary2.setText(outdoorDto.getAqiSummary()[1]);
 		}
 		aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
-		aqiPointerCircle.setOnClickListener(pointerImageClickListener);
+		aqiPointerCircle.setOnClickListener(this);
 		aqiPointerCircle.invalidate();
 		weatherIcon.setImageDrawable(getResources().getDrawable(outdoorDto.getWeatherIconResId()));
 		setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
@@ -131,20 +131,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	 
 	    aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
-	
-	private OnClickListener pointerImageClickListener = new OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			((MainActivity)getActivity()).isClickEvent = true ;
-			Bundle bundle = getArguments();
-			if (bundle != null) {
-				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-				intent.putExtras(bundle);
-				startActivity(intent);
-			}
-		}
-	};
 	
 	private void showTakeATourPopup() {
 		takeATourPopup.setVisibility(View.VISIBLE);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -34,16 +35,12 @@ public class OutdoorController implements ServerResponseListener{
 		outdoorEventListeners.remove(outdoorEventListener);
 	}
 
-	//TODO : Move URL to AppConstants.
 	public void startCitiesTask() {
-		TaskGetHttp citiesList = new TaskGetHttp("http://ixuanwu.com.cn/app/citys.php", PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(AppConstants.OUTDOOR_CITIES_URL, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
-	
-	
 	private void notifyListeners(String data) {
-//		ALog.i(ALog.DASHBOARD, "OutdoorController notifyListeners data " + data);
 		if(outdoorEventListeners == null) return;
 		
 		List<City> citiesList = DataParser.parseLocationData(data);
@@ -57,7 +54,6 @@ public class OutdoorController implements ServerResponseListener{
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String data) {
-//		ALog.i(ALog.DASHBOARD, "OutdoorController receiveServerResponse data " + data);
 		if(data != null) {
 			notifyListeners(data);
 		}

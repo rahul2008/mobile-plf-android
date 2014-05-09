@@ -100,10 +100,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
 
-		fanModeTxt.setText(getString(DashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
-		filterStatusTxt.setText(DashboardUtils.getFilterStatus(airPortInfo));
-		aqiStatusTxt.setText(getString(DashboardUtils.getAqiTitle(indoorAqi)));
-		aqiSummaryTxt.setText(getString(DashboardUtils.getAqiSummary(indoorAqi)));
+		fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+		filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
+		aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
+		aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
 			PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
@@ -119,10 +119,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 
 		aqiPointer.setOnClickListener(this);
-		aqiPointer.setImageResource(DashboardUtils.getAqiPointerBackgroundId(indoorAqi));
+		aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
 		aqiPointer.invalidate();
 		if(prevIndoorAqi != indoorAqi) {
-			setRotationAnimation(aqiPointer, DashboardUtils.getAqiPointerRotation(indoorAqi));
+			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
 		}
 		prevIndoorAqi = indoorAqi;
 	}
