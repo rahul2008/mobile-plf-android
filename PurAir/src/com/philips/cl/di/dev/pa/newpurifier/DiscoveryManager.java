@@ -262,7 +262,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			ALog.d(ALog.DISCOVERY, "Not a valid purifier device - model: " + modelName);
 			return null;
 		}
-		
+		ALog.i(ALog.DISCOVERY, "Air Purifier Device Discovered USN: " + deviceModel.getUsn());
 		String eui64 = ssdpDevice.getCppId();
 		String usn = deviceModel.getUsn();
 		String ipAddress = deviceModel.getIpAddress();

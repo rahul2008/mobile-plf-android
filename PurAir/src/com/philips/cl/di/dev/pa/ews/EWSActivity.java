@@ -250,6 +250,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 					networkSSID = null ;
 					showNetworkChangeFragment();
 				}			
+			}else {
+				networkSSID = null ;
+				showNetworkChangeFragment();
 			}
 		}
 		else {
