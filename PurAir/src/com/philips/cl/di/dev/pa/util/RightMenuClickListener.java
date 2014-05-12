@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -142,15 +143,15 @@ public class RightMenuClickListener implements OnClickListener {
 		Log.i(TAG, "setFanSpeed " + fanSpeedText);
 		isFanSpeedAuto = false;
 		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeedText)) {
-			fanSpeed.setText("Silent");
+			fanSpeed.setText(mainActivity.getString(R.string.silent));
 			buttonImage = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 		} else if(AppConstants.FAN_SPEED_TURBO.equals(fanSpeedText)) {
-			fanSpeed.setText("Turbo");
+			fanSpeed.setText(mainActivity.getString(R.string.turbo));
 			buttonImage = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 		} else if(AppConstants.FAN_SPEED_AUTO.equals(fanSpeedText)) {
-			fanSpeed.setText("Auto");
+			fanSpeed.setText(mainActivity.getString(R.string.auto));
 			buttonImage = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 			fanSpeedAuto.setChecked(true);
 			isFanSpeedAuto = true;
