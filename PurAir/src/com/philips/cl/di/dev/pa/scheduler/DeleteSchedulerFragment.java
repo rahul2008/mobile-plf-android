@@ -100,44 +100,32 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 			
 			switch (v.getId()) {
 				case R.id.RightArrow1:
-					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
-					takeActionOnRightArrowButtonClick(RightArrow1_text, 0);
-					break;
 				case R.id.RightArrow1_text:
 					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
 					takeActionOnRightArrowButtonClick(RightArrow1_text, 0);
 					break;
 				case R.id.RightArrow2:
+				case R.id.RightArrow2_text:
 					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow2 is invoked");
 					takeActionOnRightArrowButtonClick(RightArrow2_text, 1);
 					break;
-				case R.id.RightArrow2_text:
-					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
-					takeActionOnRightArrowButtonClick(RightArrow2_text, 0);
-					break;
 				case R.id.RightArrow3:
-					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow3 is invoked");
-					takeActionOnRightArrowButtonClick(RightArrow3_text, 2);
-					break;
 				case R.id.RightArrow3_text:
 					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
-					takeActionOnRightArrowButtonClick(RightArrow3_text, 0);
+					takeActionOnRightArrowButtonClick(RightArrow3_text, 2);
 					break;
 				case R.id.RightArrow4:
-					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow4 is invoked");
-					takeActionOnRightArrowButtonClick(RightArrow4_text, 3);
-					break;
 				case R.id.RightArrow4_text:
 					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
-					takeActionOnRightArrowButtonClick(RightArrow4_text, 0);
-					break;
-				case R.id.edit:
-					showSchedulerOverviewFragment();
+					takeActionOnRightArrowButtonClick(RightArrow4_text, 3);
 					break;
 				case R.id.add:
 					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
 					DialogFragment newFragment = new TimePickerFragment();
 					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+					break;
+				case R.id.edit:
+					showSchedulerOverviewFragment();
 					break;
 				case R.id.delete1:
 					toggleRightArrowButtonView(ivRhtArr1, RightArrow1_text, delete1);
