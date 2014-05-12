@@ -50,7 +50,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.ICPDeviceDetailsListener;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
@@ -86,8 +85,7 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
-public class MainActivity extends BaseActivity implements
-ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener {
+public class MainActivity extends BaseActivity implements OnClickListener, AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -385,7 +383,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	}
 
 	private void initializeCPPController() {
-		CPPController.getInstance(this).addDeviceDetailsListener(this);
 		CPPController.getInstance(this).addSignonListener(this) ;
 	}
 
@@ -444,14 +441,16 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			stopLocalConnection() ;
 			
 			PurifierManager.getInstance().subscribeToAllEvents(purifier) ;
-			CPPController.getInstance(this).startDCSService() ;
+			PurifierManager.getInstance().addAirPurifierEventListener(this);
+			SubscriptionManager.getInstance().enableRemoteSubscription(this);
 			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
 		}
 	}
 
 	private void stopRemoteConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop RemoteConnection") ;
-		CPPController.getInstance(this).stopDCSService() ;
+		SubscriptionManager.getInstance().disableRemoteSubscription(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	public DrawerLayout getDrawerLayout() {
@@ -811,17 +810,11 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	}
 
 	@Override
-	public void onAirPurifierEventReceived(AirPortInfo airPurifierDetails) {
-		if (airPurifierDetails == null) return;
+	public void onAirPurifierEventReceived(AirPortInfo airPortInfo) {
+		if (airPortInfo == null) return;
 		
-		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received (local): " + airPurifierDetails) ;
-		setAirPortInfo(airPurifierDetails);
-		
-		// TODO remove
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier != null) {
-			purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-		}
+		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received - updating UI: " + airPortInfo) ;
+		setAirPortInfo(airPortInfo);
 		updatePurifierUIFields();
 	}
 	
@@ -954,18 +947,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			e.printStackTrace();
 		}
 		return versionCode;
-	}
-
-	/**
-	 * Receive the device details from CPP
-	 */
-	@Override
-	public void onReceivedDeviceDetails(AirPortInfo airPortInfo) {
-		if (airPortInfo == null) return;
-		ALog.d(ALog.SUBSCRIPTION, "OnReceive device details from DCS: " + airPortInfo);
-
-		setAirPortInfo(airPortInfo);
-		updatePurifierUIFields();
 	}
 
 	public void toggleConnection() {

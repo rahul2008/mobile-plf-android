@@ -40,7 +40,7 @@ public class SubscriptionManagerTest extends TestCase {
 		public boolean callbackOccured = false;
 		public String callbackString = null;
 		@Override
-		public void onSubscribeEventOccurred(String data) {
+		public void onLocalEventReceived(String data) {
 			callbackOccured = true;
 			callbackString = data;
 		}

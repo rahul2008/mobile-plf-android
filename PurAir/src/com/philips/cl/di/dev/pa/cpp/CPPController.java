@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
 import android.content.Context;
@@ -16,10 +15,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
 import com.philips.icpinterface.EventSubscription;
@@ -50,7 +47,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private Context context;
 
 	private EventSubscription eventSubscription; 
-	private List<ICPDeviceDetailsListener> listeners;
+	private DCSEventListener dcsEventListener;
 	private boolean isDCSRunning;
 
 	private EventPublisher eventPublisher; 
@@ -70,7 +67,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	
 	private CPPController(Context context) {
 		this.context = context;
-		listeners = new ArrayList<ICPDeviceDetailsListener>();
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
 		eventPublisher = new EventPublisher(callbackHandler);
@@ -269,25 +265,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	/**
 	 * Method to add the listeners
 	 * 
-	 * @param deviceDetailsListener
+	 * @param dcsEventListener
 	 */
-	public void addDeviceDetailsListener(
-			ICPDeviceDetailsListener deviceDetailsListener) {
-		if (listeners != null) {
-			listeners.add(deviceDetailsListener);
-		}
-	}
-
-	/**
-	 * Method to remove the listeners
-	 * 
-	 * @param deviceDetailsListener
-	 */
-	public void removeDeviceDetailsListener(
-			ICPDeviceDetailsListener deviceDetailsListener) {
-		if (listeners != null) {
-			listeners.remove(deviceDetailsListener);
-		}
+	public void setDCSEventListener(DCSEventListener dcsEventListener) {
+		this.dcsEventListener = dcsEventListener;
 	}
 
 	/** Subcribe event methods **/
@@ -333,18 +314,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * 
 	 * @param icpClientObj
 	 */
-	private void notifyListeners(String dataReceived) {
-		AirPortInfo airPurifierDetails = DataParser.parseAirPurifierEventDataFromCPP(dataReceived);
-
-		if (airPurifierDetails == null) {
-			ALog.i(ALog.SUBSCRIPTION, "Not notifying listeners - Airpurifier event is null");
-			return;
-		}
-
-		for (ICPDeviceDetailsListener listener : listeners) {
-			listener.onReceivedDeviceDetails(airPurifierDetails);
-		}
-		ALog.i(ALog.SUBSCRIPTION, "Notified " + listeners.size() + " of DCS event");
+	private void notifyListeners(String data) {
+		if (data == null || dcsEventListener == null) return;
+		dcsEventListener.onDCSEventReceived(data);
 	}
 
 	/**

@@ -37,7 +37,7 @@ public class PurifierManager implements SubscriptionEventListener {
 	
 	private PurifierManager() {
 		// Enforce Singleton
-		SubscriptionManager.getInstance().setSubscriptionListener(this) ;
+		SubscriptionManager.getInstance().setSubscriptionListener(this);
 		subscriptionEventListeners = new ArrayList<AirPurifierEventListener>();
 	}
 	
@@ -66,7 +66,8 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 
 	@Override
-	public void onSubscribeEventOccurred(String encryptedData) {
+	public void onLocalEventReceived(String encryptedData) {
+		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		
@@ -74,6 +75,15 @@ public class PurifierManager implements SubscriptionEventListener {
 		if (decryptedData == null ) return;
 
 		notifySubscriptionListeners(decryptedData) ;
+	}
+	
+	@Override
+	public void onRemoteEventReceived(String data) {
+		ALog.d(ALog.PURIFIER_MANAGER, "Remote event received");
+		PurAirDevice purifier = getCurrentPurifier();
+		if (purifier == null) return;
+		
+		notifySubscriptionListeners(data);
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
@@ -92,7 +102,9 @@ public class PurifierManager implements SubscriptionEventListener {
 	
 	public void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.SUBSCRIPTION, "Notify subscription listeners - " + data);
+		// TODO merge both JSON parsing methods.
 		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(data) ;
+		AirPortInfo airPortInfoCPP = DataParser.parseAirPurifierEventDataFromCPP(data);
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
 
 		synchronized (subscriptionEventListeners) {
@@ -101,11 +113,17 @@ public class PurifierManager implements SubscriptionEventListener {
 					listener.onAirPurifierEventReceived(airPortInfo);
 					continue;
 				} 
+				if(airPortInfoCPP != null) {
+					listener.onAirPurifierEventReceived(airPortInfoCPP);
+					continue;
+				} 
 				if(firmwarePortInfo != null) {
 					listener.onFirmwareEventReceived(firmwarePortInfo);
 				}
 			}
 		}
 	}
+
+	
 
 }

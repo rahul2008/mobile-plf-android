@@ -2,10 +2,13 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import java.net.HttpURLConnection;
 
+import android.content.Context;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -14,7 +17,7 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class SubscriptionManager implements UDPEventListener, ServerResponseListener {
+public class SubscriptionManager implements UDPEventListener, DCSEventListener, ServerResponseListener {
 	
 	private static final int LOCAL_SUBSCRIPTIONTIME = 3360; // IN SEC
 	private static final int CPP_SUBSCRIPTIONTIME = 120; // IN MIN
@@ -24,7 +27,8 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	private UDPSocketManager udpManagerThread ;
 		
 	private SubscriptionManager() {
-		udpManagerThread = new UDPSocketManager(this) ;
+		udpManagerThread = new UDPSocketManager(this);
+		CPPController.getInstance(PurAirApplication.getAppContext()).setDCSEventListener(this);
 	}
 	
 	public static SubscriptionManager getInstance() {
@@ -82,6 +86,16 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 			udpManagerThread = null ;
 		}
 	}
+
+	public void enableRemoteSubscription(Context context) {
+		ALog.i(ALog.SUBSCRIPTION, "Enabling remote subscription (start dcs)") ;
+		CPPController.getInstance(context).startDCSService();
+	}
+	
+	public void disableRemoteSubscription(Context context) {
+		ALog.i(ALog.SUBSCRIPTION, "Disabling remote subscription (stop dcs)") ;
+		CPPController.getInstance(context).stopDCSService();
+	}
 	
 	private void subscribe(String url, PurAirDevice purifier) {
 		boolean isLocal = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
@@ -128,9 +142,21 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 	public void onUDPEventReceived(String data) {
 		if (data == null || data.isEmpty()) return;
 		
-		ALog.d(ALog.SUBSCRIPTION, data) ;
+		ALog.i(ALog.SUBSCRIPTION, "UDP event received");
+		ALog.d(ALog.SUBSCRIPTION, data);
 		if (subscriptionEventListener != null) {
-			subscriptionEventListener.onSubscribeEventOccurred(data) ;
+			subscriptionEventListener.onLocalEventReceived(data);
+		}
+	}
+	
+	@Override
+	public void onDCSEventReceived(String data) {
+		if (data == null || data.isEmpty()) return;
+		
+		ALog.i(ALog.SUBSCRIPTION, "DCS event received") ;
+		ALog.i(ALog.SUBSCRIPTION, data) ;
+		if (subscriptionEventListener != null) {
+			subscriptionEventListener.onRemoteEventReceived(data);
 		}
 	}
 
@@ -145,4 +171,5 @@ public class SubscriptionManager implements UDPEventListener, ServerResponseList
 		ALog.i(ALog.SUBSCRIPTION, "Subscription successfull");
 		onUDPEventReceived(responseData); // Response already contains first subscription events, treat as UDP
  	}
+
 } 
