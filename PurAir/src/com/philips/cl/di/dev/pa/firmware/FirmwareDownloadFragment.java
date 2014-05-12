@@ -11,6 +11,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -111,24 +112,25 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	}
 
 	@Override
-	public void onAirPurifierEventReceived(AirPortInfo airPurifierEvent) {
+	public void onAirPurifierEventReceived() {
 		// NOP
 	}
 
 	@Override
-	public void onFirmwareEventReceived(final FirmwarePortInfo firmwareEventDto) {
-		ALog.d(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareEventReceived progress " + firmwareEventDto.getProgress());
+	public void onFirmwareEventReceived() {
+		final FirmwarePortInfo firmwarePortInfo = ((FirmwareUpdateActivity) getActivity()).getFirmwarePortInfo();
+		ALog.d(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareEventReceived progress " + firmwarePortInfo.getProgress());
 		setCounter(0);
 		getActivity().runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				progressPercent.setText(firmwareEventDto.getProgress() + "%");
-				progressBar.setProgress(firmwareEventDto.getProgress());
+				progressPercent.setText(firmwarePortInfo.getProgress() + "%");
+				progressBar.setProgress(firmwarePortInfo.getProgress());
 			}
 		});
 		
-		if(firmwareEventDto.getProgress() == 100 && firmwareEventDto.getState() == FirmwareState.READY) {
+		if(firmwarePortInfo.getProgress() == 100 && firmwarePortInfo.getState() == FirmwareState.READY) {
 			downloaded = true;
 			showNextFragment();
 		}

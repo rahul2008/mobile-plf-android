@@ -735,20 +735,19 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	}
 
 	@Override
-	public void onAirPurifierEventReceived(AirPortInfo airPortInfo) {
-		if (airPortInfo == null) return;
-		
-		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received - updating UI: " + airPortInfo) ;
-		setAirPortInfo(airPortInfo); // TODO remove
+	public void onAirPurifierEventReceived() {
+		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received - updating UI") ;
 		updatePurifierUIFields();
 	}
 	
 	@Override
-	public void onFirmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
-		if(firmwarePortInfo == null) return;
+	public void onFirmwareEventReceived() {
+		PurAirDevice purifier = getCurrentPurifier();
+		if (purifier == null) return;
+		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
 		
+		if(firmwarePortInfo == null) return;
 		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
-		setFirmwarePortInfo(firmwarePortInfo); // TODO remove
 
 		if (firmwarePortInfo.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
@@ -832,20 +831,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	private AirPortInfo getAirPortInfo(PurAirDevice purifier) {
 		if (purifier == null) return null;
 		return purifier.getAirPortInfo();
-	}
-
-	private void setAirPortInfo(AirPortInfo airPortInfo) {
-		PurAirDevice currentPurifier = getCurrentPurifier();
-		if (currentPurifier == null) return;
-		
-		currentPurifier.setAirPortInfo(airPortInfo);
-	}
-	
-	private void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
-		PurAirDevice currentPurifier = getCurrentPurifier();
-		if (currentPurifier == null) return;
-		
-		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
 	}
 
 	public void setRightMenuVisibility(boolean visible) {

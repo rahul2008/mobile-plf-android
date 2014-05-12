@@ -139,19 +139,28 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 	
 	@Override
-	public void onAirPurifierEventReceived(final AirPortInfo airPurifierEvent) {
+	public void onAirPurifierEventReceived() {
+		if (getActivity() == null) return;
+		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		if (purifier == null) return;
+		
+		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				updateDashboard(airPurifierEvent);
+				updateDashboard(airPortInfo);
 			}
 		});
 	}
 	
 	@Override
-	public void onFirmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
-		if(getActivity() == null) return;
+	public void onFirmwareEventReceived() {
+		if (getActivity() == null) return;
+		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		if (purifier == null) return;
+		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
+		
 		if(firmwarePortInfo.isUpdateAvailable()) {
 			getActivity().runOnUiThread(new Runnable() {
 

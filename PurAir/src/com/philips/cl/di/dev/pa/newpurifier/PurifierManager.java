@@ -104,6 +104,20 @@ public class PurifierManager implements SubscriptionEventListener {
 		}
 	}
 	
+	private void setAirPortInfo(AirPortInfo airPortInfo) {
+		PurAirDevice currentPurifier = getCurrentPurifier();
+		if (currentPurifier == null) return;
+		
+		currentPurifier.setAirPortInfo(airPortInfo);
+	}
+	
+	private void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
+		PurAirDevice currentPurifier = getCurrentPurifier();
+		if (currentPurifier == null) return;
+		
+		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
+	}
+	
 	public void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.SUBSCRIPTION, "Notify subscription listeners - " + data);
 		// TODO merge both JSON parsing methods.
@@ -114,15 +128,18 @@ public class PurifierManager implements SubscriptionEventListener {
 		synchronized (subscriptionEventListeners) {
 			for (AirPurifierEventListener listener : subscriptionEventListeners) {
 				if(airPortInfo != null) {
-					listener.onAirPurifierEventReceived(airPortInfo);
+					setAirPortInfo(airPortInfo);
+					listener.onAirPurifierEventReceived();
 					continue;
 				} 
 				if(airPortInfoCPP != null) {
-					listener.onAirPurifierEventReceived(airPortInfoCPP);
+					setAirPortInfo(airPortInfoCPP);
+					listener.onAirPurifierEventReceived();
 					continue;
 				} 
 				if(firmwarePortInfo != null) {
-					listener.onFirmwareEventReceived(firmwarePortInfo);
+					setFirmwarePortInfo(firmwarePortInfo);
+					listener.onFirmwareEventReceived();
 				}
 			}
 		}

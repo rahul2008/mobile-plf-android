@@ -217,6 +217,10 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		return currentPurifier;
 	}
 	
+	public FirmwarePortInfo getFirmwarePortInfo() {
+		return getCurrentPurifier().getFirmwarePortInfo();
+	}
+	
 	public String getPurifierName() {
 		if (currentPurifier == null) return null;
 		return currentPurifier.getName();

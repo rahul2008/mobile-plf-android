@@ -14,7 +14,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
  */
 public interface AirPurifierEventListener {
 	
-	public void onAirPurifierEventReceived(AirPortInfo airPortInfo) ;
+	public void onAirPurifierEventReceived() ;
 	
-	public void onFirmwareEventReceived(FirmwarePortInfo firmwarePortInfo);
+	public void onFirmwareEventReceived();
 }

@@ -466,19 +466,23 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
-	public void onAirPurifierEventReceived(final AirPortInfo airPurifierEvent) {
+	public void onAirPurifierEventReceived() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (purifier == null) return;
+		
+		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
 		//TODO : Update fields using this information.
 		runOnUiThread(new Runnable() {
 			
 			@Override
 			public void run() {
-				getDataFromDashboard(airPurifierEvent);
+				getDataFromDashboard(airPortInfo);
 			}
 		});
 	}
 
 	@Override
-	public void onFirmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
+	public void onFirmwareEventReceived() {
 		//NOP
 	}
 }
