@@ -118,17 +118,15 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		PurifierManager.getInstance().stopSubscription();
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
-		PurifierManager.getInstance().startSubscription();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 	
 	private Runnable downloadDataRunnble = new Runnable() {

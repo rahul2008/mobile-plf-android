@@ -226,7 +226,6 @@ public class RightMenuClickListener implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.connect:
-			PurifierManager.getInstance().stopSubscription() ;
 			Intent intent=new Intent(mainActivity,EWSActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			mainActivity.startActivityForResult(intent, AppConstants.EWS_REQUEST_CODE) ;

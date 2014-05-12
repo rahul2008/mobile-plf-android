@@ -264,7 +264,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
-		PurifierManager.getInstance().startSubscription();
 	}
 
 	@Override
@@ -281,7 +280,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 		EWSDialogFactory.getInstance(this).cleanUp();
 
-		PurifierManager.getInstance().stopSubscription();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
@@ -343,23 +341,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 		isClickEvent = false;
 		super.onUserLeaveHint();
-	}
-
-	protected void onActivityResult(int requestCode, int resultCode,
-			Intent intent) {
-		ALog.i(ALog.MAINACTIVITY, "onActivityResult: " + resultCode
-				+ " requestCode " + requestCode);
-		switch (requestCode) {
-		case AppConstants.EWS_REQUEST_CODE:
-			break;
-		case AppConstants.FIRMWARE_REQUEST_CODE:
-			ALog.i(ALog.ACTIVITY,
-					"MainActivity$onActivityResult FIRMWARE_REQUEST_CODE");
-			break;
-
-		default:
-			break;
-		}
 	}
 
 	@Override
@@ -909,7 +890,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	@Override
 	public void signonStatus(boolean signon) {
-		PurifierManager.getInstance().startSubscription();
+		PurifierManager.getInstance().startSubscription(); // TODO fix
 		if (signon) {
 			pairToPurifierIfNecessary() ;
 		}
@@ -1031,8 +1012,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		case DISCONNECTED:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier went offline");
 			updatePurifierUIFields();
-			PurifierManager.getInstance().stopLocalConnection();
-			PurifierManager.getInstance().stopRemoteConnection();
+			PurifierManager.getInstance().stopSubscription();
 			break;
 		case CONNECTED_LOCALLY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");

@@ -78,15 +78,12 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		setCancelled(true);
 		
 		// TODO add bootid
-		PurifierManager.getInstance().stopLocalConnection();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		setCancelled(false);
-		
-		PurifierManager.getInstance().startLocalConnection();
 	}
 	
 	@Override
