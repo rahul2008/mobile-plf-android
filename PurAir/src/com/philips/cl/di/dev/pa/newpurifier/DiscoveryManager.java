@@ -44,7 +44,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	private DiscoveryEventListener mListener;
 
-	public static DiscoveryManager getInstance() {
+	public static synchronized DiscoveryManager getInstance() {
 		if (mInstance == null) {
 			mInstance = new DiscoveryManager();
 		}
@@ -60,14 +60,18 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mNetwork.getLastKnownNetworkState(); // Callback will enforce state update
 	}
 	
-	public void start(DiscoveryEventListener listener) {
-		SsdpService.getInstance().startDeviceDiscovery(this);
+	public void start(DiscoveryEventListener listener) { // TODO test
+		if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
+			SsdpService.getInstance().startDeviceDiscovery(this);
+			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
+		}
 		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = listener;
 	}
 	
 	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
+		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = null;
 	}
@@ -112,12 +116,18 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		switch(networkState) {
 		case NONE : 
 			markAllDevicesOffline();
+			SsdpService.getInstance().stopDeviceDiscovery();
+			ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
 			break;
 		case MOBILE:
 			markOnlyPairedDevicesOnline();
+			SsdpService.getInstance().stopDeviceDiscovery();
+			ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
 			break;
 		case WIFI_WITH_INTERNET:
 			markPairedNonLocalDevicesOnline();
+			SsdpService.getInstance().startDeviceDiscovery(this);
+			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
 			break;
 		default:
 			break;
@@ -155,7 +165,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			device.setConnectionState(ConnectionState.DISCONNECTED);
 		}
 		notifyDiscoveryListener();
-		// TODO stop discovery service?
 	}
 	
 	
@@ -201,8 +210,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (PurAirDevice purifier : devices) {
 			if (purifier.getUsn().equals(lostDeviceUsn)) {
 				purifier.setConnectionState(ConnectionState.DISCONNECTED);
-				notifyDiscoveryListener();
 				ALog.d(ALog.DISCOVERY, "Lost purifier: " + purifier);
+				notifyDiscoveryListener();
 				return true;
 			}
 		}
