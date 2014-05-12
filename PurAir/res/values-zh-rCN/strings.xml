@@ -45,15 +45,16 @@
     <string name="multicarefilter">2 Multi-Care 过滤网</string>
     <string name="activecarbonfilter">3 活性炭过滤网</string>
     <string name="hepa_filter">4 HEPA 过滤网</string>
-    <string name="change_soon">即将更换。</string>
-    <string name="change_now">立即更换。</string>
+    <string name="change_soon">%s 个月后更换</string>
+    <string name="change_now">立即更换</string>
     <string name="onehour">1 小时</string>
     <string name="fourhour">4 小时</string>
     <string name="eighthour">8 小时</string>
     <string name="off">关</string>
     <string name="filter_lock">Filter Lock</string>
-    <string name="clean_soon">Clean Soon</string>
-    <string name="clean_now">Clean Now</string>
+    <string name="clean_soon">%s 天后清洁 </string>
+    <string name="clean_now">清洁吧</string>
+    <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智能空气净化器的传感器</string>
     
     <!-- Timer texts -->
 

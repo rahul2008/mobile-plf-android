@@ -586,7 +586,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		leftMenuItems.add(new ListViewItem(R.string.list_item_prod_reg,
 				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
-				R.drawable.icon_8_2x));
+				R.drawable.icon_10_2x));
 		leftMenuItems
 		.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
 		return leftMenuItems;

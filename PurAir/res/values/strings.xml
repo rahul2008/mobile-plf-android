@@ -46,15 +46,16 @@
     <string name="multicarefilter">2 Multi-care Filter</string>
     <string name="activecarbonfilter">3 Active carbon filter</string>
     <string name="hepa_filter">4 HEPA filter</string>
-    <string name="change_soon">Change soon</string>
-    <string name="change_now">Change now</string>
+    <string name="change_soon">Replace in %s days.</string>
+    <string name="change_now">Replace immediately.</string>
     <string name="onehour">1 hours</string>
     <string name="fourhour">4 hours</string>
     <string name="eighthour">8 hours</string>
     <string name="off">OFF</string>
     <string name="filter_lock">Filter Lock</string>
-    <string name="clean_soon">Clean Soon</string>
+    <string name="clean_soon">Clean in %s days. </string>
     <string name="clean_now">Clean Now</string>
+    <string name="filter_tip">Remember to clean the Philips Smart Air Purifier\'s sensor every 2 months.</string>
 
     <!-- Timer texts -->
 

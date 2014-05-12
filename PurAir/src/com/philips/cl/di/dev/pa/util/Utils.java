@@ -17,6 +17,7 @@ import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
+import java.io.ObjectInputStream.GetField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -81,7 +82,7 @@ public class Utils {
 	}
 
 	public static int getDifferenceBetweenHrFromCurrentHr(String date, String date0) {
-		
+
 		int noOfHrs = -2;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
@@ -98,7 +99,7 @@ public class Utils {
 			noOfHrs = (int) (timeDiff / (1000 * 60 * 60));
 			ALog.i(ALog.INDOOR_RDCP, 
 					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
-			
+
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException");
 			return -2;
@@ -110,18 +111,18 @@ public class Utils {
 	@SuppressLint("UseSparseArrays")
 	public static void getIndoorAqiValues(String downloadedData) {
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp values downloaded successfully");
-		
+
 		HashMap<Integer, Float> hrlyAqiValueMap = new HashMap<Integer, Float>();
 		HashMap<Integer, Integer> hrlyAqiValueCounterMap = new HashMap<Integer, Integer>();
-		
+
 		HashMap<Integer, Float> dailyAqiValueMap = new HashMap<Integer, Float>();
 		HashMap<Integer, Integer> dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
 
 		if (downloadedData != null) {
 			List<IndoorHistoryDto> indoorAQIHistory = DataParser.parseHistoryData(downloadedData);
-			
+
 			if (indoorAQIHistory != null && indoorAQIHistory.size() > 0) {
-				
+
 				for (int index = 0; index < indoorAQIHistory.size(); index++) {
 					String date = indoorAQIHistory.get(index).getTimeStamp();
 					ALog.i(ALog.INDOOR_RDCP, "Date: " + date +",  " + indoorAQIHistory.get(index).getAqi());
@@ -139,19 +140,19 @@ public class Utils {
 							int counterMap = hrlyAqiValueCounterMap.get(diffOfHrs);
 							counterMap++;
 							hrlyAqiValueCounterMap.put(diffOfHrs, counterMap);
-							
+
 						} else {
 							hrlyAqiValueCounterMap.put(diffOfHrs, 1);
 							hrlyAqiValueMap.put(diffOfHrs, indoorAQIHistory.get(index).getAqi());
 						}
 					}
-					
+
 					/**
 					 * Daily
 					 */
 					int numberOfDays = 
 							getDifferenceBetweenDaysFromCurrentDay(date.substring(0, 10), ago27DayDate);
-					
+
 					if (numberOfDays >= 0) {
 						if (dailyAqiValueMap.containsKey(numberOfDays) 
 								&& dailyAqiValueCounterMap.containsKey(numberOfDays)) {
@@ -161,31 +162,31 @@ public class Utils {
 							int counterMap = dailyAqiValueCounterMap.get(numberOfDays);
 							counterMap++;
 							dailyAqiValueCounterMap.put(numberOfDays, counterMap);
-							
+
 						} else {
 							dailyAqiValueCounterMap.put(numberOfDays, 1);
 							dailyAqiValueMap.put(numberOfDays, indoorAQIHistory.get(index).getAqi());
 						}
 					}
 				}
-				
+
 				setIndoorAqiHistory(hrlyAqiValueMap,hrlyAqiValueCounterMap, 
 						dailyAqiValueMap, dailyAqiValueCounterMap);
 
 			}
 		}
 	}
-	
+
 	private static void setIndoorAqiHistory(HashMap<Integer, Float> hrlyAqiValueMap,
 			HashMap<Integer, Integer> hrlyAqiValueCounterMap, 
 			HashMap<Integer, Float> dailyAqiValueMap, 
 			HashMap<Integer, Integer> dailyAqiValueCounterMap) {
-		
+
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		List<Float> dailyAqiValues = new ArrayList<Float>();
-		
+
 		IndoorTrendDto indoorTrend = new IndoorTrendDto();
-		
+
 		for (int i = 0; i < 24; i++) {
 			if (hrlyAqiValueMap.containsKey(i) 
 					&& hrlyAqiValueCounterMap.containsKey(i)) {
@@ -197,17 +198,17 @@ public class Utils {
 				hrlyAqiValues.add(-1F);
 			}
 		}
-		
+
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
-		
+
 		indoorTrend.setHourlyList(hrlyAqiValues);
-		
+
 		hrlyAqiValueMap = null;
 		hrlyAqiValueCounterMap = null;
 		hrlyAqiValues = null;
-		
+
 		for (int I = 0; I < 28; I++) {
 			if (dailyAqiValueMap.containsKey(I) 
 					&& dailyAqiValueCounterMap.containsKey(I)) {
@@ -219,17 +220,17 @@ public class Utils {
 				dailyAqiValues.add(-1F);
 			}
 		}
-		
+
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
-		
+
 		indoorTrend.setDailyList(dailyAqiValues);
-		
+
 		dailyAqiValueMap = null;
 		dailyAqiValueCounterMap = null;
 		dailyAqiValues = null;
-		
+
 		SessionDto.getInstance().setIndoorTrendDto(indoorTrend);
 	}
 
@@ -237,13 +238,13 @@ public class Utils {
 	public static String getCPPQuery(PurAirDevice purifier) {
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatTime = new SimpleDateFormat(":mm:ss");
-		
+
 		Calendar cal = Calendar.getInstance();
 		int hrOffDayInt = cal.get(Calendar.HOUR_OF_DAY);
 		String hrOffDay = get2DigitHr(hrOffDayInt);
 		String endDate = formatDate.format(new Date());
 		String endTime = hrOffDay + formatTime.format(new Date());
-		
+
 		String qryPart3 = "endDate=" + endDate + "T" + endTime + ".1508314Z";
 
 		long lt28 = 28 * 24 * 60 * 60 * 1000L;
@@ -254,9 +255,9 @@ public class Utils {
 
 		String qryPart2 = "startDate=" + startDate + "T" + startTime + ".1508314Z;";
 
-//		String qry = String.format(
-//				AppConstants.CLIENT_ID_RDCP, "1c5a6bfffe6c74b1") + qryPart2 + qryPart3;
-		
+		//		String qry = String.format(
+		//				AppConstants.CLIENT_ID_RDCP, "1c5a6bfffe6c74b1") + qryPart2 + qryPart3;
+
 		String eui64 = (purifier == null ? "" : purifier.getEui64());
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP, eui64) + qryPart2 + qryPart3;
 
@@ -269,7 +270,7 @@ public class Utils {
 			hrOffDayInt = 0;
 		}
 		ago24HrDate = formatDate.format(dateEnd) + " " + get2DigitHr(hrOffDayInt);
-		
+
 		long lt27 = 27 * 24 * 60 * 60 * 1000L;
 		long startDateDiff1 = cal.getTimeInMillis() - lt27;
 		Date dateStart1 = new Date(startDateDiff1);
@@ -277,7 +278,7 @@ public class Utils {
 
 		return qry;
 	}
-	
+
 	private static String get2DigitHr( int hr) {
 		String hrStr = null;
 		if (hr == 0) {
@@ -353,13 +354,12 @@ public class Utils {
 	}
 
 	public static String getPreFilterStatusText(int filterStatusValue) {
-		Context context=PurAirApplication.getAppContext();
-		if (filterStatusValue < 96) {
-			return context.getString(R.string.good);
-		} else if (filterStatusValue >= 96 && filterStatusValue < 112) {
-			return context.getString(R.string.clean_soon);
+		if ((filterStatusValue/8) < 12) {
+			return getPreFilterFormattedText(12-filterStatusValue/8);
+		} else if ((filterStatusValue/8) >= 12 && (filterStatusValue/8)/8 < 14) {
+			return getPreFilterFormattedText(14-filterStatusValue/8);
 		} else {
-			return context.getString(R.string.change_now);
+			return getPreFilterFormattedText(0);
 		}
 	}
 
@@ -374,15 +374,14 @@ public class Utils {
 	}
 
 	public static String getMultiCareFilterStatusText(int filterStatusValue) {
-		Context context=PurAirApplication.getAppContext();
-		if (filterStatusValue < 784) {
-			return context.getString(R.string.good);
-		} else if (filterStatusValue >= 784 && filterStatusValue < 840) {
-			return context.getString(R.string.change_soon);
-		} else if (filterStatusValue >= 840 && filterStatusValue < 960) {
-			return context.getString(R.string.change_now);
+		if ((filterStatusValue/8) < 98) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 98-(filterStatusValue/8));
+		} else if ((filterStatusValue/8) >= 98 && (filterStatusValue/8) < 105) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 105-(filterStatusValue/8));
+		} else if ((filterStatusValue/8) >= 105 && (filterStatusValue/8) < 120) {
+			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
-			return context.getString(R.string.filter_lock);
+			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
 		}
 	}
 
@@ -397,15 +396,14 @@ public class Utils {
 	}
 
 	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
-		Context context=PurAirApplication.getAppContext();
-		if (filterStatusValue < 2704) {
-			return context.getString(R.string.good);
-		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return context.getString(R.string.change_soon);
-		} else if (filterStatusValue >= 2760 && filterStatusValue < 2880) {
-			return context.getString(R.string.change_now);
+		if ((filterStatusValue/8) < 338) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-(filterStatusValue/8));
+		} else if ((filterStatusValue/8) >= 338 && (filterStatusValue/8) < 345) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-(filterStatusValue/8));
+		} else if ((filterStatusValue/8) >= 345 && (filterStatusValue/8) < 360) {
+			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
-			return context.getString(R.string.filter_lock);
+			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
 		}
 	}
 
@@ -420,15 +418,14 @@ public class Utils {
 	}
 
 	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
-		Context context=PurAirApplication.getAppContext();
-		if (filterStatusValue < 2704) {
-			return context.getString(R.string.good);
-		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
-			return context.getString(R.string.change_soon);
-		} else if (filterStatusValue >= 2760 && filterStatusValue < 2880) {
-			return context.getString(R.string.change_now);
+		if ((filterStatusValue/8) < 338) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-(filterStatusValue/8));
+		} else if ((filterStatusValue/8) >= 338 && (filterStatusValue/8) < 345) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-(filterStatusValue/8));
+		} else if ((filterStatusValue/8) >= 345 && (filterStatusValue/8) < 360) {
+			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
-			return context.getString(R.string.filter_lock);
+			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
 		}
 	}
 
@@ -511,7 +508,7 @@ public class Utils {
 		} else if (weatherDesc.compareToIgnoreCase(CLOUDY) == 0) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.cloudy);
 		} else if (weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) == 0) {
-			
+
 			if (isDayTime == null) {
 				return contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
 			}
@@ -618,18 +615,18 @@ public class Utils {
 		// Difference between current and previous timestamp
 		long diff = currenttimeInMillis - pairedOn;
 		long diffInDays = diff / (1000 * 60 * 60 * 24);
-		
+
 		return diffInDays ;
 	}
-	
+
 	public static String getMacAddressFromUsn(String usn){
 		String[] usnArray=usn.split("::");
 		if(usnArray==null || usnArray.length <= 0) return null;
-			
+
 		String mac = usnArray[0];
 		return mac.substring(mac.length()-12);
 	}
-	
+
 	public static int getLastDayHours(String currentCityTimeHr) {
 		int hr = 0;
 		if (currentCityTimeHr == null || currentCityTimeHr.isEmpty()) {
@@ -641,13 +638,13 @@ public class Utils {
 			e.printStackTrace();
 			return hr;
 		}
-		
+
 		if (hr == 0) {
 			hr = 24;
 		}
 		return hr;
 	}
-	
+
 	public static String[] getAQIStatusAndSummary(int indoorAQI) {
 		String [] aqiStatusArray = new String[2] ;
 		if(indoorAQI > -1 && indoorAQI <= 14) {
@@ -664,5 +661,16 @@ public class Utils {
 			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_very_unhealthy_tip1) ;
 		}
 		return aqiStatusArray;
+	}
+
+	public static String getPreFilterFormattedText(int days){
+		if(days==0)
+			return PurAirApplication.getAppContext().getString(R.string.clean_now);
+		else
+			return PurAirApplication.getAppContext().getString(R.string.clean_soon, days);	
+	}
+
+	public static String getFilterFormattedText(int days){
+		return PurAirApplication.getAppContext().getString(R.string.change_soon, days);		
 	}
 }

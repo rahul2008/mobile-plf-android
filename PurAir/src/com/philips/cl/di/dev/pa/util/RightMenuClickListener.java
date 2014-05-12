@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -29,7 +30,7 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	private TextView autoText;
 	
-	private View fanSpeedBackground, timerBackground;
+	private RelativeLayout fanSpeedLayout, timerLayout; 
 	
 	//Control panel buttons
 	private Button fanSpeed, timer, schedule;
@@ -69,14 +70,14 @@ public class RightMenuClickListener implements OnClickListener {
 		fanSpeedSilent = (Button) activity.findViewById(R.id.fan_speed_silent);
 		fanSpeedAuto = (ToggleButton) activity.findViewById(R.id.fan_speed_auto);
 		autoText = (TextView) activity.findViewById(R.id.tv_fan_speed_auto);
-		fanSpeedBackground = activity.findViewById(R.id.background_fan_speed);
+		fanSpeedLayout = (RelativeLayout)activity.findViewById(R.id.layout_fan_speed);
 		fanSpeedTurbo = (Button) activity.findViewById(R.id.fan_speed_turbo);
 		fanSpeedOne = (Button) activity.findViewById(R.id.fan_speed_one);
 		fanSpeedTwo = (Button) activity.findViewById(R.id.fan_speed_two);
 		fanSpeedThree = (Button) activity.findViewById(R.id.fan_speed_three);
 		
 		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);
-		timerBackground = activity.findViewById(R.id.background_timer);
+		timerLayout = (RelativeLayout)activity.findViewById(R.id.layout_timer);
 		timerButtons[0] = (Button) activity.findViewById(R.id.timer_off);
 		timerButtons[1] = (Button) activity.findViewById(R.id.one_hour);
 		timerButtons[2] = (Button) activity.findViewById(R.id.four_hours);
@@ -463,14 +464,14 @@ public class RightMenuClickListener implements OnClickListener {
 	private void collapseTimerMenu(boolean collapse) {
 		if(!collapse) {
 			isTimerMenuVisible = !collapse;
-			timerBackground.setVisibility(View.VISIBLE);
+			timerLayout.setVisibility(View.VISIBLE);
 			timerButtons[0].setVisibility(View.VISIBLE);
 			timerButtons[1].setVisibility(View.VISIBLE);
 			timerButtons[2].setVisibility(View.VISIBLE);
 			timerButtons[3].setVisibility(View.VISIBLE);
 		} else {
 			isTimerMenuVisible = !collapse;
-			timerBackground.setVisibility(View.GONE);
+			timerLayout.setVisibility(View.GONE);
 			timerButtons[0].setVisibility(View.GONE);
 			timerButtons[1].setVisibility(View.GONE);
 			timerButtons[2].setVisibility(View.GONE);
@@ -488,7 +489,7 @@ public class RightMenuClickListener implements OnClickListener {
 			fanSpeedSilent.setVisibility(View.VISIBLE);
 			fanSpeedAuto.setVisibility(View.VISIBLE);
 			autoText.setVisibility(View.VISIBLE);
-			fanSpeedBackground.setVisibility(View.VISIBLE);
+			fanSpeedLayout.setVisibility(View.VISIBLE);
 			fanSpeedTurbo.setVisibility(View.VISIBLE);
 			fanSpeedOne.setVisibility(View.VISIBLE);
 			fanSpeedTwo.setVisibility(View.VISIBLE);
@@ -498,7 +499,7 @@ public class RightMenuClickListener implements OnClickListener {
 			fanSpeedSilent.setVisibility(View.GONE);
 			fanSpeedAuto.setVisibility(View.GONE);
 			autoText.setVisibility(View.GONE);
-			fanSpeedBackground.setVisibility(View.GONE);
+			fanSpeedLayout.setVisibility(View.GONE);
 			fanSpeedTurbo.setVisibility(View.GONE);
 			fanSpeedOne.setVisibility(View.GONE);
 			fanSpeedTwo.setVisibility(View.GONE);
