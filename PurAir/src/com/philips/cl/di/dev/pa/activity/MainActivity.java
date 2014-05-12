@@ -255,13 +255,13 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	protected void onStart() {
 		this.registerReceiver(networkReceiver, filter);
 		DiscoveryManager.getInstance().start(this);
-		toggleConnection();
 		super.onStart();
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
+		toggleConnection();
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
