@@ -13,7 +13,7 @@ public class SubscriptionManagerTest extends TestCase {
 		manager.setSubscriptionListener(listener);
 		manager.onUDPEventReceived(null);
 
-		assertFalse(listener.callbackOccured);
+		assertFalse(listener.udpCallbackOccured);
 	}
 	
 	public void testUDPEventReceivedEmptyString() {
@@ -22,7 +22,7 @@ public class SubscriptionManagerTest extends TestCase {
 		manager.setSubscriptionListener(listener);
 		manager.onUDPEventReceived("");
 
-		assertFalse(listener.callbackOccured);
+		assertFalse(listener.udpCallbackOccured);
 	}
 	
 	public void testUDPEventReceivedNonDecryptableString() {
@@ -33,15 +33,50 @@ public class SubscriptionManagerTest extends TestCase {
 		String expected = "dfjalsjdfl";
 		manager.onUDPEventReceived(expected);
 
-		assertTrue(listener.callbackOccured);
+		assertTrue(listener.udpCallbackOccured);
+	}
+	
+	public void testDCSEventReceivedNull() {
+		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
+		SubscriptionManager manager = SubscriptionManager.getInstance();
+		manager.setSubscriptionListener(listener);
+		manager.onDCSEventReceived(null);
+
+		assertFalse(listener.dcsCallbackOccured);
+	}
+	
+	public void testDCSEventReceivedEmptyString() {
+		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
+		SubscriptionManager manager = SubscriptionManager.getInstance();
+		manager.setSubscriptionListener(listener);
+		manager.onDCSEventReceived("");
+
+		assertFalse(listener.dcsCallbackOccured);
+	}
+	
+	public void testDCSEventReceivedRandomString() {
+		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
+		SubscriptionManager manager = SubscriptionManager.getInstance();
+		manager.setSubscriptionListener(listener);
+		
+		String expected = "dfjalsjdfl";
+		manager.onDCSEventReceived(expected);
+
+		assertTrue(listener.dcsCallbackOccured);
 	}
 
 	private class SubscriptionTestEventListener implements SubscriptionEventListener {
-		public boolean callbackOccured = false;
+		public boolean udpCallbackOccured = false;
+		public boolean dcsCallbackOccured = false;
 		public String callbackString = null;
 		@Override
 		public void onLocalEventReceived(String data) {
-			callbackOccured = true;
+			udpCallbackOccured = true;
+			callbackString = data;
+		}
+		@Override
+		public void onRemoteEventReceived(String data) {
+			dcsCallbackOccured = true;
 			callbackString = data;
 		}
 	}
