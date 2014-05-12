@@ -83,7 +83,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param appContext
 	 * @return
 	 */
-	public static CPPController getInstance(Context appContext) {
+	public static synchronized CPPController getInstance(Context appContext) {
 		ALog.i(ALog.ICPCLIENT, "GetInstance: " + icpStateInstance);
 		if (null == icpStateInstance) {
 			icpStateInstance = new CPPController(appContext);

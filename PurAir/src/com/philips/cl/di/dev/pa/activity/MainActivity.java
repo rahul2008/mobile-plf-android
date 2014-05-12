@@ -75,7 +75,6 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
@@ -133,7 +132,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	private SharedPreferences mPreferences;
 	private int mVisits;
 	private BroadcastReceiver networkReceiver;
-	private CPPController cppController;
 
 	private int isGooglePlayServiceAvailable;
 	private SharedPreferences outdoorLocationPrefs;
@@ -387,9 +385,8 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	}
 
 	private void initializeCPPController() {
-		cppController = CPPController.getInstance(this);
-		cppController.addDeviceDetailsListener(this);
-		cppController.addSignonListener(this) ;
+		CPPController.getInstance(this).addDeviceDetailsListener(this);
+		CPPController.getInstance(this).addSignonListener(this) ;
 	}
 
 	private void createNetworkReceiver() {
@@ -408,9 +405,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 					if (netInfo != null && netInfo.isConnected()) {
 						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED - Signon to cpp");
 
-						if (cppController != null) {
-							cppController.signOnWithProvisioning();
-						}
+						CPPController.getInstance(MainActivity.this).signOnWithProvisioning();
 					}
 				}
 			}
@@ -449,14 +444,14 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 			stopLocalConnection() ;
 			
 			PurifierManager.getInstance().subscribeToAllEvents(purifier) ;
-			cppController.startDCSService() ;
+			CPPController.getInstance(this).startDCSService() ;
 			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
 		}
 	}
 
 	private void stopRemoteConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop RemoteConnection") ;
-		cppController.stopDCSService() ;
+		CPPController.getInstance(this).stopDCSService() ;
 	}
 
 	public DrawerLayout getDrawerLayout() {
@@ -1015,7 +1010,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		// Only show PairingDialog once (can be called via discovery and signon)
 		if (isPairingDialogShown) return;
 
-		if (!cppController.isSignOn()) return;
+		if (!CPPController.getInstance(this).isSignOn()) return;
 
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
