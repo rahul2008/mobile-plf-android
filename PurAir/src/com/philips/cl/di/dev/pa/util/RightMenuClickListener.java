@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 
 public class RightMenuClickListener implements OnClickListener {
@@ -225,7 +226,7 @@ public class RightMenuClickListener implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.connect:
-			mainActivity.stopAllServices() ;
+			PurifierManager.getInstance().stopSubscription() ;
 			Intent intent=new Intent(mainActivity,EWSActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			mainActivity.startActivityForResult(intent, AppConstants.EWS_REQUEST_CODE) ;

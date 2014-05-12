@@ -16,7 +16,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -79,7 +78,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		setCancelled(true);
 		
 		// TODO add bootid
-		SubscriptionManager.getInstance().disableLocalSubscription();
+		PurifierManager.getInstance().stopLocalConnection();
 	}
 
 	@Override
@@ -87,8 +86,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		super.onResume();
 		setCancelled(false);
 		
-		PurifierManager.getInstance().subscribeToAllEvents(currentPurifier);
-		SubscriptionManager.getInstance().enableLocalSubscription();
+		PurifierManager.getInstance().startLocalConnection();
 	}
 	
 	@Override

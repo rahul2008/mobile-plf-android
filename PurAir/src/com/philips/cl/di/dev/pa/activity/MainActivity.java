@@ -76,7 +76,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -261,10 +260,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	@Override
 	protected void onResume() {
 		super.onResume();
-		toggleConnection();
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		PurifierManager.getInstance().startSubscription();
 	}
 
 	@Override
@@ -281,7 +281,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 		EWSDialogFactory.getInstance(this).cleanUp();
 
-		stopAllServices();
+		PurifierManager.getInstance().stopSubscription();
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		boolean isScreenOn = powerManager.isScreenOn();
@@ -301,7 +302,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 		DiscoveryManager.getInstance().stop();
 		this.unregisterReceiver(networkReceiver);
-//		stopAllServices();
 		super.onStop();
 	}
 
@@ -376,12 +376,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		stopAllServices();
-		super.onDestroy();
-	}
-
 	private void initializeCPPController() {
 		CPPController.getInstance(this).addSignonListener(this) ;
 	}
@@ -409,50 +403,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		};
 	}
 
-	private void startLocalConnection() {
-		stopRemoteConnection();
-
-		PurAirDevice purifier = getCurrentPurifier();
-		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier: " + purifier) ;
-		
-		//Start the subscription every time it discovers the Purifier
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
-		PurifierManager.getInstance().subscribeToAllEvents(purifier);
-		SubscriptionManager.getInstance().enableLocalSubscription();
-	}
-
-	private void stopLocalConnection() {
-		ALog.i(ALog.CONNECTIVITY, "Stop LocalConnection") ;
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-		SubscriptionManager.getInstance().disableLocalSubscription();
-	}
-
-	private void startRemoteConnection() {
-		ALog.i(ALog.CONNECTIVITY, "Start RemoteConnection") ;
-		PurAirDevice purifier = getCurrentPurifier();
-		
-		if (purifier == null) {
-			ALog.e(ALog.CONNECTIVITY, "Failed to start RemoteConnection - purifier was null") ;
-			return;
-		}
-		ALog.e(ALog.CONNECTIVITY, "Trying to remote connect to Purifier with eui64 - " + purifier.getEui64()) ;
-		
-		if(purifier.isPaired()) {
-			stopLocalConnection() ;
-			
-			PurifierManager.getInstance().subscribeToAllEvents(purifier) ;
-			PurifierManager.getInstance().addAirPurifierEventListener(this);
-			SubscriptionManager.getInstance().enableRemoteSubscription(this);
-			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
-		}
-	}
-
-	private void stopRemoteConnection() {
-		ALog.i(ALog.CONNECTIVITY, "Stop RemoteConnection") ;
-		SubscriptionManager.getInstance().disableRemoteSubscription(this);
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-	}
-
 	public DrawerLayout getDrawerLayout() {
 		return mDrawerLayout;
 	}
@@ -460,12 +410,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	public ScrollView getScrollViewRight() {
 		return mScrollViewRight;
 	}
-
-	public void stopAllServices() {
-		stopRemoteConnection() ;
-		stopLocalConnection() ;
-	}
-
 
 	/** Need to have only one instance of the HomeFragment */
 	public static HomeFragment getDashboard() {
@@ -814,7 +758,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		if (airPortInfo == null) return;
 		
 		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received - updating UI: " + airPortInfo) ;
-		setAirPortInfo(airPortInfo);
+		setAirPortInfo(airPortInfo); // TODO remove
 		updatePurifierUIFields();
 	}
 	
@@ -823,7 +767,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		if(firmwarePortInfo == null) return;
 		
 		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
-		setFirmwarePortInfo(firmwarePortInfo);
+		setFirmwarePortInfo(firmwarePortInfo); // TODO remove
 
 		if (firmwarePortInfo.isUpdateAvailable()) {
 			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
@@ -949,21 +893,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		return versionCode;
 	}
 
-	public void toggleConnection() {
-		PurAirDevice purifier = getCurrentPurifier();
-		ConnectionState state = ConnectionState.DISCONNECTED;
-		if (purifier != null) {
-			state = purifier.getConnectionState();
-		}
-		
-		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + state);
-		switch (state) {
-			case CONNECTED_LOCALLY: startLocalConnection(); break;
-			case CONNECTED_REMOTELY: startRemoteConnection(); break;
-			case DISCONNECTED: /* NOP */ break;
-		}
-	}
-
 	private void setFirmwareSuperScript(int superscriptNumber, boolean isUpdateAvailable) {
 		ListItemAdapter adapter = (ListItemAdapter) mListViewLeft.getAdapter();
 		ListViewItem item = adapter.getItem(6);
@@ -980,7 +909,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	@Override
 	public void signonStatus(boolean signon) {
-		toggleConnection();
+		PurifierManager.getInstance().startSubscription();
 		if (signon) {
 			pairToPurifierIfNecessary() ;
 		}
@@ -1102,17 +1031,17 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		case DISCONNECTED:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier went offline");
 			updatePurifierUIFields();
-			stopLocalConnection();
-			stopRemoteConnection();
+			PurifierManager.getInstance().stopLocalConnection();
+			PurifierManager.getInstance().stopRemoteConnection();
 			break;
 		case CONNECTED_LOCALLY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
-			startLocalConnection(); // Right menu updated when response from subscription
+			PurifierManager.getInstance().startLocalConnection(); // Right menu updated when response from subscription
 			pairToPurifierIfNecessary();
 			break;
 		case CONNECTED_REMOTELY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
-			startRemoteConnection(); // Right menu updated when response from subscription
+			PurifierManager.getInstance().startRemoteConnection(); // Right menu updated when response from subscription
 			break;
 		}
 	}

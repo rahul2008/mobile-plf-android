@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.newpurifier;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -42,7 +43,6 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
-		// TODO unsubscribe listeners from previous purifier
 		mCurrentPurifier = purifier;
 		// TODO subscribe listeners to new purifier
 		
@@ -124,6 +124,63 @@ public class PurifierManager implements SubscriptionEventListener {
 		}
 	}
 
-	
+	public void startSubscription() {
+		PurAirDevice purifier = getCurrentPurifier();
+		ConnectionState state = ConnectionState.DISCONNECTED;
+		if (purifier != null) {
+			state = purifier.getConnectionState();
+		}
+		
+		ALog.i(ALog.MAINACTIVITY, "toggleConnection: " + state);
+		switch (state) {
+			case CONNECTED_LOCALLY: startLocalConnection(); break;
+			case CONNECTED_REMOTELY: startRemoteConnection(); break;
+			case DISCONNECTED: /* NOP */ break;
+		}
+	}
 
+	public void stopSubscription() {
+		stopRemoteConnection() ;
+		stopLocalConnection() ;
+	}
+
+	public void stopRemoteConnection() {
+		ALog.i(ALog.CONNECTIVITY, "Stop RemoteConnection") ;
+		SubscriptionManager.getInstance().disableRemoteSubscription(PurAirApplication.getAppContext());
+	}
+
+	public void startRemoteConnection() {
+		ALog.i(ALog.CONNECTIVITY, "Start RemoteConnection") ;
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		
+		if (purifier == null) {
+			ALog.e(ALog.CONNECTIVITY, "Failed to start RemoteConnection - purifier was null") ;
+			return;
+		}
+		ALog.e(ALog.CONNECTIVITY, "Trying to remote connect to Purifier with eui64 - " + purifier.getEui64()) ;
+		
+		if(purifier.isPaired()) {
+			stopLocalConnection() ;
+			
+			subscribeToAllEvents(purifier) ;
+			SubscriptionManager.getInstance().enableRemoteSubscription(PurAirApplication.getAppContext());
+			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
+		}
+	}
+
+	public void stopLocalConnection() {
+		ALog.i(ALog.CONNECTIVITY, "Stop LocalConnection") ;
+		SubscriptionManager.getInstance().disableLocalSubscription();
+	}
+
+	public void startLocalConnection() {
+		PurifierManager.getInstance().stopRemoteConnection();
+	
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier: " + purifier) ;
+		
+		//Start the subscription every time it discovers the Purifier
+		subscribeToAllEvents(purifier);
+		SubscriptionManager.getInstance().enableLocalSubscription();
+	}
 }
