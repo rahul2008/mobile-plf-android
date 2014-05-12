@@ -369,6 +369,7 @@
     <string name="connect_2_network_msg5">Return to the Philips Smart Air Purifier app.</string>
     <string name="error_ssid_msg1">Please make sure your phone is connected to</string>
     <string name="contact_philips_support_msg1">The Philips Smart Air Purifier cannot activate Setup mode.</string>
+    <string name="contact_philips_support_msg1_3attempt">Connection has failed 3 times.</string>
     <string name="contact_philips_support_msg2">Please contact Philips Support</string>
     <string name="contact_philips_support_msg3">Call us:</string>
     <string name="contact_philips_support_phone_num">1&#8211;800&#8211;123&#8211;4567</string>

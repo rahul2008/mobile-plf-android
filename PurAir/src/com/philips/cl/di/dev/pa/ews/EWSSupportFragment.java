@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSSupportFragment extends Fragment {
 	
@@ -33,6 +34,13 @@ public class EWSSupportFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		EWSActivity ewsActivity = (EWSActivity) getActivity();
+		
+		if (ewsActivity.setUPModeCounter > 2 || ewsActivity.step2FailedCounter > 2) {
+			((FontTextView) getView().findViewById(
+					R.id.contact_philips_support_message1)).setText(getActivity().getString(R.string.contact_philips_support_msg1_3attempt));
+		}
 		
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_SUPPORT);
 		
