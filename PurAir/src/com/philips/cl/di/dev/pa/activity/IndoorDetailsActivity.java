@@ -28,6 +28,7 @@ import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -120,11 +121,15 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	protected void onPause() {
 		super.onPause();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		SubscriptionManager.getInstance().disableRemoteSubscription(this);
+		SubscriptionManager.getInstance().disableLocalSubscription();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		SubscriptionManager.getInstance().enableLocalSubscription();
+		SubscriptionManager.getInstance().enableRemoteSubscription(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 	
