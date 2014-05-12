@@ -73,7 +73,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		String decryptedData = new DISecurity(null).decryptData(encryptedData, purifier) ;
 		if (decryptedData == null ) return;
 
-		notifyEventListeners(decryptedData) ;
+		notifySubscriptionListeners(decryptedData) ;
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
@@ -90,8 +90,8 @@ public class PurifierManager implements SubscriptionEventListener {
 		}
 	}
 	
-	public void notifyEventListeners(String data) {
-		ALog.d(ALog.SUBSCRIPTION, "Received subscription " + data);
+	public void notifySubscriptionListeners(String data) {
+		ALog.d(ALog.SUBSCRIPTION, "Notify subscription listeners - " + data);
 		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(data) ;
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
 
