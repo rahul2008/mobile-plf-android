@@ -69,6 +69,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		tvIpaddress.setText(getPurifierIpAddress());
 		submitButton = (Button) view.findViewById(R.id.submitButton);
 		submitButton.setOnClickListener(this);
+		submitButton.setEnabled(false);
 
 		tvCPPDetails = (TextView) view.findViewById(R.id.tv_cpp_details);
 
