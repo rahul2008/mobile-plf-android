@@ -16,7 +16,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -88,7 +87,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		super.onResume();
 		setCancelled(false);
 		
-		AirPurifierController.getInstance().subscribeToAllEvents(currentPurifier);
+		PurifierManager.getInstance().subscribeToAllEvents(currentPurifier);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 	

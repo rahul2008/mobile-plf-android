@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
@@ -29,7 +30,10 @@ public class PurifierManager {
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
-
+//		if (mCurrentPurifier != null) {
+//			SubscriptionManager.getInstance().unSubscribeFromPurifierEvents(mCurrentPurifier);
+//			SubscriptionManager.getInstance().unSubscribeFromFirmwareEvents(mCurrentPurifier);
+//		}
 		// TODO unsubscribe listeners from previous purifier
 		mCurrentPurifier = purifier;
 		// TODO subscribe listeners to new purifier
@@ -40,4 +44,17 @@ public class PurifierManager {
 	public synchronized PurAirDevice getCurrentPurifier() {
 		return mCurrentPurifier;
 	}
+
+	public void subscribeToAllEvents(PurAirDevice purifier) {
+		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
+		SubscriptionManager.getInstance().subscribeToPurifierEvents(purifier);
+		SubscriptionManager.getInstance().subscribeToFirmwareEvents(purifier);
+	}
+
+	public void unSubscribeFromAllEvents(PurAirDevice purifier) {
+		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
+		SubscriptionManager.getInstance().unSubscribeFromPurifierEvents(purifier);
+		SubscriptionManager.getInstance().unSubscribeFromFirmwareEvents(purifier);
+	}
+
 }

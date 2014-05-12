@@ -429,7 +429,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		
 		//Start the subscription every time it discovers the Purifier
 		airPurifierController.addAirPurifierEventListener(this);
-		airPurifierController.subscribeToAllEvents(purifier);
+		PurifierManager.getInstance().subscribeToAllEvents(purifier);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
@@ -452,7 +452,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		if(purifier.isPaired()) {
 			stopLocalConnection() ;
 			
-			airPurifierController.subscribeToAllEvents(purifier) ;
+			PurifierManager.getInstance().subscribeToAllEvents(purifier) ;
 			cppController.startDCSService() ;
 			ALog.e(ALog.CONNECTIVITY, "Successfully started remote connection") ;
 		}

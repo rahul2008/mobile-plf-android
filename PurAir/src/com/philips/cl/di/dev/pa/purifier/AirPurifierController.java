@@ -39,10 +39,6 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	
 	private List<AirPurifierEventListener> subscriptionEventListeners ;
 
-	private SubscriptionManager subscriptionManager ;
-	
-
-	
 	/**
 	 * Instantiates a new air purifier controller.
 	 *
@@ -50,8 +46,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 * @param context the context
 	 */
 	private AirPurifierController() {
-		subscriptionManager = SubscriptionManager.getInstance() ;
-		subscriptionManager.setSubscriptionListener(this) ;
+		SubscriptionManager.getInstance().setSubscriptionListener(this) ;
 		subscriptionEventListeners = new ArrayList<AirPurifierEventListener>() ;
 	}
 	
@@ -158,18 +153,6 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 				subscriptionEventListeners.get(index).firmwareEventReceived(firmwareEventDto);
 			}
 		}
-	}
-	
-	public void subscribeToAllEvents(PurAirDevice purifier) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Subscribe to all events for purifier: " + purifier) ;
-		subscriptionManager.subscribeToPurifierEvents(purifier);
-		subscriptionManager.subscribeToFirmwareEvents(purifier);
-	}
-
-	public void unSubscribeFromAllEvents(PurAirDevice purifier) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "UnSubscribe from all events from purifier: " + purifier) ;
-		subscriptionManager.unSubscribeFromPurifierEvents(purifier);
-		subscriptionManager.unSubscribeFromFirmwareEvents(purifier);
 	}
 	
 	@Override
