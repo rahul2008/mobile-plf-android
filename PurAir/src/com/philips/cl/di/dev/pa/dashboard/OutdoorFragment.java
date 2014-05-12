@@ -155,12 +155,14 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			break;
 			
 		case R.id.lbl_take_tour:
+			((MainActivity)getActivity()).isTutorialPromptShown = true;
 			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
 			startActivity(intentOd);
 			hideTakeATourPopup();
 			break;
 			
 		case R.id.btn_close_tour_layout:
+			((MainActivity)getActivity()).isTutorialPromptShown = true;
 			hideTakeATourPopup();
 			showTutorialDialog();
 			break;
@@ -182,7 +184,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		takeTourAlertLbl.setTypeface(Fonts.getGillsans(getActivity()));
 		btnClose.setTypeface(Fonts.getGillsans(getActivity()));
 		btnTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
-
+		
 		btnClose.setOnClickListener(new OnClickListener() {
 
 			@Override
