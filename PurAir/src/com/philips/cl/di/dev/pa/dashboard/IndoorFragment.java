@@ -25,7 +25,6 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -74,7 +73,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onResume() {
 		super.onResume();
-		AirPurifierController.getInstance().addAirPurifierEventListener(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).addDeviceDetailsListener(this);
 		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
 			updateDashboard(PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo());
@@ -89,7 +88,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onPause() {
 		super.onPause();
-		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).removeDeviceDetailsListener(this);
 	}
 
@@ -156,7 +155,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	@Override
-	public void airPurifierEventReceived(final AirPortInfo airPurifierEvent) {
+	public void onAirPurifierEventReceived(final AirPortInfo airPurifierEvent) {
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
@@ -167,7 +166,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 	
 	@Override
-	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
+	public void onFirmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
 		if(getActivity() == null) return;
 		if(firmwarePortInfo.isUpdateAvailable()) {
 			getActivity().runOnUiThread(new Runnable() {

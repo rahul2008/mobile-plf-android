@@ -143,8 +143,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 	private IntentFilter filter;
 
-	private AirPurifierController airPurifierController;
-
 	public boolean isDiagnostics;
 
 	public boolean isClickEvent;
@@ -159,8 +157,6 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 
 		setContentView(R.layout.activity_main_aj);
 		
-		airPurifierController = AirPurifierController.getInstance();
-
 		mPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits = mPreferences.getInt("NoOfVisit", 0);
 		SharedPreferences.Editor editor = mPreferences.edit();
@@ -428,14 +424,14 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 		ALog.i(ALog.SUBSCRIPTION, "Start LocalConnection for purifier: " + purifier) ;
 		
 		//Start the subscription every time it discovers the Purifier
-		airPurifierController.addAirPurifierEventListener(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		PurifierManager.getInstance().subscribeToAllEvents(purifier);
 		SubscriptionManager.getInstance().enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.CONNECTIVITY, "Stop LocalConnection") ;
-		airPurifierController.removeAirPurifierEventListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		SubscriptionManager.getInstance().disableLocalSubscription();
 	}
 
@@ -820,7 +816,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	}
 
 	@Override
-	public void airPurifierEventReceived(AirPortInfo airPurifierDetails) {
+	public void onAirPurifierEventReceived(AirPortInfo airPurifierDetails) {
 		if (airPurifierDetails == null) return;
 		
 		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received (local): " + airPurifierDetails) ;
@@ -835,7 +831,7 @@ ICPDeviceDetailsListener, OnClickListener, AirPurifierEventListener, SignonListe
 	}
 	
 	@Override
-	public void firmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
+	public void onFirmwareEventReceived(final FirmwarePortInfo firmwarePortInfo) {
 		if(firmwarePortInfo == null) return;
 		
 		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());

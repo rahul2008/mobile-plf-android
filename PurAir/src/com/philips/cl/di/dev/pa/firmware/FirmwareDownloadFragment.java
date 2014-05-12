@@ -11,7 +11,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -52,7 +52,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 		timerThread = new Thread(timerRunnable);
 		timerThread.start();
 		
-		AirPurifierController.getInstance().addAirPurifierEventListener(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 
 	@Override
@@ -60,7 +60,7 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 		super.onPause();
 		timerThread = null;
 		
-		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	private static int counter = 0;
@@ -111,12 +111,12 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	}
 
 	@Override
-	public void airPurifierEventReceived(AirPortInfo airPurifierEvent) {
+	public void onAirPurifierEventReceived(AirPortInfo airPurifierEvent) {
 		// NOP
 	}
 
 	@Override
-	public void firmwareEventReceived(final FirmwarePortInfo firmwareEventDto) {
+	public void onFirmwareEventReceived(final FirmwarePortInfo firmwareEventDto) {
 		ALog.d(ALog.FIRMWARE, "FirmwareDownloadFragment$firmwareEventReceived progress " + firmwareEventDto.getProgress());
 		setCounter(0);
 		getActivity().runOnUiThread(new Runnable() {

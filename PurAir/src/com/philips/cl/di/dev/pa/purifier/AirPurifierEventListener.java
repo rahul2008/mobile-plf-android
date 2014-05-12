@@ -19,7 +19,7 @@ public interface AirPurifierEventListener {
 	 *
 	 * @param airPurifierEvent the air purifier event
 	 */
-	public void airPurifierEventReceived(AirPortInfo airPurifierEvent) ;
+	public void onAirPurifierEventReceived(AirPortInfo airPurifierEvent) ;
 	
-	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo);
+	public void onFirmwareEventReceived(FirmwarePortInfo firmwarePortInfo);
 }

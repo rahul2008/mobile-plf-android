@@ -1,9 +1,6 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.net.ssl.HttpsURLConnection;
 
 import android.os.AsyncTask;
@@ -12,14 +9,11 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -32,13 +26,10 @@ import com.philips.cl.di.dev.pa.util.Utils;
  * parses it and sends it back to the user interface.
  *
  */
-public class AirPurifierController implements ServerResponseListener, SubscriptionEventListener
-{
+public class AirPurifierController implements ServerResponseListener {
 	
 	private static AirPurifierController airPurifierController ;
 	
-	private List<AirPurifierEventListener> subscriptionEventListeners ;
-
 	/**
 	 * Instantiates a new air purifier controller.
 	 *
@@ -46,8 +37,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 * @param context the context
 	 */
 	private AirPurifierController() {
-		SubscriptionManager.getInstance().setSubscriptionListener(this) ;
-		subscriptionEventListeners = new ArrayList<AirPurifierEventListener>() ;
+		
 	}
 	
 	public static AirPurifierController getInstance() {
@@ -115,54 +105,7 @@ public class AirPurifierController implements ServerResponseListener, Subscripti
 	 */
 	private void parseSensorData(String dataToParse) {
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "parse sensor data: \n"+dataToParse);
-		notifyListeners(dataToParse) ;
+		PurifierManager.getInstance().notifySubscriptionListeners(dataToParse) ;
 	}
 	
-
-	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		int subscriptionEventListenersLength = subscriptionEventListeners.size() ;
-		if( subscriptionEventListenersLength == 0 ) {
-			subscriptionEventListeners.add(airPurifierEventListener) ;
-		}
-		else {
-			for( int index = 0 ; index < subscriptionEventListenersLength ; index ++ ) {
-				if(!subscriptionEventListeners.contains(airPurifierEventListener)) {
-					subscriptionEventListeners.add(airPurifierEventListener) ;
-				}
-			}		
-		}
-	}
-	
-	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		subscriptionEventListeners.remove(airPurifierEventListener) ;
-	}
-	
-	public void notifyListeners(String data) {
-		ALog.d(ALog.SUBSCRIPTION, "AirPurifierController$notifyListeners data " + data);
-		AirPortInfo airPurifier = DataParser.parseAirPurifierEventData(data) ;
-		FirmwarePortInfo firmwareEventDto = DataParser.parseFirmwareEventData(data);
-		if( subscriptionEventListeners == null ) return;
-		
-		int listeners = subscriptionEventListeners.size() ;
-		for( int index = 0 ; index < listeners ; index ++ ) {
-			if(airPurifier != null) {
-				subscriptionEventListeners.get(index).airPurifierEventReceived(airPurifier);
-				continue;
-			} 
-			if(firmwareEventDto != null) {
-				subscriptionEventListeners.get(index).firmwareEventReceived(firmwareEventDto);
-			}
-		}
-	}
-	
-	@Override
-	public void onSubscribeEventOccurred(String encryptedData) {
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
-		if (purifier == null) return;
-		
-		String decryptedData = new DISecurity(null).decryptData(encryptedData, purifier) ;
-		if (decryptedData == null ) return;
-
-		notifyListeners(decryptedData) ;
-	}
 }

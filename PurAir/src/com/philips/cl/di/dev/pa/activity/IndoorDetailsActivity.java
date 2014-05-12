@@ -27,7 +27,6 @@ import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -120,13 +119,13 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	protected void onPause() {
 		super.onPause();
-		AirPurifierController.getInstance().removeAirPurifierEventListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		AirPurifierController.getInstance().addAirPurifierEventListener(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 	
 	private Runnable downloadDataRunnble = new Runnable() {
@@ -466,7 +465,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
-	public void airPurifierEventReceived(final AirPortInfo airPurifierEvent) {
+	public void onAirPurifierEventReceived(final AirPortInfo airPurifierEvent) {
 		//TODO : Update fields using this information.
 		runOnUiThread(new Runnable() {
 			
@@ -478,7 +477,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
-	public void firmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
+	public void onFirmwareEventReceived(FirmwarePortInfo firmwarePortInfo) {
 		//NOP
 	}
 }
