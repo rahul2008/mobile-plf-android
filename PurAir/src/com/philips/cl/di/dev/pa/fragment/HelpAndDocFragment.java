@@ -1,11 +1,13 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -43,6 +45,15 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		lblSupport.setTypeface(Fonts.getGillsans(getActivity()));		
 		
 		lblAppTutorial.setOnClickListener(this);
+		
+		RelativeLayout callUs = (RelativeLayout) rootView.findViewById(R.id.layout_call_us);
+		callUs.setOnClickListener(this);
+		
+		RelativeLayout emailUs = (RelativeLayout) rootView.findViewById(R.id.layout_email_us);
+		emailUs.setOnClickListener(this);
+		
+		RelativeLayout contactUs = (RelativeLayout) rootView.findViewById(R.id.layout_help);
+		contactUs.setOnClickListener(this);
 	}	
 	
 
@@ -53,7 +64,26 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			Intent intent = new Intent(getActivity(), AirTutorialActivity.class);
 	        startActivity(intent);
 			break;
-
+			
+		case R.id.layout_call_us:
+			//TODO : Move to one place.
+			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
+			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
+			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+			break;
+			
+		case R.id.layout_email_us:
+			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+			supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
+			supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
+			startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
+			break;
+			
+		case R.id.layout_help:
+			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
+			gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
+			startActivity(gotoSupportWebisteIntent);
+			break;
 		default:
 			break;
 		}
