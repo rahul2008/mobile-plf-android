@@ -135,7 +135,7 @@ public class NetworkMonitor {
 					
 					String ssid = getCurrentSsid(); 
 					// Assume internet access - checking for internet technically difficult (slow DNS timeout)
-					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet");
+					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
 					updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
 					return;
 				}
