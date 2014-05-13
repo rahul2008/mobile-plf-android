@@ -45,7 +45,7 @@ public class PurifierManager implements SubscriptionEventListener {
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
 			
-		if (mCurrentPurifier != null) {
+		if (mCurrentPurifier != null && mCurrentPurifier.getConnectionState() != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
 			stopSubscription();
 		}
@@ -53,7 +53,6 @@ public class PurifierManager implements SubscriptionEventListener {
 		mCurrentPurifier = purifier;
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
-		subscribeToAllEvents(mCurrentPurifier);
 		startSubscription();
 	}
 	
@@ -191,8 +190,6 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 
 	public void startRemoteConnection() {
-		stopLocalConnection() ;
-
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		
@@ -200,6 +197,8 @@ public class PurifierManager implements SubscriptionEventListener {
 			ALog.i(ALog.PURIFIER_MANAGER, "Can't start remote connection - not paired to purifier");
 			return;
 		}
+
+		stopLocalConnection() ;
 		
 		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getName() + " (" + purifier.getEui64() + ")");
 		subscribeToAllEvents(purifier) ;
