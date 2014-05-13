@@ -17,10 +17,6 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	private PurifierManager mPurifierMan;
 	private SubscriptionManager mSubscriptionMan;
 	
-	public PurifierManagerTest() {
-		
-	}
-	
 	@Override
 	protected void setUp() throws Exception {
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
@@ -31,6 +27,14 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		SubscriptionManager.setDummySubscriptionManagerForTesting(mSubscriptionMan);
 		
 		super.setUp();
+	}
+	
+	@Override
+	protected void tearDown() throws Exception {
+		// Remove mock objects after tests
+		PurifierManager.setDummyPurifierManagerForTesting(null);
+		SubscriptionManager.setDummySubscriptionManagerForTesting(null);
+		super.tearDown();
 	}
 	
 	public void testNoSubscriptionAtStartup() {

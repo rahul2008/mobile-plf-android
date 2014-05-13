@@ -7,6 +7,18 @@ import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 
 public class SubscriptionManagerTest extends TestCase {
 	
+	@Override
+	protected void setUp() throws Exception {
+		SubscriptionManager.setDummySubscriptionManagerForTesting(null);
+		super.setUp();
+	}
+
+	protected void tearDown() throws Exception {
+		// Reset SubscriptionManager after tests
+		SubscriptionManager.setDummySubscriptionManagerForTesting(null);
+		super.tearDown();
+	}
+	
 	public void testUDPEventReceivedNull() {
 		SubscriptionTestEventListener listener = new SubscriptionTestEventListener();
 		SubscriptionManager manager = SubscriptionManager.getInstance();
