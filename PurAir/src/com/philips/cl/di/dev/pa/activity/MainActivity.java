@@ -65,7 +65,6 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.PairingDialogFragment;
-import com.philips.cl.di.dev.pa.fragment.ProductRegFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
@@ -76,6 +75,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
+import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -647,7 +647,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
 			leftMenuItems.add(new FirmwareUpdateFragment());
-			leftMenuItems.add(new ProductRegFragment());
+			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
 		}
@@ -695,6 +695,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				break;
 			case 7:
 				// Product registration
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.create_account));
 				break;
 			case 8:
 				// Buy Online

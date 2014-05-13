@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal" 
+	android:gravity="center_vertical">
+
+	<ImageView
+		android:id="@+id/logo"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="16dp"
+		android:contentDescription="@string/img_description"
+		android:src="@drawable/delete_circle" />
+	           
+	<com.philips.cl.di.dev.pa.view.FontTextView
+		xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+		android:id="@+id/title"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:paddingLeft="8dp"
+		android:text="@string/philips_home"
+		android:textColor="@color/title_gray"
+		android:textSize="16sp"
+		custom:fontAssetName="fonts/gillsans.ttf" />
+	
+</LinearLayout>

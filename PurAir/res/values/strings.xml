@@ -493,4 +493,30 @@
     <string name="lbl_firmware_update_available">Firmware update available</string>
     <string name="contact_support">Contact Support</string>
     <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
+    
+    <!-- Registration screens -->
+    <string name="create_account">Create account</string>
+    <string name="registration_statement">By creating an account or signing in you certify that you are 16 years or older and you agree to our terms and conditions and privacy policy</string>
+    <string name="your_name">Your name</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="email_address">E-mail Address</string>
+    <string name="enter_email_address">Enter your E-mail Address</string>
+    <string name="password">Password</string>
+    <string name="choose_password">Choose a password</string>
+    <string name="receive_information">I would like to receive information about Philips products and services</string>
+    <string name="create_your_account">Create your account</string>
+    <string name="sign_in_with">Or sign in with</string>
+    <string name="my_philips">My Philips</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook">Facebook</string>
+    <string name="google_plus">Google+</string>
+    <string name="password_not_correct">Your password is not correct</string>
+    <string name="sign_in_to_my_philips">Sign in to my Philips</string>
+    <string name="sign_in_to_facebook">Sign in to Facebook</string>
+    <string name="sign_in_to_twitter">Sign in to Twitter</string>
+    <string name="sign_in_to_google_plus">Sign in to Google+</string>
+    <string name="sign_in">Sign in</string>
+    <string name="thank_you">Thank you! You are good to go.</string>
+    <string name="signed_in_ready_to_use">You are now signed in and ready to use this app.</string>
+    <string name="already_registerd">You have already been registered with this e-mail address</string>
 </resources>

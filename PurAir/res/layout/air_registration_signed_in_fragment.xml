@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+		<com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvThankYouTitle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="16dp"
+			android:text="@string/thank_you"
+			android:textColor="@color/title_gray"
+			android:textSize="16sp"
+			custom:fontAssetName="fonts/gillsans.ttf" />
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvThankYouSubtitle"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginTop="8dp"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:text="@string/signed_in_ready_to_use"
+			android:textColor="@color/gray"
+			android:textSize="14sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:layout_below="@id/tvThankYouTitle" />
+       
+    </RelativeLayout>
+
+</ScrollView>
