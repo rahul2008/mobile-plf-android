@@ -1,14 +1,15 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-
 import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
  * The Class BaseActivity. This class contains all the base / common
  * functionalities.
  */
+@SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity {
 
 	@Override
