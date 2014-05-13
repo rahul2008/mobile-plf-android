@@ -32,7 +32,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData.DiagnosticsDataListener;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ToolsFragment extends BaseFragment implements OnClickListener, DiagnosticsDataListener {
