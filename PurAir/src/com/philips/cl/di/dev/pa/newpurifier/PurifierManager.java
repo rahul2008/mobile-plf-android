@@ -43,10 +43,16 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
-		mCurrentPurifier = purifier;
-		// TODO subscribe listeners to new purifier
+		if (mCurrentPurifier != null) {
+			unSubscribeFromAllEvents(mCurrentPurifier);
+			stopSubscription();
+		}
 		
+		mCurrentPurifier = purifier;
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + ((purifier == null) ? "none" : purifier));
+		
+		subscribeToAllEvents(mCurrentPurifier);
+		startSubscription();
 	}
 	
 	public synchronized PurAirDevice getCurrentPurifier() {
@@ -201,5 +207,9 @@ public class PurifierManager implements SubscriptionEventListener {
 	private void stopRemoteConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop RemoteConnection") ;
 		SubscriptionManager.getInstance().disableRemoteSubscription(PurAirApplication.getAppContext());
+	}
+	
+	public static void setDummyPurifierManagerForTesting(PurifierManager dummyManager) {
+		instance = dummyManager;
 	}
 }

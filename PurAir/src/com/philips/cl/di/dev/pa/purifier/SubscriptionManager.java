@@ -27,6 +27,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	private UDPSocketManager udpManagerThread ;
 		
 	private SubscriptionManager() {
+		// enforce singleton
 		udpManagerThread = new UDPSocketManager(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).setDCSEventListener(this);
 	}
@@ -172,4 +173,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 		onUDPEventReceived(responseData); // Response already contains first subscription events, treat as UDP
  	}
 
+	public static void setDummySubscriptionManagerForTesting(SubscriptionManager dummyManager) {
+		mInstance = dummyManager;
+	}
 } 
