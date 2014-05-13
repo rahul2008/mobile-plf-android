@@ -43,6 +43,8 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
+		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
+			
 		if (mCurrentPurifier != null) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
 			stopSubscription();
@@ -162,7 +164,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		switch (state) {
 			case CONNECTED_LOCALLY: startLocalConnection(); break;
 			case CONNECTED_REMOTELY: startRemoteConnection(); break;
-			case DISCONNECTED: /* NOP */ break;
+			case DISCONNECTED: stopSubscription(); break;
 		}
 	}
 
