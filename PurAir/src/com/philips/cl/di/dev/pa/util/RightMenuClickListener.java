@@ -133,25 +133,24 @@ public class RightMenuClickListener implements OnClickListener {
 		return 0;
 	}
 
-	@SuppressWarnings("deprecation")
 	private void setFanSpeed(AirPortInfo airPurifierEventDto) {
 		String fanSpeedText = airPurifierEventDto.getFanSpeed();
 		String sActualFanSpeed = airPurifierEventDto.getActualFanSpeed();
-		Drawable buttonImage = null;
+		int buttonImage = 0;
 		fanSpeedAuto.setChecked(false);
 		Log.i(TAG, "setFanSpeed " + fanSpeedText);
 		isFanSpeedAuto = false;
 		if(AppConstants.FAN_SPEED_SILENT.equals(fanSpeedText)) {
 			fanSpeed.setText(mainActivity.getString(R.string.silent));
-			buttonImage = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+			buttonImage = R.drawable.button_blue_bg_2x;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 		} else if(AppConstants.FAN_SPEED_TURBO.equals(fanSpeedText)) {
 			fanSpeed.setText(mainActivity.getString(R.string.turbo));
-			buttonImage = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+			buttonImage = R.drawable.button_blue_bg_2x;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 		} else if(AppConstants.FAN_SPEED_AUTO.equals(fanSpeedText)) {
 			fanSpeed.setText(mainActivity.getString(R.string.auto));
-			buttonImage = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
+			buttonImage = R.drawable.button_blue_bg_2x;
 			fanSpeedAuto.setChecked(true);
 			isFanSpeedAuto = true;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
@@ -163,23 +162,21 @@ public class RightMenuClickListener implements OnClickListener {
 				toggleFanSpeedButtonBackground(R.id.fan_speed_three);
 		} else if(AppConstants.FAN_SPEED_ONE.equals(fanSpeedText)) {
 			fanSpeed.setText("");
-			buttonImage = mainActivity.getResources().getDrawable(R.drawable.fan_speed_one);
+			buttonImage = R.drawable.fan_speed_one;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_one);
 		} else if(AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)) {
-//			Log.i(TAG, "setFanSpeed (AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)");
 			fanSpeed.setText("");
-			buttonImage = mainActivity.getResources().getDrawable(R.drawable.fan_speed_two);
+			buttonImage = R.drawable.fan_speed_two;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_two);
 		} else if(AppConstants.FAN_SPEED_THREE.equals(fanSpeedText)) {
 			fanSpeed.setText("");
-			buttonImage = mainActivity.getResources().getDrawable(R.drawable.fan_speed_three);
+			buttonImage = R.drawable.fan_speed_three;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_three);
 		}
-		fanSpeed.setBackgroundDrawable(buttonImage);
+		fanSpeed.setBackgroundResource(buttonImage);
 	}
 
 	private boolean getPowerButtonState(AirPortInfo airportInfo) {
-//		Log.i(TAG, "getPowerButtonState airPurifierDTO " + (airPurifierEventDto == null));
 		if(airportInfo == null) {
 			return false ;
 		}
@@ -192,7 +189,6 @@ public class RightMenuClickListener implements OnClickListener {
 			isPowerOn = false;
 		}
 		
-//		Log.i(TAG, "isPowerOn " + isPowerOn);
 		
 		return isPowerOn;
 	}
@@ -211,7 +207,6 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 	
 	private boolean getOnOffStatus(int status) {
-//		Log.i(TAG, "getOnOffStatus " + status);
 		if(status == AppConstants.ON) {
 			return true;
 		} else {
@@ -219,7 +214,6 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -275,7 +269,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.fan_speed_silent:		
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+			fanSpeed.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -295,7 +289,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.fan_speed_turbo:			
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+			fanSpeed.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -304,7 +298,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.fan_speed_one:
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.fan_speed_one));
+			fanSpeed.setBackgroundResource(R.drawable.fan_speed_one);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_one);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -313,7 +307,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.fan_speed_two:
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.fan_speed_two));
+			fanSpeed.setBackgroundResource(R.drawable.fan_speed_two);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_two);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -322,7 +316,7 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.fan_speed_three:
 			fanSpeed.setText(((Button) v).getText());
-			fanSpeed.setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.fan_speed_three));
+			fanSpeed.setBackgroundResource(R.drawable.fan_speed_three);
 			toggleFanSpeedButtonBackground(R.id.fan_speed_three);
 			fanSpeedAuto.setChecked(false);
 			isFanSpeedAuto = false;
@@ -367,26 +361,24 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void toggleFanSpeedButtonBackground(int id) {
-		fanSpeedOne.setBackgroundDrawable((id == fanSpeedOne.getId()) ? mainActivity.getResources().getDrawable(R.drawable.fan_speed_one) : mainActivity.getResources().getDrawable(R.drawable.fan_speed_one_white));
-		fanSpeedTwo.setBackgroundDrawable((id == fanSpeedTwo.getId()) ? mainActivity.getResources().getDrawable(R.drawable.fan_speed_two) : mainActivity.getResources().getDrawable(R.drawable.fan_speed_two_white));
-		fanSpeedThree.setBackgroundDrawable((id == fanSpeedThree.getId()) ? mainActivity.getResources().getDrawable(R.drawable.fan_speed_three) : mainActivity.getResources().getDrawable(R.drawable.fan_speed_three_white));
-		fanSpeedSilent.setBackgroundDrawable((id == fanSpeedSilent.getId()) ? mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x) : mainActivity.getResources().getDrawable(R.drawable.button_bg_normal_2x));
+		fanSpeedOne.setBackgroundResource((id == fanSpeedOne.getId()) ? R.drawable.fan_speed_one : R.drawable.fan_speed_one_white);
+		fanSpeedTwo.setBackgroundResource((id == fanSpeedTwo.getId()) ? R.drawable.fan_speed_two : R.drawable.fan_speed_two_white);
+		fanSpeedThree.setBackgroundResource((id == fanSpeedThree.getId()) ? R.drawable.fan_speed_three : R.drawable.fan_speed_three_white);
+		fanSpeedSilent.setBackgroundResource((id == fanSpeedSilent.getId()) ? R.drawable.button_blue_bg_2x : R.drawable.button_bg_normal_2x);
 		fanSpeedSilent.setTextColor((id == fanSpeedSilent.getId()) ? Color.WHITE : Color.rgb(109, 109, 109));
-		fanSpeedTurbo.setBackgroundDrawable((id == fanSpeedTurbo.getId()) ? mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x) : mainActivity.getResources().getDrawable(R.drawable.button_bg_normal_2x));
+		fanSpeedTurbo.setBackgroundResource((id == fanSpeedTurbo.getId()) ? R.drawable.button_blue_bg_2x : R.drawable.button_bg_normal_2x);
 		fanSpeedTurbo.setTextColor((id == fanSpeedTurbo.getId()) ? Color.WHITE : Color.rgb(109, 109, 109));
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void toggleButtonBackground(int id) {
 		for(int i = 0; i < timerButtons.length; i++) {
 			if(id == timerButtons[i].getId()) {
-				timerButtons[i].setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x));
+				timerButtons[i].setBackgroundResource(R.drawable.button_blue_bg_2x);
 				timerButtons[i].setTextColor(Color.WHITE);
 				
 			} else {
-				timerButtons[i].setBackgroundDrawable(mainActivity.getResources().getDrawable(R.drawable.button_bg_normal_2x));
+				timerButtons[i].setBackgroundResource(R.drawable.button_bg_normal_2x);
 				timerButtons[i].setTextColor(Color.rgb(109, 109, 109));
 			}
 		}
@@ -405,46 +397,41 @@ public class RightMenuClickListener implements OnClickListener {
 		}
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void disableControlPanelButtonsOnPowerOff() {
 		Log.i(TAG, "disableControlPanelButtonsOnPowerOff");
 		Drawable disabledButton = mainActivity.getResources().getDrawable(R.drawable.button_bg_2x);
 		disabledButton.setAlpha(100);
 		
 		fanSpeed.setClickable(false);
-		fanSpeed.setBackgroundDrawable(disabledButton);
+		fanSpeed.setBackgroundResource(R.drawable.button_bg_2x);
 		
 		timer.setClickable(false);
-		timer.setBackgroundDrawable(disabledButton);
+		timer.setBackgroundResource(R.drawable.button_bg_2x);
 		
 		schedule.setClickable(false);
-		schedule.setBackgroundDrawable(disabledButton);
+		schedule.setBackgroundResource(R.drawable.button_bg_2x);
 		
 		childLock.setClickable(false);
-//		childLock.setBackgroundDrawable(disabledButton);
 		childLock.setChecked(false);
 		
 		indicatorLight.setClickable(false);
-//		indicatorLight.setBackgroundDrawable(disabledButton);
 		indicatorLight.setChecked(false);
 		
 		collapseFanSpeedMenu(true);
 		collapseTimerMenu(true);
 	}
 	
-	@SuppressWarnings("deprecation")
 	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
-		Drawable enabledButton = mainActivity.getResources().getDrawable(R.drawable.button_blue_bg_2x);
 		
 		if(airPurifierEventDto != null) {
 			fanSpeed.setClickable(true);
 			indicatorLight.setClickable(true);
 			childLock.setClickable(true);
 			timer.setClickable(true);
-			timer.setBackgroundDrawable(enabledButton);
+			timer.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			
 			schedule.setClickable(true);
-			schedule.setBackgroundDrawable(enabledButton);
+			schedule.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));			
 			setFanSpeed(airPurifierEventDto);
 			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
@@ -525,7 +512,6 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	public void toggleControlPanel(boolean connected, AirPortInfo airPurifierEventDto) {
-//		Log.i(TAG, "disableControlPanel connected " + connected);
 		if(!connected) {
 			power.setClickable(false);
 			power.setChecked(false);
