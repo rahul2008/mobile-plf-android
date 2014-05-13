@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.ews;
 
-import java.util.Comparator;
 import java.util.List;
 
 import android.content.Context;
@@ -174,41 +173,6 @@ public class EWSWifiManager {
 		return networkId;
 	}
 
-	private static void sortByPriority(final List<WifiConfiguration> configurations) {
-		java.util.Collections.sort(configurations,
-				new Comparator<WifiConfiguration>() {
-					@Override
-					public int compare(WifiConfiguration object1,
-							WifiConfiguration object2) {
-						return object1.priority - object2.priority;
-					}
-				});
-	}
-
-	private static int shiftPriorityAndSave(final WifiManager wifiMgr) {
-	    final List<WifiConfiguration> configurations = wifiMgr.getConfiguredNetworks();
-	    sortByPriority(configurations);
-	    final int size = configurations.size();
-	    for(int i = 0; i < size; i++) {
-	            final WifiConfiguration config = configurations.get(i);
-	            config.priority = i;
-	            wifiMgr.updateNetwork(config);
-	    }
-	    wifiMgr.saveConfiguration();
-	    return size;
-	}
-
-	private static int getMaxPriority(final WifiManager wifiManager) {
-	    final List<WifiConfiguration> configurations = wifiManager.getConfiguredNetworks();
-	    int pri = 0;
-	    for(final WifiConfiguration config : configurations) {
-	            if(config.priority > pri) {
-	                    pri = config.priority;
-	            }
-	    }
-	    return pri;
-	}
-	
 	private static ScanResult getScanResult(String ssid, int maxAttempts) {
 		WifiManager wifiMan = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		ScanResult result = null;
