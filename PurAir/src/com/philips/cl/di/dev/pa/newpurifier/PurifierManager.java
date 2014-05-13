@@ -51,7 +51,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		}
 		
 		mCurrentPurifier = purifier;
-		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + ((purifier == null) ? "none" : purifier));
+		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
 		subscribeToAllEvents(mCurrentPurifier);
 		startSubscription();
