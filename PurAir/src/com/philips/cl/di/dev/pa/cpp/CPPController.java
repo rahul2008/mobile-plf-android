@@ -1,13 +1,10 @@
 package com.philips.cl.di.dev.pa.cpp;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -99,7 +96,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				&& !isSignOn()) {
 			ALog.i(ALog.ICPCLIENT, "startsignon on network change if not signed on") ;
 			
-			onSignon();
+			signOn();
 		}
 	}
 
@@ -110,11 +107,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			String appID = null;
 			String appVersion = null;
 			int rv = 0;
-	
-			// IF KPS not enabled exist from the activity.
-			if (!SignOn.isKPSEnabled()) {
-				return;
-			}	
 			
 			// set Peripheral Information
 			Provision prv = new Provision(callbackHandler, configParams,
@@ -122,7 +114,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	
 			// Set Application Info
 			PackageManager pm = context.getPackageManager();
-			appID = context.getPackageName();
+			appID = "1_com.philips.cl.di.air";
 			try {
 				appVersion = ""
 						+ pm.getPackageInfo(context.getPackageName(), 0).versionCode;
@@ -155,46 +147,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private KEY_PROVISION getKeyProvisioningState() {
 		return keyProvisioningState ;
 	}
-	
-	/**
-	 * This method will not be there in the final step.
-	 */
-	private void setConfigParameters() {
-		try {
-			InputStream in = context.getAssets().open("nvmfile.cfg");
-			BufferedReader br = new BufferedReader(new InputStreamReader(in,
-					Charset.defaultCharset()));
-			if (configParams instanceof DemoAppConfigurationParametersForProvisioned)
-				((DemoAppConfigurationParametersForProvisioned) configParams)
-				.setNVMConfigParams(br);
-			else if (configParams instanceof DemoAppConfigurationParametersForKeyProvisioning)
-				((DemoAppConfigurationParametersForKeyProvisioning) configParams)
-				.setNVMConfigParams(br);
-
-			in.close();
-			br.close();
-		} catch (Exception e) {
-			System.out.println("Exception Raised While reading");
-		}
-	}
 
 	/**
 	 * Method to inialize
 	 */
 	private void init() {
-		ALog.i(ALog.CPPCONTROLLER, "init SignOn.isKPSEnabled() " + SignOn.isKPSEnabled()
-				+ " SignOn.isTLSEnabled() " + SignOn.isTLSEnabled());
-		if (SignOn.isKPSEnabled()) {
-			// Provision
-			configParams = new DemoAppConfigurationParametersForKeyProvisioning();
-			setConfigParameters();
-		}
-
-		String property = System.getProperty("java.library.path");
-		StringTokenizer parser = new StringTokenizer(property, ":");
-		while (parser.hasMoreTokens()) {
-			System.err.println(parser.nextToken());
-		}
+		// Provision
+		configParams = new PurAirKPSConfiguration();
+		((PurAirKPSConfiguration) configParams).setNVMConfigParams();
+		
 		int rv = 0;
 
 		if(signon == null)
@@ -205,9 +166,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		// For TLS/KPS enabled case to load-certificates/chek network & other
 		// information
 		// Need android context
-		if (SignOn.isTLSEnabled() == true || SignOn.isKPSEnabled() == true) {
+//		if (SignOn.isTLSEnabled() || SignOn.isKPSEnabled()) {
 			signon.setInterfaceAndContextObject(this, context);
-		}
+//		}
+	
 		rv = signon.init();
 
 		if (rv == Errors.SUCCESS) {
@@ -215,40 +177,22 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 
 	}
-	
-	/**
-	 * This method will be used for signon.
-	 */
-	private void signon() {
-		ALog.i(ALog.CPPCONTROLLER, "Requested signOn");
-		signon.setIsFirstTime(true);
-		int rv = signon.executeCommand();
-		if( rv != Errors.SUCCESS ) {
-			isSignOn = false ;
-		}
-	}
-
-	/**
-	 * Sets the signon parameter
-	 * 
-	 * @param signon
-	 */
-	public void setSignon(boolean signon) {
-		this.isSignOn = signon;
-	}
 
 	/**
 	 * This method will call the signon On Callback the status of the signon is
 	 * known.
 	 */
-	private void onSignon() {
+	private void signOn() {
 		ALog.i(ALog.ICPCLIENT, "onSignOn");
 		if(! isSignOn ) {
 			isSignOn = true ;
 			ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 			callbackHandler.setHandler(this);
-//			DemoAppConfigurationParametersForProvisioned configParams = new DemoAppConfigurationParametersForProvisioned(context);
-			signon();
+			signon.setIsFirstTime(true);
+			int rv = signon.executeCommand();
+			if( rv != Errors.SUCCESS ) {
+				isSignOn = false ;
+			}
 		}
 	}
 
@@ -391,9 +335,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	@Override
 	public void onICPCallbackEventOccurred(int eventType, int status,
 			ICPClient obj) {
-		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType "
-				+ eventType + " status " + status);
-		if (eventType == Commands.SIGNON) {
+		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
+		switch (eventType) {
+		
+		case Commands.SIGNON:
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.ICPCLIENT, "SIGNON-SUCCESSFUL") ;
 				isSignOn = true;
@@ -409,21 +354,26 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 			}
 			signOnListener = null;
-		} else if (eventType == Commands.KEY_PROVISION) {
+			break;
+			
+		case Commands.KEY_PROVISION:
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.KPS, "PROVISION-SUCCESS");
 				keyProvisioningState = KEY_PROVISION.PROVISIONED ;
 				Provision provision = (Provision) obj;
 				ALog.i(ALog.KPS, "EUI64(APP-KEY): "+provision.getEUI64());
 				SessionDto.getInstance().setAppEui64(provision.getEUI64());
-				onSignon();
+				signOn();
 			}
 			else {
 				ALog.e(ALog.KPS, "PROVISION-FAILED");
 				keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 			}
-		} else if (eventType == Commands.SUBSCRIBE_EVENTS) {
+			break;
+			
+		case Commands.SUBSCRIBE_EVENTS:
 			String dcsEvents = "";
+			//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
 			if (status == Errors.SUCCESS) {
 				if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
 					int noOfEvents = 0;
@@ -436,7 +386,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					}
 				}
 			}
-		} else if (eventType == Commands.DOWNLOAD_DATA) {
+			break;
+			
+		case Commands.DOWNLOAD_DATA:
+
 //			ALog.i(ALog.INDOOR_RDCP, "ICP client callbacked");
 //			byte[] bufferOriginal = ((DownloadData) obj).getBuffer().array();
 			
@@ -464,6 +417,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					downloadDataListener.onDataDownload(status, downloadedData);
 				}
 			}
+			break;
 		}
 	}
 
