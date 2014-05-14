@@ -1,13 +1,12 @@
 package com.philips.cl.di.dev.pa.registration;
 
-import android.app.Dialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -94,80 +93,20 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		
 		// TODO make API call 
 		Log.e("TEMP", "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
+		
+		showErrorDialog(RegistrationErrorDialogFragment.dialog_type.PASSWORD_INCORRECT);
 	}
 	
-	private void showSignInDialog(final int stringId) {
-		final Dialog dialog = new Dialog(getActivity());
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.air_registration_sign_in_dialog);
-
-		FontTextView title = (FontTextView) dialog.findViewById(R.id.tvSingInTitle);
-		title.setText(stringId);
-		Button btnClose = (Button) dialog.findViewById(R.id.btnClose);
-		final Button btnSignIn = (Button) dialog.findViewById(R.id.btnSignIn);
-		final EditText etEmail = (EditText) dialog.findViewById(R.id.etEmailAddress);
-		final EditText etPassword = (EditText) dialog.findViewById(R.id.etPassword);
-		
-		OnClickListener clickListener = new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				if (v == btnSignIn) {
-					String email = etEmail.getText().toString();
-					String password = etPassword.getText().toString();
-					
-					switch (stringId) {
-					case R.string.sign_in_to_my_philips:
-						Log.e("TEMP", "My Philips: E-mail: " + email + " Password: " + password);
-						
-						// TODO remove, this is only for test ---------------
-						showErrorDialog(R.string.already_registerd);
-						// --------------------------------------------------
-						break;
-					case R.string.sign_in_to_facebook:
-						Log.e("TEMP", "Facebook: E-mail: " + email + " Password: " + password);
-						
-						// TODO remove, this is only for test ---------------
-						showErrorDialog(R.string.password_not_correct);
-						// --------------------------------------------------
-						break;
-					case R.string.sign_in_to_twitter:
-						Log.e("TEMP", "Twitter: E-mail: " + email + " Password: " + password);
-						break;
-					case R.string.sign_in_to_google_plus:
-						Log.e("TEMP", "Google+: E-mail: " + email + " Password: " + password);
-						break;
-					default:
-						break;
-					}
-				}
-				dialog.dismiss();
-			}
-		};
-		
-		btnClose.setOnClickListener(clickListener);
-		btnSignIn.setOnClickListener(clickListener);
-
-		dialog.show();
+	private void showSignInDialog(SignInDialogFragment.dialog_type type) {
+		SignInDialogFragment dialog = SignInDialogFragment.newInstance(type);
+		FragmentManager fragMan = getFragmentManager();
+		dialog.show(fragMan, null);
 	}
 	
-	private void showErrorDialog(int stringId) {
-		final Dialog dialog = new Dialog(getActivity());
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		dialog.setContentView(R.layout.air_registration_error_dialog);
-
-		Button btnClose = (Button) dialog.findViewById(R.id.btnClose);
-		FontTextView tvErrorMessage = (FontTextView) dialog.findViewById(R.id.tvErrorMessage);
-		tvErrorMessage.setText(stringId);
-		
-		btnClose.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-		
-		dialog.show();
+	private void showErrorDialog(RegistrationErrorDialogFragment.dialog_type type) {
+		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
+		FragmentManager fragMan = getFragmentManager();
+		dialog.show(fragMan, null);
 	}
 
 	@Override
@@ -179,16 +118,16 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			createAccount();
 			break;
 		case R.id.llMyPhilips:
-			showSignInDialog(R.string.sign_in_to_my_philips);
+			showSignInDialog(SignInDialogFragment.dialog_type.MY_PHILIPS);
 			break;
 		case R.id.llFacebook:
-			showSignInDialog(R.string.sign_in_to_facebook);
+			showSignInDialog(SignInDialogFragment.dialog_type.FACEBOOK);
 			break;
 		case R.id.llTwitter:
-			showSignInDialog(R.string.sign_in_to_twitter);
+			showSignInDialog(SignInDialogFragment.dialog_type.TWITTER);
 			break;
 		case R.id.llGooglPlus:
-			showSignInDialog(R.string.sign_in_to_google_plus);
+			showSignInDialog(SignInDialogFragment.dialog_type.GOOGLE_PLUS);
 			break;
 		default:
 			break;
