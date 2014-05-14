@@ -39,7 +39,7 @@ public class NotificationSelectDayActivity extends BaseActivity {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);

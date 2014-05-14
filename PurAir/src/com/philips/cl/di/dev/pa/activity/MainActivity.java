@@ -163,7 +163,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		screenWidth = displayMetrics.widthPixels;
 		screenHeight = displayMetrics.heightPixels;
 
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+		}
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -417,12 +421,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 	}
 
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar mActionBar = getSupportActionBar();
 		mActionBar.setIcon(null);
 		mActionBar.setHomeButtonEnabled(false);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		rightMenu = (ImageView) view.findViewById(R.id.right_menu_img);
 		leftMenu = (ImageView) view.findViewById(R.id.left_menu_img);
 		backToHome = (ImageView) view.findViewById(R.id.back_to_home_img);

@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -83,13 +81,14 @@ public class TutorialPagerActivity extends BaseActivity {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		View view = getLayoutInflater().inflate(R.layout.action_bar, null);
+		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
 		actionBar.setCustomView(view);	
 		setActionBarTitle(R.string.tutorial_title_1);
+		//TODO Add close
 	}
 
 	/*Sets Action bar title */
@@ -100,24 +99,4 @@ public class TutorialPagerActivity extends BaseActivity {
 		textView.setText(this.getText(tutorialTitle));
 	}
 
-	/*Sets the right menu*/
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		MenuItem item = menu.getItem(0);		
-		item.setIcon(R.drawable.close_icon_blue);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {		
-		switch (item.getItemId()) {
-		case R.id.right_menu:
-			TutorialPagerActivity.this.finish();
-			break;
-		default:
-			break;
-		}
-		return false;
-	}
 }
