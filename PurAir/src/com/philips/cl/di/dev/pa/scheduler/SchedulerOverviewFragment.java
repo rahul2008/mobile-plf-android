@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.scheduler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -22,6 +23,8 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerOverviewFragment extends BaseFragment implements FirmwareResponseListener{	
+	
+	Button bActivation1, bActivation2, bActivation3, bActivation4; 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -59,13 +62,58 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			}
 		});
 		
+		bActivation1 = (Button) view.findViewById(R.id.scheduler1_btnActivation);
+		bActivation1.setOnClickListener(onClickListener);	
+		bActivation2 = (Button) view.findViewById(R.id.scheduler2_btnActivation);
+		bActivation2.setOnClickListener(onClickListener);
+		bActivation3 = (Button) view.findViewById(R.id.scheduler3_btnActivation);
+		bActivation3.setOnClickListener(onClickListener);
+		bActivation4 = (Button) view.findViewById(R.id.scheduler4_btnActivation);
+		bActivation4.setOnClickListener(onClickListener);
+		
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::onCreateView() method exit");
 		return view;
 	}
 	
+	private OnClickListener onClickListener = new OnClickListener() {
+		@Override
+		public void onClick(final View v) {
+			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method enter");
+			
+			switch (v.getId()) {
+				case R.id.scheduler1_btnActivation:
+					toggleActivationButton(0, bActivation1);
+					break;
+				case R.id.scheduler2_btnActivation:
+					toggleActivationButton(1, bActivation2);
+					break;
+				case R.id.scheduler3_btnActivation:
+					toggleActivationButton(2, bActivation3);
+					break;
+				case R.id.scheduler4_btnActivation:
+					toggleActivationButton(3, bActivation4);
+					break;
+			}
+			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
+		}
+	};
+	
+	private void toggleActivationButton(int index, Button activation) {
+		if (activation.getTag().equals("on")) {
+			activation.setBackgroundResource(R.drawable.toggle_off);
+			((SchedulerActivity)getActivity()).updateSchedulerActivation(index, "false");
+			activation.setTag("off");
+		}
+		else {
+			activation.setBackgroundResource(R.drawable.toggle_on);
+			((SchedulerActivity)getActivity()).updateSchedulerActivation(index, "true");
+			activation.setTag("on");
+		}
+	}
+	
 	private void CreateEventList(String extras, View view) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method enter  ");
-		String sIsEnabled, sTime, sDays, sProduct, sPort, sSpeed, sCommand;
+		String sEnabled, sTime, sDays, sProduct, sPort, sSpeed, sCommand;
 		String sEventSetting = "";	
 		
 		try{
@@ -75,7 +123,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method - printing Json object  " + i);
 		    JSONObject json = arrColl.getJSONObject(i);
 		    
-		    sIsEnabled = json.getString(SchedulerConstants.ENABLED);
+		    sEnabled = json.getString(SchedulerConstants.ENABLED);
+		    
 		    sTime = json.getString(SchedulerConstants.TIME);
 		    
 		    try {
@@ -102,22 +151,22 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			
 			switch(i) {
 			case 0:
-				CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.scheduler1_btnActivation, R.id.divider1, sTime, sEventSetting);
+				CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.scheduler1_btnActivation, R.id.divider1, sTime, sEventSetting, sEnabled);
 				break;
 			case 1:
-				CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.scheduler2_btnActivation, R.id.divider2, sTime, sEventSetting);
+				CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.scheduler2_btnActivation, R.id.divider2, sTime, sEventSetting, sEnabled);
 				break;
 			case 2:
-				CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.scheduler3_btnActivation, R.id.divider3, sTime, sEventSetting);
+				CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.scheduler3_btnActivation, R.id.divider3, sTime, sEventSetting, sEnabled);
 				break;
 			case 3:
-				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting);
+				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting, sEnabled);
 				break;
 			default:
 				break;
 			}
 			
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Enabled value is  " + sIsEnabled);
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Enabled value is  " + sEnabled);
 			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - time value is  " + sTime);
 			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - days value is  " + sDays);
 			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - product value is  " + sProduct);
@@ -126,11 +175,12 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
 		}
 		} catch(Exception e) {
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - exception caught while retrieving property  ");	
 		}
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method exit  ");
 	}
 	
-	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iButton, int iImgView, String time, String event) {
+	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iButton, int iImgView, String time, String event, String enabled) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEvent() method enter");
 		FontTextView txtOuterView, txtInnerOuterView;
 		FontTextView txtView1, txtView2;
@@ -157,6 +207,14 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		
 		btn = (Button) view.findViewById(iButton);
 		btn.setVisibility(View.VISIBLE);
+		
+		if (enabled.equals("true")) {
+			btn.setBackgroundResource(R.drawable.toggle_on);
+			btn.setTag("on");
+		} else {
+			btn.setBackgroundResource(R.drawable.toggle_off);
+			btn.setTag("off");
+		}	
 		
 		//imgView = (ImageView) view.findViewById(iImgView);
 		//imgView.setVisibility(View.VISIBLE);
