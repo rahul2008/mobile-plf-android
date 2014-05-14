@@ -148,6 +148,17 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 	
+	public void updateSchedulerActivation(int index, String enabled) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateSchedulerActivation() method enter");
+		try {
+			JSONObject jo = arrSchedulers.getJSONObject(index);
+			jo.put(SchedulerConstants.ENABLED, enabled);
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateSchedulerActivation() method exit");
+		}
+		catch(Exception e) {
+		}
+	}
+	
 	public void deleteScheduler(int index) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method enter");
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - index is " + index);
