@@ -461,7 +461,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			try {
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction()
-						.add(EWSDialogFragment.newInstance(0), "ews_error")
+						.add(EWSDialogFragment.newInstance(), "ews_error")
 						.commitAllowingStateLoss();
 			} catch (Exception e) {
 				ALog.e(ALog.EWS, e.getMessage());
