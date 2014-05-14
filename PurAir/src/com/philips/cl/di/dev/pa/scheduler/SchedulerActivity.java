@@ -246,19 +246,19 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 					bundle.putString(SchedulerConstants.TIME, SelectedTime);
 					bundle.putString(SchedulerConstants.DAYS, SelectedDays);
 					bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
+					showAddSchedulerFragment(bundle);
 				} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
 					bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
 					bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
 					bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
+					showAddSchedulerFragment(bundle);
 				}
+				
+				if (actionbarTitle.getText().equals("Set Schedule") || actionbarTitle.getText().equals("Edit Schedule")) {
+					ALog.i(ALog.SCHEDULER, "onClick method - case larrow is called actionbarTitle.getText() called");
+					showSchedulerOverviewFragment(); }
 
-				/*AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
-				fragAddSch.setArguments(bundle);
-
-				getSupportFragmentManager()
-						.beginTransaction()
-						.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();*/
-				showAddSchedulerFragment(bundle);
+				//showAddSchedulerFragment(bundle);
 
 				ALog.i(ALog.SCHEDULER, "onClick method ending called");
 				break;
