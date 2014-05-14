@@ -23,7 +23,6 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 	private String requestType = "GET"  ; 
 	private int responseCode ;
 	private EWSTaskListener ewsTaskListener ;
-//	private static final int EWS_CONNECTION_TIMEOUT = 30 * 1000 ;
 	public EWSTasks(int taskType, EWSTaskListener ewsTaskListener) {
 		this.ewsTaskListener = ewsTaskListener ;
 	}
@@ -72,8 +71,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			conn = (HttpURLConnection) url.openConnection();
 			conn.setRequestMethod(requestType);			
 			conn.setRequestProperty("Content-Type", "application/json") ;
-//			conn.setConnectTimeout(EWS_CONNECTION_TIMEOUT) ;
-			// Starts the query
+			conn.setRequestProperty("connection", "close");
 			
 			if(! requestType.equals("GET")) {
 				if (Build.VERSION.SDK_INT <= 10) {
@@ -84,8 +82,13 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 				os.flush() ;
 			}
 			conn.connect();
-			responseCode = conn.getResponseCode();
-			ALog.i(ALog.EWS, "Response code: " + conn.getResponseCode());
+			try {
+				responseCode = conn.getResponseCode();
+			} catch (Exception e) {
+				responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
+				ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
+			}
+			ALog.i(ALog.EWS, "Response code: " + responseCode);
 			if( responseCode == 200 ) {
 				inputStream = conn.getInputStream();
 				// Convert the InputStream into a string
@@ -97,14 +100,11 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 				data = readFully(inputStream);
 			}
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
 		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
 		}
 		finally {
 			// Makes sure that the InputStream is closed after the app is

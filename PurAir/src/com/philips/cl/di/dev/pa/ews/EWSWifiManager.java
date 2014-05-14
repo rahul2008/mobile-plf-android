@@ -23,6 +23,13 @@ public class EWSWifiManager {
 		}
 		
 		if (!connectToConfiguredNetwork(DEVICE_SSID)) {
+			ALog.i(ALog.EWS,"Failed to connect to Philips setup try again");
+			if (networkId == -1) {
+				configureOpenNetwork(DEVICE_SSID);
+			}
+		}
+		
+		if (!connectToConfiguredNetwork(DEVICE_SSID)) {
 			ALog.i(ALog.EWS,"Failed to connect to Philips setup");
 			return false;
 		}

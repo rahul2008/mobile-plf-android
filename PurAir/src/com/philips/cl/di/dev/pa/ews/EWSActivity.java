@@ -453,17 +453,18 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			}
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
-		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
 			if (step2FailedCounter > 2) {
 				showSupportFragment();
-			} else {
-				try {
-					FragmentManager fragMan = getSupportFragmentManager();
-					fragMan.beginTransaction().add(
-							EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
-				} catch (Exception e) {
-					ALog.e(ALog.EWS, e.getMessage());
-				}
+				break;
+			}
+		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
+			try {
+				FragmentManager fragMan = getSupportFragmentManager();
+				fragMan.beginTransaction()
+						.add(EWSDialogFragment.newInstance(0), "ews_error")
+						.commitAllowingStateLoss();
+			} catch (Exception e) {
+				ALog.e(ALog.EWS, e.getMessage());
 			}
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				

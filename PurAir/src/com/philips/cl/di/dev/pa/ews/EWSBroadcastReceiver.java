@@ -207,7 +207,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			e.printStackTrace();
 		}
 		String js = holder.toString();
-
+		ALog.i(ALog.EWS, "js: " + js);
 		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier);
 
 		return encryptedData ;
@@ -260,6 +260,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 
 	@Override
 	public void onTaskCompleted(int responseCode, String response) {
+		
 		stop = true ;
 		ALog.i(ALog.EWS, "onTaskCompleted:"+responseCode) ;
 		switch (responseCode) {
@@ -303,7 +304,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 			}
 			else if(taskType == WIFI_PUT ) {
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
-				ALog.i(ALog.EWS, decryptedResponse) ;
+				ALog.i(ALog.EWS, "taskType == WIFI_PUT: "+decryptedResponse) ;
 				if( decryptedResponse != null ) {
 					EWSWifiManager.connectToHomeNetwork(homeSSID);
 					listener.onDeviceConnectToHomeNetwork() ;
@@ -322,6 +323,15 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				}
 			}
 			break;
+		case HttpURLConnection.HTTP_BAD_GATEWAY: 
+			ALog.i(ALog.EWS, "Connect purifier to home network request send succesfully," +
+					" but conn.getResponseCode() failed. Task type: " + taskType);
+			if (taskType == WIFI_PUT) {
+				EWSWifiManager.connectToHomeNetwork(homeSSID);
+				listener.onDeviceConnectToHomeNetwork() ;
+				errorCodeStep3 = EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE ;
+				break;
+			}
 		default: 
 			stop = true ;
 			stopNetworkDetailsTimer() ;

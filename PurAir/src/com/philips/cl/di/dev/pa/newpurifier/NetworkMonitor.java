@@ -72,7 +72,7 @@ public class NetworkMonitor {
 		} catch (IllegalArgumentException e) {
 			ALog.e(ALog.TEMP, e.getMessage());
 		}
-		if (mLooper ==  null) return;
+		if (mLooper ==  null || mLooper.mHandler == null || mLooper.mHandler.getLooper() == null) return;
 		mLooper.mHandler.getLooper().quit();
 	}
 

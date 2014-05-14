@@ -1,4 +1,6 @@
 package com.philips.cl.di.dev.pa;
+import com.philips.cl.di.dev.pa.util.ALog;
+
 import android.app.Application;
 
 
@@ -8,6 +10,11 @@ public class PurAirApplication extends Application {
 	
 	@Override
 	public void onCreate() {
+		try {
+            Class.forName("android.os.AsyncTask");
+        } catch (ClassNotFoundException e) {
+        	ALog.i(ALog.TEMP, e.getMessage());
+        }
 		super.onCreate();
 		setApplication(this);
 	}
