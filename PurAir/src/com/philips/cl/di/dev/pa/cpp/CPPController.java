@@ -141,6 +141,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	public boolean isSignOn() {
+		if (signon == null) {
+			signon = SignOn.getInstance(callbackHandler, configParams);			
+		}
+		isSignOn=signon.getSignOnStatus();
 		return isSignOn;
 	}
 
