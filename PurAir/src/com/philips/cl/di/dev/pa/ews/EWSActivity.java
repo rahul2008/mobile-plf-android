@@ -307,8 +307,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		}
 		// STOP move code
 		
-		Intent intent = new Intent(this,MainActivity.class) ;
-		setResult(RESULT_OK,intent) ;
 		finish() ;
 	}
 	
