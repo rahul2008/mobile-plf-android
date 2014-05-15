@@ -50,7 +50,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
 		}
-		stopSubscription();
+		stopCurrentSubscription();
 		
 		mCurrentPurifier = purifier;
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
@@ -99,7 +99,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		synchronized (subscriptionEventListeners) {
 			subscriptionEventListeners.remove(airPurifierEventListener);
 			if (subscriptionEventListeners.isEmpty()) {
-				stopSubscription();
+				stopCurrentSubscription();
 			}
 		}
 	}
@@ -168,7 +168,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		}
 	}
 
-	public synchronized void stopSubscription() {
+	public synchronized void stopCurrentSubscription() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
 		switch (mCurrentSubscriptionState) {
 			case CONNECTED_LOCALLY: stopLocalConnection(); break;
@@ -177,7 +177,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		}
 	}
 
-	public void startLocalConnection() {
+	private void startLocalConnection() {
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		ALog.i(ALog.PURIFIER_MANAGER, "Start LocalConnection for purifier: " + purifier.getName() + " (" + purifier.getEui64() + ")");
@@ -193,7 +193,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 
-	public void startRemoteConnection() {
+	private void startRemoteConnection() {
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		
