@@ -54,7 +54,7 @@ public class BaseActivity extends ActionBarActivity {
 		super.onDestroy();
 	}
 	
-	protected boolean isGooglePlayServiceAvailable() {
+	public boolean isGooglePlayServiceAvailable() {
 		if (ConnectionResult.SUCCESS == googlePlayServiceStatus) {
 			return true;
 		}
