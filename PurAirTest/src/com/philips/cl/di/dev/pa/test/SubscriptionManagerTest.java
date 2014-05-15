@@ -11,7 +11,7 @@ import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 
 public class SubscriptionManagerTest extends InstrumentationTestCase {
 	
-	private static final String PURIFIER_EUI64 = "jsdk984305lks";
+	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
 	
 	private SubscriptionManager mSubscriptionMan;
 	private SubscriptionEventListener mSubListener;

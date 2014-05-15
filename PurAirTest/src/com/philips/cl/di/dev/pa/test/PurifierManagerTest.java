@@ -4,19 +4,26 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Matchers.anyString;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
-import com.philips.icpinterface.ResetDevice;
 
 public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	private PurifierManager mPurifierMan;
 	private SubscriptionManager mSubscriptionMan;
+	private AirPurifierEventListener mEventListener;
+	
+	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
+	private static final String VALID_REMOTEAIRPORTEVENT = "{\"status\":0,\"data\":{\"aqi\":\"1\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"0\",\"fs1\":\"33\",\"fs2\":\"881\",\"fs3\":\"2801\",\"fs4\":\"2801\",\"dtrs\":\"0\",\"aqit\":\"30\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"30425\",\"psens\":\"1\"}}";
+	private static final String VALID_LOCALAIRPORTEVENT = "{\"aqi\":\"3\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"0\",\"fs1\":\"33\",\"fs2\":\"881\",\"fs3\":\"2801\",\"fs4\":\"2801\",\"dtrs\":\"0\",\"aqit\":\"30\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"30414\",\"psens\":\"1\"}";
+	private static final String VALID_LOCALFWEVENT = "{\"name\":\"HCN_DEVGEN\",\"version\":\"26\",\"upgrade\":\"\",\"state\":\"idle\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -26,6 +33,9 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		PurifierManager.setDummyPurifierManagerForTesting(null);
 		mPurifierMan = PurifierManager.getInstance();
 		setMockSubscriptionManager();
+		
+		mEventListener = mock(AirPurifierEventListener.class);
+		mPurifierMan.addAirPurifierEventListener(mEventListener);
 		
 		super.setUp();
 	}
@@ -47,6 +57,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verifyZeroInteractions(mSubscriptionMan);
 	}
 
+// ***** START TESTS TO TOGGLE SUBSCRIPTION WHEN PURIFIER CHANGES ***** 
 	public void testSetFirstDisconnectedPurifier() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.DISCONNECTED);
 		mPurifierMan.setCurrentPurifier(device);
@@ -435,5 +446,76 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
 		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
 	}
+// ***** END TESTS TO TOGGLE SUBSCRIPTION WHEN PURIFIER CHANGES *****
+	
+// ***** START TESTS TO UPDATE PURIFIER WHEN SUBSCRIPTION EVENT RECEIVED ***** 
+	public void testReceiveIncorrectRemoteEventNoPurfierSet() {
+		String data = "dfasfas";
+		mPurifierMan.onRemoteEventReceived(data, PURIFIER_EUI64);
+		
+		verify(mEventListener, never()).onAirPurifierEventReceived();
+		verify(mEventListener, never()).onFirmwareEventReceived();
+	}
+	
+	public void testReceiveIncorrectRemoteEventWrongPurifier() {
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		String data = "dfasfas";
+		mPurifierMan.onRemoteEventReceived(data, "9c5a6bfffe634357");
+		
+		verify(mEventListener, never()).onAirPurifierEventReceived();
+		verify(mEventListener, never()).onFirmwareEventReceived();
+		
+		assertNull(device.getAirPortInfo());
+	}
+
+	public void testReceiveIncorrectRemoteEventRightPurifier() {
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		String data = "dfasfas";
+		mPurifierMan.onRemoteEventReceived(data, PURIFIER_EUI64);
+		
+		verify(mEventListener, never()).onAirPurifierEventReceived();
+		verify(mEventListener, never()).onFirmwareEventReceived();
+		
+		assertNull(device.getAirPortInfo());
+	}
+	
+	public void testReceiveRemoteAirPortEventNoPurfierSet() {
+		String data = VALID_REMOTEAIRPORTEVENT;
+		mPurifierMan.onRemoteEventReceived(data, PURIFIER_EUI64);
+		
+		verify(mEventListener, never()).onAirPurifierEventReceived();
+		verify(mEventListener, never()).onFirmwareEventReceived();
+	}
+	
+	public void testReceiveRemoteAirPortEventWrongPurifier() {
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		String data = VALID_REMOTEAIRPORTEVENT;
+		mPurifierMan.onRemoteEventReceived(data, "9c5a6bfffe634357");
+		
+		verify(mEventListener, never()).onAirPurifierEventReceived();
+		verify(mEventListener, never()).onFirmwareEventReceived();
+		
+		assertNull(device.getAirPortInfo());
+	}
+
+	public void testReceiveRemoteAirPortEventRightPurifier() {
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		String data = VALID_REMOTEAIRPORTEVENT;
+		mPurifierMan.onRemoteEventReceived(data, PURIFIER_EUI64);
+		
+		verify(mEventListener).onAirPurifierEventReceived();
+		verify(mEventListener, never()).onFirmwareEventReceived();
+		
+		assertNotNull(device.getAirPortInfo());
+	}
+// ***** END TESTS TO UPDATE PURIFIER WHEN SUBSCRIPTION EVENT RECEIVED ***** 
 
 }

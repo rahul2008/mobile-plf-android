@@ -29,7 +29,7 @@ public class PurifierManager implements SubscriptionEventListener {
 	private PurAirDevice mCurrentPurifier = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
-	private List<AirPurifierEventListener> subscriptionEventListeners ;
+	private List<AirPurifierEventListener> airPuriferEventListeners ;
 	
 	public static PurifierManager getInstance() {
 		if (instance == null) {
@@ -41,7 +41,7 @@ public class PurifierManager implements SubscriptionEventListener {
 	private PurifierManager() {
 		// Enforce Singleton
 		SubscriptionManager.getInstance().setSubscriptionListener(this);
-		subscriptionEventListeners = new ArrayList<AirPurifierEventListener>();
+		airPuriferEventListeners = new ArrayList<AirPurifierEventListener>();
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
@@ -99,18 +99,18 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		synchronized (subscriptionEventListeners) {
-			subscriptionEventListeners.remove(airPurifierEventListener);
-			if (subscriptionEventListeners.isEmpty()) {
+		synchronized (airPuriferEventListeners) {
+			airPuriferEventListeners.remove(airPurifierEventListener);
+			if (airPuriferEventListeners.isEmpty()) {
 				stopCurrentSubscription();
 			}
 		}
 	}
 
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		synchronized (subscriptionEventListeners) {
-			if (!subscriptionEventListeners.contains(airPurifierEventListener)) {
-				subscriptionEventListeners.add(airPurifierEventListener);
+		synchronized (airPuriferEventListeners) {
+			if (!airPuriferEventListeners.contains(airPurifierEventListener)) {
+				airPuriferEventListeners.add(airPurifierEventListener);
 				startSubscription();
 			}
 		}
@@ -137,8 +137,8 @@ public class PurifierManager implements SubscriptionEventListener {
 		AirPortInfo airPortInfoCPP = DataParser.parseAirPurifierEventDataFromCPP(data);
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
 
-		synchronized (subscriptionEventListeners) {
-			for (AirPurifierEventListener listener : subscriptionEventListeners) {
+		synchronized (airPuriferEventListeners) {
+			for (AirPurifierEventListener listener : airPuriferEventListeners) {
 				if(airPortInfo != null) {
 					setAirPortInfo(airPortInfo);
 					listener.onAirPurifierEventReceived();
