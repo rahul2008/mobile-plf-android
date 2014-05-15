@@ -1,18 +1,10 @@
 package com.philips.cl.di.dev.pa.test;
 
-import java.lang.reflect.Field;
-import java.util.Iterator;
-import java.util.Set;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.common.ssdp.models.DeviceListModel;
-import com.philips.cl.di.common.ssdp.models.DeviceModel;
-import com.philips.cl.di.common.ssdp.models.DiscoveryServiceState;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;

@@ -17,7 +17,6 @@ import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
-import java.io.ObjectInputStream.GetField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

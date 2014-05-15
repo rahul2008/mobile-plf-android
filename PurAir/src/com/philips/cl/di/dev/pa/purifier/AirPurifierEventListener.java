@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 
 /**
  * The listener interface for receiving airPurifierEvent events.

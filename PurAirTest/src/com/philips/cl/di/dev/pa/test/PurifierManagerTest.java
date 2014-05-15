@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Matchers.anyString;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;

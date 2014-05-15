@@ -62,8 +62,8 @@ public class CityDetails {
 		City param = new City();
 		param.setKey(pcity);
 		boolean found = false;
-		for (Entry entry : cities.entrySet()) {
-	        if(pcity.equals(((City)entry.getValue()).getKey())){
+		for (Entry<String, City> entry : cities.entrySet()) {
+	        if(pcity.equals(entry.getValue().getKey())){
 	        	param = (City) entry.getValue();
 	        	found = true;
 	        }

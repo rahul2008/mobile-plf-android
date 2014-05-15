@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.scheduler;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;

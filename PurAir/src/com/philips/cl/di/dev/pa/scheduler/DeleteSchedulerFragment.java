@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -28,7 +27,6 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 public class DeleteSchedulerFragment extends BaseFragment implements FirmwareResponseListener{
 	private JSONArray schedulersList;
 	//Button ivRhtArr2, ivRhtArr3, ivRhtArr4; 
-	Button deleteconf1, deleteconf2, deleteconf3, deleteconf4, deleteconf5;
 	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5; 
 	ImageView add, edit, delete1, delete2, delete3, delete4, delete5;
 	FontTextView RightArrow1_text, RightArrow2_text, RightArrow3_text, RightArrow4_text, RightArrow5_text;

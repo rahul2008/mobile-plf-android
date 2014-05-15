@@ -1,9 +1,8 @@
 package com.philips.cl.di.dev.pa.test;
 
 import android.test.ActivityInstrumentationTestCase2;
-import com.philips.cl.di.dev.pa.R;
+
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDetailsActivity> {
 	
