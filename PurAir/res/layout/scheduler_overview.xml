@@ -365,5 +365,83 @@
          android:background="@drawable/toggle_on" />
      </LinearLayout>
      
+    <!-- Event 5 -->
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_outer"
+         android:layout_width="match_parent"
+         android:layout_height="150dp"
+         android:layout_below="@+id/scheduler4_outer"
+         android:background="@color/lighter_gray"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_innerouter"
+         android:layout_width="match_parent"
+         android:layout_height="150dp"
+         android:layout_below="@+id/scheduler4_outer"
+         android:background="@drawable/scheduler"
+         android:layout_alignTop="@+id/scheduler5_outer"
+         android:layout_alignLeft="@+id/scheduler5_outer"
+         android:layout_alignRight="@+id/scheduler5_outer"
+         android:layout_alignBottom="@+id/scheduler5_outer"
+         android:layout_marginLeft="16dp"
+         android:layout_marginRight="16dp"
+         android:layout_marginBottom="16dp"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_text1"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_alignTop="@+id/scheduler5_innerouter"
+         android:layout_marginTop="16dp"
+         android:layout_marginLeft="16dp"
+         android:paddingLeft="16dp"
+         android:textColor="@color/title_gray"
+         android:textSize="48sp"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <LinearLayout
+        android:id="@+id/event5"
+    	android:layout_width="match_parent" 
+    	android:layout_height="150dp"
+    	android:layout_below="@+id/edit"
+    	android:layout_alignTop="@+id/scheduler5_innerouter"
+    	android:visibility="gone"
+    	android:orientation="horizontal">
+    
+     <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_text2"
+         android:layout_width="0dp"
+         android:layout_height="wrap_content"
+         android:layout_weight=".75"
+         android:layout_marginLeft="16dp"
+         android:layout_marginTop="60dp"
+         android:lineSpacingExtra="5dp"
+         android:paddingLeft="16dp"
+         android:textColor="@color/title_gray"
+         android:textSize="16sp"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+     <Button
+         android:id="@+id/scheduler5_btnActivation"
+         android:layout_width="0dp"
+         android:layout_height="50dp"
+         android:layout_weight=".25"
+         android:layout_marginTop="35dp"
+         android:layout_marginRight="32dp"
+         android:layout_marginBottom="35dp"
+         android:visibility="gone"
+         android:background="@drawable/toggle_on" />
+     </LinearLayout>
 	</RelativeLayout>
 </ScrollView>

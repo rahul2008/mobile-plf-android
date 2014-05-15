@@ -504,6 +504,120 @@
      
      </LinearLayout>
 
+    <!-- Event 5 -->
+    
+	<com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_outer"
+         android:layout_width="match_parent"
+         android:layout_height="160dp"
+         android:layout_below="@+id/scheduler4_outer"
+         android:background="@color/lighter_gray"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_innerouter"
+         android:layout_width="match_parent"
+         android:layout_height="160dp"
+         android:layout_below="@+id/scheduler4_outer"
+         android:background="@drawable/scheduler"
+         android:layout_alignTop="@+id/scheduler5_outer"
+         android:layout_alignLeft="@+id/scheduler5_outer"
+         android:layout_alignRight="@+id/scheduler5_outer"
+         android:layout_alignBottom="@+id/scheduler5_outer"
+         android:layout_marginTop="16dp"
+         android:layout_marginLeft="16dp"
+         android:layout_marginRight="16dp"
+         android:layout_marginBottom="16dp"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <ImageView
+         android:id="@+id/delete5"
+         android:layout_width="wrap_content"
+         android:layout_height="30dp"
+         android:scaleType="centerCrop"
+         android:layout_marginTop="50dp"
+         android:layout_marginLeft="10dp"
+         android:padding="4dp"
+         android:layout_alignTop="@+id/scheduler5_innerouter"
+         android:layout_alignLeft="@+id/scheduler5_innerouter"
+         android:textColor="@color/white"
+         android:clickable="true"
+         android:visibility="gone"
+         android:src="@drawable/delete_l2r"
+         android:contentDescription="@string/img_description"/>	    
+    
+     <ImageView
+         android:id="@+id/RightArrow5"
+         android:layout_width="75dp"
+         android:layout_height="50dp"
+         android:layout_marginTop="40dp"
+         android:padding="4dp"
+         android:layout_alignParentRight="true"
+         android:layout_alignTop="@+id/scheduler5_innerouter"
+         android:layout_alignRight="@+id/scheduler5_innerouter"
+         android:textColor="@color/white"
+         android:clickable="true"
+         android:visibility="gone"
+         android:src="@drawable/about_air_quality_goto"
+         android:contentDescription="@string/img_description"/>
+     
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+	    android:id="@+id/RightArrow5_text"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="53dp"
+	    android:layout_marginRight="40dp"
+	    android:layout_alignTop="@+id/scheduler5_innerouter"
+        android:layout_alignRight="@+id/scheduler5_innerouter"
+        android:gravity="center"
+        android:textSize="16sp"
+	    android:text=""
+	    android:textColor="@color/white"
+	    custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <LinearLayout
+        android:id="@+id/event5"
+        android:layout_height="160dp"
+    	android:layout_width="match_parent"
+    	android:layout_below="@+id/scheduler4_outer"
+    	android:layout_toRightOf="@+id/delete5"
+    	android:layout_toLeftOf="@+id/RightArrow5"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+    	android:visibility="gone"
+    	android:orientation="vertical">
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_text1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textColor="@color/title_gray"
+         android:layout_marginBottom="-10dp"
+         android:textSize="48sp"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+     <com.philips.cl.di.dev.pa.view.FontTextView
+         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+         android:id="@+id/scheduler5_text2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:lineSpacingExtra="5dp"
+         android:textColor="@color/title_gray"
+         android:textSize="16sp"
+         android:visibility="gone"
+         custom:fontAssetName="fonts/gillsanslight.ttf" />
+     
+     </LinearLayout>
+    
 	</RelativeLayout>
 	
 </ScrollView>
