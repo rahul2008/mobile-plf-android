@@ -38,7 +38,7 @@ public class HomeOutdoorData implements ServerResponseListener {
 	}
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor percent download response: " + responseCode);
 		if (responseCode == 200) {
 			SessionDto.getInstance().setOutdoorEventDto(DataParser.parseOutdoorAQIData(responseData));

@@ -13,19 +13,16 @@ import android.net.wifi.WifiManager.MulticastLock;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class UDPSocketManager extends Thread {
+public class UDPReceivingThread extends Thread {
 	
 	private static final int UDP_PORT = 8080 ;
-	
 	private UDPEventListener udpEventListener ;
 	
 	private DatagramSocket socket ;
-	
 	private boolean stop ;
-	
 	private MulticastLock multicastLock ;
 	
-	public UDPSocketManager(UDPEventListener udpEventListener) {
+	public UDPReceivingThread(UDPEventListener udpEventListener) {
 		this.udpEventListener = udpEventListener ;
 	}
 	
@@ -50,9 +47,14 @@ public class UDPSocketManager extends Thread {
 				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListener != null) {
 					String [] packetsReceived = packetReceived.split("\n") ;
 					if(packetsReceived != null && packetsReceived.length > 0 ) {
-						ALog.d(ALog.UDP, "UDP Data Received") ;
+						String senderIp = "";
+						try {
+							senderIp = packet.getAddress().getHostAddress();
+						} catch (Exception e) {}
+						
+						ALog.d(ALog.UDP, "UDP Data Received from: " + senderIp) ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
-						udpEventListener.onUDPEventReceived(lastLine) ;
+						udpEventListener.onUDPEventReceived(lastLine, senderIp) ;
 					}
 				}
 				

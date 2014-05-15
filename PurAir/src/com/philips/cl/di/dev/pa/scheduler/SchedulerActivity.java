@@ -406,7 +406,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 	}	
 		
 	public static void setCancelled(boolean cancelled) {

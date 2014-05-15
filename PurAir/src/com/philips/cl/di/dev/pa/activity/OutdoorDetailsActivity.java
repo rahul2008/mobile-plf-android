@@ -588,7 +588,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
 		if (responseCode == 200) {
 			SessionDto.getInstance().setOutdoorEventDto(DataParser.parseOutdoorAQIData(responseData)) ;

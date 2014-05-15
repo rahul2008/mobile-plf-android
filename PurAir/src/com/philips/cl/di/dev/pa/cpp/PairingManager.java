@@ -319,7 +319,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int, String)
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		ALog.d(ALog.PAIRING, "Purifier response: " + responseCode);
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			ALog.e(ALog.PAIRING, "PairingPort call-SUCCESS");

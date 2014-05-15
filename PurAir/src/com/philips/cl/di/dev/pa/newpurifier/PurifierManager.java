@@ -75,14 +75,19 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 
 	@Override
-	public void onLocalEventReceived(String encryptedData) {
+	public void onLocalEventReceived(String encryptedData, String purifierIp) {
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null) return;
+		if (purifier == null || !purifier.getIpAddress().equals(purifierIp)) {
+			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier");
+			return;
+		}
 		
 		String decryptedData = new DISecurity(null).decryptData(encryptedData, purifier) ;
-		if (decryptedData == null ) return;
-
+		if (decryptedData == null ) {
+			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getIpAddress());
+			return;
+		}
 		notifySubscriptionListeners(decryptedData) ;
 	}
 	

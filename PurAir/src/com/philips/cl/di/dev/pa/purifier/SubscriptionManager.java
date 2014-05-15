@@ -24,11 +24,11 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	
 	private static SubscriptionManager mInstance ;
 	private SubscriptionEventListener subscriptionEventListener ;
-	private UDPSocketManager udpManagerThread ;
+	private UDPReceivingThread udpReceivingThread ;
 		
 	private SubscriptionManager() {
 		// enforce singleton
-		udpManagerThread = new UDPSocketManager(this);
+		udpReceivingThread = new UDPReceivingThread(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).setDCSEventListener(this);
 	}
 	
@@ -72,19 +72,19 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	
 	public void enableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Enabling local subscription (start udp)") ;
-		if( udpManagerThread == null ) {
-			udpManagerThread = new UDPSocketManager(this) ;
+		if( udpReceivingThread == null ) {
+			udpReceivingThread = new UDPReceivingThread(this) ;
 		}
-		if( udpManagerThread != null && !udpManagerThread.isAlive() ) {
-			udpManagerThread.start() ;
+		if( udpReceivingThread != null && !udpReceivingThread.isAlive() ) {
+			udpReceivingThread.start() ;
 		}
 	}
 	
 	public void disableLocalSubscription() {
 		ALog.i(ALog.SUBSCRIPTION, "Disabling local subscription (stop udp)") ;
-		if(udpManagerThread != null && udpManagerThread.isAlive() ) {
-			udpManagerThread.stopUDPListener() ;
-			udpManagerThread = null ;
+		if(udpReceivingThread != null && udpReceivingThread.isAlive() ) {
+			udpReceivingThread.stopUDPListener() ;
+			udpReceivingThread = null ;
 		}
 	}
 
@@ -140,13 +140,14 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	}
 	
 	@Override
-	public void onUDPEventReceived(String data) {
+	public void onUDPEventReceived(String data, String fromIp) {
 		if (data == null || data.isEmpty()) return;
+		if (fromIp == null || fromIp.isEmpty()) return;
 		
 		ALog.i(ALog.SUBSCRIPTION, "UDP event received");
 		ALog.d(ALog.SUBSCRIPTION, data);
 		if (subscriptionEventListener != null) {
-			subscriptionEventListener.onLocalEventReceived(data);
+			subscriptionEventListener.onLocalEventReceived(data, fromIp);
 		}
 	}
 	
@@ -163,7 +164,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	}
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		//TODO if response code not 200? retry?
 		if(responseCode != HttpURLConnection.HTTP_OK ) {
 			ALog.i(ALog.SUBSCRIPTION, "Subscription failed");
@@ -171,7 +172,8 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 		}
 
 		ALog.i(ALog.SUBSCRIPTION, "Subscription successfull");
-		onUDPEventReceived(responseData); // Response already contains first subscription events, treat as UDP
+		onUDPEventReceived(responseData, fromIp); // Response already contains first subscription events, treat as UDP
+		// TODO fix this
  	}
 
 	public static void setDummySubscriptionManagerForTesting(SubscriptionManager dummyManager) {

@@ -53,7 +53,7 @@ public class OutdoorController implements ServerResponseListener{
 	}
 	
 	@Override
-	public void receiveServerResponse(int responseCode, String data) {
+	public void receiveServerResponse(int responseCode, String data, String fromIp) {
 		if(data != null) {
 			notifyListeners(data);
 		}

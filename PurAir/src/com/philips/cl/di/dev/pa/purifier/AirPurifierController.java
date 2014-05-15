@@ -85,7 +85,7 @@ public class AirPurifierController implements ServerResponseListener {
 	 * This is a call back to async task.
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		// TODO 
 		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Response: "+responseData);
 		switch (responseCode) {

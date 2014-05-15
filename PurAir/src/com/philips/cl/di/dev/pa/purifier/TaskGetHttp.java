@@ -37,11 +37,12 @@ public class TaskGetHttp extends Thread {
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();					
 				result = NetworkUtils.readFully(inputStream) ;
-			}				
+			}
+			String targetIpAddress = urlConn.getHost();
 
 
 			if ( listener != null ) {
-				listener.receiveServerResponse(responseCode, result) ;
+				listener.receiveServerResponse(responseCode, result, targetIpAddress) ;
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

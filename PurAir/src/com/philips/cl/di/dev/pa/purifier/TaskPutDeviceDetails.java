@@ -40,6 +40,7 @@ public class TaskPutDeviceDetails implements Runnable {
 	@Override
 	public void run() {
 		String result = "";
+		String targetIpAddress = null;
 		InputStream inputStream = null;
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
@@ -53,6 +54,7 @@ public class TaskPutDeviceDetails implements Runnable {
 			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 			out.write(dataToUpload);
 			out.flush() ;
+			targetIpAddress = urlConn.getHost();
 
 			conn.connect();
 			responseCode = conn.getResponseCode() ;
@@ -90,7 +92,7 @@ public class TaskPutDeviceDetails implements Runnable {
 				conn = null ;
 			}
 			if(responseListener != null )
-				responseListener.receiveServerResponse(responseCode, result);
+				responseListener.receiveServerResponse(responseCode, result, targetIpAddress);
 		}
 	}
 }

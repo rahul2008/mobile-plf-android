@@ -11,6 +11,7 @@ import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 
 public class SubscriptionManagerTest extends InstrumentationTestCase {
 	
+	private static final String PURIFIER_IP = "198.168.1.145";
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
 	
 	private SubscriptionManager mSubscriptionMan;
@@ -36,39 +37,63 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 		super.tearDown();
 	}
 	
-	public void testUDPEventReceivedNull() {
-		mSubscriptionMan.onUDPEventReceived(null);
+	public void testUDPEventReceivedDataNull() {
+		mSubscriptionMan.onUDPEventReceived(null, PURIFIER_IP);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
-	public void testUDPEventReceivedEmptyString() {
-		mSubscriptionMan.onUDPEventReceived("");
+	public void testUDPEventReceivedDataEmptyString() {
+		mSubscriptionMan.onUDPEventReceived("", PURIFIER_IP);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
-	public void testUDPEventReceivedNonDecryptableString() {
+	public void testUDPEventReceivedDataNonDecryptableString() {
 		String expected = "dfjalsjdfl";
-		mSubscriptionMan.onUDPEventReceived(expected);
+		mSubscriptionMan.onUDPEventReceived(expected, PURIFIER_IP);
 
-		verify(mSubListener).onLocalEventReceived(expected);
+		verify(mSubListener).onLocalEventReceived(expected, PURIFIER_IP);
+		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
+	}
+	
+	public void testUDPEventReceivedIpNull() {
+		String expected = "dfjalsjdfl";
+		mSubscriptionMan.onUDPEventReceived(expected, null);
+
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
+		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
+	}
+	
+	public void testUDPEventReceivedIpEmptyString() {
+		String expected = "dfjalsjdfl";
+		mSubscriptionMan.onUDPEventReceived(expected, "");
+
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
+		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
+	}
+	
+	public void testUDPEventReceivedIpValid() {
+		String expected = "dfjalsjdfl";
+		mSubscriptionMan.onUDPEventReceived(expected, PURIFIER_IP);
+
+		verify(mSubListener).onLocalEventReceived(expected, PURIFIER_IP);
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
 	public void testDCSEventReceivedDataNull() {
 		mSubscriptionMan.onDCSEventReceived(null, PURIFIER_EUI64);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
 	public void testDCSEventReceivedDataEmptyString() {
 		mSubscriptionMan.onDCSEventReceived("", PURIFIER_EUI64);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
@@ -76,7 +101,7 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 		String expected = "dfjalsjdfl";
 		mSubscriptionMan.onDCSEventReceived(expected, PURIFIER_EUI64);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener).onRemoteEventReceived(expected, PURIFIER_EUI64);
 	}
 	
@@ -84,7 +109,7 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 		String data = "dfjalsjdfl";
 		mSubscriptionMan.onDCSEventReceived(data, null);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
@@ -92,7 +117,7 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 		String data = "dfjalsjdfl";
 		mSubscriptionMan.onDCSEventReceived(data, "");
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener, never()).onRemoteEventReceived(anyString(), anyString());
 	}
 	
@@ -100,7 +125,7 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 		String data = "dfjalsjdfl";
 		mSubscriptionMan.onDCSEventReceived(data, PURIFIER_EUI64);
 
-		verify(mSubListener, never()).onLocalEventReceived(anyString());
+		verify(mSubListener, never()).onLocalEventReceived(anyString(), anyString());
 		verify(mSubListener).onRemoteEventReceived(data, PURIFIER_EUI64);
 	}
 	

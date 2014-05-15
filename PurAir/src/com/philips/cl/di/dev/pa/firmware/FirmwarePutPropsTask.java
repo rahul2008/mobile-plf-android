@@ -28,6 +28,7 @@ public class FirmwarePutPropsTask implements Runnable {
 	@Override
 	public void run() {
 		String result = "";
+		String targetIpAddress = null;
 		InputStream inputStream = null;
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
@@ -46,6 +47,7 @@ public class FirmwarePutPropsTask implements Runnable {
 			ALog.i(ALog.FIRMWARE, "FirmwarePutPropsTask$run conn " + conn + " dataToUpload " + dataToUpload) ;
 			conn.connect();
 			int responseCode = conn.getResponseCode() ;
+			targetIpAddress = urlConn.getHost();
 
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();	
@@ -78,8 +80,9 @@ public class FirmwarePutPropsTask implements Runnable {
 				conn.disconnect() ;
 				conn = null ;
 			}
-			if(responseListener != null )
-				responseListener.receiveServerResponse(responseCode, result);
+			if(responseListener != null ) {
+				responseListener.receiveServerResponse(responseCode, result, targetIpAddress);
+			}
 		}
 	}
 }

@@ -193,7 +193,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	 * We are not doing anything with the response object.
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, currentPurifier));
 	}
 	

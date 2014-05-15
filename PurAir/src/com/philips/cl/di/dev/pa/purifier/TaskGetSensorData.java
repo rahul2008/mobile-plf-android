@@ -44,7 +44,7 @@ public class TaskGetSensorData extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String response) {
 		if (listener!=null) {
-			listener.receiveServerResponse(responseCode,response);
+			listener.receiveServerResponse(responseCode,response, null);
 		}
 	}
 }
