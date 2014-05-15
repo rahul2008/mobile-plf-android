@@ -144,8 +144,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (signon == null) {
 			signon = SignOn.getInstance(callbackHandler, configParams);			
 		}
-		isSignOn=signon.getSignOnStatus();
-		return isSignOn;
+		signon.getSignOnStatus();
+		return signon.getSignOnStatus();
 	}
 
 	private KEY_PROVISION getKeyProvisioningState() {
@@ -187,8 +187,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * known.
 	 */
 	private void signOn() {
-		ALog.i(ALog.ICPCLIENT, "onSignOn");
 		if(! isSignOn ) {
+			ALog.i(ALog.ICPCLIENT, "onSignOn");
 			isSignOn = true ;
 			ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 			callbackHandler.setHandler(this);
