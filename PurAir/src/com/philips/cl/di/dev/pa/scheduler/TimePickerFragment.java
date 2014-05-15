@@ -1,13 +1,16 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import java.util.Calendar;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.ContextThemeWrapper;
 import android.widget.TimePicker;
+
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {      
@@ -33,10 +36,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 		ALog.i("Scheduler", "TimePickerFragment::onCreateDialog method beginning is called");
 		final Calendar c = Calendar.getInstance();         
 		int hour = c.get(Calendar.HOUR_OF_DAY);         
-		int minute = c.get(Calendar.MINUTE);      
-		
-		TimePickerDialog picker = new TimePickerDialog(getActivity(), mListener, hour, minute, false);
-		//picker.setCancelable(true);
+		int minute = c.get(Calendar.MINUTE);
+		ContextThemeWrapper wrapper = new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Dialog);
+		//TimePickerDialog picker = new TimePickerDialog(getActivity(), mListener, hour, minute, false);
+		TimePickerDialog picker = new TimePickerDialog(wrapper, mListener, hour, minute, false);
 	    picker.setCanceledOnTouchOutside(true);
 	    ALog.i("Scheduler", "TimePickerFragment::onCreateDialog method ending is called");
 	    return picker;		
