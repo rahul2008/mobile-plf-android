@@ -33,5 +33,6 @@ public class SchedulerConstants {
 	public static final String SET_SCHEDULE = "Set Schedule";
 	public static final String EDIT_SCHEDULE = "Edit Schedule";
 	public static final String ADD_EVENT = "Add Event";
+	public static final int SCHEDULER_COUNT = 5;
 }
 

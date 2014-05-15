@@ -52,13 +52,18 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			}
 		});
 		
-		ImageView ivEdit = (ImageView) view.findViewById(R.id.add);
+		final ImageView ivEdit = (ImageView) view.findViewById(R.id.add);
 		ivEdit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
-				DialogFragment newFragment = new TimePickerFragment();
-				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+				JSONArray arrList = ((SchedulerActivity) getActivity()).getSchedulerList();
+				if (arrList.length() < SchedulerConstants.SCHEDULER_COUNT ) {
+					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
+					DialogFragment newFragment = new TimePickerFragment();
+					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+				} else {
+					ivEdit.setEnabled(false);
+				}
 			}
 		});
 		

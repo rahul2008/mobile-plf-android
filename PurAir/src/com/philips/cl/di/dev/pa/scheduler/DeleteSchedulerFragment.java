@@ -137,9 +137,14 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 					takeActionOnRightArrowButtonClick(RightArrow5_text, 4);
 					break;
 				case R.id.add:
-					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
-					DialogFragment newFragment = new TimePickerFragment();
-					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+					JSONArray arrList = ((SchedulerActivity) getActivity()).getSchedulerList();
+					if (arrList.length() < SchedulerConstants.SCHEDULER_COUNT ) {
+						((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
+						DialogFragment newFragment = new TimePickerFragment();
+						newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+					} else {
+						add.setEnabled(false);
+					}
 					break;
 				case R.id.edit:
 					showSchedulerOverviewFragment();
