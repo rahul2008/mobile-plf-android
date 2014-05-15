@@ -27,7 +27,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.view.ActionMode;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -139,8 +138,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	public boolean isPairingDialogShown;
 	protected ProgressDialog progressDialog;
-
-	private ActionMode actionMode;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -343,7 +340,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_cancel_search:
-			actionMode.finish();
 			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
 					.getWindowToken(), 0);
