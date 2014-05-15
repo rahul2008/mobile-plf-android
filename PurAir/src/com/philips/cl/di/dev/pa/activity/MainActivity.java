@@ -793,6 +793,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			return ;
 		}
 		
+		if(!purifier.isPaired()){
+			pairToPurifierIfNecessary();
+		}
+		
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) {
