@@ -41,6 +41,7 @@ public class ALog {
 	public static final String TASK_GET="TaskGetHttp";
 	public static final String DISCOVERY = "DiscoveryManager";
 	public static final String NETWORKMONITOR = "NetworkMonitor";
+	public static final String UDP = "UDPSocket";
 	
 	private static boolean isLoggingEnabled = true;
 	

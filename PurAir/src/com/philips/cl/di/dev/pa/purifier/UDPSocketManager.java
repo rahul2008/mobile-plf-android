@@ -31,14 +31,9 @@ public class UDPSocketManager extends Thread {
 	
 	@Override
 	public void run() {
-		ALog.d(ALog.SUBSCRIPTION, "started udp listener") ;
+		ALog.i(ALog.UDP, "Started UDP socket") ;
 		try {
-			WifiManager wifi = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
-			if (wifi != null) {
-				multicastLock = wifi.createMulticastLock(getName());
-				multicastLock.setReferenceCounted(true);
-				multicastLock.acquire();
-			}
+			acquireMulticastLock();
 			
 			socket = new DatagramSocket(UDP_PORT) ;
 			
@@ -55,7 +50,7 @@ public class UDPSocketManager extends Thread {
 				if( packetReceived != null &&  packetReceived.length() > 0 && udpEventListener != null) {
 					String [] packetsReceived = packetReceived.split("\n") ;
 					if(packetsReceived != null && packetsReceived.length > 0 ) {
-						ALog.d(ALog.SUBSCRIPTION, "UDP Data Received") ;
+						ALog.d(ALog.UDP, "UDP Data Received") ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
 						udpEventListener.onUDPEventReceived(lastLine) ;
 					}
@@ -63,24 +58,40 @@ public class UDPSocketManager extends Thread {
 				
 				
 			} catch (IOException e) {
-				e.printStackTrace();
+				ALog.d(ALog.UDP, "UDP exception: " + e.getMessage()) ;
 			} catch (NullPointerException e2) {
 				// NOP -  Received after attempt to close socket.
 			}
 		}
+		ALog.i(ALog.UDP, "Stopped UDP Socket") ;
 	}
 	
 	public void stopUDPListener() {
-		ALog.d(ALog.SUBSCRIPTION, "stop UDP") ;
+		ALog.d(ALog.UDP, "Requested to stop UDP socket") ;
 		stop = true ;
 		if( socket != null && !socket.isClosed()) {
 			socket.close() ;
 			socket = null ;
 		}
-		if (multicastLock != null) {
-			multicastLock.release();
-			multicastLock = null;
-		}
+		releaseMulticastLock();
 		
+	}
+
+	private void acquireMulticastLock() {
+		WifiManager wifi = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
+		if (wifi != null) {
+			multicastLock = wifi.createMulticastLock(getName());
+			multicastLock.setReferenceCounted(true);
+			multicastLock.acquire();
+			ALog.d(ALog.UDP, "Aquired MulticastLock") ;
+		}
+	}
+
+	private void releaseMulticastLock() {
+		if (multicastLock == null) return;
+			
+		multicastLock.release();
+		multicastLock = null;
+		ALog.d(ALog.UDP, "Released MulticastLock") ;
 	}
 }
