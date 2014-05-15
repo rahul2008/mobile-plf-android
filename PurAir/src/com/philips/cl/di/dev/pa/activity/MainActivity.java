@@ -830,6 +830,13 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				tvConnectionStatus.setText(getString(R.string.not_connected));
+				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
+				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
+				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
+				setRightMenuAirStatusBackground(0);
+				rightMenuClickListener.toggleControlPanel(false, null);
+				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 				rightMenuClickListener.toggleControlPanel(false , null);
 			}
 		});
