@@ -789,7 +789,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		
 		final PurAirDevice purifier = getCurrentPurifier();
 		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
-			rightMenuClickListener.toggleControlPanel(false , null);
+			disableRightMenuControls();
 			return ;
 		}
 		
@@ -800,7 +800,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) {
-			rightMenuClickListener.toggleControlPanel(false , null);
+			disableRightMenuControls();
 			return;
 		}
 		
@@ -821,6 +821,16 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				
 				rightMenuClickListener.toggleControlPanel(true,info);
+			}
+		});
+	}
+	
+	private void disableRightMenuControls() {
+		
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				rightMenuClickListener.toggleControlPanel(false , null);
 			}
 		});
 	}
