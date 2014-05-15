@@ -27,7 +27,8 @@
         android:layout_alignBottom="@+id/tv_rm_power"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:paddingTop="40dp" />
+        android:paddingTop="40dp"
+        android:clickable="false" />
 
     <ImageView
         android:id="@+id/divider_1"
@@ -61,10 +62,11 @@
         android:layout_alignBottom="@+id/tv_rm_fan_speed"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:background="@drawable/button_blue_bg_2x"
+        android:background="@drawable/button_bg_2x"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="10sp" />
+        android:textSize="10sp" 
+        android:clickable="false"/>
 
     <ImageView
         android:id="@+id/divider_2"
@@ -204,9 +206,11 @@
         android:layout_alignBottom="@+id/tv_rm_set_timer"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:background="@drawable/button_blue_bg_2x"
+        android:background="@drawable/button_bg_2x"
+        android:alpha="2"
         android:text="@string/off"
         android:textColor="#ffffff"
+        android:clickable="false"
         android:textSize="10sp" />
 
     <ImageView
@@ -309,8 +313,9 @@
         android:layout_alignBottom="@+id/tv_rm_scheduler"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:background="@drawable/button_blue_bg_2x"
+        android:background="@drawable/button_bg_2x"
         android:text=""
+        android:clickable="false"
         android:textColor="#ffffff"
         android:textSize="8sp" />
 
@@ -347,7 +352,8 @@
         android:layout_alignBottom="@+id/tv_rm_child_lock"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:paddingTop="40dp" />
+        android:paddingTop="40dp" 
+        android:clickable="false"/>
 
     <ImageView
         android:id="@+id/divider_5"
@@ -382,7 +388,8 @@
         android:layout_alignBottom="@+id/tv_rm_indicator_light"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:paddingTop="40dp" />
+        android:paddingTop="40dp" 
+        android:clickable="false"/>
 
     <View
         android:id="@+id/divider_6"
