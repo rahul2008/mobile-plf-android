@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class CreateNotificationActivity extends BaseActivity implements OnClickListener{
@@ -25,7 +26,11 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.create_notifications);
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+		}
 		setActionBarTitle(R.string.set_notification);
 		
 		RelativeLayout addNotificationLayout= (RelativeLayout) findViewById(R.id.select_days_layout);
@@ -102,7 +107,7 @@ public class CreateNotificationActivity extends BaseActivity implements OnClickL
 	}
 	
 	/*Initialize action bar */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

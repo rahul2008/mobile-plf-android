@@ -76,7 +76,11 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 		initializeUI();
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.OUTDOOR_DETAILS, "Actionbar: " + e.getMessage());
+		}
 		setActionBarTitle();
 		getDataFromDashboard();
 	}
@@ -365,7 +369,7 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 	/**
 	 * InitActionBar
 	 */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

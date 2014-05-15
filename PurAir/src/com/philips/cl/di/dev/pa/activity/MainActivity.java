@@ -426,18 +426,18 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		mActionBar.setIcon(null);
 		mActionBar.setHomeButtonEnabled(false);
 		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
-		rightMenu = (ImageView) view.findViewById(R.id.right_menu_img);
-		leftMenu = (ImageView) view.findViewById(R.id.left_menu_img);
-		backToHome = (ImageView) view.findViewById(R.id.back_to_home_img);
-		addLocation = (ImageView) view.findViewById(R.id.add_location_img);
-		noOffFirmwareUpdate = (FontTextView) view.findViewById(R.id.actionbar_firmware_no_off_update);
+		View viewActionbar = getLayoutInflater().inflate(R.layout.home_action_bar, null);
+		rightMenu = (ImageView) viewActionbar.findViewById(R.id.right_menu_img);
+		leftMenu = (ImageView) viewActionbar.findViewById(R.id.left_menu_img);
+		backToHome = (ImageView) viewActionbar.findViewById(R.id.back_to_home_img);
+		addLocation = (ImageView) viewActionbar.findViewById(R.id.add_location_img);
+		noOffFirmwareUpdate = (FontTextView) viewActionbar.findViewById(R.id.actionbar_firmware_no_off_update);
 		
 		rightMenu.setOnClickListener(actionBarClickListener);
 		leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
 		addLocation.setOnClickListener(actionBarClickListener);
-		mActionBar.setCustomView(view);
+		mActionBar.setCustomView(viewActionbar);
 		
 	}
 	

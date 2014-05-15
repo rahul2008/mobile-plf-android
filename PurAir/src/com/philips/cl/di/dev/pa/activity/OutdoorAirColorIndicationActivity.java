@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ExpandableListAdapter;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class OutdoorAirColorIndicationActivity extends BaseActivity {
@@ -73,7 +74,11 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_quality_indication);
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+		}
 		TextView indoorColorExplained=(TextView) findViewById(R.id.color_explained_intro);
 		indoorColorExplained.setText(R.string.outdoor_color_explained_intro);
 
@@ -85,7 +90,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	}
 	
 	/*Initialize action bar */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

@@ -13,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class NotificationSelectDayActivity extends BaseActivity {
@@ -25,7 +26,11 @@ public class NotificationSelectDayActivity extends BaseActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.notification_select_days);
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+		}
 		setActionBarTitle(R.string.repeat);
 		lv=(ListView) findViewById(R.id.daysList);
 		mAdapter = new ArrayAdapter<String>(this,
@@ -35,7 +40,7 @@ public class NotificationSelectDayActivity extends BaseActivity {
 	}
 	
 	/*Initialize action bar */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

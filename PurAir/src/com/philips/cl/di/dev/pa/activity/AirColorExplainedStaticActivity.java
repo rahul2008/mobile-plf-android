@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class AirColorExplainedStaticActivity extends BaseActivity {
@@ -18,7 +19,11 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	    initActionBar();
+	    try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.TEMP, "Actionbar: " + e.getMessage());
+		}
 	    Intent in=getIntent();
 	    activity=in.getIntExtra("AIR_QUALITY_ACTIVITY", -1);
 	    
@@ -37,7 +42,7 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 	}
 	
 	/*Initialize action bar */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

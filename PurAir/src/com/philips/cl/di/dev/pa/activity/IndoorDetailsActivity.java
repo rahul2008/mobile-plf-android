@@ -97,7 +97,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		coordinates = Coordinates.getInstance(this);
 		initializeUI();
 
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.INDOOR_DETAILS, "Actionbar: " + e.getMessage());
+		}
 
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
@@ -111,7 +115,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
 			addAqiReading();
 		}
-		
+		if (currentPurifier == null) return;
 		getDataFromDashboard(currentPurifier.getAirPortInfo());
 	}
 
@@ -189,7 +193,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	/**
 	 * InitActionBar
 	 */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

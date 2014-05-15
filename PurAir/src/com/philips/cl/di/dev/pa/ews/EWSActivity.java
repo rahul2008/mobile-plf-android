@@ -64,14 +64,19 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		.add(R.id.ews_fragment_container, getIntroFragment(), EWSConstant.EWS_INTRO_SCREEN_FRAGMENT_TAG)
 		.commit();
         
-		initActionBar();
+        //Some time action bar getting ClassCastException
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.EWS, "Action bar cast exception: " + e.getMessage());
+		}
 		
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	}
 
 	/*Initialize action bar */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);

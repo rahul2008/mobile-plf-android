@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ViewPagerAdapter;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.viewpagerindicator.CirclePageIndicator;
 
@@ -35,7 +36,11 @@ public class TutorialPagerActivity extends BaseActivity {
 		Intent intent= getIntent();
 		mCurrentItemId=intent.getIntExtra(AirTutorialActivity.SELECTED_PAGE, -1);
 		setContentView(R.layout.tutorial_pager_layout);
-		initActionBar();
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+		}
 
 		mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);
 
@@ -77,7 +82,7 @@ public class TutorialPagerActivity extends BaseActivity {
 
 
 	/*Initialize action bar */
-	private void initActionBar() {
+	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
