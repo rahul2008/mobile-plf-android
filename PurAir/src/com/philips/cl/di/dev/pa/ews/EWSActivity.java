@@ -130,16 +130,12 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			break;
 		}
 	}
-	//Activity Override methods - Start
+		
 	@Override
 	protected void onStop() {
-		if(ewsService != null)
-			ewsService.unRegisterListener() ;
-		
-		stopDiscovery();
 		super.onStop();
+		if(ewsService != null)	ewsService.unRegisterListener() ;
 	}
-
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		ALog.i(ALog.EWS, "onWindowFocused") ;
@@ -298,7 +294,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public void showHomeScreen() {
 		mStep = EWSConstant.EWS_START_MAIN;
-		stopDiscovery();
 		
 		// TODO move code to discovery manager
 		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
@@ -306,7 +301,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			new PurifierDatabase().insertPurAirDevice(current);
 		}
 		// STOP move code
-		
 		finish() ;
 	}
 	
@@ -483,6 +477,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	//SSDP Discovery
 	private void deviceDiscoveryCompleted() {
+		stopDiscovery();
 		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		if( ewsService != null ) {
 			ewsService.stopNetworkDetailsTimer() ;
@@ -543,11 +538,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onDiscoveredDevicesListChanged() {
+		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
 		PurAirDevice ewsPurifier = DiscoveryManager.getInstance().getDeviceByEui64(cppId);
 		if (ewsPurifier == null) return;
 		if (ewsPurifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
-		ALog.d(ALog.EWS, "Successfully discovered EWS purifier");
+		ALog.d(ALog.EWS, "Successfully discovered EWS purifier EUI64: " + ewsPurifier.getEui64()
+				+", Name: " + ewsPurifier.getName() + ", IPAddr: " + ewsPurifier.getIpAddress()
+				+", Key: " + ewsPurifier.getEncryptionKey() +", Bootid: " + ewsPurifier.getBootId());
 		PurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
 		deviceDiscoveryCompleted();
 	}

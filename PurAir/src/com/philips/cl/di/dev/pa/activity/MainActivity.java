@@ -788,11 +788,18 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
 		
 		final PurAirDevice purifier = getCurrentPurifier();
-		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) return ;
+		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+			rightMenuClickListener.toggleControlPanel(false , null);
+			return ;
+		}
 		
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
-		if (info == null) return;
+		if (info == null) {
+			rightMenuClickListener.toggleControlPanel(false , null);
+			return;
+		}
+		
 		updateRightMenuConnectedStatus();
 		this.runOnUiThread(new Runnable() {
 			@Override
