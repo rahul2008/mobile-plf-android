@@ -151,13 +151,14 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	}
 	
 	@Override
-	public void onDCSEventReceived(String data) {
+	public void onDCSEventReceived(String data, String fromEui64) {
 		if (data == null || data.isEmpty()) return;
+		if (fromEui64 == null || fromEui64.isEmpty()) return;
 		
-		ALog.i(ALog.SUBSCRIPTION, "DCS event received") ;
+		ALog.i(ALog.SUBSCRIPTION, "DCS event received from " + fromEui64) ;
 		ALog.i(ALog.SUBSCRIPTION, data) ;
 		if (subscriptionEventListener != null) {
-			subscriptionEventListener.onRemoteEventReceived(data);
+			subscriptionEventListener.onRemoteEventReceived(data, fromEui64);
 		}
 	}
 

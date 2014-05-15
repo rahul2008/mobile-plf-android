@@ -87,10 +87,13 @@ public class PurifierManager implements SubscriptionEventListener {
 	}
 	
 	@Override
-	public void onRemoteEventReceived(String data) {
+	public void onRemoteEventReceived(String data, String purifierEui64) {
 		ALog.d(ALog.PURIFIER_MANAGER, "Remote event received");
 		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null) return;
+		if (purifier == null || !purifier.getEui64().equals(purifierEui64)) {
+			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier");
+			return;
+		}
 		
 		notifySubscriptionListeners(data);
 	}

@@ -262,9 +262,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * 
 	 * @param icpClientObj
 	 */
-	private void notifyListeners(String data) {
+	private void notifyListeners(String data, String fromEui64) {
 		if (data == null || dcsEventListener == null) return;
-		dcsEventListener.onDCSEventReceived(data);
+		dcsEventListener.onDCSEventReceived(data, fromEui64);
 	}
 
 	/**
@@ -377,6 +377,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			
 		case Commands.SUBSCRIBE_EVENTS:
 			String dcsEvents = "";
+			String fromEui64 = "";
 			//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
 			if (status == Errors.SUCCESS) {
 				if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
@@ -384,9 +385,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					noOfEvents = eventSubscription.getNumberOfEventsReturned();
 					for (int i = 0; i < noOfEvents; i++) {
 						dcsEvents = eventSubscription.getData(i);
+						fromEui64 = eventSubscription.getReplyTo(i);
 						
 						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
-						notifyListeners(dcsEvents);
+						notifyListeners(dcsEvents, fromEui64);
 					}
 				}
 			}
