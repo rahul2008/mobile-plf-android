@@ -12,10 +12,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,7 +46,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
-public class OutdoorDetailsActivity extends ActionBarActivity 
+public class OutdoorDetailsActivity extends BaseActivity 
 	implements OnClickListener, ServerResponseListener, WeatherDataListener {
 
 	private GoogleMap mMap;
@@ -66,6 +68,8 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 	private float last4weekAQIReadings[] = new float[28];
 	private OutdoorAQIEventDto aqiEventDto;
 	private static String currentCityTime;
+	
+	private ViewGroup mapLayout;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -257,7 +261,12 @@ public class OutdoorDetailsActivity extends ActionBarActivity
 			startOutdoorAQITask(city.getCityName());
 			currentCityTime = city.getUpdatedTime();
 			startWeatherDataTask(city.getGeo());
-			setUpMapIfNeeded(city.getGeo());
+			mapLayout = (RelativeLayout) findViewById(R.id.include_map);
+			if(isGooglePlayServiceAvailable()) {
+				setUpMapIfNeeded(city.getGeo());
+			} else {
+				mapLayout.setVisibility(View.GONE);
+			}
 		} 
 	
 	}

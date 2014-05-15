@@ -2,9 +2,11 @@ package com.philips.cl.di.dev.pa.activity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -21,6 +23,8 @@ public class MapOdActivity extends BaseActivity {
 	//private String otherInfo[];
 	private ImageView closeMapImg;
 	
+	private ViewGroup mapLayout;
+	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		super.onCreate(arg0);
@@ -33,7 +37,12 @@ public class MapOdActivity extends BaseActivity {
 		centerLngF = getIntent().getFloatExtra("centerLngF", 0.0F);
 		//centerCity = getIntent().getStringExtra("centerCity");
 		//otherInfo = getIntent().getStringArrayExtra("otherInfo");
-		setUpMapIfNeeded();
+		mapLayout = (RelativeLayout) findViewById(R.id.include_map);
+		if(isGooglePlayServiceAvailable()) {
+			setUpMapIfNeeded();
+		} else {
+			mapLayout.setVisibility(View.GONE);
+		}
 		
 		closeMapImg.setOnClickListener(new OnClickListener() {
 			

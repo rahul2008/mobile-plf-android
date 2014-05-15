@@ -3,6 +3,9 @@ package com.philips.cl.di.dev.pa.activity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
@@ -12,10 +15,13 @@ import com.philips.cl.di.dev.pa.util.ALog;
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity {
 
+	private int googlePlayServiceStatus;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		ALog.d(ALog.ACTIVITY, "OnCreate on " + this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
+		googlePlayServiceStatus = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
 	}
 
 	@Override
@@ -46,6 +52,13 @@ public class BaseActivity extends ActionBarActivity {
 	protected void onDestroy() {
 		ALog.d(ALog.ACTIVITY, "OnDestoy on " + this.getClass().getSimpleName());
 		super.onDestroy();
+	}
+	
+	protected boolean isGooglePlayServiceAvailable() {
+		if (ConnectionResult.SUCCESS == googlePlayServiceStatus) {
+			return true;
+		}
+		return false;
 	}
 
 }

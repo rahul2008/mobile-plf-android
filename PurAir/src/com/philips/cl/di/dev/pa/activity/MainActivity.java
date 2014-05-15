@@ -44,8 +44,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -120,8 +118,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	private TextView preFilterText, multiCareFilterText,
 	activeCarbonFilterText, hepaFilterText;
 
-//	private static HomeFragment homeFragment;
-
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
@@ -130,7 +126,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	private int mVisits;
 	private BroadcastReceiver networkReceiver;
 
-	private int isGooglePlayServiceAvailable;
 	private SharedPreferences outdoorLocationPrefs;
 	private ArrayList<String> outdoorLocationsList;
 
@@ -234,13 +229,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-
-		isGooglePlayServiceAvailable = GooglePlayServicesUtil
-				.isGooglePlayServicesAvailable(this);
+		
 		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS,
 				Context.MODE_PRIVATE);
-		HashMap<String, String> outdoorLocationsMap = 
-				(HashMap<String, String>) outdoorLocationPrefs.getAll();
+		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
 		outdoorLocationsList = new ArrayList<String>();
 		int size = outdoorLocationsMap.size();
 		for (int i = 0; i < size; i++) {
@@ -396,12 +388,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		return mScrollViewRight;
 	}
 
-	/** Need to have only one instance of the HomeFragment */
 	public HomeFragment getDashboard() {
-//		if (homeFragment == null) {
-//			homeFragment = new HomeFragment();
-//		}
-//		return homeFragment;
 		return new HomeFragment();
 	}
 
@@ -873,13 +860,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	public int getVisits() {
 		return mVisits;
-	}
-
-	public boolean isGooglePlayServiceAvailable() {
-		if (ConnectionResult.SUCCESS == isGooglePlayServiceAvailable) {
-			return true;
-		}
-		return false;
 	}
 
 	public String getVersionNumber() {
