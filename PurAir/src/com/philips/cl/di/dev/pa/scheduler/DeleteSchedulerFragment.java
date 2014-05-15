@@ -28,11 +28,10 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 public class DeleteSchedulerFragment extends BaseFragment implements FirmwareResponseListener{
 	private JSONArray schedulersList;
 	//Button ivRhtArr2, ivRhtArr3, ivRhtArr4; 
-	Button deleteconf1, deleteconf2, deleteconf3, deleteconf4;
-	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4; 
-	ImageView add, edit, delete1, delete2, delete3, delete4;
-	//Button delete2, delete3, delete4;
-	FontTextView RightArrow1_text, RightArrow2_text, RightArrow3_text, RightArrow4_text;
+	Button deleteconf1, deleteconf2, deleteconf3, deleteconf4, deleteconf5;
+	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5; 
+	ImageView add, edit, delete1, delete2, delete3, delete4, delete5;
+	FontTextView RightArrow1_text, RightArrow2_text, RightArrow3_text, RightArrow4_text, RightArrow5_text;
 	LinearLayout event1;
 
 	@Override
@@ -61,22 +60,32 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		edit.setOnClickListener(onClickListener);
 		add = (ImageView) view.findViewById(R.id.add);
 		add.setOnClickListener(onClickListener);
+		
 		ivRhtArr1 = (ImageView) view.findViewById(R.id.RightArrow1);
 		ivRhtArr1.setOnClickListener(onClickListener);
 		RightArrow1_text = (FontTextView) view.findViewById(R.id.RightArrow1_text);
 		RightArrow1_text.setOnClickListener(onClickListener);
+		
 		ivRhtArr2 = (ImageView) view.findViewById(R.id.RightArrow2);
 		ivRhtArr2.setOnClickListener(onClickListener);
 		RightArrow2_text = (FontTextView) view.findViewById(R.id.RightArrow2_text);
 		RightArrow2_text.setOnClickListener(onClickListener);
+		
 		ivRhtArr3 = (ImageView) view.findViewById(R.id.RightArrow3);
 		ivRhtArr3.setOnClickListener(onClickListener);
 		RightArrow3_text = (FontTextView) view.findViewById(R.id.RightArrow3_text);
 		RightArrow3_text.setOnClickListener(onClickListener);
+		
 		ivRhtArr4 = (ImageView) view.findViewById(R.id.RightArrow4);
 		ivRhtArr4.setOnClickListener(onClickListener);
 		RightArrow4_text = (FontTextView) view.findViewById(R.id.RightArrow4_text);
 		RightArrow4_text.setOnClickListener(onClickListener);
+		
+		ivRhtArr5 = (ImageView) view.findViewById(R.id.RightArrow5);
+		ivRhtArr5.setOnClickListener(onClickListener);
+		RightArrow5_text = (FontTextView) view.findViewById(R.id.RightArrow5_text);
+		RightArrow5_text.setOnClickListener(onClickListener);
+		
 		delete1 = (ImageView) view.findViewById(R.id.delete1);
 		delete1.setOnClickListener(onClickListener);		
 		delete2 = (ImageView) view.findViewById(R.id.delete2);
@@ -85,6 +94,9 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		delete3.setOnClickListener(onClickListener);
 		delete4 = (ImageView) view.findViewById(R.id.delete4);
 		delete4.setOnClickListener(onClickListener);
+		delete5 = (ImageView) view.findViewById(R.id.delete5);
+		delete5.setOnClickListener(onClickListener);
+		
 		event1 = (LinearLayout) view.findViewById(R.id.event1);
 		event1.setOnClickListener(onClickListener);
 		
@@ -111,13 +123,18 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 					break;
 				case R.id.RightArrow3:
 				case R.id.RightArrow3_text:
-					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
+					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow3 is invoked");
 					takeActionOnRightArrowButtonClick(RightArrow3_text, 2);
 					break;
 				case R.id.RightArrow4:
 				case R.id.RightArrow4_text:
-					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow1 is invoked");
+					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow4 is invoked");
 					takeActionOnRightArrowButtonClick(RightArrow4_text, 3);
+					break;
+				case R.id.RightArrow5:
+				case R.id.RightArrow5_text:
+					ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method - RightArrow5 is invoked");
+					takeActionOnRightArrowButtonClick(RightArrow5_text, 4);
 					break;
 				case R.id.add:
 					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
@@ -138,7 +155,10 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 					break;
 				case R.id.delete4:
 					toggleRightArrowButtonView(ivRhtArr4, RightArrow4_text, delete4);
-					break;	
+					break;
+				case R.id.delete5:
+					toggleRightArrowButtonView(ivRhtArr5, RightArrow5_text, delete5);
+					break;
 			}
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
 		}
@@ -256,6 +276,9 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 				break;
 			case 3:
 				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.RightArrow4, R.id.RightArrow4_text, R.id.divider4, R.id.delete4, sTime, sEventSetting);
+				break;
+			case 4:
+				CreateEvent(view, R.id.event5, R.id.scheduler5_outer, R.id.scheduler5_innerouter, R.id.scheduler5_text1, R.id.scheduler5_text2, R.id.RightArrow5, R.id.RightArrow5_text, R.id.divider5, R.id.delete5, sTime, sEventSetting);
 				break;
 			default:
 				break;

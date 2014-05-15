@@ -24,7 +24,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerOverviewFragment extends BaseFragment implements FirmwareResponseListener{	
 	
-	Button bActivation1, bActivation2, bActivation3, bActivation4; 
+	Button bActivation1, bActivation2, bActivation3, bActivation4, bActivation5; 
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -70,6 +70,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		bActivation3.setOnClickListener(onClickListener);
 		bActivation4 = (Button) view.findViewById(R.id.scheduler4_btnActivation);
 		bActivation4.setOnClickListener(onClickListener);
+		bActivation5 = (Button) view.findViewById(R.id.scheduler5_btnActivation);
+		bActivation5.setOnClickListener(onClickListener);
 		
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::onCreateView() method exit");
 		return view;
@@ -92,6 +94,9 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 					break;
 				case R.id.scheduler4_btnActivation:
 					toggleActivationButton(3, bActivation4);
+					break;
+				case R.id.scheduler5_btnActivation:
+					toggleActivationButton(4, bActivation5);
 					break;
 			}
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
@@ -161,6 +166,9 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 				break;
 			case 3:
 				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting, sEnabled);
+				break;
+			case 4:
+				CreateEvent(view, R.id.event5, R.id.scheduler5_outer, R.id.scheduler5_innerouter, R.id.scheduler5_text1, R.id.scheduler5_text2, R.id.scheduler5_btnActivation, R.id.divider5, sTime, sEventSetting, sEnabled);
 				break;
 			default:
 				break;
