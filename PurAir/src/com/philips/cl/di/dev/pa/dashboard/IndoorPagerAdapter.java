@@ -19,7 +19,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$getItem");
-		return indoorFragment;
+		return new IndoorFragment();
 	}
 
 	@Override

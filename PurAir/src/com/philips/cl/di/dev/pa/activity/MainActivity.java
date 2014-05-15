@@ -120,7 +120,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	private TextView preFilterText, multiCareFilterText,
 	activeCarbonFilterText, hepaFilterText;
 
-	private static HomeFragment homeFragment;
+//	private static HomeFragment homeFragment;
 
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
 	private ActionBarDrawerToggle mActionBarDrawerToggle;
@@ -397,11 +397,12 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	}
 
 	/** Need to have only one instance of the HomeFragment */
-	public static HomeFragment getDashboard() {
-		if (homeFragment == null) {
-			homeFragment = new HomeFragment();
-		}
-		return homeFragment;
+	public HomeFragment getDashboard() {
+//		if (homeFragment == null) {
+//			homeFragment = new HomeFragment();
+//		}
+//		return homeFragment;
+		return new HomeFragment();
 	}
 
 	/**
