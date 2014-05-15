@@ -153,6 +153,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		try {
 			JSONObject jo = arrSchedulers.getJSONObject(index);
 			jo.put(SchedulerConstants.ENABLED, enabled);
+			Bundle b = new Bundle();
+			b.putString("events", arrSchedulers.toString());
+			getIntent().putExtras(b);
 			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateSchedulerActivation() method exit");
 		}
 		catch(Exception e) {
