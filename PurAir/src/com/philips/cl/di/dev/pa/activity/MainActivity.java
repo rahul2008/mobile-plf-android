@@ -1003,16 +1003,16 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		case DISCONNECTED:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier went offline");
 			updatePurifierUIFields();
-			PurifierManager.getInstance().stopSubscription();
+			PurifierManager.getInstance().stopCurrentSubscription();
 			break;
 		case CONNECTED_LOCALLY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
-			PurifierManager.getInstance().startLocalConnection(); // Right menu updated when response from subscription
+			PurifierManager.getInstance().startSubscription(); // Right menu updated when response from subscription
 			pairToPurifierIfNecessary();
 			break;
 		case CONNECTED_REMOTELY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
-			PurifierManager.getInstance().startRemoteConnection(); // Right menu updated when response from subscription
+			PurifierManager.getInstance().startSubscription(); // Right menu updated when response from subscription
 			break;
 		}
 	}
