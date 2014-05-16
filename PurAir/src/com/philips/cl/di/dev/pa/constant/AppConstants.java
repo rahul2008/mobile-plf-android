@@ -223,7 +223,7 @@ public class AppConstants {
 	public static final int EWS_REQUEST_CODE = 101;
 	public static final int FIRMWARE_REQUEST_CODE = 102;
 	
-	public static final List<String> PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request", "Response", "Change"));
+	public static final List<String> PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
 	public static final String DI_COMM_RELATIONSHIP="DI-COMM";
 	public static final String NOTIFY_RELATIONSHIP="NOTIFY";
 	public static final List<String> NOTIFY_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request"));

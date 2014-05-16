@@ -134,7 +134,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 
 		} else {
 			currentRelationshipType = relationshipType;
-			addRelationship(relationshipType, permission, null);
+			addRelationship(relationshipType, null);
 		}
 	}
 
@@ -148,18 +148,17 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @param secretKey
 	 *            String
 	 */
-	private void addRelationship(String relationshipType, String[] permission,
-			String secretKey) {
+	private void addRelationship(String relationshipType, String secretKey) {
 
 		int status;
 		PairingService addPSRelation = new PairingService(callbackHandler);
 		
-		if (secretKey != null) {
+		if (secretKey != null && relationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 			addPSRelation.addRelationShipRequest(null, getPurifierEntity(),
-				null, getPairingRelationshipData(relationshipType, permission), getPairingInfo(secretKey));
+				null, getPairingRelationshipData(relationshipType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()])), getPairingInfo(secretKey));
 		} else {
 			addPSRelation.addRelationShipRequest(null, getPurifierEntity(),
-					null, getPairingRelationshipData(relationshipType, permission), null);
+					null, getPairingRelationshipData(relationshipType, AppConstants.NOTIFY_PERMISSIONS.toArray(new String[AppConstants.NOTIFY_PERMISSIONS.size()])), null);
 		}
 
 		addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
@@ -285,8 +284,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				if (currentRelationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 					ALog.i(ALog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
 					currentRelationshipType = AppConstants.NOTIFY_RELATIONSHIP;
-					addRelationship(AppConstants.NOTIFY_RELATIONSHIP,
-							AppConstants.NOTIFY_PERMISSIONS.toArray(new String[AppConstants.NOTIFY_PERMISSIONS.size()]), null);
+					addRelationship(AppConstants.NOTIFY_RELATIONSHIP, null);
 				} 
 				else {
 					ALog.i(ALog.PAIRING, "Notification relationship added successfully - Pairing completed");
@@ -323,7 +321,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		ALog.d(ALog.PAIRING, "Purifier response: " + responseCode);
 		if (responseCode == HttpURLConnection.HTTP_OK) {
 			ALog.e(ALog.PAIRING, "PairingPort call-SUCCESS");
-			addRelationship(currentRelationshipType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()]), secretKey);
+			addRelationship(currentRelationshipType, secretKey);
 		} else {
 			ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
 			notifyListenerFailed();
