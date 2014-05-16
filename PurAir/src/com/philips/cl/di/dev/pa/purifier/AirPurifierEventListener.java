@@ -13,6 +13,8 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
  */
 public interface AirPurifierEventListener {
 	
+	public void onAirPurifierChanged();
+	
 	public void onAirPurifierEventReceived() ;
 	
 	public void onFirmwareEventReceived();

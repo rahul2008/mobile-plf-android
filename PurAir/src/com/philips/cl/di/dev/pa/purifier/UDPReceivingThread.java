@@ -55,6 +55,8 @@ public class UDPReceivingThread extends Thread {
 						ALog.d(ALog.UDP, "UDP Data Received from: " + senderIp) ;
 						String lastLine = packetsReceived[packetsReceived.length-1];
 						udpEventListener.onUDPEventReceived(lastLine, senderIp) ;
+					} else {
+						ALog.d(ALog.UDP, "Couldn't split receiving packet: " + packetReceived); 
 					}
 				}
 				
@@ -63,6 +65,7 @@ public class UDPReceivingThread extends Thread {
 				ALog.d(ALog.UDP, "UDP exception: " + e.getMessage()) ;
 			} catch (NullPointerException e2) {
 				// NOP -  Received after attempt to close socket.
+				ALog.d(ALog.UDP, "UDP exception: " + e2.getMessage());
 			}
 		}
 		ALog.i(ALog.UDP, "Stopped UDP Socket") ;
