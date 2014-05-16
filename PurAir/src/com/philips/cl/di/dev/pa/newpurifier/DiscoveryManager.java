@@ -357,4 +357,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		notifyDiscoveryListener();
 	}
 	
+	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager dummyManager) {
+		mInstance = dummyManager;
+	}
+	
 }

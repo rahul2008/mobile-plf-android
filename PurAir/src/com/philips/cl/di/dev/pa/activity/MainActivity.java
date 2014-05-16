@@ -244,19 +244,15 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	}
 	
 	@Override
-	protected void onStart() {
-		this.registerReceiver(networkReceiver, filter);
-		DiscoveryManager.getInstance().start(this);
-		super.onStart();
-	}
-	
-	@Override
 	protected void onResume() {
 		super.onResume();
+		this.registerReceiver(networkReceiver, filter);
+		DiscoveryManager.getInstance().start(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
+
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 
 	@Override
@@ -274,6 +270,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		EWSDialogFactory.getInstance(this).cleanUp();
 
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		DiscoveryManager.getInstance().stop();
+		
+		try {
+			this.unregisterReceiver(networkReceiver);
+		} catch (Exception e) {}
 		
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		boolean isScreenOn = powerManager.isScreenOn();
@@ -291,8 +292,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
-		DiscoveryManager.getInstance().stop();
-		this.unregisterReceiver(networkReceiver);
 		super.onStop();
 	}
 
