@@ -102,6 +102,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 				case R.id.scheduler5_btnActivation:
 					toggleActivationButton(4, bActivation5);
 					break;
+				default:
+					break;
 			}
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
 		}
@@ -126,69 +128,77 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		String sEventSetting = "";	
 		
 		try{
-		JSONArray arrColl = new JSONArray(extras);
+			JSONArray arrColl = new JSONArray(extras);
 		
-		for (int i=0;i<arrColl.length();i++) {
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method - printing Json object  " + i);
-		    JSONObject json = arrColl.getJSONObject(i);
-		    
-		    sEnabled = json.getString(SchedulerConstants.ENABLED);
-		    
-		    sTime = json.getString(SchedulerConstants.TIME);
-		    
-		    try {
-		    sDays = json.getString(SchedulerConstants.DAYS);
-		    } catch(Exception e) {
-		    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
-		    	sDays = "Never";
-		    }
-		    sDays = setWeekDays2(sDays);
-		    sProduct = json.getString(SchedulerConstants.PRODUCT);
-		    sPort = json.getString(SchedulerConstants.PORT);
-		    
-		    try {
-		    	sSpeed = json.getString(SchedulerConstants.SPEED);
-		    } catch (Exception e) {
-		    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting speed property");
-		    	sSpeed = "Auto";
-		    }
-		    
-		    sCommand = json.getString(SchedulerConstants.COMMAND);
-		    sEventSetting = "";
-			//sEventSetting = sSpeed + ", " + sDays;
-		    sEventSetting = sDays;
-			
-			switch(i) {
-			case 0:
-				CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.scheduler1_btnActivation, R.id.divider1, sTime, sEventSetting, sEnabled);
-				break;
-			case 1:
-				CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.scheduler2_btnActivation, R.id.divider2, sTime, sEventSetting, sEnabled);
-				break;
-			case 2:
-				CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.scheduler3_btnActivation, R.id.divider3, sTime, sEventSetting, sEnabled);
-				break;
-			case 3:
-				CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting, sEnabled);
-				break;
-			case 4:
-				CreateEvent(view, R.id.event5, R.id.scheduler5_outer, R.id.scheduler5_innerouter, R.id.scheduler5_text1, R.id.scheduler5_text2, R.id.scheduler5_btnActivation, R.id.divider5, sTime, sEventSetting, sEnabled);
-				break;
-			default:
-				break;
+			for (int i=0;i<arrColl.length();i++) {
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method - printing Json object  " + i);
+			    JSONObject json = arrColl.getJSONObject(i);
+			    
+			    sEnabled = json.getString(SchedulerConstants.ENABLED);
+			    
+			    sTime = json.getString(SchedulerConstants.TIME);
+			    
+			    try 
+			    {
+			    	sDays = json.getString(SchedulerConstants.DAYS);
+			    } 
+			    
+			    catch(Exception e) {
+			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
+			    	sDays = "Never";
+			    }
+			    
+			    sDays = setWeekDays2(sDays);
+			    sProduct = json.getString(SchedulerConstants.PRODUCT);
+			    sPort = json.getString(SchedulerConstants.PORT);
+			    
+			    try 
+			    {
+			    	sSpeed = json.getString(SchedulerConstants.SPEED);
+			    } 
+			    
+			    catch (Exception e) {
+			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting speed property");
+			    	sSpeed = "Auto";
+			    }
+			    
+			    sCommand = json.getString(SchedulerConstants.COMMAND);
+			    sEventSetting = "";
+				//sEventSetting = sSpeed + ", " + sDays;
+			    sEventSetting = sDays;
+				
+				switch(i) {
+				case 0:
+					CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.scheduler1_btnActivation, R.id.divider1, sTime, sEventSetting, sEnabled);
+					break;
+				case 1:
+					CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, R.id.scheduler2_btnActivation, R.id.divider2, sTime, sEventSetting, sEnabled);
+					break;
+				case 2:
+					CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, R.id.scheduler3_btnActivation, R.id.divider3, sTime, sEventSetting, sEnabled);
+					break;
+				case 3:
+					CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, R.id.scheduler4_btnActivation, R.id.divider4, sTime, sEventSetting, sEnabled);
+					break;
+				case 4:
+					CreateEvent(view, R.id.event5, R.id.scheduler5_outer, R.id.scheduler5_innerouter, R.id.scheduler5_text1, R.id.scheduler5_text2, R.id.scheduler5_btnActivation, R.id.divider5, sTime, sEventSetting, sEnabled);
+					break;
+				default:
+					break;
+				}
+				
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Enabled value is  " + sEnabled);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - time value is  " + sTime);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - days value is  " + sDays);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - product value is  " + sProduct);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - port value is  " + sPort);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - speed value is  " + sSpeed);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
 			}
-			
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Enabled value is  " + sEnabled);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - time value is  " + sTime);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - days value is  " + sDays);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - product value is  " + sProduct);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - port value is  " + sPort);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - speed value is  " + sSpeed);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
-		}
 		} catch(Exception e) {
 			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - exception caught while retrieving property  ");	
 		}
+		
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method exit  ");
 	}
 	

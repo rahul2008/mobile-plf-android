@@ -120,7 +120,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				jo.put(SchedulerConstants.SPEED, SelectedFanspeed);
 				jo.put(SchedulerConstants.COMMAND, "{“om” : “a”}");
 				arrSchedulers.put(jo);
-				} catch(Exception e) {
+		} 
+		catch(Exception e) {
+			ALog.d(ALog.SCHEDULER, "Error in createScheduler: " + e.getMessage());
 		}
 			
 		Bundle b = new Bundle();
@@ -145,6 +147,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method exit");
 		}
 		catch(Exception e) {
+			ALog.d(ALog.SCHEDULER, "Error in updateScheduler: " + e.getMessage());
 		}
 	}
 	
@@ -159,6 +162,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateSchedulerActivation() method exit");
 		}
 		catch(Exception e) {
+			ALog.d(ALog.SCHEDULER, "Error in updateSchedulerActivation: " + e.getMessage());
 		}
 	}
 	
@@ -220,7 +224,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				} else if (actionbarTitle.getText().equals("Edit Schedule")) {
 					showDeleteSchedulerFragment();
 				}
-				
+				break;
+			default:
 				break;
 			}
 			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onClick() method exit");
@@ -319,7 +324,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			updateSelectedTime = jo.getString(SchedulerConstants.TIME);
 			updateSelectedDays = jo.getString(SchedulerConstants.DAYS);
 			updateSelectedFanspeed = jo.getString(SchedulerConstants.SPEED);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
+			ALog.d(ALog.DISCOVERY, "Error in dispatchInformationsForCRUDIndex: " + e.getMessage());
 		}
 	}
 	

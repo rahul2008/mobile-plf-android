@@ -162,6 +162,8 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 				case R.id.delete5:
 					toggleRightArrowButtonView(ivRhtArr5, RightArrow5_text, delete5);
 					break;
+				default:
+					break;
 			}
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onClick() method exit");
 		}
@@ -219,6 +221,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 	  		.commit();
 		}
 		catch (Exception e) {
+			ALog.d(ALog.SCHEDULER, "Error in editSchededuler: " + e.getMessage());
 		}
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::editSchededuler() method exit");
 	}

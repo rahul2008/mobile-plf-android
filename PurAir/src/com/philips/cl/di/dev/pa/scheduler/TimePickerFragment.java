@@ -52,7 +52,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 		ALog.i("Scheduler", "minute is " + minute);
 	}
 	
-	private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
+	/*private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
 		public void onTimeSet(TimePicker picker, int selectedHour, int selectedMinute) {
 			ALog.i("Scheduler", "Hours is " + selectedHour);
 			ALog.i("Scheduler", "minute is " + selectedMinute);
@@ -63,10 +63,10 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 			picker.setCurrentHour(selectedHour);
 			picker.setCurrentMinute(selectedMinute); 
 		}
-		
-		public String getSelectedTime() {
-			return sSelectedTime;
-		}
-	};
+	};*/
+	
+	/*public String getSelectedTime() {
+		return sSelectedTime;
+	}*/
 
 }
