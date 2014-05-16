@@ -139,6 +139,15 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 	
 	@Override
+	public void onAirPurifierChanged() {
+		if (getActivity() == null) return;
+		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		purifier.getName();
+		
+		// TODO implement
+	}
+	
+	@Override
 	public void onAirPurifierEventReceived() {
 		if (getActivity() == null) return;
 		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();

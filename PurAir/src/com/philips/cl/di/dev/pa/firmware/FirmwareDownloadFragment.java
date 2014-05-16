@@ -110,6 +110,11 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 	}
 
 	@Override
+	public void onAirPurifierChanged() {
+		// NOP	
+	}
+	
+	@Override
 	public void onAirPurifierEventReceived() {
 		// NOP
 	}

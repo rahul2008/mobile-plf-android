@@ -56,6 +56,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
 		startSubscription();
+		notifyPurifierChangedListeners();
 	}
 	
 	public synchronized PurAirDevice getCurrentPurifier() {
@@ -133,6 +134,16 @@ public class PurifierManager implements SubscriptionEventListener {
 		if (currentPurifier == null) return;
 		
 		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
+	}
+	
+	public void notifyPurifierChangedListeners() {
+		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
+		
+		synchronized (airPuriferEventListeners) {
+			for (AirPurifierEventListener listener : airPuriferEventListeners) {
+				listener.onAirPurifierChanged();
+			}
+		}
 	}
 	
 	public void notifySubscriptionListeners(String data) {

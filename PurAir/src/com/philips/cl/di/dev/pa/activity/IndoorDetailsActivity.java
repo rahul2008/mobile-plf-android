@@ -468,6 +468,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	@Override
+	public void onAirPurifierChanged() {
+		// NOP
+	}
+	
+	@Override
 	public void onAirPurifierEventReceived() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (purifier == null) return;

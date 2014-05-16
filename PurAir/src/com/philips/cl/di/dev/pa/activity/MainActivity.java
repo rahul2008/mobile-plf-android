@@ -722,6 +722,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	public static int getScreenHeight() {
 		return screenHeight;
 	}
+	
+	@Override
+	public void onAirPurifierChanged() {
+		// NOP
+	}
 
 	@Override
 	public void onAirPurifierEventReceived() {
