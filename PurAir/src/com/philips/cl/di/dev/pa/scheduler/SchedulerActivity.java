@@ -206,24 +206,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				
 			case R.id.larrow:
 				ALog.i(ALog.SCHEDULER, "onClick method - case larrow is called");
-				Bundle bundle = new Bundle();
-				if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
-					bundle.putString(SchedulerConstants.TIME, SelectedTime);
-					bundle.putString(SchedulerConstants.DAYS, SelectedDays);
-					bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
-					showAddSchedulerFragment(bundle);
-				} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
-					bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
-					bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
-					bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
-					showAddSchedulerFragment(bundle);
-				}
-				
-				if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE)) {
-					showSchedulerOverviewFragment(); 
-				} else if (actionbarTitle.getText().equals("Edit Schedule")) {
-					showDeleteSchedulerFragment();
-				}
+				showPreviousScreen4BackPressed();
 				break;
 			default:
 				break;
@@ -279,23 +262,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		String time;
 		time = String.format("%d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
-		//SelectedTime = time;
-		Bundle bundle = new Bundle();
-		//bundle.putString("time", time);
-		
-		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
-			SelectedTime = time;
-			bundle.putString(SchedulerConstants.TIME, SelectedTime);
-		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
-			updateSelectedTime = time;
-			bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
-			bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
-			bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
-		}
-		
+		SelectedTime = time;
 		actionbarTitle.setText(SchedulerConstants.ADD_EVENT);
-		showAddSchedulerFragment(bundle);
-
+		SelectedDays = null;
+		SelectedFanspeed = null;
+		showAddSchedulerFragment();
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method exit");
 	}
 
@@ -356,15 +327,28 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method exit");
 	}
 	
-	private void showAddSchedulerFragment(Bundle bundle) {
+	private void showAddSchedulerFragment() {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method enter");
+		Bundle bundle = new Bundle();
+		
+		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			bundle.putString(SchedulerConstants.TIME, SelectedTime);
+			bundle.putString(SchedulerConstants.DAYS, SelectedDays);
+			bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method - SelectedTime " + SelectedTime);
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method - SelectedDays " + SelectedDays);
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method - SelectedFanspeed " + SelectedFanspeed);
+		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
+			bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
+			bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
+		}
+		
 		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 		fragAddSch.setArguments(bundle);
 		getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();
-
-		
+				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method exit");
 	}
 	
@@ -378,17 +362,24 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showDeleteSchedulerFragment() method exit");
 	}
+	
+	private void showPreviousScreen4BackPressed() {
+		
+		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE)) {
+			showSchedulerOverviewFragment(); 
+		} else if (actionbarTitle.getText().equals(SchedulerConstants.EDIT_SCHEDULE)) {
+			showDeleteSchedulerFragment();
+		} else if (actionbarTitle.getText().equals(SchedulerConstants.REPEAT) || actionbarTitle.getText().equals(SchedulerConstants.FANSPEED)) {
+			showAddSchedulerFragment();
+		} else {
+			finish();
+		}
+	}
 
 
 	@Override
 	public void onBackPressed() {
-		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE)) {
-			showSchedulerOverviewFragment(); 
-		} else if (actionbarTitle.getText().equals("Edit Schedule")) {
-			showDeleteSchedulerFragment();
-		} else {
-			finish();
-		}
+		showPreviousScreen4BackPressed();
 	}
 
 	@Override
