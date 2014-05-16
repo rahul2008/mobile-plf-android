@@ -145,7 +145,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 			    
 			    catch(Exception e) {
 			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
-			    	sDays = "Never";
+			    	sDays = SchedulerConstants.ONE_TIME;
 			    }
 			    
 			    sDays = setWeekDays2(sDays);
@@ -247,7 +247,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::setWeekDays2() method enter");
 		String sWeekdays = "";
 		
-		if (days.equals("Never"))
+		if (days.equals(SchedulerConstants.ONE_TIME))
 			return days;
 		
 		String[] sParts = days.split(SchedulerConstants.DIGITS);

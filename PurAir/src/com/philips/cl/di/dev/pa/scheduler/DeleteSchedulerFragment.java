@@ -243,7 +243,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		    sDays = getJsonPropertyAsString(json, "days");
 		    } catch(Exception e) {
 		    	ALog.i("Scheduler", "SDeleteSchedulerFragment::CreateEventList() method - Excpetion caught while getting days property");
-		    	sDays = "Never";
+		    	sDays = SchedulerConstants.ONE_TIME;
 		    }
 		    
 		    sDays = setWeekDays2(sDays);
@@ -332,7 +332,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setWeekDays2() method enter");
 		String sWeekdays = "";
 		
-		if (days.equals("Never"))
+		if (days.equals(SchedulerConstants.ONE_TIME))
 			return days;
 		
 		String[] sParts = days.split("0123456789");

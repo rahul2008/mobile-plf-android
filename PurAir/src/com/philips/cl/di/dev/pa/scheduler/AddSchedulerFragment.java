@@ -37,7 +37,7 @@ public class AddSchedulerFragment extends BaseFragment {
 		
 		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
 			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews method - Both Time and Fanspeed are null");
-			((SchedulerActivity)getActivity()).dispatchInformations("Never");
+			((SchedulerActivity)getActivity()).dispatchInformations(SchedulerConstants.ONE_TIME);
 			((SchedulerActivity)getActivity()).dispatchInformations2("Auto");
 		}
 		
@@ -110,7 +110,7 @@ public class AddSchedulerFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method enter");
 		String sWeekdays = "";
 		
-		if (days.equals("Never"))
+		if (days.equals(SchedulerConstants.ONE_TIME))
 			return days;
 		
 		String[] sParts = days.split(SchedulerConstants.DIGITS);
