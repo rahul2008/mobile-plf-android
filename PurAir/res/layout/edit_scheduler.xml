@@ -78,7 +78,7 @@
          android:lineSpacingExtra="5dp"
          android:paddingBottom="10dp"
          android:textStyle="bold"
-         android:text="@string/never"
+         android:text="@string/onetime"
          android:textColor="@color/title_gray"
          android:textSize="16sp"
          custom:fontAssetName="fonts/gillsanslight.ttf" />
