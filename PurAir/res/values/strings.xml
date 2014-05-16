@@ -445,7 +445,7 @@
     <string name="list_item_scheduler">Scheduler</string>
     <string name="time">Time</string>
     <string name="days2">Days</string>
-    <string name="never">Never</string>
+    <string name="onetime">One Time</string>
     <string name="fanspeed">Fan speed</string>
     <string name="fanspeed_one">1</string>
     <string name="fanspeed_two">2</string>
