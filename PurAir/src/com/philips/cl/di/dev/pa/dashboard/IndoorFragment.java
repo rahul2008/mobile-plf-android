@@ -74,7 +74,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onResume() {
 		super.onResume();
+
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().start(this);
+		
 		updateDashboard();
 		hideFirmwareUpdatePopup();
 	}
