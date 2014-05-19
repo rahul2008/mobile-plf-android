@@ -56,6 +56,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
+		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		initFirmwareUpdatePopup();
 	}
 	
@@ -104,7 +105,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 		aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
 		aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
-		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
 			PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
 			purifierNameTxt.setText(currentPurifier.getName());
