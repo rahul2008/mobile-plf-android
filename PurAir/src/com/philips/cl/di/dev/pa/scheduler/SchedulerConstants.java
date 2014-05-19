@@ -37,5 +37,11 @@ public class SchedulerConstants {
 	public static final String ADD_EVENT = "Add Event";
 	public static final int SCHEDULER_COUNT = 5;
 	public static final String ONE_TIME = "One Time";
+	public static final String AUTO = "Auto";
+	public static final String SILENT = "Silent";
+	public static final String ONE = "1";
+	public static final String TWO = "2";
+	public static final String THREE = "3";
+	public static final String TURBO = "Turbo";
 }
 
