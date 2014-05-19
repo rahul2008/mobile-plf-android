@@ -8,11 +8,16 @@
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/ews_actionbar_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-		android:layout_centerInParent="true"
+		android:gravity="center"
+		android:layout_centerVertical="true"
+		android:layout_toLeftOf="@+id/ews_actionbar_cancel_btn"
+		android:layout_toRightOf="@+id/ews_actionbar_back_img"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
+        android:ellipsize="end"
+        android:singleLine="true"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <Button

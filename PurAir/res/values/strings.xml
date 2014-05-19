@@ -32,9 +32,9 @@
     <string name="auto">Auto</string>
     <string name="turbo">Turbo</string>
     <string name="silent">Silent</string>
-    <string name="one">Speed 1</string>
-    <string name="two">Speed 2</string>
-    <string name="three">Speed 3</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
     <string name="scheduler">Scheduler</string>
     <string name="child_lock">Child lock</string>
     <string name="indicator_light">Indicator light</string>
@@ -519,4 +519,14 @@
     <string name="thank_you">Thank you! You are good to go.</string>
     <string name="signed_in_ready_to_use">You are now signed in and ready to use this app.</string>
     <string name="already_registerd">You have already been registered with this e-mail address</string>
+    
+    <!-- Demo Mode -->
+    <string name="shop_demo_mode">Shop demo mode</string>
+    <string name="demo_mode_title">Demo setup</string>
+    <string name="demo_mode_support_title">Demo setup support</string>
+    <string name="demo_mode_intro_msg">Follow these 1 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
+	<string name="demo_mode_title_step">Step 1 of 1</string>
+	<string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
+	<string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
+	<string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
 </resources>

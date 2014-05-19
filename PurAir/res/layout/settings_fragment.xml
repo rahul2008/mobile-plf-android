@@ -13,16 +13,15 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/icon_mycity" />
 
-    <TextView 
+    <TextView
         android:id="@+id/tv_rate_this_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/iv_rate_this_app"
-        android:padding="15dp"
         android:layout_toRightOf="@+id/iv_rate_this_app"
+        android:padding="15dp"
         android:text="@string/rate_this_app" />
 
-    
     <ImageView
         android:id="@+id/divider_1"
         android:layout_width="wrap_content"
@@ -42,7 +41,7 @@
         android:layout_marginTop="10dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/icon_1_2x" />
-    
+
     <TextView
         android:id="@+id/tv_send_us_feedback"
         android:layout_width="match_parent"
@@ -51,15 +50,47 @@
         android:layout_alignTop="@+id/iv_send_us_feedback"
         android:padding="15dp"
         android:text="@string/send_us_feedback" />
-    
+
     <ImageView
         android:id="@+id/divider2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/iv_send_us_feedback"
-        android:contentDescription="@string/img_description"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/separator" />
+
+    <TextView
+        android:id="@+id/settings_demo_mode_lb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/divider2"
+        android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
+        android:layout_alignBaseline="@+id/settings_demo_mode_toggle"
+        android:padding="15dp"
+        android:text="@string/shop_demo_mode" />
+
+    <ToggleButton
+        android:id="@+id/settings_demo_mode_toggle"
+        style="@style/Widget.Button.Toggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/divider2"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="15dp"
+        android:checked="false"
+        android:layout_marginBottom="15dp" />
+
+    <ImageView
+        android:id="@+id/divider3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/settings_demo_mode_toggle"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/separator" />
 
     <TextView
@@ -67,8 +98,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="20dp"
         android:layout_marginBottom="19dp"
+        android:layout_marginLeft="20dp"
         android:text="@string/version_number" />
 
     <TextView
