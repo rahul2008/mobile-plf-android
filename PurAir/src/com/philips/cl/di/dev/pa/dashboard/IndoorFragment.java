@@ -57,6 +57,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
+		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		initFirmwareUpdatePopup();
 	}
@@ -122,8 +123,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		} else {
 			showIndoorMeter();
 		}
-
-		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 
 		aqiPointer.setOnClickListener(this);
 		aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
