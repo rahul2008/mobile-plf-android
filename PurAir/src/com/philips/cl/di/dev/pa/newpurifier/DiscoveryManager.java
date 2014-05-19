@@ -70,7 +70,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mListeners.add(listener);
 	}
 	
-	public void stop() {
+	public void stop(DiscoveryEventListener listener) {
 		SsdpService.getInstance().stopDeviceDiscovery();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
@@ -336,8 +336,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	private void notifyDiscoveryListener() {
-//		if (mListener == null) return;
-//		mListener.onDiscoveredDevicesListChanged();
 		for (DiscoveryEventListener listener : mListeners) {
 			listener.onDiscoveredDevicesListChanged();
 		}

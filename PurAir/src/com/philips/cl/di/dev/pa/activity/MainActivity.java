@@ -270,7 +270,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		EWSDialogFactory.getInstance(this).cleanUp();
 
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-		DiscoveryManager.getInstance().stop();
+		DiscoveryManager.getInstance().stop(this);
 		
 		try {
 			this.unregisterReceiver(networkReceiver);

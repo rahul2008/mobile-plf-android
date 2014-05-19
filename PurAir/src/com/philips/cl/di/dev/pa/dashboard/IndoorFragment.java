@@ -91,7 +91,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onPause() {
 		super.onPause();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-		DiscoveryManager.getInstance().stop();
+		DiscoveryManager.getInstance().stop(this);
 	}
 
 	private void updateDashboard() {
