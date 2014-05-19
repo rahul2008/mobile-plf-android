@@ -32,13 +32,20 @@ public class RepeatFragment extends BaseFragment {
 	ImageView ivDiv4 = null;
 	ImageView ivDiv5 = null;
 	ImageView ivDiv6 = null;
-	CheckBox chkBox1 = null;
-	CheckBox chkBox2 = null;
-	CheckBox chkBox3 = null;
-	CheckBox chkBox4 = null;
-	CheckBox chkBox5 = null;
-	CheckBox chkBox6 = null;
-	CheckBox chkBox7 = null;
+	ImageView chkBox1 = null;
+	ImageView chkBox2 = null;
+	ImageView chkBox3 = null;
+	ImageView chkBox4 = null;
+	ImageView chkBox5 = null;
+	ImageView chkBox6 = null;
+	ImageView chkBox7 = null;
+	boolean bIsSunClicked = false;
+	boolean bIsMonClicked = false;
+	boolean bIsTueClicked = false;
+	boolean bIsWedClicked = false;
+	boolean bIsThuClicked = false;
+	boolean bIsFriClicked = false;
+	boolean bIsSatClicked = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -108,13 +115,13 @@ public class RepeatFragment extends BaseFragment {
 		ivDiv4 = (ImageView) view.findViewById(R.id.divider4);
 		ivDiv5 = (ImageView) view.findViewById(R.id.divider5);
 		ivDiv6 = (ImageView) view.findViewById(R.id.divider6);
-		chkBox1 = (CheckBox) view.findViewById(R.id.checkBox1);
-		chkBox2 = (CheckBox) view.findViewById(R.id.checkBox2);
-		chkBox3 = (CheckBox) view.findViewById(R.id.checkBox3);
-		chkBox4 = (CheckBox) view.findViewById(R.id.checkBox4);
-		chkBox5 = (CheckBox) view.findViewById(R.id.checkBox5);
-		chkBox6 = (CheckBox) view.findViewById(R.id.checkBox6);
-		chkBox7 = (CheckBox) view.findViewById(R.id.checkBox7);
+		chkBox1 = (ImageView) view.findViewById(R.id.checkBox1);
+		chkBox2 = (ImageView) view.findViewById(R.id.checkBox2);
+		chkBox3 = (ImageView) view.findViewById(R.id.checkBox3);
+		chkBox4 = (ImageView) view.findViewById(R.id.checkBox4);
+		chkBox5 = (ImageView) view.findViewById(R.id.checkBox5);
+		chkBox6 = (ImageView) view.findViewById(R.id.checkBox6);
+		chkBox7 = (ImageView) view.findViewById(R.id.checkBox7);
 		
 		tvSun.setOnClickListener(new OnClickListener() {
 			@Override
@@ -216,22 +223,24 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::initViews method exit");
 	}
 	
-	private void setClickSunday(View view, FontTextView tvSun, ImageView ivDiv1, CheckBox chkBox1) {
+	private void setClickSunday(View view, FontTextView tvSun, ImageView ivDiv1, ImageView chkBox1) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSunday method enter");
-		if (chkBox1.isChecked() == false) {
+		if (bIsSunClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Sunday is clicked");
 			tvSun.setTextColor(Color.WHITE);	
 			tvSun.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv1.setBackgroundColor(Color.WHITE);
 			chkBox1.setVisibility(0);
-			chkBox1.setChecked(true);
+			//chkBox1.setEnabled(true);
+			bIsSunClicked = true;
 			chkBox1.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvSun.setTextColor(Color.BLACK);
 			tvSun.setBackgroundColor(Color.WHITE);
 			chkBox1.setVisibility(8);
-			chkBox1.setChecked(false);
+			//chkBox1.setEnabled(false);
+			bIsSunClicked = false;
 			ivDiv1.setBackgroundColor(Color.BLACK);
 			chkBox1.setBackgroundColor(Color.WHITE);
 			sSelectedDays = sSelectedDays + "Sunday";
@@ -240,23 +249,25 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSunday method exit");
 	}
 	
-	private void setClickMonday(View view, FontTextView tvMon, ImageView ivDiv2, CheckBox chkBox2) {
+	private void setClickMonday(View view, FontTextView tvMon, ImageView ivDiv2, ImageView chkBox2) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickMonday() method enter");
-		if (chkBox2.isChecked() == false) {
+		if (bIsMonClicked  == false) {
 			ALog.i(ALog.SCHEDULER, "Monday is clicked");
 			tvMon.setTextColor(Color.WHITE);	
 			tvMon.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv1.setBackgroundColor(Color.WHITE);
 			ivDiv2.setBackgroundColor(Color.WHITE);
 			chkBox2.setVisibility(0);
-			chkBox2.setChecked(true);
+			//chkBox2.setEnabled(true);
+			bIsMonClicked = true;
 			chkBox2.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvMon.setTextColor(Color.BLACK);
 			tvMon.setBackgroundColor(Color.WHITE);
 			chkBox2.setVisibility(8);
-			chkBox2.setChecked(false);
+			//chkBox2.setEnabled(false);
+			bIsMonClicked = false;
 			chkBox2.setBackgroundColor(Color.WHITE);
 			ivDiv1.setBackgroundColor(Color.BLACK);
 			ivDiv2.setBackgroundColor(Color.BLACK);
@@ -265,23 +276,25 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickMonday() method exit");
 	}
 	
-	private void setClickTuesday(View view, FontTextView tvTue, ImageView ivDiv3, CheckBox chkBox3) {
+	private void setClickTuesday(View view, FontTextView tvTue, ImageView ivDiv3, ImageView chkBox3) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickTuesday() method enter");
-		if (chkBox3.isChecked() == false) {
+		if (bIsTueClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Tuesday is clicked");
 			tvTue.setTextColor(Color.WHITE);	
 			tvTue.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv2.setBackgroundColor(Color.WHITE);
 			ivDiv3.setBackgroundColor(Color.WHITE);
 			chkBox3.setVisibility(0);
-			chkBox3.setChecked(true);
+			chkBox3.setEnabled(true);
+			bIsTueClicked = true;
 			chkBox3.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvTue.setTextColor(Color.BLACK);
 			tvTue.setBackgroundColor(Color.WHITE);
 			chkBox3.setVisibility(8);
-			chkBox3.setChecked(false);
+			chkBox3.setEnabled(false);
+			bIsTueClicked = false;
 			chkBox3.setBackgroundColor(Color.WHITE);
 			ivDiv2.setBackgroundColor(Color.BLACK);
 			ivDiv3.setBackgroundColor(Color.BLACK);
@@ -290,23 +303,25 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickTuesday() method exit");
 	}
 	
-	private void setClickWednesday(View view, FontTextView tvWed, ImageView ivDiv4, CheckBox chkBox4) {
+	private void setClickWednesday(View view, FontTextView tvWed, ImageView ivDiv4, ImageView chkBox4) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickWednesday() method enter");
-		if (chkBox4.isChecked() == false) {
+		if (bIsWedClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Wednesday is clicked");
 			tvWed.setTextColor(Color.WHITE);	
 			tvWed.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv3.setBackgroundColor(Color.WHITE);
 			ivDiv4.setBackgroundColor(Color.WHITE);
 			chkBox4.setVisibility(0);
-			chkBox4.setChecked(true);
+			chkBox4.setEnabled(true);
+			bIsWedClicked = true;
 			chkBox4.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvWed.setTextColor(Color.BLACK);
 			tvWed.setBackgroundColor(Color.WHITE);
 			chkBox4.setVisibility(8);
-			chkBox4.setChecked(false);
+			chkBox4.setEnabled(false);
+			bIsWedClicked = false;
 			chkBox4.setBackgroundColor(Color.WHITE);
 			ivDiv3.setBackgroundColor(Color.BLACK);
 			ivDiv4.setBackgroundColor(Color.BLACK);
@@ -315,23 +330,25 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickWednesday() method exit");
 	}
 	
-	private void setClickThursday(View view, FontTextView tvThu, ImageView ivDiv5, CheckBox chkBox5) {
+	private void setClickThursday(View view, FontTextView tvThu, ImageView ivDiv5, ImageView chkBox5) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickThursday() method enter");
-		if (chkBox5.isChecked() == false) {
+		if (bIsThuClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Thursday is clicked");
 			tvThu.setTextColor(Color.WHITE);	
 			tvThu.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv4.setBackgroundColor(Color.WHITE);
 			ivDiv5.setBackgroundColor(Color.WHITE);
 			chkBox5.setVisibility(0);
-			chkBox5.setChecked(true);
+			chkBox5.setEnabled(true);
+			bIsThuClicked = true;
 			chkBox5.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvThu.setTextColor(Color.BLACK);
 			tvThu.setBackgroundColor(Color.WHITE);
 			chkBox5.setVisibility(8);
-			chkBox5.setChecked(false);
+			chkBox5.setEnabled(false);
+			bIsThuClicked = false;
 			chkBox5.setBackgroundColor(Color.WHITE);
 			ivDiv4.setBackgroundColor(Color.BLACK);
 			ivDiv5.setBackgroundColor(Color.BLACK);
@@ -340,23 +357,25 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickThursday() method exit");
 	}
 	
-	private void setClickFriday(View view, FontTextView tvFri, ImageView ivDiv6, CheckBox chkBox6) {
+	private void setClickFriday(View view, FontTextView tvFri, ImageView ivDiv6, ImageView chkBox6) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickFriday() method enter");
-		if (chkBox6.isChecked() == false) {
+		if (bIsFriClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Friday is clicked");
 			tvFri.setTextColor(Color.WHITE);	
 			tvFri.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv5.setBackgroundColor(Color.WHITE);
 			ivDiv6.setBackgroundColor(Color.WHITE);
 			chkBox6.setVisibility(0);
-			chkBox6.setChecked(true);
+			chkBox6.setEnabled(true);
+			bIsFriClicked = true;
 			chkBox6.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvFri.setTextColor(Color.BLACK);
 			tvFri.setBackgroundColor(Color.WHITE);
 			chkBox6.setVisibility(8);
-			chkBox6.setChecked(false);
+			chkBox6.setEnabled(false);
+			bIsFriClicked = false;
 			chkBox6.setBackgroundColor(Color.WHITE);
 			ivDiv5.setBackgroundColor(Color.BLACK);
 			ivDiv6.setBackgroundColor(Color.BLACK);
@@ -365,22 +384,24 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickFriday() method exit");
 	}
 	
-	private void setClickSaturday(View view, FontTextView tvSat, CheckBox chkBox7) {
+	private void setClickSaturday(View view, FontTextView tvSat, ImageView chkBox7) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSaturday() method enter");
-		if (chkBox7.isChecked() == false) {
+		if (bIsSatClicked == false) {
 			ALog.i("Scheduler", "Saturday is pressed ");
 			tvSat.setTextColor(Color.WHITE);	
 			tvSat.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			ivDiv6.setBackgroundColor(Color.WHITE);
 			chkBox7.setVisibility(0);
-			chkBox7.setChecked(true);
+			chkBox7.setEnabled(true);
+			bIsSatClicked = true;
 			chkBox7.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		} else {
 			tvSat.setTextColor(Color.BLACK);
 			tvSat.setBackgroundColor(Color.WHITE);
 			chkBox7.setVisibility(8);
-			chkBox7.setChecked(false);
+			chkBox7.setEnabled(false);
+			bIsSatClicked = false;
 			chkBox7.setBackgroundColor(Color.WHITE);
 			((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
 		}
@@ -391,25 +412,25 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setDaysString() method enter");
 		sSelectedDays = "";
 		
-		if (chkBox1.isChecked() == true) {
+		if (bIsSunClicked  == true) {
 			sSelectedDays = sSelectedDays + "0";
 		}
-		if (chkBox2.isChecked() == true) {
+		if (bIsMonClicked  == true) {
 			sSelectedDays = sSelectedDays + "1";
 		}
-		if (chkBox3.isChecked() == true) {
+		if (bIsTueClicked  == true) {
 			sSelectedDays = sSelectedDays + "2";
 		}
-		if (chkBox4.isChecked() == true) {
+		if (bIsWedClicked  == true) {
 			sSelectedDays = sSelectedDays + "3";
 		}
-		if (chkBox5.isChecked() == true) {
+		if (bIsThuClicked  == true) {
 			sSelectedDays = sSelectedDays + "4";
 		}
-		if (chkBox6.isChecked() == true) {
+		if (bIsFriClicked  == true) {
 			sSelectedDays = sSelectedDays + "5";
 		}
-		if (chkBox7.isChecked() == true) {
+		if (bIsSatClicked  == true) {
 			sSelectedDays = sSelectedDays + "6";
 		}
 		
