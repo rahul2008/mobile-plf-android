@@ -42,7 +42,7 @@ public class EWSStepThreeFragment extends Fragment {
 	private OnFocusChangeListener focusListener;
 	private ButtonClickListener buttonClickListener;
 	private String ssid;
-	private String specialCharacters = "[©®°@¶•&‰%≠≈∞=±+×–—-†‡*÷/()¡!¿?´“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦₩°•○●□■☆★♡♥》《¤◆◇…~^`§¤' ]";
+	private String specialCharacters = "[©®°@¶•&‰%≠≈∞=±+×–—-†‡*÷/()¡!¿?´“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦₩°•○●□■☆★♡♥》《¤◆◇…~^`§¤★πΠ√×∆♪♣♠♦↑←↓→™℅′″￥￡℃※♂♀↕↔' ]";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
