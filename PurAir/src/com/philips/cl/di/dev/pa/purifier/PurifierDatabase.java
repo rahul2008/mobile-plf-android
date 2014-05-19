@@ -40,10 +40,9 @@ public class PurifierDatabase {
 				+ ", Key: " + purifier.getEncryptionKey());
 
 		long rowId = -1L;
-
-		long id = getRowIdOfPurifier(purifier);
+		rowId = getRowIdOfPurifier(purifier);
 		Cursor cursor = null;
-		if (id == -1L) {
+		if (rowId == -1L) {
 			ALog.i(ALog.DATABASE, "First time adding");
 			try {
 				db = dbHelper.getWritableDatabase();
