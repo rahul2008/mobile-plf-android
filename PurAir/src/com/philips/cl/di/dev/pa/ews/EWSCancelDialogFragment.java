@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class EWSCancelDialogFragment extends DialogFragment {
@@ -37,9 +38,11 @@ public class EWSCancelDialogFragment extends DialogFragment {
 			return;
 		}
 		
-		
 		TextView tvHeader = (TextView) getView().findViewById(R.id.tv_cancel_wifi_setup_header);
 		tvHeader.setTypeface(Fonts.getGillsansLight(getActivity()));
+		if ( getActivity() instanceof DemoModeActivity) {
+			tvHeader.setText(getString(R.string.cancel_demo_setup_title));
+		}  
 		TextView tvMessage = (TextView) getView().findViewById(R.id.tv_cancel_wifi_setup_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(getActivity()));
 		Button cancelWifiYes = (Button) getView().findViewById(R.id.btn_cancel_wifi_yes);
@@ -62,8 +65,6 @@ public class EWSCancelDialogFragment extends DialogFragment {
 			}
 		});
 		setCancelable(false);
-		
 	}
-	
 }
 

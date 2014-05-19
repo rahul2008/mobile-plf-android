@@ -17,6 +17,8 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.demo.DemoMode;
+import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
@@ -219,7 +221,12 @@ public class RightMenuClickListener implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.connect:
-			Intent intent=new Intent(mainActivity,EWSActivity.class);
+			Intent intent = null;
+			if (DemoMode.isDemoModeEnable()) {
+				intent = new Intent(mainActivity, DemoModeActivity.class);
+			} else {
+				intent = new Intent(mainActivity, EWSActivity.class);
+			}
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			mainActivity.startActivity(intent) ;
 			break;

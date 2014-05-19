@@ -7,21 +7,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.demo.DemoMode;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 
-public class SettingsFragment extends BaseFragment implements OnClickListener{
+public class SettingsFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
 	
 	private ImageView ivRateThisApp, ivSendUsFeedback;
 	private TextView tvRateThisApp, tvSendUsFeedback;
 	
 	private TextView versionNumber;
 	private TextView termsAndConditions;
+	
+	private ToggleButton demoModeTButton;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +59,9 @@ public class SettingsFragment extends BaseFragment implements OnClickListener{
 		
 		termsAndConditions = (TextView) view.findViewById(R.id.tv_t_and_c);
 		termsAndConditions.setOnClickListener(this);
+		
+		demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
+		demoModeTButton.setOnCheckedChangeListener(this);
 	}
 
 	@Override
@@ -85,5 +98,23 @@ public class SettingsFragment extends BaseFragment implements OnClickListener{
 			break;
 		}
 		
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (getActivity() == null) return;
+		if (buttonView.getId() == R.id.settings_demo_mode_toggle) {
+			ALog.i(ALog.DEMO_MODE, "Demo mode enable: " + isChecked);
+			DemoMode.setDemoModeEnable(isChecked);
+			if (!isChecked) {
+				PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
+				if (purAirDevice != null && purAirDevice.getName() != null) {
+					if (purAirDevice.getName().equals(DemoMode.DEMO)) {
+//						DiscoveryManager.getInstance().stop();
+						//TODO send put wifi
+					}
+				}
+			}
+		}
 	}
 }

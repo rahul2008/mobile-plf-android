@@ -15,6 +15,7 @@ public class ALog {
 	public static final String ACTIVITY = "ActivityLifecycle";
 	public static final String FRAGMENT = "FragmentLifecycle";
 	public static final String EWS = "EasyWifiSetup";
+	public static final String DEMO_MODE = "DemoMode";
 	public static final String WIFI = "WifiNetworks ";
 	public static final String ICPCLIENT = "IcpClient";
 	public static final String SECURITY = "DISecurity";

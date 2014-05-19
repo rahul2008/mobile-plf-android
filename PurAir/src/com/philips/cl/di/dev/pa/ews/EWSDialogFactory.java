@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
@@ -267,7 +268,10 @@ public class EWSDialogFactory implements OnClickListener{
 				EWSActivity activity = (EWSActivity) context ;
 
 				activity.showSupportFragment() ;
-			}
+			} else if ( context instanceof DemoModeActivity) {
+				DemoModeActivity activity = (DemoModeActivity) context ;
+				activity.showSupportScreen() ;
+			}  
 			closePopUp(supportID);
 			break;
 
@@ -280,7 +284,10 @@ public class EWSDialogFactory implements OnClickListener{
 				EWSActivity activity = (EWSActivity) context ;
 
 				activity.showSupportFragment() ;
-			}
+			} else if ( context instanceof DemoModeActivity) {
+				DemoModeActivity activity = (DemoModeActivity) context ;
+				activity.showSupportScreen() ;
+			} 
 			closeErrorPopUp(errorID);
 			break;
 
@@ -291,7 +298,10 @@ public class EWSDialogFactory implements OnClickListener{
 				EWSActivity activity = (EWSActivity) context ;
 				activity.stopDiscovery();
 				activity.finish() ;
-			}
+			} else if ( context instanceof DemoModeActivity) {
+				DemoModeActivity activity = (DemoModeActivity) context ;
+				activity.finish() ;
+			} 
 			break;
 
 		case R.id.btn_cancel_wifi_no:
@@ -305,7 +315,10 @@ public class EWSDialogFactory implements OnClickListener{
 			if ( context instanceof EWSActivity) {
 				EWSActivity activity = (EWSActivity) context ;
 				activity.airPurifierInSetupMode() ;
-			}
+			} else if ( context instanceof DemoModeActivity) {
+				DemoModeActivity activity = (DemoModeActivity) context ;
+				activity.showStepOneScreen() ;
+			}  
 			break;
 
 		case R.id.btn_confirm_wifi_enabled_no:
@@ -313,7 +326,10 @@ public class EWSDialogFactory implements OnClickListener{
 			if ( context instanceof EWSActivity) {
 				EWSActivity activity = (EWSActivity) context ;
 				activity.showSupportFragment() ;
-			}
+			} else if ( context instanceof DemoModeActivity) {
+				DemoModeActivity activity = (DemoModeActivity) context ;
+				activity.showSupportScreen() ;
+			} 
 			break;
 		default:
 			break;
