@@ -263,7 +263,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		time = String.format("%d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
 		SelectedTime = time;
-		actionbarTitle.setText(SchedulerConstants.ADD_EVENT);
+		//actionbarTitle.setText(SchedulerConstants.ADD_EVENT);
 		SelectedDays = null;
 		SelectedFanspeed = null;
 		showAddSchedulerFragment();
