@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -73,13 +74,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onResume() {
 		super.onResume();
-		
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().start(this);
-		
-		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
-			updateDashboard(PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo());
-		}
+		updateDashboard();
 		hideFirmwareUpdatePopup();
 	}
 
@@ -94,26 +90,34 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		DiscoveryManager.getInstance().stop();
 	}
 
-	private void updateDashboard(AirPortInfo airPortInfo) {
-		if(airPortInfo == null) {
+	private void updateDashboard() {
+		Activity parent = this.getActivity();
+		if (parent == null || !(parent instanceof MainActivity)) return;
+		
+		PurAirDevice purifier = ((MainActivity) parent).getCurrentPurifier();
+		if (purifier == null) {
+			purifierNameTxt.setText("");
+			hideIndoorMeter();
+			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(0));
 			return;
 		}
 		
+		purifierNameTxt.setText(purifier.getName());
+		
+		AirPortInfo airPortInfo = purifier.getAirPortInfo();
+		if (airPortInfo == null) return;
+		
 		int indoorAqi = airPortInfo.getIndoorAQI();
-
 		fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
 		filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 		aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
 		aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
-		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
-			PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
-			purifierNameTxt.setText(currentPurifier.getName());
-			ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + currentPurifier.getConnectionState());
-			if(currentPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
-				hideIndoorMeter();
-			} else {
-				showIndoorMeter();
-			}
+
+		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
+		if(purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+			hideIndoorMeter();
+		} else {
+			showIndoorMeter();
 		}
 
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
@@ -164,15 +168,13 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onAirPurifierEventReceived() {
 		if (getActivity() == null) return;
-		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
-		if (purifier == null) return;
+		final PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		
-		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				updateDashboard(airPortInfo);
+				updateDashboard();
 			}
 		});
 	}
