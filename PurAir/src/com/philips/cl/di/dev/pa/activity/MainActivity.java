@@ -241,6 +241,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		initializeCPPController();
 		createNetworkReceiver();
 		this.registerReceiver(networkReceiver, filter);
+		
+		initializeFirstPurifier();
 	}
 	
 	@Override
@@ -984,6 +986,17 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		return PurifierManager.getInstance().getCurrentPurifier();
 	}
 	
+	private void initializeFirstPurifier() {
+		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+		if (devices.size() <= 0) return;
+		
+		// Select the first locally connected device
+		PurAirDevice firstPurifier = devices.get(0);
+		
+		PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
+		ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + firstPurifier.getName());
+	}
+	
 	@Override
 	public void onDiscoveredDevicesListChanged() {
 		ALog.d(ALog.MAINACTIVITY, "**************************");
@@ -991,20 +1004,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		
 		PurAirDevice current = getCurrentPurifier();
 		if (current == null) {
-			ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-			if (devices.size() <= 0) return;
+			initializeFirstPurifier();
 			
-			// Select the first locally connected device
-			for (PurAirDevice device : devices) {
-				if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-					current = device;
-					break;
-				}
-			}
+			current = getCurrentPurifier();
 			if (current == null) return;
-			
-			PurifierManager.getInstance().setCurrentPurifier(current);
-			ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + current.getName());
 		}
 		
 		switch (current.getConnectionState()) {

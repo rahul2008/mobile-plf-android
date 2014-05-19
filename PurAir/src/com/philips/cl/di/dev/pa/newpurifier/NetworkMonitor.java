@@ -50,10 +50,6 @@ public class NetworkMonitor {
 		};
 	}
 
-	public interface NetworkChangedCallback {
-		void onNetworkChanged(NetworkState networkState);
-	}
-
 	public void startNetworkChangedReceiver(Context context) {
 		mLooper = new LooperThread();
 		mLooper.start();
@@ -83,6 +79,10 @@ public class NetworkMonitor {
 		return mLastKnownState;
 	}
 	
+	public synchronized String getLastKnownNetworkSsid() {
+		return mLastKnownSsid;
+	}
+	
 	private void updateNetworkStateAsync() {
 		if (mLooper == null || mLooper.mHandler == null) return;
 		mLooper.mHandler.sendEmptyMessage(0);
@@ -91,21 +91,52 @@ public class NetworkMonitor {
 	/*
 	 * Synchronized to make mLastKnowState Threadsafe
 	 */
-	private synchronized void updateNetworkState(NetworkState newState, String ssid) {
-		if (mLastKnownState == newState && isLastKnowSsid(ssid)) {
+	private synchronized void updateNetworkState(NetworkState newState, String newSsid) {
+		if (mLastKnownState == newState && isLastKnowSsid(newSsid)) {
 			ALog.d(ALog.NETWORKMONITOR, "Detected same networkState - no need to update listener");
 			return;
 		}
 		
-		if (mLastKnownState == newState && !isLastKnowSsid(ssid)) {
+		if (mLastKnownState == newState && !isLastKnowSsid(newSsid)) {
 			ALog.d(ALog.NETWORKMONITOR, "Detected rapid change of Wifi networks - sending intermediate disconnect event");
-			mNetworkChangedCallback.onNetworkChanged(NetworkState.NONE);
+			updateListener(NetworkState.NONE, null);
 		}
 		
-		ALog.d(ALog.NETWORKMONITOR, "NetworkState Changed - updating listener");
+		ALog.d(ALog.NETWORKMONITOR, "NetworkState Changed");
 		mLastKnownState = newState;
-		mLastKnownSsid = ssid;
-		mNetworkChangedCallback.onNetworkChanged(newState);
+		mLastKnownSsid = newSsid;
+		updateListener(newState, newSsid);
+	}
+	
+	private void updateListener(NetworkState state, String ssid) {
+		if (mNetworkChangedCallback == null) return;
+		ALog.v(ALog.NETWORKMONITOR, "Updating listener");
+		mNetworkChangedCallback.onNetworkChanged(state, ssid);
+	}
+	
+	private void loadNetworkStateSynchronous() {
+		NetworkInfo activeNetwork = mConnectivityManager.getActiveNetworkInfo();
+		
+		boolean isConnected = activeNetwork != null	&& activeNetwork.isConnectedOrConnecting();
+		if (!isConnected) {
+			ALog.d(ALog.NETWORKMONITOR, "Network update - No connection");
+			updateNetworkState(NetworkState.NONE, null);
+			return;
+		}
+		
+		boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
+		if (isMobileData) {
+			// Assume internet access - don't waste data bandwidth
+			ALog.d(ALog.NETWORKMONITOR, "Network update - Mobile connection");
+			updateNetworkState(NetworkState.MOBILE, null);
+			return;
+		}
+		
+		String ssid = getCurrentSsid(); 
+		// Assume internet access - checking for internet technically difficult (slow DNS timeout)
+		ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
+		updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
+		return;
 	}
 	
 	private class LooperThread extends Thread {
@@ -116,28 +147,7 @@ public class NetworkMonitor {
 
 			mHandler = new Handler() {
 				public void handleMessage(Message msg) {
-					NetworkInfo activeNetwork = mConnectivityManager.getActiveNetworkInfo();
-					
-					boolean isConnected = activeNetwork != null	&& activeNetwork.isConnectedOrConnecting();
-					if (!isConnected) {
-						ALog.d(ALog.NETWORKMONITOR, "Network update - No connection");
-						updateNetworkState(NetworkState.NONE, null);
-						return;
-					}
-					
-					boolean isMobileData = activeNetwork.getType() != ConnectivityManager.TYPE_WIFI;
-					if (isMobileData) {
-						// Assume internet access - don't waste data bandwidth
-						ALog.d(ALog.NETWORKMONITOR, "Network update - Mobile connection");
-						updateNetworkState(NetworkState.MOBILE, null);
-						return;
-					}
-					
-					String ssid = getCurrentSsid(); 
-					// Assume internet access - checking for internet technically difficult (slow DNS timeout)
-					ALog.d(ALog.NETWORKMONITOR, "Network update - Wifi with internet (" + (ssid == null ? "< unknown >" : ssid) + ")");
-					updateNetworkState(NetworkState.WIFI_WITH_INTERNET, ssid);
-					return;
+					loadNetworkStateSynchronous();
 				}
 			};
 
@@ -166,6 +176,11 @@ public class NetworkMonitor {
 			return null;
 		}
 		return ssid;
+	}
+	
+
+	public interface NetworkChangedCallback {
+		void onNetworkChanged(NetworkState networkState, String networkSsid);
 	}
 
 }
