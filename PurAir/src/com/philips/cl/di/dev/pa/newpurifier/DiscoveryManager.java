@@ -154,6 +154,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	private void markOtherNetworkDevicesRemote(String ssid) {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
+		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
@@ -161,44 +162,58 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (!device.isPaired()) continue; // not paired
 			
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			statusUpdated = true;
 			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getName());
 		}
+		if (!statusUpdated) return;
 		notifyDiscoveryListener();
 	}
 	
 	private void markNonDiscoveredDevicesRemote() {
 		ALog.d(ALog.DISCOVERY, "Marking paired devices that where not discovered locally REMOTE");
+		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (!device.isPaired()) continue; // not paired
 			
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			statusUpdated = true;
 			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getName());
 		}
+		if (!statusUpdated) return;
 		notifyDiscoveryListener();
 	}
 
 	private void markAllDevicesRemote() {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
+		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.isPaired()) {
 				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+				statusUpdated = true;
 				ALog.v(ALog.DISCOVERY, "Marked paired REMOTE -" + device.getName());
 			} else {
 				device.setConnectionState(ConnectionState.DISCONNECTED);
+				statusUpdated = true;
 				ALog.v(ALog.DISCOVERY, "Marked non paired DISCONNECTED: " + device.getName());
 			}
 		}
+		if (!statusUpdated) return;
 		notifyDiscoveryListener();
 	}
 
 	private void markAllDevicesOffline() {
 		ALog.d(ALog.DISCOVERY, "Marking all devices OFFLINE");
+		boolean statusUpdated = false;
 		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
+			
 			device.setConnectionState(ConnectionState.DISCONNECTED);
+			statusUpdated = true;
 			ALog.v(ALog.DISCOVERY, "Marked OFFLINE: " + device.getName());
 		}
+		if (!statusUpdated) return;
 		notifyDiscoveryListener();
 	}
 
