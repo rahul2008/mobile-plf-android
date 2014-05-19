@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -17,6 +18,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class RepeatFragment extends BaseFragment {
 	String sSelectedDays;
+	String initDays;
 	FontTextView tvSun = null;
 	FontTextView tvMon = null;
 	FontTextView tvTue = null;
@@ -43,9 +45,52 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method enter");
 		View view = inflater.inflate(R.layout.repeat_scheduler, null);
 		initViews(view);
+		
+		try {
+			initDays = getArguments().getString(SchedulerConstants.DAYS);
+			ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method initDays is " + initDays);
+			initSelectedDays(view);
+		}
+		catch (Exception e) {
+			ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method exception caught while getting arguments");
+			initDays = "";
+		}
+		
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.REPEAT);
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method exit");
 		return view;
+	}
+	
+	private void initSelectedDays(View v) {
+		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method initSelectedDays");
+		
+			if (initDays.contains(SchedulerConstants.SUNDAY)) { 
+				setClickSunday(v, tvSun, ivDiv1, chkBox1);
+			} 
+			
+			if (initDays.contains(SchedulerConstants.MONDAY)) {
+				setClickMonday(v, tvMon, ivDiv2, chkBox2);
+			} 
+			
+			if (initDays.contains(SchedulerConstants.TUESDAY)) {
+				setClickTuesday(v, tvTue, ivDiv3, chkBox3);
+			} 
+			
+			if (initDays.contains(SchedulerConstants.WEDNESDAY)) {
+				setClickWednesday(v, tvWed, ivDiv4, chkBox4);
+			} 
+			
+			if (initDays.contains(SchedulerConstants.THURSDAY)) {
+				setClickThursday(v, tvThu, ivDiv5, chkBox5);
+			} 
+			
+			if (initDays.contains(SchedulerConstants.FRIDAY)) {
+				setClickFriday(v, tvFri, ivDiv6, chkBox6);
+			} 
+			
+			if (initDays.contains(SchedulerConstants.SATURDAY)) {
+				setClickSaturday(v, tvSat, chkBox7);
+			}
 	}
 
 	private void initViews(View view) {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -16,6 +17,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FanspeedFragment extends BaseFragment {
 	String sSelectedDays;
+	String sInitFanSpeed;
 	FontTextView tvAuto = null;
 	FontTextView tvSilent = null;
 	FontTextView tvOne = null;
@@ -40,9 +42,40 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::onCreateView method beginning is called ");
 		View view = inflater.inflate(R.layout.fanspeed_scheduler, null);
 		initViews(view);
+		
+		try {
+			sInitFanSpeed = getArguments().getString(SchedulerConstants.TIME);
+			ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method sInitFanSpeed is " + sInitFanSpeed);
+			initSelectedFanSpeed(view);
+		}
+		catch (Exception e) {
+			ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method exception caught while getting arguments");
+			sInitFanSpeed = "";
+		}
+		
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.FAN_SPEED);
 		ALog.i("Scheduler", "FanspeedFragment::onCreateView method ending is called ");
 		return view;
+	}
+	
+	private void initSelectedFanSpeed(View v) {
+		ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method enter");
+		
+			if (sInitFanSpeed.contains(SchedulerConstants.AUTO)) { 
+				selectAuto(v, tvAuto, ivDiv1);
+			} else if (sInitFanSpeed.contains(SchedulerConstants.SILENT)) {
+				selectSilent(v, tvSilent, ivDiv2);
+			} else if (sInitFanSpeed.contains(SchedulerConstants.ONE)) {
+				selectOne(v, tvOne, ivDiv3);
+			} else if (sInitFanSpeed.contains(SchedulerConstants.TWO)) {
+				selectTwo(v, tvTwo, ivDiv4);
+			} else if (sInitFanSpeed.contains(SchedulerConstants.THREE)) {
+				selectThree(v, tvThree, ivDiv5);
+			} else if (sInitFanSpeed.contains(SchedulerConstants.TURBO)) {
+				selectTurbo(v, tvTurbo, ivDiv6);
+			} 
+			
+			ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method exit");
 	}
 
 	private void initViews(View view) {

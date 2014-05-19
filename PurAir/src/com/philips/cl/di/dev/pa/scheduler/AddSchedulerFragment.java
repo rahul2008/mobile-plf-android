@@ -75,9 +75,13 @@ public class AddSchedulerFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				ALog.i("Scheduler", "btnRepeat is pressed ");
+				Bundle bundle = new Bundle();
+				bundle.putString(SchedulerConstants.DAYS, sSelectedDays);
+				RepeatFragment fragRepeat = new RepeatFragment();
+				fragRepeat.setArguments(bundle);
 				getFragmentManager()
 		  	    .beginTransaction()
-		  		.replace(R.id.ll_scheduler_container, new RepeatFragment(), "RepeatFragment")
+		  		.replace(R.id.ll_scheduler_container, fragRepeat, "RepeatFragment")
 		  		.commit();
 			    
 			}
@@ -93,9 +97,14 @@ public class AddSchedulerFragment extends BaseFragment {
 			@Override
 			public void onClick(View v) {
 				ALog.i("Scheduler", "Fan Speed button is pressed ");
+				Bundle bundle = new Bundle();
+				bundle.putString(SchedulerConstants.TIME, sSelectedFanspeed);
+				FanspeedFragment fragFanSpeed = new FanspeedFragment();
+				fragFanSpeed.setArguments(bundle);
+				
 				getFragmentManager()
 		  	    .beginTransaction()
-		  		.replace(R.id.ll_scheduler_container, new FanspeedFragment(), "FanspeedFragment")
+		  		.replace(R.id.ll_scheduler_container, fragFanSpeed, "FanspeedFragment")
 		  		.commit();
 			}
 		});
