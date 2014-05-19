@@ -120,7 +120,8 @@ public class PurAirDevice {
 		builder.append("name: ").append(getName()).append("   ip: ").append(getIpAddress())
 				.append("   eui64: ").append(getEui64()).append("   bootId: ").append(getBootId())
 				.append("   usn: ").append(getUsn()).append("   paired: ").append(isPaired())
-				.append("   connectedState: ").append(getConnectionState());
+				.append("   connectedState: ").append(getConnectionState()).append("   lastKnownssid: ")
+				.append(getLastKnownNetworkSsid());
 		return builder.toString();
 	}
 }
