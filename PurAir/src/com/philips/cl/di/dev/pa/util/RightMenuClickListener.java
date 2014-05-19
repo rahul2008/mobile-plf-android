@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 
 public class RightMenuClickListener implements OnClickListener {
 	
@@ -355,6 +356,9 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_scheduler:
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
+			intent = new Intent(mainActivity,SchedulerActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			mainActivity.startActivity(intent) ;
 			break;
 		default:
 			break;

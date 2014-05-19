@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.util;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -54,6 +57,23 @@ public class JSONBuilder {
 		builder.append("\"]}");
 		
 		return builder.toString() ;
+	}
+	
+	public static String getSchedulesJson(String time, String operationMode, String days, boolean enabled) {
+		ALog.i(ALog.SCHEDULER, time+":"+operationMode+":"+days) ;
+		StringBuilder builder = new StringBuilder("{") ;
+		builder.append("\"").append("name").append("\"").append(":").append("\"").append("name").append("\",") ;
+		builder.append("\"").append("enabled\"").append(":").append(enabled).append(",") ;
+		builder.append("\"").append("time\"").append(":\"").append(time).append("\",") ;
+		builder.append("\"").append("days\"").append(":\"").append("").append("\",") ;
+		builder.append("\"").append("product\"").append(":").append(1).append(",") ;
+		builder.append("\"").append("port\"").append(":\"").append("air").append("\",") ;
+		builder.append("\"").append("command\"").append(":") ;
+		builder.append("{\"").append("om\"").append(":\"").append("t").append("\"}") ;
+		builder.append("}") ;
+		String dataToSend = builder.toString();
+		ALog.i(ALog.SCHEDULER, dataToSend) ;
+		return dataToSend ;
 	}
 
 }

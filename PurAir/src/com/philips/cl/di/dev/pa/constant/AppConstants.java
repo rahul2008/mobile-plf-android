@@ -200,7 +200,7 @@ public class AppConstants {
 	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/%s/%s";
 	public enum Port {
 		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",1), FIRMWARE("firmware",0), DEVICE("device",1), PAIRING("pairing",0), 
-		SECURITY("security",0), LOG("log",0);
+		SECURITY("security",0), LOG("log",0), SCHEDULES("schedules",0);
 		
 		public final String urlPart;
 		public final int port ;

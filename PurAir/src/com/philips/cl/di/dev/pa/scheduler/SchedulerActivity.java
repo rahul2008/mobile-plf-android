@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
+import java.net.HttpURLConnection;
+import java.util.Map;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,10 +17,20 @@ import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
+import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
+import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnClickListener,
@@ -36,6 +49,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private String CRUDOperation = "";
 	private int UDOperationIndex = -1;
 	private JSONArray arrSchedulers;
+	private PurAirDevice purAirDevice ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,29 +59,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		initActionBar();
 		arrSchedulers = new JSONArray();
 		showSchedulerOverviewFragment();
+		purAirDevice = PurifierManager.getInstance().getCurrentPurifier() ;
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onCreate() method exit");
-	}
-	
-	private JSONArray getSchedulerDataFromProduct() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerDataFromProduct() method enter");
-		// TODO: To be replaced with actual data from Purifier
-		
-		try {
-			JSONObject jo = new JSONObject();
-			jo.put(SchedulerConstants.ENABLED, "true");
-			jo.put(SchedulerConstants.TIME, "06:15");
-			jo.put(SchedulerConstants.DAYS, "0123456");
-			jo.put(SchedulerConstants.PRODUCT, "2");
-			jo.put(SchedulerConstants.PORT, "air");
-			jo.put(SchedulerConstants.SPEED, "Silent");
-			jo.put(SchedulerConstants.COMMAND, "om-a");
-			arrSchedulers.put(jo);
-		} catch (Exception e) {
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerDataFromProduct() method exception caught while adding object to Schedulers list");
-		}
-
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerDataFromProduct() method exit");
-		return arrSchedulers;
 	}
 	
 	private void initActionBar() {
@@ -96,10 +89,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::initActionBar() method exit");
 	}
 	
-	private void Save() {
+	/**
+	 * 
+	 */
+	private void save() {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");		
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
-			createScheduler();
+			addScheduler();
 		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
 			updateScheduler();
 		} else if (CRUDOperation.isEmpty()) {
@@ -108,28 +104,21 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method exit");
 	}
 	
-	private void createScheduler() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::createScheduler() method enter");
-		try{
-				JSONObject jo = new JSONObject();
-				jo.put(SchedulerConstants.ENABLED, "true");
-				jo.put(SchedulerConstants.TIME, SelectedTime);
-				jo.put(SchedulerConstants.DAYS, SelectedDays);
-				jo.put(SchedulerConstants.PRODUCT, "2");
-				jo.put(SchedulerConstants.PORT, "air");
-				jo.put(SchedulerConstants.SPEED, SelectedFanspeed);
-				jo.put(SchedulerConstants.COMMAND, "{“om” : “a”}");
-				arrSchedulers.put(jo);
-		} 
-		catch(Exception e) {
-			ALog.d(ALog.SCHEDULER, "Error in createScheduler: " + e.getMessage());
+	/**
+	 * Create the scheduler
+	 */
+	private void addScheduler() {
+		ALog.i(ALog.SCHEDULER, "createScheduler") ;
+		String addSchedulerJson = JSONBuilder.getSchedulesJson(SelectedTime, SelectedFanspeed, SelectedDays, true) ;
+		
+		if( purAirDevice != null && purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+			TaskPutDeviceDetails addSchedulerTask =
+					new TaskPutDeviceDetails(new DISecurity(null).encryptData(addSchedulerJson, purAirDevice), Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()), this,"POST") ;
+			Thread addSchedulerThread = new Thread(addSchedulerTask) ;
+			addSchedulerThread.start() ;
+			//TODO - Add a spinner icon here to block the UI
 		}
-			
-		Bundle b = new Bundle();
-		b.putString("events", arrSchedulers.toString());
-		getIntent().putExtras(b);
-		showSchedulerOverviewFragment();
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::createScheduler() method exit");
+		//TODO - Implement Add scheduler Via CPP
 	}
 	
 	private void updateScheduler() {
@@ -201,7 +190,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			switch (v.getId()) {
 			case R.id.scheduler_actionbar_add_btn:
 				ALog.i(ALog.SCHEDULER, "onClick method - case scheduler_actionbar_add_btn is called");
-				Save();
+				save();
 				break;
 				
 			case R.id.larrow:
@@ -301,6 +290,19 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 	
+	/**
+	 * Retrieves the list of schedules from Purifier
+	 */
+	private void getSchedulesFromPurifier() {
+		if( purAirDevice != null && 
+				purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+			TaskGetHttp getScheduleListRunnable = new TaskGetHttp(Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()
+					), this, this) ;
+			Thread thread = new Thread(getScheduleListRunnable) ;
+			thread.start() ;
+		}
+	}
+	
 	private void updateCRUDOperationData(String time, String date, String speed) {
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
 			if (!time.isEmpty())
@@ -391,6 +393,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
+		getSchedulesFromPurifier() ;
 		setCancelled(false);
 	}
 
@@ -405,7 +408,20 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
-	}	
+		switch (responseCode) {
+		case HttpURLConnection.HTTP_OK:
+			parseResponse(responseData) ;
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	private void parseResponse(String response) {
+		Map<String,ScheduleDto> scheduleList = DataParser.parseSchedulerDto(response) ;
+		ALog.i(ALog.SCHEDULER, "List of schedules: "+scheduleList.size()) ;
+	}
 		
 	public static void setCancelled(boolean cancelled) {
 	}

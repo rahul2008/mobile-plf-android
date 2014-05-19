@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.scheduler.ScheduleDto;
 
 /***
  * This class it used to parse data for AirPurifier event
@@ -40,14 +43,14 @@ public class DataParser {
 			if( dataToParse != null ) {
 				JSONObject jsonObj = new JSONObject(dataToParse) ;
 				airPurifierEvent = new AirPortInfo() ;			
-	
+
 				airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
 				airPurifierEvent.setFanSpeed(jsonObj.getString(ParserConstants.FAN_SPEED)) ;
 				airPurifierEvent.setPowerMode(jsonObj.getString(ParserConstants.POWER_MODE)) ;
 				String aqi = jsonObj.getString(ParserConstants.AQI) ;
 				if(aqi != null && !aqi.equals(""))
 					airPurifierEvent.setIndoorAQI(Integer.parseInt(aqi)) ;
-	
+
 				airPurifierEvent.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
 				airPurifierEvent.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
 				airPurifierEvent.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
@@ -80,10 +83,10 @@ public class DataParser {
 
 		return airPurifierEvent ;
 	}
-	
+
 	public static FirmwarePortInfo parseFirmwareEventData(String dataToParse) {
 		Gson gson = new GsonBuilder().create();
-		
+
 		try {
 			FirmwarePortInfo firmwareEventDto = gson.fromJson(dataToParse, FirmwarePortInfo.class);
 			return firmwareEventDto;
@@ -104,41 +107,41 @@ public class DataParser {
 		List<IndoorHistoryDto> indoorHistoryList = null ;
 		IndoorHistoryDto indoorAQIHistoryDto = null ;
 		JSONObject jsonObject = null ;
-			try {
-				jsonObject = new JSONObject(dataToParse);
-				JSONArray seriesJson = jsonObject.getJSONArray(ParserConstants.SERIES) ;
-				
-				if( seriesJson != null && seriesJson.length() > 0 ) {
-					Log.i("PARSE", "Series: "+seriesJson.length()) ;
-					indoorHistoryList = new ArrayList<IndoorHistoryDto>() ;
-					int seriesArrayLength = seriesJson.length() ;
-					for ( int index = 0 ; index < seriesArrayLength ; index ++ ) {
-						JSONObject indoorJsonObj = seriesJson.getJSONObject(index) ;
-						indoorAQIHistoryDto = new IndoorHistoryDto() ;
-						indoorAQIHistoryDto.setTimeStamp(indoorJsonObj.getString(ParserConstants.TIMESTAMP_INDOORAQI_HISTORY)) ;
-						
-						JSONObject dataKeyValuePairJson = indoorJsonObj.getJSONObject(ParserConstants.DATA_VALUE_KEYPAIRS) ;
-						if ( dataKeyValuePairJson != null ) {
-							indoorAQIHistoryDto.setAqi(Float.parseFloat(dataKeyValuePairJson.getString(ParserConstants.AQI))) ;
-							indoorAQIHistoryDto.setTfav(Integer.parseInt(dataKeyValuePairJson.getString(ParserConstants.TFAV))) ;
-						}
-						indoorHistoryList.add(indoorAQIHistoryDto) ;
+		try {
+			jsonObject = new JSONObject(dataToParse);
+			JSONArray seriesJson = jsonObject.getJSONArray(ParserConstants.SERIES) ;
+
+			if( seriesJson != null && seriesJson.length() > 0 ) {
+				Log.i("PARSE", "Series: "+seriesJson.length()) ;
+				indoorHistoryList = new ArrayList<IndoorHistoryDto>() ;
+				int seriesArrayLength = seriesJson.length() ;
+				for ( int index = 0 ; index < seriesArrayLength ; index ++ ) {
+					JSONObject indoorJsonObj = seriesJson.getJSONObject(index) ;
+					indoorAQIHistoryDto = new IndoorHistoryDto() ;
+					indoorAQIHistoryDto.setTimeStamp(indoorJsonObj.getString(ParserConstants.TIMESTAMP_INDOORAQI_HISTORY)) ;
+
+					JSONObject dataKeyValuePairJson = indoorJsonObj.getJSONObject(ParserConstants.DATA_VALUE_KEYPAIRS) ;
+					if ( dataKeyValuePairJson != null ) {
+						indoorAQIHistoryDto.setAqi(Float.parseFloat(dataKeyValuePairJson.getString(ParserConstants.AQI))) ;
+						indoorAQIHistoryDto.setTfav(Integer.parseInt(dataKeyValuePairJson.getString(ParserConstants.TFAV))) ;
 					}
+					indoorHistoryList.add(indoorAQIHistoryDto) ;
 				}
-			} catch (JSONException e) {
-				ALog.e(ALog.PARSER, "JSONException") ;
-			} catch (JsonIOException e) {
-				ALog.e(ALog.PARSER, "JsonIOException");
-			} catch (JsonSyntaxException e2) {
-				ALog.e(ALog.PARSER, "JsonSyntaxException");
-			} catch (Exception e2) {
-				ALog.e(ALog.PARSER, "Exception");
-				return null;
 			}
-			if (indoorHistoryList != null && indoorHistoryList.size() > 0 ) {
-				Log.i("PARSE", "Size: "+indoorHistoryList.size()) ;
-			}
-			return indoorHistoryList ;
+		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "JSONException") ;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+			return null;
+		}
+		if (indoorHistoryList != null && indoorHistoryList.size() > 0 ) {
+			Log.i("PARSE", "Size: "+indoorHistoryList.size()) ;
+		}
+		return indoorHistoryList ;
 	}
 
 	public static AirPortInfo parseAirPurifierEventDataFromCPP(String dataToParse)  {
@@ -216,30 +219,30 @@ public class DataParser {
 		List<Weatherdto> weatherForecastList = null ;
 		Weatherdto weatherDto = new Weatherdto()  ;
 		String date = "";
-		
+
 		try {
 			JSONObject jsonObj = new JSONObject(dataToParse) ;
-			
+
 			JSONObject dataObj = jsonObj.getJSONObject(ParserConstants.DATA) ;
-			
+
 			JSONArray currentCondition = dataObj.getJSONArray(ParserConstants.CURRENT_CONDITION) ;
-			
+
 			weatherForecastList = new ArrayList<Weatherdto>() ;
-			
+
 			JSONObject currentConditionObj = currentCondition.getJSONObject(0) ;
-			
+
 			weatherDto.setTempInCentigrade(Float.parseFloat(currentConditionObj.getString("temp_C"))) ;
 			weatherDto.setTempInFahrenheit(Float.parseFloat(currentConditionObj.getString("temp_F"))) ;
 			weatherDto.setTime(currentConditionObj.getString(ParserConstants.OBSERVATION_TIME)) ;
 			weatherDto.setWeatherDesc(currentConditionObj.getJSONArray(ParserConstants.WEATHER_DESC).optJSONObject(0).getString(ParserConstants.VALUE));
 			weatherDto.setIsdaytime(currentConditionObj.getString(ParserConstants.IS_DAY_TIME));
 			weatherForecastList.add(weatherDto) ;
-			
+
 			JSONArray weatherArray = dataObj.getJSONArray(ParserConstants.WEATHER) ;
-			
+
 			if ( weatherArray != null && weatherArray.length() > 0 ) {				
 				int length = weatherArray.length() ;
-				
+
 				for( int index = 0 ; index < length ; index ++ ) {
 					JSONObject weatherJSON = weatherArray.getJSONObject(index) ;
 					float maxTempC = Float.parseFloat(weatherJSON.getString(ParserConstants.MAXTEMPC)) ;
@@ -247,13 +250,13 @@ public class DataParser {
 					float minTempC = Float.parseFloat(weatherJSON.getString(ParserConstants.MINTEMPC)) ;
 					float minTempF = Float.parseFloat(weatherJSON.getString(ParserConstants.MINTEMPF)) ;
 					date = weatherJSON.getString(ParserConstants.DATE) ;
-					
+
 					JSONArray hourlyDetails = weatherJSON.getJSONArray(ParserConstants.HOURLY) ;
-					
+
 					if ( null != hourlyDetails ) {
-						
+
 						int hourlyDetailsLength = hourlyDetails.length() ;
-						
+
 						for( int i = 0 ; i < hourlyDetailsLength ; i ++ ) {
 							JSONObject hourlyJSON = hourlyDetails.getJSONObject(i) ;
 							weatherDto = new Weatherdto() ;
@@ -275,7 +278,7 @@ public class DataParser {
 					}
 				}
 			}
-			
+
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException") ;
 		} catch (JsonIOException e) {
@@ -288,7 +291,7 @@ public class DataParser {
 		}
 		return weatherForecastList ;
 	}
-	
+
 	public static DeviceDto getEWSDeviceDetails(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
@@ -324,7 +327,7 @@ public class DataParser {
 		}
 		return deviceWifiDto;
 	}
-	
+
 	//TODO : Unit test.
 	public static List<City> parseLocationData(String dataToParse) {
 		if(dataToParse == null) {
@@ -345,5 +348,32 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "parseLocationData");
 			return null;
 		}
+	}
+
+	public static Map<String,ScheduleDto> parseSchedulerDto(String dataToParse) {
+		Map<String, ScheduleDto> schedulesMap = new HashMap<String, ScheduleDto>() ;
+		JSONObject jsonObject = null ;
+		try {			
+			jsonObject = new JSONObject(dataToParse);
+			@SuppressWarnings("unchecked")
+			Iterator<String> iterator = jsonObject.keys() ;
+			String key = null ;
+			while(iterator.hasNext()) {
+				key = iterator.next() ;
+				ScheduleDto schedules = new ScheduleDto() ;
+				JSONObject schedule;
+				schedule = jsonObject.getJSONObject(key);
+				schedules.setName((String)schedule.get("name")) ;
+				schedulesMap.put(key, schedules) ;
+			}
+
+		}catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch(Exception e) {
+			e.printStackTrace() ;
+		}
+
+		return schedulesMap ;
 	}
 }
