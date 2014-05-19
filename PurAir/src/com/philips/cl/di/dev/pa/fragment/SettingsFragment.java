@@ -13,11 +13,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.demo.DemoMode;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;

@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.util;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
