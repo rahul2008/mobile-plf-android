@@ -42,7 +42,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private NetworkMonitor mNetwork;
 	private DISecurity mSecurity;
 	
-	private DiscoveryEventListener mListener;
+	private List<DiscoveryEventListener> mListeners;
 
 	public static synchronized DiscoveryManager getInstance() {
 		if (mInstance == null) {
@@ -58,6 +58,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mSecurity = new DISecurity(this);
 		initializeDevicesMapFromDataBase();
 		mNetwork.getLastKnownNetworkState(); // Callback will enforce state update
+		mListeners = new ArrayList<DiscoveryEventListener>();
 	}
 	
 	public void start(DiscoveryEventListener listener) { // TODO test
@@ -66,14 +67,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
 		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mListener = listener;
+		mListeners.add(listener);
 	}
 	
 	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mListener = null;
+		mListeners.clear();
 	}
 	
 	public ArrayList<PurAirDevice> getDiscoveredDevices() {
@@ -335,8 +336,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	private void notifyDiscoveryListener() {
-		if (mListener == null) return;
-		mListener.onDiscoveredDevicesListChanged();
+//		if (mListener == null) return;
+//		mListener.onDiscoveredDevicesListChanged();
+		for (DiscoveryEventListener listener : mListeners) {
+			listener.onDiscoveredDevicesListChanged();
+		}
 		ALog.v(ALog.DISCOVERY, "Notified listeners of change event");
 	}
 

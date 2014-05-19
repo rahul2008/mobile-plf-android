@@ -20,13 +20,15 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
+public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener, DiscoveryEventListener {
 
 	private LinearLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -70,7 +72,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onResume() {
 		super.onResume();
+		
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		DiscoveryManager.getInstance().start(this);
+		
 		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
 			updateDashboard(PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo());
 		}
@@ -85,6 +90,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onPause() {
 		super.onPause();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		DiscoveryManager.getInstance().stop();
 	}
 
 	private void updateDashboard(AirPortInfo airPortInfo) {
@@ -104,9 +110,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			purifierNameTxt.setText(currentPurifier.getName());
 			ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + currentPurifier.getConnectionState());
 			if(currentPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
-				aqiMeter.setVisibility(View.INVISIBLE);
+				hideIndoorMeter();
 			} else {
-				aqiMeter.setVisibility(View.VISIBLE);
+				showIndoorMeter();
 			}
 		}
 
@@ -136,6 +142,14 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private void showFirmwareUpdatePopup() {
 		firmwareUpdatePopup.setVisibility(View.VISIBLE);
+	}
+	
+	private void hideIndoorMeter() {
+		aqiMeter.setVisibility(View.INVISIBLE);
+	}
+	
+	private void showIndoorMeter() {
+		aqiMeter.setVisibility(View.VISIBLE);
 	}
 	
 	@Override
@@ -198,6 +212,35 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 		default:
 			break;
+		}
+	}
+
+	@Override
+	public void onDiscoveredDevicesListChanged() {
+		ALog.i(ALog.DASHBOARD, "IndoorDashboard$onDiscoveredDevicesListChanged");
+		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
+			ALog.i(ALog.DASHBOARD, "Purifier connection state " + PurifierManager.getInstance().getCurrentPurifier().getConnectionState());
+			switch (PurifierManager.getInstance().getCurrentPurifier().getConnectionState()) {
+			case CONNECTED_LOCALLY:
+			case CONNECTED_REMOTELY:
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						showIndoorMeter();
+					}
+				});
+				break;
+			case DISCONNECTED:
+				getActivity().runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						hideIndoorMeter();
+					}
+				});
+				break;
+			}
 		}
 	}
 
