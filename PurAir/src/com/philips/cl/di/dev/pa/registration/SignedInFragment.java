@@ -10,11 +10,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 
 public class SignedInFragment extends BaseFragment {
-
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

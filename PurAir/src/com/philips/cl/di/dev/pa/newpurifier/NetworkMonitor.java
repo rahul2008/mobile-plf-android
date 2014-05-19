@@ -102,6 +102,12 @@ public class NetworkMonitor {
 			updateListener(NetworkState.NONE, null);
 		}
 		
+		if (mLastKnownState == NetworkState.MOBILE && newState == NetworkState.WIFI_WITH_INTERNET
+				|| mLastKnownState == NetworkState.WIFI_WITH_INTERNET && newState == NetworkState.MOBILE) {
+			ALog.d(ALog.NETWORKMONITOR, "Detected rapid change between wifi and data - sending intermediate disconnect event");
+			updateListener(NetworkState.NONE, null);
+		}
+		
 		ALog.d(ALog.NETWORKMONITOR, "NetworkState Changed");
 		mLastKnownState = newState;
 		mLastKnownSsid = newSsid;
