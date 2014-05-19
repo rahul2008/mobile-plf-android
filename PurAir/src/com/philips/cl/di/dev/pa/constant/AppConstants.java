@@ -103,7 +103,7 @@ public class AppConstants {
 	public static final String CITY_ID = "cityId" ;
 	
 	/** The Constant DB_VERS. */
-	public static final int DB_VERS = 1;
+	public static final int DB_VERS = 2;
 	
 	/**
 	 * Device information table name
@@ -117,6 +117,7 @@ public class AppConstants {
 	public static final String AIRPUR_BOOT_ID = "bootid";
 	public static final String AIRPUR_KEY = "airpur_key";
 	public static final String AIRPUR_DEVICE_NAME = "dev_name";
+	public static final String AIRPUR_LASTKNOWN_NETWORK = "lastknown_network";
 	public static final String IS_PAIRED="is_paired";
 	public static final String LAST_PAIRED = "last_paired";
 

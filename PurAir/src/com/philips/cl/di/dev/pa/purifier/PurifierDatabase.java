@@ -51,8 +51,9 @@ public class PurifierDatabase {
 				ContentValues values = new ContentValues();
 				values.put(AppConstants.AIRPUR_USN, purifier.getUsn());
 				values.put(AppConstants.AIRPUR_CPP_ID, purifier.getEui64());
-				values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
 				values.put(AppConstants.AIRPUR_DEVICE_NAME, purifier.getName());
+				values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
+				values.put(AppConstants.AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 				values.put(AppConstants.AIRPUR_KEY, purifier.getEncryptionKey());
 				values.put(AppConstants.IS_PAIRED, purifier.isPaired() ? 1 : 0);
 
@@ -86,12 +87,14 @@ public class PurifierDatabase {
 				do {
 					String usn = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_USN));
 					String eui64 = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_CPP_ID));
-					long bootId = cursor.getLong(cursor.getColumnIndex(AppConstants.AIRPUR_BOOT_ID));
 					String name = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_DEVICE_NAME));
+					long bootId = cursor.getLong(cursor.getColumnIndex(AppConstants.AIRPUR_BOOT_ID));
+					String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_LASTKNOWN_NETWORK));
 					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.AIRPUR_KEY));
 					boolean isPaired = cursor.getInt(cursor.getColumnIndex(AppConstants.IS_PAIRED)) == 1;
 					
 					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
+					purifier.setLastKnownNetworkSsid(lastKnownNetwork);
 					purifier.setEncryptionKey(encryptionKey);
 					purifier.setPairing(isPaired);
 
@@ -126,9 +129,10 @@ public class PurifierDatabase {
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
-			values.put(AppConstants.AIRPUR_KEY, purifier.getEncryptionKey());
 			values.put(AppConstants.AIRPUR_DEVICE_NAME, purifier.getName());
+			values.put(AppConstants.AIRPUR_BOOT_ID, purifier.getBootId());
+			values.put(AppConstants.AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
+			values.put(AppConstants.AIRPUR_KEY, purifier.getEncryptionKey());
 			values.put(AppConstants.IS_PAIRED, purifier.isPaired() ? 1 : 0);
 
 			newRowId = db.update(AppConstants.AIRPUR_INFO_TABLE, 

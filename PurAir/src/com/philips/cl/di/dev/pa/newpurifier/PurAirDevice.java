@@ -15,6 +15,7 @@ public class PurAirDevice {
 	private String mIpAddress;
 	private String mName;
 	private long mBootId;
+	private String mLastKnownNetworkSsid;
 	
 	private ConnectionState mConnectionState;
 	private boolean 		isPaired = false;
@@ -63,6 +64,15 @@ public class PurAirDevice {
 
 	public synchronized void setBootId(long bootId) {
 		this.mBootId = bootId;
+	}
+	
+	public synchronized String getLastKnownNetworkSsid() {
+		return mLastKnownNetworkSsid;
+	}
+
+	public synchronized void setLastKnownNetworkSsid(String lastKnownNetworkSsid) {
+		if (lastKnownNetworkSsid == null || lastKnownNetworkSsid.isEmpty()) return;
+		this.mLastKnownNetworkSsid = lastKnownNetworkSsid;
 	}
 
 	public synchronized ConnectionState getConnectionState() {
