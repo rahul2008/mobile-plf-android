@@ -31,6 +31,8 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -671,5 +673,15 @@ public class Utils {
 
 	public static String getFilterFormattedText(int days){
 		return PurAirApplication.getAppContext().getString(R.string.change_soon, days);		
+	}
+	
+	public static boolean isGooglePlayServiceAvailable()
+	{
+		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(PurAirApplication.getAppContext());
+		if(resultCode == ConnectionResult.SUCCESS)
+		{
+			return true;
+		}
+		return false;
 	}
 }

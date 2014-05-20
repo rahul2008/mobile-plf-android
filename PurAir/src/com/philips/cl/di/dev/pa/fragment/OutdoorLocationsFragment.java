@@ -17,6 +17,7 @@ import com.google.android.gms.location.LocationClient;
 import com.mobeta.android.dslv.DragSortListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks, OnConnectionFailedListener{
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
@@ -63,7 +64,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		isGooglePlayServiceAvailable = ((MainActivity) getActivity()).isGooglePlayServiceAvailable();
+		isGooglePlayServiceAvailable = Utils.isGooglePlayServiceAvailable();
 		Log.i(TAG, "isGooglePlayServiceAvailable " + isGooglePlayServiceAvailable);
 		
 		locationClient = new LocationClient(getActivity(), this, this);

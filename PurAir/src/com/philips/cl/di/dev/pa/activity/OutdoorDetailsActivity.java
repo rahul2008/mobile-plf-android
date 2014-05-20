@@ -261,7 +261,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			currentCityTime = city.getUpdatedTime();
 			startWeatherDataTask(city.getGeo());
 			mapLayout = (RelativeLayout) findViewById(R.id.include_map);
-			if(isGooglePlayServiceAvailable()) {
+			if(Utils.isGooglePlayServiceAvailable()) {
 				setUpMapIfNeeded(city.getGeo());
 			} else {
 				mapLayout.setVisibility(View.GONE);

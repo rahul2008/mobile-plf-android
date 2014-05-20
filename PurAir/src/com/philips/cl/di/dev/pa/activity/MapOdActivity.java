@@ -15,6 +15,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class MapOdActivity extends BaseActivity {
 	private GoogleMap mMap;
@@ -38,7 +39,7 @@ public class MapOdActivity extends BaseActivity {
 		//centerCity = getIntent().getStringExtra("centerCity");
 		//otherInfo = getIntent().getStringArrayExtra("otherInfo");
 		mapLayout = (RelativeLayout) findViewById(R.id.include_map);
-		if(isGooglePlayServiceAvailable()) {
+		if(Utils.isGooglePlayServiceAvailable()) {
 			setUpMapIfNeeded();
 		} else {
 			mapLayout.setVisibility(View.GONE);
