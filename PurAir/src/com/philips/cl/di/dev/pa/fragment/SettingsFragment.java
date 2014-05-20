@@ -117,15 +117,15 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				if (purAirDevice != null && purAirDevice.getName() != null) {
 					if (purAirDevice.getName().equals(DemoMode.DEMO)) {
 						String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);
-						ALog.i(ALog.DEMO_MODE, "dataToSend: " + dataToSend);
 						DemoModeTask task = new DemoModeTask(
 								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 						task.start();
 						
-						// Temp code
 						ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 						if (!devices.isEmpty()) {
 							PurifierManager.getInstance().setCurrentPurifier(devices.get(0));
+						} else {
+							PurifierManager.getInstance().removeCurrentPurifier();
 						}
 					}
 				}

@@ -324,7 +324,10 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
-			DemoMode.setDemoModeEnable(false);
+			if (DemoMode.isDemoModeEnable()) {
+				DemoMode.setDemoModeEnable(false);
+				PurifierManager.getInstance().removeCurrentPurifier();
+			}
 			finish();
 		}
 	}
