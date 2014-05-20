@@ -314,7 +314,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:background="@drawable/button_bg_2x"
-        android:text=""
+        android:text="@string/scheduler"
         android:clickable="false"
         android:textColor="#ffffff"
         android:textSize="8sp" />

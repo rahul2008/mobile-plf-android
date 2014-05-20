@@ -6,6 +6,7 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -56,8 +58,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private static final int ADD_SCHEDULE = 1 ;
 	private static final int DELETE_SCHEDULE = 2 ;
 	private static final int EDIT_SCHEDULE = 3 ;
+	private static final int GET_SCHEDULES = 4 ;
 	
 	private List<ScheduleDto> schedulesList ;
+	private ProgressDialog progressDialog ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,23 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		actionBar.setCustomView(view);
 	}
 	
+	private void showProgressDialog() {
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage("Please wait...");
+		progressDialog.show();
+	}
+	
+	private void cancelProgressDialog() {
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if(progressDialog != null && progressDialog.isShowing()) {
+					progressDialog.cancel() ;
+				}				
+			}			
+		});	
+	}
+	
 	/**
 	 * 
 	 */
@@ -121,7 +142,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 					new TaskPutDeviceDetails(new DISecurity(null).encryptData(addSchedulerJson, purAirDevice), Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()), this,"POST") ;
 			Thread addSchedulerThread = new Thread(addSchedulerTask) ;
 			addSchedulerThread.start() ;
-			//TODO - Add a spinner icon here to block the UI
+			
+			showProgressDialog() ;
 		}
 		//TODO - Implement Add scheduler Via CPP
 	}
@@ -155,6 +177,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			TaskPutDeviceDetails deleteScheduleRunnable = new TaskPutDeviceDetails("", url, this,"DELETE") ;
 			Thread deleteScheduleThread = new Thread(deleteScheduleRunnable) ;
 			deleteScheduleThread.start() ;
+			showProgressDialog() ;
 		}		
 	}
 	
@@ -224,7 +247,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		time = String.format("%d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
 		SelectedTime = time;
-		//actionbarTitle.setText(SchedulerConstants.ADD_EVENT);
 		SelectedDays = null;
 		SelectedFanspeed = null;
 		showAddSchedulerFragment();
@@ -266,12 +288,15 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	 * Retrieves the list of schedules from Purifier
 	 */
 	private void getSchedulesFromPurifier() {
+		scheduleType = GET_SCHEDULES ;
 		if( purAirDevice != null && 
 				purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+			ALog.i(ALog.SCHEDULER, "getAllSchedules: "+purAirDevice.getIpAddress()) ;
 			TaskGetHttp getScheduleListRunnable = new TaskGetHttp(Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()
 					), this, this) ;
 			Thread thread = new Thread(getScheduleListRunnable) ;
 			thread.start() ;
+			showProgressDialog() ;
 		}
 	}
 	
@@ -369,7 +394,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
-		
+		cancelProgressDialog() ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			parseResponse(responseData) ;
@@ -404,7 +429,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		b.putString("events", arrSchedulers.toString());
 		getIntent().putExtras(b);
 		
-		if (scheduleType == ADD_SCHEDULE) {
+		if (scheduleType == ADD_SCHEDULE || scheduleType == GET_SCHEDULES) {
 			showSchedulerOverviewFragment();
 		}else if (scheduleType == DELETE_SCHEDULE) {
 			showDeleteSchedulerFragment();
