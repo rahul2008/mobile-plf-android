@@ -429,6 +429,27 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
 		List<ScheduleDto> scheduleList = DataParser.parseSchedulerDto(decryptedResponse) ;
 		ALog.i(ALog.SCHEDULER, "List of schedules: "+scheduleList.size()) ;
+		getSchedulersDataFromDevice(scheduleList);
+	}
+	
+	private void getSchedulersDataFromDevice(List<ScheduleDto> scheduleList) {
+		for (ScheduleDto obj : scheduleList) {
+			try{
+				ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulersDataFromDevice() - getting sch # " + obj.getScheduleNumber());
+				ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulersDataFromDevice() - getting sch time " + obj.getName());
+				JSONObject jo = new JSONObject();
+				jo.put(SchedulerConstants.TIME, obj.getName());
+				arrSchedulers.put(jo);
+			}
+			catch(Exception e) {
+				ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulersDataFromDevice() - getting data failed");
+			}
+		}
+		
+		Bundle b = new Bundle();
+		b.putString("events", arrSchedulers.toString());
+		getIntent().putExtras(b);
+		showSchedulerOverviewFragment();
 	}
 		
 	public static void setCancelled(boolean cancelled) {
