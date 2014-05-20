@@ -220,9 +220,15 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		try{
 			((SchedulerActivity)getActivity()).dispatchInformationsForCRUDIndex(index);
 			JSONObject obj = schedulersList.getJSONObject(index);
-			bundle.putString("time", obj.getString("time"));
-			bundle.putString("days", obj.getString("days"));
-			bundle.putString("speed", obj.getString("speed"));		
+			
+			try{
+				bundle.putString("time", obj.getString("time"));
+				bundle.putString("days", obj.getString("days"));
+				bundle.putString("speed", obj.getString("speed"));
+			}
+			catch (Exception e){
+				ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::editSchededuler() method - exception caught while getting property");
+			}
 			
 			AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 			fragAddSch.setArguments(bundle);

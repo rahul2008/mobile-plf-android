@@ -20,10 +20,7 @@ public class AddSchedulerFragment extends BaseFragment {
 	private String sSelectedFanspeed = "";
 	
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
-		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
-		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
 		View view = inflater.inflate(R.layout.add_scheduler, null);
 		initViews(view);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
@@ -31,6 +28,15 @@ public class AddSchedulerFragment extends BaseFragment {
 	}
 
 	private void initViews(View view) {
+		
+		try{
+			sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
+			sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
+			sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
+		}
+		catch(Exception e) {
+			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - exception caught while getting property");
+		}
 		
 		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
 			((SchedulerActivity)getActivity()).dispatchInformations(SchedulerConstants.ONE_TIME);
