@@ -42,13 +42,14 @@
      
       <ImageView
         android:id="@+id/divider1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
 		android:textColor="@color/title_gray"
         android:layout_below="@+id/tvAddSchdeduler"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/separator" /> 
+        android:background="@android:color/black" /> 
         
       <com.philips.cl.di.dev.pa.view.FontTextView
          xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -97,13 +98,14 @@
         
       <ImageView
         android:id="@+id/divider2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
 		android:textColor="@color/title_gray"
-		android:paddingLeft="16dp"
+		android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_below="@+id/repeat"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/separator" />
+        android:background="@android:color/black" /> 
       
       <com.philips.cl.di.dev.pa.view.FontTextView
          xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -151,12 +153,13 @@
       
       <ImageView
         android:id="@+id/divider3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
 		android:textColor="@color/title_gray"
-		android:paddingLeft="16dp"
+		android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_below="@+id/fanspeed"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/separator" />
+        android:background="@android:color/black" /> 
 
 </RelativeLayout>
