@@ -112,12 +112,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 	private void toggleActivationButton(int index, Button activation) {
 		if (activation.getTag().equals("on")) {
 			activation.setBackgroundResource(R.drawable.toggle_off);
-			((SchedulerActivity)getActivity()).updateSchedulerActivation(index, "false");
 			activation.setTag("off");
 		}
 		else {
 			activation.setBackgroundResource(R.drawable.toggle_on);
-			((SchedulerActivity)getActivity()).updateSchedulerActivation(index, "true");
 			activation.setTag("on");
 		}
 	}

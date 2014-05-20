@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import java.net.HttpURLConnection;
-import java.util.Map;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -51,6 +51,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private int UDOperationIndex = -1;
 	private JSONArray arrSchedulers;
 	private PurAirDevice purAirDevice ;
+	private int scheduleType ;
+	
+	private static final int ADD_SCHEDULE = 1 ;
+	private static final int DELETE_SCHEDULE = 2 ;
+	private static final int EDIT_SCHEDULE = 3 ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +115,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	 * Create the scheduler
 	 */
 	private void addScheduler() {
+		scheduleType = ADD_SCHEDULE ;
 		ALog.i(ALog.SCHEDULER, "createScheduler") ;
 		String addSchedulerJson = JSONBuilder.getSchedulesJson(SelectedTime, SelectedFanspeed, SelectedDays, true) ;
 		
@@ -124,6 +130,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private void updateScheduler() {
+		scheduleType = EDIT_SCHEDULE ;
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method enter");
 		try {
 			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
@@ -142,25 +149,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 	
-	public void updateSchedulerActivation(int index, String enabled) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateSchedulerActivation() method enter");
-		try {
-			JSONObject jo = arrSchedulers.getJSONObject(index);
-			jo.put(SchedulerConstants.ENABLED, enabled);
-			Bundle b = new Bundle();
-			b.putString("events", arrSchedulers.toString());
-			getIntent().putExtras(b);
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateSchedulerActivation() method exit");
-		}
-		catch(Exception e) {
-			ALog.d(ALog.SCHEDULER, "Error in updateSchedulerActivation: " + e.getMessage());
-		}
-	}
 	
 	public void deleteScheduler(int index) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method enter");
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - index is " + index);
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - arrSchedulers length is " + arrSchedulers.length());
 		JSONArray newJArray = new JSONArray();
 		try{
 			for(int i=0;i<arrSchedulers.length();i++){     
@@ -423,6 +414,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
+		
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			parseResponse(responseData) ;
@@ -434,7 +426,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private void parseResponse(String response) {
-		Map<String,ScheduleDto> scheduleList = DataParser.parseSchedulerDto(response) ;
+		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
+		List<ScheduleDto> scheduleList = DataParser.parseSchedulerDto(decryptedResponse) ;
 		ALog.i(ALog.SCHEDULER, "List of schedules: "+scheduleList.size()) ;
 	}
 		

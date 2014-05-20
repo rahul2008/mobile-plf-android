@@ -48,7 +48,7 @@ public class TaskPutDeviceDetails implements Runnable {
 			ALog.i(ALog.SUBSCRIPTION, "TastPutDeviceDetails$run requestMethod " + requestMethod + " url " + url) ;
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection();
-			//conn.setRequestProperty("content-type", "application/json") ;
+			conn.setRequestProperty("content-type", "application/json") ;
 			conn.setDoOutput(true);
 			conn.setRequestMethod(requestMethod);
 			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
@@ -60,10 +60,15 @@ public class TaskPutDeviceDetails implements Runnable {
 			responseCode = conn.getResponseCode() ;
 
 			if ( responseCode == 200 ) {
-				inputStream = conn.getInputStream();	
+				inputStream = conn.getInputStream();
 				result = NetworkUtils.readFully(inputStream);
-				Log.i(TAG, result) ;
+				Log.i(TAG, result) ;				
 			}
+			else {
+				inputStream = conn.getErrorStream();
+				result = NetworkUtils.readFully(inputStream);
+			}
+			
 
 		} catch (IOException e) {
 			e.printStackTrace();

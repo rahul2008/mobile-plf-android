@@ -135,8 +135,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		Animation aqiCircleRotateAnim = new RotateAnimation(0.0f, rotation, drawable.getMinimumWidth()/2, drawable.getMinimumHeight()/2);
 		
-	    aqiCircleRotateAnim.setDuration(2000);  
-	    aqiCircleRotateAnim.setRepeatCount(0);     
+	    aqiCircleRotateAnim.setDuration(2000);
+	    aqiCircleRotateAnim.setRepeatCount(0);
 	    aqiCircleRotateAnim.setFillAfter(true);
 	 
 	    aqiPointer.setAnimation(aqiCircleRotateAnim);
@@ -187,7 +187,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onAirPurifierEventReceived() {
 		if (getActivity() == null) return;
-		final PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		
 		getActivity().runOnUiThread(new Runnable() {
 

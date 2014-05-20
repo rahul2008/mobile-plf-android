@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.util;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -350,8 +349,9 @@ public class DataParser {
 		}
 	}
 
-	public static Map<String,ScheduleDto> parseSchedulerDto(String dataToParse) {
-		Map<String, ScheduleDto> schedulesMap = new HashMap<String, ScheduleDto>() ;
+	public static List<ScheduleDto> parseSchedulerDto(String dataToParse) {
+		ALog.i(ALog.SCHEDULER, dataToParse) ;
+		List<ScheduleDto> schedulesList = new ArrayList<ScheduleDto>() ;
 		JSONObject jsonObject = null ;
 		try {			
 			jsonObject = new JSONObject(dataToParse);
@@ -364,16 +364,16 @@ public class DataParser {
 				JSONObject schedule;
 				schedule = jsonObject.getJSONObject(key);
 				schedules.setName((String)schedule.get("name")) ;
-				schedulesMap.put(key, schedules) ;
+				schedules.setScheduleNumber(Integer.parseInt(key)) ;
+				schedulesList.add(schedules) ;
 			}
 
-		}catch (JSONException e) {
-			// TODO Auto-generated catch block
+		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
 			e.printStackTrace();
 		} catch(Exception e) {
 			e.printStackTrace() ;
 		}
-
-		return schedulesMap ;
+		return schedulesList ;
 	}
 }

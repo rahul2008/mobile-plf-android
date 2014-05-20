@@ -4,8 +4,17 @@ public class ScheduleDto {
 	private String scheduleTime;
 	private String days ;
 	private String mode ;
+	private int scheduleNumber ;
+	private String name ;
+	
 	public String getScheduleTime() {
 		return scheduleTime;
+	}
+	public int getScheduleNumber() {
+		return scheduleNumber;
+	}
+	public void setScheduleNumber(int scheduleNumber) {
+		this.scheduleNumber = scheduleNumber;
 	}
 	public void setScheduleTime(String scheduleTime) {
 		this.scheduleTime = scheduleTime;
@@ -28,5 +37,5 @@ public class ScheduleDto {
 	public void setName(String name) {
 		this.name = name;
 	}
-	private String name ;
+	
 }
