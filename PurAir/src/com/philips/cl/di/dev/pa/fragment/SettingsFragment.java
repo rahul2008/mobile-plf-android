@@ -121,12 +121,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 						task.start();
 						
-						ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-						if (!devices.isEmpty()) {
-							PurifierManager.getInstance().setCurrentPurifier(devices.get(0));
-						} else {
-							PurifierManager.getInstance().removeCurrentPurifier();
-						}
+						PurifierManager.getInstance().removeCurrentPurifier();
 					}
 				}
 			}

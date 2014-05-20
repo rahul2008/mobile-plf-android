@@ -62,8 +62,6 @@ public class EWSStepThreeFragment extends Fragment {
 		initializeXmlVariable();
 		setFontStyle();
 		initializeListener();
-//		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter, new InputFilter.LengthFilter(30) });
-		
 		enablePasswordFild();
 		setPurifierDetils();
 		

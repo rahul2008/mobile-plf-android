@@ -541,9 +541,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		if (ewsPurifier == null) return;
 		if (ewsPurifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 
-		ALog.d(ALog.EWS, "Successfully discovered EWS purifier EUI64: " + ewsPurifier.getEui64()
-				+", Name: " + ewsPurifier.getName() + ", IPAddr: " + ewsPurifier.getIpAddress()
-				+", Key: " + ewsPurifier.getEncryptionKey() +", Bootid: " + ewsPurifier.getBootId());
 		PurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
 		deviceDiscoveryCompleted();
 	}
