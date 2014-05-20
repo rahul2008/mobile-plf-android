@@ -12,12 +12,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.demo.DemoMode;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -221,7 +221,7 @@ public class RightMenuClickListener implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.connect:
 			Intent intent = null;
-			if (DemoMode.isDemoModeEnable()) {
+			if (PurAirApplication.isDemoModeEnable()) {
 				intent = new Intent(mainActivity, DemoModeActivity.class);
 			} else {
 				intent = new Intent(mainActivity, EWSActivity.class);

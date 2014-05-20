@@ -25,7 +25,7 @@ public class DemoModeFinalFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		((DemoModeActivity) getActivity()).setActionbarTitle(DemoMode.DEMO_MODE_STEP_FINAL);
+		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_FINAL);
 		
 		FontTextView msg = (FontTextView) getView().findViewById(R.id.congratulation_msg);
 		msg.setText(getString(R.string.demo_mode_final_step_msg));
@@ -40,5 +40,7 @@ public class DemoModeFinalFragment extends Fragment {
 				((DemoModeActivity) getActivity()).showHomeScreen();
 			}
 		});
+		
+		((DemoModeActivity) getActivity()).dismissConnectingDialog();
 	}
 }

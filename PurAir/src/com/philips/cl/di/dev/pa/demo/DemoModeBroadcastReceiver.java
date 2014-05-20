@@ -32,12 +32,12 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	
 	private DemoModeListener listener;
 	private boolean isRegistered;
-	private int errorCode = DemoMode.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP;
+	private int errorCode = DemoModeConstant.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP;
 	private boolean stop = true;
 	private int totalTime = 10 * 1000 ;
 	private PurAirDevice tempDemoModePurifier;
 	private DemoModeTask task;
-	private int taskType = DemoMode.DEMO_MODE_TASK_DEVICE_GET;
+	private int taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 	private IntentFilter filter = new IntentFilter();
 	
 	public DemoModeBroadcastReceiver(DemoModeListener listener) {
@@ -78,7 +78,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 				
 				if (ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 					ALog.i(ALog.DEMO_MODE, "Connected to AirPurifier - Ssid= "+ ssid);
-					errorCode = DemoMode.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED;
+					errorCode = DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED;
 					initializeKey();
 					return;
 				}
@@ -151,13 +151,13 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
 		tempDemoModePurifier = new PurAirDevice(
-				tempEui64, null, EWSConstant.PURIFIER_ADHOCIP, DemoMode.DEMO, -1, ConnectionState.CONNECTED_LOCALLY);
+				tempEui64, null, EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1, ConnectionState.CONNECTED_LOCALLY);
 	}
 	
 	private void updateTempDevice(String eui64) {
 		if (tempDemoModePurifier == null) return;
 		String encryptionKey = tempDemoModePurifier.getEncryptionKey();
-		String purifierName = DemoMode.DEMO;
+		String purifierName = DemoModeConstant.DEMO;
 		tempDemoModePurifier = new PurAirDevice(
 				eui64, null, EWSConstant.PURIFIER_ADHOCIP, purifierName, -1, ConnectionState.CONNECTED_LOCALLY);
 		tempDemoModePurifier.setEncryptionKey(encryptionKey);
@@ -166,14 +166,14 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	
 	private void getDeviceDetails() {
 		ALog.i(ALog.DEMO_MODE,"device details") ;
-		taskType = DemoMode.DEMO_MODE_TASK_DEVICE_GET;
+		taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 		task = new DemoModeTask(this, Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP),"" , "GET") ;
 		task.start();
 	}
 	
 	private void getWifiDetails() {
 		ALog.i(ALog.DEMO_MODE, "gettWifiDetails");
-		taskType = DemoMode.DEMO_MODE_TASK_WIFI_GET;
+		taskType = DemoModeConstant.DEMO_MODE_TASK_WIFI_GET;
 		task = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP),"" , "GET");
 		task.start();
 	}
@@ -196,7 +196,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 		ALog.i(ALog.DEMO_MODE, "onTaskCompleted:"+responseCode) ;
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
-			if( taskType == DemoMode.DEMO_MODE_TASK_DEVICE_GET ) {
+			if( taskType == DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET ) {
 				String decryptedResponse = new DISecurity(null).decryptData(responseData, tempDemoModePurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.DEMO_MODE,decryptedResponse) ;
@@ -204,11 +204,11 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 					
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					if (deviceDto == null) return;
-					tempDemoModePurifier.setName(DemoMode.DEMO);
+					tempDemoModePurifier.setName(DemoModeConstant.DEMO);
 					getWifiDetails() ;
 				}				
 			}
-			else if(taskType == DemoMode.DEMO_MODE_TASK_WIFI_GET) {
+			else if(taskType == DemoModeConstant.DEMO_MODE_TASK_WIFI_GET) {
 				String decryptedResponse = new DISecurity(null).decryptData(responseData, tempDemoModePurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.DEMO_MODE,decryptedResponse) ;
@@ -229,9 +229,9 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 			stop = true ;
 			stopSSIDTimer() ;
 			
-			if( taskType == DemoMode.DEMO_MODE_TASK_DEVICE_GET 
-					|| taskType == DemoMode.DEMO_MODE_TASK_WIFI_GET) {
-				listener.onErrorOccur(DemoMode.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED) ;
+			if( taskType == DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET 
+					|| taskType == DemoModeConstant.DEMO_MODE_TASK_WIFI_GET) {
+				listener.onErrorOccur(DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED) ;
 			}
 			break;			
 		}

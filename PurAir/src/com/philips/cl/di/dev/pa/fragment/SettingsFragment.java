@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,13 +13,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.demo.DemoMode;
+import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -111,11 +110,11 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		if (getActivity() == null) return;
 		if (buttonView.getId() == R.id.settings_demo_mode_toggle) {
 			ALog.i(ALog.DEMO_MODE, "Demo mode enable: " + isChecked);
-			DemoMode.setDemoModeEnable(isChecked);
+			PurAirApplication.setDemoModeEnable(isChecked);
 			if (!isChecked) {
 				PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 				if (purAirDevice != null && purAirDevice.getName() != null) {
-					if (purAirDevice.getName().equals(DemoMode.DEMO)) {
+					if (purAirDevice.getName().equals(DemoModeConstant.DEMO)) {
 						String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);
 						DemoModeTask task = new DemoModeTask(
 								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;

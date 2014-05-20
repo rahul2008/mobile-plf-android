@@ -27,7 +27,7 @@ public class DemoModeStepOneFragment  extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
-		((DemoModeActivity) getActivity()).setActionbarTitle(DemoMode.DEMO_MODE_STEP_ONE);
+		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_ONE);
 		
 		((FontTextView) getView().findViewById(R.id.setup_step2_title)).setText(getString(R.string.demo_mode_title_step));
 		

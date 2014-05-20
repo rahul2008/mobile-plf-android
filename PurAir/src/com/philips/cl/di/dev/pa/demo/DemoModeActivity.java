@@ -31,7 +31,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	/**
 	 * 
 	 */
-	private int demoStep = DemoMode.DEMO_MODE_STEP_INTRO;
+	private int demoStep = DemoModeConstant.DEMO_MODE_STEP_INTRO;
 	public int setAPModeCounter;
 	public int step1FailedCounter;
 	private DemoModeBroadcastReceiver broadcastReceiver;
@@ -96,22 +96,22 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	
 	
 	public void showIntroScreen() {
-		demoStep = DemoMode.DEMO_MODE_STEP_INTRO;
+		demoStep = DemoModeConstant.DEMO_MODE_STEP_INTRO;
 		showDemoModeFragment(new DemoModeStartFragement());
 	}
 	
 	public void showStepOneScreen() {
-		demoStep = DemoMode.DEMO_MODE_STEP_ONE;
+		demoStep = DemoModeConstant.DEMO_MODE_STEP_ONE;
 		showDemoModeFragment(new DemoModeStepOneFragment());
 	}
 	
 	public void showSupportScreen() {
-		demoStep = DemoMode.DEMO_MODE_STEP_SUPPORT;
+		demoStep = DemoModeConstant.DEMO_MODE_STEP_SUPPORT;
 		showDemoModeFragment(new DemoModeSupportFragment());
 	}
 	
 	public void showFinalScreen() {
-		demoStep = DemoMode.DEMO_MODE_STEP_FINAL;
+		demoStep = DemoModeConstant.DEMO_MODE_STEP_FINAL;
 		showDemoModeFragment(new DemoModeFinalFragment());
 	}
 	
@@ -155,16 +155,16 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	
 	public void setActionbarTitle(int step) {
 		switch (step) {
-		case DemoMode.DEMO_MODE_STEP_INTRO:
-		case DemoMode.DEMO_MODE_STEP_ONE:
+		case DemoModeConstant.DEMO_MODE_STEP_INTRO:
+		case DemoModeConstant.DEMO_MODE_STEP_ONE:
 			actionbarCancelBtn.setVisibility(View.VISIBLE);
 			actionbarTitle.setText(getString(R.string.demo_mode_title));
 			break;
-		case DemoMode.DEMO_MODE_STEP_SUPPORT:
+		case DemoModeConstant.DEMO_MODE_STEP_SUPPORT:
 			actionbarCancelBtn.setVisibility(View.VISIBLE);
 			actionbarTitle.setText(getString(R.string.demo_mode_support_title));
 			break;
-		case DemoMode.DEMO_MODE_STEP_FINAL:
+		case DemoModeConstant.DEMO_MODE_STEP_FINAL:
 			actionbarCancelBtn.setVisibility(View.INVISIBLE);
 			actionbarTitle.setText(getString(R.string.congratulations));
 			break;
@@ -176,7 +176,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	private boolean replaceFragmentOnBackPress() {
 		ALog.i(ALog.DEMO_MODE, "replaceFragmentOnBackPress: " + demoStep);
 		switch (demoStep) {
-		case DemoMode.DEMO_MODE_STEP_INTRO:
+		case DemoModeConstant.DEMO_MODE_STEP_INTRO:
 			try {
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
@@ -185,15 +185,15 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 				ALog.e(ALog.DEMO_MODE, e.getMessage());
 			}
 			return true;
-		case DemoMode.DEMO_MODE_STEP_ONE:
+		case DemoModeConstant.DEMO_MODE_STEP_ONE:
 			showIntroScreen();
 			return true;
-		case DemoMode.DEMO_MODE_STEP_SUPPORT:
+		case DemoModeConstant.DEMO_MODE_STEP_SUPPORT:
 			setAPModeCounter = 0;
 			step1FailedCounter = 0;
 			showStepOneScreen();
 			return true;
-		case DemoMode.DEMO_MODE_STEP_FINAL:
+		case DemoModeConstant.DEMO_MODE_STEP_FINAL:
 			return true;
 		default:
 			return false;
@@ -211,7 +211,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 				dismissConnectingDialog();
 				
 				switch (errorCode) {
-				case DemoMode.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP:
+				case DemoModeConstant.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP:
 					if (step1FailedCounter > 2) {
 						showSupportScreen();
 					} else {
@@ -219,7 +219,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 								DemoModeActivity.this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
 					}
 					break;
-				case DemoMode.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED:
+				case DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED:
 					if (step1FailedCounter > 2) {
 						showSupportScreen();
 					} else {
@@ -248,7 +248,6 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			@Override
 			public void run() {
 				showFinalScreen();
-				dismissConnectingDialog();
 			}
 		});
 	}

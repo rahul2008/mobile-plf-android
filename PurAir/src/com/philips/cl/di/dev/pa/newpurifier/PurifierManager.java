@@ -92,7 +92,7 @@ public class PurifierManager implements SubscriptionEventListener {
 	public void onLocalEventReceived(String encryptedData, String purifierIp) {
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || !purifier.getIpAddress().equals(purifierIp)) {
+		if (purifier == null || purifier.getIpAddress() == null || !purifier.getIpAddress().equals(purifierIp)) {
 			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier");
 			return;
 		}

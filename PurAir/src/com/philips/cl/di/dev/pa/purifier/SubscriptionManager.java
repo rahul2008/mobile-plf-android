@@ -45,17 +45,20 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	
 	public void subscribeToPurifierEvents(PurAirDevice purifier) {
 		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Purifier events for purifier: " + purifier);
+		if (purifier == null) return;
 		String portUrl = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
 		subscribe(portUrl, purifier);
 	}
 	
 	public void unSubscribeFromPurifierEvents(PurAirDevice purifier) {
 		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing to Purifier events for purifier: " + purifier);
+		if (purifier == null) return;
 		String portUrl = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
 		unSubscribe(portUrl, purifier);
 	}
 	
 	public void subscribeToFirmwareEvents(PurAirDevice purifier) {
+		if (purifier == null) return;
 		boolean isLocalSubscription = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
 		if (isLocalSubscription) {
 			ALog.d(ALog.SUBSCRIPTION, "Subscribing to Firmware events for purifier: " + purifier);
@@ -65,6 +68,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	}
 	
 	public void unSubscribeFromFirmwareEvents(PurAirDevice purifier) {
+		if (purifier == null) return;
 		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing from Firmware events appEui64: " + purifier);
 		String portUrl = Utils.getPortUrl(Port.FIRMWARE, purifier.getIpAddress());
 		unSubscribe(portUrl, purifier);

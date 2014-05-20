@@ -42,7 +42,7 @@ public class DemoModeSupportFragment extends Fragment {
 					R.id.contact_philips_support_message1)).setText(getActivity().getString(R.string.contact_philips_support_msg1_3attempt));
 		}
 		
-		((DemoModeActivity) getActivity()).setActionbarTitle(DemoMode.DEMO_MODE_STEP_SUPPORT);
+		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_SUPPORT);
 		
 		((RelativeLayout) getView().findViewById
 				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener);  

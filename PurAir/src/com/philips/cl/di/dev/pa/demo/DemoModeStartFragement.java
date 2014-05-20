@@ -34,7 +34,7 @@ public class DemoModeStartFragement extends Fragment {
 		txt.setText("");
 		txt.setVisibility(View.INVISIBLE);
 		
-		((DemoModeActivity) getActivity()).setActionbarTitle(DemoMode.DEMO_MODE_STEP_INTRO);
+		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_INTRO);
 		
 		Button startDemoBtn = (Button) getView().findViewById(R.id.setup_get_start_btn);
 		startDemoBtn.setTypeface(Fonts.getGillsansLight(getActivity()));

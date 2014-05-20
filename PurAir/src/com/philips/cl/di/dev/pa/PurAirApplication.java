@@ -7,6 +7,7 @@ import android.app.Application;
 public class PurAirApplication extends Application {
 	
 	private static PurAirApplication mInstance = null;
+	private static boolean isDemoModeEnable;
 	
 	@Override
 	public void onCreate() {
@@ -25,5 +26,13 @@ public class PurAirApplication extends Application {
 	
 	public static PurAirApplication getAppContext() {
 		return mInstance;
+	}
+	
+	public static boolean isDemoModeEnable() {
+		return isDemoModeEnable;
+	}
+
+	public static void setDemoModeEnable(boolean isDemoMode) {
+		isDemoModeEnable = isDemoMode;
 	}
 }

@@ -43,6 +43,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -52,7 +53,6 @@ import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.demo.DemoMode;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
@@ -324,8 +324,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
-			if (DemoMode.isDemoModeEnable()) {
-				DemoMode.setDemoModeEnable(false);
+			if (PurAirApplication.isDemoModeEnable()) {
+				PurAirApplication.setDemoModeEnable(false);
 				PurifierManager.getInstance().removeCurrentPurifier();
 			}
 			finish();
