@@ -103,8 +103,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		event1.setOnClickListener(onClickListener);
 		
 		double viewWidth = (double) view.getWidth();
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::initViews() method - View width is - " + viewWidth);
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::initViews() method exit");
 	}
 
 	private OnClickListener onClickListener = new OnClickListener() {
@@ -214,7 +212,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 	private void refreshDeleteSchedulerPage(int index) {
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::refreshDeleteSchedulerPage() method enter");
 		((SchedulerActivity)getActivity()).deleteScheduler(index);
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::refreshDeleteSchedulerPage() method exit");
 	}
 	
 	private void editSchededuler(int index) {
@@ -237,7 +234,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		catch (Exception e) {
 			ALog.d(ALog.SCHEDULER, "Error in editSchededuler: " + e.getMessage());
 		}
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::editSchededuler() method exit");
 	}
 	
 	private void CreateEventList(String extras, View view) {
@@ -247,7 +243,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		
 		JsonArray arrColl = new JsonParser().parse(extras).getAsJsonArray();
 		for (int i=0;i<arrColl.size();i++) {
-			ALog.i("Scheduler", "Printing Json object  " + i);
 		    JsonObject json = arrColl.get(i).getAsJsonObject();
 		    
 		    sIsEnabled = getJsonPropertyAsString(json, "enabled");
@@ -260,7 +255,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		    	sDays = SchedulerConstants.ONE_TIME;
 		    }
 		    
-		    sDays = setWeekDays2(sDays);
 		    sProduct = getJsonPropertyAsString(json, "product");
 		    sPort = getJsonPropertyAsString(json, "port");
 		    
@@ -276,14 +270,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 			//sEventSetting = sSpeed + ", " + sDays;
 		    sEventSetting = sDays;
 		    
-		    ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - Enabled value is  " + sIsEnabled);
-			ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - time value is  " + sTime);
-			ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - days value is  " + sDays);
-			ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - product value is  " + sProduct);
-			ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - port value is  " + sPort);
-			ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - speed value is  " + sSpeed);
-			ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method - command value is  " + sCommand);	
-			
 			switch(i) {
 			case 0:
 				CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, R.id.RightArrow1, R.id.RightArrow1_text, R.id.divider1, R.id.delete1, 0, sTime, sEventSetting);
@@ -304,7 +290,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 				break;
 			}
 		}
-		ALog.i("Scheduler", "DeleteSchedulerFragment::CreateEventList() method exit");
 	}
 	
 	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int rightArr, int rightArrTxt, int iImgView, int delete, int index, String time, String event) {
@@ -339,10 +324,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ivDelete = (ImageView) view.findViewById(delete);
 		ivDelete.setVisibility(View.VISIBLE);		
 		
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is " + marked4Deletion);
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is " + marked4Deletion.isEmpty());
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion index is " + index);
-		
 		if (!marked4Deletion.isEmpty()) {
 			char[] tempArr = marked4Deletion.toCharArray();
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion tempArr[index] is " + tempArr[index]);
@@ -367,47 +348,14 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() method exit");
 	}
 	
-	private String setWeekDays2(String days) {
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setWeekDays2() method enter");
-		String sWeekdays = "";
-		
-		if (days.equals(SchedulerConstants.ONE_TIME))
-			return days;
-		
-		String[] sParts = days.split("0123456789");
-		String sTempStr = "";
-		//int beginIndex = 0;
-		
-		for(int i=0; i<sParts.length;i++) {
-			sTempStr = sParts[i];
-			ALog.i("Scheduler", "setWeekDays2 method - inside" + sTempStr);
-			if (sTempStr.contains("0")) sWeekdays = sWeekdays + "Sunday, ";
-			if (sTempStr.contains("1")) sWeekdays = sWeekdays + "Monday, ";
-			if (sTempStr.contains("2")) sWeekdays = sWeekdays + "Tuesday, ";
-			if (sTempStr.contains("3")) sWeekdays = sWeekdays + "Wednesday, ";
-			if (sTempStr.contains("4")) sWeekdays = sWeekdays + "Thursday, ";
-			if (sTempStr.contains("5")) sWeekdays = sWeekdays + "Friday, ";
-			if (sTempStr.contains("6")) sWeekdays = sWeekdays + "Saturday, ";
-		}
-		
-		sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setWeekDays2() method exit");
-		
-		return sWeekdays;
-	}
-	
 	private void setMarked4Deletion(int index, char flag) {
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setMarked4Deletion() method enter");
 		if (!marked4Deletion.isEmpty()) {
-			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setMarked4Deletion() method - marked4Deletion before is " + marked4Deletion);
 			char[] tempArr = marked4Deletion.toCharArray();
 			tempArr[index] = flag;
-			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setMarked4Deletion() method - tempArr[index] is " + tempArr[index]);
 			marked4Deletion = String.valueOf(tempArr);
-			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setMarked4Deletion() method - marked4Deletion after is " + marked4Deletion);
 			((SchedulerActivity)getActivity()).dispatchInfo4MarkedSchDeletion(marked4Deletion.toString());
 		}
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::setMarked4Deletion() method exit");
 	}
 	
 	private void showSchedulerOverviewFragment() {
@@ -415,7 +363,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		getFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();
-		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::showSchedulerOverviewFragment() method exit");
 	}
 	
 	@Override
@@ -435,7 +382,9 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 	public void processFirmwareData(JsonObject jsonObject) { }
 	
 	public String getJsonPropertyAsString(JsonObject jsonObject, String property) {
+		if( jsonObject == null ) return "" ;
 		JsonElement progressElemt = jsonObject.get(property);
-		return progressElemt.getAsString();
+		if( progressElemt == null ) return  "" ;
+ 		return progressElemt.getAsString();
 	}
 }

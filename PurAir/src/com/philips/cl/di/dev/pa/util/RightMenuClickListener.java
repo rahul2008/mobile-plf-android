@@ -113,7 +113,6 @@ public class RightMenuClickListener implements OnClickListener {
 			setFanSpeed(airPortInfo);
 			timer.setText(getTimerText(airPortInfo));
 			toggleButtonBackground(getButtonToBeHighlighted(getTimerText(airPortInfo)));
-			schedule.setText("N.A.");
 			childLock.setChecked(getOnOffStatus(airPortInfo.getChildLock()));
 			indicatorLight.setChecked(getOnOffStatus(airPortInfo.getAqiL()));
 		}

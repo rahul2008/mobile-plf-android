@@ -44,5 +44,6 @@ public class SchedulerConstants {
 	public static final String TWO = "2";
 	public static final String THREE = "3";
 	public static final String TURBO = "Turbo";
+	public static final String NAME = "Name";
 }
 

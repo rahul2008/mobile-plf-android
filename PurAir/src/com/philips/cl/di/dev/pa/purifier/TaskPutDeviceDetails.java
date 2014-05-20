@@ -49,11 +49,15 @@ public class TaskPutDeviceDetails implements Runnable {
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection();
 			conn.setRequestProperty("content-type", "application/json") ;
-			conn.setDoOutput(true);
+			
 			conn.setRequestMethod(requestMethod);
-			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
-			out.write(dataToUpload);
-			out.flush() ;
+			if(dataToUpload != null && !dataToUpload.isEmpty()) {
+				conn.setDoOutput(true);
+				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
+				out.write(dataToUpload);
+				out.flush() ;				
+			}
+			
 			targetIpAddress = urlConn.getHost();
 
 			conn.connect();

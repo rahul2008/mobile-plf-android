@@ -56,10 +56,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private static final int ADD_SCHEDULE = 1 ;
 	private static final int DELETE_SCHEDULE = 2 ;
 	private static final int EDIT_SCHEDULE = 3 ;
+	
+	private List<ScheduleDto> schedulesList ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onCreate() method enter");
 		super.onCreate(savedInstanceState);
 		SchedulerMarked4Deletion = "0000000000";
 		setContentView(R.layout.scheduler_container);
@@ -67,11 +68,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		arrSchedulers = new JSONArray();
 		showSchedulerOverviewFragment();
 		purAirDevice = PurifierManager.getInstance().getCurrentPurifier() ;
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onCreate() method exit");
 	}
 	
 	private void initActionBar() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::initActionBar() method enter");
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
@@ -93,7 +92,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		actionBarBackBtn.setOnClickListener(onClickListener);
 
 		actionBar.setCustomView(view);
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::initActionBar() method exit");
 	}
 	
 	/**
@@ -108,7 +106,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		} else if (CRUDOperation.isEmpty()) {
 			showSchedulerOverviewFragment();
 		}
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method exit");
 	}
 	
 	/**
@@ -131,7 +128,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	private void updateScheduler() {
 		scheduleType = EDIT_SCHEDULE ;
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method enter");
 		try {
 			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
 			jo.put(SchedulerConstants.TIME, updateSelectedTime);
@@ -142,7 +138,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			b.putString("events", arrSchedulers.toString());
 			getIntent().putExtras(b);
 			showDeleteSchedulerFragment();
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::updateScheduler() method exit");
 		}
 		catch(Exception e) {
 			ALog.d(ALog.SCHEDULER, "Error in updateScheduler: " + e.getMessage());
@@ -151,49 +146,32 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	
 	public void deleteScheduler(int index) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - index is " + index);
-		JSONArray newJArray = new JSONArray();
-		try{
-			for(int i=0;i<arrSchedulers.length();i++){     
-			    if(i != index)
-			    	newJArray.put(arrSchedulers.get(i));     
-			}
-		} catch(Exception e) {
-		}
-		
-		arrSchedulers = newJArray;
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method - new arrSchedulers length is " + arrSchedulers.length());
-		
-		Bundle b = new Bundle();
-		b.putString("events", arrSchedulers.toString());
-		getIntent().putExtras(b);
-		
-		DeleteSchedulerFragment fragDeleteSch = new DeleteSchedulerFragment();
-		getSupportFragmentManager()
-		.beginTransaction()
-		.replace(R.id.ll_scheduler_container, fragDeleteSch,"DeleteSchedulerFragment").commit();
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::deleteScheduler() method exit");
+		ALog.i(ALog.SCHEDULER, "DELETE SCHEDULER: "+index) ;
+		scheduleType = DELETE_SCHEDULE ;
+		int scheduleNumber = schedulesList.get(index).getScheduleNumber() ;
+		if( purAirDevice != null && purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+			String url = Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress())+"/"+scheduleNumber ;
+			ALog.i(ALog.SCHEDULER, url) ;
+			TaskPutDeviceDetails deleteScheduleRunnable = new TaskPutDeviceDetails("", url, this,"DELETE") ;
+			Thread deleteScheduleThread = new Thread(deleteScheduleRunnable) ;
+			deleteScheduleThread.start() ;
+		}		
 	}
 	
 	private OnClickListener onClickListener = new OnClickListener() {
 		@Override
 		public void onClick(final View v) {
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onClick() method enter");
-			
 			switch (v.getId()) {
 			case R.id.scheduler_actionbar_add_btn:
-				ALog.i(ALog.SCHEDULER, "onClick method - case scheduler_actionbar_add_btn is called");
 				save();
 				break;
 				
 			case R.id.larrow:
-				ALog.i(ALog.SCHEDULER, "onClick method - case larrow is called");
 				showPreviousScreen4BackPressed();
 				break;
 			default:
 				break;
 			}
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onClick() method exit");
 		}
 	};
 	
@@ -202,12 +180,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	public String getSchedulerMarked4Deletion() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerMarked4Deletion() method SchedulerMarked4Deletion is " + SchedulerMarked4Deletion);
 		return SchedulerMarked4Deletion;
 	}
 
 	public void setActionBar(SchedulerID id) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
 		switch (id) {
 		case OVERVIEW_EVENT:
 			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
@@ -231,7 +207,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		default:
 			break;
 		}
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method exit");
 	}
 
 	private void setActionBar(int textId, int cancelButton, int backButton) {
@@ -245,7 +220,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method enter");
 		String time;
 		time = String.format("%d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
@@ -254,23 +228,19 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		SelectedDays = null;
 		SelectedFanspeed = null;
 		showAddSchedulerFragment();
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method exit");
 	}
 
 	
 
 	public void dispatchInformations(String days) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations() method - days is " + days);
 		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING);
 	}
 
 	public void dispatchInformations2(String fanspeed) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations2() method - fanspeed is " + fanspeed);
 		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, SchedulerConstants.EMPTY_STRING);
 	}
 	
 	public void dispatchInfo4MarkedSchDeletion(String markedDelete) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations2() method - fanspeed is " + markedDelete);
 		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, markedDelete);
 	}
 	
@@ -280,7 +250,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	public void dispatchInformationsForCRUDIndex(int index) {
-		ALog.i(ALog.SCHEDULER, "dispatchInformationsForCRUDIndex - index is " + index);
 		UDOperationIndex = index;
 		try {
 			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
@@ -336,16 +305,12 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private void showAddSchedulerFragment() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method enter");
 		Bundle bundle = new Bundle();
 		
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
 			bundle.putString(SchedulerConstants.TIME, SelectedTime);
 			bundle.putString(SchedulerConstants.DAYS, SelectedDays);
 			bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method - SelectedTime " + SelectedTime);
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method - SelectedDays " + SelectedDays);
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method - SelectedFanspeed " + SelectedFanspeed);
 		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
 			bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
 			bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
@@ -357,18 +322,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showAddSchedulerFragment() method exit");
 	}
 	
 	private void showDeleteSchedulerFragment() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showDeleteSchedulerFragment() method enter");
 		DeleteSchedulerFragment fragDeleteSch = new DeleteSchedulerFragment();
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragDeleteSch, "DeleteSchedulerFragment").commit();
-
-		
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showDeleteSchedulerFragment() method exit");
 	}
 	
 	private void showPreviousScreen4BackPressed() {
@@ -404,11 +364,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 
 	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
-	
-	@Override
 	public void onClick(View v) {
 	}
 	
@@ -427,16 +382,15 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	private void parseResponse(String response) {
 		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
-		List<ScheduleDto> scheduleList = DataParser.parseSchedulerDto(decryptedResponse) ;
-		ALog.i(ALog.SCHEDULER, "List of schedules: "+scheduleList.size()) ;
-		getSchedulersDataFromDevice(scheduleList);
+		schedulesList = DataParser.parseSchedulerDto(decryptedResponse) ;
+		ALog.i(ALog.SCHEDULER, "List of schedules: "+schedulesList.size()) ;
+		getSchedulersDataFromDevice(schedulesList);
 	}
 	
 	private void getSchedulersDataFromDevice(List<ScheduleDto> scheduleList) {
+		arrSchedulers = new JSONArray() ;
 		for (ScheduleDto obj : scheduleList) {
-			try{
-				ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulersDataFromDevice() - getting sch # " + obj.getScheduleNumber());
-				ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulersDataFromDevice() - getting sch time " + obj.getName());
+			try {
 				JSONObject jo = new JSONObject();
 				jo.put(SchedulerConstants.TIME, obj.getName());
 				arrSchedulers.put(jo);
