@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import android.test.InstrumentationTestCase;
 
@@ -451,6 +452,109 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
 		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
 		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+	}
+	
+	public void testRemovePurifierPairedAfterNoPurifier() {
+		setMockSubscriptionManager();
+		
+		mPurifierMan.removeCurrentPurifier();
+		
+		verify(mSubscriptionMan, never()).disableLocalSubscription();
+		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
+		verify(mSubscriptionMan, never()).enableLocalSubscription();
+		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
+		
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(any(PurAirDevice.class));
+		
+		assertNull(mPurifierMan.getCurrentPurifier());
+	}
+	
+	public void testRemovePurifierPairedAfterDisconnected() {
+		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.DISCONNECTED);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		setMockSubscriptionManager();
+		
+		mPurifierMan.removeCurrentPurifier();
+		
+		verify(mSubscriptionMan, never()).disableLocalSubscription();
+		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
+		verify(mSubscriptionMan, never()).enableLocalSubscription();
+		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
+		
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(any(PurAirDevice.class));
+		
+		assertNull(mPurifierMan.getCurrentPurifier());
+	}
+	
+	public void testRemovePurifierPairedAfterLocal() {
+		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		setMockSubscriptionManager();
+		
+		mPurifierMan.removeCurrentPurifier();
+		
+		verify(mSubscriptionMan).disableLocalSubscription();
+		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
+		verify(mSubscriptionMan, never()).enableLocalSubscription();
+		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
+		
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		
+		assertNull(mPurifierMan.getCurrentPurifier());
+	}
+	
+	public void testRemovePurifierPairedAfterRemoteNotPaired() {
+		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		setMockSubscriptionManager();
+		
+		mPurifierMan.removeCurrentPurifier();
+		
+		verify(mSubscriptionMan,never()).disableLocalSubscription();
+		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
+		verify(mSubscriptionMan, never()).enableLocalSubscription();
+		verify(mSubscriptionMan).disableRemoteSubscription(PurAirApplication.getAppContext());
+		
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		
+		assertNull(mPurifierMan.getCurrentPurifier());
+	}
+	
+	public void testRemovePurifierPairedAfterRemotePaired() {
+		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
+		device.setPairing(true);
+		mPurifierMan.setCurrentPurifier(device);
+		
+		setMockSubscriptionManager();
+		
+		mPurifierMan.removeCurrentPurifier();
+		
+		verify(mSubscriptionMan,never()).disableLocalSubscription();
+		verify(mSubscriptionMan, never()).enableRemoteSubscription(PurAirApplication.getAppContext());
+		verify(mSubscriptionMan, never()).enableLocalSubscription();
+		verify(mSubscriptionMan).disableRemoteSubscription(PurAirApplication.getAppContext());
+		
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		
+		assertNull(mPurifierMan.getCurrentPurifier());
 	}
 // ***** END TESTS TO TOGGLE SUBSCRIPTION WHEN PURIFIER CHANGES *****
 	

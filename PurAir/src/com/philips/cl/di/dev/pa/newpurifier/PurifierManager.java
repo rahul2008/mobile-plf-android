@@ -59,6 +59,19 @@ public class PurifierManager implements SubscriptionEventListener {
 		notifyPurifierChangedListeners();
 	}
 	
+	public synchronized void removeCurrentPurifier() {
+		if (mCurrentPurifier == null) return;
+		
+		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
+			unSubscribeFromAllEvents(mCurrentPurifier);
+		}
+		stopCurrentSubscription();
+		
+		mCurrentPurifier = null;
+		ALog.d(ALog.PURIFIER_MANAGER, "Removed current purifier");
+		notifyPurifierChangedListeners();
+	}
+	
 	public synchronized PurAirDevice getCurrentPurifier() {
 		return mCurrentPurifier;
 	}
