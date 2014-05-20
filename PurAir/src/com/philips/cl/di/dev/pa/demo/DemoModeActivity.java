@@ -248,8 +248,8 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			
 			@Override
 			public void run() {
-				dismissConnectingDialog();
 				showFinalScreen();
+				dismissConnectingDialog();
 			}
 		});
 	}

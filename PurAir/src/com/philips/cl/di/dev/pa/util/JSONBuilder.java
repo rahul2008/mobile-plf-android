@@ -72,5 +72,15 @@ public class JSONBuilder {
 		ALog.i(ALog.SCHEDULER, dataToSend) ;
 		return dataToSend ;
 	}
+	
+	public static String getDICommUIBuilder(PurAirDevice purifier) {
+		StringBuilder builder = new StringBuilder("{") ;
+		builder.append("\"").append("setup").append("\"").append(":").append("\"").append("inactive").append("\",") ;
+		builder.append("\"").append("connection").append("\"").append(":").append("\"").append("disconnected").append("\"") ;
+		builder.append("}") ;
+		String dataToSend = builder.toString();
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier) ;
+		return dataToSend ;
+	}
 
 }

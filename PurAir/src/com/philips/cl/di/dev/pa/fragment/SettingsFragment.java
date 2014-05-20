@@ -15,11 +15,16 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.demo.DemoMode;
+import com.philips.cl.di.dev.pa.demo.DemoModeTask;
+import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
 	
@@ -108,6 +113,11 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 				if (purAirDevice != null && purAirDevice.getName() != null) {
 					if (purAirDevice.getName().equals(DemoMode.DEMO)) {
+						String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);
+						ALog.i(ALog.DEMO_MODE, "dataToSend: " + dataToSend);
+						DemoModeTask task = new DemoModeTask(
+								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
+						task.start();
 //						DiscoveryManager.getInstance().stop();
 						//TODO send put wifi
 					}

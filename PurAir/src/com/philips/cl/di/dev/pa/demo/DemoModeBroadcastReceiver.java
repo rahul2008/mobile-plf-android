@@ -176,14 +176,14 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	private void getDeviceDetails() {
 		ALog.i(ALog.DEMO_MODE,"device details") ;
 		taskType = DemoMode.DEMO_MODE_TASK_DEVICE_GET;
-		task = new DemoModeTask(this, Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP)) ;
+		task = new DemoModeTask(this, Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP),"" , "GET") ;
 		task.start();
 	}
 	
 	private void getWifiDetails() {
 		ALog.i(ALog.DEMO_MODE, "gettWifiDetails");
 		taskType = DemoMode.DEMO_MODE_TASK_WIFI_GET;
-		task = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP));
+		task = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP),"" , "GET");
 		task.start();
 	}
 
