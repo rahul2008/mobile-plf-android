@@ -273,7 +273,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		EWSDialogFactory.getInstance(this).cleanUp();
 
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-		DiscoveryManager.getInstance().stop(this);
+		DiscoveryManager.getInstance().stop();
 		
 		try {
 			this.unregisterReceiver(networkReceiver);
@@ -1011,6 +1011,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			current = getCurrentPurifier();
 			if (current == null) return;
 		}
+		
+		//TODO remove quick and dirty fix (necessary to update indoorFragment when purifier goes offline)
+		PurifierManager.getInstance().notifyPurifierChangedListeners();
 		
 		switch (current.getConnectionState()) {
 		case DISCONNECTED:

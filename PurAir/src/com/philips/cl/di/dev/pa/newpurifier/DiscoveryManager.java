@@ -43,7 +43,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private NetworkMonitor mNetwork;
 	private DISecurity mSecurity;
 	
-	private List<DiscoveryEventListener> mListeners;
+	private DiscoveryEventListener mListener;
 	
 	private static final int DISCOVERYTIMEOUT_MESSAGE = 987654321;
 	private static final int DISCOVERYTIMEOUT = 10000;
@@ -68,7 +68,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDatabase = new PurifierDatabase();
 		initializeDevicesMapFromDataBase();
 		mSecurity = new DISecurity(this);
-		mListeners = new ArrayList<DiscoveryEventListener>();
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
@@ -80,15 +79,15 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
 		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mListeners.add(listener);
+		mListener = listener;
 	}
 	
-	public void stop(DiscoveryEventListener listener) {
+	public void stop() {
 		SsdpService.getInstance().stopDeviceDiscovery();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mDiscoveryTimeoutHandler.removeMessages(DISCOVERYTIMEOUT_MESSAGE);
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
-		mListeners.clear();
+		mListener = null;
 	}
 	
 	public ArrayList<PurAirDevice> getDiscoveredDevices() {
@@ -389,10 +388,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	private void notifyDiscoveryListener() {
-		for (DiscoveryEventListener listener : mListeners) {
-			listener.onDiscoveredDevicesListChanged();
-		}
-		ALog.v(ALog.DISCOVERY, "Notified listeners of change event");
+		if (mListener == null) return;
+		mListener.onDiscoveredDevicesListChanged();
+
+		ALog.v(ALog.DISCOVERY, "Notified listener of change event");
 	}
 
 	private void startKeyExchange(PurAirDevice purifier) {

@@ -485,7 +485,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void stopDiscovery() {
-		DiscoveryManager.getInstance().stop(this);
+		DiscoveryManager.getInstance().stop();
 	}
 	
 	private EWSStartFragment getIntroFragment() {
