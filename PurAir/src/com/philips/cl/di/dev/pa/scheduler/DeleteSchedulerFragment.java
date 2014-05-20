@@ -186,6 +186,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 			MarginLayoutParams params = (MarginLayoutParams) btnRhtArr.getLayoutParams();
 			params.rightMargin = 50;
 			btnRhtArr.setLayoutParams(params);
+			rhtArrowText.setLayoutParams(params);
 			btnRhtArr.setImageResource(R.drawable.delete);
 			delete.setImageResource(R.drawable.delete_t2b);
 			setMarked4Deletion(index, '1');
