@@ -68,7 +68,7 @@ public class EWSDialogFragment extends DialogFragment {
 				activity.showSupportFragment() ;
 				break;
 			case R.id.btn_error_popup:
-				EWSDialogFactory.getInstance(getActivity()).getDialog(EWSDialogFactory.SUPPORT_TS01).show();
+				SetupDialogFactory.getInstance(getActivity()).getDialog(SetupDialogFactory.SUPPORT_TS01).show();
 				break;
 			default:
 				break;

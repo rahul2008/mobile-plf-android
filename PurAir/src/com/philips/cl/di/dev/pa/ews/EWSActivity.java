@@ -56,10 +56,10 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_ews_main);
+		setContentView(R.layout.activity_setup_main);
         
         getSupportFragmentManager().beginTransaction()
-		.add(R.id.ews_fragment_container, getIntroFragment(), EWSConstant.EWS_INTRO_SCREEN_FRAGMENT_TAG)
+		.add(R.id.setup_fragment_container, getIntroFragment(), EWSConstant.EWS_INTRO_SCREEN_FRAGMENT_TAG)
 		.commit();
         
         //Some time action bar getting ClassCastException
@@ -80,13 +80,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
 		actionBar.setBackgroundDrawable(d);
-		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);
-		actionbarTitle = (FontTextView) view.findViewById(R.id.ews_actionbar_title);
+		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
+		actionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
 		actionbarTitle.setText(getString(R.string.wifi_setup));
-		actionbarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
+		actionbarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
 		actionbarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
 		actionbarCancelBtn.setVisibility(View.INVISIBLE);
-		actionbarBackImg = (ImageView) view.findViewById(R.id.ews_actionbar_back_img);
+		actionbarBackImg = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
 		actionbarBackImg.setOnClickListener(this);
 		actionbarCancelBtn.setOnClickListener(this);
 		actionBar.setCustomView(view);	
@@ -146,14 +146,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ews_actionbar_back_img:
+		case R.id.setup_actionbar_back_img:
 			replaceFragmentOnBackPress();
 			break;
-		case R.id.ews_actionbar_cancel_btn:
+		case R.id.setup_actionbar_cancel_btn:
 			try {
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
-						EWSCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
+						SetupCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
 			} catch (Exception e) {
 				ALog.e(ALog.EWS, e.getMessage());
 			}
@@ -179,7 +179,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			try {
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
-						EWSCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
+						SetupCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
 			} catch (Exception e) {
 				ALog.e(ALog.EWS, e.getMessage());
 			}
@@ -362,7 +362,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public void connectToAirPurifier() {
 		dismissCheckSingnalStrengthDialog();
-		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).show();
+		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		if ( ewsService == null) {
 			ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
 		}
@@ -376,14 +376,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		if (setUPModeCounter > 2) {
 			showSupportFragment();
 		} else {
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_01).show() ;
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
 		}
 	}	
 	
 	public void sendNetworkDetails(String ssid, String password) {
 		networkSSID = ssid;
-		EWSDialogFactory.getInstance(this).setNetworkName(networkSSID);
-		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).show() ;
+		SetupDialogFactory.getInstance(this).setNetworkName(networkSSID);
+		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).show() ;
 		ewsService.setSSID(networkSSID) ;
 		ewsService.setPassword(password) ;
 		ewsService.putWifiDetails() ;
@@ -432,11 +432,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	public void onErrorOccurred(int errorCode) {
 		
 		ALog.i(ALog.EWS, "onErrorOccurred: "+errorCode) ;
-		if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
+		if (SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
 		}
-		else if( EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).isShowing()) {
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss();
+		else if( SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).isShowing()) {
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).dismiss();
 		}
 		
 		switch (errorCode) {
@@ -444,7 +444,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			if (step2FailedCounter > 2) {
 				showSupportFragment();
 			} else {
-				EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.ERROR_TS01_01).show() ;
+				SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
 			}
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
@@ -476,7 +476,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	//SSDP Discovery
 	private void deviceDiscoveryCompleted() {
 		stopDiscovery();
-		EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
+		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		if( ewsService != null ) {
 			ewsService.stopNetworkDetailsTimer() ;
 		}
@@ -500,7 +500,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		try {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-			fragmentTransaction.replace(R.id.ews_fragment_container, fragment, tag);
+			fragmentTransaction.replace(R.id.setup_fragment_container, fragment, tag);
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.EWS, e.getMessage());
@@ -518,8 +518,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	private void dismissCheckSingnalStrengthDialog() {
-		if (EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
-			EWSDialogFactory.getInstance(this).getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
+		if (SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
 		}
 	}
 	

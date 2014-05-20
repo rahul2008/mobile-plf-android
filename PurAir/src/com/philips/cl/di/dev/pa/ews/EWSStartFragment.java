@@ -15,7 +15,7 @@ public class EWSStartFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.ews_intro_screen, null);
+		View view = inflater.inflate(R.layout.setup_intro_screen, null);
 		
 		return view;
 	}
@@ -26,7 +26,7 @@ public class EWSStartFragment extends Fragment {
 		
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_START);
 		
-		Button startEwsBtn = (Button) getView().findViewById(R.id.ews_get_start_btn);
+		Button startEwsBtn = (Button) getView().findViewById(R.id.setup_get_start_btn);
 		startEwsBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		startEwsBtn.setOnClickListener(new OnClickListener() {
 			

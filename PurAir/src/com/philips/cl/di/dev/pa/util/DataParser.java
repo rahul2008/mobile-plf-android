@@ -292,7 +292,7 @@ public class DataParser {
 		return weatherForecastList ;
 	}
 
-	public static DeviceDto getEWSDeviceDetails(String data) {
+	public static DeviceDto getDeviceDetails(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
 		}
@@ -310,7 +310,7 @@ public class DataParser {
 		return deviceDto;
 	}
 
-	public static DeviceWifiDto getEWSDeviceWifiDetails(String data) {
+	public static DeviceWifiDto getDeviceWifiDetails(String data) {
 		if (data == null || data.isEmpty()) {
 			return null;
 		}

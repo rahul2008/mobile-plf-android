@@ -27,7 +27,7 @@ public class EWSStepOneFragmentTest extends
 	public void testFragmentTag() {
 		EWSStepOneFragment ewsStepOneFragment = new EWSStepOneFragment();
 		activity.getSupportFragmentManager().beginTransaction()
-			.add(R.id.ews_fragment_container, ewsStepOneFragment, EWSConstant.EWS_STEP_ONE_FRAGMENT_TAG)
+			.add(R.id.setup_fragment_container, ewsStepOneFragment, EWSConstant.EWS_STEP_ONE_FRAGMENT_TAG)
 			.commitAllowingStateLoss();
 		
 		assertEquals(EWSConstant.EWS_STEP_ONE_FRAGMENT_TAG, ewsStepOneFragment.getTag());

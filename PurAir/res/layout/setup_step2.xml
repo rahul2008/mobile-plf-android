@@ -11,7 +11,7 @@
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step2_title"
+            android:id="@+id/setup_step2_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -22,11 +22,11 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step2_instruction"
+            android:id="@+id/setup_step2_instruction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step2_title"
+            android:layout_below="@+id/setup_step2_title"
             android:text="@string/step2_instruction"
             android:lineSpacingExtra="10dp"
             android:textColor="@color/philips_blue"
@@ -34,10 +34,10 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         
         <ImageView
-            android:id="@+id/ews_step2_img"
+            android:id="@+id/setup_step2_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ews_step2_instruction"
+            android:layout_below="@+id/setup_step2_instruction"
             android:layout_centerHorizontal="true"
             android:contentDescription="@string/img_description"
             android:layout_marginTop="32dp"
@@ -45,12 +45,12 @@
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step2_message1"
+            android:id="@+id/setup_step2_message1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:layout_alignParentLeft="true"
-             android:layout_below="@+id/ews_step2_img"
+             android:layout_below="@+id/setup_step2_img"
             android:text="@string/step2_msg1"
             android:lineSpacingExtra="10dp"
             android:textColor="@color/contain_gray"
@@ -59,11 +59,11 @@
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_step2_message2"
+            android:id="@+id/setup_step2_message2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step2_message1"
+            android:layout_below="@+id/setup_step2_message1"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="4dp"
             android:text="@string/step2_msg2"
@@ -75,11 +75,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@+id/ews_step2_message2"
+            android:layout_below="@+id/setup_step2_message2"
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/ews_step2_no_btn"
+                android:id="@+id/setup_step2_no_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -91,7 +91,7 @@
                 android:textSize="16sp" />
 
             <Button
-                android:id="@+id/ews_step2_yes_btn"
+                android:id="@+id/setup_step2_yes_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"

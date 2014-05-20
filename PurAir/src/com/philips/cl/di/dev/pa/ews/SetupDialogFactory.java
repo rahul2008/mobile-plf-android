@@ -17,7 +17,7 @@ import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class EWSDialogFactory implements OnClickListener{
+public class SetupDialogFactory implements OnClickListener{
 
 	private Dialog errorDialogTS0101, errorDialogTS0102, errorDialogTS0103, errorDialogTS0104, errorDialogTS0105;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
@@ -34,16 +34,16 @@ public class EWSDialogFactory implements OnClickListener{
 		this.networkName = networkName;
 	}
 
-	private static EWSDialogFactory _instance;
+	private static SetupDialogFactory _instance;
 
-	public static EWSDialogFactory getInstance(Context context) {
+	public static SetupDialogFactory getInstance(Context context) {
 		if(_instance == null) {
-			_instance = new EWSDialogFactory(context);
+			_instance = new SetupDialogFactory(context);
 		}
 		return _instance;
 	}
 
-	private EWSDialogFactory(Context context) {
+	private SetupDialogFactory(Context context) {
 		this.context = context;
 		this.activity = (Activity) context;
 	}

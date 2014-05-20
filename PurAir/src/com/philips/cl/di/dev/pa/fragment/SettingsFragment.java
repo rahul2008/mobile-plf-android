@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.demo.DemoMode;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -118,8 +121,12 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 						DemoModeTask task = new DemoModeTask(
 								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 						task.start();
-//						DiscoveryManager.getInstance().stop();
-						//TODO send put wifi
+						
+						// Temp code
+						ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+						if (!devices.isEmpty()) {
+							PurifierManager.getInstance().setCurrentPurifier(devices.get(0));
+						}
 					}
 				}
 			}

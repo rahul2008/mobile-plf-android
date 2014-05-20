@@ -295,32 +295,32 @@ public class DataParserTest extends TestCase {
 	}
 	
 	public void testGetEWSDeviceWifiDetailsNull() {
-		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(null);
+		DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(null);
 		assertNull(deviceWifiDto);
 	}
 	
 	public void testGetEWSDeviceWifiDetailsEmpty() {
-		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails("");
+		DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails("");
 		assertNull(deviceWifiDto);
 	}
 	
 	public void testGetEWSDeviceWifiDetailsNoneFormat() {
-		DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails("{hello}");
+		DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails("{hello}");
 		assertNull(deviceWifiDto);
 	}
 	
 	public void testGetEWSDeviceDetailsNull() {
-		DeviceDto deviceDto  = DataParser.getEWSDeviceDetails(null);
+		DeviceDto deviceDto  = DataParser.getDeviceDetails(null);
 		assertNull(deviceDto);
 	}
 	
 	public void testGetEWSDeviceDetailsEmpty() {
-		DeviceDto deviceDto  = DataParser.getEWSDeviceDetails("");
+		DeviceDto deviceDto  = DataParser.getDeviceDetails("");
 		assertNull(deviceDto);
 	}
 	
 	public void testGetEWSDeviceDetailsNoneFormat() {
-		DeviceDto deviceDto  = DataParser.getEWSDeviceDetails("{hello}");
+		DeviceDto deviceDto  = DataParser.getDeviceDetails("{hello}");
 		assertNull(deviceDto);
 	}
 }

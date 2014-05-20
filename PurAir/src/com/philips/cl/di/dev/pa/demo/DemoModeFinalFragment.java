@@ -17,7 +17,7 @@ public class DemoModeFinalFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.ews_congratulation, null);
+		View view = inflater.inflate(R.layout.setup_congratulation, null);
 		return view;
 	}
 	
@@ -27,10 +27,10 @@ public class DemoModeFinalFragment extends Fragment {
 		
 		((DemoModeActivity) getActivity()).setActionbarTitle(DemoMode.DEMO_MODE_STEP_FINAL);
 		
-		FontTextView msg = (FontTextView) getView().findViewById(R.id.ews_congratulation_msg);
+		FontTextView msg = (FontTextView) getView().findViewById(R.id.congratulation_msg);
 		msg.setText(getString(R.string.demo_mode_final_step_msg));
 		
-		Button startControlPurifierBtn = (Button) getView().findViewById(R.id.ews_congratulation_btn);
+		Button startControlPurifierBtn = (Button) getView().findViewById(R.id.finish_congratulation_btn);
 		startControlPurifierBtn.setText(getString(R.string.demo_mode_final_step_btn_txt));
 		startControlPurifierBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		startControlPurifierBtn.setOnClickListener(new OnClickListener() {

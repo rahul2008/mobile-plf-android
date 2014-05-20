@@ -35,15 +35,14 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	private int errorCode = DemoMode.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP;
 	private boolean stop = true;
 	private int totalTime = 10 * 1000 ;
-	private PurAirDevice tempEWSPurifier;
+	private PurAirDevice tempDemoModePurifier;
 	private DemoModeTask task;
 	private int taskType = DemoMode.DEMO_MODE_TASK_DEVICE_GET;
-	private String devKey;
 	private IntentFilter filter = new IntentFilter();
 	
 	public DemoModeBroadcastReceiver(DemoModeListener listener) {
 		this.listener = listener;
-		generateTempEWSDevice();
+		generateTempDemoModeDevice();
 	}
 
 	@Override
@@ -99,8 +98,8 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	private void initializeKey() {
 		ALog.i(ALog.DEMO_MODE, "initiliazekey") ;
 		DISecurity di = new DISecurity(this) ;
-		di.initializeExchangeKeyCounter(tempEWSPurifier.getEui64());
-		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getEui64()) ;
+		di.initializeExchangeKeyCounter(tempDemoModePurifier.getEui64());
+		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getEui64()) ;
 	}
 	
 	public void registerListener() {
@@ -149,28 +148,20 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 		}
 	}
 	
-	private void generateTempEWSDevice() {
+	private void generateTempDemoModeDevice() {
 		String tempEui64 = UUID.randomUUID().toString();
-		tempEWSPurifier = new PurAirDevice(
+		tempDemoModePurifier = new PurAirDevice(
 				tempEui64, null, EWSConstant.PURIFIER_ADHOCIP, DemoMode.DEMO, -1, ConnectionState.CONNECTED_LOCALLY);
 	}
 	
 	private void updateTempDevice(String eui64) {
-		if (tempEWSPurifier == null) return;
-		String encryptionKey = tempEWSPurifier.getEncryptionKey();
+		if (tempDemoModePurifier == null) return;
+		String encryptionKey = tempDemoModePurifier.getEncryptionKey();
 		String purifierName = DemoMode.DEMO;
-		tempEWSPurifier = new PurAirDevice(
+		tempDemoModePurifier = new PurAirDevice(
 				eui64, null, EWSConstant.PURIFIER_ADHOCIP, purifierName, -1, ConnectionState.CONNECTED_LOCALLY);
-		tempEWSPurifier.setEncryptionKey(encryptionKey);
-		PurifierManager.getInstance().setCurrentPurifier(tempEWSPurifier);
-	}
-	
-	public void setDevKey(String devKey) {
-		this.devKey = devKey;
-	}
-	
-	public String getDevKey() {
-		return devKey;
+		tempDemoModePurifier.setEncryptionKey(encryptionKey);
+		PurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
 	}
 	
 	private void getDeviceDetails() {
@@ -190,11 +181,10 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	@Override
 	public void keyDecrypt(String key, String deviceEui64) {
 		ALog.i(ALog.DEMO_MODE, "Key: "+key) ;
-		if (tempEWSPurifier == null) return;
-		tempEWSPurifier.setEncryptionKey(key);
+		if (tempDemoModePurifier == null) return;
+		tempDemoModePurifier.setEncryptionKey(key);
 
 		if ( key != null ) {
-			setDevKey(key);
 			getDeviceDetails() ;
 		}
 	}
@@ -207,22 +197,22 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 		switch (responseCode) {
 		case HttpURLConnection.HTTP_OK:
 			if( taskType == DemoMode.DEMO_MODE_TASK_DEVICE_GET ) {
-				String decryptedResponse = new DISecurity(null).decryptData(responseData, tempEWSPurifier);
+				String decryptedResponse = new DISecurity(null).decryptData(responseData, tempDemoModePurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.DEMO_MODE,decryptedResponse) ;
-					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
+					DeviceDto deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
 					
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					if (deviceDto == null) return;
-					tempEWSPurifier.setName(DemoMode.DEMO);
+					tempDemoModePurifier.setName(DemoMode.DEMO);
 					getWifiDetails() ;
 				}				
 			}
 			else if(taskType == DemoMode.DEMO_MODE_TASK_WIFI_GET) {
-				String decryptedResponse = new DISecurity(null).decryptData(responseData, tempEWSPurifier);
+				String decryptedResponse = new DISecurity(null).decryptData(responseData, tempDemoModePurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.DEMO_MODE,decryptedResponse) ;
-					DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(decryptedResponse);
+					DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(decryptedResponse);
 					
 					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 					

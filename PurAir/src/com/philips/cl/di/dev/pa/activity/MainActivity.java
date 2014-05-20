@@ -53,7 +53,7 @@ import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.DemoMode;
-import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
+import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateFragment;
@@ -270,7 +270,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			}
 			editor.commit();
 		}
-		EWSDialogFactory.getInstance(this).cleanUp();
+		SetupDialogFactory.getInstance(this).cleanUp();
 
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();

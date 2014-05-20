@@ -14,10 +14,10 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class EWSCancelDialogFragment extends DialogFragment {
+public class SetupCancelDialogFragment extends DialogFragment {
 	
-	public static EWSCancelDialogFragment newInstance() {
-		EWSCancelDialogFragment fragment =  new EWSCancelDialogFragment();
+	public static SetupCancelDialogFragment newInstance() {
+		SetupCancelDialogFragment fragment =  new SetupCancelDialogFragment();
 		
 		return fragment;
 	}

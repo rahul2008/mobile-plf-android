@@ -18,7 +18,7 @@ public class DemoModeStartFragement extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.ews_intro_screen, null);
+		View view = inflater.inflate(R.layout.setup_intro_screen, null);
 		
 		return view;
 	}
@@ -26,19 +26,19 @@ public class DemoModeStartFragement extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		FontTextView msgText = (FontTextView) getView().findViewById(R.id.ews_intro_message1_txt);
+		FontTextView msgText = (FontTextView) getView().findViewById(R.id.setup_intro_message1_txt);
 		msgText.setText(R.string.demo_mode_intro_msg);
 		
-		((ImageView) getView().findViewById(R.id.ews_intro_attention_img)).setVisibility(View.INVISIBLE);
-		FontTextView txt = (FontTextView) getView().findViewById(R.id.ews_intro_message2_txt);
+		((ImageView) getView().findViewById(R.id.setup_intro_attention_img)).setVisibility(View.INVISIBLE);
+		FontTextView txt = (FontTextView) getView().findViewById(R.id.setup_intro_message2_txt);
 		txt.setText("");
 		txt.setVisibility(View.INVISIBLE);
 		
 		((DemoModeActivity) getActivity()).setActionbarTitle(DemoMode.DEMO_MODE_STEP_INTRO);
 		
-		Button startEwsBtn = (Button) getView().findViewById(R.id.ews_get_start_btn);
-		startEwsBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
-		startEwsBtn.setOnClickListener(new OnClickListener() {
+		Button startDemoBtn = (Button) getView().findViewById(R.id.setup_get_start_btn);
+		startDemoBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		startDemoBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {

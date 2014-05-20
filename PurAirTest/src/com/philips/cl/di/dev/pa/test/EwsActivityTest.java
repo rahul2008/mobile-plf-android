@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
-import com.philips.cl.di.dev.pa.ews.EWSDialogFactory;
+import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivity> {
@@ -28,10 +28,10 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 	}
 	
 	public void testIntroScreen() {
-		View view = activity.getLayoutInflater().inflate(R.layout.ews_intro_screen, null);
-		Button button = (Button) view.findViewById(R.id.ews_get_start_btn);
-		FontTextView tv = (FontTextView) view.findViewById(R.id.ews_intro_message1_txt);
-		FontTextView tv2 = (FontTextView) view.findViewById(R.id.ews_intro_message2_txt);
+		View view = activity.getLayoutInflater().inflate(R.layout.setup_intro_screen, null);
+		Button button = (Button) view.findViewById(R.id.setup_get_start_btn);
+		FontTextView tv = (FontTextView) view.findViewById(R.id.setup_intro_message1_txt);
+		FontTextView tv2 = (FontTextView) view.findViewById(R.id.setup_intro_message2_txt);
 		
         assertEquals(true, button.isClickable());
         assertEquals("Get started", button.getText().toString());
@@ -56,7 +56,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 	}
 	
 	public void testActionBar() {
-		Button button = (Button) activity.findViewById(R.id.ews_actionbar_cancel_btn);
+		Button button = (Button) activity.findViewById(R.id.setup_actionbar_cancel_btn);
 
         assertEquals(true, button.isClickable());
         assertEquals("Cancel", button.getText().toString());
@@ -64,12 +64,12 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 	}
 	
 	public void testStep2Screen() {
-		 View view = activity.getLayoutInflater().inflate(R.layout.ews_step2, null);
-         Button button = (Button) view.findViewById(R.id.ews_step2_yes_btn);
+		 View view = activity.getLayoutInflater().inflate(R.layout.setup_step2, null);
+         Button button = (Button) view.findViewById(R.id.setup_step2_yes_btn);
          assertEquals(true, button.isClickable());
          assertEquals("Yes", button.getText().toString());
 
-         button = (Button) view.findViewById(R.id.ews_step2_no_btn);
+         button = (Button) view.findViewById(R.id.setup_step2_no_btn);
          assertEquals(true, button.isClickable());
          assertEquals("No", button.getText().toString());
 
@@ -87,8 +87,8 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 	}
 	
 	public void testCongratulationScreen() {
-		View view = activity.getLayoutInflater().inflate(R.layout.ews_congratulation, null);
-        Button button = (Button) view.findViewById(R.id.ews_congratulation_btn);
+		View view = activity.getLayoutInflater().inflate(R.layout.setup_congratulation, null);
+        Button button = (Button) view.findViewById(R.id.finish_congratulation_btn);
         assertEquals(true, button.isClickable());
         assertEquals("Start using your Philips Smart Air Purifier", button.getText().toString());
 	}
@@ -108,19 +108,19 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 	}
 	
 	public void testGetDialog() {
-		EWSDialogFactory ewsDialogFactory = EWSDialogFactory.getInstance(activity);
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS01));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS02));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS03));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.SUPPORT_TS05));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_01));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_02));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_03));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_04));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.ERROR_TS01_05));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CANCEL_WIFI_SETUP));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CHECK_SIGNAL_STRENGTH));
-		assertNotNull(ewsDialogFactory.getDialog(EWSDialogFactory.CONNECTING_TO_PRODUCT));
+		SetupDialogFactory ewsDialogFactory = SetupDialogFactory.getInstance(activity);
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS01));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS02));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS03));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS05));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_01));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_02));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_03));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_04));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_05));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CANCEL_WIFI_SETUP));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT));
 		
 	}
 	

@@ -28,7 +28,7 @@ public class EWSSupportFragmentTest extends
 		EWSSupportFragment ewsSupportFragment = new EWSSupportFragment();
 		activity.getSupportFragmentManager()
 				.beginTransaction()
-				.add(R.id.ews_fragment_container, ewsSupportFragment, EWSConstant.EWS_SUPPORT_FRAGMENT_TAG)
+				.add(R.id.setup_fragment_container, ewsSupportFragment, EWSConstant.EWS_SUPPORT_FRAGMENT_TAG)
 				.commitAllowingStateLoss();
 
 		assertEquals(EWSConstant.EWS_SUPPORT_FRAGMENT_TAG,

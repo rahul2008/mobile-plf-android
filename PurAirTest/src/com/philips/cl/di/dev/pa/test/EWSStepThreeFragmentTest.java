@@ -28,7 +28,7 @@ public class EWSStepThreeFragmentTest extends
 		EWSStepThreeFragment ewsStepThreeFragment = new EWSStepThreeFragment();
 		activity.getSupportFragmentManager()
 				.beginTransaction()
-				.add(R.id.ews_fragment_container, ewsStepThreeFragment, EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG)
+				.add(R.id.setup_fragment_container, ewsStepThreeFragment, EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG)
 				.commitAllowingStateLoss();
 
 		assertEquals(EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG,

@@ -28,7 +28,7 @@ public class EWSStepTwoFragmentTest extends
 		EWSStepTwoFragment ewsStepTwoFragment = new EWSStepTwoFragment();
 		activity.getSupportFragmentManager()
 				.beginTransaction()
-				.add(R.id.ews_fragment_container, ewsStepTwoFragment, EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG)
+				.add(R.id.setup_fragment_container, ewsStepTwoFragment, EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG)
 				.commitAllowingStateLoss();
 
 		assertEquals(EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG,	ewsStepTwoFragment.getTag());

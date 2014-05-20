@@ -101,13 +101,13 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
 		actionBar.setBackgroundDrawable(d);
-		View view  = getLayoutInflater().inflate(R.layout.ews_actionbar, null);
-		actionbarTitle = (FontTextView) view.findViewById(R.id.ews_actionbar_title);
+		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
+		actionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
 		actionbarTitle.setText(getString(R.string.firmware));
-		actionBarCancelBtn = (Button) view.findViewById(R.id.ews_actionbar_cancel_btn);
+		actionBarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
 		actionBarCancelBtn.setOnClickListener(this);
-		actionBarBackBtn = (ImageView) view.findViewById(R.id.ews_actionbar_back_img);
+		actionBarBackBtn = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
 		actionBarBackBtn.setOnClickListener(this);
 		actionBar.setCustomView(view);
 	}
@@ -148,12 +148,12 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.ews_actionbar_cancel_btn:
+		case R.id.setup_actionbar_cancel_btn:
 			setCancelled(true);
 			setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
 			finish();
 			break;
-		case R.id.ews_actionbar_back_img:
+		case R.id.setup_actionbar_back_img:
 			showPreviousFragment();
 			break;
 		default:

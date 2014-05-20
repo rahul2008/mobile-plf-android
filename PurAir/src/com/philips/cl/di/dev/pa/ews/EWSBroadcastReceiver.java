@@ -269,7 +269,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
-					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
+					DeviceDto deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
 					
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					if (deviceDto == null) return;
@@ -281,7 +281,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				if( decryptedResponse != null ) {
 					ALog.i(ALog.EWS,decryptedResponse) ;
-					DeviceWifiDto deviceWifiDto = DataParser.getEWSDeviceWifiDetails(decryptedResponse);
+					DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(decryptedResponse);
 					
 					SessionDto.getInstance().setDeviceWifiDto(deviceWifiDto) ;
 					
@@ -297,7 +297,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				String decryptedResponse = new DISecurity(null).decryptData(response, tempEWSPurifier);
 				ALog.i(ALog.EWS, decryptedResponse) ;
 				if( decryptedResponse != null ) {
-					DeviceDto deviceDto = DataParser.getEWSDeviceDetails(decryptedResponse) ;
+					DeviceDto deviceDto = DataParser.getDeviceDetails(decryptedResponse) ;
 					SessionDto.getInstance().setDeviceDto(deviceDto) ;
 					//listener.onHandShakeWithDevice() ;
 				}	

@@ -7,13 +7,13 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/ews_actionbar_title"
+        android:id="@+id/setup_actionbar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 		android:gravity="center"
 		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/ews_actionbar_cancel_btn"
-		android:layout_toRightOf="@+id/ews_actionbar_back_img"
+		android:layout_toLeftOf="@+id/setup_actionbar_cancel_btn"
+		android:layout_toRightOf="@+id/setup_actionbar_back_img"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         android:ellipsize="end"
@@ -21,7 +21,7 @@
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <Button
-        android:id="@+id/ews_actionbar_cancel_btn"
+        android:id="@+id/setup_actionbar_cancel_btn"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
@@ -33,7 +33,7 @@
         android:text="@string/cancel" />
 
     <ImageView
-        android:id="@+id/ews_actionbar_back_img"
+        android:id="@+id/setup_actionbar_back_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"

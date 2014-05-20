@@ -21,7 +21,7 @@
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/ews_congratulation_msg"
+            android:id="@+id/congratulation_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -33,7 +33,7 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <Button
-            android:id="@+id/ews_congratulation_btn"
+            android:id="@+id/finish_congratulation_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -42,7 +42,7 @@
             android:layout_marginLeft="16dp"
             android:gravity="center"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/ews_congratulation_msg"
+            android:layout_below="@+id/congratulation_msg"
             android:background="@drawable/blue_button_selector"
             android:textColor="@color/white"
             android:textSize="14sp"
