@@ -338,7 +338,10 @@ public class SsdpService extends HandlerThread {
 	protected void ssdpCallback(
 			final String pNts, String pUsn, final String pLocation,final String pServer, final String bootId) {
 		//Server name does not contains AirPurifier, return
-		if (pServer == null || !pServer.contains(ConnectionLibContants.SERVER_NAME)) return;
+		if (pServer == null || !pServer.contains(ConnectionLibContants.SERVER_NAME)) {
+			Log.i(ConnectionLibContants.LOG_TAG, "Not a prufier - Not fetching xml");
+			return;
+		}
 		synchronized (SsdpService.class) {
 			
 			if ((pLocation != null) && (!pLocation.isEmpty())) {

@@ -6,7 +6,7 @@
 #include "logger.h"
 
 #define STR_NT			"NT:"
-#define STR_NT_ROOT		"upnp:rootdevice"
+#define STR_NT_ROOT		"urn:philips-com:device:DiProduct:1"    //Jeroen: Only continue if AirPurifiers
 #define STR_NTS			"NTS:"
 #define STR_NTS_ALIVE	"ssdp:alive"
 #define STR_NTS_BYEBYE	"ssdp:byebye"
