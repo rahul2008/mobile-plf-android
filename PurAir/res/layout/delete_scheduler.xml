@@ -115,10 +115,10 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginTop="53dp"
-	    android:layout_marginRight="40dp"
-	    android:layout_alignTop="@+id/scheduler1_innerouter"
-        android:layout_alignRight="@+id/scheduler1_innerouter"
+	    android:layout_alignTop="@+id/RightArrow1"
+	    android:layout_alignBottom="@+id/RightArrow1"
+	    android:layout_alignLeft="@+id/RightArrow1"
+        android:layout_alignRight="@+id/RightArrow1"
         android:gravity="center"
         android:textSize="16sp"
 	    android:text=""
@@ -222,16 +222,16 @@
          android:src="@drawable/about_air_quality_goto"
          android:contentDescription="@string/img_description"/>
      
-    <com.philips.cl.di.dev.pa.view.FontTextView
+     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
 	    android:id="@+id/RightArrow2_text"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginTop="53dp"
-	    android:layout_marginRight="40dp"
-	    android:layout_alignTop="@+id/scheduler2_innerouter"
-        android:layout_alignRight="@+id/scheduler2_innerouter"
+	    android:layout_alignTop="@+id/RightArrow2"
+	    android:layout_alignBottom="@+id/RightArrow2"
+	    android:layout_alignLeft="@+id/RightArrow2"
+        android:layout_alignRight="@+id/RightArrow2"
         android:gravity="center"
         android:textSize="16sp"
 	    android:text=""
@@ -334,17 +334,17 @@
          android:visibility="gone"
          android:src="@drawable/about_air_quality_goto"
          android:contentDescription="@string/img_description"/>
-     
+    
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
 	    android:id="@+id/RightArrow3_text"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginTop="53dp"
-	    android:layout_marginRight="40dp"
-	    android:layout_alignTop="@+id/scheduler3_innerouter"
-        android:layout_alignRight="@+id/scheduler3_innerouter"
+	    android:layout_alignTop="@+id/RightArrow3"
+	    android:layout_alignBottom="@+id/RightArrow3"
+	    android:layout_alignLeft="@+id/RightArrow3"
+        android:layout_alignRight="@+id/RightArrow3"
         android:gravity="center"
         android:textSize="16sp"
 	    android:text=""
@@ -447,17 +447,17 @@
          android:visibility="gone"
          android:src="@drawable/about_air_quality_goto"
          android:contentDescription="@string/img_description"/>
-     
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    
+     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
 	    android:id="@+id/RightArrow4_text"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginTop="53dp"
-	    android:layout_marginRight="40dp"
-	    android:layout_alignTop="@+id/scheduler4_innerouter"
-        android:layout_alignRight="@+id/scheduler4_innerouter"
+	    android:layout_alignTop="@+id/RightArrow4"
+	    android:layout_alignBottom="@+id/RightArrow4"
+	    android:layout_alignLeft="@+id/RightArrow4"
+        android:layout_alignRight="@+id/RightArrow4"
         android:gravity="center"
         android:textSize="16sp"
 	    android:text=""
@@ -560,23 +560,23 @@
          android:visibility="gone"
          android:src="@drawable/about_air_quality_goto"
          android:contentDescription="@string/img_description"/>
-     
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    
+     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
 	    android:id="@+id/RightArrow5_text"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_alignParentRight="true"
-	    android:layout_marginTop="53dp"
-	    android:layout_marginRight="40dp"
-	    android:layout_alignTop="@+id/scheduler5_innerouter"
-        android:layout_alignRight="@+id/scheduler5_innerouter"
+	    android:layout_alignTop="@+id/RightArrow5"
+	    android:layout_alignBottom="@+id/RightArrow5"
+	    android:layout_alignLeft="@+id/RightArrow5"
+        android:layout_alignRight="@+id/RightArrow5"
         android:gravity="center"
         android:textSize="16sp"
 	    android:text=""
 	    android:textColor="@color/white"
 	    custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
+     
     <LinearLayout
         android:id="@+id/event5"
         android:layout_height="160dp"
