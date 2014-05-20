@@ -43,6 +43,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private String SelectedDays;
 	private String SelectedTime;
 	private String SelectedFanspeed;
+	private String SchedulerMarked4Deletion;
 	private String updateSelectedDays;
 	private String updateSelectedTime;
 	private String updateSelectedFanspeed;
@@ -55,6 +56,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onCreate() method enter");
 		super.onCreate(savedInstanceState);
+		SchedulerMarked4Deletion = "0000000000";
 		setContentView(R.layout.scheduler_container);
 		initActionBar();
 		arrSchedulers = new JSONArray();
@@ -207,6 +209,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	public JSONArray getSchedulerList() {
 		return arrSchedulers;
 	}
+	
+	public String getSchedulerMarked4Deletion() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulerMarked4Deletion() method SchedulerMarked4Deletion is " + SchedulerMarked4Deletion);
+		return SchedulerMarked4Deletion;
+	}
 
 	public void setActionBar(SchedulerID id) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
@@ -263,12 +270,17 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	public void dispatchInformations(String days) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations() method - days is " + days);
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING);
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING);
 	}
 
 	public void dispatchInformations2(String fanspeed) {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations2() method - fanspeed is " + fanspeed);
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed);
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, SchedulerConstants.EMPTY_STRING);
+	}
+	
+	public void dispatchInfo4MarkedSchDeletion(String markedDelete) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformations2() method - fanspeed is " + markedDelete);
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, markedDelete);
 	}
 	
 	public void dispatchInformationsForCRUD(String crud) {
@@ -303,7 +315,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 	
-	private void updateCRUDOperationData(String time, String date, String speed) {
+	private void updateCRUDOperationData(String time, String date, String speed, String markedDelete) {
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
 			if (!time.isEmpty())
 				SelectedTime = time;
@@ -319,6 +331,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			if (!speed.isEmpty())
 				updateSelectedFanspeed = speed;
 		}
+		if (!markedDelete.isEmpty())
+			SchedulerMarked4Deletion = markedDelete;
+		ALog.d(ALog.DISCOVERY, "SchedulerMarked4Deletion in updateCRUDOperationData: " + SchedulerMarked4Deletion);
 	}
 	
 	private void showSchedulerOverviewFragment() {
