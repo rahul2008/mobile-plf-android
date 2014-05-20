@@ -104,7 +104,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			return;
 		}
 	
-		if (aqiValue.getText().toString() == null) {
+		if (aqiValue.getText() == null) {
 			return;
 		}
 		

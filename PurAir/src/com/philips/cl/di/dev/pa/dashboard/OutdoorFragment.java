@@ -166,6 +166,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			hideTakeATourPopup();
 			showTutorialDialog();
 			break;
+		default:
+			break;	
 		}
 	}
 	

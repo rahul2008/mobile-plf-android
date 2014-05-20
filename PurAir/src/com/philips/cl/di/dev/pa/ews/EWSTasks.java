@@ -113,14 +113,20 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 				try {					
 					inputStream.close();
 					inputStream = null ;
-					if (os != null) {
-						os.close();
-						os = null;
-					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}				
 			} 
+			
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				os = null;
+			}
 			if( conn != null ) {
 				conn.disconnect() ;
 				conn = null ;

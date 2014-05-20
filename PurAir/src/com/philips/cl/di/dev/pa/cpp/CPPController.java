@@ -424,6 +424,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 			}
 			break;
+		default:
+			break;
 		}
 	}
 

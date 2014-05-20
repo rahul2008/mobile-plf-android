@@ -73,6 +73,15 @@ public class DemoModeTask extends Thread {
 				}
 				inputStream = null ;
 			} 
+			
+			if (os != null) {
+				try {
+					os.close();
+				} catch (IOException e) {
+					ALog.e(ALog.DEMO_MODE, e.getMessage());
+				}
+				os = null;
+			}
 			if( conn != null ) {
 				conn.disconnect() ;
 				conn = null ;
