@@ -403,7 +403,12 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		Bundle b = new Bundle();
 		b.putString("events", arrSchedulers.toString());
 		getIntent().putExtras(b);
-		showSchedulerOverviewFragment();
+		
+		if (scheduleType == ADD_SCHEDULE) {
+			showSchedulerOverviewFragment();
+		}else if (scheduleType == DELETE_SCHEDULE) {
+			showDeleteSchedulerFragment();
+		}
 	}
 		
 	public static void setCancelled(boolean cancelled) {
