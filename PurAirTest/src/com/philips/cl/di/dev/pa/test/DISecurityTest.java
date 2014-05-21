@@ -1,11 +1,15 @@
 package com.philips.cl.di.dev.pa.test;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 import junit.framework.TestCase;
 
+import com.philips.cl.di.dev.pa.ews.EWSConstant;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.Util;
@@ -13,7 +17,8 @@ import com.philips.cl.di.dev.pa.security.Util;
 
 public class DISecurityTest extends TestCase {
 	
-	
+	private PurAirDevice purAirDevice;
+	private String key = "173B7E0A9A54CB3E96A70237F6974940";
 	public final static String DEVICE_ID = "deviceId";
 	public final static String KEY = "173B7E0A9A54CB3E96A70237F6974940";
 	String data = "{\"aqi\":\"0\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"78\",\"fs2\":\"926\",\"fs3\":\"2846\",\"fs4\":\"2846\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"13002\",\"psens\":\"1\"}";
@@ -26,11 +31,10 @@ public class DISecurityTest extends TestCase {
 		String testStr = new String("01144add4445aaa839812cccad").toUpperCase();
 		String result = Util.bytesToHex(Util.hexToBytes(testStr));
 		
-		String testStr2 = "173B7E0A9A54CB3E96A70237F6974940";
-		String result2 = Util.bytesToHex( Util.hexToBytes(testStr2));	
+		String result2 = Util.bytesToHex( Util.hexToBytes(key));	
 				
 		assertEquals(testStr,result);
-		assertEquals(testStr2,result2);
+		assertEquals(key,result2);
 	}
 	
 	public void testBase64() {
@@ -190,23 +194,40 @@ public class DISecurityTest extends TestCase {
 		assertEquals(data, testStr1);
 	}
 	
-//	public void testDataEncryptionWithRandomBytes() {
-//		DISecurity security = new DISecurity(null);
-//		
-//		try {
-//			Field keysField = DISecurity.class.getDeclaredField("securityKeyHashtable");
-//			keysField.setAccessible(true);
-//			@SuppressWarnings("unchecked")
-//			Hashtable<String, String> keysTable = (Hashtable<String, String>) keysField.get(security);
-//			keysTable.put(DEVICE_ID, KEY);
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			fail(e.getMessage());
-//		}
-//		
-//		String encryptedData1 = security.encryptData(data, DEVICE_ID);
-//		String encryptedData2 = security.encryptData(data, DEVICE_ID);
-//		assertFalse(encryptedData1.equals(encryptedData2));
-//	}
+	public void testDataEncryptionWithRandomBytes() {
+		DISecurity security = new DISecurity(null);
+		purAirDevice = new PurAirDevice(
+				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		purAirDevice.setEncryptionKey(key);
+			
+		String encryptedData1 = security.encryptData(data, purAirDevice);
+		String encryptedData2 = security.encryptData(data, purAirDevice);
+		assertFalse(encryptedData1.equals(encryptedData2));
+	}
+	
+	public void testEncryptDataNullObject() {
+		DISecurity security = new DISecurity(null);
+		String encryptedData1 = security.encryptData(data, null);
+		assertNull(encryptedData1);
+	}
+	
+	public void testEncryptDataNullkey() {
+		DISecurity security = new DISecurity(null);
+		purAirDevice = new PurAirDevice(
+				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		purAirDevice.setEncryptionKey(null);
+		String encryptedData1 = security.encryptData(data, purAirDevice);
+		assertNull(encryptedData1);
+	}
+	
+	public void testEncryptDataEmptykey() {
+		DISecurity security = new DISecurity(null);
+		purAirDevice = new PurAirDevice(
+				null, null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		purAirDevice.setEncryptionKey("");
+		String encryptedData1 = security.encryptData(data, purAirDevice);
+		assertNull(encryptedData1);
+	}
+	
+	
 }
