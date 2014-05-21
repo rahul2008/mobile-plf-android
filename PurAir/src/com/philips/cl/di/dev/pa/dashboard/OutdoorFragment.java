@@ -30,7 +30,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	
-	private FontTextView cityName,updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
+	private FontTextView cityName, location, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private LinearLayout takeATourPopup;
@@ -55,6 +55,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	
 	private void initViews(View view) {
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
+		location = (FontTextView) view.findViewById(R.id.hf_outdoor_location);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
 		aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
@@ -87,6 +88,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	private void updateUI(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
 		cityName.setText(outdoorDto.getCityName());
+		location.setText(getString(R.string.city_location));
 		if( outdoorDto.getUpdatedTime() != null && !outdoorDto.getUpdatedTime().isEmpty()) {
 			String [] splitDateandTime = outdoorDto.getUpdatedTime().split(" ") ;
 			if( splitDateandTime.length > 1 ) {
