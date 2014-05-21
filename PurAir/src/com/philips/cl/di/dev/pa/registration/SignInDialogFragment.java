@@ -1,7 +1,10 @@
 package com.philips.cl.di.dev.pa.registration;
 
+
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +16,11 @@ import android.widget.EditText;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.errormapping.ErrorMessage;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 
@@ -29,6 +34,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 	private Button btnSignIn;
 	
 	private User user;
+	private ProgressDialog progressDialog ;
 
 	public static SignInDialogFragment newInstance(DialogType showDialog) {
 		SignInDialogFragment fragment = new SignInDialogFragment();
@@ -80,14 +86,17 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 			@Override
 			public void onClick(View v) {
 				
-				if (v == btnSignIn) {
+				if (v.getId() == R.id.btnSignIn) {
 					String email = etEmail.getText().toString();
 					String password = etPassword.getText().toString();
 					
 					switch (dialog) {
 					case MY_PHILIPS:
 						Log.e("TEMP", "My Philips: E-mail: " + email + " Password: " + password);
-						user.loginUsingTraditional(email, password, SignInDialogFragment.this, PurAirApplication.getAppContext());
+						if( EmailValidator.getInstance().validate(email) && password != null && password.length() > 5) {
+							showProgressDialog() ;
+							user.loginUsingTraditional(email, password, SignInDialogFragment.this, PurAirApplication.getAppContext());
+						}
 						break;
 					case FACEBOOK:
 						Log.e("TEMP", "Facebook: E-mail: " + email + " Password: " + password);
@@ -102,22 +111,48 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 						break;
 					}
 				}
-				dismiss();
+				else if(v.getId() == R.id.btnClose) {
+					dismiss() ;
+				}
 			}
 		};
 		
 		btnClose.setOnClickListener(clickListener);
 		btnSignIn.setOnClickListener(clickListener);
 	}
+	
+	private void showProgressDialog() {
+		progressDialog = new ProgressDialog(getActivity());
+		progressDialog.setMessage(getString(R.string.please_wait));
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+	}
+	
+	private void cancelProgressDialog() {
+		if(progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.cancel() ;
+		}
+	}
+	private void showErrorDialog(Error type) {
+		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
+		FragmentManager fragMan = getFragmentManager();
+		dialog.show(fragMan, null);
+	}
 
 	@Override
 	public void onLoginSuccess() {
 		ALog.i(ALog.USER_REGISTRATION, "onLoginSuccess");
-		
+		cancelProgressDialog() ;
+		if(getActivity() != null && getActivity() instanceof MainActivity) {
+			((MainActivity) getActivity()).showFragment(new SignedInFragment());
+		}
+		dismiss() ;
 	}
 
 	@Override
 	public void onLoginFailedWithError(int error) {
-		ALog.i(ALog.USER_REGISTRATION, "onLoginFailedWithError error " + new ErrorMessage().getError(error));
+		ALog.i(ALog.USER_REGISTRATION, "onLoginError errorCode: "+error+" errormessage: "+new ErrorMessage().getError(error));
+		cancelProgressDialog() ;
+		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error)) ;
 	}
 }

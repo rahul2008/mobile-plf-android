@@ -525,7 +525,13 @@
     <string name="invalid_email">Invalid E-mail</string>
     <string name="invalid_name">Please enter the name</string>
     <string name="invalid_password">Invalid password !! Password should be atleast 6 characters</string>
-    
+    <string name="please_wait">Please wait..</string>
+    <string name="authentication_cancelled_by_user">Cancelled by User</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="configuration_failed">Configuration failed</string> 
+    <string name="invalid_params">Invalid parameters</string>
+    <string name="no_network_connection">Please check internet connection</string>
+    <string name="invalid_username_or_password">Invalid Username or Password</string>
     <!-- Demo Mode -->
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>

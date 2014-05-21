@@ -1,7 +1,7 @@
 package com.philips.cl.di.dev.pa.registration;
 
 import java.util.ArrayList;
-
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -19,11 +19,11 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.registration.RegistrationErrorDialogFragment.DialogType;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.errormapping.ErrorMessage;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 
@@ -50,6 +50,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	private boolean mReceiveInfo;
 	
 	private User user;
+	private ProgressDialog progressDialog;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -97,6 +98,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	private void createAccount() {
 		// TODO make API call 
 		Log.e("TEMP", "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
+		showProgressDialog() ;
 		user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = new DIUserProfile();
 		profile.setEmail(mEmail);
@@ -117,7 +119,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		dialog.show(fragMan, null);
 	}
 	
-	private void showErrorDialog(RegistrationErrorDialogFragment.DialogType type) {
+	private void showErrorDialog(Error type) {
 		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
 		FragmentManager fragMan = getFragmentManager();
 		dialog.show(fragMan, null);
@@ -135,13 +137,13 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 				createAccount();
 				break;
 			case PASSWORD:
-				showErrorDialog(DialogType.INVALID_PASSWORD) ;
+				showErrorDialog(Error.INVALID_PASSWORD) ;
 				break;
 			case EMAIL:
-				showErrorDialog(DialogType.INVALID_EMAILID) ;
+				showErrorDialog(Error.INVALID_EMAILID) ;
 				break;			
 			case NAME:
-				showErrorDialog(DialogType.INVALID_NAME) ;
+				showErrorDialog(Error.INVALID_USERNAME_OR_PASSWORD) ;
 				break;
 			default:
 				break;
@@ -178,17 +180,33 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		return ErrorType.NONE ;
 	}
 
+	private void showProgressDialog() {
+		progressDialog = new ProgressDialog(getActivity());
+		progressDialog.setMessage(getString(R.string.please_wait));
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+	}
+	
+	private void cancelProgressDialog() {
+		if(progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.cancel() ;
+		}
+	}
+	
 	@Override
 	public void onRegisterSuccess() {
 		ALog.i(ALog.USER_REGISTRATION, "onRegisterSuccess");
+		cancelProgressDialog() ;
 		showSuccessFragment();
 	}
 
 	@Override
 	public void onRegisterFailedWithFailure(int error) {
 		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error " + new ErrorMessage().getError(error));
-		showErrorDialog(DialogType.INCORRECT_PASSWORD);
+		cancelProgressDialog() ;
+		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
 	}
+	
 	
 	private void showSuccessFragment() {
 		if(getActivity() != null && getActivity() instanceof MainActivity) {
