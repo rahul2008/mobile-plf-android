@@ -249,11 +249,11 @@
     <string name="daily_notification_info">您会收到已连接的所有净化器的通知。</string>
     <string name="outdoor_AQI_title">室外空气质量</string>
     <string name="outdoor_AQI_desc">当所保存的室外场所的空气质量超过所设置的水平时便会通知您。</string>
-    <string name="indoor_AQI_title">室内空气水平</string>
-    <string name="indoor_AQI_desc">当家中的空气质量超过所设置的水平时便会通知您。</string>
+    <string name="notifications_indoor_title">室内空气水平</string>
+    <string name="notifications_indoor_AQI_desc">当家中的空气质量超过所设置的水平时便会通知您。</string>
     <string name="indoor_AQI_notification_info">当所连接的任一净化器检测到空气质量超过所设置的水平时便会通知您。</string>
-    <string name="filters_title">过滤网</string>
-    <string name="filters_desc">需要更换滤网时便会通知您。</string>
+    <string name="notifications_filters_title">过滤网</string>
+    <string name="notifications_filters_desc">需要更换滤网时便会通知您。</string>
     <string name="filters_notification_info">您会收到已连接的所有净化器的通知。</string>
     <string name="edit">编辑</string>
     <string name="repeat">Repeat</string>
@@ -265,11 +265,11 @@
     <string name="notification_aqi_lbl_4">150&#8211;200</string>
     <string name="notification_aqi_lbl_5">300</string>
     <string name="notification_aqi_lbl_6">500+</string>
-    <string name="notification_indoor_aqi_lbl_1">1&#8211;2</string>
-    <string name="notification_indoor_aqi_lbl_2">2&#8211;3</string>
-    <string name="notification_indoor_aqi_lbl_3">3&#8211;4</string>
-    <string name="notification_indoor_aqi_lbl_4">4+</string>
-    <string name="enable_notification">Enable notifications</string>
+    <string name="notifications_indoor_aqi_lbl_1">1&#8211;2</string>
+    <string name="notifications_indoor_aqi_lbl_2">2&#8211;3</string>
+    <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
+    <string name="notifications_indoor_aqi_lbl_4">4+</string>
+    <string name="notifications_enable_all">Enable notifications</string>
 
     <!-- Settings -->
     <string name="rate_this_app">评价此应用程序</string>

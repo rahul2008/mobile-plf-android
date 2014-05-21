@@ -8,70 +8,96 @@
         android:background="@android:color/white"
         android:orientation="vertical" >
 
-        <LinearLayout
-            android:id="@+id/enable_notification_layout"
+        <!-- Link to pairing -->
+        <RelativeLayout
+            android:id="@+id/notifications_pairing_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/TextView01"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:text="@string/enable_notification"
-                android:textColor="#5D6578"
-                android:textSize="18sp" />
+            android:layout_height="wrap_content" 
+            android:layout_margin="15dp">
+            
+            <Button
+		        android:id="@+id/btn_notifications_pairing"
+		        android:layout_width="80dp"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentRight="true"
+		        android:background="@drawable/blue_button_selector"
+		        android:layout_centerVertical="true"
+		        android:text="@string/notification_pairing_btn"
+		        android:textColor="@color/white"
+		        android:textSize="14sp" />
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="match_parent"
+	            android:layout_centerVertical="true"
+	            android:layout_toLeftOf="@id/btn_notifications_pairing"
+	            android:text="@string/notification_pairing_text"
+	            android:textColor="@color/notifications_text_gray"
+	            android:textSize="18sp" />
+        </RelativeLayout>
+        
+        <!-- Toggle notifications -->
+        <RelativeLayout
+            android:id="@+id/notifications_enable_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" 
+            android:orientation="horizontal" >
 
             <ToggleButton
-                android:id="@+id/notification_toggle"
+                android:id="@+id/toggle_notifications_enable_all"
                 style="@style/Widget.Button.Toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp" />
-        </LinearLayout>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+            
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@id/toggle_notifications_enable_all"
+                android:text="@string/notifications_enable_all"
+                android:layout_centerVertical="true"
+                android:textColor="@color/notifications_text_gray"
+                android:textSize="18sp" />
+        </RelativeLayout>
 
+        <!-- Horizontal line -->
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="15dp"
             android:background="@color/darkgray" />
 
+        <!-- Indoor notifications -->
         <TextView
-            android:id="@+id/indoor_aqi_notification_title"
+            android:id="@+id/notifications_indoor_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="@string/indoor_AQI_title"
-            android:textColor="#5D6578"
+            android:text="@string/notifications_indoor_title"
+            android:textColor="@color/notifications_text_gray"
+            android:enabled="false"
+            android:alpha="0.5"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/indoor_aqi_notification_desc"
+            android:id="@+id/notifications_indoor_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="@string/indoor_AQI_desc"
-            android:textColor="#7C7C7C" />
-
-        <TextView
-            android:id="@+id/indoor_aqi_notification_alert_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_marginBottom="25dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/indoor_AQI_notification_info"
-            android:textColor="@color/philips_blue" />
+            android:text="@string/notifications_indoor_AQI_desc"
+            android:enabled="false"
+            android:alpha="0.5"
+            android:textColor="@color/notifications_text_lightgray" />
 
         <RadioGroup
-            android:id="@+id/indoor_radioGroup"
+            android:id="@+id/notifications_indoor_radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -79,32 +105,32 @@
             android:visibility="gone" >
 
             <RadioButton
-                android:id="@+id/indoor_radio0"
+                android:id="@+id/notifications_indoor_radio0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/healthy_blue" />
 
             <RadioButton
-                android:id="@+id/indoor_radio1"
+                android:id="@+id/notifications_indoor_radio1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/slightly_polluted_violet" />
 
             <RadioButton
-                android:id="@+id/indoor_radio2"
+                android:id="@+id/notifications_indoor_radio2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/moderately_polluted_purple" />
 
             <RadioButton
-                android:id="@+id/indoor_radio3"
+                android:id="@+id/notifications_indoor_radio3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@drawable/hazardous_red" />
         </RadioGroup>
 
         <LinearLayout
-            android:id="@+id/indoor_aqi_lbls"
+            android:id="@+id/notifications_indoor_aqi_lbls"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -117,7 +143,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/notification_indoor_aqi_lbl_1"
+                android:text="@string/notifications_indoor_aqi_lbl_1"
                 android:textSize="10sp" />
 
             <TextView
@@ -125,7 +151,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/notification_indoor_aqi_lbl_2"
+                android:text="@string/notifications_indoor_aqi_lbl_2"
                 android:textSize="10sp" />
 
             <TextView
@@ -133,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/notification_indoor_aqi_lbl_3"
+                android:text="@string/notifications_indoor_aqi_lbl_3"
                 android:textSize="10sp" />
 
             <TextView
@@ -141,44 +167,39 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/notification_indoor_aqi_lbl_4"
+                android:text="@string/notifications_indoor_aqi_lbl_4"
                 android:textSize="10sp" />
         </LinearLayout>
 
+        <!-- Horizontal line -->
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/darkgray" />
 
+        <!-- Filter notifications -->
         <TextView
-            android:id="@+id/filters_notification_title"
+            android:id="@+id/notifications_filters_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
-            android:text="@string/filters_title"
-            android:textColor="#5D6578"
+            android:text="@string/notifications_filters_title"
+            android:textColor="@color/notifications_text_gray"
+            android:enabled="false"
+            android:alpha="0.5"
             android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/filters_notification_desc"
+            android:id="@+id/notifications_filters_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
-            android:text="@string/filters_desc"
-            android:textColor="#7C7C7C" />
-
-        <TextView
-            android:id="@+id/filters_notification_alert_info"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/filters_notification_info"
-            android:textColor="@color/philips_blue" />
+            android:text="@string/notifications_filters_desc"
+            android:enabled="false"
+            android:alpha="0.5"
+            android:textColor="@color/notifications_text_lightgray" />
     </LinearLayout>
 
 </ScrollView>

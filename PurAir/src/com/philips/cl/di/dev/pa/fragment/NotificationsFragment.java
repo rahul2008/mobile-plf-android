@@ -31,9 +31,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 
 	private void initializeView(View rootView) {
-		notificationToggle =(ToggleButton) rootView.findViewById(R.id.toggle_all_notifications);
+		notificationToggle =(ToggleButton) rootView.findViewById(R.id.toggle_notifications_enable_all);
 		notificationToggle.setOnCheckedChangeListener(this);
-		indoorAqiLbls=(LinearLayout)rootView.findViewById(R.id.indoor_aqi_lbls);
+		indoorAqiLbls=(LinearLayout)rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
 		notificationSetup();
 	}
 	
@@ -51,7 +51,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		switch(button.getId()){
-		case R.id.toggle_all_notifications:
+		case R.id.toggle_notifications_enable_all:
 			updateNotificationPermission(isChecked);
 			break;
 		default:

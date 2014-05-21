@@ -157,5 +157,8 @@
     <color name="title_gray">#5D6577</color>
     <color name="contain_gray">#7C7C7C</color>
     <color name="lighter_gray">#C4CCD4</color>
+    
+    <color name="notifications_text_gray">#5D6578</color>
+    <color name="notifications_text_lightgray">#7C7C7C</color>
    
     </resources>
