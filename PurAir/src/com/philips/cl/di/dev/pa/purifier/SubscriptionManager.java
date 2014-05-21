@@ -172,6 +172,8 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 		//TODO if response code not 200? retry?
 		if(responseCode != HttpURLConnection.HTTP_OK ) {
 			ALog.i(ALog.SUBSCRIPTION, "Subscription failed");
+			ALog.d(ALog.SUBSCRIPTION, "ReponseCode:  " + responseCode + "   source Ip: " + fromIp);
+			ALog.d(ALog.SUBSCRIPTION, "ReponseData:  " + responseData);
 			return;
 		}
 
