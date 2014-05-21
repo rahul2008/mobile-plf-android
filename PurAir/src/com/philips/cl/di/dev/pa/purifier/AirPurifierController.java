@@ -73,12 +73,6 @@ public class AirPurifierController implements ServerResponseListener {
 		statusUpdateTaskThread.start() ;
 	}
 
-	public void getPurifierDetails(String url) {
-		ALog.i(ALog.AIRPURIFIER_CONTROLER, "Get Purifier details") ;
-		AsyncTask<String, ?, ?> sensorDataTask = null;
-		sensorDataTask = new TaskGetSensorData(this);
-		sensorDataTask.execute(url);
-	}
 	/**
 	 * (non-Javadoc)
 	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int, java.lang.String)
