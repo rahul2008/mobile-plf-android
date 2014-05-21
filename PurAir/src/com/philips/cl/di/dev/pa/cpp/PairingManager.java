@@ -337,4 +337,77 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		if (pairingListener == null) return;
 		pairingListener.onPairingFailed();
 	}
+	
+
+	/**
+	 * Method addPermission- adds permission to a existing relationship
+	 * @param relationType String
+	 * @param permission String[]
+	 */
+	private void addPermission(String relationType, String[] permission){
+		PairingService addPermission = new PairingService(callbackHandler);
+		int retStatus;
+		retStatus = addPermission.addPermissionsRequest(getPurifierEntity(), relationType, permission);
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			return;
+		}
+		addPermission.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
+		retStatus = addPermission.executeCommand();
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
+		}
+	}
+	
+	/**
+	 * Method getPermission-get permissions of a existing relationship
+	 * @param relationType String
+	 * @param permission String[]
+	 */
+	private void getPermission(String relationType, String[] permission){
+		int    iMaxPermissons = 5;
+		int    iPermIndex = 0;
+		PairingService getPermission = new PairingService(callbackHandler);
+		int retStatus;
+				
+		retStatus = getPermission.getPermissionsRequest(null, getPurifierEntity(), relationType, iMaxPermissons, iPermIndex);
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			return;
+		}
+		getPermission.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
+		retStatus = getPermission.executeCommand();
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			
+		}
+	}
+	
+	/**
+	 * Method removePermission-remove permission from a existing relationship
+	 * @param relationType String
+	 * @param permission String[]
+	 */
+	private void removePermission(String relationType, String[] permission){
+		PairingService removePermissions = new PairingService(callbackHandler);
+		int retStatus;
+		
+		retStatus = removePermissions.removePermissionsRequest(getPurifierEntity(), relationType, permission);
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
+			return;
+		}
+		removePermissions.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
+		retStatus = removePermissions.executeCommand();
+		if(Errors.SUCCESS != retStatus)
+		{
+			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
+		}
+	}
+	
 }

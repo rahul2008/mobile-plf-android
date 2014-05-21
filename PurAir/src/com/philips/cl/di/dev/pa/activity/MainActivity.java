@@ -66,6 +66,7 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.notification.NotificationManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
@@ -931,6 +932,9 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			progressDialog.cancel();
 		}
 		try{
+			NotificationManager nm= new NotificationManager();
+			nm.registerAppForNotification();
+			
 			PairingDialogFragment dialog = PairingDialogFragment.newInstance(null, PairingDialogFragment.dialog_type.PAIRING_SUCCESS);
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);

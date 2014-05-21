@@ -237,4 +237,9 @@ public class AppConstants {
 	
 	public static final String REQUEST_METHOD_POST = "POST" ;
 	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
+	
+	/** Notification */
+	public static final String SERVICE_TAG="3pns";
+	public static final String PROTOCOL="push";
+	public static final String PROVIDER="gcma";
 }

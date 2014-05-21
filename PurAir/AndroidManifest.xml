@@ -14,11 +14,20 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission
+        android:name="com.example.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
     <supports-screens
         android:anyDensity="true"
@@ -97,7 +106,7 @@
             android:name="com.philips.cl.di.dev.pa.activity.AirColorExplainedStaticActivity"
             android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
             android:name="com.philips.cl.di.dev.pa.ews.EWSActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -109,11 +118,10 @@
             android:name="com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity"
             android:screenOrientation="portrait" >
         </activity>
-         <activity
+        <activity
             android:name="com.philips.cl.di.dev.pa.scheduler.SchedulerActivity"
             android:screenOrientation="portrait" >
         </activity>
-        
     </application>
 
 </manifest>
