@@ -94,8 +94,14 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 					case MY_PHILIPS:
 						Log.e("TEMP", "My Philips: E-mail: " + email + " Password: " + password);
 						if( EmailValidator.getInstance().validate(email) && password != null && password.length() > 5) {
-							showProgressDialog() ;
-							user.loginUsingTraditional(email, password, SignInDialogFragment.this, PurAirApplication.getAppContext());
+							
+							try {
+								user.loginUsingTraditional(email, password, SignInDialogFragment.this, PurAirApplication.getAppContext());
+								showProgressDialog() ;
+							} catch (Exception e) {
+								e.printStackTrace();
+								showErrorDialog(Error.GENERIC_ERROR);
+							}
 						}
 						break;
 					case FACEBOOK:
