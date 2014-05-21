@@ -568,7 +568,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testReceiveIncorrectLocalEventWrongPurifier() {
-		PurAirDevice device = new PurAirDevice(null, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		String data = "dfasfas";
@@ -582,7 +582,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testReceiveIncorrectLocalEventRightPurifier() {
-		PurAirDevice device = new PurAirDevice(null, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		String data = "dfasfas";
@@ -596,7 +596,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	}
 	
 	public void testReceiveUnencryptedLocalAPEventRightPurifier() {
-		PurAirDevice device = new PurAirDevice(null, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		String data = VALID_LOCALAIRPORTEVENT;
@@ -610,7 +610,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	}
 
 	public void testReceiveUnencryptedLocalFWEventRightPurifier() {
-		PurAirDevice device = new PurAirDevice(null, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice device = new PurAirDevice(PURIFIER_EUI64, null, PURIFIER_IP, null, -1, ConnectionState.CONNECTED_LOCALLY);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		String data = VALID_LOCALFWEVENT;
