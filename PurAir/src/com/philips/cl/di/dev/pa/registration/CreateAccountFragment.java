@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.firmware.FirmwareInstallFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.registration.RegistrationErrorDialogFragment.DialogType;
 import com.philips.cl.di.dev.pa.util.ALog;

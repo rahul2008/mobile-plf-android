@@ -492,7 +492,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				R.drawable.icon_6_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
 				R.drawable.icon_8_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_prod_reg,
+		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
 				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_10_2x));
