@@ -77,7 +77,6 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
-import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.NetworkState;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -648,11 +647,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				break;
 			case 7:
 				// User registration
-				if(NetworkState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
-					//TODO : Show disconnected fragment.
-					ALog.i(ALog.USER_REGISTRATION, "No internet connection : return");
-					break;
-				}
 				if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 					showFragment(new SignedInFragment());
 				} else {

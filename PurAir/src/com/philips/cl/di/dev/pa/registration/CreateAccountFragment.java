@@ -20,6 +20,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.NetworkState;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
@@ -39,6 +41,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	
 	private Button mButtonCreateAccount;
 	
+	private LinearLayout mLayoutPhilips;
 	private LinearLayout mLayoutMyPhilips;
 	private LinearLayout mLayoutFacebook;
 	private LinearLayout mLayoutTwitter;
@@ -73,31 +76,17 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		mButtonCreateAccount = (Button) view.findViewById(R.id.btnCreateAccount);
 		mButtonCreateAccount.setOnClickListener(this);
 		
+		mLayoutPhilips = (LinearLayout) view.findViewById(R.id.llFirstRow);
 		mLayoutMyPhilips = (LinearLayout) view.findViewById(R.id.llMyPhilips);
-		mLayoutFacebook = (LinearLayout) view.findViewById(R.id.llFacebook);
-		mLayoutTwitter = (LinearLayout) view.findViewById(R.id.llTwitter);
-		mLayoutGooglePlus = (LinearLayout) view.findViewById(R.id.llGooglPlus);
 		
 		((ImageView) mLayoutMyPhilips.findViewById(R.id.logo)).setImageResource(R.drawable.indoor_pollutants);
 		((FontTextView) mLayoutMyPhilips.findViewById(R.id.title)).setText(R.string.my_philips);
-		mLayoutMyPhilips.setOnClickListener(this);
+		mLayoutPhilips.setOnClickListener(this);
 		
-		((ImageView) mLayoutFacebook.findViewById(R.id.logo)).setImageResource(R.drawable.indoor_pollutants);
-		((FontTextView) mLayoutFacebook.findViewById(R.id.title)).setText(R.string.facebook);
-		mLayoutFacebook.setOnClickListener(this);
-		
-		((ImageView) mLayoutTwitter.findViewById(R.id.logo)).setImageResource(R.drawable.indoor_pollutants);
-		((FontTextView) mLayoutTwitter.findViewById(R.id.title)).setText(R.string.twitter);
-		mLayoutTwitter.setOnClickListener(this);
-		
-		((ImageView) mLayoutGooglePlus.findViewById(R.id.logo)).setImageResource(R.drawable.indoor_pollutants);
-		((FontTextView) mLayoutGooglePlus.findViewById(R.id.title)).setText(R.string.google_plus);
-		mLayoutGooglePlus.setOnClickListener(this);
 	}
 	
 	private void createAccount() {
-		// TODO make API call 
-		Log.e("TEMP", "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
+		ALog.e(ALog.USER_REGISTRATION, "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
 		showProgressDialog() ;
 		user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = new DIUserProfile();
@@ -131,6 +120,11 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		case R.id.rbReceiveInformation:
 			break;
 		case R.id.btnCreateAccount:
+			ALog.i(ALog.CONNECTIVITY, "onClick$btnCreateAccount " + NetworkReceiver.getInstance().getLastKnownNetworkState());
+			if(NetworkState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
+				showErrorDialog(DialogType.ALREADY_REGISTERED); //TODO : Change error type to "Connect to internet"
+				break;
+			}
 			getInput();
 			switch (isInputValidated()) {
 			case NONE:		
@@ -150,17 +144,8 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			}
 			
 			break;
-		case R.id.llMyPhilips:
+		case R.id.llFirstRow:
 			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
-			break;
-		case R.id.llFacebook:
-			showSignInDialog(SignInDialogFragment.DialogType.FACEBOOK);
-			break;
-		case R.id.llTwitter:
-			showSignInDialog(SignInDialogFragment.DialogType.TWITTER);
-			break;
-		case R.id.llGooglPlus:
-			showSignInDialog(SignInDialogFragment.DialogType.GOOGLE_PLUS);
 			break;
 		}
 	}

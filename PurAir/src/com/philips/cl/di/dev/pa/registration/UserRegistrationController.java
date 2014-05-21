@@ -23,16 +23,6 @@ public class UserRegistrationController {
 		return smInstance;
 	}
 	
-//	public Fragment getFragment() {
-//		Fragment fragment = null ;
-//		if(isUserLoggedIn()) {
-//			fragment = new SignedInFragment();
-//		} else {
-//			fragment = new CreateAccountFragment();
-//		}
-//		return fragment ;
-//	}
-
 	public boolean isUserLoggedIn() {
 		User user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());

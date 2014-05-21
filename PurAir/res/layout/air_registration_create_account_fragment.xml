@@ -207,7 +207,8 @@
 				android:id="@+id/vFirstDivider"
 				android:layout_width="1dp"
 				android:layout_height="match_parent"
-				android:background="#B9BCC5"/>
+				android:background="#B9BCC5"
+				android:visibility="gone"/>
                 
             <include 
                 android:id="@+id/llFacebook"
@@ -216,7 +217,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 layout="@layout/air_registration_sign_in_item"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:visibility="gone" />
             
         </LinearLayout>
         
@@ -225,7 +227,8 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
 		    android:background="#B9BCC5"
-		    android:layout_below="@id/llFirstRow"/>
+		    android:layout_below="@id/llFirstRow"
+		    android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/llSecondRow"
@@ -243,13 +246,15 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 layout="@layout/air_registration_sign_in_item" 
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:visibility="gone"/>
                 
            <View
 				android:id="@+id/vSecondDivider"
 				android:layout_width="1dp"
 				android:layout_height="match_parent"
-				android:background="#B9BCC5"/>
+				android:background="#B9BCC5"
+				android:visibility="gone" />
                 
             <include 
                 android:id="@+id/llGooglPlus"
@@ -258,7 +263,8 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 layout="@layout/air_registration_sign_in_item"
-                android:layout_weight="1" />
+                android:layout_weight="1" 
+                android:visibility="gone" />
             
         </LinearLayout>
         
