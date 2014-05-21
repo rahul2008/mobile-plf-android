@@ -21,6 +21,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 
@@ -287,7 +288,12 @@ public class RightMenuClickListener implements OnClickListener {
 			if(!isFanSpeedAuto) {
 				controlDevice(ParserConstants.FAN_SPEED, "a") ;
 			} else {
-				controlDevice(ParserConstants.FAN_SPEED, "1") ;
+				String fspd = "1" ;
+				if(PurifierManager.getInstance().getCurrentPurifier() != null &&
+						PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo() != null) {
+					fspd = PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo().getActualFanSpeed() ;
+				}
+				controlDevice(ParserConstants.FAN_SPEED, fspd) ;
 			}
 			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
 			isFanSpeedAuto = !isFanSpeedAuto;
