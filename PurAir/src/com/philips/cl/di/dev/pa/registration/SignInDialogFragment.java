@@ -11,18 +11,26 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.errormapping.ErrorMessage;
+import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 
-public class SignInDialogFragment extends DialogFragment {
+public class SignInDialogFragment extends DialogFragment implements TraditionalLoginHandler{
 
-	public static enum dialog_type {MY_PHILIPS, FACEBOOK, TWITTER, GOOGLE_PLUS};
+	public static enum DialogType {MY_PHILIPS, FACEBOOK, TWITTER, GOOGLE_PLUS};
+	
 	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.registration.sign_in_dialog";
 	private FontTextView title;
 	private Button btnClose;
 	private Button btnSignIn;
+	
+	private User user;
 
-	public static SignInDialogFragment newInstance(dialog_type showDialog) {
+	public static SignInDialogFragment newInstance(DialogType showDialog) {
 		SignInDialogFragment fragment = new SignInDialogFragment();
 
 		Bundle args = new Bundle();
@@ -37,7 +45,7 @@ public class SignInDialogFragment extends DialogFragment {
 		View view = inflater.inflate(R.layout.air_registration_sign_in_dialog, container, false);
 		setCancelable(false);
 		initializeView(view);
-
+		user = new User(PurAirApplication.getAppContext());
 		return view;
 	}
 
@@ -48,16 +56,21 @@ public class SignInDialogFragment extends DialogFragment {
 		
 		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		
-		final dialog_type dialog = (dialog_type) getArguments().getSerializable(DIALOG_SELECTED);
+		final DialogType dialog = (DialogType) getArguments().getSerializable(DIALOG_SELECTED);
 		
-		if (dialog == dialog_type.MY_PHILIPS) {	
+		switch (dialog) {
+		case MY_PHILIPS:
 			title.setText(R.string.sign_in_to_my_philips);
-		} else if (dialog == dialog_type.FACEBOOK) {
+			break;
+		case FACEBOOK:
 			title.setText(R.string.sign_in_to_facebook);
-		} else if (dialog == dialog_type.TWITTER) {
-			title.setText(R.string.sign_in_to_twitter);
-		} else if (dialog == dialog_type.GOOGLE_PLUS) {
+			break;
+		case GOOGLE_PLUS:
 			title.setText(R.string.sign_in_to_google_plus);
+			break;
+		case TWITTER:
+			title.setText(R.string.sign_in_to_twitter);
+			break;
 		}
 
 		final EditText etEmail = (EditText) view.findViewById(R.id.etEmailAddress);
@@ -74,6 +87,7 @@ public class SignInDialogFragment extends DialogFragment {
 					switch (dialog) {
 					case MY_PHILIPS:
 						Log.e("TEMP", "My Philips: E-mail: " + email + " Password: " + password);
+						user.loginUsingTraditional(email, password, SignInDialogFragment.this, PurAirApplication.getAppContext());
 						break;
 					case FACEBOOK:
 						Log.e("TEMP", "Facebook: E-mail: " + email + " Password: " + password);
@@ -94,5 +108,16 @@ public class SignInDialogFragment extends DialogFragment {
 		
 		btnClose.setOnClickListener(clickListener);
 		btnSignIn.setOnClickListener(clickListener);
+	}
+
+	@Override
+	public void onLoginSuccess() {
+		ALog.i(ALog.USER_REGISTRATION, "onLoginSuccess");
+		
+	}
+
+	@Override
+	public void onLoginFailedWithError(int error) {
+		ALog.i(ALog.USER_REGISTRATION, "onLoginFailedWithError error " + new ErrorMessage().getError(error));
 	}
 }

@@ -43,6 +43,7 @@ public class ALog {
 	public static final String DISCOVERY = "DiscoveryManager";
 	public static final String NETWORKMONITOR = "NetworkMonitor";
 	public static final String UDP = "UDPSocket";
+	public static final String USER_REGISTRATION = "UserRegistration";
 	
 	private static boolean isLoggingEnabled = true;
 	

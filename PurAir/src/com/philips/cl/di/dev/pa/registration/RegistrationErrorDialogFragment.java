@@ -14,12 +14,12 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class RegistrationErrorDialogFragment extends DialogFragment {
 
-	public static enum dialog_type {PASSWORD_INCORRECT, ALREADY_REGISTERED};
+	public static enum DialogType {PASSWORD_INCORRECT, ALREADY_REGISTERED};
 	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.registration.error_dialog";
 	private FontTextView message;
 	private Button btnClose;
 
-	public static RegistrationErrorDialogFragment newInstance(dialog_type showDialog) {
+	public static RegistrationErrorDialogFragment newInstance(DialogType showDialog) {
 		RegistrationErrorDialogFragment fragment = new RegistrationErrorDialogFragment();
 
 		Bundle args = new Bundle();
@@ -44,12 +44,12 @@ public class RegistrationErrorDialogFragment extends DialogFragment {
 		
 		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		
-		dialog_type dialog = (dialog_type) getArguments().getSerializable(DIALOG_SELECTED);
+		DialogType dialog = (DialogType) getArguments().getSerializable(DIALOG_SELECTED);
 		
-		if (dialog == dialog_type.PASSWORD_INCORRECT) {	
+		if (dialog == DialogType.PASSWORD_INCORRECT) {	
 			message.setText(R.string.password_not_correct);
 		}
-		else if (dialog == dialog_type.ALREADY_REGISTERED) {
+		else if (dialog == DialogType.ALREADY_REGISTERED) {
 			message.setText(R.string.already_registerd);
 		}
 		

@@ -15,8 +15,7 @@ public class SignedInFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.air_registration_signed_in_fragment, container,
-				false);
+		View view = inflater.inflate(R.layout.air_registration_signed_in_fragment, container, false);
 		return view;
 	}
 	

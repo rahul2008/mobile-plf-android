@@ -33,6 +33,9 @@ public class ErrorMessage {
 		}else if (error == 13) {
 			errorMessage = "MERGE_FLOW_ERROR";
 		}
+		else if (error == 14) {
+			errorMessage = "EMAIL_ALREADY_EXIST";
+		}
 		return errorMessage;
 		}
 	}

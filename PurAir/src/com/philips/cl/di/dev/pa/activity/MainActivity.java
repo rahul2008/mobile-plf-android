@@ -603,8 +603,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.llContainer, fragment,
-				fragment.getTag());
+		fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
 		fragmentTransaction.addToBackStack(fragment.getTag()) ;
 		fragmentTransaction.commit();
 

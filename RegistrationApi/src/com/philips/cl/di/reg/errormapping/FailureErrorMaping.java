@@ -32,7 +32,10 @@ public class FailureErrorMaping {
 			code = Error.INVALID_PARAM.geterrorList();
 		} else if (error.captureApiError.code == 210) {
 			code = Error.INVALID_USERNAME_OR_PASSWORD.geterrorList();
-		} else if (error.captureApiError.code == -6) {
+		} 
+		else if (error.captureApiError.code == 390) {
+			code = Error.EMAIL_ALREADY_EXIST.geterrorList();
+		}else if (error.captureApiError.code == -6) {
 			code = Error.INVALID_USERNAME_OR_PASSWORD.geterrorList();
 		} else if (error.reason == SignInError.FailureReason.ENGAGE_ERROR) {
 			code = Error.GENERIC_ERROR.geterrorList();

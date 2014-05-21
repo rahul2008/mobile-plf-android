@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.registration;
 
+import java.util.ArrayList;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -13,11 +15,22 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.firmware.FirmwareInstallFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.registration.RegistrationErrorDialogFragment.DialogType;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
+import com.philips.cl.di.reg.User;
+import com.philips.cl.di.reg.dao.DIUserProfile;
+import com.philips.cl.di.reg.errormapping.ErrorMessage;
+import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
+import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 
-public class CreateAccountFragment extends BaseFragment implements OnClickListener {
+public class CreateAccountFragment extends BaseFragment implements OnClickListener, TraditionalRegistrationHandler {
+	
+	public enum ErrorType { NAME, PASSWORD, EMAIL }
 
 	private EditText mEditTextName;
 	private EditText mEditTextEmail;
@@ -37,18 +50,18 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	private String mPassword;
 	private boolean mReceiveInfo;
 	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+	private User user;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.air_registration_create_account_fragment, container,
-				false);
+		View view = inflater.inflate(R.layout.air_registration_create_account_fragment, container, false);
 		initViews(view);
+		
+		JanrainConfigurationSettings config = new JanrainConfigurationSettings();
+		config.init(PurAirApplication.getAppContext(), "4r36zdbeycca933nufcknn2hnpsz6gxu", "81338", "REGISTRATION_USE_EVAL");
+		
 		return view;
 	}
 	
@@ -93,17 +106,27 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		
 		// TODO make API call 
 		Log.e("TEMP", "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
+		user = new User(PurAirApplication.getAppContext());
+		DIUserProfile profile = new DIUserProfile();
+		profile.setEmail(mEmail);
+		profile.setGivenName(mName);
+		profile.setPassword(mPassword);
+		profile.setOlderThanAgeLimit(true);
+		profile.setReceiveMarketingEmail(mReceiveInfo);
 		
-		showErrorDialog(RegistrationErrorDialogFragment.dialog_type.PASSWORD_INCORRECT);
+		ArrayList<DIUserProfile> profileList = new ArrayList<DIUserProfile>();
+		profileList.add(profile);
+		
+		user.registerNewUserUsingTraditional(profileList, this, PurAirApplication.getAppContext());
 	}
 	
-	private void showSignInDialog(SignInDialogFragment.dialog_type type) {
+	private void showSignInDialog(SignInDialogFragment.DialogType type) {
 		SignInDialogFragment dialog = SignInDialogFragment.newInstance(type);
 		FragmentManager fragMan = getFragmentManager();
 		dialog.show(fragMan, null);
 	}
 	
-	private void showErrorDialog(RegistrationErrorDialogFragment.dialog_type type) {
+	private void showErrorDialog(RegistrationErrorDialogFragment.DialogType type) {
 		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
 		FragmentManager fragMan = getFragmentManager();
 		dialog.show(fragMan, null);
@@ -115,22 +138,50 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		case R.id.rbReceiveInformation:
 			break;
 		case R.id.btnCreateAccount:
-			createAccount();
+//			if(inputValidated()) {
+				createAccount();
+//			} else {
+//				showErrorDialog(DialogType.PASSWORD_INCORRECT);
+//			}
 			break;
 		case R.id.llMyPhilips:
-			showSignInDialog(SignInDialogFragment.dialog_type.MY_PHILIPS);
+			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
 			break;
 		case R.id.llFacebook:
-			showSignInDialog(SignInDialogFragment.dialog_type.FACEBOOK);
+			showSignInDialog(SignInDialogFragment.DialogType.FACEBOOK);
 			break;
 		case R.id.llTwitter:
-			showSignInDialog(SignInDialogFragment.dialog_type.TWITTER);
+			showSignInDialog(SignInDialogFragment.DialogType.TWITTER);
 			break;
 		case R.id.llGooglPlus:
-			showSignInDialog(SignInDialogFragment.dialog_type.GOOGLE_PLUS);
-			break;
-		default:
+			showSignInDialog(SignInDialogFragment.DialogType.GOOGLE_PLUS);
 			break;
 		}
 	}
+
+	private boolean inputValidated() {
+		if(mName == null || mName.length() < 1) return false;
+		if(mPassword == null || mPassword.length() < 6) return false;
+		return EmailValidator.getInstance().validate(mEmail);
+	}
+
+	@Override
+	public void onRegisterSuccess() {
+		ALog.i(ALog.USER_REGISTRATION, "onRegisterSuccess");
+		showSuccessFragment();
+	}
+
+	@Override
+	public void onRegisterFailedWithFailure(int error) {
+		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error " + new ErrorMessage().getError(error));
+		showErrorDialog(DialogType.PASSWORD_INCORRECT);
+	}
+	
+	private void showSuccessFragment() {
+		getFragmentManager()
+		.beginTransaction()
+		.replace(R.id.llContainer, new SignedInFragment(), SignedInFragment.class.getSimpleName())
+		.commit();
+	}
+	
 }

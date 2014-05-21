@@ -503,6 +503,7 @@
     <string name="enter_email_address">Enter your E-mail Address</string>
     <string name="password">Password</string>
     <string name="choose_password">Choose a password</string>
+    <string name="enter_password">Enter your password</string>
     <string name="receive_information">I would like to receive information about Philips products and services</string>
     <string name="create_your_account">Create your account</string>
     <string name="sign_in_with">Or sign in with</string>
@@ -519,6 +520,7 @@
     <string name="thank_you">Thank you! You are good to go.</string>
     <string name="signed_in_ready_to_use">You are now signed in and ready to use this app.</string>
     <string name="already_registerd">You have already been registered with this e-mail address</string>
+    <string name="generic_error">Generic Error</string>
     
     <!-- Demo Mode -->
     <string name="shop_demo_mode">Shop demo mode</string>
