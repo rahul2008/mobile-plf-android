@@ -41,7 +41,11 @@ public class NetworkReceiver extends BroadcastReceiver {
 	}
 	
 	public void unregisterNetworkReceiver() {
-		PurAirApplication.getAppContext().unregisterReceiver(this);
+		try {
+			PurAirApplication.getAppContext().unregisterReceiver(this);
+		} catch (Exception e) {
+			ALog.e(ALog.CONNECTIVITY, "ERROR : CAN'T UNREGISTER RECEIVER");
+		}
 	}
 	
 	public static NetworkReceiver getInstance() {
