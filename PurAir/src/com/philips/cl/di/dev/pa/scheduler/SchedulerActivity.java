@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -44,7 +45,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private String SelectedDays;
 	private String SelectedTime;
 	private String SelectedFanspeed;
-	private String SchedulerMarked4Deletion;
 	private String updateSelectedDays;
 	private String updateSelectedTime;
 	private String updateSelectedFanspeed;
@@ -53,6 +53,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private JSONArray arrSchedulers;
 	private PurAirDevice purAirDevice ;
 	private int scheduleType ;
+	List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
 	
 	private static final int ADD_SCHEDULE = 1 ;
 	private static final int DELETE_SCHEDULE = 2 ;
@@ -65,7 +66,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		SchedulerMarked4Deletion = "0000000000";
 		setContentView(R.layout.scheduler_container);
 		initActionBar();
 		arrSchedulers = new JSONArray();
@@ -201,7 +201,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		return arrSchedulers;
 	}
 	
-	public String getSchedulerMarked4Deletion() {
+	public List<Integer> getSchedulerMarked4Deletion() {
 		return SchedulerMarked4Deletion;
 	}
 
@@ -254,14 +254,14 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 
 	public void dispatchInformations(String days) {
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING);
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, null);
 	}
 
 	public void dispatchInformations2(String fanspeed) {
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, SchedulerConstants.EMPTY_STRING);
+		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, null);
 	}
 	
-	public void dispatchInfo4MarkedSchDeletion(String markedDelete) {
+	public void dispatchInfo4MarkedSchDeletion(List<Integer> markedDelete) {
 		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, markedDelete);
 	}
 	
@@ -299,7 +299,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 	
-	private void updateCRUDOperationData(String time, String date, String speed, String markedDelete) {
+	private void updateCRUDOperationData(String time, String date, String speed, List<Integer> markedDelete) {
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
 			if (!time.isEmpty())
 				SelectedTime = time;
@@ -315,9 +315,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			if (!speed.isEmpty())
 				updateSelectedFanspeed = speed;
 		}
-		if (!markedDelete.isEmpty())
+		
+		if (markedDelete != null) {
 			SchedulerMarked4Deletion = markedDelete;
-		ALog.d(ALog.DISCOVERY, "SchedulerMarked4Deletion in updateCRUDOperationData: " + SchedulerMarked4Deletion);
+		}
+		ALog.d(ALog.DISCOVERY, "SchedulerMarked4Deletion in updateCRUDOperationData: " + SchedulerMarked4Deletion.toString());
 	}
 	
 	private void showSchedulerOverviewFragment() {
@@ -428,10 +430,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		b.putString("events", arrSchedulers.toString());
 		getIntent().putExtras(b);
 		
-		if (scheduleType == ADD_SCHEDULE || scheduleType == GET_SCHEDULES) {
+		if (scheduleType == ADD_SCHEDULE || scheduleType == GET_SCHEDULES ||  scheduleType == DELETE_SCHEDULE) {
 			showSchedulerOverviewFragment();
-		}else if (scheduleType == DELETE_SCHEDULE) {
-			showDeleteSchedulerFragment();
 		}
 	}
 		
