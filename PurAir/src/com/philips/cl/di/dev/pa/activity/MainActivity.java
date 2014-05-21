@@ -732,7 +732,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	
 	@Override
 	public void onAirPurifierChanged() {
-		// NOP
+		ALog.d(ALog.MAINACTIVITY, "AirPurifier Change - updating UI") ;
+		updatePurifierUIFields();
 	}
 
 	@Override
