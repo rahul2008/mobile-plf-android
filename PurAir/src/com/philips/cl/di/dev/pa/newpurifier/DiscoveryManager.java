@@ -410,6 +410,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		PurAirDevice device = mDevicesMap.get(deviceEui64);
 		if (device == null || key == null) return;
 		
+		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
 		device.setEncryptionKey(key);
 		mDatabase.insertPurAirDevice(device);
 		notifyDiscoveryListener();

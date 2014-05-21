@@ -7,9 +7,11 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
 import com.philips.cl.di.dev.pa.security.DISecurity;
+import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
@@ -22,7 +24,7 @@ import com.philips.cl.di.dev.pa.util.DataParser;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurifierManager implements SubscriptionEventListener {
+public class PurifierManager implements SubscriptionEventListener, KeyDecryptListener {
 
 	private static PurifierManager instance;
 	
@@ -30,6 +32,7 @@ public class PurifierManager implements SubscriptionEventListener {
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
 	private List<AirPurifierEventListener> airPuriferEventListeners ;
+	private DISecurity mSecurity;
 	
 	public static PurifierManager getInstance() {
 		if (instance == null) {
@@ -42,6 +45,7 @@ public class PurifierManager implements SubscriptionEventListener {
 		// Enforce Singleton
 		SubscriptionManager.getInstance().setSubscriptionListener(this);
 		airPuriferEventListeners = new ArrayList<AirPurifierEventListener>();
+		mSecurity = new DISecurity(this);
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
@@ -93,11 +97,11 @@ public class PurifierManager implements SubscriptionEventListener {
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getIpAddress() == null || !purifier.getIpAddress().equals(purifierIp)) {
-			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier");
+			ALog.d(ALog.PURIFIER_MANAGER, "Ignoring event, not from current purifier (" + (purifierIp == null? "null" : purifierIp) + ")");
 			return;
 		}
 		
-		String decryptedData = new DISecurity(null).decryptData(encryptedData, purifier) ;
+		String decryptedData = mSecurity.decryptData(encryptedData, purifier) ;
 		if (decryptedData == null ) {
 			ALog.d(ALog.PURIFIER_MANAGER, "Unable to decrypt data for current purifier: " + purifier.getIpAddress());
 			return;
@@ -247,5 +251,21 @@ public class PurifierManager implements SubscriptionEventListener {
 	
 	public static void setDummyPurifierManagerForTesting(PurifierManager dummyManager) {
 		instance = dummyManager;
+	}
+
+	@Override
+	public void keyDecrypt(String key, String deviceEui64) {
+		PurAirDevice purifier = getCurrentPurifier();
+		if (purifier == null) return;
+		if (key == null) return;
+		
+		if (deviceEui64.equals(purifier.getEui64())) {
+			ALog.e(ALog.PURIFIER_MANAGER, "Updated current purifier encryption key");
+			purifier.setEncryptionKey(key);
+			
+			PurifierDatabase db = new PurifierDatabase();
+			db.insertPurAirDevice(mCurrentPurifier);
+			db.closeDb();
+		}
 	}
 }
