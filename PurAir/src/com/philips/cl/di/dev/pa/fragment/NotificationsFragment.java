@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
@@ -35,7 +31,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 
 	private void initializeView(View rootView) {
-		notificationToggle =(ToggleButton) rootView.findViewById(R.id.notification_toggle);
+		notificationToggle =(ToggleButton) rootView.findViewById(R.id.toggle_all_notifications);
 		notificationToggle.setOnCheckedChangeListener(this);
 		indoorAqiLbls=(LinearLayout)rootView.findViewById(R.id.indoor_aqi_lbls);
 		notificationSetup();
@@ -55,7 +51,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
 		switch(button.getId()){
-		case R.id.notification_toggle:
+		case R.id.toggle_all_notifications:
 			updateNotificationPermission(isChecked);
 			break;
 		default:
@@ -80,9 +76,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){			
-		case R.id.daily_notification_btn_edit:
-			
-			break;
 		default:
 			break;
 		}
