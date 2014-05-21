@@ -28,8 +28,10 @@ public class EmailValidator {
 		pattern = Pattern.compile(EMAIL_PATTERN);
 	}
 	
-	public boolean validate(final String hex) {
-		matcher = pattern.matcher(hex);
+	public boolean validate(final String email) {
+		if(email == null) return false;
+		
+		matcher = pattern.matcher(email);
 		return matcher.matches();
 	}
 	

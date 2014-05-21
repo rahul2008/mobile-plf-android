@@ -1,0 +1,101 @@
+package com.philips.cl.di.dev.pa.util.networkutils;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
+
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.util.ALog;
+
+public class NetworkReceiver extends BroadcastReceiver {
+	
+	private static NetworkReceiver smInstance;
+	private List<NetworkStateListener> networkStateListeners;
+	private NetworkState lastKnownNetworkState;
+	private IntentFilter filter;
+	
+	public enum NetworkState {
+		CONNECTED, 
+		DISCONNECTED
+	}
+	
+	private NetworkReceiver() {
+		networkStateListeners = new ArrayList<NetworkStateListener>();
+		filter = new IntentFilter();
+		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
+		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		
+		lastKnownNetworkState = NetworkState.DISCONNECTED;
+	}
+	
+	public void registerNetworkReceiver() {
+		PurAirApplication.getAppContext().registerReceiver(this, filter);
+	}
+	
+	public void unregisterNetworkReceiver() {
+		PurAirApplication.getAppContext().unregisterReceiver(this);
+	}
+	
+	public static NetworkReceiver getInstance() {
+		if(smInstance == null)  {
+			smInstance = new NetworkReceiver();
+		}
+		return smInstance;
+	}
+	
+	@Override
+	public void onReceive(Context context, Intent intent) {
+
+		ConnectivityManager conMan = (ConnectivityManager) PurAirApplication.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+		if (intent.getAction().equals(WifiManager.NETWORK_STATE_CHANGED_ACTION)	
+				|| intent.getAction().equals(ConnectivityManager.CONNECTIVITY_ACTION)) {
+			NetworkInfo netInfo = conMan.getActiveNetworkInfo();
+			if (netInfo != null && netInfo.isConnected()) {
+				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---CONNECTED");
+				
+				lastKnownNetworkState = NetworkState.CONNECTED;
+				notfiyListeners(lastKnownNetworkState);
+			} else {
+				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---NOT CONNECTED");
+				
+				lastKnownNetworkState = NetworkState.DISCONNECTED; 
+				notfiyListeners(lastKnownNetworkState);
+			}
+		}
+	}
+
+	private void notfiyListeners(NetworkState state) {
+		ALog.i(ALog.CONNECTIVITY, "NR$notifyListeners networkStateListeners " + networkStateListeners.size());
+		for(NetworkStateListener listener : networkStateListeners) {
+			if(NetworkState.CONNECTED == state) {
+				ALog.i(ALog.CONNECTIVITY, "NR$notify onConnected");
+				listener.onConnected();
+			} else if (NetworkState.DISCONNECTED == state) {
+				ALog.i(ALog.CONNECTIVITY, "NR$notify onDisconnected");
+				listener.onDisconnected();
+			}
+		}
+	}
+	
+	public void addNetworkStateListener(NetworkStateListener listener) {
+		ALog.i(ALog.CONNECTIVITY, "NR$addNetworkStateListener");
+		networkStateListeners.add(listener);
+	}
+	
+	public void removeNetworkStateListener(NetworkStateListener listener) {
+		networkStateListeners.remove(listener);
+	}
+	
+	public NetworkState getLastKnownNetworkState() {
+		return lastKnownNetworkState;
+	}
+}

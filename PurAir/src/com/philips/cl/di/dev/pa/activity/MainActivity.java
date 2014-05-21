@@ -74,15 +74,20 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
+import com.philips.cl.di.dev.pa.registration.SignedInFragment;
+import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.NetworkState;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
-public class MainActivity extends BaseActivity implements OnClickListener, AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener {
+public class MainActivity extends BaseActivity implements OnClickListener, AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -142,7 +147,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		
 		setContentView(R.layout.activity_main_aj);
 		
 		mPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -244,6 +249,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		this.registerReceiver(networkReceiver, filter);
 		
 		initializeFirstPurifier();
+		ALog.i(ALog.CONNECTIVITY, "Network state " + NetworkReceiver.getInstance().getLastKnownNetworkState());
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
 	}
 	
 	@Override
@@ -681,8 +688,17 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				startFirmwareUpgradeActivity();
 				break;
 			case 7:
-				// Product registration
-				showFragment(leftMenuItems.get(position));
+				// User registration
+				if(NetworkState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
+					//TODO : Show disconnected fragment.
+					ALog.i(ALog.USER_REGISTRATION, "No internet connection : return");
+					break;
+				}
+				if(UserRegistrationController.getInstance().isUserLoggedIn()) {
+					showFragment(new SignedInFragment());
+				} else {
+					showFragment(new CreateAccountFragment());
+				}
 				setTitle(getString(R.string.create_account));
 				break;
 			case 8:
@@ -1028,5 +1044,15 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			PurifierManager.getInstance().startSubscription(); // Right menu updated when response from subscription
 			break;
 		}
+	}
+
+	@Override
+	public void onConnected() {
+		ALog.i(ALog.MAINACTIVITY, "onConnected");
+	}
+
+	@Override
+	public void onDisconnected() {
+		ALog.i(ALog.MAINACTIVITY, "onDisconnected");
 	}
 }

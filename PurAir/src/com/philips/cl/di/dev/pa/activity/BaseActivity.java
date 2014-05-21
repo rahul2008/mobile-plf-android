@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 
 /**
  * The Class BaseActivity. This class contains all the base / common
@@ -13,6 +14,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 @SuppressLint("Registered")
 public class BaseActivity extends ActionBarActivity {
 
+	
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +32,14 @@ public class BaseActivity extends ActionBarActivity {
 	protected void onResume() {
 		ALog.d(ALog.ACTIVITY, "OnResume on " + this.getClass().getSimpleName());
 		super.onResume();
+		NetworkReceiver.getInstance().registerNetworkReceiver();
 	}
 
 	@Override
 	protected void onPause() {
 		ALog.d(ALog.ACTIVITY, "OnPause on " + this.getClass().getSimpleName());
 		super.onPause();
+		NetworkReceiver.getInstance().unregisterNetworkReceiver();
 	}
 
 	@Override

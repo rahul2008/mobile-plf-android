@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.registration.RegistrationErrorDialogFragment.DialogType;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -25,7 +26,6 @@ import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.ErrorMessage;
 import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
-import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 
 public class CreateAccountFragment extends BaseFragment implements OnClickListener, TraditionalRegistrationHandler {
 	
@@ -57,9 +57,6 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 
 		View view = inflater.inflate(R.layout.air_registration_create_account_fragment, container, false);
 		initViews(view);
-		
-		JanrainConfigurationSettings config = new JanrainConfigurationSettings();
-		config.init(PurAirApplication.getAppContext(), "4r36zdbeycca933nufcknn2hnpsz6gxu", "81338", "REGISTRATION_USE_EVAL");
 		
 		return view;
 	}
@@ -98,11 +95,6 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	}
 	
 	private void createAccount() {
-		mName = mEditTextName.getText().toString();
-		mEmail = mEditTextEmail.getText().toString();
-		mPassword = mEditTextPassword.getText().toString();
-		mReceiveInfo = mCheckBoxReceivInfo.isChecked();
-		
 		// TODO make API call 
 		Log.e("TEMP", "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
 		user = new User(PurAirApplication.getAppContext());
@@ -137,11 +129,13 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		case R.id.rbReceiveInformation:
 			break;
 		case R.id.btnCreateAccount:
-//			if(inputValidated()) {
+			getInput();
+			if(isInputValidated()) {
 				createAccount();
-//			} else {
-//				showErrorDialog(DialogType.PASSWORD_INCORRECT);
-//			}
+			} else {
+				showErrorDialog(DialogType.PASSWORD_INCORRECT);
+			}
+			ALog.i(ALog.USER_REGISTRATION, "onClick inputValidated " + isInputValidated());
 			break;
 		case R.id.llMyPhilips:
 			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
@@ -158,7 +152,15 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		}
 	}
 
-	private boolean inputValidated() {
+	private void getInput() {
+		mName = mEditTextName.getText().toString();
+		mEmail = mEditTextEmail.getText().toString();
+		mPassword = mEditTextPassword.getText().toString();
+		mReceiveInfo = mCheckBoxReceivInfo.isChecked();
+	}
+
+	private boolean isInputValidated() {
+		ALog.i(ALog.USER_REGISTRATION, "isInputValidated name " + mName + " pass " + mPassword + " email " + mEmail);
 		if(mName == null || mName.length() < 1) return false;
 		if(mPassword == null || mPassword.length() < 6) return false;
 		return EmailValidator.getInstance().validate(mEmail);
@@ -177,10 +179,9 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	}
 	
 	private void showSuccessFragment() {
-		getFragmentManager()
-		.beginTransaction()
-		.replace(R.id.llContainer, new SignedInFragment(), SignedInFragment.class.getSimpleName())
-		.commit();
+		if(getActivity() != null && getActivity() instanceof MainActivity) {
+			((MainActivity) getActivity()).showFragment(new SignedInFragment());
+		}
 	}
 	
 }
