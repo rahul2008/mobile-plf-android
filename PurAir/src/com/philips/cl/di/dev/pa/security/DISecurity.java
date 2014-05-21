@@ -98,7 +98,7 @@ public class DISecurity implements ServerResponseListener {
 		}
 		
 		String key = purifier.getEncryptionKey();
-		if (key == null || data == null) {
+		if (key == null || data == null || key.isEmpty()) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
 			return null; // TODO return unencrypted data?
 		}
@@ -138,7 +138,7 @@ public class DISecurity implements ServerResponseListener {
 			return null;
 		}
 
-		if (key == null) {
+		if (key == null || key.isEmpty()) {
 			ALog.i(ALog.SECURITY, "Did not decrypt data - key is null");
 			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
 			
