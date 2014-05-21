@@ -16,5 +16,5 @@ public interface ServerResponseListener {
 	 * @param responseCode the response code
 	 * @param responseData the response data
 	 */
-	public void receiveServerResponse(int responseCode, String responseData, String deviceId, String url) ;
+	public void receiveServerResponse(int responseCode, String responseData, String deviceId, String url, String randomValue) ;
 }

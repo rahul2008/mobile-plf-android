@@ -27,7 +27,6 @@ public class DISecurity implements ServerResponseListener {
 	
 	private String pValue;
 	private String gValue;
-	private String rValue;
 	private KeyDecryptListener keyDecryptListener;
 
 	/**
@@ -63,7 +62,8 @@ public class DISecurity implements ServerResponseListener {
 				isExchangingKeyTable.put(deviceEui64, true);
 				
 				//Get diffie key
-				String sdiffie = generateDiffieKey();
+				String randomValue = Util.generateRandomNum();
+				String sdiffie = generateDiffieKey(randomValue);
 		
 				JSONObject holder = new JSONObject();
 				
@@ -72,7 +72,7 @@ public class DISecurity implements ServerResponseListener {
 					String js = holder.toString();
 					
 					//Send diffie to http
-					sendDiffie(url, deviceEui64, js);
+					sendDiffie(url, deviceEui64, js, randomValue);
 					
 				} catch (JSONException e) {
 					e.printStackTrace();
@@ -133,9 +133,18 @@ public class DISecurity implements ServerResponseListener {
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
-		if (key == null || data == null) {
-			ALog.i(ALog.SECURITY, "Did not decrypt data - Key is null");
-			return null; // TODO return undecrypted data?
+		if (data == null) {
+			ALog.i(ALog.SECURITY, "Did not decrypt data - data is null");
+			return null;
+		}
+
+		if (key == null) {
+			ALog.i(ALog.SECURITY, "Did not decrypt data - key is null");
+			ALog.i(ALog.SECURITY, "Failed to decrypt data - requesting new key exchange");
+			
+			String portUrl = Utils.getPortUrl(Port.SECURITY, purifier.getIpAddress());
+			exchangeKey(portUrl, purifier.getEui64());
+			return null;
 		}
 		
 		data = data.trim() ;
@@ -218,11 +227,10 @@ public class DISecurity implements ServerResponseListener {
 	 * Generate diffie key
 	 * @return
 	 */
-	private String generateDiffieKey() {
-		rValue = Util.generateRandomNum();
+	private String generateDiffieKey(String randomValue) {
 		BigInteger p = new BigInteger(pValue,16); 
 		BigInteger g = new BigInteger(gValue,16);
-		BigInteger r = new BigInteger(rValue);
+		BigInteger r = new BigInteger(randomValue);
 		return Util.bytesToHex(g.modPow(r, p).toByteArray());
 	}
 
@@ -231,10 +239,10 @@ public class DISecurity implements ServerResponseListener {
 	 * 
 	 * @param strEntity
 	 */
-	private void sendDiffie(String url, String deviceEui64, String strEntity)  {
+	private void sendDiffie(String url, String deviceEui64, String strEntity, String randomValue)  {
 		
 		DISecurityTask diSecurityTask = new DISecurityTask(this);
-		diSecurityTask.execute(new String[]{url, deviceEui64, strEntity});
+		diSecurityTask.execute(new String[]{url, deviceEui64, strEntity, randomValue});
 		
 	}
 
@@ -243,10 +251,10 @@ public class DISecurity implements ServerResponseListener {
 	 * @param hellmanKey
 	 * @return
 	 */
-	private String generateSecretKey(String hellmanKey) {
+	private String generateSecretKey(String hellmanKey, String randomValue) {
 		BigInteger p = new BigInteger(pValue,16); 
 		BigInteger g = new BigInteger(hellmanKey,16);
-		BigInteger r= new BigInteger(rValue);
+		BigInteger r= new BigInteger(randomValue);
 		return Util.bytesToHex(g.modPow(r, p).toByteArray());
 	}
 	
@@ -255,8 +263,9 @@ public class DISecurity implements ServerResponseListener {
 	 * 
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String deviceEui64, String url) {
-		ALog.i(ALog.SECURITY, "Received response from device: " + deviceEui64 + "    ResponseCode: " + responseCode) ;
+	public void receiveServerResponse(int responseCode, String responseData, String deviceEui64, String url, String randomValue) {
+		ALog.i(ALog.SECURITY, "Received response from device: " + deviceEui64 + "    ResponseCode: " + responseCode);
+		ALog.i(ALog.SECURITY, responseData);
 		isExchangingKeyTable.put(deviceEui64, false);
 		if ( responseCode == 200 ) {
 			exchangeKeyCounterTable.put(deviceEui64, 0);
@@ -269,7 +278,7 @@ public class DISecurity implements ServerResponseListener {
 				String skeyEnc = json.getString("key");
 				ALog.d(ALog.SECURITY, "encrypted key= "+skeyEnc+"    length:= " + skeyEnc.length());
 				
-				String secKey = generateSecretKey(shellman);
+				String secKey = generateSecretKey(shellman, randomValue);
 				ALog.d(ALog.SECURITY, "secret key= "+secKey + "    length= "+secKey.length());
 				
 				secKey = Util.getEvenNumberSecretKey(secKey);

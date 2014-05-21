@@ -20,6 +20,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 	private int responseCode;
 	private String deviceId;
 	private String url;
+	private String randomValue;
 	
 	public DISecurityTask(ServerResponseListener listener) {
 		this.listener = listener;
@@ -30,6 +31,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 		url = params[0]; 
 		deviceId = params[1];
 		String data = params[2];
+		randomValue = params[3];
 		ALog.i(ALog.SECURITY, "Started DISecurity task with url: " + url + "   and data: " + data);
 		OutputStreamWriter out = null;
 		InputStream inputStream = null;
@@ -92,7 +94,7 @@ public class DISecurityTask extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		if (listener != null) {
-			listener.receiveServerResponse(responseCode, result, deviceId, url);
+			listener.receiveServerResponse(responseCode, result, deviceId, url, randomValue);
 		}
 	}
 
