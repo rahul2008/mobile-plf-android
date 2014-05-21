@@ -7,18 +7,13 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
@@ -129,14 +124,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
 	private int mVisits;
-	private BroadcastReceiver networkReceiver;
 
 	private SharedPreferences outdoorLocationPrefs;
 	private ArrayList<String> outdoorLocationsList;
 
 	public boolean isTutorialPromptShown = false;
-
-	private IntentFilter filter;
 
 	public boolean isDiagnostics;
 
@@ -228,11 +220,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				.addToBackStack(null)
 				.commit();
 
-		filter = new IntentFilter();
-		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
-		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
-		
 		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS,
 				Context.MODE_PRIVATE);
 		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
@@ -245,18 +232,14 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 				R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
 		initializeCPPController();
-		createNetworkReceiver();
-		this.registerReceiver(networkReceiver, filter);
 		
 		initializeFirstPurifier();
-		ALog.i(ALog.CONNECTIVITY, "Network state " + NetworkReceiver.getInstance().getLastKnownNetworkState());
-		NetworkReceiver.getInstance().addNetworkStateListener(this);
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		this.registerReceiver(networkReceiver, filter);
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 
@@ -278,13 +261,11 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 			editor.commit();
 		}
 		SetupDialogFactory.getInstance(this).cleanUp();
-
+		
+		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+		
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
-		
-		try {
-			this.unregisterReceiver(networkReceiver);
-		} catch (Exception e) {}
 		
 		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
 		boolean isScreenOn = powerManager.isScreenOn();
@@ -358,29 +339,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	private void initializeCPPController() {
 		CPPController.getInstance(this).addSignonListener(this) ;
-	}
-
-	private void createNetworkReceiver() {
-		ALog.i(ALog.MAINACTIVITY, "createNetworkReceiver");
-		networkReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-
-				ConnectivityManager conMan = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-
-				if (intent.getAction().equals(
-						WifiManager.NETWORK_STATE_CHANGED_ACTION)
-						|| intent.getAction().equals(
-								ConnectivityManager.CONNECTIVITY_ACTION)) {
-					NetworkInfo netInfo = conMan.getActiveNetworkInfo();
-					if (netInfo != null && netInfo.isConnected()) {
-						ALog.i(ALog.MAINACTIVITY, "onReceive---CONNECTED - Signon to cpp");
-
-						CPPController.getInstance(MainActivity.this).signOnWithProvisioning();
-					}
-				}
-			}
-		};
 	}
 
 	public DrawerLayout getDrawerLayout() {
@@ -1048,7 +1006,8 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 
 	@Override
 	public void onConnected() {
-		ALog.i(ALog.MAINACTIVITY, "onConnected");
+		ALog.i(ALog.MAINACTIVITY, "onConnected start CPP");
+		CPPController.getInstance(this).signOnWithProvisioning();
 	}
 
 	@Override
