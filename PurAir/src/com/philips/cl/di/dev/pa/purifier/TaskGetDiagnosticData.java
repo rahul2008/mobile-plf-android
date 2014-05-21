@@ -21,7 +21,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	private PurAirDevice purifier;
 
 	public interface DiagnosticsDataListener {
-		public void diagnosticsDataUpdated(String[] data);
+		void diagnosticsDataUpdated(String[] data);
 	}
 
 	public TaskGetDiagnosticData(Context pContext,

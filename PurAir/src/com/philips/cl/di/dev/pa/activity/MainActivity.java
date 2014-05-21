@@ -283,9 +283,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		boolean isScreenOn = powerManager.isScreenOn();
 
 		if (!isScreenOn && !isDiagnostics) {
-			if (!isClickEvent) {
-//				stopAllServices();
-			}
 			isClickEvent = false;
 		}
 	}
@@ -335,9 +332,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 	@Override
 	protected void onUserLeaveHint() {
 		ALog.i(ALog.ACTIVITY, "onUserLeaveHint");
-		if (!isClickEvent && !isDiagnostics) {
-//			stopAllServices();
-		}
 		isClickEvent = false;
 		super.onUserLeaveHint();
 	}

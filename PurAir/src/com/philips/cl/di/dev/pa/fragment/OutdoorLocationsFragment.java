@@ -101,9 +101,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if(requestCode == 10000) {
-			
-		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 

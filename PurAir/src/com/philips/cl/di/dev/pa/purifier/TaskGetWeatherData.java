@@ -15,7 +15,7 @@ public class TaskGetWeatherData extends Thread {
 	private int responseCode;
 
 	public interface WeatherDataListener {
-		public void weatherDataUpdated(String weatherData);
+		void weatherDataUpdated(String weatherData);
 	}
 
 	public TaskGetWeatherData(String url,WeatherDataListener listener) {

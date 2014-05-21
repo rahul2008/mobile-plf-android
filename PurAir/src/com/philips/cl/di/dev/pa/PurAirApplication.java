@@ -11,12 +11,12 @@ public class PurAirApplication extends Application {
 	
 	@Override
 	public void onCreate() {
+		super.onCreate();
 		try {
             Class.forName("android.os.AsyncTask");
         } catch (ClassNotFoundException e) {
         	ALog.i(ALog.TEMP, e.getMessage());
         }
-		super.onCreate();
 		setApplication(this);
 	}
 	
