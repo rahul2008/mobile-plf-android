@@ -8,413 +8,177 @@
         android:background="@android:color/white"
         android:orientation="vertical" >
 
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/daily_notification" />
+        <LinearLayout
+            android:id="@+id/enable_notification_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/TextView01"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="@string/enable_notification"
+                android:textColor="#5D6578"
+                android:textSize="18sp" />
+
+            <ToggleButton
+                android:id="@+id/notification_toggle"
+                style="@style/Widget.Button.Toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp" />
+        </LinearLayout>
 
         <View
-            android:id="@+id/daily_notification_separator"
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="15dp"
             android:background="@color/darkgray" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp" >
+        <TextView
+            android:id="@+id/indoor_aqi_notification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/indoor_AQI_title"
+            android:textColor="#5D6578"
+            android:textSize="18sp" />
 
-            <ToggleButton
-                android:id="@+id/outdoor_AQI_notification_toggle"
-                style="@style/Widget.Button.Toggle"
+        <TextView
+            android:id="@+id/indoor_aqi_notification_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/indoor_AQI_desc"
+            android:textColor="#7C7C7C" />
+
+        <TextView
+            android:id="@+id/indoor_aqi_notification_alert_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/indoor_AQI_notification_info"
+            android:textColor="@color/philips_blue" />
+
+        <RadioGroup
+            android:id="@+id/indoor_radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone" >
+
+            <RadioButton
+                android:id="@+id/indoor_radio0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true" />
+                android:button="@drawable/healthy_blue" />
+
+            <RadioButton
+                android:id="@+id/indoor_radio1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/slightly_polluted_violet" />
+
+            <RadioButton
+                android:id="@+id/indoor_radio2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/moderately_polluted_purple" />
+
+            <RadioButton
+                android:id="@+id/indoor_radio3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/hazardous_red" />
+        </RadioGroup>
+
+        <LinearLayout
+            android:id="@+id/indoor_aqi_lbls"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:visibility="gone" >
 
             <TextView
-                android:id="@+id/outdoor_AQI_notification_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@id/outdoor_AQI_notification_toggle"
-                android:text="@string/outdoor_AQI_title"
-                android:textColor="#5D6578"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/outdoor_AQI_notification_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/outdoor_AQI_notification_title"
-                android:layout_marginBottom="25dp"
-                android:layout_toLeftOf="@id/outdoor_AQI_notification_toggle"
-                android:text="@string/outdoor_AQI_desc"
-                android:textColor="#7C7C7C" />
-
-            <RadioGroup
-                android:id="@+id/outdoor_radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/outdoor_AQI_notification_desc"
-                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
                 android:gravity="center"
-                android:orientation="horizontal" 
-                android:visibility="gone">
+                android:text="@string/notification_indoor_aqi_lbl_1"
+                android:textSize="10sp" />
 
-                <RadioButton
-                    android:id="@+id/radio0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/very_healthy_blue" />
-
-                <RadioButton
-                    android:id="@+id/radio1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/healthy_blue" />
-
-                <RadioButton
-                    android:id="@+id/radio2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/slightly_polluted_violet" />
-
-                <RadioButton
-                    android:id="@+id/radio3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/moderately_polluted_purple" />
-
-                <RadioButton
-                    android:id="@+id/radio4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/unhealthy_magenta" />
-
-                <RadioButton
-                    android:id="@+id/radio5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/hazardous_red" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:id="@+id/outdoor_aqi_lbls"
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/outdoor_radioGroup"
-                android:layout_alignLeft="@id/outdoor_radioGroup"
-                android:layout_alignRight="@id/outdoor_radioGroup"
-                android:orientation="horizontal" 
-                android:visibility="gone">
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/notification_indoor_aqi_lbl_2"
+                android:textSize="10sp" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_aqi_lbl_1"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_aqi_lbl_2"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_aqi_lbl_3"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_aqi_lbl_4"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/textView1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_aqi_lbl_5"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_aqi_lbl_6"
-                    android:textSize="10sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="fill_parent"
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_above="@id/outdoor_aqi_lbls"
-                android:layout_alignLeft="@id/outdoor_radioGroup"
-                android:layout_alignRight="@id/outdoor_radioGroup"
-                android:orientation="horizontal" 
-                android:visibility="gone">
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/notification_indoor_aqi_lbl_3"
+                android:textSize="10sp" />
 
-                <TextView
-                    android:id="@+id/very_healthy_lbl"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/good"
-                    android:textSize="10sp" 
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/healthy_lbl"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/healthy"
-                    android:textSize="10sp" 
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/slightly_polluted_lbl"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/unhealthy_for_sensitive_groups"
-                    android:textSize="10sp" 
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/moderately_polluted_lbl"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text=""
-                    android:textSize="10sp" 
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/unhealthy_lbl"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/unhealthy"
-                    android:textSize="10sp" 
-                    android:visibility="gone"/>
-
-                <TextView
-                    android:id="@+id/hazardous_lbl"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/hazardous"
-                    android:textSize="10sp" 
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </RelativeLayout>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/notification_indoor_aqi_lbl_4"
+                android:textSize="10sp" />
+        </LinearLayout>
 
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/darkgray" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp" >
+        <TextView
+            android:id="@+id/filters_notification_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="@string/filters_title"
+            android:textColor="#5D6578"
+            android:textSize="18sp" />
 
-            <ToggleButton
-                android:id="@+id/indoor_aqi_notification_toggle"
-                style="@style/Widget.Button.Toggle"
-                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true" />
+        <TextView
+            android:id="@+id/filters_notification_desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:text="@string/filters_desc"
+            android:textColor="#7C7C7C" />
 
-            <TextView
-                android:id="@+id/indoor_aqi_notification_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@id/indoor_aqi_notification_toggle"
-                android:text="@string/indoor_AQI_title"
-                android:textColor="#5D6578"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/indoor_aqi_notification_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/indoor_aqi_notification_title"
-                android:layout_toLeftOf="@id/indoor_aqi_notification_toggle"
-                android:text="@string/indoor_AQI_desc"
-                android:textColor="#7C7C7C" />
-
-            <TextView
-                android:id="@+id/indoor_aqi_notification_alert_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/indoor_aqi_notification_desc"
-                android:layout_marginBottom="25dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/indoor_AQI_notification_info"
-                android:textColor="@color/philips_blue" />
-
-            <RadioGroup
-                android:id="@+id/indoor_radioGroup"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_below="@+id/indoor_aqi_notification_alert_info"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:visibility="gone" >
-
-                <RadioButton
-                    android:id="@+id/indoor_radio0"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/healthy_blue" />
-
-                <RadioButton
-                    android:id="@+id/indoor_radio1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/slightly_polluted_violet" />
-
-                <RadioButton
-                    android:id="@+id/indoor_radio2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/moderately_polluted_purple" />
-
-                <RadioButton
-                    android:id="@+id/indoor_radio3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:button="@drawable/hazardous_red" />
-            </RadioGroup>
-
-            <LinearLayout
-                android:id="@+id/indoor_aqi_lbls"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_above="@id/indoor_radioGroup"
-                android:layout_alignLeft="@id/indoor_radioGroup"
-                android:layout_alignRight="@id/indoor_radioGroup"
-                android:orientation="horizontal"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp" 
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_indoor_aqi_lbl_1"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_indoor_aqi_lbl_2"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_indoor_aqi_lbl_3"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="@string/notification_indoor_aqi_lbl_4"
-                    android:textSize="10sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/darkgray" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp" >
-
-            <ToggleButton
-                android:id="@+id/filters_notification_toggle"
-                style="@style/Widget.Button.Toggle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true" />
-
-            <TextView
-                android:id="@+id/filters_notification_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@id/filters_notification_toggle"
-                android:text="@string/filters_title"
-                android:textColor="#5D6578"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/filters_notification_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/filters_notification_title"
-                android:layout_toLeftOf="@id/filters_notification_toggle"
-                android:text="@string/filters_desc"
-                android:textColor="#7C7C7C" />
-
-            <TextView
-                android:id="@+id/filters_notification_alert_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/filters_notification_desc"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:text="@string/filters_notification_info"
-                android:textColor="@color/philips_blue" />
-        </RelativeLayout>
+        <TextView
+            android:id="@+id/filters_notification_alert_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/filters_notification_info"
+            android:textColor="@color/philips_blue" />
     </LinearLayout>
 
 </ScrollView>

@@ -228,6 +228,7 @@ public class AppConstants {
 	public static final String DI_COMM_RELATIONSHIP="DI-COMM";
 	public static final String NOTIFY_RELATIONSHIP="NOTIFY";
 	public static final List<String> NOTIFY_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request"));
+	public static final List<String> PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
 	
 	/** Activity intent key strings*/
 	//Firmware upgrade intent keys

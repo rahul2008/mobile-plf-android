@@ -5,6 +5,7 @@ import java.net.HttpURLConnection;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.fragment.PermissionListener;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
@@ -31,14 +32,15 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	private static final int PAIRING_REQUESTTTL = 5; // ingored by cpp, because purifier already defined it
 	private static final String PAIRING_REFERENCETYPE = "AC4373GENDEV";
 	private static final String PAIRING_REFERENCEPROVIDER = "cpp";
-	
+
 	private ICPCallbackHandler callbackHandler;
 	private String currentRelationshipType = null;
 	private PairingListener pairingListener;
 	private PurifierDatabase purifierDatabase;
 	private String secretKey;
-	
+
 	private PurAirDevice purifier;
+	private PermissionListener permissionListener=null;
 
 	/**
 	 * Constructor for PairingManager.
@@ -56,6 +58,10 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
+	}
+
+	public void setPermissionListener(PermissionListener iPermissionListener) {
+		permissionListener = iPermissionListener;
 	}
 
 	/**
@@ -77,13 +83,13 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * 
 	 * @param relationshipType
 	 *            String
-	
+
 	 * @param purifierEui64
 	 *            String
 	 */
 	private void getRelationship(String relationshipType, String purifierEui64) {
 		ALog.i(ALog.PAIRING, "Requesting existing relationships");
-		
+
 		boolean bincludeIncoming = true;
 		boolean bincludeOutgoing = true;
 		int iMetadataSize = 0;
@@ -152,10 +158,10 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 
 		int status;
 		PairingService addPSRelation = new PairingService(callbackHandler);
-		
+
 		if (secretKey != null && relationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 			addPSRelation.addRelationShipRequest(null, getPurifierEntity(),
-				null, getPairingRelationshipData(relationshipType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()])), getPairingInfo(secretKey));
+					null, getPairingRelationshipData(relationshipType, AppConstants.PERMISSIONS.toArray(new String[AppConstants.PERMISSIONS.size()])), getPairingInfo(secretKey));
 		} else {
 			addPSRelation.addRelationShipRequest(null, getPurifierEntity(),
 					null, getPairingRelationshipData(relationshipType, AppConstants.NOTIFY_PERMISSIONS.toArray(new String[AppConstants.NOTIFY_PERMISSIONS.size()])), null);
@@ -193,7 +199,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @param purifierEui64
 	 * @param pairingTrustee
 	 * 
-	
+
 	 * @return PairingEntitiyReference */
 	private PairingEntitiyReference getPurifierEntity() {
 		PairingEntitiyReference pairingTrustee = new PairingEntitiyReference();	
@@ -236,7 +242,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 *            int
 	 * @param obj
 	 *            ICPClient
-	
+
 	 * @see com.philips.cl.di.dev.pa.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
 	 *      int, ICPClient) */
 	@Override
@@ -245,11 +251,16 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		ALog.d(ALog.PAIRING, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
 
 		if (status != Errors.SUCCESS) {
+			if(permissionListener==null){
 			ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add)");
 			notifyListenerFailed();
+			}else{
+				ALog.e(ALog.PAIRING, "get permission call failed");
+				permissionListener.onCallFailed();
+			}
 			return;
 		}
-		
+
 		PairingService pairingObj = (PairingService) obj;
 		if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {			
 			ALog.i(ALog.PAIRING, "GetRelation call-SUCCESS");
@@ -275,12 +286,12 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				notifyListenerSuccess();
 			}
 		} 
-		
+
 		else if (eventType == Commands.PAIRING_ADD_RELATIONSHIP) {
 			ALog.i(ALog.PAIRING, "AddRelation call-SUCCESS");
 			String relationStatus = pairingObj.getAddRelationStatus();
 			if (relationStatus.equalsIgnoreCase("completed")) {
-				
+
 				if (currentRelationshipType.equals(AppConstants.DI_COMM_RELATIONSHIP)) {
 					ALog.i(ALog.PAIRING, "Pairing relationship added successfully - Requesting Notification relationship");
 					currentRelationshipType = AppConstants.NOTIFY_RELATIONSHIP;
@@ -296,6 +307,23 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				ALog.i(ALog.PAIRING, "Pairing status is PENDING");
 				notifyListenerFailed();
 			}
+		}
+		else if(eventType== Commands.PAIRING_ADD_PERMISSIONS){		
+			
+			permissionListener.onPermissionAdded();
+		}
+		else if(eventType== Commands.PAIRING_GET_PERMISSIONS){
+			boolean permissionExists=false;
+			for(int i = 0; i < pairingObj.getNumberOfPermissionsReturned();i++)
+			{
+				permissionExists= pairingObj.getPermissionAtIndex(i).equals("Push");
+				break;
+			}
+			permissionListener.onPermissionReturned(permissionExists);
+
+		}else if(eventType==Commands.PAIRING_REMOVE_PERMISSIONS){
+			pairingObj.getNumberOfPermissionsReturned();
+			permissionListener.onPermissionRemoved();
 		}
 	}
 
@@ -327,24 +355,24 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			notifyListenerFailed();
 		}
 	}
-	
+
 	private void notifyListenerSuccess() {
 		if (pairingListener == null) return;
 		pairingListener.onPairingSuccess();
 	}
-	
+
 	private void notifyListenerFailed() {
 		if (pairingListener == null) return;
 		pairingListener.onPairingFailed();
 	}
-	
+
 
 	/**
 	 * Method addPermission- adds permission to a existing relationship
 	 * @param relationType String
 	 * @param permission String[]
 	 */
-	private void addPermission(String relationType, String[] permission){
+	public void addPermission(String relationType, String[] permission){
 		PairingService addPermission = new PairingService(callbackHandler);
 		int retStatus;
 		retStatus = addPermission.addPermissionsRequest(getPurifierEntity(), relationType, permission);
@@ -360,18 +388,18 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
 		}
 	}
-	
+
 	/**
 	 * Method getPermission-get permissions of a existing relationship
 	 * @param relationType String
 	 * @param permission String[]
 	 */
-	private void getPermission(String relationType, String[] permission){
+	public void getPermission(String relationType, String[] permission){
 		int    iMaxPermissons = 5;
 		int    iPermIndex = 0;
 		PairingService getPermission = new PairingService(callbackHandler);
 		int retStatus;
-				
+
 		retStatus = getPermission.getPermissionsRequest(null, getPurifierEntity(), relationType, iMaxPermissons, iPermIndex);
 		if(Errors.SUCCESS != retStatus)
 		{
@@ -383,19 +411,19 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		if(Errors.SUCCESS != retStatus)
 		{
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);
-			
+
 		}
 	}
-	
+
 	/**
 	 * Method removePermission-remove permission from a existing relationship
 	 * @param relationType String
 	 * @param permission String[]
 	 */
-	private void removePermission(String relationType, String[] permission){
+	public void removePermission(String relationType, String[] permission){
 		PairingService removePermissions = new PairingService(callbackHandler);
 		int retStatus;
-		
+
 		retStatus = removePermissions.removePermissionsRequest(getPurifierEntity(), relationType, permission);
 		if(Errors.SUCCESS != retStatus)
 		{
@@ -409,5 +437,5 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: "+retStatus);			
 		}
 	}
-	
+
 }

@@ -246,16 +246,16 @@ public class ICPCallbackHandler implements CallbackHandler
 
 	public void pairingAddPermissionsCB(int status, ICPClient obj)
 	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;
+		listener.onICPCallbackEventOccurred(Commands.PAIRING_ADD_PERMISSIONS,status,obj) ;
 	}
 
 	public void pairingRemovePermissionsCB(int status, ICPClient obj)
 	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;		}
+		listener.onICPCallbackEventOccurred(Commands.PAIRING_REMOVE_PERMISSIONS,status,obj) ;		}
 
 	public void pairingGetPermissionsCB(int status, ICPClient obj)
 	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;
+		listener.onICPCallbackEventOccurred(Commands.PAIRING_GET_PERMISSIONS,status,obj) ;
 	}
 
 	@Override
