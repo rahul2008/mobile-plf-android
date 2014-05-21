@@ -10,10 +10,15 @@ import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 public class UserRegistrationController {
 
 	private static UserRegistrationController smInstance;
+	
+	//TODO : Replace with proper values (Currently using Figaro values).
+	private static final String CAPTURE_CLIENT_ID = "4r36zdbeycca933nufcknn2hnpsz6gxu";
+	private static final String MICRO_SITE_ID = "81338";
+	private static final String REGISTRATION_TYPE = "REGISTRATION_USE_EVAL";
 
 	private UserRegistrationController() {
 		JanrainConfigurationSettings config = new JanrainConfigurationSettings();
-		config.init(PurAirApplication.getAppContext(), "4r36zdbeycca933nufcknn2hnpsz6gxu", "81338", "REGISTRATION_USE_EVAL");
+		config.init(PurAirApplication.getAppContext(), CAPTURE_CLIENT_ID, MICRO_SITE_ID, REGISTRATION_TYPE);
 	}
 	
 	public static UserRegistrationController getInstance() {
@@ -27,11 +32,7 @@ public class UserRegistrationController {
 		User user = new User(PurAirApplication.getAppContext());
 		DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());
 		
-		if(profile != null) {
-			return true;
-		} else {
-			return false;
-		}
+		return (null != profile);
 	}
 	
 	public Error getErrorEnum(int errorCode) {
