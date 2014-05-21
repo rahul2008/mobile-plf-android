@@ -14,7 +14,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class RegistrationErrorDialogFragment extends DialogFragment {
 
-	public static enum DialogType {PASSWORD_INCORRECT, ALREADY_REGISTERED};
+	public static enum DialogType {INVALID_NAME, INVALID_PASSWORD, INVALID_EMAILID, INCORRECT_PASSWORD,ALREADY_REGISTERED};
 	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.registration.error_dialog";
 	private FontTextView message;
 	private Button btnClose;
@@ -46,13 +46,25 @@ public class RegistrationErrorDialogFragment extends DialogFragment {
 		
 		DialogType dialog = (DialogType) getArguments().getSerializable(DIALOG_SELECTED);
 		
-		if (dialog == DialogType.PASSWORD_INCORRECT) {	
+		switch (dialog) {
+		case INCORRECT_PASSWORD:
 			message.setText(R.string.password_not_correct);
-		}
-		else if (dialog == DialogType.ALREADY_REGISTERED) {
+			break;
+		case ALREADY_REGISTERED:
 			message.setText(R.string.already_registerd);
-		}
-		
+			break;
+		case INVALID_EMAILID:
+			message.setText(R.string.invalid_email);
+			break;
+		case INVALID_NAME:
+			message.setText(R.string.invalid_name);
+			break;
+		case INVALID_PASSWORD:
+			message.setText(R.string.invalid_password) ;
+			break;
+		default:
+			break;
+		}		
 		btnClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {

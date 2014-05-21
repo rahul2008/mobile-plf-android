@@ -29,7 +29,7 @@ import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 
 public class CreateAccountFragment extends BaseFragment implements OnClickListener, TraditionalRegistrationHandler {
 	
-	public enum ErrorType { NAME, PASSWORD, EMAIL }
+	public enum ErrorType { NAME, PASSWORD, EMAIL, NONE}
 
 	private EditText mEditTextName;
 	private EditText mEditTextEmail;
@@ -130,12 +130,23 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			break;
 		case R.id.btnCreateAccount:
 			getInput();
-			if(isInputValidated()) {
+			switch (isInputValidated()) {
+			case NONE:		
 				createAccount();
-			} else {
-				showErrorDialog(DialogType.PASSWORD_INCORRECT);
+				break;
+			case PASSWORD:
+				showErrorDialog(DialogType.INVALID_PASSWORD) ;
+				break;
+			case EMAIL:
+				showErrorDialog(DialogType.INVALID_EMAILID) ;
+				break;			
+			case NAME:
+				showErrorDialog(DialogType.INVALID_NAME) ;
+				break;
+			default:
+				break;
 			}
-			ALog.i(ALog.USER_REGISTRATION, "onClick inputValidated " + isInputValidated());
+			
 			break;
 		case R.id.llMyPhilips:
 			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
@@ -159,11 +170,12 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		mReceiveInfo = mCheckBoxReceivInfo.isChecked();
 	}
 
-	private boolean isInputValidated() {
+	private ErrorType isInputValidated() {
 		ALog.i(ALog.USER_REGISTRATION, "isInputValidated name " + mName + " pass " + mPassword + " email " + mEmail);
-		if(mName == null || mName.length() < 1) return false;
-		if(mPassword == null || mPassword.length() < 6) return false;
-		return EmailValidator.getInstance().validate(mEmail);
+		if(mName == null || mName.length() < 1) return ErrorType.NAME;
+		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
+		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
+		return ErrorType.NONE ;
 	}
 
 	@Override
@@ -175,7 +187,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	@Override
 	public void onRegisterFailedWithFailure(int error) {
 		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error " + new ErrorMessage().getError(error));
-		showErrorDialog(DialogType.PASSWORD_INCORRECT);
+		showErrorDialog(DialogType.INCORRECT_PASSWORD);
 	}
 	
 	private void showSuccessFragment() {
