@@ -38,7 +38,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onCreateView() method enter");
 		View view = inflater.inflate(R.layout.delete_scheduler, null);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.DELETE_EVENT);
-		marked4Deletion = ((SchedulerActivity) getActivity()).getSchedulerMarked4Deletion();
+		//marked4Deletion = ((SchedulerActivity) getActivity()).getSchedulerMarked4Deletion();
 		ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::onCreateView() method marked4Deletion is " + marked4Deletion);
 		Bundle bundle = getActivity().getIntent().getExtras();
 		String extras = "";
@@ -361,7 +361,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 			char[] tempArr = marked4Deletion.toCharArray();
 			tempArr[index] = flag;
 			marked4Deletion = String.valueOf(tempArr);
-			((SchedulerActivity)getActivity()).dispatchInfo4MarkedSchDeletion(marked4Deletion.toString());
+			//((SchedulerActivity)getActivity()).dispatchInfo4MarkedSchDeletion(marked4Deletion.toString());
 		}
 	}
 	
