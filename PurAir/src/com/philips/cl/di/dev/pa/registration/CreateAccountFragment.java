@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,9 +42,6 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	
 	private LinearLayout mLayoutPhilips;
 	private LinearLayout mLayoutMyPhilips;
-	private LinearLayout mLayoutFacebook;
-	private LinearLayout mLayoutTwitter;
-	private LinearLayout mLayoutGooglePlus;
 	
 	private String mName;
 	private String mEmail;
@@ -122,7 +118,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		case R.id.btnCreateAccount:
 			ALog.i(ALog.CONNECTIVITY, "onClick$btnCreateAccount " + NetworkReceiver.getInstance().getLastKnownNetworkState());
 			if(NetworkState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
-				showErrorDialog(DialogType.ALREADY_REGISTERED); //TODO : Change error type to "Connect to internet"
+				showErrorDialog(Error.NO_NETWORK_CONNECTION); //TODO : Change error type to "Connect to internet"
 				break;
 			}
 			getInput();
