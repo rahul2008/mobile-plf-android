@@ -90,10 +90,13 @@ public class DISecurityTest extends TestCase {
 		String diffie2 = null;
 		
 		try {
-			Method diffieMethod = DISecurity.class.getDeclaredMethod("generateDiffieKey", (Class<?>[])null);
+			@SuppressWarnings("rawtypes")
+			Class[] cArg = new Class[1];
+		    cArg[0] = String.class;
+			Method diffieMethod = DISecurity.class.getDeclaredMethod("generateDiffieKey", cArg);
 			diffieMethod.setAccessible(true);
-			diffie1 = (String) diffieMethod.invoke(security, (Object[])null);
-			diffie2 = (String) diffieMethod.invoke(security, (Object[])null);
+			diffie1 = (String) diffieMethod.invoke(security, "111");
+			diffie2 = (String) diffieMethod.invoke(security, "222");
 		} catch (Exception e) {
 			e.printStackTrace();
 			fail(e.getMessage());
