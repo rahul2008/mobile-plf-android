@@ -28,6 +28,7 @@ public class NetworkUtils {
 	 * @return	Returns 	ResponseDto object containing ResponseCode and ResponseString 
 	 */
 	public static ResponseDto downloadUrl(String stringUrl, int connectTimeOut, int readTimeOut)   {
+		if (stringUrl == null || stringUrl.isEmpty()) return null;
 		InputStream inputStream = null;
 		HttpURLConnection conn = null ;
 		String data = null ;
