@@ -128,7 +128,7 @@
     <string name="finish_tutorial">Finish the tour</string>
     <string name="prompt_take_tour">Take a tour of the app</string>
     <string name="alert_take_tour">Take the tour</string>
-    <string name="alert_text">If you want to take the tour of the app in the future you can find it under \'Help and Documentation\' in your left hand navigation.</string>
+    <string name="alert_taketour_text">If you want to take the tour of the app in the future you can find it under \'Help and Documentation\' in your left hand navigation.</string>
     <string name="close">Close</string>
 
     <!-- Product Registration -->
@@ -251,6 +251,9 @@
     <string name="notifications_enable_all">Receive notifications for: \"%s\"</string>
     <string name="notification_pairing_btn">Remote control</string>
     <string name="notification_pairing_text">Enable remote control to receive notifications.</string>
+    <string name="notification_nopurifier_title">No purifier connected</string>
+    <string name="notification_nopurifier_text">You can only configure notifications once a Purifier is connected.</string>
+    <string name="notification_nopurifier_positivebtn">To home screen</string>
 
     <!-- Settings -->
     <string name="rate_this_app">Rate this app</string>

@@ -23,12 +23,14 @@ import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment implements OnClickListener {
+public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface {
 	
 	private FontTextView cityName, location, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
@@ -173,40 +175,21 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		}
 	}
 	
-	private void showTutorialDialog()
-	{
-		// Created a new Dialog
-		final Dialog dialog = new Dialog(getActivity());
-		dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// inflate the layout
-		dialog.setContentView(R.layout.air_purifier_dialog);
+	private void showTutorialDialog() {
+		AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.alert_take_tour, R.string.alert_taketour_text, R.string.alert_take_tour, R.string.close);
+		dialog.setOnClickListener(this);
+		dialog.show(getActivity().getSupportFragmentManager(), "");
+	}
 
-		TextView takeTourAlertLbl=(TextView) dialog.findViewById(R.id.alert_message);
-		Button btnClose=(Button) dialog.findViewById(R.id.btn_close);			
-		Button btnTakeTour=(Button) dialog.findViewById(R.id.btn_yes);
+	@Override
+	public void onPositiveButtonClicked() {
+		Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+		startActivity(intentOd);
+	}
 
-		takeTourAlertLbl.setTypeface(Fonts.getGillsans(getActivity()));
-		btnClose.setTypeface(Fonts.getGillsans(getActivity()));
-		btnTakeTour.setTypeface(Fonts.getGillsans(getActivity()));
+	@Override
+	public void onNegativeButtonClicked() {
+		// NOP
 		
-		btnClose.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				dialog.dismiss();
-			}
-		});
-		btnTakeTour.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
-				startActivity(intentOd);
-				dialog.dismiss();
-			}
-		});
-
-		// Display the dialog
-		dialog.show();
 	}
 }

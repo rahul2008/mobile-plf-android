@@ -20,6 +20,7 @@ public class PairingDialogFragment extends DialogFragment {
 	private static final String EXTRA_EUI64 = "com.philips.cl.di.dev.pa.extraeui64";
 	private static final String DIALOG_SELECTED="com.philips.cl.dev.pa.pairingDialog";
 	public static enum dialog_type {SHOW_DIALOG, PAIRING_FAILED, PAIRING_SUCCESS};
+	private TextView title;
 	private TextView message;
 	private Button btnClose;
 	private Button btn_pair;
@@ -40,15 +41,16 @@ public class PairingDialogFragment extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.air_purifier_dialog, container, false);
+		View view = inflater.inflate(R.layout.dialog_alert, container, false);
+		getDialog().requestWindowFeature(STYLE_NO_TITLE);
 		setCancelable(false);
-
 		initializeView(view);
 
 		return view;
 	}
 
 	private void initializeView(View view) {	
+		title = (TextView) view.findViewById(R.id.alert_title);
 		message = (TextView) view.findViewById(R.id.alert_message);
 		btnClose = (Button) view.findViewById(R.id.btn_close);
 		btn_pair = (Button) view.findViewById(R.id.btn_yes);
@@ -67,7 +69,7 @@ public class PairingDialogFragment extends DialogFragment {
 
 	private void initializePairingDialogSuccessView() {
 
-		getDialog().setTitle(R.string.congratulations);
+		title.setText(R.string.congratulations);
 		message.setText(R.string.pairing_success);
 		btn_pair.setVisibility(View.GONE);
 
@@ -83,7 +85,7 @@ public class PairingDialogFragment extends DialogFragment {
 
 	private void initializePairingDialogFailedView() {
 
-		getDialog().setTitle(R.string.error_title);
+		title.setText(R.string.error_title);
 		message.setText(R.string.pairing_failed);
 		btn_pair.setText(R.string.try_again);
 
@@ -111,7 +113,7 @@ public class PairingDialogFragment extends DialogFragment {
 	}
 
 	private void initializePairingDialogView() {
-		getDialog().setTitle(R.string.pair_title);
+		title.setText(R.string.pair_title);
 		message.setText(R.string.pair_text);
 		btn_pair.setText(R.string.pair);
 

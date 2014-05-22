@@ -125,7 +125,7 @@
     <string name="finish_tutorial">结束体验</string>
     <string name="prompt_take_tour">体验应用程序</string>
     <string name="alert_take_tour">体验</string>
-    <string name="alert_text">如果您想体验应用程序以后可在左侧导航中的“帮助和文档”下找到。</string>
+    <string name="alert_taketour_text">如果您想体验应用程序以后可在左侧导航中的“帮助和文档”下找到。</string>
     <string name="close">關閉</string>
 
     <!-- Product Registration -->
