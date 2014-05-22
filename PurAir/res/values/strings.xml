@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="todo">TODO</string>
     <string name="app_name">Smart Air</string>
     <string name="dashboard_title">Smart Air Purifier</string>
     <string name="action_settings">Settings</string>
@@ -87,7 +86,6 @@
 
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>
-    <string name="healthy">Healthy</string>
     <string name="unhealthy_for_sensitive_groups">Unhealthy for sensitive groups</string>
     <string name="unhealthy">Unhealthy</string>
     <string name="very_unhealthy">Very unhealthy</string>
@@ -424,7 +422,6 @@
     <string name="days">Days</string>
     <string name="edit">Edit</string>
     <string name="repeat">Repeat</string>
-    <string name="list_item_scheduler">Scheduler</string>
     <string name="time">Time</string>
     <string name="days2">Days</string>
     <string name="onetime">One Time</string>
@@ -490,9 +487,6 @@
     <string name="create_your_account">Create your account</string>
     <string name="sign_in_with">Or sign in with</string>
     <string name="my_philips">My Philips</string>
-    <string name="twitter">Twitter</string>
-    <string name="facebook">Facebook</string>
-    <string name="google_plus">Google+</string>
     <string name="password_not_correct">Your password is not correct</string>
     <string name="sign_in_to_my_philips">Sign in to my Philips</string>
     <string name="sign_in_to_facebook">Sign in to Facebook</string>
@@ -504,7 +498,6 @@
     <string name="already_registerd">You have already been registered with this e-mail address</string>
     <string name="generic_error">Unable to process !!! Please check internet connection</string>
     <string name="invalid_email">Invalid E-mail</string>
-    <string name="invalid_name">Please enter the name</string>
     <string name="invalid_password">Invalid password !! Password should be atleast 6 characters</string>
     <string name="please_wait">Please wait..</string>
     <string name="authentication_cancelled_by_user">Cancelled by User</string>

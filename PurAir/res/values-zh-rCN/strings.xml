@@ -84,7 +84,6 @@
 
     <string name="good">良好</string>
     <string name="moderate">适中</string>
-    <string name="healthy">健康</string>
     <string name="unhealthy_for_sensitive_groups">对敏感人群不健康</string>
     <string name="unhealthy">不健康</string>
     <string name="very_unhealthy">非常不健康</string>
