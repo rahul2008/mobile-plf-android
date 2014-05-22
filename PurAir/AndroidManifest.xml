@@ -87,14 +87,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.activity.NotificationSelectDayActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name="com.philips.cl.di.dev.pa.activity.CreateNotificationActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="com.philips.cl.di.dev.pa.activity.OutdoorAirColorIndicationActivity"
             android:screenOrientation="portrait" >
         </activity>
