@@ -52,8 +52,8 @@ public class PairingDialogFragment extends DialogFragment {
 	private void initializeView(View view) {	
 		title = (TextView) view.findViewById(R.id.alert_title);
 		message = (TextView) view.findViewById(R.id.alert_message);
-		btnClose = (Button) view.findViewById(R.id.btn_close);
-		btn_pair = (Button) view.findViewById(R.id.btn_yes);
+		btnClose = (Button) view.findViewById(R.id.btn_alertdialog_no);
+		btn_pair = (Button) view.findViewById(R.id.btn_alertdialog_yes);
 		message.setTypeface(Fonts.getGillsans(getActivity()));
 		dialog_type dialog = (dialog_type)getArguments().getSerializable(DIALOG_SELECTED);
 		if(dialog==dialog_type.SHOW_DIALOG){	

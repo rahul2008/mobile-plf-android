@@ -30,9 +30,10 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener {
+public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AlertDialogBtnInterface, AirPurifierEventListener {
 
 	private RelativeLayout pairingLayout;
 	private RelativeLayout enableLayout;
@@ -68,13 +69,25 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	@Override
 	public void onResume() {
-		notificationSetup();
+		if (mPurifier == null) {
+			Activity parent = this.getActivity();
+			if (parent != null && parent instanceof MainActivity) {
+				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
+				dialog.setOnClickListener(this);
+				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+			}
+		}
+		
+		
 		boolean notificationsEnabled = true; // TODO replace by actual pairing check
-		if (mPurifier.isPaired()) {
+		if (mPurifier == null) {
+			showNotificationsLayout(false);
+		} else if (mPurifier.isPaired()) {
 			showNotificationsLayout(notificationsEnabled);
+			notificationSetup();
 		} else {
 			showPairingLayout();
-		}		
+		}
 		super.onResume();
 	}
 	
@@ -228,6 +241,21 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onCallFailed() {
+		// TODO implement
+	}
+
+	@Override
+	public void onPositiveButtonClicked() {
+		Activity parent = this.getActivity();
+		if (parent == null || !(parent instanceof MainActivity)) return;
+		
+		((MainActivity) parent).onBackPressed();
+		
+	}
+
+	@Override
+	public void onNegativeButtonClicked() {
+		// NOP
 		
 	}
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -24,6 +25,8 @@ public class AlertDialogFragment extends DialogFragment {
 	private TextView message;
 	private Button negBtn;
 	private Button posBtn;
+	private Button singleBtn;
+	private LinearLayout posNegBtnLayout;
 	
 	private AlertDialogBtnInterface mBtnListener;
 
@@ -92,13 +95,15 @@ public class AlertDialogFragment extends DialogFragment {
 	private void initializeView(View view) {	
 		title = (TextView) view.findViewById(R.id.alert_title);
 		message = (TextView) view.findViewById(R.id.alert_message);
-		posBtn = (Button) view.findViewById(R.id.btn_yes);
-		negBtn = (Button) view.findViewById(R.id.btn_close);
+		posBtn = (Button) view.findViewById(R.id.btn_alertdialog_yes);
+		negBtn = (Button) view.findViewById(R.id.btn_alertdialog_no);
+		singleBtn = (Button) view.findViewById(R.id.btn_alertdialog_single);
+		posNegBtnLayout = (LinearLayout) view.findViewById(R.id.alertdialog_dualbtns_layout);
 		
 		title.setTypeface(Fonts.getGillsans(getActivity()));
 		message.setTypeface(Fonts.getGillsans(getActivity()));
-		posBtn = (Button) view.findViewById(R.id.btn_yes);
-		negBtn = (Button) view.findViewById(R.id.btn_close);
+		posBtn.setTypeface(Fonts.getGillsans(getActivity()));
+		negBtn.setTypeface(Fonts.getGillsans(getActivity()));
 		
 		int titleTextId = getArguments().getInt(EXTRA_TITLETEXTID);
 		if (titleTextId > 0) {
@@ -116,23 +121,35 @@ public class AlertDialogFragment extends DialogFragment {
 			message.setVisibility(View.GONE);
 		}
 		
+		initializeButtons();
+		setButtonListeners();
+	}
+	
+	private void initializeButtons() {
 		int posBtnTextId = getArguments().getInt(EXTRA_POSBTNTEXTID, -1);
-		if (posBtnTextId > 0) {
+		int negBtnTextId = getArguments().getInt(EXTRA_NEGBTNTEXTID, -1);
+
+		if (posBtnTextId > 0 && negBtnTextId > 0) {
+			posNegBtnLayout.setVisibility(View.VISIBLE);
 			posBtn.setVisibility(View.VISIBLE);
 			posBtn.setText(posBtnTextId);
-		} else {
-			posBtn.setVisibility(View.GONE);
-		}
-
-		int negBtnTextId = getArguments().getInt(EXTRA_NEGBTNTEXTID, -1);
-		if (negBtnTextId > 0) {
 			negBtn.setVisibility(View.VISIBLE);
 			negBtn.setText(negBtnTextId);
+			singleBtn.setVisibility(View.GONE);
+		} else if (posBtnTextId > 0) {
+			posNegBtnLayout.setVisibility(View.GONE);
+			singleBtn.setVisibility(View.VISIBLE);
+			singleBtn.setText(posBtnTextId);
+		} else if (negBtnTextId > 0) {
+			posNegBtnLayout.setVisibility(View.GONE);
+			singleBtn.setVisibility(View.VISIBLE);
+			singleBtn.setText(negBtnTextId);
 		} else {
+			posNegBtnLayout.setVisibility(View.GONE);
+			posBtn.setVisibility(View.GONE);
 			negBtn.setVisibility(View.GONE);
+			singleBtn.setVisibility(View.GONE);
 		}
-		
-		setButtonListeners();
 	}
 	
 	private void setButtonListeners() {
@@ -150,6 +167,15 @@ public class AlertDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				if (mBtnListener!= null) {
 					mBtnListener.onNegativeButtonClicked();
+				}
+				dismiss();
+			}
+		});
+		singleBtn.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (mBtnListener!= null) {
+					mBtnListener.onPositiveButtonClicked();
 				}
 				dismiss();
 			}
