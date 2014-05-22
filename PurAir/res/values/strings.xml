@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="todo">TODO</string>
+
+    <string name="todo">TODO</string>
     <string name="app_name">Smart Air</string>
     <string name="dashboard_title">Smart Air Purifier</string>
     <string name="action_settings">Settings</string>
@@ -64,13 +65,13 @@
     <string name="rm_air_quality_message">Connect device to begin reading indoor air quality</string>
 
     <!-- Outdoor Locations -->
-	
-	<string name="enter_city_name">Enter location</string>
+
+    <string name="enter_city_name">Enter location</string>
     <string name="cancel">Cancel</string>
     <string name="weather_forecast">Weather Forecast</string>
     <string name="one_zero">0</string>
     <string name="colon_2_zero">:00</string>
-        
+
     <!-- Dashboard texts -->
 
     <string name="mode">Mode</string>
@@ -172,30 +173,23 @@
     <string name="mask_od_msg1">Masks not needed</string>
     <string name="openwindow_od_msg1">Open your windows for ventilation.</string>
     <string name="advice_od_msg1">Great for outdoor activities</string>
+    <string name="mask_od_msg2">Masks not needed</string>
+    <string name="openwindow_od_msg2">Open your windows for ventilation</string>
+    <string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
 
-	<string name="mask_od_msg2">Masks not needed</string>
-	<string name="openwindow_od_msg2">Open your windows for ventilation</string>
-	<string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
-	
-	<!-- Outdoor Detail Tips -->
-	<string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
-	<string name="outdoor_aqi_good_tip2">Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
-	
-	<string name="outdoor_aqi_moderate_tip1"> Good for outdoor activities but hyper-sensitive people should take care.</string>
-	<string name="outdoor_aqi_moderate_tip2"> Hyper-sensitive people should reduce activities. </string>
-	
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">Reduce outdoor activities and occasionally open your windows for ventilation.</string>
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">Unhealthy for sensitive groups like babies and the elderly.</string>
-	
-	<string name="outdoor_aqi_unhealthy_tip1">Reduce outdoor activities and close your windows.</string>
-	<string name="outdoor_aqi_unhealthy_tip2">Slight irritation may occur.</string>
-	
-	<string name="outdoor_aqi_very_unhealthy_tip1">It’s a good idea to wear a mask.</string>
-	<string name="outdoor_aqi_very_unhealthy_tip2">Postpone outdoor activities.</string>
-	
-	<string name="outdoor_aqi_hazardous_tip1">Avoid going outdoors or wear a mask. Close windows at your home.</string>
-	<string name="outdoor_aqi_hazardous_tip2">Go outside only if you really have to.</string>
-	
+    <!-- Outdoor Detail Tips -->
+    <string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
+    <string name="outdoor_aqi_good_tip2">Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
+    <string name="outdoor_aqi_moderate_tip1"> Good for outdoor activities but hyper-sensitive people should take care.</string>
+    <string name="outdoor_aqi_moderate_tip2"> Hyper-sensitive people should reduce activities. </string>
+    <string name="outdoor_aqi_unhealthy_sensitive_group_tip1">Reduce outdoor activities and occasionally open your windows for ventilation.</string>
+    <string name="outdoor_aqi_unhealthy_sensitive_group_tip2">Unhealthy for sensitive groups like babies and the elderly.</string>
+    <string name="outdoor_aqi_unhealthy_tip1">Reduce outdoor activities and close your windows.</string>
+    <string name="outdoor_aqi_unhealthy_tip2">Slight irritation may occur.</string>
+    <string name="outdoor_aqi_very_unhealthy_tip1">It’s a good idea to wear a mask.</string>
+    <string name="outdoor_aqi_very_unhealthy_tip2">Postpone outdoor activities.</string>
+    <string name="outdoor_aqi_hazardous_tip1">Avoid going outdoors or wear a mask. Close windows at your home.</string>
+    <string name="outdoor_aqi_hazardous_tip2">Go outside only if you really have to.</string>
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
     <string name="od_yaxis_label3">150</string>
@@ -327,7 +321,6 @@
     <string name="indoor_moderate">Moderate air. Moderate particle levels in the air. The PM2.5 level is also expected to be moderate. Adults and children with lung problems, and adults with heart problems who experience symptoms should consider reducing strenuous physical activity.</string>
     <string name="indoor_good">Good air. Overall there is low dust and particle levels in the air. The PM2.5 level is expected to be low. Health risk is considered to be minor. Enjoy your usual indoor activities.</string>
     <string name="indoor_color_explained_intro">The Philips Smart Air app shows real-time air particle level on a scale of 1&#8211;10 measured by a smart built-in sensor. You can read update air quality information in your home, including PM2.5 concentration.</string>
-    
 
     <!-- Diagnostics -->
     <string name="diagnostics">Diagnostics</string>
@@ -426,8 +419,11 @@
     <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string>
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
     <string name="pairing_failed">Failed to enable remote control, please try again later.</string>
-    
+
     <!-- Scheduler texts -->
+    <string name="days">Days</string>
+    <string name="edit">Edit</string>
+    <string name="repeat">Repeat</string>
     <string name="list_item_scheduler">Scheduler</string>
     <string name="time">Time</string>
     <string name="days2">Days</string>
@@ -444,7 +440,7 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="set_schedule">Set Schedule</string>
-    <string name="edit_schedule">Edit Schedule</string>    
+    <string name="edit_schedule">Edit Schedule</string>
 
     <!-- Firmware Screen text -->
 
@@ -479,7 +475,7 @@
     <string name="lbl_firmware_update_available">Firmware update available</string>
     <string name="contact_support">Contact Support</string>
     <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
-    
+
     <!-- Registration screens -->
     <string name="create_account">Create account</string>
     <string name="registration_statement">By creating an account or signing in you certify that you are 16 years or older and you agree to our terms and conditions and privacy policy</string>
@@ -513,7 +509,7 @@
     <string name="please_wait">Please wait..</string>
     <string name="authentication_cancelled_by_user">Cancelled by User</string>
     <string name="authentication_failed">Authentication failed</string>
-    <string name="configuration_failed">Configuration failed</string> 
+    <string name="configuration_failed">Configuration failed</string>
     <string name="invalid_params">Invalid parameters</string>
     <string name="no_network_connection">Please check internet connection</string>
     <string name="invalid_username_or_password">Invalid Username or Password</string>
@@ -522,8 +518,9 @@
     <string name="demo_mode_title">Demo setup</string>
     <string name="demo_mode_support_title">Demo setup support</string>
     <string name="demo_mode_intro_msg">Follow these 1 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
-	<string name="demo_mode_title_step">Step 1 of 1</string>
-	<string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
-	<string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
-	<string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
+    <string name="demo_mode_title_step">Step 1 of 1</string>
+    <string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
+    <string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
+    <string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
+
 </resources>

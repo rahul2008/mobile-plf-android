@@ -55,15 +55,15 @@
     <string name="clean_soon">%s 天后清洁 </string>
     <string name="clean_now">清洁吧</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智能空气净化器的传感器</string>
-    
+
     <!-- Timer texts -->
 
     <string name="rm_air_quality_title">室内空气水平状态</string>
     <string name="rm_air_quality_message">连接设备开始读取室内空气质量</string>
-    
+
     <!-- Outdoor Locations -->
-	
-	<string name="enter_city_name">输入位置</string>
+
+    <string name="enter_city_name">输入位置</string>
     <string name="cancel">取消</string>
     <string name="weather_forecast">天气预报</string>
     <string name="one_zero">0</string>
@@ -167,30 +167,23 @@
     <string name="mask_od_msg1">Masks not needed</string>
     <string name="openwindow_od_msg1">Open your windows for ventilation.</string>
     <string name="advice_od_msg1">Great for outdoor activities</string>
+    <string name="mask_od_msg2">Masks not needed</string>
+    <string name="openwindow_od_msg2">Open your windows for ventilation</string>
+    <string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
 
-	<string name="mask_od_msg2">Masks not needed</string>
-	<string name="openwindow_od_msg2">Open your windows for ventilation</string>
-	<string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
-	
-	<!-- Outdoor Detail Tips -->
-	<string name="outdoor_aqi_good_tip1"> 特别适合室外运动。 开窗通风。 .</string>
-	<string name="outdoor_aqi_good_tip2">洁净空气，对健康危害极小或无危害。 可以参加日常室外活动。</string>
-	
-	<string name="outdoor_aqi_moderate_tip1"> 适合室外运动，但高度敏感人群应多加小心。</string>
-	<string name="outdoor_aqi_moderate_tip2"> 高度敏感人群应减少运动。 </string>
-	
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip1">减少室外运动并偶尔开窗通风。 </string>
-	<string name="outdoor_aqi_unhealthy_sensitive_group_tip2">对婴儿和老人等敏感人群不健康。</string>
-	
-	<string name="outdoor_aqi_unhealthy_tip1">减少室外运动并关闭窗户。 </string>
-	<string name="outdoor_aqi_unhealthy_tip2">可能会发生轻微过敏。</string>
-	
-	<string name="outdoor_aqi_very_unhealthy_tip1">最好戴上口罩。</string>
-	<string name="outdoor_aqi_very_unhealthy_tip2">延缓室外活动。</string>
-	
-	<string name="outdoor_aqi_hazardous_tip1">避免前往室外或戴上口罩。 关闭家里的窗户。</string>
-	<string name="outdoor_aqi_hazardous_tip2">除非必要，否则不要外出。</string>
-	
+    <!-- Outdoor Detail Tips -->
+    <string name="outdoor_aqi_good_tip1"> 特别适合室外运动。 开窗通风。 .</string>
+    <string name="outdoor_aqi_good_tip2">洁净空气，对健康危害极小或无危害。 可以参加日常室外活动。</string>
+    <string name="outdoor_aqi_moderate_tip1"> 适合室外运动，但高度敏感人群应多加小心。</string>
+    <string name="outdoor_aqi_moderate_tip2"> 高度敏感人群应减少运动。 </string>
+    <string name="outdoor_aqi_unhealthy_sensitive_group_tip1">减少室外运动并偶尔开窗通风。 </string>
+    <string name="outdoor_aqi_unhealthy_sensitive_group_tip2">对婴儿和老人等敏感人群不健康。</string>
+    <string name="outdoor_aqi_unhealthy_tip1">减少室外运动并关闭窗户。 </string>
+    <string name="outdoor_aqi_unhealthy_tip2">可能会发生轻微过敏。</string>
+    <string name="outdoor_aqi_very_unhealthy_tip1">最好戴上口罩。</string>
+    <string name="outdoor_aqi_very_unhealthy_tip2">延缓室外活动。</string>
+    <string name="outdoor_aqi_hazardous_tip1">避免前往室外或戴上口罩。 关闭家里的窗户。</string>
+    <string name="outdoor_aqi_hazardous_tip2">除非必要，否则不要外出。</string>
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
     <string name="od_yaxis_label3">150</string>
@@ -243,6 +236,9 @@
     <string name="no2">NO2</string>
 
     <!-- Notifications -->
+    <string name="days">Days</string>
+    <string name="edit">Edit</string>
+    <string name="repeat">Repeat</string>
     <string name="notifications_indoor_title">室内空气水平</string>
     <string name="notifications_indoor_AQI_desc">当家中的空气质量超过所设置的水平时便会通知您。</string>
     <string name="notifications_filters_title">过滤网</string>
@@ -254,7 +250,7 @@
     <string name="notifications_enable_all">Receive notifications for %s</string>
     <string name="notification_pairing_btn">Remote control</string>
     <string name="notification_pairing_text">Enable remote control to receive notifications.</string>
-    
+
     <!-- Settings -->
     <string name="rate_this_app">评价此应用程序</string>
     <string name="send_us_feedback">给我们发送反馈</string>
@@ -454,14 +450,15 @@
     <string name="lbl_firmware_update_available">Firmware update available</string>
     <string name="contact_support">Contact Support</string>
     <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
-    
+
     <!-- Demo Mode -->
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>
     <string name="demo_mode_support_title">Demo setup support</string>
     <string name="demo_mode_intro_msg">Follow these 1 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
-	<string name="demo_mode_title_step">Step 1 of 1</string>
-	<string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
-	<string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
-	<string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
+    <string name="demo_mode_title_step">Step 1 of 1</string>
+    <string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
+    <string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
+    <string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
+
 </resources>
