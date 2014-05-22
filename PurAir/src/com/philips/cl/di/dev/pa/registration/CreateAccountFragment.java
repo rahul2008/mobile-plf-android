@@ -160,7 +160,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		mReceiveInfo = mCheckBoxReceivInfo.isChecked();
 	}
 
-	private ErrorType isInputValidated() {
+	public ErrorType isInputValidated() {
 		ALog.i(ALog.USER_REGISTRATION, "isInputValidated name " + mName + " pass " + mPassword + " email " + mEmail);
 		if(mName == null || mName.length() < 1) return ErrorType.NAME;
 		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
