@@ -29,18 +29,18 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class SchedulerOverviewFragment extends BaseFragment implements FirmwareResponseListener{
+public class SchedulerOverviewFragment extends BaseFragment {
 	
-	ImageView ivEdit, ivDelete1, ivDelete2, ivDelete3, ivDelete4, ivDelete5;
-	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5;
-	FontTextView tvRgtArrTxt1, tvRgtArrTxt2, tvRgtArrTxt3, tvRgtArrTxt4, tvRgtArrTxt5;
-	TextView tvEditTxt;
-	FontTextView tvScheduler1_text2, tvScheduler2_text2, tvScheduler3_text2, tvScheduler4_text2, tvScheduler5_text2;
-	FontTextView tvScheduler1_text1;
-	JsonArray arrColl;
-	int iSchedulersCount;
+	private ImageView ivEdit, ivDelete1, ivDelete2, ivDelete3, ivDelete4, ivDelete5;
+	private ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5;
+	private FontTextView tvRgtArrTxt1, tvRgtArrTxt2, tvRgtArrTxt3, tvRgtArrTxt4, tvRgtArrTxt5;
+	private TextView tvEditTxt;
+	private FontTextView tvScheduler1_text2, tvScheduler2_text2, tvScheduler3_text2, tvScheduler4_text2, tvScheduler5_text2;
+	private FontTextView tvScheduler1_text1;
+	private JsonArray arrColl;
+	private int iSchedulersCount;
 	private JSONArray schedulersList;
-	List<Integer> lstSchedulerMarkedDel = new ArrayList<Integer>();
+	private List<Integer> lstSchedulerMarkedDel = new ArrayList<Integer>();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -303,7 +303,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		String sProduct = "";
 		String sPort = "";
 		String sSpeed = "";
-		String sCommand = "";;
+		String sCommand = "";
 		String sEventSetting = "";
 		String sTime = "";
 		String sDays = "";
@@ -367,23 +367,21 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 				//sEventSetting = sSpeed + ", " + sDays;
 				sEventSetting = sDays;
 
-				int bButton = 0;
-
 				switch(i) {
 				case 0:
-					CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, bButton, R.id.divider1, sTime, sEventSetting, sEnabled);
+					CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, sTime, sEventSetting);
 					break;
 				case 1:
-					CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, bButton, R.id.divider2, sTime, sEventSetting, sEnabled);
+					CreateEvent(view, R.id.event2, R.id.scheduler2_outer, R.id.scheduler2_innerouter, R.id.scheduler2_text1, R.id.scheduler2_text2, sTime, sEventSetting);
 					break;
 				case 2:
-					CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, bButton, R.id.divider3, sTime, sEventSetting, sEnabled);
+					CreateEvent(view, R.id.event3, R.id.scheduler3_outer, R.id.scheduler3_innerouter, R.id.scheduler3_text1, R.id.scheduler3_text2, sTime, sEventSetting);
 					break;
 				case 3:
-					CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, bButton, R.id.divider4, sTime, sEventSetting, sEnabled);
+					CreateEvent(view, R.id.event4, R.id.scheduler4_outer, R.id.scheduler4_innerouter, R.id.scheduler4_text1, R.id.scheduler4_text2, sTime, sEventSetting);
 					break;
 				case 4:
-					CreateEvent(view, R.id.event5, R.id.scheduler5_outer, R.id.scheduler5_innerouter, R.id.scheduler5_text1, R.id.scheduler5_text2, bButton, R.id.divider5, sTime, sEventSetting, sEnabled);
+					CreateEvent(view, R.id.event5, R.id.scheduler5_outer, R.id.scheduler5_innerouter, R.id.scheduler5_text1, R.id.scheduler5_text2, sTime, sEventSetting);
 					break;
 				default:
 					break;
@@ -404,11 +402,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method exit  ");
 	}
 	
-	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, int iButton, int iImgView, String time, String event, String enabled) {
+	private void CreateEvent(View view, int layout, int iTxtOuterView, int iTxtInnerOuterView, int iTxtView1, int iTxtView2, String time, String event) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEvent() method enter");
 		FontTextView txtOuterView, txtInnerOuterView;
 		FontTextView txtView1, txtView2;
-		Button btn;
 		LinearLayout lLayout;
 		//ImageView imgView;
 		
@@ -474,24 +471,4 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		return sWeekdays;
 	}
 
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-	
-	@Override
-	public void firmwareDataRecieved(String data) {
-	}
-
-	public void processFirmwareData(JsonObject jsonObject) { 	}
-	
-	public String getJsonPropertyAsString(JsonObject jsonObject, String property) {
-		JsonElement progressElemt = jsonObject.get(property);
-		return progressElemt.getAsString();
-	}
 }

@@ -71,31 +71,31 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method initSelectedDays");
 		
 			if (initDays.contains(SchedulerConstants.SUNDAY)) { 
-				setClickSunday(v, tvSun, ivDiv1, chkBox1);
+				setClickSunday(tvSun, ivDiv1, chkBox1);
 			} 
 			
 			if (initDays.contains(SchedulerConstants.MONDAY)) {
-				setClickMonday(v, tvMon, ivDiv2, chkBox2);
+				setClickMonday(tvMon, ivDiv2, chkBox2);
 			} 
 			
 			if (initDays.contains(SchedulerConstants.TUESDAY)) {
-				setClickTuesday(v, tvTue, ivDiv3, chkBox3);
+				setClickTuesday(tvTue, ivDiv3, chkBox3);
 			} 
 			
 			if (initDays.contains(SchedulerConstants.WEDNESDAY)) {
-				setClickWednesday(v, tvWed, ivDiv4, chkBox4);
+				setClickWednesday(tvWed, ivDiv4, chkBox4);
 			} 
 			
 			if (initDays.contains(SchedulerConstants.THURSDAY)) {
-				setClickThursday(v, tvThu, ivDiv5, chkBox5);
+				setClickThursday(tvThu, ivDiv5, chkBox5);
 			} 
 			
 			if (initDays.contains(SchedulerConstants.FRIDAY)) {
-				setClickFriday(v, tvFri, ivDiv6, chkBox6);
+				setClickFriday(tvFri, ivDiv6, chkBox6);
 			} 
 			
 			if (initDays.contains(SchedulerConstants.SATURDAY)) {
-				setClickSaturday(v, tvSat, chkBox7);
+				setClickSaturday(tvSat, chkBox7);
 			}
 	}
 
@@ -125,104 +125,104 @@ public class RepeatFragment extends BaseFragment {
 		tvSun.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickSunday(v, tvSun, ivDiv1, chkBox1);
+				setClickSunday(tvSun, ivDiv1, chkBox1);
 				}
 		});
 		
 		chkBox1.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickSunday(v, tvSun, ivDiv1, chkBox1);
+				setClickSunday(tvSun, ivDiv1, chkBox1);
 			}
 		});	
 		
 		tvMon.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickMonday(v, tvMon, ivDiv2, chkBox2);
+				setClickMonday(tvMon, ivDiv2, chkBox2);
 			}
 		});
 		
 		chkBox2.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickMonday(v, tvMon, ivDiv2, chkBox2);
+				setClickMonday(tvMon, ivDiv2, chkBox2);
 			}
 		});
 		
 		tvTue.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickTuesday(v, tvTue, ivDiv3, chkBox3);
+				setClickTuesday(tvTue, ivDiv3, chkBox3);
 			}
 		});
 		
 		chkBox3.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickTuesday(v, tvTue, ivDiv3, chkBox3);
+				setClickTuesday(tvTue, ivDiv3, chkBox3);
 			}
 		});
 		
 		tvWed.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickWednesday(v, tvWed, ivDiv4, chkBox4);
+				setClickWednesday(tvWed, ivDiv4, chkBox4);
 			}
 		});
 		
 		chkBox4.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickWednesday(v, tvWed, ivDiv4, chkBox4);
+				setClickWednesday(tvWed, ivDiv4, chkBox4);
 			}
 		});
 		
 		tvThu.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickThursday(v, tvThu, ivDiv5, chkBox5);
+				setClickThursday(tvThu, ivDiv5, chkBox5);
 			}
 		});
 		
 		chkBox5.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickThursday(v, tvThu, ivDiv5, chkBox5);
+				setClickThursday(tvThu, ivDiv5, chkBox5);
 			}
 		});
 		
 		tvFri.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickFriday(v, tvFri, ivDiv6, chkBox6);
+				setClickFriday(tvFri, ivDiv6, chkBox6);
 			}
 		});
 		
 		chkBox6.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickFriday(v, tvFri, ivDiv6, chkBox6);
+				setClickFriday(tvFri, ivDiv6, chkBox6);
 			}
 		});
 		
 		tvSat.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickSaturday(v, tvSat, chkBox7);
+				setClickSaturday(tvSat, chkBox7);
 			}
 		});
 		
 		chkBox7.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				setClickSaturday(v, tvSat, chkBox7);
+				setClickSaturday(tvSat, chkBox7);
 			}
 		});
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::initViews method exit");
 	}
 	
-	private void setClickSunday(View view, FontTextView tvSun, ImageView ivDiv1, ImageView chkBox1) {
+	private void setClickSunday(FontTextView tvSun, ImageView ivDiv1, ImageView chkBox1) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSunday method enter");
 		if (bIsSunClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Sunday is clicked");
@@ -248,7 +248,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSunday method exit");
 	}
 	
-	private void setClickMonday(View view, FontTextView tvMon, ImageView ivDiv2, ImageView chkBox2) {
+	private void setClickMonday(FontTextView tvMon, ImageView ivDiv2, ImageView chkBox2) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickMonday() method enter");
 		if (bIsMonClicked  == false) {
 			ALog.i(ALog.SCHEDULER, "Monday is clicked");
@@ -275,7 +275,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickMonday() method exit");
 	}
 	
-	private void setClickTuesday(View view, FontTextView tvTue, ImageView ivDiv3, ImageView chkBox3) {
+	private void setClickTuesday(FontTextView tvTue, ImageView ivDiv3, ImageView chkBox3) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickTuesday() method enter");
 		if (bIsTueClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Tuesday is clicked");
@@ -302,7 +302,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickTuesday() method exit");
 	}
 	
-	private void setClickWednesday(View view, FontTextView tvWed, ImageView ivDiv4, ImageView chkBox4) {
+	private void setClickWednesday(FontTextView tvWed, ImageView ivDiv4, ImageView chkBox4) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickWednesday() method enter");
 		if (bIsWedClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Wednesday is clicked");
@@ -329,7 +329,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickWednesday() method exit");
 	}
 	
-	private void setClickThursday(View view, FontTextView tvThu, ImageView ivDiv5, ImageView chkBox5) {
+	private void setClickThursday(FontTextView tvThu, ImageView ivDiv5, ImageView chkBox5) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickThursday() method enter");
 		if (bIsThuClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Thursday is clicked");
@@ -356,7 +356,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickThursday() method exit");
 	}
 	
-	private void setClickFriday(View view, FontTextView tvFri, ImageView ivDiv6, ImageView chkBox6) {
+	private void setClickFriday(FontTextView tvFri, ImageView ivDiv6, ImageView chkBox6) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickFriday() method enter");
 		if (bIsFriClicked == false) {
 			ALog.i(ALog.SCHEDULER, "Friday is clicked");
@@ -383,7 +383,7 @@ public class RepeatFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickFriday() method exit");
 	}
 	
-	private void setClickSaturday(View view, FontTextView tvSat, ImageView chkBox7) {
+	private void setClickSaturday(FontTextView tvSat, ImageView chkBox7) {
 		ALog.i(ALog.SCHEDULER, "RepeatFragment::setClickSaturday() method enter");
 		if (bIsSatClicked == false) {
 			ALog.i("Scheduler", "Saturday is pressed ");

@@ -111,6 +111,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		dialog.show(fragMan, null);
 	}
 
+	//TODO : Refactor
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

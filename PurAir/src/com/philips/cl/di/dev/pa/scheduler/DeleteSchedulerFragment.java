@@ -24,14 +24,14 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class DeleteSchedulerFragment extends BaseFragment implements FirmwareResponseListener{
+public class DeleteSchedulerFragment extends BaseFragment {
 	private JSONArray schedulersList;
 	//Button ivRhtArr2, ivRhtArr3, ivRhtArr4; 
-	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5; 
-	ImageView add, edit, delete1, delete2, delete3, delete4, delete5;
-	FontTextView RightArrow1_text, RightArrow2_text, RightArrow3_text, RightArrow4_text, RightArrow5_text;
-	LinearLayout event1;
-	String marked4Deletion = "";
+	private ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5; 
+	private ImageView add, edit, delete1, delete2, delete3, delete4, delete5;
+	private FontTextView RightArrow1_text, RightArrow2_text, RightArrow3_text, RightArrow4_text, RightArrow5_text;
+	private LinearLayout event1;
+	private String marked4Deletion = "";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -199,7 +199,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		}
 	}
 	
-	private void enableDeleteButton(ImageView btnRhtArr, FontTextView  rhtArrowText, ImageView delete, int index) {
+	private void enableDeleteButton(ImageView btnRhtArr, FontTextView  rhtArrowText, ImageView delete) {
 		rhtArrowText.setText("Delete");
 		MarginLayoutParams params = (MarginLayoutParams) btnRhtArr.getLayoutParams();
 		params.rightMargin = 50;
@@ -334,19 +334,19 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 			ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion tempArr[index] is " + tempArr[index]);
 			if (index == 0 && tempArr[index] == 1) {
 				ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is index 1 is called");
-				enableDeleteButton(ivRhtArr1, RightArrow1_text, delete1, 0);
+				enableDeleteButton(ivRhtArr1, RightArrow1_text, delete1);
 			} else if (index == 1 && tempArr[index] == 1) {
 				ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is index 2 is called");
-				enableDeleteButton(ivRhtArr2, RightArrow2_text, delete2, 0);
+				enableDeleteButton(ivRhtArr2, RightArrow2_text, delete2);
 			} else if (index == 2 && tempArr[index] == 1) {
 				ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is index 3 is called");
-				enableDeleteButton(ivRhtArr3, RightArrow3_text, delete3, 0);
+				enableDeleteButton(ivRhtArr3, RightArrow3_text, delete3);
 			} else if (index == 3 && tempArr[index] == 1) {
 				ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is index 4 is called");
-				enableDeleteButton(ivRhtArr4, RightArrow4_text, delete4, 0);
+				enableDeleteButton(ivRhtArr4, RightArrow4_text, delete4);
 			} else if (index == 4 && tempArr[index] == 1) {
 				ALog.i(ALog.SCHEDULER, "DeleteSchedulerFragment::CreateEvent() marked4Deletion is index 5 is called");
-				enableDeleteButton(ivRhtArr5, RightArrow5_text, delete5, 0);
+				enableDeleteButton(ivRhtArr5, RightArrow5_text, delete5);
 			}
 		}
 		
@@ -370,23 +370,7 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 				.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();
 	}
 	
-	@Override
-	public void onResume() {
-		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-	}
-
-	@Override
-	public void firmwareDataRecieved(String data) {
-	}
-
-	public void processFirmwareData(JsonObject jsonObject) { }
-	
-	public String getJsonPropertyAsString(JsonObject jsonObject, String property) {
+	private String getJsonPropertyAsString(JsonObject jsonObject, String property) {
 		if( jsonObject == null ) return "" ;
 		JsonElement progressElemt = jsonObject.get(property);
 		if( progressElemt == null ) return  "" ;

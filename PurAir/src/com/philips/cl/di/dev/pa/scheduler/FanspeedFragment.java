@@ -62,17 +62,17 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method enter");
 		
 			if (sInitFanSpeed.contains(SchedulerConstants.AUTO)) { 
-				selectAuto(v, tvAuto, ivDiv1);
+				selectAuto(tvAuto, ivDiv1);
 			} else if (sInitFanSpeed.contains(SchedulerConstants.SILENT)) {
-				selectSilent(v, tvSilent, ivDiv2);
+				selectSilent(tvSilent, ivDiv2);
 			} else if (sInitFanSpeed.contains(SchedulerConstants.ONE)) {
-				selectOne(v, tvOne, ivDiv3);
+				selectOne(tvOne, ivDiv3);
 			} else if (sInitFanSpeed.contains(SchedulerConstants.TWO)) {
-				selectTwo(v, tvTwo, ivDiv4);
+				selectTwo(tvTwo, ivDiv4);
 			} else if (sInitFanSpeed.contains(SchedulerConstants.THREE)) {
-				selectThree(v, tvThree, ivDiv5);
+				selectThree(tvThree, ivDiv5);
 			} else if (sInitFanSpeed.contains(SchedulerConstants.TURBO)) {
-				selectTurbo(v, tvTurbo, ivDiv6);
+				selectTurbo(tvTurbo, ivDiv6);
 			} 
 			
 			ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method exit");
@@ -96,7 +96,7 @@ public class FanspeedFragment extends BaseFragment {
 		tvAuto.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectAuto(v, tvAuto, ivDiv1);
+				selectAuto(tvAuto, ivDiv1);
 				ALog.i("Scheduler", "Bundle is empty");
 				}
 		});
@@ -104,41 +104,41 @@ public class FanspeedFragment extends BaseFragment {
 		tvSilent.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectSilent(v, tvSilent, ivDiv2);
+				selectSilent(tvSilent, ivDiv2);
 			}
 		});
 		
 		tvOne.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectOne(v, tvOne, ivDiv3);
+				selectOne(tvOne, ivDiv3);
 			}
 		});
 		
 		tvTwo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectTwo(v, tvTwo, ivDiv4);
+				selectTwo(tvTwo, ivDiv4);
 			}
 		});
 		
 		tvThree.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectThree(v, tvThree, ivDiv5);
+				selectThree(tvThree, ivDiv5);
 			}
 		});
 		
 		tvTurbo.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				selectTurbo(v, tvTurbo, ivDiv6);
+				selectTurbo(tvTurbo, ivDiv6);
 			}
 		});
 		ALog.i("Scheduler", "FanspeedFragment::initViews() method ending is called ");
 	}
 	
-	private void selectAuto(View view, FontTextView tvAuto, ImageView ivDiv1) {
+	private void selectAuto(FontTextView tvAuto, ImageView ivDiv1) {
 		ALog.i("Scheduler", "FanspeedFragment::selectAuto() method beginning is called ");
 		if (bIsAutoSelected == false) {
 			tvAuto.setTextColor(Color.WHITE);	
@@ -152,7 +152,7 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::selectAuto() method ending is called ");
 	}
 	
-	private void selectSilent(View view, FontTextView tvSilent, ImageView ivDiv2) {
+	private void selectSilent(FontTextView tvSilent, ImageView ivDiv2) {
 		ALog.i("Scheduler", "FanspeedFragment::selectSilent() method beginning is called ");
 		if (bIsSilentSelected == false) {
 			ALog.i("Scheduler", "Monday is pressed ");
@@ -167,7 +167,7 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::selectSilent() method ending is called ");
 	}
 	
-	private void selectOne(View view, FontTextView tvOne, ImageView ivDiv3) {
+	private void selectOne(FontTextView tvOne, ImageView ivDiv3) {
 		ALog.i("Scheduler", "FanspeedFragment::selectOne() method beginning is called ");
 		if (bIsOneSelected == false) {
 			ALog.i("Scheduler", "Tuesday is pressed ");
@@ -182,7 +182,7 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::selectOne() method ending is called ");
 	}
 	
-	private void selectTwo(View view, FontTextView tvTwo, ImageView ivDiv4) {
+	private void selectTwo(FontTextView tvTwo, ImageView ivDiv4) {
 		ALog.i("Scheduler", "FanspeedFragment::selectTwo() method beginning is called ");
 		if (bIsTwoSelected == false) {
 			ALog.i("Scheduler", "Tuesday is pressed ");
@@ -197,7 +197,7 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::selectTwo() method ending is called ");
 	}
 	
-	private void selectThree(View view, FontTextView tvThree, ImageView ivDiv5) {
+	private void selectThree(FontTextView tvThree, ImageView ivDiv5) {
 		ALog.i("Scheduler", "FanspeedFragment::selectThree() method beginning is called ");
 		if (bIsThreeSelected == false) {
 			ALog.i("Scheduler", "Tuesday is pressed ");
@@ -212,7 +212,7 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::selectThree() method ending is called ");
 	}
 	
-	private void selectTurbo(View view, FontTextView tvTurbo, ImageView ivDiv6) {
+	private void selectTurbo(FontTextView tvTurbo, ImageView ivDiv6) {
 		ALog.i("Scheduler", "FanspeedFragment::selectTurbo() method beginning is called ");
 		if (bIsTurboSelected == false) {
 			ALog.i("Scheduler", "Tuesday is pressed ");
