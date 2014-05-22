@@ -194,7 +194,7 @@ public class Utils {
 				float aqi = hrlyAqiValueMap.get(i);
 				int noOffValue = hrlyAqiValueCounterMap.get(i);
 				aqi = aqi / noOffValue;
-				hrlyAqiValues.add(aqi/100);
+				hrlyAqiValues.add(aqi/10);
 			} else {
 				hrlyAqiValues.add(-1F);
 			}
@@ -216,7 +216,7 @@ public class Utils {
 				float aqi = dailyAqiValueMap.get(I);
 				int noOffValue = dailyAqiValueCounterMap.get(I);
 				aqi = aqi / noOffValue;
-				dailyAqiValues.add(aqi/100);
+				dailyAqiValues.add(aqi/10);
 			} else {
 				dailyAqiValues.add(-1F);
 			}
