@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -33,7 +32,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AlertDialogBtnInterface, AirPurifierEventListener {
+public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener, android.widget.RadioGroup.OnCheckedChangeListener, AlertDialogBtnInterface {
 
 	private RelativeLayout pairingLayout;
 	private RelativeLayout enableLayout;
@@ -83,8 +82,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if (mPurifier == null) {
 			showNotificationsLayout(false);
 		} else if (mPurifier.isPaired()) {
-			showNotificationsLayout(notificationsEnabled);
 			notificationSetup();
+			showNotificationsLayout(notificationsEnabled);			
 		} else {
 			showPairingLayout();
 		}
@@ -119,6 +118,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		
 		indoorAqiLbls= (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
 		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);
+		indoorAqiRadioBtns.setOnCheckedChangeListener(this);
 	}
 	
 	private void showPairingLayout() {
@@ -172,6 +172,13 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	private void notificationSetup(){
 		if(mPurifier!=null && mPurifier.isPaired()) {
+			
+			/*progressDialog = new ProgressDialog(getActivity());
+			progressDialog.setMessage(getString(R.string.pairing_progress));
+			progressDialog.setCancelable(false);
+			progressDialog.show();*/
+
+			
 			//Enable UI and check if permission exists
 			pairingManager = new PairingManager(null, mPurifier);
 			pairingManager.setPermissionListener(this);
@@ -267,6 +274,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onAirPurifierEventReceived() {
+		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		//TODO - Stop the progress dialog
 	}
@@ -275,5 +283,27 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	public void onFirmwareEventReceived() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void onCheckedChanged(RadioGroup group, int checkedId) {
+		switch(checkedId){
+		case R.id.notifications_indoor_radio0:
+			aqiThreshold="13";
+			break;
+		case R.id.notifications_indoor_radio1:
+			aqiThreshold="19";
+			break;
+		case R.id.notifications_indoor_radio2:
+			aqiThreshold="29";
+			break;
+		case R.id.notifications_indoor_radio3:
+			aqiThreshold="40";
+			break;
+		default:
+			break;
+		}
+		
+		setAQIThreshold(aqiThreshold);
 	}	
 }

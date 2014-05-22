@@ -24,7 +24,7 @@ public class NotificationRegisteringManager implements ICPEventListener{
 	private final String PREFERENCE_FILE_NAME = "GCMRegistrion";
 	private static final String PROPERTY_REG_ID = "registration_id";
 	private static final String PROPERTY_APP_VERSION = "appVersion";
-	private static final String SENDER_ID = "115053380458";
+	private static final String SENDER_ID = "654182650566";
 	private static final String IS_REGISTERED_FOR_NOTIFICATION="is_registered_notification";
 	private ICPCallbackHandler callbackHandler;
 	private GoogleCloudMessaging gcm;
