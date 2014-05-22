@@ -129,6 +129,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 					createAccount();
 					showProgressDialog() ;
 				} catch (Exception e) {
+					ALog.e(ALog.USER_REGISTRATION, "Create account error " + e.getMessage());
 					showErrorDialog(Error.GENERIC_ERROR);
 				}
 				break;
