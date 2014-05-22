@@ -54,6 +54,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	public void onCreate(Bundle savedInstanceState) {
 		mPurifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		pairingManager = new PairingManager(null, mPurifier);
+		pairingManager.setPermissionListener(this);
 		super.onCreate(savedInstanceState);
 	}
 	
@@ -83,7 +84,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			showNotificationsLayout(false);
 		} else if (mPurifier.isPaired()) {
 			notificationSetup();
-			showNotificationsLayout(notificationsEnabled);			
+			showNotificationsLayout(notificationsEnabled);
 		} else {
 			showPairingLayout();
 		}
@@ -139,7 +140,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@SuppressLint("NewApi")
 	private void enableDetailedNotificationsLayout() {
-		//notificationToggle.setChecked(true);
+//		notificationToggle.setChecked(true);
 		indoorAqiLbls.setVisibility(View.VISIBLE);
 		indoorAqiRadioBtns.setVisibility(View.VISIBLE);
 		
@@ -180,8 +181,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 			
 			//Enable UI and check if permission exists
-			pairingManager = new PairingManager(null, mPurifier);
-			pairingManager.setPermissionListener(this);
 			pairingManager.getPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
 		}
 	}
