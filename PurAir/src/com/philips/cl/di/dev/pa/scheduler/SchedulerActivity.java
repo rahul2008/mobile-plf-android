@@ -359,7 +359,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	private void showPreviousScreen4BackPressed() {
 		
-		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE) || actionbarTitle.getText().equals(SchedulerConstants.EDIT_SCHEDULE) {
+		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE) || actionbarTitle.getText().equals(SchedulerConstants.EDIT_SCHEDULE)) {
 			showSchedulerOverviewFragment(); 
 		} else if (actionbarTitle.getText().equals(SchedulerConstants.REPEAT) || actionbarTitle.getText().equals(SchedulerConstants.FANSPEED)) {
 			showAddSchedulerFragment();
