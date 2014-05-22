@@ -205,7 +205,7 @@ public class DISecurityTest extends TestCase {
 		assertFalse(encryptedData1.equals(encryptedData2));
 	}
 	
-	public void testEncryptDataNullObject() {
+	public void testEncryptDataNullPurifierObject() {
 		DISecurity security = new DISecurity(null);
 		String encryptedData1 = security.encryptData(data, null);
 		assertNull(encryptedData1);
@@ -228,6 +228,56 @@ public class DISecurityTest extends TestCase {
 		String encryptedData1 = security.encryptData(data, purAirDevice);
 		assertNull(encryptedData1);
 	}
+		
+	public void testDecryptEmptyData() {
+		
+		DISecurity security = new DISecurity(null);
+		purAirDevice = new PurAirDevice(
+				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		purAirDevice.setEncryptionKey(key);
+		
+		String decryptData = security.decryptData("", purAirDevice);
+		
+		assertNull(decryptData);
+	}
 	
+	public void testDecryptWithNullKey() {
+		
+		DISecurity security = new DISecurity(null);
+		purAirDevice = new PurAirDevice(
+				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		purAirDevice.setEncryptionKey(key);
+		
+		String encryptedData = security.encryptData(data, purAirDevice);
+		
+		purAirDevice.setEncryptionKey(null);
+		
+		String decryptData = security.decryptData(encryptedData, purAirDevice);
+		
+		assertNull(decryptData);
+	}
 	
+	public void testDecryptWithEmptyKey() {
+		
+		DISecurity security = new DISecurity(null);
+		purAirDevice = new PurAirDevice(
+				"1c5a6bfffe6c74b2", null, EWSConstant.PURIFIER_ADHOCIP, null, -1, ConnectionState.CONNECTED_LOCALLY);
+		purAirDevice.setEncryptionKey(key);
+		
+		String encryptedData = security.encryptData(data, purAirDevice);
+		
+		purAirDevice.setEncryptionKey("");
+		
+		String decryptData = security.decryptData(encryptedData, purAirDevice);
+		
+		assertNull(decryptData);
+	}
+	
+	public void testDecryptWithNullPurifierObject() {
+		
+		DISecurity security = new DISecurity(null);
+		String decryptData = security.decryptData("hello", null);
+		
+		assertNull(decryptData);
+	}
 }

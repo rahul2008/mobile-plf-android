@@ -133,7 +133,7 @@ public class DISecurity implements ServerResponseListener {
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;
 		
-		if (data == null) {
+		if (data == null || data.isEmpty()) {
 			ALog.i(ALog.SECURITY, "Did not decrypt data - data is null");
 			return null;
 		}
