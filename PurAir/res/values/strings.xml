@@ -404,7 +404,7 @@
     <string name="cancel_wifi_setup_message">This will delete all data entered so far.</string>
     <string name="check_signal_strenth_title">Now communicating with your Air Purifier.</string>
     <string name="city_shanghai">Shanghai</string>
-    <string name="city_location">US Consulate</string>
+    <string name="city_location">Chinese Govt</string>
     <string name="date_empty">--:--</string>
 
     <!-- Tools fragments -->
@@ -502,7 +502,7 @@
     <string name="thank_you">Thank you! You are good to go.</string>
     <string name="signed_in_ready_to_use">You are now signed in and ready to use this app.</string>
     <string name="already_registerd">You have already been registered with this e-mail address</string>
-    <string name="generic_error">Generic Error</string>
+    <string name="generic_error">Unable to process !!! Please check internet connection</string>
     <string name="invalid_email">Invalid E-mail</string>
     <string name="invalid_name">Please enter the name</string>
     <string name="invalid_password">Invalid password !! Password should be atleast 6 characters</string>

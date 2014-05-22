@@ -401,7 +401,7 @@
     <string name="cancel_wifi_setup_message">This will delete all data entered so far.</string>
     <string name="check_signal_strenth_title">Now communicating with your Air Purifier.</string>
     <string name="city_shanghai">Shanghai</string>
-    <string name="city_location">Chinese Gov</string>
+    <string name="city_location">Chinese Govt</string>
     <string name="date_empty">--:--</string>
 
     <!-- Tools fragments -->
