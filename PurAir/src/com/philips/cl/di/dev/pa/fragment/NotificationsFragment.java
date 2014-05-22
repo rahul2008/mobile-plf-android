@@ -1,19 +1,21 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
@@ -22,17 +24,19 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener{
-	
-	private LinearLayout indoorAqiLbls;
-	private RadioGroup indoorAqiRadioBtns;
 	
 	private RelativeLayout pairingLayout;
 	private RelativeLayout enableLayout;
 	private LinearLayout detailedLayout;
 	
+	private Button pairingButton;
 	private ToggleButton notificationToggle;
+	private LinearLayout indoorAqiLbls;
+	private RadioGroup indoorAqiRadioBtns;
+	
 	private PairingManager pairingManager;
 	private PurAirDevice mPurifier;
 
@@ -67,6 +71,20 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		pairingLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_pairing_layout);
 		enableLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_enable_layout);
 		detailedLayout = (LinearLayout) rootView.findViewById(R.id.notifications_detailed_layout);
+		
+		pairingButton = (Button) rootView.findViewById(R.id.btn_notifications_pairing);
+		pairingButton.setTypeface(Fonts.getGillsans(getActivity()));
+		pairingButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Activity parent = NotificationsFragment.this.getActivity();
+				if (parent == null || !(parent instanceof MainActivity)) return;
+				
+				((MainActivity) parent).showPairingDialog(mPurifier);
+				parent.onBackPressed();				
+			}
+		});
 		
 		TextView enableText = (TextView) rootView.findViewById(R.id.notifications_enable_all_text);
 		String purifierName = (mPurifier == null ? "" : mPurifier.getName());

@@ -890,7 +890,7 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		}
 	}
 
-	private void showPairingDialog(PurAirDevice purifier) {
+	public void showPairingDialog(PurAirDevice purifier) {
 		try
 		{
 			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifier, PairingDialogFragment.dialog_type.SHOW_DIALOG);
