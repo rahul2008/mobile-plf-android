@@ -104,7 +104,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	
 	private void subscribe(String url, PurAirDevice purifier) {
 		boolean isLocal = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
-		String subscriberId = getSubscriberId(purifier.getBootId(), isLocal);
+		String subscriberId = getSubscriberId(isLocal);
 		ALog.d(ALog.SUBSCRIPTION, "SubscriptionManager$subscribe bootId " + purifier.getBootId() + " URL " + url + " isLocal " + isLocal);
 		if(isLocal) {
 			String dataToUpload = JSONBuilder.getDICommBuilderForSubscribe(subscriberId, LOCAL_SUBSCRIPTIONTIME, purifier);
@@ -123,7 +123,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 	
 	private void unSubscribe(String url, PurAirDevice purifier) {
 		boolean isLocal = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
-		String subscriberId = getSubscriberId(purifier.getBootId(), isLocal);
+		String subscriberId = getSubscriberId(isLocal);
 		if (isLocal) {
 			TaskPutDeviceDetails unSubscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(subscriberId,LOCAL_SUBSCRIPTIONTIME, purifier), url, this,AppConstants.REQUEST_METHOD_DELETE) ;
 			Thread unSubscibeThread = new Thread(unSubscribe) ;
@@ -136,10 +136,10 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 		}
 	}
 	
-	private String getSubscriberId(long bootId, boolean isLocal) {
+	private String getSubscriberId(boolean isLocal) {
 		String appEui64 = SessionDto.getInstance().getAppEui64();
 		if (appEui64 != null) return appEui64;
-		if (isLocal) return String.valueOf(bootId); // Fallback for local subscription when no cpp connection
+		if (isLocal) return AppConstants.BOOT_STRAP_ID; // Fallback for local subscription when no cpp connection
 		return null;
 	}
 	

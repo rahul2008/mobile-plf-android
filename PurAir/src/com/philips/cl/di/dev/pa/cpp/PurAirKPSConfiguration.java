@@ -18,6 +18,7 @@ Version 1:
     Description: Initial version    
 ----------------------------------------------------------------------------*/
 
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 
 /**
@@ -39,12 +40,12 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 	}
 	
 	public void setNVMConfigParams() {
-		this.ICPClientBootStrapID="000000fff0000002";
-		this.ICPClientBootStrapKey="5b6c580330e12b28f179815a3808b475";
-		this.ICPClientBootStrapProductId="AIR_KPSPROV";
-		this.ICPClientproductVersion=0;
-		this.ICPClientproductCountry="NL"; //TODO: Get from locale
-		this.ICPClientproductLanguage="EN"; //TODO: Get from locale
+		this.ICPClientBootStrapID = AppConstants.BOOT_STRAP_ID;
+		this.ICPClientBootStrapKey = AppConstants.BOOT_STRAP_KEY;
+		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
+		this.ICPClientproductVersion = 0;
+		this.ICPClientproductCountry = "NL"; // TODO: Get from locale
+		this.ICPClientproductLanguage = "EN"; // TODO: Get from locale
 //		COMPONENT_ID=AC4373-AND //TODO : Add component
 		//TODO : Change DPURL to production.
 		this.ICPClientdevicePortalURL1="https://www.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";

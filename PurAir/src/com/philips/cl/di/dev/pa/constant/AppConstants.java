@@ -14,7 +14,9 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
  */
 public class AppConstants {
 	
-	// Icon for left menu
+	public static final String BOOT_STRAP_ID = "000000fff0000002";
+	public static final String BOOT_STRAP_KEY = "5b6c580330e12b28f179815a3808b475";
+	public static final String BOOT_STRAP_PRODUCT_ID = "AIR_KPSPROV";
 	/** The icon home. */
 	public static final String ICON_HOME = "icon_home";
 
