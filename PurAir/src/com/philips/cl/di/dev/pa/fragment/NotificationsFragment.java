@@ -2,6 +2,8 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,13 +23,17 @@ import android.widget.ToggleButton;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
+import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener{
-	
+public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, OnClickListener, PermissionListener, AirPurifierEventListener {
+
 	private RelativeLayout pairingLayout;
 	private RelativeLayout enableLayout;
 	private LinearLayout detailedLayout;
@@ -38,8 +44,12 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private RadioGroup indoorAqiRadioBtns;
 	
 	private PairingManager pairingManager;
+	private ProgressDialog progressDialog;
+	private AirPurifierController airPurifierController ;
+	
 	private PurAirDevice mPurifier;
 
+	private String aqiThreshold ;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mPurifier = ((MainActivity) getActivity()).getCurrentPurifier();
@@ -52,6 +62,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.notifications_fragment, container, false);
 		initializeAllViews(view);
+		airPurifierController = AirPurifierController.getInstance() ;
 		return view;
 	}
 	
@@ -91,8 +102,12 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		enableText.setText(String.format(getString(R.string.notifications_enable_all), purifierName));
 		
 		notificationToggle =(ToggleButton) rootView.findViewById(R.id.notifications_enable_all_toggle);
+
 		notificationToggle.setOnCheckedChangeListener(this);
 		
+		pairingButton = (Button) rootView.findViewById(R.id.btn_notifications_pairing) ;
+		pairingButton.setOnClickListener(this) ;
+
 		indoorAqiLbls= (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
 		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);
 	}
@@ -147,8 +162,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 	
 	private void notificationSetup(){
-		if(mPurifier.isPaired()) {
+		if(mPurifier!=null && mPurifier.isPaired()) {
 			//Enable UI and check if permission exists
+			pairingManager=new PairingManager(null, mPurifier);
 			pairingManager.setPermissionListener(this);
 			pairingManager.getPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
 		}
@@ -176,11 +192,42 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			disableDetailedNotificationsLayout();
 		}
 	}
+	private void setAQIThreshold(String aqiThreshold) {
+		ALog.i(ALog.NOTIFICATION, "Setting AQIThreshold: "+aqiThreshold) ;
+		PurifierManager.getInstance().addAirPurifierEventListener(this) ;
+		if (mPurifier == null ) {
+			return ;
+		}
+		// TODO - Progress Dialog
+		switch (mPurifier.getConnectionState()) {
+			case CONNECTED_LOCALLY 	: airPurifierController.setDeviceDetailsLocally(ParserConstants.AQI_THRESHOLD, aqiThreshold, mPurifier);
+			case CONNECTED_REMOTELY : airPurifierController.setDeviceDetailsRemotely(ParserConstants.AQI_THRESHOLD, aqiThreshold, mPurifier);
+			case DISCONNECTED		: //NOP
+		}
+	}
+	
 
 	@Override
-	public void onPermissionReturned(boolean permissionExists) {
-		ALog.i(ALog.NOTIFICATION, "Permission exists");
+	public void onClick(View v) {
+		ALog.i(ALog.NOTIFICATION, "OnClick: "+v.getId()) ;
+		aqiThreshold = "30" ;
+		setAQIThreshold(aqiThreshold) ;
+		switch(v.getId()){			
+		default:
+			break;
+		}
+	}
+
+	@Override
+	public void onPermissionReturned(final boolean permissionExists) {
+		ALog.i(ALog.NOTIFICATION, "Permission exists: "+permissionExists);
 		// toggleOn the notification toggle	is permission Exists
+		getActivity().runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				notificationToggle.setChecked(permissionExists);
+			}
+		});		
 	}
 
 	@Override
@@ -197,6 +244,24 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onCallFailed() {
+		
+	}
+
+	@Override
+	public void onAirPurifierChanged() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAirPurifierEventReceived() {
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		//TODO - Stop the progress dialog
+	}
+
+	@Override
+	public void onFirmwareEventReceived() {
+		// TODO Auto-generated method stub
 		
 	}	
 }

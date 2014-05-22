@@ -308,8 +308,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 				notifyListenerFailed();
 			}
 		}
-		else if(eventType== Commands.PAIRING_ADD_PERMISSIONS){		
-			
+		else if(eventType== Commands.PAIRING_ADD_PERMISSIONS){					
 			permissionListener.onPermissionAdded();
 		}
 		else if(eventType== Commands.PAIRING_GET_PERMISSIONS){
@@ -317,12 +316,12 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			for(int i = 0; i < pairingObj.getNumberOfPermissionsReturned();i++)
 			{
 				permissionExists= pairingObj.getPermissionAtIndex(i).equals("Push");
-				//break;TODO
+				if(permissionExists)break;
+
 			}
 			permissionListener.onPermissionReturned(permissionExists);
 
 		}else if(eventType==Commands.PAIRING_REMOVE_PERMISSIONS){
-			pairingObj.getNumberOfPermissionsReturned();
 			permissionListener.onPermissionRemoved();
 		}
 	}
