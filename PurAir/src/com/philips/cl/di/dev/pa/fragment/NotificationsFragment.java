@@ -32,7 +32,7 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, OnClickListener, PermissionListener, AirPurifierEventListener {
+public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener {
 
 	private RelativeLayout pairingLayout;
 	private RelativeLayout enableLayout;
@@ -68,13 +68,13 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	@Override
 	public void onResume() {
+		notificationSetup();
 		boolean notificationsEnabled = true; // TODO replace by actual pairing check
 		if (mPurifier.isPaired()) {
 			showNotificationsLayout(notificationsEnabled);
 		} else {
 			showPairingLayout();
-		}
-		notificationSetup();
+		}		
 		super.onResume();
 	}
 	
@@ -102,12 +102,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		enableText.setText(String.format(getString(R.string.notifications_enable_all), purifierName));
 		
 		notificationToggle =(ToggleButton) rootView.findViewById(R.id.notifications_enable_all_toggle);
-
 		notificationToggle.setOnCheckedChangeListener(this);
 		
-		pairingButton = (Button) rootView.findViewById(R.id.btn_notifications_pairing) ;
-		pairingButton.setOnClickListener(this) ;
-
 		indoorAqiLbls= (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
 		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);
 	}
@@ -130,7 +126,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@SuppressLint("NewApi")
 	private void enableDetailedNotificationsLayout() {
-		notificationToggle.setChecked(true);
+		//notificationToggle.setChecked(true);
 		indoorAqiLbls.setVisibility(View.VISIBLE);
 		indoorAqiRadioBtns.setVisibility(View.VISIBLE);
 		
@@ -164,7 +160,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private void notificationSetup(){
 		if(mPurifier!=null && mPurifier.isPaired()) {
 			//Enable UI and check if permission exists
-			pairingManager=new PairingManager(null, mPurifier);
+			pairingManager = new PairingManager(null, mPurifier);
 			pairingManager.setPermissionListener(this);
 			pairingManager.getPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
 		}
@@ -203,18 +199,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			case CONNECTED_LOCALLY 	: airPurifierController.setDeviceDetailsLocally(ParserConstants.AQI_THRESHOLD, aqiThreshold, mPurifier);
 			case CONNECTED_REMOTELY : airPurifierController.setDeviceDetailsRemotely(ParserConstants.AQI_THRESHOLD, aqiThreshold, mPurifier);
 			case DISCONNECTED		: //NOP
-		}
-	}
-	
-
-	@Override
-	public void onClick(View v) {
-		ALog.i(ALog.NOTIFICATION, "OnClick: "+v.getId()) ;
-		aqiThreshold = "30" ;
-		setAQIThreshold(aqiThreshold) ;
-		switch(v.getId()){			
-		default:
-			break;
 		}
 	}
 
