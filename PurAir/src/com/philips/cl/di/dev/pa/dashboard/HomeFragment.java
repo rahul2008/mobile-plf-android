@@ -75,8 +75,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				outdoorViewPager.setAdapter(null);
-				outdoorViewPager.setAdapter(outdoorPagerAdapter);
+				try {
+					outdoorViewPager.setAdapter(null);
+					outdoorViewPager.setAdapter(outdoorPagerAdapter);
+				} catch (IllegalStateException e) {
+					ALog.e(ALog.ACTIVITY, e.getMessage());
+				}
 			}
 		});
 	}
