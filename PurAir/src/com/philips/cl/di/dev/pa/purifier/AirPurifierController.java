@@ -3,8 +3,6 @@ package com.philips.cl.di.dev.pa.purifier;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import android.os.AsyncTask;
-
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;

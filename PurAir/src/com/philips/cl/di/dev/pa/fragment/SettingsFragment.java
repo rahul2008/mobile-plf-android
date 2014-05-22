@@ -120,11 +120,11 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 						task.start();
 						
-//						PurifierManager.getInstance().removeCurrentPurifier();
+						PurifierManager.getInstance().removeCurrentPurifier();
 					}
 				}
 			}
-			PurifierManager.getInstance().removeCurrentPurifier();
+			((MainActivity) getActivity()).onAirPurifierChanged();
 		}
 	}
 }
