@@ -440,7 +440,8 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="set_schedule">Set Schedule</string>
-    <string name="edit_schedule">Edit Schedule</string>
+    <string name="edit_schedule">Edit Schedule</string>    
+    <string name="repeat_text">Repeat</string>
 
     <!-- Firmware Screen text -->
 
