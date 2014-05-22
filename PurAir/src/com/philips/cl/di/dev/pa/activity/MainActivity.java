@@ -82,7 +82,7 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
-public class MainActivity extends BaseActivity implements OnClickListener, AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener {
+public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -322,19 +322,6 @@ public class MainActivity extends BaseActivity implements OnClickListener, AirPu
 		ALog.i(ALog.ACTIVITY, "onUserLeaveHint");
 		isClickEvent = false;
 		super.onUserLeaveHint();
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tv_cancel_search:
-			InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-					.getWindowToken(), 0);
-			break;
-		default:
-			break;
-		}
 	}
 
 	private void initializeCPPController() {
