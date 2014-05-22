@@ -111,6 +111,7 @@ public class NetworkUtils {
 	 */
 	// 
 	public static String readFully(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+		if (inputStream == null) return "";
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 
 		int len = 1024;
