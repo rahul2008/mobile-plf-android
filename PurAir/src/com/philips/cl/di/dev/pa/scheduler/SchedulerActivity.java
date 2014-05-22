@@ -67,6 +67,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.scheduler_container);
+		SchedulerMarked4Deletion.clear();
 		initActionBar();
 		arrSchedulers = new JSONArray();
 		showSchedulerOverviewFragment();
@@ -221,7 +222,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			setActionBar(R.string.set_schedule, View.INVISIBLE, View.VISIBLE);
 			break;
 		case REPEAT:
-			setActionBar(R.string.repeat, View.INVISIBLE, View.VISIBLE);
+			setActionBar(R.string.repeat_text, View.INVISIBLE, View.VISIBLE);
 			break;
 		case FAN_SPEED:
 			setActionBar(R.string.fanspeed, View.INVISIBLE, View.VISIBLE);
@@ -250,7 +251,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		SelectedFanspeed = null;
 		showAddSchedulerFragment();
 	}
-
 	
 
 	public void dispatchInformations(String days) {
