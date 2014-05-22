@@ -62,7 +62,12 @@ public class SchedulerOverviewFragment extends BaseFragment {
 				ALog.i("ALog.SCHEDULER", "SchedulerOverview::onCreateView() count is " + iSchedulersCount);
 			} catch (Exception e) {
 				ALog.i("ALog.SCHEDULER", "SchedulerOverview::onCreateView() method - initializing arrColl failed");
-			}			
+			}		
+			
+			lstSchedulerMarkedDel = ((SchedulerActivity) getActivity()).getSchedulerMarked4Deletion();
+			ALog.i("ALog.SCHEDULER", "SchedulerOverview::onCreateView() method - - lstSchedulerMarkedDel count is " + lstSchedulerMarkedDel.size());
+			ALog.i("ALog.SCHEDULER", "SchedulerOverview::onCreateView() method - - lstSchedulerMarkedDel value is " + lstSchedulerMarkedDel.toString());
+					
 			CreateEventList(extras, view);
 			ALog.i("ALog.SCHEDULER", "SchedulerOverview::onCreateView() method - extras is " + extras);
 		}
@@ -120,184 +125,6 @@ public class SchedulerOverviewFragment extends BaseFragment {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::initViews() method exit");
 	}
 	
-	private OnClickListener onClickListener = new OnClickListener() {
-		@Override
-		public void onClick(final View v) {
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method enter");
-			
-			switch (v.getId()) {
-				case R.id.edit:
-					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.UPDATE_EVENT);
-					toggleLayoutButtons();
-					break;
-				case R.id.add:
-					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
-					DialogFragment newFragment = new TimePickerFragment();
-					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-					break;
-				case R.id.RightArrow1:
-				case R.id.RightArrow1_text:
-					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow1 is invoked");
-					takeActionOnRightArrowButtonClick(tvRgtArrTxt1, 0);
-					break;
-				case R.id.RightArrow2:
-				case R.id.RightArrow2_text:
-					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow2 is invoked");
-					takeActionOnRightArrowButtonClick(tvRgtArrTxt2, 1);
-					break;
-				case R.id.RightArrow3:
-				case R.id.RightArrow3_text:
-					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow3 is invoked");
-					takeActionOnRightArrowButtonClick(tvRgtArrTxt3, 2);
-					break;
-				case R.id.RightArrow4:
-				case R.id.RightArrow4_text:
-					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow4 is invoked");
-					takeActionOnRightArrowButtonClick(tvRgtArrTxt4, 3);
-					break;
-				case R.id.RightArrow5:
-				case R.id.RightArrow5_text:
-					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow5 is invoked");
-					takeActionOnRightArrowButtonClick(tvRgtArrTxt5, 4);
-					break;
-				case R.id.delete1:
-					toggleRightArrowButton(ivRhtArr1, tvRgtArrTxt1, ivDelete1, 0);
-					break;
-				case R.id.delete2:
-					toggleRightArrowButton(ivRhtArr2, tvRgtArrTxt2, ivDelete2, 1);
-					break;
-				case R.id.delete3:
-					toggleRightArrowButton(ivRhtArr3, tvRgtArrTxt3, ivDelete3, 2);
-					break;
-				case R.id.delete4:
-					toggleRightArrowButton(ivRhtArr4, tvRgtArrTxt4, ivDelete4, 3);
-					break;
-				case R.id.delete5:
-					toggleRightArrowButton(ivRhtArr5, tvRgtArrTxt5, ivDelete5, 4);
-					break;
-				default:
-					break;
-			}
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method exit");
-		}
-	};
-	
-	private void toggleLayoutButtons() {
-		if (tvEditTxt.getText().equals("Edit")) {
-			tvEditTxt.setText("Done");
-			toggleVisibility4SchedulerList(View.VISIBLE);
-		} else {
-			tvEditTxt.setText("Edit");
-			toggleVisibility4SchedulerList(View.INVISIBLE);
-		}	
-	}
-	
-	private void toggleVisibility4SchedulerList(int iVisible) {
-		
-		if (iSchedulersCount >= 1) {
-			toggleVisibility4SchedulerItem(ivDelete1, ivRhtArr1, tvRgtArrTxt1, tvScheduler1_text2, iVisible);
-			MarginLayoutParams params = (MarginLayoutParams) tvScheduler1_text1.getLayoutParams();
-			params.width = ViewGroup.MarginLayoutParams.WRAP_CONTENT;			
-			tvScheduler1_text1.setLayoutParams(params);
-		}
-		
-		if (iSchedulersCount >= 2) {
-			toggleVisibility4SchedulerItem(ivDelete2, ivRhtArr2, tvRgtArrTxt2, tvScheduler2_text2, iVisible);
-		}
-		
-		if (iSchedulersCount >= 3) {
-			toggleVisibility4SchedulerItem(ivDelete3, ivRhtArr3, tvRgtArrTxt3, tvScheduler3_text2, iVisible);
-		}
-		
-		if (iSchedulersCount >= 4) {
-			toggleVisibility4SchedulerItem(ivDelete4, ivRhtArr4, tvRgtArrTxt4, tvScheduler4_text2, iVisible);
-		}
-		
-		if (iSchedulersCount >= 5) {
-			toggleVisibility4SchedulerItem(ivDelete5, ivRhtArr5, tvRgtArrTxt5, tvScheduler5_text2, iVisible);
-		}
-	}
-	
-	private void toggleVisibility4SchedulerItem(ImageView delete, ImageView rhtArrow, FontTextView rhtArrText, FontTextView inner_text2, int iVisible) {
-		delete.setVisibility(iVisible);
-		rhtArrow.setVisibility(iVisible);
-		rhtArrText.setVisibility(iVisible);
-		inner_text2.setVisibility(iVisible);
-	}
-	
-	private void takeActionOnRightArrowButtonClick(FontTextView RhtArrText, int index)  {
-		if (RhtArrText.length() > 0) {
-			refreshDeleteSchedulerPage(index);
-		} else {
-			editSchededuler(index);
-		}
-	}
-	
-	private void refreshDeleteSchedulerPage(int index) {
-		ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() method enter");
-		((SchedulerActivity)getActivity()).deleteScheduler(index);
-		if (lstSchedulerMarkedDel.contains(index)) {
-			lstSchedulerMarkedDel.remove(index);
-		}
-		((SchedulerActivity)getActivity()).dispatchInfo4MarkedSchDeletion(lstSchedulerMarkedDel);
-	}
-	
-	private void editSchededuler(int index) {
-		ALog.i(ALog.SCHEDULER, "SchedulerOverview::editSchededuler() method enter");
-		Bundle bundle = new Bundle();
-		try{
-			((SchedulerActivity)getActivity()).dispatchInformationsForCRUDIndex(index);
-			JSONObject obj = schedulersList.getJSONObject(index);
-			
-			try{
-				bundle.putString("time", obj.getString("time"));
-				bundle.putString("days", obj.getString("days"));
-				bundle.putString("speed", obj.getString("speed"));
-			}
-			catch (Exception e){
-				ALog.i(ALog.SCHEDULER, "SchedulerOverview::editSchededuler() method - exception caught while getting property");
-			}
-			
-			AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
-			fragAddSch.setArguments(bundle);
-			getFragmentManager()
-	  	    .beginTransaction()
-	  		.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment")
-	  		.commit();
-		}
-		catch (Exception e) {
-			ALog.d(ALog.SCHEDULER, "Error in editSchededuler: " + e.getMessage());
-		}
-	}
-	
-	private void toggleRightArrowButton(ImageView btnRhtArr, FontTextView  rhtArrowText, ImageView delete, int index) {
-		if (rhtArrowText.getText().length() > 0) {
-			rhtArrowText.setText("");
-			MarginLayoutParams params = (MarginLayoutParams) btnRhtArr.getLayoutParams();
-			params.rightMargin = 1;
-			btnRhtArr.setLayoutParams(params);
-			delete.setBackgroundResource(R.drawable.delete_l2r);
-			btnRhtArr.setImageResource(R.drawable.about_air_quality_goto);
-			delete.setImageResource(R.drawable.delete_l2r);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - index is  " + index);
-			lstSchedulerMarkedDel.remove((Integer)index);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - item removed  " + index);
-		} else {
-			rhtArrowText.setText("Delete");
-			MarginLayoutParams params = (MarginLayoutParams) btnRhtArr.getLayoutParams();
-			params.rightMargin = 50;
-			btnRhtArr.setLayoutParams(params);
-			rhtArrowText.setLayoutParams(params);
-			btnRhtArr.setImageResource(R.drawable.delete);
-			delete.setImageResource(R.drawable.delete_t2b);
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - index is  " + index);
-			if (!lstSchedulerMarkedDel.contains(index)) {
-				lstSchedulerMarkedDel.add(index);
-				ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - item added  " + index);
-			}
-		}
-		ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - items marked 4 deletion " + lstSchedulerMarkedDel.toString());
-	}
 	private void CreateEventList(String extras, View view) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method enter  ");
 		String sProduct = "";
@@ -394,6 +221,13 @@ public class SchedulerOverviewFragment extends BaseFragment {
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - port value is  " + sPort);
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - speed value is  " + sSpeed);
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
+				
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - lstSchedulerMarkedDel size is " + lstSchedulerMarkedDel.size());
+				if (lstSchedulerMarkedDel.size() > 0) {
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - lstSchedulerMarkedDel value is " + lstSchedulerMarkedDel.toString());
+					tvEditTxt.setText("Done");
+					toggleVisibility4SchedulerList(View.VISIBLE);
+				} 
 			}
 		} catch(JSONException e) {
 			ALog.e(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - exception caught while retrieving property  ");	
@@ -441,6 +275,239 @@ public class SchedulerOverviewFragment extends BaseFragment {
 		//imgView.setVisibility(View.VISIBLE);
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEvent() method exit");
 	}
+	
+
+	private OnClickListener onClickListener = new OnClickListener() {
+		@Override
+		public void onClick(final View v) {
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method enter");
+			
+			switch (v.getId()) {
+				case R.id.edit:
+					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.UPDATE_EVENT);
+					toggleLayout("Edit");
+					break;
+				case R.id.add:
+					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
+					DialogFragment newFragment = new TimePickerFragment();
+					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+					break;
+				case R.id.RightArrow1:
+				case R.id.RightArrow1_text:
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow1 is invoked");
+					takeActionOnRightArrowButtonClick(tvRgtArrTxt1, 0);
+					break;
+				case R.id.RightArrow2:
+				case R.id.RightArrow2_text:
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow2 is invoked");
+					takeActionOnRightArrowButtonClick(tvRgtArrTxt2, 1);
+					break;
+				case R.id.RightArrow3:
+				case R.id.RightArrow3_text:
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow3 is invoked");
+					takeActionOnRightArrowButtonClick(tvRgtArrTxt3, 2);
+					break;
+				case R.id.RightArrow4:
+				case R.id.RightArrow4_text:
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow4 is invoked");
+					takeActionOnRightArrowButtonClick(tvRgtArrTxt4, 3);
+					break;
+				case R.id.RightArrow5:
+				case R.id.RightArrow5_text:
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow5 is invoked");
+					takeActionOnRightArrowButtonClick(tvRgtArrTxt5, 4);
+					break;
+				case R.id.delete1:
+					showRightArrowOrDeleteButton(ivRhtArr1, tvRgtArrTxt1, ivDelete1, 0);
+					break;
+				case R.id.delete2:
+					showRightArrowOrDeleteButton(ivRhtArr2, tvRgtArrTxt2, ivDelete2, 1);
+					break;
+				case R.id.delete3:
+					showRightArrowOrDeleteButton(ivRhtArr3, tvRgtArrTxt3, ivDelete3, 2);
+					break;
+				case R.id.delete4:
+					showRightArrowOrDeleteButton(ivRhtArr4, tvRgtArrTxt4, ivDelete4, 3);
+					break;
+				case R.id.delete5:
+					showRightArrowOrDeleteButton(ivRhtArr5, tvRgtArrTxt5, ivDelete5, 4);
+					break;
+				default:
+					break;
+			}
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method exit");
+		}
+	};
+	
+	private void toggleLayout(String layoutType) {
+		if (tvEditTxt.getText().equals(layoutType)) {
+			tvEditTxt.setText("Done");
+			toggleVisibility4SchedulerList(View.VISIBLE);
+		} else {
+			tvEditTxt.setText("Edit");
+			lstSchedulerMarkedDel.clear();
+			toggleVisibility4SchedulerList(View.INVISIBLE);
+		}	
+	}
+	
+	private void toggleVisibility4SchedulerList(int iVisible) {
+		
+		if (iSchedulersCount >= 1) {
+			if (lstSchedulerMarkedDel.contains(0)) {
+				toggleVisibility4SchedulerItem(ivDelete1, ivRhtArr1, tvRgtArrTxt1, tvScheduler1_text2, View.VISIBLE, true);
+			} else {
+				toggleVisibility4SchedulerItem(ivDelete1, ivRhtArr1, tvRgtArrTxt1, tvScheduler1_text2, iVisible, false);
+				MarginLayoutParams params = (MarginLayoutParams) tvScheduler1_text1.getLayoutParams();
+				params.width = ViewGroup.MarginLayoutParams.WRAP_CONTENT;			
+				tvScheduler1_text1.setLayoutParams(params);
+			}
+		}
+		
+		if (iSchedulersCount >= 2) {
+			if (lstSchedulerMarkedDel.contains(1)) {
+				toggleVisibility4SchedulerItem(ivDelete2, ivRhtArr2, tvRgtArrTxt2, tvScheduler2_text2, View.VISIBLE, true);
+			} else {
+				toggleVisibility4SchedulerItem(ivDelete2, ivRhtArr2, tvRgtArrTxt2, tvScheduler2_text2, iVisible, false);
+			}
+		}
+		
+		if (iSchedulersCount >= 3) {
+			if (lstSchedulerMarkedDel.contains(2)) {
+				toggleVisibility4SchedulerItem(ivDelete3, ivRhtArr3, tvRgtArrTxt3, tvScheduler3_text2, View.VISIBLE, true);
+			} else {
+				toggleVisibility4SchedulerItem(ivDelete3, ivRhtArr3, tvRgtArrTxt3, tvScheduler3_text2, iVisible, false);
+			}
+		}
+		
+		if (iSchedulersCount >= 4) {
+			if (lstSchedulerMarkedDel.contains(3)) {
+				toggleVisibility4SchedulerItem(ivDelete4, ivRhtArr4, tvRgtArrTxt4, tvScheduler4_text2, View.VISIBLE, true);
+			} else {
+				toggleVisibility4SchedulerItem(ivDelete4, ivRhtArr4, tvRgtArrTxt4, tvScheduler4_text2, iVisible, false);
+			}
+		}
+		
+		if (iSchedulersCount >= 5) {
+			if (lstSchedulerMarkedDel.contains(4)) {
+				toggleVisibility4SchedulerItem(ivDelete5, ivRhtArr5, tvRgtArrTxt5, tvScheduler5_text2, View.VISIBLE, true);
+			} else {
+				toggleVisibility4SchedulerItem(ivDelete5, ivRhtArr5, tvRgtArrTxt5, tvScheduler5_text2, iVisible, false);
+			}
+		}
+	}
+	
+	private void toggleVisibility4SchedulerItem(ImageView delete, ImageView rhtArrow, FontTextView rhtArrText, FontTextView inner_text2, int iVisible, boolean bIsMarked4Del) {
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleVisibility4SchedulerItem() method enter");
+		delete.setVisibility(iVisible);
+		rhtArrow.setVisibility(iVisible);
+		rhtArrText.setVisibility(iVisible);
+		inner_text2.setVisibility(iVisible);
+		if (bIsMarked4Del == true) {
+			showDeleteButton(rhtArrow, rhtArrText, delete);
+		} else {
+			showRightArrowButton(rhtArrow, rhtArrText, delete);
+		}
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleVisibility4SchedulerItem() method exit");
+	}
+	
+	private void takeActionOnRightArrowButtonClick(FontTextView RhtArrText, int index)  {
+		if (RhtArrText.length() > 0) {
+			refreshDeleteSchedulerPage(index);
+		} else {
+			editSchededuler(index);
+		}
+	}
+	
+	private void refreshDeleteSchedulerPage(int index) {
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() method enter");
+		((SchedulerActivity)getActivity()).deleteScheduler(index);
+		if (lstSchedulerMarkedDel.contains((Integer)index)) {
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() item removed is " + index);
+			lstSchedulerMarkedDel.remove((Integer)index);
+			
+			ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() - lstSchedulerMarkedDel before is " + lstSchedulerMarkedDel.toString());
+			
+			for(int i=0; i<lstSchedulerMarkedDel.size(); i++) {
+				if (i>=index) {
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() - lstSchedulerMarkedDel inside is " + lstSchedulerMarkedDel.toString());
+					Integer newVal = lstSchedulerMarkedDel.get(i) - 1;
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() item # to be modified : " + i);
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() old value for item # : " + lstSchedulerMarkedDel.get(i));
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() new value for item # : " + newVal);
+					//lstSchedulerMarkedDel.remove(i);
+					//lstSchedulerMarkedDel.add(newVal);
+					lstSchedulerMarkedDel.set(i, newVal);
+				}
+			}
+		}
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::refreshDeleteSchedulerPage() - lstSchedulerMarkedDel after is " + lstSchedulerMarkedDel.toString());
+		((SchedulerActivity)getActivity()).dispatchInfo4MarkedSchDeletion(lstSchedulerMarkedDel);
+	}
+	
+	private void editSchededuler(int index) {
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::editSchededuler() method enter");
+		Bundle bundle = new Bundle();
+		try{
+			((SchedulerActivity)getActivity()).dispatchInformationsForCRUDIndex(index);
+			JSONObject obj = schedulersList.getJSONObject(index);
+			
+			try{
+				bundle.putString("time", obj.getString("time"));
+				bundle.putString("days", obj.getString("days"));
+				bundle.putString("speed", obj.getString("speed"));
+			}
+			catch (Exception e){
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::editSchededuler() method - exception caught while getting property");
+			}
+			
+			AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+			fragAddSch.setArguments(bundle);
+			getFragmentManager()
+	  	    .beginTransaction()
+	  		.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment")
+	  		.commit();
+		}
+		catch (Exception e) {
+			ALog.d(ALog.SCHEDULER, "Error in editSchededuler: " + e.getMessage());
+		}
+	}
+	
+	private void showRightArrowOrDeleteButton(ImageView btnRhtArr, FontTextView  rhtArrowText, ImageView delete, int index) {
+		if (rhtArrowText.getText().length() > 0) {
+			showRightArrowButton(btnRhtArr, rhtArrowText, delete);
+			lstSchedulerMarkedDel.remove((Integer)index);
+		} else {
+			showDeleteButton(btnRhtArr, rhtArrowText, delete);
+			if (!lstSchedulerMarkedDel.contains(index)) {
+				lstSchedulerMarkedDel.add(index);
+				ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - item added  " + index);
+			}
+		}
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::toggleRightArrowButton() method - items marked 4 deletion " + lstSchedulerMarkedDel.toString());
+	}
+	
+	private void showRightArrowButton(ImageView btnRhtArr, FontTextView  rhtArrowText, ImageView delete) {
+		rhtArrowText.setText("");
+		MarginLayoutParams params = (MarginLayoutParams) btnRhtArr.getLayoutParams();
+		params.rightMargin = 1;
+		btnRhtArr.setLayoutParams(params);
+		delete.setBackgroundResource(R.drawable.delete_l2r);
+		btnRhtArr.setImageResource(R.drawable.about_air_quality_goto);
+		delete.setImageResource(R.drawable.delete_l2r);
+	}
+	
+	private void showDeleteButton(ImageView btnRhtArr, FontTextView  rhtArrowText, ImageView delete) {
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::showDeleteButton() method enter");
+		rhtArrowText.setText("Delete");
+		MarginLayoutParams params = (MarginLayoutParams) btnRhtArr.getLayoutParams();
+		params.rightMargin = 50;
+		btnRhtArr.setLayoutParams(params);
+		rhtArrowText.setLayoutParams(params);
+		btnRhtArr.setImageResource(R.drawable.delete);
+		delete.setImageResource(R.drawable.delete_t2b);
+		ALog.i(ALog.SCHEDULER, "SchedulerOverview::showDeleteButton() method exit");
+	}
+		
 	
 	private String setWeekDays2(String days) {
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::setWeekDays2() method enter");
