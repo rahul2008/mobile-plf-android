@@ -15,7 +15,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {      
 	
-	String sSelectedTime;
 	//private Activity mActivity;
 	private OnTimeSetListener mListener;
 	

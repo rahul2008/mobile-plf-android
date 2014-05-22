@@ -101,8 +101,6 @@ public class DeleteSchedulerFragment extends BaseFragment implements FirmwareRes
 		
 		event1 = (LinearLayout) view.findViewById(R.id.event1);
 		event1.setOnClickListener(onClickListener);
-		
-		double viewWidth = (double) view.getWidth();
 	}
 
 	private OnClickListener onClickListener = new OnClickListener() {

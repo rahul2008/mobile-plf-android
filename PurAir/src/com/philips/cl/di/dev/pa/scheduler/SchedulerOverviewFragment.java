@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.os.Bundle;
@@ -34,9 +35,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 	ImageView ivRhtArr1, ivRhtArr2, ivRhtArr3, ivRhtArr4, ivRhtArr5;
 	FontTextView tvRgtArrTxt1, tvRgtArrTxt2, tvRgtArrTxt3, tvRgtArrTxt4, tvRgtArrTxt5;
 	TextView tvEditTxt;
-	FontTextView tvRgtArrTxt;
 	FontTextView tvScheduler1_text2, tvScheduler2_text2, tvScheduler3_text2, tvScheduler4_text2, tvScheduler5_text2;
-	FontTextView tvScheduler1_text1, tvScheduler2_text1, tvScheduler3_text1, tvScheduler4_text1, tvScheduler5_text1;	
+	FontTextView tvScheduler1_text1;
 	JsonArray arrColl;
 	int iSchedulersCount;
 	private JSONArray schedulersList;
@@ -111,10 +111,6 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		tvRgtArrTxt5 = (FontTextView) view.findViewById(R.id.RightArrow5_text);
 		tvRgtArrTxt5.setOnClickListener(onClickListener);
 		tvScheduler1_text1 = (FontTextView) view.findViewById(R.id.scheduler1_text1);
-		tvScheduler2_text1 = (FontTextView) view.findViewById(R.id.scheduler2_text1);
-		tvScheduler3_text1 = (FontTextView) view.findViewById(R.id.scheduler3_text1);
-		tvScheduler4_text1 = (FontTextView) view.findViewById(R.id.scheduler4_text1);
-		tvScheduler5_text1 = (FontTextView) view.findViewById(R.id.scheduler5_text1);
 		tvScheduler1_text2 = (FontTextView) view.findViewById(R.id.scheduler1_text2);
 		tvScheduler2_text2 = (FontTextView) view.findViewById(R.id.scheduler2_text2);
 		tvScheduler3_text2 = (FontTextView) view.findViewById(R.id.scheduler3_text2);
@@ -135,10 +131,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 					toggleLayoutButtons();
 					break;
 				case R.id.add:
-					JSONArray arrList = ((SchedulerActivity) getActivity()).getSchedulerList();
 					((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
 					DialogFragment newFragment = new TimePickerFragment();
 					newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+					break;
 				case R.id.RightArrow1:
 				case R.id.RightArrow1_text:
 					ALog.i(ALog.SCHEDULER, "SchedulerOverview::onClick() method - RightArrow1 is invoked");
@@ -312,66 +308,67 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 		String sTime = "";
 		String sDays = "";
 		String sEnabled = "";
-		
+
+		//TODO : Change exception being caught to JSONException.
 		try{
 			JSONArray arrColl = new JSONArray(extras);
-		
+
 			for (int i=0;i<arrColl.length();i++) {
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method - printing Json object  " + i);
-			    JSONObject json = arrColl.getJSONObject(i);
-			    
-			    try {
-			    	sEnabled = json.getString(SchedulerConstants.ENABLED);
-			    }
-			    catch(Exception e) {
-			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting enabled property");
-			    }
-			    
-			    try {
-			    	sTime = json.getString(SchedulerConstants.TIME);
-			    }
-			    catch(Exception e) {
-			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting time property");
-			    }
-			    
-			    try {
-			    	sDays = json.getString(SchedulerConstants.DAYS);
-			    } 
-			    
-			    catch(Exception e) {
-			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
-			    	sDays = SchedulerConstants.ONE_TIME;
-			    }
-			    
-			    try {
-			    	sDays = setWeekDays2(sDays);
-			    	sProduct = json.getString(SchedulerConstants.PRODUCT);
-			    	sPort = json.getString(SchedulerConstants.PORT);
-			    }
-			    catch(Exception e) {
-			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting sDays, sProduct and sPort property");
-			    }
-			    
-			    try {
-			    	sSpeed = json.getString(SchedulerConstants.SPEED);
-			    } 			    
-			    catch (Exception e) {
-			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting speed property");
-			    	sSpeed = "Auto";
-			    }
-			    
-			    try {
-			    	sCommand = json.getString(SchedulerConstants.COMMAND);
-			    	sEventSetting = "";
-			    }
-			    catch (Exception e) {
-			    	ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting sCommand property");
-			    }
+				JSONObject json = arrColl.getJSONObject(i);
+
+				try {
+					sEnabled = json.getString(SchedulerConstants.ENABLED);
+				}
+				catch(Exception e) {
+					ALog.e(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting enabled property");
+				}
+
+				try {
+					sTime = json.getString(SchedulerConstants.TIME);
+				}
+				catch(Exception e) {
+					ALog.e(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting time property");
+				}
+
+				try {
+					sDays = json.getString(SchedulerConstants.DAYS);
+				} 
+
+				catch(Exception e) {
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting days property");
+					sDays = SchedulerConstants.ONE_TIME;
+				}
+
+				try {
+					sDays = setWeekDays2(sDays);
+					sProduct = json.getString(SchedulerConstants.PRODUCT);
+					sPort = json.getString(SchedulerConstants.PORT);
+				}
+				catch(Exception e) {
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting sDays, sProduct and sPort property");
+				}
+
+				try {
+					sSpeed = json.getString(SchedulerConstants.SPEED);
+				} 			    
+				catch (Exception e) {
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting speed property");
+					sSpeed = "Auto";
+				}
+
+				try {
+					sCommand = json.getString(SchedulerConstants.COMMAND);
+					sEventSetting = "";
+				}
+				catch (Exception e) {
+					ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Excpetion caught while getting sCommand property");
+				}
 				//sEventSetting = sSpeed + ", " + sDays;
-			    sEventSetting = sDays;
-			    
-			    int bButton = 0;
-				
+				sEventSetting = sDays;
+
+				int bButton = 0;
+
 				switch(i) {
 				case 0:
 					CreateEvent(view, R.id.event1, R.id.scheduler1_outer, R.id.scheduler1_innerouter, R.id.scheduler1_text1, R.id.scheduler1_text2, bButton, R.id.divider1, sTime, sEventSetting, sEnabled);
@@ -391,7 +388,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 				default:
 					break;
 				}
-				
+
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - Enabled value is  " + sEnabled);
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - time value is  " + sTime);
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - days value is  " + sDays);
@@ -400,10 +397,10 @@ public class SchedulerOverviewFragment extends BaseFragment implements FirmwareR
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - speed value is  " + sSpeed);
 				ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - command value is  " + sCommand);	
 			}
-		} catch(Exception e) {
-			ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - exception caught while retrieving property  ");	
+		} catch(JSONException e) {
+			ALog.e(ALog.SCHEDULER, "SchedulerOverview::CreateEventList method - exception caught while retrieving property  ");	
 		}
-		
+
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::CreateEventList() method exit  ");
 	}
 	

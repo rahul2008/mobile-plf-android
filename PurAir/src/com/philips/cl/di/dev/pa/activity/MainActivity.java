@@ -15,7 +15,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.PowerManager;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -132,10 +131,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	public boolean isDiagnostics;
 
-	public boolean isClickEvent;
-
-	public boolean isPairingDialogShown;
-	protected ProgressDialog progressDialog;
+	private boolean isPairingDialogShown;
+	private ProgressDialog progressDialog;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -266,13 +263,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
-		
-		PowerManager powerManager = (PowerManager) getSystemService(POWER_SERVICE);
-		boolean isScreenOn = powerManager.isScreenOn();
 
-		if (!isScreenOn && !isDiagnostics) {
-			isClickEvent = false;
-		}
 	}
 
 	@Override
@@ -315,13 +306,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			}
 			finish();
 		}
-	}
-
-	@Override
-	protected void onUserLeaveHint() {
-		ALog.i(ALog.ACTIVITY, "onUserLeaveHint");
-		isClickEvent = false;
-		super.onUserLeaveHint();
 	}
 
 	private void initializeCPPController() {
@@ -594,7 +578,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		@Override
 		public void onItemClick(AdapterView<?> listView, View listItem,
 				int position, long id) {
-			isClickEvent = true;
 			setDashboardActionbarIconVisible();
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
@@ -892,7 +875,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public void startPairing(PurAirDevice purifier) {
 		if (purifier == null) return; // TODO why can this happen?
 			
-		isClickEvent = true ;
 		progressDialog = new ProgressDialog(MainActivity.this);
 		progressDialog.setMessage(getString(R.string.pairing_progress));
 		progressDialog.setCancelable(false);
