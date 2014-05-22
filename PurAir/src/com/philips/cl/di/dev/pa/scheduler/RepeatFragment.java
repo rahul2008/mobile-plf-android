@@ -55,7 +55,9 @@ public class RepeatFragment extends BaseFragment {
 		try {
 			initDays = getArguments().getString(SchedulerConstants.DAYS);
 			ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method initDays is " + initDays);
-			initSelectedDays(view);
+			if (initDays != null) {
+				initSelectedDays(view);
+			}
 		}
 		catch (Exception e) {
 			ALog.i(ALog.SCHEDULER, "RepeatFragment::onCreateView() method exception caught while getting arguments");
