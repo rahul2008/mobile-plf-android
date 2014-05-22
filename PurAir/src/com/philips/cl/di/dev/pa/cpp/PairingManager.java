@@ -317,7 +317,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 			for(int i = 0; i < pairingObj.getNumberOfPermissionsReturned();i++)
 			{
 				permissionExists= pairingObj.getPermissionAtIndex(i).equals("Push");
-				break;
+				//break;TODO
 			}
 			permissionListener.onPermissionReturned(permissionExists);
 
