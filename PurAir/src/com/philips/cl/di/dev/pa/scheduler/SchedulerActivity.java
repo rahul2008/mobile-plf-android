@@ -159,7 +159,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			Bundle b = new Bundle();
 			b.putString("events", arrSchedulers.toString());
 			getIntent().putExtras(b);
-			showDeleteSchedulerFragment();
+			//showDeleteSchedulerFragment();
 		}
 		catch(Exception e) {
 			ALog.d(ALog.SCHEDULER, "Error in updateScheduler: " + e.getMessage());
@@ -350,19 +350,17 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
 	}
 	
-	private void showDeleteSchedulerFragment() {
+	/*private void showDeleteSchedulerFragment() {
 		DeleteSchedulerFragment fragDeleteSch = new DeleteSchedulerFragment();
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragDeleteSch, "DeleteSchedulerFragment").commit();
-	}
+	}*/
 	
 	private void showPreviousScreen4BackPressed() {
 		
-		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE)) {
+		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE) || actionbarTitle.getText().equals(SchedulerConstants.EDIT_SCHEDULE) {
 			showSchedulerOverviewFragment(); 
-		} else if (actionbarTitle.getText().equals(SchedulerConstants.EDIT_SCHEDULE)) {
-			showDeleteSchedulerFragment();
 		} else if (actionbarTitle.getText().equals(SchedulerConstants.REPEAT) || actionbarTitle.getText().equals(SchedulerConstants.FANSPEED)) {
 			showAddSchedulerFragment();
 		} else {
