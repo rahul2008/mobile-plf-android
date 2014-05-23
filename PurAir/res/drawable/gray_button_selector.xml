@@ -5,6 +5,6 @@
           android:state_pressed="true" />
     <item android:drawable="@drawable/registration_btn_blue"
           android:state_focused="true" />
-    <item android:drawable="@drawable/button_bg_gray" />
+    <item android:drawable="@drawable/registration_btn_gray" />
 
 </selector>

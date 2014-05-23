@@ -351,7 +351,7 @@
     <string name="connect_2_network_msg1">Select home Wi-Fi network.</string>
     <string name="connect_2_network_msg2">Please read all 3 steps before leaving the app.</string>
     <string name="connect_2_network_msg3">Tap Wi-Fi in your phone Settings.</string>
-    <string name="connect_2_network_msg4">Select your home network</string>
+    <string name="connect_2_network_msg4">Select your home network.</string>
     <string name="connect_2_network_msg5">Return to the Philips Smart Air Purifier app.</string>
     <string name="error_ssid_msg1">Please make sure your phone is connected to</string>
     <string name="contact_philips_support_msg1">The Philips Smart Air Purifier cannot activate Setup mode.</string>
