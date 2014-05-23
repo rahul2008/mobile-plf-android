@@ -298,6 +298,8 @@
     <!-- Diagnostics -->
     <string name="diagnostics">Diagnostics</string>
     <!-- EWS -->
+    <string name="lbl_living_room">Living Room</string>
+    <string name="lbl_kitchen">Kitchen</string>
     <string name="img_description">描述</string>
     <string name="wifi_setup">Wi-Fi 设置</string>
     <string name="ews_intro_message1_str">按照下面 3 个简单步骤，将飞利浦智能空气净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>

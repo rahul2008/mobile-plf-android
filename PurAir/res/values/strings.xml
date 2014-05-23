@@ -298,6 +298,8 @@
     <!-- Diagnostics -->
     <string name="diagnostics">Diagnostics</string>
     <!-- EWS -->
+    <string name="lbl_living_room">Living Room</string>
+    <string name="lbl_kitchen">Kitchen</string>
     <string name="img_description">description</string>
     <string name="wifi_setup">Wi-Fi setup</string>
     <string name="ews_intro_message1_str">Follow these 3 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.</string>
