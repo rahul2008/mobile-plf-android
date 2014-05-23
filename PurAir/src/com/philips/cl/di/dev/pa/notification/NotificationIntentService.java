@@ -67,4 +67,10 @@ public class NotificationIntentService extends IntentService {
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
+    
+    public String getMessageFromNotification(String notification) {
+    	if (notification == null) return null;
+    	if (notification.isEmpty()) return null;
+    	return null;
+    }
 }

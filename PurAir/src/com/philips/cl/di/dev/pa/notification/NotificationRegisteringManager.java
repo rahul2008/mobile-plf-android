@@ -102,7 +102,7 @@ public class NotificationRegisteringManager implements ICPEventListener{
 		}
 	}
 	
-	public String getRegistrationId(Context ctx) {
+	private String getRegistrationId(Context ctx) {
 		final SharedPreferences prefs = getGCMPreferences(ctx);
 		String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 
