@@ -454,7 +454,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			}
 		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
 			showErrorDialog(getString(R.string.error_ts01_04_title), 
-					getString(R.string.error_ts01_04_message), 
+					getString(R.string.error_ts01_01_message), 
 					getString(R.string.error_purifier_not_detect_btn_txt));
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				

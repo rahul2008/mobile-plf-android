@@ -77,22 +77,22 @@ public class SetupDialogFactory implements OnClickListener{
 			return errorDialogTS0101;
 		case ERROR_TS01_02:
 			if(errorDialogTS0102 == null)
-				errorDialogTS0102 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_02_message), context.getString(R.string.next), ERROR_TS01_02);
+				errorDialogTS0102 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_02);
 			errorID = ERROR_TS01_02;
 			return errorDialogTS0102;
 		case ERROR_TS01_03:
 			if(errorDialogTS0103 == null)
-				errorDialogTS0103 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_03_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_03);
+				errorDialogTS0103 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_03);
 			errorID = ERROR_TS01_03;
 			return errorDialogTS0103;
 		case ERROR_TS01_04:
 			if(errorDialogTS0104 == null)
-				errorDialogTS0104 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_04_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_04);
+				errorDialogTS0104 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_04);
 			errorID = ERROR_TS01_04;
 			return errorDialogTS0104;
 		case ERROR_TS01_05:
 			if(errorDialogTS0105 == null)
-				errorDialogTS0105 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_05_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_05);
+				errorDialogTS0105 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_05);
 			errorID = ERROR_TS01_05;
 			return errorDialogTS0105;
 		case CANCEL_WIFI_SETUP:

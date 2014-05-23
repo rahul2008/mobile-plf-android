@@ -227,7 +227,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 					} else {
 						try {
 							showErrorDialog(getString(R.string.error_ts01_04_title), 
-									getString(R.string.error_ts01_04_message),
+									getString(R.string.error_ts01_01_message),
 									getString(R.string.error_purifier_not_detect_btn_txt));
 						} catch (Exception e) {
 							ALog.e(ALog.DEMO_MODE, e.getMessage());
