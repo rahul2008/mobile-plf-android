@@ -15,7 +15,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.ews.SetupCancelDialogFragment;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
-import com.philips.cl.di.dev.pa.ews.EWSDialogFragment;
+import com.philips.cl.di.dev.pa.ews.SetupDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -216,8 +216,9 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 					if (step1FailedCounter > 2) {
 						showSupportScreen();
 					} else {
-						SetupDialogFactory.getInstance(
-								DemoModeActivity.this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
+						showErrorDialog(getString(R.string.error_ts01_01_title), 
+								getString(R.string.error_ts01_01_message), 
+								getString(R.string.next));
 					}
 					break;
 				case DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED:
@@ -225,10 +226,9 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 						showSupportScreen();
 					} else {
 						try {
-							FragmentManager fragMan = getSupportFragmentManager();
-							fragMan.beginTransaction()
-									.add(EWSDialogFragment.newInstance(), "demo_error")
-									.commitAllowingStateLoss();
+							showErrorDialog(getString(R.string.error_ts01_04_title), 
+									getString(R.string.error_ts01_04_message),
+									getString(R.string.error_purifier_not_detect_btn_txt));
 						} catch (Exception e) {
 							ALog.e(ALog.DEMO_MODE, e.getMessage());
 						}
@@ -239,6 +239,17 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 				}
 			}
 		});
+	}
+	
+	private void showErrorDialog(String title,String msg, String btnTxt) {
+		try {
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction()
+			.add(SetupDialogFragment.newInstance(title, msg, btnTxt), "demo_error")
+					.commitAllowingStateLoss();
+		} catch (Exception e) {
+			ALog.e(ALog.DEMO_MODE, e.getMessage());
+		}
 	}
 
 	@Override

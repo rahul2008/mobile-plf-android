@@ -13,11 +13,20 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class EWSDialogFragment extends DialogFragment {
+public class SetupDialogFragment extends DialogFragment {
 	
-	public static EWSDialogFragment newInstance() {
-		EWSDialogFragment fragment =  new EWSDialogFragment();
+	private static final String EXTRA_TITLE = "title";
+	private static final String EXTRA_MSG = "message";
+	private static final String EXTRA_BTNTXT = "btntxt";
+	
+	public static SetupDialogFragment newInstance(String title, String msg, String btnTxt) {
+		SetupDialogFragment fragment =  new SetupDialogFragment();
 		
+		Bundle args= new Bundle();
+		args.putString(EXTRA_TITLE, title);
+		args.putString(EXTRA_MSG, msg);
+		args.putString(EXTRA_BTNTXT, btnTxt);
+		fragment.setArguments(args);
 		return fragment;
 	}
 	
@@ -38,16 +47,20 @@ public class EWSDialogFragment extends DialogFragment {
 			return;
 		}
 		
+		String title = getArguments().getString(EXTRA_TITLE);
+		String msg = getArguments().getString(EXTRA_MSG);
+		String btnTxt = getArguments().getString(EXTRA_BTNTXT);
+		
 		Button button = (Button) getView().findViewById(R.id.btn_error_popup);
 		button.setTypeface(Fonts.getGillsansLight(getActivity()));
-		button.setText(getActivity().getString(R.string.error_purifier_not_detect_btn_txt));
+		button.setText(btnTxt);
 		
 		TextView tvHeader = (TextView) getView().findViewById(R.id.tv_error_header);
 		tvHeader.setTypeface(Fonts.getGillsansLight(getActivity()));
-		tvHeader.setText(getActivity().getString(R.string.error_ts01_04_title));
+		tvHeader.setText(title);
 		TextView tvMessage = (TextView) getView().findViewById(R.id.tv_error_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(getActivity()));
-		tvMessage.setText(getActivity().getString(R.string.error_ts01_04_message));
+		tvMessage.setText(msg);
 		ImageView ivGotoSupport = (ImageView) getView().findViewById(R.id.iv_goto_support);
 		ImageView ivCloseErrorPopup = (ImageView) getView().findViewById(R.id.iv_close_error_popup);
 		

@@ -38,11 +38,13 @@ public class EWSErrorPurifierDiscoverFragment  extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-//				EWSDialogFactory.getInstance(getActivity()).getDialog(EWSDialogFactory.ERROR_TS01_05).show();
 				try {
 					FragmentManager fragMan = getActivity().getSupportFragmentManager();
 					fragMan.beginTransaction().add(
-							EWSDialogFragment.newInstance(), "ews_error").commitAllowingStateLoss();
+							SetupDialogFragment.newInstance(getString(R.string.error_ts01_04_title), 
+									getString(R.string.error_ts01_04_message),
+							getString(R.string.error_purifier_not_detect_btn_txt)), "ews_error")
+							.commitAllowingStateLoss();
 				} catch (IllegalStateException  e) {
 					ALog.e(ALog.EWS, e.getMessage());
 				} catch (Exception e) {

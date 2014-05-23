@@ -266,9 +266,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	private void showErrorScreen() {
 		stopDiscovery();
-		ALog.e(ALog.EWS, "showErrorScreen: wifiManager.isWifiEnabled(): " + wifiManager.isWifiEnabled()
-				+ ", wifiManager.getConnectionInfo().getSSID(): " + wifiManager.getConnectionInfo().getSSID() 
-				+ ", networkSSID: " + networkSSID);
+		
         if(!wifiManager.isWifiEnabled()) {
         	showErrorSSIDFragement();
         }
@@ -444,7 +442,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			if (step2FailedCounter > 2) {
 				showSupportFragment();
 			} else {
-				SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
+				showErrorDialog(getString(R.string.error_ts01_01_title), 
+						getString(R.string.error_ts01_01_message), 
+						getString(R.string.next));
 			}
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
@@ -453,14 +453,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 				break;
 			}
 		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
-			try {
-				FragmentManager fragMan = getSupportFragmentManager();
-				fragMan.beginTransaction()
-						.add(EWSDialogFragment.newInstance(), "ews_error")
-						.commitAllowingStateLoss();
-			} catch (Exception e) {
-				ALog.e(ALog.EWS, e.getMessage());
-			}
+			showErrorDialog(getString(R.string.error_ts01_04_title), 
+					getString(R.string.error_ts01_04_message), 
+					getString(R.string.error_purifier_not_detect_btn_txt));
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
 			showErrorScreen();
@@ -470,6 +465,17 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			break;
 		default:
 			break;
+		}
+	}
+	
+	private void showErrorDialog(String title,String msg, String btnTxt) {
+		try {
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction()
+			.add(SetupDialogFragment.newInstance(title, msg, btnTxt), "ews_error")
+					.commitAllowingStateLoss();
+		} catch (Exception e) {
+			ALog.e(ALog.EWS, e.getMessage());
 		}
 	}
 	
