@@ -46,7 +46,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/red" /> 
+                android:background="#D71F2B" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -97,7 +97,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/deeppink" /> 
+                android:background="#AF155E" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +148,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/purple" /> 
+                android:background="#AF155E" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -199,7 +199,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/indigo" /> 
+                android:background="#53479D" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -250,7 +250,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/royalblue" /> 
+                android:background="#3C6CB4" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -301,7 +301,7 @@
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="@color/deepskyblue" /> 
+                android:background="#4AAFE5" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
