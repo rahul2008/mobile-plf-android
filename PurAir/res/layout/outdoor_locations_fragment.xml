@@ -5,13 +5,13 @@
 
     <ImageView
         android:id="@+id/iv_lm_outdoor_location"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_lm_outdoor_locations_title"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/icon_3_2x" />
+        android:src="@drawable/icon_3_4x" />
 
     <TextView
         android:id="@+id/tv_lm_outdoor_locations_title"

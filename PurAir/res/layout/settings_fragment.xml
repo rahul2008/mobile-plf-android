@@ -4,14 +4,14 @@
 
     <ImageView
         android:id="@+id/iv_rate_this_app"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/icon_mycity" />
+        android:src="@drawable/icon_mycity_4x" />
 
     <TextView
         android:id="@+id/tv_rate_this_app"
@@ -34,13 +34,13 @@
 
     <ImageView
         android:id="@+id/iv_send_us_feedback"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/iv_rate_this_app"
         android:layout_below="@+id/divider_1"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/icon_1_2x" />
+        android:src="@drawable/icon_1_4x" />
 
     <TextView
         android:id="@+id/tv_send_us_feedback"
