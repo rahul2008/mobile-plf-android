@@ -6,10 +6,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.WakefulBroadcastReceiver;
 
+import com.philips.cl.di.dev.pa.util.ALog;
+
 public class NotificationBroadcastReceiver extends WakefulBroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        // Explicitly specify that NotificationIntentService will handle the intent.
+    	ALog.v(ALog.NOTIFICATION, "BroadcastReceiver received notification from backend");
+
+    	// Explicitly specify that NotificationIntentService will handle the intent.
         ComponentName comp = new ComponentName(context.getPackageName(),
                 NotificationIntentService.class.getName());
         // Start the service, keeping the device awake while it is launching.
