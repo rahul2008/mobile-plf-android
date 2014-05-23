@@ -12,6 +12,10 @@ public class PurAirApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		/**
+		 * Added this to stop the OS from destroying an AsyncTask.
+		 * Please refer : https://code.google.com/p/android/issues/detail?id=20915
+		 */
 		try {
             Class.forName("android.os.AsyncTask");
         } catch (ClassNotFoundException e) {
