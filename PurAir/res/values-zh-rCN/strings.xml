@@ -1,13 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">智能空气</string>
     <string name="dashboard_title">智能空气净化器</string>
     <string name="action_settings">设置</string>
     <string name="philips_home">飞利</string>
-
+	<string name="empty_string"></string>
     <!-- Left menu items -->
-
     <string name="list_item_home">主页</string>
     <string name="list_item_air_quality_explained">空气质量说明</string>
     <string name="list_item_outdoor_loc">户外场所</string>
@@ -16,11 +14,10 @@
     <string name="list_item_settings">设置</string>
     <string name="tools">工具</string>
     <string name="list_item_prod_reg">产品注册</string>
+	<string name="list_item_user_reg">User registration</string>
     <string name="list_item_buy_online">在线购买</string>
     <string name="list_item_firmware">固件</string>
-
     <!-- Right menu texts -->
-
     <string name="connection_status">连接状态</string>
     <string name="connected">已连接</string>
     <string name="connected_via_philips">已连接 Via 飞利</string>
@@ -38,7 +35,6 @@
     <string name="child_lock">儿童锁</string>
     <string name="indicator_light">指示灯</string>
     <string name="set_timer">设置时间</string>
-
     <!-- Filter texts and messages -->
     <string name="filter_status">过滤网状态</string>
     <string name="pre_filter">1 预过滤网</string>
@@ -55,22 +51,16 @@
     <string name="clean_soon">%s 天后清洁 </string>
     <string name="clean_now">清洁吧</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智能空气净化器的传感器</string>
-
     <!-- Timer texts -->
-
     <string name="rm_air_quality_title">室内空气水平状态</string>
     <string name="rm_air_quality_message">连接设备开始读取室内空气质量</string>
-
     <!-- Outdoor Locations -->
-
     <string name="enter_city_name">输入位置</string>
     <string name="cancel">取消</string>
     <string name="weather_forecast">天气预报</string>
     <string name="one_zero">0</string>
     <string name="colon_2_zero">:00</string>
-
     <!-- Dashboard texts -->
-
     <string name="mode">模式</string>
     <string name="filters">过滤网</string>
     <string name="speed1">速度 1</string>
@@ -79,9 +69,7 @@
     <string name="updated">最近更新。</string>
     <string name="n_a">N.A.</string>
     <string name="take_action">采取措施。</string>
-
     <!-- AQI status -->
-
     <string name="good">良好</string>
     <string name="moderate">适中</string>
     <string name="unhealthy_for_sensitive_groups">对敏感人群不健康</string>
@@ -89,9 +77,7 @@
     <string name="very_unhealthy">非常不健康</string>
     <string name="very_unhealthy_split">非常 \n 不健康</string>
     <string name="hazardous">危险</string>
-
     <!-- Help and Documentation -->
-
     <string name="subtitle_app_tutorial">应用程序教程</string>
     <string name="subtitle_FAQ">常见问题解答</string>
     <string name="subtitle_user_manual">飞利浦智能空气净化器用户手册</string>
@@ -100,9 +86,7 @@
     <string name="subtitle_call_us">致电我们 :</string>
     <string name="subtitle_email_us">给我们发邮件：</string>
     <string name="subtitle_help_section">访问我们的帮助板块：</string>
-
     <!-- Air Tutorial -->
-
     <string name="tutorial_dashboard_desc">仪表板显示室内和室外 AQI 的概览</string>
     <string name="tutorial_lOC_desc">画布左侧包含应用程序不同部分的链接。</string>
     <string name="tutorial_rOC_desc">画布右侧包含飞利浦智能空气净化器的控件。</string>
@@ -111,6 +95,7 @@
     <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气。</string>
     <string name="dashboard_instruction">点击一次扩大每个类别，再点击一次查看详细信息。</string>
     <string name="loc_roc_remote_instruction">轻击可打开和关闭画布。</string>
+	<string name="status_instruction">Tap to open and close the canvas.</string>
     <string name="indoor_outdoor_aqi_instruction">轻击箭头可返回仪表板。</string>
     <string name="dashboard_instruction_1">应用程序导航</string>
     <string name="dashboard_instruction_2">空气净化器控件</string>
@@ -126,22 +111,18 @@
     <string name="prompt_take_tour">体验应用程序</string>
     <string name="alert_take_tour">体验</string>
     <string name="alert_taketour_text">如果您想体验应用程序以后可在左侧导航中的“帮助和文档”下找到。</string>
-    <string name="close">關閉</string>
-
+    <string name="close">关闭</string>
     <!-- Product Registration -->
-
     <string name="registration_instruction">选择要注册的净化器。</string>
     <string name="registration_ques">您要注册的净化器在这里没有列出？</string>
     <string name="registration_step_email">步骤 1：电子邮件地址</string>
     <string name="registration_email_ques">您的电子邮件地址是什么？</string>
     <string name="promotion_ques">飞利浦将通过电子邮件向您发送促销和优惠信息</string>
-    <string name="lbl_register">Register</string>
+    <string name="lbl_register">注册</string>
     <string name="lbl_connected_purifiers">已连接的净化器</string>
     <string name="reg_step1_title">现在注册 净化器名称 净化器。</string>
     <string name="next_step">下一步</string>
-
     <!-- Buy Online -->
-
     <string name="buy_online_lbl">在线购买</string>
     <string name="buy_hepa_filter">HEPA 过滤网r</string>
     <string name="buy_active_carbon_filter">活性炭过滤网</string>
@@ -149,19 +130,16 @@
     <string name="buy_pre_filter">预过滤网</string>
     <string name="buy_philips_smart_air_purifier">飞利浦智能空气净化器</string>
     <string name="available_from">可从购买</string>
-
     <!-- Indoor and Outdoor Details -->
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">戶外</string>
     <string name="current_location">当前位置</string>
     <string name="title_outdoor_db">室外仪表板</string>
-
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：对健康危害极小或无危害。</string>
     <string name="indoor_aqi_moderate_tip1">污染、颗粒水平和 PM2.5 均处于中级。 </string>
     <string name="indoor_aqi_unhealthy_tip1">PM2.5 颗粒水平很高：可能会出现过敏。</string>
     <string name="indoor_aqi_very_unhealthy_tip1">颗粒水平极高：PM2.5。</string>
-
     <!-- Outdoor details -->
     <string name="mask_od_msg1">Masks not needed</string>
     <string name="openwindow_od_msg1">Open your windows for ventilation.</string>
@@ -169,7 +147,6 @@
     <string name="mask_od_msg2">Masks not needed</string>
     <string name="openwindow_od_msg2">Open your windows for ventilation</string>
     <string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
-
     <!-- Outdoor Detail Tips -->
     <string name="outdoor_aqi_good_tip1"> 特别适合室外运动。 开窗通风。 .</string>
     <string name="outdoor_aqi_good_tip2">洁净空气，对健康危害极小或无危害。 可以参加日常室外活动。</string>
@@ -233,11 +210,7 @@
     <string name="pm10">PM10</string>
     <string name="so2">SO2</string>
     <string name="no2">NO2</string>
-
     <!-- Notifications -->
-    <string name="days">天</string>
-    <string name="edit">Edit</string>
-    <string name="repeat">重复</string>
     <string name="notifications_indoor_title">室内空气水平</string>
     <string name="notifications_indoor_AQI_desc">当家中的空气质量超过所设置的水平时便会通知您。</string>
     <string name="notifications_filters_title">过滤网</string>
@@ -247,7 +220,7 @@
     <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notifications_indoor_aqi_lbl_4">4+</string>
     <string name="notifications_enable_all">Receive notifications for %s</string>
-    <string name="notification_pairing_btn">Remote control</string>
+    <string name="notification_pairing_btn">遥控器</string>
     <string name="notification_pairing_text">Enable remote control to receive notifications.</string>
     <string name="notification_nopurifier_title">No purifier connected</string>
     <string name="notification_nopurifier_text">You can only configure notifications once a Purifier is connected.</string>
@@ -256,14 +229,12 @@
     <string name="notification_enabling_msg">Enabling notification, please wait..</string>
     <string name="notification_disabling_msg">Disabling notification, please wait..</string>
     <string name="notification_send_aqi_level_msg">Sending selected AQI level, please wait..</string>
-
     <!-- Settings -->
     <string name="rate_this_app">评价此应用程序</string>
     <string name="send_us_feedback">给我们发送反馈</string>
     <string name="version_number">应用程序版本 </string>
     <string name="t_and_c">条款和条件</string>
     <string name="terms_and_conditions"></string>
-
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">生活在城市中的人无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
     <string name="purifier_feature_lbl_1">滤除最小 20 纳米的微小颗粒</string>
@@ -324,10 +295,8 @@
     <string name="indoor_moderate">空气质量中等。 空气颗粒水平中等。 预计 PM2.5 水平也是中等。 肺部有问题的成人和儿童以及心脏有问题的成人，如果出现症状，应考虑减少剧烈的体力活动。</string>
     <string name="indoor_good">空气质量良好。 总体而言，空气中的灰尘颗粒水平较低。 预计 PM2.5 水平也较低。 健康危害轻微。 可以进行日常室内活动。</string>
     <string name="indoor_color_explained_intro">飞利浦智能空气应用程序按十分制显示内置的智能传感器测得的实时空气颗粒水平。您可以在家中读取更新的空气质量信息，包括 PM2.5 浓度。</string>
-
     <!-- Diagnostics -->
     <string name="diagnostics">Diagnostics</string>
-
     <!-- EWS -->
     <string name="img_description">描述</string>
     <string name="wifi_setup">Wi-Fi 设置</string>
@@ -405,11 +374,9 @@
     <string name="city_shanghai">Shanghai</string>
     <string name="city_location">Chinese Govt</string>
     <string name="date_empty">--:--</string>
-
     <!-- Tools fragments -->
-    <string name="ipaddress">IPAddress</string>
+    <string name="ipaddress">IP 地址</string>
     <string name="submit">Submit</string>
-
     <!-- Pairing -->
     <string name="pair_title">遥控器</string>
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
@@ -418,9 +385,28 @@
     <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string>
     <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string>
     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string>
-
+	<!-- Scheduler texts -->
+    <string name="days">天</string>
+    <string name="edit">编辑</string>
+    <string name="repeat">重复</string>
+    <string name="time">Time</string>
+    <string name="days2">天</string>
+    <string name="onetime">One Time</string>
+    <string name="fanspeed">风扇速度</string>
+    <string name="fanspeed_one">1</string>
+    <string name="fanspeed_two">2</string>
+    <string name="fanspeed_three">3</string>
+    <string name="sunday">星期天</string>
+    <string name="monday">周一</string>
+    <string name="tuesday">周二</string>
+    <string name="wednesday">周三</string>
+    <string name="thursday">周四</string>
+    <string name="friday">周五</string>
+    <string name="saturday">星期六</string>
+    <string name="set_schedule">Set Schedule</string>
+    <string name="edit_schedule">Edit Schedule</string>    
+    <string name="repeat_text">重复</string>
     <!-- Firmware Screen text -->
-
     <string name="firmware">固件</string>
     <string name="firmware_update">固件更新</string>
     <string name="download_failed">下载失败！</string>
@@ -452,7 +438,39 @@
     <string name="lbl_firmware_update_available">固件更新可用</string>
     <string name="contact_support">联系支持</string>
     <string name="firmware_toast_nodeviceselected">请连接到空气净化器。</string>
-
+	<!-- Registration screens -->
+    <string name="create_account">Create account</string>
+    <string name="registration_statement">By creating an account or signing in you certify that you are 16 years or older and you agree to our terms and conditions and privacy policy</string>
+    <string name="your_name">Your name</string>
+    <string name="enter_your_name">Enter your name</string>
+    <string name="email_address">E-mail Address</string>
+    <string name="enter_email_address">Enter your E-mail Address</string>
+    <string name="password">Password</string>
+    <string name="choose_password">Choose a password</string>
+    <string name="enter_password">Enter your password</string>
+    <string name="receive_information">I would like to receive information about Philips products and services</string>
+    <string name="create_your_account">Create your account</string>
+    <string name="sign_in_with">Or sign in with</string>
+    <string name="my_philips">My Philips</string>
+    <string name="password_not_correct">Your password is not correct</string>
+    <string name="sign_in_to_my_philips">Sign in to my Philips</string>
+    <string name="sign_in_to_facebook">Sign in to Facebook</string>
+    <string name="sign_in_to_twitter">Sign in to Twitter</string>
+    <string name="sign_in_to_google_plus">Sign in to Google+</string>
+    <string name="sign_in">Sign in</string>
+    <string name="thank_you">Thank you! You are good to go.</string>
+    <string name="signed_in_ready_to_use">You are now signed in and ready to use this app.</string>
+    <string name="already_registerd">You have already been registered with this e-mail address</string>
+    <string name="generic_error">Unable to process !!! Please check internet connection</string>
+    <string name="invalid_email">Invalid E-mail</string>
+    <string name="invalid_password">Invalid password !! Password should be atleast 6 characters</string>
+    <string name="please_wait">Please wait..</string>
+    <string name="authentication_cancelled_by_user">Cancelled by User</string>
+    <string name="authentication_failed">Authentication failed</string>
+    <string name="configuration_failed">Configuration failed</string>
+    <string name="invalid_params">Invalid parameters</string>
+    <string name="no_network_connection">Please check internet connection</string>
+    <string name="invalid_username_or_password">Invalid Username or Password</string>
     <!-- Demo Mode -->
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>
@@ -462,5 +480,4 @@
     <string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
     <string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
     <string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
-
 </resources>
