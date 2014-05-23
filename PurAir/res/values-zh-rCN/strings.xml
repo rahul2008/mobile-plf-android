@@ -249,6 +249,13 @@
     <string name="notifications_enable_all">Receive notifications for %s</string>
     <string name="notification_pairing_btn">Remote control</string>
     <string name="notification_pairing_text">Enable remote control to receive notifications.</string>
+    <string name="notification_nopurifier_title">No purifier connected</string>
+    <string name="notification_nopurifier_text">You can only configure notifications once a Purifier is connected.</string>
+    <string name="notification_nopurifier_positivebtn">To home screen</string>
+    <string name="notification_permission_check_msg">Checking notification status, please wait..</string>
+    <string name="notification_enabling_msg">Enabling notification, please wait..</string>
+    <string name="notification_disabling_msg">Disabling notification, please wait..</string>
+    <string name="notification_send_aqi_level_msg">Sending selected AQI level, please wait..</string>
 
     <!-- Settings -->
     <string name="rate_this_app">评价此应用程序</string>

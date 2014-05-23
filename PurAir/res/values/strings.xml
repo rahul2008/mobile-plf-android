@@ -254,6 +254,10 @@
     <string name="notification_nopurifier_title">No purifier connected</string>
     <string name="notification_nopurifier_text">You can only configure notifications once a Purifier is connected.</string>
     <string name="notification_nopurifier_positivebtn">To home screen</string>
+    <string name="notification_permission_check_msg">Checking notification status, please wait..</string>
+    <string name="notification_enabling_msg">Enabling notification, please wait..</string>
+    <string name="notification_disabling_msg">Disabling notification, please wait..</string>
+    <string name="notification_send_aqi_level_msg">Sending selected AQI level, please wait..</string>
 
     <!-- Settings -->
     <string name="rate_this_app">Rate this app</string>
@@ -436,7 +440,7 @@
     <string name="friday">Friday</string>
     <string name="saturday">Saturday</string>
     <string name="set_schedule">Set Schedule</string>
-    <string name="edit_schedule">Edit Schedule</string>    
+    <string name="edit_schedule">Edit Schedule</string>
     <string name="repeat_text">Repeat</string>
 
     <!-- Firmware Screen text -->

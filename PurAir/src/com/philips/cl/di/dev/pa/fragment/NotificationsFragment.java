@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -115,13 +116,34 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		enableText.setText(String.format(getString(R.string.notifications_enable_all), purifierName));
 		
 		notificationToggle =(ToggleButton) rootView.findViewById(R.id.notifications_enable_all_toggle);
-		notificationToggle.setOnCheckedChangeListener(this);
 		
 		indoorAqiLbls= (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
-		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);
-		indoorAqiRadioBtns.setOnCheckedChangeListener(this);
+		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);				
 	}
 	
+	private void setUIAqiThreshold(int aqiThreshold) {
+		switch(aqiThreshold){
+		case 13:
+			RadioButton aqiRadioButton0= (RadioButton) indoorAqiRadioBtns.getChildAt(0);
+			aqiRadioButton0.setChecked(true);
+			break;
+		case 19:
+			RadioButton aqiRadioButton1= (RadioButton) indoorAqiRadioBtns.getChildAt(1);
+			aqiRadioButton1.setChecked(true);
+			break;
+		case 29:
+			RadioButton aqiRadioButton2= (RadioButton) indoorAqiRadioBtns.getChildAt(2);
+			aqiRadioButton2.setChecked(true);
+			break;
+		case 40:
+			RadioButton aqiRadioButton3= (RadioButton) indoorAqiRadioBtns.getChildAt(3);
+			aqiRadioButton3.setChecked(true);
+			break;
+		default:
+			break;
+		}
+	}
+
 	private void showPairingLayout() {
 		pairingLayout.setVisibility(View.VISIBLE);
 		enableLayout.setVisibility(View.GONE);
@@ -140,7 +162,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@SuppressLint("NewApi")
 	private void enableDetailedNotificationsLayout() {
-//		notificationToggle.setChecked(true);
+		notificationToggle.setChecked(true);
 		indoorAqiLbls.setVisibility(View.VISIBLE);
 		indoorAqiRadioBtns.setVisibility(View.VISIBLE);
 		
@@ -174,11 +196,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private void notificationSetup(){
 		if(mPurifier!=null && mPurifier.isPaired()) {
 			
-			/*progressDialog = new ProgressDialog(getActivity());
-			progressDialog.setMessage(getString(R.string.pairing_progress));
-			progressDialog.setCancelable(false);
-			progressDialog.show();*/
-
+			showProgressDialog(R.string.notification_permission_check_msg);
 			
 			//Enable UI and check if permission exists
 			pairingManager.getPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
@@ -198,11 +216,14 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	private void updateNotificationPermission(boolean isChecked)
 	{
+		
 		if(isChecked){
+			showProgressDialog(R.string.notification_enabling_msg);
 			enableDetailedNotificationsLayout();
 			pairingManager.addPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
 		}
 		else{
+			showProgressDialog(R.string.notification_disabling_msg);
 			pairingManager.removePermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
 			disableDetailedNotificationsLayout();
 		}
@@ -223,12 +244,22 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onPermissionReturned(final boolean permissionExists) {
+		if(progressDialog!=null)progressDialog.dismiss();
+		
 		ALog.i(ALog.NOTIFICATION, "Permission exists: "+permissionExists);
 		// toggleOn the notification toggle	is permission Exists
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				notificationToggle.setChecked(permissionExists);
+				if(permissionExists){
+					enableDetailedNotificationsLayout();
+				}
+				else{
+					disableDetailedNotificationsLayout();
+				}
+				notificationToggle.setOnCheckedChangeListener(NotificationsFragment.this);
+				setUIAqiThreshold(mPurifier.getAirPortInfo().getAqiThreshold());
+				indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
 			}
 		});		
 	}
@@ -236,6 +267,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onPermissionRemoved() {
 		ALog.i(ALog.NOTIFICATION, "Permission removed");
+		if(progressDialog!=null)progressDialog.dismiss();
 		// toggleOff the notification toggle
 	}
 
@@ -243,6 +275,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	public void onPermissionAdded() {
 		ALog.i(ALog.NOTIFICATION, "Permission added");
 		// toggleOff the notification toggle
+		if(progressDialog!=null)progressDialog.dismiss();
 	}
 
 	@Override
@@ -274,6 +307,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onAirPurifierEventReceived() {
 		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
+		if(progressDialog!=null)progressDialog.dismiss();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		//TODO - Stop the progress dialog
 	}
@@ -302,7 +336,14 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		default:
 			break;
 		}
-		
+		showProgressDialog(R.string.notification_send_aqi_level_msg);
 		setAQIThreshold(aqiThreshold);
 	}	
+	
+	private void showProgressDialog(int msg){
+		progressDialog = new ProgressDialog(getActivity());
+		progressDialog.setMessage(getString(msg));
+		progressDialog.setCancelable(false);
+		progressDialog.show();
+	}
 }
