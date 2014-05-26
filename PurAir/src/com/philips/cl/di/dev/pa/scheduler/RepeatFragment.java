@@ -66,7 +66,7 @@ public class RepeatFragment extends BaseFragment {
 	private class DaysAdapter extends ArrayAdapter<String> {
 		public DaysAdapter(Context context, int resource, String[] objects) {
 			super(context, resource, objects);
-			ALog.i(ALog.SCHEDULER, "RepeatFragment-DaysAdapter () method constructor enter " + objects);
+			ALog.i(ALog.SCHEDULER, "RepeatFragment-DaysAdapter () method constructor enter size: " + objects.length);
 		}
 
 		@Override
