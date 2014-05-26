@@ -23,11 +23,11 @@ public class IndoorDashboardUtils {
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TURBO)) {
 			return R.string.turbo;
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_ONE)) {
-			return R.string.one;
+			return R.string.speed1;
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TWO)) {
-			return R.string.two;
+			return R.string.speed2;
 		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_THREE)) {
-			return R.string.three;
+			return R.string.speed3;
 		}
 		
 		return R.string.empty_string;
