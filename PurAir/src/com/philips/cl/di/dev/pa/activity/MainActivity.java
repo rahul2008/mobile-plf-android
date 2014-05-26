@@ -65,7 +65,6 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
@@ -273,6 +272,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		}
 		super.onStop();
 	}
+	
+	@Override
+	protected void onDestroy() {
+		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
+		super.onDestroy();
+	}
 
 	@SuppressLint("NewApi")
 	@Override
@@ -309,7 +314,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	private void initializeCPPController() {
-		CPPController.getInstance(this).addSignonListener(this) ;
+		CPPController.getInstance(this).addSignOnListener(this) ;
 	}
 
 	public DrawerLayout getDrawerLayout() {
@@ -833,7 +838,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		if (signon) {
 			pairToPurifierIfNecessary() ;
 		}
-
 	}
 
 	private void pairToPurifierIfNecessary() {

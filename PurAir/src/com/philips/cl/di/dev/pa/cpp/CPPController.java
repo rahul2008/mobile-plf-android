@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -35,7 +36,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private SignOn signon;
 	private boolean isSignOn;
-	private SignonListener signOnListener;
+	private List<SignonListener> signOnListeners;
 
 	private ICPCallbackHandler callbackHandler;
 
@@ -67,6 +68,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
 		eventPublisher = new EventPublisher(callbackHandler);
+		signOnListeners = new ArrayList<SignonListener>();
 		
 		init() ;
 	}
@@ -262,9 +264,17 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * 
 	 * @param icpClientObj
 	 */
-	private void notifyListeners(String data, String fromEui64) {
+	private void notifyDCSListeners(String data, String fromEui64) {
 		if (data == null || dcsEventListener == null) return;
 		dcsEventListener.onDCSEventReceived(data, fromEui64);
+	}
+	
+	private void notifySignOnListeners(boolean signOnStatus) {
+		synchronized (signOnListeners) {
+			for (SignonListener listener : signOnListeners) {
+				listener.signonStatus(signOnStatus);
+			}
+		}
 	}
 
 	/**
@@ -326,10 +336,25 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		startDCSService();
 	}
 
-	public void addSignonListener(SignonListener signOnListener) {
-		this.signOnListener = signOnListener;
+	public void removeSignOnListener(SignonListener signOnListener) {
+		synchronized (signOnListeners) {
+			if (signOnListeners.contains(signOnListener)) {
+				signOnListeners.remove(signOnListener);
+				ALog.v(ALog.CPPCONTROLLER, "Removed signOn listener - " +signOnListener.hashCode());
+			}
+		}
 	}
 
+	public void addSignOnListener(SignonListener signOnListener) {
+		synchronized (signOnListeners) {
+			if (!signOnListeners.contains(signOnListener)) {
+				signOnListeners.add(signOnListener);
+				ALog.v(ALog.CPPCONTROLLER, "Added signOn listener - " +signOnListener.hashCode());
+			}
+		}
+	}
+	
+	
 	/***
 	 * This is the callback method for all the CPP related events. (Signon,
 	 * Publish Events, Subscription, etc..)
@@ -346,18 +371,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.ICPCLIENT, "SIGNON-SUCCESSFUL") ;
 				isSignOn = true;
-				if (signOnListener != null) {
-					signOnListener.signonStatus(true);
-				}				
+				notifySignOnListeners(true);
 				// startDCSService();
 			} else {
 				ALog.e(ALog.ICPCLIENT, "SIGNON-FAILED") ;
 				isSignOn = false ;
-				if (signOnListener != null) {
-					signOnListener.signonStatus(false);
-				}
+				notifySignOnListeners(false);
 			}
-			signOnListener = null;
 			break;
 			
 		case Commands.KEY_PROVISION:
@@ -388,7 +408,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						fromEui64 = eventSubscription.getReplyTo(i);
 						
 						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
-						notifyListeners(dcsEvents, fromEui64);
+						notifyDCSListeners(dcsEvents, fromEui64);
 					}
 				}
 			}

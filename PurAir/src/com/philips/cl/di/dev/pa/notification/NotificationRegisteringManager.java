@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.notification;
 
 import java.io.IOException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,7 +37,7 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 	public NotificationRegisteringManager() {
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
-		CPPController.getInstance(PurAirApplication.getAppContext()).addSignonListener(this);
+		CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(this);
 		
 		gcm = GoogleCloudMessaging.getInstance(PurAirApplication.getAppContext());
 		regid = getRegistrationId(PurAirApplication.getAppContext());
@@ -103,11 +105,16 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 		SharedPreferences.Editor editor = getGCMPreferences(PurAirApplication.getAppContext()).edit();
 		editor.putBoolean(IS_REGISTRATIONKEY_SEND_TO_CPP, false).commit();
 
+		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
+			ALog.e(ALog.NOTIFICATION, "Failed to send registration ID to CPP - not signed on");
+			return;
+		}
+		
 		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler,AppConstants.SERVICE_TAG);
 		thirdParty.setProtocolDetails(AppConstants.PROTOCOL, AppConstants.PROVIDER, regid);
 		int retStatus =  thirdParty.executeCommand();
 		if (Errors.SUCCESS != retStatus)	{
-			ALog.e(ALog.NOTIFICATION, "Failed to send registration ID to CPP.");
+			ALog.e(ALog.NOTIFICATION, "Failed to send registration ID to CPP - immediate");
 		}
 	}
 
@@ -161,16 +168,16 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
 		
 		if (!isRegisteredToGCM) {
-			ALog.i(ALog.NOTIFICATION, "Not yet registered - No Registration ID");
+			ALog.d(ALog.NOTIFICATION, "Not yet registered - No Registration ID");
 			return false;
 		}
 		
 		if (isGCMRegistrationExpired) {
-			ALog.i(ALog.NOTIFICATION, "Registration ID expired - App version changed");
+			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
 			return false;
 		}
 
-		ALog.i(ALog.NOTIFICATION, "App already registered for GCM");
+		ALog.d(ALog.NOTIFICATION, "App already registered for GCM");
 		return true;
 	}
 	
@@ -179,9 +186,9 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 		boolean isRegistrationKeySendToCpp = prefs.getBoolean(IS_REGISTRATIONKEY_SEND_TO_CPP, false);
 		
 		if (isRegistrationKeySendToCpp) {
-			ALog.i(ALog.NOTIFICATION, "Registration key already sent to CPP");
+			ALog.d(ALog.NOTIFICATION, "Registration key already sent to CPP");
 		} else {
-			ALog.i(ALog.NOTIFICATION, "Registration key not yet sent to CPP");
+			ALog.d(ALog.NOTIFICATION, "Registration key not yet sent to CPP");
 		}
 		return isRegistrationKeySendToCpp;
 	}
@@ -200,7 +207,7 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 				ALog.i(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
 				editor.putBoolean(IS_REGISTRATIONKEY_SEND_TO_CPP, true);		    
 			} else {
-				ALog.i(ALog.NOTIFICATION, "Failed to send Registration ID to CPP");
+				ALog.i(ALog.NOTIFICATION, "Failed to send Registration ID to CPP - callback");
 				editor.putBoolean(IS_REGISTRATIONKEY_SEND_TO_CPP, false);
 			}
 			editor.commit();
@@ -209,10 +216,18 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 
 	@Override
 	public void signonStatus(boolean signon) {
+		ALog.i(ALog.NOTIFICATION, "Sigon on status callback");
 		if (!signon) return;
 		if (isRegistrationKeySendToCpp()) return;
 		
-		ALog.i(ALog.NOTIFICATION, "ICPCLient signed on - sending GCM Registration ID to cpp");
-		sendRegistrationIdToBackend(regid);
+		ALog.i(ALog.NOTIFICATION, "ICPCLient signed on - sending GCM Registration ID to cpp: " + regid);
+
+		// Dirty: need to send registration ID from different Thread than ICPCallback
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				sendRegistrationIdToBackend(regid);
+			}
+		}, 0);
 	}
 }
