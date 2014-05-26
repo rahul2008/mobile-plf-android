@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -220,6 +221,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if(isChecked){
 			showProgressDialog(R.string.notification_enabling_msg);
 			enableDetailedNotificationsLayout();
+			PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
 			pairingManager.addPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
 		}
 		else{

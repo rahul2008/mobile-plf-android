@@ -165,7 +165,7 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 			return false;
 		}
 		
-		if (!isGCMRegistrationExpired) {
+		if (isGCMRegistrationExpired) {
 			ALog.i(ALog.NOTIFICATION, "Registration ID expired - App version changed");
 			return false;
 		}
