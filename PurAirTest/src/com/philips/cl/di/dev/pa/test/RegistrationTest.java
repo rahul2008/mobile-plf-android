@@ -1,12 +1,6 @@
 package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import android.provider.ContactsContract.CommonDataKinds.Email;
-
-import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment.ErrorType;
 import com.philips.cl.di.dev.pa.util.ALog;

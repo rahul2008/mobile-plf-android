@@ -76,7 +76,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	public float lastDayRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, };
-
+	
 	public float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 
 	public float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
@@ -102,7 +102,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		} catch (ClassCastException e) {
 			ALog.e(ALog.INDOOR_DETAILS, "Actionbar: " + e.getMessage());
 		}
-
 		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
 				CPPController.getInstance(this) != null) {
@@ -303,7 +302,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		goodAirInfos.add(Utils.getPercentage(goodAirCount, totalAirCount));
 		last7daysRDCPValues.add(last7daysRDCPVal);
 		last4weeksRDCPValues.add(last4weeksRDCPVal);
-//		Utils.calculateOutdoorAQIValues();
 
 		handler.removeCallbacks(downloadDataRunnble);
 		handler.post(downloadDataRunnble);
@@ -452,9 +450,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-//				ALog.i(ALog.INDOOR_DETAILS, "hrlyAqiValues==  " + hrlyAqiValues);
-//				ALog.i(ALog.INDOOR_DETAILS, "dailyAqiValues==  " + dailyAqiValues);
-//				ALog.i(ALog.INDOOR_DETAILS, "powerOnStatusList==  " + powerOnStatusList);
 			}
 			addAqiReading();
 		}

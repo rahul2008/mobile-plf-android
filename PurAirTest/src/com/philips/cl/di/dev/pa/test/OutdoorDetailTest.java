@@ -220,26 +220,26 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 	 * 
 	 */
 	public void testGetColorIndoor_1() {
-		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_2 + 5);
+		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_1_4 + 5);
 		int color = graphPathDraw.getColorIndoor(y);
 		assertEquals(GraphConst.COLOR_STATE_BLUE, color);
 	}
 	
 	public void testGetColorIndoor_2() {
 		
-		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_3 + 5);
+		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_2_3 + 5);
 		int color = graphPathDraw.getColorIndoor(y);
 		assertEquals(GraphConst.COLOR_MIDNIGHT_BLUE, color);
 	}
 	
 	public void testGetColorIndoor_3() {
-		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_4 + 5);
+		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_3_5 + 5);
 		int color = graphPathDraw.getColorIndoor(y);
 		assertEquals(GraphConst.COLOR_PURPLE, color);
 	}
 	
 	public void testGetColorIndoor_4() {
-		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_6);
+		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_5_5);
 		int color = graphPathDraw.getColorIndoor(y);
 		assertEquals(GraphConst.COLOR_RED, color);
 	}

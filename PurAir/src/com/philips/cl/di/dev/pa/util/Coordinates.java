@@ -38,13 +38,13 @@ public class Coordinates {
 	
 	private float idY10;
 	private float idY9;
-	private float idY8;
+	private float idY7P5;
 	private float idY7;
-	private float idY6;
+	private float idY5P5;
 	private float idY5;
-	private float idY4;
-	private float idY3;
-	private float idY2;
+	private float idY3P5;
+	private float idY2P3;
+	private float idY1P4;
 	private float idY1;
 	private float idY0;
 	
@@ -100,12 +100,6 @@ public class Coordinates {
 		idRectMarginLeft = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
 		idRectWidth = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_WIDTH);
 		idY10Point0 = 0;
-		idY5Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5_5);
-		idY4Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_4_5);
-		idY3Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3_5);
-		idY2Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2_5);
-		idY1Point5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1_5);
-		idY0Point0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0);
 		idX0 = getPxWithRespectToDip(ctx, GraphConst.XAXIS0);
 		idRadius = getPxWithRespectToDip(ctx, GraphConst.RADIUS);
 		idYxLabelPadding = getPxWithRespectToDip(ctx, GraphConst.FIVE);
@@ -114,14 +108,11 @@ public class Coordinates {
 		
 		idY10 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_10);
 		idY9 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_9);
-		idY8 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_8);
-		idY7 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_7);
-		idY6 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_6);
-		idY5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5);
-		idY4 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_4);
-		idY3 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3);
-		idY2 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2);
-		idY1 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1);
+		idY7P5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_7_5);
+		idY5P5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_5_5);
+		idY3P5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_3_5);
+		idY2P3 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2_3);
+		idY1P4 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1_4);
 		idY0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0_0);
 		
 		/**
@@ -325,25 +316,25 @@ public class Coordinates {
 		return idY9;
 	}
 	public float getIdY8() {
-		return idY8;
+		return idY7P5;
 	}
 	public float getIdY7() {
 		return idY7;
 	}
 	public float getIdY6() {
-		return idY6;
+		return idY5P5;
 	}
 	public float getIdY5() {
 		return idY5;
 	}
 	public float getIdY4() {
-		return idY4;
+		return idY3P5;
 	}
 	public float getIdY3() {
-		return idY3;
+		return idY2P3;
 	}
 	public float getIdY2() {
-		return idY2;
+		return idY1P4;
 	}
 	public float getIdY1() {
 		return idY1;

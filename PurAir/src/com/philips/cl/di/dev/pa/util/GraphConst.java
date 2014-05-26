@@ -25,24 +25,15 @@ public class GraphConst {
 	public static final float ID_PADDING_RIGHT = 80;
 	public static final float ID_YAXIS_RECT_MARGIN_LEFT = 20;
 	public static final float ID_YAXIS_RECT_WIDTH = 25;
-	public static final float ID_YAXIS_10 = 0;
-	public static final float ID_YAXIS_5_5 = 40;
-	public static final float ID_YAXIS_4_5 = 80;
-	public static final float ID_YAXIS_3_5 = 120;
-	public static final float ID_YAXIS_2_5 = 160;
-	public static final float ID_YAXIS_1_5 = 200;
-	public static final float ID_YAXIS_0 = 260;
 	
-	public static final float ID_YAXIS_9 = 25;
-	public static final float ID_YAXIS_8 = 50;
-	public static final float ID_YAXIS_7 = 75;
-	public static final float ID_YAXIS_6 = 100;
-	public static final float ID_YAXIS_5 = 125;
-	public static final float ID_YAXIS_4 = 150;
-	public static final float ID_YAXIS_3 = 175;
-	public static final float ID_YAXIS_2 = 200;
-	public static final float ID_YAXIS_1 = 225;
-	public static final float ID_YAXIS_0_0 = 250;
+	public static final float ID_YAXIS_10 = 0F;
+	public static final float ID_YAXIS_9 = 25F;
+	public static final float ID_YAXIS_7_5 = 62.5F;
+	public static final float ID_YAXIS_5_5 = 112.5F;
+	public static final float ID_YAXIS_3_5 = 162.5F;
+	public static final float ID_YAXIS_2_3 = 192.5F;
+	public static final float ID_YAXIS_1_4 = 215F;
+	public static final float ID_YAXIS_0_0 = 250F;
 	
 	public static final float OD_YAXIS_RECT_MARGIN_LEFT = 30;
 	public static final float OD_YAXIS_RECT_WIDTH = 35;

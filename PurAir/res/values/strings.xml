@@ -166,9 +166,9 @@
     <string name="od_yaxis_label4">200</string>
     <string name="od_yaxis_label5">300</string>
     <string name="od_yaxis_label6">500+</string>
-    <string name="id_yaxis_label1">2</string>
-    <string name="id_yaxis_label2">3</string>
-    <string name="id_yaxis_label3">4</string>
+    <string name="id_yaxis_label1">1.4</string>
+    <string name="id_yaxis_label2">2.3</string>
+    <string name="id_yaxis_label3">3.5</string>
     <string name="id_yaxis_label4">10+</string>
     <string name="sun">Sun</string>
     <string name="mon">Mon</string>
