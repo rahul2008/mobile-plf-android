@@ -258,7 +258,10 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 					disableDetailedNotificationsLayout();
 				}
 				notificationToggle.setOnCheckedChangeListener(NotificationsFragment.this);
-				setUIAqiThreshold(mPurifier.getAirPortInfo().getAqiThreshold());
+				if(mPurifier!=null)
+				{
+					setUIAqiThreshold(mPurifier.getAirPortInfo().getAqiThreshold());
+				}				
 				indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
 			}
 		});		

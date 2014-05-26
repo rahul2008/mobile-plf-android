@@ -41,7 +41,7 @@ public class NotificationIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
             	ALog.e(ALog.NOTIFICATION, "Received notification regarding deleted message on server - ignoring");
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                sendNotification("Received: " + extras.toString());
+                sendNotification(extras.getString("alert"));
                 ALog.i(ALog.NOTIFICATION, "Received notification: " + extras.toString());
             }
         }
@@ -54,14 +54,15 @@ public class NotificationIntentService extends IntentService {
     	// TODO parse message properly
     	
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this)
         .setSmallIcon(R.drawable.purair_icon) // TODO change notification icon
-        .setContentTitle("GCM Notification")
+        .setContentTitle(getString(R.string.app_name))
         .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
+        .setAutoCancel(true)
         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
