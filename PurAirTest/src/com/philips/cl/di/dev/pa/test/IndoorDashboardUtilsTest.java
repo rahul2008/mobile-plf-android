@@ -40,17 +40,17 @@ public class IndoorDashboardUtilsTest extends TestCase {
 	
 	public void testGetFanSpeedTextCase4() {
 		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_ONE);
-		assertEquals(R.string.one, fanSpeed);
+		assertEquals(R.string.speed1, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase5() {
 		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TWO);
-		assertEquals(R.string.two, fanSpeed);
+		assertEquals(R.string.speed2, fanSpeed);
 	}
 	
 	public void testGetFanSpeedTextCase6() {
 		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_THREE);
-		assertEquals(R.string.three, fanSpeed);
+		assertEquals(R.string.speed3, fanSpeed);
 	}
 	
 	public void testGetAqiPointerBackgroundIdZero() {
