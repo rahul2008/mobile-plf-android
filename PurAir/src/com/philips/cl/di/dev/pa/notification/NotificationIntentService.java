@@ -52,6 +52,7 @@ public class NotificationIntentService extends IntentService {
     // Put the message into a notification and post it.
     private void sendNotification(String msg) {
     	// TODO parse message properly
+    	if(msg==null || msg.isEmpty()) return;
     	
         mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
