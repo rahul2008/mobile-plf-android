@@ -222,12 +222,13 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 		
 		ALog.i(ALog.NOTIFICATION, "ICPCLient signed on - sending GCM Registration ID to cpp: " + regid);
 
-		// Dirty: need to send registration ID from different Thread than ICPCallback
+		// Dirty: need to send registration ID after 3sec so ICPClient can properly startup
+		// otherwise it will fail.
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
 				sendRegistrationIdToBackend(regid);
 			}
-		}, 0);
+		}, 3000);
 	}
 }
