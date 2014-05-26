@@ -895,9 +895,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			progressDialog.cancel();
 		}
 		try{
-			NotificationRegisteringManager nm= new NotificationRegisteringManager();
-			nm.registerAppForNotification();
-			
 			PairingDialogFragment dialog = PairingDialogFragment.newInstance(null, PairingDialogFragment.dialog_type.PAIRING_SUCCESS);
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);

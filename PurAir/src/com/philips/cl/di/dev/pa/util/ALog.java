@@ -12,6 +12,7 @@ import android.util.Log;
 public class ALog {
 	
 	public static final String TEMP = "Temp"; // Use for temporary logs during development
+	public static final String APPLICATION = "PurAirApplication";
 	public static final String ACTIVITY = "ActivityLifecycle";
 	public static final String FRAGMENT = "FragmentLifecycle";
 	public static final String EWS = "EasyWifiSetup";
@@ -43,7 +44,7 @@ public class ALog {
 	public static final String DISCOVERY = "DiscoveryManager";
 	public static final String NETWORKMONITOR = "NetworkMonitor";
 	public static final String UDP = "UDPSocket";
-	public static final String NOTIFICATION="Notification";
+	public static final String NOTIFICATION="NotificationAir";
 	public static final String USER_REGISTRATION = "UserRegistration";
 	
 	private static boolean isLoggingEnabled = true;
