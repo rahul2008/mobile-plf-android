@@ -103,8 +103,5 @@ public class RepeatFragment extends BaseFragment {
 			
 			return view;
 		}
-		
-		
-		
 	}
 }
