@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.test;
 
-import com.philips.cl.di.dev.pa.cpp.PairingManager;
+import com.philips.cl.di.dev.pa.cpp.Pairinghandler;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 
 import junit.framework.TestCase;
@@ -9,14 +9,14 @@ public class PairingTest extends TestCase {
 	
 	public void testGenerateRandomSecretKeyNotNull()
 	{
-		PairingManager manager=new PairingManager(null, null);
+		Pairinghandler manager=new Pairinghandler(null, null);
 		String randomKey= manager.generateRandomSecretKey();
 		assertNotNull(randomKey);
 	}
 	
 	public void testGenerateRandomSecretKeyNotEqual()
 	{
-		PairingManager manager=new PairingManager(null, null);
+		Pairinghandler manager=new Pairinghandler(null, null);
 		String randomKey= manager.generateRandomSecretKey();
 		String randomKey1= manager.generateRandomSecretKey();
 		assertFalse(randomKey.equals(randomKey1));

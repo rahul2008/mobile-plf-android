@@ -12,12 +12,12 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	private PurifierManager mPurifierMan;
-	private SubscriptionManager mSubscriptionMan;
+	private SubscriptionHandler mSubscriptionMan;
 	private AirPurifierEventListener mEventListener;
 	
 	private static final String PURIFIER_IP = "198.168.1.145";
@@ -51,13 +51,13 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	protected void tearDown() throws Exception {
 		// Remove mock objects after tests
 		PurifierManager.setDummyPurifierManagerForTesting(null);
-		SubscriptionManager.setDummySubscriptionManagerForTesting(null);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 		super.tearDown();
 	}
 	
 	private void setMockSubscriptionManager() {
-		mSubscriptionMan = mock(SubscriptionManager.class);
-		SubscriptionManager.setDummySubscriptionManagerForTesting(mSubscriptionMan);
+		mSubscriptionMan = mock(SubscriptionHandler.class);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubscriptionMan);
 	}
 	
 	public void testNoSubscriptionAtStartup() {

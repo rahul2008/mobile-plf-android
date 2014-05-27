@@ -17,24 +17,24 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class SubscriptionManager implements UDPEventListener, DCSEventListener, ServerResponseListener {
+public class SubscriptionHandler implements UDPEventListener, DCSEventListener, ServerResponseListener {
 	
 	private static final int LOCAL_SUBSCRIPTIONTIME = 3360; // IN SEC
 	private static final int CPP_SUBSCRIPTIONTIME = 120; // IN MIN
 	
-	private static SubscriptionManager mInstance ;
+	private static SubscriptionHandler mInstance ;
 	private SubscriptionEventListener subscriptionEventListener ;
 	private UDPReceivingThread udpReceivingThread ;
 		
-	private SubscriptionManager() {
+	private SubscriptionHandler() {
 		// enforce singleton
 		udpReceivingThread = new UDPReceivingThread(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).setDCSEventListener(this);
 	}
 	
-	public static SubscriptionManager getInstance() {
+	public static SubscriptionHandler getInstance() {
 		if( null == mInstance ) {
-			mInstance = new SubscriptionManager() ;
+			mInstance = new SubscriptionHandler() ;
 		}
 		return mInstance ;
 	}
@@ -182,7 +182,7 @@ public class SubscriptionManager implements UDPEventListener, DCSEventListener, 
 		// TODO fix this
  	}
 
-	public static void setDummySubscriptionManagerForTesting(SubscriptionManager dummyManager) {
+	public static void setDummySubscriptionManagerForTesting(SubscriptionHandler dummyManager) {
 		mInstance = dummyManager;
 	}
 } 

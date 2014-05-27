@@ -7,14 +7,14 @@ import static org.mockito.Matchers.anyString;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class SubscriptionManagerTest extends InstrumentationTestCase {
 	
 	private static final String PURIFIER_IP = "198.168.1.145";
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
 	
-	private SubscriptionManager mSubscriptionMan;
+	private SubscriptionHandler mSubscriptionMan;
 	private SubscriptionEventListener mSubListener;
 	
 	@Override
@@ -22,8 +22,8 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 		// Necessary to get Mockito framework working
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 		
-		SubscriptionManager.setDummySubscriptionManagerForTesting(null);
-		mSubscriptionMan = SubscriptionManager.getInstance();
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
+		mSubscriptionMan = SubscriptionHandler.getInstance();
 		
 		mSubListener = mock(SubscriptionEventListener.class);
 		mSubscriptionMan.setSubscriptionListener(mSubListener);
@@ -33,7 +33,7 @@ public class SubscriptionManagerTest extends InstrumentationTestCase {
 
 	protected void tearDown() throws Exception {
 		// Reset SubscriptionManager after tests
-		SubscriptionManager.setDummySubscriptionManagerForTesting(null);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 		super.tearDown();
 	}
 	

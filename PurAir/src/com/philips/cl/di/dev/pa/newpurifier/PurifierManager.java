@@ -9,7 +9,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionManager;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -46,7 +46,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	private PurifierManager() {
 		// Enforce Singleton
-		SubscriptionManager.getInstance().setSubscriptionListener(this);
+		SubscriptionHandler.getInstance().setSubscriptionListener(this);
 		airPuriferEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
 		mDeviceHandler = new DeviceHandler(this);
@@ -86,14 +86,14 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private void subscribeToAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
-		SubscriptionManager.getInstance().subscribeToPurifierEvents(purifier);
-		SubscriptionManager.getInstance().subscribeToFirmwareEvents(purifier);
+		SubscriptionHandler.getInstance().subscribeToPurifierEvents(purifier);
+		SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purifier);
 	}
 
 	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
-		SubscriptionManager.getInstance().unSubscribeFromPurifierEvents(purifier);
-		SubscriptionManager.getInstance().unSubscribeFromFirmwareEvents(purifier);
+		SubscriptionHandler.getInstance().unSubscribeFromPurifierEvents(purifier);
+		SubscriptionHandler.getInstance().unSubscribeFromFirmwareEvents(purifier);
 	}
 
 	// TODO refactor into new architecture
@@ -230,12 +230,12 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		//Start the subscription every time it discovers the Purifier
 		subscribeToAllEvents(purifier);
-		SubscriptionManager.getInstance().enableLocalSubscription();
+		SubscriptionHandler.getInstance().enableLocalSubscription();
 	}
 
 	private void stopLocalConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop LocalConnection") ;
-		SubscriptionManager.getInstance().disableLocalSubscription();
+		SubscriptionHandler.getInstance().disableLocalSubscription();
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 
@@ -250,12 +250,12 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		ALog.i(ALog.PURIFIER_MANAGER, "Start RemoteConnection for purifier: "  + purifier.getName() + " (" + purifier.getEui64() + ")");
 		subscribeToAllEvents(purifier);
-		SubscriptionManager.getInstance().enableRemoteSubscription(PurAirApplication.getAppContext());
+		SubscriptionHandler.getInstance().enableRemoteSubscription(PurAirApplication.getAppContext());
 	}
 	
 	private void stopRemoteConnection() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop RemoteConnection") ;
-		SubscriptionManager.getInstance().disableRemoteSubscription(PurAirApplication.getAppContext());
+		SubscriptionHandler.getInstance().disableRemoteSubscription(PurAirApplication.getAppContext());
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 	
