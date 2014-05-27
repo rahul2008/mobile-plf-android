@@ -37,7 +37,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private List<AirPurifierEventListener> airPuriferEventListeners ;
 	
 	
-	public static PurifierManager getInstance() {
+	public static synchronized PurifierManager getInstance() {
 		if (instance == null) {
 			instance = new PurifierManager();
 		}
@@ -152,6 +152,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void setAirPortInfo(AirPortInfo airPortInfo) {
 		PurAirDevice currentPurifier = getCurrentPurifier();
 		if (currentPurifier == null) return;
+		if (airPortInfo == null) return;
 		
 		currentPurifier.setAirPortInfo(airPortInfo);
 	}
@@ -159,6 +160,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
 		PurAirDevice currentPurifier = getCurrentPurifier();
 		if (currentPurifier == null) return;
+		if (firmwarePortInfo == null) return;
 		
 		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
 	}
@@ -180,20 +182,21 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		AirPortInfo airPortInfoCPP = DataParser.parseAirPurifierEventDataFromCPP(data);
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
 
+		setAirPortInfo(airPortInfo);
+		setAirPortInfo(airPortInfoCPP);
+		setFirmwarePortInfo(firmwarePortInfo);
+		
 		synchronized (airPuriferEventListeners) {
 			for (AirPurifierEventListener listener : airPuriferEventListeners) {
 				if(airPortInfo != null) {
-					setAirPortInfo(airPortInfo);
 					listener.onAirPurifierEventReceived();
 					continue;
 				} 
 				if(airPortInfoCPP != null) {
-					setAirPortInfo(airPortInfoCPP);
 					listener.onAirPurifierEventReceived();
 					continue;
 				} 
 				if(firmwarePortInfo != null) {
-					setFirmwarePortInfo(firmwarePortInfo);
 					listener.onFirmwareEventReceived();
 				}
 			}
