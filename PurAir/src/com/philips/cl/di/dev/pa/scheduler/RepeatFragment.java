@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -33,7 +34,8 @@ public class RepeatFragment extends BaseFragment {
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);		
+		super.onActivityCreated(savedInstanceState);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.REPEAT);
 		lstDays = (ListView) getView().findViewById(R.id.repeat_scheduler);
 		addValues();
 		daysAdapter = new DaysAdapter(getActivity(), R.layout.repeat_scheduler_item, days);

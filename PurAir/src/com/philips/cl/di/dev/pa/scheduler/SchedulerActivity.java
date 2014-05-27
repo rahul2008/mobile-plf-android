@@ -53,7 +53,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private JSONArray arrSchedulers;
 	private PurAirDevice purAirDevice ;
 	private int scheduleType ;
-	List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
+	private List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
+	private SchedulerOverviewFragment schFragment;
 	
 	private static final int ADD_SCHEDULE = 1 ;
 	private static final int DELETE_SCHEDULE = 2 ;
@@ -144,6 +145,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			addSchedulerThread.start() ;
 			
 			showProgressDialog() ;
+			showSchedulerOverviewFragment();
 		}
 		//TODO - Implement Add scheduler Via CPP
 	}
@@ -244,11 +246,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		String time;
-		time = String.format("%d:%02d", hourOfDay, minute);
+		time = String.format("%2d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
+		
 		SelectedTime = time;
 		SelectedDays = null;
 		SelectedFanspeed = null;
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - SelectedTime is " + SelectedTime);
 		showAddSchedulerFragment();
 	}
 	
@@ -323,10 +327,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private void showSchedulerOverviewFragment() {
+		schFragment =  new SchedulerOverviewFragment();
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method enter");
 		getSupportFragmentManager()
 				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, new SchedulerOverviewFragment(), "SchedulerOverviewFragment").commit();
+				.replace(R.id.ll_scheduler_container, schFragment, "SchedulerOverviewFragment").commit();
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method exit");
 	}
 	
@@ -334,10 +339,12 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		Bundle bundle = new Bundle();
 		
 		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - create SelectedTime is " + SelectedTime);
 			bundle.putString(SchedulerConstants.TIME, SelectedTime);
 			bundle.putString(SchedulerConstants.DAYS, SelectedDays);
 			bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
 		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - udpate SelectedTime is " + updateSelectedTime);
 			bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
 			bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
 			bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
@@ -408,7 +415,19 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
 		schedulesList = DataParser.parseSchedulerDto(decryptedResponse) ;
 		ALog.i(ALog.SCHEDULER, "List of schedules: "+schedulesList.size()) ;
-		getSchedulersDataFromDevice(schedulesList);
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (schFragment == null) return;
+				schFragment.updateList();
+			}
+		});
+//		getSchedulersDataFromDevice(schedulesList);
+	}
+	
+	public List<ScheduleDto> getSchedulerList1() {
+		return schedulesList;
 	}
 	
 	private void getSchedulersDataFromDevice(List<ScheduleDto> scheduleList) {
