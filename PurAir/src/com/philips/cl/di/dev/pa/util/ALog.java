@@ -46,6 +46,7 @@ public class ALog {
 	public static final String UDP = "UDPSocket";
 	public static final String NOTIFICATION="NotificationAir";
 	public static final String USER_REGISTRATION = "UserRegistration";
+	public static final String DEVICEHANDLER = "DeviceHandler";
 	
 	private static boolean isLoggingEnabled = true;
 	

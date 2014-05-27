@@ -29,7 +29,6 @@ import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
@@ -48,7 +47,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	private PairingManager pairingManager;
 	private ProgressDialog progressDialog;
-	private AirPurifierController airPurifierController ;
 	
 	private PurAirDevice mPurifier;
 
@@ -67,7 +65,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.notifications_fragment, container, false);
 		initializeAllViews(view);
-		airPurifierController = AirPurifierController.getInstance() ;
 		return view;
 	}
 	
@@ -217,9 +214,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		}
 	}
 	
-	private void updateNotificationPermission(boolean isChecked)
-	{
-		
+	private void updateNotificationPermission(boolean isChecked) {
 		if(isChecked){
 			showProgressDialog(R.string.notification_enabling_msg);
 			enableDetailedNotificationsLayout();
@@ -237,12 +232,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if (mPurifier == null ) {
 			return ;
 		}
-		// TODO - Progress Dialog
-		switch (mPurifier.getConnectionState()) {
-			case CONNECTED_LOCALLY 	: airPurifierController.setDeviceDetailsLocally(ParserConstants.AQI_THRESHOLD, aqiThreshold, mPurifier);
-			case CONNECTED_REMOTELY : airPurifierController.setDeviceDetailsRemotely(ParserConstants.AQI_THRESHOLD, aqiThreshold, mPurifier);
-			case DISCONNECTED		: //NOP
-		}
+		showProgressDialog(R.string.notification_send_aqi_level_msg);
+		PurifierManager.getInstance().setPurifierDetails(ParserConstants.AQI_THRESHOLD, aqiThreshold);
 	}
 
 	@Override
@@ -273,7 +264,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onPermissionRemoved() {
 		ALog.i(ALog.NOTIFICATION, "Permission removed");
-		if(progressDialog!=null)progressDialog.dismiss();
+		if (progressDialog!=null) progressDialog.dismiss();
 		// toggleOff the notification toggle
 	}
 
@@ -281,12 +272,14 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	public void onPermissionAdded() {
 		ALog.i(ALog.NOTIFICATION, "Permission added");
 		// toggleOff the notification toggle
-		if(progressDialog!=null)progressDialog.dismiss();
+		if (progressDialog!=null) progressDialog.dismiss();
 	}
 
 	@Override
 	public void onCallFailed() {
-		// TODO implement
+		ALog.i(ALog.NOTIFICATION, "Failed to change permissions");
+		if (progressDialog!=null) progressDialog.dismiss();
+		notificationSetup();
 	}
 
 	@Override
@@ -342,7 +335,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		default:
 			break;
 		}
-		showProgressDialog(R.string.notification_send_aqi_level_msg);
 		setAQIThreshold(aqiThreshold);
 	}	
 	

@@ -28,11 +28,14 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private static PurifierManager instance;
 	
+	private DISecurity mSecurity;
+	private DeviceHandler mDeviceHandler;
+	
 	private PurAirDevice mCurrentPurifier = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
 	private List<AirPurifierEventListener> airPuriferEventListeners ;
-	private DISecurity mSecurity;
+	
 	
 	public static PurifierManager getInstance() {
 		if (instance == null) {
@@ -46,6 +49,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		SubscriptionManager.getInstance().setSubscriptionListener(this);
 		airPuriferEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
+		mDeviceHandler = new DeviceHandler(this);
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
@@ -80,18 +84,24 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		return mCurrentPurifier;
 	}
 
-	public void subscribeToAllEvents(PurAirDevice purifier) {
+	private void subscribeToAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
 		SubscriptionManager.getInstance().subscribeToPurifierEvents(purifier);
 		SubscriptionManager.getInstance().subscribeToFirmwareEvents(purifier);
 	}
 
-	public void unSubscribeFromAllEvents(PurAirDevice purifier) {
+	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
 		SubscriptionManager.getInstance().unSubscribeFromPurifierEvents(purifier);
 		SubscriptionManager.getInstance().unSubscribeFromFirmwareEvents(purifier);
 	}
 
+	// TODO refactor into new architecture
+	public void setPurifierDetails(String key, String value) {
+		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
+		mDeviceHandler.setPurifierDetails(key, value, getCurrentPurifier());
+	}
+	
 	@Override
 	public void onLocalEventReceived(String encryptedData, String purifierIp) {
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
@@ -163,7 +173,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		}
 	}
 	
-	public void notifySubscriptionListeners(String data) {
+	private void notifySubscriptionListeners(String data) {
 		ALog.d(ALog.SUBSCRIPTION, "Notify subscription listeners - " + data);
 		// TODO merge both JSON parsing methods.
 		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(data) ;
