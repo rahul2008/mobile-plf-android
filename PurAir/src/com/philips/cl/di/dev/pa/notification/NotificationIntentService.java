@@ -15,8 +15,12 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NotificationIntentService extends IntentService {
 	
-    public static final int NOTIFICATION_ID = 1;
-    private NotificationManager mNotificationManager;
+    public static final String EXTRA_ALERT = "alert";
+    public static final String EXTRA_FROM = "from";
+    public static final String EXTRA_SOUND = "sound";
+    
+    
+	public static final int NOTIFICATION_ID = 1;
     NotificationCompat.Builder builder;
 
     public NotificationIntentService() {
@@ -41,7 +45,7 @@ public class NotificationIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
             	ALog.e(ALog.NOTIFICATION, "Received notification regarding deleted message on server - ignoring");
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                sendNotification(extras.getString("alert"));
+                sendNotification(getMessageFromNotification(extras));
                 ALog.i(ALog.NOTIFICATION, "Received notification: " + extras.toString());
             }
         }
@@ -51,10 +55,10 @@ public class NotificationIntentService extends IntentService {
 
     // Put the message into a notification and post it.
     private void sendNotification(String msg) {
-    	// TODO parse message properly
     	if(msg==null || msg.isEmpty()) return;
     	
-        mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+    	NotificationManager notificationMan = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+    	
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
@@ -67,12 +71,16 @@ public class NotificationIntentService extends IntentService {
         .setContentText(msg);
 
         mBuilder.setContentIntent(contentIntent);
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        notificationMan.notify(NOTIFICATION_ID, mBuilder.build());
     }
     
-    public String getMessageFromNotification(String notification) {
-    	if (notification == null) return null;
-    	if (notification.isEmpty()) return null;
-    	return null;
+    public String getMessageFromNotification(Bundle notificationExtras) {
+    	if (notificationExtras == null) return null;
+    	if (notificationExtras.isEmpty()) return null;
+    	
+    	String message = notificationExtras.getString(EXTRA_ALERT);
+    	if (message == null) return null;
+    	if (message.isEmpty()) return null;
+    	return message;
     }
 }
