@@ -192,8 +192,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if(! isSignOn ) {
 			ALog.i(ALog.ICPCLIENT, "onSignOn");
 			isSignOn = true ;
+			
+			// TODO: remove these unused lines????
 			ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 			callbackHandler.setHandler(this);
+			// end remove
+			
 			signon.setIsFirstTime(true);
 			int rv = signon.executeCommand();
 			if( rv != Errors.SUCCESS ) {

@@ -18,8 +18,10 @@ Version 1:
     Description: Initial version    
 ----------------------------------------------------------------------------*/
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
+import com.philips.icpinterface.data.NVMComponentInfo;
 
 /**
 *This class provide interface to set ICP Client configuration. 
@@ -36,7 +38,7 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		ICPClientStackSize = 131072;
 		HTTPTimeout = 30;
 		FilterString = "TEST";
-		MaxNrOfRetry = 0;
+		MaxNrOfRetry = 2;
 	}
 	
 	public void setNVMConfigParams() {
@@ -46,8 +48,13 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		this.ICPClientproductVersion = 0;
 		this.ICPClientproductCountry = "NL"; // TODO: Get from locale
 		this.ICPClientproductLanguage = "EN"; // TODO: Get from locale
-//		COMPONENT_ID=AC4373-AND //TODO : Add component
-		//TODO : Change DPURL to production.
+		
+		this.ICPClientComponentCount = 1;
+		NVMComponentInfo appComponentInfo = new NVMComponentInfo();
+		appComponentInfo.componentID = "AC4373-AND";
+		appComponentInfo.componentVersion = PurAirApplication.getAppVersion();
+		this.ICPClientNVMComponents = new NVMComponentInfo[] {appComponentInfo};
+
 		this.ICPClientdevicePortalURL1="https://www.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
 	}
 	
