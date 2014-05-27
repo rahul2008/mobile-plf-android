@@ -15,7 +15,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -45,6 +44,9 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
@@ -80,7 +82,7 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
-public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener {
+public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
@@ -117,7 +119,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	activeCarbonFilterText, hepaFilterText;
 
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
-	private ActionBarDrawerToggle mActionBarDrawerToggle;
 
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
@@ -160,37 +161,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
 
-		mActionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_launcher, R.string.app_name,
-				R.string.action_settings) {
-
-			@Override
-			public void onDrawerClosed(View drawerView) {
-				if (drawerView.getId() == R.id.right_menu_scrollView) {
-					ALog.i(ALog.MAINACTIVITY, "Right drawer close");
-					mRightDrawerOpened = false;
-				} else if (drawerView.getId() == R.id.left_menu_listView) {
-					ALog.i(ALog.MAINACTIVITY, "Left drawer close");
-					mLeftDrawerOpened = false;
-				}
-				
-				supportInvalidateOptionsMenu();
-			}
-
-			@Override
-			public void onDrawerOpened(View drawerView) {
-				if (drawerView.getId() == R.id.right_menu_scrollView) {
-					mRightDrawerOpened = true;
-					ALog.i(ALog.MAINACTIVITY, "Right drawer open");
-				} else if (drawerView.getId() == R.id.left_menu_listView) {
-					mLeftDrawerOpened = true;
-					ALog.i(ALog.MAINACTIVITY, "Left drawer open");
-				}
-				supportInvalidateOptionsMenu();
-			}
-		};
-		
-		mDrawerLayout.setDrawerListener(mActionBarDrawerToggle);
+		mDrawerLayout.setDrawerListener(DrawerAdapter.getInstance());
 
 		/** Initialise left menu items and click listener */
 		mListViewLeft = (ListView) findViewById(R.id.left_menu_listView);
@@ -216,16 +187,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				.addToBackStack(null)
 				.commit();
 
-		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS,
-				Context.MODE_PRIVATE);
+		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
 		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
 		outdoorLocationsList = new ArrayList<String>();
 		int size = outdoorLocationsMap.size();
 		for (int i = 0; i < size; i++) {
 			outdoorLocationsList.add(outdoorLocationsMap.get("" + i));
 		}
-		outdoorLocationsAdapter = new ArrayAdapter<String>(this,
-				R.layout.list_item, R.id.list_text, outdoorLocationsList);
+		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
 		initializeCPPController();
 		
@@ -238,7 +207,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
-
+		DrawerAdapter.getInstance().addDrawerListener(this);
+		
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
@@ -263,6 +233,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
 
+		DrawerAdapter.getInstance().removeDrawerListener(this);
 	}
 
 	@Override
@@ -981,5 +952,33 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	@Override
 	public void onDisconnected() {
 		ALog.i(ALog.MAINACTIVITY, "onDisconnected");
+	}
+
+	@Override
+	public void onDrawerEvent(DrawerEvent event, View drawerView) {
+		ALog.i(ALog.TEMP, "MainActivity$onDrawerEvent event " + event + " view " + drawerView);
+		switch (event) {
+		case DRAWER_CLOSED:
+			if (drawerView.getId() == R.id.right_menu_scrollView) {
+				ALog.i(ALog.MAINACTIVITY, "Right drawer close");
+				mRightDrawerOpened = false;
+			} else if (drawerView.getId() == R.id.left_menu_listView) {
+				ALog.i(ALog.MAINACTIVITY, "Left drawer close");
+				mLeftDrawerOpened = false;
+			}
+			break;
+		case DRAWER_OPENED:
+			if (drawerView.getId() == R.id.right_menu_scrollView) {
+				mRightDrawerOpened = true;
+				ALog.i(ALog.MAINACTIVITY, "Right drawer open");
+			} else if (drawerView.getId() == R.id.left_menu_listView) {
+				mLeftDrawerOpened = true;
+				ALog.i(ALog.MAINACTIVITY, "Left drawer open");
+			}
+			break;
+
+		default:
+			break;
+		}
 	}
 }

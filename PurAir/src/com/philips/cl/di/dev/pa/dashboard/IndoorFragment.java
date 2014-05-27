@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -27,7 +29,7 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener {
+public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener, DrawerEventListener {
 
 	private LinearLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -76,6 +78,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		
+		DrawerAdapter.getInstance().addDrawerListener(this);
+		
 		updateDashboard();
 		hideFirmwareUpdatePopup();
 	}
@@ -88,6 +92,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onPause() {
 		super.onPause();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		DrawerAdapter.getInstance().removeDrawerListener(this);
 	}
 
 	private void updateDashboard() {
@@ -229,6 +234,19 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		case R.id.hf_indoor_circle_pointer:
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 			startActivity(intent);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	@Override
+	public void onDrawerEvent(DrawerEvent event, View drawerView) {
+		switch (event) {
+		case DRAWER_CLOSED:
+			break;
+		case DRAWER_OPENED:
+			hideFirmwareUpdatePopup();
 			break;
 		default:
 			break;

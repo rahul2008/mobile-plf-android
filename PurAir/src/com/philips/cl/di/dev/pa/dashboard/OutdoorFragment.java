@@ -13,18 +13,21 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
+import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface {
+public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface, DrawerEventListener {
 	
 	private FontTextView cityName, location, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
@@ -47,6 +50,20 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 		super.onActivityCreated(savedInstanceState);
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
 		initViews(getView());
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		DrawerAdapter.getInstance().addDrawerListener(this);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		
+		DrawerAdapter.getInstance().removeDrawerListener(this);
 	}
 	
 	private void initViews(View view) {
@@ -137,7 +154,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	}
 	
 	private void hideTakeATourPopup() {
-		takeATourPopup.setVisibility(View.GONE);
+		if (takeATourPopup != null) {
+			takeATourPopup.setVisibility(View.GONE);
+		}
 	}
 
 	@Override
@@ -184,6 +203,18 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	@Override
 	public void onNegativeButtonClicked() {
 		// NOP
-		
+	}
+
+	@Override
+	public void onDrawerEvent(DrawerEvent event, View drawerView) {
+		switch (event) {
+		case DRAWER_CLOSED:
+			break;
+		case DRAWER_OPENED:
+			hideTakeATourPopup();
+			break;
+		default:
+			break;
+		}
 	}
 }
