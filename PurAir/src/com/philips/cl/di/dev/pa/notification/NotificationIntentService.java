@@ -45,7 +45,9 @@ public class NotificationIntentService extends IntentService {
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_DELETED.equals(messageType)) {
             	ALog.e(ALog.NOTIFICATION, "Received notification regarding deleted message on server - ignoring");
             } else if (GoogleCloudMessaging.MESSAGE_TYPE_MESSAGE.equals(messageType)) {
-                sendNotification(getMessageFromNotification(extras));
+            	NotificationManager notificationMan = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+                String message = getMessageFromNotification(extras);
+            	showNotification(notificationMan, this, message);
                 ALog.i(ALog.NOTIFICATION, "Received notification: " + extras.toString());
             }
         }
@@ -54,17 +56,16 @@ public class NotificationIntentService extends IntentService {
     }
 
     // Put the message into a notification and post it.
-    private void sendNotification(String msg) {
+    public void showNotification(NotificationManager notificationMan, Context context, String msg) {
+    	if(notificationMan==null) return;
     	if(msg==null || msg.isEmpty()) return;
     	
-    	NotificationManager notificationMan = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-    	
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, new Intent(context, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
+                new NotificationCompat.Builder(context)
         .setSmallIcon(R.drawable.purair_icon) // TODO change notification icon
-        .setContentTitle(getString(R.string.app_name))
+        .setContentTitle(context.getString(R.string.app_name))
         .setStyle(new NotificationCompat.BigTextStyle()
         .bigText(msg))
         .setAutoCancel(true)
@@ -72,6 +73,7 @@ public class NotificationIntentService extends IntentService {
 
         mBuilder.setContentIntent(contentIntent);
         notificationMan.notify(NOTIFICATION_ID, mBuilder.build());
+        ALog.i(ALog.NOTIFICATION, "Successfully showed notification: " + msg);
     }
     
     public String getMessageFromNotification(Bundle notificationExtras) {
