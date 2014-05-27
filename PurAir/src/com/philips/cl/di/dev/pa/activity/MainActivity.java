@@ -42,7 +42,7 @@ import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
-import com.philips.cl.di.dev.pa.cpp.PairingManager;
+import com.philips.cl.di.dev.pa.cpp.Pairinghandler;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
@@ -855,12 +855,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		progressDialog.setCancelable(false);
 		progressDialog.show();
 
-		PairingManager pm = new PairingManager(this, purifier);
+		Pairinghandler pm = new Pairinghandler(this, purifier);
 		pm.startPairing();
 	}
 
 	private void startPairingWithoutListener(PurAirDevice purifier) {
-		PairingManager pm = new PairingManager(null, purifier);
+		Pairinghandler pm = new Pairinghandler(null, purifier);
 		pm.startPairing();
 	}
 

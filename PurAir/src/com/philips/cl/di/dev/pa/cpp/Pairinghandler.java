@@ -26,7 +26,7 @@ import com.philips.icpinterface.data.PairingRelationship;
 
 /**
  */
-public class PairingManager implements ICPEventListener, ServerResponseListener {
+public class Pairinghandler implements ICPEventListener, ServerResponseListener {
 
 	private ICPCallbackHandler callbackHandler;
 	private String currentRelationshipType = null;
@@ -47,7 +47,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 	 * @param purifierEui64
 	 *            String
 	 */
-	public PairingManager(PairingListener iPairingListener,	PurAirDevice purifier) {
+	public Pairinghandler(PairingListener iPairingListener,	PurAirDevice purifier) {
 		this.purifier = purifier;
 		purifierDatabase = new PurifierDatabase();
 		pairingListener = iPairingListener;

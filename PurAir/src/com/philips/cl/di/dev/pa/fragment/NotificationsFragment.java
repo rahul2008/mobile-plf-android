@@ -25,7 +25,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.cpp.PairingManager;
+import com.philips.cl.di.dev.pa.cpp.Pairinghandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
@@ -45,7 +45,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private LinearLayout indoorAqiLbls;
 	private RadioGroup indoorAqiRadioBtns;
 	
-	private PairingManager pairingManager;
+	private Pairinghandler pairingManager;
 	private ProgressDialog progressDialog;
 	
 	private PurAirDevice mPurifier;
@@ -55,7 +55,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mPurifier = ((MainActivity) getActivity()).getCurrentPurifier();
-		pairingManager = new PairingManager(null, mPurifier);
+		pairingManager = new Pairinghandler(null, mPurifier);
 		pairingManager.setPermissionListener(this);
 		super.onCreate(savedInstanceState);
 	}
