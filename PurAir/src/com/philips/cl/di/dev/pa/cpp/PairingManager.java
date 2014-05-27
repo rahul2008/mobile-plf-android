@@ -259,7 +259,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		PairingService pairingObj = (PairingService) obj;
 		if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {			
 			ALog.i(ALog.PAIRING, "GetRelation call-SUCCESS");
-			int noOfRelations= getNumberOfRelation(pairingObj);
+			int noOfRelations= getNumberOfRelationships(pairingObj);
 			int diCommRelationships = pairingObj.getNumberOfRelationsReturned();
 			if (diCommRelationships < 1 || noOfRelations<1) {
 				ALog.i(ALog.PAIRING, "No existing relationships - Requesting Purifier to start pairing");
@@ -321,7 +321,7 @@ public class PairingManager implements ICPEventListener, ServerResponseListener 
 		}
 	}
 
-	private int getNumberOfRelation(PairingService pairingObj) {
+	private int getNumberOfRelationships(PairingService pairingObj) {
 		int noOfRelationReturned=0;
 		for(int i=0; i<pairingObj.getNumberOfRelationsReturned();i++){
 			PairingReceivedRelationships relation= pairingObj.getReceivedRelationsAtIndex(i);

@@ -26,6 +26,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingManager;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierController;
@@ -51,7 +52,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	private PurAirDevice mPurifier;
 
-	private String aqiThreshold ;
+	private String aqiThreshold;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		mPurifier = ((MainActivity) getActivity()).getCurrentPurifier();
@@ -71,7 +73,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	
 	@Override
 	public void onResume() {
-		if (mPurifier == null) {
+		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
 			Activity parent = this.getActivity();
 			if (parent != null && parent instanceof MainActivity) {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
@@ -79,7 +81,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
 			}
 		}
-		
 		
 		boolean notificationsEnabled = true; // TODO replace by actual pairing check
 		if (mPurifier == null) {
@@ -194,13 +195,14 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		
 	}
 	
-	private void notificationSetup(){
+	private void notificationSetup() {
+		PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
 		if(mPurifier!=null && mPurifier.isPaired()) {
 			
 			showProgressDialog(R.string.notification_permission_check_msg);
 			
 			//Enable UI and check if permission exists
-			pairingManager.getPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
+			pairingManager.getPermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
 		}
 	}
 
@@ -221,12 +223,11 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if(isChecked){
 			showProgressDialog(R.string.notification_enabling_msg);
 			enableDetailedNotificationsLayout();
-			PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
-			pairingManager.addPermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
+			pairingManager.addPermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
 		}
 		else{
 			showProgressDialog(R.string.notification_disabling_msg);
-			pairingManager.removePermission(AppConstants.NOTIFY_RELATIONSHIP, AppConstants.PUSH_PERMISSIONS.toArray(new String[AppConstants.PUSH_PERMISSIONS.size()]));
+			pairingManager.removePermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
 			disableDetailedNotificationsLayout();
 		}
 	}
@@ -260,7 +261,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 					disableDetailedNotificationsLayout();
 				}
 				notificationToggle.setOnCheckedChangeListener(NotificationsFragment.this);
-				if(mPurifier!=null)
+				if(mPurifier!=null && mPurifier.getAirPortInfo() != null)
 				{
 					setUIAqiThreshold(mPurifier.getAirPortInfo().getAqiThreshold());
 				}				
