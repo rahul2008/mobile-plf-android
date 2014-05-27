@@ -148,11 +148,16 @@ public class AppConstants {
 	
 	
 	/** PAIRING CONSTANTS */
-	public static final List<String> PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
-	public static final String DI_COMM_RELATIONSHIP="DI-COMM";
-	public static final String NOTIFY_RELATIONSHIP="NOTIFY";
-	public static final List<String> NOTIFY_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request"));
-	public static final List<String> PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
+	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 480;  // 8 hours
+	public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
+	public static final String PAIRING_REFERENCETYPE = "AC4373GENDEV";
+	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
+	public static final String PAIRING_DI_COMM_RELATIONSHIP="DI-COMM";
+	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
+	
+	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
+	public static final List<String> PAIRING_NOTIFY_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request"));
+	public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
 	
 	
 	/** OTHER CONSTANTS */
@@ -166,5 +171,6 @@ public class AppConstants {
 	public static final float MAXWIDTH = MainActivity.getScreenWidth() * 0.655f;
 
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
+
 	
 }
