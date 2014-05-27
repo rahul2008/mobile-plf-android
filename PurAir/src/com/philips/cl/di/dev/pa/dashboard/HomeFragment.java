@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,24 +25,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 		
 		ALog.i(ALog.DASHBOARD, "Density " + getResources().getDisplayMetrics().densityDpi);
-		
-		switch (getResources().getDisplayMetrics().densityDpi) {
-		case DisplayMetrics.DENSITY_LOW:
-			ALog.i(ALog.DASHBOARD, "Density LOW");
-			break;
-		case DisplayMetrics.DENSITY_MEDIUM:
-			ALog.i(ALog.DASHBOARD, "Density MEDIUM");
-			break;
-		case DisplayMetrics.DENSITY_HIGH:
-			ALog.i(ALog.DASHBOARD, "Density HIGH");
-			break;
-		case DisplayMetrics.DENSITY_XXHIGH:
-			ALog.i(ALog.DASHBOARD, "Density XXHIGH");
-		default:
-			ALog.i(ALog.DASHBOARD, "DEFAULT");
-			break;
-		}
-		
 		return view;
 	}
 	
@@ -84,5 +65,4 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			}
 		});
 	}
-
 }
