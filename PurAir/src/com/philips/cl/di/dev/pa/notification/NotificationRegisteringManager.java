@@ -98,7 +98,9 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 	private void sendRegistrationIdToBackend(String regid) {
 		SharedPreferences.Editor editor = getGCMPreferences(PurAirApplication.getAppContext()).edit();
 		editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP, false).commit();
-
+		
+		if(regid == null || regid.isEmpty()) return;
+		
 		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
 			ALog.e(ALog.NOTIFICATION, "Failed to send registration ID to CPP - not signed on");
 			return;

@@ -46,6 +46,7 @@ public class ICPCallbackHandler implements CallbackHandler
 
 	public void callback(int command, int status, ICPClient obj)
 	{
+		ALog.d(ALog.CPPCONTROLLER, "callback command " + command + " status " + status);
 		switch (command)
 		{
 		case Commands.SIGNON:
