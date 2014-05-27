@@ -19,7 +19,7 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 	 *            the context
 	 */
 	public PurifierDBHelper(Context context) {
-		super(context, AppConstants.DB_NAME, null, AppConstants.DB_VERS);
+		super(context, AppConstants.PURIFIERDB_NAME, null, AppConstants.PURIFIERDB_VERSION);
 	}
 
 	/**
@@ -49,26 +49,26 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		ALog.d(ALog.DATABASE, "Create table");
-		String createSQL = "CREATE TABLE " + AppConstants.TABLENAME + "("
+		String createSQL = "CREATE TABLE " + AppConstants.TABLE_CITYDETAILS + "("
 				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY,"
 				+ AppConstants.KEY_CITY + " TEXT," + AppConstants.KEY_PROVINCE
 				+ " TEXT," + AppConstants.KEY_AQI + " NUMERIC,"
 				+ AppConstants.KEY_DATE + " TEXT," + AppConstants.KEY_TIME
 				+ " TEXT" + ")";
 		String createTableAirPurifierEvent = "CREATE TABLE "+ AppConstants.TABLE_AIRPURIFIER_EVENT + "(" 
-				+ AppConstants.INDOOR_AQI + " INTEGER ," + 
-				AppConstants.LAST_SYNC_DATETIME + " TEXT )";
+				+ AppConstants.KEY_INDOOR_AQI + " INTEGER ," + 
+				AppConstants.KEY_LAST_SYNC_DATETIME + " TEXT )";
 		
-		String createDeviceInfo = "CREATE TABLE IF NOT EXISTS " + AppConstants.AIRPUR_INFO_TABLE + "("
-				+ AppConstants.ID + " INTEGER PRIMARY KEY,"
-				+ AppConstants.AIRPUR_USN + " TEXT UNIQUE," 
-				+ AppConstants.AIRPUR_CPP_ID + " TEXT UNIQUE," 
-				+ AppConstants.AIRPUR_DEVICE_NAME + " TEXT," 
-				+ AppConstants.AIRPUR_BOOT_ID + " NUMERIC,"
-				+ AppConstants.AIRPUR_LASTKNOWN_NETWORK + " TEXT,"
-				+ AppConstants.IS_PAIRED + " SMALLINT NOT NULL  DEFAULT 0,"
-				+ AppConstants.LAST_PAIRED + " NUMERIC,"
-				+ AppConstants.AIRPUR_KEY + " TEXT" + ")";
+		String createDeviceInfo = "CREATE TABLE IF NOT EXISTS " + AppConstants.TABLE_AIRPUR_INFO + "("
+				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY,"
+				+ AppConstants.KEY_AIRPUR_USN + " TEXT UNIQUE," 
+				+ AppConstants.KEY_AIRPUR_CPP_ID + " TEXT UNIQUE," 
+				+ AppConstants.KEY_AIRPUR_DEVICE_NAME + " TEXT," 
+				+ AppConstants.KEY_AIRPUR_BOOT_ID + " NUMERIC,"
+				+ AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK + " TEXT,"
+				+ AppConstants.KEY_AIRPUR_IS_PAIRED + " SMALLINT NOT NULL  DEFAULT 0,"
+				+ AppConstants.KEY_AIRPUR_LAST_PAIRED + " NUMERIC,"
+				+ AppConstants.KEY_AIRPUR_KEY + " TEXT" + ")";
 		
 		db.execSQL(createSQL);
 		db.execSQL(createTableAirPurifierEvent) ;
@@ -87,11 +87,11 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		ALog.d(ALog.DATABASE, "Upgrade table");
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.TABLENAME));
+				AppConstants.TABLE_CITYDETAILS));
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
 				AppConstants.TABLE_AIRPURIFIER_EVENT));
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.AIRPUR_INFO_TABLE));
+				AppConstants.TABLE_AIRPUR_INFO));
 		this.onCreate(db);
 
 	}

@@ -623,7 +623,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			return;
 		}
 		Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
-		startActivityForResult(firmwareIntent, AppConstants.FIRMWARE_REQUEST_CODE);
+		startActivity(firmwareIntent);
 	}
 
 	private void removeFirmwareUpdateUI() {
