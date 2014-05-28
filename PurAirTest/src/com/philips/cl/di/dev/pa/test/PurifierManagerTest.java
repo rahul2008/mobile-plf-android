@@ -673,7 +673,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mEventListener, never()).onFirmwareEventReceived();
 		
 		assertNotNull(device.getAirPortInfo());
-		assertNull(device.getFirmwarePortInfo());
+		assertNotNull(device.getFirmwarePortInfo());
 	}
 	
 	public void testReceiveEncryptedLocalFWEventRightPurifier() {
