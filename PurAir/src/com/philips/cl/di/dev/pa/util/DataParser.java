@@ -176,12 +176,16 @@ public class DataParser {
 
 		} catch (JSONException e) {
 			ALog.e("Exception", "JSONException -- "+ e.getMessage()) ;
+			return null ;
 		}catch(NumberFormatException nfe ) {
 			ALog.e("Exception", "Number Format exception -- "+ nfe.getMessage()) ;
+			return null ;
 		} catch (JsonIOException e) {
 			ALog.e(ALog.PARSER, "JsonIOException");
+			return null ;
 		} catch (JsonSyntaxException e2) {
 			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null ;
 		} catch (Exception e2) {
 			ALog.e(ALog.PARSER, "Exception");
 			return null;
@@ -372,6 +376,38 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "JsonIOException");
 			e.printStackTrace();
 		} catch(Exception e) {
+			e.printStackTrace() ;
+		}
+		return schedulesList ;
+	}
+	
+	public static List<ScheduleDto> parseScheduleListViaCPP(String dataToParse) {
+		ALog.i(ALog.SCHEDULER, dataToParse) ;
+		List<ScheduleDto> schedulesList = new ArrayList<ScheduleDto>() ;
+		JSONObject jsonObject = null ;
+		try {			
+			jsonObject = new JSONObject(dataToParse);
+			JSONObject dataJson = jsonObject.getJSONObject("data") ;
+			
+			@SuppressWarnings("unchecked")
+			Iterator<String> iterator = dataJson.keys() ;
+			String key = null ;
+			while(iterator.hasNext()) {
+				key = iterator.next() ;
+				ScheduleDto schedules = new ScheduleDto() ;
+				JSONObject schedule;
+				schedule = dataJson.getJSONObject(key);
+				schedules.setName((String)schedule.get("name")) ;
+				schedules.setScheduleNumber(Integer.parseInt(key)) ;
+				schedulesList.add(schedules) ;
+			}
+
+		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+			schedulesList = null ;
+			e.printStackTrace();
+		} catch(Exception e) {
+			schedulesList = null ;
 			e.printStackTrace() ;
 		}
 		return schedulesList ;

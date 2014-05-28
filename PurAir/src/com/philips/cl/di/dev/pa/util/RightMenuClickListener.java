@@ -105,6 +105,7 @@ public class RightMenuClickListener implements OnClickListener {
 	public void setSensorValues(AirPortInfo airPortInfo) {
 //		Log.i(TAG, "setSensorValues fan speed " + Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) + " dto fan speed " + airPurifierEventDto.getFanSpeed());
 		Log.i(TAG, "setSensorValues " + airPortInfo.getPowerMode());
+		if( airPortInfo == null || airPortInfo.getPowerMode() == null ) return ;
 		if(airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
 			power.setChecked(getPowerButtonState(airPortInfo));
 			setFanSpeed(airPortInfo);
