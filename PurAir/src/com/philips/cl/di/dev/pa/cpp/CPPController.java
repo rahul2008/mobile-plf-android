@@ -12,8 +12,10 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -23,6 +25,7 @@ import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.ICPClientToAppInterface;
 import com.philips.icpinterface.Provision;
 import com.philips.icpinterface.SignOn;
+import com.philips.icpinterface.ThirdPartyNotification;
 import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
@@ -37,6 +40,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private SignOn signon;
 	private boolean isSignOn;
 	private List<SignonListener> signOnListeners;
+	
+	private SendNotificationRegistrationIdListener notificationListener;
 
 	private ICPCallbackHandler callbackHandler;
 
@@ -205,22 +210,34 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
+	
+	public void addSignOnListener(SignonListener signOnListener) {
+		synchronized (signOnListeners) {
+			if (!signOnListeners.contains(signOnListener)) {
+				signOnListeners.add(signOnListener);
+				ALog.v(ALog.CPPCONTROLLER, "Added signOn listener - " +signOnListener.hashCode());
+			}
+		}
+	}
+	
+	public void removeSignOnListener(SignonListener signOnListener) {
+		synchronized (signOnListeners) {
+			if (signOnListeners.contains(signOnListener)) {
+				signOnListeners.remove(signOnListener);
+				ALog.v(ALog.CPPCONTROLLER, "Removed signOn listener - " +signOnListener.hashCode());
+			}
+		}
+	}
 
-	/**
-	 * This methodn will be used to set the listener of DataDownload
-	 * 
-	 * @param downloadDataListener
-	 */
+	public void setNotificationListener(SendNotificationRegistrationIdListener listener) {
+		notificationListener = listener;
+	}
+	
 	public void setDownloadDataListener(ICPDownloadListener downloadDataListener) {
 		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
 		this.downloadDataListener = downloadDataListener;
 	}
 
-	/**
-	 * Method to add the listeners
-	 * 
-	 * @param dcsEventListener
-	 */
 	public void setDCSEventListener(DCSEventListener dcsEventListener) {
 		this.dcsEventListener = dcsEventListener;
 	}
@@ -263,15 +280,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		isDCSRunning = false;
 	}
 
-	/**
-	 * This method will notify all the listeners for DCS events
-	 * 
-	 * @param icpClientObj
-	 */
-	private void notifyDCSListeners(String data, String fromEui64) {
-		if (data == null || dcsEventListener == null) return;
-		dcsEventListener.onDCSEventReceived(data, fromEui64);
-	}
 	
 	private void notifySignOnListeners(boolean signOnStatus) {
 		synchronized (signOnListeners) {
@@ -280,6 +288,21 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
+	
+	private void notifyNotificationListener(boolean success) {
+		if (notificationListener == null) return;
+		if (success) {
+			notificationListener.onRegistrationIdSentSuccess();
+		} else {
+			notificationListener.onRegistrationIdSentFailed();
+		}
+	}
+	
+	private void notifyDCSListener(String data, String fromEui64) {
+		if (data == null || dcsEventListener == null) return;
+		dcsEventListener.onDCSEventReceived(data, fromEui64);
+	}
+
 
 	/**
 	 * This method will be used to publish the events from App to Air Purifier
@@ -310,6 +333,22 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 
+	public boolean sendNotificationRegistrationId(String gcmRegistrationId) {
+		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
+			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
+			return false;
+		}
+		
+		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
+		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, AppConstants.NOTIFICATION_PROVIDER, gcmRegistrationId);
+		int retStatus =  thirdParty.executeCommand();
+		if (Errors.SUCCESS != retStatus)	{
+			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
+			return false;
+		}
+		return true;
+	}
+	
 	/**
 	 * This method will download the data from the cpp given the query and the
 	 * buffer size callback from the download will happen in
@@ -335,30 +374,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 
-	public void restartDCSService() {
-		stopDCSService();
-		startDCSService();
-	}
-
-	public void removeSignOnListener(SignonListener signOnListener) {
-		synchronized (signOnListeners) {
-			if (signOnListeners.contains(signOnListener)) {
-				signOnListeners.remove(signOnListener);
-				ALog.v(ALog.CPPCONTROLLER, "Removed signOn listener - " +signOnListener.hashCode());
-			}
-		}
-	}
-
-	public void addSignOnListener(SignonListener signOnListener) {
-		synchronized (signOnListeners) {
-			if (!signOnListeners.contains(signOnListener)) {
-				signOnListeners.add(signOnListener);
-				ALog.v(ALog.CPPCONTROLLER, "Added signOn listener - " +signOnListener.hashCode());
-			}
-		}
-	}
-	
-	
 	/***
 	 * This is the callback method for all the CPP related events. (Signon,
 	 * Publish Events, Subscription, etc..)
@@ -412,9 +427,19 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						fromEui64 = eventSubscription.getReplyTo(i);
 						
 						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
-						notifyDCSListeners(dcsEvents, fromEui64);
+						notifyDCSListener(dcsEvents, fromEui64);
 					}
 				}
+			}
+			break;
+			
+		case Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS :
+			if (status==Errors.SUCCESS) {	
+				ALog.i(ALog.CPPCONTROLLER, "Registration ID successfully sent to CPP");
+				notifyNotificationListener(true);
+			} else {
+				ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
+				notifyNotificationListener(false);
 			}
 			break;
 			

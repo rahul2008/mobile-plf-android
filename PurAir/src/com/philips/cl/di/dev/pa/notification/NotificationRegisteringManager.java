@@ -12,29 +12,21 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.ICPCallbackHandler;
-import com.philips.cl.di.dev.pa.cpp.ICPEventListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.icpinterface.ICPClient;
-import com.philips.icpinterface.ThirdPartyNotification;
-import com.philips.icpinterface.data.Commands;
-import com.philips.icpinterface.data.Errors;
 
-public class NotificationRegisteringManager implements ICPEventListener, SignonListener {
+public class NotificationRegisteringManager implements SignonListener, SendNotificationRegistrationIdListener {
 	
-	private ICPCallbackHandler callbackHandler;
 	private GoogleCloudMessaging gcm;
 	private String regid;
 
 	public NotificationRegisteringManager() {
-		callbackHandler = new ICPCallbackHandler();
-		callbackHandler.setHandler(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(this);
+		CPPController.getInstance(PurAirApplication.getAppContext()).setNotificationListener(this);
 		
 		gcm = GoogleCloudMessaging.getInstance(PurAirApplication.getAppContext());
-		regid = getRegistrationId(PurAirApplication.getAppContext());
+		regid = getRegistrationId();
 	}
 
 	public void registerAppForNotification() {
@@ -51,7 +43,7 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 			return;
 		}
 
-		if (isRegistrationKeySendToCpp()) {
+		if (getIsRegistrationKeySendToCpp()) {
 			ALog.i(ALog.NOTIFICATION, "GCM Registration ID already sent to CPP");
 		} else {
 			ALog.i(ALog.NOTIFICATION, "GCM Registration ID not yet sent to CPP - Sending ID to CPP now");
@@ -96,32 +88,41 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 	}
 	
 	private void sendRegistrationIdToBackend(String regid) {
-		SharedPreferences.Editor editor = getGCMPreferences(PurAirApplication.getAppContext()).edit();
-		editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP, false).commit();
-		
+		storeRegistrationKeySendToCPP(false);
 		if(regid == null || regid.isEmpty()) return;
 		
-		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
-			ALog.e(ALog.NOTIFICATION, "Failed to send registration ID to CPP - not signed on");
-			return;
+		CPPController.getInstance(PurAirApplication.getAppContext()).sendNotificationRegistrationId(regid);
+	}
+	
+	private boolean isRegisteredForGCM() {
+		final SharedPreferences prefs = getGCMPreferences();
+		boolean isRegisteredToGCM = !(regid == null || regid.isEmpty());
+		
+		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
+		int currentVersion = PurAirApplication.getAppVersion();
+		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
+		
+		if (!isRegisteredToGCM) {
+			ALog.d(ALog.NOTIFICATION, "Not yet registered - No Registration ID");
+			return false;
 		}
 		
-		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler,AppConstants.NOTIFICATION_SERVICE_TAG);
-		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, AppConstants.NOTIFICATION_PROVIDER, regid);
-		int retStatus =  thirdParty.executeCommand();
-		if (Errors.SUCCESS != retStatus)	{
-			ALog.e(ALog.NOTIFICATION, "Failed to send registration ID to CPP - immediate");
+		if (isGCMRegistrationExpired) {
+			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
+			return false;
 		}
+
+		ALog.d(ALog.NOTIFICATION, "App already registered for GCM");
+		return true;
 	}
 
-	private SharedPreferences getGCMPreferences(Context context) {
-		//persists the registration ID in shared preferences
+	private SharedPreferences getGCMPreferences() {
 		return PurAirApplication.getAppContext().getSharedPreferences(AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
 				Context.MODE_PRIVATE);
 	}
 	
-	private String getRegistrationId(Context ctx) {
-		final SharedPreferences prefs = getGCMPreferences(ctx);
+	private String getRegistrationId() {
+		final SharedPreferences prefs = getGCMPreferences();
 		String registrationId = prefs.getString(AppConstants.PROPERTY_REG_ID, "");
 
 		if (registrationId.isEmpty()) {
@@ -144,7 +145,7 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 	}
 	
 	private void storeRegistrationId(Context ctx, String registrationId) {
-		final SharedPreferences prefs = getGCMPreferences(ctx);
+		final SharedPreferences prefs = getGCMPreferences();
 		int appVersion = PurAirApplication.getAppVersion();
 		
 		ALog.i(ALog.NOTIFICATION, "Storing GCM registration ID for app version: " + appVersion);
@@ -154,31 +155,9 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 		editor.putInt(AppConstants.PROPERTY_APP_VERSION, appVersion);
 		editor.commit();
 	}
-
-	private boolean isRegisteredForGCM() {
-		final SharedPreferences prefs = getGCMPreferences(PurAirApplication.getAppContext());
-		boolean isRegisteredToGCM = !(regid == null || regid.isEmpty());
-		
-		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION, Integer.MIN_VALUE);
-		int currentVersion = PurAirApplication.getAppVersion();
-		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
-		
-		if (!isRegisteredToGCM) {
-			ALog.d(ALog.NOTIFICATION, "Not yet registered - No Registration ID");
-			return false;
-		}
-		
-		if (isGCMRegistrationExpired) {
-			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
-			return false;
-		}
-
-		ALog.d(ALog.NOTIFICATION, "App already registered for GCM");
-		return true;
-	}
 	
-	private boolean isRegistrationKeySendToCpp() {
-		final SharedPreferences prefs = getGCMPreferences(PurAirApplication.getAppContext());
+	private boolean getIsRegistrationKeySendToCpp() {
+		final SharedPreferences prefs = getGCMPreferences();
 		boolean isRegistrationKeySendToCpp = prefs.getBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP, false);
 		
 		if (isRegistrationKeySendToCpp) {
@@ -188,32 +167,19 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 		}
 		return isRegistrationKeySendToCpp;
 	}
-
-	@Override
-	public void onICPCallbackEventOccurred(int eventType, int status,
-			ICPClient obj) {
-		if (eventType== Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS) {
-			
-			ALog.d(ALog.NOTIFICATION, "Received registration callback from CPP");
-
-			final SharedPreferences prefs = getGCMPreferences(PurAirApplication.getAppContext());
-			SharedPreferences.Editor editor = prefs.edit();
-			
-			if (status==Errors.SUCCESS) {	
-				ALog.i(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
-				editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP, true);		    
-			} else {
-				ALog.i(ALog.NOTIFICATION, "Failed to send Registration ID to CPP - callback");
-				editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP, false);
-			}
-			editor.commit();
-		}
+	
+	private void storeRegistrationKeySendToCPP(boolean registrationKeySent) {
+		final SharedPreferences prefs = getGCMPreferences();
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP, registrationKeySent);
+		editor.commit();
 	}
 
+	
 	@Override
 	public void signonStatus(boolean signon) {
 		if (!signon) return;
-		if (isRegistrationKeySendToCpp()) return;
+		if (getIsRegistrationKeySendToCpp()) return;
 		
 		ALog.i(ALog.NOTIFICATION, "ICPCLient signed on - sending GCM Registration ID to cpp: " + regid);
 
@@ -226,4 +192,17 @@ public class NotificationRegisteringManager implements ICPEventListener, SignonL
 			}
 		}, 3000);
 	}
+
+	@Override
+	public void onRegistrationIdSentSuccess() {
+		ALog.i(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
+		storeRegistrationKeySendToCPP(true);
+	}
+
+	@Override
+	public void onRegistrationIdSentFailed() {
+		ALog.i(ALog.NOTIFICATION, "Failed to send Registration ID to CPP - callback");
+		storeRegistrationKeySendToCPP(false);
+	}
+
 }
