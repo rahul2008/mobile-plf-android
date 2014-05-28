@@ -82,7 +82,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		FontTextView fanspeed_text = (FontTextView) view.findViewById(R.id.fanspeedtext);
 		if(sSelectedFanspeed != null && !sSelectedFanspeed.isEmpty()) {
-			fanspeed_text.setText(sSelectedFanspeed);
+			fanspeed_text.setText(SchedulerUtil.getFanspeedName(sSelectedFanspeed));
 		}
 		
 		ImageView btnFanSpeed = (ImageView) view.findViewById(R.id.btnFanSpeed);
@@ -121,6 +121,8 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		return sWeekdays;
 	}
+	
+	
 
 	@Override
 	public void onClick(View v) {

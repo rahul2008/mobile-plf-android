@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
+
 public class SchedulerUtil {
 	
 	public static int getFanspeedItemPosition(String [] values, String selectedValue) {
@@ -28,5 +31,24 @@ public class SchedulerUtil {
 			}
 		}
 		return daysSelectedlist;
+	}
+	
+	public static String getFanspeedName(String mode) {
+	
+		String modeStr = mode;
+		if (mode.equals("a")) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.auto);
+		} else if (mode.equals("s")) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.silent);
+		} else if (mode.equals("1")) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.speed1);
+		} else if (mode.equals("2")) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.speed2);
+		} else if (mode.equals("3")) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.speed3);
+		} else if (mode.equals("t")) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.turbo);
+		}
+		return modeStr;
 	}
 }
