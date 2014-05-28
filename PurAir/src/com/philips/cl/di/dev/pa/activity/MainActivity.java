@@ -231,8 +231,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
-
-		DrawerAdapter.getInstance().removeDrawerListener(this);
 	}
 
 	@Override
@@ -240,6 +238,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
+		
+		DrawerAdapter.getInstance().removeDrawerListener(this);
+		
 		super.onStop();
 	}
 	
@@ -527,7 +528,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		textView.setText(title);
 		super.setTitle(title);
 	}
-
+	
 	/** Left menu item clickListener */
 	private class MenuItemClickListener implements OnItemClickListener {
 
@@ -612,6 +613,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			default:
 				break;
 			}
+			
 		}
 	}
 
@@ -955,7 +957,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	@Override
 	public void onDrawerEvent(DrawerEvent event, View drawerView) {
-		ALog.i(ALog.TEMP, "MainActivity$onDrawerEvent event " + event + " view " + drawerView);
 		switch (event) {
 		case DRAWER_CLOSED:
 			if (drawerView.getId() == R.id.right_menu_scrollView) {
@@ -975,6 +976,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				ALog.i(ALog.MAINACTIVITY, "Left drawer open");
 			}
 			break;
+		case DRAWER_SLIDE_END:
+			//TODO : Move showFragment and startFirmwareUpdateActivity here?
+			break;
+		
 
 		default:
 			break;
