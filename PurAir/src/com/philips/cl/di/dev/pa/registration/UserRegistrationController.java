@@ -12,8 +12,8 @@ public class UserRegistrationController {
 	private static UserRegistrationController smInstance;
 	
 	//TODO : Replace with PurAir values (Currently using Figaro values).
-	private static final String CAPTURE_CLIENT_ID = "4r36zdbeycca933nufcknn2hnpsz6gxu";
-	private static final String MICRO_SITE_ID = "81338";
+	private static final String CAPTURE_CLIENT_ID = "yakfnsg2hph355fhga2mcac5ywn6fgzt";
+	private static final String MICRO_SITE_ID = "81374";
 	private static final String REGISTRATION_TYPE = "REGISTRATION_USE_EVAL";
 
 	private UserRegistrationController() {
