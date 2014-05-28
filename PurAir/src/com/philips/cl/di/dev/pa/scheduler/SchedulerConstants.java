@@ -20,6 +20,7 @@ public class SchedulerConstants {
 	
 	public static final String ENABLED = "enabled";
 	public static final String TIME = "time";
+	public static final String EXTRAT_EDIT= "edit";
 	public static final String DAYS = "days";
 	public static final String PRODUCT = "product";
 	public static final String PORT = "port";

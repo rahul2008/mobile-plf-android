@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.util;
 import java.util.ArrayList;
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;

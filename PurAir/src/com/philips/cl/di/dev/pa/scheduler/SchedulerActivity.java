@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import java.net.HttpURLConnection;
-
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.graphics.drawable.Drawable;
@@ -147,7 +147,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		//TODO - Implement Add scheduler Via CPP
 	}
 	
-	private void updateScheduler() {
+	public void updateScheduler() {
 		scheduleType = SCHEDULE_TYPE.EDIT ;
 	}
 	
@@ -192,7 +192,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		return SchedulerMarked4Deletion;
 	}
 
+	SchedulerID event;
 	public void setActionBar(SchedulerID id) {
+		event = id;
 		switch (id) {
 		case OVERVIEW_EVENT:
 			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
@@ -312,6 +314,20 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
 	}
+	
+	public void showEditFragment(int position, String name) {
+		Bundle bundle = new Bundle();
+		if (scheduleType == SCHEDULE_TYPE.EDIT){
+			bundle.putInt(SchedulerConstants.EXTRAT_EDIT, position);
+			bundle.putString(SchedulerConstants.TIME, name);
+		}
+		
+		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+		fragAddSch.setArguments(bundle);
+		getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.ll_scheduler_container, fragAddSch, "EditSchedulerFragment").commit();	
+	}
 
 	
 	private void showPreviousScreen4BackPressed() {
@@ -369,7 +385,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			
 			@Override
 			public void run() {
-				if (schFragment == null) return;
+				if (schFragment == null || event != SchedulerID.OVERVIEW_EVENT) return;
 				schFragment.updateList();
 			}
 		});

@@ -122,8 +122,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			mainLayout.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					//TODO
-					//Get scheduler detail from purifier is in-progress
+					((SchedulerActivity)getActivity()).updateScheduler();
+					((SchedulerActivity)getActivity()).showEditFragment(tempPosition, lstSchedulers.get(tempPosition).getName());
 				}
 			});
 			return view;

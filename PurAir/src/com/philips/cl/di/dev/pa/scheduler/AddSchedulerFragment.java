@@ -19,30 +19,31 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	private String sSelectedTime = "";
 	private String sSelectedDays = "";
 	private String sSelectedFanspeed = "";
+	private int editScheduleIndex = -1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
 		View view = inflater.inflate(R.layout.add_scheduler, null);
-		initViews(view);
-		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
+		
+		
 		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
+		initViews(getView());
 	}
 
 	private void initViews(View view) {
-		
-		try{
-			sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
+		if (getActivity() == null) return;
+		editScheduleIndex = getArguments().getInt(SchedulerConstants.EXTRAT_EDIT, -1);
+		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
+		if (editScheduleIndex == -1) {
+//			sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
 			sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
 			sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - sSelectedTime is " + sSelectedTime);
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - sSelectedDays is " + sSelectedDays);
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - sSelectedFanspeed is " + sSelectedFanspeed);
-		}
-		catch(Exception e) {
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - exception caught while getting property");
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - exception caught - sSelectedTime is " + sSelectedTime);
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - exception caught - sSelectedDays is " + sSelectedDays);
-			ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::initViews() method - exception caught - sSelectedFanspeed is " + sSelectedFanspeed);
 		}
 		
 		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
@@ -118,8 +119,6 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 			sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
 		}
 		
-		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method sWeekdays is " + sWeekdays);
-		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method exit");
 		return sWeekdays;
 	}
 
