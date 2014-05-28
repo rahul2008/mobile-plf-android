@@ -109,8 +109,22 @@ public class AppConstants {
 	public static final String CLEAR = "Clear";
 	public static final String UNICODE_DEGREE = "\u2103" ;
 	
+	public static final String PRODUCT = "product";
+	public static final String STATUS = "status" ;
 	
+	// Constants related to ICP client
+	public static final String PUT_PROPS = "PUTPROPS" ;
+	public static final String GET_PROPS = "GETPROPS" ;
+	public static final String ADD_PROPS = "ADDPROPS" ;
+	public static final String DEL_PROPS = "DELPROPS" ;
+	
+	
+	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
+	
+	// Constants related to Subscription
+
 	/** CONSTANTS RELATED TO SUBSCRIPTION */
+
 	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/%s/%s";
 	public enum Port {
 		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",1), FIRMWARE("firmware",0), DEVICE("device",1), PAIRING("pairing",0), 
@@ -129,11 +143,7 @@ public class AppConstants {
 	public static final String EVENTSUBSCRIBER_KEY = "subscriber";
 
 	public static final String REQUEST_METHOD_POST = "POST" ;
-	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
-	
-	public static final String PUT_PROPS = "PUTPROPS" ;
-	public static final String GET_PROPS = "GETPROPS" ;
-	
+	public static final String REQUEST_METHOD_DELETE = "DELETE" ;	
 	
 	/** CONSTANTS FOR NOTIFICATIONS */
 	public static final String NOTIFICATION_SERVICE_TAG="3pns";
@@ -165,7 +175,6 @@ public class AppConstants {
 	public static final String MODEL_NAME = "AirPurifier" ;
 	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
 
-	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 
 	public static final float MAXWIDTH = MainActivity.getScreenWidth() * 0.655f;
