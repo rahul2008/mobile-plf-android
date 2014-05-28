@@ -1,7 +1,10 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import java.util.List;
+
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
 /**
  * @author Jeroen Mols
@@ -21,8 +24,20 @@ public class PurAirDevice {
 	private boolean 		isPaired = false;
 	private String 			mEncryptionKey;
 
-	private AirPortInfo 		mAirPortInfo;
-	private FirmwarePortInfo	mFirmwarePortInfo;
+	private AirPortInfo 		   mAirPortInfo;
+	private FirmwarePortInfo	   mFirmwarePortInfo;
+	private List<SchedulePortInfo> mSchedulerPortInfoList;
+	
+	public List<SchedulePortInfo> getmSchedulerPortInfoList() {
+		return mSchedulerPortInfoList;
+	}
+
+	public void setmSchedulerPortInfoList(
+			List<SchedulePortInfo> mSchedulerPortInfoList) {
+		this.mSchedulerPortInfoList = mSchedulerPortInfoList;
+	}
+
+	
 
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			long bootId, ConnectionState connectionState) {

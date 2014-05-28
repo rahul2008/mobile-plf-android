@@ -10,6 +10,8 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
+import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -35,6 +37,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
 	private List<AirPurifierEventListener> airPuriferEventListeners ;
+
+	private SchedulerListener scheduleListener ;
 	
 	
 	public static synchronized PurifierManager getInstance() {
@@ -50,6 +54,10 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		airPuriferEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
 		mDeviceHandler = new DeviceHandler(this);
+	}
+	
+	public void setSchedulerListener(SchedulerListener schedulerListener) {
+		this.scheduleListener =  schedulerListener ;
 	}
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
@@ -181,6 +189,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(data) ;
 		AirPortInfo airPortInfoCPP = DataParser.parseAirPurifierEventDataFromCPP(data);
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
+		List<SchedulePortInfo> schedulerList = DataParser.parseScheduleListViaCPP(data) ;
 
 		setAirPortInfo(airPortInfo);
 		setAirPortInfo(airPortInfoCPP);
@@ -198,6 +207,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 				} 
 				if(firmwarePortInfo != null) {
 					listener.onFirmwareEventReceived();
+				}
+				if( schedulerList != null && scheduleListener != null ) {
+					scheduleListener.onSchedulesReceived(schedulerList) ;
 				}
 			}
 		}
