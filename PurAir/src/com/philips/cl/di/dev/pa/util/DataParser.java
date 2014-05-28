@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.util;
 import java.util.ArrayList;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.scheduler.ScheduleDto;
+import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
 /***
  * This class it used to parse data for AirPurifier event
@@ -353,9 +354,9 @@ public class DataParser {
 		}
 	}
 
-	public static List<ScheduleDto> parseSchedulerDto(String dataToParse) {
+	public static List<SchedulePortInfo> parseSchedulerDto(String dataToParse) {
 		ALog.i(ALog.SCHEDULER, dataToParse) ;
-		List<ScheduleDto> schedulesList = new ArrayList<ScheduleDto>() ;
+		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
 		JSONObject jsonObject = null ;
 		try {			
 			jsonObject = new JSONObject(dataToParse);
@@ -364,7 +365,7 @@ public class DataParser {
 			String key = null ;
 			while(iterator.hasNext()) {
 				key = iterator.next() ;
-				ScheduleDto schedules = new ScheduleDto() ;
+				SchedulePortInfo schedules = new SchedulePortInfo() ;
 				JSONObject schedule;
 				schedule = jsonObject.getJSONObject(key);
 				schedules.setName((String)schedule.get("name")) ;
@@ -381,9 +382,9 @@ public class DataParser {
 		return schedulesList ;
 	}
 	
-	public static List<ScheduleDto> parseScheduleListViaCPP(String dataToParse) {
+	public static List<SchedulePortInfo> parseScheduleListViaCPP(String dataToParse) {
 		ALog.i(ALog.SCHEDULER, dataToParse) ;
-		List<ScheduleDto> schedulesList = new ArrayList<ScheduleDto>() ;
+		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
 		JSONObject jsonObject = null ;
 		try {			
 			jsonObject = new JSONObject(dataToParse);
@@ -394,7 +395,7 @@ public class DataParser {
 			String key = null ;
 			while(iterator.hasNext()) {
 				key = iterator.next() ;
-				ScheduleDto schedules = new ScheduleDto() ;
+				SchedulePortInfo schedules = new SchedulePortInfo() ;
 				JSONObject schedule;
 				schedule = dataJson.getJSONObject(key);
 				schedules.setName((String)schedule.get("name")) ;
