@@ -24,7 +24,7 @@ public class DeviceHandler implements ServerResponseListener {
 
 	public void setPurifierDetails(String key, String value, PurAirDevice purifier) {
 		if (purifier == null) return;
-		ALog.d(ALog.DEVICEHANDLER, "Setting " + key + " to " + value + " for purifier: " + purifier.getName());
+		ALog.i(ALog.DEVICEHANDLER, "Setting \"" + key + "\" to " + value + " for purifier: " + purifier.getName());
 		
 		switch (purifier.getConnectionState()) {
 		case CONNECTED_LOCALLY: setDeviceDetailsLocally(key, value, purifier); break;
@@ -37,12 +37,14 @@ public class DeviceHandler implements ServerResponseListener {
 		String dataToUpload = JSONBuilder.getDICommBuilder(key, value, purifier) ;
 		if(dataToUpload == null || dataToUpload.isEmpty()) return;
 		
+		ALog.d(ALog.DEVICEHANDLER, "Performing local request");
 		TaskPutDeviceDetails statusUpdateTask = new TaskPutDeviceDetails(dataToUpload, Utils.getPortUrl(Port.AIR, purifier.getIpAddress()), this) ;
 		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
 		statusUpdateTaskThread.start() ;
 	}
 	
 	private void setDeviceDetailsRemotely(String key, String value, PurAirDevice purifier) {
+		ALog.d(ALog.DEVICEHANDLER, "Performing CPP request");
 		String eventData = JSONBuilder.getPublishEventBuilder(key, value) ;
 		CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
 	}
