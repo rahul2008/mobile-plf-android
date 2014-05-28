@@ -37,6 +37,8 @@ public class FanspeedFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.FAN_SPEED);
 		addValueToArray();
+		String fanSpeedTemp = getArguments().getString(SchedulerConstants.SPEED);
+		selectItemPosition = SchedulerUtil.getFanspeedItemPosition(fanModes, fanSpeedTemp);
 		fanSpeedAdapter = new FanSpeedAdapter(getActivity(), R.layout.fanspeed_scheduler, fanModes);
 		listView.setAdapter(fanSpeedAdapter);
 	}
@@ -55,6 +57,8 @@ public class FanspeedFragment extends BaseFragment {
 		fanModes[4] = getString(R.string.three);
 		fanModes[5] = getString(R.string.turbo);
 	}
+	
+	
 	
 	private class FanSpeedAdapter extends ArrayAdapter<String> {
 		public FanSpeedAdapter(Context context, int resource, String[] objects) {

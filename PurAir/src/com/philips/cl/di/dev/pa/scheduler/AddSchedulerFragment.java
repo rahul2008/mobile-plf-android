@@ -4,12 +4,13 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -61,13 +62,6 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		ImageView btnTime = (ImageView) view.findViewById(R.id.btnTime);
 		btnTime.setOnClickListener(this);
-		/*btnTime.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				android.support.v4.app.DialogFragment newFragment = new TimePickerFragment();
-				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
-			}
-		});*/
 		
 		FontTextView tvRepeat = (FontTextView) view.findViewById(R.id.repeat);
 		tvRepeat.setOnClickListener(this);
@@ -83,20 +77,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		ImageView btnRepeat = (ImageView) view.findViewById(R.id.btnrepeat);
 		btnRepeat.setOnClickListener(this);
-		/*btnRepeat.setOnClickListener(new OnClickListener() {			
-			@Override
-			public void onClick(View v) {
-				Bundle bundle = new Bundle();
-				bundle.putString(SchedulerConstants.DAYS, sSelectedDays);
-				RepeatFragment fragRepeat = new RepeatFragment();
-				fragRepeat.setArguments(bundle);
-				getFragmentManager()
-		  	    .beginTransaction()
-		  		.replace(R.id.ll_scheduler_container, fragRepeat, "RepeatFragment")
-		  		.commit();
-			    
-			}
-		});*/
+		
 		
 		FontTextView fanspeed_text = (FontTextView) view.findViewById(R.id.fanspeedtext);
 		if(sSelectedFanspeed != null && !sSelectedFanspeed.isEmpty()) {
@@ -104,20 +85,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		}
 		
 		ImageView btnFanSpeed = (ImageView) view.findViewById(R.id.btnFanSpeed);
-		/*btnFanSpeed.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Bundle bundle = new Bundle();
-				bundle.putString(SchedulerConstants.TIME, sSelectedFanspeed);
-				FanspeedFragment fragFanSpeed = new FanspeedFragment();
-				fragFanSpeed.setArguments(bundle);
-				
-				getFragmentManager()
-		  	    .beginTransaction()
-		  		.replace(R.id.ll_scheduler_container, fragFanSpeed, "FanspeedFragment")
-		  		.commit();
-			}
-		});*/
+		btnFanSpeed.setOnClickListener(this);
 	}
 	
 	public void setTime(String time) {
@@ -162,6 +130,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 			case R.id.tvAddTime:
 			case R.id.btnTime:
 				android.support.v4.app.DialogFragment newFragment = new TimePickerFragment();
+				((TimePickerFragment) newFragment).setTime(sSelectedTime);
 				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
 				break;
 			case R.id.repeat:
@@ -176,10 +145,9 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 				break;
 			case R.id.fanspeed:
 			case R.id.btnFanSpeed:
-				bundle.putString(SchedulerConstants.TIME, sSelectedFanspeed);
+				bundle.putString(SchedulerConstants.SPEED, sSelectedFanspeed);
 				FanspeedFragment fragFanSpeed = new FanspeedFragment();
 				fragFanSpeed.setArguments(bundle);
-				
 				getFragmentManager()
 		  	    .beginTransaction()
 		  		.replace(R.id.ll_scheduler_container, fragFanSpeed, "FanspeedFragment")

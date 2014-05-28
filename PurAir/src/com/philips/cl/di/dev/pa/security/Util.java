@@ -4,9 +4,9 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.util.Base64;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class Util {
 	

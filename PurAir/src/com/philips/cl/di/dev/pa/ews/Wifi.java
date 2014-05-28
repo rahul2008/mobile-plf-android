@@ -27,12 +27,14 @@ package com.philips.cl.di.dev.pa.ews;
 
 import java.util.Comparator;
 import java.util.List;
-import com.philips.cl.di.dev.pa.util.ALog;
+
 import android.content.Context;
 import android.net.wifi.ScanResult;
 import android.net.wifi.WifiConfiguration;
 import android.net.wifi.WifiManager;
 import android.text.TextUtils;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
  * Code taken from android-wifi-connector library (MIT License)

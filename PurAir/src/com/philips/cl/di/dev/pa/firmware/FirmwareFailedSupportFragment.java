@@ -9,9 +9,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
+import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class FirmwareFailedSupportFragment extends BaseFragment implements OnClickListener{

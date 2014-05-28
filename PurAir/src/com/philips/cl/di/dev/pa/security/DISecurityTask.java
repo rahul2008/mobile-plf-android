@@ -10,9 +10,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.os.AsyncTask;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class DISecurityTask extends AsyncTask<String, Void, String> {
 

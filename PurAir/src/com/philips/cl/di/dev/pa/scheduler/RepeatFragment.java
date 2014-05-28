@@ -38,6 +38,8 @@ public class RepeatFragment extends BaseFragment {
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.REPEAT);
 		lstDays = (ListView) getView().findViewById(R.id.repeat_scheduler);
 		addValues();
+		String selectedDays = getArguments().getString(SchedulerConstants.DAYS);
+		daysSelected = SchedulerUtil.getSelectedDayList(days, selectedDays);
 		daysAdapter = new DaysAdapter(getActivity(), R.layout.repeat_scheduler_item, days);
 		lstDays.setAdapter(daysAdapter);
 	}
@@ -61,7 +63,6 @@ public class RepeatFragment extends BaseFragment {
 				sSelectedDays = sSelectedDays.append(i);
 			}
 		}
-		
 		return sSelectedDays.toString();
 	}
 	

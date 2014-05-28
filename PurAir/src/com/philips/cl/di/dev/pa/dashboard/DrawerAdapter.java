@@ -3,10 +3,10 @@ package com.philips.cl.di.dev.pa.dashboard;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.support.v4.widget.DrawerLayout.DrawerListener;
 import android.view.View;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class DrawerAdapter implements DrawerListener {
 	

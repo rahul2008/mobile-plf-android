@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
