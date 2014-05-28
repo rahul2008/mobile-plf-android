@@ -11,9 +11,13 @@ public class SchedulerConstants {
 		FAN_SPEED,
 	}
 	
-	public static final String CREATE_EVENT = "C";
-	public static final String UPDATE_EVENT = "U";
-	public static final String DELETE_EVENT = "D";
+	public enum SCHEDULE_TYPE {
+		ADD,
+		DELETE,
+		EDIT,
+		GET
+	}
+	
 	public static final String ENABLED = "enabled";
 	public static final String TIME = "time";
 	public static final String DAYS = "days";
@@ -45,5 +49,6 @@ public class SchedulerConstants {
 	public static final String THREE = "3";
 	public static final String TURBO = "Turbo";
 	public static final String NAME = "Name";
+	public static final String DEFAULT_FANSPEED_SCHEDULER = "a" ;
 }
 
