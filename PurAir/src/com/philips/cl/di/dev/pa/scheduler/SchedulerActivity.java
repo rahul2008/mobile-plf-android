@@ -1,12 +1,9 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import java.net.HttpURLConnection;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.graphics.drawable.Drawable;
@@ -19,12 +16,16 @@ import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -36,32 +37,22 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnClickListener,
-		ServerResponseListener, OnTimeSetListener {
+		ServerResponseListener, OnTimeSetListener, SchedulerListener {
 
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
 	private Button actionBarBackBtn;
 	private FontTextView actionbarTitle;
-	private String SelectedDays;
-	private String SelectedTime;
-	private String SelectedFanspeed;
-	private String updateSelectedDays;
-	private String updateSelectedTime;
-	private String updateSelectedFanspeed;
-	private String CRUDOperation = "";
-	private int UDOperationIndex = -1;
-	private JSONArray arrSchedulers;
+	private String selectedDays = "";
+	private String selectedTime;
+	private String selectedFanspeed = SchedulerConstants.DEFAULT_FANSPEED_SCHEDULER;
+	
+	private SCHEDULE_TYPE scheduleType;
 	private PurAirDevice purAirDevice ;
-	private int scheduleType ;
 	private List<Integer> SchedulerMarked4Deletion = new ArrayList<Integer>();
 	private SchedulerOverviewFragment schFragment;
 	
-	private static final int ADD_SCHEDULE = 1 ;
-	private static final int DELETE_SCHEDULE = 2 ;
-	private static final int EDIT_SCHEDULE = 3 ;
-	private static final int GET_SCHEDULES = 4 ;
-	
-	private List<ScheduleDto> schedulesList ;
+	private List<SchedulePortInfo> schedulesList ;
 	private ProgressDialog progressDialog ;
 
 	@Override
@@ -70,9 +61,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		setContentView(R.layout.scheduler_container);
 		SchedulerMarked4Deletion.clear();
 		initActionBar();
-		arrSchedulers = new JSONArray();
 		showSchedulerOverviewFragment();
 		purAirDevice = PurifierManager.getInstance().getCurrentPurifier() ;
+		if( purAirDevice != null)	schedulesList = purAirDevice.getmSchedulerPortInfoList() ;
+		PurifierManager.getInstance().setSchedulerListener(this) ;
+		
 	}
 	
 	private void initActionBar() {
@@ -121,12 +114,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	 */
 	private void save() {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");		
-		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+		if (scheduleType == SCHEDULE_TYPE.ADD) {
 			addScheduler();
-		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
+		} else if (scheduleType == SCHEDULE_TYPE.EDIT) {
 			updateScheduler();
-		} else if (CRUDOperation.isEmpty()) {
-			showSchedulerOverviewFragment();
 		}
 	}
 	
@@ -134,53 +125,50 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	 * Create the scheduler
 	 */
 	private void addScheduler() {
-		scheduleType = ADD_SCHEDULE ;
+		scheduleType = SCHEDULE_TYPE.ADD ;
 		ALog.i(ALog.SCHEDULER, "createScheduler") ;
-		String addSchedulerJson = JSONBuilder.getSchedulesJson(SelectedTime, SelectedFanspeed, SelectedDays, true) ;
+		String addSchedulerJson = "" ;
 		
-		if( purAirDevice != null && purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+		if(purAirDevice == null) return ;
+		
+		if( purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+			 addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, true) ;
 			TaskPutDeviceDetails addSchedulerTask =
 					new TaskPutDeviceDetails(new DISecurity(null).encryptData(addSchedulerJson, purAirDevice), Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()), this,"POST") ;
 			Thread addSchedulerThread = new Thread(addSchedulerTask) ;
 			addSchedulerThread.start() ;
-			
-			showProgressDialog() ;
 			showSchedulerOverviewFragment();
 		}
+		else if( purAirDevice.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
+			addSchedulerJson = JSONBuilder.getSchedulesJsonforCPP(selectedTime, selectedFanspeed, selectedDays, true) ;
+			CPPController.getInstance(this).publishEvent(JSONBuilder.getPublishEventBuilderForAddScheduler(addSchedulerJson), AppConstants.DI_COMM_REQUEST, AppConstants.ADD_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purAirDevice.getEui64()) ;
+		}
+		showProgressDialog() ;
 		//TODO - Implement Add scheduler Via CPP
 	}
 	
 	private void updateScheduler() {
-		scheduleType = EDIT_SCHEDULE ;
-		try {
-			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
-			jo.put(SchedulerConstants.TIME, updateSelectedTime);
-			jo.put(SchedulerConstants.DAYS, updateSelectedDays);
-			jo.put(SchedulerConstants.SPEED, updateSelectedFanspeed);
-			
-			Bundle b = new Bundle();
-			b.putString("events", arrSchedulers.toString());
-			getIntent().putExtras(b);
-			//showDeleteSchedulerFragment();
-		}
-		catch(Exception e) {
-			ALog.d(ALog.SCHEDULER, "Error in updateScheduler: " + e.getMessage());
-		}
+		scheduleType = SCHEDULE_TYPE.EDIT ;
 	}
 	
 	
 	public void deleteScheduler(int index) {
 		ALog.i(ALog.SCHEDULER, "DELETE SCHEDULER: "+index) ;
-		scheduleType = DELETE_SCHEDULE ;
+		scheduleType = SCHEDULE_TYPE.DELETE ;
 		int scheduleNumber = schedulesList.get(index).getScheduleNumber() ;
-		if( purAirDevice != null && purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
+		if( purAirDevice == null || purAirDevice.getConnectionState() == ConnectionState.DISCONNECTED ) return ;
+		if( purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
 			String url = Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress())+"/"+scheduleNumber ;
 			ALog.i(ALog.SCHEDULER, url) ;
 			TaskPutDeviceDetails deleteScheduleRunnable = new TaskPutDeviceDetails("", url, this,"DELETE") ;
 			Thread deleteScheduleThread = new Thread(deleteScheduleRunnable) ;
 			deleteScheduleThread.start() ;
-			showProgressDialog() ;
+			
 		}		
+		else if(purAirDevice.getConnectionState() == ConnectionState.CONNECTED_REMOTELY ) {
+			CPPController.getInstance(this).publishEvent(JSONBuilder.getPublishEventBuilderForDeleteScheduler(scheduleNumber), AppConstants.DI_COMM_REQUEST, AppConstants.DEL_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purAirDevice.getEui64()) ;
+		}
+		showProgressDialog() ;
 	}
 	
 	private OnClickListener onClickListener = new OnClickListener() {
@@ -200,10 +188,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	};
 	
-	public JSONArray getSchedulerList() {
-		return arrSchedulers;
-	}
-	
 	public List<Integer> getSchedulerMarked4Deletion() {
 		return SchedulerMarked4Deletion;
 	}
@@ -214,7 +198,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
 			break;
 		case ADD_EVENT:
-			if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
+			if (scheduleType == SCHEDULE_TYPE.ADD) {
 				setActionBar(R.string.set_schedule, View.VISIBLE, View.VISIBLE);
 			} else {
 				setActionBar(R.string.edit_schedule, View.VISIBLE, View.VISIBLE);
@@ -249,10 +233,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		time = String.format("%2d:%02d", hourOfDay, minute);
 		// String time = hourOfDay + ":" + minute;
 		
-		SelectedTime = time;
-		SelectedDays = null;
-		SelectedFanspeed = null;
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - SelectedTime is " + SelectedTime);
+		selectedTime = time;
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - SelectedTime is " + selectedTime);
 		showAddSchedulerFragment();
 	}
 	
@@ -265,60 +247,40 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, null);
 	}
 	
-	public void dispatchInfo4MarkedSchDeletion(List<Integer> markedDelete) {
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, markedDelete);
-	}
-	
-	public void dispatchInformationsForCRUD(String crud) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformationsForCRUD() method - crud is " + crud);
-		CRUDOperation = crud;
-	}
-	
-	public void dispatchInformationsForCRUDIndex(int index) {
-		UDOperationIndex = index;
-		try {
-			JSONObject jo = arrSchedulers.getJSONObject(UDOperationIndex);
-			updateSelectedTime = jo.getString(SchedulerConstants.TIME);
-			updateSelectedDays = jo.getString(SchedulerConstants.DAYS);
-			updateSelectedFanspeed = jo.getString(SchedulerConstants.SPEED);
-		} 
-		catch (Exception e) {
-			ALog.d(ALog.DISCOVERY, "Error in dispatchInformationsForCRUDIndex: " + e.getMessage());
-		}
+	public void dispatchInformationsForCRUD(SCHEDULE_TYPE scheduleType) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformationsForCRUD() method - crud is " + scheduleType);
+		this.scheduleType = scheduleType;
 	}
 	
 	/**
 	 * Retrieves the list of schedules from Purifier
 	 */
 	private void getSchedulesFromPurifier() {
-		scheduleType = GET_SCHEDULES ;
-		if( purAirDevice != null && 
-				purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-			ALog.i(ALog.SCHEDULER, "getAllSchedules: "+purAirDevice.getIpAddress()) ;
+		scheduleType = SCHEDULE_TYPE.GET ;
+		showProgressDialog() ;
+		if( purAirDevice == null || purAirDevice.getConnectionState() ==
+				ConnectionState.DISCONNECTED) return ;
+		ALog.i(ALog.SCHEDULER, "Connection state: "+purAirDevice.getConnectionState()) ;
+		if(	purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
 			TaskGetHttp getScheduleListRunnable = new TaskGetHttp(Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()
 					), this, this) ;
 			Thread thread = new Thread(getScheduleListRunnable) ;
 			thread.start() ;
-			showProgressDialog() ;
+			
+		}
+		else if(purAirDevice.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
+			ALog.i(ALog.SCHEDULER, "getAllSchedules from CPP ") ;
+			CPPController.getInstance(this).publishEvent(JSONBuilder.getPublishEventBuilderForScheduler("","{}"), AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purAirDevice.getEui64());
 		}
 	}
 	
 	private void updateCRUDOperationData(String time, String date, String speed, List<Integer> markedDelete) {
-		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
 			if (!time.isEmpty())
-				SelectedTime = time;
-			if (!date.isEmpty())
-				SelectedDays = date;
+				selectedTime = time;
+			if (!date.isEmpty() && !date.equals(SchedulerConstants.ONE_TIME))
+				selectedDays = date;
 			if (!speed.isEmpty())
-				SelectedFanspeed = speed;
-		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
-			if (!time.isEmpty())
-				updateSelectedTime = time;
-			if (!date.isEmpty())
-				updateSelectedDays = date;
-			if (!speed.isEmpty())
-				updateSelectedFanspeed = speed;
-		}
+				selectedFanspeed = speed;
 		
 		if (markedDelete != null) {
 			SchedulerMarked4Deletion = markedDelete;
@@ -332,23 +294,17 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, schFragment, "SchedulerOverviewFragment").commit();
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method exit");
 	}
 	
 	private void showAddSchedulerFragment() {
 		Bundle bundle = new Bundle();
 		
-		if (CRUDOperation.equals(SchedulerConstants.CREATE_EVENT)) {
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - create SelectedTime is " + SelectedTime);
-			bundle.putString(SchedulerConstants.TIME, SelectedTime);
-			bundle.putString(SchedulerConstants.DAYS, SelectedDays);
-			bundle.putString(SchedulerConstants.SPEED, SelectedFanspeed);
-		} else if (CRUDOperation.equals(SchedulerConstants.UPDATE_EVENT)) {
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - udpate SelectedTime is " + updateSelectedTime);
-			bundle.putString(SchedulerConstants.TIME, updateSelectedTime);
-			bundle.putString(SchedulerConstants.DAYS, updateSelectedDays);
-			bundle.putString(SchedulerConstants.SPEED, updateSelectedFanspeed);
-		}
+		if (scheduleType == SCHEDULE_TYPE.ADD || scheduleType == SCHEDULE_TYPE.EDIT) {
+			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - create SelectedTime is " + selectedTime);
+			bundle.putString(SchedulerConstants.TIME, selectedTime);
+			bundle.putString(SchedulerConstants.DAYS, selectedDays);
+			bundle.putString(SchedulerConstants.SPEED, selectedFanspeed);
+		} 
 		
 		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 		fragAddSch.setArguments(bundle);
@@ -356,13 +312,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
 	}
-	
-	/*private void showDeleteSchedulerFragment() {
-		DeleteSchedulerFragment fragDeleteSch = new DeleteSchedulerFragment();
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragDeleteSch, "DeleteSchedulerFragment").commit();
-	}*/
+
 	
 	private void showPreviousScreen4BackPressed() {
 		
@@ -414,7 +364,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private void parseResponse(String response) {
 		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
 		schedulesList = DataParser.parseSchedulerDto(decryptedResponse) ;
-		ALog.i(ALog.SCHEDULER, "List of schedules: "+schedulesList.size()) ;
+		//purAirDevice.setmSchedulerPortInfoList(schedulesList) ;
 		runOnUiThread(new Runnable() {
 			
 			@Override
@@ -423,33 +373,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				schFragment.updateList();
 			}
 		});
-//		getSchedulersDataFromDevice(schedulesList);
 	}
 	
-	public List<ScheduleDto> getSchedulerList1() {
+	public List<SchedulePortInfo> getSchedulerList() {
 		return schedulesList;
-	}
-	
-	private void getSchedulersDataFromDevice(List<ScheduleDto> scheduleList) {
-		arrSchedulers = new JSONArray() ;
-		for (ScheduleDto obj : scheduleList) {
-			try {
-				JSONObject jo = new JSONObject();
-				jo.put(SchedulerConstants.TIME, obj.getName());
-				arrSchedulers.put(jo);
-			}
-			catch(Exception e) {
-				ALog.i(ALog.SCHEDULER, "SchedulerActivity::getSchedulersDataFromDevice() - getting data failed");
-			}
-		}
-		
-		Bundle b = new Bundle();
-		b.putString("events", arrSchedulers.toString());
-		getIntent().putExtras(b);
-		
-		if (scheduleType == ADD_SCHEDULE || scheduleType == GET_SCHEDULES ||  scheduleType == DELETE_SCHEDULE) {
-			showSchedulerOverviewFragment();
-		}
 	}
 		
 	public static void setCancelled(boolean cancelled) {
@@ -457,5 +384,21 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	public static boolean isCancelled() {
 		return cancelled;
+	}	
+	
+	@Override
+	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) {
+		ALog.i(ALog.SCHEDULER, "onSchedulers list response");
+		cancelProgressDialog() ;
+		if( scheduleList != null ) {
+			this.schedulesList = scheduleList ;
+			//purAirDevice.setmSchedulerPortInfoList(scheduleList) ;
+			showSchedulerOverviewFragment();
+		}
+	}
+
+	@Override
+	public void onScheduleReceived(SchedulePortInfo schedule) {
+		
 	}
 }

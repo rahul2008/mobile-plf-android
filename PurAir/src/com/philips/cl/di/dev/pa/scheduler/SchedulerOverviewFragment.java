@@ -13,13 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 
 public class SchedulerOverviewFragment extends BaseFragment implements OnClickListener {
 	
@@ -27,9 +27,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 	private ImageView add;
 	private ListView lstView;
 	private SchedulerOverViewAdapter schOverviewAdapter;
-	private List<ScheduleDto> lstSchedulers;
+	private List<SchedulePortInfo> lstSchedulers;
 	private boolean isEdit;
-	private boolean isEditConfirm;
 	private ArrayList<Boolean> isEditList;
 	
 	@Override
@@ -44,8 +43,8 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		if (((SchedulerActivity) getActivity()).getSchedulerList1() != null) {
-			lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList1());
+		if (((SchedulerActivity) getActivity()).getSchedulerList() != null) {
+			lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList());
 		}
 		addSelectedEdit();
 		schOverviewAdapter = new SchedulerOverViewAdapter(getActivity(), R.layout.scheduler_overview_item, lstSchedulers);
@@ -59,13 +58,13 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 		add = (ImageView) view.findViewById(R.id.sch_add);
 		add.setOnClickListener(this);
 		lstView = (ListView) view.findViewById(R.id.event_scheduler_listview);
-		lstSchedulers = new ArrayList<ScheduleDto>();
+		lstSchedulers = new ArrayList<SchedulePortInfo>();
 		isEditList = new ArrayList<Boolean>();
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::initViews() method exit");
 	}
 	
-	private class SchedulerOverViewAdapter extends ArrayAdapter<ScheduleDto> {
-		public SchedulerOverViewAdapter(Context context, int resource, List<ScheduleDto> objects) {
+	private class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
+		public SchedulerOverViewAdapter(Context context, int resource, List<SchedulePortInfo> objects) {
 			super(context, resource, objects);
 			ALog.i(ALog.SCHEDULER, "RepeatFragment-DaysAdapter () method constructor enter " + objects);
 		}
@@ -137,7 +136,6 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 		addSelectedEdit();
 		if (schOverviewAdapter == null) return;
 		schOverviewAdapter.notifyDataSetChanged();
-//		lstView.setAdapter(schOverviewAdapter);
 	}
 	
 	private void clearAddList() {
@@ -145,7 +143,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			lstSchedulers.clear();
 		}
 		
-		lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList1());
+		lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList());
 	}
 	
 	private void addSelectedEdit() {
@@ -171,7 +169,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 				schOverviewAdapter.notifyDataSetChanged();
 				break;
 			case R.id.sch_add:
-				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SchedulerConstants.CREATE_EVENT);
+				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SCHEDULE_TYPE.ADD);
 				DialogFragment newFragment = new TimePickerFragment();
 				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
 				break;

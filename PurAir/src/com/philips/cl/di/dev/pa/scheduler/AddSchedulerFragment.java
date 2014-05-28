@@ -46,7 +46,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
 			((SchedulerActivity)getActivity()).dispatchInformations(SchedulerConstants.ONE_TIME);
-			((SchedulerActivity)getActivity()).dispatchInformations2("Auto");
+			((SchedulerActivity)getActivity()).dispatchInformations2("a");
 		}
 		
 		if (sSelectedDays != null) { 

@@ -5,23 +5,20 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class FanspeedFragment extends BaseFragment {
-	private String sSelectedDays;
-	private String sInitFanSpeed;
 	private ListView listView;
 	private int selectItemPosition;
 	private String[] fanModes;
@@ -32,19 +29,6 @@ public class FanspeedFragment extends BaseFragment {
 		ALog.i("Scheduler", "FanspeedFragment::onCreateView method beginning is called ");
 		View view = inflater.inflate(R.layout.repeat_scheduler, null);
 		initViews(view);
-		
-//		try {
-//			sInitFanSpeed = getArguments().getString(SchedulerConstants.TIME);
-//			ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method sInitFanSpeed is " + sInitFanSpeed);
-//			initSelectedFanSpeed(view);
-//		}
-//		catch (Exception e) {
-//			ALog.i(ALog.SCHEDULER, "FanspeedFragment::onCreateView() method exception caught while getting arguments");
-//			sInitFanSpeed = "";
-//		}
-//		
-//		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.FAN_SPEED);
-//		ALog.i("Scheduler", "FanspeedFragment::onCreateView method ending is called ");
 		return view;
 	}
 	
@@ -97,11 +81,31 @@ public class FanspeedFragment extends BaseFragment {
 				public void onClick(View arg0) {
 					selectItemPosition = tempPosition;
 					fanSpeedAdapter.notifyDataSetChanged();
-					((SchedulerActivity)getActivity()).dispatchInformations2(fanModes[tempPosition]);
+					((SchedulerActivity)getActivity()).dispatchInformations2(getFanspeed(tempPosition));
 				}
 			});
 			
 			return view;
+		}
+	}
+	
+	private String getFanspeed(int position) {
+		switch (position) {
+		case 0:
+			return "a" ;
+		case 1:
+			return "s" ;
+		case 2:
+			return "1";
+		case 3:
+			return "2";
+		case 4:
+			return "3" ;
+		case 5:
+			return "t";
+		default:
+			return "" ;
+
 		}
 	}
 	
