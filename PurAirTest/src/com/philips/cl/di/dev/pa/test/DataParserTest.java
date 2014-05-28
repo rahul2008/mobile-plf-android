@@ -264,13 +264,20 @@ public class DataParserTest extends TestCase {
 		assertEquals(result.getProgress(), 100);
 	}
 	
-	public void testParseFirmwareEvenNegativeProgressData() {
+	public void testParseFirmwareEventNegativeProgressData() {
 		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"wrong\",\"progress\":-1,\"statusmsg\":\"\",\"mandatory\":false}";
 		
 		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
 		assertEquals(result.getProgress(), 0);
 	}
 	
+	public void testParseFirmwareEventWithAirportEvent() {
+		String parseData = "{\"aqi\":\"3\",\"om\":\"s\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"0\",\"fs1\":\"33\",\"fs2\":\"881\",\"fs3\":\"2801\",\"fs4\":\"2801\",\"dtrs\":\"0\",\"aqit\":\"30\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"s\",\"tfav\":\"30414\",\"psens\":\"1\"}";
+		
+		FirmwarePortInfo result = DataParser.parseFirmwareEventData(parseData);
+		assertNull(result);
+	}
+		
 	public void testParseLocationDataNull() {
 		List<City> cities = DataParser.parseLocationData(null);
 		assertNull(cities);

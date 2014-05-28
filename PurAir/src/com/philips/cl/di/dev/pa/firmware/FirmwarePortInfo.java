@@ -6,12 +6,12 @@ public class FirmwarePortInfo {
 		IDLE, DOWNLOADING, CHECKING, READY, PROGRAMMING, CANCELING, ERROR
 	}
 	
-	private String name;
+	private String name = "";
 	private String version = "";
 	private String upgrade = "";
 	private String state = "";
-	private int progress;
-	private String statusmsg;
+	private int progress = -1;
+	private String statusmsg = "";
 	private boolean mandatory;
 	
 	public String getName() {
@@ -58,6 +58,14 @@ public class FirmwarePortInfo {
 	
 	public boolean isUpdateAvailable() {
 		if (upgrade == null || upgrade.equalsIgnoreCase("")) return false;
+		return true;
+	}
+	
+	public boolean isValid() {
+		if (name.equals("") && version.equals("") && upgrade.equals("") && state.equals("") && progress == -1 && statusmsg.equals("")) {
+			// All values still unintialized
+			return false;
+		}
 		return true;
 	}
 }

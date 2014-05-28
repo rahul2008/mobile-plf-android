@@ -89,7 +89,9 @@ public class DataParser {
 
 		try {
 			FirmwarePortInfo firmwareEventDto = gson.fromJson(dataToParse, FirmwarePortInfo.class);
-			return firmwareEventDto;
+			if (firmwareEventDto.isValid()) {
+				return firmwareEventDto;
+			}
 		} catch (JsonIOException e) {
 			ALog.e(ALog.PARSER, "JsonIOException");
 			return null;
@@ -100,6 +102,7 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "Exception");
 			return null;
 		}
+		return null;
 	}
 
 	public  static List<IndoorHistoryDto> parseHistoryData(String dataToParse) {
