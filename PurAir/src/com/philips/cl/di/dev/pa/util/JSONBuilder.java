@@ -56,6 +56,11 @@ public class JSONBuilder {
 		return builder.toString() ;
 	}
 	
+	public static String getPublishEventBuilderForEditScheduler(String data, int schedulerNumber) {
+		String editScheduler = "{ \"product\":\"0\",\"port\":\"schedules/"+schedulerNumber+"\",\"data\":" + data +"}" ;
+		return editScheduler ;
+	}
+	
 	public static String getPublishEventBuilderForDeleteScheduler(int scheduleNumber) {
 		String deleteScheduler = "{ \"product\":\"0\",\"port\":\"schedules/"+scheduleNumber+"\",\"data\": {}}" ;
 		
