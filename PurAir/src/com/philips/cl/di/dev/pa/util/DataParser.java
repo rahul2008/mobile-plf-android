@@ -377,8 +377,10 @@ public class DataParser {
 
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JsonIOException");
+			schedulesList = null ;
 			e.printStackTrace();
 		} catch(Exception e) {
+			schedulesList = null ;
 			e.printStackTrace() ;
 		}
 		return schedulesList ;
@@ -414,5 +416,23 @@ public class DataParser {
 			e.printStackTrace() ;
 		}
 		return schedulesList ;
+	}
+	
+	public static SchedulePortInfo parseScheduleDetails(String dataToParse) {
+		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
+		try {
+			JSONObject scheduleJson = new JSONObject(dataToParse) ;
+			schedulePortInfo.setName(scheduleJson.getString("name")) ;
+			schedulePortInfo.setEnabled(scheduleJson.getBoolean("enabled")) ;
+			schedulePortInfo.setDays(scheduleJson.getString("days")) ;
+			schedulePortInfo.setMode(scheduleJson.getJSONObject("command").getString("om")) ;
+			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
+ 		} catch (JSONException e) {
+			schedulePortInfo = null ;
+			e.printStackTrace();
+		} catch (Exception e) {
+			schedulePortInfo = null ;
+		}
+		return schedulePortInfo ;
 	}
 }
