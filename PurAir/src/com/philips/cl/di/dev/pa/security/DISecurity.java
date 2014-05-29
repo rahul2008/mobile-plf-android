@@ -98,8 +98,12 @@ public class DISecurity implements ServerResponseListener {
 		}
 		
 		String key = purifier.getEncryptionKey();
-		if (key == null || data == null || key.isEmpty()) {
-			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null");
+		if (key == null || key.isEmpty()) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - Key is null or Empty");
+			return null; // TODO return unencrypted data?
+		}
+		if (data == null || data.isEmpty()) {
+			ALog.i(ALog.SECURITY, "Did not encrypt data - Data is null or Empty");
 			return null; // TODO return unencrypted data?
 		}
 		
