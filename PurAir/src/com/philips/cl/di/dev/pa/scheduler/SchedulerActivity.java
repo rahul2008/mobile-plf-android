@@ -284,6 +284,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		//updateFragment ;
 		schedulerNumberSelected = schedulesList.get(position).getScheduleNumber() ;
 		if( schedulesList.get(position).getMode() == null ) {
+			showProgressDialog() ;
 			String dataToSend = "";
 			PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend, purAirDevice, scheduleType,schedulerNumberSelected) ;
 		}
@@ -407,6 +408,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				schedulerPortInfo.setEnabled(schedule.isEnabled()) ;
 			}
 		}
+		cancelProgressDialog() ;
 		showEditFragment(schedule) ;
 		
 	}

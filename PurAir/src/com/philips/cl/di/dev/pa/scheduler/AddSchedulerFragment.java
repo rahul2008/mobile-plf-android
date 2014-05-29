@@ -19,7 +19,6 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	private String sSelectedTime = "";
 	private String sSelectedDays = "";
 	private String sSelectedFanspeed = "";
-	private int editScheduleIndex = -1;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		

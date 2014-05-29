@@ -435,4 +435,22 @@ public class DataParser {
 		}
 		return schedulePortInfo ;
 	}
+	
+	public static SchedulePortInfo parseScheduleDetailsFromCPP(String dataToParse) {
+		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
+		try {
+			JSONObject scheduleJson = new JSONObject(dataToParse).getJSONObject("data") ;
+			schedulePortInfo.setName(scheduleJson.getString("name")) ;
+			schedulePortInfo.setEnabled(scheduleJson.getBoolean("enabled")) ;
+			schedulePortInfo.setDays(scheduleJson.getString("days")) ;
+			schedulePortInfo.setMode(scheduleJson.getJSONObject("command").getString("om")) ;
+			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
+ 		} catch (JSONException e) {
+			schedulePortInfo = null ;
+			e.printStackTrace();
+		} catch (Exception e) {
+			schedulePortInfo = null ;
+		}
+		return schedulePortInfo ;
+	}
 }

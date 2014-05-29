@@ -62,6 +62,12 @@ public class JSONBuilder {
 		return deleteScheduler ;
 	}
 	
+	public static String getPublishEventBuilderForGetSchedulerDetails(int scheduleNumber) {
+		String deleteScheduler = "{ \"product\":\"0\",\"port\":\"schedules/"+scheduleNumber+"\",\"data\": {}}" ;
+		
+		return deleteScheduler ;
+	}
+	
 	public static String getDICOMMPairingJSON(String appEui64, String secretKey) {
 		StringBuilder builder = new StringBuilder("{\"Pair\":[\"");
 		builder.append(AppConstants.APP_TYPE) ;
