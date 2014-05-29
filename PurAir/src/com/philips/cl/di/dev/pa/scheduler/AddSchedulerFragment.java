@@ -38,13 +38,9 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 
 	private void initViews(View view) {
 		if (getActivity() == null) return;
-		editScheduleIndex = getArguments().getInt(SchedulerConstants.EXTRAT_EDIT, -1);
 		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
-		if (editScheduleIndex == -1) {
-//			sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
-			sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
-			sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
-		}
+		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
+		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
 		
 		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
 			((SchedulerActivity)getActivity()).dispatchInformations(SchedulerConstants.ONE_TIME);

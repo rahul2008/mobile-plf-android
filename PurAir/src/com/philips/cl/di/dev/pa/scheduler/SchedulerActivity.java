@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,15 +15,9 @@ import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
-import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -32,12 +25,10 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
-import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnClickListener,
-		ServerResponseListener, OnTimeSetListener, SchedulerListener {
+		OnTimeSetListener, SchedulerListener {
 
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
@@ -54,6 +45,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	private List<SchedulePortInfo> schedulesList ;
 	private ProgressDialog progressDialog ;
+	private int schedulerNumberSelected ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -130,19 +122,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		String addSchedulerJson = "" ;
 		
 		if(purAirDevice == null) return ;
-		
-		if( purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-			 addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, true) ;
-			TaskPutDeviceDetails addSchedulerTask =
-					new TaskPutDeviceDetails(new DISecurity(null).encryptData(addSchedulerJson, purAirDevice), Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()), this,"POST") ;
-			Thread addSchedulerThread = new Thread(addSchedulerTask) ;
-			addSchedulerThread.start() ;
-			showSchedulerOverviewFragment();
-		}
-		else if( purAirDevice.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
-			addSchedulerJson = JSONBuilder.getSchedulesJsonforCPP(selectedTime, selectedFanspeed, selectedDays, true) ;
-			CPPController.getInstance(this).publishEvent(JSONBuilder.getPublishEventBuilderForAddScheduler(addSchedulerJson), AppConstants.DI_COMM_REQUEST, AppConstants.ADD_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purAirDevice.getEui64()) ;
-		}
+		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, true) ;
+		PurifierManager.getInstance().sendScheduleDetailsToPurifier(addSchedulerJson, purAirDevice,scheduleType,-1) ;
 		showProgressDialog() ;
 		//TODO - Implement Add scheduler Via CPP
 	}
@@ -151,23 +132,16 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		scheduleType = SCHEDULE_TYPE.EDIT ;
 	}
 	
-	
+	/**
+	 * Delete the scheduler
+	 * @param index
+	 */
 	public void deleteScheduler(int index) {
 		ALog.i(ALog.SCHEDULER, "DELETE SCHEDULER: "+index) ;
 		scheduleType = SCHEDULE_TYPE.DELETE ;
-		int scheduleNumber = schedulesList.get(index).getScheduleNumber() ;
+		schedulerNumberSelected = schedulesList.get(index).getScheduleNumber() ;
 		if( purAirDevice == null || purAirDevice.getConnectionState() == ConnectionState.DISCONNECTED ) return ;
-		if( purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-			String url = Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress())+"/"+scheduleNumber ;
-			ALog.i(ALog.SCHEDULER, url) ;
-			TaskPutDeviceDetails deleteScheduleRunnable = new TaskPutDeviceDetails("", url, this,"DELETE") ;
-			Thread deleteScheduleThread = new Thread(deleteScheduleRunnable) ;
-			deleteScheduleThread.start() ;
-			
-		}		
-		else if(purAirDevice.getConnectionState() == ConnectionState.CONNECTED_REMOTELY ) {
-			CPPController.getInstance(this).publishEvent(JSONBuilder.getPublishEventBuilderForDeleteScheduler(scheduleNumber), AppConstants.DI_COMM_REQUEST, AppConstants.DEL_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purAirDevice.getEui64()) ;
-		}
+		PurifierManager.getInstance().sendScheduleDetailsToPurifier("", purAirDevice, scheduleType, schedulerNumberSelected) ;
 		showProgressDialog() ;
 	}
 	
@@ -262,18 +236,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		showProgressDialog() ;
 		if( purAirDevice == null || purAirDevice.getConnectionState() ==
 				ConnectionState.DISCONNECTED) return ;
-		ALog.i(ALog.SCHEDULER, "Connection state: "+purAirDevice.getConnectionState()) ;
-		if(	purAirDevice.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
-			TaskGetHttp getScheduleListRunnable = new TaskGetHttp(Utils.getPortUrl(Port.SCHEDULES, purAirDevice.getIpAddress()
-					), this, this) ;
-			Thread thread = new Thread(getScheduleListRunnable) ;
-			thread.start() ;
-			
-		}
-		else if(purAirDevice.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) {
-			ALog.i(ALog.SCHEDULER, "getAllSchedules from CPP ") ;
-			CPPController.getInstance(this).publishEvent(JSONBuilder.getPublishEventBuilderForScheduler("","{}"), AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purAirDevice.getEui64());
-		}
+		String dataToSend = "";
+		PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend, purAirDevice, scheduleType,-1) ;
 	}
 	
 	private void updateCRUDOperationData(String time, String date, String speed, List<Integer> markedDelete) {
@@ -315,20 +279,45 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
 	}
 	
-	public void showEditFragment(int position, String name) {
-		Bundle bundle = new Bundle();
-		if (scheduleType == SCHEDULE_TYPE.EDIT){
-			bundle.putInt(SchedulerConstants.EXTRAT_EDIT, position);
-			bundle.putString(SchedulerConstants.TIME, name);
+	public void onEditScheduler(int position) {
+		scheduleType = SCHEDULE_TYPE.GET_SCHEDULE_DETAILS ;
+		//updateFragment ;
+		schedulerNumberSelected = schedulesList.get(position).getScheduleNumber() ;
+		if( schedulesList.get(position).getMode() == null ) {
+			String dataToSend = "";
+			PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend, purAirDevice, scheduleType,schedulerNumberSelected) ;
+		}
+		else {
+			showEditFragment(schedulesList.get(position)) ;
 		}
 		
+		
+//		Bundle bundle = new Bundle();
+//		if (scheduleType == SCHEDULE_TYPE.EDIT){
+//			bundle.putInt(SchedulerConstants.EXTRAT_EDIT, position);
+//			bundle.putString(SchedulerConstants.TIME, name);
+//		}
+//		
+//		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+//		fragAddSch.setArguments(bundle);
+//		getSupportFragmentManager()
+//				.beginTransaction()
+//				.replace(R.id.ll_scheduler_container, fragAddSch, "EditSchedulerFragment").commit();	
+	}
+
+	
+	private void showEditFragment(SchedulePortInfo schedulePortInfo) {
+		Bundle bundle = new Bundle();
+		bundle.putString(SchedulerConstants.TIME, schedulePortInfo.getScheduleTime());
+		bundle.putString(SchedulerConstants.DAYS, schedulePortInfo.getDays());
+		bundle.putString(SchedulerConstants.SPEED, schedulePortInfo.getMode());
 		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 		fragAddSch.setArguments(bundle);
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, fragAddSch, "EditSchedulerFragment").commit();	
-	}
 
+	}
 	
 	private void showPreviousScreen4BackPressed() {
 		
@@ -356,7 +345,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
-		getSchedulesFromPurifier() ;
+		if( schedulesList == null || schedulesList.size() == 0 ) {
+			getSchedulesFromPurifier() ;
+		}
+		else {
+			if (schFragment == null || event != SchedulerID.OVERVIEW_EVENT) return;
+			schFragment.updateList();
+		}
 		setCancelled(false);
 	}
 
@@ -364,31 +359,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	public void onClick(View v) {
 	}
 	
-	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
-		cancelProgressDialog() ;
-		switch (responseCode) {
-		case HttpURLConnection.HTTP_OK:
-			parseResponse(responseData) ;
-			break;
-
-		default:
-			break;
-		}
-	}
-	
 	private void parseResponse(String response) {
 		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
 		schedulesList = DataParser.parseSchedulerDto(decryptedResponse) ;
 		//purAirDevice.setmSchedulerPortInfoList(schedulesList) ;
-		runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				if (schFragment == null || event != SchedulerID.OVERVIEW_EVENT) return;
-				schFragment.updateList();
-			}
-		});
+		
 	}
 	
 	public List<SchedulePortInfo> getSchedulerList() {
@@ -408,13 +383,31 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		cancelProgressDialog() ;
 		if( scheduleList != null ) {
 			this.schedulesList = scheduleList ;
-			//purAirDevice.setmSchedulerPortInfoList(scheduleList) ;
-			showSchedulerOverviewFragment();
+			runOnUiThread(new Runnable() {				
+				@Override
+				public void run() {
+					if( scheduleType == SCHEDULE_TYPE.ADD) {
+						showSchedulerOverviewFragment() ;
+					}
+					else {
+						schFragment.updateList() ;
+					}
+				}
+			}) ;
 		}
 	}
 
 	@Override
 	public void onScheduleReceived(SchedulePortInfo schedule) {
+		for(SchedulePortInfo schedulerPortInfo: schedulesList) {
+			if( schedulerPortInfo.getScheduleNumber() == schedulerNumberSelected) {
+				schedulerPortInfo.setDays(schedule.getDays()) ;
+				schedulerPortInfo.setMode(schedule.getMode()) ;
+				schedulerPortInfo.setScheduleTime(schedule.getScheduleTime()) ;
+				schedulerPortInfo.setEnabled(schedule.isEnabled()) ;
+			}
+		}
+		showEditFragment(schedule) ;
 		
 	}
 }

@@ -123,7 +123,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 				@Override
 				public void onClick(View v) {
 					((SchedulerActivity)getActivity()).updateScheduler();
-					((SchedulerActivity)getActivity()).showEditFragment(tempPosition, lstSchedulers.get(tempPosition).getName());
+					((SchedulerActivity)getActivity()).onEditScheduler(tempPosition);
 				}
 			});
 			return view;

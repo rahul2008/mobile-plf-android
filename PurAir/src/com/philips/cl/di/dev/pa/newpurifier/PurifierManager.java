@@ -11,6 +11,7 @@ import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
@@ -189,11 +190,27 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(data) ;
 		AirPortInfo airPortInfoCPP = DataParser.parseAirPurifierEventDataFromCPP(data);
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
-		List<SchedulePortInfo> schedulerList = DataParser.parseScheduleListViaCPP(data) ;
-
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(data) ;
+		List<SchedulePortInfo> schedulerPortInfoListViaCPP = DataParser.parseScheduleListViaCPP(data) ;
+		List<SchedulePortInfo> schedulerPortInfoList = DataParser.parseSchedulerDto(data) ;
 		setAirPortInfo(airPortInfo);
 		setAirPortInfo(airPortInfoCPP);
 		setFirmwarePortInfo(firmwarePortInfo);
+		
+		if( scheduleListener != null) {
+			if( schedulePortInfo != null ) {
+				scheduleListener.onScheduleReceived(schedulePortInfo) ;
+				return ;
+			}
+			else if(  schedulerPortInfoList != null ) {
+				scheduleListener.onSchedulesReceived(schedulerPortInfoList) ;
+				return ;
+			}
+			else if(  schedulerPortInfoListViaCPP != null ) {
+				scheduleListener.onSchedulesReceived(schedulerPortInfoListViaCPP) ;
+				return ;
+			}
+		}
 		
 		synchronized (airPuriferEventListeners) {
 			for (AirPurifierEventListener listener : airPuriferEventListeners) {
@@ -207,12 +224,10 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 				} 
 				if(firmwarePortInfo != null) {
 					listener.onFirmwareEventReceived();
-				}
-				if( schedulerList != null && scheduleListener != null ) {
-					scheduleListener.onSchedulesReceived(schedulerList) ;
-				}
+				}				
 			}
 		}
+		
 	}
 
 	public synchronized void startSubscription() {
@@ -292,5 +307,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			db.insertPurAirDevice(mCurrentPurifier);
 			db.closeDb();
 		}
+	}
+	
+	public void sendScheduleDetailsToPurifier(String data, PurAirDevice purAirDevice, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
+		mDeviceHandler.setScheduleDetails(data, purAirDevice,scheduleType,scheduleNumber);
 	}
 }

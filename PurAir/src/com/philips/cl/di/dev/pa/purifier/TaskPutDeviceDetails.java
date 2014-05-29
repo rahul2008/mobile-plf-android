@@ -51,7 +51,8 @@ public class TaskPutDeviceDetails implements Runnable {
 			conn.setRequestProperty("content-type", "application/json") ;
 			
 			conn.setRequestMethod(requestMethod);
-			if(dataToUpload != null && !dataToUpload.isEmpty()) {
+			if(!requestMethod.equals("GET") &&
+					dataToUpload != null && !dataToUpload.isEmpty()) {
 				conn.setDoOutput(true);
 				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 				out.write(dataToUpload);

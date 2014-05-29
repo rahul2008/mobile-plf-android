@@ -15,7 +15,8 @@ public class SchedulerConstants {
 		ADD,
 		DELETE,
 		EDIT,
-		GET
+		GET,
+		GET_SCHEDULE_DETAILS
 	}
 	
 	public static final String ENABLED = "enabled";
