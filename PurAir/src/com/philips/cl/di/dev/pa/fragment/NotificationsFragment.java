@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener, android.widget.RadioGroup.OnCheckedChangeListener, AlertDialogBtnInterface {
 
@@ -68,7 +69,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 	
 	@Override
-	public void onResume() {
+	public void onActivityCreated(Bundle savedInstanceState) {		
+		super.onActivityCreated(savedInstanceState);
+		
 		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
 			Activity parent = this.getActivity();
 			if (parent != null && parent instanceof MainActivity) {
@@ -89,8 +92,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		} else {
 			showPairingLayout();
 		}
-		super.onResume();
 	}
+	
 	
 	@Override
 	public void onPause() {
@@ -201,6 +204,10 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 	
 	private void notificationSetup() {
+		if(!Utils.isGooglePlayServiceAvailable()){
+			notificationToggle.setEnabled(false);
+			return;
+		}
 		PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
 		if (mPurifier != null && mPurifier.isPaired()) {
 			

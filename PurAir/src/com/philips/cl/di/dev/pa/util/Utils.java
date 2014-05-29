@@ -621,6 +621,7 @@ public class Utils {
 	}
 
 	public static String getMacAddressFromUsn(String usn){
+		if(usn==null || usn.isEmpty())return null;
 		String[] usnArray=usn.split("::");
 		if(usnArray==null || usnArray.length <= 0) return null;
 
