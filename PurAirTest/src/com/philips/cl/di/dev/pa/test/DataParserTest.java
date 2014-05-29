@@ -8,6 +8,7 @@ import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
+import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
 import junit.framework.TestCase;
@@ -329,5 +330,35 @@ public class DataParserTest extends TestCase {
 	public void testGetEWSDeviceDetailsNoneFormat() {
 		DeviceDto deviceDto  = DataParser.getDeviceDetails("{hello}");
 		assertNull(deviceDto);
+	}
+	
+	public void testParseSchedulerDtoWithNullParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto(null);
+		assertNull(schedulePortInfos);
+	}
+	
+	public void testParseSchedulerDtoWithEmptyStringParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("");
+		assertNull(schedulePortInfos);
+	}
+	
+	public void testParseSchedulerDtoWithWrongParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("{\"temp\":\"1\"}");
+		assertNull(schedulePortInfos);
+	}
+	
+	public void testParseScheduleListViaCPPWithNullParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto(null);
+		assertNull(schedulePortInfos);
+	}
+	
+	public void testParseScheduleListViaCPPWithEmptyStringParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("");
+		assertNull(schedulePortInfos);
+	}
+	
+	public void testParseScheduleListViaCPPWithWrongParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("{\"temp\":\"1\"}");
+		assertNull(schedulePortInfos);
 	}
 }

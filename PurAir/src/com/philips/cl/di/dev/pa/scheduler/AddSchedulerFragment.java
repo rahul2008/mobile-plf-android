@@ -41,14 +41,16 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
 		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
 		
-		if ((sSelectedDays == null) && (sSelectedFanspeed == null)) {
+		if (sSelectedDays == null || sSelectedDays.isEmpty() ) {
 			((SchedulerActivity)getActivity()).dispatchInformations(SchedulerConstants.ONE_TIME);
+		}
+		
+		if (sSelectedFanspeed == null || sSelectedFanspeed.isEmpty()) {
 			((SchedulerActivity)getActivity()).dispatchInformations2("a");
 		}
 		
-		if (sSelectedDays != null) { 
-			sSelectedDays = setWeekDays2(sSelectedDays);
-		}
+		sSelectedDays = setWeekDays2(sSelectedDays);
+		
 		
 		FontTextView tvAddTime = (FontTextView) view.findViewById(R.id.tvAddTime);
 		tvAddTime.setOnClickListener(this);
@@ -91,7 +93,8 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	private String setWeekDays2(String days) {
 		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method enter");
 		String sWeekdays = "";
-		
+		if (days == null || days.isEmpty()) return SchedulerConstants.ONE_TIME;
+			
 		if (days.equals(SchedulerConstants.ONE_TIME))
 			return days;
 		

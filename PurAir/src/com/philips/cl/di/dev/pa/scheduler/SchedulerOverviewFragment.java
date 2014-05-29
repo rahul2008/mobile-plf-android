@@ -122,7 +122,6 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			mainLayout.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((SchedulerActivity)getActivity()).updateScheduler();
 					((SchedulerActivity)getActivity()).onEditScheduler(tempPosition);
 				}
 			});
@@ -170,6 +169,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 				break;
 			case R.id.sch_add:
 				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SCHEDULE_TYPE.ADD);
+				((SchedulerActivity)getActivity()).initializeDayAndFanspeed();
 				DialogFragment newFragment = new TimePickerFragment();
 				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
 				break;

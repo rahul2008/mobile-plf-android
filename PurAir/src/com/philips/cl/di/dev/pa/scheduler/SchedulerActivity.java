@@ -46,6 +46,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private List<SchedulePortInfo> schedulesList ;
 	private ProgressDialog progressDialog ;
 	private int schedulerNumberSelected ;
+	private int indexSelected ;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");		
 		if (scheduleType == SCHEDULE_TYPE.ADD) {
 			addScheduler();
-		} else if (scheduleType == SCHEDULE_TYPE.EDIT) {
+		} else if (scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
 			updateScheduler();
 		}
 	}
@@ -130,6 +131,12 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	public void updateScheduler() {
 		scheduleType = SCHEDULE_TYPE.EDIT ;
+		
+		if(!selectedDays.equals(schedulesList.get(indexSelected).getDays()) ||
+				!selectedFanspeed.equals(schedulesList.get(indexSelected).getMode()) ||
+				!selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())) {
+			
+		}
 	}
 	
 	/**
@@ -140,6 +147,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.i(ALog.SCHEDULER, "DELETE SCHEDULER: "+index) ;
 		scheduleType = SCHEDULE_TYPE.DELETE ;
 		schedulerNumberSelected = schedulesList.get(index).getScheduleNumber() ;
+		indexSelected = index ;
 		if( purAirDevice == null || purAirDevice.getConnectionState() == ConnectionState.DISCONNECTED ) return ;
 		PurifierManager.getInstance().sendScheduleDetailsToPurifier("", purAirDevice, scheduleType, schedulerNumberSelected) ;
 		showProgressDialog() ;
@@ -264,8 +272,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	
 	private void showAddSchedulerFragment() {
 		Bundle bundle = new Bundle();
-		
-		if (scheduleType == SCHEDULE_TYPE.ADD || scheduleType == SCHEDULE_TYPE.EDIT) {
+		if (scheduleType == SCHEDULE_TYPE.ADD || scheduleType == SCHEDULE_TYPE.EDIT || 
+				scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
 			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - create SelectedTime is " + selectedTime);
 			bundle.putString(SchedulerConstants.TIME, selectedTime);
 			bundle.putString(SchedulerConstants.DAYS, selectedDays);
@@ -283,6 +291,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		scheduleType = SCHEDULE_TYPE.GET_SCHEDULE_DETAILS ;
 		//updateFragment ;
 		schedulerNumberSelected = schedulesList.get(position).getScheduleNumber() ;
+		indexSelected = position ;
 		if( schedulesList.get(position).getMode() == null ) {
 			showProgressDialog() ;
 			String dataToSend = "";
@@ -331,6 +340,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	}
 
+	//Add new schedule 
+	public void initializeDayAndFanspeed() {
+		selectedDays = "";
+		selectedFanspeed = "";
+	} 
 
 	@Override
 	public void onBackPressed() {

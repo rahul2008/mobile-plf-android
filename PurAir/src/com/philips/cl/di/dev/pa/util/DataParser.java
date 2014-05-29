@@ -357,6 +357,7 @@ public class DataParser {
 	}
 
 	public static List<SchedulePortInfo> parseSchedulerDto(String dataToParse) {
+		if (dataToParse == null || dataToParse.isEmpty()) return null;
 		ALog.i(ALog.SCHEDULER, dataToParse) ;
 		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
 		JSONObject jsonObject = null ;
@@ -376,17 +377,17 @@ public class DataParser {
 			}
 
 		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
 			schedulesList = null ;
-			e.printStackTrace();
+			ALog.e(ALog.PARSER, "JsonIOException: " + e.getMessage());
 		} catch(Exception e) {
 			schedulesList = null ;
-			e.printStackTrace() ;
+			ALog.e(ALog.PARSER, "JsonIOException : " + e.getMessage());
 		}
 		return schedulesList ;
 	}
 	
 	public static List<SchedulePortInfo> parseScheduleListViaCPP(String dataToParse) {
+		if (dataToParse == null || dataToParse.isEmpty()) return null;
 		ALog.i(ALog.SCHEDULER, dataToParse) ;
 		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
 		JSONObject jsonObject = null ;
@@ -408,12 +409,11 @@ public class DataParser {
 			}
 
 		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
 			schedulesList = null ;
-			e.printStackTrace();
+			ALog.e(ALog.PARSER, "JsonIOException: " + e.getMessage());
 		} catch(Exception e) {
 			schedulesList = null ;
-			e.printStackTrace() ;
+			ALog.e(ALog.PARSER, "JsonIOException: " + e.getMessage());
 		}
 		return schedulesList ;
 	}
