@@ -63,6 +63,9 @@ public class DeviceHandler implements ServerResponseListener {
 		case GET_SCHEDULE_DETAILS:
 			url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress())+"/"+scheduleNumber ;
 			break;
+		case EDIT:
+			requestType = "PUT" ;
+			url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress())+"/"+scheduleNumber ;
 		default:
 			break;
 		}
@@ -86,6 +89,9 @@ public class DeviceHandler implements ServerResponseListener {
 		case GET_SCHEDULE_DETAILS:
 			CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(JSONBuilder.getPublishEventBuilderForGetSchedulerDetails(scheduleNumber), AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifierEUI64) ;
 			break;		
+		case EDIT:
+			CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(JSONBuilder.getPublishEventBuilderForEditScheduler(dataToSend,scheduleNumber), AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifierEUI64) ;
+			break ;
 		default:
 			break;
 		}

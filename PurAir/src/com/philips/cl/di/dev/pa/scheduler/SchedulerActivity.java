@@ -20,9 +20,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
-import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -130,12 +128,18 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	public void updateScheduler() {
-		scheduleType = SCHEDULE_TYPE.EDIT ;
 		
+		scheduleType = SCHEDULE_TYPE.EDIT ;
+		String editSchedulerJson = "" ;
 		if(!selectedDays.equals(schedulesList.get(indexSelected).getDays()) ||
 				!selectedFanspeed.equals(schedulesList.get(indexSelected).getMode()) ||
 				!selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())) {
-			
+			showProgressDialog() ;
+			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, true) ;
+			PurifierManager.getInstance().sendScheduleDetailsToPurifier(editSchedulerJson, purAirDevice,scheduleType,schedulerNumberSelected) ;
+		}
+		else {
+			showSchedulerOverviewFragment() ;
 		}
 	}
 	
@@ -374,13 +378,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	public void onClick(View v) {
 	}
 	
-	private void parseResponse(String response) {
-		String decryptedResponse = new DISecurity(null).decryptData(response, purAirDevice);
-		schedulesList = DataParser.parseSchedulerDto(decryptedResponse) ;
-		//purAirDevice.setmSchedulerPortInfoList(schedulesList) ;
-		
-	}
-	
 	public List<SchedulePortInfo> getSchedulerList() {
 		return schedulesList;
 	}
@@ -414,16 +411,26 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onScheduleReceived(SchedulePortInfo schedule) {
+
 		for(SchedulePortInfo schedulerPortInfo: schedulesList) {
 			if( schedulerPortInfo.getScheduleNumber() == schedulerNumberSelected) {
-				schedulerPortInfo.setDays(schedule.getDays()) ;
-				schedulerPortInfo.setMode(schedule.getMode()) ;
-				schedulerPortInfo.setScheduleTime(schedule.getScheduleTime()) ;
+				selectedDays = schedule.getDays() ;
+				schedulerPortInfo.setDays(selectedDays) ;
+				selectedFanspeed = schedule.getMode() ;
+				schedulerPortInfo.setMode(selectedFanspeed) ;
+				selectedTime = schedule.getScheduleTime() ;
+				schedulerPortInfo.setScheduleTime(selectedTime) ;
 				schedulerPortInfo.setEnabled(schedule.isEnabled()) ;
+				schedulerPortInfo.setName(schedule.getName()) ;
 			}
 		}
 		cancelProgressDialog() ;
-		showEditFragment(schedule) ;
+		if( scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
+			showEditFragment(schedule) ;
+		}
+		else if(scheduleType == SCHEDULE_TYPE.EDIT) {
+			showSchedulerOverviewFragment() ;
+		}
 		
 	}
 }
