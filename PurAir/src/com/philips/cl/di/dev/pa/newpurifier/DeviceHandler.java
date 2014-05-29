@@ -82,7 +82,10 @@ public class DeviceHandler implements ServerResponseListener {
 			break;	
 		case DELETE:
 			CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(JSONBuilder.getPublishEventBuilderForDeleteScheduler(scheduleNumber), AppConstants.DI_COMM_REQUEST, AppConstants.DEL_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifierEUI64) ;
-			break;			
+			break;		
+		case GET_SCHEDULE_DETAILS:
+			CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(JSONBuilder.getPublishEventBuilderForGetSchedulerDetails(scheduleNumber), AppConstants.DI_COMM_REQUEST, AppConstants.GET_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifierEUI64) ;
+			break;		
 		default:
 			break;
 		}

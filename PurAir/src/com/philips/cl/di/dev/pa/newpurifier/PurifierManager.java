@@ -191,6 +191,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		AirPortInfo airPortInfoCPP = DataParser.parseAirPurifierEventDataFromCPP(data);
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
 		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(data) ;
+		SchedulePortInfo schedulePortInfoFromCPP = DataParser.parseScheduleDetailsFromCPP(data) ;
 		List<SchedulePortInfo> schedulerPortInfoListViaCPP = DataParser.parseScheduleListViaCPP(data) ;
 		List<SchedulePortInfo> schedulerPortInfoList = DataParser.parseSchedulerDto(data) ;
 		setAirPortInfo(airPortInfo);
@@ -200,6 +201,10 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		if( scheduleListener != null) {
 			if( schedulePortInfo != null ) {
 				scheduleListener.onScheduleReceived(schedulePortInfo) ;
+				return ;
+			}
+			else if(schedulePortInfoFromCPP != null ) {
+				scheduleListener.onScheduleReceived(schedulePortInfoFromCPP) ;
 				return ;
 			}
 			else if(  schedulerPortInfoList != null ) {
