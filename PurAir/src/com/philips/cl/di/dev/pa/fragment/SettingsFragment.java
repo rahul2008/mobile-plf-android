@@ -18,7 +18,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -113,15 +112,13 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 			PurAirApplication.setDemoModeEnable(isChecked);
 			if (!isChecked) {
 				PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
-				if (purAirDevice != null && purAirDevice.getName() != null) {
-					if (purAirDevice.getName().equals(DemoModeConstant.DEMO)) {
-						String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);
-						DemoModeTask task = new DemoModeTask(
-								null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
-						task.start();
-						
-						PurifierManager.getInstance().removeCurrentPurifier();
-					}
+				if (purAirDevice != null && purAirDevice.isDemoPurifier()) {
+					String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);
+					DemoModeTask task = new DemoModeTask(
+							null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
+					task.start();
+
+					PurifierManager.getInstance().removeCurrentPurifier();
 				}
 			}
 			((MainActivity) getActivity()).onAirPurifierChanged();

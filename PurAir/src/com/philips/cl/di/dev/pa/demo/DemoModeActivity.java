@@ -125,10 +125,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		}
 	}
 	
-	private boolean isTaskStarted;
 	public void connectToAirPurifier() {
-		if (isTaskStarted) return;
-		isTaskStarted = true;
 		dismissConnectingDialog();
 		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		if ( broadcastReceiver == null) {
@@ -205,7 +202,6 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	@Override
 	public void onErrorOccur(final int errorCode) {
 		ALog.i(ALog.DEMO_MODE, "onErrorOccurred: "+errorCode) ;
-		isTaskStarted = false;
 		runOnUiThread(new Runnable() {
 			
 			@Override
@@ -255,7 +251,6 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 
 	@Override
 	public void onHandShakeWithDevice() {
-		isTaskStarted = false;
 		runOnUiThread(new Runnable() {
 			
 			@Override
