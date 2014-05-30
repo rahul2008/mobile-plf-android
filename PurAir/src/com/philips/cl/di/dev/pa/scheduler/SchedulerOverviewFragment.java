@@ -168,7 +168,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 				schOverviewAdapter.notifyDataSetChanged();
 				break;
 			case R.id.sch_add:
-				((SchedulerActivity)getActivity()).dispatchInformationsForCRUD(SCHEDULE_TYPE.ADD);
+				((SchedulerActivity)getActivity()).setSchedulerType(SCHEDULE_TYPE.ADD);
 				((SchedulerActivity)getActivity()).initializeDayAndFanspeed();
 				DialogFragment newFragment = new TimePickerFragment();
 				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");

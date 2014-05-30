@@ -41,7 +41,7 @@ public class FanspeedFragment extends BaseFragment {
 		selectItemPosition = SchedulerUtil.getFanspeedItemPosition(fanModes, fanSpeedTemp);
 		fanSpeedAdapter = new FanSpeedAdapter(getActivity(), R.layout.fanspeed_scheduler, fanModes);
 		listView.setAdapter(fanSpeedAdapter);
-		((SchedulerActivity)getActivity()).dispatchInformations2(getFanspeed(selectItemPosition));
+		((SchedulerActivity)getActivity()).setFanSpeed(getFanspeed(selectItemPosition));
 	}
 	
 	private void initViews(View view) {
@@ -86,7 +86,7 @@ public class FanspeedFragment extends BaseFragment {
 				public void onClick(View arg0) {
 					selectItemPosition = tempPosition;
 					fanSpeedAdapter.notifyDataSetChanged();
-					((SchedulerActivity)getActivity()).dispatchInformations2(getFanspeed(tempPosition));
+					((SchedulerActivity)getActivity()).setFanSpeed(getFanspeed(tempPosition));
 				}
 			});
 			

@@ -45,6 +45,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private ProgressDialog progressDialog ;
 	private int schedulerNumberSelected ;
 	private int indexSelected ;
+	private SchedulerID event;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,37 +84,59 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		actionBar.setCustomView(view);
 	}
 	
-	private void showProgressDialog() {
-		progressDialog = new ProgressDialog(this);
-		progressDialog.setMessage("Please wait...");
-		progressDialog.show();
-	}
-	
-	private void cancelProgressDialog() {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if(progressDialog != null && progressDialog.isShowing()) {
-					progressDialog.cancel() ;
-				}				
-			}			
-		});	
-	}
-	
-	/**
-	 * 
-	 */
-	private void save() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");		
-		if (scheduleType == SCHEDULE_TYPE.ADD) {
-			addScheduler();
-		} else if (scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
-			updateScheduler();
+	public void setActionBar(SchedulerID id) {
+		event = id;
+		switch (id) {
+		case OVERVIEW_EVENT:
+			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
+			break;
+		case ADD_EVENT:
+			if (scheduleType == SCHEDULE_TYPE.ADD) {
+				setActionBar(R.string.set_schedule, View.VISIBLE, View.VISIBLE);
+			} else {
+				setActionBar(R.string.edit_schedule, View.VISIBLE, View.VISIBLE);
+			}
+			break;
+		case DELETE_EVENT:
+			setActionBar(R.string.set_schedule, View.INVISIBLE, View.VISIBLE);
+			break;
+		case REPEAT:
+			setActionBar(R.string.repeat_text, View.INVISIBLE, View.VISIBLE);
+			break;
+		case FAN_SPEED:
+			setActionBar(R.string.fanspeed, View.INVISIBLE, View.VISIBLE);
+			break;
+		default:
+			break;
 		}
 	}
 	
+	private void setActionBar(int textId, int cancelButton, int backButton) {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
+		actionbarTitle.setText(textId);
+		actionBarCancelBtn.setVisibility(cancelButton);
+		actionBarBackBtn.setVisibility(backButton);
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method exit");
+	}
+	
+	public void setSchedulerType(SCHEDULE_TYPE scheduleType) {
+		this.scheduleType = scheduleType ;
+	}
+	
+	public void setDays(String days) {
+		setDetails(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, null);
+	}
+
+	public void setFanSpeed(String fanspeed) {
+		setDetails(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, null);
+	}
+	
+	public void setTime(String time) {
+		setDetails(time, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, null);
+	}
+	
 	/**
-	 * Create the scheduler
+	 * This method is used to add a new scheduler to the Purifier
 	 */
 	private void addScheduler() {
 		scheduleType = SCHEDULE_TYPE.ADD ;
@@ -127,6 +150,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		//TODO - Implement Add scheduler Via CPP
 	}
 	
+	/**
+	 * This method is used to update the current scheduler.
+	 * 
+	 */
 	public void updateScheduler() {
 		
 		scheduleType = SCHEDULE_TYPE.EDIT ;
@@ -174,46 +201,21 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 	};
 	
+	/**
+	 * This is called from 
+	 */
+	private void save() {
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");		
+		if (scheduleType == SCHEDULE_TYPE.ADD) {
+			addScheduler();
+		} else if (scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
+			updateScheduler();
+		}
+	}
+	
 	public List<Integer> getSchedulerMarked4Deletion() {
 		return SchedulerMarked4Deletion;
 	}
-
-	SchedulerID event;
-	public void setActionBar(SchedulerID id) {
-		event = id;
-		switch (id) {
-		case OVERVIEW_EVENT:
-			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
-			break;
-		case ADD_EVENT:
-			if (scheduleType == SCHEDULE_TYPE.ADD) {
-				setActionBar(R.string.set_schedule, View.VISIBLE, View.VISIBLE);
-			} else {
-				setActionBar(R.string.edit_schedule, View.VISIBLE, View.VISIBLE);
-			}
-			break;
-		case DELETE_EVENT:
-			setActionBar(R.string.set_schedule, View.INVISIBLE, View.VISIBLE);
-			break;
-		case REPEAT:
-			setActionBar(R.string.repeat_text, View.INVISIBLE, View.VISIBLE);
-			break;
-		case FAN_SPEED:
-			setActionBar(R.string.fanspeed, View.INVISIBLE, View.VISIBLE);
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void setActionBar(int textId, int cancelButton, int backButton) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method enter");
-		actionbarTitle.setText(textId);
-		actionBarCancelBtn.setVisibility(cancelButton);
-		actionBarBackBtn.setVisibility(backButton);
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::setActionBar() method exit");
-	}
-
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -226,19 +228,22 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		showAddSchedulerFragment();
 	}
 	
-
-	public void dispatchInformations(String days) {
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, null);
-	}
-
-	public void dispatchInformations2(String fanspeed) {
-		updateCRUDOperationData(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, null);
+	private void showProgressDialog() {
+		progressDialog = new ProgressDialog(this);
+		progressDialog.setMessage("Please wait...");
+		progressDialog.show();
 	}
 	
-	public void dispatchInformationsForCRUD(SCHEDULE_TYPE scheduleType) {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::dispatchInformationsForCRUD() method - crud is " + scheduleType);
-		this.scheduleType = scheduleType;
-	}
+	private void cancelProgressDialog() {
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				if(progressDialog != null && progressDialog.isShowing()) {
+					progressDialog.cancel() ;
+				}				
+			}			
+		});	
+	}	
 	
 	/**
 	 * Retrieves the list of schedules from Purifier
@@ -252,7 +257,14 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend, purAirDevice, scheduleType,-1) ;
 	}
 	
-	private void updateCRUDOperationData(String time, String date, String speed, List<Integer> markedDelete) {
+	/**
+	 * 
+	 * @param time
+	 * @param date
+	 * @param speed
+	 * @param markedDelete
+	 */
+	private void setDetails(String time, String date, String speed, List<Integer> markedDelete) {
 			if (!time.isEmpty())
 				selectedTime = time;
 			if (!date.isEmpty() && !date.equals(SchedulerConstants.ONE_TIME))
@@ -266,9 +278,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ALog.d(ALog.DISCOVERY, "SchedulerMarked4Deletion in updateCRUDOperationData: " + SchedulerMarked4Deletion.toString());
 	}
 	
+	
 	private void showSchedulerOverviewFragment() {
 		schFragment =  new SchedulerOverviewFragment();
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::showSchedulerOverviewFragment() method enter");
 		getSupportFragmentManager()
 				.beginTransaction()
 				.replace(R.id.ll_scheduler_container, schFragment, "SchedulerOverviewFragment").commit();
@@ -278,7 +290,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		Bundle bundle = new Bundle();
 		if (scheduleType == SCHEDULE_TYPE.ADD || scheduleType == SCHEDULE_TYPE.EDIT || 
 				scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
-			ALog.i(ALog.SCHEDULER, "SchedulerActivity::onTimeSet() method - create SelectedTime is " + selectedTime);
 			bundle.putString(SchedulerConstants.TIME, selectedTime);
 			bundle.putString(SchedulerConstants.DAYS, selectedDays);
 			bundle.putString(SchedulerConstants.SPEED, selectedFanspeed);
@@ -302,21 +313,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			PurifierManager.getInstance().sendScheduleDetailsToPurifier(dataToSend, purAirDevice, scheduleType,schedulerNumberSelected) ;
 		}
 		else {
+			setFanSpeed(schedulesList.get(position).getMode()) ;
+			setDays(schedulesList.get(position).getDays()) ;
+			setTime(schedulesList.get(position).getScheduleTime()) ;
 			showEditFragment(schedulesList.get(position)) ;
 		}
-		
-		
-//		Bundle bundle = new Bundle();
-//		if (scheduleType == SCHEDULE_TYPE.EDIT){
-//			bundle.putInt(SchedulerConstants.EXTRAT_EDIT, position);
-//			bundle.putString(SchedulerConstants.TIME, name);
-//		}
-//		
-//		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
-//		fragAddSch.setArguments(bundle);
-//		getSupportFragmentManager()
-//				.beginTransaction()
-//				.replace(R.id.ll_scheduler_container, fragAddSch, "EditSchedulerFragment").commit();	
 	}
 
 	

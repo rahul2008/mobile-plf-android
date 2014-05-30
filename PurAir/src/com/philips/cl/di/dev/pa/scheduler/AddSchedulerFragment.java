@@ -42,11 +42,11 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
 		
 		if (sSelectedDays == null || sSelectedDays.isEmpty() ) {
-			((SchedulerActivity)getActivity()).dispatchInformations(SchedulerConstants.ONE_TIME);
+			((SchedulerActivity)getActivity()).setDays(SchedulerConstants.ONE_TIME);
 		}
 		
 		if (sSelectedFanspeed == null || sSelectedFanspeed.isEmpty()) {
-			((SchedulerActivity)getActivity()).dispatchInformations2("a");
+			((SchedulerActivity)getActivity()).setFanSpeed("a");
 		}
 		
 		sSelectedDays = setWeekDays2(sSelectedDays);

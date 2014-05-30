@@ -42,7 +42,7 @@ public class RepeatFragment extends BaseFragment {
 		daysSelected = SchedulerUtil.getSelectedDayList(days, selectedDays);
 		daysAdapter = new DaysAdapter(getActivity(), R.layout.repeat_scheduler_item, days);
 		lstDays.setAdapter(daysAdapter);
-		((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
+		((SchedulerActivity)getActivity()).setDays(setDaysString());
 	}
 	
 	private void addValues() {
@@ -98,7 +98,7 @@ public class RepeatFragment extends BaseFragment {
 						dayLayout.setBackgroundColor(Color.WHITE);
 						day.setTextColor(Color.GRAY);
 					}
-					((SchedulerActivity)getActivity()).dispatchInformations(setDaysString());
+					((SchedulerActivity)getActivity()).setDays(setDaysString());
 					
 				}
 			});
