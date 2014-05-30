@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.newpurifier;
 import java.util.List;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
@@ -128,6 +129,10 @@ public class PurAirDevice {
 
 	public void setFirmwarePortInfo(FirmwarePortInfo firmwarePortInfo) {
 		this.mFirmwarePortInfo = firmwarePortInfo;
+	}
+	
+	public boolean isDemoPurifier() {
+		return (EWSConstant.PURIFIER_ADHOCIP.equals(mIpAddress));
 	}
 
 	public String toString() {
