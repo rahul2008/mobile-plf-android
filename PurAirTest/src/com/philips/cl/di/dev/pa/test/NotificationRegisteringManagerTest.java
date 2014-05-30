@@ -1,14 +1,7 @@
 package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import junit.framework.TestCase;
-import android.content.Context;
-
-import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 

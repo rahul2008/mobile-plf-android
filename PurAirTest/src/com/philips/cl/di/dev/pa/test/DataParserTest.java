@@ -19,6 +19,10 @@ public class DataParserTest extends TestCase {
 	private String scheduleDetailJson = "{\"name\":\"16:00\",\"enabled\":true,\"time\":\"16:00\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"om\":\"a\"}}";
 	private String allScheduleJson = "{\"2\":{\"name\":\"18:45\"},\"3\":{\"name\":\"15:45\"},\"4\":{\"name\":\"20:00\"}}";
 	
+	private String scheduleDetailJsonCpp = "{\"status\":0,\"data\":{\"name\":\"12:15\",\"enabled\":true,\"time\":\"12:15\",\"days\":\"123\",\"product\":1,\"port\":\"air\",\"command\":{\"om\":\"a\"}}}";
+	private String allScheduleJsonCpp = "{\"status\":0,\"data\":{\"0\":{\"name\":\"16:14\"},\"1\":{\"name\":\"12:15\"}}}";
+	
+	
 	public void testAirPurifierInvalidData() {
 		String parseData = "invalid data" ;
 		assertNull( DataParser.parseAirPurifierEventData(parseData)) ;
@@ -406,6 +410,33 @@ public class DataParserTest extends TestCase {
 		assertNull(schedulePortInfos);
 	}
 	
+	public void testParseScheduleListViaCPPSize() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(allScheduleJsonCpp);
+		assertEquals(2, schedulePortInfos.size());
+	}
+	
+	public void testParseScheduleListViaCPPKeys() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(allScheduleJsonCpp);
+		ArrayList<Integer> keys = new ArrayList<Integer>();
+		keys.add(0);
+		keys.add(1);
+		
+		assertTrue(keys.contains(schedulePortInfos.get(0).getScheduleNumber()));
+		assertTrue(keys.contains(schedulePortInfos.get(1).getScheduleNumber()));
+	}
+	
+	public void testParseScheduleListViaCPPNames() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(allScheduleJsonCpp);
+		
+		ArrayList<String> names = new ArrayList<String>();
+		names.add("16:14");
+		names.add("12:15");
+		
+		assertTrue(names.contains(schedulePortInfos.get(0).getName()));
+		assertTrue(names.contains(schedulePortInfos.get(1).getName()));
+	}
+	
+	
 	public void testParseScheduleDetailsWithNullParam() {
 		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(null);
 		assertNull(schedulePortInfo);
@@ -464,5 +495,25 @@ public class DataParserTest extends TestCase {
 	public void testParseScheduleDetailsFromCPPWithWrongJsonFormat() {
 		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP("hello");
 		assertNull(schedulePortInfo);
+	}
+	
+	public void testParseScheduleDetailsScheduleCppName() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		assertEquals("12:15", schedulePortInfo.getName());
+	}
+	
+	public void testParseScheduleDetailsScheduleCppTime() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		assertEquals("12:15", schedulePortInfo.getScheduleTime());
+	}
+	
+	public void testParseScheduleDetailsScheduleCppDay() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		assertEquals("123", schedulePortInfo.getDays());
+	}
+	
+	public void testParseScheduleDetailsScheduleCppMode() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		assertEquals("a", schedulePortInfo.getMode());
 	}
 }
