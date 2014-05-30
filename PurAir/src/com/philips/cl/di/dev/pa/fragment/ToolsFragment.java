@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -175,6 +176,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 
 		//get device dignostics info
 		String appVersion= "App Version: "+((MainActivity) getActivity()).getVersionNumber();
+		String osVersion = "OS Version: " + Build.VERSION.RELEASE ;
 		String dDns1 = "DNS: " + intToIp(dhcpInfo.dns1);
 		String dGateway = "Default Gateway: " + intToIp(dhcpInfo.gateway);
 		String dIpAddress = "IP Address: " + intToIp(dhcpInfo.ipAddress);
@@ -200,6 +202,8 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		StringBuilder data = new StringBuilder("Device Network Info\n");
 		data.append(appVersion);
 		data.append(lineSeparator);
+		data.append(osVersion) ;
+		data.append(lineSeparator) ;
 		data.append(dIpAddress);
 		data.append(lineSeparator);
 		data.append(dMacaddress);
