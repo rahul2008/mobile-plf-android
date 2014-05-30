@@ -419,6 +419,7 @@ public class DataParser {
 	}
 	
 	public static SchedulePortInfo parseScheduleDetails(String dataToParse) {
+		if (dataToParse == null || dataToParse.isEmpty()) return null;
 		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
 		try {
 			JSONObject scheduleJson = new JSONObject(dataToParse) ;
@@ -429,14 +430,16 @@ public class DataParser {
 			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
  		} catch (JSONException e) {
 			schedulePortInfo = null ;
-			e.printStackTrace();
+			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
 		} catch (Exception e) {
 			schedulePortInfo = null ;
+			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
 		}
 		return schedulePortInfo ;
 	}
 	
 	public static SchedulePortInfo parseScheduleDetailsFromCPP(String dataToParse) {
+		if (dataToParse == null || dataToParse.isEmpty()) return null;
 		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
 		try {
 			JSONObject scheduleJson = new JSONObject(dataToParse).getJSONObject("data") ;
@@ -447,9 +450,10 @@ public class DataParser {
 			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
  		} catch (JSONException e) {
 			schedulePortInfo = null ;
-			e.printStackTrace();
+			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
 		} catch (Exception e) {
 			schedulePortInfo = null ;
+			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
 		}
 		return schedulePortInfo ;
 	}
