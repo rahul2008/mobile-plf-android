@@ -126,7 +126,8 @@ public class AppConstants {
 	/** CONSTANTS RELATED TO SUBSCRIPTION */
 
 	public static final String URL_BASEALLPORTS = "http://%s/di/v1/products/%s/%s";
-	public enum Port {
+	public static final String URL_GET_SCHEDULES = "http://%s/di/v1/products/0/schedules/%s" ;
+	public enum Port { 
 		AIR("air",1), WIFI("wifi",0), WIFIUI("wifiui",1), FIRMWARE("firmware",0), DEVICE("device",1), PAIRING("pairing",0), 
 		SECURITY("security",0), LOG("log",0), SCHEDULES("schedules",0);
 		
@@ -143,7 +144,9 @@ public class AppConstants {
 	public static final String EVENTSUBSCRIBER_KEY = "subscriber";
 
 	public static final String REQUEST_METHOD_POST = "POST" ;
-	public static final String REQUEST_METHOD_DELETE = "DELETE" ;	
+	public static final String REQUEST_METHOD_DELETE = "DELETE" ;
+	public static final String REQUEST_METHOD_PUT = "PUT" ;
+	public static final String REQUEST_METHOD_GET = "GET" ;
 	
 	/** CONSTANTS FOR NOTIFICATIONS */
 	public static final String NOTIFICATION_SERVICE_TAG="3pns";

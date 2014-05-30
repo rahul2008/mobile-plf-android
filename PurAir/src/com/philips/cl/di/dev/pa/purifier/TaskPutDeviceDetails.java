@@ -9,6 +9,7 @@ import java.nio.charset.Charset;
 
 import android.util.Log;
 
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
@@ -22,7 +23,7 @@ public class TaskPutDeviceDetails implements Runnable {
 	private int responseCode ;
 	private String url;
 	
-	private String requestMethod = "PUT" ;
+	private String requestMethod = AppConstants.REQUEST_METHOD_PUT ;
 
 	public TaskPutDeviceDetails(String dataToUpload,String url, ServerResponseListener responseListener) {
 		this.dataToUpload = dataToUpload;
@@ -51,7 +52,7 @@ public class TaskPutDeviceDetails implements Runnable {
 			conn.setRequestProperty("content-type", "application/json") ;
 			
 			conn.setRequestMethod(requestMethod);
-			if(!requestMethod.equals("GET") &&
+			if(!requestMethod.equals(AppConstants.REQUEST_METHOD_GET) &&
 					dataToUpload != null && !dataToUpload.isEmpty()) {
 				conn.setDoOutput(true);
 				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());

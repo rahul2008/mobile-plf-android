@@ -50,22 +50,22 @@ public class DeviceHandler implements ServerResponseListener {
 	}
 	
 	private void sendScheduleDetailsLocally(String dataToSend, SCHEDULE_TYPE scheduleType, PurAirDevice purifier,int scheduleNumber) {
-		String requestType = "GET" ;
+		String requestType = AppConstants.REQUEST_METHOD_GET ;
 		String url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress()) ;
 		switch (scheduleType) {
 		case ADD:
-			requestType = "POST" ;
+			requestType = AppConstants.REQUEST_METHOD_POST ;
 			break;
 		case DELETE:
-			requestType = "DELETE" ;
-			url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress())+"/"+scheduleNumber ;
+			requestType = AppConstants.REQUEST_METHOD_DELETE ;
+			url =  Utils.getScheduleDetailsUrl(purifier.getIpAddress(),scheduleNumber);
 			break;
 		case GET_SCHEDULE_DETAILS:
-			url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress())+"/"+scheduleNumber ;
+			url = Utils.getScheduleDetailsUrl(purifier.getIpAddress(),scheduleNumber);
 			break;
 		case EDIT:
-			requestType = "PUT" ;
-			url = Utils.getPortUrl(Port.SCHEDULES, purifier.getIpAddress())+"/"+scheduleNumber ;
+			requestType = AppConstants.REQUEST_METHOD_PUT ;
+			url =  Utils.getScheduleDetailsUrl(purifier.getIpAddress(),scheduleNumber);
 		default:
 			break;
 		}

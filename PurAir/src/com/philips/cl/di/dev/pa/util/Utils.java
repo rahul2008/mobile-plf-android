@@ -62,6 +62,10 @@ public class Utils {
 		}
 		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.port,port.urlPart) ;
 	}
+	
+	public static String getScheduleDetailsUrl(String ipAddress, int scheduleNumber) {
+		return String.format(AppConstants.URL_GET_SCHEDULES, ipAddress,scheduleNumber) ;
+	}
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {
 		int noOfDays = -2;
