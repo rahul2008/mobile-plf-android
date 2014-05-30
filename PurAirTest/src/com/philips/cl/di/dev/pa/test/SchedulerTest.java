@@ -1,13 +1,11 @@
 package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import junit.framework.TestCase;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TimePicker;
 
-import com.philips.cl.di.dev.pa.scheduler.RepeatFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -42,12 +40,12 @@ public class SchedulerTest extends ActivityInstrumentationTestCase2<SchedulerAct
 	
 	public void testGetFanSpeed() {
 		try {
-			activity.setFanSpeed("Turbo");
+			activity.setFanSpeed("t");
 			
 			Field fanSpeedField = SchedulerActivity.class.getDeclaredField("selectedFanspeed");
 			fanSpeedField.setAccessible(true);
 			String fanspeed = (String) fanSpeedField.get(activity);
-			assertEquals("Turbo", fanspeed);	
+			assertEquals("t", fanspeed);	
 		} catch (Exception e) {
 			TestCase.fail(e.getMessage());
 			ALog.e(ALog.SCHEDULER, "Failed getting fanSpeedField field ");
