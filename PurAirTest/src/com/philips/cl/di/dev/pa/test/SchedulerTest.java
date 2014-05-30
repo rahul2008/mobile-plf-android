@@ -28,7 +28,7 @@ public class SchedulerTest extends ActivityInstrumentationTestCase2<SchedulerAct
 	
 	public void testGetDays() {
 		try {
-			activity.dispatchInformations("0123456");
+			activity.setDays("0123456");
 			
 			Field daysField = SchedulerActivity.class.getDeclaredField("selectedDays");
 			daysField.setAccessible(true);
@@ -42,7 +42,7 @@ public class SchedulerTest extends ActivityInstrumentationTestCase2<SchedulerAct
 	
 	public void testGetFanSpeed() {
 		try {
-			activity.dispatchInformations2("Turbo");
+			activity.setFanSpeed("Turbo");
 			
 			Field fanSpeedField = SchedulerActivity.class.getDeclaredField("selectedFanspeed");
 			fanSpeedField.setAccessible(true);
