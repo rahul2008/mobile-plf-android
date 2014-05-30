@@ -25,7 +25,9 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
+import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
@@ -95,13 +97,6 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 	
 	
-	@Override
-	public void onPause() {
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-		pairingHandler.setPermissionListener(null);
-		super.onPause();
-	}
-	
 	private void initializeAllViews(View rootView) {
 		pairingLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_pairing_layout);
 		enableLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_enable_layout);
@@ -154,7 +149,12 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		}
 	}
 
-	private void showPairingLayout() {
+	private void showPairingLayout() {		
+		if(!CPPController.getInstance(getActivity()).isSignOn() || (mPurifier!=null && mPurifier.isDemoPurifier())){
+			notificationToggle.setEnabled(false);
+			showNotificationsLayout(false);
+			return;
+		}
 		pairingLayout.setVisibility(View.VISIBLE);
 		enableLayout.setVisibility(View.GONE);
 		disableDetailedNotificationsLayout();

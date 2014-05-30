@@ -839,6 +839,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public void showPairingDialog(PurAirDevice purifier) {
 		try
 		{
+			if(purifier.isDemoPurifier())return;
+			
 			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifier, PairingDialogFragment.dialog_type.SHOW_DIALOG);
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);

@@ -88,6 +88,7 @@ public class NotificationRegisteringManager implements SignonListener, SendNotif
 	}
 	
 	private void sendRegistrationIdToBackend(String regid) {
+		if(!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn())return;
 		storeRegistrationKeySendToCPP(false);
 		if(regid == null || regid.isEmpty()) return;
 		

@@ -272,6 +272,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * Stop the DCS service
 	 */
 	public void stopDCSService() {
+		if(! isSignOn()) return ;
 		if (eventSubscription == null) return;
 		if (!isDCSRunning) return;
 		

@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.cpp;
 
 import java.net.HttpURLConnection;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -36,6 +37,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 	private PurAirDevice purifier;
 	private PermissionListener permissionListener=null;
+	private CPPController cppController ;
 
 	/**
 	 * Constructor for Pairinghandler.
@@ -53,6 +55,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		pairingListener = iPairingListener;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
+		cppController = CPPController.getInstance(PurAirApplication.getAppContext()) ;
 	}
 
 	public void setPermissionListener(PermissionListener iPermissionListener) {
@@ -84,7 +87,10 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 */
 	private void getRelationship(String relationshipType, String purifierEui64) {
 		ALog.i(ALog.PAIRING, "Requesting existing relationships");
-
+		
+		if(!cppController.isSignOn())return;
+		
+		ALog.i(ALog.PAIRING, "signOn is success");
 		boolean bincludeIncoming = true;
 		boolean bincludeOutgoing = true;
 		int iMetadataSize = 0;
@@ -151,6 +157,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 */
 	private void addRelationship(String relationshipType, String secretKey) {
 
+		if(!cppController.isSignOn())return;
 		int status;
 		PairingService addPSRelation = new PairingService(callbackHandler);
 
@@ -367,6 +374,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 * @param permission String[]
 	 */
 	public void addPermission(String relationType, String[] permission){
+		if(!cppController.isSignOn())return;
 		PairingService addPermission = new PairingService(callbackHandler);
 		int retStatus;
 		retStatus = addPermission.addPermissionsRequest(getPurifierEntity(), relationType, permission);
@@ -389,6 +397,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 * @param permission String[]
 	 */
 	public void getPermission(String relationType, String[] permission){
+		if(!cppController.isSignOn())return;
 		int    iMaxPermissons = 5;
 		int    iPermIndex = 0;
 		PairingService getPermission = new PairingService(callbackHandler);
@@ -415,6 +424,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 * @param permission String[]
 	 */
 	public void removePermission(String relationType, String[] permission){
+		if(!cppController.isSignOn()) return;
 		PairingService removePermissions = new PairingService(callbackHandler);
 		int retStatus;
 
