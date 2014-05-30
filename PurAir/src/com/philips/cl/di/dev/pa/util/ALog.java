@@ -47,6 +47,7 @@ public class ALog {
 	public static final String NOTIFICATION="NotificationAir";
 	public static final String USER_REGISTRATION = "UserRegistration";
 	public static final String DEVICEHANDLER = "DeviceHandler";
+	public static final String DRAWER = "Drawer";
 	
 	private static boolean isLoggingEnabled = true;
 	
