@@ -3,10 +3,8 @@ package com.philips.cl.di.dev.pa.activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -19,12 +17,12 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class MapOdActivity extends BaseActivity {
 	private GoogleMap mMap;
-	private float centerLatF, centerLngF;
+	private double centerLatF, centerLngF;
 	//private String centerCity;
 	//private String otherInfo[];
 	private ImageView closeMapImg;
 	
-	private ViewGroup mapLayout;
+//	private ViewGroup mapLayout;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -34,15 +32,15 @@ public class MapOdActivity extends BaseActivity {
 		
 		closeMapImg = (ImageView) findViewById(R.id.oDmapInlarge); 
 		closeMapImg.setImageResource(R.drawable.close_icon_2x);
-		centerLatF = getIntent().getFloatExtra("centerLatF", 0.0F);
-		centerLngF = getIntent().getFloatExtra("centerLngF", 0.0F);
+		centerLatF = getIntent().getDoubleExtra("centerLatF", 0.0F);
+		centerLngF = getIntent().getDoubleExtra("centerLngF", 0.0F);
 		//centerCity = getIntent().getStringExtra("centerCity");
 		//otherInfo = getIntent().getStringArrayExtra("otherInfo");
-		mapLayout = (RelativeLayout) findViewById(R.id.include_map);
+//		mapLayout = (RelativeLayout) findViewById(R.id.include_map);
 		if(Utils.isGooglePlayServiceAvailable()) {
 			setUpMapIfNeeded();
 		} else {
-			mapLayout.setVisibility(View.GONE);
+//			mapLayout.setVisibility(View.GONE);
 		}
 		
 		closeMapImg.setOnClickListener(new OnClickListener() {

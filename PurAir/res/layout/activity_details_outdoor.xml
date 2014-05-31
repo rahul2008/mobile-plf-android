@@ -29,12 +29,52 @@
 
         <!-- Map layout -->
 
-        <include
-            android:id="@+id/include_map"
+        <RelativeLayout
+            android:id="@+id/img_map_layt"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_margin="16dp"
-            layout="@layout/od_map_layout" />
+            android:layout_margin="16dp" >
+
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                class="com.google.android.gms.maps.SupportMapFragment" />
+
+            <ImageView
+                android:id="@+id/img_map"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/img_description" />
+
+            <ImageView
+                android:id="@+id/oDmapInlarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:contentDescription="@string/img_description"
+                android:padding="8dp"
+                android:src="@drawable/zoom_arrow_icon_2x" />
+            <View 
+                android:id="@+id/view_map_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/map_background" />
+        </RelativeLayout>
+		
+        <!-- <include -->
+        <!-- android:id="@+id/include_map" -->
+        <!-- android:layout_width="match_parent" -->
+        <!-- android:layout_height="250dp" -->
+        <!-- android:layout_margin="16dp" -->
+        <!-- layout="@layout/od_map_layout" /> -->
+
 
         <!-- Weather report -->
 

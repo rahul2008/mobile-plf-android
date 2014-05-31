@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
+import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
@@ -56,7 +59,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private TextView heading;
 	private ImageView circleImg;
 	private ImageView avoidImg, openWindowImg, maskImg;
-	private ImageView mapClickImg;
+	private ImageView mapEnlargeImg;
 	private FontTextView avoidTxt, openWindowTxt, maskTxt;
 	private FontTextView msgSecond;
 	private ProgressBar aqiProgressBar;
@@ -69,6 +72,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private static String currentCityTime;
 	
 	private ViewGroup mapLayout;
+	private ImageView mapImg;
+	private View mapBackground;
+	private double latitude;
+	private double longitude;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -260,7 +267,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			startOutdoorAQITask(city.getCityName());
 			currentCityTime = city.getUpdatedTime();
 			startWeatherDataTask(city.getGeo());
-			mapLayout = (RelativeLayout) findViewById(R.id.include_map);
+			
 			if(Utils.isGooglePlayServiceAvailable()) {
 				setUpMapIfNeeded(city.getGeo());
 			} else {
@@ -354,8 +361,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
 		maskImg = (ImageView) findViewById(R.id.maskImg); 
-		mapClickImg = (ImageView) findViewById(R.id.oDmapInlarge); 
-
+		mapEnlargeImg = (ImageView) findViewById(R.id.oDmapInlarge); 
+		mapEnlargeImg.setVisibility(View.INVISIBLE);
 
 		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
 		avoidTxt = (FontTextView) findViewById(R.id.avoidOutdoorTxt); 
@@ -364,14 +371,21 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 		aqiProgressBar = (ProgressBar) findViewById(R.id.outdoorAqiDownloadProgressBar);
 		weatherProgressBar = (ProgressBar) findViewById(R.id.weatherProgressBar);
+		
+		mapLayout = (RelativeLayout) findViewById(R.id.img_map_layt);
+		mapImg = (ImageView) findViewById(R.id.img_map);
+		mapBackground = (View) findViewById(R.id.view_map_bg);
 
+		if(!Utils.isGooglePlayServiceAvailable()) {
+			mapLayout.setVisibility(View.GONE);
+		}
 		/**
 		 * Set click listener
 		 * */
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
-		mapClickImg.setOnClickListener(this);
+		mapEnlargeImg.setOnClickListener(this);
 	}
 	
 	/**
@@ -422,8 +436,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 			}
 			case R.id.oDmapInlarge: {
 				Intent mapIntent = new Intent(OutdoorDetailsActivity.this, MapOdActivity.class);
-				mapIntent.putExtra("centerLatF", 31.230638F);
-				mapIntent.putExtra("centerLngF", 121.473584F);
+				mapIntent.putExtra("centerLatF", latitude);
+				mapIntent.putExtra("centerLngF", longitude);
 				mapIntent.putExtra("centerCity", "Shanghai");
 				mapIntent.putExtra("otherInfo", new String[]{});
 				startActivity(mapIntent);
@@ -500,6 +514,21 @@ public class OutdoorDetailsActivity extends BaseActivity
 		if (mMap == null) {
 			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
 					.getMap();
+			mMap.setOnMapLoadedCallback(new OnMapLoadedCallback() {
+				
+				@Override
+				public void onMapLoaded() {
+					mMap.snapshot(new SnapshotReadyCallback() {
+						
+						@Override
+						public void onSnapshotReady(Bitmap bmp0) {
+							mapImg.setImageBitmap(bmp0);
+							mapBackground.setVisibility(View.GONE);
+							mapEnlargeImg.setVisibility(View.VISIBLE);
+						}
+					});
+				}
+			});
 			if (mMap != null) {
 				setUpMap(geo);
 			}
@@ -518,10 +547,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 			return;
 		}
 		try {
-			double lat = Double.parseDouble(geoArr[0].trim());
-			double lng = Double.parseDouble(geoArr[1].trim());
+			latitude = Double.parseDouble(geoArr[0].trim());
+			longitude = Double.parseDouble(geoArr[1].trim());
 			CameraPosition cameraPosition = new CameraPosition.Builder()
-			.target(new LatLng(lat, lng))
+			.target(new LatLng(latitude, longitude))
 			.zoom(13)              
 			.bearing(0)                
 			.tilt(30)                   
@@ -535,7 +564,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			mMap.getUiSettings().setRotateGesturesEnabled(false);
 			mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
 
-			mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
+			mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
 		} catch (NumberFormatException e) {
 			ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
 		}
@@ -568,7 +597,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			return;
 		}
 		TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(
-				String.format(AppConstants.WEATHER_SERVICE_URL,"31.2000,121.5000"), this);
+				String.format(AppConstants.WEATHER_SERVICE_URL, geoCoordinate), this);
 		statusUpdateTask.start();
 
 	}
