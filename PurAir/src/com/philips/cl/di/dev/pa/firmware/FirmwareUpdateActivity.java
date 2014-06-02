@@ -50,12 +50,12 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			ALog.d(ALog.FIRMWARE, "No firmware update information available for purifier");
 		}
 		
-		ALog.i(ALog.FIRMWARE, "Intent params purifierName " + getPurifierName() + " upgradeVersion " + getUpgradeVersion() + " currentVersion " + getCurrentVersion());
+		ALog.i(ALog.FIRMWARE, "Intent params purifierName " + getPurifierName() + " getFirmwarePortInfo() " + currentPurifier.getFirmwarePortInfo() +" upgradeVersion " + getUpgradeVersion() + " currentVersion " + getCurrentVersion());
 		showFragment(getUpgradeVersion());
 	}
 			
 	private void showFragment(String upgradeVersion) {
-		ALog.i(ALog.FIRMWARE, "FWUpdateActivity$showFragment upgradeVersion " + upgradeVersion);
+		ALog.i(ALog.FIRMWARE, "FWUpdateActivity$showFragment upgradeVersion " + upgradeVersion );
 		if(upgradeVersion == null || upgradeVersion.isEmpty()) {
 			getSupportFragmentManager().beginTransaction()
 			.add(R.id.firmware_container, new FirmwareInstalledFragment(), FirmwareInstalledFragment.class.getSimpleName())

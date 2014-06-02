@@ -39,18 +39,6 @@
         android:padding="16dp" >
 
         <Button
-            android:id="@+id/btn_cancel"
-            android:layout_width="122dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="35dp"
-            android:background="@drawable/blue_button_selector"
-            android:lineSpacingExtra="5dp"
-            android:text="@string/cancel"
-            android:textColor="@color/white"
-            android:textSize="14sp" />
-
-        <Button
             android:id="@+id/btn_support"
             android:layout_width="122dp"
             android:layout_height="wrap_content"

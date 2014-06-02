@@ -24,15 +24,12 @@ public class FirmwareInstalledFragment extends BaseFragment {
 	}
 
 	private void initViews(View view) {
-		FontTextView firmwareTitle;
-		FontTextView firmwareVersion;
-		Button btnInstalled;
-		firmwareTitle = (FontTextView) view.findViewById(R.id.firmware_title);
+		FontTextView firmwareTitle = (FontTextView) view.findViewById(R.id.firmware_title);
 		firmwareTitle.setText(R.string.firmware);
-		firmwareVersion = (FontTextView) view.findViewById(R.id.firmware_version);
+		FontTextView firmwareVersion = (FontTextView) view.findViewById(R.id.firmware_version);
 		ALog.i(ALog.FIRMWARE, "FirmwareInstalledFragment$init((FirmwareUpdateActivity) getActivity()).getCurrentVersion() " + ((FirmwareUpdateActivity) getActivity()).getCurrentVersion());
 		firmwareVersion.setText(((FirmwareUpdateActivity) getActivity()).getCurrentVersion());
-		btnInstalled = (Button) view.findViewById(R.id.btn_firmware_update);
+		Button btnInstalled = (Button) view.findViewById(R.id.btn_firmware_update);
 		btnInstalled.setText(getString(R.string.installed));
 		btnInstalled.setBackgroundResource(R.drawable.button_bg_gray);
 		btnInstalled.setClickable(false);
