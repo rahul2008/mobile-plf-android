@@ -156,6 +156,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		}
 
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 		mDrawerLayout.setScrimColor(Color.parseColor("#60FFFFFF"));
 		mDrawerLayout.setFocusableInTouchMode(false);
