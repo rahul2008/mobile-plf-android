@@ -12,6 +12,7 @@ import android.util.Log;
 public class ALog {
 	
 	public static final String TEMP = "Temp"; // Use for temporary logs during development
+	public static final String ERROR = "Error"; // Use to log errors
 	public static final String APPLICATION = "PurAirApplication";
 	public static final String ACTIVITY = "ActivityLifecycle";
 	public static final String FRAGMENT = "FragmentLifecycle";
