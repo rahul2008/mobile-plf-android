@@ -251,10 +251,11 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onPermissionReturned(final boolean permissionExists) {
-		if(progressDialog!=null)progressDialog.dismiss();
-		
+		if(progressDialog!=null) progressDialog.dismiss();
+		if (getActivity() == null) return;
 		ALog.i(ALog.NOTIFICATION, "Permission exists: "+permissionExists);
 		// toggleOn the notification toggle	is permission Exists
+		
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
