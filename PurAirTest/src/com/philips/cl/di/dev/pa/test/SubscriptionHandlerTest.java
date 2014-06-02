@@ -9,7 +9,7 @@ import android.test.InstrumentationTestCase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
-public class SubscriptionManagerTest extends InstrumentationTestCase {
+public class SubscriptionHandlerTest extends InstrumentationTestCase {
 	
 	private static final String PURIFIER_IP = "198.168.1.145";
 	private static final String PURIFIER_EUI64 = "1c5a6bfffe634357";
