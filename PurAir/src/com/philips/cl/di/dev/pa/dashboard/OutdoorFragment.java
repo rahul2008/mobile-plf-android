@@ -25,9 +25,11 @@ import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface, DrawerEventListener {
+public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener {
 	
 	private FontTextView cityName, location, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
@@ -49,20 +51,21 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
+		OutdoorManager.getInstance().startCitiesTask();
 		initViews(getView());
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DrawerAdapter.getInstance().addDrawerListener(this);
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		
+		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		DrawerAdapter.getInstance().removeDrawerListener(this);
 	}
 	
@@ -216,5 +219,15 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onConnected() {
+		OutdoorManager.getInstance().startCitiesTask();
+	}
+
+	@Override
+	public void onDisconnected() {
+		
 	}
 }

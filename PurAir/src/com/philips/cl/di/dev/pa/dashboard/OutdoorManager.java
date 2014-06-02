@@ -15,22 +15,27 @@ public class OutdoorManager implements OutdoorEventListener {
 	
 	private OutdoorDataChangeListener iListener;
 	
-	private OutdoorManager() {
-		outdoorLocations = new ArrayList<OutdoorDto>();
-		OutdoorController.getInstance().setOutdoorEventListener(this);
-		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
-		OutdoorController.getInstance().startCitiesTask();
-	}
-	
-	public void setUIChangeListener(OutdoorDataChangeListener listener){
-		iListener=listener;
-	}
-	
 	public static OutdoorManager getInstance() {
 		if(smInstance == null) {
 			smInstance = new OutdoorManager();
 		}
 		return smInstance;
+	}
+	
+	public void startCitiesTask() {
+		if(outdoorLocations == null || outdoorLocations.size() <= 0) {
+			OutdoorController.getInstance().startCitiesTask();
+		}
+	}
+	
+	private OutdoorManager() {
+		outdoorLocations = new ArrayList<OutdoorDto>();
+		OutdoorController.getInstance().setOutdoorEventListener(this);
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
+	}
+	
+	public void setUIChangeListener(OutdoorDataChangeListener listener){
+		iListener=listener;
 	}
 	
 	public OutdoorDto getOutdoorDashboardDataByCity(String city) {
