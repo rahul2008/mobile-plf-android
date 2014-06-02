@@ -292,8 +292,15 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onCallFailed() {
 		ALog.i(ALog.NOTIFICATION, "Failed to change permissions");
-		if (progressDialog!=null) progressDialog.dismiss();
-		notificationSetup();
+		if (getActivity() == null ) return;
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (progressDialog!=null) progressDialog.dismiss();
+				notificationSetup();
+			}
+		});		
 	}
 
 	@Override

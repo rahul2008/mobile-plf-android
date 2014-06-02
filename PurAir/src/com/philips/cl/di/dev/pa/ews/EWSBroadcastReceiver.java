@@ -234,7 +234,15 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		ALog.i(ALog.EWS, "connecttoDevice AP");
 		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
-		EWSWifiManager.connectToPhilipsSetup();
+		
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				EWSWifiManager.connectToPhilipsSetup();
+			}
+		}).start();
+		
 		startScanForDeviceAp() ;
 		deviceSSIDTimer.start() ;
 	}
