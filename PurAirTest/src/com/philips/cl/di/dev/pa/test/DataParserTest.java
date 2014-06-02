@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
@@ -76,6 +77,20 @@ public class DataParserTest extends TestCase {
 	public void testAirPurifierPowerModeNotEquals() {
 		String parseData = "{\"aqi\":\"1\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40226\",\"psens\":\"1\"}" ;
 		assertFalse(DataParser.parseAirPurifierEventData(parseData).getPowerMode().equals("0")) ;
+	}
+	
+	public void testAirPurifierFirmwareData() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		AirPortInfo result = DataParser.parseAirPurifierEventData(parseData);
+		assertNull(result);
+	}
+	
+	public void testAirPurifierFirmwareData2() {
+		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
+		
+		AirPortInfo result = DataParser.parseAirPurifierEventDataFromCPP(parseData);
+		assertNull(result);
 	}
 	
 	public void testIndoorAQI_DCS_1() {
