@@ -172,6 +172,10 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			getSupportFragmentManager().beginTransaction()
 			.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareFailedSupportFragment.class.getSimpleName())
 			.commit();
+		} else if (fragment instanceof FirmwareFailedSupportFragment || fragment instanceof FirmwareDownloadFailedFragment){
+			setCancelled(true);
+			setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
+			finish();
 		}
 	}
 
