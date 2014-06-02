@@ -37,7 +37,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private PurAirDevice mCurrentPurifier = null;
 	private ConnectionState mCurrentSubscriptionState = ConnectionState.DISCONNECTED;
 
-	private List<AirPurifierEventListener> airPuriferEventListeners ;
+	private List<AirPurifierEventListener> airPurifierEventListeners ;
 
 	private SchedulerListener scheduleListener ;
 	
@@ -52,7 +52,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private PurifierManager() {
 		// Enforce Singleton
 		SubscriptionHandler.getInstance().setSubscriptionListener(this);
-		airPuriferEventListeners = new ArrayList<AirPurifierEventListener>();
+		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
 		mDeviceHandler = new DeviceHandler(this);
 	}
@@ -141,19 +141,22 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		synchronized (airPuriferEventListeners) {
-			airPuriferEventListeners.remove(airPurifierEventListener);
-			if (airPuriferEventListeners.isEmpty()) {
+		synchronized (airPurifierEventListeners) {
+			airPurifierEventListeners.remove(airPurifierEventListener);
+			if (airPurifierEventListeners.isEmpty()) {
 				stopCurrentSubscription();
 			}
 		}
 	}
 
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		synchronized (airPuriferEventListeners) {
-			if (!airPuriferEventListeners.contains(airPurifierEventListener)) {
-				airPuriferEventListeners.add(airPurifierEventListener);
-				startSubscription();
+		synchronized (airPurifierEventListeners) {
+			if (!airPurifierEventListeners.contains(airPurifierEventListener)) {
+				airPurifierEventListeners.add(airPurifierEventListener);
+				if (airPurifierEventListeners.size() == 1) {
+					// TODO optimize not to call start after adding each listener
+					startSubscription();
+				}
 			}
 		}
 	}
@@ -177,8 +180,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public void notifyPurifierChangedListeners() {
 		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
 		
-		synchronized (airPuriferEventListeners) {
-			for (AirPurifierEventListener listener : airPuriferEventListeners) {
+		synchronized (airPurifierEventListeners) {
+			for (AirPurifierEventListener listener : airPurifierEventListeners) {
 				listener.onAirPurifierChanged();
 			}
 		}
@@ -217,8 +220,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			}
 		}
 		
-		synchronized (airPuriferEventListeners) {
-			for (AirPurifierEventListener listener : airPuriferEventListeners) {
+		synchronized (airPurifierEventListeners) {
+			for (AirPurifierEventListener listener : airPurifierEventListeners) {
 				if(airPortInfo != null) {
 					listener.onAirPurifierEventReceived();
 					continue;
