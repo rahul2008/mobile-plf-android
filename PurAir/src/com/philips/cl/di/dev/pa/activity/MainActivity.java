@@ -36,7 +36,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
@@ -277,10 +276,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
-			if (PurAirApplication.isDemoModeEnable()) {
-				PurAirApplication.setDemoModeEnable(false);
-				PurifierManager.getInstance().removeCurrentPurifier();
-			}
 			finish();
 		}
 	}

@@ -66,6 +66,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		
 		demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
 		demoModeTButton.setOnCheckedChangeListener(this);
+		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());
 	}
 
 	@Override

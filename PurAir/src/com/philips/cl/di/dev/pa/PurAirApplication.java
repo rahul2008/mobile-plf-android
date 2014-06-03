@@ -1,8 +1,11 @@
 package com.philips.cl.di.dev.pa;
+import android.app.Activity;
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -10,7 +13,6 @@ import com.philips.cl.di.dev.pa.util.ALog;
 public class PurAirApplication extends Application {
 	
 	private static PurAirApplication mInstance = null;
-	private static boolean isDemoModeEnable;
 	
 	private NotificationRegisteringManager mNotificationManager;
 	
@@ -61,15 +63,14 @@ public class PurAirApplication extends Application {
 	}
 	
 	public static boolean isDemoModeEnable() {
-		return isDemoModeEnable;
+		SharedPreferences pref = 
+				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
+		return pref.getBoolean(AppConstants.DEMO_MODE_ENABLE_KEY, false);
 	}
 
 	public static void setDemoModeEnable(boolean isDemoMode) {
-		if (isDemoMode) {
-			ALog.i(ALog.APPLICATION, "Application is now in Demo Mode");
-		} else {
-			ALog.i(ALog.APPLICATION, "Application is now in Normal Mode");
-		}
-		isDemoModeEnable = isDemoMode;
+		SharedPreferences pref = 
+				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
+		pref.edit().putBoolean(AppConstants.DEMO_MODE_ENABLE_KEY, isDemoMode).commit();
 	}
 }

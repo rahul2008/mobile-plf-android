@@ -183,6 +183,10 @@ public class AppConstants {
 	public static final float MAXWIDTH = MainActivity.getScreenWidth() * 0.655f;
 
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
+	
+	/** DEMO MODE */
+	public final static String DEMO_MODE_PREF = "demo_mode_pref";
+	public final static String DEMO_MODE_ENABLE_KEY ="demo_mode_enable_key";
 
 	
 }
