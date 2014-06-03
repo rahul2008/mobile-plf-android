@@ -17,6 +17,7 @@ import android.widget.EditText;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.registration.CreateAccountFragment.ErrorType;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
@@ -35,7 +36,8 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 	
 	private User user;
 	private ProgressDialog progressDialog ;
-
+	private String mEmail ;
+	private String mPassword ;
 	public static SignInDialogFragment newInstance(DialogType showDialog) {
 		SignInDialogFragment fragment = new SignInDialogFragment();
 
@@ -87,31 +89,22 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 			public void onClick(View v) {
 				
 				if (v.getId() == R.id.btnSignIn) {
-					String email = etEmail.getText().toString();
-					String password = etPassword.getText().toString();
+					mEmail = etEmail.getText().toString();
+					mPassword = etPassword.getText().toString();
 					
 					switch (dialog) {
 					case MY_PHILIPS:
-						Log.e("TEMP", "My Philips: E-mail: " + email + " Password: " + password);
-						if( EmailValidator.getInstance().validate(email) && password != null && password.length() > 5) {
-							
-							try {
-								user.loginUsingTraditional(email, password, SignInDialogFragment.this, PurAirApplication.getAppContext());
-								showProgressDialog() ;
-							} catch (Exception e) {
-								e.printStackTrace();
-								showErrorDialog(Error.GENERIC_ERROR);
-							}
-						}
+						Log.i("TEMP", "My Philips: E-mail: " + mEmail + " Password: " + mPassword);
+						signOnWithMyPhilips() ;
 						break;
 					case FACEBOOK:
-						Log.e("TEMP", "Facebook: E-mail: " + email + " Password: " + password);
+						Log.i("TEMP", "Facebook: E-mail: " + mEmail + " Password: " + mPassword);
 						break;
 					case TWITTER:
-						Log.e("TEMP", "Twitter: E-mail: " + email + " Password: " + password);
+						Log.i("TEMP", "Twitter: E-mail: " + mEmail + " Password: " + mPassword);
 						break;
 					case GOOGLE_PLUS:
-						Log.e("TEMP", "Google+: E-mail: " + email + " Password: " + password);
+						Log.i("TEMP", "Google+: E-mail: " + mEmail + " Password: " + mPassword);
 						break;
 					default:
 						break;
@@ -125,6 +118,35 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		
 		btnClose.setOnClickListener(clickListener);
 		btnSignIn.setOnClickListener(clickListener);
+	}
+	
+	private void signOnWithMyPhilips() {
+		switch(isInputValidated()) {
+		case NONE:	
+			try {
+				user.loginUsingTraditional(mEmail, mPassword, SignInDialogFragment.this, PurAirApplication.getAppContext());
+				showProgressDialog() ;
+			} catch (Exception e) {
+				e.printStackTrace();
+				showErrorDialog(Error.GENERIC_ERROR);
+			}
+			break;
+		case EMAIL:
+			showErrorDialog(Error.INVALID_EMAILID) ;
+			break ;
+		case PASSWORD:
+			showErrorDialog(Error.INVALID_PASSWORD) ;
+			break ;
+		default:
+			break;
+		}
+	}
+
+	public ErrorType isInputValidated() {
+		ALog.i(ALog.USER_REGISTRATION, "isInputValidated: password: " + mPassword + " + emailId: " +mEmail) ;
+		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
+		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
+		return ErrorType.NONE ;
 	}
 	
 	private void showProgressDialog() {
