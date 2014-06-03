@@ -42,6 +42,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private PurifierDatabase mDatabase;
 	private NetworkMonitor mNetwork;
 	private DISecurity mSecurity;
+	private SsdpServiceHelper mSsdpHelper;
 	
 	private DiscoveryEventListener mListener;
 	
@@ -68,6 +69,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDatabase = new PurifierDatabase();
 		initializeDevicesMapFromDataBase();
 		mSecurity = new DISecurity(this);
+		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
@@ -75,7 +77,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	public void start(DiscoveryEventListener listener) { // TODO test
 		if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
-			SsdpService.getInstance().startDeviceDiscovery(this);
+			mSsdpHelper.startDiscoveryAsync();
 			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
 		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
@@ -83,7 +85,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	public void stop() {
-		SsdpService.getInstance().stopDeviceDiscovery();
+		mSsdpHelper.stopDiscoveryAsync();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mDiscoveryTimeoutHandler.removeMessages(DISCOVERYTIMEOUT_MESSAGE);
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());

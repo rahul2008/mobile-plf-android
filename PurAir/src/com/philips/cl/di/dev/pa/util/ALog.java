@@ -49,6 +49,7 @@ public class ALog {
 	public static final String USER_REGISTRATION = "UserRegistration";
 	public static final String DEVICEHANDLER = "DeviceHandler";
 	public static final String DRAWER = "Drawer";
+	public static final String SSDPHELPER = "SsdpHelper";
 	
 	private static boolean isLoggingEnabled = true;
 	
