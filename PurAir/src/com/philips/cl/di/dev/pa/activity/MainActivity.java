@@ -416,7 +416,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		} else if (indoorAQI > 2.3f && indoorAQI <= 3.5f) {
 			tvAirStatusAqiValue.setText(getString(R.string.unhealthy));
 		} else if (indoorAQI > 3.5f) {
-			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy));
+			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy_split));
 		}
 	}
 
