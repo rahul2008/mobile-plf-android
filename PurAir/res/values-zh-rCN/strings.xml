@@ -229,6 +229,7 @@
     <string name="notification_enabling_msg">Enabling notification, please wait..</string>
     <string name="notification_disabling_msg">Disabling notification, please wait..</string>
     <string name="notification_send_aqi_level_msg">Sending selected AQI level, please wait..</string>
+    <string name="notification_error_msg">Something went wrong, please try again later.</string>
     <!-- Settings -->
     <string name="rate_this_app">评价此应用程序</string>
     <string name="send_us_feedback">给我们发送反馈</string>
