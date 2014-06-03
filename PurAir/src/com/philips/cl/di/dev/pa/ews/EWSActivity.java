@@ -97,6 +97,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		case EWSConstant.EWS_STEP_START:
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:	
 		case EWSConstant.EWS_STEP_ONE:
+		case EWSConstant.EWS_STEP_TWO_POWER_ON:
 		case EWSConstant.EWS_STEP_TWO:
 		case EWSConstant.EWS_STEP_THREE:
 			//start, step1, step2 and step3 screen
@@ -195,8 +196,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		case EWSConstant.EWS_STEP_ERROR_SSID:
 			showEwsStartFragment();
 			return true;
-		case EWSConstant.EWS_STEP_TWO:
+		case EWSConstant.EWS_STEP_TWO_POWER_ON:
 			showStepOneFragment();
+			return true;
+		case EWSConstant.EWS_STEP_TWO:
+			showStepTwoPowerOnPurifier();
 			return true;
 		case EWSConstant.EWS_STEP_THREE:
 		case EWSConstant.EWS_STEP_ERROR_DISCOVERY:
@@ -222,7 +226,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		showFragment(new EWSNetworkChangeFragment(), EWSConstant.EWS_NETWORK_FRAGMENT_TAG);
 	}
 	
-	private void showStepOneFragment() {
+	public void showStepOneFragment() {
 		mStep = EWSConstant.EWS_STEP_ONE ;
 		showFragment(new EWSStepOneFragment(), EWSConstant.EWS_STEP_ONE_FRAGMENT_TAG);
 	}
@@ -306,6 +310,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		}
 		ewsService.setSSID(null) ;
 		showNetworkChangeFragment();
+	}
+	
+	public void showStepTwoPowerOnPurifier() {
+		mStep = EWSConstant.EWS_STEP_TWO_POWER_ON ;
+		if( ewsService != null ) {
+			ewsService.setSSID(networkSSID) ;
+		}
+		showFragment(new EWSVerifyPowerOnFragment(), EWSConstant.EWS_STEP_TWO_POWER_ON_FRAGMENT_TAG);
 	}
 	
 	public void showStepTwo() {

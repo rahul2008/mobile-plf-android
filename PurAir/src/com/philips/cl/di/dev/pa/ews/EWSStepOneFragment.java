@@ -44,7 +44,7 @@ public class EWSStepOneFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				((EWSActivity) getActivity()).showStepTwo();
+				((EWSActivity) getActivity()).showStepTwoPowerOnPurifier();
 			}
 		});
 		

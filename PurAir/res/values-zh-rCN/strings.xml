@@ -380,6 +380,9 @@
     <string name="date_empty">--:--</string>
     <string name="alert_auto_network_switch_title">Auto network Switch</string>
     <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
+    <string name="verify_power_on_title">Switching on the Philips Smart Air Purifier</string>
+    <string name="verify_power_on_msg1">Press the (!) button to switch on the purifier.</string>
+    <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
     
     <!-- Tools fragments -->
     <string name="ipaddress">IP 地址</string>
