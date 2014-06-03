@@ -66,10 +66,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/divider2"
         android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
-        android:layout_alignBaseline="@+id/settings_demo_mode_toggle"
-        android:padding="15dp"
+        android:layout_alignBottom="@+id/settings_demo_mode_toggle"
+        android:layout_alignTop="@+id/settings_demo_mode_toggle"
+        android:paddingLeft="15dp"
+        android:gravity="center_vertical"
         android:text="@string/shop_demo_mode" />
 
     <ToggleButton

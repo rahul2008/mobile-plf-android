@@ -346,6 +346,7 @@
     <string name="error_purifier_not_detect_btn_txt">Try again</string>
     <string name="no_network">No Wi-fi network</string>
     <string name="yes">Yes</string>
+    <string name="ok">OK</string>
     <string name="no">No</string>
     <string name="save">Save</string>
     <string name="next">Next</string>
@@ -376,6 +377,9 @@
     <string name="city_shanghai">Shanghai</string>
     <string name="city_location">Chinese Govt</string>
     <string name="date_empty">--:--</string>
+    <string name="alert_auto_network_switch_title">Auto network Switch</string>
+    <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
+    
     <!-- Tools fragments -->
     <string name="ipaddress">IPAddress</string>
     <string name="submit">Submit</string>

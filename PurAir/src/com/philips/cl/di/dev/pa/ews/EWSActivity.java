@@ -332,16 +332,30 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		mStep = EWSConstant.EWS_STEP_TWO ;
 		showFragment(new EWSStepTwoFragment(), EWSConstant.EWS_STEP_TWO_FRAGMENT_TAG);
  	}
-	//
+	
 	public void checkWifiConnectivity() {
-		mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-		ALog.i(ALog.EWS, "mWifi.isConnected()== " +mWifi.isConnected() + ", step: " + mStep);
-		if(!mWifi.isConnected()) {
-			showNetworkChangeFragment();
-			ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
-		}
-		else {
-			showStepOne() ;
+		/**
+		 * Checking auto network switch enabled
+		 * If enabled show alert dialog to user disable
+		 */
+		if (EWSWifiManager.isPoorNetworkAvoidanceEnabled(this)) {
+			try {
+				FragmentManager fragMan = getSupportFragmentManager();
+				fragMan.beginTransaction().add(
+						AlertDialogAutoNetworkSwitchOn.newInstance(), "auto_networ_switch").commitAllowingStateLoss();
+			} catch (Exception e) {
+				ALog.e(ALog.EWS, e.getMessage());
+			}
+		} else {
+			mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+			ALog.i(ALog.EWS, "mWifi.isConnected()== " +mWifi.isConnected() + ", step: " + mStep);
+			if(!mWifi.isConnected()) {
+				showNetworkChangeFragment();
+				ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
+			}
+			else {
+				showStepOne() ;
+			}
 		}
 	}
 	

@@ -14,6 +14,8 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.ews.AlertDialogAutoNetworkSwitchOn;
+import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupCancelDialogFragment;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFragment;
@@ -102,8 +104,22 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	}
 	
 	public void showStepOneScreen() {
-		demoStep = DemoModeConstant.DEMO_MODE_STEP_ONE;
-		showDemoModeFragment(new DemoModeStepOneFragment());
+		/**
+		 * Checking auto network switch enabled
+		 * If enabled show alert dialog to user disable
+		 */
+		if (EWSWifiManager.isPoorNetworkAvoidanceEnabled(this)) {
+			try {
+				FragmentManager fragMan = getSupportFragmentManager();
+				fragMan.beginTransaction().add(
+						AlertDialogAutoNetworkSwitchOn.newInstance(), "auto_networ_switch").commitAllowingStateLoss();
+			} catch (Exception e) {
+				ALog.e(ALog.DEMO_MODE, e.getMessage());
+			}
+		} else {
+			demoStep = DemoModeConstant.DEMO_MODE_STEP_ONE;
+			showDemoModeFragment(new DemoModeStepOneFragment());
+		}
 	}
 	
 	public void showSupportScreen() {
