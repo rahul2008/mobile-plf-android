@@ -33,7 +33,7 @@
 	            android:layout_centerVertical="true"
 	            android:layout_toLeftOf="@id/btn_notifications_pairing"
 	            android:text="@string/notification_pairing_text"
-	            android:textColor="@color/notifications_text_gray"
+	            android:textColor="@color/title_gray"
 	            android:textSize="18sp" 
 	            custom:fontAssetName="fonts/gillsans.ttf"/>
         </RelativeLayout>
@@ -62,7 +62,7 @@
                 android:layout_toLeftOf="@id/notifications_enable_all_toggle"
                 android:text="@string/notifications_enable_all"
                 android:layout_centerVertical="true"
-                android:textColor="@color/notifications_text_gray"
+                android:textColor="@color/title_gray"
                 android:textSize="18sp" 
                 custom:fontAssetName="fonts/gillsans.ttf"/>
         </RelativeLayout>
@@ -89,7 +89,7 @@
 	            android:layout_marginLeft="15dp"
 	            android:layout_marginTop="15dp"
 	            android:text="@string/notifications_indoor_title"
-	            android:textColor="@color/notifications_text_gray"
+	            android:textColor="@color/title_gray"
 	            android:enabled="false"
 	            android:textSize="18sp" 
 	            custom:fontAssetName="fonts/gillsans.ttf" />
@@ -103,7 +103,7 @@
 	            android:layout_marginBottom="15dp"
 	            android:text="@string/notifications_indoor_AQI_desc"
 	            android:enabled="false"
-	            android:textColor="@color/notifications_text_lightgray"
+	            android:textColor="@color/contain_gray"
 	            custom:fontAssetName="fonts/gillsans.ttf" />
 	        
 	         <LinearLayout
@@ -199,7 +199,7 @@
 	            android:layout_marginLeft="15dp"
 	            android:layout_marginTop="15dp"
 	            android:text="@string/notifications_filters_title"
-	            android:textColor="@color/notifications_text_gray"
+	            android:textColor="@color/title_gray"
 	            android:enabled="false"
 	            android:textSize="18sp" 
 	            custom:fontAssetName="fonts/gillsans.ttf"/>
@@ -212,7 +212,39 @@
 	            android:layout_marginRight="15dp"
 	            android:text="@string/notifications_filters_desc"
 	            android:enabled="false"
-	            android:textColor="@color/notifications_text_lightgray"
+	            android:textColor="@color/contain_gray"
+	            android:layout_marginBottom="15dp" 
+	            custom:fontAssetName="fonts/gillsans.ttf"/>
+	        
+	        
+	        <!-- Horizontal line -->
+	        <View
+	            android:layout_width="fill_parent"
+	            android:layout_height="1dp"
+	            android:background="@color/darkgray" />
+	
+	        <!-- Filter notifications -->
+	        <com.philips.cl.di.dev.pa.view.FontTextView
+	            android:id="@+id/notifications_front_panel_title"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="15dp"
+	            android:layout_marginTop="15dp"
+	            android:text="@string/notification_front_panel_title"
+	            android:textColor="@color/title_gray"
+	            android:enabled="false"
+	            android:textSize="18sp" 
+	            custom:fontAssetName="fonts/gillsans.ttf"/>
+	
+	        <com.philips.cl.di.dev.pa.view.FontTextView
+	            android:id="@+id/notifications_front_panel_description"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_marginLeft="15dp"
+	            android:layout_marginRight="15dp"
+	            android:text="@string/notification_front_panel_desc"
+	            android:enabled="false"
+	            android:textColor="@color/contain_gray"
 	            android:layout_marginBottom="15dp" 
 	            custom:fontAssetName="fonts/gillsans.ttf"/>
 	    </LinearLayout>

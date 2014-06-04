@@ -3,39 +3,31 @@
     android:id="@+id/take_tour_pop_up_alert"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white" >
+    android:background="@color/white" 
+    android:padding="15dp">
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
         android:id="@+id/alert_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         android:gravity="left"
         android:text="@string/alert_take_tour"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:layout_marginBottom="10dp" />
     
-    <View
-        android:id="@+id/alert_title_separator"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_below="@id/alert_title"
-        android:background="@color/philips_blue" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
         android:id="@+id/alert_message"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="15dp"
-        android:layout_below="@id/alert_title_separator"
-        android:gravity="center"
+        android:layout_below="@id/alert_title"
+        android:gravity="center_vertical|left"
         android:text="@string/alert_taketour_text"
-        android:textColor="@color/philips_blue"
+        android:textColor="@color/gray"
         android:textSize="18sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
@@ -46,17 +38,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/alert_message"
         android:orientation="horizontal" 
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
+        android:layout_marginTop="10dp"
         android:gravity="center_horizontal">
 
         <Button
             android:id="@+id/btn_alertdialog_no"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginRight="8dp"
             android:layout_weight="1"
             android:background="@drawable/blue_button_selector"
             android:text="@string/close"
@@ -67,30 +56,14 @@
             android:id="@+id/btn_alertdialog_yes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
             android:maxLines="1"
-            android:background="@drawable/registration_button_selector"
+            android:background="@drawable/blue_button_selector"
             android:text="@string/alert_take_tour"
             android:textColor="#FFF"
+            android:gravity="center"
             android:textSize="16sp" />
     </LinearLayout>
-    
-    <!-- Single button layout -->
-    <Button
-        android:id="@+id/btn_alertdialog_single"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/alert_message"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@drawable/blue_button_selector"
-        android:layout_centerHorizontal="true"
-        android:text="@string/close"
-        android:textColor="#FFF"
-        android:textSize="16sp"
-        android:visibility="gone" />
 
 </RelativeLayout>

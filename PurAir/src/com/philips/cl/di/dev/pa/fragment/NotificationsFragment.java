@@ -79,6 +79,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
 				dialog.setOnClickListener(this);
 				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+				return;
 			}
 		}
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
@@ -299,7 +300,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			public void run() {
 				if (progressDialog!=null) progressDialog.dismiss();
 
-				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.close);
+				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.notification_nopurifier_positivebtn);
 				dialog.setOnClickListener(NotificationsFragment.this);
 				dialog.show(getActivity().getSupportFragmentManager(), null);
 			}

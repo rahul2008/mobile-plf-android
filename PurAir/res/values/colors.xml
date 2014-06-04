@@ -158,9 +158,6 @@
     <color name="contain_gray">#7C7C7C</color>
     <color name="lighter_gray">#C4CCD4</color>
     
-    <color name="notifications_text_gray">#5D6578</color>
-    <color name="notifications_text_lightgray">#7C7C7C</color>
-    
      <color name="light_sky_blue">#85D3EF</color>
    
     </resources>

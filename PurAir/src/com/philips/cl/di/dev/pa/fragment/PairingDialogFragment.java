@@ -71,10 +71,11 @@ public class PairingDialogFragment extends DialogFragment {
 
 		title.setText(R.string.congratulations);
 		message.setText(R.string.pairing_success);
-		btn_pair.setVisibility(View.GONE);
+		btnClose.setVisibility(View.INVISIBLE);
+		btn_pair.setText(R.string.close);
 
-		btnClose.setTypeface(Fonts.getGillsans(getActivity()));			
-		btnClose.setOnClickListener(new OnClickListener() {
+		btn_pair.setTypeface(Fonts.getGillsans(getActivity()));			
+		btn_pair.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				dismiss();
