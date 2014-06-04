@@ -15,7 +15,7 @@ import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
-	private static final int SHORT_TIMEOUT = 100;
+	private static final int SHORT_TIMEOUT = 150;
 	private static final int STOPSSDP_TESTDELAY = 300;
 	private static final int STOPMESSAGE_TIMEOUT = STOPSSDP_TESTDELAY + 100;
 	private static final int SLEEP_STEP = 10;
