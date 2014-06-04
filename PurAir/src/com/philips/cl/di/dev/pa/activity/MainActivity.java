@@ -392,8 +392,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				R.drawable.icon_5_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
 				R.drawable.icon_6_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
-				R.drawable.icon_8_2x));
+		// TODO : Add this when enabling non-mandatory firmware update
+//		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
+//				R.drawable.icon_8_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
 				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
@@ -583,11 +584,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
 				break;
+//			case 6:
+				// TODO : Add this when enabling non-mandatory firmware update
+//				// Firmware update
+//				startFirmwareUpgradeActivity();
+//				break;
 			case 6:
-				// Firmware update
-				startFirmwareUpgradeActivity();
-				break;
-			case 7:
 				// User registration
 				if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 					showFragment(new SignedInFragment());
@@ -596,12 +598,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				}
 				setTitle(getString(R.string.create_account));
 				break;
-			case 8:
+			case 7:
 				// Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
 				break;
-			case 9:
+			case 8:
 				// Tools
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.tools));
@@ -649,36 +651,41 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 	@Override
 	public void onFirmwareEventReceived() {
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null) return;
-		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
-		
-		if(firmwarePortInfo == null) return;
-		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable());
-
-		if (firmwarePortInfo.isUpdateAvailable()) {
-			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-
-			this.runOnUiThread(new Runnable() {
-				@Override
-				public void run() {
-					//TODO
-					// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-					updateDashboardOnFirmwareUpdate(1);
-					setFirmwareSuperScript(1, true);
-				}
-			});
-		}
+		//TODO
+//		PurAirDevice purifier = getCurrentPurifier();
+//		if (purifier == null) return;
+//		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
+//		
+//		if(firmwarePortInfo == null) return;
+//		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable() + " State " + firmwarePortInfo.getState() + " Progress " + firmwarePortInfo.getProgress());
+//
+//		if (firmwarePortInfo.isUpdateAvailable()) {
+//			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
+//
+//			this.runOnUiThread(new Runnable() {
+//				@Override
+//				public void run() {
+//					//TODO
+//					// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
+//					/** 
+//					 * Removing non-mandatory firmware update.
+//					updateDashboardOnFirmwareUpdate(1);
+//					setFirmwareSuperScript(1, true);
+//					*/
+//				}
+//			});
+//		}
 	}
 	
-	private void updateDashboardOnFirmwareUpdate(int purifierCount) {
-		showFirmwareUpdateHomeIcon(purifierCount);
-	}
-	
-	private void showFirmwareUpdateHomeIcon(int purifierCount) {
-		noOffFirmwareUpdate.setVisibility(View.VISIBLE);
-		noOffFirmwareUpdate.setText(String.valueOf(purifierCount));
-	}
+	// TODO : Add this when enabling non-mandatory firmware update
+//	private void updateDashboardOnFirmwareUpdate(int purifierCount) {
+//		showFirmwareUpdateHomeIcon(purifierCount);
+//	}
+//	
+//	private void showFirmwareUpdateHomeIcon(int purifierCount) {
+//		noOffFirmwareUpdate.setVisibility(View.VISIBLE);
+//		noOffFirmwareUpdate.setText(String.valueOf(purifierCount));
+//	}
 	
 	private void hideFirmwareUpdateHomeIcon() {
 		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
