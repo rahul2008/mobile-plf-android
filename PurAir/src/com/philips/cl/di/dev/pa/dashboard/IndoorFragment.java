@@ -20,8 +20,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -43,7 +41,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private ImageView aqiPointer ;
 	private ImageView aqiMeter ;
 	
-	private FontTextView firmwareUpdateProgressText;
+//	private FontTextView firmwareUpdateProgressText;
 	private FontTextView firmwareUpdateText ;
 	
 	@Override
@@ -75,7 +73,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		firmwareUpdateText = (FontTextView) getView().findViewById(R.id.lbl_firmware_update_available);
 		firmwareUpdateText.setOnClickListener(this);
 		
-		firmwareUpdateProgressText = (FontTextView) getView().findViewById(R.id.lbl_firmware_update_progress);
+//		firmwareUpdateProgressText = (FontTextView) getView().findViewById(R.id.lbl_firmware_update_progress);
 	}
 	
 	@Override
