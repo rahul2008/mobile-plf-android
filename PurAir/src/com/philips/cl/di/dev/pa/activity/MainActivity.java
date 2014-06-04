@@ -541,7 +541,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
-			leftMenuItems.add(new FirmwareUpdateFragment());
 			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
