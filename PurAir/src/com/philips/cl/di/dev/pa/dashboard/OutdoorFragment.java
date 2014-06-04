@@ -35,6 +35,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private LinearLayout takeATourPopup;
+	private ImageView aqiCircleMeter ;
 	
 	public static OutdoorFragment newInstance(OutdoorDto outdoorDto) {
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment$newInstance");
@@ -79,6 +80,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 		aqiSummary1 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary1);
 		aqiSummary2 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary2);
 		aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
+		aqiCircleMeter = (ImageView) view.findViewById(R.id.hf_outdoor_circle_meter);
 		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
 		Bundle bundle = getArguments();
 
@@ -124,6 +126,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 		aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
 		aqiPointerCircle.setOnClickListener(this);
 		aqiPointerCircle.invalidate();
+		if( outdoorDto != null && !outdoorDto.getAqi().isEmpty())
+			aqiCircleMeter.setVisibility(View.VISIBLE) ;
 		weatherIcon.setImageDrawable(getResources().getDrawable(outdoorDto.getWeatherIconResId()));
 		setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
 	}
