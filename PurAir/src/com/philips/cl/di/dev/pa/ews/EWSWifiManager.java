@@ -246,9 +246,11 @@ public class EWSWifiManager {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             //Setting was moved from Secure to Global as of JELLY_BEAN_MR1
             result = Settings.Global.getInt(cr, AVOID_POOR, SETTING_UNKNOWN);
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
-            result = Settings.Secure.getInt(cr, AVOID_POOR, SETTING_UNKNOWN);
-        } else {
+        } 
+//        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
+//            result = Settings.Secure.getInt(cr, AVOID_POOR, SETTING_UNKNOWN);
+//        } 
+        else {
             //Poor network avoidance not introduced until ICE_CREAM_SANDWICH_MR1
             //See android.provider.Settings.java
             return false;
