@@ -381,7 +381,7 @@
     <string name="city_location">Chinese Govt</string>
     <string name="date_empty">--:--</string>
     <string name="alert_auto_network_switch_title">Auto network Switch</string>
-    <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
+    <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch or Avoid poor connections\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
     <string name="verify_power_on_title">Switching on the Philips Smart Air Purifier</string>
     <string name="verify_power_on_msg1">Press the (!) button to switch on the purifier.</string>
     <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
@@ -474,7 +474,7 @@
     <string name="thank_you">Thank you! You are good to go.</string>
     <string name="signed_in_ready_to_use">You are now signed in and ready to use this app.</string>
     <string name="already_registerd">You have already been registered with this e-mail address</string>
-    <string name="generic_error">Unable to process !!! Please check internet connection</string>
+    <string name="generic_error">Unable to process !!!</string>
     <string name="invalid_email">Invalid E-mail</string>
     <string name="invalid_password">Invalid password !! Password should be atleast 6 characters</string>
     <string name="please_wait">Please wait..</string>

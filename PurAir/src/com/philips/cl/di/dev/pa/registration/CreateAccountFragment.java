@@ -21,7 +21,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
-import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.NetworkState;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
@@ -119,7 +118,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			break;
 		case R.id.btnCreateAccount:
 			ALog.i(ALog.CONNECTIVITY, "onClick$btnCreateAccount " + NetworkReceiver.getInstance().getLastKnownNetworkState());
-			if(NetworkState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
+			if(!NetworkReceiver.getInstance().isInternetConnected()) {
 				showErrorDialog(Error.NO_NETWORK_CONNECTION); //TODO : Change error type to "Connect to internet"
 				break;
 			}

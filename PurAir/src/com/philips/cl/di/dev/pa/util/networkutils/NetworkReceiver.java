@@ -14,12 +14,13 @@ import android.net.wifi.WifiManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class NetworkReceiver extends BroadcastReceiver {
+public class NetworkReceiver extends BroadcastReceiver implements InternetConnectionlistener {
 	
 	private static NetworkReceiver smInstance;
 	private List<NetworkStateListener> networkStateListeners;
 	private NetworkState lastKnownNetworkState;
 	private IntentFilter filter;
+	private boolean internetConnected;
 	
 	public enum NetworkState {
 		CONNECTED, 
@@ -68,6 +69,8 @@ public class NetworkReceiver extends BroadcastReceiver {
 				
 				lastKnownNetworkState = NetworkState.CONNECTED;
 				notfiyListeners(lastKnownNetworkState);
+				VerifyInternetConnectionThread vThread = new VerifyInternetConnectionThread(this);
+				vThread.start();
 			} else {
 				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---NOT CONNECTED");
 				
@@ -101,5 +104,15 @@ public class NetworkReceiver extends BroadcastReceiver {
 	
 	public NetworkState getLastKnownNetworkState() {
 		return lastKnownNetworkState;
+	}
+	
+	public boolean isInternetConnected() {
+		return internetConnected;
+	}
+
+	@Override
+	public void updateInternetState(boolean internetConnected) {
+		this.internetConnected = internetConnected;
+		
 	}
 }
