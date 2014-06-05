@@ -232,6 +232,7 @@
     <string name="notification_error_msg">Something went wrong, please try again later.</string>
     <string name="notification_front_panel_title">Front panel</string> 
     <string name="notification_front_panel_desc">You will receive a notification when front panel is opened.</string>
+    <string name="error_aqithreshold_setting">Error occurred while setting the AQI threshold.</string>
     <!-- Settings -->
     <string name="rate_this_app">Rate this app</string>
     <string name="send_us_feedback">Send us feedback</string>
