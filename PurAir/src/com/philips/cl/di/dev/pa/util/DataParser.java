@@ -41,6 +41,10 @@ public class DataParser {
 		try {			
 			if( dataToParse != null ) {
 				JSONObject jsonObj = new JSONObject(dataToParse) ;
+				JSONObject airPuriferJson = jsonObj.optJSONObject("data") ;
+				if( airPuriferJson != null ) {
+					jsonObj = airPuriferJson ;
+				}
 				airPurifierEvent = new AirPortInfo() ;			
 
 				airPurifierEvent.setMachineMode(jsonObj.getString(ParserConstants.MACHINE_MODE)) ;
@@ -145,57 +149,6 @@ public class DataParser {
 		}
 		return indoorHistoryList ;
 	}
-
-	public static AirPortInfo parseAirPurifierEventDataFromCPP(String dataToParse)  {
-		AirPortInfo airPurifierEvent = null ;
-		JSONObject jsonObject = null ;
-		try {
-			jsonObject = new JSONObject(dataToParse);
-			JSONObject airPuriferJson = jsonObject.getJSONObject("data") ;
-			airPurifierEvent = new AirPortInfo() ;	
-
-			airPurifierEvent.setMachineMode(airPuriferJson.getString(ParserConstants.MACHINE_MODE)) ;
-			airPurifierEvent.setFanSpeed(airPuriferJson.getString(ParserConstants.FAN_SPEED)) ;
-			airPurifierEvent.setPowerMode(airPuriferJson.getString(ParserConstants.POWER_MODE)) ;
-			String aqi = airPuriferJson.getString(ParserConstants.AQI) ;
-			if(aqi != null && !aqi.equals(""))
-				airPurifierEvent.setIndoorAQI(Integer.parseInt(aqi)) ;
-
-			airPurifierEvent.setAqiL(Integer.parseInt(airPuriferJson.getString(ParserConstants.AQI_LIGHT))) ;
-			airPurifierEvent.setAqiThreshold(Integer.parseInt(airPuriferJson.getString(ParserConstants.AQI_THRESHOLD))) ;
-			airPurifierEvent.setDtrs(Integer.parseInt(airPuriferJson.getString(ParserConstants.DTRS))) ;
-			airPurifierEvent.setFilterStatus1(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_1))) ;
-			airPurifierEvent.setFilterStatus2(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_2))) ;
-			airPurifierEvent.setFilterStatus3(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_3))) ;
-			airPurifierEvent.setFilterStatus4(Integer.parseInt(airPuriferJson.getString(ParserConstants.FILTER_STATUS_4))) ;
-			airPurifierEvent.setReplaceFilter1(airPuriferJson.getString(ParserConstants.CLEAN_FILTER_1)) ;
-			airPurifierEvent.setReplaceFilter2(airPuriferJson.getString(ParserConstants.REP_FILTER_2)) ;
-			airPurifierEvent.setReplaceFilter3(airPuriferJson.getString(ParserConstants.REP_FILTER_3)) ;
-			airPurifierEvent.setReplaceFilter4(airPuriferJson.getString(ParserConstants.REP_FILTER_4)) ;
-			airPurifierEvent.setChildLock(Integer.parseInt(airPuriferJson.getString(ParserConstants.CHILD_LOCK))) ;
-			airPurifierEvent.setpSensor(Integer.parseInt(airPuriferJson.getString(ParserConstants.PSENS))) ;
-			airPurifierEvent.settFav(Integer.parseInt(airPuriferJson.getString(ParserConstants.TFAV))) ;
-			airPurifierEvent.setActualFanSpeed(airPuriferJson.getString(ParserConstants.ACTUAL_FAN_SPEED));
-
-		} catch (JSONException e) {
-			ALog.e("Exception", "JSONException -- "+ e.getMessage()) ;
-			return null ;
-		}catch(NumberFormatException nfe ) {
-			ALog.e("Exception", "Number Format exception -- "+ nfe.getMessage()) ;
-			return null ;
-		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null ;
-		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null ;
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-			return null;
-		}
-		return airPurifierEvent ;
-	}
-
 
 	public static OutdoorAQIEventDto parseOutdoorAQIData(String dataToParse) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "parseOutdoorAQIData parsing");
@@ -363,6 +316,10 @@ public class DataParser {
 		JSONObject jsonObject = null ;
 		try {			
 			jsonObject = new JSONObject(dataToParse);
+			JSONObject schedulerJsonFromCPP = jsonObject.optJSONObject("data") ;
+			if( schedulerJsonFromCPP != null ) {
+				jsonObject = schedulerJsonFromCPP ;
+			}
 			@SuppressWarnings("unchecked")
 			Iterator<String> iterator = jsonObject.keys() ;
 			String key = null ;
@@ -386,63 +343,15 @@ public class DataParser {
 		return schedulesList ;
 	}
 	
-	public static List<SchedulePortInfo> parseScheduleListViaCPP(String dataToParse) {
-		if (dataToParse == null || dataToParse.isEmpty()) return null;
-		ALog.i(ALog.SCHEDULER, dataToParse) ;
-		List<SchedulePortInfo> schedulesList = new ArrayList<SchedulePortInfo>() ;
-		JSONObject jsonObject = null ;
-		try {			
-			jsonObject = new JSONObject(dataToParse);
-			JSONObject dataJson = jsonObject.getJSONObject("data") ;
-			
-			@SuppressWarnings("unchecked")
-			Iterator<String> iterator = dataJson.keys() ;
-			String key = null ;
-			while(iterator.hasNext()) {
-				key = iterator.next() ;
-				SchedulePortInfo schedules = new SchedulePortInfo() ;
-				JSONObject schedule;
-				schedule = dataJson.getJSONObject(key);
-				schedules.setName((String)schedule.get("name")) ;
-				schedules.setScheduleNumber(Integer.parseInt(key)) ;
-				schedulesList.add(schedules) ;
-			}
-
-		} catch (JSONException e) {
-			schedulesList = null ;
-			ALog.e(ALog.PARSER, "JsonIOException: " + e.getMessage());
-		} catch(Exception e) {
-			schedulesList = null ;
-			ALog.e(ALog.PARSER, "JsonIOException: " + e.getMessage());
-		}
-		return schedulesList ;
-	}
-	
 	public static SchedulePortInfo parseScheduleDetails(String dataToParse) {
 		if (dataToParse == null || dataToParse.isEmpty()) return null;
 		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
 		try {
 			JSONObject scheduleJson = new JSONObject(dataToParse) ;
-			schedulePortInfo.setName(scheduleJson.getString("name")) ;
-			schedulePortInfo.setEnabled(scheduleJson.getBoolean("enabled")) ;
-			schedulePortInfo.setDays(scheduleJson.getString("days")) ;
-			schedulePortInfo.setMode(scheduleJson.getJSONObject("command").getString("om")) ;
-			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
- 		} catch (JSONException e) {
-			schedulePortInfo = null ;
-			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
-		} catch (Exception e) {
-			schedulePortInfo = null ;
-			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
-		}
-		return schedulePortInfo ;
-	}
-	
-	public static SchedulePortInfo parseScheduleDetailsFromCPP(String dataToParse) {
-		if (dataToParse == null || dataToParse.isEmpty()) return null;
-		SchedulePortInfo schedulePortInfo = new SchedulePortInfo() ;
-		try {
-			JSONObject scheduleJson = new JSONObject(dataToParse).getJSONObject("data") ;
+			JSONObject scheduleJsonViaCPP = scheduleJson.optJSONObject("data") ;
+			if(scheduleJsonViaCPP != null ) {
+				scheduleJson = scheduleJsonViaCPP ;
+			}
 			schedulePortInfo.setName(scheduleJson.getString("name")) ;
 			schedulePortInfo.setEnabled(scheduleJson.getBoolean("enabled")) ;
 			schedulePortInfo.setDays(scheduleJson.getString("days")) ;

@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -261,5 +262,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
+		// TODO Auto-generated method stub
+		
 	}
 }

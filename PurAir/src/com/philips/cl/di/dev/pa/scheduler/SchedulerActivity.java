@@ -434,4 +434,9 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		}
 		
 	}
+
+	@Override
+	public void onErrorOccurred() {
+		
+	}
 }

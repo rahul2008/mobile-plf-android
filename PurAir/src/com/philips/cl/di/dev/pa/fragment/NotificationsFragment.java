@@ -30,6 +30,7 @@ import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
@@ -247,7 +248,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			return ;
 		}
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
-		PurifierManager.getInstance().setPurifierDetails(ParserConstants.AQI_THRESHOLD, aqiThreshold);
+		PurifierManager.getInstance().setPurifierDetails(ParserConstants.AQI_THRESHOLD, aqiThreshold, PURIFIER_EVENT.AQI_THRESHOLD);
 	}
 
 	@Override
@@ -367,5 +368,26 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		progressDialog.setMessage(getString(msg));
 		progressDialog.setCancelable(false);
 		progressDialog.show();
+	}
+
+	/**
+	 * This method is called if the call to set AQI threshold via locally fails
+	 */
+	@Override
+	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
+		if (purifierEvent != PURIFIER_EVENT.AQI_THRESHOLD ) return ;
+		if (progressDialog != null) progressDialog.dismiss();
+		
+		if( getActivity() != null ) {
+			getActivity().runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.error_aqithreshold_setting, R.string.ok);
+					dialog.setOnClickListener(NotificationsFragment.this);
+					dialog.show(getActivity().getSupportFragmentManager(), null);
+				}
+			});
+		} 
 	}
 }

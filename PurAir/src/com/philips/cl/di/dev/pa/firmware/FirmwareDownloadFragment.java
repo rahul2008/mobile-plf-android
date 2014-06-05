@@ -11,6 +11,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -137,5 +138,11 @@ public class FirmwareDownloadFragment extends BaseFragment implements AirPurifie
 			downloaded = true;
 			showNextFragment();
 		}
+	}
+
+	@Override
+	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
+		// TODO Auto-generated method stub
+		
 	}
 }

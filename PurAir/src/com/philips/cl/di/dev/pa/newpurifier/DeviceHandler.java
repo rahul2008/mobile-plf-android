@@ -1,13 +1,13 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
-import javax.net.ssl.HttpsURLConnection;
-
+import java.net.HttpURLConnection;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
@@ -20,9 +20,15 @@ import com.philips.cl.di.dev.pa.util.Utils;
 public class DeviceHandler implements ServerResponseListener {
 	
 	private SubscriptionEventListener mListener;
+	private PURIFIER_EVENT mPurifierEvent ;
 	
 	public DeviceHandler(SubscriptionEventListener listener) {
-		mListener = listener;
+		mListener = listener ;
+	}
+	
+	public DeviceHandler(SubscriptionEventListener listener, PURIFIER_EVENT purifierEvent) {
+		this(listener);
+		mPurifierEvent = purifierEvent ;
 	}
 
 	public void setPurifierDetails(String key, String value, PurAirDevice purifier) {
@@ -114,16 +120,18 @@ public class DeviceHandler implements ServerResponseListener {
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String encryptedData, String fromIp) {
-		ALog.i(ALog.DEVICEHANDLER, "Response: "+ encryptedData);
-		if (responseCode!= HttpsURLConnection.HTTP_OK) return;
-		
-		notifyListener(encryptedData, fromIp) ;
+		ALog.i(ALog.DEVICEHANDLER, "Receive response");
+		notifyListener(responseCode,encryptedData, fromIp) ;
 	}
 
-	private void notifyListener(String encryptedData, String fromIp) {
+	private void notifyListener(int responseCode, String encryptedData, String fromIp) {
+		ALog.i(ALog.DEVICEHANDLER, "Response Code: "+responseCode) ;
 		if (mListener == null) return;
-		ALog.d(ALog.DEVICEHANDLER, "notifying listeners of event: " + encryptedData);
-		mListener.onLocalEventReceived(encryptedData, fromIp);
+		if(responseCode != HttpURLConnection.HTTP_OK) {
+			mListener.onLocalEventLost(mPurifierEvent) ; 
+		}
+		else {
+			mListener.onLocalEventReceived(encryptedData, fromIp) ;
+		}
 	}
-
 }
