@@ -232,7 +232,7 @@ public class DetailsAIQ {
 					indexBgImg.setImageResource(R.drawable.aqi_pink_circle_2x);
 				} else if (y > coordinates.getIdY3() && y <= coordinates.getIdY2()) {
 					/**Navy color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_bluedark_circle_2x);
+					indexBgImg.setImageResource(R.drawable.aqi_light_pink_circle_2x);
 				} else if (y > coordinates.getIdY4() && y <= coordinates.getIdY3()) {
 					/**Purple color circle*/
 					indexBgImg.setImageResource(R.drawable.aqi_purple_circle_2x);

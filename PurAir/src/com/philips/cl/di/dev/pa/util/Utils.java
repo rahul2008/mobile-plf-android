@@ -311,7 +311,7 @@ public class Utils {
 					.getDrawable(R.drawable.aqi_pink_circle_2x);
 		} else if (aqi > 100 && aqi <= 150) {
 			return ctx.getResources().getDrawable(
-					R.drawable.aqi_bluedark_circle_2x);
+					R.drawable.aqi_light_pink_circle_2x);
 		} else if (aqi > 150 && aqi <= 200) {
 			return ctx.getResources().getDrawable(
 					R.drawable.aqi_purple_circle_2x);
