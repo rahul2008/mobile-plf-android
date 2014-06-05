@@ -89,38 +89,38 @@ public class DataParserTest extends TestCase {
 	public void testAirPurifierFirmwareData2() {
 		String parseData = "{\"name\":\"HCN_DEVGEN\",\"version\":\"1.1\",\"upgrade\":\"1.2\",\"state\":\"ready\",\"progress\":0,\"statusmsg\":\"\",\"mandatory\":false}";
 		
-		AirPortInfo result = DataParser.parseAirPurifierEventDataFromCPP(parseData);
+		AirPortInfo result = DataParser.parseAirPurifierEventData(parseData);
 		assertNull(result);
 	}
 	
 	public void testIndoorAQI_DCS_1() {
 		String parseData = 
 				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertNotNull(DataParser.parseAirPurifierEventDataFromCPP(parseData)) ;
+		assertNotNull(DataParser.parseAirPurifierEventData(parseData)) ;
 	}
 	
 	public void testIndoorAQI_DCS_2() {
 		String parseData = 
 				"{\"product\":\"1\",\"port\":\"air\",\"no_data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertNull(DataParser.parseAirPurifierEventDataFromCPP(parseData)) ;
+		assertNull(DataParser.parseAirPurifierEventData(parseData)) ;
 	}
 	
 	public void testIndoorAQI_DCS_3() {
 		String parseData = 
 				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertEquals("a",DataParser.parseAirPurifierEventDataFromCPP(parseData).getMachineMode()) ;
+		assertEquals("a",DataParser.parseAirPurifierEventData(parseData).getMachineMode()) ;
 	}
 	
 	public void testIndoorAQI_DCS_4() {
 		String parseData = 
 				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertTrue(DataParser.parseAirPurifierEventDataFromCPP(parseData).getAqiL() == 1) ;
+		assertTrue(DataParser.parseAirPurifierEventData(parseData).getAqiL() == 1) ;
 	}
 	
 	public void testIndoorAQI_DCS_5() {
 		String parseData = 
 				"{\"product\":\"1\",\"port\":\"air\",\"data\":{\"aqi\":\"2\",\"om\":\"a\",\"pwr\":\"1\",\"cl\":\"0\",\"aqil\":\"1\",\"fs1\":\"75\",\"fs2\":\"855\",\"fs3\":\"2775\",\"fs4\":\"2775\",\"dtrs\":\"0\",\"aqit\":\"500\",\"clef1\":\"n\",\"repf2\":\"n\",\"repf3\":\"n\",\"repf4\":\"n\",\"fspd\":\"1\",\"tfav\":\"40227\",\"psens\":\"1\"}}" ;
-		assertFalse(DataParser.parseAirPurifierEventDataFromCPP(parseData).getChildLock() == 1) ;
+		assertFalse(DataParser.parseAirPurifierEventData(parseData).getChildLock() == 1) ;
 	}
 	
 	public void testIndoorAQIHistory_1() {
@@ -405,33 +405,33 @@ public class DataParserTest extends TestCase {
 		assertNull(schedulePortInfos);
 	}
 	
-	public void testParseScheduleListViaCPPWithNullParam() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(null);
+	public void testparseSchedulerDtoWithNullParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto(null);
 		assertNull(schedulePortInfos);
 	}
 	
-	public void testParseScheduleListViaCPPWithEmptyStringParam() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP("");
+	public void testparseSchedulerDtoWithEmptyStringParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("");
 		assertNull(schedulePortInfos);
 	}
 	
-	public void testParseScheduleListViaCPPWithWrongParam() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP("{\"temp\":\"1\"}");
+	public void testparseSchedulerDtoWithWrongParam() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("{\"temp\":\"1\"}");
 		assertNull(schedulePortInfos);
 	}
 	
-	public void testParseScheduleListViaCPPWithWrongJsonFormat() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP("hello");
+	public void testparseSchedulerDtoWithWrongJsonFormat() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto("hello");
 		assertNull(schedulePortInfos);
 	}
 	
-	public void testParseScheduleListViaCPPSize() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(allScheduleJsonCpp);
+	public void testparseSchedulerDtoSize() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto(allScheduleJsonCpp);
 		assertEquals(2, schedulePortInfos.size());
 	}
 	
-	public void testParseScheduleListViaCPPKeys() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(allScheduleJsonCpp);
+	public void testparseSchedulerDtoKeys() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto(allScheduleJsonCpp);
 		ArrayList<Integer> keys = new ArrayList<Integer>();
 		keys.add(0);
 		keys.add(1);
@@ -440,8 +440,8 @@ public class DataParserTest extends TestCase {
 		assertTrue(keys.contains(schedulePortInfos.get(1).getScheduleNumber()));
 	}
 	
-	public void testParseScheduleListViaCPPNames() {
-		List<SchedulePortInfo> schedulePortInfos = DataParser.parseScheduleListViaCPP(allScheduleJsonCpp);
+	public void testparseSchedulerDtoNames() {
+		List<SchedulePortInfo> schedulePortInfos = DataParser.parseSchedulerDto(allScheduleJsonCpp);
 		
 		ArrayList<String> names = new ArrayList<String>();
 		names.add("16:14");
@@ -492,43 +492,43 @@ public class DataParserTest extends TestCase {
 		assertEquals("a", schedulePortInfo.getMode());
 	}
 	
-	public void testParseScheduleDetailsFromCPPWithNullParam() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(null);
+	public void testparseScheduleDetailsWithNullParam() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(null);
 		assertNull(schedulePortInfo);
 	}
 	
-	public void testParseScheduleDetailsFromCPPWithEmptyStringParam() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP("");
+	public void testparseScheduleDetailsWithEmptyStringParam() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails("");
 		assertNull(schedulePortInfo);
 	}
 	
-	public void testParseScheduleDetailsFromCPPWithWrongParam() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP("{\"temp\":\"1\"}");
+	public void testparseScheduleDetailsWithWrongParam() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails("{\"temp\":\"1\"}");
 		assertNull(schedulePortInfo);
 	}
 	
-	public void testParseScheduleDetailsFromCPPWithWrongJsonFormat() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP("hello");
+	public void testparseScheduleDetailsWithWrongJsonFormat() {
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails("hello");
 		assertNull(schedulePortInfo);
 	}
 	
 	public void testParseScheduleDetailsScheduleCppName() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(scheduleDetailJsonCpp);
 		assertEquals("12:15", schedulePortInfo.getName());
 	}
 	
 	public void testParseScheduleDetailsScheduleCppTime() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(scheduleDetailJsonCpp);
 		assertEquals("12:15", schedulePortInfo.getScheduleTime());
 	}
 	
 	public void testParseScheduleDetailsScheduleCppDay() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(scheduleDetailJsonCpp);
 		assertEquals("123", schedulePortInfo.getDays());
 	}
 	
 	public void testParseScheduleDetailsScheduleCppMode() {
-		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetailsFromCPP(scheduleDetailJsonCpp);
+		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(scheduleDetailJsonCpp);
 		assertEquals("a", schedulePortInfo.getMode());
 	}
 }
