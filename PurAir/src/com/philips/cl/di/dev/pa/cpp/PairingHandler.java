@@ -102,7 +102,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 		getRelations
 		.setPairingServiceCommand(Commands.PAIRING_GET_RELATIONSHIPS);
-		retValue = getRelations.getRelationShipRequest(getPurifierEntity(),
+		retValue = getRelations.getRelationshipRequest(getPurifierEntity(),
 				relationshipType, bincludeIncoming, bincludeOutgoing,
 				iMetadataSize, iMaxPermissions, iMaxRelations, iRelOffset);
 		if (Errors.SUCCESS != retValue) {
@@ -162,10 +162,10 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		PairingService addPSRelation = new PairingService(callbackHandler);
 
 		if (secretKey != null && relationshipType.equals(AppConstants.PAIRING_DI_COMM_RELATIONSHIP)) {
-			addPSRelation.addRelationShipRequest(null, getPurifierEntity(),
+			addPSRelation.addRelationshipRequest(null, getPurifierEntity(),
 					null, getPairingRelationshipData(relationshipType, AppConstants.PAIRING_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()])), getPairingInfo(secretKey));
 		} else {
-			addPSRelation.addRelationShipRequest(null, getPurifierEntity(),
+			addPSRelation.addRelationshipRequest(null, getPurifierEntity(),
 					null, getPairingRelationshipData(relationshipType, AppConstants.PAIRING_NOTIFY_PERMISSIONS.toArray(new String[AppConstants.PAIRING_NOTIFY_PERMISSIONS.size()])), null);
 		}
 
