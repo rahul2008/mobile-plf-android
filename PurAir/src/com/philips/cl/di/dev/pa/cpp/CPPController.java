@@ -77,6 +77,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		
 		init() ;
 	}
+	
+	private CPPController() {
+		// Only used for testing
+	}
 
 	/**
 	 * 
@@ -299,9 +303,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 	
-	private void notifyDCSListener(String data, String fromEui64) {
+	public void notifyDCSListener(String data, String fromEui64, String action) {
 		if (data == null || dcsEventListener == null) return;
-		dcsEventListener.onDCSEventReceived(data, fromEui64);
+		dcsEventListener.onDCSEventReceived(data, fromEui64, action);
 	}
 
 
@@ -418,6 +422,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		case Commands.SUBSCRIBE_EVENTS:
 			String dcsEvents = "";
 			String fromEui64 = "";
+			String action = "";
 			//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
 			if (status == Errors.SUCCESS) {
 				if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
@@ -426,9 +431,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					for (int i = 0; i < noOfEvents; i++) {
 						dcsEvents = eventSubscription.getData(i);
 						fromEui64 = eventSubscription.getReplyTo(i);
+						action = eventSubscription.getAction(i);
 						
+						ALog.d(ALog.CPPCONTROLLER, "DCS event received from: " +fromEui64 + "    action: " + action);
 						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
-						notifyDCSListener(dcsEvents, fromEui64);
+						notifyDCSListener(dcsEvents, fromEui64, action);
 					}
 				}
 			}
@@ -540,8 +547,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		return signon.clientVersion();
 	}
 
-	public static void reset() {
-		icpStateInstance = null;		
+	public static final CPPController getCppControllerForTesting() {
+		return new CPPController();
 	}
-
+	
 }

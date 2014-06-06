@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.CityDetails;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
+import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -365,5 +366,23 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
 		}
 		return schedulePortInfo ;
+	}
+	
+	public static DiscoverInfo parseDiscoverInfo(String dataToParse) {
+		if (dataToParse== null || dataToParse.isEmpty()) return null;
+		
+		try {
+			Gson gson = new GsonBuilder().create();
+			DiscoverInfo info =  gson.fromJson(dataToParse, DiscoverInfo.class);
+			
+			if (!info.isValid()) return null;
+			return info;
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+			return null;
+		} catch (JsonSyntaxException e2) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			return null;
+		}
 	}
 }

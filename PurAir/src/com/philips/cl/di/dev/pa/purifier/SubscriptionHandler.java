@@ -8,11 +8,13 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -23,7 +25,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 	private static final int CPP_SUBSCRIPTIONTIME = 120; // IN MIN
 	
 	private static SubscriptionHandler mInstance ;
-	private SubscriptionEventListener subscriptionEventListener ;
+	private SubscriptionEventListener subscriptionEventListener;
+	private CppDiscoverEventListener cppDiscoverEventListener;
 	private UDPReceivingThread udpReceivingThread ;
 		
 	private SubscriptionHandler() {
@@ -41,6 +44,10 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 	
 	public void setSubscriptionListener(SubscriptionEventListener subscriptionEventListener) {
 		this.subscriptionEventListener = subscriptionEventListener ;
+	}
+
+	public void setCppDiscoverListener(CppDiscoverEventListener discoverListener) {
+		this.cppDiscoverEventListener = discoverListener ;
 	}
 	
 	public void subscribeToPurifierEvents(PurAirDevice purifier) {
@@ -156,10 +163,20 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 	}
 	
 	@Override
-	public void onDCSEventReceived(String data, String fromEui64) {
+	public void onDCSEventReceived(String data, String fromEui64, String action) {
 		if (data == null || data.isEmpty()) return;
-		if (fromEui64 == null || fromEui64.isEmpty()) return;
 		
+		if (DataParser.parseDiscoverInfo(data) != null) {
+			ALog.i(ALog.SUBSCRIPTION, "Discovery event received - " + action) ;
+			boolean isResponseToRequest = false;
+			if (action != null && action.toUpperCase().trim().equals(AppConstants.DISCOVER)) {
+				isResponseToRequest = true;
+			}
+			cppDiscoverEventListener.onDiscoverEventReceived(data, isResponseToRequest);
+			return;
+		}
+		
+		if (fromEui64 == null || fromEui64.isEmpty()) return;
 		ALog.i(ALog.SUBSCRIPTION, "DCS event received from " + fromEui64) ;
 		ALog.i(ALog.SUBSCRIPTION, data) ;
 		if (subscriptionEventListener != null) {

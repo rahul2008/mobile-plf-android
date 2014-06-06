@@ -117,6 +117,7 @@ public class AppConstants {
 	public static final String GET_PROPS = "GETPROPS" ;
 	public static final String ADD_PROPS = "ADDPROPS" ;
 	public static final String DEL_PROPS = "DELPROPS" ;
+	public static final String DISCOVER = "DISCOVER" ;
 	
 	
 	public static final String CLIENT_ID_RDCP = "Clientid=%s;datatype=airquality.1;" ;
@@ -177,6 +178,7 @@ public class AppConstants {
 	public static final String APP_TYPE="AC4373APP";
 	public static final String MODEL_NAME = "AirPurifier" ;
 	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
+	public static final String DISCOVERY_REQUEST = "DCS-REQUEST" ;
 
 	public static final String INVALID_WIFI_SETTINGS = "invalid Wi-Fi settings" ;
 

@@ -16,9 +16,11 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -34,7 +36,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
  * @author Jeroen Mols
  * @date 30 Apr 2014
  */
-public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkChangedCallback {
+public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkChangedCallback, CppDiscoverEventListener {
 
 	private static DiscoveryManager mInstance;
 	private LinkedHashMap<String, PurAirDevice> mDevicesMap;
@@ -70,6 +72,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		initializeDevicesMapFromDataBase();
 		mSecurity = new DISecurity(this);
 		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
+		SubscriptionHandler.getInstance().setCppDiscoverListener(this);
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
@@ -415,6 +418,12 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager dummyManager) {
 		mInstance = dummyManager;
+	}
+
+	@Override
+	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
+		// TODO Implement
+		
 	}
 	
 }

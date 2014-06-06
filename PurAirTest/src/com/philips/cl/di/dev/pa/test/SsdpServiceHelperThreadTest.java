@@ -9,7 +9,9 @@ import android.os.Handler.Callback;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 	
@@ -37,6 +39,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 
 	public void testThreadOnStart() {
 		mHelper.startDiscoveryAsync();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		assertTrue(mHelper.testIsThreadAlive());
 	}
 
@@ -46,6 +49,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 		assertTrue(mHelper.testIsThreadAlive());
 	}
 
@@ -54,7 +58,8 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread1 = mHelper.getThreadForTesting();
 		mHelper.startDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
-
+		mHelper.removePendingMessagesOnQueueForTesting();
+		
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
 	}
@@ -64,6 +69,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread1 = mHelper.getThreadForTesting();
 		mHelper.stopDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -76,6 +82,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread2 = mHelper.getThreadForTesting();
 		mHelper.startDiscoveryAsync();
 		Thread thread3 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId(), thread3.getId());
@@ -92,6 +99,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId(), thread3.getId());
@@ -106,6 +114,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertFalse(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -120,6 +129,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		}
 		mHelper.startDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -127,6 +137,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 	
 	public void testThreadOnStop() {
 		mHelper.stopDiscoveryAsync();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		assertTrue(mHelper.testIsThreadAlive());
 	}
 	
@@ -136,6 +147,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 		assertFalse(mHelper.testIsThreadAlive());
 	}
 	
@@ -144,6 +156,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread1 = mHelper.getThreadForTesting();
 		mHelper.stopDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -159,6 +172,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertFalse(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -175,6 +189,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		
 		mHelper.stopDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertTrue(mHelper.testIsThreadAlive());
 		assertFalse(thread1.isAlive());
@@ -197,6 +212,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertFalse(mHelper.testIsThreadAlive());
 		assertFalse(thread2.isAlive());
@@ -209,6 +225,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread1 = mHelper.getThreadForTesting();
 		mHelper.startDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -224,6 +241,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(),  thread2.getId());
@@ -240,6 +258,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 
 		mHelper.startDiscoveryAsync();
 		Thread thread2 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertTrue(mHelper.testIsThreadAlive());
 		assertFalse(thread1.isAlive());
@@ -259,6 +278,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread2 = mHelper.getThreadForTesting();
 		mHelper.stopDiscoveryAsync();
 		Thread thread3 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertTrue(mHelper.testIsThreadAlive());
 		assertFalse(thread1.isAlive());
@@ -273,6 +293,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		Thread thread2 = mHelper.getThreadForTesting();
 		mHelper.stopDiscoveryAsync();
 		Thread thread3 = mHelper.getThreadForTesting();
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertTrue(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(), thread2.getId(), thread3.getId());
@@ -290,6 +311,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch(Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 		
 		assertFalse(mHelper.testIsThreadAlive());
 		assertEquals(thread1.getId(), thread2.getId(), thread3.getId());

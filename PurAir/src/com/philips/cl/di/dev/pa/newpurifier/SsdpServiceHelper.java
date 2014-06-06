@@ -108,6 +108,13 @@ public class SsdpServiceHelper implements StartStopInterface {
 		}
 	}
 	
+	public void removePendingMessagesOnQueueForTesting() {
+		if (mThread == null) return;
+		synchronized (mThread) {
+			mThread.clearMessagesOnQueueForTesting();
+		}
+	}
+	
 	public void setStopDelayForTesting(int delay) {
 		mTestDelay = delay;
 	}

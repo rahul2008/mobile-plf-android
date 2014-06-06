@@ -5,13 +5,13 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.*;
-
-
 import android.os.Handler.Callback;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
+import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
@@ -55,6 +55,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 	public void testDiscoveryOnStart() {
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -64,6 +65,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.startDiscoveryAsync();
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, atMost(2)).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -81,6 +83,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.stopDiscoveryAsync();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -94,6 +97,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, atMost(1)).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -108,6 +112,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -118,6 +123,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.stopDiscoveryAsync();
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, atMost(2)).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -129,6 +135,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.stopDiscoveryAsync();
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, times(2)).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -145,6 +152,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, atMost(2)).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -162,6 +170,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, times(2)).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -170,6 +179,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 	public void testDiscoveryOnStop() {
 		mHelper.stopDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, never()).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -183,6 +193,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, never()).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -192,6 +203,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.stopDiscoveryAsync();
 		mHelper.stopDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, never()).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -209,6 +221,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, never()).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -218,6 +231,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.stopDiscoveryAsync();
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -231,6 +245,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		}
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -241,6 +256,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.startDiscoveryAsync();
 		mHelper.stopDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService, atMost(1)).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -251,6 +267,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.stopDiscoveryAsync();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
@@ -270,6 +287,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -284,6 +302,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.stopDiscoveryAsync();
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService).stopDeviceDiscovery();
@@ -302,6 +321,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			Thread.sleep(STOPMESSAGE_TIMEOUT);
 		} catch (Exception e) {
 		}
+		mHelper.removePendingMessagesOnQueueForTesting();
 
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, times(2)).stopDeviceDiscovery();

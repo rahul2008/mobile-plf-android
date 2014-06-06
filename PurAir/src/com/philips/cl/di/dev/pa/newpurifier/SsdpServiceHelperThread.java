@@ -84,6 +84,11 @@ public class SsdpServiceHelperThread extends HandlerThread {
 		return mStartStopHandler.hasMessages(MESSAGE_START) || mStartStopHandler.hasMessages(MESSAGE_STOP) || isProcessingMessage;
 	}
 	
+	public void clearMessagesOnQueueForTesting() {
+		mStartStopHandler.removeMessages(MESSAGE_START);
+		mStartStopHandler.removeMessages(MESSAGE_STOP);
+	}
+	
 	public interface StartStopInterface {
 		public void startDiscoveryFromHandler();
 		public void stopDiscoveryFromHandler();

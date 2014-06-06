@@ -22,7 +22,8 @@ public class PurAirDevice {
 	private String mLastKnownNetworkSsid;
 	
 	private ConnectionState mConnectionState;
-	private boolean 		isPaired = false;
+	private boolean 		isPaired 		= false;
+	private boolean			isOnlineViaCpp 	= true;
 	private String 			mEncryptionKey;
 
 	private AirPortInfo 		   mAirPortInfo;
@@ -105,6 +106,14 @@ public class PurAirDevice {
 
 	public synchronized void setPairing(boolean paired) {
 		this.isPaired = paired;
+	}
+	
+	public synchronized boolean isOnlineViaCpp() {
+		return isOnlineViaCpp;
+	}
+	
+	public synchronized void setOnlineViaCpp(boolean onlineViaCpp) {
+		this.isOnlineViaCpp = onlineViaCpp;
 	}
 
 	public synchronized String getEncryptionKey() {

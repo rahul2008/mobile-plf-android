@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.test;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
@@ -8,6 +9,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
+import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
@@ -530,5 +532,103 @@ public class DataParserTest extends TestCase {
 	public void testParseScheduleDetailsScheduleCppMode() {
 		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(scheduleDetailJsonCpp);
 		assertEquals("a", schedulePortInfo.getMode());
+	}
+	
+	public void testParseDiscoverInfoNullParam() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo(null);
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoValidEvent() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNotNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoEmptyString() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoRandomString() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("fhaksjdfkljashl");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoRandomJSON() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"key\":\"value\"}");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoNoState() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("\"ClientIds\":\"\"}");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoNoClientIds() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"\"}");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoveryInfoNoClientId() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Disconnected\"}");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoRandomState() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Random\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoConnectedState() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNotNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverInfoDisConnectedState() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Disconnected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		assertNotNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverEmptyClientId() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":\"\"\"}");
+		assertNull(discoverInfo);
+	}
+
+	public void testParseDiscoverEmptyClientIdArray() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[]}");
+		assertNull(discoverInfo);
+	}
+	
+	public void testParseDiscoverSingleClientIdArray() {
+		String[] expected = {"1c5a6bfffe63436c"};
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\"]}");
+		
+		assertNotNull(discoverInfo);
+		assertEquals(expected[0], discoverInfo.getClientIds()[0]);
+		assertTrue(discoverInfo.getClientIds().length == 1);
+	}
+
+	public void testParseDiscoverDoubleClientIdArray() {
+		String[] expected = {"1c5a6bfffe63436c", "1c5a6bfffe634357"};
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		
+		assertNotNull(discoverInfo);
+		assertEquals(expected[0], discoverInfo.getClientIds()[0]);
+		assertEquals(expected[1], discoverInfo.getClientIds()[1]);
+		assertTrue(discoverInfo.getClientIds().length == 2);
+	}
+	
+	public void testParseDiscoverConnectedEvent() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Connected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		
+		assertNotNull(discoverInfo);
+		assertTrue(discoverInfo.isConnected());
+	}
+	
+	public void testParseDiscoverDisconnectedEvent() {
+		DiscoverInfo discoverInfo = DataParser.parseDiscoverInfo("{\"State\":\"Disconnected\",\"ClientIds\":[\"1c5a6bfffe63436c\",\"1c5a6bfffe634357\"]}");
+		
+		assertNotNull(discoverInfo);
+		assertFalse(discoverInfo.isConnected());
 	}
 }
