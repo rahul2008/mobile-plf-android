@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -87,13 +88,20 @@ public class TutorialPagerActivity extends BaseActivity {
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
-		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
+		((ImageView)view.findViewById(R.id.right_menu_img)).setImageResource(R.drawable.close_icon_blue);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
 		actionBar.setCustomView(view);	
 		setActionBarTitle(R.string.tutorial_title_1);
-		//TODO Add close
+		
+		((ImageView)view.findViewById(R.id.right_menu_img)).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				TutorialPagerActivity.this.finish();
+			}
+		});
 	}
 
 	/*Sets Action bar title */
