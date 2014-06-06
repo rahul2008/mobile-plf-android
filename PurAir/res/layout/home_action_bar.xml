@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/action_bar_lyt"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="90dp"
     android:background="@drawable/ews_nav_bar_2x"
     android:padding="4dp" >
 
@@ -34,7 +34,7 @@
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/action_bar_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/right_menu_img"
         android:layout_toRightOf="@+id/left_menu_img"
