@@ -309,9 +309,10 @@
     <string name="ews_intro_message1_str">Follow these 3 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.</string>
     <string name="ews_intro_message2_str">For a successful Wi-Fi connection, position the Philips Smart Air Purifier within reach of your router. Obstacles such as walls may affect the Wi-Fi performance.</string>
     <string name="get_start">Get started</string>
-    <string name="step1_off_3">Step 1 of 3</string>
-    <string name="step2_off_3">Step 2 of 3</string>
-    <string name="step3_off_3">Step 3 of 3</string>
+    <string name="step1_off_3">Step 1 of 4</string>
+    <string name="step20_off_3">Step 2 of 4</string>
+    <string name="step2_off_3">Step 3 of 4</string>
+    <string name="step3_off_3">Step 4 of 4</string>
     <string name="step1_instruction">Confirm your Wi-Fi connection.</string>
     <string name="step2_instruction">Confirm Wi-Fi on your Philips Smart Air Purifier.</string>
     <string name="step3_instruction">Connect your Philips Smart Air Purifier to your home Wi-Fi network.</string>

@@ -309,9 +309,10 @@
     <string name="ews_intro_message1_str">按照下面 3 个简单步骤，将飞利浦智能空气净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>
     <string name="ews_intro_message2_str">为成功进行 Wi-Fi 连接，请将飞利浦智能空气净化器放置在路由器附近。墙壁等障碍物可能影响 Wi-Fi 性能</string>
     <string name="get_start">使用入门</string>
-    <string name="step1_off_3">步骤 1（共 3 步）</string>
-    <string name="step2_off_3">步骤 2（共 3 步）</string>
-    <string name="step3_off_3">步骤 3（共 3 步）</string>
+    <string name="step1_off_3">步骤 1（共4 步）</string>
+    <string name="step20_off_3">步骤 2（共 4 步</string>
+    <string name="step2_off_3">步骤 3（共 4 步）</string>
+    <string name="step3_off_3">步骤 4（共 4 步）</string>
     <string name="step1_instruction">确认 Wi-Fi 连接。</string>
     <string name="step2_instruction">在飞利浦智能空气净化器上确认 Wi-Fi。</string>
     <string name="step3_instruction">将飞利浦智能空气净化器连接到您的家庭 Wi-Fi 网络。</string>

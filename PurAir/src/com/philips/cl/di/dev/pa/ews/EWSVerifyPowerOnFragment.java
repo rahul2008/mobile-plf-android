@@ -27,7 +27,10 @@ public class EWSVerifyPowerOnFragment  extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO_POWER_ON);
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO);
+		
+		((FontTextView) getView().findViewById(
+				R.id.setup_step2_title)).setText(getString(R.string.step20_off_3));
 		
 		((FontTextView) getView().findViewById(
 				R.id.setup_step2_instruction)).setText(getString(R.string.verify_power_on_title));
