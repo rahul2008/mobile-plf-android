@@ -18,11 +18,11 @@ public class NetworkReceiver extends BroadcastReceiver implements InternetConnec
 	
 	private static NetworkReceiver smInstance;
 	private List<NetworkStateListener> networkStateListeners;
-	private NetworkState lastKnownNetworkState;
+	private ConnectionState lastKnownNetworkState;
 	private IntentFilter filter;
 	private boolean internetConnected;
 	
-	public enum NetworkState {
+	public enum ConnectionState {
 		CONNECTED, 
 		DISCONNECTED
 	}
@@ -34,7 +34,7 @@ public class NetworkReceiver extends BroadcastReceiver implements InternetConnec
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
 		
-		lastKnownNetworkState = NetworkState.DISCONNECTED;
+		lastKnownNetworkState = ConnectionState.DISCONNECTED;
 	}
 	
 	public void registerNetworkReceiver() {
@@ -67,26 +67,26 @@ public class NetworkReceiver extends BroadcastReceiver implements InternetConnec
 			if (netInfo != null && netInfo.isConnected()) {
 				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---CONNECTED");
 				
-				lastKnownNetworkState = NetworkState.CONNECTED;
+				lastKnownNetworkState = ConnectionState.CONNECTED;
 				notfiyListeners(lastKnownNetworkState);
 				VerifyInternetConnectionThread vThread = new VerifyInternetConnectionThread(this);
 				vThread.start();
 			} else {
 				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---NOT CONNECTED");
 				
-				lastKnownNetworkState = NetworkState.DISCONNECTED; 
+				lastKnownNetworkState = ConnectionState.DISCONNECTED; 
 				notfiyListeners(lastKnownNetworkState);
 			}
 		}
 	}
 
-	private void notfiyListeners(NetworkState state) {
+	private void notfiyListeners(ConnectionState state) {
 		ALog.i(ALog.CONNECTIVITY, "NR$notifyListeners networkStateListeners " + networkStateListeners.size());
 		for(NetworkStateListener listener : networkStateListeners) {
-			if(NetworkState.CONNECTED == state) {
+			if(ConnectionState.CONNECTED == state) {
 				ALog.i(ALog.CONNECTIVITY, "NR$notify onConnected");
 				listener.onConnected();
-			} else if (NetworkState.DISCONNECTED == state) {
+			} else if (ConnectionState.DISCONNECTED == state) {
 				ALog.i(ALog.CONNECTIVITY, "NR$notify onDisconnected");
 				listener.onDisconnected();
 			}
@@ -102,7 +102,7 @@ public class NetworkReceiver extends BroadcastReceiver implements InternetConnec
 		networkStateListeners.remove(listener);
 	}
 	
-	public NetworkState getLastKnownNetworkState() {
+	public ConnectionState getLastKnownNetworkState() {
 		return lastKnownNetworkState;
 	}
 	
