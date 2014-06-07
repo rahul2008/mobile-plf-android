@@ -72,16 +72,16 @@ public class DataParser {
 				airPurifierEvent.setActualFanSpeed(jsonObj.getString(ParserConstants.ACTUAL_FAN_SPEED));
 			}
 		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "JSONException") ;
+			ALog.e(ALog.PARSER, "JSONException AirPortInfo") ;
 			return null;
 		} catch (JsonIOException e) {
-			ALog.e(ALog.PARSER, "JsonIOException");
+			ALog.e(ALog.PARSER, "JsonIOException AirPortInfo");
 			return null;
 		} catch (JsonSyntaxException e2) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
+			ALog.e(ALog.PARSER, "JsonSyntaxException AirPortInfo");
 			return null;
 		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
+			ALog.e(ALog.PARSER, "Exception AirPortInfo");
 			return null;
 		}
 
