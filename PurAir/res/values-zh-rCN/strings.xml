@@ -424,10 +424,15 @@
     <!-- Firmware Screen text -->
     <string name="firmware">固件</string>
     <string name="firmware_update">固件更新</string>
-    <string name="download_failed">下载失败！</string>
+    <string name="firmware_update">Firmware update</string>
+    <string name="download_failed">Firmware 下载失败！</string>
+    <string name="i">i</string>
+    <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string>
+    <string name="firmware_download_info">Your Smart Aie Purifier is updating its firmware. Please wait and DO NOT TURN OFF your Smart Air Purifier</string>
     <string name="firmware_failed_msg">请确保您的 %s 已通电并已连接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的固件安装失败。</string>
     <string name="firmware_failed_update_msg">请联系飞利浦以获得支持</string>
+    <string name="firmware_install_success">Successfully installed new firmware</string>
     <string name="new_firmware">新固件</string>
     <string name="firmware_version_txt">固件版本</string>
     <string name="releasedate_txt">释放日期</string>
@@ -441,16 +446,18 @@
     <string name="downloading_firmware_step">步骤 1（共 2 步）</string>
     <string name="downloading_firmware_for_purifier_msg">正在下载  %s 版本的固件</string>
     <string name="downloading_firmware_text">下载固件</string>
-    <string name="installing_firmware_text">正在安装固件</string>
+    <string name="installing_firmware_text">正在安装固件 New</string>
     <string name="installing_firmware_for_purifier_msg">正将固件安装在 %s</string>
     <string name="installed">已安装</string>
     <string name="update">更新</string>
     <string name="call">通话</string>
     <string name="send_email">发送电子邮件</string>
     <string name="send_report">发送报告</string>
+    <string name="help">Help</string>
     <string name="try_again">请重试</string>
     <string name="done">已完成</string>
     <string name="lbl_firmware_update_available">固件更新可用</string>
+    <string name="downloading_new_firmware">Downloading new firmware</string>
     <string name="contact_support">联系支持</string>
     <string name="firmware_toast_nodeviceselected">请连接到空气净化器。</string>
 	<!-- Registration screens -->

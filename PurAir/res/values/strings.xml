@@ -424,10 +424,15 @@
     <!-- Firmware Screen text -->
     <string name="firmware">Firmware</string>
     <string name="firmware_update">Firmware update</string>
-    <string name="download_failed">Download Failed!</string>
-    <string name="firmware_failed_msg">Please make sure your %s is powered and connected to WiFi.</string>
+    <string name="firmware_download">Firmware download</string>
+    <string name="download_failed">Firmware Download Failed!</string>
+    <string name="i">i</string>
+    <string name="firmware_download_info">Your Smart Air Purifier is updating its firmware. Please wait and DO NOT TURN OFF your Smart Air Purifier</string>
+    <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string>
+    <string name="firmware_failed_msg">Please make sure your Philips Smart Air Purifier is powered and connected to a WiFi network.</string>
     <string name="firmware_failed_update">The firmware installation for %s failed.</string>
     <string name="firmware_failed_update_msg">Please Contact Philips for support</string>
+    <string name="firmware_install_success">Successfully installed new firmware</string>
     <string name="new_firmware">New firmware</string>
     <string name="firmware_version_txt">Firmware version</string>
     <string name="releasedate_txt">Release date</string>
@@ -441,16 +446,18 @@
     <string name="downloading_firmware_step">Step 1 of 2</string>
     <string name="downloading_firmware_for_purifier_msg">Downloading Firmware for %s</string>
     <string name="downloading_firmware_text">Downloading firmware</string>
-    <string name="installing_firmware_text">Installing firmware</string>
+    <string name="installing_firmware_text">Installing new firmware</string>
     <string name="installing_firmware_for_purifier_msg">Installing Firmware on %s</string>
     <string name="installed">Installed</string>
     <string name="update">Update</string>
     <string name="call">Call</string>
     <string name="send_email">Send e-mail</string>
     <string name="send_report">Send report</string>
+    <string name="help">Help</string>
     <string name="try_again">Try again</string>
     <string name="done">Done</string>
     <string name="lbl_firmware_update_available">Firmware update available</string>
+    <string name="downloading_new_firmware">Downloading new firmware</string>
     <string name="contact_support">Contact Support</string>
     <string name="firmware_toast_nodeviceselected">Please connect to an AirPurifier.</string>
     <!-- Registration screens -->
