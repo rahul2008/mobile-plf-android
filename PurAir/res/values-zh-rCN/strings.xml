@@ -424,7 +424,6 @@
     <!-- Firmware Screen text -->
     <string name="firmware">固件</string>
     <string name="firmware_update">固件更新</string>
-    <string name="firmware_update">Firmware update</string>
     <string name="download_failed">Firmware 下载失败！</string>
     <string name="i">i</string>
     <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string>
