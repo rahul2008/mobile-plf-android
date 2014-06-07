@@ -10,9 +10,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
@@ -20,18 +20,23 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
+import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.fragment.SupportFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener, DrawerEventListener {
+public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener, DrawerEventListener, AlertDialogBtnInterface {
 
-	private LinearLayout firmwareUpdatePopup;
+	private RelativeLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
 	
 	private FontTextView fanModeTxt ;
@@ -42,8 +47,13 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private ImageView aqiPointer ;
 	private ImageView aqiMeter ;
 	
-//	private FontTextView firmwareUpdateProgressText;
-	private FontTextView firmwareUpdateText ;
+	private FontTextView firmwareUpdateText;
+	private FontTextView firmwareInfoButton;
+	private ProgressBar firmwareProgress;
+	private AlertDialogFragment dialogFragment;
+	private AlertDialogFragment firmwareInfoDialog;
+	
+	private FirmwareState prevState;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,15 +76,16 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 	
 	private void initFirmwareUpdatePopup() {
-		firmwareUpdatePopup = (LinearLayout) getView().findViewById(R.id.firmware_update_available);
+		firmwareUpdatePopup = (RelativeLayout) getView().findViewById(R.id.firmware_update_available);
 		
-		ImageButton firmwareUpdateCloseButton = (ImageButton) getView().findViewById(R.id.btn_firmware_update_available);
-		firmwareUpdateCloseButton.setOnClickListener(this);
+		firmwareInfoButton = (FontTextView) getView().findViewById(R.id.lbl_firmware_info);
+		firmwareInfoButton.setOnClickListener(this);
 
 		firmwareUpdateText = (FontTextView) getView().findViewById(R.id.lbl_firmware_update_available);
 		firmwareUpdateText.setOnClickListener(this);
 		
-//		firmwareUpdateProgressText = (FontTextView) getView().findViewById(R.id.lbl_firmware_update_progress);
+		firmwareProgress = (ProgressBar) getView().findViewById(R.id.firmware_update_progress);
+		firmwareProgress.setVisibility(View.INVISIBLE);
 	}
 	
 	@Override
@@ -200,6 +211,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onAirPurifierEventReceived() {
 		if (getActivity() == null) return;
 		
+		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED || 
+				(null != purifier.getFirmwarePortInfo() && FirmwareState.IDLE != purifier.getFirmwarePortInfo().getState())) {
+			ALog.i(ALog.DASHBOARD, "onAirPurifierEventReceived ");
+			return ;
+		}
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
@@ -211,36 +228,107 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	@Override
 	public void onFirmwareEventReceived() {
-		if (getActivity() == null) return;
+		if (getActivity() == null || !(getActivity() instanceof MainActivity)) return;
 
-		// TODO : Add this when enabling non-mandatory firmware update
-
-		//		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
-		//		if (purifier == null) return;
-		//		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
-		//		
-		//		if(firmwarePortInfo.isUpdateAvailable()) {
-		//			getActivity().runOnUiThread(new Runnable() {
-		//
-		//				@Override
-		//				public void run() {
-		//					showFirmwareUpdatePopup();
-		//				}
-		//			});
-		//		}
-
+		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		if (purifier == null) return;
+		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
+		if(firmwarePortInfo == null) return;
+		updateFirmwareUI(firmwarePortInfo);
 	}
+	
+//	private void updateFirmwareUI(final boolean showFirmwareUI, final String status, final int progressVisibility, final int progress, final int infoVisibility) {
+	private void updateFirmwareUI(FirmwarePortInfo firmwarePortInfo) {
+		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
+		boolean showFirmwareUI = false;
+		String status = "";
+		int progressVisibility = View.INVISIBLE;
+		int progress = 0;
+		int infoVisibility = View.INVISIBLE;
+		
+		switch (firmwarePortInfo.getState()) {
+		case DOWNLOADING:
+			showFirmwareUI = true;
+			status = getString(R.string.downloading_new_firmware);
+			progressVisibility = View.VISIBLE;
+			progress = firmwarePortInfo.getProgress();
+			infoVisibility = View.VISIBLE;
+			break;
+		case CHECKING:
+			//Follow through
+		case PROGRAMMING:
+			showFirmwareUI = true;
+			status = getString(R.string.installing_firmware_text);
+			infoVisibility = View.VISIBLE;
+			break;
 
+		case ERROR:
+			if(null != dialogFragment && !dialogFragment.isVisible()) {
+				dialogFragment = AlertDialogFragment.newInstance(R.string.download_failed, R.string.firmware_failed_msg, R.string.ok, R.string.help);
+				dialogFragment.setOnClickListener(IndoorFragment.this);
+				dialogFragment.show(getActivity().getSupportFragmentManager(), getTag());
+			}
+			return ;
+			
+		case IDLE:
+			if(FirmwareState.PROGRAMMING == prevState) {
+				showFirmwareUI = true;
+				status = getString(R.string.firmware_install_success) + " " + firmwarePortInfo.getVersion();
+			} else {
+				
+			}
+			break;
+
+		case CANCELING:
+		case READY:
+			//NOP : Should not occur in Mandatory firmware update
+			return ;
+			
+		default:
+			return ;
+		}
+		updateFirmwareUI(showFirmwareUI, status,progressVisibility,progress,infoVisibility) ; 
+		prevState = firmwarePortInfo.getState() ;
+	}
+	private void updateFirmwareUI(final boolean showFirmwareUI, final String status, final int progressVisibility, final int progress, final int infoVisibility) {
+		getActivity().runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				if(showFirmwareUI) {
+					showFirmwareUpdatePopup();
+					firmwareUpdateText.setText(status);
+					firmwareProgress.setVisibility(progressVisibility);
+					firmwareProgress.setProgress(progress);
+					firmwareInfoButton.setVisibility(infoVisibility);
+				}
+			}
+		});
+	}
+	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.lbl_firmware_update_available:
-			((MainActivity)getActivity()).startFirmwareUpgradeActivity();
 			hideFirmwareUpdatePopup();
 			break;
-		case R.id.btn_firmware_update_available:
-			hideFirmwareUpdatePopup();
+		case R.id.lbl_firmware_info:
+			updateFirmwareUI(false, null, View.INVISIBLE, 0, View.INVISIBLE);
 			
+			firmwareInfoDialog = AlertDialogFragment.newInstance(R.string.firmware, R.string.firmware_download_info, R.string.ok);
+			firmwareInfoDialog.show(getActivity().getSupportFragmentManager(), getTag());
+			firmwareInfoDialog.setOnClickListener(new AlertDialogBtnInterface() {
+				
+				@Override
+				public void onPositiveButtonClicked() {
+					firmwareInfoDialog.dismiss();
+				}
+				
+				@Override
+				public void onNegativeButtonClicked() {
+					//NOP
+				}
+			});
 			break;
 		case R.id.hf_indoor_circle_pointer:
 			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
@@ -265,8 +353,23 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	@Override
+	public void onPositiveButtonClicked() {
+		hideFirmwareUpdatePopup();
+		dialogFragment.dismiss();
+	}
+
+	@Override
+	public void onNegativeButtonClicked() {
+		showSupportFragment();
+	}
+
+	private void showSupportFragment() {
+		dialogFragment.dismiss();
+		((MainActivity) getActivity()).showFragment(new SupportFragment());
+	}
+
+	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
-		// TODO Auto-generated method stub
 		
 	}
 }

@@ -49,6 +49,7 @@ import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -649,41 +650,15 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 	@Override
 	public void onFirmwareEventReceived() {
-		//TODO
-//		PurAirDevice purifier = getCurrentPurifier();
-//		if (purifier == null) return;
-//		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
-//		
-//		if(firmwarePortInfo == null) return;
-//		ALog.i(ALog.FIRMWARE, "Firmware event received - Version " + firmwarePortInfo.getVersion() + " Upgrade " + firmwarePortInfo.getUpgrade() + " UpdateAvailable " + firmwarePortInfo.isUpdateAvailable() + " State " + firmwarePortInfo.getState() + " Progress " + firmwarePortInfo.getProgress());
-//
-//		if (firmwarePortInfo.isUpdateAvailable()) {
-//			ALog.i(ALog.FIRMWARE, "Update Dashboard UI");
-//
-//			this.runOnUiThread(new Runnable() {
-//				@Override
-//				public void run() {
-//					//TODO
-//					// Change hardcoded value "1" to number of devices discovered after SSDP once multiple purifiers are implemented.
-//					/** 
-//					 * Removing non-mandatory firmware update.
-//					updateDashboardOnFirmwareUpdate(1);
-//					setFirmwareSuperScript(1, true);
-//					*/
-//				}
-//			});
-//		}
+		final PurAirDevice purifier = getCurrentPurifier();
+		
+		ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived");
+		
+		if(null != purifier.getFirmwarePortInfo() && FirmwareState.IDLE != purifier.getFirmwarePortInfo().getState()) {
+			ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived Purifier not in idle state, disable right menu");
+			disableRightMenuControls();
+		}
 	}
-	
-	// TODO : Add this when enabling non-mandatory firmware update
-//	private void updateDashboardOnFirmwareUpdate(int purifierCount) {
-//		showFirmwareUpdateHomeIcon(purifierCount);
-//	}
-//	
-//	private void showFirmwareUpdateHomeIcon(int purifierCount) {
-//		noOffFirmwareUpdate.setVisibility(View.VISIBLE);
-//		noOffFirmwareUpdate.setText(String.valueOf(purifierCount));
-//	}
 	
 	private void hideFirmwareUpdateHomeIcon() {
 		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
