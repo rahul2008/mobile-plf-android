@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
@@ -129,18 +130,22 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (airPortInfo == null) return;
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
-		fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
-		filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
-		aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
-		aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
-
-		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
-		if(purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
+		if (ConnectionState.DISCONNECTED == purifier.getConnectionState()) {
 			hideIndoorMeter();
+			fanModeTxt.setText(getString(R.string.off));
+			filterStatusTxt.setText(AppConstants.EMPTY_STRING);
+			aqiStatusTxt.setText(getString(R.string.no_data));
+			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
 		} else {
+			fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
+			aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
+			aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
 			showIndoorMeter();
 		}
-
+		
+		
+		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
 		aqiPointer.setOnClickListener(this);
 		aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
 		aqiPointer.invalidate();
@@ -201,6 +206,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				@Override
 				public void run() {
 					hideIndoorMeter();
+					updateDashboard();
 				}
 			});
 			break;

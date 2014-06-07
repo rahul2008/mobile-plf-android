@@ -69,6 +69,7 @@
     <string name="updated">Last Updated</string>
     <string name="n_a">N.A.</string>
     <string name="take_action">Take action</string>
+   	<string name="no_data">No Data</string>
     <!-- AQI status -->
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>

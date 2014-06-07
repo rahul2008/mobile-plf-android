@@ -409,6 +409,7 @@ public class RightMenuClickListener implements OnClickListener {
 		
 		fanSpeed.setClickable(false);
 		fanSpeed.setBackgroundResource(R.drawable.button_bg_2x);
+		fanSpeed.setText(mainActivity.getString(R.string.off)) ;
 		
 		timer.setClickable(false);
 		timer.setBackgroundResource(R.drawable.button_bg_2x);

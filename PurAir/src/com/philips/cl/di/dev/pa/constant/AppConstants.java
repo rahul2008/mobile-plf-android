@@ -190,5 +190,6 @@ public class AppConstants {
 	public final static String DEMO_MODE_PREF = "demo_mode_pref";
 	public final static String DEMO_MODE_ENABLE_KEY ="demo_mode_enable_key";
 
+	public static final String EMPTY_STRING = "" ;
 	
 }

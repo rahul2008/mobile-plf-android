@@ -69,6 +69,7 @@
     <string name="updated">最近更新。</string>
     <string name="n_a">N.A.</string>
     <string name="take_action">采取措施。</string>
+    <string name="no_data">No Data</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">适中</string>
