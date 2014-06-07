@@ -693,6 +693,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
 		
 		final PurAirDevice purifier = getCurrentPurifier();
+		
+		Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.llContainer);
+		if(fragment instanceof BuyOnlineFragment){
+		((BuyOnlineFragment)fragment).updateFilterStatus(purifier); 
+		}
+		
 		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
 			disableRightMenuControls();
 			return ;

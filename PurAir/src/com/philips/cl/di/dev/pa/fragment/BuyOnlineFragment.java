@@ -21,6 +21,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.ProductDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -32,25 +33,28 @@ public class BuyOnlineFragment extends BaseFragment {
 	private TextView lblFilter;
 	private TextView txtFilterStatus;
 	private AirPortInfo airPortInfo;
-	
+	private PurAirDevice current;
+
 	private ListView mList;
-	
+	private ArrayList<ProductDto> list;
+	private int filterVisibility;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.buy_online_fragment, container, false);
 		mList = (ListView) view.findViewById(R.id.list);
-		
+
 		Activity parent = this.getActivity();
 		if (parent == null || !(parent instanceof MainActivity)) return view;
-		
-		PurAirDevice current = ((MainActivity) parent).getCurrentPurifier();
+
+		current = ((MainActivity) parent).getCurrentPurifier();
 		if (current != null) {
 			airPortInfo = current.getAirPortInfo();
 		}
-		
+
 		/* Create a list with known data */
-		ArrayList<ProductDto> list = new ArrayList<ProductDto>();
+		list = new ArrayList<ProductDto>();
 		list.add(new ProductDto(R.string.buy_philips_smart_air_purifier, "000 000 000",
 				"Philips.com.cn", R.drawable.purifier));
 		list.add(new ProductDto(R.string.buy_pre_filter, "000 000 000", "Philips.com.cn",
@@ -65,10 +69,10 @@ public class BuyOnlineFragment extends BaseFragment {
 		/* Create an adapter to display the loaded data. */
 		mAdapter = new BuyDataAdapter(getActivity(), list);
 		mList.setAdapter(mAdapter);
-		
+
 		return view;
 	}
-	
+
 
 	/* Custom Adapter to inflate custom rows of list */
 	class BuyDataAdapter extends ArrayAdapter<ProductDto> {
@@ -107,66 +111,63 @@ public class BuyOnlineFragment extends BaseFragment {
 			lblFilter = (TextView) view.findViewById(R.id.lbl_filter);
 			txtFilterStatus = (TextView) view
 					.findViewById(R.id.txt_filter_status);
+			
+			if(current.getConnectionState() == ConnectionState.DISCONNECTED)
+			{
+				filterVisibility=View.GONE;
+			}
+			else
+			{
+				filterVisibility=View.VISIBLE;
+			}
 
 			if (airPortInfo != null) {
 				switch (position) {
 				case 0:
-					filterView.setVisibility(View.GONE);
-					txtFilterStatus.setVisibility(View.GONE);
-					lblFilter.setVisibility(View.GONE);
+					setFilterVisibility(View.GONE);
 					break;
 				case 1:
-					filterView.setVisibility(View.VISIBLE);
-					txtFilterStatus.setVisibility(View.VISIBLE);
-					lblFilter.setVisibility(View.VISIBLE);
+					setFilterVisibility(filterVisibility);
 					lblFilter.setText(R.string.pre_filter);
 					filterView
-							.setPrefilterValue(airPortInfo.getFilterStatus1());
+					.setPrefilterValue(airPortInfo.getFilterStatus1());
 					txtFilterStatus
-							.setText(Utils
-									.getPreFilterStatusText(airPortInfo.getFilterStatus1()));
+					.setText(Utils
+							.getPreFilterStatusText(airPortInfo.getFilterStatus1()));
 					break;
 				case 2:
-					filterView.setVisibility(View.VISIBLE);
-					txtFilterStatus.setVisibility(View.VISIBLE);
-					lblFilter.setVisibility(View.VISIBLE);
+					setFilterVisibility(filterVisibility);
 					lblFilter.setText(R.string.multicarefilter);
 					filterView
-							.setMultiCareFilterValue(airPortInfo.getFilterStatus2());
+					.setMultiCareFilterValue(airPortInfo.getFilterStatus2());
 					txtFilterStatus
-							.setText(Utils
-									.getMultiCareFilterStatusText(airPortInfo.getFilterStatus2()));
+					.setText(Utils
+							.getMultiCareFilterStatusText(airPortInfo.getFilterStatus2()));
 					break;
 				case 3:
-					filterView.setVisibility(View.VISIBLE);
-					txtFilterStatus.setVisibility(View.VISIBLE);
-					lblFilter.setVisibility(View.VISIBLE);
+					setFilterVisibility(filterVisibility);
 					lblFilter.setText(R.string.activecarbonfilter);
 					filterView
-							.setActiveCarbonFilterValue(airPortInfo.getFilterStatus3());
+					.setActiveCarbonFilterValue(airPortInfo.getFilterStatus3());
 					txtFilterStatus
-							.setText(Utils
-									.getActiveCarbonFilterStatusText(airPortInfo.getFilterStatus3()));
+					.setText(Utils
+							.getActiveCarbonFilterStatusText(airPortInfo.getFilterStatus3()));
 					break;
 				case 4:
-					filterView.setVisibility(View.VISIBLE);
-					txtFilterStatus.setVisibility(View.VISIBLE);
-					lblFilter.setVisibility(View.VISIBLE);
+					setFilterVisibility(filterVisibility);
 					lblFilter.setText(R.string.hepa_filter);
 					filterView
-							.setHEPAfilterValue(airPortInfo.getFilterStatus4());
+					.setHEPAfilterValue(airPortInfo.getFilterStatus4());
 					txtFilterStatus
-							.setText(Utils
-									.getHEPAFilterFilterStatusText(airPortInfo.getFilterStatus4()));
+					.setText(Utils
+							.getHEPAFilterFilterStatusText(airPortInfo.getFilterStatus4()));
 					break;
 
 				default:
 					break;
 				}
 			} else {
-				filterView.setVisibility(View.GONE);
-				txtFilterStatus.setVisibility(View.GONE);
-				lblFilter.setVisibility(View.GONE);
+				setFilterVisibility(View.GONE);
 			}
 
 			productName.setTypeface(Fonts.getGillsans(getActivity()));
@@ -193,5 +194,29 @@ public class BuyOnlineFragment extends BaseFragment {
 
 			return view;
 		}
+
+
+		private void setFilterVisibility(int visibility){
+			
+			filterView.setVisibility(visibility);
+			txtFilterStatus.setVisibility(visibility);
+			lblFilter.setVisibility(visibility);
+		}
+	}
+	
+	
+	public void updateFilterStatus(PurAirDevice purifier){
+		if(purifier==null || getActivity()==null) return;
+		
+		current=purifier;
+		airPortInfo= purifier.getAirPortInfo();
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				mList.setAdapter(null);
+				mList.setAdapter(mAdapter);				
+			}
+		});
 	}
 }
