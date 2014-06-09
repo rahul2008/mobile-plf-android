@@ -319,7 +319,7 @@
     <string name="step3_instruction">Connect your Philips Smart Air Purifier to your home Wi-Fi network.</string>
     <string name="step1_msg1">You are currently using</string>
     <string name="step2_msg1">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED</string>
-    <string name="step2_msg2">Is the LED</string>
+    <string name="step2_msg2">Is the Wi-Fi LED</string>
     <string name="orange">ORANGE</string>
     <string name="step3_msg1">Enter the password for</string>
     <string name="step3_msg2">In which room will you place the Philips Smart Air Purifier (e.g. the living room)?</string>

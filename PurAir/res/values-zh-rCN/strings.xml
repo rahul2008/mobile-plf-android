@@ -319,7 +319,7 @@
     <string name="step3_instruction">将飞利浦智能空气净化器连接到您的家庭 Wi-Fi 网络。</string>
     <string name="step1_msg1">您目前正在使用</string>
     <string name="step2_msg1">将飞利浦智能空气净化器插入电源，同时按“电源”和“儿童锁”按钮，直至 Wi-Fi LED 变为橙色。</string>
-    <string name="step2_msg2">LED 是否</string>
+    <string name="step2_msg2">Wi-Fi LED 是否</string>
     <string name="orange">橙色</string>
     <string name="step3_msg1">输入密码</string>
     <string name="step3_msg2">您将在哪个房间放置飞利浦智能空气净化器（例如起居室）？</string>
