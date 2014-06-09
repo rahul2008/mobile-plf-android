@@ -35,7 +35,7 @@ public class SupportFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		
 		FontTextView message = (FontTextView) getView().findViewById(R.id.contact_philips_support_message1);
-		message.setText("Firmware download failed");
+		message.setText(R.string.firmware_download_failed);
 		
 		((RelativeLayout) getView().findViewById
 				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener);  

@@ -275,7 +275,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 		case ERROR:
 			if(null != dialogFragment && !dialogFragment.isVisible()) {
-				dialogFragment = AlertDialogFragment.newInstance(R.string.download_failed, R.string.firmware_failed_msg, R.string.ok, R.string.help);
+				dialogFragment = AlertDialogFragment.newInstance(R.string.firmware_download_failed, R.string.firmware_failed_msg, R.string.ok, R.string.help);
 				dialogFragment.setOnClickListener(IndoorFragment.this);
 				dialogFragment.show(getActivity().getSupportFragmentManager(), getTag());
 			}

@@ -11,7 +11,7 @@
         android:layout_marginTop="6dp"
         android:lineSpacingExtra="5dp"
         android:padding="16dp"
-        android:text="@string/download_failed"
+        android:text="@string/firmware_download_failed"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
