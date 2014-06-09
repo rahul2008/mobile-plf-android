@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
@@ -24,6 +25,7 @@ import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
@@ -415,21 +417,31 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		 */
 		if (airPortInfo != null) {
 
-			mode.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+			if (ConnectionState.DISCONNECTED == currentPurifier.getConnectionState()) {
+				mode.setText(getString(R.string.off));
+				aqiStatus.setText(getString(R.string.no_data));
+				aqiSummary.setText(AppConstants.EMPTY_STRING) ;
+			} 
+			else {
+				if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
+					mode.setText(getString(R.string.off));
+				}
+				else {
+					mode.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+				}
+				filter.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 
-			filter.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
+				int indoorAQI = airPortInfo.getIndoorAQI();
+				ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
+				circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
-			int indoorAQI = airPortInfo.getIndoorAQI();
-			ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
-			circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
-
-			String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
-			if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
-				return ;
+				String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
+				if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
+					return ;
+				}
+				aqiStatus.setText(aqiStatusAndCommentArray[0]);
+				aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
 			}
-			aqiStatus.setText(aqiStatusAndCommentArray[0]);
-			aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
-
 		}
 	}
 

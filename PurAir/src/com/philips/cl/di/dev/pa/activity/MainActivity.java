@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
@@ -48,8 +49,8 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
+import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
@@ -704,8 +705,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				setRightMenuAirStatusMessage(getString(
 						Utils.getIndoorAQIMessage(indoorAQIUsableValue),
 						getString(R.string.philips_home)));
-				setRightMenuAirStatusBackground(indoorAQIUsableValue);
-				
+					setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
 			}
 		});
@@ -724,6 +724,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				rightMenuClickListener.toggleControlPanel(false, null);
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 				rightMenuClickListener.toggleControlPanel(false , null);
+				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
+				tvAirStatusAqiValue.setText(getString(R.string.no_data));
 			}
 		});
 	}
