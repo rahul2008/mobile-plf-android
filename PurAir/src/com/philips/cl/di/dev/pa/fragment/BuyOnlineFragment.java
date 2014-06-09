@@ -112,7 +112,7 @@ public class BuyOnlineFragment extends BaseFragment {
 			txtFilterStatus = (TextView) view
 					.findViewById(R.id.txt_filter_status);
 			
-			if(current.getConnectionState() == ConnectionState.DISCONNECTED)
+			if(current == null || current.getConnectionState() == ConnectionState.DISCONNECTED)
 			{
 				filterVisibility=View.GONE;
 			}
