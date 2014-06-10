@@ -146,7 +146,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 	private String getSubscriberId(boolean isLocal) {
 		String appEui64 = SessionDto.getInstance().getAppEui64();
 		if (appEui64 != null) return appEui64;
-		if (isLocal) return AppConstants.BOOT_STRAP_ID; // Fallback for local subscription when no cpp connection
+		if (isLocal) return Utils.getBootStrapID(); // Fallback for local subscription when no cpp connection
 		return null;
 	}
 	

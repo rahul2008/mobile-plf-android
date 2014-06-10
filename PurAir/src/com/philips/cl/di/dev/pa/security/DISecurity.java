@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DISecurity implements ServerResponseListener {
 
+	public static final String BOOT_STRAP_ID_3 = "f000" ;
 	private static Hashtable<String, Boolean> 
 			isExchangingKeyTable = new Hashtable<String, Boolean>();
 	private static Hashtable<String, Integer> 

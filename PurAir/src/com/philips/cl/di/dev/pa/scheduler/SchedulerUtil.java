@@ -4,7 +4,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 
 public class SchedulerUtil {
-	
+	public static final String BOOTSTRAP_KEY_1 = "5b6c58" ;
 	public static int getFanspeedItemPosition(String [] values, String selectedValue) {
 		if (selectedValue == null || selectedValue.isEmpty()) return -1;
 		int selectedIndex = -1;

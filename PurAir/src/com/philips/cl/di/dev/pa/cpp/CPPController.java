@@ -36,6 +36,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private static CPPController icpStateInstance;
 
 	private static final String CERTIFICATE_EXTENSION = ".cer";
+	
+	public static final String BOOT_STRAP_ID_1 = "0000";
+	
 
 	private SignOn signon;
 	private boolean isSignOn;
@@ -52,6 +55,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private EventSubscription eventSubscription; 
 	private DCSEventListener dcsEventListener;
 	private boolean isDCSRunning;
+	
+	//DCS client state
+	private enum ICP_CLIENT_DCS_STATE { STARTED, STOPPED } ;
+	// App Requested State
+	//This is required if the callback has delay in Starting and Stopping
+	private enum APP_REQUESTED_STATE { NONE, START, STOP };
+	
+	private ICP_CLIENT_DCS_STATE dcsState = ICP_CLIENT_DCS_STATE.STOPPED;
+	private APP_REQUESTED_STATE appDcsRequestState = APP_REQUESTED_STATE.NONE ;
 
 	private EventPublisher eventPublisher; 
 
@@ -252,8 +264,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 */
 	public void startDCSService() {
 		ALog.d(ALog.SUBSCRIPTION, "Start DCS: " + isDCSRunning + " isSIgnOn" + isSignOn);
-
-		if (!isDCSRunning) {
+		if( dcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
+			appDcsRequestState = APP_REQUESTED_STATE.NONE ;
 			if (isSignOn) {
 				ALog.i(ALog.CPPCONTROLLER, "Starting DCS - Already Signed On");
 				int numberOfEvents = 1;
@@ -261,14 +273,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						numberOfEvents);
 				eventSubscription.setFilter("");
 				eventSubscription.setServiceTag("");
-
+	
 				eventSubscription.executeCommand();
-
-				isDCSRunning = true;
 			} else {
 				ALog.i(ALog.CPPCONTROLLER, "Failed to start DCS - not signed on");
 				signOnWithProvisioning() ;
 			}
+		}
+		else {
+			appDcsRequestState = APP_REQUESTED_STATE.START ;
 		}
 	}
 
@@ -278,11 +291,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void stopDCSService() {
 		if(! isSignOn()) return ;
 		if (eventSubscription == null) return;
-		if (!isDCSRunning) return;
-		
-		ALog.i(ALog.SUBSCRIPTION, "Stop DCS service");
-		eventSubscription.stopCommand();
-		isDCSRunning = false;
+		if( dcsState == ICP_CLIENT_DCS_STATE.STARTED) {
+			appDcsRequestState = APP_REQUESTED_STATE.NONE ;
+			ALog.i(ALog.SUBSCRIPTION, "Stop DCS service");
+			eventSubscription.stopCommand();
+		}
+		else {
+			appDcsRequestState = APP_REQUESTED_STATE.STOP ;
+		}
 	}
 
 	
@@ -425,7 +441,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			String action = "";
 			//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
 			if (status == Errors.SUCCESS) {
-				if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
+				dcsState = ICP_CLIENT_DCS_STATE.STARTED;
+				if(eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
+					dcsState = ICP_CLIENT_DCS_STATE.STOPPED ;
+					if( appDcsRequestState == APP_REQUESTED_STATE.START) {
+						startDCSService() ;
+					}
+					return ;
+				}
+				else if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
 					int noOfEvents = 0;
 					noOfEvents = eventSubscription.getNumberOfEventsReturned();
 					for (int i = 0; i < noOfEvents; i++) {
@@ -437,6 +461,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						ALog.d(ALog.SUBSCRIPTION, "DCS event received: " +dcsEvents);
 						notifyDCSListener(dcsEvents, fromEui64, action);
 					}
+				}
+				if(appDcsRequestState == APP_REQUESTED_STATE.STOP) {
+					stopDCSService();
 				}
 			}
 			break;

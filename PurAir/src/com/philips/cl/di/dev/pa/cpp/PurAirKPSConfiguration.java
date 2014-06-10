@@ -19,7 +19,11 @@ Version 1:
 ----------------------------------------------------------------------------*/
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.security.Util;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 
@@ -41,9 +45,10 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		MaxNrOfRetry = 2;
 	}
 	
-	public void setNVMConfigParams() {
-		this.ICPClientBootStrapID = AppConstants.BOOT_STRAP_ID;
-		this.ICPClientBootStrapKey = AppConstants.BOOT_STRAP_KEY;
+	public void setNVMConfigParams() {		
+		this.ICPClientBootStrapID = Utils.getBootStrapID();
+		this.ICPClientBootStrapKey = Util.getBootstrapKey();
+		ALog.i(ALog.KPS, "BootstrapID: "+ICPClientBootStrapID+"\n BootStrapKey: "+ICPClientBootStrapKey) ;
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
 		this.ICPClientproductCountry = "NL"; // TODO: Get from locale

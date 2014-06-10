@@ -15,8 +15,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 public class AppConstants {
 	
 	/** CONSTANTS FOR THE ICPCLIENT */
-	public static final String BOOT_STRAP_ID = "000000fff0000002";
-	public static final String BOOT_STRAP_KEY = "5b6c580330e12b28f179815a3808b475";
+
 	public static final String BOOT_STRAP_PRODUCT_ID = "AIR_KPSPROV";
 
 	

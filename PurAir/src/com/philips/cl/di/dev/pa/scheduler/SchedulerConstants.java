@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 public class SchedulerConstants {
 	
+	public static final String BOOT_STRAP_ID_2 = "00ff" ;
 	//Fragment IDs
 	public enum SchedulerID {
 		OVERVIEW_EVENT,

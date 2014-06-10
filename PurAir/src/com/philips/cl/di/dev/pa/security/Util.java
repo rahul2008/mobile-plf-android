@@ -6,7 +6,11 @@ import java.util.Random;
 
 import android.util.Base64;
 
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class Util {
 	
@@ -37,7 +41,7 @@ public class Util {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String encodeToBase64(byte[] data) throws Exception{
+	public static String encodeToBase64(byte[] data) throws Exception {
 		String strEncodeBase64 = null;
 		if(data!=null && data.length > 0){
 			strEncodeBase64 = Base64.encodeToString(data, Base64.DEFAULT);
@@ -141,5 +145,25 @@ public class Util {
 		
 		byte[] dataBytes = Arrays.copyOfRange(data, RANDOM_BYTE_ARR_SIZE, data.length);
 		return dataBytes;
+	}
+	
+	public static String getEncodedBootStrapID() {
+		String encodedBootStrap = AppConstants.EMPTY_STRING ;
+		StringBuilder bootStrapBuilder = new StringBuilder(CPPController.BOOT_STRAP_ID_1);
+		bootStrapBuilder.append(SchedulerConstants.BOOT_STRAP_ID_2).append(DISecurity.BOOT_STRAP_ID_3) ;
+		bootStrapBuilder.append(Utils.BOOT_STRAP_ID_4) ;
+		try {
+			encodedBootStrap = encodeToBase64(bootStrapBuilder.toString().getBytes()) ;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return encodedBootStrap ;
+	}
+	
+	public static String getBootstrapKey() {
+		String bootStrapKey = new String(decodeFromBase64(Utils.getEncodedBootStrapKey())) ;
+		return bootStrapKey ;
 	}
 }
