@@ -121,8 +121,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		case EWSConstant.EWS_STEP_ERROR_DISCOVERY:
 			//Error mobile device connect home network screen
 			//Error Airpurifier not discovered in home network screen
-			actionbarCancelBtn.setVisibility(View.INVISIBLE);
-			actionbarBackImg.setVisibility(View.INVISIBLE);
+			actionbarCancelBtn.setVisibility(View.GONE);
+			actionbarBackImg.setVisibility(View.GONE);
 			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
 			break;
 		default:
@@ -445,7 +445,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	@Override
 	public void foundHomeNetwork() {
-		showStepOne() ;
+		/**
+		 * Show step one screen when network change happen in Change network screen or error SSID screen
+		 */
+		if (mStep == EWSConstant.EWS_STEP_CHANGE_NETWORK 
+				|| mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
+			showStepOne() ;
+		}
 	}
 	
 	@Override
