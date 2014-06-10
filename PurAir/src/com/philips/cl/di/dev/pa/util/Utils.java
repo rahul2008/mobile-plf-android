@@ -17,6 +17,7 @@ import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
+import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -697,7 +698,7 @@ public class Utils {
 	}
 	
 	public static String getBootStrapID() {
-		String bootStrap = new String(Util.decodeFromBase64(Util.getEncodedBootStrapID())) ;
+		String bootStrap = new String(Util.decodeFromBase64(Util.getEncodedBootStrapID()), Charset.defaultCharset()) ;
 		return bootStrap ;
 	}
 	
@@ -709,7 +710,7 @@ public class Utils {
 		bootStrapBuilder.append(Fonts.BOOT_STRAP_KEY_4) ;
 		bootStrapBuilder.append(EWSConstant.BOOT_STRAP_KEY_5) ;
 		try {
-			encodedBootStrapKey = Util.encodeToBase64(bootStrapBuilder.toString().getBytes()) ;
+			encodedBootStrapKey = Util.encodeToBase64(bootStrapBuilder.toString().getBytes(Charset.defaultCharset())) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

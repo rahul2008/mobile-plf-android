@@ -153,7 +153,7 @@ public class Util {
 		bootStrapBuilder.append(SchedulerConstants.BOOT_STRAP_ID_2).append(DISecurity.BOOT_STRAP_ID_3) ;
 		bootStrapBuilder.append(Utils.BOOT_STRAP_ID_4) ;
 		try {
-			encodedBootStrap = encodeToBase64(bootStrapBuilder.toString().getBytes()) ;
+			encodedBootStrap = encodeToBase64(bootStrapBuilder.toString().getBytes(Charset.defaultCharset())) ;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -163,7 +163,7 @@ public class Util {
 	}
 	
 	public static String getBootstrapKey() {
-		String bootStrapKey = new String(decodeFromBase64(Utils.getEncodedBootStrapKey())) ;
+		String bootStrapKey = new String(decodeFromBase64(Utils.getEncodedBootStrapKey()), Charset.defaultCharset()) ;
 		return bootStrapKey ;
 	}
 }
