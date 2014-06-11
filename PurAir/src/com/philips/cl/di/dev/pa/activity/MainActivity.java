@@ -725,7 +725,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 				rightMenuClickListener.toggleControlPanel(false , null);
 				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
-				tvAirStatusAqiValue.setText(getString(R.string.no_data));
+				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
+				tvAirStatusAqiValue.setText(getString(R.string.no_connection));
 			}
 		});
 	}

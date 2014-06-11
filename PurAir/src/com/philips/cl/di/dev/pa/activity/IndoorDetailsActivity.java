@@ -419,7 +419,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 			if (ConnectionState.DISCONNECTED == currentPurifier.getConnectionState()) {
 				mode.setText(getString(R.string.off));
-				aqiStatus.setText(getString(R.string.no_data));
+				aqiStatus.setText(getString(R.string.no_connection));
 				aqiSummary.setText(AppConstants.EMPTY_STRING) ;
 			} 
 			else {

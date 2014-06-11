@@ -97,7 +97,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/blue_circle_with_arrow_2x" />
+            android:src="@drawable/grey_circle_2x" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -107,7 +107,8 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="18sp"
+            android:text="@string/no_connection"
             custom:fontAssetName="fonts/gillsans.ttf" />
     </RelativeLayout>
 

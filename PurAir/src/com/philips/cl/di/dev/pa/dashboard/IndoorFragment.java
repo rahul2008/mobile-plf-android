@@ -134,8 +134,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			hideIndoorMeter();
 			fanModeTxt.setText(getString(R.string.off));
 			filterStatusTxt.setText(AppConstants.EMPTY_STRING);
-			aqiStatusTxt.setText(getString(R.string.no_data));
+			aqiPointer.setImageResource(R.drawable.grey_circle_2x);
+			aqiStatusTxt.setText(getString(R.string.no_connection));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
+
 		} else {
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
 				fanModeTxt.setText(getString(R.string.off));
@@ -144,15 +146,16 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
 			}
 			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
+			aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
 			aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
 			aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
+			aqiPointer.setOnClickListener(this);
 			showIndoorMeter();
 		}
 		
 		
 		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
-		aqiPointer.setOnClickListener(this);
-		aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
+		
 		aqiPointer.invalidate();
 		if(prevIndoorAqi != indoorAqi) {
 			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
@@ -202,7 +205,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					showIndoorMeter();
+//					showIndoorMeter();
 				}
 			});
 			break;
@@ -210,7 +213,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					hideIndoorMeter();
+//					hideIndoorMeter();
 					updateDashboard();
 				}
 			});
@@ -342,8 +345,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			});
 			break;
 		case R.id.hf_indoor_circle_pointer:
-			Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
-			startActivity(intent);
+			PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
+			if(getActivity() != null && purifier != null && purifier.getConnectionState() != ConnectionState.DISCONNECTED) {
+				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
+				startActivity(intent);
+			}
 			break;
 		default:
 			break;
