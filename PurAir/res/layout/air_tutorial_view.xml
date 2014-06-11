@@ -77,9 +77,9 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:gravity="center_horizontal"
+        android:gravity="left"
         android:text="@string/tutorial_dashboard_desc"
-        android:textColor="@color/philips_blue"
+        android:textColor="@color/lighter_philips_blue"
         android:textSize="20sp"/>
 
     <TextView
@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
         android:layout_marginRight="3dp"
-        android:gravity="center_horizontal"
+        android:gravity="left"
         android:textColor="@color/gray"
         android:textSize="16sp"
         />

@@ -15,6 +15,7 @@
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
         android:textSize="18sp"
+        android:layout_marginTop="2dp"
         custom:fontAssetName="fonts/gillsans.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -29,6 +30,7 @@
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
         android:textSize="12sp"
+        android:layout_marginTop="2dp"
         custom:fontAssetName="fonts/gillsans.ttf" />
     
 

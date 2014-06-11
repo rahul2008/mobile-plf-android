@@ -178,7 +178,7 @@ public class BuyOnlineFragment extends BaseFragment {
 			productName.setText(getActivity().getString(item.getProductName()));
 			productPrice.setText(item.getProductPrice());
 			availability.setText(getActivity().getString(R.string.available_from)
-					+ item.getAvailability());
+					+" "+ item.getAvailability());
 			productImg.setImageResource(item.getProductImg());
 
 			buyOnline.setOnClickListener(new OnClickListener() {

@@ -7,38 +7,43 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:paddingTop="10dp" >
 
         <!-- Link to pairing -->
+
         <RelativeLayout
             android:id="@+id/notifications_pairing_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" 
-            android:layout_margin="15dp">
-            
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp" >
+
             <Button
-		        android:id="@+id/btn_notifications_pairing"
-		        android:layout_width="80dp"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="15dp"
-		        android:layout_alignParentRight="true"
-		        android:background="@drawable/blue_button_selector"
-		        android:layout_centerVertical="true"
-		        android:text="@string/notification_pairing_btn"
-		        android:textColor="@color/white"
-		        android:textSize="14sp" />
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:layout_width="wrap_content"
-	            android:layout_height="match_parent"
-	            android:layout_centerVertical="true"
-	            android:layout_toLeftOf="@id/btn_notifications_pairing"
-	            android:text="@string/notification_pairing_text"
-	            android:textColor="@color/title_gray"
-	            android:textSize="18sp" 
-	            custom:fontAssetName="fonts/gillsans.ttf"/>
+                android:id="@+id/btn_notifications_pairing"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/blue_button_selector"
+                android:text="@string/notification_pairing_btn"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/btn_notifications_pairing"
+                android:text="@string/notification_pairing_text"
+                android:textColor="@color/title_gray"
+                android:textSize="@dimen/text_size_large"
+                custom:fontAssetName="fonts/gillsans.ttf" />
         </RelativeLayout>
-        
+
         <!-- Toggle notifications -->
+
         <RelativeLayout
             android:id="@+id/notifications_enable_layout"
             android:layout_width="match_parent"
@@ -51,203 +56,221 @@
                 style="@style/Widget.Button.Toggle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" />
-            
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp" />
+
             <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_enable_all_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/notifications_enable_all_toggle"
                 android:text="@string/notifications_enable_all"
-                android:layout_centerVertical="true"
                 android:textColor="@color/title_gray"
-                android:textSize="18sp" 
-                custom:fontAssetName="fonts/gillsans.ttf"/>
+                android:textSize="@dimen/text_size_large"
+                custom:fontAssetName="fonts/gillsans.ttf" />
         </RelativeLayout>
 
         <!-- Horizontal line -->
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:layout_marginTop="0dp"
             android:background="@color/darkgray" />
 
-        <!-- Detailed notifications layout (easy toggling)-->
+        <!-- Detailed notifications layout (easy toggling) -->
+
         <LinearLayout
             android:id="@+id/notifications_detailed_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-        
-	        <!-- Indoor notifications -->
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:id="@+id/notifications_indoor_title"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginTop="15dp"
-	            android:text="@string/notifications_indoor_title"
-	            android:textColor="@color/title_gray"
-	            android:enabled="false"
-	            android:textSize="18sp" 
-	            custom:fontAssetName="fonts/gillsans.ttf" />
-	
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:id="@+id/notifications_indoor_description"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginRight="15dp"
-	            android:layout_marginBottom="15dp"
-	            android:text="@string/notifications_indoor_AQI_desc"
-	            android:enabled="false"
-	            android:textColor="@color/contain_gray"
-	            custom:fontAssetName="fonts/gillsans.ttf" />
-	        
-	         <LinearLayout
-	            android:id="@+id/notifications_indoor_aqi_lbls"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:orientation="horizontal"
-	            android:layout_gravity="center"
-	            android:paddingLeft="5dp"
-	            android:paddingRight="5dp"
-	            android:visibility="visible" >
-	
-	            <com.philips.cl.di.dev.pa.view.FontTextView
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center"
-	                android:text="@string/notifications_indoor_aqi_lbl_1"
-	                android:textSize="10sp"
-	                custom:fontAssetName="fonts/gillsans.ttf" />
-	
-	            <com.philips.cl.di.dev.pa.view.FontTextView
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center"
-	                android:text="@string/notifications_indoor_aqi_lbl_2"
-	                android:textSize="10sp" 
-	                custom:fontAssetName="fonts/gillsans.ttf"/>
-	
-	            <com.philips.cl.di.dev.pa.view.FontTextView
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center"
-	                android:text="@string/notifications_indoor_aqi_lbl_3"
-	                android:textSize="10sp" 
-	                custom:fontAssetName="fonts/gillsans.ttf"/>
-	
-	            <com.philips.cl.di.dev.pa.view.FontTextView
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:gravity="center"
-	                android:text="@string/notifications_indoor_aqi_lbl_4"
-	                android:textSize="10sp" 
-	                custom:fontAssetName="fonts/gillsans.ttf"/>
-	        </LinearLayout>
-	
-	        <RadioGroup
-	            android:id="@+id/notifications_indoor_radioGroup"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_gravity="center"
-	            android:orientation="horizontal"
-	            android:layout_marginBottom="15dp"
-	            android:visibility="visible" >
-	
-	            <RadioButton
-	                android:id="@+id/notifications_indoor_radio0"
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:button="@drawable/healthy_blue" />
-	
-	            <RadioButton
-	                android:id="@+id/notifications_indoor_radio1"
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:button="@drawable/slightly_polluted_violet" />
-	
-	            <RadioButton
-	                android:id="@+id/notifications_indoor_radio2"
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:button="@drawable/moderately_polluted_purple" />
-	
-	            <RadioButton
-	                android:id="@+id/notifications_indoor_radio3"
-	                android:layout_width="60dp"
-	                android:layout_height="wrap_content"
-	                android:button="@drawable/hazardous_red" />
-	        </RadioGroup>
-	
-	       
-	
-	        <!-- Horizontal line -->
-	        <View
-	            android:layout_width="fill_parent"
-	            android:layout_height="1dp"
-	            android:background="@color/darkgray" />
-	
-	        <!-- Filter notifications -->
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:id="@+id/notifications_filters_title"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginTop="15dp"
-	            android:text="@string/notifications_filters_title"
-	            android:textColor="@color/title_gray"
-	            android:enabled="false"
-	            android:textSize="18sp" 
-	            custom:fontAssetName="fonts/gillsans.ttf"/>
-	
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:id="@+id/notifications_filters_description"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginRight="15dp"
-	            android:text="@string/notifications_filters_desc"
-	            android:enabled="false"
-	            android:textColor="@color/contain_gray"
-	            android:layout_marginBottom="15dp" 
-	            custom:fontAssetName="fonts/gillsans.ttf"/>
-	        
-	        
-	        <!-- Horizontal line -->
-	        <View
-	            android:layout_width="fill_parent"
-	            android:layout_height="1dp"
-	            android:background="@color/darkgray" />
-	
-	        <!-- Filter notifications -->
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:id="@+id/notifications_front_panel_title"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginTop="15dp"
-	            android:text="@string/notification_front_panel_title"
-	            android:textColor="@color/title_gray"
-	            android:enabled="false"
-	            android:textSize="18sp" 
-	            custom:fontAssetName="fonts/gillsans.ttf"/>
-	
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            android:id="@+id/notifications_front_panel_description"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:layout_marginLeft="15dp"
-	            android:layout_marginRight="15dp"
-	            android:text="@string/notification_front_panel_desc"
-	            android:enabled="false"
-	            android:textColor="@color/contain_gray"
-	            android:layout_marginBottom="15dp" 
-	            custom:fontAssetName="fonts/gillsans.ttf"/>
-	    </LinearLayout>
+            android:orientation="vertical" >
+
+            <!-- Indoor notifications -->
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/notifications_indoor_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:enabled="false"
+                android:text="@string/notifications_indoor_title"
+                android:textColor="@color/title_gray"
+                android:textSize="@dimen/text_size_large"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/notifications_indoor_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:enabled="false"
+                android:text="@string/notifications_indoor_AQI_desc"
+                android:textColor="@color/contain_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <LinearLayout
+                android:id="@+id/notifications_indoor_aqi_lbls"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:visibility="visible" >
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/notifications_indoor_aqi_lbl_1"
+                    android:textSize="10sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/notifications_indoor_aqi_lbl_2"
+                    android:textSize="10sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/notifications_indoor_aqi_lbl_3"
+                    android:textSize="10sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
+
+                <com.philips.cl.di.dev.pa.view.FontTextView
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/notifications_indoor_aqi_lbl_4"
+                    android:textSize="10sp"
+                    custom:fontAssetName="fonts/gillsans.ttf" />
+            </LinearLayout>
+
+            <RadioGroup
+                android:id="@+id/notifications_indoor_radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal"
+                android:visibility="visible" >
+
+                <RadioButton
+                    android:id="@+id/notifications_indoor_radio0"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/healthy_blue" />
+
+                <RadioButton
+                    android:id="@+id/notifications_indoor_radio1"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/slightly_polluted_violet" />
+
+                <RadioButton
+                    android:id="@+id/notifications_indoor_radio2"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/moderately_polluted_purple" />
+
+                <RadioButton
+                    android:id="@+id/notifications_indoor_radio3"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/hazardous_red" />
+            </RadioGroup>
+
+            <!-- Horizontal line -->
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/darkgray" />
+
+            <!-- Filter notifications -->
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/notifications_filters_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:enabled="false"
+                android:text="@string/notifications_filters_title"
+                android:textColor="@color/title_gray"
+                android:textSize="@dimen/text_size_large"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/notifications_filters_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:enabled="false"
+                android:text="@string/notifications_filters_desc"
+                android:textColor="@color/contain_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <!-- Horizontal line -->
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@color/darkgray" />
+
+            <!-- Filter notifications -->
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/notifications_front_panel_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
+                android:enabled="false"
+                android:text="@string/notification_front_panel_title"
+                android:textColor="@color/title_gray"
+                android:textSize="@dimen/text_size_large"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/notifications_front_panel_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:enabled="false"
+                android:text="@string/notification_front_panel_desc"
+                android:textColor="@color/contain_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+        </LinearLayout>
     </LinearLayout>
 
 </ScrollView>

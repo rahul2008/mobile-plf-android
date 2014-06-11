@@ -8,7 +8,7 @@
         android:background="@android:color/white"
         android:paddingBottom="15dp"
         android:paddingLeft="15dp"
-        android:paddingTop="15dp" >
+        android:paddingTop="25dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -17,6 +17,8 @@
             android:layout_height="wrap_content"
             android:text="@string/air_quality_explained_intro"
             android:textColor="#808080"
+            android:paddingRight="15dp"
+            android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <ImageView
@@ -35,10 +37,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/purifier_img"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="50dp"
             android:layout_toLeftOf="@+id/purifier_img"
             android:text="@string/purifier_feature_lbl_1"
             android:textColor="@color/philips_blue"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -52,6 +55,7 @@
             android:layout_toLeftOf="@+id/purifier_img"
             android:text="@string/purifier_feature_lbl_2"
             android:textColor="@color/philips_blue"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -65,6 +69,7 @@
             android:layout_toLeftOf="@+id/purifier_img"
             android:text="@string/purifier_feature_lbl_3"
             android:textColor="@color/philips_blue"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <View
@@ -97,7 +102,7 @@
                 android:paddingLeft="5dp"
                 android:text="@string/indoor_pollutants"
                 android:textColor="#808080"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -119,7 +124,7 @@
                 android:paddingLeft="5dp"
                 android:text="@string/vistashield_ips_system"
                 android:textColor="#808080"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -141,7 +146,7 @@
                 android:paddingLeft="5dp"
                 android:text="@string/outdoor_colors_explained"
                 android:textColor="#808080"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -163,7 +168,7 @@
                 android:paddingLeft="5dp"
                 android:text="@string/indoor_colors_explained"
                 android:textColor="#808080"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -185,7 +190,7 @@
                 android:paddingLeft="5dp"
                 android:text="@string/guards_environment"
                 android:textColor="#808080"
-                android:textSize="13sp"
+                android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View

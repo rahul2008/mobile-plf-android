@@ -16,10 +16,10 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/tutorials"
             android:gravity="center_vertical"
-            android:minHeight="75dp"
+            android:minHeight="85dp"
             android:padding="5dp"
             android:text="@string/subtitle_app_tutorial"
-            android:textSize="17sp" 
+            android:textSize="@dimen/text_size_large" 
             android:textColor="@color/subtitle_gray"
             />
 
@@ -34,10 +34,10 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/faq"
             android:gravity="center_vertical"
-            android:minHeight="75dp"
+            android:minHeight="85dp"
             android:padding="5dp"
             android:text="@string/subtitle_FAQ"
-            android:textSize="17sp" 
+            android:textSize="@dimen/text_size_large" 
             android:textColor="@color/subtitle_gray"
             />
 
@@ -52,10 +52,10 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/user_manual"
             android:gravity="center_vertical"
-            android:minHeight="75dp"
+            android:minHeight="85dp"
             android:padding="5dp"
             android:text="@string/subtitle_user_manual"
-            android:textSize="17sp" 
+            android:textSize="@dimen/text_size_large" 
             android:textColor="@color/subtitle_gray"
             />
 
@@ -70,10 +70,10 @@
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/wifi_help"
             android:gravity="center_vertical"
-            android:minHeight="75dp"
+            android:minHeight="85dp"
             android:padding="5dp"
             android:text="@string/subtitle_wifi_connectivity"
-            android:textSize="17sp" 
+            android:textSize="@dimen/text_size_large" 
             android:textColor="@color/subtitle_gray"
             />
 
@@ -86,12 +86,15 @@
             android:id="@+id/lbl_philips_support"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="75dp"
-            android:padding="5dp"
+            android:gravity="bottom"
+            android:minHeight="85dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="20dp"
             android:text="@string/subitle_philips_support"
             android:textColor="@color/philips_blue"
-            android:textSize="20sp" 
+            android:textSize="@dimen/title_text_size_medium" 
             />
 
         <View
@@ -104,7 +107,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:minHeight="75dp" >
+            android:minHeight="85dp" >
 
             <ImageView
                 android:id="@+id/call_icon"
@@ -121,11 +124,12 @@
                 android:layout_marginLeft="24dp"
                 android:layout_toRightOf="@+id/call_icon"
                 android:text="@string/subtitle_call_us"
-                android:textSize="17sp" 
+                android:textSize="@dimen/text_size_large"
                 android:textColor="@color/subtitle_gray"
                 />
 
-            <TextView
+           <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -133,6 +137,8 @@
                 android:layout_below="@+id/lbl_call_us"
                 android:text="@string/contact_philips_support_phone_num" 
                 android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsans.ttf"
                 />
         </RelativeLayout>
 
@@ -146,7 +152,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:minHeight="75dp" >
+            android:minHeight="85dp" >
 
             <ImageView
                 android:id="@+id/help_email_icon"
@@ -163,11 +169,12 @@
                 android:layout_marginLeft="24dp"
                 android:layout_toRightOf="@+id/help_email_icon"
                 android:text="@string/subtitle_email_us"
-                android:textSize="17sp" 
+                android:textSize="@dimen/text_size_large"
                 android:textColor="@color/subtitle_gray"
                 />
 
-            <TextView
+           <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/help_contact_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,6 +182,8 @@
                 android:layout_below="@+id/lbl_email_us"
                 android:text="@string/contact_philips_support_email" 
                 android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsans.ttf"
                 />
         </RelativeLayout>
 
@@ -188,7 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:minHeight="75dp" >
+            android:minHeight="85dp" >
 
             <ImageView
                 android:id="@+id/help_call_icon"
@@ -205,11 +214,12 @@
                 android:layout_marginLeft="24dp"
                 android:layout_toRightOf="@+id/help_call_icon"
                 android:text="@string/subtitle_help_section"
-                android:textSize="17sp" 
+                android:textSize="@dimen/text_size_large"
                 android:textColor="@color/subtitle_gray"
                 />
 
-            <TextView
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/help_contact_website"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -217,6 +227,8 @@
                 android:layout_below="@+id/lbl_support"
                 android:text="@string/contact_philips_support_website" 
                 android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsans.ttf"
                 />
         </RelativeLayout>
     </LinearLayout>

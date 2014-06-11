@@ -87,7 +87,7 @@
             android:gravity="center_horizontal"
             android:text="@string/weather_forecast"
             android:textColor="@color/dodgerblue"
-            android:textSize="16sp"
+            android:textSize="@dimen/title_text_size_medium"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <HorizontalScrollView
@@ -145,7 +145,7 @@
             android:layout_margin="16dp"
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
-            android:textSize="18sp"
+            android:textSize="@dimen/title_text_size_medium"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <RelativeLayout

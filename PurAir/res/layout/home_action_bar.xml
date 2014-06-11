@@ -68,7 +68,7 @@
         android:background="@drawable/clickable_image_bg_selector"
         android:clickable="true"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/plus_blue"
+        android:src="@drawable/action_bar_plus_icon_blue"
         android:visibility="invisible" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView

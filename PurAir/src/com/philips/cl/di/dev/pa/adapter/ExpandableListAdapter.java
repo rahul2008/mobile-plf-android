@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.adapter;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     	childText.setPadding(0, 20, 0, 20);
     	FontLoader.getInstance().setTypeface(childText, "fonts/gillsans.ttf");
     	childText.setTextColor(context.getResources().getColor(R.color.gray));
+    	System.out.println("txt size.."+ (float) context.getResources().getDimension(R.dimen.text_size_medium));
+    	childText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) context.getResources().getDimension(R.dimen.text_size_medium));
     	childText.setText(colorListChildData[groupPosition][childPosition]);
         return childText;
     }

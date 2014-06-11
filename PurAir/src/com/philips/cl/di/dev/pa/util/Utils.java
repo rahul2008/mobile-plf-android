@@ -366,10 +366,11 @@ public class Utils {
 	}
 
 	public static String getPreFilterStatusText(int filterStatusValue) {
-		if ((filterStatusValue/8) < 12) {
-			return getPreFilterFormattedText(12-filterStatusValue/8);
-		} else if ((filterStatusValue/8) >= 12 && (filterStatusValue/8)/8 < 14) {
-			return getPreFilterFormattedText(14-filterStatusValue/8);
+		int filterValue=filterStatusValue/8;		
+		if (filterValue < 12) {
+			return getPreFilterFormattedText(12-filterValue);
+		} else if (filterValue >= 12 && filterValue < 14) {
+			return getPreFilterFormattedText(14-filterValue);
 		} else {
 			return getPreFilterFormattedText(0);
 		}
@@ -386,11 +387,12 @@ public class Utils {
 	}
 
 	public static String getMultiCareFilterStatusText(int filterStatusValue) {
-		if ((filterStatusValue/8) < 98) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 98-(filterStatusValue/8));
-		} else if ((filterStatusValue/8) >= 98 && (filterStatusValue/8) < 105) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 105-(filterStatusValue/8));
-		} else if ((filterStatusValue/8) >= 105 && (filterStatusValue/8) < 120) {
+		int filterValue=filterStatusValue/8;
+		if (filterValue < 98) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 98-filterValue);
+		} else if (filterValue >= 98 && filterValue < 105) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 105-filterValue);
+		} else if (filterValue >= 105 && filterValue < 120) {
 			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
 			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
@@ -408,11 +410,12 @@ public class Utils {
 	}
 
 	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
-		if ((filterStatusValue/8) < 338) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-(filterStatusValue/8));
-		} else if ((filterStatusValue/8) >= 338 && (filterStatusValue/8) < 345) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-(filterStatusValue/8));
-		} else if ((filterStatusValue/8) >= 345 && (filterStatusValue/8) < 360) {
+		int filterValue=filterStatusValue/8;
+		if (filterValue < 338) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-filterValue);
+		} else if (filterValue >= 338 && filterValue < 345) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-filterValue);
+		} else if (filterValue >= 345 && filterValue < 360) {
 			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
 			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
@@ -430,11 +433,12 @@ public class Utils {
 	}
 
 	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
-		if ((filterStatusValue/8) < 338) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-(filterStatusValue/8));
-		} else if ((filterStatusValue/8) >= 338 && (filterStatusValue/8) < 345) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-(filterStatusValue/8));
-		} else if ((filterStatusValue/8) >= 345 && (filterStatusValue/8) < 360) {
+		int filterValue=filterStatusValue/8;
+		if (filterValue < 338) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-filterValue);
+		} else if (filterValue >= 338 && filterValue < 345) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-filterValue);
+		} else if (filterValue >= 345 && filterValue < 360) {
 			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
 			return PurAirApplication.getAppContext().getString(R.string.filter_lock);

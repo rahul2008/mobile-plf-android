@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="16dp" >
+        android:padding="15dp" >
 
         <ImageView
             android:id="@+id/aqiAnalysisClose"
@@ -39,7 +39,8 @@
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisTitle5"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
             
             <View
                 android:id="@+id/aqiAnalysisView8"
@@ -81,16 +82,17 @@
 		    android:id="@+id/odView33"
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
-		    android:layout_marginTop="2dp"
 		    android:layout_below="@+id/aqiAnalysisLayout8"
-		    android:background="@color/gray" />
+		    android:background="@color/gray"
+            />
        <LinearLayout android:id="@+id/aqiAnalysisLayout9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisLayout8"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
             
             <View
                 android:id="@+id/aqiAnalysisView9"
@@ -102,7 +104,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                 >
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -132,7 +135,6 @@
             android:id="@+id/odView34"
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
-		    android:layout_marginTop="2dp"
 		    android:layout_below="@+id/aqiAnalysisLayout9"
 		    android:background="@color/gray" />
        <LinearLayout android:id="@+id/aqiAnalysisLayout10"
@@ -141,14 +143,15 @@
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisLayout9"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
             
             <View
                 android:id="@+id/aqiAnalysisView10"
                 android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
-                android:background="#AF155E" /> 
+                android:background="#7B268C" /> 
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -183,7 +186,6 @@
             android:id="@+id/odView35"
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
-		    android:layout_marginTop="2dp"
 		    android:layout_below="@+id/aqiAnalysisLayout10"
 		    android:background="@color/gray" />
        <LinearLayout android:id="@+id/aqiAnalysisLayout11"
@@ -192,7 +194,8 @@
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisLayout10"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
             
             <View
                 android:id="@+id/aqiAnalysisView11"
@@ -234,7 +237,6 @@
             android:id="@+id/odView36"
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
-		    android:layout_marginTop="2dp"
 		    android:layout_below="@+id/aqiAnalysisLayout11"
 		    android:background="@color/gray" />
        <LinearLayout android:id="@+id/aqiAnalysisLayout12"
@@ -243,7 +245,8 @@
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisLayout11"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
             
             <View
                 android:id="@+id/aqiAnalysisView12"
@@ -285,7 +288,6 @@
             android:id="@+id/odView37"
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
-		    android:layout_marginTop="2dp"
 		    android:layout_below="@+id/aqiAnalysisLayout12"
 		    android:background="@color/gray" />
        <LinearLayout android:id="@+id/aqiAnalysisLayout13"
@@ -294,7 +296,7 @@
             android:orientation="horizontal"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/aqiAnalysisLayout12"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="15dp">
             
             <View
                 android:id="@+id/aqiAnalysisView13"
