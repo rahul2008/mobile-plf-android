@@ -493,6 +493,12 @@
     <string name="invalid_params">Invalid parameters</string>
     <string name="no_network_connection">Please check internet connection</string>
     <string name="invalid_username_or_password">Invalid Username or Password</string>
+    <string name="usage_agreement">Usage agreement</string>
+    <string name="i_accept">I accept</string>
+    <string name="continue_registration">To continue with your registration, please accept and agree to the information below.</string>
+    <string name="privacy_policy">Privacy policy</string>
+    <string name="terms_and_conditions">Terms &amp; conditions</string>
+    <string name="eula">Eula</string>
     <!-- Demo Mode -->
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>
