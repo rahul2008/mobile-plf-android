@@ -69,6 +69,7 @@
     <string name="updated">最近更新。</string>
     <string name="n_a">N.A.</string>
     <string name="take_action">采取措施。</string>
+    <string name="no_connection">No \nConnection</string>
     <string name="no_data">No Data</string>
     <!-- AQI status -->
     <string name="good">良好</string>
@@ -306,7 +307,7 @@
     <string name="lbl_kitchen">Kitchen</string>
     <string name="img_description">描述</string>
     <string name="wifi_setup">Wi-Fi 设置</string>
-    <string name="ews_intro_message1_str">按照下面 3 个简单步骤，将飞利浦智能空气净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>
+    <string name="ews_intro_message1_str">按照下面 4 个简单步骤，将飞利浦智能空气净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>
     <string name="ews_intro_message2_str">为成功进行 Wi-Fi 连接，请将飞利浦智能空气净化器放置在路由器附近。墙壁等障碍物可能影响 Wi-Fi 性能</string>
     <string name="get_start">使用入门</string>
     <string name="step1_off_3">步骤 1（共4 步）</string>
@@ -385,7 +386,7 @@
     <string name="alert_auto_network_switch_title">Auto network Switch</string>
     <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch or Avoid poor connections\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
     <string name="verify_power_on_title">Switching on the Philips Smart Air Purifier</string>
-    <string name="verify_power_on_msg1">Press the (!) button to switch on the purifier.</string>
+    <string name="verify_power_on_msg1">Press the Power button to switch on the purifier.</string>
     <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
     
     <!-- Tools fragments -->
@@ -502,8 +503,8 @@
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>
     <string name="demo_mode_support_title">Demo setup support</string>
-    <string name="demo_mode_intro_msg">Follow these 1 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
-    <string name="demo_mode_title_step">Step 1 of 1</string>
+    <string name="demo_mode_intro_msg">Follow these 2 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
+    <string name="demo_mode_title_step">Step 1 of 2</string>
     <string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
     <string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
     <string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
