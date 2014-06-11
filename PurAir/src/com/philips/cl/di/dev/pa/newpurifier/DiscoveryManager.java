@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -16,7 +17,9 @@ import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
+import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -24,6 +27,7 @@ import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 /**
@@ -40,6 +44,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	private static DiscoveryManager mInstance;
 	private LinkedHashMap<String, PurAirDevice> mDevicesMap;
+	private static final Object mDiscoveryLock = new Object();
 
 	private PurifierDatabase mDatabase;
 	private NetworkMonitor mNetwork;
@@ -54,7 +59,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		@Override
 		public void handleMessage(Message msg) {
 			if (msg.what == DISCOVERYTIMEOUT_MESSAGE) {
-				DiscoveryManager.getInstance().markNonDiscoveredDevicesRemote();
+				synchronized (mDiscoveryLock) {
+					DiscoveryManager.getInstance().markNonDiscoveredDevicesRemote();
+				}
 			}
 		};
 	};
@@ -71,7 +78,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDatabase = new PurifierDatabase();
 		initializeDevicesMapFromDataBase();
 		mSecurity = new DISecurity(this);
-		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
+		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), SubscriptionHandler.getInstance(), 
+				CPPController.getInstance(PurAirApplication.getAppContext()), this);
 		SubscriptionHandler.getInstance().setCppDiscoverListener(this);
 
 		// Starting network monitor will ensure a fist callback.
@@ -133,94 +141,52 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public void onNetworkChanged(NetworkState networkState, String networkSsid) {
 		// Assumption: Wifi switch will go through the none state
 		mDiscoveryTimeoutHandler.removeMessages(DISCOVERYTIMEOUT_MESSAGE);
-		switch(networkState) {
-		case NONE : 
-			markAllDevicesOffline();
-			SsdpService.getInstance().stopDeviceDiscovery();
-			ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
-			break;
-		case MOBILE:
-			markAllDevicesRemote();
-			SsdpService.getInstance().stopDeviceDiscovery();
-			ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
-			break;
-		case WIFI_WITH_INTERNET:
-			markOtherNetworkDevicesRemote(networkSsid);
-			mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERYTIMEOUT_MESSAGE, DISCOVERYTIMEOUT);
-			SsdpService.getInstance().startDeviceDiscovery(this);
-			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
-			break;
-		default:
-			break;
+		synchronized (mDiscoveryLock) {
+			switch(networkState) {
+			case NONE : 
+				markAllDevicesOffline();
+				mSsdpHelper.stopDiscoveryAsync();
+				ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
+				break;
+			case MOBILE:
+				markAllDevicesRemote();
+				mSsdpHelper.stopDiscoveryAsync();
+				ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
+				break;
+			case WIFI_WITH_INTERNET:
+				markOtherNetworkDevicesRemote(networkSsid);
+				mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERYTIMEOUT_MESSAGE, DISCOVERYTIMEOUT);
+				mSsdpHelper.startDiscoveryAsync();
+				ALog.d(ALog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
+				break;
+			default:
+				break;
+			}
 		}
 		
 	}
 	
-	private void markOtherNetworkDevicesRemote(String ssid) {
-		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
-		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
-			if (!device.isPaired()) continue; // not paired
-			
-			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getName());
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
-	
-	private void markNonDiscoveredDevicesRemote() {
-		ALog.d(ALog.DISCOVERY, "Marking paired devices that where not discovered locally REMOTE");
-		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
-			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (!device.isPaired()) continue; // not paired
-			
-			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getName());
-		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
-
-	private void markAllDevicesRemote() {
-		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
-		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.isPaired()) {
-				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
-				statusUpdated = true;
-				ALog.v(ALog.DISCOVERY, "Marked paired REMOTE -" + device.getName());
+	@Override
+	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
+		DiscoverInfo info = DataParser.parseDiscoverInfo(data);
+		if (info == null) return;
+		ALog.v(ALog.DISCOVERY, "Received discover event from CPP: " + (isResponseToRequest ? "requested" : "change"));
+		
+		boolean notifyListeners = false;
+		synchronized (mDiscoveryLock) {
+			if (isResponseToRequest) {
+				notifyListeners = updateConnectedStateViaCppAllPurifiers(info);
 			} else {
-				device.setConnectionState(ConnectionState.DISCONNECTED);
-				statusUpdated = true;
-				ALog.v(ALog.DISCOVERY, "Marked non paired DISCONNECTED: " + device.getName());
+				notifyListeners = updateConnectedStateViaCppReturnedPurifiers(info);
 			}
 		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
-	}
-
-	private void markAllDevicesOffline() {
-		ALog.d(ALog.DISCOVERY, "Marking all devices OFFLINE");
-		boolean statusUpdated = false;
-		for (PurAirDevice device : mDevicesMap.values()) {
-			if (device.getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
-			
-			device.setConnectionState(ConnectionState.DISCONNECTED);
-			statusUpdated = true;
-			ALog.v(ALog.DISCOVERY, "Marked OFFLINE: " + device.getName());
+		
+		
+		if (notifyListeners) {
+			notifyDiscoveryListener();
 		}
-		if (!statusUpdated) return;
-		notifyDiscoveryListener();
 	}
-
+	
 	/**
 	 * Callback from SSDP service
 	 */
@@ -232,12 +198,13 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		DeviceModel device = getDeviceModelFromMessage(msg);
 		if (device == null) return false;
 
-		switch (messageID) {
+		synchronized (mDiscoveryLock) {
+			switch (messageID) {
 			case DEVICE_DISCOVERED: return onDeviceDiscovered(device);
 			case DEVICE_LOST: return onDeviceLost(device);
 			default: break;
+			}
 		}
-		
 		return false;
 	}
 			
@@ -316,6 +283,137 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		
 		// Listener notified when key is exchanged
 		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
+	}
+	
+	private void markOtherNetworkDevicesRemote(String ssid) {
+		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
+		boolean statusUpdated = false;
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
+			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
+			if (device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
+			if (!device.isPaired()) continue; // not paired
+			
+			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			statusUpdated = true;
+			ALog.v(ALog.DISCOVERY, "Marked other network REMOTE: " + device.getName());
+		}
+		if (!statusUpdated) return;
+		notifyDiscoveryListener();
+	}
+	
+	private void markNonDiscoveredDevicesRemote() {
+		ALog.d(ALog.DISCOVERY, "Marking paired devices that where not discovered locally REMOTE");
+		boolean statusUpdated = false;
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
+			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
+			if (!device.isPaired() || !device.isOnlineViaCpp()) continue; // not online via cpp
+			
+			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+			statusUpdated = true;
+			ALog.v(ALog.DISCOVERY, "Marked non discovered REMOTE: " + device.getName());
+		}
+		if (!statusUpdated) return;
+		notifyDiscoveryListener();
+	}
+
+	private void markAllDevicesRemote() {
+		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE");
+		boolean statusUpdated = false;
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.isPaired() && device.isOnlineViaCpp()) {
+				device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+				statusUpdated = true;
+				ALog.v(ALog.DISCOVERY, "Marked paired/cpponline REMOTE: " + device.getName());
+			} else {
+				device.setConnectionState(ConnectionState.DISCONNECTED);
+				statusUpdated = true;
+				ALog.v(ALog.DISCOVERY, "Marked non paired/cppoffline DISCONNECTED: " + device.getName());
+			}
+		}
+		if (!statusUpdated) return;
+		notifyDiscoveryListener();
+	}
+
+	private void markAllDevicesOffline() {
+		ALog.d(ALog.DISCOVERY, "Marking all devices OFFLINE");
+		boolean statusUpdated = false;
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.getConnectionState().equals(ConnectionState.DISCONNECTED)) continue;
+			
+			device.setConnectionState(ConnectionState.DISCONNECTED);
+			statusUpdated = true;
+			ALog.v(ALog.DISCOVERY, "Marked OFFLINE: " + device.getName());
+		}
+		if (!statusUpdated) return;
+		notifyDiscoveryListener();
+	}
+	
+	public boolean updateConnectedStateViaCppAllPurifiers(DiscoverInfo info) {
+		ALog.v(ALog.DISCOVERY, "Received connected devices list via cpp");
+		boolean connected = info.isConnected();
+		boolean notifyListeners = false;
+		
+		List<String> eui64s = Arrays.asList(info.getClientIds());
+		for (PurAirDevice current : getDiscoveredDevices()) {
+			boolean currentOnlineViaCpp = connected;
+			if (!eui64s.contains(current.getEui64())) {
+				currentOnlineViaCpp = !connected;
+			}
+			
+			if (current.isOnlineViaCpp() != currentOnlineViaCpp) {
+				current.setOnlineViaCpp(currentOnlineViaCpp);
+				if (currentOnlineViaCpp) {
+					notifyListeners = updateConnectedStateOnlineViaCpp(current) ? true : notifyListeners;
+				} else {
+					notifyListeners = updateConnectedStateOfflineViaCpp(current) ? true : notifyListeners;
+				}
+			}
+		}
+		return notifyListeners;
+	}
+	
+	public boolean updateConnectedStateViaCppReturnedPurifiers(DiscoverInfo info) {
+		ALog.v(ALog.DISCOVERY, "Received connection update via CPP");
+		boolean connected = info.isConnected();
+		boolean notifyListeners = false;
+		
+		for (String eui64 : info.getClientIds()) {
+			PurAirDevice current = getDeviceByEui64(eui64);
+			if (current == null) {
+				ALog.v(ALog.DISCOVERY, "Received discover event for unknown purifier: " + eui64);
+				continue;
+			}
+
+			if (current.isOnlineViaCpp() != connected) {
+				current.setOnlineViaCpp(connected);
+				if (connected) {
+					notifyListeners = updateConnectedStateOnlineViaCpp(current) ? true : notifyListeners;
+				} else {
+					notifyListeners = updateConnectedStateOfflineViaCpp(current) ? true : notifyListeners;
+				}
+			}
+		}
+		return notifyListeners;
+	}
+	
+	private boolean updateConnectedStateOnlineViaCpp(PurAirDevice purifier) {
+		if (!purifier.isPaired()) return false;
+		if (purifier.getConnectionState() != ConnectionState.DISCONNECTED) return false;
+		if (mNetwork.getLastKnownNetworkState() == NetworkState.NONE) return false;
+
+		purifier.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
+		ALog.v(ALog.DISCOVERY, "Marked Cpp online REMOTE: " + purifier.getName());
+		return true;
+	}
+	
+	private boolean updateConnectedStateOfflineViaCpp(PurAirDevice purifier) {
+		if (purifier.getConnectionState() != ConnectionState.CONNECTED_REMOTELY) return false;
+
+		purifier.setConnectionState(ConnectionState.DISCONNECTED);
+		ALog.v(ALog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + purifier.getName());
+		return true;
 	}
 	
 	private PurAirDevice getPurAirDevice(DeviceModel deviceModel) {
@@ -416,14 +514,21 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		notifyDiscoveryListener();
 	}
 	
+	// Methods to allow testing
 	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager dummyManager) {
 		mInstance = dummyManager;
 	}
 
-	@Override
-	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
-		// TODO Implement
-		
+	public void setDummyDiscoveryEventListenerForTesting(DiscoveryEventListener dummyListener) {
+		mListener = dummyListener;
+	}
+
+	public void setDummyNetworkMonitorForTesting(NetworkMonitor dummyMonitor) {
+		mNetwork = dummyMonitor;
 	}
 	
+	public void setPurifierListForTesting(LinkedHashMap<String, PurAirDevice> testMap) {
+		mDevicesMap = testMap;
+	}
+
 }

@@ -291,8 +291,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 	
 	private void stopRemoteConnection() {
-		ALog.i(ALog.PURIFIER_MANAGER, "Stop RemoteConnection") ;
-		SubscriptionHandler.getInstance().disableRemoteSubscription(PurAirApplication.getAppContext());
+		ALog.i(ALog.PURIFIER_MANAGER, "Stop RemoteConnection - not doing anything") ;
+		// Don't stop DCS, this is still needed for the discovery service!
 		// Don't unsubscribe - Coming back too foreground would take longer
 	}
 	

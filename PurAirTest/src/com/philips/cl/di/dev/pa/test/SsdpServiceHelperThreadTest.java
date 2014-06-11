@@ -27,7 +27,7 @@ public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 		System.setProperty("dexmaker.dexcache", getInstrumentation().getTargetContext().getCacheDir().getPath());
 				
 		mService = mock(SsdpService.class);
-		mHelper = new SsdpServiceHelper(mService, null);
+		mHelper = new SsdpServiceHelper(mService, mock(SubscriptionHandler.class), mock(CPPController.class), null);
 		mHelper.setStopDelayForTesting(STOPSSDP_TESTDELAY);
 		super.setUp();
 	}
