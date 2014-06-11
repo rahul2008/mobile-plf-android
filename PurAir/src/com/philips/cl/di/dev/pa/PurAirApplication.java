@@ -20,6 +20,10 @@ public class PurAirApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		ALog.i(ALog.APPLICATION, "New application start");
+		
+//		System.setProperty("http.keepAlive", "false");
+		ALog.d(ALog.APPLICATION, "Keeping sockets alive: " + System.getProperty("http.keepAlive"));
+		
 		/**
 		 * Added this to stop the OS from destroying an AsyncTask.
 		 * Please refer : https://code.google.com/p/android/issues/detail?id=20915
