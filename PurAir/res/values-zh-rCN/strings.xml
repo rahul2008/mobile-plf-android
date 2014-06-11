@@ -16,7 +16,7 @@
     <string name="list_item_prod_reg">产品注册</string>
 	<string name="list_item_user_reg">User registration</string>
     <string name="list_item_buy_online">在线购买</string>
-    <string name="list_item_firmware">固件</string>
+<!--     <string name="list_item_firmware">固件</string> -->
     <!-- Right menu texts -->
     <string name="connection_status">连接状态</string>
     <string name="connected">已连接</string>
@@ -55,7 +55,7 @@
     <string name="rm_air_quality_title">室内空气水平状态</string>
     <string name="rm_air_quality_message">连接设备开始读取室内空气质量</string>
     <!-- Outdoor Locations -->
-    <string name="enter_city_name">输入位置</string>
+<!--     <string name="enter_city_name">输入位置</string> -->
     <string name="cancel">取消</string>
     <string name="weather_forecast">天气预报</string>
     <string name="one_zero">0</string>
@@ -400,16 +400,16 @@
     <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string>
     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string>
 	<!-- Scheduler texts -->
-    <string name="days">天</string>
+<!--     <string name="days">天</string> -->
     <string name="edit">编辑</string>
-    <string name="repeat">重复</string>
+<!--     <string name="repeat">重复</string> -->
     <string name="time">Time</string>
     <string name="days2">天</string>
     <string name="onetime">One Time</string>
     <string name="fanspeed">风扇速度</string>
-    <string name="fanspeed_one">1</string>
-    <string name="fanspeed_two">2</string>
-    <string name="fanspeed_three">3</string>
+<!--     <string name="fanspeed_one">1</string> -->
+<!--     <string name="fanspeed_two">2</string> -->
+<!--     <string name="fanspeed_three">3</string> -->
     <string name="sunday">星期天</string>
     <string name="monday">周一</string>
     <string name="tuesday">周二</string>
