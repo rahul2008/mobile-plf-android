@@ -239,7 +239,6 @@
     <string name="send_us_feedback">Send us feedback</string>
     <string name="version_number">App Version</string>
     <string name="t_and_c">"<u>Terms &amp; Conditions</u>"</string>
-    <string name="terms_and_conditions"></string>
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">Nobody can avoid the increasingly alarming air quality issues as we live in an urban setting. To purify indoor air in a natural and holistic way, count on the Philips VitaShield Intelligent Purification System.</string>
     <string name="purifier_feature_lbl_1">Removes ultra-fine particles of down to 20 nanometres.</string>

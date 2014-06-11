@@ -239,7 +239,6 @@
     <string name="send_us_feedback">给我们发送反馈</string>
     <string name="version_number">应用程序版本 </string>
     <string name="t_and_c">条款和条件</string>
-    <string name="terms_and_conditions"></string>
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">生活在城市中的人无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
     <string name="purifier_feature_lbl_1">滤除最小 20 纳米的微小颗粒</string>
