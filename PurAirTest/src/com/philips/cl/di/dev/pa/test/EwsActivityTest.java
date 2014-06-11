@@ -35,7 +35,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		
         assertEquals(true, button.isClickable());
         assertEquals("Get started", button.getText().toString());
-        assertEquals("Follow these 3 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.", tv.getText().toString());
+        assertEquals("Follow these 4 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.", tv.getText().toString());
         assertEquals("For a successful Wi-Fi connection, position the Philips Smart Air Purifier within reach of your router. Obstacles such as walls may affect the Wi-Fi performance.", tv2.getText().toString());
 	}
 	
