@@ -1,8 +1,5 @@
 package com.philips.cl.di.dev.pa.registration;
 
-import java.util.ArrayList;
-
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -15,20 +12,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.view.FontTextView;
-import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.Error;
-import com.philips.cl.di.reg.errormapping.ErrorMessage;
-import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 
-public class CreateAccountFragment extends BaseFragment implements OnClickListener, TraditionalRegistrationHandler {
+public class CreateAccountFragment extends BaseFragment implements OnClickListener {
 	
 	public enum ErrorType { NAME, PASSWORD, EMAIL, NONE}
 
@@ -48,8 +40,6 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	private String mPassword;
 	private boolean mReceiveInfo;
 	
-	private User user;
-	private ProgressDialog progressDialog;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,13 +68,9 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		((ImageView) mLayoutMyPhilips.findViewById(R.id.logo)).setImageResource(R.drawable.indoor_pollutants);
 		((FontTextView) mLayoutMyPhilips.findViewById(R.id.title)).setText(R.string.my_philips);
 		mLayoutPhilips.setOnClickListener(this);
-		
 	}
 	
-	private void createAccount() {
-		ALog.e(ALog.USER_REGISTRATION, "name: " + mName + " email: " + mEmail + " password: " + mPassword + " receiveInfo: " + mReceiveInfo);
-		
-		user = new User(PurAirApplication.getAppContext());
+	private void storeUserProfile() {
 		DIUserProfile profile = new DIUserProfile();
 		profile.setEmail(mEmail);
 		profile.setGivenName(mName);
@@ -92,10 +78,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		profile.setOlderThanAgeLimit(true);
 		profile.setReceiveMarketingEmail(mReceiveInfo);
 		
-		ArrayList<DIUserProfile> profileList = new ArrayList<DIUserProfile>();
-		profileList.add(profile);
-		
-		user.registerNewUserUsingTraditional(profileList, this, PurAirApplication.getAppContext());
+		((UserRegistrationActivity)getActivity()).setDIUserProfile(profile);
 	}
 	
 	private void showSignInDialog(SignInDialogFragment.DialogType type) {
@@ -118,20 +101,17 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			break;
 		case R.id.btnCreateAccount:
 			ALog.i(ALog.CONNECTIVITY, "onClick$btnCreateAccount " + NetworkReceiver.getInstance().getLastKnownNetworkState());
-			if(!NetworkReceiver.getInstance().isInternetConnected()) {
-				showErrorDialog(Error.NO_NETWORK_CONNECTION); //TODO : Change error type to "Connect to internet"
-				break;
-			}
+			
+			// Get input from form
 			getInput();
+			
 			switch (isInputValidated()) {
 			case NONE:		
-				try {
-					createAccount();
-					showProgressDialog() ;
-				} catch (Exception e) {
-					ALog.e(ALog.USER_REGISTRATION, "Create account error " + e.getMessage());
-					showErrorDialog(Error.GENERIC_ERROR);
-				}
+				// Store user profile in UserRegistrationActivity so it can be used when usage agreement is accepted
+				storeUserProfile();
+				
+				((UserRegistrationActivity)getActivity()).showUsageAgreementFragment();
+				
 				break;
 			case PASSWORD:
 				showErrorDialog(Error.INVALID_PASSWORD) ;
@@ -145,8 +125,8 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			default:
 				break;
 			}
-			
 			break;
+
 		case R.id.llFirstRow:
 			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
 			break;
@@ -167,38 +147,4 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
 		return ErrorType.NONE ;
 	}
-
-	private void showProgressDialog() {
-		progressDialog = new ProgressDialog(getActivity());
-		progressDialog.setMessage(getString(R.string.please_wait));
-		progressDialog.setCancelable(false);
-		progressDialog.show();
-	}
-	
-	private void cancelProgressDialog() {
-		if(progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.cancel() ;
-		}
-	}
-	
-	@Override
-	public void onRegisterSuccess() {
-		ALog.i(ALog.USER_REGISTRATION, "onRegisterSuccess");
-		cancelProgressDialog() ;
-		showSuccessFragment();
-	}
-
-	@Override
-	public void onRegisterFailedWithFailure(int error) {
-		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error " + new ErrorMessage().getError(error));
-		cancelProgressDialog() ;
-		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
-	}
-	
-	private void showSuccessFragment() {
-		if(getActivity() != null && getActivity() instanceof MainActivity) {
-			((MainActivity) getActivity()).showFragment(new SignedInFragment());
-		}
-	}
-
 }

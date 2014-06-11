@@ -70,6 +70,7 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.SignedInFragment;
+import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -591,12 +592,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 //				break;
 			case 6:
 				// User registration
-				if(UserRegistrationController.getInstance().isUserLoggedIn()) {
-					showFragment(new SignedInFragment());
-				} else {
-					showFragment(new CreateAccountFragment());
-				}
-				setTitle(getString(R.string.create_account));
+				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
+				startActivity(userRegistrationIntent);
 				break;
 			case 7:
 				// Buy Online
