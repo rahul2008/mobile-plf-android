@@ -371,7 +371,7 @@
     <string name="congratulations">Congratulations!</string>
     <string name="support_ts01_message">Unplug your Philips Smart Air Purifier.</string>
     <string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in.</string>
-    <string name="support_ts03_message">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED ORANGE.</string>
+    <string name="support_ts03_message">Plug in the Philips Smart Air Purifier and press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows ORANGE.</string>
     <string name="support_ts05_message">Is the Wi-Fi LED</string>
     <string name="now">now?</string>
     <string name="wrong_wifi_password">You have entered wrong password</string>

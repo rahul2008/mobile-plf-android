@@ -371,7 +371,7 @@
     <string name="congratulations">恭喜您！</string>
     <string name="support_ts01_message">拔掉飞利浦智能空气净化器的插头。</string>
     <string name="support_ts02_message">等待 15 秒，然后将飞利浦智能空气净化器重新插入电源。</string>
-    <string name="support_ts03_message">将飞利浦智能空气净化器插入电源，同时按“电源”和“儿童锁”按钮，直至 Wi-Fi LED 变为橙色。</string>
+    <string name="support_ts03_message">将飞利浦智能空气净化器插入电源，同时按“电源”和“儿童锁”按钮，直至 Wi-Fi LED shows 变为橙色。</string>
     <string name="support_ts05_message">是Wi-Fi的LED灯</string>
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
