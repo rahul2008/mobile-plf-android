@@ -68,6 +68,7 @@ public class AppConstants {
 	public static final int MULTI_CARE_FILTER_MAX_VALUE = 960;
 	public static final int ACTIVE_CARBON_FILTER_MAX_VALUE = 2880;
 	public static final int HEPA_FILTER_MAX_VALUE = 2880;
+	public static final int RUNNING_HRS=8; //it is assumed that the purifier is used 8 hours per day
 	
 	// Colors for each category
 	public static final int COLOR_GOOD = Color.rgb(43, 166, 81);

@@ -366,11 +366,10 @@ public class Utils {
 	}
 
 	public static String getPreFilterStatusText(int filterStatusValue) {
-		int filterValue=filterStatusValue/8;		
-		if (filterValue < 12) {
-			return getPreFilterFormattedText(12-filterValue);
-		} else if (filterValue >= 12 && filterValue < 14) {
-			return getPreFilterFormattedText(14-filterValue);
+		if (filterStatusValue < 96) {
+			return getPreFilterFormattedText((AppConstants.PRE_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 96 && filterStatusValue < 112) {
+			return getPreFilterFormattedText((AppConstants.PRE_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
 		} else {
 			return getPreFilterFormattedText(0);
 		}
@@ -387,12 +386,11 @@ public class Utils {
 	}
 
 	public static String getMultiCareFilterStatusText(int filterStatusValue) {
-		int filterValue=filterStatusValue/8;
-		if (filterValue < 98) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 98-filterValue);
-		} else if (filterValue >= 98 && filterValue < 105) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 105-filterValue);
-		} else if (filterValue >= 105 && filterValue < 120) {
+		if (filterStatusValue < 784) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, (AppConstants.MULTI_CARE_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 784 && filterStatusValue < 840) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, (AppConstants.MULTI_CARE_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 840 && filterStatusValue < 960) {
 			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
 			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
@@ -410,12 +408,11 @@ public class Utils {
 	}
 
 	public static String getActiveCarbonFilterStatusText(int filterStatusValue) {
-		int filterValue=filterStatusValue/8;
-		if (filterValue < 338) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-filterValue);
-		} else if (filterValue >= 338 && filterValue < 345) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-filterValue);
-		} else if (filterValue >= 345 && filterValue < 360) {
+		if (filterStatusValue < 2704) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, (AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, (AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 2760 && filterStatusValue < 2880) {
 			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
 			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
@@ -433,12 +430,11 @@ public class Utils {
 	}
 
 	public static String getHEPAFilterFilterStatusText(int filterStatusValue) {
-		int filterValue=filterStatusValue/8;
-		if (filterValue < 338) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 338-filterValue);
-		} else if (filterValue >= 338 && filterValue < 345) {
-			return PurAirApplication.getAppContext().getString(R.string.change_soon, 345-filterValue);
-		} else if (filterValue >= 345 && filterValue < 360) {
+		if (filterStatusValue < 2704) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, (AppConstants.HEPA_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 2704 && filterStatusValue < 2760) {
+			return PurAirApplication.getAppContext().getString(R.string.change_soon, (AppConstants.HEPA_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+		} else if (filterStatusValue >= 2760 && filterStatusValue < 2880) {
 			return PurAirApplication.getAppContext().getString(R.string.change_now);
 		} else {
 			return PurAirApplication.getAppContext().getString(R.string.filter_lock);
