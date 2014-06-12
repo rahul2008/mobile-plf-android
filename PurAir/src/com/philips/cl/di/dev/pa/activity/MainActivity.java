@@ -680,10 +680,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			return ;
 		}
 		
-		if(!purifier.isPaired()){
-			pairToPurifierIfNecessary();
-		}
-		
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) {
@@ -709,6 +705,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				rightMenuClickListener.toggleControlPanel(true,info);
 			}
 		});
+		
+		if(!purifier.isPaired()){
+			pairToPurifierIfNecessary();
+		}
 	}
 	
 	private void disableRightMenuControls() {
@@ -791,10 +791,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	@Override
-	public void signonStatus(boolean signon) {
-		PurifierManager.getInstance().startSubscription(); // TODO fix
+	public void signonStatus(boolean signon) {		
 		if (signon) {
-			pairToPurifierIfNecessary() ;
+			//should be called only when signOn is successful
+			PurifierManager.getInstance().startSubscription(); // TODO fix
 		}
 	}
 
@@ -923,7 +923,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		case CONNECTED_LOCALLY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
 			PurifierManager.getInstance().startSubscription(); // Right menu updated when response from subscription
-			pairToPurifierIfNecessary();
 			break;
 		case CONNECTED_REMOTELY:
 			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
