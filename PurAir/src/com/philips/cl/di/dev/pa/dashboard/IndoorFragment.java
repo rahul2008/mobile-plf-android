@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -134,6 +135,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			hideIndoorMeter();
 			fanModeTxt.setText(getString(R.string.off));
 			filterStatusTxt.setText(AppConstants.EMPTY_STRING);
+			aqiStatusTxt.setTextSize(18.0f);
 			aqiPointer.setImageResource(R.drawable.grey_circle_2x);
 			aqiStatusTxt.setText(getString(R.string.no_connection));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
@@ -147,12 +149,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 			aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
+			aqiStatusTxt.setTextSize(22.0f);
 			aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
 			aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
 			aqiPointer.setOnClickListener(this);
 			showIndoorMeter();
 		}
-		
 		
 		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
 		

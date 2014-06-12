@@ -409,6 +409,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	private void setRightMenuAQIValue(float indoorAQI) {
+		tvAirStatusAqiValue.setTextSize(18.0f);
 		if (indoorAQI <= 1.4f) {
 			tvAirStatusAqiValue.setText(getString(R.string.good));
 		} else if (indoorAQI > 1.4f && indoorAQI <= 2.3f) {
@@ -725,6 +726,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				rightMenuClickListener.toggleControlPanel(false , null);
 				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
 				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
+				tvAirStatusAqiValue.setTextSize(14.0f);
 				tvAirStatusAqiValue.setText(getString(R.string.no_connection));
 			}
 		});
