@@ -1,17 +1,17 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.view.FontTextView;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SupportFragment extends BaseFragment {
 	

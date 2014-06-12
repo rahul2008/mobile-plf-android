@@ -18,8 +18,9 @@ Version 1:
     Description: Initial version    
 ----------------------------------------------------------------------------*/
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
+import java.util.Locale;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -51,8 +52,8 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		ALog.i(ALog.KPS, "BootstrapID: "+ICPClientBootStrapID+"\n BootStrapKey: "+ICPClientBootStrapKey) ;
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
-		this.ICPClientproductCountry = "NL"; // TODO: Get from locale
-		this.ICPClientproductLanguage = "EN"; // TODO: Get from locale
+		this.ICPClientproductCountry = getCountryCode();
+		this.ICPClientproductLanguage = getLanguageCode();
 		
 		this.ICPClientComponentCount = 1;
 		NVMComponentInfo appComponentInfo = new NVMComponentInfo();
@@ -61,6 +62,24 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		this.ICPClientNVMComponents = new NVMComponentInfo[] {appComponentInfo};
 
 		this.ICPClientdevicePortalURL1="https://www.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
+	}
+	
+	private String getCountryCode() {
+		String  countryCode = Locale.getDefault().getCountry();
+		if (countryCode == null || countryCode.isEmpty()) {
+			countryCode = "NL";
+		}
+		return countryCode;
+	}
+	
+	private String getLanguageCode() {
+		String languageCode = Locale.getDefault().getLanguage();
+		if (languageCode == null || languageCode.isEmpty()) {
+			languageCode = "EN";
+		} else {
+			languageCode = languageCode.toUpperCase();
+		}
+		return languageCode;
 	}
 	
 }
