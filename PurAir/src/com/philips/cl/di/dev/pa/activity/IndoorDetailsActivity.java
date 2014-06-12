@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentManager;
@@ -199,6 +200,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
+		actionBar.setBackgroundDrawable(d);
 		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);

@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
@@ -87,6 +88,8 @@ public class TutorialPagerActivity extends BaseActivity {
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
+		actionBar.setBackgroundDrawable(d);
 		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		((ImageView)view.findViewById(R.id.right_menu_img)).setImageResource(R.drawable.close_icon_blue);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);

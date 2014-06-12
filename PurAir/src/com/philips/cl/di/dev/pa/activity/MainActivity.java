@@ -316,10 +316,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	private void initActionBar() throws ClassCastException {
-		ActionBar mActionBar = getSupportActionBar();
-		mActionBar.setIcon(null);
-		mActionBar.setHomeButtonEnabled(false);
-		mActionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setIcon(null);
+		actionBar.setHomeButtonEnabled(false);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
+		actionBar.setBackgroundDrawable(d);
 		View viewActionbar = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		rightMenu = (ImageView) viewActionbar.findViewById(R.id.right_menu_img);
 		leftMenu = (ImageView) viewActionbar.findViewById(R.id.left_menu_img);
@@ -331,7 +333,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
 		addLocation.setOnClickListener(actionBarClickListener);
-		mActionBar.setCustomView(viewActionbar);
+		actionBar.setCustomView(viewActionbar);
 		
 	}
 	
