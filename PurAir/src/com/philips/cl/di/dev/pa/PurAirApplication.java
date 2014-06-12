@@ -21,18 +21,9 @@ public class PurAirApplication extends Application {
 		super.onCreate();
 		ALog.i(ALog.APPLICATION, "New application start");
 		
-//		System.setProperty("http.keepAlive", "false");
-		ALog.d(ALog.APPLICATION, "Keeping sockets alive: " + System.getProperty("http.keepAlive"));
+		preventOSFromDestroyingAsyncTasks();
+		configureUrlConnectionSocketReuse();
 		
-		/**
-		 * Added this to stop the OS from destroying an AsyncTask.
-		 * Please refer : https://code.google.com/p/android/issues/detail?id=20915
-		 */
-		try {
-            Class.forName("android.os.AsyncTask");
-        } catch (ClassNotFoundException e) {
-        	ALog.i(ALog.APPLICATION, e.getMessage());
-        }
 		setApplication(this);
 		
 		// Ensure app is registered for notifications
@@ -76,5 +67,30 @@ public class PurAirApplication extends Application {
 		SharedPreferences pref = 
 				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
 		pref.edit().putBoolean(AppConstants.DEMO_MODE_ENABLE_KEY, isDemoMode).commit();
+	}
+	
+	/**
+	 * Bug 1943: Prevent Sockets from being reused.
+	 * - Only 1 socket opened per Purifier at any given point in time
+	 * - Each socket is only used once, and after it is closed
+	 */
+	private void configureUrlConnectionSocketReuse() {
+		System.setProperty("http.keepAlive", "false");
+		System.setProperty("http.maxConnections", "1");
+		ALog.d(ALog.APPLICATION, "Keeping sockets alive: " + System.getProperty("http.keepAlive"));
+		ALog.d(ALog.APPLICATION, "Max connections: " + System.getProperty("http.maxConnections"));
+	}
+	
+	/**
+	 * Added this to stop the OS from destroying an AsyncTask.
+	 * Please refer : https://code.google.com/p/android/issues/detail?id=20915
+	 */
+	private void preventOSFromDestroyingAsyncTasks() {
+		
+		try {
+            Class.forName("android.os.AsyncTask");
+        } catch (ClassNotFoundException e) {
+        	ALog.i(ALog.APPLICATION, e.getMessage());
+        }
 	}
 }
