@@ -52,21 +52,4 @@ public class SchedulerTest extends ActivityInstrumentationTestCase2<SchedulerAct
 		}
 	}
 	
-	public void testGetTime() {
-		try {
-			TimePicker view = null;
-			int hourOfDay = 11;
-			int minute = 59;
-			activity.onTimeSet(view, hourOfDay, minute);
-			
-			Field timeField = SchedulerActivity.class.getDeclaredField("selectedTime");
-			timeField.setAccessible(true);
-			String time = (String) timeField.get(activity);
-			assertEquals("11:59", time);	
-		} catch (Exception e) {
-//			TestCase.fail(e.getMessage());
-			ALog.e(ALog.SCHEDULER, "Failed getting selectedTime field ");
-		}
-	}
-	
 }
