@@ -8,6 +8,11 @@ public class DiscoverInfo {
 	public DiscoverInfo() {
 		// NOP
 	}
+
+	public DiscoverInfo(String state) {
+		State = state;
+		ClientIds = new String[0];
+	}
 	
 	public String[] getClientIds() {
 		return ClientIds;
@@ -23,6 +28,16 @@ public class DiscoverInfo {
 		if (!State.toLowerCase().equals("connected") && !State.toLowerCase().equals("disconnected")) return false;
 		if (ClientIds == null || ClientIds.length <= 0) return false;
 		return true;
+	}
+	
+	public static DiscoverInfo getMarkAllOnlineDiscoverInfo() {
+		// No devices offline, will cause all to go online
+		return new DiscoverInfo("disconnected");
+	}
+
+	public static DiscoverInfo getMarkAllOfflineDiscoverInfo() {
+		// No devices online will cause all to go offline
+		return new DiscoverInfo("connected");
 	}
 
 }

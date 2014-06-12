@@ -5,8 +5,8 @@ import android.test.InstrumentationTestCase;
 
 import java.util.LinkedHashMap;
 
+import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
@@ -1471,6 +1471,82 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener).onDiscoveredDevicesListChanged();
+	}
+	
+	public void testCppSignonEventReceivedDisconnected() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(false);
+		purifier2.setOnlineViaCpp(false);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		mDiscMan.onSignedOnViaCpp();
+		
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
+		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getConnectionState());
+		verify(mListener).onDiscoveredDevicesListChanged();
+	}
+	
+	public void testCppSignonEventReceivedRemoteLocal() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(false);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		mDiscMan.onSignedOnViaCpp();
+		
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
+		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
+		verify(mListener, never()).onDiscoveredDevicesListChanged();
+	}
+	
+	public void testCppSignoffEventReceivedRemote() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_REMOTELY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(true);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		mDiscMan.onSignedOffViaCpp();
+		
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
+		verify(mListener).onDiscoveredDevicesListChanged();
+	}
+	
+	public void testCppSignoffEventReceivedDisconnectedLocal() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(true);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		mDiscMan.onSignedOffViaCpp();
+		
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
+		verify(mListener, never()).onDiscoveredDevicesListChanged();
 	}
 	
 // ***** STOP TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED ***** 

@@ -48,6 +48,14 @@ public class SsdpServiceHelper implements StartStopInterface {
 			mThread.stopDiscoveryAsync();
 		}
 	}
+
+	public void stopDiscoveryImmediate() {
+		synchronized (threadLock) {
+			long startTime = System.currentTimeMillis();
+			mSsdpService.stopDeviceDiscovery();
+			ALog.i(ALog.SSDPHELPER, "Stopping SsdpService took - " + (System.currentTimeMillis() - startTime) + "ms");
+		}
+	}
 	
 	private void createNewStartStopThread() {
 		synchronized (threadLock) {

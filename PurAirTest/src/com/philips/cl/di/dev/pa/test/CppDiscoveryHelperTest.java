@@ -15,7 +15,7 @@ import android.test.InstrumentationTestCase;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
-import com.philips.cl.di.dev.pa.newpurifier.CppDiscoveryHelper;
+import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class CppDiscoveryHelperTest extends InstrumentationTestCase{
@@ -51,6 +51,8 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
+		verify(mDiscListener, never()).onSignedOnViaCpp();
+		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
 	}
 	
@@ -61,6 +63,8 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 
 		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(AppConstants.DISCOVER), anyString(), eq(""), anyInt(), anyInt(), anyString());
 		verify(mSubhandler).enableRemoteSubscription(any(Context.class));
+		verify(mDiscListener).onSignedOnViaCpp();
+		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
 	}
 	
@@ -70,6 +74,8 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
+		verify(mDiscListener, never()).onSignedOnViaCpp();
+		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
 	}
 	
@@ -79,6 +85,8 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 
 		verify(mCppController).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mSubhandler).enableRemoteSubscription(any(Context.class));
+		verify(mDiscListener).onSignedOnViaCpp();
+		verify(mDiscListener, never()).onSignedOffViaCpp();
 		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
 	}
 	
@@ -88,6 +96,8 @@ public class CppDiscoveryHelperTest extends InstrumentationTestCase{
 
 		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
 		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
+		verify(mDiscListener, never()).onSignedOnViaCpp();
+		verify(mDiscListener).onSignedOffViaCpp();
 		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
 	}
 

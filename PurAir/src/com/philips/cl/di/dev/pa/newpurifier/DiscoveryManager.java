@@ -19,6 +19,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
+import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -88,7 +89,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
 	}
 	
-	public void start(DiscoveryEventListener listener) { // TODO test
+	public void start(DiscoveryEventListener listener) {
 		if (mNetwork.getLastKnownNetworkState() == NetworkState.WIFI_WITH_INTERNET) {
 			mSsdpHelper.startDiscoveryAsync();
 			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
@@ -124,12 +125,12 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			switch(networkState) {
 			case NONE : 
 				markAllDevicesOffline();
-				mSsdpHelper.stopDiscoveryAsync();
+				mSsdpHelper.stopDiscoveryImmediate();
 				ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (no network)");
 				break;
 			case MOBILE:
 				markAllDevicesRemote();
-				mSsdpHelper.stopDiscoveryAsync();
+				mSsdpHelper.stopDiscoveryImmediate();;
 				ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Network change (mobile data)");
 				break;
 			case WIFI_WITH_INTERNET:
@@ -146,6 +147,18 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	@Override
+	public void onSignedOnViaCpp() {
+		ALog.v(ALog.DISCOVERY, "Signed on to CPP - setting all purifiers online via cpp");
+		updateAllPurifiersOnlineViaCpp();
+	}
+
+	@Override
+	public void onSignedOffViaCpp() {
+		ALog.v(ALog.DISCOVERY, "Signed on to CPP - setting all purifiers offline via cpp");
+		updateAllPurifiersOfflineViaCpp();
+	}
+	
+	@Override
 	public void onDiscoverEventReceived(String data, boolean isResponseToRequest) {
 		DiscoverInfo info = DataParser.parseDiscoverInfo(data);
 		if (info == null) return;
@@ -154,8 +167,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		boolean notifyListeners = false;
 		synchronized (mDiscoveryLock) {
 			if (isResponseToRequest) {
+				ALog.v(ALog.DISCOVERY, "Received connected devices list via cpp");
 				notifyListeners = updateConnectedStateViaCppAllPurifiers(info);
 			} else {
+				ALog.v(ALog.DISCOVERY, "Received connection update via CPP");
 				notifyListeners = updateConnectedStateViaCppReturnedPurifiers(info);
 			}
 		}
@@ -337,7 +352,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 // ********** START CPP METHODS ************
 	public boolean updateConnectedStateViaCppAllPurifiers(DiscoverInfo info) {
-		ALog.v(ALog.DISCOVERY, "Received connected devices list via cpp");
 		boolean connected = info.isConnected();
 		boolean notifyListeners = false;
 		
@@ -361,7 +375,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	public boolean updateConnectedStateViaCppReturnedPurifiers(DiscoverInfo info) {
-		ALog.v(ALog.DISCOVERY, "Received connection update via CPP");
 		boolean connected = info.isConnected();
 		boolean notifyListeners = false;
 		
@@ -400,6 +413,26 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		purifier.setConnectionState(ConnectionState.DISCONNECTED);
 		ALog.v(ALog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + purifier.getName());
 		return true;
+	}
+	
+	private void updateAllPurifiersOnlineViaCpp() {
+		DiscoverInfo info = DiscoverInfo.getMarkAllOnlineDiscoverInfo();
+		synchronized (mDiscoveryLock) {
+			// Sending event none offline, will mark all cpponline.
+			if (updateConnectedStateViaCppAllPurifiers(info)) {
+				notifyDiscoveryListener();
+			}
+		}
+	}
+
+	private void updateAllPurifiersOfflineViaCpp() {
+		DiscoverInfo info = DiscoverInfo.getMarkAllOfflineDiscoverInfo();
+		synchronized (mDiscoveryLock) {
+			// Sending event none offline, will mark all cpponline.
+			if (updateConnectedStateViaCppAllPurifiers(info)) {
+				notifyDiscoveryListener();
+			}
+		}
 	}
 // ********** END CPP METHODS ************
 	

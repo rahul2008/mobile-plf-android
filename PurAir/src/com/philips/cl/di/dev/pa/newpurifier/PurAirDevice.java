@@ -23,7 +23,7 @@ public class PurAirDevice {
 	
 	private ConnectionState mConnectionState;
 	private boolean 		isPaired 		= false;
-	private boolean			isOnlineViaCpp 	= true;
+	private boolean			isOnlineViaCpp 	= false;
 	private String 			mEncryptionKey;
 
 	private AirPortInfo 		   mAirPortInfo;
