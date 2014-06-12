@@ -50,6 +50,7 @@ public class ALog {
 	public static final String DEVICEHANDLER = "DeviceHandler";
 	public static final String DRAWER = "Drawer";
 	public static final String SSDPHELPER = "SsdpHelper";
+	public static final String CPPDISCHELPER = "CppDiscoveryHelper";
 	
 	private static boolean isLoggingEnabled = true;
 	

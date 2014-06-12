@@ -6,11 +6,13 @@ import android.test.InstrumentationTestCase;
 import java.util.LinkedHashMap;
 
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class DiscoveryManagerTest extends InstrumentationTestCase {
@@ -60,20 +62,105 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		}
 		mDiscMan.setPurifierListForTesting(devices);
 	}
+	
 
-// ***** START TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED ***** 
-	public void testSetCppDiscoverListener() {
+// ***** START TESTS FOR START/STOP METHODS ***** 
+	public void testOnStartNoNetwork() {
 		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
 		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
+		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
 		
 		DiscoveryManager manager = DiscoveryManager.getInstance();
-		verify(mSubHandler).setCppDiscoverListener(manager);
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
+		manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
+		manager.setDummyNetworkMonitorForTesting(monitor);
+		
+		manager.start(mock(DiscoveryEventListener.class));
+		verify(ssdpHelper, never()).startDiscoveryAsync();
+		verify(ssdpHelper, never()).stopDiscoveryAsync();
+		verify(cppHelper).startDiscoveryViaCpp();
+		verify(cppHelper, never()).stopDiscoveryViaCpp();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
 		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
 	}
 	
+	public void testOnStartMobile() {
+		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
+		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
+		
+		DiscoveryManager manager = DiscoveryManager.getInstance();
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
+		manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
+		manager.setDummyNetworkMonitorForTesting(monitor);
+		
+		manager.start(mock(DiscoveryEventListener.class));
+		verify(ssdpHelper, never()).startDiscoveryAsync();
+		verify(ssdpHelper, never()).stopDiscoveryAsync();
+		verify(cppHelper).startDiscoveryViaCpp();
+		verify(cppHelper, never()).stopDiscoveryViaCpp();
+		
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
+	}
+	
+	public void testOnStartWifi() {
+		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
+		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
+		
+		DiscoveryManager manager = DiscoveryManager.getInstance();
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
+		manager.setDummyNetworkMonitorForTesting(monitor);
+		
+		manager.start(mock(DiscoveryEventListener.class));
+		verify(ssdpHelper).startDiscoveryAsync();
+		verify(ssdpHelper, never()).stopDiscoveryAsync();
+		verify(cppHelper).startDiscoveryViaCpp();
+		verify(cppHelper, never()).stopDiscoveryViaCpp();
+		
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
+	}
+
+	public void testOnStop() {
+		SubscriptionHandler mSubHandler = mock(SubscriptionHandler.class);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(mSubHandler);
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SsdpServiceHelper ssdpHelper = mock(SsdpServiceHelper.class);
+		CppDiscoveryHelper cppHelper = mock(CppDiscoveryHelper.class);
+		
+		DiscoveryManager manager = DiscoveryManager.getInstance();
+		manager.setDummySsdpServiceHelperForTesting(ssdpHelper);
+		manager.setDummyCppDiscoveryHelperForTesting(cppHelper);
+		
+		manager.stop();
+		verify(ssdpHelper, never()).startDiscoveryAsync();
+		verify(ssdpHelper).stopDiscoveryAsync();
+		verify(cppHelper, never()).startDiscoveryViaCpp();
+		verify(cppHelper).stopDiscoveryViaCpp();
+		
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+		SubscriptionHandler.setDummySubscriptionManagerForTesting(null);
+	}
+
+// ***** STOP TESTS FOR START/STOP METHODS ***** 
+
+// ***** START TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED ***** 
 	public void testCppConnectNotPairedDisconnectedWifi() {
 		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
 		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);

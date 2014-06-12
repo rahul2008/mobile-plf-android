@@ -19,7 +19,9 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
+import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -50,6 +52,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private NetworkMonitor mNetwork;
 	private DISecurity mSecurity;
 	private SsdpServiceHelper mSsdpHelper;
+	private CppDiscoveryHelper mCppHelper;
 	
 	private DiscoveryEventListener mListener;
 	
@@ -78,9 +81,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDatabase = new PurifierDatabase();
 		initializeDevicesMapFromDataBase();
 		mSecurity = new DISecurity(this);
-		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), SubscriptionHandler.getInstance(), 
-				CPPController.getInstance(PurAirApplication.getAppContext()), this);
-		SubscriptionHandler.getInstance().setCppDiscoverListener(this);
+		mSsdpHelper = new SsdpServiceHelper(SsdpService.getInstance(), this);
+		mCppHelper = new CppDiscoveryHelper(CPPController.getInstance(PurAirApplication.getAppContext()), SubscriptionHandler.getInstance(), this);
 
 		// Starting network monitor will ensure a fist callback.
 		mNetwork = new NetworkMonitor(PurAirApplication.getAppContext(), this);
@@ -91,6 +93,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			mSsdpHelper.startDiscoveryAsync();
 			ALog.d(ALog.DISCOVERY, "Starting SSDP service - Start called (wifi_internet)");
 		}
+		mCppHelper.startDiscoveryViaCpp();
 		mNetwork.startNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = listener;
 	}
@@ -99,6 +102,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mSsdpHelper.stopDiscoveryAsync();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
 		mDiscoveryTimeoutHandler.removeMessages(DISCOVERYTIMEOUT_MESSAGE);
+		mCppHelper.stopDiscoveryViaCpp();
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = null;
 	}
@@ -110,31 +114,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public PurAirDevice getDeviceByEui64(String eui64) {
 		if (eui64 == null) return null;
 		return mDevicesMap.get(eui64);
-	}
-	
-	public void printDiscoveredDevicesInfo(String tag) {
-		if (tag == null || tag.isEmpty()) {
-			tag = ALog.DISCOVERY;
-		}
-		
-		if (mDevicesMap.size() <= 0) {
-			ALog.d(tag, "No devices discovered - map is 0");
-			return;
-		}
-		
-		String offline = "Offline devices %d: ";
-		String local = "Local devices %d: ";
-		String cpp = "Cpp devices %d: ";
-		for (PurAirDevice device : mDevicesMap.values()) {
-			switch (device.getConnectionState()) {
-			case DISCONNECTED: offline += device.getName() + ", "; break;
-			case CONNECTED_LOCALLY: local += device.getName() + ", "; break;
-			case CONNECTED_REMOTELY: cpp += device.getName() + ", "; break;
-			}
-		}
-		ALog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
-		ALog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
-		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
 	}
 	
 	@Override
@@ -181,12 +160,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			}
 		}
 		
-		
 		if (notifyListeners) {
 			notifyDiscoveryListener();
 		}
 	}
-	
+
 	/**
 	 * Callback from SSDP service
 	 */
@@ -208,6 +186,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return false;
 	}
 			
+	
+// ********** START SSDP METHODS ************
 	private boolean onDeviceDiscovered(DeviceModel deviceModel) {
 		PurAirDevice purifier = getPurAirDevice(deviceModel);
 		if (purifier == null) return false;
@@ -284,7 +264,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		// Listener notified when key is exchanged
 		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
 	}
+// ********** END SSDP METHODS ************
 	
+	
+// ********** START NETWORK METHODS ************
 	private void markOtherNetworkDevicesRemote(String ssid) {
 		ALog.d(ALog.DISCOVERY, "Marking all paired devices REMOTE that will not appear on network: " + ssid);
 		boolean statusUpdated = false;
@@ -349,7 +332,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		if (!statusUpdated) return;
 		notifyDiscoveryListener();
 	}
+// ********** END NETWORK METHODS ************
 	
+
+// ********** START CPP METHODS ************
 	public boolean updateConnectedStateViaCppAllPurifiers(DiscoverInfo info) {
 		ALog.v(ALog.DISCOVERY, "Received connected devices list via cpp");
 		boolean connected = info.isConnected();
@@ -415,6 +401,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.v(ALog.DISCOVERY, "Marked Cpp offline DISCONNECTED: " + purifier.getName());
 		return true;
 	}
+// ********** END CPP METHODS ************
 	
 	private PurAirDevice getPurAirDevice(DeviceModel deviceModel) {
 		SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
@@ -514,7 +501,34 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		notifyDiscoveryListener();
 	}
 	
-	// Methods to allow testing
+	public void printDiscoveredDevicesInfo(String tag) {
+		if (tag == null || tag.isEmpty()) {
+			tag = ALog.DISCOVERY;
+		}
+		
+		if (mDevicesMap.size() <= 0) {
+			ALog.d(tag, "No devices discovered - map is 0");
+			return;
+		}
+		
+		String offline = "Offline devices %d: ";
+		String local = "Local devices %d: ";
+		String cpp = "Cpp devices %d: ";
+		for (PurAirDevice device : mDevicesMap.values()) {
+			switch (device.getConnectionState()) {
+			case DISCONNECTED: offline += device.getName() + ", "; break;
+			case CONNECTED_LOCALLY: local += device.getName() + ", "; break;
+			case CONNECTED_REMOTELY: cpp += device.getName() + ", "; break;
+			}
+		}
+		ALog.d(tag, String.format(offline, offline.length() - offline.replace(",", "").length()));
+		ALog.d(tag, String.format(local, local.length() - local.replace(",", "").length()));
+		ALog.d(tag, String.format(cpp, cpp.length() - cpp.replace(",", "").length()));
+	}
+	
+	
+	
+// ********** START TEST METHODS ************
 	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager dummyManager) {
 		mInstance = dummyManager;
 	}
@@ -527,8 +541,16 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mNetwork = dummyMonitor;
 	}
 	
+	public void setDummySsdpServiceHelperForTesting(SsdpServiceHelper dummyHelper) {
+		mSsdpHelper = dummyHelper;
+	}
+	public void setDummyCppDiscoveryHelperForTesting(CppDiscoveryHelper dummyHelper) {
+		mCppHelper = dummyHelper;
+	}
+	
 	public void setPurifierListForTesting(LinkedHashMap<String, PurAirDevice> testMap) {
 		mDevicesMap = testMap;
 	}
+// ********** END TEST METHODS ************
 
 }

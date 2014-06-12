@@ -30,8 +30,6 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
 	private SsdpServiceHelper mHelper;
 	private SsdpService mService;
-	private SubscriptionHandler mSubhandler;
-	private CPPController mCppController;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -40,9 +38,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 				.getTargetContext().getCacheDir().getPath());
 
 		mService = mock(SsdpService.class);
-		mSubhandler = mock(SubscriptionHandler.class);
-		mCppController = mock(CPPController.class);
-		mHelper = new SsdpServiceHelper(mService, mSubhandler, mCppController, null);
+		mHelper = new SsdpServiceHelper(mService, null);
 		mHelper.setStopDelayForTesting(STOPSSDP_TESTDELAY);
 		super.setUp();
 	}
@@ -340,68 +336,4 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 	}
 
 	// ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
-	public void testCppDiscoveryConstructor() {
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
-	}
-	
-	public void testCppDiscoveryOnStartNoSignon() {
-		mHelper.startDiscoveryAsync();
-		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-		mHelper.removePendingMessagesOnQueueForTesting();
-
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
-		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
-	}
-	
-	public void testCppDiscoveryOnStartSignon() {
-		when(mCppController.isSignOn()).thenReturn(true);
-		
-		mHelper.startDiscoveryAsync();
-		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-		mHelper.removePendingMessagesOnQueueForTesting();
-
-		verify(mCppController).publishEvent(isNull(String.class),eq(AppConstants.DISCOVERY_REQUEST), eq(AppConstants.DISCOVER), anyString(), eq(""), anyInt(), anyInt(), anyString());
-		verify(mSubhandler).enableRemoteSubscription(any(Context.class));
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
-	}
-	
-	public void testCppDiscoveryOnStartStopNoSignon() {
-		mHelper.startDiscoveryAsync();
-		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-		mHelper.stopDiscoveryAsync();
-		try {
-			Thread.sleep(STOPMESSAGE_TIMEOUT);
-		} catch (Exception e) {
-		}
-		mHelper.removePendingMessagesOnQueueForTesting();
-
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
-	}
-	
-	public void testCppDiscoveryOnStartStopNoSignonWaitSignon() {
-		mHelper.startDiscoveryAsync();
-		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-		mHelper.removePendingMessagesOnQueueForTesting();
-		mHelper.signonStatus(true);
-
-		verify(mCppController).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler).enableRemoteSubscription(any(Context.class));
-		assertFalse(mHelper.getCppDiscoveryPendingForTesting());
-	}
-	
-	public void testCppDiscoveryOnStartStopNoSignonWaitSignoff() {
-		mHelper.startDiscoveryAsync();
-		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-		mHelper.removePendingMessagesOnQueueForTesting();
-		mHelper.signonStatus(false);
-
-		verify(mCppController, never()).publishEvent(anyString(), anyString(), anyString(), anyString(), anyString(), anyInt(), anyInt(), anyString());
-		verify(mSubhandler, never()).enableRemoteSubscription(any(Context.class));
-		assertTrue(mHelper.getCppDiscoveryPendingForTesting());
-	}
-
 }

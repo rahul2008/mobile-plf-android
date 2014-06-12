@@ -13,29 +13,22 @@ import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelperThread.StartStopInt
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class SsdpServiceHelper implements StartStopInterface, SignonListener {
+public class SsdpServiceHelper implements StartStopInterface {
 	
 	private SsdpService mSsdpService = null;
-	private SubscriptionHandler mSubHandler = null;
-	private CPPController mCppController = null;
 	private Callback mSsdpCallback = null;
 	
 	private Object threadLock = new Object();
 	private SsdpServiceHelperThread mThread = null;
-	
-	private boolean isCppDiscoveryPending = false;
 	
 	private static final int TIMEOUT_STARTTHREAD = 3000;
 	private static final int DELAY_STOPSSDP = 3000;
 	
 	private int mTestDelay = -1;
 	
-	public SsdpServiceHelper(SsdpService ssdpService, SubscriptionHandler subHandler, CPPController cppController, Callback callback) {
+	public SsdpServiceHelper(SsdpService ssdpService, Callback callback) {
 		mSsdpService = ssdpService;
-		mSubHandler = subHandler;
-		mCppController = cppController;
 		mSsdpCallback = callback;
-		mCppController.addSignOnListener(this);
 	}
 
 	public void startDiscoveryAsync() {
@@ -82,10 +75,6 @@ public class SsdpServiceHelper implements StartStopInterface, SignonListener {
 	public void startDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.startDeviceDiscovery(mSsdpCallback);
-		
-		//TODO is there a better place for this code?
-		startDiscoveryViaCpp(mCppController.isSignOn());
-		
 		ALog.i(ALog.SSDPHELPER, "Starting SsdpService took - " + (System.currentTimeMillis() - startTime) + "ms");
 	}
 
@@ -93,10 +82,6 @@ public class SsdpServiceHelper implements StartStopInterface, SignonListener {
 	public void stopDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.stopDeviceDiscovery();
-		
-		//TODO is there a better place for this code?
-		stopDiscoveryViaCpp();
-		
 		ALog.i(ALog.SSDPHELPER, "Stopping SsdpService took - " + (System.currentTimeMillis() - startTime) + "ms");
 		
 		synchronized (threadLock) {
@@ -107,38 +92,11 @@ public class SsdpServiceHelper implements StartStopInterface, SignonListener {
 		}
 	}
 	
-	private void startDiscoveryViaCpp(boolean isSignedOnToCpp) {
-		//TODO is there a better place for this code?
-		if (isSignedOnToCpp) {
-			mSubHandler.enableRemoteSubscription(PurAirApplication.getAppContext());
-			mCppController.publishEvent(null,AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance().getAppEui64(), "", 20, 120, SessionDto.getInstance().getAppEui64());
-			isCppDiscoveryPending = false;
-			ALog.d(ALog.SSDPHELPER, "Starting discovery via Cpp - IMMEDIATE");
-		} else {
-			isCppDiscoveryPending = true;
-			ALog.d(ALog.SSDPHELPER, "Starting discovery via Cpp - DELAYED");
-		}
-	}
-
-	private void stopDiscoveryViaCpp() {
-		isCppDiscoveryPending = false;
-		mSubHandler.disableRemoteSubscription(PurAirApplication.getAppContext());
-	}
-	
 	private int getSsdpStopDelay() {
 		if (mTestDelay > 0) return mTestDelay;
 		return DELAY_STOPSSDP;
 	}
 	
-
-	@Override
-	public void signonStatus(boolean signon) {
-		if (!signon) return;
-		if (!isCppDiscoveryPending) return;
-		
-		ALog.d(ALog.SSDPHELPER, "Signed on - Starting discovery via CPP");
-		startDiscoveryViaCpp(signon);
-	}
 	
 	// UTILITY METHODS TO ALLOW TESTING
 	public boolean testIsThreadAlive() {
@@ -166,9 +124,5 @@ public class SsdpServiceHelper implements StartStopInterface, SignonListener {
 	
 	public void setStopDelayForTesting(int delay) {
 		mTestDelay = delay;
-	}
-
-	public boolean getCppDiscoveryPendingForTesting() {
-		return isCppDiscoveryPending;
 	}
 }
