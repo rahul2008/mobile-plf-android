@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
@@ -42,7 +43,7 @@ public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 		 iv.setImageResource(item.getImageId());
 		 Context context = iv.getContext();
 		 TextView tv = (TextView) view.findViewById(R.id.list_text);
-		 tv.setTextColor(Color.rgb(70, 133, 255));
+		 tv.setTextColor(Color.parseColor("#B6B6B6"));
 		 tv.setTypeface(Fonts.getGillsans(context));
 		 tv.setText(item.getTextId());
 		 TextView superscriptTv = (TextView) view.findViewById(R.id.list_superscript);
