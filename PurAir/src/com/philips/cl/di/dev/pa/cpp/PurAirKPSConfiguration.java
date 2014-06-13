@@ -23,7 +23,6 @@ import java.util.Locale;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.security.Util;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
@@ -49,7 +48,6 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 	public void setNVMConfigParams() {		
 		this.ICPClientBootStrapID = Util.getBootStrapID();
 		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
-		ALog.i(ALog.KPS, "BootstrapID: "+ICPClientBootStrapID+"\n BootStrapKey: "+ICPClientBootStrapKey) ;
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
 		this.ICPClientproductCountry = getCountryCode();
