@@ -100,7 +100,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		setActionBar(R.string.usage_agreement, View.VISIBLE);
 	}
 	
-	private void showSuccessFragment() {
+	public void showSuccessFragment() {
 		getSupportFragmentManager().beginTransaction()
 		.replace(R.id.fl_simple_fragment_container, new SignedInFragment(), SignedInFragment.class.getSimpleName())
 		.commit();
