@@ -139,10 +139,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 		setContentView(R.layout.activity_main_aj);
 		
-		// Disabled logging for UT3
-		//TODO : Revert after release
-		ALog.disableLogging();
-		
 		mPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits = mPreferences.getInt("NoOfVisit", 0);
 		SharedPreferences.Editor editor = mPreferences.edit();
