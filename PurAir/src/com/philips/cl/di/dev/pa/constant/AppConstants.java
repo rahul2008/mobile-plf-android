@@ -191,5 +191,7 @@ public class AppConstants {
 	public final static String DEMO_MODE_ENABLE_KEY ="demo_mode_enable_key";
 
 	public static final String EMPTY_STRING = "" ;
+
+	public static final String HOCKEY_APPID = "8b51a3b720bce7db6e6f9a6a9528b8b8";
 	
 }

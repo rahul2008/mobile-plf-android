@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import net.hockeyapp.android.Tracking;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -32,14 +33,16 @@ public class BaseActivity extends ActionBarActivity {
 	protected void onResume() {
 		ALog.d(ALog.ACTIVITY, "OnResume on " + this.getClass().getSimpleName());
 		super.onResume();
+		Tracking.startUsage(this);
 		NetworkReceiver.getInstance().registerNetworkReceiver();
 	}
 
 	@Override
 	protected void onPause() {
 		ALog.d(ALog.ACTIVITY, "OnPause on " + this.getClass().getSimpleName());
-		super.onPause();
+		Tracking.stopUsage(this);
 		NetworkReceiver.getInstance().unregisterNetworkReceiver();
+		super.onPause();
 	}
 
 	@Override

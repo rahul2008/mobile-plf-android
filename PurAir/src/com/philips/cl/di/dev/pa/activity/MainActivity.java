@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -69,9 +71,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
-import com.philips.cl.di.dev.pa.registration.SignedInFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
-import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -200,6 +200,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		initializeCPPController();
 		
 		initializeFirstPurifier();
+		
+		checkForUpdatesHockeyApp();
 	}
 	
 	@Override
@@ -213,6 +215,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
+		checkForCrashesHockeyApp();
 	}
 
 	@Override
@@ -661,6 +664,11 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		}
 	}
 	
+	@Override
+	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
+		
+	}
+	
 	private void hideFirmwareUpdateHomeIcon() {
 		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
 	}
@@ -972,9 +980,13 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			break;
 		}
 	}
+	
+	private void checkForCrashesHockeyApp() {
+	   CrashManager.register(this, AppConstants.HOCKEY_APPID);
+	 }
 
-	@Override
-	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
-		
-	}
+	 private void checkForUpdatesHockeyApp() {
+	   // TODO Remove this for store builds!
+	   UpdateManager.register(this, AppConstants.HOCKEY_APPID);
+	 }
 }

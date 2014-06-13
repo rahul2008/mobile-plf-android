@@ -126,6 +126,11 @@
             </intent-filter>            
         </receiver>
         <service android:name=".notification.NotificationIntentService"></service>
+        
+        <!--  for Hockey app sdk -->
+        <activity android:name="net.hockeyapp.android.UpdateActivity" />
+        
+        
     </application>
 
 </manifest>
