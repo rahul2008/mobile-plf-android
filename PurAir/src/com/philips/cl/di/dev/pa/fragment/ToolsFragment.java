@@ -19,7 +19,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -33,17 +32,16 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetDiagnosticData.DiagnosticsDataListener;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ToolsFragment extends BaseFragment implements OnClickListener, DiagnosticsDataListener {
 
-	private static final String TAG = ToolsFragment.class.getSimpleName();
-	
 	private PurAirDevice mPurifier;
 	
 	private TextView tvIpaddress;
-	private Button submitButton;
 	private TextView tvCPPDetails;
+	private Button loggingBtn;
 	private String[] header = new String[] { "Wifi Port:", "WifiUi Port:",
 			"Device Port:", "Firmware Port:", "Logs Port:" };
 	private char lineSeparator='\n';
@@ -65,19 +63,24 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 
 
 	private void initViews(View view) {
-		tvIpaddress = (EditText) view.findViewById(R.id.tvipaddress);
+		tvIpaddress = (TextView) view.findViewById(R.id.tvipaddress);
 		tvIpaddress.setText(getPurifierIpAddress());
-		submitButton = (Button) view.findViewById(R.id.submitButton);
-		submitButton.setOnClickListener(this);
-		submitButton.setEnabled(false);
 
 		tvCPPDetails = (TextView) view.findViewById(R.id.tv_cpp_details);
+		tvCPPDetails.setText(getPurifierEui64());
 
-		if (mPurifier != null) {
-			tvCPPDetails.setVisibility(View.VISIBLE);
-			tvCPPDetails.setText("AirPurifier ID: " + getPurifierEui64());
+		Button crash = (Button) view.findViewById(R.id.btn_crashapp);
+		crash.setOnClickListener(this);
+		
+		loggingBtn = (Button) view.findViewById(R.id.btn_logging);
+		loggingBtn.setOnClickListener(this);
+		
+		if (ALog.isLoggingEnabled()) {
+			loggingBtn.setText(R.string.logging_disable);
+		} else {
+			loggingBtn.setText(R.string.logging_enable);
 		}
-
+		
 		Button diagnostics = (Button) view.findViewById(R.id.btn_diagnostics);
 		diagnostics.setOnClickListener(this);
 
@@ -86,17 +89,22 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.submitButton:
-			Log.i(TAG, "Submit button");
-			PurAirDevice dummyDevice = new PurAirDevice(null, null, tvIpaddress.getText().toString(), "ToolsPurifier", -1, ConnectionState.CONNECTED_LOCALLY);
-			PurifierManager.getInstance().setCurrentPurifier(dummyDevice);
-			
-			InputMethodManager imm = (InputMethodManager) getActivity()
-					.getSystemService(Context.INPUT_METHOD_SERVICE);
-			imm.hideSoftInputFromWindow(getActivity().getWindow()
-					.getCurrentFocus().getWindowToken(), 0);
+		case R.id.btn_crashapp:
+			ALog.i(ALog.TOOLS, "Crash button");
+			simulateCrash();
+			break;
+		case R.id.btn_logging:
+			ALog.i(ALog.TOOLS, "Logging button");
+			if (ALog.isLoggingEnabled()) {
+				ALog.disableLogging();
+				loggingBtn.setText(R.string.logging_enable);
+			} else {
+				ALog.enableLogging();
+				loggingBtn.setText(R.string.logging_disable);
+			}
 			break;
 		case R.id.btn_diagnostics:
+			ALog.i(ALog.TOOLS, "Diagnostics button");
 			((MainActivity)getActivity()).isDiagnostics=true;			
 			String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, getPurifierIpAddress());
 			String wifiUrl = Utils.getPortUrl(Port.WIFI, getPurifierIpAddress());
@@ -310,6 +318,10 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		discoveryString += String.format(local, local.length() - local.replace(",", "").length()) + "\n";
 		discoveryString += String.format(cpp, cpp.length() - cpp.replace(",", "").length()) + "\n";
 		return discoveryString;
+	}
+	
+	private void simulateCrash() {
+		throw new RuntimeException("App crash simulated by user");
 	}
 
 }

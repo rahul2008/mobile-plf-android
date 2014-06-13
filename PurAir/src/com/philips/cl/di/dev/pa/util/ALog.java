@@ -51,6 +51,7 @@ public class ALog {
 	public static final String DRAWER = "Drawer";
 	public static final String SSDPHELPER = "SsdpHelper";
 	public static final String CPPDISCHELPER = "CppDiscoveryHelper";
+	public static final String TOOLS = "ToolsFragment";
 	
 	private static boolean isLoggingEnabled = true;
 	
@@ -60,6 +61,10 @@ public class ALog {
 	
 	public static void disableLogging() {
 		isLoggingEnabled = false;
+	}
+	
+	public static boolean isLoggingEnabled() {
+		return isLoggingEnabled;
 	}
 
 	public static void d(String tag, String message) {

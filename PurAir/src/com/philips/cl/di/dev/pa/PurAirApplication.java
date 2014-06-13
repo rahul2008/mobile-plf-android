@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa;
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 
@@ -19,11 +20,12 @@ public class PurAirApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		ALog.i(ALog.APPLICATION, "New application start");
 		
 		preventOSFromDestroyingAsyncTasks();
 		configureUrlConnectionSocketReuse();
+		toggleLogging();
 		
+		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
 		
 		// Ensure app is registered for notifications
@@ -92,5 +94,17 @@ public class PurAirApplication extends Application {
         } catch (ClassNotFoundException e) {
         	ALog.i(ALog.APPLICATION, e.getMessage());
         }
+	}
+	
+	private boolean isDebugBuild() {
+		return (0 != (getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE));
+	}
+	
+	private void toggleLogging() {
+		if (isDebugBuild()) {
+			ALog.enableLogging();
+		} else {
+			ALog.disableLogging();
+		}
 	}
 }
