@@ -18,3 +18,17 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class com.google.gson.** { *; }
+-keep class com.philips.icpinterface.** { *; }
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+-keep class android.support.v7.** { *; }
+-keep class android.support.v4.** { *; }
+-keep class com.philips.cl.di.common.ssdp.lib.SsdpService { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.DeviceDto { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.CityDetails { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.DiscoverInfo { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto { *; }
