@@ -20,7 +20,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class DISecurity implements ServerResponseListener {
 
-	public static final String BOOT_STRAP_ID_3 = "f000" ;
+	public static final String BOOT_STRAP_ID_3 = "MDAwMD" ;
 	private static Hashtable<String, Boolean> 
 			isExchangingKeyTable = new Hashtable<String, Boolean>();
 	private static Hashtable<String, Integer> 
@@ -129,11 +129,11 @@ public class DISecurity implements ServerResponseListener {
 	public String decryptData(String data, PurAirDevice purifier) {
 		ALog.i(ALog.SECURITY, "decryptData data:  "+data) ;
 
+
 		if (purifier == null) {
 			ALog.i(ALog.SECURITY, "Did not encrypt data - Purifier is null");
 			return null;
 		}
-		
 		String key = purifier.getEncryptionKey();
 		ALog.i(ALog.SECURITY, "Decryption - Key   " + key);
 		String decryptData = null;

@@ -13,7 +13,7 @@ public class AnimatorConstants {
 	
 	public static final int ANIM_DURATION				= 1000;
 	
-	public static final String BOOT_STRAP_KEY_2 = "0330e12" ;
+	public static final String BOOT_STRAP_KEY_2 = "MzMGUxMmI" ;
 	
 	public static float rotationPivot() {
 		float pivot = 0;

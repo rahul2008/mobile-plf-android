@@ -13,6 +13,7 @@ import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
@@ -146,7 +147,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 	private String getSubscriberId(boolean isLocal) {
 		String appEui64 = SessionDto.getInstance().getAppEui64();
 		if (appEui64 != null) return appEui64;
-		if (isLocal) return Utils.getBootStrapID(); // Fallback for local subscription when no cpp connection
+		if (isLocal) return Util.getBootStrapID(); // Fallback for local subscription when no cpp connection
 		return null;
 	}
 	

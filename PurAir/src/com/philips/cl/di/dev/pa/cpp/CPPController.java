@@ -37,7 +37,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private static final String CERTIFICATE_EXTENSION = ".cer";
 	
-	public static final String BOOT_STRAP_ID_1 = "0000";
+	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
 	
 
 	private SignOn signon;

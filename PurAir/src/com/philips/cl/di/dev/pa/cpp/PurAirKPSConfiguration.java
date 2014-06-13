@@ -47,8 +47,8 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 	}
 	
 	public void setNVMConfigParams() {		
-		this.ICPClientBootStrapID = Utils.getBootStrapID();
-		this.ICPClientBootStrapKey = Util.getBootstrapKey();
+		this.ICPClientBootStrapID = Util.getBootStrapID();
+		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
 		ALog.i(ALog.KPS, "BootstrapID: "+ICPClientBootStrapID+"\n BootStrapKey: "+ICPClientBootStrapKey) ;
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;

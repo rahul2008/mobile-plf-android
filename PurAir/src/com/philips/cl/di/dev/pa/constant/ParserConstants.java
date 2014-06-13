@@ -54,5 +54,5 @@ public class ParserConstants {
 	public static final String TIMESTAMP_INDOORAQI_HISTORY = "Timestamp" ;
 	public static final String DATA_VALUE_KEYPAIRS = "DataKeyValuePairs" ;
 	
-	public static final String BOOT_STRAP_KEY_3 = "b28f1798" ;
+	public static final String BOOT_STRAP_KEY_3 = "yOGYxNzk" ;
 } 

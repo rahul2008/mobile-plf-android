@@ -147,23 +147,18 @@ public class Util {
 		return dataBytes;
 	}
 	
-	public static String getEncodedBootStrapID() {
-		String encodedBootStrap = AppConstants.EMPTY_STRING ;
+	public static String getBootStrapID() {
+		String bootStrapID = AppConstants.EMPTY_STRING ;
 		StringBuilder bootStrapBuilder = new StringBuilder(CPPController.BOOT_STRAP_ID_1);
 		bootStrapBuilder.append(SchedulerConstants.BOOT_STRAP_ID_2).append(DISecurity.BOOT_STRAP_ID_3) ;
 		bootStrapBuilder.append(Utils.BOOT_STRAP_ID_4) ;
 		try {
-			encodedBootStrap = encodeToBase64(bootStrapBuilder.toString().getBytes(Charset.defaultCharset())) ;
+			bootStrapID = new String(decodeFromBase64(bootStrapBuilder.toString())) ;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		return encodedBootStrap ;
-	}
-	
-	public static String getBootstrapKey() {
-		String bootStrapKey = new String(decodeFromBase64(Utils.getEncodedBootStrapKey()), Charset.defaultCharset()) ;
-		return bootStrapKey ;
+		return bootStrapID ;
 	}
 }

@@ -17,7 +17,6 @@ import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
-import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class Utils {
 	//private static String currentDateHr = "";
 	private static String ago24HrDate = "";
 	private static String ago27DayDate = "";
-	public static final String BOOT_STRAP_ID_4 = "0002" ;
+	public static final String BOOT_STRAP_ID_4 = "AwMg==" ;
 
 	public static String getPortUrl(Port port, String ipAddress) {
 		if (port == null) {
@@ -697,23 +696,18 @@ public class Utils {
 		return false;
 	}
 	
-	public static String getBootStrapID() {
-		String bootStrap = new String(Util.decodeFromBase64(Util.getEncodedBootStrapID()), Charset.defaultCharset()) ;
-		return bootStrap ;
-	}
-	
-	public static String getEncodedBootStrapKey() {
-		String encodedBootStrapKey = AppConstants.EMPTY_STRING ;
+	public static String getBootStrapKey() {
+		String bootStrapKey = AppConstants.EMPTY_STRING ;
 		StringBuilder bootStrapBuilder = new StringBuilder(SchedulerUtil.BOOTSTRAP_KEY_1);
 		bootStrapBuilder.append(AnimatorConstants.BOOT_STRAP_KEY_2);
 		bootStrapBuilder.append(ParserConstants.BOOT_STRAP_KEY_3) ;
 		bootStrapBuilder.append(Fonts.BOOT_STRAP_KEY_4) ;
 		bootStrapBuilder.append(EWSConstant.BOOT_STRAP_KEY_5) ;
 		try {
-			encodedBootStrapKey = Util.encodeToBase64(bootStrapBuilder.toString().getBytes(Charset.defaultCharset())) ;
+			bootStrapKey = new String(Util.decodeFromBase64(bootStrapBuilder.toString())) ;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return encodedBootStrapKey;
+		return bootStrapKey;
 	}
 }
