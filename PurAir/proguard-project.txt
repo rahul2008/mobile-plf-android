@@ -18,7 +18,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
--keep class com.google.gson.** { *; }
+# Gson uses generic type information stored in a class file when working with fields.
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature
+# Gson specific classes
+-keep class sun.misc.Unsafe { *; }
+
 -keep class com.philips.icpinterface.** { *; }
 -keepclasseswithmembernames class * {
     native <methods>;
