@@ -256,7 +256,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			notifyListeners = true;
 		}
 		
-		if (existingPurifier.getBootId() != newPurifier.getBootId()) {
+		if (existingPurifier.getBootId() != newPurifier.getBootId() || existingPurifier.getEncryptionKey() == null) {
 			existingPurifier.setEncryptionKey(null);
 			existingPurifier.setBootId(newPurifier.getBootId());
 			startKeyExchange(existingPurifier);

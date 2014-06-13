@@ -56,6 +56,10 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
 				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.isPaired() ? 1 : 0);
 
+				// Disable storage of encryption key for usage test.
+				// TODO find better solution for commercial release
+				values.put(AppConstants.KEY_AIRPUR_KEY, (String) null);
+
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, e.getMessage());
@@ -133,6 +137,10 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.isPaired() ? 1 : 0);
+			
+			// Disable storage of encryption key for usage test.
+			// TODO find better solution for commercial release
+			values.put(AppConstants.KEY_AIRPUR_KEY, (String) null);
 
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
