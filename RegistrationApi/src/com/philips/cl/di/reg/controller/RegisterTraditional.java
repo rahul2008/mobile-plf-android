@@ -35,8 +35,11 @@ public class RegisterTraditional implements Jump.SignInResultHandler,Jump.SignIn
         String microSiteId = myPrefs.getString("microSiteId", null);
         
 		
-		String preferredLanguage  = Locale.getDefault().getDisplayLanguage();
-		String country = context.getResources().getConfiguration().locale.getDisplayCountry();
+		//String preferredLanguage  = Locale.getDefault().getDisplayLanguage();
+		//String country = context.getResources().getConfiguration().locale.getDisplayCountry();
+        
+		String preferredLanguage = Locale.getDefault().getLanguage();
+		String country = context.getResources().getConfiguration().locale.getCountry();
 		
 		//visitedMicroSites
 		try {

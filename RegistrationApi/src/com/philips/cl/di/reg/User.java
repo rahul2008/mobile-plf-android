@@ -199,60 +199,65 @@ public class User {
 	}
 	
 	// For updating consumer interests
-	public void ReplaceConsumerInterests(Context mContext,
-			ConsumerArray consumerArray) {
+		public void ReplaceConsumerInterests(Context mContext,
+				ConsumerArray consumerArray) {
 
-		CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
-		consumerInterestArray = new JSONArray();
-		ConsumerArray consumer = ConsumerArray.getInstance();
+			CaptureRecord captured = CaptureRecord.loadFromDisk(mContext);
+			consumerInterestArray = new JSONArray();
+			ConsumerArray consumer = ConsumerArray.getInstance();
 
-		if (consumer != null) {
-			for (ConsumerInterest diConsumerInterest : consumer
-					.getConsumerArraylist()) {
+			if (consumer != null) {
+				for (ConsumerInterest diConsumerInterest : consumer.getConsumerArraylist()) {
+					try {
+
+						consumerInterestObject = new JSONObject();
+						consumerInterestObject.put("campaignName",diConsumerInterest.getCampaignName());
+						consumerInterestObject.put("subjectArea",diConsumerInterest.getSubjectArea());
+						consumerInterestObject.put("topicCommunicationKey",diConsumerInterest.getTopicCommunicationKey());
+						consumerInterestObject.put("topicValue",diConsumerInterest.getTopicValue());
+						
+					} catch (JSONException e) {
+
+						e.printStackTrace();
+					}
+					consumerInterestArray.put(consumerInterestObject);	
+				}
+			}
+
+			if (captured != null) {
 				try {
+					captured.remove("consumerInterests");
+					captured.put("consumerInterests", consumerInterestArray);
+					
+					System.out.println("Final consumer array size:"+consumer.getConsumerArraylist().size());
+					System.out.println("Consumer Array data:"+captured.getString("consumerInterests"));
+					System.out.println("Final Json:"+captured.toString());
 
-					consumerInterestObject = new JSONObject();
-					consumerInterestObject.put("campaignName",diConsumerInterest.getCampaignName());
-					consumerInterestObject.put("subjectArea",diConsumerInterest.getSubjectArea());
-					consumerInterestObject.put("topicCommunicationKey",diConsumerInterest.getTopicCommunicationKey());
-					consumerInterestObject.put("topicValue",diConsumerInterest.getTopicValue());
+					try {
+						captured.synchronize(new Capture.CaptureApiRequestCallback() {
+							@Override
+							public void onSuccess() {
 
+							}
+
+							@Override
+							public void onFailure(CaptureApiError e) {
+
+							}
+						});
+
+					} catch (InvalidApidChangeException e) {
+
+						e.printStackTrace();
+					}
+
+					
 				} catch (JSONException e) {
-
 					e.printStackTrace();
 				}
-				consumerInterestArray.put(consumerInterestObject);
 			}
+
 		}
-
-		if (captured != null) {
-			try {
-				captured.put("consumerInterests", consumerInterestArray);
-
-				try {
-					captured.synchronize(new Capture.CaptureApiRequestCallback() {
-						@Override
-						public void onSuccess() {
-
-						}
-
-						@Override
-						public void onFailure(CaptureApiError e) {
-
-						}
-					});
-
-				} catch (InvalidApidChangeException e) {
-
-					e.printStackTrace();
-				}
-
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-
-	}
 
 	// For Log out
 

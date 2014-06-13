@@ -4,14 +4,18 @@ import java.util.ArrayList;
 
 public class ConsumerArray {
 
-	private static ArrayList<ConsumerInterest> consumerInterestArray = new ArrayList<ConsumerInterest>();
-	static ConsumerArray consumerArray = new ConsumerArray();
+	private ArrayList<ConsumerInterest> consumerInterestArray ;
+	static ConsumerArray consumerArray =null ;
 	
 	public ConsumerArray() {
-        
+		consumerInterestArray = new ArrayList<ConsumerInterest>();
 	}
 
 	public static ConsumerArray getInstance() {
+		if(consumerArray==null)
+		{
+			consumerArray = new ConsumerArray();
+		}
 		return consumerArray;
 	}
 	
@@ -19,8 +23,8 @@ public class ConsumerArray {
 		return consumerInterestArray;
 	}
 	
-	public void setConsumerArraylist(ConsumerInterest consumerInterest) {
-		consumerInterestArray.add(consumerInterest);
+	public void setConsumerArraylist(ArrayList<ConsumerInterest> alconsumerInterest) {
+		consumerInterestArray = alconsumerInterest;
 	}
 
 }

@@ -36,6 +36,9 @@ public class ErrorMessage {
 		else if (error == 14) {
 			errorMessage = "EMAIL_ALREADY_EXIST";
 		}
+		else if (error == 15) {
+			errorMessage = "ENGAGE_ERROR";
+		}
 		return errorMessage;
 		}
 	}

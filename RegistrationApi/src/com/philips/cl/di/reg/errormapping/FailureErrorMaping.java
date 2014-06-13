@@ -17,10 +17,11 @@ public class FailureErrorMaping {
 		}
 
 	public int checkSignInError() {
-
+		
 		if (error.reason == SignInError.FailureReason.AUTHENTICATION_CANCELED_BY_USER) {
 			code = Error.AUTHENTICATION_CANCELED_BY_USER.geterrorList();
-		} else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
+		} 
+		else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
 				&& error.captureApiError.isMergeFlowError()) {
 			code = Error.MERGE_FLOW_ERROR.geterrorList();
 		} else if (error.reason == SignInError.FailureReason.CAPTURE_API_ERROR
@@ -30,10 +31,13 @@ public class FailureErrorMaping {
 			code = Error.GENERIC_ERROR.geterrorList();
 		} else if (error.reason == SignInError.FailureReason.INVALID_PASSWORD) {
 			code = Error.INVALID_PARAM.geterrorList();
-		} else if (error.captureApiError.code == 210) {
-			code = Error.INVALID_USERNAME_OR_PASSWORD.geterrorList();
 		} 
-		else if (error.captureApiError.code == 390) {
+		else if ((error.reason.toString()).equals("ENGAGE_ERROR")) {
+			  code = Error.ENGAGE_ERROR.geterrorList();
+			}
+		else if (error.captureApiError.code == 210) {
+			code = Error.INVALID_USERNAME_OR_PASSWORD.geterrorList();
+		} else if (error.captureApiError.code == 390) {
 			code = Error.EMAIL_ALREADY_EXIST.geterrorList();
 		}else if (error.captureApiError.code == -6) {
 			code = Error.INVALID_USERNAME_OR_PASSWORD.geterrorList();

@@ -16,7 +16,8 @@ public enum Error {
 	TWO_STEP_ERROR(12),
 	MERGE_FLOW_ERROR(13),
 	EMAIL_ALREADY_EXIST(14),
-	INCORRECT_PASSWORD(15);
+	INCORRECT_PASSWORD(15),
+	ENGAGE_ERROR(16);
 	
 	private int errorCode;
     

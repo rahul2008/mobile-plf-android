@@ -12,7 +12,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,Jump.SignIn
     private Context context;
 	private SocialProviderLoginHandler socialLoginHandler;
 	private String mergeToken;
-	private int errorCondition = 0;
+	private int errorCondition = 1;
 
 	public LoginSocialProvider(SocialProviderLoginHandler socialLoginHandler,Context context) {
 		this.socialLoginHandler = socialLoginHandler;
@@ -32,6 +32,7 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,Jump.SignIn
 
 	@Override
 	public void onFailure(SignInError error) {
+		
 		FailureErrorMaping errorMapping = new FailureErrorMaping(error, null,null);
 		errorCondition = errorMapping.checkSignInError();
 
@@ -53,9 +54,13 @@ public class LoginSocialProvider implements Jump.SignInResultHandler,Jump.SignIn
 			String socialRegistrationToken = error.captureApiError.getSocialRegistrationToken();
 			this.socialLoginHandler.onLoginFailedWithTwoStepError(prefilledRecord, socialRegistrationToken);
 			
-		} else {
+		} 
+		
+       else
+       {
 			this.socialLoginHandler.onLoginFailedWithError(errorCondition);
 		}
+       
 	}
 
 }
