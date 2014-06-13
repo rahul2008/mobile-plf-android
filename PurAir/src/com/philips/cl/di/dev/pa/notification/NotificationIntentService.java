@@ -5,6 +5,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 
@@ -60,18 +62,19 @@ public class NotificationIntentService extends IntentService {
     	if(notificationMan==null) return;
     	if(msg==null || msg.isEmpty()) return;
     	
+    	Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+    	
     	Intent intent=new Intent(context, MainActivity.class);
-    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP| Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(context)
-        .setSmallIcon(R.drawable.purair_icon) // TODO change notification icon
-        .setContentTitle(context.getString(R.string.app_name))
-        .setStyle(new NotificationCompat.BigTextStyle()
-        .bigText(msg))
-        .setAutoCancel(true)
-        .setContentText(msg);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        mBuilder.setSmallIcon(R.drawable.purair_icon); // TODO change notification icon
+        mBuilder.setContentTitle(context.getString(R.string.app_name));
+        mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(msg));
+        mBuilder.setAutoCancel(true);
+        mBuilder.setContentText(msg);
+        mBuilder.setSound(soundUri);
 
         mBuilder.setContentIntent(contentIntent);
         notificationMan.notify(NOTIFICATION_ID, mBuilder.build());
