@@ -153,7 +153,7 @@ public class Util {
 		bootStrapBuilder.append(SchedulerConstants.BOOT_STRAP_ID_2).append(DISecurity.BOOT_STRAP_ID_3) ;
 		bootStrapBuilder.append(Utils.BOOT_STRAP_ID_4) ;
 		try {
-			bootStrapID = new String(decodeFromBase64(bootStrapBuilder.toString())) ;
+			bootStrapID = new String(decodeFromBase64(bootStrapBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
