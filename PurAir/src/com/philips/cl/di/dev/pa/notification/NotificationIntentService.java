@@ -65,7 +65,10 @@ public class NotificationIntentService extends IntentService {
     	Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
     	
     	Intent intent=new Intent(context, MainActivity.class);
-    	intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    	intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+    	intent.setAction(Intent.ACTION_MAIN);
+    	intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
         PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
