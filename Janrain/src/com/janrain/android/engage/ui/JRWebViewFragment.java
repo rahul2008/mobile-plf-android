@@ -31,28 +31,15 @@
  */
 package com.janrain.android.engage.ui;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.JSONException;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -73,7 +60,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-
 import com.janrain.android.R;
 import com.janrain.android.engage.JREngageError;
 import com.janrain.android.engage.net.JRConnectionManager;
@@ -83,7 +69,10 @@ import com.janrain.android.engage.session.JRProvider;
 import com.janrain.android.engage.types.JRDictionary;
 import com.janrain.android.utils.AndroidUtils;
 import com.janrain.android.utils.LogUtils;
+import org.json.JSONException;
 
+import java.net.URL;
+import java.util.List;
 
 /**
  * @internal
@@ -91,7 +80,6 @@ import com.janrain.android.utils.LogUtils;
  * @class JRWebViewActivity
  * Container for authentication web view.
  */
-@SuppressLint("NewApi")
 public class JRWebViewFragment extends JRUiFragment {
     private static final String KEY_DIALOG_TITLE = "jr_dialog_title";
     private static final String KEY_DIALOG_MESSAGE = "jr_dialog_message";
@@ -119,12 +107,7 @@ public class JRWebViewFragment extends JRUiFragment {
     private WebSettings mWebViewSettings;
     private ProgressBar mProgressSpinner;
     private RetainFragment mRetain;
-    
-    String payloadString;
-    
-   // private MyApplication myApp;
-    ArrayList<String> apayload;
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         LogUtils.logd(TAG, "[onCreateView]");
@@ -135,8 +118,6 @@ public class JRWebViewFragment extends JRUiFragment {
         View view = inflater.inflate(R.layout.jr_provider_webview, container, false);
         //StrictMode.setThreadPolicy(tp);
 
-     //   myApp = (MyApplication) getActivity().getApplicationContext();
-        
         mWebView = (WebView)view.findViewById(R.id.jr_webview);
         mProgressSpinner = (ProgressBar)view.findViewById(R.id.jr_webview_progress);
 
@@ -596,112 +577,12 @@ public class JRWebViewFragment extends JRUiFragment {
     //    mUseDesktopUa = use;
     //}
 
-    public String connectionDidFinishLoading(HttpResponseHeaders headers,
+    private void connectionDidFinishLoading(HttpResponseHeaders headers,
                                            byte[] payload,
                                            String requestUrl,
                                            Object tag) {
-        //String payloadString = new String(payload);
-    	
-       payloadString = new String(payload);
-       
-     //  myApp.setPayLoadJsonStr(payloadString);
-       
-       LogUtils.logd("Stage 1");
-       
-       /*try {
-           //OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new Activity().openFileOutput("DataToParse.txt", Context.MODE_PRIVATE));
-       	
-       	///working
-       	
-       	LogUtils.logd(TAG, "BEFORE Writing to file");
-           
-           OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().openFileOutput("zzz.txt", Context.MODE_PRIVATE));
-           outputStreamWriter.write(payloadString);
-           outputStreamWriter.close();
-           
-           LogUtils.logd(TAG, "AFTER Writing to file");
-       }
-       catch (IOException e) {
-           Log.e(TAG, "File write failed: " + e.toString());
-       }*/
-       
-       
-      // String sdcard=Environment.getExternalStorageDirectory().getPath(); 
-       
-      // String path = "/mnt/"+sdcard+"/mydata/hiaser.txt";
-       
-		/*** Write Text File to SD Card ***/
-		 
-		 
-		try 
-		
-		{
-			
-			LogUtils.logd("Stage 2");
-			
-			//String sdcard=Environment.getExternalStorageDirectory().getPath(); 
-		       
-		     //  String path = "/mnt/"+sdcard+"/mydata/hiaser.txt";
-			
-		//String path = "/mnt/sdcard/mydata/demoapp.txt";
-		
-		String path = getActivity().getApplicationContext().getFilesDir().getPath().toString() + "/demoapp.txt";
-		//File f = new File(filePath);
-		
-		//String path = "mnt/sdcard/mydata/ramu.txt";
-		File file = new File(path);
-		
-		//file.createNewFile();
-		
-		LogUtils.logd("Stage 3");
-		
-		/*** if exists create text file ***/
-		if(!file.exists())
-		{
-			file.createNewFile();
-		}
-		
-		LogUtils.logd("Stage 4");
-			/*** Write Text File ***/
-			FileWriter writer = new FileWriter(file, true); //True = Append to file, false = Overwrite
-			writer.write(payloadString + "\n");
-			writer.close();
-			
-			LogUtils.logd("Stage 5");
-			
-			LogUtils.logd(TAG, "After Writing to file");
-			
-			LogUtils.loge("File saved");
-		
- 		  // 	Toast.makeText(MainActivity.this, "File Save!",
-		 		  //   Toast.LENGTH_LONG).show();   
- 		   
-	} 
-		
-		catch (IOException e)
-		
-		{
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		//LogUtils.loge("Failed!" + e.getMessage() ); 
-	}
-       ////writeToFile("Hello sunil");
-       
-//       SharedPreferences pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-//       Editor editor = pref.edit();
-        
-       // apayload = new ArrayList<String>();
-        //apayload.add(payloadString);
-        
-//       	getActivity().sendBroadcast(new Intent("PAYLOAD").putExtra("payload",payloadString ));
-       
-       //getActivity().sendBroadcast(new Intent("PAYLOAD").putExtra("payload",payloadString ));
-       
+        String payloadString = new String(payload);
         LogUtils.logd(TAG, "[connectionDidFinishLoading] tag: " + tag + " | payload: " + payloadString);
-        
-        //LogUtils.logd(TAG, "Writing to file");
-        
-       // writeToFile(payloadString);
 
         hideProgressSpinner();
 
@@ -719,22 +600,9 @@ public class JRWebViewFragment extends JRUiFragment {
                     "Authentication failed: " + payloadString,
                     JREngageError.AuthenticationError.AUTHENTICATION_FAILED,
                     JREngageError.ErrorType.AUTHENTICATION_FAILED));
-            return payloadString ;
+            return;
         }
-        
-     /*   public String getaddedvalue()
-        {
-        	
-        	for (ArrayList<String> aa : apayload) {
-        		
-        		String loadvalue = apayload.get(0);
-				
-			}
-        	
-        return loadvalue;
-        	
-        }
-*/
+
         JRDictionary resultDictionary = payloadDictionary.getAsDictionary("rpx_result");
         // TODO null guard here
         final String result = resultDictionary.getAsString("stat");
@@ -802,82 +670,8 @@ public class JRWebViewFragment extends JRUiFragment {
                         JREngageError.ErrorType.AUTHENTICATION_FAILED));
             }
         }
-		
-        return payloadString;
     }
 
-    
-   /* public String getaddedvalue()
-    {
-    	String loadvalue = null;
-    	
-    	
-    	
-    	for (String aa : apayload) {
-    		
-    	loadvalue = apayload.get(0);
-    	
-    	LogUtils.logd("Array List Vlaue Is:",loadvalue);
-			
-		}
-    	
-    return loadvalue;
-    	
-    }*/
-    
-   /* public String getaddedvalue()
-    {
-    	String loadvalue = null;
-    	
-    	 for(String s:apayload){  
-    		 LogUtils.logd("Array List Vlaue Is:",s);
-    	      }  
-    	    
-    	
-    	for (String aa : apayload) {
-    		
-    	loadvalue = apayload.get(0);
-    	
-    	LogUtils.logd("Array List Vlaue Is:",loadvalue);
-			
-		}
-    	
-    return loadvalue;
-    	
-    }*/
-    
-    public String getaddedvalue()
-    {
-    	
-    	String s = payloadString;
-    	
-    	/*String loadvalue = null;
-    	
-    	 for(String s:apayload){  
-    		 LogUtils.logd("Array List Vlaue Is:",s);
-    	      }  
-    	    
-    	
-    	for (String aa : apayload) {
-    		
-    	loadvalue = apayload.get(0);
-    	
-    	LogUtils.logd("Array List Vlaue Is:",loadvalue);
-			
-		}
-    	
-    return loadvalue;*/
-    	//return s;
-    	
-    	LogUtils.logd("Inside last control:",payloadString);
-    	
-    	return payloadString;
-    	
-    }
-    
-    
-   
-    
     private void doAuthRestart() {
         LogUtils.logd(TAG, "[doAuthRestart]");
         if (isSpecificProviderFlow() && mProvider != null && !mProvider.requiresInput()) {
@@ -908,11 +702,6 @@ public class JRWebViewFragment extends JRUiFragment {
                     ex));
         }
     }
-    
-    public Fragment  myMthod(){
-    	Fragment fragment = new RetainFragment().newUnstance();
-    	return fragment;
-    }
 
     /**
      * @internal
@@ -936,9 +725,6 @@ public class JRWebViewFragment extends JRUiFragment {
         String mDeferredCdfS;
         Object mDeferredCdfO;
         
-        public RetainFragment(){
-        	
-        }
         
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -987,13 +773,11 @@ public class JRWebViewFragment extends JRUiFragment {
                 maybeDispatchMessages();
             }
         };
-        
-        String data;
 
         private void maybeDispatchMessages() {
             if (mTarget != null && isResumed()) {
                 if (mDeferredCdflH != null) {
-                    data = mTarget.connectionDidFinishLoading(
+                    mTarget.connectionDidFinishLoading(
                             mDeferredCdflH, mDeferredCdflBa, mDeferredCdflS, mDeferredCdflO);
                     mDeferredCdflH = null;
                     mDeferredCdflBa = null;
@@ -1009,143 +793,9 @@ public class JRWebViewFragment extends JRUiFragment {
                 }
             }
         }
-        public Fragment newUnstance(){
-        	RetainFragment fragment = new RetainFragment();
-        	Bundle bundle = new Bundle();
-        	
-        	bundle.putString("data", data);
-        	
-        	fragment.setArguments(bundle);
-        	return fragment;
-        }
     }
-    
-   /* private void writeToFile(String data) {
-    	
-    	LogUtils.logd(TAG, "BEFORE Writing to file");
-       // try {
-            //OutputStreamWriter outputStreamWriter = new OutputStreamWriter(new Activity().openFileOutput("DataToParse.txt", Context.MODE_PRIVATE));
-        	
-        	///working
-        	
-        	LogUtils.logd(TAG, "BEFORE Writing to file");
-            
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(getActivity().openFileOutput("suniltest.txt", Context.MODE_PRIVATE));
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-            
-            LogUtils.logd(TAG, "AFTER Writing to file");
-        }
-        catch (IOException e) {
-            Log.e(TAG, "File write failed: " + e.toString());
-        }
-        	Log.e(TAG, "Inside writing file");
-        	
-        	File file = new File("/mnt/sdcard/mydata/att.txt");
-        	
-        	*//*** if exists create text file ***//*
-			if(!file.exists())
-			{
-				file.createNewFile();
-			}
-        	
-			*//*** Write Text File ***//*
-			FileWriter writer = new FileWriter(file, true); //True = Append to file, false = Overwrite
-			writer.write("abcdettttttttt");
-			writer.close();
-		
-        }
-        catch (Exception e) {
-        
-        
-        }
-        	
-        	
-        	*//*** Write Text File to SD Card ***//*
-			try 
-			
-			{
-				
-			String path = "mnt/sdcard/mydata/juy.txt";
-			File file = new File(path);
-			
-			*//*** if exists create text file ***//*
-			if(!file.exists())
-			{
-				file.createNewFile();
-			}
-			
-				*//*** Write Text File ***//*
-				FileWriter writer = new FileWriter(file, true); //True = Append to file, false = Overwrite
-				writer.write("Hi sunil" + "\n");
-				writer.close();
-				
-				LogUtils.logd(TAG, "After Writing to file");
-				
-				LogUtils.loge("File saved");
-			
-	 		  // 	Toast.makeText(MainActivity.this, "File Save!",
-			 		  //   Toast.LENGTH_LONG).show();   
-	 		   
-		} 
-			
-			catch (IOException e)
-			
-			{
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			//LogUtils.loge("Failed!" + e.getMessage() ); 
-		}
-   
-        //}
-        
-      //  }
-        	
-        	//if(!file.exists())
-        	
-        	//file.createNewFile();
-        	
-        	
-        	FileWriter writer = new FileWriter(file, true); //True = Append to file, false = Overwrite
-        	
-        	writer.write(data);
-        	
-        	writer.close();
-         
-    }*/
 
-  /*  private String readFromFile() {
-        
-        String ret = "";
-         
-        try {
-            
-        	InputStream inputStream = openFileInput("abcd.txt");
-             
-            if ( inputStream != null ) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                StringBuilder stringBuilder = new StringBuilder();
-                 
-                while ( (receiveString = bufferedReader.readLine()) != null ) {
-                    stringBuilder.append(receiveString);
-                }
-                 
-                inputStream.close();
-                ret = stringBuilder.toString();
-            }
-        }
-        catch (FileNotFoundException e) {
-            Log.e(TAG, "File not found: " + e.toString());
-        } catch (IOException e) {
-            Log.e(TAG, "Can not read file: " + e.toString());
-        }
- 
-        return ret;
-    }*/
-
-	@Override
+    @Override
     /*package*/ boolean shouldShowTitleWhenDialog() {
         return getCustomUiConfiguration() != null &&
                 getCustomUiConfiguration().mShowWebViewTitleWhenDialog != null &&

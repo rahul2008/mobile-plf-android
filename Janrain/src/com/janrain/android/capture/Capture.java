@@ -81,14 +81,13 @@ public class Capture {
         connection.addAllToParams("client_id", getCaptureClientId(),
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
-                //"redirect_uri", Jump.getRedirectUri(),
+               // "redirect_uri", Jump.getRedirectUri(),
                 "redirect_uri", "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp",
                 "form", Jump.getCaptureTraditionalSignInFormName(),
                 "refresh_secret", refreshSecret,
                 "flow", Jump.getCaptureFlowName(),
                 "flow_version", Jump.getCaptureFlowVersion());
         connection.maybeAddParam("merge_token", mergeToken);
-        connection.maybeAddParam("bp_channel", Jump.getBackplaneChannelUrl());
         connection.fetchResponseAsJson(handler);
         return connection;
     }
@@ -176,7 +175,6 @@ public class Capture {
         c.maybeAddParam("flow_version", Jump.getCaptureFlowVersion());
         c.maybeAddParam("flow", Jump.getCaptureFlowName());
         c.maybeAddParam("registration_form", Jump.getCaptureSocialRegistrationFormName());
-        c.maybeAddParam("bp_channel", Jump.getBackplaneChannelUrl());
         c.maybeAddParam("merge_token", mergeToken);
         c.fetchResponseAsJson(handler);
         return c;
@@ -230,14 +228,13 @@ public class Capture {
                 "client_id", Jump.getCaptureClientId(),
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
-                //"redirect_uri", Jump.getRedirectUri(),
+               // "redirect_uri", Jump.getRedirectUri(),
                 "redirect_uri", "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp",
                 "flow", Jump.getCaptureFlowName(),
                 "form", registrationForm,
                 "refresh_secret", refreshSecret
                 );
 
-        c.maybeAddParam("bp_channel", Jump.getBackplaneChannelUrl());
         c.maybeAddParam("flow_version", CaptureFlowUtils.getFlowVersion(Jump.getCaptureFlow()));
         c.maybeAddParam("token", socialRegistrationToken);
 
@@ -254,7 +251,7 @@ public class Capture {
         c.addAllToParams("client_id", getCaptureClientId(),
                 "locale", Jump.getCaptureLocale(),
                 "response_type", Jump.getResponseType(),
-               // "redirect_uri", Jump.getRedirectUri(),
+                //"redirect_uri", Jump.getRedirectUri(),
                 "redirect_uri", "https://secure.qat1.consumer.philips.co.uk/myphilips/resetPassword.jsp",
                 CaptureFlowUtils.getUserIdFieldName(Jump.getCaptureForgotPasswordFormName(),
                         Jump.getCaptureFlow()),  emailAddress
@@ -363,8 +360,6 @@ public class Capture {
         }
 
         CaptureApiConnection c = new CaptureApiConnection("/oauth/update_profile_native");
-        
-        //CaptureApiConnection c = new CaptureApiConnection("/entity.replaceConsumerInterestArray");
 
         c.addAllToParams(CaptureFlowUtils.getFormFields(user, editProfileForm, Jump.getCaptureFlow()));
 
@@ -374,12 +369,7 @@ public class Capture {
                 "flow", Jump.getCaptureFlowName(),
                 "flow_version", Jump.getCaptureFlowVersion(),
                 "form", Jump.getCaptureEditUserProfileFormName(),
-                "access_token", user.accessToken,
-                "currentLocation", "Bangalore"
-                
-                
-                
-               
+                "access_token", user.accessToken
         );
 
         return c;

@@ -80,14 +80,12 @@ import static com.janrain.android.utils.LogUtils.throwDebugException;
 /**
  * See jump.android/Jump_Integration_Guide.md for a developer's integration guide.
  */
-
-
-
-
 public class Jump {
     public static final String JR_FAILED_TO_DOWNLOAD_FLOW = "com.janrain.android.Jump.FAILED_TO_DOWNLOAD_FLOW";
 
     private static final String JR_CAPTURE_FLOW = "jr_capture_flow";
+
+    public static final String JR_DOWNLOAD_FLOW_SUCCESS = "com.janrain.android.Jump.DOWNLOAD_FLOW_SUCCESS";
 
     /*package*/ enum State {
         STATE;
@@ -113,7 +111,6 @@ public class Jump {
         /*package*/ String captureTraditionalRegistrationFormName;
         /*package*/ String captureEditUserProfileFormName;
         /*package*/ TraditionalSignInType traditionalSignInType;
-        /*package*/ String backplaneChannelUrl;
         /*package*/ String captureForgotPasswordFormName;
         /*package*/ String captureResendEmailVerificationFormName;
         /*package*/ String userAgent;
@@ -190,7 +187,6 @@ public class Jump {
         state.traditionalSignInType = jumpConfig.traditionalSignInType;
         state.captureLocale = jumpConfig.captureLocale;
         state.captureTraditionalSignInFormName = jumpConfig.captureTraditionalSignInFormName;
-        state.backplaneChannelUrl = jumpConfig.backplaneChannelUrl;
         state.captureForgotPasswordFormName = jumpConfig.captureForgotPasswordFormName;
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
 
@@ -311,10 +307,6 @@ public class Jump {
 
     public static String getRedirectUri() {
         return "http://android.library";
-    }
-
-    public static String getBackplaneChannelUrl() {
-        return state.backplaneChannelUrl;
     }
 
     public static boolean getCaptureEnableThinRegistration() {
@@ -694,6 +686,35 @@ public class Jump {
     }
 
     /**
+     * An interface to receive a callback when authorization completes for account linking.
+     * Implement this interface in addition to te JREngageDelegate interface when you are linking accounts
+     */
+    public interface CaptureLinkAccountHandler {
+        /**
+         * Notifies the delegate that the user has successfully authenticated with the given provider,
+         * passing to the delegate a JRDictionary object with the user's profile data.
+         *
+         * This will be called instead of jrAuthenticationDidSucceedForUser if you are linking accounts.
+         *
+         * @param auth_info
+         *   A JRDictionary of fields containing all the information that Janrain Engage knows about
+         *   the user signing in to your application.  Includes the field \e "profile" which contains the
+         *   user's profile information.
+         *
+         * @param provider
+         *   The name of the provider on which the user authenticated.
+         *   For a list of possible strings, please see the
+         *   <a href="http://documentation.janrain.com/engage/sdks/ios/mobile-providers#basicProviders">
+         *   List of Providers</a>
+         *
+         * @sa For a full description of the dictionary and its fields,
+         * please see the <a href="http://documentation.janrain.com/engage/api/auth_info">auth_info
+         * response</a> section of the Janrain Engage API documentation.
+         **/
+        void jrAuthenticationDidSucceedForLinkAccount(JRDictionary auth_info, String provider);
+    }
+
+    /**
      * @deprecated Loading state from disk is now done automatically from Jump.init
      */
     public static void loadFromDisk(Context context) {
@@ -783,6 +804,9 @@ public class Jump {
                 } else {
                     state.captureFlow = JsonUtils.jsonToCollection(jsonObject);
                     LogUtils.logd("Parsed flow, version: " + CaptureFlowUtils.getFlowVersion(state.captureFlow));
+                    Intent intent = new Intent(JR_DOWNLOAD_FLOW_SUCCESS);
+                    intent.putExtra("message", "Download flow Success!!");
+                    LocalBroadcastManager.getInstance(state.context).sendBroadcast(intent);
                     storeCaptureFlow();
                 }
             }

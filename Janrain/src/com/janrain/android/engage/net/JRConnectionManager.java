@@ -226,7 +226,6 @@ public class JRConnectionManager {
     }
 
     public static void setCustomUserAgent(String customUserAgent) {
-       
-    	AsyncHttpClient.setCustomUserAgent(customUserAgent + "" + System.getProperty("http.agent"));
+        AsyncHttpClient.setCustomUserAgent(customUserAgent + "" + System.getProperty("http.agent"));
     }
 }

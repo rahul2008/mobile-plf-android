@@ -117,12 +117,12 @@ public class JRNativeAuth {
             hasFailed = true;
 
             final JRSession session = JRSession.getInstance();
-            if (errorCode.equals(JRNativeAuth.NativeAuthError.ENGAGE_ERROR)) {
+            if (JRNativeAuth.NativeAuthError.ENGAGE_ERROR.equals(errorCode)) {
                 session.triggerAuthenticationDidFail(new JREngageError(
                         message,
                         JREngageError.ConfigurationError.GENERIC_CONFIGURATION_ERROR,
                         JREngageError.ErrorType.CONFIGURATION_FAILED));
-            } else if (errorCode.equals((JRNativeAuth.NativeAuthError.GOOGLE_PLAY_UNAVAILABLE))) {
+            } else if (JRNativeAuth.NativeAuthError.GOOGLE_PLAY_UNAVAILABLE.equals(errorCode)) {
                 if (shouldTryWebViewAuthentication) {
                     tryWebViewAuthentication();
                 } else {
@@ -131,7 +131,7 @@ public class JRNativeAuth {
                             JREngageError.ConfigurationError.GOOGLE_PLAY_UNAVAILABLE,
                             JREngageError.ErrorType.CONFIGURATION_FAILED));
                 }
-            } else if (errorCode.equals(JRNativeAuth.NativeAuthError.LOGIN_CANCELED)) {
+            } else if (JRNativeAuth.NativeAuthError.LOGIN_CANCELED.equals(errorCode)) {
                 if (shouldTriggerAuthenticationDidCancel()) {
                     session.triggerAuthenticationDidCancel();
                 }
@@ -139,7 +139,8 @@ public class JRNativeAuth {
                 session.triggerAuthenticationDidFail(new JREngageError(
                         message,
                         JREngageError.AuthenticationError.AUTHENTICATION_FAILED,
-                        JREngageError.ErrorType.AUTHENTICATION_FAILED
+                        JREngageError.ErrorType.AUTHENTICATION_FAILED,
+                        exception
                 ));
             }
         }
@@ -177,12 +178,15 @@ public class JRNativeAuth {
             ApiConnection.FetchJsonCallback handler = new ApiConnection.FetchJsonCallback() {
                 public void run(JSONObject json) {
 
-                    if (json == null) completion.onFailure("Bad Response", null);
+                    if (json == null) {
+                        triggerOnFailure("Bad Response", NativeAuthError.ENGAGE_ERROR);
+                        return;
+                    }
 
                     String status = json.optString("stat");
 
                     if (json == null || json.optString("stat") == null || !json.optString("stat").equals("ok")) {
-                        completion.onFailure("Bad Json: " + json, NativeAuthError.ENGAGE_ERROR);
+                        triggerOnFailure("Bad Json: " + json, NativeAuthError.ENGAGE_ERROR);
                         return;
                     }
 
@@ -192,7 +196,7 @@ public class JRNativeAuth {
                     payload.put("token", auth_token);
                     payload.put("auth_info", new JRDictionary());
 
-                    completion.onSuccess(payload);
+                    triggerOnSuccess(payload);
                 }
             };
 
@@ -204,6 +208,27 @@ public class JRNativeAuth {
 
         }
 
+        /*package*/ void triggerOnSuccess(JRDictionary payload) {
+            completion.onSuccess(payload);
+        }
+
+        /*package*/ void triggerOnFailure(String message, NativeAuthError errorCode, Exception exception) {
+            triggerOnFailure(message, errorCode, exception, false);
+        }
+
+        /*package*/ void triggerOnFailure(String message, NativeAuthError errorCode, boolean shouldTryWebView) {
+            triggerOnFailure(message, errorCode, null, shouldTryWebView);
+        }
+
+        /*package*/ void triggerOnFailure(String message, NativeAuthError errorCode) {
+            triggerOnFailure(message, errorCode, null, false);
+        }
+
+        /*package*/ void triggerOnFailure(final String message, NativeAuthError errorCode, Exception exception,
+                              boolean shouldTryWebViewAuthentication) {
+            completion.onFailure(message, errorCode, exception, shouldTryWebViewAuthentication);
+        }
     }
+
 }
 

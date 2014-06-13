@@ -84,9 +84,7 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
  *
  * @class AsyncHttpClient
  */
-/*package*/
-
-class AsyncHttpClient {
+/*package*/ class AsyncHttpClient {
     private static String USER_AGENT;
     private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     private static final String ENCODING_GZIP = "gzip";

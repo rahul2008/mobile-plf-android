@@ -32,7 +32,6 @@
 
 package com.janrain.android.capture;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -70,7 +69,6 @@ import static com.janrain.android.utils.JsonUtils.copyJsonVal;
 import static com.janrain.android.utils.JsonUtils.unsafeJsonObjectToString;
 import static com.janrain.android.utils.LogUtils.throwDebugException;
 
-@SuppressLint("NewApi")
 public class CaptureRecord extends JSONObject {
     private static final SimpleDateFormat CAPTURE_API_SIGNATURE_DATE_FORMAT;
     private static final String JR_CAPTURE_SIGNED_IN_USER_FILENAME = "jr_capture_signed_in_user";
@@ -84,7 +82,7 @@ public class CaptureRecord extends JSONObject {
 
     /*package*/ String accessToken;
 
-    public CaptureRecord(){}
+    private CaptureRecord(){}
 
     /**
      * Instantiates a new CaptureRecord model from a JSON representation of the record
@@ -224,8 +222,7 @@ public class CaptureRecord extends JSONObject {
     }
 
     private void fireNextChange(final List<ApidChange> changeList, final CaptureApiRequestCallback callback) {
-       
-    	if (changeList.size() == 0) {
+        if (changeList.size() == 0) {
             if (callback != null) callback.onSuccess();
             return;
         }
