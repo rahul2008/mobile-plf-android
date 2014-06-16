@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -468,6 +469,16 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
 			}
 			addAqiReading();
+		} else {
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					rdcpDownloadProgressBar.setVisibility(View.GONE);
+					Toast.makeText(getApplicationContext(), 
+							getString(R.string.download_failed), Toast.LENGTH_LONG).show();
+				}
+			});
 		}
 	}
 

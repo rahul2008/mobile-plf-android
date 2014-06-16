@@ -43,11 +43,14 @@ public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 			});
 		}
 		
-		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
+//		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
 		String indoorTitle = getArguments().getString(EXTRA_INDOORTITLE);
+		if (indoorTitle != null && !indoorTitle.isEmpty()) {
+			indoorTitle.toLowerCase();
+		}
 		
 		// TODO - Include indoorTitle and OutdoorTitle
-		String aqiAnalysis = String.format(getString(R.string.outdoor_analysis_detail2_head100),"7days", indoorTitle,outdoorTitle) ;
+		String aqiAnalysis = String.format(getString(R.string.outdoor_analysis_detail2_head100), indoorTitle) ;
 		((FontTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText(aqiAnalysis);
 		
 		return view; 

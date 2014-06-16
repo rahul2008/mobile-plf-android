@@ -479,33 +479,31 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			break;
 			
 		case Commands.DOWNLOAD_DATA:
-
-//			ALog.i(ALog.INDOOR_RDCP, "ICP client callbacked");
-//			byte[] bufferOriginal = ((DownloadData) obj).getBuffer().array();
-			
-			byte[] bufferOriginal = new byte[((DownloadData)obj).getBuffer().capacity()];
-			for(int i = 0 ;i < ((DownloadData)obj).getBuffer().capacity(); i++)
-			{
-				bufferOriginal[i] = ((DownloadData)obj).getBuffer().get(i);
-			}
-			
-			byte[] buffer = bufferOriginal.clone();
-
-			if (downloadDataBuilder == null) {
-				downloadDataBuilder = new StringBuilder();
-			}
-
-			downloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
-//			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + downloadDataBuilder.toString());
-//			ALog.i(ALog.INDOOR_RDCP, "ICP client download: " + ((DownloadData) obj).getIsDownloadComplete());
-
-			if (((DownloadData) obj).getIsDownloadComplete()) {
-				ALog.d(ALog.CPPCONTROLLER, "Download complete");
-				if (downloadDataListener != null) {
-					String downloadedData = downloadDataBuilder.toString();
-					downloadDataBuilder.setLength(0);
-					downloadDataListener.onDataDownload(status, downloadedData);
+			if (status==Errors.SUCCESS) {
+				byte[] bufferOriginal = new byte[((DownloadData)obj).getBuffer().capacity()];
+				for(int i = 0 ;i < ((DownloadData)obj).getBuffer().capacity(); i++)
+				{
+					bufferOriginal[i] = ((DownloadData)obj).getBuffer().get(i);
 				}
+				
+				byte[] buffer = bufferOriginal.clone();
+	
+				if (downloadDataBuilder == null) {
+					downloadDataBuilder = new StringBuilder();
+				}
+	
+				downloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
+	
+				if (((DownloadData) obj).getIsDownloadComplete()) {
+					ALog.d(ALog.CPPCONTROLLER, "Download complete");
+					if (downloadDataListener != null) {
+						String downloadedData = downloadDataBuilder.toString();
+						downloadDataBuilder.setLength(0);
+						downloadDataListener.onDataDownload(status, downloadedData);
+					}
+				}
+			} else {
+				downloadDataListener.onDataDownload(status, null);
 			}
 			break;
 		default:
