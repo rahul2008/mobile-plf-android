@@ -46,7 +46,7 @@ public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 //		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
 		String indoorTitle = getArguments().getString(EXTRA_INDOORTITLE);
 		if (indoorTitle != null && !indoorTitle.isEmpty()) {
-			indoorTitle.toLowerCase();
+			indoorTitle = indoorTitle.toLowerCase();
 		}
 		
 		// TODO - Include indoorTitle and OutdoorTitle
