@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
+import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -261,12 +262,18 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			existingPurifier.setBootId(newPurifier.getBootId());
 			startKeyExchange(existingPurifier);
 			notifyListeners = false; // only sent events when we have new key
+			checkPairingStatusWithoutListener(existingPurifier);
 		}
 		
 		if (notifyListeners) {
 			notifyDiscoveryListener();
 		}
 		ALog.d(ALog.DISCOVERY, "Successfully updated purifier: " + existingPurifier);
+	}
+
+	private void checkPairingStatusWithoutListener(PurAirDevice purifier) {
+		PairingHandler pm = new PairingHandler(null, purifier);
+		pm.startPairing();
 	}
 
 	/**
