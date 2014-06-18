@@ -363,7 +363,7 @@
     <string name="wifi_addr">Wi-Fi 地址</string>
     <string name="adv_confiq">高级配置</string>
     <string name="error_ts01_01_title">您的飞利浦智能空气净化器未处于设置模式。</string>
-    <string name="error_ts01_01_message">请按照下面 5 个简单步骤解决问题。</string>
+    <string name="error_ts01_01_message">请按照下面 4 个简单步骤解决问题。</string>
     <string name="error_ts01_02_title">飞利浦智能空气净化器的 Wi-Fi 信号太弱。</string>
     <string name="error_ts01_03_title">您的手机无法接收来自飞利浦智能空气净化器的数据。</string>
     <string name="error_ts01_04_title">无法连接到您的空气净化器。</string>
@@ -371,9 +371,8 @@
     <string name="support_ts01_title">飞利浦支持</string>
     <string name="congratulations">恭喜您！</string>
     <string name="support_ts01_message">拔掉飞利浦智能空气净化器的插头。</string>
-    <string name="support_ts02_message">等待 15 秒，然后将飞利浦智能空气净化器重新插入电源。</string>
-    <string name="support_ts03_message">Plug in the Philips Smart Air Purifier and press the \"Power\" button to switch on the purifier.</string>
-    <string name="support_ts04_message">Press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows ORANGE.</string>
+    <string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in and press the \"Power\" button to switch on the purifier.</string>
+    <string name="support_ts03_message">Press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows ORANGE.</string>
     <string name="support_ts05_message">是Wi-Fi的LED灯</string>
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>

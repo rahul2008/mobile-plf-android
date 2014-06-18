@@ -111,7 +111,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		SetupDialogFactory ewsDialogFactory = SetupDialogFactory.getInstance(activity);
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS01));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS02));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS04));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS03));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS05));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_01));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_02));

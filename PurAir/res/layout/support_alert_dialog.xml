@@ -3,7 +3,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:paddingTop="8dp"
-    android:paddingBottom="24dp"
+    android:paddingBottom="16dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp" >
 
@@ -43,7 +43,7 @@
         android:layout_below="@+id/tv_support_popup_title"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/img_description"
-        android:padding="16dp"
+        android:padding="8dp"
         android:src="@drawable/ic_launcher" />
 
     <TextView
