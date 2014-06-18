@@ -367,7 +367,7 @@
     <string name="wifi_addr">Wi-Fi Address</string>
     <string name="adv_confiq">Advanced configuration</string>
     <string name="error_ts01_01_title">Your Philips Smart Air Purifier is not in Setup mode.</string>
-    <string name="error_ts01_01_message">Please follow these 3 easy steps to resolve the problem.</string>
+    <string name="error_ts01_01_message">Please follow these 5 easy steps to resolve the problem.</string>
     <string name="error_ts01_02_title">The Wi-Fi signal at the Philips Smart Air Purifier is too weak.</string>
     <string name="error_ts01_03_title">Your phone could not receive data from the Philips Smart Air Purifier.</string>
     <string name="error_ts01_04_title">Cannot connect to your Air Purifier.</string>
@@ -376,7 +376,8 @@
     <string name="congratulations">Congratulations!</string>
     <string name="support_ts01_message">Unplug your Philips Smart Air Purifier.</string>
     <string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in.</string>
-    <string name="support_ts03_message">Press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows ORANGE.</string>
+    <string name="support_ts03_message">Plug in the Philips Smart Air Purifier and press the \"Power\" button to switch on the purifier.</string>
+    <string name="support_ts04_message">Press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows ORANGE.</string>
     <string name="support_ts05_message">Is the Wi-Fi LED</string>
     <string name="now">now?</string>
     <string name="wrong_wifi_password">You have entered wrong password</string>

@@ -20,7 +20,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 public class SetupDialogFactory implements OnClickListener{
 
 	private Dialog errorDialogTS0101, errorDialogTS0102, errorDialogTS0103, errorDialogTS0104, errorDialogTS0105;
-	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
+	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS04, supportDialogTS05;
 	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
 
 	private int errorID;
@@ -62,9 +62,14 @@ public class SetupDialogFactory implements OnClickListener{
 			return supportDialogTS02;
 		case SUPPORT_TS03:
 			if(supportDialogTS03 == null)
-				supportDialogTS03 = getSupportAlertDialog(context.getString(R.string.support_ts03_message), R.drawable.ews_help_bg3_2x, context.getString(R.string.next), SUPPORT_TS03);
+				supportDialogTS03 = getSupportAlertDialog(context.getString(R.string.support_ts03_message), R.drawable.poweron_purair_icon, context.getString(R.string.next), SUPPORT_TS03);
 			supportID = SUPPORT_TS03;
 			return supportDialogTS03;
+		case SUPPORT_TS04:
+			if(supportDialogTS04 == null)
+				supportDialogTS04 = getSupportAlertDialog(context.getString(R.string.support_ts04_message), R.drawable.ews_help_bg3_2x, context.getString(R.string.next), SUPPORT_TS04);
+			supportID = SUPPORT_TS04;
+			return supportDialogTS04;
 		case SUPPORT_TS05:
 			if(supportDialogTS05 == null)
 				supportDialogTS05 = getSupportAlertDialogTS05(SUPPORT_TS05);
@@ -260,7 +265,6 @@ public class SetupDialogFactory implements OnClickListener{
 			break;
 
 		case R.id.iv_close_popup:
-			//			Toast.makeText(context, "Close Pop up", Toast.LENGTH_SHORT).show();
 			closePopUp(supportID);
 			break;
 		case R.id.iv_support:
@@ -317,7 +321,7 @@ public class SetupDialogFactory implements OnClickListener{
 				activity.airPurifierInSetupMode() ;
 			} else if ( context instanceof DemoModeActivity) {
 				DemoModeActivity activity = (DemoModeActivity) context ;
-				activity.gotoStepOneScreen() ;
+				activity.showStepOneScreen() ;
 			}  
 			break;
 
@@ -369,6 +373,9 @@ public class SetupDialogFactory implements OnClickListener{
 		case SUPPORT_TS03:
 			supportDialogTS03.dismiss();
 			break;
+		case SUPPORT_TS04:
+			supportDialogTS04.dismiss();
+			break;
 		case SUPPORT_TS05:
 			supportDialogTS05.dismiss();
 			break;
@@ -394,6 +401,10 @@ public class SetupDialogFactory implements OnClickListener{
 			break;
 		case SUPPORT_TS03:
 			getDialog(SUPPORT_TS03).dismiss();
+			getDialog(SUPPORT_TS04).show();
+			break;
+		case SUPPORT_TS04:
+			getDialog(SUPPORT_TS04).dismiss();
 			getDialog(SUPPORT_TS05).show();
 			break;
 		case SUPPORT_TS05:
@@ -439,6 +450,7 @@ public class SetupDialogFactory implements OnClickListener{
 		supportDialogTS01 = null;
 		supportDialogTS02 = null;
 		supportDialogTS03 = null;
+		supportDialogTS04 = null;
 		supportDialogTS05 = null;
 
 		context = null;
@@ -459,6 +471,7 @@ public class SetupDialogFactory implements OnClickListener{
 	public static final int SUPPORT_TS01 = 2001;
 	public static final int SUPPORT_TS02 = 2002;
 	public static final int SUPPORT_TS03 = 2003;
+	public static final int SUPPORT_TS04 = 2004;
 	public static final int SUPPORT_TS05 = 2005;
 
 	public static final int CHECK_SIGNAL_STRENGTH = 3001;
