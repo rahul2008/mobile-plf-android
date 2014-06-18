@@ -37,7 +37,9 @@ public class DemoModeSupportFragment extends Fragment {
 		
 		DemoModeActivity demoActivity = (DemoModeActivity) getActivity();
 		
-		if (demoActivity.getApModeFailCounter() > 2 || demoActivity.getStep1FailCounter() > 2) {
+		if (demoActivity.getApModeFailCounter() > 2 
+				|| demoActivity.getStep1FailCounter() > 2
+				|| demoActivity.getPowerOnFailCounter() > 2) {
 			((FontTextView) getView().findViewById(
 					R.id.contact_philips_support_message1)).setText(getActivity().getString(R.string.contact_philips_support_msg1_3attempt));
 		}

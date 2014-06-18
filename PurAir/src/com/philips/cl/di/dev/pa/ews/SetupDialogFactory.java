@@ -21,6 +21,7 @@ public class SetupDialogFactory implements OnClickListener{
 
 	private Dialog errorDialogTS0101, errorDialogTS0102, errorDialogTS0103, errorDialogTS0104, errorDialogTS0105;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
+	private Dialog supportDialogTS01PowerOn, supportDialogTS02PowerOn;
 	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
 
 	private int errorID;
@@ -55,11 +56,21 @@ public class SetupDialogFactory implements OnClickListener{
 				supportDialogTS01 = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_TS01);
 			supportID = SUPPORT_TS01;
 			return supportDialogTS01;
+		case SUPPORT_TS01_POWERON:
+			if(supportDialogTS01PowerOn == null)
+				supportDialogTS01PowerOn = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_TS01_POWERON);
+			supportID = SUPPORT_TS01_POWERON;
+			return supportDialogTS01PowerOn;
 		case SUPPORT_TS02:
 			if(supportDialogTS02 == null)
 				supportDialogTS02 = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.next), SUPPORT_TS02);
 			supportID = SUPPORT_TS02;
 			return supportDialogTS02;
+		case SUPPORT_TS02_POWERON:
+			if(supportDialogTS02PowerOn == null)
+				supportDialogTS02PowerOn = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.done), SUPPORT_TS02_POWERON);
+			supportID = SUPPORT_TS02_POWERON;
+			return supportDialogTS02PowerOn;
 		case SUPPORT_TS03:
 			if(supportDialogTS03 == null)
 				supportDialogTS03 = getSupportAlertDialog(context.getString(R.string.support_ts03_message), R.drawable.ews_help_bg3_2x, context.getString(R.string.next), SUPPORT_TS03);
@@ -363,8 +374,14 @@ public class SetupDialogFactory implements OnClickListener{
 		case SUPPORT_TS01:
 			supportDialogTS01.dismiss();
 			break;
+		case SUPPORT_TS01_POWERON:
+			supportDialogTS01PowerOn.dismiss();
+			break;
 		case SUPPORT_TS02:
 			supportDialogTS02.dismiss();
+			break;
+		case SUPPORT_TS02_POWERON:
+			supportDialogTS02PowerOn.dismiss();
 			break;
 		case SUPPORT_TS03:
 			supportDialogTS03.dismiss();
@@ -388,9 +405,16 @@ public class SetupDialogFactory implements OnClickListener{
 			getDialog(SUPPORT_TS01).dismiss();
 			getDialog(SUPPORT_TS02).show();
 			break;
+		case SUPPORT_TS01_POWERON:
+			getDialog(SUPPORT_TS01_POWERON).dismiss();
+			getDialog(SUPPORT_TS02_POWERON).show();
+			break;
 		case SUPPORT_TS02:
 			getDialog(SUPPORT_TS02).dismiss();
 			getDialog(SUPPORT_TS03).show();
+			break;
+		case SUPPORT_TS02_POWERON:
+			getDialog(SUPPORT_TS02_POWERON).dismiss();
 			break;
 		case SUPPORT_TS03:
 			getDialog(SUPPORT_TS03).dismiss();
@@ -436,6 +460,8 @@ public class SetupDialogFactory implements OnClickListener{
 		errorDialogTS0104 = null;
 		errorDialogTS0105 = null;
 
+		supportDialogTS01PowerOn = null;
+		supportDialogTS02PowerOn = null;
 		supportDialogTS01 = null;
 		supportDialogTS02 = null;
 		supportDialogTS03 = null;
@@ -460,6 +486,8 @@ public class SetupDialogFactory implements OnClickListener{
 	public static final int SUPPORT_TS02 = 2002;
 	public static final int SUPPORT_TS03 = 2003;
 	public static final int SUPPORT_TS05 = 2005;
+	public static final int SUPPORT_TS01_POWERON = 2006;
+	public static final int SUPPORT_TS02_POWERON = 2007;
 
 	public static final int CHECK_SIGNAL_STRENGTH = 3001;
 	public static final int CONNECTING_TO_PRODUCT = 3002;

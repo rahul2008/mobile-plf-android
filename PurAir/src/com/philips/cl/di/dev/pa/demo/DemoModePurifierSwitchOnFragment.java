@@ -42,17 +42,15 @@ public class DemoModePurifierSwitchOnFragment extends Fragment {
 				R.id.setup_step2_message1)).setText(getString(R.string.verify_power_on_msg1));
 		
 		((FontTextView) getView().findViewById(
-				R.id.setup_step2_message2)).setVisibility(View.INVISIBLE);
-		//As per discuss with team we remove the this message and change button text to next
-//		((FontTextView) getView().findViewById(
-//				R.id.setup_step2_message2)).setText(getString(R.string.verify_power_on_msg2));
+				R.id.setup_step2_message2)).setText(getString(R.string.verify_power_on_msg2));
 
 		Button yesBtn = (Button) getView().findViewById(R.id.setup_step2_yes_btn);
 		yesBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
-		yesBtn.setText(getString(R.string.next));
+		yesBtn.setText(getString(R.string.yes));
+		
 		Button noBtn = (Button) getView().findViewById(R.id.setup_step2_no_btn);
-		noBtn.setVisibility(View.INVISIBLE);
-		//TODO - Waiting for feedback to enable
+		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		noBtn.setText(getString(R.string.no));
 		
 
 		yesBtn.setOnClickListener(new OnClickListener() {
@@ -65,7 +63,7 @@ public class DemoModePurifierSwitchOnFragment extends Fragment {
 		noBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO: Waiting for feedback
+				((DemoModeActivity) getActivity()).showStepToSwitchAirPurOn();
 			}
 		});
 

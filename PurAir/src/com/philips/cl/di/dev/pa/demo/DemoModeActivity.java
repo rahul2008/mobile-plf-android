@@ -40,6 +40,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	private int demoStep = DemoModeConstant.DEMO_MODE_STEP_INTRO;
 	private int prevStep = -1;
 	private int apModeFailCounter;
+	private int powerOnFailCounter;
 	private int step1FailCounter;
 	private DemoModeBroadcastReceiver broadcastReceiver;
 
@@ -158,6 +159,15 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		}
 	}
 	
+	public void showStepToSwitchAirPurOn() {
+		powerOnFailCounter++;
+		if (powerOnFailCounter > 2) {
+			showSupportScreen();
+		} else {
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.SUPPORT_TS01_POWERON).show() ;
+		}
+	}
+	
 	public void connectToAirPurifier() {
 		dismissConnectingDialog();
 		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
@@ -222,9 +232,12 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			if (prevStep == DemoModeConstant.DEMO_MODE_STEP_INTRO) {
 				showIntroScreen();
 			} else if (prevStep == DemoModeConstant.DEMO_MODE_STEP_ONE) {
-				apModeFailCounter = 0;
 				step1FailCounter = 0;
+				apModeFailCounter = 0;
 				showStepOneScreen();
+			} else if (prevStep == DemoModeConstant.DEMO_MODE_STEP_SWITCHON) {
+				powerOnFailCounter = 0;
+				showStepSwitchOnScreen();
 			}
 			return true;
 		case DemoModeConstant.DEMO_MODE_STEP_FINAL:
@@ -308,6 +321,10 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	
 	public int getStep1FailCounter() {
 		return step1FailCounter;
+	}
+	
+	public int getPowerOnFailCounter() {
+		return powerOnFailCounter;
 	}
 
 	@Override
