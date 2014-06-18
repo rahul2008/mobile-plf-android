@@ -1,9 +1,13 @@
 package com.philips.cl.di.dev.pa.test;
 
-import static org.mockito.Mockito.*;
-import android.test.InstrumentationTestCase;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.LinkedHashMap;
+
+import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;

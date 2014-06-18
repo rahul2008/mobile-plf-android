@@ -1,8 +1,8 @@
 package com.philips.cl.di.dev.pa.test;
 
-import com.philips.cl.di.dev.pa.registration.EmailValidator;
-
 import junit.framework.TestCase;
+
+import com.philips.cl.di.dev.pa.registration.EmailValidator;
 
 public class EmailValidatorTest extends TestCase {
 	

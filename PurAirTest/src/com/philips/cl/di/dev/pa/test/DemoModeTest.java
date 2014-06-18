@@ -12,7 +12,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.demo.DemoModeStartFragement;
-import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class DemoModeTest extends ActivityInstrumentationTestCase2<DemoModeActivity> {

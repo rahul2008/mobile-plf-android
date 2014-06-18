@@ -1,11 +1,12 @@
 package com.philips.cl.di.dev.pa.test;
 
 import java.lang.reflect.Field;
+
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment.ErrorType;
 import com.philips.cl.di.dev.pa.util.ALog;
-
-import junit.framework.TestCase;
 
 public class RegistrationTest extends TestCase {
 	

@@ -3,10 +3,10 @@ package com.philips.cl.di.dev.pa.test;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
-
-import junit.framework.TestCase;
 
 public class NetworkUtilsTest extends TestCase {
 	

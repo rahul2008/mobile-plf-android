@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.test;
 
+import junit.framework.TestCase;
+
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
-
-import junit.framework.TestCase;
 
 public class PairingTest extends TestCase {
 	

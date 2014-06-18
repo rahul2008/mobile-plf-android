@@ -1,17 +1,10 @@
 package com.philips.cl.di.dev.pa.test;
 
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.verifyZeroInteractions;
-import android.os.Handler.Callback;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class SsdpServiceHelperThreadTest extends InstrumentationTestCase{
 	

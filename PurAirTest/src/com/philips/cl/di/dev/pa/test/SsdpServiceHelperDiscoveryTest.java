@@ -1,25 +1,16 @@
 package com.philips.cl.di.dev.pa.test;
 
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.atMost;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import android.content.Context;
 import android.os.Handler.Callback;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 

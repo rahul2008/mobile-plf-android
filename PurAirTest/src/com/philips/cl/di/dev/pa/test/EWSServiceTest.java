@@ -4,8 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import android.test.AndroidTestCase;
-import com.philips.cl.di.dev.pa.ews.EWSListener;
+
 import com.philips.cl.di.dev.pa.ews.EWSBroadcastReceiver;
+import com.philips.cl.di.dev.pa.ews.EWSListener;
 
 public class EWSServiceTest extends AndroidTestCase {
 	

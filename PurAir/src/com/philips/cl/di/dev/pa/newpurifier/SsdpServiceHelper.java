@@ -4,13 +4,7 @@ import android.os.Handler.Callback;
 import android.os.HandlerThread;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
-import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.cpp.SignonListener;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelperThread.StartStopInterface;
-import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class SsdpServiceHelper implements StartStopInterface {

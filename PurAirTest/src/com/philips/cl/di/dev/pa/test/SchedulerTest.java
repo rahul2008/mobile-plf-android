@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 import android.test.ActivityInstrumentationTestCase2;
-import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 import com.philips.cl.di.dev.pa.util.ALog;

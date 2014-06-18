@@ -1,7 +1,8 @@
 package com.philips.cl.di.dev.pa.test;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import junit.framework.TestCase;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
@@ -14,8 +15,6 @@ import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
-
-import junit.framework.TestCase;
 
 public class DataParserTest extends TestCase {
 	

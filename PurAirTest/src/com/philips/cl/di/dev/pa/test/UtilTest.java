@@ -1,13 +1,12 @@
 package com.philips.cl.di.dev.pa.test;
 
+import junit.framework.TestCase;
 import android.graphics.drawable.Drawable;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.util.Utils;
-
-import junit.framework.TestCase;
 
 public class UtilTest extends TestCase {
 	

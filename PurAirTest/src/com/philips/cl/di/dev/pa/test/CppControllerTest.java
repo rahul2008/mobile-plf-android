@@ -1,10 +1,9 @@
 package com.philips.cl.di.dev.pa.test;
 
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Matchers.*;
-import static org.mockito.Mockito.verifyZeroInteractions;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.cpp.CPPController;

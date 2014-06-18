@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.test;
 import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+
 import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
