@@ -3,8 +3,7 @@ package com.philips.cl.di.dev.pa.demo;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -112,11 +111,9 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		/**
 		 * Checking Wifi is enabled
 		 */
-		ConnectivityManager connManager = 
-				(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 
-		if (networkInfo != null && !networkInfo.isConnected()) {
+		if (wifiManager != null && !wifiManager.isWifiEnabled()) {
 			showDialogFragment(DemoModeWifiEnableDialogFragment.newInstance());
 		} 
 		/**
@@ -126,9 +123,14 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		else if (EWSWifiManager.isPoorNetworkAvoidanceEnabled(this)) {
 			showDialogFragment(AlertDialogAutoNetworkSwitchOn.newInstance());
 		} else {
-			showStepOneScreen();
+			showStepSwitchOnScreen();
 		}
 		
+	}
+	
+	public void showStepSwitchOnScreen() {
+		demoStep = DemoModeConstant.DEMO_MODE_STEP_SWITCHON;
+		showDemoModeFragment(new DemoModePurifierSwitchOnFragment());
 	}
 	
 	public void showStepOneScreen() {
@@ -186,6 +188,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	public void setActionbarTitle(int step) {
 		switch (step) {
 		case DemoModeConstant.DEMO_MODE_STEP_INTRO:
+		case DemoModeConstant.DEMO_MODE_STEP_SWITCHON:
 		case DemoModeConstant.DEMO_MODE_STEP_ONE:
 			actionbarCancelBtn.setVisibility(View.VISIBLE);
 			actionbarTitle.setText(getString(R.string.demo_mode_title));
@@ -209,8 +212,11 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		case DemoModeConstant.DEMO_MODE_STEP_INTRO:
 			showDialogFragment(SetupCancelDialogFragment.newInstance());
 			return true;
-		case DemoModeConstant.DEMO_MODE_STEP_ONE:
+		case DemoModeConstant.DEMO_MODE_STEP_SWITCHON:
 			showIntroScreen();
+			return true;
+		case DemoModeConstant.DEMO_MODE_STEP_ONE:
+			showStepSwitchOnScreen();
 			return true;
 		case DemoModeConstant.DEMO_MODE_STEP_SUPPORT:
 			if (prevStep == DemoModeConstant.DEMO_MODE_STEP_INTRO) {

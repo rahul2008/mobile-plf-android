@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class SetupDialogFragment extends DialogFragment {
@@ -78,8 +79,14 @@ public class SetupDialogFragment extends DialogFragment {
 			dismiss();
 			switch (view.getId()) {
 			case R.id.iv_goto_support:
-				EWSActivity activity = (EWSActivity) getActivity() ;
-				activity.showSupportFragment() ;
+				if ( getActivity() instanceof EWSActivity ) {
+					EWSActivity activity = (EWSActivity) getActivity() ;
+					activity.showSupportFragment() ;
+				} else if ( getActivity() instanceof DemoModeActivity) {
+					DemoModeActivity activity = (DemoModeActivity) getActivity() ;
+					activity.showSupportScreen() ;
+				}  
+				
 				break;
 			case R.id.btn_error_popup:
 				SetupDialogFactory.getInstance(getActivity()).getDialog(SetupDialogFactory.SUPPORT_TS01).show();

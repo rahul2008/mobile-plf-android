@@ -2,7 +2,8 @@ package com.philips.cl.di.dev.pa.demo;
 
 public class DemoModeConstant {
 	public static final int DEMO_MODE_STEP_INTRO = 1;
-	public static final int DEMO_MODE_STEP_ONE = 2;
+	public static final int DEMO_MODE_STEP_SWITCHON = 20;
+	public static final int DEMO_MODE_STEP_ONE = 21;
 	public static final int DEMO_MODE_STEP_FINAL = 3;
 	public static final int DEMO_MODE_STEP_SUPPORT = 4;
 	public static final int DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP = 5;

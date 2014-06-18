@@ -1,11 +1,11 @@
-package com.philips.cl.di.dev.pa.ews;
+package com.philips.cl.di.dev.pa.demo;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -13,7 +13,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EWSVerifyPowerOnFragment  extends Fragment {
+public class DemoModePurifierSwitchOnFragment extends Fragment {
 
 
 	@Override
@@ -27,10 +27,10 @@ public class EWSVerifyPowerOnFragment  extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO);
+		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_SWITCHON);
 		
 		((FontTextView) getView().findViewById(
-				R.id.setup_step2_title)).setText(getString(R.string.step20_off_3));
+				R.id.setup_step2_title)).setText(getString(R.string.demo_mode_title_step1));
 		
 		((FontTextView) getView().findViewById(
 				R.id.setup_step2_instruction)).setText(getString(R.string.verify_power_on_title));
@@ -47,15 +47,14 @@ public class EWSVerifyPowerOnFragment  extends Fragment {
 		Button yesBtn = (Button) getView().findViewById(R.id.setup_step2_yes_btn);
 		yesBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		Button noBtn = (Button) getView().findViewById(R.id.setup_step2_no_btn);
-		noBtn.setEnabled(false);
+		noBtn.setVisibility(View.INVISIBLE);
 		//TODO - Waiting for feedback to enable
-		noBtn.setClickable(false);
-		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
+		
 
 		yesBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((EWSActivity) getActivity()).showStepTwo();
+				((DemoModeActivity) getActivity()).showStepOneScreen();
 			}
 		});
 

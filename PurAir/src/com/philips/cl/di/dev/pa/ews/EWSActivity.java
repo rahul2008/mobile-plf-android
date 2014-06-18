@@ -318,7 +318,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		if( ewsService != null ) {
 			ewsService.setSSID(networkSSID) ;
 		}
-		showFragment(new EWSVerifyPowerOnFragment(), EWSConstant.EWS_STEP_TWO_POWER_ON_FRAGMENT_TAG);
+		showFragment(new EWSPurifierSwitchOnFragment(), EWSConstant.EWS_STEP_TWO_POWER_ON_FRAGMENT_TAG);
 	}
 	
 	public void showStepTwo() {
