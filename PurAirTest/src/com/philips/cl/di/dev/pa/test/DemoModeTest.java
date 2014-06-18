@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiManager;
 import android.support.v4.app.Fragment;
 import android.test.ActivityInstrumentationTestCase2;
 
@@ -54,17 +55,13 @@ public class DemoModeTest extends ActivityInstrumentationTestCase2<DemoModeActiv
 			fail(e.getMessage());
 		}
 		
-		ConnectivityManager connManager = 
-				(ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		WifiManager wifiManager = (WifiManager) activity.getSystemService(Context.WIFI_SERVICE);
 
-		if (networkInfo != null && networkInfo.isConnected()) {
-			assertEquals(DemoModeConstant.DEMO_MODE_STEP_ONE, step);	
+		if (wifiManager != null && wifiManager.isWifiEnabled()) {
+			assertEquals(DemoModeConstant.DEMO_MODE_STEP_SWITCHON, step);	
 		} else {
 			assertEquals(DemoModeConstant.DEMO_MODE_STEP_INTRO, step);	
 		}
-		
-			
 	}
 	
 	public void testDemoModeSupportFragment() {
