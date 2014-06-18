@@ -317,7 +317,7 @@ public class SetupDialogFactory implements OnClickListener{
 				activity.airPurifierInSetupMode() ;
 			} else if ( context instanceof DemoModeActivity) {
 				DemoModeActivity activity = (DemoModeActivity) context ;
-				activity.showStepOneScreen() ;
+				activity.gotoStepOneScreen() ;
 			}  
 			break;
 

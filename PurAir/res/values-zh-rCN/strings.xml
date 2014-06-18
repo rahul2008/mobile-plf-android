@@ -507,4 +507,7 @@
     <string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
     <string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
     <string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
+    <string name="wifi_enable_title_txt">Your Wifi is switched off</string>
+    <string name="wifi_enable_msg_txt">Please go to your settings or swipe-up menu and enable wifi</string>
+    <string name="wifi_enable_button_txt">Go to settings</string>
 </resources>

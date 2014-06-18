@@ -10,5 +10,6 @@ public class DemoModeConstant {
 	public static final int DEMO_MODE_TASK_DEVICE_GET = 7;
 	public static final int DEMO_MODE_TASK_WIFI_GET = 8;
 	public static final String DEMO = "Demo";
+	public static final int REQUEST_CODE = 2;
 	
 }

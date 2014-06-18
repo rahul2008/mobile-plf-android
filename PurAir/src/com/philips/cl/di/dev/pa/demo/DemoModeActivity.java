@@ -1,6 +1,10 @@
 package com.philips.cl.di.dev.pa.demo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +25,8 @@ import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class DemoModeActivity extends BaseActivity implements OnClickListener, DemoModeListener {
@@ -35,8 +41,9 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	 * 
 	 */
 	private int demoStep = DemoModeConstant.DEMO_MODE_STEP_INTRO;
-	public int setAPModeCounter;
-	public int step1FailedCounter;
+	private int prevStep = -1;
+	private int apModeFailCounter;
+	private int step1FailCounter;
 	private DemoModeBroadcastReceiver broadcastReceiver;
 
 	@Override
@@ -103,26 +110,36 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		showDemoModeFragment(new DemoModeStartFragement());
 	}
 	
-	public void showStepOneScreen() {
+	public void gotoStepOneScreen() {
+		/**
+		 * Checking Wifi is enabled
+		 */
+		ConnectivityManager connManager = 
+				(ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+		if (networkInfo != null && !networkInfo.isConnected()) {
+			showDialogFragment(DemoModeWifiEnableDialogFragment.newInstance());
+		} 
 		/**
 		 * Checking auto network switch enabled
 		 * If enabled show alert dialog to user disable
 		 */
-		if (EWSWifiManager.isPoorNetworkAvoidanceEnabled(this)) {
-			try {
-				FragmentManager fragMan = getSupportFragmentManager();
-				fragMan.beginTransaction().add(
-						AlertDialogAutoNetworkSwitchOn.newInstance(), "auto_networ_switch").commitAllowingStateLoss();
-			} catch (Exception e) {
-				ALog.e(ALog.DEMO_MODE, e.getMessage());
-			}
+		else if (EWSWifiManager.isPoorNetworkAvoidanceEnabled(this)) {
+			showDialogFragment(AlertDialogAutoNetworkSwitchOn.newInstance());
 		} else {
-			demoStep = DemoModeConstant.DEMO_MODE_STEP_ONE;
-			showDemoModeFragment(new DemoModeStepOneFragment());
+			showStepOneScreen();
 		}
+		
+	}
+	
+	public void showStepOneScreen() {
+		demoStep = DemoModeConstant.DEMO_MODE_STEP_ONE;
+		showDemoModeFragment(new DemoModeStepOneFragment());
 	}
 	
 	public void showSupportScreen() {
+		prevStep = demoStep;
 		demoStep = DemoModeConstant.DEMO_MODE_STEP_SUPPORT;
 		showDemoModeFragment(new DemoModeSupportFragment());
 	}
@@ -133,8 +150,8 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	}
 	
 	public void showStepToSetupAPMode() {
-		setAPModeCounter++;
-		if (setAPModeCounter > 2) {
+		apModeFailCounter++;
+		if (apModeFailCounter > 2) {
 			showSupportScreen();
 		} else {
 			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
@@ -147,7 +164,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		if ( broadcastReceiver == null) {
 			broadcastReceiver = new DemoModeBroadcastReceiver(this) ;
 		}
-		step1FailedCounter++;
+		step1FailCounter++;
 		broadcastReceiver.connectToDeviceAP() ;
 	}
 	
@@ -192,21 +209,19 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		ALog.i(ALog.DEMO_MODE, "replaceFragmentOnBackPress: " + demoStep);
 		switch (demoStep) {
 		case DemoModeConstant.DEMO_MODE_STEP_INTRO:
-			try {
-				FragmentManager fragMan = getSupportFragmentManager();
-				fragMan.beginTransaction().add(
-						SetupCancelDialogFragment.newInstance(), "setup_cancel").commitAllowingStateLoss();
-			} catch (Exception e) {
-				ALog.e(ALog.DEMO_MODE, e.getMessage());
-			}
+			showDialogFragment(SetupCancelDialogFragment.newInstance());
 			return true;
 		case DemoModeConstant.DEMO_MODE_STEP_ONE:
 			showIntroScreen();
 			return true;
 		case DemoModeConstant.DEMO_MODE_STEP_SUPPORT:
-			setAPModeCounter = 0;
-			step1FailedCounter = 0;
-			showStepOneScreen();
+			if (prevStep == DemoModeConstant.DEMO_MODE_STEP_INTRO) {
+				showIntroScreen();
+			} else if (prevStep == DemoModeConstant.DEMO_MODE_STEP_ONE) {
+				apModeFailCounter = 0;
+				step1FailCounter = 0;
+				showStepOneScreen();
+			}
 			return true;
 		case DemoModeConstant.DEMO_MODE_STEP_FINAL:
 			return true;
@@ -226,7 +241,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 				
 				switch (errorCode) {
 				case DemoModeConstant.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP:
-					if (step1FailedCounter > 2) {
+					if (step1FailCounter > 2) {
 						showSupportScreen();
 					} else {
 						showErrorDialog(getString(R.string.error_ts01_01_title), 
@@ -235,7 +250,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 					}
 					break;
 				case DemoModeConstant.DEMO_MODE_ERROR_DATA_RECIEVED_FAILED:
-					if (step1FailedCounter > 2) {
+					if (step1FailCounter > 2) {
 						showSupportScreen();
 					} else {
 						try {
@@ -254,6 +269,16 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		});
 	}
 	
+	private void showDialogFragment(Fragment fragment) {
+		try {
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction().add(
+					fragment, "dialogfragment").commitAllowingStateLoss();
+		} catch (Exception e) {
+			ALog.e(ALog.DEMO_MODE, e.getMessage());
+		}
+	}
+	
 	private void showErrorDialog(String title,String msg, String btnTxt) {
 		try {
 			FragmentManager fragMan = getSupportFragmentManager();
@@ -263,6 +288,22 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		} catch (Exception e) {
 			ALog.e(ALog.DEMO_MODE, e.getMessage());
 		}
+	}
+	
+	public void dismissConnectingDialog() {
+		if (SetupDialogFactory.getInstance(
+				DemoModeActivity.this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
+			SetupDialogFactory.getInstance(
+					DemoModeActivity.this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
+		}
+	}
+	
+	public int getApModeFailCounter() {
+		return apModeFailCounter;
+	}
+	
+	public int getStep1FailCounter() {
+		return step1FailCounter;
 	}
 
 	@Override
@@ -276,11 +317,11 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		});
 	}
 	
-	public void dismissConnectingDialog() {
-		if (SetupDialogFactory.getInstance(
-				DemoModeActivity.this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
-			SetupDialogFactory.getInstance(
-					DemoModeActivity.this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent arg2) {
+		if (requestCode == DemoModeConstant.REQUEST_CODE) {
+			gotoStepOneScreen();
 		}
 	}
+
 }

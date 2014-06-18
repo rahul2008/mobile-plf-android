@@ -42,7 +42,7 @@ public class DemoModeStartFragement extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
-				((DemoModeActivity) getActivity()).showStepOneScreen();
+				((DemoModeActivity) getActivity()).gotoStepOneScreen();
 			}
 		});
 	}
