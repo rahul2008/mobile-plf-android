@@ -33,7 +33,7 @@ public class DemoModeTest extends ActivityInstrumentationTestCase2<DemoModeActiv
 	}
 	
 	public void testDemoModeStepOneFragment() {
-		activity.showStepOneScreen();
+		activity.gotoStepOneScreen();
 		int step = DemoModeConstant.DEMO_MODE_STEP_INTRO;
 		try {
 			Field stepField = DemoModeActivity.class.getDeclaredField("demoStep");
