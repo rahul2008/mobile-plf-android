@@ -37,7 +37,7 @@ public class EWSSupportFragment extends Fragment {
 		
 		EWSActivity ewsActivity = (EWSActivity) getActivity();
 		
-		if (ewsActivity.setUPModeCounter > 2 || ewsActivity.step2FailedCounter > 2) {
+		if (ewsActivity.getApModeFailCounter() > 2 || ewsActivity.getStep2FailCounter() > 2) {
 			((FontTextView) getView().findViewById(
 					R.id.contact_philips_support_message1)).setText(getActivity().getString(R.string.contact_philips_support_msg1_3attempt));
 		}

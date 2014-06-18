@@ -50,8 +50,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	private EWSBroadcastReceiver ewsService ;
 	private String cppId;
-	public int setUPModeCounter;
-	public int step2FailedCounter;
+	private int apModeFailCounter;
+	private int step2FailCounter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -205,8 +205,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		case EWSConstant.EWS_STEP_THREE:
 		case EWSConstant.EWS_STEP_ERROR_DISCOVERY:
 		case EWSConstant.EWS_STEP_SUPPORT:
-			setUPModeCounter = 0;
-			step2FailedCounter = 0;
+			apModeFailCounter = 0;
+			step2FailCounter = 0;
 			showStepTwo();
 			return true;
 		case EWSConstant.EWS_STEP_FINAL:
@@ -391,14 +391,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		if ( ewsService == null) {
 			ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
 		}
-		step2FailedCounter++;
+		step2FailCounter++;
 		ewsService.setSSID(networkSSID) ;
 		ewsService.connectToDeviceAP() ;
 	}
 	
 	public void showEWSSetUpInstructionsDialog() {
-		setUPModeCounter++;
-		if (setUPModeCounter > 2) {
+		apModeFailCounter++;
+		if (apModeFailCounter > 2) {
 			showSupportFragment();
 		} else {
 			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
@@ -472,7 +472,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		
 		switch (errorCode) {
 		case EWSListener.ERROR_CODE_PHILIPS_SETUP_NOT_FOUND:
-			if (step2FailedCounter > 2) {
+			if (step2FailCounter > 2) {
 				showSupportFragment();
 			} else {
 				showErrorDialog(getString(R.string.error_ts01_01_title), 
@@ -481,7 +481,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			}
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
-			if (step2FailedCounter > 2) {
+			if (step2FailCounter > 2) {
 				showSupportFragment();
 				break;
 			}
@@ -571,6 +571,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		} else {
 			return true;
 		}
+	}
+	
+	public int getApModeFailCounter() {
+		return apModeFailCounter;
+	}
+	
+	public int getStep2FailCounter() {
+		return step2FailCounter;
 	}
 
 	@Override
