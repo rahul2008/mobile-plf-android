@@ -1,9 +1,13 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import java.util.ArrayList;
+import java.util.Set;
+
 import android.os.Handler.Callback;
 import android.os.HandlerThread;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelperThread.StartStopInterface;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -51,6 +55,22 @@ public class SsdpServiceHelper implements StartStopInterface {
 		}
 	}
 	
+	public ArrayList<String> getOnlineDevicesEui64() {
+		Set<DeviceModel> devices = mSsdpService.getAliveDeviceList();
+		ArrayList<String> onlineEui64s = new ArrayList<String>();
+		if (devices == null) {
+			ALog.i(ALog.SSDPHELPER, "Ssdp service returned NULL online devices");
+			return onlineEui64s;
+		}
+		
+		for (DeviceModel model : devices) {
+			if (model == null || model.getSsdpDevice() == null) continue;
+			onlineEui64s.add(model.getSsdpDevice().getCppId());
+		}
+		ALog.i(ALog.SSDPHELPER, "Ssdp service returned " + onlineEui64s.size() + " online devices");
+		return onlineEui64s;
+	}
+	
 	private void createNewStartStopThread() {
 		synchronized (threadLock) {
 			if (mThread != null) return;
@@ -77,6 +97,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	public void startDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.startDeviceDiscovery(mSsdpCallback);
+		DiscoveryManager.getInstance().syncLocalDevicesWithSsdpStackDelayed();
 		ALog.i(ALog.SSDPHELPER, "Starting SsdpService took - " + (System.currentTimeMillis() - startTime) + "ms");
 	}
 
@@ -84,6 +105,7 @@ public class SsdpServiceHelper implements StartStopInterface {
 	public void stopDiscoveryFromHandler() {
 		long startTime = System.currentTimeMillis();
 		mSsdpService.stopDeviceDiscovery();
+		DiscoveryManager.getInstance().cancelSyncLocalDevicesWithSsdpStack();
 		ALog.i(ALog.SSDPHELPER, "Stopping SsdpService took - " + (System.currentTimeMillis() - startTime) + "ms");
 		
 		synchronized (threadLock) {

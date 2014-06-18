@@ -347,7 +347,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			eventPublisher.setEventInformation(eventType, actionName,
 					replyTo, conversationId, priority, ttl);
 			eventPublisher.setEventData(eventData);
-			eventPublisher.setTargets(new String[] { purifierEui64 });
+			if (purifierEui64 != null) {
+				eventPublisher.setTargets(new String[] { purifierEui64 });
+			} else {
+				eventPublisher.setTargets(new String[0]);
+			}
 			eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
 
 			eventPublisher.executeCommand();
@@ -435,6 +439,12 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 			break;
 			
+		case Commands.FETCH_EVENTS:
+			int state = eventSubscription.getState();
+			
+			
+			break;
+			
 		case Commands.SUBSCRIBE_EVENTS:
 			String dcsEvents = "";
 			String fromEui64 = "";
@@ -462,7 +472,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						notifyDCSListener(dcsEvents, fromEui64, action);
 					}
 				}
-				if(appDcsRequestState == APP_REQUESTED_STATE.STOP) {
+				if (appDcsRequestState == APP_REQUESTED_STATE.STOP) {
 					stopDCSService();
 				}
 			}
