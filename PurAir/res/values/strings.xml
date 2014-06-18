@@ -511,9 +511,9 @@
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>
     <string name="demo_mode_support_title">Demo setup support</string>
-    <string name="demo_mode_intro_msg">Follow these 3 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
-    <string name="demo_mode_title_step1">Step 1 of 3</string>
-    <string name="demo_mode_title_step2">Step 2 of 3</string>
+    <string name="demo_mode_intro_msg">Follow these 2 easy steps to pair your Philips Smart Air Purifier to your phone for demonstration.</string>
+    <string name="demo_mode_title_step1">Step 1 of 2</string>
+    <string name="demo_mode_title_step2">Step 2 of 2</string>
     <string name="demo_mode_final_step_msg">Your Philips Smart Air Purifier is now paired with your phone and ready for demonstration.</string>
     <string name="demo_mode_final_step_btn_txt">Start demonstrating</string>
     <string name="cancel_demo_setup_title">Are you sure you want to cancel Demo setup?</string>
