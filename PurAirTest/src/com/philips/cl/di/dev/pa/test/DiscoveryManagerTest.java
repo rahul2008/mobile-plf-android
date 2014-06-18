@@ -5,8 +5,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 
+import android.os.Handler;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
@@ -1554,4 +1557,251 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 	}
 	
 // ***** STOP TESTS TO UPDATE NETWORKSTATE WHEN CPP EVENT RECEIVED ***** 
+
+// ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND *****
+	public void testLostBackgroundAllDevicesFound() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_1, PURIFIER_EUI64_2})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
+	}
+
+	public void testLostBackgroundNoDevicesFound() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
+	}
+
+	public void testLostBackgroundNoDevicesFoundPaired() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(false);
+		purifier2.setOnlineViaCpp(false);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
+	}
+
+	public void testLostBackgroundNoDevicesFoundPairedOnline() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(true);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
+	}
+	
+	public void testLostBackgroundOneDeviceFound() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
+	}
+	
+	public void testLostBackgroundOneDeviceFoundPaired() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(false);
+		purifier2.setOnlineViaCpp(false);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
+	}
+	
+	public void testLostBackgroundOneDeviceFoundPairedOnline() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.CONNECTED_LOCALLY);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_LOCALLY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(true);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
+	}
+	
+	public void testLostBackgroundOneDeviceFoundOffline() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.DISCONNECTED);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(true);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
+	}
+	
+	public void testLostBackgroundOneDeviceFoundRemote() {
+		PurAirDevice purifier1 = new PurAirDevice(PURIFIER_EUI64_1, null, PURIFIER_IP_1, "Purifier1", 0, ConnectionState.DISCONNECTED);
+		PurAirDevice purifier2 = new PurAirDevice(PURIFIER_EUI64_2, null, PURIFIER_IP_2, "Purifier2", 0, ConnectionState.CONNECTED_REMOTELY);
+		purifier1.setPairing(true);
+		purifier2.setPairing(true);
+		purifier1.setOnlineViaCpp(true);
+		purifier2.setOnlineViaCpp(true);
+		setPurifierList(new PurAirDevice[] {purifier1, purifier2});
+		
+		SsdpServiceHelper helper = mock(SsdpServiceHelper.class);
+		when(helper.getOnlineDevicesEui64()).thenReturn(new ArrayList<String>(Arrays.asList(new String[] {PURIFIER_EUI64_2})));
+		mDiscMan.setDummySsdpServiceHelperForTesting(helper);
+		mDiscMan.markLostDevicesInBackgroundOfflineOrRemote();
+		
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getConnectionState());
+	}
+	
+// ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND ***** 
+	
+// ***** START TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND ***** 
+	public void testDiscoveryTimerNetworkNoNetwork() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
+		mDiscMan.onNetworkChanged(NetworkState.NONE, "");
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+
+		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
+	}
+	
+	public void testDiscoveryTimerNetworkMobile() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
+		mDiscMan.onNetworkChanged(NetworkState.MOBILE, "");
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+	}
+	public void testDiscoveryTimerNetworkWifi() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		mDiscMan.onNetworkChanged(NetworkState.WIFI_WITH_INTERNET, "myssid");
+		assertTrue(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+		
+		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
+	}
+	
+	public void testDiscoveryTimerStartNoNetwork() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.NONE);
+		mDiscMan.setDummyNetworkMonitorForTesting(monitor);
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		mDiscMan.start(mock(DiscoveryEventListener.class));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+	}
+
+	public void testDiscoveryTimerStartMobile() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.MOBILE);
+		mDiscMan.setDummyNetworkMonitorForTesting(monitor);
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		mDiscMan.start(mock(DiscoveryEventListener.class));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+	}
+	
+	public void testDiscoveryTimerStartWifi() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		mDiscMan.setDummyNetworkMonitorForTesting(monitor);
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		mDiscMan.start(mock(DiscoveryEventListener.class));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertFalse(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+	}
+	
+	public void testDiscoveryTimerStop() {
+		mDiscMan.setDummySsdpServiceHelperForTesting(mock(SsdpServiceHelper.class));
+		mDiscMan.setDummyCppDiscoveryHelperForTesting(mock(CppDiscoveryHelper.class));
+		NetworkMonitor monitor = mock(NetworkMonitor.class);
+		when(monitor.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
+		mDiscMan.setDummyNetworkMonitorForTesting(monitor);
+		
+		Handler discoveryHand = mDiscMan.getDiscoveryTimeoutHandlerForTesting();
+		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE, 10000);
+		discoveryHand.sendEmptyMessageDelayed(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE, 10000);
+		mDiscMan.start(mock(DiscoveryEventListener.class));
+		assertTrue(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE));
+		assertTrue(discoveryHand.hasMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE));
+		
+		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_WAITFORLOCAL_MESSAGE);
+		discoveryHand.removeMessages(DiscoveryManager.DISCOVERY_SYNCLOCAL_MESSAGE);		
+	}
+// ***** STOP TESTS TO UPDATE CONNECTION STATE FROM TIMER AFTER APP TO FOREGROUND ***** 
 }

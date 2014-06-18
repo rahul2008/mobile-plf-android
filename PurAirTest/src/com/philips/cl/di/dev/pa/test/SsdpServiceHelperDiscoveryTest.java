@@ -6,10 +6,19 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+
 import android.os.Handler.Callback;
 import android.test.InstrumentationTestCase;
 
 import com.philips.cl.di.common.ssdp.lib.SsdpService;
+import com.philips.cl.di.common.ssdp.models.DeviceModel;
+import com.philips.cl.di.common.ssdp.models.SSDPdevice;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.SsdpServiceHelper;
 
 public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
@@ -43,6 +52,14 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 			} catch (Exception e) {
 			}
 		}
+	}
+	
+	private DeviceModel generateSsdpDeviceModel(String udn, String eui64) {
+		DeviceModel model = new DeviceModel(udn);
+		SSDPdevice device = new SSDPdevice();
+		device.setCppId(eui64);
+		model.setSsdpDevice(device);
+		return model;
 	}
 
 	// ***** START TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
@@ -325,6 +342,80 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		verify(mService).startDeviceDiscovery(any(Callback.class));
 		verify(mService, times(2)).stopDeviceDiscovery();
 	}
+	
+	public void testDiscoverySyncLocalOnStart() {
+		DiscoveryManager discMan = mock(DiscoveryManager.class);
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
+		
+		mHelper.startDiscoveryAsync();
+		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+		mHelper.removePendingMessagesOnQueueForTesting();
+
+		verify(discMan).syncLocalDevicesWithSsdpStackDelayed();
+		verify(discMan, never()).cancelSyncLocalDevicesWithSsdpStack();
+		
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+	}
+	
+	public void testDiscoverySyncLocalOnStop() {
+		DiscoveryManager discMan = mock(DiscoveryManager.class);
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(discMan);
+		
+		mHelper.stopDiscoveryAsync();
+		try {
+			Thread.sleep(STOPMESSAGE_TIMEOUT);
+		} catch (Exception e) {
+		}
+		mHelper.removePendingMessagesOnQueueForTesting();
+
+		verify(discMan, never()).syncLocalDevicesWithSsdpStackDelayed();
+		verify(discMan).cancelSyncLocalDevicesWithSsdpStack();
+		
+		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
+	}
 
 	// ***** STOP TESTS TO START STOP DISCOVERY WHEN METHODS ARE CALLED *****
+	
+	public void testOnlineDevicesNull() {
+		when(mService.getAliveDeviceList()).thenReturn(null);
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		
+		assertNotNull(onlineCppIds);
+		assertEquals(0, onlineCppIds.size());
+	}
+
+	public void testOnlineDevicesEmpty() {
+		when(mService.getAliveDeviceList()).thenReturn(new HashSet<DeviceModel>());
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		
+		assertNotNull(onlineCppIds);
+		assertEquals(0, onlineCppIds.size());
+	}
+
+	public void testOnlineDevicesOneDevice() {
+		DeviceModel model1 = generateSsdpDeviceModel("udn1", "eui64_1");
+		HashSet<DeviceModel> aliveDevices = new HashSet<DeviceModel>();
+		aliveDevices.add(model1);
+		when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		
+		assertNotNull(onlineCppIds);
+		assertEquals(1, onlineCppIds.size());
+		assertEquals("eui64_1", onlineCppIds.get(0));
+	}
+
+	public void testOnlineDevicesTwoDevices() {
+		DeviceModel model1 = generateSsdpDeviceModel("udn1","eui64_1");
+		DeviceModel model2 = generateSsdpDeviceModel("udn2","eui64_2");
+		LinkedHashSet<DeviceModel> aliveDevices = new LinkedHashSet<DeviceModel>();
+		aliveDevices.add(model1);
+		aliveDevices.add(model2);
+		when(mService.getAliveDeviceList()).thenReturn(aliveDevices);
+		ArrayList<String> onlineCppIds = mHelper.getOnlineDevicesEui64();
+		
+		assertNotNull(onlineCppIds);
+		assertEquals(2, onlineCppIds.size());
+		assertEquals("eui64_1", onlineCppIds.get(0));
+		assertEquals("eui64_2", onlineCppIds.get(1));
+	}
 }

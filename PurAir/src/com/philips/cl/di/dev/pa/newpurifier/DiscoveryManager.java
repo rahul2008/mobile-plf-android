@@ -56,14 +56,20 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	private DiscoveryEventListener mListener;
 	
-	private static final int DISCOVERYTIMEOUT_MESSAGE = 987654321;
-	private static final int DISCOVERYTIMEOUT = 10000;
+	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
+	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
+	private static final int DISCOVERY_WAITFORLOCAL_TIMEOUT = 10000;
+	private static final int DISCOVERY_SYNCLOCAL_TIMEOUT = 10000;
 	private static Handler mDiscoveryTimeoutHandler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			if (msg.what == DISCOVERYTIMEOUT_MESSAGE) {
+			if (msg.what == DISCOVERY_WAITFORLOCAL_MESSAGE) {
 				synchronized (mDiscoveryLock) {
 					DiscoveryManager.getInstance().markNonDiscoveredDevicesRemote();
+				}
+			} else if(msg.what == DISCOVERY_SYNCLOCAL_MESSAGE) {
+				synchronized (mDiscoveryLock) {
+					DiscoveryManager.getInstance().markLostDevicesInBackgroundOfflineOrRemote();
 				}
 			}
 		};
@@ -101,7 +107,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public void stop() {
 		mSsdpHelper.stopDiscoveryAsync();
 		ALog.d(ALog.DISCOVERY, "Stopping SSDP service - Stop called");
-		mDiscoveryTimeoutHandler.removeMessages(DISCOVERYTIMEOUT_MESSAGE);
 		mCppHelper.stopDiscoveryViaCpp();
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = null;
@@ -118,8 +123,8 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	@Override
 	public void onNetworkChanged(NetworkState networkState, String networkSsid) {
-		// Assumption: Wifi switch will go through the none state
-		mDiscoveryTimeoutHandler.removeMessages(DISCOVERYTIMEOUT_MESSAGE);
+		// REMARK: Wifi switch will go through the none state
+		cancelConnectViaCppAfterLocalAttempt();
 		synchronized (mDiscoveryLock) {
 			switch(networkState) {
 			case NONE : 
@@ -134,7 +139,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 				break;
 			case WIFI_WITH_INTERNET:
 				markOtherNetworkDevicesRemote(networkSsid);
-				mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERYTIMEOUT_MESSAGE, DISCOVERYTIMEOUT);
+				connectViaCppAfterLocalAttemptDelayed();
 				mSsdpHelper.startDiscoveryAsync();
 				ALog.d(ALog.DISCOVERY, "Starting SSDP service - Network change (wifi internet)");
 				break;
@@ -284,6 +289,27 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		// Listener notified when key is exchanged
 		ALog.d(ALog.DISCOVERY, "Successfully added purifier: " + purifier);
 	}
+	
+	public void markLostDevicesInBackgroundOfflineOrRemote() {
+		ALog.d(ALog.DISCOVERY, "Syncing local list after app went to background");
+		boolean statusUpdated = false;
+		
+		ArrayList<String> onlineCppIds = mSsdpHelper.getOnlineDevicesEui64();
+		
+		for (PurAirDevice device : mDevicesMap.values()) {
+			if (device.getConnectionState() == ConnectionState.DISCONNECTED) continue; // must be offline: not discovered
+			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // must be remote: not discovered
+			if (onlineCppIds.contains(device.getEui64())) continue; // State is correct
+			
+			// Losing a device in the background means it is offline
+			device.setConnectionState(ConnectionState.DISCONNECTED);
+			ALog.v(ALog.DISCOVERY, "Marked non discovered DISCONNECTED: " + device.getName());
+			
+			statusUpdated = true;
+		}
+		if (!statusUpdated) return;
+		notifyDiscoveryListener();
+	}
 // ********** END SSDP METHODS ************
 	
 	
@@ -294,7 +320,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
+			if (device.getLastKnownNetworkSsid() != null && device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
 			if (!device.isPaired()) continue; // not paired
 			
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
@@ -441,6 +467,39 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 // ********** END CPP METHODS ************
 	
+// ********** START ASYNC METHODS ************
+	/**
+	 * Only needs to be done after a network change to Wifi network
+	 */
+	private void connectViaCppAfterLocalAttemptDelayed() {
+		ALog.i(ALog.DISCOVERY, "START delayed job to connect via cpp to devices that did not appear local");
+		mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_WAITFORLOCAL_MESSAGE, DISCOVERY_WAITFORLOCAL_TIMEOUT);
+	}
+	
+	private void cancelConnectViaCppAfterLocalAttempt() {
+		if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_WAITFORLOCAL_MESSAGE)) {
+			mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_WAITFORLOCAL_MESSAGE);
+			ALog.i(ALog.DISCOVERY, "CANCEL delayed job to connect via cpp to devices");
+		}
+	}
+
+	/**
+	 * Only needs to be done after the SSDP service has actually stopped.
+	 * (device could have gone offline during the stopped period)
+	 */
+	public void syncLocalDevicesWithSsdpStackDelayed() {
+		ALog.i(ALog.DISCOVERY, "START delayed job to mark local devices offline that did not reappear after ssdp restart");
+		mDiscoveryTimeoutHandler.sendEmptyMessageDelayed(DISCOVERY_SYNCLOCAL_MESSAGE, DISCOVERY_SYNCLOCAL_TIMEOUT);
+	}
+	
+	public void cancelSyncLocalDevicesWithSsdpStack() {
+		if (mDiscoveryTimeoutHandler.hasMessages(DISCOVERY_SYNCLOCAL_MESSAGE)) {
+			mDiscoveryTimeoutHandler.removeMessages(DISCOVERY_SYNCLOCAL_MESSAGE);
+			ALog.i(ALog.DISCOVERY, "CANCEL delayed job to mark local devices offline");
+		}
+	}
+// ********** END ASYNC METHODS ************
+	
 	private PurAirDevice getPurAirDevice(DeviceModel deviceModel) {
 		SSDPdevice ssdpDevice = deviceModel.getSsdpDevice();
 		if (ssdpDevice == null) return null;
@@ -565,7 +624,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 	
 	
-	
 // ********** START TEST METHODS ************
 	public static void setDummyDiscoveryManagerForTesting(DiscoveryManager dummyManager) {
 		mInstance = dummyManager;
@@ -589,6 +647,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public void setPurifierListForTesting(LinkedHashMap<String, PurAirDevice> testMap) {
 		mDevicesMap = testMap;
 	}
+	
+	public Handler getDiscoveryTimeoutHandlerForTesting() {
+		return mDiscoveryTimeoutHandler;
+	}
+	
 // ********** END TEST METHODS ************
 
 }
