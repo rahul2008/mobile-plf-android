@@ -133,6 +133,7 @@
     <string name="buy_philips_smart_air_purifier">Philips Smart Air Purifier</string>
     <string name="available_from">Available to purchase from</string>
     <!-- Indoor and Outdoor Details -->
+    <string name = "purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
     <string name="download_failed">Error download failed</string>
     <string name="indoor_db">Indoor</string>
     <string name="outdoor_db">Outdoor</string>

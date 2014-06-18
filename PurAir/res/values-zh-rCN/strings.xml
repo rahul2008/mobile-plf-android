@@ -133,6 +133,7 @@
     <string name="buy_philips_smart_air_purifier">飞利浦智能空气净化器</string>
     <string name="available_from">可从购买</string>
     <!-- Indoor and Outdoor Details -->
+    <string name = "purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
     <string name="download_failed">Error download failed</string>
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">戶外</string>

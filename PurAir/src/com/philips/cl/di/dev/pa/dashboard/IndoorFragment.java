@@ -13,6 +13,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
@@ -72,6 +73,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
+		aqiPointer.setOnClickListener(this);
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
 		initFirmwareUpdatePopup();
 	}
@@ -151,7 +153,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiStatusTxt.setTextSize(22.0f);
 			aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
 			aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
-			aqiPointer.setOnClickListener(this);
 			showIndoorMeter();
 		}
 		
@@ -350,6 +351,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			if(getActivity() != null && purifier != null && purifier.getConnectionState() != ConnectionState.DISCONNECTED) {
 				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 				startActivity(intent);
+			} else {
+				if (getActivity() != null) {
+					Toast.makeText(getActivity(), 
+							getString(R.string.purifier_not_connect_error), Toast.LENGTH_LONG).show();
+				}
 			}
 			break;
 		default:
