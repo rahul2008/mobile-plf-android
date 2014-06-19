@@ -314,6 +314,7 @@ public class DataParser {
 	public static OutdoorAQI parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 
+		if( dataToParse == null ) return null ;
 		try {
 			JSONObject responseObject = new JSONObject(dataToParse);
 			JSONObject airObject = responseObject.getJSONObject("air");
@@ -336,6 +337,7 @@ public class DataParser {
 	}
 	
 	public static OutdoorWeather parseLocationWeather(String dataToParse) {
+		if( dataToParse == null ) return null ;
 		try {
 			JSONObject responseObject = new JSONObject(dataToParse);
 			JSONObject observeObject = responseObject.getJSONObject("observe");
@@ -353,6 +355,8 @@ public class DataParser {
 			return new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time);
 		} catch (JSONException e) {
 			return null;
+		}catch(Exception e) {
+			return null ;
 		}
 	}
 
