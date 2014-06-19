@@ -194,11 +194,11 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		String discoveryInfo = getDiscoveryManagerInformation();
 
 		//get AirPurifier diagnostics info
-		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();
-		String euid = "AirPurifier EUI64:" + getPurifierEui64();
-		String macAddress = getPurifierMacAddress();
-		macAddress = "Air Purifier MAC Address:"
-				+ formatMacAddress(macAddress);
+//		String airpurifierIpAddress = "AirPurifier IpAddress:" + getPurifierIpAddress();
+//		String euid = "AirPurifier EUI64:" + getPurifierEui64();
+//		String macAddress = getPurifierMacAddress();
+//		macAddress = "Air Purifier MAC Address:"
+//				+ formatMacAddress(macAddress);
 
 		String iCPClientVersion= "ICP Client version:"+
 				controller.getICPClientVersion();
@@ -214,8 +214,8 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		data.append(lineSeparator);
 		data.append(dMacaddress);
 		data.append(lineSeparator);
-		data.append(dGateway);
-		data.append(lineSeparator);
+		//data.append(dGateway);
+		//data.append(lineSeparator);
 		data.append(dDns1);
 		data.append(lineSeparator);
 		data.append(registrationId);
@@ -223,13 +223,13 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		data.append(lineSeparator);
 		data.append(discoveryInfo);
 		data.append(lineSeparator);
-		data.append("AirPurifier Network Info\n");
-		data.append(airpurifierIpAddress);
-		data.append(lineSeparator);
-		data.append(euid);
-		data.append(lineSeparator);
-		data.append(macAddress);
-		data.append(lineSeparator);
+		//data.append("AirPurifier Network Info\n");
+		//data.append(airpurifierIpAddress);
+		//data.append(lineSeparator);
+		//data.append(euid);
+		//data.append(lineSeparator);
+		//data.append(macAddress);
+		//data.append(lineSeparator);
 		data.append(isSignOn);
 		data.append(lineSeparator);
 		data.append(iCPClientVersion);
