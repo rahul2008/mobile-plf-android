@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -54,6 +55,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private PurAirDevice mPurifier;
 
 	private String aqiThreshold;
+	private static final int AQI_THRESHOLD_TIMEOUT = 120 * 1000 ;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -247,9 +249,22 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if (mPurifier == null ) {
 			return ;
 		}
+		aqiThresholdTimer.start() ;
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
 		PurifierManager.getInstance().setPurifierDetails(ParserConstants.AQI_THRESHOLD, aqiThreshold, PURIFIER_EVENT.AQI_THRESHOLD);
 	}
+	
+	private CountDownTimer aqiThresholdTimer = new CountDownTimer(AQI_THRESHOLD_TIMEOUT,1000) {
+		
+		@Override
+		public void onTick(long millisUntilFinished) {	}
+		
+		@Override
+		public void onFinish() {
+			if (progressDialog != null) progressDialog.dismiss();			
+			showErrorDialog() ;
+		}
+	};
 
 	@Override
 	public void onPermissionReturned(final boolean permissionExists) {
@@ -333,6 +348,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	public void onAirPurifierEventReceived() {
 		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
 		if (progressDialog != null) progressDialog.dismiss();
+		if (aqiThresholdTimer != null ) aqiThresholdTimer.cancel() ;
 	}
 
 	@Override
@@ -376,8 +392,13 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
 		if (purifierEvent != PURIFIER_EVENT.AQI_THRESHOLD ) return ;
+		if( aqiThresholdTimer != null )	aqiThresholdTimer.cancel() ;
 		if (progressDialog != null) progressDialog.dismiss();
 		
+		showErrorDialog() ;
+	}
+	
+	private void showErrorDialog() {
 		if( getActivity() != null ) {
 			getActivity().runOnUiThread(new Runnable() {
 				
