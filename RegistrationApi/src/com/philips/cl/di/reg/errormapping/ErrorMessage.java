@@ -17,7 +17,7 @@ public class ErrorMessage {
 		} else if (error == 5) {
 			errorMessage = "EMAIL ADDRESS IN USE";
 		} else if (error == 6) {
-			errorMessage = "NO NETWORK CONNECTION";
+			errorMessage = "INTERNET CONNECTION LOST";
 		} else if (error == 7) {
 			errorMessage = "CONFIGURATION FAILED";
 		} else if (error == 8) {

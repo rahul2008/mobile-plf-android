@@ -1,16 +1,34 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
+import com.philips.cl.di.dev.pa.security.Util;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
-public class OutdoorController implements ServerResponseListener{
+public class OutdoorController implements ServerResponseListener {
+	
+	private static final String APP_ID = "12754defd8507e921241";
+	private static final String PRIVATE_KEY = "meizu_webapi_data";
+	
+	private static final String BASE_URL = "http://api.fuwu.weather.com.cn/data/";
+	
+	private static final String HASH_ALG = "HmacSHA1";
 
 	private List<OutdoorEventListener> outdoorEventListeners;
 	
@@ -34,29 +52,89 @@ public class OutdoorController implements ServerResponseListener{
 	public void removeOutdoorEventListener(OutdoorEventListener outdoorEventListener) {
 		outdoorEventListeners.remove(outdoorEventListener);
 	}
+	
+	private String buildURL(String areaID, String type, String date, String appID) {
+		String url = "";
+		String publicKey = BASE_URL + "?areaid=" + areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID;
+		ALog.i(ALog.DASHBOARD, "Public key :: " + publicKey);
+		String key = "";
+		String finalKey = "";
+		try {
+			finalKey = Util.encodeToBase64(hmacSha1(publicKey, PRIVATE_KEY));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		String mostCertainlyTheFinalKey = "";
+		try {
+			mostCertainlyTheFinalKey = URLEncoder.encode(finalKey.trim(), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		ALog.i(ALog.DASHBOARD, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
+		
+		url = BASE_URL + "?areaid=" + areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID.substring(0, 6) + "&key=" + mostCertainlyTheFinalKey;
+		
+		ALog.i(ALog.DASHBOARD, "Final URL " + url);
+		
+		return url;
+	}
 
-	public void startCitiesTask() {
-		TaskGetHttp citiesList = new TaskGetHttp(AppConstants.OUTDOOR_CITIES_URL, PurAirApplication.getAppContext(), this);
+	public void startCitiesTask(String areaID) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+		String date = dateFormat.format(new Date(System.currentTimeMillis()));
+		ALog.i(ALog.DASHBOARD, "startCitiesTask dateFormate " + date);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(areaID, "air", date, APP_ID), PurAirApplication.getAppContext(), this);
+		citiesList.start();
+	}
+	
+	public void startOutdoorWeatherTask(String areaID) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+		String date = dateFormat.format(new Date(System.currentTimeMillis()));
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(areaID, "observe", date, APP_ID), PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
 	private void notifyListeners(String data) {
 		if(outdoorEventListeners == null) return;
 		
-		List<City> citiesList = DataParser.parseLocationData(data);
-		
-		if(citiesList == null) return;
+		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data);
+		OutdoorWeather outdoorWeather = DataParser.parseLocationWeather(data);
 		
 		for(int index = 0; index < outdoorEventListeners.size(); index++) {
-			outdoorEventListeners.get(index).outdoorLocationDataReceived(citiesList);
+			if(outdoorAQI != null)
+				outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQI, outdoorAQI.getAreaID());
+			
+			if(outdoorWeather != null) 
+				outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, outdoorWeather.getAreaID());
 		}
 	}
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String data, String fromIp) {
+		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode);
 		if(data != null) {
 			notifyListeners(data);
 		}
+	}
+	
+	private byte[] hmacSha1(String value, String key) {
+	    SecretKeySpec secret = new SecretKeySpec(key.getBytes(), HASH_ALG);
+	    Mac mac = null;
+		try {
+			mac = Mac.getInstance(HASH_ALG);
+			mac.init(secret);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		}
+		
+		if(mac == null) {
+			return null;
+		}
+		
+	    byte[] bytes = mac.doFinal(value.getBytes());
+	    return bytes;
 	}
 
 }

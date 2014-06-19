@@ -1,15 +1,16 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class OutdoorManager implements OutdoorEventListener {
 	
-	private List<OutdoorDto> outdoorLocations;
+	private Map<String, OutdoorCity> citiesMap;
+	private List<String> citiesList;
 	
 	private static OutdoorManager smInstance;
 	
@@ -23,13 +24,25 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 	
 	public void startCitiesTask() {
-		if(outdoorLocations == null || outdoorLocations.size() <= 0) {
-			OutdoorController.getInstance().startCitiesTask();
+		for(String areaID : citiesList) {
+			if(citiesMap == null || citiesMap.get(areaID) == null )  {
+				OutdoorController.getInstance().startCitiesTask(areaID);
+				OutdoorController.getInstance().startOutdoorWeatherTask(areaID);
+			}
 		}
 	}
 	
 	private OutdoorManager() {
-		outdoorLocations = new ArrayList<OutdoorDto>();
+		citiesMap = new HashMap<String, OutdoorCity>();
+		citiesList = new ArrayList<String>();
+		//Hard coded city area codes for UT3
+		//TODO : Remove hard coding
+		citiesList.add("101010100"); //Beijing
+		citiesList.add("101020100"); //Shanghai
+		citiesList.add("101270101"); //Cheng Du
+		
+		startCitiesTask();
+		
 		OutdoorController.getInstance().setOutdoorEventListener(this);
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
 	}
@@ -38,60 +51,43 @@ public class OutdoorManager implements OutdoorEventListener {
 		iListener=listener;
 	}
 	
-	public OutdoorDto getOutdoorDashboardDataByCity(String city) {
-		if(outdoorLocations == null || outdoorLocations.size() <= 0) {
-			return null;
-		}
-		
-		Iterator<OutdoorDto> iterator = outdoorLocations.iterator();
-		while (iterator.hasNext()) {
-			OutdoorDto outdoorDto = (OutdoorDto) iterator.next();
-			if(outdoorDto.getCityName().equalsIgnoreCase(city)) {
-				return outdoorDto;
+	@Override
+	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
+		ALog.i(ALog.DASHBOARD, "outdoorAQIDataReceived " + outdoorAQI);
+		if(outdoorAQI != null) {
+			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorAQIDataReceived aqi " + outdoorAQI.getPM25() + " : " + outdoorAQI.getAQI() + " : " + outdoorAQI.getPublishTime());
+			OutdoorCity city = citiesMap.get(areaID);
+			if(city == null) {
+				city = new OutdoorCity();
 			}
+			city.setOutdoorAQI(outdoorAQI);
+			citiesMap.put(areaID, city);
+			iListener.updateUIOnDataChange();
 		}
-		return null;
-	}
-	
-	public OutdoorDto getOutdoorDashboardDataByIndex(int position) {
-		if(outdoorLocations == null || outdoorLocations.size() <= 0) {
-			return null;
-		}
-		if(outdoorLocations.get(position) == null) {
-			return null;
-		}
-		return outdoorLocations.get(position);
 	}
 
 	@Override
-	public void outdoorLocationDataReceived(List<City> cities) {
-		if(cities != null && !cities.isEmpty()) {
-			addToOutdoorLocations(cities);
-		}
-	}
-
-	private void addToOutdoorLocations(List<City> cities) {
-		ALog.i(ALog.DASHBOARD, "OutdoorManager$addOutdoorLocations");
-		Iterator<City> iter = cities.iterator();
-		
-		while(iter.hasNext()) {
-			City city = iter.next();
-			OutdoorDto outdoorDto = new OutdoorDto();
-			ALog.i(ALog.DASHBOARD, "outdoorDto " + (outdoorDto == null) + " city " + (city == null) + " gov " + (city.getGov() == null));
-			if(city != null && city.getGov() != null && city.getWeather() != null) {
-				outdoorDto.setAqi(city.getGov().getIdx());
-				outdoorDto.setCityName(city.getKey());
-				outdoorDto.setTemperature(city.getWeather().getTemp_c());
-				outdoorDto.setUpdatedTime(city.getGov().getT());
-				outdoorDto.setWeatherIcon(city.getWeather().getIcon());
-				outdoorDto.setGeo(city.getLat()+","+city.getLon());
-				outdoorDto.setPm10(city.getGov().getPm10());
-				outdoorDto.setPm25(city.getGov().getPm25());
-				outdoorDto.setSo2(city.getGov().getSo2());
-				outdoorDto.setNo2(city.getGov().getNo2());
-				outdoorLocations.add(outdoorDto);
+	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
+		ALog.i(ALog.DASHBOARD, "outdoorWeatherDataReceived " + outdoorWeather);
+		if(outdoorWeather != null) {
+			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorWeatherDataReceived temp " + outdoorWeather.getTemperature() + " : " + outdoorWeather.getWeatherIcon() + " : " + outdoorWeather.getHumidity());
+			OutdoorCity city = citiesMap.get(areaID);
+			if(city == null) {
+				city = new OutdoorCity();
 			}
+			city.setOutdoorWeather(outdoorWeather);
+			citiesMap.put(areaID, city);
+			iListener.updateUIOnDataChange();
 		}
-		iListener.updateUIOnDataChange();
 	}
+	
+	public List<String> getCitiesList() {
+		return citiesList;
+	}
+	
+	public OutdoorCity getCityData(String areaID) {
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$getCityData " + areaID);
+		return citiesMap.get(areaID);
+	}
+	
 }

@@ -35,6 +35,9 @@ public class FailureErrorMaping {
 		else if ((error.reason.toString()).equals("ENGAGE_ERROR")) {
 			  code = Error.ENGAGE_ERROR.geterrorList();
 			}
+		else if (error.captureApiError.code == -1) {
+			code = Error.NO_NETWORK_CONNECTION.geterrorList();
+		}
 		else if (error.captureApiError.code == 210) {
 			code = Error.INVALID_USERNAME_OR_PASSWORD.geterrorList();
 		} else if (error.captureApiError.code == 390) {

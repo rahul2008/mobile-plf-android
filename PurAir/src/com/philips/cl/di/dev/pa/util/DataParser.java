@@ -15,6 +15,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.CityDetails;
@@ -288,7 +290,6 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-	//TODO : Unit test.
 	public static List<City> parseLocationData(String dataToParse) {
 		if(dataToParse == null) {
 			return null;
@@ -306,6 +307,51 @@ public class DataParser {
 			return null;
 		} catch (Exception e) {
 			ALog.e(ALog.PARSER, "parseLocationData");
+			return null;
+		}
+	}
+	
+	public static OutdoorAQI parseLocationAQI(String dataToParse) {
+		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
+
+		try {
+			JSONObject responseObject = new JSONObject(dataToParse);
+			JSONObject airObject = responseObject.getJSONObject("air");
+			
+			String areaID = (String) airObject.keys().next();
+			JSONObject cityData = airObject.getJSONObject(areaID); //Area code
+			
+			int pm25 = cityData.getJSONObject("p").getInt("p1");
+			int aqi = cityData.getJSONObject("p").getInt("p2");
+			String time = cityData.getJSONObject("p").getString("p9");
+
+			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi + " time " + time);
+
+			return new OutdoorAQI(pm25, aqi, time, areaID);
+
+		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
+			return null;
+		}
+	}
+	
+	public static OutdoorWeather parseLocationWeather(String dataToParse) {
+		try {
+			JSONObject responseObject = new JSONObject(dataToParse);
+			JSONObject observeObject = responseObject.getJSONObject("observe");
+			
+			String areaID = (String) observeObject.keys().next();
+			JSONObject cityData = observeObject.getJSONObject(areaID); //Area code
+
+			JSONObject cityJsonObject = cityData.getJSONObject("l") ;
+			int temperature = cityJsonObject.getInt("l1");
+			int humidity = cityJsonObject.getInt("l2");
+			int weatherIcon = cityJsonObject.getInt("l5");
+			String time = cityJsonObject.getString("l7") ;
+
+			ALog.i(ALog.PARSER, "parseLocationWeather temp : " + temperature + " humidity " + humidity + " weatherIcon " + weatherIcon);
+			return new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time);
+		} catch (JSONException e) {
 			return null;
 		}
 	}

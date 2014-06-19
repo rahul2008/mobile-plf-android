@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
@@ -31,28 +30,18 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener {
 	
-	private FontTextView cityName, location, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
+	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private LinearLayout takeATourPopup;
 	private ImageView aqiCircleMeter ;
 	
-	public static OutdoorFragment newInstance(OutdoorDto outdoorDto) {
-		ALog.i(ALog.DASHBOARD, "OutdoorFragment$newInstance");
-		OutdoorFragment fragment = new OutdoorFragment();
-		if(outdoorDto != null) {
-			Bundle args = new Bundle();
-			args.putSerializable(AppConstants.KEY_CITY, outdoorDto);
-			fragment.setArguments(args);
-		}
-		return fragment;
-	}
+	private String[] cityNames = {"Beijing", "Shanghai", "Cheng Du"};
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
-		OutdoorManager.getInstance().startCitiesTask();
 		initViews(getView());
 	}
 	
@@ -72,7 +61,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	
 	private void initViews(View view) {
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
-		location = (FontTextView) view.findViewById(R.id.hf_outdoor_location);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
 		aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
@@ -80,14 +68,21 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 		aqiSummary1 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary1);
 		aqiSummary2 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary2);
 		aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
+		aqiPointerCircle.setOnClickListener(this);
 		aqiCircleMeter = (ImageView) view.findViewById(R.id.hf_outdoor_circle_meter);
 		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
 		Bundle bundle = getArguments();
 
 		if(bundle != null) {
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$onCreateView");
-			OutdoorDto city= (OutdoorDto) getArguments().getSerializable(AppConstants.KEY_CITY);
-			updateUI(city);
+			int position = bundle.getInt("position");
+			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position);
+			
+			String areaID = OutdoorManager.getInstance().getCitiesList().get(position);
+			OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
+			if(city != null) {
+				ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
+				updateUI(city, cityNames[position]);
+			}
 		} 
 		
 		if(((MainActivity)getActivity()).getVisits()<=3 && !((MainActivity)getActivity()).isTutorialPromptShown){
@@ -103,33 +98,30 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 		
 	}
 	
-	private void updateUI(OutdoorDto outdoorDto) {
+	private void updateUI(OutdoorCity city, String outdoorCityName) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
-		cityName.setText(outdoorDto.getCityName());
-		location.setText(getString(R.string.city_location));
-		if( outdoorDto.getUpdatedTime() != null && !outdoorDto.getUpdatedTime().isEmpty()) {
-			String [] splitDateandTime = outdoorDto.getUpdatedTime().split(" ") ;
-			if( splitDateandTime.length > 1 ) {
-				// Updating only time - Ignoring the date
-				updated.setText(splitDateandTime[1]);
-			}			
-		}
-				
-		temp.setText(outdoorDto.getTemperature()+AppConstants.UNICODE_DEGREE);		
-		aqi.setText(outdoorDto.getAqi());
-		aqiTitle.setText(outdoorDto.getAqiTitle());
-		String outdoorAQISummary [] = outdoorDto.getAqiSummary() ;
-		if( outdoorAQISummary != null && outdoorAQISummary.length > 1 ) {
-			aqiSummary1.setText(outdoorDto.getAqiSummary()[0]);
-			aqiSummary2.setText(outdoorDto.getAqiSummary()[1]);
-		}
-		aqiPointerCircle.setImageResource(outdoorDto.getAqiPointerImageResId());
-		aqiPointerCircle.setOnClickListener(this);
-		aqiPointerCircle.invalidate();
-		if( outdoorDto != null && !outdoorDto.getAqi().isEmpty())
+		
+		cityName.setText(outdoorCityName);
+		
+		if(city.getOutdoorAQI() != null) {
+			OutdoorAQI outdoorAQI = city.getOutdoorAQI();
+			aqi.setText("" + outdoorAQI.getAQI());
+			aqiTitle.setText(outdoorAQI.getAqiTitle());
+			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
+			if( outdoorAQISummary != null && outdoorAQISummary.length > 1 ) {
+				aqiSummary1.setText(outdoorAQI.getAqiSummary()[0]);
+				aqiSummary2.setText(outdoorAQI.getAqiSummary()[1]);
+			}
+			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
+			setRotationAnimation(aqiPointerCircle, outdoorAQI.getAqiPointerRotaion());
 			aqiCircleMeter.setVisibility(View.VISIBLE) ;
-		weatherIcon.setImageDrawable(getResources().getDrawable(outdoorDto.getWeatherIconResId()));
-		setRotationAnimation(aqiPointerCircle, outdoorDto.getAqiPointerRotaion());
+		}
+		if(city.getOutdoorWeather() != null) {
+			OutdoorWeather weather = city.getOutdoorWeather();
+			updated.setText(weather.getUpdatedTime());
+			weatherIcon.setImageResource(weather.getWeatherIcon());
+			temp.setText("" + weather.getTemperature()+AppConstants.UNICODE_DEGREE);
+		}
 	}
 	
 	@Override
@@ -170,12 +162,12 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.hf_outdoor_circle_pointer:
-			Bundle bundle = getArguments();
-			if (bundle != null) {
-				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-				intent.putExtras(bundle);
-				startActivity(intent);
-			}
+//			Bundle bundle = getArguments();
+//			if (bundle != null) {
+//				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
+//				intent.putExtras(bundle);
+//				startActivity(intent);
+//			}
 			break;
 			
 		case R.id.lbl_take_tour:
@@ -227,6 +219,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 
 	@Override
 	public void onConnected() {
+		ALog.i(ALog.DASHBOARD, "OutdoorFragment$onConnected");
 		OutdoorManager.getInstance().startCitiesTask();
 	}
 

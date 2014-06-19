@@ -31,7 +31,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
@@ -242,39 +241,39 @@ public class OutdoorDetailsActivity extends BaseActivity
 		 */
 		Bundle bundle = getIntent().getExtras();
 
-		if(bundle != null) {
-			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
-			OutdoorDto city= (OutdoorDto) bundle.getSerializable(AppConstants.KEY_CITY);
-			if (city == null) return;
-			heading.setText(city.getCityName());
-			location.setText("");
-			summaryTitle.setText(city.getAqiTitle());
-			summary.setText(city.getAqiSummary()[0]);
-			aqiValue.setText(city.getAqi());
-			pm1.setText(getString(R.string.pm25) + "  " + city.getPm25());
-			pm2.setText(getString(R.string.pm10) + "  " + city.getPm25());
-			pm3.setText(getString(R.string.so2) + "  " + city.getSo2());
-			pm4.setText(getString(R.string.no2) + "  " + city.getNo2());
-			if (city.getAqi() != null) {
-				try {
-					int aqiInt = Integer.parseInt(city.getAqi().trim());
-					circleImg.setImageDrawable(Utils.getOutdoorAQICircleBackground(this, aqiInt));
-					
-					setAdviceIconTex(aqiInt);
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
-			}
-			startOutdoorAQITask(city.getCityName());
-			currentCityTime = city.getUpdatedTime();
-			startWeatherDataTask(city.getGeo());
-			
-			if(Utils.isGooglePlayServiceAvailable()) {
-				setUpMapIfNeeded(city.getGeo());
-			} else {
-				mapLayout.setVisibility(View.GONE);
-			}
-		} 
+//		if(bundle != null) {
+//			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
+//			OutdoorDto city= (OutdoorDto) bundle.getSerializable(AppConstants.KEY_CITY);
+//			if (city == null) return;
+//			heading.setText(city.getCityName());
+//			location.setText("");
+//			summaryTitle.setText(city.getAqiTitle());
+//			summary.setText(city.getAqiSummary()[0]);
+//			aqiValue.setText(city.getAqi());
+//			pm1.setText(getString(R.string.pm25) + "  " + city.getPm25());
+//			pm2.setText(getString(R.string.pm10) + "  " + city.getPm25());
+//			pm3.setText(getString(R.string.so2) + "  " + city.getSo2());
+//			pm4.setText(getString(R.string.no2) + "  " + city.getNo2());
+//			if (city.getAqi() != null) {
+//				try {
+//					int aqiInt = Integer.parseInt(city.getAqi().trim());
+//					circleImg.setImageDrawable(Utils.getOutdoorAQICircleBackground(this, aqiInt));
+//					
+//					setAdviceIconTex(aqiInt);
+//				} catch (NumberFormatException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			startOutdoorAQITask(city.getCityName());
+//			currentCityTime = city.getUpdatedTime();
+//			startWeatherDataTask(city.getGeo());
+//			
+//			if(Utils.isGooglePlayServiceAvailable()) {
+//				setUpMapIfNeeded(city.getGeo());
+//			} else {
+//				mapLayout.setVisibility(View.GONE);
+//			}
+//		} 
 	
 	}
 	

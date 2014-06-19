@@ -44,6 +44,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
 		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager());
+		outdoorViewPager.setOffscreenPageLimit(3);
 		outdoorViewPager.setAdapter(outdoorPagerAdapter);
 	}
 	
