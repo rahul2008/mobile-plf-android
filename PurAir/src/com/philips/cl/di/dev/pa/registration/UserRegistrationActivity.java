@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.registration;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -59,8 +60,10 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		
+		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
+		actionBar.setBackgroundDrawable(d);
 		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
+		
 		mActionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
 		mActionbarTitle.setText(getString(R.string.create_account));
 		

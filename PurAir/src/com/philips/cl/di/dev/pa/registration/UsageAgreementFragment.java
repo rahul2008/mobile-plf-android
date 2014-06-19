@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
@@ -42,11 +45,11 @@ public class UsageAgreementFragment extends BaseFragment {
 
 	private ExpandableListView mExpListView;
 	private BaseExpandableListAdapter mListAdapter;
+	private boolean[] expandCollapse = {true, true, true};
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-				
 		View layout = inflater.inflate(R.layout.air_registration_usage_agreement_fragment, container, false);
 		mExpListView = (ExpandableListView) layout.findViewById(R.id.elv_usage_agreement); 
 		
@@ -60,8 +63,31 @@ public class UsageAgreementFragment extends BaseFragment {
 		
 		// Remove default group indicator because we use our own
 		mExpListView.setGroupIndicator(null);
-						
 		return layout;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		
+		mExpListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
+			
+			@Override
+			public void onGroupCollapse(int groupPosition) {
+				expandCollapse[groupPosition] = false;
+				mListAdapter.notifyDataSetChanged();
+			}
+		});
+		
+		mExpListView.setOnGroupExpandListener(new OnGroupExpandListener() {
+			
+			@Override
+			public void onGroupExpand(int groupPosition) {
+				expandCollapse[groupPosition] = true;
+				mListAdapter.notifyDataSetChanged();
+			}
+		});
+		
 	}
 
 	private class CustomExpandableListAdapter extends BaseExpandableListAdapter {
@@ -129,6 +155,14 @@ public class UsageAgreementFragment extends BaseFragment {
 	            convertView = infalInflater.inflate(R.layout.air_registration_agreement_item, null);
 	        }
 	 
+	        ImageView imgView =  (ImageView) convertView.findViewById(R.id.iv_agreement_icon);
+	        
+	        if (expandCollapse[groupPosition]) {
+	        	imgView.setImageResource(R.drawable.minus_blue_reg);
+	        } else {
+	        	imgView.setImageResource(R.drawable.plus_blue_reg);
+	        }
+	        
 	        TextView lblListHeader = (TextView) convertView.findViewById(R.id.tv_agreement_description);
 	        lblListHeader.setText(mListHeader[groupPosition]);
 	        

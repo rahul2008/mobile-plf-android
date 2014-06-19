@@ -1,11 +1,13 @@
 package com.philips.cl.di.dev.pa.registration;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -111,7 +113,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 				storeUserProfile();
 				
 				((UserRegistrationActivity)getActivity()).showUsageAgreementFragment();
-				
+				dismissKeyBoard();
 				break;
 			case PASSWORD:
 				showErrorDialog(Error.INVALID_PASSWORD) ;
@@ -146,5 +148,14 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
 		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
 		return ErrorType.NONE ;
+	}
+	
+	private void dismissKeyBoard() {
+		if (getActivity() == null) return;
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getActivity().getWindow() != null && getActivity().getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getActivity().getWindow().getCurrentFocus()
+					.getWindowToken(), 0);
+		}	
 	}
 }
