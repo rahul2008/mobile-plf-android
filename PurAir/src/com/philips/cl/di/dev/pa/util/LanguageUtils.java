@@ -17,12 +17,12 @@ public class LanguageUtils {
 	public static String getLanguageForLocale(Locale loc) {
 		if (loc == null) return DEFAULT_LANGUAGE;
 
+		String language = loc.getLanguage();
 		for (Locale custom : customMapping.keySet()) {
 			if (!custom.equals(loc)) continue;
-			return customMapping.get(custom);
+			language = customMapping.get(custom);
 		}
 		
-		String language = loc.getLanguage();
 		if (language == null || language.isEmpty()) return DEFAULT_LANGUAGE;
 		
 		return language.toUpperCase();

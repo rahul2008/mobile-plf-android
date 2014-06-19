@@ -18,7 +18,6 @@ Version 1:
     Description: Initial version    
 ----------------------------------------------------------------------------*/
 
-import java.util.HashMap;
 import java.util.Locale;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
