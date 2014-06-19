@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="16dp" >
         
 		<com.philips.cl.di.dev.pa.view.FontTextView
@@ -11,6 +12,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:text="@string/continue_registration"
+			android:lineSpacingExtra="5dp"
 			android:textColor="@color/gray"
 			android:textSize="14sp"
 			custom:fontAssetName="fonts/gillsans.ttf" />

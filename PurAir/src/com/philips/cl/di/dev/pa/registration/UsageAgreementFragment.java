@@ -96,6 +96,7 @@ public class UsageAgreementFragment extends BaseFragment {
 	    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsans.ttf");
 	    	childText.setTextColor(mContext.getResources().getColor(R.color.gray));
 	    	childText.setText(mListChildData[groupPosition][childPosition]);
+	    	childText.setLineSpacing(5, 1);
 	        return childText;
 		}
 

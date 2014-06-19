@@ -498,7 +498,7 @@
     <string name="continue_registration">To continue with your registration, please accept and agree to the information below.</string>
     <string name="privacy_policy">Privacy policy</string>
     <string name="terms_and_conditions">Terms &amp; conditions</string>
-    <string name="eula">Eula</string>
+    <string name="eula">EULA</string>
     <!-- Demo Mode -->
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>
