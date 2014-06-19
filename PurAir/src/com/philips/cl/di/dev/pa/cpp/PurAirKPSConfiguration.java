@@ -52,7 +52,7 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
-		this.ICPClientproductCountry = "CN";
+		this.ICPClientproductCountry = getCountryCode();
 		this.ICPClientproductLanguage = LanguageUtils.getLanguageForLocale(Locale.getDefault());
 		
 		this.ICPClientComponentCount = 1;
