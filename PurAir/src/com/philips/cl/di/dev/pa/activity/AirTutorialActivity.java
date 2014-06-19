@@ -64,19 +64,23 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		switch (v.getId()){
 		case R.id.btn_app_navigation:
 			in.putExtra(SELECTED_PAGE, 1);
+			((Button)findViewById(R.id.btn_app_navigation)).setTextColor(getResources().getColor(R.color.light_gray));
 			startActivity(in);
 			break;
 		case R.id.btn_air_purifier_controls:
 			in.putExtra(SELECTED_PAGE, 2);
+			((Button)findViewById(R.id.btn_air_purifier_controls)).setTextColor(getResources().getColor(R.color.light_gray));
 			startActivity(in);
 			break;
 		case R.id.btn_indoor_air_quality_readings:
 			in.putExtra(SELECTED_PAGE, 4);
+			((Button)findViewById(R.id.btn_indoor_air_quality_readings)).setTextColor(getResources().getColor(R.color.light_gray));
 			startActivity(in);
 			break;
 		case R.id.btn_outdoor_aqi_readings:
 			in.putExtra(SELECTED_PAGE, 5);
 			startActivity(in);
+			((Button)findViewById(R.id.btn_outdoor_aqi_readings)).setTextColor(getResources().getColor(R.color.light_gray));
 			break;
 		case R.id.btn_finish_tour:
 			AirTutorialActivity.this.finish();
