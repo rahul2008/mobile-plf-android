@@ -170,7 +170,6 @@ public class AppConstants {
 	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
 	
 	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
-	public static final List<String> PAIRING_NOTIFY_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Request"));
 	public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
 	
 	

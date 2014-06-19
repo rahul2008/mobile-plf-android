@@ -166,7 +166,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 					null, getPairingRelationshipData(relationshipType, AppConstants.PAIRING_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()])), getPairingInfo(secretKey));
 		} else {
 			addPSRelation.addRelationshipRequest(null, getPurifierEntity(),
-					null, getPairingRelationshipData(relationshipType, AppConstants.PAIRING_NOTIFY_PERMISSIONS.toArray(new String[AppConstants.PAIRING_NOTIFY_PERMISSIONS.size()])), null);
+					null, getPairingRelationshipData(relationshipType, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()])), null);
 		}
 
 		addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
