@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
@@ -118,7 +119,7 @@ public class OutdoorController implements ServerResponseListener {
 	}
 	
 	private byte[] hmacSha1(String value, String key) {
-	    SecretKeySpec secret = new SecretKeySpec(key.getBytes(), HASH_ALG);
+	    SecretKeySpec secret = new SecretKeySpec(key.getBytes(Charset.defaultCharset()), HASH_ALG);
 	    Mac mac = null;
 		try {
 			mac = Mac.getInstance(HASH_ALG);
