@@ -134,7 +134,7 @@ public class OutdoorController implements ServerResponseListener {
 			return null;
 		}
 		
-	    byte[] bytes = mac.doFinal(value.getBytes());
+	    byte[] bytes = mac.doFinal(value.getBytes(Charset.defaultCharset()));
 	    return bytes;
 	}
 
