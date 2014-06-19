@@ -18,7 +18,9 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/purifier" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsans.ttf"
         android:id="@+id/lbl_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,7 +30,9 @@
         android:textSize="@dimen/title_text_size_medium"
         android:textColor="@color/subtitle_gray"/>
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsans.ttf"
         android:id="@+id/lbl_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,7 +42,9 @@
         android:textSize="21sp"
         android:textColor="@color/subtitle_gray"/>
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsans.ttf"
         android:id="@+id/lbl_availability"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -64,30 +70,21 @@
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
         android:focusable="false"
-        android:focusableInTouchMode="false"/> 
-        
-    <TextView
-        android:id="@+id/lbl_filter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/lbl_availability"
-        android:layout_below="@+id/btn_buy_online"
-        android:layout_marginTop="25dp"
-        android:textStyle="bold"
-        android:text="@string/pre_filter" 
-        android:textColor="@color/subtitle_gray"/>
+        android:focusableInTouchMode="false"/>
 
     <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/seekbar_filter"
         android:layout_width="236dp"
-        android:layout_height="15dp"
+        android:layout_height="12dp"
         android:layout_alignLeft="@+id/lbl_availability"
-        android:layout_below="@+id/lbl_filter"
-        android:layout_marginTop="4dp"
+        android:layout_below="@+id/btn_buy_online"
+        android:layout_marginTop="25dp"
         android:background="@drawable/process_light_black_bar" />
     
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        custom:fontAssetName="fonts/gillsans.ttf"
         android:id="@+id/txt_filter_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

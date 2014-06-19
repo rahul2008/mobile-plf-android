@@ -49,7 +49,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="25dp"
         android:text="@string/pre_filter"
-        android:textColor="@color/title_gray"
+        android:textColor="@color/gray"
         android:textSize="16sp"
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" />
@@ -58,7 +58,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_pre_filter"
         android:layout_width="236dp"
-        android:layout_height="15dp"
+        android:layout_height="12dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
@@ -92,7 +92,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_multi_care_filter"
         android:layout_width="236dp"
-        android:layout_height="15dp"
+        android:layout_height="12dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
@@ -126,7 +126,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_active_carbon_filter"
         android:layout_width="236dp"
-        android:layout_height="15dp"
+        android:layout_height="12dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
@@ -160,7 +160,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/iv_hepa_filter"
         android:layout_width="236dp"
-        android:layout_height="15dp"
+        android:layout_height="12dp"
         android:layout_marginLeft="30dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />

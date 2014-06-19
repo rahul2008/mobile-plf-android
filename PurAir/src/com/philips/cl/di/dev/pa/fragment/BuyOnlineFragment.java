@@ -30,7 +30,6 @@ import com.philips.cl.di.dev.pa.view.FilterStatusView;
 public class BuyOnlineFragment extends BaseFragment {
 	private BuyDataAdapter mAdapter;
 	private FilterStatusView filterView;
-	private TextView lblFilter;
 	private TextView txtFilterStatus;
 	private AirPortInfo airPortInfo;
 	private PurAirDevice current;
@@ -108,7 +107,6 @@ public class BuyOnlineFragment extends BaseFragment {
 
 			filterView = (FilterStatusView) view
 					.findViewById(R.id.seekbar_filter);
-			lblFilter = (TextView) view.findViewById(R.id.lbl_filter);
 			txtFilterStatus = (TextView) view
 					.findViewById(R.id.txt_filter_status);
 			
@@ -128,7 +126,6 @@ public class BuyOnlineFragment extends BaseFragment {
 					break;
 				case 1:
 					setFilterVisibility(filterVisibility);
-					lblFilter.setText(R.string.pre_filter);
 					filterView
 					.setPrefilterValue(airPortInfo.getFilterStatus1());
 					txtFilterStatus
@@ -137,7 +134,6 @@ public class BuyOnlineFragment extends BaseFragment {
 					break;
 				case 2:
 					setFilterVisibility(filterVisibility);
-					lblFilter.setText(R.string.multicarefilter);
 					filterView
 					.setMultiCareFilterValue(airPortInfo.getFilterStatus2());
 					txtFilterStatus
@@ -146,7 +142,6 @@ public class BuyOnlineFragment extends BaseFragment {
 					break;
 				case 3:
 					setFilterVisibility(filterVisibility);
-					lblFilter.setText(R.string.activecarbonfilter);
 					filterView
 					.setActiveCarbonFilterValue(airPortInfo.getFilterStatus3());
 					txtFilterStatus
@@ -155,7 +150,6 @@ public class BuyOnlineFragment extends BaseFragment {
 					break;
 				case 4:
 					setFilterVisibility(filterVisibility);
-					lblFilter.setText(R.string.hepa_filter);
 					filterView
 					.setHEPAfilterValue(airPortInfo.getFilterStatus4());
 					txtFilterStatus
@@ -170,9 +164,6 @@ public class BuyOnlineFragment extends BaseFragment {
 				setFilterVisibility(View.GONE);
 			}
 
-			productName.setTypeface(Fonts.getGillsans(getActivity()));
-			productPrice.setTypeface(Fonts.getGillsans(getActivity()));
-			availability.setTypeface(Fonts.getGillsans(getActivity()));
 			buyOnline.setTypeface(Fonts.getGillsans(getActivity()));
 
 			productName.setText(getActivity().getString(item.getProductName()));
@@ -200,7 +191,6 @@ public class BuyOnlineFragment extends BaseFragment {
 			
 			filterView.setVisibility(visibility);
 			txtFilterStatus.setVisibility(visibility);
-			lblFilter.setVisibility(visibility);
 		}
 	}
 	
