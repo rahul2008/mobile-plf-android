@@ -81,7 +81,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/seekbar_filter"
         android:layout_width="236dp"
-        android:layout_height="20dp"
+        android:layout_height="15dp"
         android:layout_alignLeft="@+id/lbl_availability"
         android:layout_below="@+id/lbl_filter"
         android:layout_marginTop="4dp"
