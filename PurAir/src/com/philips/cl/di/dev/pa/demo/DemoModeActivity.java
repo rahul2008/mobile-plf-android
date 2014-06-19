@@ -231,13 +231,13 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		case DemoModeConstant.DEMO_MODE_STEP_SUPPORT:
 			if (prevStep == DemoModeConstant.DEMO_MODE_STEP_INTRO) {
 				showIntroScreen();
-			} else if (prevStep == DemoModeConstant.DEMO_MODE_STEP_ONE) {
-				step1FailCounter = 0;
-				apModeFailCounter = 0;
-				showStepOneScreen();
 			} else if (prevStep == DemoModeConstant.DEMO_MODE_STEP_SWITCHON) {
 				powerOnFailCounter = 0;
 				showStepSwitchOnScreen();
+			} else {
+				step1FailCounter = 0;
+				apModeFailCounter = 0;
+				showStepOneScreen();
 			}
 			return true;
 		case DemoModeConstant.DEMO_MODE_STEP_FINAL:

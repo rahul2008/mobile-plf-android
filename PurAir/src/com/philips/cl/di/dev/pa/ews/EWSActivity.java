@@ -35,6 +35,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private EWSStartFragment ewsIntroductionScreenFragment;
 	
 	private int mStep = EWSConstant.EWS_STEP_START;
+	private int prevStep;
 	/**
 	 * Action bar variable
 	 */
@@ -52,6 +53,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private String cppId;
 	private int apModeFailCounter;
 	private int step2FailCounter;
+	private int powerOnFailCounter;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -205,9 +207,14 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		case EWSConstant.EWS_STEP_THREE:
 		case EWSConstant.EWS_STEP_ERROR_DISCOVERY:
 		case EWSConstant.EWS_STEP_SUPPORT:
-			apModeFailCounter = 0;
-			step2FailCounter = 0;
-			showStepTwo();
+			if (prevStep == EWSConstant.EWS_STEP_TWO_POWER_ON) {
+				powerOnFailCounter = 0;
+				showStepTwoPowerOnPurifier();
+			} else {
+				apModeFailCounter = 0;
+				step2FailCounter = 0;
+				showStepTwo();
+			}
 			return true;
 		case EWSConstant.EWS_STEP_FINAL:
 			return true;
@@ -237,6 +244,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void showSupportFragment() {
+		prevStep  = mStep;
 		mStep = EWSConstant.EWS_STEP_SUPPORT ;
 		showFragment(new EWSSupportFragment(), EWSConstant.EWS_SUPPORT_FRAGMENT_TAG);
 	}
@@ -402,6 +410,15 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			showSupportFragment();
 		} else {
 			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.ERROR_TS01_01).show() ;
+		}
+	}	
+	
+	public void showPowerOnInstructionsDialog() {
+		powerOnFailCounter++;
+		if (powerOnFailCounter > 2) {
+			showSupportFragment();
+		} else {
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.SUPPORT_TS01_POWERON).show() ;
 		}
 	}	
 	
@@ -579,6 +596,10 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public int getStep2FailCounter() {
 		return step2FailCounter;
+	}
+	
+	public int getPowerOnFailCounter() {
+		return powerOnFailCounter;
 	}
 
 	@Override

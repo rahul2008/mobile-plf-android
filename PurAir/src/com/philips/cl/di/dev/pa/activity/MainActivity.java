@@ -681,7 +681,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 		Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.llContainer);
 		if(fragment instanceof BuyOnlineFragment){
-		((BuyOnlineFragment)fragment).updateFilterStatus(purifier); 
+			((BuyOnlineFragment)fragment).updateFilterStatus(purifier); 
 		}
 		
 		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {

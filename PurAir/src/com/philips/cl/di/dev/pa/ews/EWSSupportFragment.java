@@ -37,7 +37,9 @@ public class EWSSupportFragment extends Fragment {
 		
 		EWSActivity ewsActivity = (EWSActivity) getActivity();
 		
-		if (ewsActivity.getApModeFailCounter() > 2 || ewsActivity.getStep2FailCounter() > 2) {
+		if (ewsActivity.getApModeFailCounter() > 2 
+				|| ewsActivity.getStep2FailCounter() > 2
+				|| ewsActivity.getPowerOnFailCounter() > 2) {
 			((FontTextView) getView().findViewById(
 					R.id.contact_philips_support_message1)).setText(getActivity().getString(R.string.contact_philips_support_msg1_3attempt));
 		}
@@ -64,7 +66,7 @@ public class EWSSupportFragment extends Fragment {
 				break;
 			case R.id.contact_support_email_layout:
 				Intent supportEmailIntent = new Intent(
-						Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+						Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contact_philips_support_email), null));
 				supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
 				supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
 				startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
