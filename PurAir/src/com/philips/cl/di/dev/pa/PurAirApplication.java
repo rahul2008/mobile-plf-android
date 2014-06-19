@@ -1,4 +1,6 @@
 package com.philips.cl.di.dev.pa;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.SharedPreferences;
@@ -9,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 
 
 public class PurAirApplication extends Application {
@@ -21,6 +24,7 @@ public class PurAirApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		
+		printCurrentLanguage();
 		preventOSFromDestroyingAsyncTasks();
 		configureUrlConnectionSocketReuse();
 		toggleLogging();
@@ -106,5 +110,9 @@ public class PurAirApplication extends Application {
 		} else {
 			ALog.disableLogging();
 		}
+	}
+	
+	private void printCurrentLanguage() {
+		ALog.i(ALog.APPLICATION, "Current language: " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 	}
 }
