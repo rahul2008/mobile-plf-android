@@ -18,11 +18,13 @@ Version 1:
     Description: Initial version    
 ----------------------------------------------------------------------------*/
 
+import java.util.HashMap;
 import java.util.Locale;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.security.Util;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
@@ -51,7 +53,7 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
 		this.ICPClientproductCountry = "CN";
-		this.ICPClientproductLanguage = "ZA";
+		this.ICPClientproductLanguage = LanguageUtils.getLanguageForLocale(Locale.getDefault());
 		
 		this.ICPClientComponentCount = 1;
 		NVMComponentInfo appComponentInfo = new NVMComponentInfo();
@@ -68,16 +70,6 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 			countryCode = "NL";
 		}
 		return countryCode;
-	}
-	
-	private String getLanguageCode() {
-		String languageCode = Locale.getDefault().getLanguage();
-		if (languageCode == null || languageCode.isEmpty()) {
-			languageCode = "EN";
-		} else {
-			languageCode = languageCode.toUpperCase();
-		}
-		return languageCode;
 	}
 	
 }
