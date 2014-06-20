@@ -163,7 +163,7 @@ public class AppConstants {
 	
 	
 	/** PAIRING CONSTANTS */
-	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 480;  // 8 hours
+	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
 	public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
 	public static final String PAIRING_REFERENCETYPE = "AC4373GENDEV";
 	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
