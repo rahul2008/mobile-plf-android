@@ -119,8 +119,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hf_indoor_circle_layt"
         android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
         android:textColor="@color/white"
         android:textSize="11sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
