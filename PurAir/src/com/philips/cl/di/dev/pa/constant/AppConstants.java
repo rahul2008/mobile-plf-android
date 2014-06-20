@@ -194,4 +194,8 @@ public class AppConstants {
 
 	public static final String HOCKEY_APPID = "8b51a3b720bce7db6e6f9a6a9528b8b8";
 	
+	public static final int INDEX_0 = 0;
+	public static final int INDEX_1 = 1;
+	public static final int INDEX_2 = 2;
+	public static final int INDEX_3 = 3;
 }

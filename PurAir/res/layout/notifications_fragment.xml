@@ -130,6 +130,7 @@
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/notifications_indoor_label0"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -139,6 +140,7 @@
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/notifications_indoor_label1"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -148,6 +150,7 @@
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/notifications_indoor_label2"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -157,6 +160,7 @@
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                    android:id="@+id/notifications_indoor_label3"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -178,7 +182,7 @@
                     android:id="@+id/notifications_indoor_radio0"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/healthy_blue" />
+                    android:button="@drawable/healthy_pink" />
 
                 <RadioButton
                     android:id="@+id/notifications_indoor_radio1"
@@ -190,7 +194,7 @@
                     android:id="@+id/notifications_indoor_radio2"
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:button="@drawable/moderately_polluted_purple" />
+                    android:button="@drawable/moderately_polluted_fusia" />
 
                 <RadioButton
                     android:id="@+id/notifications_indoor_radio3"

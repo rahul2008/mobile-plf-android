@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -37,6 +38,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener, android.widget.RadioGroup.OnCheckedChangeListener, AlertDialogBtnInterface {
 
@@ -48,6 +50,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private ToggleButton notificationToggle;
 	private LinearLayout indoorAqiLbls;
 	private RadioGroup indoorAqiRadioBtns;
+	private FontTextView radioButtonLable0, radioButtonLable1, radioButtonLable2, radioButtonLable3;
 
 	private PairingHandler pairingHandler;
 	private ProgressDialog progressDialog;
@@ -92,7 +95,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if (mPurifier == null) {
 			showNotificationsLayout(false);
 		} else if (mPurifier.isPaired()) {
-			notificationSetup();
+			notificationsEnabled = isNotificationEnabled();
 			showNotificationsLayout(notificationsEnabled);
 		} else {
 			showPairingLayout();
@@ -126,7 +129,11 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		notificationToggle =(ToggleButton) rootView.findViewById(R.id.notifications_enable_all_toggle);
 
 		indoorAqiLbls= (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
-		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);				
+		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);	
+		radioButtonLable0 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label0);
+		radioButtonLable1 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label1);
+		radioButtonLable2 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label2);
+		radioButtonLable3 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label3);
 	}
 
 	private void setUIAqiThreshold(int aqiThreshold) {
@@ -134,24 +141,64 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		case 13:
 			RadioButton aqiRadioButton0= (RadioButton) indoorAqiRadioBtns.getChildAt(0);
 			aqiRadioButton0.setChecked(true);
+			highLightLabel(AppConstants.INDEX_0);
 			break;
 		case 19:
 			RadioButton aqiRadioButton1= (RadioButton) indoorAqiRadioBtns.getChildAt(1);
 			aqiRadioButton1.setChecked(true);
+			highLightLabel(AppConstants.INDEX_1);
 			break;
 		case 29:
 			RadioButton aqiRadioButton2= (RadioButton) indoorAqiRadioBtns.getChildAt(2);
 			aqiRadioButton2.setChecked(true);
+			highLightLabel(AppConstants.INDEX_2);
 			break;
 		case 40:
 			RadioButton aqiRadioButton3= (RadioButton) indoorAqiRadioBtns.getChildAt(3);
 			aqiRadioButton3.setChecked(true);
+			highLightLabel(AppConstants.INDEX_3);
 			break;
 		default:
+			highLightLabel(-1);
 			break;
 		}
 	}
-
+	
+	private void highLightLabel(int position) {
+		switch (position) {
+		case AppConstants.INDEX_0:
+			radioButtonLable0.setTypeface(null, Typeface.BOLD);
+			radioButtonLable1.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable2.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable3.setTypeface(null, Typeface.NORMAL);
+			break;
+		case AppConstants.INDEX_1:
+			radioButtonLable0.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable1.setTypeface(null, Typeface.BOLD);
+			radioButtonLable2.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable3.setTypeface(null, Typeface.NORMAL);
+			break;
+		case AppConstants.INDEX_2:
+			radioButtonLable0.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable1.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable2.setTypeface(null, Typeface.BOLD);
+			radioButtonLable3.setTypeface(null, Typeface.NORMAL);
+			break;
+		case AppConstants.INDEX_3:
+			radioButtonLable0.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable1.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable2.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable3.setTypeface(null, Typeface.BOLD);
+			break;
+		default:
+			radioButtonLable0.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable1.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable2.setTypeface(null, Typeface.NORMAL);
+			radioButtonLable3.setTypeface(null, Typeface.NORMAL);
+			break;
+		}
+	}
+	
 	private void showPairingLayout() {		
 		if(!CPPController.getInstance(getActivity()).isSignOn() || (mPurifier!=null && mPurifier.isDemoPurifier())){
 			notificationToggle.setEnabled(false);
@@ -206,10 +253,10 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	}
 
-	private void notificationSetup() {
+	private boolean isNotificationEnabled() {
 		if(!Utils.isGooglePlayServiceAvailable()){
 			notificationToggle.setEnabled(false);
-			return;
+			return false;
 		}
 		PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
 		if (mPurifier != null && mPurifier.isPaired()) {
@@ -219,6 +266,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			//Enable UI and check if permission exists
 			pairingHandler.getPermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
 		}
+		return true;
 	}
 
 	@Override
@@ -361,15 +409,19 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		switch(checkedId){
 		case R.id.notifications_indoor_radio0:
 			aqiThreshold="13";
+			highLightLabel(AppConstants.INDEX_0);
 			break;
 		case R.id.notifications_indoor_radio1:
 			aqiThreshold="19";
+			highLightLabel(AppConstants.INDEX_1);
 			break;
 		case R.id.notifications_indoor_radio2:
 			aqiThreshold="29";
+			highLightLabel(AppConstants.INDEX_2);
 			break;
 		case R.id.notifications_indoor_radio3:
 			aqiThreshold="40";
+			highLightLabel(AppConstants.INDEX_3);
 			break;
 		default:
 			break;
