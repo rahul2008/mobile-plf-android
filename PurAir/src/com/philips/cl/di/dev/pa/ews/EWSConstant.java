@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.ews;
 
 public class EWSConstant {
 	public static final String BOOT_STRAP_KEY_5 = "OGI0NzU=" ;
+	public static final String CMA_PRIVATE_KEY_1 = "bWVpen";
 	
 	public static final String EWS_INTRO_SCREEN_FRAGMENT_TAG = "intro_fragment";
 	public static final String EWS_NETWORK_FRAGMENT_TAG = "network_fragment";

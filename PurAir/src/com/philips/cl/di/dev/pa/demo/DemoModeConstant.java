@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.demo;
 
 public class DemoModeConstant {
+	public static final String CMA_APP_ID_3 = "UwN2U5" ;
+	public static final String CMA_PRIVATE_KEY_3 = "iYXBpX";
 	public static final int DEMO_MODE_STEP_INTRO = 1;
 	public static final int DEMO_MODE_STEP_SWITCHON = 20;
 	public static final int DEMO_MODE_STEP_ONE = 21;

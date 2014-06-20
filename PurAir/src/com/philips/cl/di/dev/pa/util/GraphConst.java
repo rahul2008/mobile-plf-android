@@ -3,6 +3,8 @@ package com.philips.cl.di.dev.pa.util;
 import android.graphics.Color;
 
 public class GraphConst {
+	public static final String CMA_PRIVATE_KEY_4 = "2RhdGE=";
+	public static final String CMA_BASEURL_4 = "mNuL2RhdGEv" ;
 	
 	/** The Graph constants.*/
  	

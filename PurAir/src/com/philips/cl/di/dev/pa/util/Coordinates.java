@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.util;
 import android.content.Context;
 
 public class Coordinates {
+	public static final String CMA_BASEURL_2 = "S5mdXd1LndlY" ;
 	/**
 	 * Indoor and outdoor
 	 * */

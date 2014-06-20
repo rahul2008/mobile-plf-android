@@ -5,6 +5,8 @@ package com.philips.cl.di.dev.pa.constant;
  *
  */
 public class ParserConstants {
+	public static final String CMA_BASEURL_1 = "aHR0cDovL2Fwa" ;
+	
 	/** Air Purifier Event Constants **/
 	public static final String POWER_MODE = "pwr" ;
 	public static final String MACHINE_MODE = "om" ;

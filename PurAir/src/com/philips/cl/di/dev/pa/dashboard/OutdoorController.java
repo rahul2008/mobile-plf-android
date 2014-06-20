@@ -7,10 +7,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,13 +19,13 @@ import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class OutdoorController implements ServerResponseListener {
 	
-	private static final String APP_ID = "12754defd8507e921241";
-	private static final String PRIVATE_KEY = "meizu_webapi_data";
+	private static String APP_ID ;
 	
-	private static final String BASE_URL = "http://api.fuwu.weather.com.cn/data/";
+	private static String BASE_URL;
 	
 	private static final String HASH_ALG = "HmacSHA1";
 
@@ -36,6 +34,8 @@ public class OutdoorController implements ServerResponseListener {
 	private static OutdoorController smInstance;
 	
 	private OutdoorController() {
+		APP_ID = Utils.getCMA_AppID() ;
+		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 	}
 	
@@ -61,7 +61,7 @@ public class OutdoorController implements ServerResponseListener {
 		String key = "";
 		String finalKey = "";
 		try {
-			finalKey = Util.encodeToBase64(hmacSha1(publicKey, PRIVATE_KEY));
+			finalKey = Util.encodeToBase64(hmacSha1(publicKey,  Utils.getCMA_PrivateKey()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -44,8 +44,10 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
 import com.philips.cl.di.dev.pa.security.Util;
 
@@ -62,6 +64,7 @@ public class Utils {
 	private static String ago24HrDate = "";
 	private static String ago27DayDate = "";
 	public static final String BOOT_STRAP_ID_4 = "AwMg==" ;
+	public static final String CMA_BASEURL_3 = "XRoZXIuY29tL" ;
 
 	public static String getPortUrl(Port port, String ipAddress) {
 		if (port == null) {
@@ -710,5 +713,47 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return bootStrapKey;
+	}
+	
+	public static String getCMA_AppID() {
+		String cmaAppId = AppConstants.EMPTY_STRING ;
+		StringBuilder cmaAppIdBuilder = new StringBuilder(AppConstants.CMA_APP_ID_1);
+		cmaAppIdBuilder.append(SchedulerConstants.CMA_APP_ID_2);
+		cmaAppIdBuilder.append(DemoModeConstant.CMA_APP_ID_3) ;
+		cmaAppIdBuilder.append(AnimatorConstants.CMA_APP_ID_4) ;
+		try {
+			cmaAppId = new String(Util.decodeFromBase64(cmaAppIdBuilder.toString()), Charset.defaultCharset()) ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmaAppId;
+	}
+	
+	public static String getCMA_PrivateKey() {
+		String cmaPrivateKey = AppConstants.EMPTY_STRING ;
+		StringBuilder cmaPrivateKeyBuilder = new StringBuilder(EWSConstant.CMA_PRIVATE_KEY_1);
+		cmaPrivateKeyBuilder.append(AnimatorConstants.CMA_PRIVATE_KEY_2);
+		cmaPrivateKeyBuilder.append(DemoModeConstant.CMA_PRIVATE_KEY_3) ;
+		cmaPrivateKeyBuilder.append(GraphConst.CMA_PRIVATE_KEY_4) ;
+		try {
+			cmaPrivateKey = new String(Util.decodeFromBase64(cmaPrivateKeyBuilder.toString()), Charset.defaultCharset()) ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmaPrivateKey;
+	}
+	
+	public static String getCMA_BaseURL() {
+		String cmaBaseURL = AppConstants.EMPTY_STRING ;
+		StringBuilder cmaBaseURLBuilder = new StringBuilder(ParserConstants.CMA_BASEURL_1);
+		cmaBaseURLBuilder.append(Coordinates.CMA_BASEURL_2);
+		cmaBaseURLBuilder.append(CMA_BASEURL_3) ;
+		cmaBaseURLBuilder.append(GraphConst.CMA_BASEURL_4) ;
+		try {
+			cmaBaseURL = new String(Util.decodeFromBase64(cmaBaseURLBuilder.toString()), Charset.defaultCharset()) ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return cmaBaseURL;
 	}
 }
