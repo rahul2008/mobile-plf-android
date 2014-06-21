@@ -208,6 +208,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				@Override
 				public void run() {
 //					showIndoorMeter();
+					updateDashboard();
 				}
 			});
 			break;
