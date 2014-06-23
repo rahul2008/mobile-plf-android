@@ -27,7 +27,7 @@
         android:layout_marginRight="25dp"
         android:gravity="center"
         android:textColor="#7F8595"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_small"
         custom:fontAssetName="fonts/gillsans.ttf" />
 
 </LinearLayout>

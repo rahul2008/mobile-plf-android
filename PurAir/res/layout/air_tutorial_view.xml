@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp" >
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp" >
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".48" >
+        android:layout_weight=".30" >
 
         <ImageView
             android:id="@+id/tutorial_img"
@@ -80,7 +80,7 @@
         android:gravity="left"
         android:text="@string/tutorial_dashboard_desc"
         android:textColor="@color/lighter_philips_blue"
-        android:textSize="20sp"/>
+        android:textSize="@dimen/text_size_large"/>
 
     <TextView
         android:id="@+id/lbl_instruction"
@@ -90,7 +90,7 @@
         android:layout_marginRight="3dp"
         android:gravity="left"
         android:textColor="@color/gray"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_small"
         />
 
 </LinearLayout>

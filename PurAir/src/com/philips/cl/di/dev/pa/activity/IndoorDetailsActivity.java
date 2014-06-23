@@ -328,7 +328,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 			lastWeekBtn.setTextColor(Color.LTGRAY);
 			lastFourWeekBtn.setTextColor(Color.LTGRAY);
-			msgFirst.setText(getString(R.string.detail_aiq_message_last_day));
+			msgFirst.setText(getString(R.string.aqi_message_last_day));
 			msgSecond.setText(getString(R.string.detail_aiq_message_last_day));
 			break;
 		}
@@ -338,7 +338,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			lastDayBtn.setTextColor(Color.LTGRAY);
 			lastWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 			lastFourWeekBtn.setTextColor(Color.LTGRAY);
-			msgFirst.setText(getString(R.string.detail_aiq_message_last7day));
+			msgFirst.setText(getString(R.string.aqi_message_last7day));
 			msgSecond.setText(getString(R.string.detail_aiq_message_last7day));
 			break;
 		}
@@ -348,7 +348,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			lastDayBtn.setTextColor(Color.LTGRAY);
 			lastWeekBtn.setTextColor(Color.LTGRAY);
 			lastFourWeekBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
-			msgFirst.setText(getString(R.string.detail_aiq_message_last4week));
+			msgFirst.setText(getString(R.string.aqi_message_last4week));
 			msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 			break;
 		}

@@ -46,9 +46,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/detail_aiq_message_last_day"
+            android:text="@string/aqi_message_last_day"
             android:textColor="@color/dodgerblue"
-            android:textSize="18sp"
+            android:textSize="22sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <!-- Detail Percentage Bar -->
@@ -87,7 +87,7 @@
             android:layout_margin="16dp"
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
-            android:textSize="18sp"
+            android:textSize="22sp"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <!-- Graph Layout -->

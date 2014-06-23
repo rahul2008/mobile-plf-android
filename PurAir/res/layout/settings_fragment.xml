@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent"
+    android:background="@android:color/white" >
 
     <ImageView
         android:id="@+id/iv_rate_this_app"
@@ -9,28 +10,32 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/icon_mycity_4x" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rate_this_app"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_rate_this_app"
         android:layout_alignTop="@+id/iv_rate_this_app"
         android:layout_toRightOf="@+id/iv_rate_this_app"
-        android:padding="15dp"
-        android:text="@string/rate_this_app" />
+        android:gravity="center_vertical"
+        android:text="@string/rate_this_app"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_medium"
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
-    <ImageView
+    <View
         android:id="@+id/divider_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
         android:layout_below="@+id/iv_rate_this_app"
         android:layout_marginTop="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/separator" />
+        android:background="@color/darkgray" />
 
     <ImageView
         android:id="@+id/iv_send_us_feedback"
@@ -38,40 +43,47 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/iv_rate_this_app"
         android:layout_below="@+id/divider_1"
+        android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/icon_1_4x" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_send_us_feedback"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/iv_send_us_feedback"
         android:layout_alignLeft="@+id/tv_rate_this_app"
         android:layout_alignTop="@+id/iv_send_us_feedback"
-        android:padding="15dp"
-        android:text="@string/send_us_feedback" />
+        android:gravity="center_vertical"
+        android:text="@string/send_us_feedback"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_medium"
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
-    <ImageView
+    <View
         android:id="@+id/divider2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
         android:layout_below="@+id/iv_send_us_feedback"
         android:layout_marginTop="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/separator" />
+        android:background="@color/darkgray" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/settings_demo_mode_lb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
         android:layout_alignBottom="@+id/settings_demo_mode_toggle"
         android:layout_alignTop="@+id/settings_demo_mode_toggle"
-        android:paddingLeft="15dp"
+        android:layout_toLeftOf="@+id/settings_demo_mode_toggle"
         android:gravity="center_vertical"
-        android:text="@string/shop_demo_mode" />
+        android:paddingLeft="15dp"
+        android:text="@string/shop_demo_mode"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_medium"
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
     <ToggleButton
         android:id="@+id/settings_demo_mode_toggle"
@@ -81,35 +93,37 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/divider2"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="15dp"
-        android:checked="false"
-        android:layout_marginBottom="15dp" />
+        android:checked="false" />
 
-    <ImageView
+    <View
         android:id="@+id/divider3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
         android:layout_below="@+id/settings_demo_mode_toggle"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/separator" />
+        android:background="@color/darkgray" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_version_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="19dp"
         android:layout_marginLeft="20dp"
-        android:text="@string/version_number" />
+        android:text="@string/version_number"
+        android:textColor="@color/gray"
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_t_and_c"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_version_number"
         android:layout_alignParentRight="true"
         android:layout_marginRight="20dp"
-        android:text="@string/t_and_c" />
+        android:text="@string/t_and_c"
+        android:textColor="@color/gray"
+        custom:fontAssetName="fonts/gillsans.ttf" />
 
 </RelativeLayout>

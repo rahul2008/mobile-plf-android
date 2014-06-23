@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 
 public class AirView extends View {
@@ -53,9 +54,9 @@ public class AirView extends View {
 		Paint paint = new Paint();
 		paint.setStyle(Paint.Style.FILL);
 		if (percent < 50) {
-			paint.setColor(Color.RED);
+			paint.setColor(getResources().getColor(R.color.darker_red));
 		} else {
-			paint.setColor(GraphConst.COLOR_STATE_BLUE);
+			paint.setColor(getResources().getColor(R.color.darker_blue));
 		}
 		
 		float fh = fheight * 6;

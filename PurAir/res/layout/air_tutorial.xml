@@ -16,7 +16,7 @@
         android:text="@string/dashboard_instruction_1" 
         android:textColor="@color/lighter_philips_blue"
         android:gravity="left"
-        android:textSize="24sp"/>
+        android:textSize="@dimen/text_size_large"/>
 
     <Button
         android:id="@+id/btn_air_purifier_controls"
@@ -28,7 +28,7 @@
         android:text="@string/dashboard_instruction_2" 
         android:textColor="@color/lighter_philips_blue"
         android:gravity="right"
-        android:textSize="24sp"/>
+        android:textSize="@dimen/text_size_large"/>
 
     <Button
         android:id="@+id/btn_finish_tour"
@@ -57,7 +57,7 @@
         android:text="@string/dashboard_instruction_4" 
         android:textColor="@color/lighter_philips_blue"
         android:gravity="left"
-        android:textSize="24sp"/>
+        android:textSize="@dimen/text_size_large"/>
  
     <Button
         android:id="@+id/btn_indoor_air_quality_readings"
@@ -68,7 +68,7 @@
         android:text="@string/dashboard_instruction_3" 
         android:textColor="@color/lighter_philips_blue"
         android:gravity="left"
-        android:textSize="24sp"
+        android:textSize="@dimen/text_size_large"
         />
 
 </RelativeLayout>

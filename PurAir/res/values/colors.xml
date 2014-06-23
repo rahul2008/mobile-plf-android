@@ -160,7 +160,9 @@
     <color name="contain_gray">#7C7C7C</color>
     <color name="lighter_gray">#C4CCD4</color>
     <color name="light_gray">#949494</color>
+    <color name="darker_red">#C55959</color>
+    <color name="darker_blue">#27509F</color>
     
-     <color name="light_sky_blue">#85D3EF</color>
+    <color name="light_sky_blue">#85D3EF</color>
    
     </resources>

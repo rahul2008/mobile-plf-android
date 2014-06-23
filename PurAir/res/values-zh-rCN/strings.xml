@@ -191,6 +191,9 @@
     <string name="detail_aiq_message_last_day">最近 1 天空气质量详情。</string>
     <string name="detail_aiq_message_last7day">最近 7 天空气质量详情。</string>
     <string name="detail_aiq_message_last4week">最近 4 周空气质量详情。</string>
+    <string name="aqi_message_last_day">在最近 1 天，您呼吸了多少新鲜空气？</string>
+    <string name="aqi_message_last7day">在最近 7 天，您呼吸了多少新鲜空气？</string>
+    <string name="aqi_message_last4week">在最近 4 周，您呼吸了多少新鲜空气？</string>
     <string name="outdoor_aiq_analysis_head1">空气分析说明</string>
     <string name="outdoor_aiq_analysis_head2">室内空气质量水平和 PM2.5</string>
     <string name="outdoor_aiq_analysis_head3">室内和室外空气质量的关联性及测量方法。</string>

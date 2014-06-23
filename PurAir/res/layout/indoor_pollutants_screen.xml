@@ -17,7 +17,7 @@
             android:text="@string/indoor_pollutants_intro"
             android:textColor="#7F8595"
             android:layout_marginTop="10dp"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -69,7 +69,7 @@
                 android:layout_below="@+id/formaldehyde_heading"
                 android:text="@string/pollutant_intro_1"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -108,7 +108,7 @@
                 android:layout_toRightOf="@+id/tvoc_imgView"
                 android:text="@string/pollutant_heading_2"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -120,7 +120,7 @@
                 android:layout_below="@+id/tvoc_heading"
                 android:text="@string/pollutant_intro_2"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -160,7 +160,7 @@
                 android:layout_toRightOf="@+id/airborne_pathogens_imgView"
                 android:text="@string/pollutant_heading_3"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -172,7 +172,7 @@
                 android:layout_below="@+id/airborne_pathogens_heading"
                 android:text="@string/pollutant_intro_3"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -211,7 +211,7 @@
                 android:layout_toRightOf="@+id/pet_hair_dust_mites_imgView"
                 android:text="@string/pollutant_heading_4"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -223,7 +223,7 @@
                 android:layout_below="@+id/pet_hair_dust_mites_heading"
                 android:text="@string/pollutant_intro_4"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -265,7 +265,7 @@
                 android:layout_toRightOf="@+id/outdoor_particles_imgView"
                 android:text="@string/pollutant_heading_5"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -277,7 +277,7 @@
                 android:layout_below="@+id/outdoor_particles_heading"
                 android:text="@string/pollutant_intro_5"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -316,7 +316,7 @@
                 android:layout_toRightOf="@+id/particulate_matter_imgView"
                 android:text="@string/pollutant_heading_6"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -328,7 +328,7 @@
                 android:layout_below="@+id/particulate_matter_heading"
                 android:text="@string/pollutant_intro_6"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View

@@ -191,6 +191,9 @@
     <string name="detail_aiq_message_last_day">Detailed air quality for the last day?</string>
     <string name="detail_aiq_message_last7day">Detailed air quality for the last 7 days?</string>
     <string name="detail_aiq_message_last4week">Detailed air quality for the last 4 weeks?</string>
+    <string name="aqi_message_last_day">During the last day, how much good air did you have?</string>
+    <string name="aqi_message_last7day">During the last 7 days, how much good air did you have?</string>
+    <string name="aqi_message_last4week">During the last 4 weeks, how much good air did you have?</string>
     <string name="outdoor_aiq_analysis_head1">Air Analysis Explained</string>
     <string name="outdoor_aiq_analysis_head2">Indoor air quality level and PM2.5</string>
     <string name="outdoor_aiq_analysis_head3">Correlation between indoor and outdoor air quality, and how they are measured</string>

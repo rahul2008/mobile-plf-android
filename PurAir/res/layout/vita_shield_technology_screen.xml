@@ -17,7 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/vistashield_ips_system_intro"
             android:textColor="#7F8595" 
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsans.ttf" 
             android:layout_marginTop="10dp"/>
 
@@ -29,7 +29,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/vistashield_ips_system_subheading"
             android:textColor="@color/philips_blue"
-            android:textSize="@dimen/title_text_size_small"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <!-- Sieving -->
@@ -58,7 +58,7 @@
                 android:layout_toRightOf="@+id/sieving_imgView"
                 android:text="@string/vistashield_heading_1"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -70,7 +70,7 @@
                 android:layout_below="@+id/sieving_heading"
                 android:text="@string/vistashield_intro_1"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -109,7 +109,7 @@
                 android:layout_toRightOf="@+id/inertial_impaction_imgView"
                 android:text="@string/vistashield_heading_2"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -121,7 +121,7 @@
                 android:layout_below="@+id/inertial_impaction_heading"
                 android:text="@string/vistashield_intro_2"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -161,7 +161,7 @@
                 android:layout_toRightOf="@+id/interception_imgView"
                 android:text="@string/vistashield_heading_3"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -173,7 +173,7 @@
                 android:layout_below="@+id/interception_heading"
                 android:text="@string/vistashield_intro_3"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_medium"
+                android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <View
@@ -213,7 +213,7 @@
                 android:layout_toRightOf="@+id/diffusion_absorbtion_imgView"
                 android:text="@string/vistashield_heading_4"
                 android:textColor="#7F8595"
-                android:textSize="@dimen/title_text_size_small"
+                android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsans.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -226,7 +226,7 @@
                 android:text="@string/vistashield_intro_4"
                 android:textColor="#7F8595"
                 custom:fontAssetName="fonts/gillsans.ttf" 
-                android:textSize="@dimen/text_size_medium"/>
+                android:textSize="@dimen/text_size_small"/>
         </RelativeLayout>
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -237,7 +237,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/vistashield_nanometer_ques"
             android:textColor="@color/philips_blue"
-            android:textSize="@dimen/title_text_size_small"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <ImageView
@@ -256,7 +256,7 @@
             android:layout_marginTop="25dp"
             android:text="@string/vistashield_performance_subheading"
             android:textColor="@color/philips_blue"
-            android:textSize="@dimen/title_text_size_small"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsans.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -265,7 +265,7 @@
             android:layout_height="wrap_content"
             android:text="@string/vistashield_performance_intro"
             android:textColor="#7F8595"
-            android:textSize="@dimen/text_size_medium"
+            android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsans.ttf" />
     </LinearLayout>
 
