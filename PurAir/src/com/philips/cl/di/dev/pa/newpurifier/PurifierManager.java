@@ -2,6 +2,8 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
@@ -27,7 +29,7 @@ import com.philips.cl.di.dev.pa.util.DataParser;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurifierManager implements SubscriptionEventListener, KeyDecryptListener {
+public class PurifierManager implements SubscriptionEventListener, KeyDecryptListener, Observer {
 
 	private static PurifierManager instance;
 	
@@ -66,10 +68,12 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
+			mCurrentPurifier.deleteObserver(this);
 		}
 		stopCurrentSubscription();
 		
 		mCurrentPurifier = purifier;
+		mCurrentPurifier.addObserver(this);
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
 		
 		startSubscription();
@@ -178,14 +182,17 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		currentPurifier.setFirmwarePortInfo(firmwarePortInfo);
 	}
 	
-	public void notifyPurifierChangedListeners() {
+	private void notifyPurifierChangedListeners() {
 		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
 		
+		ALog.d(ALog.TEMP, "Started notifying listeners");
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
+				ALog.d(ALog.TEMP, "Listener: " + listener.getClass().getSimpleName());
 				listener.onAirPurifierChanged();
 			}
 		}
+		ALog.d(ALog.TEMP, "Stopped notifying listeners");
 	}
 	
 	private void notifySubscriptionListeners(String data) {
@@ -251,7 +258,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		}
 	}
 
-	public synchronized void stopCurrentSubscription() {
+	private synchronized void stopCurrentSubscription() {
 		ALog.i(ALog.PURIFIER_MANAGER, "Stop Subscription: " + mCurrentSubscriptionState);
 		switch (mCurrentSubscriptionState) {
 			case CONNECTED_LOCALLY: stopLocalConnection(); break;
@@ -344,5 +351,26 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		switch (mCurrentPurifier.getConnectionState()) {
+		case DISCONNECTED:
+			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier went offline");
+			stopCurrentSubscription();
+			break;
+		case CONNECTED_LOCALLY:
+			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected locally");
+			stopCurrentSubscription();
+			startSubscription();
+			break;
+		case CONNECTED_REMOTELY:
+			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier connected remotely");
+			stopCurrentSubscription();
+			startSubscription();
+			break;
+		}
+		notifyPurifierChangedListeners();
 	}
 }

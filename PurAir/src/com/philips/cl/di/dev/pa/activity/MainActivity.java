@@ -913,31 +913,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 		
 		PurAirDevice current = getCurrentPurifier();
-		if (current == null) {
-			initializeFirstPurifier();
+		if (current != null) return;
 			
-			current = getCurrentPurifier();
-			if (current == null) return;
-		}
-		
-		//TODO remove quick and dirty fix (necessary to update indoorFragment when purifier goes offline)
-		PurifierManager.getInstance().notifyPurifierChangedListeners();
-		
-		switch (current.getConnectionState()) {
-		case DISCONNECTED:
-			ALog.d(ALog.MAINACTIVITY, "Current purifier went offline");
-			updatePurifierUIFields();
-			PurifierManager.getInstance().stopCurrentSubscription();
-			break;
-		case CONNECTED_LOCALLY:
-			ALog.d(ALog.MAINACTIVITY, "Current purifier connected locally");
-			PurifierManager.getInstance().startSubscription(); // Right menu updated when response from subscription
-			break;
-		case CONNECTED_REMOTELY:
-			ALog.d(ALog.MAINACTIVITY, "Current purifier connected remotely");
-			PurifierManager.getInstance().startSubscription(); // Right menu updated when response from subscription
-			break;
-		}
+		initializeFirstPurifier();
+		// Connection update will happen from subscription callback
 	}
 
 	@Override

@@ -28,6 +28,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
@@ -58,7 +59,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private ProgressBar rdcpDownloadProgressBar;
 	private PercentBarLayout percentBarLayout;
 	private FontTextView barTopNum, barTopName, selectedIndexBottom;
-	private FontTextView mode, filter, aqiStatus, aqiSummary;
+	private FontTextView mode, filter, aqiStatusTxt, aqiSummary;
 	private List<int[]> powerOnReadingsValues;
 	private List<float[]> lastDayRDCPValues;
 	private List<float[]> last7daysRDCPValues;
@@ -126,12 +127,14 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		DiscoveryManager.getInstance().start(null);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
 	
 	@Override
 	protected void onPause() {
 		super.onPause();
+		DiscoveryManager.getInstance().stop();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 	
@@ -174,7 +177,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		mode = (FontTextView) findViewById(R.id.inModeType);
 //		filterLabel = (FontTextView) findViewById(R.id.inFilterTxt);
 		filter = (FontTextView) findViewById(R.id.inFilterType);
-		aqiStatus = (FontTextView) findViewById(R.id.inDetailsDbStatus);
+		aqiStatusTxt = (FontTextView) findViewById(R.id.inDetailsDbStatus);
 		aqiSummary = (FontTextView) findViewById(R.id.inDetailsDbSummary);
 		indoorDbIndexName = (FontTextView) findViewById(R.id.indoorDbIndexName);
 
@@ -406,10 +409,22 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			graphLayout.removeViewAt(0);
 		}
 	}
+	
+	private void updatePurifierUIFields() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (purifier == null) return;
+		
+		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
+		//TODO : Update fields using this information.
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				getDataFromDashboard(airPortInfo);
+			}
+		});
+	}
 
-	/**
-	 * 
-	 */
 	private void getDataFromDashboard(AirPortInfo airPortInfo) {
 		String purifierName = "";
 		if (currentPurifier != null) {
@@ -423,8 +438,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 			if (ConnectionState.DISCONNECTED == currentPurifier.getConnectionState()) {
 				mode.setText(getString(R.string.off));
-				aqiStatus.setText(getString(R.string.no_connection));
+				aqiStatusTxt.setText(getString(R.string.no_connection));
+				aqiStatusTxt.setTextSize(18.0f);
+				circleImg.setImageResource(R.drawable.grey_circle_2x);
 				aqiSummary.setText(AppConstants.EMPTY_STRING) ;
+				filter.setText(AppConstants.EMPTY_STRING);
 			} 
 			else {
 				if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
@@ -443,7 +461,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				if( aqiStatusAndCommentArray == null || aqiStatusAndCommentArray.length < 2 ) {
 					return ;
 				}
-				aqiStatus.setText(aqiStatusAndCommentArray[0]);
+				aqiStatusTxt.setText(aqiStatusAndCommentArray[0]);
+				aqiStatusTxt.setTextSize(22.0f);
 				aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
 			}
 		}
@@ -451,7 +470,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	public void aqiAnalysisClick(View v) {
 		FragmentManager fragMan = getSupportFragmentManager();
-		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatus.getText().toString(), outdoorTitle), "outdoor").commit();
+		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "outdoor").commit();
 	}
 
 	/**
@@ -491,23 +510,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	@Override
 	public void onAirPurifierChanged() {
-		// NOP
+		updatePurifierUIFields();
 	}
 	
 	@Override
 	public void onAirPurifierEventReceived() {
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
-		if (purifier == null) return;
-		
-		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
-		//TODO : Update fields using this information.
-		runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				getDataFromDashboard(airPortInfo);
-			}
-		});
+		updatePurifierUIFields();
 	}
 
 	@Override

@@ -153,6 +153,7 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.removePendingMessagesOnQueueForTesting();
 
+		// Must be called twice to set new DiscoveryEventLindiistener.
 		verify(mService, times(2)).startDeviceDiscovery(any(Callback.class));
 		verify(mService, never()).stopDeviceDiscovery();
 	}

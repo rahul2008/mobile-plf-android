@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.util.List;
+import java.util.Observable;
 
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -11,7 +12,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
  * @author Jeroen Mols
  * @date 28 Apr 2014
  */
-public class PurAirDevice {
+public class PurAirDevice extends Observable {
 
 	private final String mEui64;
 	private final String mUsn;
@@ -96,8 +97,13 @@ public class PurAirDevice {
 		return mConnectionState;
 	}
 
-	public synchronized void setConnectionState(ConnectionState connectionState) {
-		this.mConnectionState = connectionState;
+	public void setConnectionState(ConnectionState connectionState) {
+		synchronized(this) { // notifyObservers called from same Thread
+			if (connectionState.equals(mConnectionState)) return;
+			this.mConnectionState = connectionState;
+		}
+		setChanged();
+		notifyObservers();
 	}
 
 	public synchronized boolean isPaired() {
