@@ -30,15 +30,20 @@ public class AppConstants {
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
 	public static final String PURIFIERDB_NAME = "smart_air.db";
 	public static final int PURIFIERDB_VERSION = 2;
-	public static final String KEY_ID = "id";
+	public static final String KEY_ID = "_id";
 
 	// City table
 	public static final String TABLE_CITYDETAILS = "CityDetails";
+	public static final String KEY_AREA_ID = "AREA_ID";
 	public static final String KEY_CITY = "CITY";
+	public static final String KEY_DISTRICT = "DISTRICT";
 	public static final String KEY_PROVINCE = "PROVINCE";
-	public static final String KEY_DATE = "DATE";
-	public static final String KEY_AQI = "AQI";
-	public static final String KEY_TIME = "TIME";
+	public static final String KEY_COUNTRY = "COUNTRY";
+	public static final String KEY_STATION_TYPE = "STATION_TYPE";
+	public static final String KEY_SHORTLIST = "SHORTLIST";
+	
+	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS = AppConstants.KEY_SHORTLIST + " = '1' ";
+	
 	
 	// AirPurifier event table
 	public static final String TABLE_AIRPURIFIER_EVENT = "AirPurifierEvent";
@@ -55,6 +60,11 @@ public class AppConstants {
 	public static final String KEY_AIRPUR_LASTKNOWN_NETWORK = "lastknown_network";
 	public static final String KEY_AIRPUR_IS_PAIRED="is_paired";
 	public static final String KEY_AIRPUR_LAST_PAIRED = "last_paired";
+	
+	public static final String KEY_DATE = "DATE";
+	public static final String KEY_AQI = "AQI";
+	public static final String KEY_TIME = "TIME";
+
 
 	
 	/** CONSTANTS FOR THE FILTERS */

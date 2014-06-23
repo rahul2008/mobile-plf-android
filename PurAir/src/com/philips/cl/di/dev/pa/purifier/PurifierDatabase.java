@@ -13,18 +13,18 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.PurifierDBHelper;
+import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 
 public class PurifierDatabase {
 
 	private SQLiteDatabase db;
-	private PurifierDBHelper dbHelper;
+	private DatabaseHelper dbHelper;
 	/**
 	 * 
 	 * @param context
 	 */
 	public PurifierDatabase() {
-		dbHelper = new PurifierDBHelper(PurAirApplication.getAppContext());
+		dbHelper = new DatabaseHelper(PurAirApplication.getAppContext());
 	}
 	/**
 	 * 

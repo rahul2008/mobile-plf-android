@@ -2,7 +2,7 @@ package com.philips.cl.di.dev.pa.activity;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 
 import net.hockeyapp.android.CrashManager;
@@ -13,7 +13,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
+//import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -24,6 +24,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,7 +32,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
+//import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -69,6 +70,7 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
@@ -86,7 +88,7 @@ import com.philips.cl.di.dev.pa.view.ListViewItem;
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
-	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
+//	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
 
 	private static int screenWidth, screenHeight;
 
@@ -125,8 +127,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private SharedPreferences mPreferences;
 	private int mVisits;
 
-	private SharedPreferences outdoorLocationPrefs;
-	private ArrayList<String> outdoorLocationsList;
+//	private SharedPreferences outdoorLocationPrefs;
+//	private ArrayList<String> outdoorLocationsList;
 
 	public boolean isTutorialPromptShown = false;
 
@@ -189,14 +191,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				.addToBackStack(null)
 				.commit();
 
-		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
-		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
-		outdoorLocationsList = new ArrayList<String>();
-		int size = outdoorLocationsMap.size();
-		for (int i = 0; i < size; i++) {
-			outdoorLocationsList.add(outdoorLocationsMap.get("" + i));
-		}
-		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
+//		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
+//		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
+//		outdoorLocationsList = new ArrayList<String>();
+//		int size = outdoorLocationsMap.size();
+//		for (int i = 0; i < size; i++) {
+//			outdoorLocationsList.add(outdoorLocationsMap.get("" + i));
+//		}
+//		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
 
 		initializeCPPController();
 		
@@ -216,21 +218,21 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-		checkForCrashesHockeyApp();
+//		checkForCrashesHockeyApp();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		if (outdoorLocationPrefs != null) {
-			Editor editor = outdoorLocationPrefs.edit();
-			editor.clear();
-			int count = outdoorLocationsAdapter.getCount();
-			for (int i = 0; i < count; i++) {
-				editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
-			}
-			editor.commit();
-		}
+//		if (outdoorLocationPrefs != null) {
+//			Editor editor = outdoorLocationPrefs.edit();
+//			editor.clear();
+//			int count = outdoorLocationsAdapter.getCount();
+//			for (int i = 0; i < count; i++) {
+//				editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
+//			}
+//			editor.commit();
+//		}
 		SetupDialogFactory.getInstance(this).cleanUp();
 		
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
@@ -365,6 +367,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				break;
 			case R.id.add_location_img:
 				//TODO : Drop down city list
+				Intent intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
+				startActivity(intent);
 				break;
 			case R.id.back_to_home_img:
 				//TODO
@@ -497,17 +501,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		multiCareFilterText = (TextView) findViewById(R.id.tv_rm_multi_care_filter_status);
 		activeCarbonFilterText = (TextView) findViewById(R.id.tv_rm_active_carbon_filter_status);
 		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
-	}
-
-	private ArrayAdapter<String> outdoorLocationsAdapter;
-
-	public ArrayAdapter<String> getOutdoorLocationsAdapter() {
-		return outdoorLocationsAdapter;
-	}
-
-	public void setOutdoorLocationsAdapter(
-			ArrayAdapter<String> outdoorLocationsAdapter) {
-		this.outdoorLocationsAdapter = outdoorLocationsAdapter;
 	}
 
 	public void showFragment(Fragment fragment) {

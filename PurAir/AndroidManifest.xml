@@ -118,6 +118,10 @@
             android:name="com.philips.cl.di.dev.pa.scheduler.SchedulerActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <receiver android:name=".notification.NotificationBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>

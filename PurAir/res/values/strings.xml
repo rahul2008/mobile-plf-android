@@ -141,6 +141,7 @@
     <string name="outdoor_db">Outdoor</string>
     <string name="current_location">Current location</string>
     <string name="title_outdoor_db">Outdoor Dashboard</string>
+    <string name="outdoor_search_hint">Fill in place</string>
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">Low pollution, low PM2.5: poses little or no risk to health.</string>
     <string name="indoor_aqi_moderate_tip1">Pollution, particle level and PM2.5 all at moderate level.</string>

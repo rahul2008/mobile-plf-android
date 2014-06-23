@@ -47,7 +47,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList());
 		}
 		addSelectedEdit();
-		schOverviewAdapter = new SchedulerOverViewAdapter(getActivity(), R.layout.scheduler_overview_item, lstSchedulers);
+		schOverviewAdapter = new SchedulerOverViewAdapter(getActivity(), R.layout.simple_list_item, lstSchedulers);
 		lstView.setAdapter(schOverviewAdapter);
 	}
 	
@@ -72,12 +72,12 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View view = inflater.inflate(R.layout.scheduler_overview_item, null);
-			final FontTextView name = (FontTextView) view.findViewById(R.id.sch_overview_name);
-			final RelativeLayout mainLayout = (RelativeLayout) view.findViewById(R.id.ll_scheduler_overview);
-			final ImageView selDelete = (ImageView) view.findViewById(R.id.sch_overview_delete);
-			final ImageView rhtArr = (ImageView) view.findViewById(R.id.sch_overview_rightarr);
-			final FontTextView rhtArrtxt = (FontTextView) view.findViewById(R.id.sch_overview_rhtarrtext);
+			View view = inflater.inflate(R.layout.simple_list_item, null);
+			final FontTextView name = (FontTextView) view.findViewById(R.id.list_item_name);
+			final RelativeLayout mainLayout = (RelativeLayout) view.findViewById(R.id.ll_list_item);
+			final ImageView selDelete = (ImageView) view.findViewById(R.id.list_item_delete);
+			final ImageView rhtArr = (ImageView) view.findViewById(R.id.list_item_right_arrow);
+			final FontTextView rhtArrtxt = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			
 			final int tempPosition = position;
 			
