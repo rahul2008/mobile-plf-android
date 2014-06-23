@@ -1,42 +1,33 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.RotateAnimation;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
-import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
-import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment implements OnClickListener, AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener {
+public class OutdoorFragment extends BaseFragment implements OnClickListener, NetworkStateListener, OnPageChangeListener {
 	
 	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
-	private LinearLayout takeATourPopup;
+	
 	private ImageView aqiCircleMeter ;
 	
-	private String[] cityNames = {"Beijing", "Shanghai", "Cheng Du"};
+	private String[] cityNames = {"Beijing", "Shanghai", "Chengdu"};
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -49,14 +40,12 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	public void onResume() {
 		super.onResume();
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
-		DrawerAdapter.getInstance().addDrawerListener(this);
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
-		DrawerAdapter.getInstance().removeDrawerListener(this);
 	}
 	
 	private void initViews(View view) {
@@ -84,17 +73,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 				updateUI(city, cityNames[position]);
 			}
 		} 
-		
-		if(((MainActivity)getActivity()).getVisits()<=3 && !((MainActivity)getActivity()).isTutorialPromptShown){
-			takeATourPopup = (LinearLayout) view.findViewById(R.id.take_tour_prompt_drawer);			
-			showTakeATourPopup();
-			
-			FontTextView takeATourText = (FontTextView) view.findViewById(R.id.lbl_take_tour);
-			takeATourText.setOnClickListener(this);
-			
-			ImageButton takeATourCloseButton = (ImageButton) view.findViewById(R.id.btn_close_tour_layout);
-			takeATourCloseButton.setOnClickListener(this);
-		}
 		
 	}
 	
@@ -146,18 +124,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	    aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
 	
-	private void showTakeATourPopup() {
-		takeATourPopup.setVisibility(View.VISIBLE);
-		Animation bottomUp = AnimationUtils.loadAnimation(getActivity(), R.anim.bottom_up);
-		takeATourPopup .startAnimation(bottomUp);
-	}
-	
-	private void hideTakeATourPopup() {
-		if (takeATourPopup != null) {
-			takeATourPopup.setVisibility(View.GONE);
-		}
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -170,53 +136,11 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 //			}
 			break;
 			
-		case R.id.lbl_take_tour:
-			((MainActivity)getActivity()).isTutorialPromptShown = true;
-			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
-			startActivity(intentOd);
-			hideTakeATourPopup();
-			break;
-			
-		case R.id.btn_close_tour_layout:
-			((MainActivity)getActivity()).isTutorialPromptShown = true;
-			hideTakeATourPopup();
-			showTutorialDialog();
-			break;
 		default:
 			break;	
 		}
 	}
 	
-	private void showTutorialDialog() {
-		AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.alert_take_tour, R.string.alert_taketour_text, R.string.alert_take_tour, R.string.close);
-		dialog.setOnClickListener(this);
-		dialog.show(getActivity().getSupportFragmentManager(), "");
-	}
-
-	@Override
-	public void onPositiveButtonClicked() {
-		Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
-		startActivity(intentOd);
-	}
-
-	@Override
-	public void onNegativeButtonClicked() {
-		// NOP
-	}
-
-	@Override
-	public void onDrawerEvent(DrawerEvent event, View drawerView) {
-		switch (event) {
-		case DRAWER_CLOSED:
-			break;
-		case DRAWER_OPENED:
-			hideTakeATourPopup();
-			break;
-		default:
-			break;
-		}
-	}
-
 	@Override
 	public void onConnected() {
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment$onConnected");
@@ -226,5 +150,20 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Al
 	@Override
 	public void onDisconnected() {
 		
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int state) {
+		ALog.i(ALog.TEMP, "OutdoorFragment$onPageScrollStateChanged " + state);
+	}
+
+	@Override
+	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+		
+	}
+
+	@Override
+	public void onPageSelected(int position) {
+		ALog.i(ALog.TEMP, "OutdoorFragment$onPageSelected " + position);
 	}
 }

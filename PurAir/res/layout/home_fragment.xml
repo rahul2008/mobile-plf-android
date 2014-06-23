@@ -15,15 +15,6 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true" />
 
-        <!--
-             <include 
-            android:id="@+id/hf_indoor_dashboard_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            layout="@layout/hf_indoor_dashboard" />
-        -->
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -37,14 +28,46 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true" />
 
-        <!--
-            <include 
-			android:id="@+id/hf_outdoor_dashboard_viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            layout="@layout/hf_outdoor_dashboard" />
-        -->
-    </RelativeLayout>
+    <com.viewpagerindicator.CirclePageIndicator
+        android:id="@+id/indicator"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+    
+    <LinearLayout
+        android:id="@+id/take_tour_prompt_drawer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="30dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@color/white"
+        android:padding="0.5dp"
+        android:visibility="gone" >
 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            android:id="@+id/lbl_take_tour"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_marginRight="0.5dp"
+            android:layout_weight="1"
+            android:background="@color/philips_blue"
+            android:gravity="center"
+            android:text="@string/prompt_take_tour"
+            android:textColor="#FFF" 
+            android:textSize="18sp"/>
+
+        <ImageButton
+            android:id="@+id/btn_close_tour_layout"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/philips_blue"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/help_close" />
+    </LinearLayout>
+    </RelativeLayout>
+    
 </LinearLayout>
