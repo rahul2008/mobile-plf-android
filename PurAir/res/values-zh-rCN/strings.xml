@@ -134,7 +134,9 @@
     <string name="available_from">可从购买</string>
     <!-- Indoor and Outdoor Details -->
     <string name = "purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
-    <string name="download_failed">Error download failed</string>
+    <string name="aqi_history">AQI History</string>
+    <string name="aqi_history_download_failed">AQI historic data download failed!</string>
+    <string name="aqi_history_not_avialable">AQI historic data not available!</string>
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">戶外</string>
     <string name="current_location">当前位置</string>

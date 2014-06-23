@@ -389,14 +389,19 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				downloadData = new DownloadData(callbackHandler);
 				downloadData.setDownloadDataDetails(query, 2048, 0, 0);
 				downloadData.executeCommand();
+			} else {
+				downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
 			}
 		} catch (IllegalArgumentException e) {
+			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
 		} catch (Exception e) {
+			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
 		} catch (Error e) {
+			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
 			e.printStackTrace();
-		}
+		} 
 	}
 
 	/***

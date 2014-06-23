@@ -3,10 +3,12 @@ package com.philips.cl.di.dev.pa.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
@@ -16,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -26,6 +27,7 @@ import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.IndoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -75,7 +77,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	private int goodAirCount = 0;
 	private int totalAirCount = 0;
-	private Handler handler = new Handler();
 
 	private int powerOnReadings[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0, 0 };
@@ -137,18 +138,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		DiscoveryManager.getInstance().stop();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
-	
-	private Runnable downloadDataRunnble = new Runnable() {
-
-		@Override
-		public void run() {
-			handler.removeCallbacks(downloadDataRunnble);
-			rdcpDownloadProgressBar.setVisibility(View.GONE);
-			callGraphViewOnClickEvent(0, lastDayRDCPValues);
-		}
-	};
-
-
 	
 	/**
 	 * Initialize UI widget
@@ -312,9 +301,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		goodAirInfos.add(Utils.getPercentage(goodAirCount, totalAirCount));
 		last7daysRDCPValues.add(last7daysRDCPVal);
 		last4weeksRDCPValues.add(last4weeksRDCPVal);
-
-		handler.removeCallbacks(downloadDataRunnble);
-		handler.post(downloadDataRunnble);
+		
+		rdcpDownloadProgressBar.setVisibility(View.GONE);
+		callGraphViewOnClickEvent(0, lastDayRDCPValues);
 	}
 
 	
@@ -472,6 +461,31 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		FragmentManager fragMan = getSupportFragmentManager();
 		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "outdoor").commit();
 	}
+	
+	/**
+	 * Show alert dialog AQI historic data download failed
+	 */
+	private void showAlertDialogHistoryDoawnload(String title, String message) {
+		FragmentManager fragMan = getSupportFragmentManager();
+		fragMan.beginTransaction().add(
+				DownloadAlerDialogFragement.newInstance(title, message), "alert").commitAllowingStateLoss();
+	}
+	
+	@SuppressLint("HandlerLeak")
+	private final Handler handlerDownload = new Handler() {
+		public void handleMessage(Message msg) {
+			rdcpDownloadProgressBar.setVisibility(View.GONE);
+			if ( msg.what == 1 ) {
+				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
+						getString(R.string.aqi_history_not_avialable));
+			} else if ( msg.what == 2 ) {
+				showAlertDialogHistoryDoawnload(getString(R.string.aqi_history), 
+						getString(R.string.aqi_history_download_failed));
+			} else if ( msg.what == 3 ) {
+				addAqiReading();
+			}
+		};
+	};
 
 	/**
 	 * rDcp values download
@@ -479,32 +493,29 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void onDataDownload(int status, String downloadedData) {
 		ALog.i(ALog.INDOOR_DETAILS, "onDataDownload status: " + status);
-		if( status == Errors.SUCCESS) {
-			Utils.getIndoorAqiValues(downloadedData) ;
+		if( status == Errors.SUCCESS ) {
+			if (downloadedData != null && !downloadedData.isEmpty()) {
+				Utils.getIndoorAqiValues(downloadedData) ;
 			
-			if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
-				hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
-				dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
-				powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
-			}
-			addAqiReading();
-		} else {
-			runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					rdcpDownloadProgressBar.setVisibility(View.GONE);
-					Toast.makeText(getApplicationContext(), 
-							getString(R.string.download_failed), Toast.LENGTH_LONG).show();
+				if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
+					hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
+					dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
+					powerOnStatusList = SessionDto.getInstance().getIndoorTrendDto().getPowerDetailsList() ;
 				}
-			});
+				handlerDownload.sendEmptyMessage(3);
+				
+			} else {
+				handlerDownload.sendEmptyMessage(1);
+			}
+		} else {
+			handlerDownload.sendEmptyMessage(2);
+			
 		}
 	}
 
 	@Override
 	public void onBackPressed() {
 		super.onBackPressed();
-		handler.removeCallbacks(downloadDataRunnble);
 		finish();
 	}
 

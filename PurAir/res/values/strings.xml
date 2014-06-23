@@ -134,7 +134,9 @@
     <string name="available_from">Available to purchase from</string>
     <!-- Indoor and Outdoor Details -->
     <string name = "purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
-    <string name="download_failed">Error download failed</string>
+    <string name="aqi_history">AQI History</string>
+    <string name="aqi_history_download_failed">AQI historic data download failed!</string>
+    <string name="aqi_history_not_avialable">AQI historic data not available!</string>
     <string name="indoor_db">Indoor</string>
     <string name="outdoor_db">Outdoor</string>
     <string name="current_location">Current location</string>
