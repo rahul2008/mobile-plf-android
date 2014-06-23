@@ -19,7 +19,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
-import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
@@ -526,7 +525,7 @@ public class RightMenuClickListener implements OnClickListener {
 			//Added if enable shop demo mode, when AirPurifier all ready connected. 
 			PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 			if (purAirDevice == null || purAirDevice.getName() == null) return;
-			if (PurAirApplication.isDemoModeEnable() && !purAirDevice.getName().endsWith(DemoModeConstant.DEMO)) {
+			if (PurAirApplication.isDemoModeEnable() && !purAirDevice.isDemoPurifier()) {
 				connect.setVisibility(View.VISIBLE) ;
 			} else {
 				connect.setVisibility(View.GONE) ;
