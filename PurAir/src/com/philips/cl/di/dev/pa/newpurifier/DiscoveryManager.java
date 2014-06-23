@@ -321,7 +321,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (device.getLastKnownNetworkSsid() != null && device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
-			if (!device.isPaired()) continue; // not paired
+			if (!device.isPaired() || !device.isOnlineViaCpp()) continue; // not paired or not online
 			
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;

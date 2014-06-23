@@ -85,6 +85,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
+			mCurrentPurifier.deleteObserver(this);
 		}
 		stopCurrentSubscription();
 		
