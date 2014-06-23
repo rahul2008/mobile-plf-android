@@ -40,6 +40,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 	private RelativeLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
+	private float prevRotation = 0.0f;
 	
 	private FontTextView fanModeTxt ;
 	private FontTextView filterStatusTxt ;
@@ -124,6 +125,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			purifierNameTxt.setText("");
 			hideIndoorMeter();
 			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(0));
+			prevRotation = 0.0f;
 			return;
 		}
 		
@@ -141,6 +143,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiPointer.setImageResource(R.drawable.grey_circle_2x);
 			aqiStatusTxt.setText(getString(R.string.no_connection));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
+			prevRotation = 0.0f;
 
 		} else {
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
@@ -170,13 +173,14 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		Drawable drawable = aqiPointer.getDrawable();
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$getRotationAnimation rotation " + rotation + " aqiPointer.getWidth()/2 " + (aqiPointer.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
 		
-		Animation aqiCircleRotateAnim = new RotateAnimation(0.0f, rotation, drawable.getMinimumWidth()/2, drawable.getMinimumHeight()/2);
+		Animation aqiCircleRotateAnim = new RotateAnimation(prevRotation, rotation, drawable.getMinimumWidth()/2, drawable.getMinimumHeight()/2);
 		
 	    aqiCircleRotateAnim.setDuration(2000);
 	    aqiCircleRotateAnim.setRepeatCount(0);
 	    aqiCircleRotateAnim.setFillAfter(true);
 	 
 	    aqiPointer.setAnimation(aqiCircleRotateAnim);
+	    prevRotation = rotation;
 	}
 	
 	private void showFirmwareUpdatePopup() {
