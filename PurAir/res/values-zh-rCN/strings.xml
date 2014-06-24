@@ -324,7 +324,7 @@
     <string name="step2_instruction">在飞利浦智能空气净化器上确认 Wi-Fi。</string>
     <string name="step3_instruction">将飞利浦智能空气净化器连接到您的家庭 Wi-Fi 网络。</string>
     <string name="step1_msg1">您目前正在使用</string>
-    <string name="step2_msg1">Press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows</string>
+    <string name="step2_msg1">If Wi-Fi LED is not %s, press \"Power\" and \"Childlock\" buttons simultaneously until the Wi-Fi LED is</string>
     <string name="step2_msg2">Wi-Fi LED 是否</string>
     <string name="orange">橙色</string>
     <string name="step3_msg1">输入密码</string>
@@ -377,7 +377,7 @@
     <string name="congratulations">恭喜您！</string>
     <string name="support_ts01_message">拔掉飞利浦智能空气净化器的插头。</string>
     <string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in and press the \"Power\" button to switch on the purifier.</string>
-    <string name="support_ts03_message">Press \"Power\" and \"Childlock\" buttons simultaneously, until the Wi-Fi LED shows ORANGE.</string>
+    <string name="support_ts03_message">If Wi-Fi LED is not ORANGE, press \"Power\" and \"Childlock\" buttons simultaneously until the Wi-Fi LED is ORANGE.</string>
     <string name="support_ts05_message">是Wi-Fi的LED灯</string>
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
