@@ -111,7 +111,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="22sp"
+            android:textSize="@dimen/title_text_size_small"
             android:text="@string/no_data"
             custom:fontAssetName="fonts/gillsans.ttf" />
     </RelativeLayout>
@@ -124,7 +124,7 @@
         android:layout_below="@+id/hf_outdoor_circle_layt"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
-        android:textSize="22sp"
+        android:textSize="@dimen/text_size_large"
         custom:fontAssetName="fonts/gillsans.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
