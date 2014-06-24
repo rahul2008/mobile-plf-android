@@ -66,6 +66,7 @@ public class EWSStepThreeFragment extends Fragment {
 		setPurifierDetils();
 		
 		deviceNameStep3.setFilters(new InputFilter[] { purifierNamefilter, new InputFilter.LengthFilter(EWSConstant.EWS_PURIFIER_NAME_LENGTH) });
+		passwordStep3.setFilters(new InputFilter[] { passwordFilter});
 	}
 	
 	private void setPurifierDetils() {
@@ -172,6 +173,21 @@ public class EWSStepThreeFragment extends Fragment {
 				return source;
 			}
 		}
+	};
+	
+	
+	InputFilter passwordFilter= new InputFilter() { 
+	    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) { 
+	        for (int i = start; i < end; i++) { 
+	            int passwordInt = ((int)source.charAt(i));
+
+	            if(passwordInt>126 || passwordInt<32){
+	            	ALog.i(ALog.EWS, "Password char int: " + passwordInt);
+	                return "";
+	            }
+	        } 
+	        return null; 
+	    } 
 	};
 	
 	private class ButtonClickListener implements OnClickListener {
