@@ -29,7 +29,7 @@ public class AppConstants {
 
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
 	public static final String PURIFIERDB_NAME = "smart_air.db";
-	public static final int PURIFIERDB_VERSION = 2;
+	public static final int PURIFIERDB_VERSION = 3;
 	public static final String KEY_ID = "_id";
 
 	// City table

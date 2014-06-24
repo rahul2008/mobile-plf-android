@@ -91,6 +91,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		ALog.d(ALog.DATABASE, "Upgrade table");
+		if (newVersion == 3) {
+			// Only city details has changed from version 2 to 3.
+			db.execSQL(String.format("DROP TABLE IF EXISTS %s", 
+					AppConstants.TABLE_CITYDETAILS));
+			return;
+		}
+		
+		// default - clear all tables
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
 				AppConstants.TABLE_AIRPURIFIER_EVENT));
 		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
