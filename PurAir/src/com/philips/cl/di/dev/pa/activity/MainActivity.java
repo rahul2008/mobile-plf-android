@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.activity;
 
 
 import java.util.ArrayList;
-//import java.util.HashMap;
 import java.util.List;
 
 import net.hockeyapp.android.CrashManager;
@@ -13,7 +12,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-//import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -24,7 +22,6 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,7 +29,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-//import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -73,8 +69,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
-import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -84,6 +78,9 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
+//import java.util.HashMap;
+//import android.content.SharedPreferences.Editor;
+//import android.widget.ArrayAdapter;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
@@ -407,8 +404,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		// TODO : Add this when enabling non-mandatory firmware update
 //		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
 //				R.drawable.icon_8_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
-				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_10_2x));
 		leftMenuItems
@@ -544,7 +539,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
-			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
 		}
@@ -585,22 +579,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
 				break;
-//			case 6:
-				// TODO : Add this when enabling non-mandatory firmware update
-//				// Firmware update
-//				startFirmwareUpgradeActivity();
-//				break;
 			case 6:
-				// User registration
-				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
-				startActivity(userRegistrationIntent);
-				break;
-			case 7:
 				// Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
 				break;
-			case 8:
+			case 7:
 				// Tools
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.tools));
