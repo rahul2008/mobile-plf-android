@@ -394,7 +394,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void connectToAirPurifier() {
-		dismissCheckSingnalStrengthDialog();
+		SetupDialogFactory.getInstance(EWSActivity.this).dismissSignalStrength();
 		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		if ( ewsService == null) {
 			ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
@@ -445,7 +445,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onHandShakeWithDevice() {
-		dismissCheckSingnalStrengthDialog();
+		SetupDialogFactory.getInstance(EWSActivity.this).dismissSignalStrength();
 		mStep = EWSConstant.EWS_STEP_THREE ;
 		showFragment(new EWSStepThreeFragment(), EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
 		
@@ -480,11 +480,10 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	public void onErrorOccurred(int errorCode) {
 		
 		ALog.i(ALog.EWS, "onErrorOccurred: "+errorCode) ;
-		if (SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
-			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
-		}
-		else if( SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).isShowing()) {
-			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).dismiss();
+		SetupDialogFactory.getInstance(EWSActivity.this).dismissSignalStrength();
+		
+		if( SetupDialogFactory.getInstance(EWSActivity.this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).isShowing()) {
+			SetupDialogFactory.getInstance(EWSActivity.this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).dismiss();
 		}
 		
 		switch (errorCode) {
@@ -571,12 +570,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public String getNetworkSSID() {
 		return networkSSID;
-	}
-	
-	private void dismissCheckSingnalStrengthDialog() {
-		if (SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
-			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
-		}
 	}
 	
 	private boolean isHomeNeworkSelected() {

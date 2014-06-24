@@ -66,7 +66,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
 			
-		if (mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
+		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
 			mCurrentPurifier.deleteObserver(this);
 		}

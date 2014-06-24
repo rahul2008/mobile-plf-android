@@ -452,6 +452,13 @@ public class SetupDialogFactory implements OnClickListener{
 		}
 		getDialog(SUPPORT_TS01).show();
 	}
+	
+	public void dismissSignalStrength() {
+		
+		if (checkSignalStrength != null && checkSignalStrength.isShowing()) {
+			checkSignalStrength.dismiss();
+		}
+	}
 
 	public void cleanUp() {
 		errorDialogTS0101 = null;

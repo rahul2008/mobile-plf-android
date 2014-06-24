@@ -169,7 +169,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	}
 	
 	public void connectToAirPurifier() {
-		dismissConnectingDialog();
+		SetupDialogFactory.getInstance(DemoModeActivity.this).dismissSignalStrength();
 		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		if ( broadcastReceiver == null) {
 			broadcastReceiver = new DemoModeBroadcastReceiver(this) ;
@@ -254,7 +254,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			
 			@Override
 			public void run() {
-				dismissConnectingDialog();
+				SetupDialogFactory.getInstance(DemoModeActivity.this).dismissSignalStrength();
 				
 				switch (errorCode) {
 				case DemoModeConstant.DEMO_MODE_ERROR_NOT_IN_PHILIPS_SETUP:
@@ -304,14 +304,6 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 					.commitAllowingStateLoss();
 		} catch (Exception e) {
 			ALog.e(ALog.DEMO_MODE, e.getMessage());
-		}
-	}
-	
-	public void dismissConnectingDialog() {
-		if (SetupDialogFactory.getInstance(
-				DemoModeActivity.this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).isShowing()) {
-			SetupDialogFactory.getInstance(
-					DemoModeActivity.this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).dismiss();
 		}
 	}
 	

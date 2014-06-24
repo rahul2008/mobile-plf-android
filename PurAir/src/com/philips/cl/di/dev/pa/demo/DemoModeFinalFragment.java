@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -40,7 +41,6 @@ public class DemoModeFinalFragment extends Fragment {
 				((DemoModeActivity) getActivity()).showHomeScreen();
 			}
 		});
-		
-		((DemoModeActivity) getActivity()).dismissConnectingDialog();
+		SetupDialogFactory.getInstance((DemoModeActivity) getActivity()).dismissSignalStrength();
 	}
 }
