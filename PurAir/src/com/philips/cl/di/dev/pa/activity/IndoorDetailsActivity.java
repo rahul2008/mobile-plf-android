@@ -198,7 +198,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
-		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+//		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
+		ImageView backToHome = ((ImageView)view.findViewById(R.id.back_to_home_img));
+		backToHome.setVisibility(View.VISIBLE);
+		backToHome.setOnClickListener(this);
 		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
 		actionBar.setCustomView(view);
 	}
@@ -344,6 +347,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 			break;
 		}
+		case R.id.back_to_home_img: {
+			finish();
+			break;
+		}
 		default:
 			break;
 		}
@@ -430,7 +437,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				aqiStatusTxt.setText(getString(R.string.no_connection));
 				aqiStatusTxt.setTextSize(18.0f);
 				circleImg.setImageResource(R.drawable.grey_circle_2x);
-				aqiSummary.setText(AppConstants.EMPTY_STRING) ;
+				aqiSummary.setText(getString(R.string.no_connection)) ;
 				filter.setText(AppConstants.EMPTY_STRING);
 			} 
 			else {

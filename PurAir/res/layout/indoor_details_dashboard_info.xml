@@ -10,7 +10,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/aqi_pink_circle_2x" />
+        android:src="@drawable/grey_circle_2x" />
 
      <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -23,8 +23,9 @@
         android:layout_alignTop="@+id/inDetailsDbCircle"
         android:layout_alignRight="@+id/inDetailsDbCircle"
         android:gravity="center"
+        android:text="@string/no_connection"
         android:textColor="@color/white"
-        android:textSize="28sp" />
+        android:textSize="@dimen/title_text_size_small" />
     
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

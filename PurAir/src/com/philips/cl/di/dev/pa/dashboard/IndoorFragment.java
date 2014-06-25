@@ -354,7 +354,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 		case R.id.hf_indoor_circle_pointer:
 			PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
-			if(getActivity() != null && purifier != null && purifier.getConnectionState() != ConnectionState.DISCONNECTED) {
+			if (getActivity() != null && purifier != null) {
 				Intent intent = new Intent(getActivity(), IndoorDetailsActivity.class);
 				startActivity(intent);
 			} else {
