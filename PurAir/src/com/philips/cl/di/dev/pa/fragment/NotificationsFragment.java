@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -84,7 +85,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			if (parent != null && parent instanceof MainActivity) {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
 				dialog.setOnClickListener(this);
-				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+//				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 				return;
 			}
 		}
@@ -366,7 +369,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.notification_nopurifier_positivebtn);
 				dialog.setOnClickListener(NotificationsFragment.this);
-				dialog.show(getActivity().getSupportFragmentManager(), null);
+//				dialog.show(getActivity().getSupportFragmentManager(), null);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 			}
 		});		
 	}
@@ -458,7 +463,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 				public void run() {
 					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.error_aqithreshold_setting, R.string.ok);
 					dialog.setOnClickListener(NotificationsFragment.this);
-					dialog.show(getActivity().getSupportFragmentManager(), null);
+//					dialog.show(getActivity().getSupportFragmentManager(), null);
+					FragmentManager fm = getActivity().getSupportFragmentManager();
+					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 				}
 			});
 		} 
