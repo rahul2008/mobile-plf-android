@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.cpp;
 
 import java.net.HttpURLConnection;
+import java.util.Date;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -8,6 +9,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -283,8 +285,12 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			} 
 			else if (currentRelationshipType.equals(AppConstants.PAIRING_NOTIFY_RELATIONSHIP) && noOfRelations>0) {
 				purifier.setPairing(true);
-				purifierDatabase.updatePairingStatus(purifier);
-				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
+				purifier.setLastPairedTime(new Date().getTime()) ;
+				long updated = purifierDatabase.updatePairingStatus(purifier);
+				if( updated != -1 ) {
+					PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+				}
+ 				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
 				notifyListenerSuccess();
 			}
 		} 
@@ -303,7 +309,12 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 					ALog.i(ALog.PAIRING, "Notification relationship added successfully - Pairing completed");
 					notifyListenerSuccess();
 					purifier.setPairing(true);
-					purifierDatabase.updatePairingStatus(purifier);
+					purifier.setLastPairedTime(new Date().getTime()) ;
+					long updated = purifierDatabase.updatePairingStatus(purifier);
+					if( updated != -1 ) {
+						PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+					}
+					
 				}
 			} else {
 				ALog.i(ALog.PAIRING, "Pairing status is PENDING");

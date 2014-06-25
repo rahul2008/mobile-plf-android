@@ -132,6 +132,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public boolean isDiagnostics;
 
 	private boolean isPairingDialogShown;
+
 	private ProgressDialog progressDialog;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -692,9 +693,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			}
 		});
 		
-		if(!purifier.isPaired()){
-			pairToPurifierIfNecessary();
-		}
+		pairToPurifierIfNecessary();
 	}
 	
 	private void disableRightMenuControls() {
@@ -793,18 +792,18 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 		
-		// TODO move this code
-		PurifierDatabase database = new PurifierDatabase();
-		long lastPairingCheckTime = database.getPurifierLastPairedOn(purifier);
-		database.closeDb();
-		if (lastPairingCheckTime <= 0) {
+		// First time pairing or on EWS
+		if( !purifier.isPaired()) {
 			showPairingDialog(purifier);
-			return;
 		}
-
-		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
-		if (diffInDays != 0) {
-			startPairingWithoutListener(purifier);
+		// Everyday check for pairing
+		else {
+			long lastPairingCheckTime = purifier.getLastPairedTime();
+			
+			long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
+			if (diffInDays != 0) {
+				startPairingWithoutListener(purifier);
+			}
 		}
 	}
 
@@ -841,6 +840,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	@Override
 	public void onPairingSuccess() {		
+		isPairingDialogShown = false ;
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
@@ -856,6 +856,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	@Override
 	public void onPairingFailed() {
+		isPairingDialogShown = false ;
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}

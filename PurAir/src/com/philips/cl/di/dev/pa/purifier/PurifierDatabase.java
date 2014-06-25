@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.purifier;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import android.content.ContentValues;
@@ -55,7 +54,6 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
 				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.isPaired() ? 1 : 0);
-
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, e.getMessage());
@@ -91,11 +89,13 @@ public class PurifierDatabase {
 					String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK));
 					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_KEY));
 					boolean isPaired = cursor.getInt(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_IS_PAIRED)) == 1;
+					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(AppConstants.KEY_AIRPUR_LAST_PAIRED)) ;
 					
 					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
 					purifier.setLastKnownNetworkSsid(lastKnownNetwork);
 					purifier.setEncryptionKey(encryptionKey);
 					purifier.setPairing(isPaired);
+					purifier.setLastPairedTime(lastPairedTime) ;
 
 					ALog.i(ALog.DATABASE, "Loaded purifier: " + purifier);
 
@@ -133,7 +133,9 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.isPaired() ? 1 : 0);
-
+			if(!purifier.isPaired()) {
+				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
+			}
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
 		} catch (Exception e) {
@@ -184,7 +186,7 @@ public class PurifierDatabase {
 
 			ContentValues values = new ContentValues();
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 1);
-			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, new Date().getTime());
+			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getLastPairedTime());
 
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getEui64())});

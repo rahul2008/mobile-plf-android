@@ -23,7 +23,16 @@ public class PurAirDevice extends Observable {
 	private String mLastKnownNetworkSsid;
 	
 	private ConnectionState mConnectionState;
+	public long getLastPairedTime() {
+		return mLastPairedTime;
+	}
+
+	public void setLastPairedTime(long mLastPairedTime) {
+		this.mLastPairedTime = mLastPairedTime;
+	}
+
 	private boolean 		isPaired 		= false;
+	private long 			mLastPairedTime;
 	private boolean			isOnlineViaCpp 	= false;
 	private String 			mEncryptionKey;
 
