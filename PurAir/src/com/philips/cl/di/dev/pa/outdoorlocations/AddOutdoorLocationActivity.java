@@ -144,10 +144,9 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 					deleteSign.setVisibility(View.GONE);
 					
 					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-					String province = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_PROVINCE));
-					String country = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_PROVINCE));
+					String province = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
 
-					tvName.setText(city + ", " + province + ", " + country);
+					tvName.setText(city + ", " + province);
 				}
 			};
 			

@@ -66,12 +66,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		String createCityDetailsTableSQL = "CREATE TABLE  IF NOT EXISTS " + AppConstants.TABLE_CITYDETAILS + " ("
 				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ AppConstants.KEY_CITY + " TEXT,"
 				+ AppConstants.KEY_AREA_ID + " NUMERIC,"
-				+ AppConstants.KEY_CITY + " TEXT," 
 				+ AppConstants.KEY_DISTRICT + " TEXT,"
-				+ AppConstants.KEY_PROVINCE + " TEXT," 
-				+ AppConstants.KEY_COUNTRY + " TEXT,"
-				+ AppConstants.KEY_STATION_TYPE + " TEXT," 
+				+ AppConstants.KEY_CITY_CN + " TEXT," 
 				+ AppConstants.KEY_SHORTLIST + " NUMERIC" 
 				+ ")";
 		

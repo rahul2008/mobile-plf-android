@@ -26,12 +26,10 @@ public class OutdoorLocationDatabase {
 	private SQLiteDatabase mOutdoorLocationDatabase = null;
 	private static final String[] mTableColumns = new String[] {
 									AppConstants.KEY_ID,
-									AppConstants.KEY_AREA_ID,
 									AppConstants.KEY_CITY,
+									AppConstants.KEY_AREA_ID,
 									AppConstants.KEY_DISTRICT,
-									AppConstants.KEY_PROVINCE,
-									AppConstants.KEY_COUNTRY,
-									AppConstants.KEY_STATION_TYPE,
+									AppConstants.KEY_CITY_CN,
 									AppConstants.KEY_SHORTLIST };
 	
 	public OutdoorLocationDatabase() {
@@ -51,8 +49,10 @@ public class OutdoorLocationDatabase {
 	}
 	
 	synchronized void fillDatabaseForCSV() {
-		InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.outdoor_locations_list);
+		InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.outdoor_locations_short);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
+		
+		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorLocationDatabase fillDatabaseForCSV inputStream " + inputStream + " reader " + reader);
 		
 		String outdoorLocation = "";
         StringTokenizer stringTokenizer = null;
@@ -65,22 +65,19 @@ public class OutdoorLocationDatabase {
 	            	stringTokenizer = new StringTokenizer(outdoorLocation, ";");
 	            	
 	                ContentValues values = new ContentValues();
-	        		values.put(AppConstants.KEY_AREA_ID, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
+	        		values.put(AppConstants.KEY_AREA_ID, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_DISTRICT, stringTokenizer.nextToken());
-	        		values.put(AppConstants.KEY_PROVINCE, stringTokenizer.nextToken());
-	        		values.put(AppConstants.KEY_COUNTRY, stringTokenizer.nextToken());
-	        		values.put(AppConstants.KEY_STATION_TYPE, stringTokenizer.nextToken());
+	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_SHORTLIST, "0");
-	                
 	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
 	            }
-	            
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
 	        
 	        } catch (IOException e) {
 	            e.printStackTrace();
-	        } finally {
+	        }
+	        finally {
 	        	mOutdoorLocationDatabase.endTransaction();
 	        }
         }
@@ -128,7 +125,7 @@ public class OutdoorLocationDatabase {
 	}
 	
 	private boolean isCityDetailsTableFilled() {
-		
+		ALog.i(ALog.DASHBOARD, "isCityDetailsTableFilled");
 		Cursor cursor = getDataFromOutdoorLoacation(null);
 		try {
 			cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));

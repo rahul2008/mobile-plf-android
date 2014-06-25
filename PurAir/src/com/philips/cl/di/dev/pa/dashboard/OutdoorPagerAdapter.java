@@ -41,7 +41,7 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 	
 	@Override
 	public int getCount() {
-		return 3;
+		return OutdoorManager.getInstance().getCitiesList().size();
 	}
 	
 	@Override

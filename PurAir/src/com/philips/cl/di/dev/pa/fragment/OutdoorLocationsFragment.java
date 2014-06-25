@@ -126,10 +126,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					deleteSign.setVisibility(View.VISIBLE);
 					
 					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-					String province = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_PROVINCE));
-					String country = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_PROVINCE));
+					String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
 
-					tvName.setText(city + ", " + province + ", " + country);
+					tvName.setText(city + ", " + cityCN);
 					tvName.setTag(cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
 				}
 			};

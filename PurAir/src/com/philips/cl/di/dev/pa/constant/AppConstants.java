@@ -36,6 +36,7 @@ public class AppConstants {
 	public static final String TABLE_CITYDETAILS = "CityDetails";
 	public static final String KEY_AREA_ID = "AREA_ID";
 	public static final String KEY_CITY = "CITY";
+	public static final String KEY_CITY_CN = "CITY_CN";
 	public static final String KEY_DISTRICT = "DISTRICT";
 	public static final String KEY_PROVINCE = "PROVINCE";
 	public static final String KEY_COUNTRY = "COUNTRY";
