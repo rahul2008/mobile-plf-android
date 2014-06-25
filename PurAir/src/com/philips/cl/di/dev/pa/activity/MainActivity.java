@@ -68,7 +68,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -287,6 +286,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	private void initializeCPPController() {
+		CPPController.getInstance(this).setDefaultDcsState() ;
 		CPPController.getInstance(this).addSignOnListener(this) ;
 	}
 
@@ -891,8 +891,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 		
 		PurAirDevice current = getCurrentPurifier();
-		if (current != null) return;
-			
+		if( current != null ) return ;
 		initializeFirstPurifier();
 		// Connection update will happen from subscription callback
 	}
