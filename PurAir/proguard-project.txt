@@ -24,10 +24,97 @@
 # Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 
--keep class com.philips.icpinterface.** { *; }
+-optimizationpasses 5
+-dontusemixedcaseclassnames
+-dontskipnonpubliclibraryclasses
+-dontpreverify
+-verbose
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+
+
+-keepattributes InnerClasses
+
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Application
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+-keep public class com.google.android.gms.common.GooglePlayServicesUtil
+-keep public class com.google.android.gms.common.**
+-keep public class com.android.vending.licensing.ILicensingService
+
+
+
+-dontwarn com.google.android.gms.*
+-ignorewarnings 
+-dontshrink
+-dontpreverify
+
+# ICP Proguard rules ---- START -----
+
+-keep class com.philips.icpinterface.* {
+	<fields>;
+	private void  callbackFunction(int,int);
+	private boolean deleteFile(java.lang.String);
+}
+
+-keepclasseswithmembernames class com.philips.icpinterface.* {
+    private javax.net.ssl.SSLSocketFactory initializeSession();
+    private boolean loadCertificates(com.philips.icpinterface.ICPClientToAppInterface);
+	private void checkNetworkSate(com.philips.icpinterface.ICPClientToAppInterface);
+	private boolean unloadCertificates();
+	private void setCertificateExpiry(int);
+}
+
+
+-keep class com.philips.icpinterface.data.ComponentInfo {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.DateTime {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.DeviceProperty {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.EventLocal {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.GCMAProtocolDetails {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.NVMComponentInfo {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.NVMDeviceProperty {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.PairingEntitiyReference {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.PairingInfo {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.PairingReceivedRelationships$PairingEntity {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.PairingReceivedRelationships {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.PairingRelationship {
+	<fields>;
+}
+-keep class com.philips.icpinterface.data.PeripheralDevice {
+	<fields>;
+}
+
+
 -keepclasseswithmembernames class * {
     native <methods>;
 }
+
+# ICP Proguard rules ---- END -----
+
+
 -keep class android.support.v7.** { *; }
 -keep class android.support.v4.** { *; }
 -keep class com.philips.cl.di.common.ssdp.lib.SsdpService { *; }
@@ -37,3 +124,21 @@
 -keep class com.philips.cl.di.dev.pa.datamodel.DiscoverInfo { *; }
 -keep class com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo { *; }
 -keep class com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto { *; }
+
+-keepclasseswithmembernames class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+
+-keepclasseswithmembernames class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+-keep class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator *;
+}
+
