@@ -125,11 +125,11 @@
 -keep class com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo { *; }
 -keep class com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto { *; }
 
--keepclasseswithmembernames class * {
+-keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
 }
 
--keepclasseswithmembernames class * {
+-keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 
