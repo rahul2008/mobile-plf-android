@@ -68,6 +68,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
+import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
+import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -405,7 +407,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		// TODO : Add this when enabling non-mandatory firmware update
 //		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
 //				R.drawable.icon_8_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
+		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
+				R.drawable.icon_7_2x));		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_10_2x));
 		leftMenuItems
 		.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
@@ -540,6 +543,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
+			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
 		}
@@ -580,18 +584,28 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
 				break;
-			case 6:
-				// Buy Online
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_buy_online));
-				break;
-			case 7:
-				// Tools
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.tools));
-				break;
-			default:
-				break;
+//				case 6:
+					// TODO : Add this when enabling non-mandatory firmware update
+//					// Firmware update
+//					startFirmwareUpgradeActivity();
+//					break;
+				case 6:
+					// User registration
+					Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
+					startActivity(userRegistrationIntent);
+					break;
+				case 7:
+					// Buy Online
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_buy_online));
+					break;
+				case 8:
+					// Tools
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.tools));
+					break;
+				default:
+					break;
 			}
 			
 		}
