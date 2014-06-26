@@ -186,7 +186,7 @@ public class EWSStepThreeFragment extends Fragment {
 	                return "";
 	            }
 	        } 
-	        return null; 
+	        return source; 
 	    } 
 	};
 	
