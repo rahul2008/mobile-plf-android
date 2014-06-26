@@ -94,8 +94,8 @@ public class IndoorDashboardUtils {
 			rotation = -3 + 56.0f + addFloat;
 		} else if (indoorAqi > 35) {
 			indoorAqiFloat -= 35;
-			addFloat = indoorAqiFloat * 1.0f;
-			rotation = 86.0f + addFloat ;
+			addFloat = indoorAqiFloat * 3.6f;
+			rotation = 84.0f + addFloat ;
 			if(rotation > 302) {
 				rotation = 302;
 			}
