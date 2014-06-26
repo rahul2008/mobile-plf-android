@@ -358,7 +358,7 @@
     <string name="error_purifier_not_detect_btn_txt">请重试</string>
     <string name="no_network">没有 Wi-Fi 网络</string>
     <string name="yes">是</string>
-    <string name="ok">OK</string>
+    <string name="ok">行</string>
     <string name="no">否</string>
     <string name="save">保存</string>
     <string name="next"> 下一个</string>
@@ -396,7 +396,7 @@
     <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
     
     <!-- Tools fragments -->
-    <string name="submit">Submit</string>
+    <string name="submit">提交</string>
     <!-- Pairing -->
     <string name="pair_title">遥控器</string>
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
@@ -407,7 +407,7 @@
     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string>
 	<!-- Scheduler texts -->
     <string name="edit">编辑</string>
-    <string name="time">Time</string>
+    <string name="time">时间</string>
     <string name="days2">天</string>
     <string name="onetime">一次</string>
     <string name="fanspeed">风扇速度</string>
@@ -421,7 +421,7 @@
     <string name="set_schedule">设置日程表</string>
     <string name="edit_schedule">编辑日程表</string>    
     <string name="repeat_text">重复</string>
-    <string name="delete_text">Delete</string>
+    <string name="delete_text">删除</string>
     <!-- Firmware Screen text -->
     <string name="firmware">固件</string>
     <string name="firmware_update">固件更新</string>
