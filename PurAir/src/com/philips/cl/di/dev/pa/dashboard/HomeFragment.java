@@ -74,15 +74,18 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	}
 	
 	private void fillListViewFromDatabase(Cursor cursor) {
-
+		
 		if (cursor != null) {
-			while(cursor.moveToNext()) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
+			do {
 				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
 				
+				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + areaID);
+				
 				OutdoorManager.getInstance().addAreaIDToList(areaID);
 				OutdoorManager.getInstance().addCityDataToMap(areaID, city, null, null);
-			}
+			} while (cursor.moveToNext());
 			OutdoorManager.getInstance().startCitiesTask();
 		}
 	

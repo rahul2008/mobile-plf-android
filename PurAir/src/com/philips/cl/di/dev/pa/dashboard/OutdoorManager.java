@@ -77,6 +77,13 @@ public class OutdoorManager implements OutdoorEventListener {
 		}
 	}
 	
+	public void removeAreaIDFromList(String areaID) {
+		if(citiesList.contains(areaID)) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$removeAreaIDFromList areaID " + areaID);
+			citiesList.remove(areaID);
+		}
+	}
+	
 	public void addCityDataToMap(String areaID, String cityName, OutdoorAQI aqi, OutdoorWeather weather) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addCityDataToMap areaID " + areaID + " cityName " + cityName + " aqi " + aqi + " weather " + weather);
 		OutdoorCity city = citiesMap.get(areaID);
@@ -87,6 +94,13 @@ public class OutdoorManager implements OutdoorEventListener {
 		if(aqi != null) city.setOutdoorAQI(aqi);
 		if(weather != null) city.setOutdoorWeather(weather);
 		citiesMap.put(areaID, city);
+	}
+	
+	public void removeCityDataFromMap(String areaID) {
+		if(citiesMap != null && citiesMap.containsKey(areaID)) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$removeCityDataFromMap areaID " + areaID);
+			citiesMap.remove(areaID);
+		}
 	}
 	
 	public OutdoorCity getCityData(String areaID) {

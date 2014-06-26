@@ -19,6 +19,7 @@ import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallback
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractUpdateAsyncTask;
@@ -169,6 +170,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 					@Override
 					public void onClick(View v) {
+						OutdoorManager.getInstance().removeAreaIDFromList(areaId);
+						OutdoorManager.getInstance().removeCityDataFromMap(areaId);
+						
 						mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
 
 							@Override
