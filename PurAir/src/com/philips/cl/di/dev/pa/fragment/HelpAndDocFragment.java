@@ -54,6 +54,9 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		
 		RelativeLayout contactUs = (RelativeLayout) rootView.findViewById(R.id.layout_help);
 		contactUs.setOnClickListener(this);
+		
+		lblFAQ.setOnClickListener(this);
+		lblUserManual.setOnClickListener(this);
 	}	
 	
 
@@ -73,7 +76,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			break;
 			
 		case R.id.layout_email_us:
-			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","philips_helpdesk@pccwteleservices.com.cn", null));
 			supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
 			supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
 			startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
@@ -84,6 +87,14 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
 			startActivity(gotoSupportWebisteIntent);
 			break;
+			
+		case R.id.faq:
+		case R.id.lbl_user_manual:
+			Intent faq = new Intent(Intent.ACTION_VIEW);
+			faq.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
+			startActivity(faq);
+			break;
+			
 		default:
 			break;
 		}

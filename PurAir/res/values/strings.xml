@@ -348,9 +348,9 @@
     <string name="contact_philips_support_msg1_3attempt">Connection has failed 3 times.</string>
     <string name="contact_philips_support_msg2">Please contact Philips Support</string>
     <string name="contact_philips_support_msg3">Call us:</string>
-    <string name="contact_philips_support_phone_num">1&#8211;800&#8211;123&#8211;4567</string>
+    <string name="contact_philips_support_phone_num">4008 800 008</string>
     <string name="contact_philips_support_msg4">Send us an email:</string>
-    <string name="contact_philips_support_email">airpurifiersupport@philips.com</string>
+    <string name="contact_philips_support_email">philips_helpdesk@pccwteleservices.com.cn</string>
     <string name="contact_philips_support_msg5">Visit our help section:</string>
     <string name="contact_philips_support_website">www.philips.com/help</string>
     <string name="support">Support</string>

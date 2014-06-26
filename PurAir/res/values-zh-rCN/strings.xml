@@ -343,9 +343,9 @@
     <string name="contact_philips_support_msg1_3attempt">连接失败3次.</string>
     <string name="contact_philips_support_msg2">请联系飞利浦支持</string>
     <string name="contact_philips_support_msg3">致电我们：</string>
-    <string name="contact_philips_support_phone_num">1&#8211;800&#8211;123&#8211;4567</string>
+    <string name="contact_philips_support_phone_num">4008 800 008</string>
     <string name="contact_philips_support_msg4">给我们发邮件：</string>
-    <string name="contact_philips_support_email">airpurifiersupport@philips.com</string>
+    <string name="contact_philips_support_email">philips_helpdesk@pccwteleservices.com.cn</string>
     <string name="contact_philips_support_msg5">访问我们的帮助板块：</string>
     <string name="contact_philips_support_website">www.philips.com/help</string>
     <string name="support">支持</string>
