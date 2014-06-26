@@ -78,16 +78,16 @@ public class OutdoorManager implements OutdoorEventListener {
 			cursor.moveToFirst();
 			do {
 				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+				String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
 				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
 
 				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + areaID);
 
 				OutdoorManager.getInstance().addAreaIDToList(areaID);
-				OutdoorManager.getInstance().addCityDataToMap(areaID, city, null, null);
+				OutdoorManager.getInstance().addCityDataToMap(areaID, city, cityCN, null, null);
 			} while (cursor.moveToNext());
 			OutdoorManager.getInstance().startCitiesTask();
 		}
-
 	}
 
 	public void setUIChangeListener(OutdoorDataChangeListener listener){
@@ -99,7 +99,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		ALog.i(ALog.DASHBOARD, "outdoorAQIDataReceived " + outdoorAQI);
 		if(outdoorAQI != null) {
 			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorAQIDataReceived aqi " + outdoorAQI.getPM25() + " : " + outdoorAQI.getAQI() + " : " + outdoorAQI.getPublishTime());
-			addCityDataToMap(areaID, null, outdoorAQI, null);
+			addCityDataToMap(areaID, null, null, outdoorAQI, null);
 			iListener.updateUIOnDataChange();
 		}
 	}
@@ -109,7 +109,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		ALog.i(ALog.DASHBOARD, "outdoorWeatherDataReceived " + outdoorWeather);
 		if(outdoorWeather != null) {
 			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorWeatherDataReceived temp " + outdoorWeather.getTemperature() + " : " + outdoorWeather.getWeatherIcon() + " : " + outdoorWeather.getHumidity());
-			addCityDataToMap(areaID, null, null, outdoorWeather);
+			addCityDataToMap(areaID, null, null, null, outdoorWeather);
 			iListener.updateUIOnDataChange();
 		}
 	}
@@ -132,13 +132,14 @@ public class OutdoorManager implements OutdoorEventListener {
 		}
 	}
 
-	public void addCityDataToMap(String areaID, String cityName, OutdoorAQI aqi, OutdoorWeather weather) {
-		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addCityDataToMap areaID " + areaID + " cityName " + cityName + " aqi " + aqi + " weather " + weather);
+	public void addCityDataToMap(String areaID, String cityName, String cityCN, OutdoorAQI aqi, OutdoorWeather weather) {
+		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addCityDataToMap areaID " + areaID + " cityName " + cityName + "cityName Chinese " + cityCN + " aqi " + aqi + " weather " + weather);
 		OutdoorCity city = citiesMap.get(areaID);
 		if(city == null) {
 			city = new OutdoorCity();
 		}
-		if(cityName != null && !cityName.isEmpty())city.setCityName(cityName);
+		if(cityName != null && !cityName.isEmpty()) city.setCityName(cityName);
+		if(cityCN != null && !cityCN.isEmpty()) city.setCityNameCN(cityCN);
 		if(aqi != null) city.setOutdoorAQI(aqi);
 		if(weather != null) city.setOutdoorWeather(weather);
 		citiesMap.put(areaID, city);

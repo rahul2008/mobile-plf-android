@@ -166,10 +166,11 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			
 			final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
 			final String cityName = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+			final String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
 			
 			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + cityName);
 			OutdoorManager.getInstance().addAreaIDToList(areaId);
-			OutdoorManager.getInstance().addCityDataToMap(areaId, cityName, null, null);
+			OutdoorManager.getInstance().addCityDataToMap(areaId, cityName, cityCN, null, null);
 			
 			mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
 

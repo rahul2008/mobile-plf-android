@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import android.content.ContentValues;
@@ -65,11 +67,18 @@ public class OutdoorLocationDatabase {
 	            	stringTokenizer = new StringTokenizer(outdoorLocation, ";");
 	            	
 	                ContentValues values = new ContentValues();
-	        		values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
-	        		values.put(AppConstants.KEY_AREA_ID, stringTokenizer.nextToken());
+	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
+
+	                String areaID = stringTokenizer.nextToken();
+	        		values.put(AppConstants.KEY_AREA_ID, areaID);
 	        		values.put(AppConstants.KEY_DISTRICT, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
-	        		values.put(AppConstants.KEY_SHORTLIST, "0");
+	        		
+	        		List<String> defaultCitiesList = new ArrayList<String>();
+	        		defaultCitiesList.add("101010100");
+	        		defaultCitiesList.add("101020100");
+	        		defaultCitiesList.add("101270101");
+	        		values.put(AppConstants.KEY_SHORTLIST, defaultCitiesList.contains(areaID) ? 1 : 0);
 	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();

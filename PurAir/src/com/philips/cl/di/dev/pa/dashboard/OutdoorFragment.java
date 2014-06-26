@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.util.Locale;
+
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -15,6 +17,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
@@ -64,7 +67,12 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 				OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
 				if(city != null) {
 					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
-					updateUI(city, city.getCityName());
+					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
+					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+						updateUI(city, city.getCityNameCN());
+					} else {
+						updateUI(city, city.getCityName());
+					}
 				}
 			}
 		} 
