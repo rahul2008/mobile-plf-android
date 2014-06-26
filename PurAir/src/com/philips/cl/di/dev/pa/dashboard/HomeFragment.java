@@ -1,12 +1,10 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,7 +12,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
@@ -23,6 +20,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
+import com.philips.cl.di.dev.pa.ews.EWSTasks;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
@@ -75,8 +73,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	private void fillListViewFromDatabase(Cursor cursor) {
 		
-		if (cursor != null) {
+		if (cursor != null && cursor.getCount() > 0) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
+			cursor.moveToFirst();
 			do {
 				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
