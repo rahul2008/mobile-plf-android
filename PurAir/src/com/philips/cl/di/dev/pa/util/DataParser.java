@@ -311,53 +311,66 @@ public class DataParser {
 		}
 	}
 	
-	public static OutdoorAQI parseLocationAQI(String dataToParse) {
+	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
-
+		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();
 		if( dataToParse == null ) return null ;
 		try {
 			JSONObject responseObject = new JSONObject(dataToParse);
 			JSONObject airObject = responseObject.getJSONObject("air");
 			
-			String areaID = (String) airObject.keys().next();
-			JSONObject cityData = airObject.getJSONObject(areaID); //Area code
-			
-			int pm25 = cityData.getJSONObject("p").getInt("p1");
-			int aqi = cityData.getJSONObject("p").getInt("p2");
-			String time = cityData.getJSONObject("p").getString("p9");
+			Iterator<String> areaIDIterator = airObject.keys();
+			while(areaIDIterator.hasNext()) {
+				String areaID = areaIDIterator.next();
+				JSONObject cityData = airObject.getJSONObject(areaID); //Area code
+				
+				int pm25 = cityData.getJSONObject("p").getInt("p1");
+				int aqi = cityData.getJSONObject("p").getInt("p2");
+				String time = cityData.getJSONObject("p").getString("p9");
 
-			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi + " time " + time);
+				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi + " time " + time);
 
-			return new OutdoorAQI(pm25, aqi, time, areaID);
-
+				outdoorAQIList.add(new OutdoorAQI(pm25, aqi, time, areaID));
+			}
+			return outdoorAQIList;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
 			return null;
 		}
 	}
 	
-	public static OutdoorWeather parseLocationWeather(String dataToParse) {
+	public static List<OutdoorWeather> parseLocationWeather(String dataToParse) {
 		if( dataToParse == null ) return null ;
+		
+		List<OutdoorWeather> outdoorWeatherList = new ArrayList<OutdoorWeather>();
+		
 		try {
 			JSONObject responseObject = new JSONObject(dataToParse);
 			JSONObject observeObject = responseObject.getJSONObject("observe");
 			
-			String areaID = (String) observeObject.keys().next();
-			JSONObject cityData = observeObject.getJSONObject(areaID); //Area code
+			Iterator<String> areaIDIterator = observeObject.keys();
+			while(areaIDIterator.hasNext()) {
+				String areaID = areaIDIterator.next();
+				JSONObject cityData = observeObject.getJSONObject(areaID); //Area code
 
-			JSONObject cityJsonObject = cityData.getJSONObject("l") ;
-			int temperature = cityJsonObject.getInt("l1");
-			int humidity = cityJsonObject.getInt("l2");
-			int weatherIcon = cityJsonObject.getInt("l5");
-			String time = cityJsonObject.getString("l7") ;
+				JSONObject cityJsonObject = cityData.getJSONObject("l") ;
+				int temperature = cityJsonObject.getInt("l1");
+				int humidity = cityJsonObject.getInt("l2");
+				int weatherIcon = cityJsonObject.getInt("l5");
+				String time = cityJsonObject.getString("l7") ;
 
-			ALog.i(ALog.PARSER, "parseLocationWeather temp : " + temperature + " humidity " + humidity + " weatherIcon " + weatherIcon);
-			return new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time);
+				ALog.i(ALog.PARSER, "parseLocationWeather temp : " + temperature + " humidity " + humidity + " weatherIcon " + weatherIcon);
+				outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time));
+				
+				return outdoorWeatherList;
+			}
+			
 		} catch (JSONException e) {
 			return null;
 		}catch(Exception e) {
 			return null ;
 		}
+		return null;
 	}
 
 	public static List<SchedulePortInfo> parseSchedulerDto(String dataToParse) {

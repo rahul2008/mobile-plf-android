@@ -19,15 +19,13 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment implements OnClickListener, NetworkStateListener, OnPageChangeListener {
+public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
 	
 	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	
 	private ImageView aqiCircleMeter ;
-	
-	private String[] cityNames = {"Beijing", "Shanghai", "Chengdu"};
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -39,13 +37,11 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Ne
 	@Override
 	public void onResume() {
 		super.onResume();
-		NetworkReceiver.getInstance().addNetworkStateListener(this);
 	}
 	
 	@Override
 	public void onPause() {
 		super.onPause();
-		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
 	
 	private void initViews(View view) {
@@ -64,13 +60,14 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Ne
 
 		if(bundle != null) {
 			int position = bundle.getInt("position");
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position);
-			
-			String areaID = OutdoorManager.getInstance().getCitiesList().get(position);
-			OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
-			if(city != null) {
-				ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
-				updateUI(city, cityNames[position]);
+			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + OutdoorManager.getInstance().getCitiesList().size());
+			if(OutdoorManager.getInstance().getCitiesList().size() > 0) {
+				String areaID = OutdoorManager.getInstance().getCitiesList().get(position);
+				OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
+				if(city != null) {
+					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
+					updateUI(city, city.getCityName());
+				}
 			}
 		} 
 		
@@ -141,17 +138,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, Ne
 		}
 	}
 	
-	@Override
-	public void onConnected() {
-		ALog.i(ALog.DASHBOARD, "OutdoorFragment$onConnected");
-		OutdoorManager.getInstance().startCitiesTask();
-	}
-
-	@Override
-	public void onDisconnected() {
-		
-	}
-
 	@Override
 	public void onPageScrollStateChanged(int state) {
 		ALog.i(ALog.TEMP, "OutdoorFragment$onPageScrollStateChanged " + state);

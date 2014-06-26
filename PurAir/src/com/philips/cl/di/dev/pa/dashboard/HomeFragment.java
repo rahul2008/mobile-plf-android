@@ -1,9 +1,12 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,21 +14,27 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener, AlertDialogBtnInterface, DrawerEventListener{
+public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener, AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener{
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
@@ -35,16 +44,55 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	private LinearLayout takeATourPopup;
 	
+	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
+	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
+	
 	@Override
 	public void onResume() {
 		super.onResume();
 		DrawerAdapter.getInstance().addDrawerListener(this);
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
+		
+
+		mOutdoorLocationFillAsyncTask = (OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
+			
+			@Override
+			protected void onPostExecute(Void result) {
+				mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
+			}
+		}.execute(new String[]{});
+		
+		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
+
+			@Override
+			protected void onPostExecute(Cursor result) {
+				fillListViewFromDatabase(result);
+			}
+		};
+		super.onResume();
+	
 	}
 	
+	private void fillListViewFromDatabase(Cursor cursor) {
+
+		if (cursor != null) {
+			while(cursor.moveToNext()) {
+				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+				
+				OutdoorManager.getInstance().addAreaIDToList(areaID);
+				OutdoorManager.getInstance().addCityDataToMap(areaID, city, null, null);
+			}
+			OutdoorManager.getInstance().startCitiesTask();
+		}
+	
+	}
+
 	@Override
 	public void onPause() {
 		super.onPause();
 		DrawerAdapter.getInstance().removeDrawerListener(this);
+		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
 	
 	@Override
@@ -178,5 +226,16 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		default:
 			break;
 		}
+	}
+
+	@Override
+	public void onConnected() {
+		ALog.i(ALog.DASHBOARD, "HomeFragment$onConnected");
+		OutdoorManager.getInstance().startCitiesTask();
+	}
+
+	@Override
+	public void onDisconnected() {
+		
 	}
 }

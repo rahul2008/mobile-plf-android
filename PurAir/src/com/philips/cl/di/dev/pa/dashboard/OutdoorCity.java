@@ -4,6 +4,14 @@ public class OutdoorCity {
 	
 	private OutdoorAQI outdoorAQI;
 	private OutdoorWeather outdoorWeather;
+	private String cityName;
+	
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	public String getCityName() {
+		return cityName;
+	}
 	
 	public void setOutdoorAQI(OutdoorAQI aqi) {
 		this.outdoorAQI = aqi;

@@ -41,6 +41,8 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 	
 	@Override
 	public int getCount() {
+		ALog.i(ALog.DASHBOARD, "OutdoorPagerAdapter$getCount " + OutdoorManager.getInstance().getCitiesList().size());
+		if(OutdoorManager.getInstance().getCitiesList().size() <= 0) return 1;
 		return OutdoorManager.getInstance().getCitiesList().size();
 	}
 	

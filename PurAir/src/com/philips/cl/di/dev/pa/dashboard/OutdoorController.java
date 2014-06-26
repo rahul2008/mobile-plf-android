@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.crypto.Mac;
@@ -56,8 +57,8 @@ public class OutdoorController implements ServerResponseListener {
 	
 	private String buildURL(String areaID, String type, String date, String appID) {
 		String url = "";
-		String publicKey = BASE_URL + "?areaid=" + areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID;
-		ALog.i(ALog.DASHBOARD, "Public key :: " + publicKey);
+		String publicKey = BASE_URL + "?areaid=" +  areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID;
+		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKey);
 		String key = "";
 		String finalKey = "";
 		try {
@@ -71,7 +72,7 @@ public class OutdoorController implements ServerResponseListener {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		ALog.i(ALog.DASHBOARD, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
+		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
 		
 		url = BASE_URL + "?areaid=" + areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID.substring(0, 6) + "&key=" + mostCertainlyTheFinalKey;
 		
@@ -98,15 +99,25 @@ public class OutdoorController implements ServerResponseListener {
 	private void notifyListeners(String data) {
 		if(outdoorEventListeners == null) return;
 		
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data);
-		OutdoorWeather outdoorWeather = DataParser.parseLocationWeather(data);
+		List<OutdoorAQI> outdoorAQIList = DataParser.parseLocationAQI(data);
+		List<OutdoorWeather> outdoorWeatherList = DataParser.parseLocationWeather(data);
 		
 		for(int index = 0; index < outdoorEventListeners.size(); index++) {
-			if(outdoorAQI != null)
-				outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQI, outdoorAQI.getAreaID());
+			if(outdoorAQIList != null && !outdoorAQIList.isEmpty()) {
+				Iterator<OutdoorAQI> iter = outdoorAQIList.iterator();
+				while(iter.hasNext()) {
+					OutdoorAQI outdoorAQI = iter.next();
+					outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQI, outdoorAQI.getAreaID());
+				}
+			}
 			
-			if(outdoorWeather != null) 
-				outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, outdoorWeather.getAreaID());
+			if(outdoorWeatherList != null && !outdoorWeatherList.isEmpty()) {
+				Iterator<OutdoorWeather> iter = outdoorWeatherList.iterator();
+				while(iter.hasNext()) {
+					OutdoorWeather outdoorWeather = iter.next();
+					outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, outdoorWeather.getAreaID());
+				}
+			}
 		}
 	}
 	

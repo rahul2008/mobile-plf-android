@@ -22,6 +22,8 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -163,7 +165,12 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			cursor.moveToPosition(position);
 			
 			final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
-
+			final String cityName = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+			
+			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + cityName);
+			OutdoorManager.getInstance().addAreaIDToList(areaId);
+			OutdoorManager.getInstance().addCityDataToMap(areaId, cityName, null, null);
+			
 			mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
 
 				@Override
