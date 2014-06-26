@@ -17,6 +17,7 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 
@@ -60,6 +61,14 @@ public class OutdoorLocationDatabase {
         StringTokenizer stringTokenizer = null;
         
         if (!isCityDetailsTableFilled()) {
+    		OutdoorManager.getInstance().addAreaIDToList("101010100");
+    		OutdoorManager.getInstance().addAreaIDToList("101020100");
+    		OutdoorManager.getInstance().addAreaIDToList("101270101");
+    		
+    		OutdoorManager.getInstance().addCityDataToMap("101010100", null, null, null, null);
+    		OutdoorManager.getInstance().addCityDataToMap("101020100", null, null, null, null);
+    		OutdoorManager.getInstance().addCityDataToMap("101270101", null, null, null, null);
+    		
 	        mOutdoorLocationDatabase.beginTransaction();
 	        try {
 	        	
@@ -73,12 +82,8 @@ public class OutdoorLocationDatabase {
 	        		values.put(AppConstants.KEY_AREA_ID, areaID);
 	        		values.put(AppConstants.KEY_DISTRICT, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
-	        		
-	        		List<String> defaultCitiesList = new ArrayList<String>();
-	        		defaultCitiesList.add("101010100");
-	        		defaultCitiesList.add("101020100");
-	        		defaultCitiesList.add("101270101");
-	        		values.put(AppConstants.KEY_SHORTLIST, defaultCitiesList.contains(areaID) ? 1 : 0);
+
+	        		values.put(AppConstants.KEY_SHORTLIST, OutdoorManager.getInstance().getCitiesList().contains(areaID) ? 1 : 0);
 	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
