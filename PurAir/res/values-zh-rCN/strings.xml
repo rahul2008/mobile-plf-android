@@ -70,7 +70,7 @@
     <string name="n_a">N.A.</string>
     <string name="take_action">采取措施。</string>
     <string name="no_connection">无连接</string>
-    <string name="no_data">No Data</string>
+    <string name="no_data">无资料</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">适中</string>
@@ -497,8 +497,8 @@
     <string name="i_accept">我接受</string>
     <string name="continue_registration">要继续注册，请接受并同意以下信息。</string>
     <string name="privacy_policy">隐私政策</string>
-    <string name="terms_and_conditions">Terms &amp; conditions</string>
-    <string name="eula">EULA</string>
+    <string name="terms_and_conditions">条款和条件</string>
+    <string name="eula">EULA（最终用户许可协议）</string>
     <!-- Demo Mode -->
     <string name="shop_demo_mode">商店演示模式</string>
     <string name="demo_mode_title">演示设置</string>
