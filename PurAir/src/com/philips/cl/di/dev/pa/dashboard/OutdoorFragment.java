@@ -15,8 +15,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
-import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
