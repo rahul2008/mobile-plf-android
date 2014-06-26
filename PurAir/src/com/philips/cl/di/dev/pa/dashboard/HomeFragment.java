@@ -101,6 +101,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		indicator.setFillColor(0xFFB9BBC7);   
 		indicator.setStrokeWidth(0.1f*density);
 		indicator.setClickable(false);
+		indicator.setVisibility(View.GONE);
 	}
 	
 	@Override

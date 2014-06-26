@@ -42,12 +42,22 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	private OutdoorManager() {
+		
+		insertDataAndGetShortListCities();
 
+		citiesMap = new HashMap<String, OutdoorCity>();
+		citiesList = new ArrayList<String>();
+		
+		OutdoorController.getInstance().setOutdoorEventListener(this);
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
+	}
+
+	private void insertDataAndGetShortListCities() {
 		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
 
 			@Override
 			protected void onPostExecute(Cursor result) {
-				fillListViewFromDatabase(result);
+				fillCitiesListFromDatabase(result);
 			}
 		};
 
@@ -58,15 +68,10 @@ public class OutdoorManager implements OutdoorEventListener {
 				mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
 			}
 		}.execute(new String[]{});
-
-		citiesMap = new HashMap<String, OutdoorCity>();
-		citiesList = new ArrayList<String>();
-
-		OutdoorController.getInstance().setOutdoorEventListener(this);
-		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
+		
 	}
 
-	private void fillListViewFromDatabase(Cursor cursor) {
+	private void fillCitiesListFromDatabase(Cursor cursor) {
 
 		if (cursor != null && cursor.getCount() > 0) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
