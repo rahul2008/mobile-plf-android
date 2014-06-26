@@ -20,7 +20,7 @@
     <!-- Right menu texts -->
     <string name="connection_status">连接状态</string>
     <string name="connected">已连接</string>
-    <string name="connected_via_philips">已连接 Via 飞利</string>
+    <string name="connected_via_philips">已连接 通过 飞利</string>
     <string name="not_connected">未连接</string>
     <string name="connect">连接</string>
     <string name="power">电源</string>
