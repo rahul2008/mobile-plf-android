@@ -266,7 +266,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 			}			
 		}
 		Log.d("Diagnostic", portData.toString());
-		sendMail(portData.toString(), "sangamesh.bn@philips.com");
+		sendMail(portData.toString(), getString(R.string.contact_philips_support_email));
 	}
 	
 	private String getPurifierIpAddress() {
