@@ -5,24 +5,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.database.Cursor;
+
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class OutdoorManager implements OutdoorEventListener {
-	
+
 	private Map<String, OutdoorCity> citiesMap;
 	private List<String> citiesList;
-	
+
 	private static OutdoorManager smInstance;
-	
+
 	private OutdoorDataChangeListener iListener;
-	
+	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
+	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
+
 	public static OutdoorManager getInstance() {
 		if(smInstance == null) {
 			smInstance = new OutdoorManager();
 		}
 		return smInstance;
 	}
-	
+
 	public void startCitiesTask() {
 		for(String areaID : citiesList) {
 			if(citiesMap == null || citiesMap.get(areaID) == null || citiesMap.get(areaID).getOutdoorAQI() == null)  {
@@ -33,19 +40,55 @@ public class OutdoorManager implements OutdoorEventListener {
 			}
 		}
 	}
-	
+
 	private OutdoorManager() {
+
+		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
+
+			@Override
+			protected void onPostExecute(Cursor result) {
+				fillListViewFromDatabase(result);
+			}
+		};
+
+		mOutdoorLocationFillAsyncTask = (OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
+
+			@Override
+			protected void onPostExecute(Void result) {
+				mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
+			}
+		}.execute(new String[]{});
+
 		citiesMap = new HashMap<String, OutdoorCity>();
 		citiesList = new ArrayList<String>();
-		
+
 		OutdoorController.getInstance().setOutdoorEventListener(this);
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
 	}
-	
+
+	private void fillListViewFromDatabase(Cursor cursor) {
+
+		if (cursor != null && cursor.getCount() > 0) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
+			cursor.moveToFirst();
+			do {
+				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+
+				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + areaID);
+
+				OutdoorManager.getInstance().addAreaIDToList(areaID);
+				OutdoorManager.getInstance().addCityDataToMap(areaID, city, null, null);
+			} while (cursor.moveToNext());
+			OutdoorManager.getInstance().startCitiesTask();
+		}
+
+	}
+
 	public void setUIChangeListener(OutdoorDataChangeListener listener){
 		iListener=listener;
 	}
-	
+
 	@Override
 	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
 		ALog.i(ALog.DASHBOARD, "outdoorAQIDataReceived " + outdoorAQI);
@@ -65,25 +108,25 @@ public class OutdoorManager implements OutdoorEventListener {
 			iListener.updateUIOnDataChange();
 		}
 	}
-	
+
 	public List<String> getCitiesList() {
 		return citiesList;
 	}
-	
+
 	public void addAreaIDToList(String areaID) {
 		if(!citiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToCitiesList areaID " + areaID);
 			citiesList.add(areaID);
 		}
 	}
-	
+
 	public void removeAreaIDFromList(String areaID) {
 		if(citiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$removeAreaIDFromList areaID " + areaID);
 			citiesList.remove(areaID);
 		}
 	}
-	
+
 	public void addCityDataToMap(String areaID, String cityName, OutdoorAQI aqi, OutdoorWeather weather) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addCityDataToMap areaID " + areaID + " cityName " + cityName + " aqi " + aqi + " weather " + weather);
 		OutdoorCity city = citiesMap.get(areaID);
@@ -95,17 +138,17 @@ public class OutdoorManager implements OutdoorEventListener {
 		if(weather != null) city.setOutdoorWeather(weather);
 		citiesMap.put(areaID, city);
 	}
-	
+
 	public void removeCityDataFromMap(String areaID) {
 		if(citiesMap != null && citiesMap.containsKey(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$removeCityDataFromMap areaID " + areaID);
 			citiesMap.remove(areaID);
 		}
 	}
-	
+
 	public OutdoorCity getCityData(String areaID) {
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$getCityData " + areaID);
 		return citiesMap.get(areaID);
 	}
-	
+
 }

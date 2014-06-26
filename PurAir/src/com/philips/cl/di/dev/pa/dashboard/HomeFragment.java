@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -17,14 +16,10 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
-import com.philips.cl.di.dev.pa.ews.EWSTasks;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -42,53 +37,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	private LinearLayout takeATourPopup;
 	
-	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
-	
 	@Override
 	public void onResume() {
 		super.onResume();
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
-		
-
-		mOutdoorLocationFillAsyncTask = (OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
-			
-			@Override
-			protected void onPostExecute(Void result) {
-				mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
-			}
-		}.execute(new String[]{});
-		
-		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-
-			@Override
-			protected void onPostExecute(Cursor result) {
-				fillListViewFromDatabase(result);
-			}
-		};
-		super.onResume();
-	
 	}
-	
-	private void fillListViewFromDatabase(Cursor cursor) {
-		
-		if (cursor != null && cursor.getCount() > 0) {
-			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
-			cursor.moveToFirst();
-			do {
-				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
-				
-				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + areaID);
-				
-				OutdoorManager.getInstance().addAreaIDToList(areaID);
-				OutdoorManager.getInstance().addCityDataToMap(areaID, city, null, null);
-			} while (cursor.moveToNext());
-			OutdoorManager.getInstance().startCitiesTask();
-		}
-	
-	}
+
 
 	@Override
 	public void onPause() {
