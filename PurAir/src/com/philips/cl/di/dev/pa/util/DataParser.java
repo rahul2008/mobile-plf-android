@@ -362,15 +362,14 @@ public class DataParser {
 				ALog.i(ALog.PARSER, "parseLocationWeather temp : " + temperature + " humidity " + humidity + " weatherIcon " + weatherIcon);
 				outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time));
 				
-				return outdoorWeatherList;
+				
 			}
-			
+			return outdoorWeatherList;
 		} catch (JSONException e) {
 			return null;
 		}catch(Exception e) {
 			return null ;
 		}
-		return null;
 	}
 
 	public static List<SchedulePortInfo> parseSchedulerDto(String dataToParse) {

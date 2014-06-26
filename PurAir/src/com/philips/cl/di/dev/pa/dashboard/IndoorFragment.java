@@ -172,8 +172,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private void setRotationAnimation(ImageView aqiPointer, float rotation) {
 		Drawable drawable = aqiPointer.getDrawable();
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$getRotationAnimation rotation " + rotation + " aqiPointer.getWidth()/2 " + (aqiPointer.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
-		
-		Animation aqiCircleRotateAnim = new RotateAnimation(prevRotation, rotation, drawable.getMinimumWidth()/2, drawable.getMinimumHeight()/2);
+
+		Animation aqiCircleRotateAnim = new RotateAnimation(prevRotation, rotation, drawable.getMinimumWidth() / (float) 2, drawable.getMinimumHeight() / (float) 2);
 		
 	    aqiCircleRotateAnim.setDuration(2000);
 	    aqiCircleRotateAnim.setRepeatCount(0);

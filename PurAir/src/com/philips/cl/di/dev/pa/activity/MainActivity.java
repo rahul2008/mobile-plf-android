@@ -147,8 +147,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-		screenWidth = displayMetrics.widthPixels;
-		screenHeight = displayMetrics.heightPixels;
+		setScreenWidth(displayMetrics.widthPixels);
+		setScreenHeight(displayMetrics.heightPixels);
 
 		try {
 			initActionBar();
@@ -611,10 +611,16 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		setFirmwareSuperScript(0, false);
 	}
 	
+	private static void setScreenWidth(int width) {
+		screenWidth = width;
+	}
+	private static void setScreenHeight(int height) {
+		screenHeight = height;
+	}
+	
 	public static int getScreenWidth() {
 		return screenWidth;
 	}
-
 	public static int getScreenHeight() {
 		return screenHeight;
 	}

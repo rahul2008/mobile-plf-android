@@ -66,6 +66,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		super.onActivityCreated(savedInstanceState);
 		initDashboardViewPager();
 		OutdoorManager.getInstance().setUIChangeListener(this);
+		OutdoorManager.getInstance().startCitiesTask();
 		
 		if(((MainActivity)getActivity()).getVisits()<=3 && !((MainActivity)getActivity()).isTutorialPromptShown){
 			takeATourPopup = (LinearLayout) getView().findViewById(R.id.take_tour_prompt_drawer);			
