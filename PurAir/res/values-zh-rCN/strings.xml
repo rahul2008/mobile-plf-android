@@ -493,7 +493,7 @@
     <string name="invalid_params">无效的参数</string>
     <string name="no_network_connection">请检查互联网连接</string>
     <string name="invalid_username_or_password">无效的用户名或密码</string>
-    <string name="usage_agreement">Usage agreement</string>
+    <string name="usage_agreement">用户协议</string>
     <string name="i_accept">我接受</string>
     <string name="continue_registration">要继续注册，请接受并同意以下信息。</string>
     <string name="privacy_policy">隐私政策</string>
