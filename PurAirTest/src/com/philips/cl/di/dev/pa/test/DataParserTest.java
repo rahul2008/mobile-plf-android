@@ -6,8 +6,6 @@ import junit.framework.TestCase;
 
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
