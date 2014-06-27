@@ -30,7 +30,7 @@ private String EvalRegisterForgotEmail = "https://secure.qat1.consumer.philips.c
 
 private String DeviceEngageAppId = "bdbppnbjfcibijknnfkk";
 private String DeviceCaptureDomain = "philips.dev.janraincapture.com";
-private String DeviceCaptureFlowVersion = "34363774-fce0-4e77-8405-ef9ff27935e7";
+private String DeviceCaptureFlowVersion = "9549a1c4-575a-4042-9943-45b87a4f03f0";
 private String DeviceCaptureAppId = "eupac7ugz25x8dwahvrbpmndf8";
 private String DeviceRegisterForgotEmailNative = "https://philips.dev.janraincapture.com/oauth/forgot_password_native/";
 private String DeviceRegisterActivationUrl = "https://secure.qat1.consumer.philips.co.uk/myphilips/activateUser.jsp";
