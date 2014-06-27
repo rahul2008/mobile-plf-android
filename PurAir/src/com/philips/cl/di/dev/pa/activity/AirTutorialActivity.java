@@ -31,9 +31,9 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		Button btnAirPurifierControls=(Button) findViewById(R.id.btn_air_purifier_controls);		
 		Button btnIndoorAIQReadings=(Button) findViewById(R.id.btn_indoor_air_quality_readings);
 		float float1 = 30 * px;
-		double double1 = MainActivity.getScreenHeight()*0.5- MainActivity.getScreenHeight() * 0.075;
+		float double1 = MainActivity.getScreenHeight()*0.5F- MainActivity.getScreenHeight() * 0.075F;
 		setMargins(btnIndoorAIQReadings, 
-				Math.round(MainActivity.getScreenWidth()/2+float1), (int)Math.round(double1/2), 0, 0);
+				Math.round(MainActivity.getScreenWidth()/2+float1), Math.round(double1/2), 0, 0);
 		
 		Button btnOutdoorAIQReadings=(Button) findViewById(R.id.btn_outdoor_aqi_readings);
 		Button btnFinish=(Button) findViewById(R.id.btn_finish_tour);
