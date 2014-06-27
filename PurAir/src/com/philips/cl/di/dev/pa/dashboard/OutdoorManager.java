@@ -114,11 +114,11 @@ public class OutdoorManager implements OutdoorEventListener {
 		}
 	}
 
-	public List<String> getCitiesList() {
+	public synchronized List<String> getCitiesList() {
 		return citiesList;
 	}
 
-	public void addAreaIDToList(String areaID) {
+	public synchronized void addAreaIDToList(String areaID) {
 		if(!citiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToCitiesList areaID " + areaID);
 			citiesList.add(areaID);

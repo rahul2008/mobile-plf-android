@@ -88,8 +88,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		indoorViewPager.setAdapter(indoorPagerAdapter);
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
-		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager());
-		outdoorViewPager.setOffscreenPageLimit(3);
+		int count = 1 ;
+		if( OutdoorManager.getInstance().getCitiesList() != null && OutdoorManager.getInstance().getCitiesList().size() > 0 ) {
+			count = OutdoorManager.getInstance().getCitiesList().size() ;
+		}
+		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
+		//outdoorViewPager.setOffscreenPageLimit(3);
 		outdoorViewPager.setAdapter(outdoorPagerAdapter);
 		
 		CirclePageIndicator indicator = (CirclePageIndicator)getView().findViewById(R.id.indicator);
@@ -114,8 +118,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			@Override
 			public void run() {
 				try {
-					outdoorViewPager.setAdapter(null);
-					outdoorViewPager.setAdapter(outdoorPagerAdapter);
+					int size = 1;
+					if( OutdoorManager.getInstance().getCitiesList() != null ) {
+						size = OutdoorManager.getInstance().getCitiesList().size() ;
+					}
+					outdoorPagerAdapter.mCount(size) ;
+					outdoorPagerAdapter.notifyDataSetChanged() ;
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.ACTIVITY, e.getMessage());
 				}

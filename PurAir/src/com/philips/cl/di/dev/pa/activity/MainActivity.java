@@ -367,8 +367,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				break;
 			case R.id.add_location_img:
 				//TODO : Drop down city list
-//				Intent intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
-//				startActivity(intent);
+				Intent intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
+				startActivity(intent);
 				break;
 			case R.id.back_to_home_img:
 				//TODO
