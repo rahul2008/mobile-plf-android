@@ -1,0 +1,119 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="bottom" >
+
+    <TextView
+        android:id="@+id/prod_reg_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:padding="0dp"
+        android:text="@string/registration_instruction" 
+        android:textColor="@color/dimgray"/>
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/prod_reg_title"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/darkgray" />
+    
+    <Button
+        android:id="@+id/btn_register_kitchen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/view1"
+        android:layout_below="@id/view1"
+        android:background="@drawable/registration_btn_blue"
+        android:text="@string/lbl_register" 
+        android:textColor="#FFF"        
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/lbl_kitchen"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/btn_register_kitchen"
+        android:layout_alignBottom="@id/btn_register_kitchen"
+        android:layout_toLeftOf="@id/btn_register_kitchen"
+        android:layout_below="@id/view1"
+        android:text="@string/lbl_kitchen"
+        android:layout_marginLeft="15dp" 
+        android:textSize="18sp"
+        android:textColor="@color/dimgray"/>
+    
+    <View
+        android:id="@+id/view2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lbl_kitchen"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/darkgray" />
+    
+    <Button
+        android:id="@+id/btn_register_living_room"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/view2"
+        android:layout_below="@id/view2"
+        android:background="@drawable/registration_btn_blue"
+        android:text="@string/lbl_register" 
+        android:textColor="#FFF"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/lbl_living_room"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_alignBaseline="@id/btn_register_living_room"
+        android:layout_alignBottom="@id/btn_register_living_room"
+        android:layout_toLeftOf="@id/btn_register_living_room"
+        android:text="@string/lbl_living_room" 
+        android:textSize="18sp"
+        android:textColor="@color/dimgray"/>
+    
+    <View
+        android:id="@+id/view3"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/lbl_living_room"
+        android:layout_marginBottom="25dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/darkgray" />
+    
+    <Button
+        android:id="@+id/btn_connected_purifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/view3"
+        android:layout_below="@id/view3"
+        android:background="@drawable/registration_btn_blue"
+        android:text="@string/lbl_connected_purifiers" 
+        android:textColor="#FFF"
+        android:textSize="13sp"/>
+
+    <TextView
+        android:id="@+id/lbl_purifier_ques"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="4dp"
+        android:layout_alignTop="@id/btn_connected_purifier"
+        android:layout_toLeftOf="@id/btn_connected_purifier"
+        android:text="@string/registration_ques" 
+        android:textColor="@color/dimgray"/>
+
+</RelativeLayout>

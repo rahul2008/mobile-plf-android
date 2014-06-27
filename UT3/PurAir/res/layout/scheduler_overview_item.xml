@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:background="#E4E4E4"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp" >
+
+    <RelativeLayout
+        android:id="@+id/ll_scheduler_overview"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/scheduler" >
+
+        <ImageView
+            android:id="@+id/sch_overview_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:clickable="true"
+            android:contentDescription="@string/img_description"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/delete_l2r"
+            android:textColor="@color/white"
+            android:visibility="gone" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/sch_overview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/sch_overview_delete"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <ImageView
+            android:id="@+id/sch_overview_rightarr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="16dp"
+            android:clickable="true"
+            android:contentDescription="@string/img_description"
+            android:padding="4dp"
+            android:src="@drawable/about_air_quality_goto"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/sch_overview_rhtarrtext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/sch_overview_rightarr"
+            android:layout_alignRight="@+id/sch_overview_rightarr"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:text="@string/delete_text"
+            android:textColor="@color/white"
+            android:visibility="gone"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

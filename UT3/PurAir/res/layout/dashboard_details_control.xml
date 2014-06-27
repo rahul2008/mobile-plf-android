@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:orientation="horizontal" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/detailsOutdoorLastDayLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:paddingBottom="2dp"
+        android:paddingTop="8dp"
+        android:text="@string/lastday"
+        android:textColor="@color/dodgerblue"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/detailsOutdoorLastWeekLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:paddingBottom="2dp"
+        android:paddingTop="8dp"
+        android:text="@string/last7day"
+        android:textColor="@color/lightgrey"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/detailsOutdoorLastFourWeekLabel"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="right"
+        android:paddingBottom="2dp"
+        android:paddingTop="8dp"
+        android:text="@string/last4week"
+        android:textColor="@color/lightgrey"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+	
+</LinearLayout>

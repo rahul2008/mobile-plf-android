@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp" >
+        
+		<com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tv_continue_registration"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="@string/continue_registration"
+			android:lineSpacingExtra="5dp"
+			android:textColor="@color/gray"
+			android:textSize="14sp"
+			custom:fontAssetName="fonts/gillsans.ttf" />
+		
+        <View
+            android:id="@+id/v_layout_divider_1"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="16dp"
+		    android:layout_marginBottom="16dp"
+		    android:background="#B9BCC5"/>
+
+		
+        <ExpandableListView
+	        android:id="@+id/elv_usage_agreement"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" />
+</LinearLayout>

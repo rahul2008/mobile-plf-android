@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:padding="16dp" >
+
+    <TextView
+        android:id="@+id/tv_check_signal_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:lineSpacingExtra="10dp"
+        android:text="@string/check_signal_strenth_title"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/philips_blue"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/tv_check_signal_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_check_signal_header"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:lineSpacingExtra="10dp"
+        android:text="@string/checking_signal_strength_message"
+        android:textColor="@color/title_gray"
+        android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_check_signal_connected_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_check_signal_message"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/check_signal" />
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+    <property name="findbugs.home" value="${basedir}/../tools/findbugs-2.0.3" />
+    <property name="reports.dir" value="bin/reports"/>
+
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${findbugs.home}/lib/findbugs-ant.jar" />
+
+    <target name="findbugs">
+        <mkdir dir="${reports.dir}"/>
+        <gettarget
+                androidJarFileOut="project.target.android.jar"
+                androidAidlFileOut="project.target.framework.aidl"
+                bootClassPathOut="project.target.class.path"
+                targetApiOut="project.target.apilevel"
+                minSdkVersionOut="project.minSdkVersion" />
+        <dependency
+                libraryFolderPathOut="project.library.folder.path"
+                libraryPackagesOut="project.library.packages"
+                libraryManifestFilePathOut="project.library.manifest.file.path"
+                libraryResFolderPathOut="project.library.res.folder.path"
+                libraryBinAidlFolderPathOut="project.library.bin.aidl.folder.path"
+                libraryRFilePathOut="project.library.bin.r.file.path"
+                libraryNativeFolderPathOut="project.library.native.folder.path"
+                jarLibraryPathOut="project.all.jars.path"
+                targetApi="${project.target.apilevel}"
+                buildToolsFolder="${android.build.tools.dir}"
+                renderscriptSupportLibsOut="project.rs.support.libs.path"
+                verbose="${verbose}" />
+
+        <findbugs home="${findbugs.home}" output="xml" outputFile="${out.dir}/reports/findbugs.xml">
+            <auxClasspath>
+                <pathelement location="${project.target.android.jar}" />
+                <path refid="project.all.jars.path" />
+            </auxClasspath>
+            <class location="${out.dir}" />
+
+        </findbugs>
+    </target>
+
+</project>

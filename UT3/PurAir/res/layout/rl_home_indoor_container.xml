@@ -1,0 +1,26 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_home_indoor_container"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:clipChildren="false">
+    
+    <ImageView 
+        android:id="@+id/iv_indoor_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/img_description"
+        android:scaleType="fitXY"
+       	android:src="@drawable/home_indoor_bg_2x" /> 
+    
+    <include 
+        android:id="@+id/inc_ll_home_indoor" 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/ll_home_indoor"/>
+    
+
+</RelativeLayout>

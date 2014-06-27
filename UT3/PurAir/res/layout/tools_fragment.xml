@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_gravity="bottom"
+    android:layout_margin="10dp">
+
+    <TextView
+        android:id="@+id/tv_ipaddress_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:text="@string/ipaddress" />
+
+    <TextView
+        android:id="@+id/tvipaddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/tv_ipaddress_title"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/tv_ipaddress_title"
+        android:gravity="right"/>
+    
+     <TextView
+        android:id="@+id/tv_purifiereui64_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:layout_below="@id/tvipaddress"
+        android:text="@string/eui64" />
+     
+    <TextView android:id="@+id/tv_cpp_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:gravity="right"
+        android:layout_alignTop="@+id/tv_purifiereui64_title"
+        android:layout_centerHorizontal="true"
+        android:layout_toRightOf="@id/tv_purifiereui64_title"
+        android:visibility="visible"/>
+
+    <Button
+        android:id="@+id/btn_crashapp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_below="@id/tv_purifiereui64_title"
+        android:layout_centerHorizontal="true"
+        android:text="@string/crash" />
+
+    <Button
+        android:id="@+id/btn_logging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btn_crashapp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/logging_enable" />
+    
+    <Button
+        android:id="@+id/btn_diagnostics"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btn_logging"
+        android:layout_centerHorizontal="true"
+        android:text="@string/diagnostics" />
+    
+</RelativeLayout>

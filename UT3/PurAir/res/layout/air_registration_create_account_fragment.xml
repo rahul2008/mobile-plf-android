@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        
+		<com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvRegistrationStatement"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="16dp"
+			android:lineSpacingExtra="5dp"
+			android:text="@string/registration_statement"
+			android:textColor="@color/gray"
+			android:textSize="14sp"
+			custom:fontAssetName="fonts/gillsans.ttf" />
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvName"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:text="@string/your_name"
+			android:textColor="@color/title_gray"
+			android:textSize="16sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:layout_below="@id/tvRegistrationStatement" />
+        
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="48dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/ews_edit_txt_2_bg"
+            android:ems="10"
+            android:singleLine="true"
+            android:textColor="@color/title_gray"
+            android:textSize="14sp"
+            android:hint="@string/enter_your_name"
+            android:inputType="textPersonName" 
+            android:layout_below="@id/tvName" />
+        
+		<com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvEmailAddress"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="8dp"
+			android:text="@string/email_address"
+			android:textColor="@color/title_gray"
+			android:textSize="16sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:layout_below="@id/etName" />
+        
+        <EditText
+            android:id="@+id/etEmailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="48dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/ews_edit_txt_2_bg"
+            android:ems="10"
+            android:singleLine="true"
+            android:textColor="@color/title_gray"
+            android:textSize="14sp"
+            android:hint="@string/enter_email_address"
+            android:inputType="textEmailAddress" 
+            android:layout_below="@id/tvEmailAddress" />
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvPassword"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="8dp"
+			android:text="@string/password"
+			android:textColor="@color/title_gray"
+			android:textSize="16sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:layout_below="@id/etEmailAddress" />
+        
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="48dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:background="@drawable/ews_edit_txt_2_bg"
+            android:ems="10"
+            android:singleLine="true"
+            android:textColor="@color/title_gray"
+            android:textSize="14sp"
+            android:hint="@string/choose_password"
+            android:inputType="textPassword" 
+            android:layout_below="@id/tvPassword" />
+        
+        <LinearLayout
+            android:id="@+id/llPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/etPassword"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="32dp"
+            android:layout_marginTop="8dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+	            android:id="@+id/rbReceiveInformation"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:button="@drawable/radio_button_selector" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/tvReceiveInformation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:gravity="center_vertical"
+                android:text="@string/receive_information"
+                android:textColor="@color/title_gray"
+                android:textSize="14sp"
+                android:lineSpacingExtra="5dp"
+                custom:fontAssetName="fonts/gillsanslight.ttf"/>
+        </LinearLayout>
+
+        
+        <Button
+	        android:id="@+id/btnCreateAccount"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="16dp"
+	        android:layout_marginTop="16dp"
+	        android:paddingRight="16dp"
+	        android:paddingLeft="16dp"
+	        android:background="@drawable/blue_button_selector"
+	        android:text="@string/create_your_account"
+	        android:textColor="@color/white"
+	        android:textSize="14sp"
+	        android:layout_alignParentRight="true"
+	        android:layout_below="@id/llPassword"/>
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/tvSignInWith"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="16dp"
+			android:layout_marginRight="16dp"
+			android:layout_marginTop="20dp"
+			android:text="@string/sign_in_with"
+			android:textColor="@color/title_gray"
+			android:textSize="16sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:layout_below="@id/btnCreateAccount" />
+		
+        <View
+            android:id="@+id/vLayoutDivider"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:layout_marginTop="8dp"
+		    android:background="#B9BCC5"
+		    android:layout_below="@id/tvSignInWith" />
+        
+        <LinearLayout
+            android:id="@+id/llFirstRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal"
+            android:layout_below="@id/vLayoutDivider" 
+            android:weightSum="2">
+
+            <include 
+                android:id="@+id/llMyPhilips"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                layout="@layout/air_registration_sign_in_item" 
+                android:layout_weight="1"/>
+                
+           <View
+				android:id="@+id/vFirstDivider"
+				android:layout_width="1dp"
+				android:layout_height="match_parent"
+				android:background="#B9BCC5"
+				android:visibility="gone"/>
+                
+            <include 
+                android:id="@+id/llFacebook"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                layout="@layout/air_registration_sign_in_item"
+                android:layout_weight="1"
+                android:visibility="gone" />
+            
+        </LinearLayout>
+        
+        <View
+            android:id="@+id/vRowDivider"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:background="#B9BCC5"
+		    android:layout_below="@id/llFirstRow"
+		    android:visibility="gone"/>
+
+        <LinearLayout
+            android:id="@+id/llSecondRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:orientation="horizontal"
+            android:layout_below="@id/vRowDivider" 
+            android:weightSum="2">
+
+            <include 
+                android:id="@+id/llTwitter"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                layout="@layout/air_registration_sign_in_item" 
+                android:layout_weight="1"
+                android:visibility="gone"/>
+                
+           <View
+				android:id="@+id/vSecondDivider"
+				android:layout_width="1dp"
+				android:layout_height="match_parent"
+				android:background="#B9BCC5"
+				android:visibility="gone" />
+                
+            <include 
+                android:id="@+id/llGooglPlus"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                layout="@layout/air_registration_sign_in_item"
+                android:layout_weight="1" 
+                android:visibility="gone" />
+            
+        </LinearLayout>
+        
+        <View
+            android:id="@+id/vBottomDivider"
+		    android:layout_width="match_parent"
+		    android:layout_height="1dp"
+		    android:background="#B9BCC5"
+		    android:layout_below="@id/llSecondRow"/>
+    </RelativeLayout>
+
+</ScrollView>

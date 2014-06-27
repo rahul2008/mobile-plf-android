@@ -1,0 +1,236 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <TextView
+            android:id="@+id/app_tutorial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/tutorials"
+            android:gravity="center_vertical"
+            android:minHeight="85dp"
+            android:padding="5dp"
+            android:text="@string/subtitle_app_tutorial"
+            android:textSize="@dimen/text_size_medium" 
+            android:textColor="@color/subtitle_gray"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <TextView
+            android:id="@+id/faq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/faq"
+            android:gravity="center_vertical"
+            android:minHeight="85dp"
+            android:padding="5dp"
+            android:text="@string/subtitle_FAQ"
+            android:textSize="@dimen/text_size_medium" 
+            android:textColor="@color/subtitle_gray"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <TextView
+            android:id="@+id/lbl_user_manual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/user_manual"
+            android:gravity="center_vertical"
+            android:minHeight="85dp"
+            android:padding="5dp"
+            android:text="@string/subtitle_user_manual"
+            android:textSize="@dimen/text_size_medium" 
+            android:textColor="@color/subtitle_gray"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <TextView
+            android:id="@+id/lbl_wifi_connectivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/wifi_help"
+            android:gravity="center_vertical"
+            android:minHeight="85dp"
+            android:padding="5dp"
+            android:text="@string/subtitle_wifi_connectivity"
+            android:textSize="@dimen/text_size_medium" 
+            android:textColor="@color/subtitle_gray"
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <TextView
+            android:id="@+id/lbl_philips_support"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:minHeight="85dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="20dp"
+            android:text="@string/subitle_philips_support"
+            android:textColor="@color/philips_blue"
+            android:textSize="@dimen/title_text_size_small" 
+            />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <RelativeLayout
+            android:id="@+id/layout_call_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="85dp" >
+
+            <ImageView
+                android:id="@+id/call_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/call_us_help" />
+
+            <TextView
+                android:id="@+id/lbl_call_us"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/call_icon"
+                android:text="@string/subtitle_call_us"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/subtitle_gray"
+                />
+
+           <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_call_us"
+                android:layout_below="@+id/lbl_call_us"
+                android:text="@string/contact_philips_support_phone_num" 
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsans.ttf"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <RelativeLayout
+            android:id="@+id/layout_email_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="85dp" >
+
+            <ImageView
+                android:id="@+id/help_email_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/email_help" />
+
+            <TextView
+                android:id="@+id/lbl_email_us"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/help_email_icon"
+                android:text="@string/subtitle_email_us"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/subtitle_gray"
+                />
+
+           <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/help_contact_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_email_us"
+                android:layout_below="@+id/lbl_email_us"
+                android:text="@string/contact_philips_support_email" 
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsans.ttf"
+                />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/darkgray" />
+
+        <RelativeLayout
+            android:id="@+id/layout_help"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="85dp" >
+
+            <ImageView
+                android:id="@+id/help_call_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/help_section" />
+
+            <TextView
+                android:id="@+id/lbl_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/help_call_icon"
+                android:text="@string/subtitle_help_section"
+                android:textSize="@dimen/text_size_medium"
+                android:textColor="@color/subtitle_gray"
+                />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/help_contact_website"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_support"
+                android:layout_below="@+id/lbl_support"
+                android:text="@string/contact_philips_support_website" 
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsans.ttf"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>

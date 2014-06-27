@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/indoorDashboardBarTopNumBg"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/circle_5" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/indoorDbBarTopNum"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:text="@string/one"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/indoorDbBarTopName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/indoorDbBarTopNum"
+        android:layout_alignBottom="@+id/indoorDbBarTopNum"
+        android:layout_marginLeft="10dp"
+        android:layout_toRightOf="@+id/indoorDashboardBarTopNumBg"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:text="@string/lbl_living_room"
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+</RelativeLayout>

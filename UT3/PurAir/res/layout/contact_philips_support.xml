@@ -1,0 +1,193 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/contact_philips_support_message1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:lineSpacingExtra="10dp"
+            android:text="@string/contact_philips_support_msg1"
+            android:textColor="@color/title_gray"
+            android:textSize="19sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/contact_philips_support_msg2"
+            android:textColor="@color/philips_blue"
+            android:textSize="24sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ews_divider_2x" />
+
+        <RelativeLayout
+            android:id="@+id/contact_support_phone_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:clickable="true">
+
+            <ImageView
+                android:id="@+id/contact_support_phone_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/ews_mobile_2x" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_phone_lanbel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_phone_img"
+                android:drawablePadding="16dp"
+                android:lineSpacingExtra="10dp"
+                android:text="@string/contact_philips_support_msg3"
+                android:textColor="@color/title_gray"
+                android:textSize="22sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+            
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_phone_img"
+                android:layout_below="@+id/contact_support_phone_lanbel"
+                android:drawablePadding="16dp"
+                android:lineSpacingExtra="10dp"
+                android:gravity="left"
+                android:text="@string/contact_philips_support_phone_num"
+                android:textColor="@color/title_gray"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ews_divider_2x" />
+
+         <RelativeLayout
+            android:id="@+id/contact_support_email_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/contact_support_email_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/ews_mail_2x" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_email_lanbel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_email_img"
+                android:drawablePadding="16dp"
+                android:lineSpacingExtra="10dp"
+                android:text="@string/contact_philips_support_msg4"
+                android:textColor="@color/title_gray"
+                android:textSize="22sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+            
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_email_img"
+                android:layout_below="@+id/contact_support_email_lanbel"
+                android:drawablePadding="16dp"
+                android:lineSpacingExtra="10dp"
+                android:text="@string/contact_philips_support_email"
+                android:textColor="@color/title_gray"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ews_divider_2x" />
+
+        <RelativeLayout
+            android:id="@+id/contact_support_website_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/contact_support_website_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/ews_web_2x" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_website_lanbel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_website_img"
+                android:drawablePadding="16dp"
+                android:lineSpacingExtra="10dp"
+                android:text="@string/contact_philips_support_msg5"
+                android:textColor="@color/title_gray"
+                android:textSize="22sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+            
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_website"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_website_img"
+                android:layout_below="@+id/contact_support_website_lanbel"
+                android:drawablePadding="16dp"
+                android:lineSpacingExtra="10dp"
+                android:text="@string/contact_philips_support_website"
+                android:textColor="@color/title_gray"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </RelativeLayout>
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/ews_divider_2x" />
+    </LinearLayout>
+
+</ScrollView>

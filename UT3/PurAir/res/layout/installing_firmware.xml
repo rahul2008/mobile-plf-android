@@ -1,0 +1,85 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:padding="16dp">
+
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/downloading_firmware_step"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:textSize="18sp"
+        android:textColor="@color/title_gray"
+		android:text="@string/installing_firmware_step" 
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/installing_firmware_for_purifier_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_below="@+id/downloading_firmware_step"
+		android:layout_marginLeft="16dp"
+		android:lineSpacingExtra="10dp"
+        android:textSize="24sp"
+        android:textColor="@color/philips_blue"  
+		android:text="@string/installing_firmware_for_purifier_msg" 
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/downloading_firmware_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_below="@+id/installing_firmware_for_purifier_msg"
+        android:layout_marginTop="75dp"
+        android:layout_marginLeft="16dp"
+        android:layout_centerHorizontal="true"
+        android:lineSpacingExtra="5dp"
+        android:textSize="18sp"
+        android:textColor="@color/philips_blue"  
+		android:padding ="16dp"
+		android:text="@string/installing_firmware_text" 
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <ProgressBar    
+        android:id="@+id/progress_firmware_install"      
+		android:layout_width="30dp"          
+		android:layout_height="30dp"          
+		style="@android:style/Widget.ProgressBar.Small" 
+		android:progressDrawable="@drawable/customprogressbar"   
+		android:indeterminateDrawable="@drawable/progress_circle"
+		android:layout_below="@+id/downloading_firmware_text"
+		android:layout_marginTop="15dp"
+		android:layout_centerHorizontal="true" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/upgrade_version_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+   		android:layout_alignParentLeft="true"
+        android:textSize="16sp"
+        android:textColor="@color/title_gray"  
+		android:maxLines="2"
+		android:paddingLeft="16dp"
+		android:text="@string/firmware_new_version" 
+		custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/current_version_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/upgrade_version_number"
+        android:layout_alignLeft="@+id/upgrade_version_number"
+        android:textSize="16sp"
+        android:paddingLeft="16dp"
+        android:textColor="@color/title_gray"  
+        android:text="@string/firmware_current_version"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+</RelativeLayout>

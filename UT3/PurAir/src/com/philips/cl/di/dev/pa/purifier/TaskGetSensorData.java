@@ -1,0 +1,50 @@
+package com.philips.cl.di.dev.pa.purifier;
+
+import android.os.AsyncTask;
+
+import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
+import com.philips.cl.di.dev.pa.util.NetworkUtils;
+import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+/**
+ * This class will call the sensor data. It gets the sensor data from the server
+ * @author 310124914
+ *
+ */
+public class TaskGetSensorData extends AsyncTask<String, Void, String> {
+	private ServerResponseListener listener ;
+
+	private ResponseDto responseObj;
+	private int responseCode;
+
+	public TaskGetSensorData(ServerResponseListener handler ) {
+		this.listener = handler;
+	}
+
+	@Override
+	protected String doInBackground(String... urls) {
+		String result = null ;
+		// params comes from the execute() call: params[0] is the url.
+		//Log.i(TAG, urls[0]) ;
+
+		responseObj = NetworkUtils.downloadUrl(urls[0], 10000);
+
+		if(responseObj!=null)
+		{
+			result=responseObj.getResponseData();
+			responseCode=responseObj.getResponseCode();
+		}
+		
+		if (result == null || result.length() == 0) {
+			return null;
+		}
+		return result ;
+	}
+
+	// onPostExecute displays the results of the AsyncTask.
+	@Override
+	protected void onPostExecute(String response) {
+		if (listener!=null) {
+			listener.receiveServerResponse(responseCode,response, null);
+		}
+	}
+}

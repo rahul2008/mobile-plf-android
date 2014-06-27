@@ -1,0 +1,25 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_home_outdoor_container"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" 
+    android:clipChildren="false"
+    android:layout_gravity="bottom">
+    
+    <ImageView 
+        android:id="@+id/iv_outdoor_bg"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/img_description"
+        android:scaleType="fitXY"
+       	android:src="@drawable/air_dashboard_outdoor_shanghai_300" />
+  
+    <include 
+        android:id="@+id/inc_ll_home_outdoor" 
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        layout="@layout/ll_home_outdoor"/>
+</RelativeLayout>

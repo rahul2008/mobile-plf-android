@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/color_lbl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_1"
+        android:gravity="center"
+        android:textColor="#FFF"
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/color_indication_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="25dp"
+        android:gravity="center"
+        android:textColor="#7F8595"
+        android:textSize="@dimen/text_size_small"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+</LinearLayout>
