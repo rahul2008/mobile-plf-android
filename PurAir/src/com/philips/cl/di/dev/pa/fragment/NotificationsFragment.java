@@ -83,11 +83,15 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
 			Activity parent = this.getActivity();
 			if (parent != null && parent instanceof MainActivity) {
-				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
-				dialog.setOnClickListener(this);
+				try {
+					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
+					dialog.setOnClickListener(this);
 //				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+					FragmentManager fm = getActivity().getSupportFragmentManager();
+					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+				} catch (Exception e) {
+					ALog.e(ALog.NOTIFICATION, e.getMessage());
+				}
 				return;
 			}
 		}
@@ -367,11 +371,15 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			public void run() {
 				if (progressDialog!=null) progressDialog.dismiss();
 
-				AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.notification_nopurifier_positivebtn);
-				dialog.setOnClickListener(NotificationsFragment.this);
+				try {
+					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.notification_nopurifier_positivebtn);
+					dialog.setOnClickListener(NotificationsFragment.this);
 //				dialog.show(getActivity().getSupportFragmentManager(), null);
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+					FragmentManager fm = getActivity().getSupportFragmentManager();
+					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+				} catch (Exception e) {
+					ALog.e(ALog.NOTIFICATION, e.getMessage());
+				}
 			}
 		});		
 	}
@@ -461,11 +469,15 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 				
 				@Override
 				public void run() {
-					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.error_aqithreshold_setting, R.string.ok);
-					dialog.setOnClickListener(NotificationsFragment.this);
+					try {
+						AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.error_aqithreshold_setting, R.string.ok);
+						dialog.setOnClickListener(NotificationsFragment.this);
 //					dialog.show(getActivity().getSupportFragmentManager(), null);
-					FragmentManager fm = getActivity().getSupportFragmentManager();
-					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+						FragmentManager fm = getActivity().getSupportFragmentManager();
+						fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+					} catch (Exception e) {
+						ALog.e(ALog.NOTIFICATION, e.getMessage());
+					}
 				}
 			});
 		} 

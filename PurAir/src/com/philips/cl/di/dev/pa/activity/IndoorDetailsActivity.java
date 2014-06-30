@@ -413,7 +413,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void getDataFromDashboard(AirPortInfo airPortInfo) {
-		
+		if (currentPurifier == null) return;
 		setActionBarTitle(currentPurifier.getName());
 		if (airPortInfo == null) return;
 		/**
@@ -458,9 +458,13 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 * Show alert dialog AQI historic data download failed
 	 */
 	private void showAlertDialogHistoryDoawnload(String title, String message) {
-		FragmentManager fragMan = getSupportFragmentManager();
-		fragMan.beginTransaction().add(
-				DownloadAlerDialogFragement.newInstance(title, message), "alert").commitAllowingStateLoss();
+		try {
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction().add(
+					DownloadAlerDialogFragement.newInstance(title, message), "alert").commitAllowingStateLoss();
+		} catch (Exception e) {
+			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
+		}
 	}
 	
 	@SuppressLint("HandlerLeak")
