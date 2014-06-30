@@ -24,13 +24,11 @@ public class OutdoorManager implements OutdoorEventListener {
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
 
-	public static OutdoorManager getInstance() {
-		synchronized(SessionDto.class) {
-			if(smInstance == null) {
-				smInstance = new OutdoorManager();
-			}
-			return smInstance;
+	public synchronized static OutdoorManager getInstance() {
+		if(smInstance == null) {
+			smInstance = new OutdoorManager();
 		}
+		return smInstance;
 	}
 
 	public void startCitiesTask() {

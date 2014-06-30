@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.ews;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.UnicodeSpecialCharacter;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSStepThreeFragment extends Fragment {
@@ -42,7 +45,8 @@ public class EWSStepThreeFragment extends Fragment {
 	private OnFocusChangeListener focusListener;
 	private ButtonClickListener buttonClickListener;
 	private String ssid;
-	private String specialCharacters = "[©®°@¶•&‰%≠≈∞=±+×–—-†‡*÷/()¡!¿?´“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦₩°•○●□■☆★♡♥》《¤◆◇…~^`§¤★πΠ√×∆♪♣♠♦↑←↓→™℅′″￥￡℃※♂♀↕↔' ]";
+	private ArrayList<Integer> unicodes;
+//	private String specialCharacters = "[©®°@¶•&‰%≠≈∞=±+×–—-†‡*÷/()¡!¿?´“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦₩°•○●□■☆★♡♥》《¤◆◇…~^`§¤★πΠ√×∆♪♣♠♦↑←↓→™℅′″￥￡℃※♂♀↕↔' ]";
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,6 +58,8 @@ public class EWSStepThreeFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		unicodes = UnicodeSpecialCharacter.getSpecialCharaterUnicodes();
 		
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_THREE);
 		
@@ -164,7 +170,10 @@ public class EWSStepThreeFragment extends Fragment {
 			}
 			if (source.toString().length() >=0) {
 				for (char ch : source.toString().toCharArray()) {
-					if (String.valueOf(ch).matches(specialCharacters)) {
+//					if (String.valueOf(ch).matches(specialCharacters)) {
+//						return source.subSequence(0, 0);
+//					} 
+					if (unicodes.contains((int)ch)) {
 						return source.subSequence(0, 0);
 					} 
 				}
