@@ -48,7 +48,7 @@ public class GraphPathDraw {
 			yOutdoorCoordinates[6] = coordinates.getOdY400();
 			yOutdoorCoordinates[7] = coordinates.getOdY500();
 		}
-		ALog.i(ALog.INDOOR_DETAILS, testStr);
+		
 	}
 	
 	
@@ -154,6 +154,7 @@ public class GraphPathDraw {
 	
 	/**The method to find the y axis pixel corresponding value for indoor.*/
 	public float getIndoorYcoordinate(float y) {
+		if (y >= 10) y = 9.9F;
 		float yFloat = coordinates.getIdY0();
 		if (y == -1) return -1;
 		if (y <= 0) {
@@ -171,6 +172,7 @@ public class GraphPathDraw {
 	
 	/**The method to find the y axis pixel corresponding value for outdoor.*/
 	public float getOutdoorYcoordinate(float y) {
+		if (y >= 500) y = 499.9F;
 		float yfloat = coordinates.getOdY0();
 		if (y <= 0) {
 			return yfloat;

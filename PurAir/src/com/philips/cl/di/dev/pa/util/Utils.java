@@ -132,7 +132,15 @@ public class Utils {
 
 		HashMap<Integer, Float> dailyAqiValueMap = new HashMap<Integer, Float>();
 		HashMap<Integer, Integer> dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
-
+		
+		List<Integer> goodAirQualityList = new ArrayList<Integer>();
+		float totalAqi = 0.0F;
+		float goodAqi = 0.0F;
+		float monthlyTotalAqi = 0.0F;
+		float monthlyGoodAqi = 0.0F;
+		float weeklyTotalAqi = 0.0F;
+		float weeklyGoodAqi = 0.0F;
+		
 		if (downloadedData != null) {
 			List<IndoorHistoryDto> indoorAQIHistory = DataParser.parseHistoryData(downloadedData);
 
@@ -160,8 +168,14 @@ public class Utils {
 							hrlyAqiValueCounterMap.put(diffOfHrs, 1);
 							hrlyAqiValueMap.put(diffOfHrs, indoorAQIHistory.get(index).getAqi());
 						}
+						
+						totalAqi = totalAqi + indoorAQIHistory.get(index).getAqi();
+						if (indoorAQIHistory.get(index).getAqi() <= 14) {
+							goodAqi = goodAqi + indoorAQIHistory.get(index).getAqi(); 
+						}
+						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; Sum: " + goodAqi +"; Total: "+ totalAqi);
 					}
-
+					
 					/**
 					 * Daily
 					 */
@@ -182,26 +196,75 @@ public class Utils {
 							dailyAqiValueCounterMap.put(numberOfDays, 1);
 							dailyAqiValueMap.put(numberOfDays, indoorAQIHistory.get(index).getAqi());
 						}
+						
+						if (numberOfDays > 20) {
+							weeklyTotalAqi = weeklyTotalAqi + indoorAQIHistory.get(index).getAqi();
+							if (indoorAQIHistory.get(index).getAqi() <= 14) {
+								weeklyGoodAqi = weeklyGoodAqi + indoorAQIHistory.get(index).getAqi(); 
+							}
+							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; Sum: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
+						}
+						
+						monthlyTotalAqi = monthlyTotalAqi + indoorAQIHistory.get(index).getAqi();
+						if (indoorAQIHistory.get(index).getAqi() <= 14) {
+							monthlyGoodAqi = monthlyGoodAqi + indoorAQIHistory.get(index).getAqi(); 
+						}
+						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; Sum: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
 					}
+					
 				}
+				goodAirQualityList.add(getPercentage(goodAqi, totalAqi));
+				goodAirQualityList.add(getPercentage(weeklyGoodAqi, weeklyTotalAqi));
+				goodAirQualityList.add(getPercentage(monthlyGoodAqi, monthlyTotalAqi));
 
 				setIndoorAqiHistory(hrlyAqiValueMap,hrlyAqiValueCounterMap, 
-						dailyAqiValueMap, dailyAqiValueCounterMap);
+						dailyAqiValueMap, dailyAqiValueCounterMap, goodAirQualityList);
 
 			}
 		}
 	}
-
+	
 	private static void setIndoorAqiHistory(HashMap<Integer, Float> hrlyAqiValueMap,
 			HashMap<Integer, Integer> hrlyAqiValueCounterMap, 
 			HashMap<Integer, Float> dailyAqiValueMap, 
-			HashMap<Integer, Integer> dailyAqiValueCounterMap) {
-
-		List<Float> hrlyAqiValues = new ArrayList<Float>();
-		List<Float> dailyAqiValues = new ArrayList<Float>();
+			HashMap<Integer, Integer> dailyAqiValueCounterMap,
+			List<Integer> goodAirQualityList) {
 
 		IndoorTrendDto indoorTrend = new IndoorTrendDto();
+		List<Float> hrlyAqiValues = getIndoorAqiHistoryLastDay(hrlyAqiValueMap, hrlyAqiValueCounterMap);
 
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
+
+		indoorTrend.setHourlyList(hrlyAqiValues);
+
+		hrlyAqiValueMap = null;
+		hrlyAqiValueCounterMap = null;
+		hrlyAqiValues = null;
+		
+		List<Float> dailyAqiValues = getIndoorAqiHistoryLastMonth(dailyAqiValueMap, dailyAqiValueCounterMap);
+
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp goodAirQualityList: " + goodAirQualityList);
+
+		indoorTrend.setDailyList(dailyAqiValues);
+		indoorTrend.setGoodAirQualityList(goodAirQualityList);
+		
+
+		dailyAqiValueMap = null;
+		dailyAqiValueCounterMap = null;
+		dailyAqiValues = null;
+		goodAirQualityList = null;
+
+		SessionDto.getInstance().setIndoorTrendDto(indoorTrend);
+	}
+	
+	private static List<Float> getIndoorAqiHistoryLastDay(HashMap<Integer, Float> hrlyAqiValueMap, 
+			HashMap<Integer, Integer> hrlyAqiValueCounterMap) {
+		List<Float> hrlyAqiValues = new ArrayList<Float>();
 		for (int i = 0; i < 24; i++) {
 			if (hrlyAqiValueMap.containsKey(i) 
 					&& hrlyAqiValueCounterMap.containsKey(i)) {
@@ -214,39 +277,24 @@ public class Utils {
 			}
 		}
 
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
-
-		indoorTrend.setHourlyList(hrlyAqiValues);
-
-		hrlyAqiValueMap = null;
-		hrlyAqiValueCounterMap = null;
-		hrlyAqiValues = null;
-
-		for (int I = 0; I < 28; I++) {
-			if (dailyAqiValueMap.containsKey(I) 
-					&& dailyAqiValueCounterMap.containsKey(I)) {
-				float aqi = dailyAqiValueMap.get(I);
-				int noOffValue = dailyAqiValueCounterMap.get(I);
+		return hrlyAqiValues;
+	}
+	
+	private static List<Float> getIndoorAqiHistoryLastMonth(HashMap<Integer, Float> dailyAqiValueMap, 
+			HashMap<Integer, Integer> dailyAqiValueCounterMap) {
+		List<Float> dailyAqiValues = new ArrayList<Float>();
+		for (int i = 0; i < 28; i++) {
+			if (dailyAqiValueMap.containsKey(i) 
+					&& dailyAqiValueCounterMap.containsKey(i)) {
+				float aqi = dailyAqiValueMap.get(i);
+				int noOffValue = dailyAqiValueCounterMap.get(i);
 				aqi = aqi / noOffValue;
 				dailyAqiValues.add(aqi/10);
 			} else {
 				dailyAqiValues.add(-1F);
 			}
 		}
-
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
-
-		indoorTrend.setDailyList(dailyAqiValues);
-
-		dailyAqiValueMap = null;
-		dailyAqiValueCounterMap = null;
-		dailyAqiValues = null;
-
-		SessionDto.getInstance().setIndoorTrendDto(indoorTrend);
+		return dailyAqiValues;
 	}
 
 	@SuppressLint("SimpleDateFormat")
@@ -269,9 +317,6 @@ public class Utils {
 		String startTime = hrOffDay + formatTime.format(dateStart);
 
 		String qryPart2 = "startDate=" + startDate + "T" + startTime + ".1508314Z;";
-
-		//		String qry = String.format(
-		//				AppConstants.CLIENT_ID_RDCP, "1c5a6bfffe6c74b1") + qryPart2 + qryPart3;
 
 		String eui64 = (purifier == null ? "" : purifier.getEui64());
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP, eui64) + qryPart2 + qryPart3;
@@ -481,10 +526,11 @@ public class Utils {
 	 * @param goodAir
 	 * @param totalAir
 	 */
-	public static int getPercentage(int goodAir, int totalAir) {
+	public static int getPercentage(float goodAir, float totalAir) {
+		
 		int percent = 0;
 		if (totalAir > 0) {
-			percent = (goodAir * 100) / totalAir;
+			percent = (int) ((goodAir * 100) / totalAir);
 		}
 		return percent;
 	}

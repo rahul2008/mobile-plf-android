@@ -6,6 +6,14 @@ public class IndoorTrendDto {
 	private List<Integer> powerDetailsList ;
 	private List<Float> hourlyList ;
 	private List<Float> dailyList ;
+	private List<Integer> goodAirQualityList;
+	
+	public List<Integer> getGoodAirQualityList() {
+		return goodAirQualityList;
+	}
+	public void setGoodAirQualityList(List<Integer> goodAirQualityList) {
+		this.goodAirQualityList = goodAirQualityList;
+	}
 	public List<Integer> getPowerDetailsList() {
 		return powerDetailsList;
 	}
