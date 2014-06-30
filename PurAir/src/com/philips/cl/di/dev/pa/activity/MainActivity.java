@@ -874,9 +874,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 	}
 
+	public void setPairingDialog(boolean isPairingDialogShown) {
+		this.isPairingDialogShown = isPairingDialogShown ;
+	}
+	
 	@Override
-	public void onPairingFailed() {
-		isPairingDialogShown = false ;
+	public void onPairingFailed() {		
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
