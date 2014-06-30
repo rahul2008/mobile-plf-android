@@ -8,6 +8,7 @@ import java.util.Map;
 import android.database.Cursor;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -24,10 +25,12 @@ public class OutdoorManager implements OutdoorEventListener {
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
 
 	public static OutdoorManager getInstance() {
-		if(smInstance == null) {
-			smInstance = new OutdoorManager();
+		synchronized(SessionDto.class) {
+			if(smInstance == null) {
+				smInstance = new OutdoorManager();
+			}
+			return smInstance;
 		}
-		return smInstance;
 	}
 
 	public void startCitiesTask() {

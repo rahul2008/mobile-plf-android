@@ -48,7 +48,7 @@ public class GraphPathDraw {
 			yOutdoorCoordinates[6] = coordinates.getOdY400();
 			yOutdoorCoordinates[7] = coordinates.getOdY500();
 		}
-		
+		ALog.i(ALog.INDOOR_DETAILS, testStr);
 	}
 	
 	

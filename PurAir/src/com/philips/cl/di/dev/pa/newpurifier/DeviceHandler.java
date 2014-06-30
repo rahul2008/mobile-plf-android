@@ -72,6 +72,7 @@ public class DeviceHandler implements ServerResponseListener {
 		case EDIT:
 			requestType = AppConstants.REQUEST_METHOD_PUT ;
 			url =  Utils.getScheduleDetailsUrl(purifier.getIpAddress(),scheduleNumber);
+			break;
 		default:
 			break;
 		}

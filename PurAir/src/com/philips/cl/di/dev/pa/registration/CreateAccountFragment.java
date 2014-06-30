@@ -132,7 +132,10 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		case R.id.llFirstRow:
 			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
 			break;
+		default:
+			break;
 		}
+		
 	}
 
 	private void getInput() {

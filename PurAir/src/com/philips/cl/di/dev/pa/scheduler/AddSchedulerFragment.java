@@ -92,6 +92,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	
 	private String setWeekDays2(String days) {
 		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method enter");
+		StringBuffer sWeStringBuffer = new StringBuffer();
 		String sWeekdays = "";
 		if (days == null || days.isEmpty()) return SchedulerConstants.ONE_TIME;
 			
@@ -104,15 +105,15 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		
 		for(int i=0; i<sParts.length;i++) {
 			sTempStr = sParts[i];
-			if (sTempStr.contains("0")) sWeekdays = sWeekdays + SchedulerConstants.SUNDAY + ", ";
-			if (sTempStr.contains("1")) sWeekdays = sWeekdays + SchedulerConstants.MONDAY + ", ";
-			if (sTempStr.contains("2")) sWeekdays = sWeekdays + SchedulerConstants.TUESDAY + ", ";
-			if (sTempStr.contains("3")) sWeekdays = sWeekdays + SchedulerConstants.WEDNESDAY + ", ";
-			if (sTempStr.contains("4")) sWeekdays = sWeekdays + SchedulerConstants.THURSDAY + ", ";
-			if (sTempStr.contains("5")) sWeekdays = sWeekdays + SchedulerConstants.FRIDAY + ", ";
-			if (sTempStr.contains("6")) sWeekdays = sWeekdays + SchedulerConstants.SATURDAY + ", ";
+			if (sTempStr.contains("0")) sWeStringBuffer.append(SchedulerConstants.SUNDAY + ", ");
+			if (sTempStr.contains("1")) sWeStringBuffer.append(SchedulerConstants.MONDAY + ", ");
+			if (sTempStr.contains("2")) sWeStringBuffer.append(SchedulerConstants.TUESDAY + ", ");
+			if (sTempStr.contains("3")) sWeStringBuffer.append(SchedulerConstants.WEDNESDAY + ", ");
+			if (sTempStr.contains("4")) sWeStringBuffer.append(SchedulerConstants.THURSDAY + ", ");
+			if (sTempStr.contains("5")) sWeStringBuffer.append(SchedulerConstants.FRIDAY + ", ");
+			if (sTempStr.contains("6")) sWeStringBuffer.append(SchedulerConstants.SATURDAY + ", ");
 		}
-		
+		sWeekdays = sWeStringBuffer.toString();
 		if (!sWeekdays.isEmpty()) {
 			sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
 		}

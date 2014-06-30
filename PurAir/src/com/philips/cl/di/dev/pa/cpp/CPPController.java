@@ -29,7 +29,6 @@ import com.philips.icpinterface.ThirdPartyNotification;
 import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
 import com.philips.icpinterface.data.Errors;
-import com.philips.icpinterface.data.PeripheralDevice;
 
 public class CPPController implements ICPClientToAppInterface, ICPEventListener {
 	
@@ -70,7 +69,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private DownloadData downloadData;
 	private ICPDownloadListener downloadDataListener;
 	private StringBuilder downloadDataBuilder;
-	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
+//	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
 	
 	private enum KEY_PROVISION {
 		NOT_PROVISIONED,

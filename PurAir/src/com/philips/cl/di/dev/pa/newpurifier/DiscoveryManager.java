@@ -565,9 +565,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
 		// Disconnected by default to allow SSDP to discover first and only after try cpp
 		List<PurAirDevice> storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-		if (storedDevices == null) return;
-		
-		ALog.d(ALog.DISCOVERY, "Successfully loaded stored devices: " + storedDevices.size());
+//		if (storedDevices == null) return;
+//		
+//		ALog.d(ALog.DISCOVERY, "Successfully loaded stored devices: " + storedDevices.size());
 		for (PurAirDevice device : storedDevices) {
 			mDevicesMap.put(device.getEui64(), device);
 		}

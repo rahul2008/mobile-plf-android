@@ -184,7 +184,7 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		String appVersion= "App Version: "+((MainActivity) getActivity()).getVersionNumber();
 		String osVersion = "OS Version: " + Build.VERSION.RELEASE ;
 		String dDns1 = "DNS: " + intToIp(dhcpInfo.dns1);
-		String dGateway = "Default Gateway: " + intToIp(dhcpInfo.gateway);
+//		String dGateway = "Default Gateway: " + intToIp(dhcpInfo.gateway);
 		String dIpAddress = "IP Address: " + intToIp(dhcpInfo.ipAddress);
 		String dMacaddress = "MAC Address:"
 				+ getMACAddress(intToIp(dhcpInfo.ipAddress));
@@ -238,12 +238,12 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 	}
 
 	//formats mac to be like 00:15:5D:03:8D:01
-	private String formatMacAddress(String mac) {
-		if( mac == null) {
-			return "" ;
-		}
-		return mac.replaceAll("(..)(?!$)", "$1-");
-	}
+//	private String formatMacAddress(String mac) {
+//		if( mac == null) {
+//			return "" ;
+//		}
+//		return mac.replaceAll("(..)(?!$)", "$1-");
+//	}
 
 	private String intToIp(int addr) {
 		return ((addr & 0xFF) + "." + ((addr >>>= 8) & 0xFF) + "."
@@ -283,23 +283,24 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 		return mPurifier.getEui64();
 	}
 
-	private String getPurifierMacAddress() {
-		if (mPurifier == null) {
-			return "< unknown >"; // TODO localize
-		}
-		String macAddress = Utils.getMacAddressFromUsn(mPurifier.getUsn());
-		if (macAddress == null) {
-			return "< unknown >"; // TODO localize
-		}
-		return macAddress;
-	}
+//	private String getPurifierMacAddress() {
+//		if (mPurifier == null) {
+//			return "< unknown >"; // TODO localize
+//		}
+//		String macAddress = Utils.getMacAddressFromUsn(mPurifier.getUsn());
+//		if (macAddress == null) {
+//			return "< unknown >"; // TODO localize
+//		}
+//		return macAddress;
+//	}
 	
 	private String getDiscoveryManagerInformation() {
-		String discoveryString = "DiscoveryManager information:\n";
+		StringBuffer discoveryStringBuffer = new StringBuffer();
+		discoveryStringBuffer.append("DiscoveryManager information:\n");
 		
 		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 		if (devices == null || devices.size() <= 0) {
-			return discoveryString + "No devices discovered - map is 0 \n";
+			return discoveryStringBuffer + "No devices discovered - map is 0 \n";
 		}
 		
 		String offline = "Offline devices %d: ";
@@ -312,10 +313,10 @@ public class ToolsFragment extends BaseFragment implements OnClickListener, Diag
 			case CONNECTED_REMOTELY: cpp +=  "\n  - " + device.getName() + "(" + device.getEui64()+ "), "; break;
 			}
 		}
-		discoveryString += String.format(offline, offline.length() - offline.replace(",", "").length()) + "\n";
-		discoveryString += String.format(local, local.length() - local.replace(",", "").length()) + "\n";
-		discoveryString += String.format(cpp, cpp.length() - cpp.replace(",", "").length()) + "\n";
-		return discoveryString;
+		discoveryStringBuffer.append(String.format(offline, offline.length() - offline.replace(",", "").length()) + "\n");
+		discoveryStringBuffer.append(String.format(local, local.length() - local.replace(",", "").length()) + "\n");
+		discoveryStringBuffer.append(String.format(cpp, cpp.length() - cpp.replace(",", "").length()) + "\n");
+		return discoveryStringBuffer.toString();
 	}
 	
 	private void simulateCrash() {
