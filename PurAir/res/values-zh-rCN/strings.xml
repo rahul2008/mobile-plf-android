@@ -215,10 +215,10 @@
     <string name="outdoor_analysis_detail2_head100">在最近 7 天，飞利浦智能空气净化器将室内空气评为 \'%s\' 的数量，室外传感器将室外空气评为  的数量</string>
     <string name="outdoor_analysis_detail_head2">如果 1&#8211;2 级持续 1 小时或更长时间，则预计 PM2.5 水平会低于中国 AQI 规定的 75 微克/u002F立方米 的室外空气标准。如果 2 级以上持续 1 小时或更长时间，则预计 PM2.5 级别会高于中国 AQI 规定的 75 微克/u002F立方米的室外空气标准。</string>
     <string name="outdoor_analysis_detail_head3">因为没有室内 PM2.5 标准，所以未显示室内 PM2.5 水平。 飞利浦智能空气净化器可测量室内和室外 PM2.5 水平。 不过，室外和室内空气质量具有关联性：室内 PM2.5 水平越高，与室外 PM2.5 水平的关联就越密切。</string>
-    <string name="pm25">PM2.5</string>
-    <string name="pm10">PM10</string>
-    <string name="so2">SO2</string>
-    <string name="no2">NO2</string>
+<!--     <string name="pm25">PM2.5</string> -->
+<!--     <string name="pm10">PM10</string> -->
+<!--     <string name="so2">SO2</string> -->
+<!--     <string name="no2">NO2</string> -->
     <!-- Notifications -->
     <string name="notifications_indoor_title">室内空气水平</string>
     <string name="notifications_indoor_AQI_desc">当家中的空气质量超过所设置的水平时便会通知您。</string>
@@ -396,7 +396,7 @@
     <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
     
     <!-- Tools fragments -->
-    <string name="submit">提交</string>
+<!--     <string name="submit">提交</string> -->
     <!-- Pairing -->
     <string name="pair_title">遥控器</string>
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
@@ -427,7 +427,7 @@
     <string name="firmware_update">固件更新</string>
     <string name="firmware_download_failed">固件下载失败！</string>
     <string name="i">i</string>
-    <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string>
+<!--     <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string> -->
     <string name="firmware_download_info">您的智控空气净化器正在更新其固件。请稍候，请不要关闭智控空气净化器</string>
     <string name="firmware_failed_msg">请确保您的 %s 已通电并已连接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的固件安装失败。</string>
@@ -435,13 +435,13 @@
     <string name="firmware_install_success">Successfully installed new firmware</string>
     <string name="new_firmware">新固件</string>
     <string name="firmware_version_txt">固件版本</string>
-    <string name="releasedate_txt">释放日期</string>
-    <string name="release_notes_txt">版本注释</string>
-    <string name="firmware_update_successful">固件更新成功！</string>
+<!--     <string name="releasedate_txt">释放日期</string> -->
+<!--     <string name="release_notes_txt">版本注释</string> -->
+<!--     <string name="firmware_update_successful">固件更新成功！</string> -->
     <string name="firmware_current_version">当前版本： </string>
     <string name="firmware_new_version">新版本： </string>
-    <string name="release_notes_detailedtxt">Release notes description</string>
-    <string name="release_notes_detailedtxt2">需要更新应用程序:\n</string>
+<!--     <string name="release_notes_detailedtxt">Release notes description</string> -->
+<!--     <string name="release_notes_detailedtxt2">需要更新应用程序:\n</string> -->
     <string name="installing_firmware_step">步骤 2（共 2 步）</string>
     <string name="downloading_firmware_step">步骤 1（共 2 步）</string>
     <string name="downloading_firmware_for_purifier_msg">正在下载  %s 版本的固件</string>
