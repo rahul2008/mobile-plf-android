@@ -694,11 +694,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		final PurAirDevice purifier = getCurrentPurifier();
 		
 		ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived");
-		
-		if(null != purifier.getFirmwarePortInfo() && FirmwareState.IDLE != purifier.getFirmwarePortInfo().getState()) {
-			ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived Purifier not in idle state, disable right menu");
-			disableRightMenuControls();
-		}
 	}
 	
 	@Override

@@ -84,6 +84,13 @@ public class JSONBuilder {
 		return builder.toString() ;
 	}
 
+	public static String getPublishEventBuilderForSubscribeFirmware(String key, String value) {
+		StringBuilder builder = new StringBuilder("{ \"product\":\"0\",\"port\":\"firmware\",\"data\":{") ;
+		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
+		builder.append(",\"ttl\":3360}}") ;		
+		return builder.toString() ;
+	}
+	
 	public static String getPublishEventBuilderForScheduler(String key, String value) {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"0\",\"port\":\"schedules\",\"data\":{} }") ;
 		return builder.toString() ;
