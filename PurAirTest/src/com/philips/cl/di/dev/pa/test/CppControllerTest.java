@@ -74,9 +74,9 @@ public class CppControllerTest extends InstrumentationTestCase {
 		String data = "valid dcs event";
 		String eui64 = "valid eui64";
 		controller.setDCSEventListener(listener);
-		controller.notifyDCSListener(data, eui64, null);
+		controller.notifyDCSListener(data, eui64, "CHANGE");
 		
-		verify(listener).onDCSEventReceived(data, eui64, null);
+		verify(listener).onDCSEventReceived(data, eui64, "CHANGE");
 	}
 	
 	
