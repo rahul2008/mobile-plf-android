@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.registration;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,9 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 
 public class SignedInFragment extends BaseFragment {
 	
+	private static final String SHARED_PREFERENCE_NAME = "StartFlowPreferences";
+	private static final String SHARED_PREFERENCE_FIRST_USE = "FirstUse";
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -24,7 +29,10 @@ public class SignedInFragment extends BaseFragment {
 			
 			@Override
 			public void onClick(View v) {
-				((UserRegistrationActivity)getActivity()).closeUserRegistration();
+				SharedPreferences preferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+				boolean firstUse = preferences.getBoolean(SHARED_PREFERENCE_FIRST_USE, true);
+
+				((UserRegistrationActivity)getActivity()).closeUserRegistration(firstUse);
 			}
 		});
 		

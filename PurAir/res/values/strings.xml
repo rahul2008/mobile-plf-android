@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Smart Air</string>
     <string name="dashboard_title">Smart Air Purifier</string>
@@ -525,4 +525,32 @@
     <string name="wifi_enable_title_txt">Your Wifi is switched off</string>
     <string name="wifi_enable_msg_txt">Please go to your settings or swipe-up menu and enable wifi</string>
     <string name="wifi_enable_button_txt">Go to settings</string>
+    <!-- Start flow -->
+    <string name="no_internet_title">No internet</string>
+    <string name="no_internet_text">We need a working internet connection to continue</string>
+    <string name="location_services_title">Location services</string>
+    <string name="location_services_text">We would like to use your location to give you real-time air quality information fro where you are</string>
+    <string name="location_services_turned_off_title">Location sevices are turned off</string>
+    <string name="location_services_turned_off_text">Location services will make it easier for you to indicate where you are. Then we can give you real-time air quality updates</string>
+    <string name="no_wifi_title">No wifi</string>
+    <string name="no_wifi_text">We need a working wifi connection to continue</string>
+    <string name="do_not_allow">Do not allow</string>
+    <string name="allow">Allow</string>
+    <string name="turn_it_on">Turn it on</string>
+    <string name="welcome">Welcome</string>
+    <string name="healthy_air_always">Healthy air, always</string>
+    <string name="connect_your_purifier">Connect your purifier</string>
+    <string name="benefits_of_the_purifier">Benefits of the Air purifier ></string>
+    <string name="did_you_know">Did you know?</string>
+    <string name="did_you_know_text">This app can give you AQI of different locations, as well as other information about air quality</string>
+    <string name="continue_without_smart_air_purifier">Continue without Smart Air Purifier</string>
+    <string name="purifier_connected_to_wlan">There is at least one Smart Air Purifier connected to your WLAN %1$s</string>
+    <string name="or_add_new_purifier">Or, add a new Smart Air Purifier ></string>
+    <string name="add_that_one">Add that one</string>
+    <string name="which_purifier_to_connect">Which Smart Air Purifier would you like to connect?</string>
+    <string name="searching">Searching for Smart Air Purifiers</string>
+    <string name="are_you_adding">Are you adding a new Air Purifier?</string>
+    <string name="your_new_purifier">Your Smart Air Purifier is new, if it is not yet connected to your home network.</string>
+    <string name="yes_it_is_new">Yes, it is new</string>
+    <string name="no_already_connected">No, it is already connected</string>
 </resources>

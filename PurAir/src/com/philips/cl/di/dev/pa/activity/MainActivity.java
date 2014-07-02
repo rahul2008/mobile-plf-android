@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -61,6 +62,7 @@ import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.PairingDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
+import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
@@ -89,6 +91,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private static final String PREFS_NAME = "AIRPUR_PREFS";
 //	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
+	private static final String SHARED_PREFERENCE_NAME = "StartFlowPreferences";
+	private static final String SHARED_PREFERENCE_FIRST_USE = "FirstUse";
 
 	private static int screenWidth, screenHeight;
 
@@ -125,6 +129,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
+	private Editor mEditor;
 	private int mVisits;
 
 //	private SharedPreferences outdoorLocationPrefs;
@@ -188,12 +193,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		ivAirStatusBackground = (ImageView) findViewById(R.id.iv_rm_air_status_background);
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
 		initFilterStatusViews();
-		
-		getSupportFragmentManager().beginTransaction()
-				.add(R.id.llContainer, getDashboard())
-				.addToBackStack(null)
-				.commit();
 
+		showFirstFragment();
+		
 //		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
 //		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
 //		outdoorLocationsList = new ArrayList<String>();
@@ -202,12 +204,13 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 //			outdoorLocationsList.add(outdoorLocationsMap.get("" + i));
 //		}
 //		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
-
+		
 		initializeCPPController();
 		
 		initializeFirstPurifier();
 		
 		checkForUpdatesHockeyApp();
+		
 	}
 	
 	@Override
@@ -221,7 +224,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-//		checkForCrashesHockeyApp();
+		checkForCrashesHockeyApp();
 	}
 
 	@Override
@@ -271,23 +274,46 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				&& android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
 			invalidateOptionsMenu();
 		}
-
+		
 		if (mLeftDrawerOpened || mRightDrawerOpened) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
 			mLeftDrawerOpened = false;
 			mRightDrawerOpened = false;
+		} else if (fragment instanceof StartFlowVirginFragment) {
+			finish();
 		} else if (!(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			showFragment(getDashboard());
-			setDashboardActionbarIconVisible();
-			setTitle(getString(R.string.dashboard_title));
+			showFirstFragment();
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
 			finish();
+		}
+	}
+	
+	private void showFirstFragment() {
+		mPreferences = getSharedPreferences(SHARED_PREFERENCE_NAME, MODE_PRIVATE);
+		
+		// Check if this is the first use
+		boolean firstUse = mPreferences.getBoolean(SHARED_PREFERENCE_FIRST_USE, true);
+		
+		if (firstUse) {
+			// TODO store only after successful added purifier to your app
+//			mEditor = mPreferences.edit();
+//			mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
+//			mEditor.commit();
+			
+			getSupportFragmentManager().beginTransaction()
+					.add(R.id.llContainer, new StartFlowVirginFragment())
+					.addToBackStack(null)
+					.commit();
+		} else {
+			showFragment(getDashboard());
+			setDashboardActionbarIconVisible();
+			setTitle(getString(R.string.dashboard_title));
 		}
 	}
 
@@ -989,4 +1015,5 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	   // TODO Remove this for store builds!
 	   UpdateManager.register(this, AppConstants.HOCKEY_APPID);
 	 }
+
 }

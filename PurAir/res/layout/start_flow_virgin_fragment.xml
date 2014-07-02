@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    <RelativeLayout 
+        android:layout_width="wrap_content"
+    	android:layout_height="0px"
+    	android:layout_weight="1">
+        
+		<com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/start_flow_virgin_tv_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="16dp"
+			android:lineSpacingExtra="5dp"
+			android:text="@string/healthy_air_always"
+			android:textColor="@color/gray"
+			android:textSize="20sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:gravity="center_horizontal"
+			android:layout_alignParentTop="true"/>
+
+	   <Button
+		    android:id="@+id/start_flow_virgin_btn_connect"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:paddingRight="16dp"
+		    android:paddingLeft="16dp"
+		    android:background="@drawable/blue_button_selector"
+		    android:text="@string/connect_your_purifier"
+		    android:textColor="@color/white"
+		    android:textSize="14sp"
+		    android:layout_centerHorizontal="true"
+		    android:layout_below="@id/start_flow_virgin_tv_title"/>
+
+	   <ImageButton
+	       android:id="@+id/start_flow_virgin_btn_play"
+	       android:layout_width="wrap_content"
+	       android:layout_height="wrap_content"
+	       android:layout_centerHorizontal="true"
+	       android:layout_marginTop="20dp"
+	       android:contentDescription="@string/img_description"
+	       android:src="@drawable/progress_circle" 
+	       android:layout_below="@id/start_flow_virgin_btn_connect"/>
+	   
+	   <com.philips.cl.di.dev.pa.view.FontTextView
+			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+			android:id="@+id/start_flow_virgin_tv_benefits"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:lineSpacingExtra="5dp"
+			android:text="@string/benefits_of_the_purifier"
+			android:textColor="@color/gray"
+			android:textSize="12sp"
+			custom:fontAssetName="fonts/gillsans.ttf"
+			android:gravity="center_horizontal"
+			android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+	<include 
+	    android:id="@+id/start_flow_bottom_bar_include"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		layout="@layout/start_flow_bottom_bar"/>
+    
+</LinearLayout>
+

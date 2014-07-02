@@ -34,6 +34,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 	public DIUserProfile mDIUserProfile;
 	private User mUser;
 	private ProgressDialog mProgressDialog;
+	private static UserRegistrationChanged mListener = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -196,7 +197,18 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		mDIUserProfile = profile;
 	}
 	
-	public void closeUserRegistration() {
+	public void closeUserRegistration(boolean firstUse) {
+		if(mListener != null) {
+			mListener.userRegistrationClosed(firstUse);
+		}
 		finish();
+	}
+	
+	public static void setUserRegistrationChangedListener(UserRegistrationChanged listener) {
+		mListener = listener;
+	}
+	
+	public interface UserRegistrationChanged {
+		public void userRegistrationClosed(boolean firstUse);
 	}
 }
