@@ -57,6 +57,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		SubscriptionHandler.getInstance().setSubscriptionListener(this);
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
+		mDeviceHandler = new DeviceHandler(this) ;
 	}
 	
 	public void setSchedulerListener(SchedulerListener schedulerListener) {
@@ -68,6 +69,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
+			mDeviceHandler.stopDeviceThread() ;
 			mCurrentPurifier.deleteObserver(this);
 		}
 		stopCurrentSubscription();
@@ -113,12 +115,14 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	// TODO refactor into new architecture
 	public void setPurifierDetails(String key, String value, PURIFIER_EVENT purifierEvent) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
-		mDeviceHandler = new DeviceHandler(this, purifierEvent) ;
+		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		mDeviceHandler.setPurifierDetails(key, value, getCurrentPurifier());
 	}
 	
 	@Override
 	public void onLocalEventReceived(String encryptedData, String purifierIp) {
+		ALog.i("UIUX", "Check if the thread is running: "+mDeviceHandler.isDeviceThreadRunning()) ;
+		if( mDeviceHandler.isDeviceThreadRunning()) return ;
 		ALog.d(ALog.PURIFIER_MANAGER, "Local event received");
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getIpAddress() == null || !purifier.getIpAddress().equals(purifierIp)) {
@@ -136,6 +140,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	@Override
 	public void onRemoteEventReceived(String data, String purifierEui64) {
+		if( mDeviceHandler.isDeviceThreadRunning()) return ;
 		ALog.d(ALog.PURIFIER_MANAGER, "Remote event received");
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || !purifier.getEui64().equals(purifierEui64)) {

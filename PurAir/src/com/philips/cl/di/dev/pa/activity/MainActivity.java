@@ -15,6 +15,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -135,6 +137,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private boolean isPairingDialogShown;
 
 	private ProgressDialog progressDialog;
+	private ProgressBar airPortTaskProgress;
+
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -339,9 +343,17 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
 		addLocation.setOnClickListener(actionBarClickListener);
+		airPortTaskProgress = (ProgressBar) viewActionbar.findViewById(R.id.actionbar_progressBar);
+
 		actionBar.setCustomView(viewActionbar);
 		
 	}
+	
+	public void setVisibilityAirPortTaskProgress(int state) {
+		airPortTaskProgress.setVisibility(state);
+	}
+
+
 	
 	private OnClickListener actionBarClickListener = new OnClickListener() {
 		
@@ -665,7 +677,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
-		
+		if( purifierEvent == PURIFIER_EVENT.DEVICE_CONTROL) {
+			// TODO - Update the right off canvas connection status
+		}
 	}
 	
 	private void hideFirmwareUpdateHomeIcon() {
@@ -698,6 +712,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 				float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
 				setRightMenuAQIValue(indoorAQIUsableValue);
 				rightMenuClickListener.setSensorValues(info);
@@ -721,6 +736,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 				tvConnectionStatus.setText(getString(R.string.not_connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));

@@ -223,7 +223,7 @@ public class ICPCallbackHandler implements CallbackHandler
 
 	public void publishEventCB(int status, ICPClient obj)
 	{
-		listener.onICPCallbackEventOccurred(7,status,obj) ;
+		listener.onICPCallbackEventOccurred(Commands.PUBLISH_EVENT,status,obj) ;
 	}
 
 	public void cancelEventCB(int status, ICPClient obj)

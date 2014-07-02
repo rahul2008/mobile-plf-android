@@ -53,6 +53,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private EventSubscription eventSubscription; 
 	private DCSEventListener dcsEventListener;
+	private DCSResponseListener dcsResponseListener ;
 	private boolean isDCSRunning;
 	
 	//DCS client state
@@ -257,6 +258,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		this.dcsEventListener = dcsEventListener;
 	}
 
+	public void setDCSResponseListener(DCSResponseListener dcsResponseListener) {
+		this.dcsResponseListener = dcsResponseListener ;
+	}
 	/** Subcribe event methods **/
 	/**
 	 * This method will subscribe to events
@@ -321,8 +325,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 	
 	public void notifyDCSListener(String data, String fromEui64, String action) {
-		if (data == null || dcsEventListener == null) return;
-		dcsEventListener.onDCSEventReceived(data, fromEui64, action);
+		if( action == null ) return ;
+		if( action.equalsIgnoreCase("RESPONSE") && dcsResponseListener != null) {
+			dcsResponseListener.onDCSResponseReceived(data) ;
+		}
+		else {
+			if (data == null || dcsEventListener == null) return;		
+			dcsEventListener.onDCSEventReceived(data, fromEui64, action);
+		}
 	}
 
 
@@ -434,7 +444,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				notifySignOnListeners(false);
 			}
 			break;
-			
+		case Commands.PUBLISH_EVENT:
+			EventPublisher eventPublisher = (EventPublisher) obj;
+			if (status == Errors.SUCCESS) {
+				ALog.i(ALog.ICPCLIENT, "Publish event message Id: "+eventPublisher.getMessageId()) ;
+			}
+			else {
+				ALog.i(ALog.ICPCLIENT, "Publish event message Id: "+eventPublisher.getMessageId()) ;
+			}
+			break;
 		case Commands.KEY_PROVISION:
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.KPS, "PROVISION-SUCCESS");

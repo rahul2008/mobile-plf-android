@@ -1,16 +1,19 @@
 package com.philips.cl.di.dev.pa.util;
 
+import java.util.Hashtable;
+import java.util.Set;
+
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 
 public class JSONBuilder {
-	
+
 	public static final int FAN_SPEED = 2 ;
 	public static final int POWER_CONTROL = 1 ;
 	public static final int CHILD_LOCK = 3 ;
 	public static final int INDICATOR_LIGHT = 4 ;
-	
+
 	public static String getDICommBuilder(String key, String value, PurAirDevice purifier) {
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
@@ -19,7 +22,43 @@ public class JSONBuilder {
 		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier) ;
 		return dataToSend ;
 	}
-	
+
+	public static String getAirPortDICommBuilder(Hashtable<String, String> hashtable, PurAirDevice purifier) {
+		if (hashtable == null || hashtable.size() <= 0) return null;
+		StringBuilder builder = new StringBuilder("{") ;
+		Set<String> keySet = hashtable.keySet();
+		int index = 1 ;
+		for (String key : keySet) {
+			builder.append("\"").append(key).append("\"").append(":")
+			.append("\"").append(hashtable.get(key)).append("\"");
+			if( index < keySet.size() ) {
+				builder.append(",") ;
+			}
+			index ++ ;
+		}
+		builder.append("}") ;
+		ALog.i(ALog.DEVICEHANDLER, builder.toString()) ;
+		return new DISecurity(null).encryptData(builder.toString(), purifier);
+	}
+
+	public static String getAirPortPublishEventBuilder(Hashtable<String, String> hashtable) {
+		if (hashtable == null || hashtable.size() <= 0) return null;
+		StringBuilder builder = new StringBuilder("{ \"product\":\"1\",\"port\":\"air\",\"data\":{") ;
+		Set<String> keySet = hashtable.keySet();
+		int index = 1 ;
+		for (String key : keySet) {
+			builder.append("\"").append(key).append("\"").append(":")
+			.append("\"").append(hashtable.get(key)).append("\"");
+			if( index < keySet.size() ) {
+				builder.append(",") ;
+			}
+			index ++ ;
+		}
+		builder.append("}}") ; 
+		ALog.i(ALog.DEVICEHANDLER, builder.toString()) ;
+		return builder.toString() ;
+	}
+
 	public static String getDICommBuilderForSubscribe(String subscriberId, int ttl, PurAirDevice purifier) {
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append("subscriber").append("\"").append(":").append("\"").append(subscriberId).append("\",") ;
@@ -37,42 +76,42 @@ public class JSONBuilder {
 		builder.append("}}") ;		
 		return builder.toString() ;
 	}
-	
+
 	public static String getPublishEventBuilderForSubscribe(String key, String value) {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"1\",\"port\":\"air\",\"data\":{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
 		builder.append(",\"ttl\":3360}}") ;		
 		return builder.toString() ;
 	}
-	
+
 	public static String getPublishEventBuilderForScheduler(String key, String value) {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"0\",\"port\":\"schedules\",\"data\":{} }") ;
 		return builder.toString() ;
 	}
-	
+
 	public static String getPublishEventBuilderForAddScheduler(String data) {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"0\",\"port\":\"schedules\",\"data\": ") ;
 		builder.append(data).append("}") ;
 		return builder.toString() ;
 	}
-	
+
 	public static String getPublishEventBuilderForEditScheduler(String data, int schedulerNumber) {
 		String editScheduler = "{ \"product\":\"0\",\"port\":\"schedules/"+schedulerNumber+"\",\"data\":" + data +"}" ;
 		return editScheduler ;
 	}
-	
+
 	public static String getPublishEventBuilderForDeleteScheduler(int scheduleNumber) {
 		String deleteScheduler = "{ \"product\":\"0\",\"port\":\"schedules/"+scheduleNumber+"\",\"data\": {}}" ;
-		
+
 		return deleteScheduler ;
 	}
-	
+
 	public static String getPublishEventBuilderForGetSchedulerDetails(int scheduleNumber) {
 		String deleteScheduler = "{ \"product\":\"0\",\"port\":\"schedules/"+scheduleNumber+"\",\"data\": {}}" ;
-		
+
 		return deleteScheduler ;
 	}
-	
+
 	public static String getDICOMMPairingJSON(String appEui64, String secretKey) {
 		StringBuilder builder = new StringBuilder("{\"Pair\":[\"");
 		builder.append(AppConstants.APP_TYPE) ;
@@ -80,10 +119,10 @@ public class JSONBuilder {
 		builder.append(appEui64);
 		builder.append("\",\"").append(secretKey);
 		builder.append("\"]}");
-		
+
 		return builder.toString() ;
 	}
-	
+
 	public static String getSchedulesJson(String time, String fanSpeed, String days, boolean enabled) {
 		ALog.i(ALog.SCHEDULER, time+":"+fanSpeed+":"+days) ;
 		StringBuilder builder = new StringBuilder("{") ;
@@ -100,7 +139,7 @@ public class JSONBuilder {
 		ALog.i(ALog.SCHEDULER, dataToSend) ;
 		return dataToSend ;
 	}
-	
+
 	public static String getDICommUIBuilder(PurAirDevice purifier) {
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append("setup").append("\"").append(":").append("\"").append("inactive").append("\",") ;

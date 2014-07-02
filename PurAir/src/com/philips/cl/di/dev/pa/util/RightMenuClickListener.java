@@ -397,6 +397,7 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	private void controlDevice(String key, String value) {
+		mainActivity.setVisibilityAirPortTaskProgress(View.VISIBLE);
 		PurifierManager.getInstance().setPurifierDetails(key, value, PURIFIER_EVENT.DEVICE_CONTROL);
 	}
 	
