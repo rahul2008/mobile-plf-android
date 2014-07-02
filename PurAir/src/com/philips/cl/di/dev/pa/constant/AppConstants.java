@@ -197,6 +197,8 @@ public class AppConstants {
 
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
 	
+	public static final String NO_PURIFIER_FLOW = "no_purifier_flow";
+	
 	/** DEMO MODE */
 	public final static String DEMO_MODE_PREF = "demo_mode_pref";
 	public final static String DEMO_MODE_ENABLE_KEY ="demo_mode_enable_key";

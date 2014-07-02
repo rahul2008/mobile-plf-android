@@ -12,10 +12,12 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
@@ -31,11 +33,14 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
+	private RelativeLayout noPurifierFlowLayout;
 	
 	private OutdoorPagerAdapter outdoorPagerAdapter;
 	private IndoorPagerAdapter indoorPagerAdapter;
 	
 	private LinearLayout takeATourPopup;
+	
+	private boolean mNoPurifierMode;
 	
 	@Override
 	public void onResume() {
@@ -83,9 +88,24 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	private void initDashboardViewPager() {
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
+		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
-		indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager());
-		indoorViewPager.setAdapter(indoorPagerAdapter);
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
+		} else {
+			mNoPurifierMode = false;
+		}
+				
+		if(mNoPurifierMode) {
+			noPurifierFlowLayout.setVisibility(View.VISIBLE);
+			indoorViewPager.setVisibility(View.INVISIBLE);
+		} else {
+			noPurifierFlowLayout.setVisibility(View.GONE);
+			indoorViewPager.setVisibility(View.VISIBLE);
+			indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager());
+			indoorViewPager.setAdapter(indoorPagerAdapter);
+		}		
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
 		int count = 1 ;

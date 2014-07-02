@@ -14,7 +14,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true" />
-
+        
+        <RelativeLayout 
+            android:id="@+id/hf_indoor_dashboard_rl_no_purifier"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/home_indoor_bg_2x"
+            android:visibility="gone">
+	        <com.philips.cl.di.dev.pa.view.FontTextView
+	            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+	            android:layout_width="match_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_margin="16dp"
+	            android:layout_centerInParent="true"
+	            android:text="@string/how_clean_is_your_air"
+	            android:textColor="@color/gray"
+	            android:textSize="@dimen/title_text_size_medium"
+	            custom:fontAssetName="fonts/gillsans.ttf" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout

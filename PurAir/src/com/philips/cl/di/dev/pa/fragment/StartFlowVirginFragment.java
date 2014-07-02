@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -13,7 +15,6 @@ import android.location.LocationManager;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -123,6 +124,20 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		}
 
 	}
+	
+	private void startHomeScreenWithoutAPLayout() {
+		mBundle.clear();
+		mBundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
+		
+		HomeFragment homeFragment = new HomeFragment();
+		homeFragment.setArguments(mBundle);
+		
+		getActivity().getSupportFragmentManager()
+			.beginTransaction()
+			.replace(R.id.llContainer, homeFragment)
+			.addToBackStack(null)
+			.commit();
+	}
 
 	private StartFlowListener mStartFlowListener = new StartFlowListener() {
 		
@@ -142,15 +157,13 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			if(enabledProviders.isEmpty()) {
 				showLocationServiceTurnedOffDialog();
 			} else {
-				// TODO getlocation and show Home no AP fragment (Outdoor info only)
-				Log.e("TEMP", "Show Home no AP fragment (Outdoor info only)");
+				startHomeScreenWithoutAPLayout();
 			}
 		}
 		
 		@Override
 		public void locationServiceTurnOnClicked(DialogFragment dialog) {
-			// TODO getlocation and show Home no AP fragment (Outdoor info only)
-			Log.e("TEMP", "Show Home no AP fragment (Outdoor info only)");
+			startHomeScreenWithoutAPLayout();
 		}
 		
 		@Override
