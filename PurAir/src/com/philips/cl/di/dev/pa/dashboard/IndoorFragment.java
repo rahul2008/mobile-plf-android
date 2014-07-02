@@ -233,9 +233,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onAirPurifierEventReceived() {
 		if (getActivity() == null) return;
 		
+		ALog.i(ALog.DASHBOARD, "IndoorFragment$onAirPurifierEventReceived");
+		
 		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
-		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED || 
-				(null != purifier.getFirmwarePortInfo() && FirmwareState.IDLE != purifier.getFirmwarePortInfo().getState())) {
+		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
 			ALog.i(ALog.DASHBOARD, "onAirPurifierEventReceived ");
 			return ;
 		}
@@ -252,6 +253,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onFirmwareEventReceived() {
 		if (getActivity() == null || !(getActivity() instanceof MainActivity)) return;
 
+		ALog.i(ALog.DASHBOARD, "IndoorFragment$onFirmwareEventReceived");
+		
 		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		if (purifier == null) return;
 		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
@@ -259,7 +262,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		updateFirmwareUI(firmwarePortInfo);
 	}
 	
-//	private void updateFirmwareUI(final boolean showFirmwareUI, final String status, final int progressVisibility, final int progress, final int infoVisibility) {
 	private void updateFirmwareUI(FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
 		boolean showFirmwareUI = false;
@@ -285,20 +287,16 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 
 		case ERROR:
-			if(null != dialogFragment && !dialogFragment.isVisible()) {
-				dialogFragment = AlertDialogFragment.newInstance(R.string.firmware_download_failed, R.string.firmware_failed_msg, R.string.ok, R.string.help);
-				dialogFragment.setOnClickListener(IndoorFragment.this);
-				dialogFragment.show(getActivity().getSupportFragmentManager(), getTag());
-			}
+//			if(null != dialogFragment && !dialogFragment.isVisible()) {
+//				dialogFragment = AlertDialogFragment.newInstance(R.string.firmware_download_failed, R.string.firmware_failed_msg, R.string.ok, R.string.help);
+//				dialogFragment.setOnClickListener(IndoorFragment.this);
+//				dialogFragment.show(getActivity().getSupportFragmentManager(), getTag());
+//			}
+			showFirmwareUI = false;
 			return ;
 			
 		case IDLE:
-			if(FirmwareState.PROGRAMMING == prevState) {
-				showFirmwareUI = true;
-				status = getString(R.string.firmware_install_success) + " " + firmwarePortInfo.getVersion();
-			} else {
-				
-			}
+			showFirmwareUI = false;
 			break;
 
 		case CANCELING:
@@ -313,6 +311,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		prevState = firmwarePortInfo.getState() ;
 	}
 	private void updateFirmwareUI(final boolean showFirmwareUI, final String status, final int progressVisibility, final int progress, final int infoVisibility) {
+		ALog.i(ALog.DASHBOARD, "IndoorFragment$updateFirmwareUI showFirmwareUI " + showFirmwareUI);
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
@@ -323,6 +322,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 					firmwareProgress.setVisibility(progressVisibility);
 					firmwareProgress.setProgress(progress);
 					firmwareInfoButton.setVisibility(infoVisibility);
+				} else {
+					hideFirmwareUpdatePopup();
 				}
 			}
 		});
