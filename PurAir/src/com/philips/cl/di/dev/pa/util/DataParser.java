@@ -94,7 +94,12 @@ public class DataParser {
 		Gson gson = new GsonBuilder().create();
 
 		try {
-			FirmwarePortInfo firmwareEventDto = gson.fromJson(dataToParse, FirmwarePortInfo.class);
+			JSONObject jsonObj = new JSONObject(dataToParse) ;
+			JSONObject firmwareEventJson = jsonObj.optJSONObject("data") ;
+			if( firmwareEventJson != null ) {
+				jsonObj = firmwareEventJson ;
+			}
+			FirmwarePortInfo firmwareEventDto = gson.fromJson(jsonObj.toString(), FirmwarePortInfo.class);
 			if (firmwareEventDto.isValid()) {
 				return firmwareEventDto;
 			}
