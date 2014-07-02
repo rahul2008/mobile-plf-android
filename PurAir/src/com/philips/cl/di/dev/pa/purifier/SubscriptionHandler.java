@@ -126,6 +126,10 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 			CPPController.getInstance(PurAirApplication.getAppContext()).
 			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId), 
 					AppConstants.DI_COMM_REQUEST, AppConstants.SUBSCRIBE, subscriberId,"", 20,CPP_SUBSCRIPTIONTIME, purifier.getEui64()) ;
+			
+			CPPController.getInstance(PurAirApplication.getAppContext()).
+			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribeFirmware(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId), 
+					AppConstants.DI_COMM_REQUEST, AppConstants.SUBSCRIBE, subscriberId,"", 20,CPP_SUBSCRIPTIONTIME, purifier.getEui64()) ;
 		}
 	}
 	
@@ -140,6 +144,10 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		else {
 			CPPController.getInstance(PurAirApplication.getAppContext()).
 			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId),
+					AppConstants.DI_COMM_REQUEST, AppConstants.UNSUBSCRIBE, subscriberId,"", 20, CPP_SUBSCRIPTIONTIME, purifier.getEui64()) ;
+			
+			CPPController.getInstance(PurAirApplication.getAppContext()).
+			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribeFirmware(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId),
 					AppConstants.DI_COMM_REQUEST, AppConstants.UNSUBSCRIBE, subscriberId,"", 20, CPP_SUBSCRIPTIONTIME, purifier.getEui64()) ;
 		}
 	}
