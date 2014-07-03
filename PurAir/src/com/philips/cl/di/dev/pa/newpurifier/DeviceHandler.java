@@ -3,10 +3,7 @@ package com.philips.cl.di.dev.pa.newpurifier;
 import java.net.HttpURLConnection;
 import java.util.Hashtable;
 
-import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -140,18 +137,6 @@ public class DeviceHandler implements ServerResponseListener {
 				notifyListener() ;
 		};
 	};
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	public void setScheduleDetails(String dataToSend, PurAirDevice purifier,SCHEDULE_TYPE scheduleType, int scheduleNumber) {
 		switch (purifier.getConnectionState()) {
