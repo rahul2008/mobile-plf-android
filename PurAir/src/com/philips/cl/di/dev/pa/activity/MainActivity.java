@@ -16,7 +16,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -107,6 +106,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private TextView tvAirStatusMessage;
 	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
+	private ImageView ivConnectionError;
 	
 	/**
 	 * Action bar
@@ -192,6 +192,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		tvAirStatusMessage = (TextView) findViewById(R.id.tv_rm_air_status_message);
 		ivAirStatusBackground = (ImageView) findViewById(R.id.iv_rm_air_status_background);
 		ivConnectedImage = (ImageView) findViewById(R.id.iv_connection_status);
+		ivConnectionError =  (ImageView) findViewById(R.id.iv_connection_error);
 		initFilterStatusViews();
 
 		showFirstFragment();
@@ -501,6 +502,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
+				ivConnectionError.setVisibility(View.GONE);
 				switch (newState) {
 				case CONNECTED_LOCALLY:
 					tvConnectionStatus.setText(getString(R.string.connected));
@@ -698,8 +700,13 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
+		if (getCurrentPurifier() == null 
+				|| getCurrentPurifier().getConnectionState() == ConnectionState.DISCONNECTED) return;
+	
 		if( purifierEvent == PURIFIER_EVENT.DEVICE_CONTROL) {
-			// TODO - Update the right off canvas connection status
+			ivConnectionError.setVisibility(View.VISIBLE);
+			tvConnectionStatus.setText(getString(R.string.bad_internet_conn));
+			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_gray_2x));
 		}
 	}
 	
@@ -758,6 +765,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			@Override
 			public void run() {
 				setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
+				ivConnectionError.setVisibility(View.GONE);
 				tvConnectionStatus.setText(getString(R.string.not_connected));
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
@@ -773,7 +781,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			}
 		});
 	}
-
+	
 	private void updateFilterStatus(int preFilterStatus,
 			int multiCareFilterStatus, int activeCarbonFilterStatus,
 			int hepaFilterStatus) {

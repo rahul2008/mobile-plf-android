@@ -37,6 +37,7 @@ public class LocalConnection extends RoutingStrategy {
 			conn.setRequestProperty("content-type", "application/json") ;
 
 			conn.setRequestMethod("PUT");
+			conn.setConnectTimeout(10000);
 			conn.setDoOutput(true);
 			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 			out.write(dataToSend);
