@@ -705,7 +705,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 		if( purifierEvent == PURIFIER_EVENT.DEVICE_CONTROL) {
 			ivConnectionError.setVisibility(View.VISIBLE);
-			tvConnectionStatus.setText(getString(R.string.bad_internet_conn));
+			tvConnectionStatus.setText(getString(R.string.lost_connection));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_gray_2x));
 		}
 	}
