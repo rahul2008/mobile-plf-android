@@ -322,21 +322,12 @@ public class DataParser {
 		if( dataToParse == null ) return null ;
 		try {
 			JSONObject responseObject = new JSONObject(dataToParse);
-			JSONObject airObject = responseObject.getJSONObject("air");
-			
-			Iterator<String> areaIDIterator = airObject.keys();
-			while(areaIDIterator.hasNext()) {
-				String areaID = areaIDIterator.next();
-				JSONObject cityData = airObject.getJSONObject(areaID); //Area code
-				
-				int pm25 = cityData.getJSONObject("p").getInt("p1");
-				int aqi = cityData.getJSONObject("p").getInt("p2");
-				String time = cityData.getJSONObject("p").getString("p9");
+			int pm25 = responseObject.getJSONObject("p").getInt("p1");
+			int aqi = responseObject.getJSONObject("p").getInt("p2");
 
-				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi + " time " + time);
+			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
 
-				outdoorAQIList.add(new OutdoorAQI(pm25, aqi, time, areaID));
-			}
+			outdoorAQIList.add(new OutdoorAQI(pm25, aqi, ""));
 			return outdoorAQIList;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");

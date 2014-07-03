@@ -9,13 +9,11 @@ public class OutdoorAQI {
 
 	private int pm25;
 	private int outdoorAqi;
-	private String time;
 	private String areaID;
 
-	public OutdoorAQI(int p1, int p2, String p9, String areaID) {
+	public OutdoorAQI(int p1, int p2, String areaID) {
 		this.pm25 = p1;
 		this.outdoorAqi = p2;
-		this.time = p9;
 		this.areaID = areaID;
 	}
 
@@ -24,9 +22,6 @@ public class OutdoorAQI {
 	}
 	public int getAQI() {
 		return outdoorAqi;
-	}
-	public String getPublishTime() {
-		return time;
 	}
 	public String getAreaID() {
 		return areaID;

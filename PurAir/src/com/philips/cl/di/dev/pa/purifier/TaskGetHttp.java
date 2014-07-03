@@ -15,12 +15,19 @@ public class TaskGetHttp extends Thread {
 
 	private String url ;
 	private ServerResponseListener listener ;
+	private String areaID ;
 
 	public TaskGetHttp(String url,Context context, ServerResponseListener listener) {
 		ALog.i(ALog.TASK_GET, "Url: " + url);
 		this.url = url ;
 		this.listener = listener ;
 	}
+	
+	public TaskGetHttp(String url,String areaID, Context context, ServerResponseListener listener) {
+		this(url,context,listener) ;
+		this.areaID = areaID ;
+	}
+
 
 	@Override
 	public void run() {
@@ -38,11 +45,9 @@ public class TaskGetHttp extends Thread {
 				inputStream = conn.getInputStream();					
 				result = NetworkUtils.readFully(inputStream) ;
 			}
-			String targetIpAddress = urlConn.getHost();
-
-
+			
 			if ( listener != null ) {
-				listener.receiveServerResponse(responseCode, result, targetIpAddress) ;
+				listener.receiveServerResponse(responseCode, result, areaID) ;
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

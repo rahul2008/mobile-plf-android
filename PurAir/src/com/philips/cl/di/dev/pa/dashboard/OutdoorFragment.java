@@ -86,6 +86,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		
 		if(city.getOutdoorAQI() != null) {
 			OutdoorAQI outdoorAQI = city.getOutdoorAQI();
+			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
 			aqi.setText("" + outdoorAQI.getAQI());
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
