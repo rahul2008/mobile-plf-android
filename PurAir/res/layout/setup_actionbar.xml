@@ -10,6 +10,8 @@
         android:id="@+id/setup_actionbar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
 		android:gravity="center"
 		android:layout_centerVertical="true"
 		android:layout_toLeftOf="@+id/setup_actionbar_cancel_btn"
