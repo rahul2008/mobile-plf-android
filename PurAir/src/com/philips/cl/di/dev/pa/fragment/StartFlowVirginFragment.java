@@ -2,14 +2,6 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.List;
 
-import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
-import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
-import com.philips.cl.di.dev.pa.view.FontTextView;
-
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.wifi.WifiManager;
@@ -21,6 +13,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
+import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowVirginFragment extends BaseFragment implements OnClickListener {
 
