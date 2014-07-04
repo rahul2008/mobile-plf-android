@@ -249,10 +249,11 @@ public class Utils {
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp goodAirQualityList: " + goodAirQualityList);
+		ALog.i(ALog.INDOOR_RDCP, "Rdcp downloaded time: " + Calendar.getInstance().get(Calendar.DATE));
 
 		indoorTrend.setDailyList(dailyAqiValues);
 		indoorTrend.setGoodAirQualityList(goodAirQualityList);
-		
+		indoorTrend.setTimeMin(Calendar.getInstance().getTimeInMillis() / 60000);
 
 		dailyAqiValueMap = null;
 		dailyAqiValueCounterMap = null;
@@ -801,5 +802,13 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return cmaBaseURL;
+	}
+	
+	public static int getTimeDiffInMinite() {
+		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();
+		if( indoorTrendDto == null) return 0;
+		long currTime = Calendar.getInstance().getTimeInMillis() / 60000;
+		int diff = (int) (currTime - indoorTrendDto.getTimeMin());
+		return diff;
 	}
 }

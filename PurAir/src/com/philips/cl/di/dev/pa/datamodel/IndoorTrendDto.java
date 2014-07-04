@@ -7,6 +7,14 @@ public class IndoorTrendDto {
 	private List<Float> hourlyList ;
 	private List<Float> dailyList ;
 	private List<Integer> goodAirQualityList;
+	private long timeMin;
+	
+	public long getTimeMin() {
+		return timeMin;
+	}
+	public void setTimeMin(long timeMin) {
+		this.timeMin = timeMin;
+	}
 	
 	public List<Integer> getGoodAirQualityList() {
 		return goodAirQualityList;

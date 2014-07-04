@@ -1,11 +1,15 @@
 package com.philips.cl.di.dev.pa.test;
 
+import java.util.Calendar;
+
 import junit.framework.TestCase;
 import android.graphics.drawable.Drawable;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class UtilTest extends TestCase {
@@ -236,5 +240,28 @@ public class UtilTest extends TestCase {
 		assertNotNull(weatherDrawable);
 	}
 
-
+	public void testGetTimeDiffInMinite() {
+		long timeCurr = Calendar.getInstance().getTimeInMillis() - 3*60*1000;
+		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();
+		if (indoorTrendDto != null) {
+			indoorTrendDto.setTimeMin(timeCurr);
+			int min = Utils.getTimeDiffInMinite();
+			assertTrue(min >= 3);
+		} else {
+			assertNull(indoorTrendDto);
+		}
+	}
+	
+	public void testGetTimeDiffInMinitePlus() {
+		long timeCurr = Calendar.getInstance().getTimeInMillis() + 3*60*1000;
+		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();
+		if (indoorTrendDto != null) {
+			indoorTrendDto.setTimeMin(timeCurr);
+			int min = Utils.getTimeDiffInMinite();
+			assertTrue(min < 0);
+		} else {
+			assertNull(indoorTrendDto);
+		}
+	}
+		
 }

@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -48,10 +49,10 @@ import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-		PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
+PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 
 	private PurAirDevice currentPurifier;
-	
+
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
@@ -80,7 +81,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	public float lastDayRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, };
-	
+
 	public float last7daysRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 
 	public float last4weeksRDCPVal[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
@@ -95,7 +96,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			ALog.d(ALog.INDOOR_DETAILS, "Not starting indoor activity - Current purifier cannot be null");
 			finish();
 		}
-		
+
 		setContentView(R.layout.activity_trends_indoor);
 		HomeOutdoorData.getInstance().startOutdoorAQITask();
 		coordinates = Coordinates.getInstance(this);
@@ -106,36 +107,49 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		} catch (ClassCastException e) {
 			ALog.e(ALog.INDOOR_DETAILS, "Actionbar: " + e.getMessage());
 		}
+
 		getRDCPValue();
-//		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
-//		if (SessionDto.getInstance().getIndoorTrendDto() == null &&
-//				CPPController.getInstance(this) != null) {
-//				CPPController.getInstance(this).setDownloadDataListener(this) ;
-//				CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
-//		} 
-//		else if( SessionDto.getInstance().getIndoorTrendDto()  != null ) {
-//			hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
-//			dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
-//			goodAirInfos.addAll(SessionDto.getInstance().getIndoorTrendDto().getGoodAirQualityList());
-//			addAqiReading();
-//		}
+
 		if (currentPurifier == null) return;
 		getDataFromDashboard(currentPurifier.getAirPortInfo());
 	}
-	
+
 	private void getRDCPValue() {
-		if (SessionDto.getInstance().getIndoorTrendDto() == null
-				&& CPPController.getInstance(this) != null) {
+		ALog.i(ALog.INDOOR_RDCP, "Downloaded: "+isRdcpDowloadOneHourOld());
+		if( (SessionDto.getInstance().getIndoorTrendDto() == null ||
+				isRdcpDowloadOneHourOld()) && CPPController.getInstance(this) != null) {
 			rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 			CPPController.getInstance(this).setDownloadDataListener(this) ;
 			CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
-		} 
-		else if( SessionDto.getInstance().getIndoorTrendDto()  != null ) {
+		}
+		else {
 			rdcpDownloadProgressBar.setVisibility(View.GONE);
 			hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 			dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 			addGoodAQIIntoList(SessionDto.getInstance().getIndoorTrendDto());
 			addAqiReading();
+		}
+	}
+
+	private boolean isRdcpDowloadOneHourOld() {
+		long prevTimeDiff = Utils.getTimeDiffInMinite();
+		
+		if (prevTimeDiff == 0) return false;
+		
+		if (prevTimeDiff > 60 || prevTimeDiff < -60) return true;
+		
+		Calendar cal = Calendar.getInstance();
+		int currHr = cal.get(Calendar.HOUR_OF_DAY);
+		int currAmPm = cal.get(Calendar.AM_PM);
+	
+		cal.setTimeInMillis(SessionDto.getInstance().getIndoorTrendDto().getTimeMin()* 60*1000);
+		int prevHr = cal.get(Calendar.HOUR_OF_DAY);
+		int prevAmPm = cal.get(Calendar.AM_PM);
+		
+		if (prevAmPm == currAmPm && currHr == prevHr) {
+			return false;
+		}else {
+			return true;
 		}
 	}
 
@@ -145,14 +159,14 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		DiscoveryManager.getInstance().start(null);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 		DiscoveryManager.getInstance().stop();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
-	
+
 	/**
 	 * Initialize UI widget
 	 * */
@@ -185,9 +199,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		barTopName = (FontTextView) findViewById(R.id.indoorDbBarTopName);
 		selectedIndexBottom = (FontTextView) findViewById(R.id.indoorDbIndexBott);
 		selectedIndexBottom.setText(String.valueOf(1));
-		
+
 		rdcpDownloadProgressBar = (ProgressBar) findViewById(R.id.rdcpDownloadProgressBar);
-		
+
 		/**
 		 * Set click listener
 		 * */
@@ -214,8 +228,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
 		actionBar.setCustomView(view);
 	}
-	
-	
+
+
 	/*Sets Action bar title */
 	public void setActionBarTitle(String name) {    	
 		heading = (TextView) findViewById(R.id.action_bar_title);
@@ -236,13 +250,13 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	 * Parsing reading
 	 * */
 	public void addAqiReading() {
-		
+
 		clearLists();
 		addLastDayAQIIntoList();
 		addLastMonthAQIIntoList();
 		callGraphViewOnClickEvent(0, lastDayRDCPValues);
 	}
-	
+
 	private void addLastDayAQIIntoList() {
 		/**Last day*/
 		if (hrlyAqiValues != null && hrlyAqiValues.size() == 24) {
@@ -251,15 +265,15 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				lastDayRDCPVal[i] = hrlyAqiValues.get(i);
 			}
 		}
-		
+
 		lastDayRDCPValues.add(lastDayRDCPVal);
 		powerOnReadingsValues.add(powerOnReadings);
 	}
-	
+
 	private void addLastMonthAQIIntoList() {
 		/**Last 7 days and last 4 weeks*/
 		int tempIndex = 0;
-		
+
 		if (dailyAqiValues != null && dailyAqiValues.size() > 0
 				&& dailyAqiValues.size() == 28) {
 
@@ -275,7 +289,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		last7daysRDCPValues.add(last7daysRDCPVal);
 		last4weeksRDCPValues.add(last4weeksRDCPVal);
 	}
-	
+
 	/**
 	 * Clear list if old data available.
 	 */
@@ -283,7 +297,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (lastDayRDCPValues.size() > 0) lastDayRDCPValues.clear();
 
 		if (powerOnReadingsValues.size() > 0) powerOnReadingsValues.clear();
-		
+
 		if (last7daysRDCPValues.size() > 0) last7daysRDCPValues.clear();
 
 		if (last4weeksRDCPValues.size() > 0) last4weeksRDCPValues.clear();
@@ -317,7 +331,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 
 	}
-	
+
 	private void callGraphViewOnClickEvent(int index, List<float[]> rdcpValues) {
 		setViewOnClick(index);
 		removeChildViewFromBar();
@@ -331,9 +345,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (rdcpValues != null && rdcpValues.size() > 0) {
 			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0, indexBottBg));
 		}	
-		
+
 	}
-	
+
 	private void setViewOnClick(int index) {
 		switch (index) {
 		case 0:
@@ -396,15 +410,15 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			graphLayout.removeViewAt(0);
 		}
 	}
-	
+
 	private void updatePurifierUIFields() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (purifier == null) return;
-		
+
 		final AirPortInfo airPortInfo = purifier.getAirPortInfo();
 		//TODO : Update fields using this information.
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				getDataFromDashboard(airPortInfo);
@@ -450,10 +464,15 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	public void aqiAnalysisClick(View v) {
-		FragmentManager fragMan = getSupportFragmentManager();
-		fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "outdoor").commit();
+		try {
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.
+					newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "outdoor").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
+		}
 	}
-	
+
 	/**
 	 * Show alert dialog AQI historic data download failed
 	 */
@@ -462,11 +481,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			FragmentManager fragMan = getSupportFragmentManager();
 			fragMan.beginTransaction().add(
 					DownloadAlerDialogFragement.newInstance(title, message), "alert").commitAllowingStateLoss();
-		} catch (Exception e) {
+		} catch (IllegalStateException e) {
 			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
 		}
 	}
-	
+
 	@SuppressLint("HandlerLeak")
 	private final Handler handlerDownload = new Handler() {
 		public void handleMessage(Message msg) {
@@ -492,24 +511,24 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if( status == Errors.SUCCESS ) {
 			if (downloadedData != null && !downloadedData.isEmpty()) {
 				Utils.getIndoorAqiValues(downloadedData) ;
-			
+
 				if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
-					
+
 					hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
 					dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
 					addGoodAQIIntoList(SessionDto.getInstance().getIndoorTrendDto());
 				}
 				handlerDownload.sendEmptyMessage(3);
-				
+
 			} else {
 				handlerDownload.sendEmptyMessage(1);
 			}
 		} else {
 			handlerDownload.sendEmptyMessage(2);
-			
+
 		}
 	}
-	
+
 	private void addGoodAQIIntoList(IndoorTrendDto trendDto) {
 		if (SessionDto.getInstance().getIndoorTrendDto().getGoodAirQualityList() == null) return;
 		if (!goodAirInfos.isEmpty())  goodAirInfos.clear();
@@ -527,7 +546,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	public void onAirPurifierChanged() {
 		updatePurifierUIFields();
 	}
-	
+
 	@Override
 	public void onAirPurifierEventReceived() {
 		updatePurifierUIFields();
@@ -541,7 +560,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
 
