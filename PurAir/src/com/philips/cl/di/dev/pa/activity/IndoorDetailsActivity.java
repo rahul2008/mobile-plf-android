@@ -10,7 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -465,22 +466,34 @@ PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 
 	public void aqiAnalysisClick(View v) {
 		try {
-			FragmentManager fragMan = getSupportFragmentManager();
-			fragMan.beginTransaction().add(IndoorAQIExplainedDialogFragment.
-					newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "outdoor").commitAllowingStateLoss();
+			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("indoor_aqi_analysis");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(IndoorAQIExplainedDialogFragment.
+					newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "indoor_aqi_analysis").commit();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
 		}
 	}
-
+	
 	/**
 	 * Show alert dialog AQI historic data download failed
 	 */
 	private void showAlertDialogHistoryDoawnload(String title, String message) {
 		try {
-			FragmentManager fragMan = getSupportFragmentManager();
-			fragMan.beginTransaction().add(
-					DownloadAlerDialogFragement.newInstance(title, message), "alert").commitAllowingStateLoss();
+			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("alert_aqi_historic_download_failed");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "alert_aqi_historic_download_failed").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
 		}
