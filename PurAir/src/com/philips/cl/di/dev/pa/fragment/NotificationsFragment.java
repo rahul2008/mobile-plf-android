@@ -89,7 +89,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 //				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
 					FragmentManager fm = getActivity().getSupportFragmentManager();
 					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
-				} catch (Exception e) {
+				} catch (IllegalStateException e) {
 					ALog.e(ALog.NOTIFICATION, e.getMessage());
 				}
 				return;
@@ -377,7 +377,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 //				dialog.show(getActivity().getSupportFragmentManager(), null);
 					FragmentManager fm = getActivity().getSupportFragmentManager();
 					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
-				} catch (Exception e) {
+				} catch (IllegalStateException e) {
 					ALog.e(ALog.NOTIFICATION, e.getMessage());
 				}
 			}
@@ -475,7 +475,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 //					dialog.show(getActivity().getSupportFragmentManager(), null);
 						FragmentManager fm = getActivity().getSupportFragmentManager();
 						fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
-					} catch (Exception e) {
+					} catch (IllegalStateException e) {
 						ALog.e(ALog.NOTIFICATION, e.getMessage());
 					}
 				}

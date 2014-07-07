@@ -84,15 +84,23 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	}
 	
 	private void showSignInDialog(SignInDialogFragment.DialogType type) {
-		SignInDialogFragment dialog = SignInDialogFragment.newInstance(type);
-		FragmentManager fragMan = getFragmentManager();
-		dialog.show(fragMan, null);
+		try {
+			SignInDialogFragment dialog = SignInDialogFragment.newInstance(type);
+			FragmentManager fragMan = getFragmentManager();
+			dialog.show(fragMan, null);
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+		}
 	}
 	
 	private void showErrorDialog(Error type) {
-		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
-		FragmentManager fragMan = getFragmentManager();
-		dialog.show(fragMan, null);
+		try {
+			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
+			FragmentManager fragMan = getFragmentManager();
+			dialog.show(fragMan, null);
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+		}
 	}
 
 	//TODO : Refactor

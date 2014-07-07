@@ -47,9 +47,7 @@ public class EWSErrorPurifierDiscoverFragment  extends Fragment {
 							.commitAllowingStateLoss();
 				} catch (IllegalStateException  e) {
 					ALog.e(ALog.EWS, e.getMessage());
-				} catch (Exception e) {
-					ALog.e(ALog.EWS, e.getMessage());
-				}
+				} 
 			}
 		});
 		

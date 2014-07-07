@@ -161,9 +161,13 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		}
 	}
 	private void showErrorDialog(Error type) {
-		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
-		FragmentManager fragMan = getFragmentManager();
-		dialog.show(fragMan, null);
+		try {
+			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
+			FragmentManager fragMan = getFragmentManager();
+			dialog.show(fragMan, null);
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+		}
 	}
 
 	//TODO : Move to UserRegistrationActivity

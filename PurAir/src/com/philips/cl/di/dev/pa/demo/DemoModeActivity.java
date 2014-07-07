@@ -87,7 +87,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
 						SetupCancelDialogFragment.newInstance(), "demo_cancel").commitAllowingStateLoss();
-			} catch (Exception e) {
+			} catch (IllegalStateException e) {
 				ALog.e(ALog.DEMO_MODE, e.getMessage());
 			}
 		}
@@ -190,8 +190,6 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.DEMO_MODE, e.getMessage());
-		} catch (Exception e) {
-			ALog.e(ALog.DEMO_MODE, e.getMessage());
 		}
 	}
 	
@@ -291,7 +289,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			FragmentManager fragMan = getSupportFragmentManager();
 			fragMan.beginTransaction().add(
 					fragment, "dialogfragment").commitAllowingStateLoss();
-		} catch (Exception e) {
+		} catch (IllegalStateException e) {
 			ALog.e(ALog.DEMO_MODE, e.getMessage());
 		}
 	}
@@ -302,7 +300,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			fragMan.beginTransaction()
 			.add(SetupDialogFragment.newInstance(title, msg, btnTxt), "demo_error")
 					.commitAllowingStateLoss();
-		} catch (Exception e) {
+		} catch (IllegalStateException e) {
 			ALog.e(ALog.DEMO_MODE, e.getMessage());
 		}
 	}

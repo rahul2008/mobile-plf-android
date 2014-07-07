@@ -157,7 +157,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
 						SetupCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
-			} catch (Exception e) {
+			} catch (IllegalStateException e) {
 				ALog.e(ALog.EWS, e.getMessage());
 			}
 			break;
@@ -183,7 +183,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
 						SetupCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
-			} catch (Exception e) {
+			} catch (IllegalStateException e) {
 				ALog.e(ALog.EWS, e.getMessage());
 			}
 			return true;
@@ -364,7 +364,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 				FragmentManager fragMan = getSupportFragmentManager();
 				fragMan.beginTransaction().add(
 						AlertDialogAutoNetworkSwitchOn.newInstance(), "auto_networ_switch").commitAllowingStateLoss();
-			} catch (Exception e) {
+			} catch (IllegalStateException e) {
 				ALog.e(ALog.EWS, e.getMessage());
 			}
 		} else {
@@ -523,7 +523,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			fragMan.beginTransaction()
 			.add(SetupDialogFragment.newInstance(title, msg, btnTxt), "ews_error")
 					.commitAllowingStateLoss();
-		} catch (Exception e) {
+		} catch (IllegalStateException e) {
 			ALog.e(ALog.EWS, e.getMessage());
 		}
 	}
@@ -558,8 +558,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			fragmentTransaction.replace(R.id.setup_fragment_container, fragment, tag);
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.EWS, e.getMessage());
-		} catch (Exception e) {
 			ALog.e(ALog.EWS, e.getMessage());
 		}
 	}

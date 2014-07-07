@@ -140,16 +140,24 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 	}
 	
 	private void showErrorDialog(Error type) {
-		RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
-		FragmentManager fragMan = getSupportFragmentManager();
-		dialog.show(fragMan, null);
+		try {
+			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
+			FragmentManager fragMan = getSupportFragmentManager();
+			dialog.show(fragMan, null);
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+		}
 	}
 	
 	public void showProgressDialog() {
-		mProgressDialog = new ProgressDialog(this);
-		mProgressDialog.setMessage(getString(R.string.please_wait));
-		mProgressDialog.setCancelable(false);
-		mProgressDialog.show();
+		try {
+			mProgressDialog = new ProgressDialog(this);
+			mProgressDialog.setMessage(getString(R.string.please_wait));
+			mProgressDialog.setCancelable(false);
+			mProgressDialog.show();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+		}
 	}
 	
 	private void showPreviousFragment() {

@@ -514,8 +514,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 	 * @param v
 	 */
 	public void aqiAnalysisClick(View v) {
-		FragmentManager fragMan = this.getSupportFragmentManager();
-		fragMan.beginTransaction().add(OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
+		try {
+			FragmentManager fragMan = this.getSupportFragmentManager();
+			fragMan.beginTransaction().add(OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
+		}
 	}
 
 	/**
