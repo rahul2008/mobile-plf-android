@@ -7,9 +7,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 
-public abstract class RoutingStrategy {
-	public abstract String setPurifierDetails() ;
-	public static RoutingStrategy getConnection(PurAirDevice purifier, Hashtable<String, String> airPortDetailsTable) {
+public class RoutingStrategy {
+	public static DeviceConnection getConnection(PurAirDevice purifier, Hashtable<String, String> airPortDetailsTable) {
 		ALog.i("UIUX","State: "+purifier.getConnectionState()) ;
 		String dataToSend = "" ;
 		if( purifier.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) {
@@ -23,5 +22,5 @@ public abstract class RoutingStrategy {
 		else {
 			return null;
 		}
-	}	
+	}
 }

@@ -47,21 +47,14 @@ public class TaskPutDeviceDetails implements Runnable {
 		HttpURLConnection conn = null ;
 		try {
 			ALog.i(ALog.SUBSCRIPTION, "TastPutDeviceDetails$run requestMethod " + requestMethod + " url " + url) ;
-			URL urlConn = new URL(url);
-			conn = (HttpURLConnection) urlConn.openConnection();
-			conn.setRequestProperty("content-type", "application/json") ;
-			
-			conn.setRequestMethod(requestMethod);
-			if(!requestMethod.equals(AppConstants.REQUEST_METHOD_GET) &&
-					dataToUpload != null && !dataToUpload.isEmpty()) {
-				conn.setDoOutput(true);
+			URL urlConn = new URL(url) ;
+			conn = NetworkUtils.getConnection(urlConn, requestMethod, -1) ;
+			if(dataToUpload != null && !dataToUpload.isEmpty()) {
 				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 				out.write(dataToUpload);
 				out.flush() ;				
-			}
-			
+			}			
 			targetIpAddress = urlConn.getHost();
-
 			conn.connect();
 			responseCode = conn.getResponseCode() ;
 
@@ -74,34 +67,12 @@ public class TaskPutDeviceDetails implements Runnable {
 				inputStream = conn.getErrorStream();
 				result = NetworkUtils.readFully(inputStream);
 			}
-			
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
 		finally {
-			if(inputStream != null ) {
-				try {
-					inputStream.close() ;
-					inputStream = null ;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
-			if( out != null ) {
-				try {
-					out.close() ;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				out = null ;
-			}
-			if ( conn != null ) {
-				conn.disconnect() ;
-				conn = null ;
-			}
+			NetworkUtils.closeAllConnections(inputStream, out, conn) ;
 			if(responseListener != null )
 				responseListener.receiveServerResponse(responseCode, result, targetIpAddress);
 		}

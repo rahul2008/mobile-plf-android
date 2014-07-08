@@ -13,8 +13,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class LocalConnection extends RoutingStrategy {
+public class LocalConnection implements DeviceConnection {
 
+	private static final int CONN_TIMEOUT_LOCAL_CONTROL = 10 * 1000; // 10secs
 	private String url ;
 	private int responseCode ;	
 	private String dataToSend ;
@@ -27,25 +28,22 @@ public class LocalConnection extends RoutingStrategy {
 
 	@Override
 	public String setPurifierDetails() {
+		if(dataToSend == null || dataToSend.isEmpty() 
+				|| url == null || url.isEmpty()) {
+			return null;
+		}
 		String result = "";
 		InputStream inputStream = null;
 		OutputStreamWriter out = null ;
 		HttpURLConnection conn = null ;
 		try {
-			URL urlConn = new URL(url);
-			conn = (HttpURLConnection) urlConn.openConnection();
-			conn.setRequestProperty("content-type", "application/json") ;
-
-			conn.setRequestMethod("PUT");
-			conn.setConnectTimeout(10000);
-			conn.setDoOutput(true);
+			URL urlConn = new URL(url) ;
+			conn = (HttpURLConnection) NetworkUtils.getConnection(urlConn,"PUT",CONN_TIMEOUT_LOCAL_CONTROL);
 			out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 			out.write(dataToSend);
-			out.flush() ;				
-
+			out.flush() ;
 			conn.connect();
 			responseCode = conn.getResponseCode() ;
-
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.readFully(inputStream);
@@ -56,27 +54,7 @@ public class LocalConnection extends RoutingStrategy {
 		}
 
 		finally {
-			if(inputStream != null ) {
-				try {
-					inputStream.close() ;
-					inputStream = null ;
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}				
-			}
-			if( out != null ) {
-				try {
-					out.close() ;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				out = null ;
-			}
-			if ( conn != null ) {
-				conn.disconnect() ;
-				conn = null ;
-			}
+			NetworkUtils.closeAllConnections(inputStream, out, conn) ;
 		}
 		return result ;
 	}

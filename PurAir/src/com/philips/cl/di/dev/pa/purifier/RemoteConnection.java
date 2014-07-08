@@ -4,30 +4,38 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
+import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.icpinterface.data.Errors;
 
-public class RemoteConnection extends RoutingStrategy implements DCSResponseListener {
+public class RemoteConnection implements DeviceConnection, DCSResponseListener, PublishEventListener {
+	private static final int CPP_DEVICE_CONTROL_TIMEOUT = 30000;
 	private PurAirDevice purifier ;
 	private String eventData ;
 	
 	private String response ;
+	private int messageId ;
+	private CPPController cppController ;
 	
 	public RemoteConnection(PurAirDevice purifier, String eventData) {
 		this.purifier = purifier ;
 		this.eventData = eventData ;
+		cppController = CPPController.getInstance(PurAirApplication.getAppContext());
 	}
+	
 	@Override
 	public String setPurifierDetails() {
-		// Send the CPP publish event from here
-		CPPController.getInstance(PurAirApplication.getAppContext()).setDCSResponseListener(this) ;
-		CPPController.getInstance(PurAirApplication.getAppContext()).publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
-		// wait here for 30secs
+		//TODO - Add publish event listener for handling error cases 
+		cppController.setDCSResponseListener(this) ;
+		cppController.setPublishEventListener(this) ;
+		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, 
+				SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
 		try {
 			ALog.i(ALog.DEVICEHANDLER, "wait for 30 secs") ;
 			synchronized (this) {
-				wait(30000) ;
+				wait(CPP_DEVICE_CONTROL_TIMEOUT) ;
 			}			
 		} catch (InterruptedException e) {
 			ALog.e(ALog.DEVICEHANDLER, "interupted exception") ;
@@ -38,12 +46,25 @@ public class RemoteConnection extends RoutingStrategy implements DCSResponseList
 	
 	@Override
 	public void onDCSResponseReceived(String dcsResponse) {
-		// TODO Auto-generated method stub
+		//TODO - Check for Air Port Response
 		response = dcsResponse ;
 		synchronized (this) {
-			ALog.i(ALog.DEVICEHANDLER, "Notified") ;
+			ALog.i(ALog.DEVICEHANDLER, "Notified on DCS Response") ;
 			notify() ;
-		}		
+		}
+	}
+
+	@Override
+	public void onPublishEventReceived(int status, int messageId) {
+		ALog.i(ALog.DEVICEHANDLER,"Publish event message ID: " +messageId );
+		if( this.messageId == messageId) {
+			if( status != Errors.SUCCESS) {
+				synchronized (this) {
+					ALog.i(ALog.DEVICEHANDLER, "Notified on Publish Event Response") ;
+					notify() ;
+				}
+			}
+		}
 	}
 
 }

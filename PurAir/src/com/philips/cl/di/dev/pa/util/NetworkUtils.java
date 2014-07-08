@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -145,4 +146,41 @@ public class NetworkUtils {
 		
 	}
 
+	public static HttpURLConnection getConnection(URL url, String requestMethod, int connectionTimeout) throws IOException {
+		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setRequestProperty("content-type", "application/json") ;
+		conn.setRequestMethod(requestMethod);
+		if( connectionTimeout != -1) {
+			conn.setConnectTimeout(connectionTimeout) ;
+		}
+		System.setProperty("http.keepAlive", "false");
+		if(! requestMethod.equals("GET"))
+			conn.setDoOutput(true);
+		
+		return conn ;
+	}
+	
+	public static final void closeAllConnections(InputStream is, OutputStreamWriter out, HttpURLConnection conn) {
+		if(is != null ) {
+			try {
+				is.close() ;
+				is = null ;
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}				
+		}
+		if( out != null ) {
+			try {
+				out.close() ;
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			out = null ;
+		}
+		if ( conn != null ) {
+			conn.disconnect() ;
+			conn = null ;
+		}
+	}
 }

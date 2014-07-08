@@ -13,6 +13,7 @@ import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerHandler;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerListener;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -330,8 +331,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 	
 	public void sendScheduleDetailsToPurifier(String data, PurAirDevice purAirDevice, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
-		mDeviceHandler = new DeviceHandler(this,PURIFIER_EVENT.SCHEDULER) ;
-		mDeviceHandler.setScheduleDetails(data, purAirDevice,scheduleType,scheduleNumber);
+		SchedulerHandler schedulerHandler = new SchedulerHandler(this) ;
+		schedulerHandler.setScheduleDetails(data, purAirDevice, scheduleType, scheduleNumber) ;
 	}
 
 	@Override

@@ -70,6 +70,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private DownloadData downloadData;
 	private ICPDownloadListener downloadDataListener;
 	private StringBuilder downloadDataBuilder;
+	private PublishEventListener publishEventListener ;
 //	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
 	
 	private enum KEY_PROVISION {
@@ -261,6 +262,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void setDCSResponseListener(DCSResponseListener dcsResponseListener) {
 		this.dcsResponseListener = dcsResponseListener ;
 	}
+	
+	public void setPublishEventListener(PublishEventListener publishEventListener) {
+		this.publishEventListener = publishEventListener ;
+	}
 	/** Subcribe event methods **/
 	/**
 	 * This method will subscribe to events
@@ -348,9 +353,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param priority
 	 * @param ttl
 	 */
-	public void publishEvent(String eventData, String eventType,
+	public int publishEvent(String eventData, String eventType,
 			String actionName, String replyTo, String conversationId,
 			int priority, int ttl, String purifierEui64) {
+		int messageID = -1 ;
 		ALog.i(ALog.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
 				+ eventType + " Action Name: " +actionName +
 				" replyTo: " +replyTo +" + isSignOn "+isSignOn);
@@ -364,9 +370,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				eventPublisher.setTargets(new String[0]);
 			}
 			eventPublisher.setEventCommand(Commands.PUBLISH_EVENT);
-
 			eventPublisher.executeCommand();
+			messageID = eventPublisher.getMessageId() ;
 		}
+		return messageID ;
 	}
 
 	public boolean sendNotificationRegistrationId(String gcmRegistrationId) {
@@ -446,11 +453,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			break;
 		case Commands.PUBLISH_EVENT:
 			EventPublisher eventPublisher = (EventPublisher) obj;
-			if (status == Errors.SUCCESS) {
-				ALog.i(ALog.ICPCLIENT, "Publish event message Id: "+eventPublisher.getMessageId()) ;
-			}
-			else {
-				ALog.i(ALog.ICPCLIENT, "Publish event message Id: "+eventPublisher.getMessageId()) ;
+			if( publishEventListener != null ) {
+				publishEventListener.onPublishEventReceived(status, eventPublisher.getMessageId()) ;
 			}
 			break;
 		case Commands.KEY_PROVISION:
