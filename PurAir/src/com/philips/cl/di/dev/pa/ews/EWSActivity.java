@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -48,6 +49,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	private NetworkInfo mWifi;
 	private String networkSSID ;
 	private String password ;
+	private boolean advSetting = false ;
 	
 	private EWSBroadcastReceiver ewsService ;
 	private String cppId;
@@ -120,9 +122,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			actionbarTitle.setText(getString(R.string.support));
 			break;
 		case EWSConstant.EWS_STEP_ERROR_SSID:
+			actionbarCancelBtn.setVisibility(View.VISIBLE);
+			actionbarBackImg.setVisibility(View.GONE);
+			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
+			break;
 		case EWSConstant.EWS_STEP_ERROR_DISCOVERY:
-			//Error mobile device connect home network screen
-			//Error Airpurifier not discovered in home network screen
 			actionbarCancelBtn.setVisibility(View.GONE);
 			actionbarBackImg.setVisibility(View.GONE);
 			actionbarTitle.setText(getString(R.string.error_purifier_not_detect_head));
@@ -135,8 +139,17 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	@Override
 	protected void onStop() {
 		super.onStop();
-		if(ewsService != null)	ewsService.unRegisterListener() ;
+		unRegisterListener() ;
 	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		if( ewsService != null ) {
+			ewsService.stopSSDPCountDownTimer() ;
+		}
+	}
+	
 	@Override
 	public void onWindowFocusChanged(boolean hasFocus) {
 		ALog.i(ALog.EWS, "onWindowFocused") ;
@@ -243,6 +256,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
     	showFragment(new EWSErrorSSIDFragment(), EWSConstant.EWS_ERROR_SSID_FRAGMENT_TAG);
 	}
 	
+	private void showErrorDiscoveryFragement() {
+		mStep = EWSConstant.EWS_STEP_ERROR_DISCOVERY ;
+		showFragment(new EWSErrorPurifierDiscoverFragment(), EWSConstant.EWS_ERROR_DISCOVER_FRAGMENT_TAG);
+	}
+	
 	public void showSupportFragment() {
 		prevStep  = mStep;
 		mStep = EWSConstant.EWS_STEP_SUPPORT ;
@@ -275,30 +293,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			showNetworkChangeFragment();
 		}		
 	}
-
-	private void showErrorScreen() {
-		stopDiscovery();
-		
-        if(!wifiManager.isWifiEnabled()) {
-        	showErrorSSIDFragement();
-        }
-        else {
-             if( wifiManager.getConnectionInfo() != null &&
-                       wifiManager.getConnectionInfo().getSSID() != null) {
-            	 String ssid =  wifiManager.getConnectionInfo().getSSID().replace("\"", "") ;
-            	 if(ssid.equals(networkSSID)) {
-	            	 mStep = EWSConstant.EWS_STEP_ERROR_DISCOVERY ;
-	            	 showFragment(new EWSErrorPurifierDiscoverFragment(), EWSConstant.EWS_ERROR_DISCOVER_FRAGMENT_TAG);
-            	 }
-            	 else {
-                	 showErrorSSIDFragement();
-                 }
-             } else {
-            	 showErrorSSIDFragement();
-             }
-            
-        }
-	}
 	
 	public void showHomeScreen() {
 		mStep = EWSConstant.EWS_START_MAIN;
@@ -315,7 +309,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public void changeWifiNetwork() {
 		if( ewsService == null ) {
-			ewsService = new EWSBroadcastReceiver(this, null, null) ;
+			ewsService = new EWSBroadcastReceiver(this, null) ;
 		}
 		ewsService.setSSID(null) ;
 		showNetworkChangeFragment();
@@ -339,7 +333,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	// This method will send the Device name to the AirPurifier when user selects Save
 	public void sendDeviceNameToPurifier(String deviceName) {
-		System.out.println("deviceName:"+deviceName+" SessionDto.getInstance().getDeviceDto(): "+ SessionDto.getInstance().getDeviceDto());
+		
 		if (deviceName.equals("") || SessionDto.getInstance().getDeviceDto() == null) {
 			return;
 		}
@@ -372,7 +366,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			ALog.i(ALog.EWS, "mWifi.isConnected()== " +mWifi.isConnected() + ", step: " + mStep);
 			if(!mWifi.isConnected()) {
 				showNetworkChangeFragment();
-				ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
+				ewsService = new EWSBroadcastReceiver(this, networkSSID) ;
 			}
 			else {
 				showStepOne() ;
@@ -382,13 +376,18 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	private void registerNetworkListener() {
 		ALog.i(ALog.EWS, "registerNetworkListener") ;
-		if( mStep == EWSConstant.EWS_STEP_CHANGE_NETWORK 
-				|| mStep == EWSConstant.EWS_STEP_ONE 
-				|| mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
+		
+		if ( mStep == EWSConstant.EWS_STEP_CHANGE_NETWORK || mStep == EWSConstant.EWS_STEP_ONE) {
 			if( ewsService == null ) {
-				ewsService = new EWSBroadcastReceiver(this, null, null) ;
+				ewsService = new EWSBroadcastReceiver(this, null) ;
 			}
 			ewsService.setSSID(null) ;
+			ewsService.registerListener() ;
+		} else if (mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
+			if( ewsService == null ) {
+				ewsService = new EWSBroadcastReceiver(this, networkSSID) ;
+			}
+			ewsService.setSSID(networkSSID) ;
 			ewsService.registerListener() ;
 		}
 	}
@@ -397,7 +396,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		SetupDialogFactory.getInstance(EWSActivity.this).dismissSignalStrength();
 		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		if ( ewsService == null) {
-			ewsService = new EWSBroadcastReceiver(this, networkSSID, password) ;
+			ewsService = new EWSBroadcastReceiver(this, networkSSID) ;
 		}
 		step2FailCounter++;
 		ewsService.setSSID(networkSSID) ;
@@ -424,12 +423,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	public void sendNetworkDetails(String ssid, String password) {
 		networkSSID = ssid;
-		SetupDialogFactory.getInstance(this).setNetworkName(networkSSID);
-		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).show() ;
+		this.password = password;
+		showConnectToPurifierDialog();
 		ewsService.setSSID(networkSSID) ;
 		ewsService.setPassword(password) ;
 		ewsService.putWifiDetails() ;
-		
 	}
 
 	// Override methods - EWSListener - Start
@@ -440,15 +438,33 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 	@Override
 	public void onSelectHomeNetwork() {
-
+		if (mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
+			DiscoveryManager.getInstance().start(this);
+			showConnectToPurifierDialog();
+			showStepThreeFragment();
+			searchPurifierTimer.start();
+		}
 	}
 
 	@Override
 	public void onHandShakeWithDevice() {
 		SetupDialogFactory.getInstance(EWSActivity.this).dismissSignalStrength();
-		mStep = EWSConstant.EWS_STEP_THREE ;
-		showFragment(new EWSStepThreeFragment(), EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
+		showStepThreeFragment();
+	}
+	
+	private void showStepThreeFragment() {
+		EWSStepThreeFragment stepThreeFragment = new EWSStepThreeFragment();
 		
+		//If mobile failed to connect home network
+		if (mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
+			Bundle bundle = new Bundle();
+			bundle.putString(EWSStepThreeFragment.EXTRA_PASSWORD, password);
+			bundle.putBoolean(EWSStepThreeFragment.EXTRA_ADV_SETTING, advSetting);
+			stepThreeFragment.setArguments(bundle);
+		}
+		
+		mStep = EWSConstant.EWS_STEP_THREE ;
+		showFragment(stepThreeFragment, EWSConstant.EWS_STEP_THREE_FRAGMENT_TAG);
 		
 		if (SessionDto.getInstance().getDeviceWifiDto() != null) {
 			cppId = SessionDto.getInstance().getDeviceWifiDto().getCppid(); 
@@ -465,8 +481,7 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		/**
 		 * Show step one screen when network change happen in Change network screen or error SSID screen
 		 */
-		if (mStep == EWSConstant.EWS_STEP_CHANGE_NETWORK 
-				|| mStep == EWSConstant.EWS_STEP_ERROR_SSID) {
+		if (mStep == EWSConstant.EWS_STEP_CHANGE_NETWORK) {
 			showStepOne() ;
 		}
 	}
@@ -506,8 +521,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 					getString(R.string.error_ts01_01_message), 
 					getString(R.string.error_purifier_not_detect_btn_txt));
 			break;
-		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:				
-			showErrorScreen();
+		case EWSListener.ERROR_CODE_COULDNOT_CONNECT_HOME_NETWORK:	
+			stopDiscovery();
+			showErrorSSIDFragement();
+			break;
+		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:	
+			stopDiscovery();
+			showErrorDiscoveryFragement();
 			break;
 		case EWSListener.ERROR_CODE_INVALID_PASSWORD:
 			Toast.makeText(this, getString(R.string.wrong_wifi_password), Toast.LENGTH_LONG).show() ;
@@ -515,6 +535,11 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		default:
 			break;
 		}
+	}
+	
+	private void showConnectToPurifierDialog() {
+		SetupDialogFactory.getInstance(this).setNetworkName(networkSSID);
+		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).show() ;
 	}
 	
 	private void showErrorDialog(String title,String msg, String btnTxt) {
@@ -530,13 +555,17 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	//SSDP Discovery
 	private void deviceDiscoveryCompleted() {
+		stopSearchPurifierTimer();
 		stopDiscovery();
 		SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT).dismiss() ;
 		if( ewsService != null ) {
-			ewsService.stopNetworkDetailsTimer() ;
+			ewsService.stopSSDPCountDownTimer() ;
+			ewsService.stopSSIDTimer();
 		}
+		
 		mStep = EWSConstant.EWS_STEP_FINAL;
 		showFragment(new EWSFinalStepFragment(), EWSConstant.EWS_DISCOVERED_FRAGMENT_TAG);
+		unRegisterListener();
 	}
 	
 	public void stopDiscovery() {
@@ -551,7 +580,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	}
 	
 	public void showFragment(Fragment fragment, String tag) {
-//		setActionBarHeading(mStep) ;
 		try {
 			FragmentManager fragmentManager = getSupportFragmentManager();
 			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -592,7 +620,16 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	public int getPowerOnFailCounter() {
 		return powerOnFailCounter;
 	}
-
+	
+	private void unRegisterListener() {
+		if(ewsService != null)	ewsService.unRegisterListener() ;
+	}
+	
+	public void setAdvSettingViewVisibility(boolean advSetting) {
+		ALog.i(ALog.EWS, "EWSActivity$setAdvSettingViewVisibility advSetting: " + advSetting);
+		this.advSetting = advSetting;
+	}
+	
 	@Override
 	public void onDiscoveredDevicesListChanged() {
 		ALog.d(ALog.EWS, "onDiscoveredDevicesListChanged: "+cppId) ;
@@ -602,6 +639,26 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 
 		PurifierManager.getInstance().setCurrentPurifier(ewsPurifier);
 		deviceDiscoveryCompleted();
+	}
+	
+	//Start time if user connect home not manually
+	private CountDownTimer searchPurifierTimer = new CountDownTimer(60000, 1000) {
+		
+		@Override
+		public void onTick(long millisUntilFinished) {
+			//TODO
+		}
+
+		@Override
+		public void onFinish() {
+			unRegisterListener() ;
+			onErrorOccurred(ERROR_CODE_COULDNOT_FIND_DEVICE);
+		}
+	};
+	
+	private void stopSearchPurifierTimer() {
+		if( searchPurifierTimer != null) searchPurifierTimer.cancel() ;
+			
 	}
 
 }

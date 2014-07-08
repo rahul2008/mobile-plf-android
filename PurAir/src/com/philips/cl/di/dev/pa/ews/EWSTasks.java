@@ -72,7 +72,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 			conn.setRequestMethod(requestType);			
 			conn.setRequestProperty("Content-Type", "application/json") ;
 			conn.setRequestProperty("connection", "close");
-			
+			conn.setConnectTimeout(20000);
 			if(! requestType.equals("GET")) {
 				if (Build.VERSION.SDK_INT <= 10) {
 					conn.setDoOutput(true);

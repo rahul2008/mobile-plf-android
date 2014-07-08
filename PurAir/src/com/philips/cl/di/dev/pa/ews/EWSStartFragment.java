@@ -33,6 +33,7 @@ public class EWSStartFragment extends Fragment {
 			
 			@Override
 			public void onClick(View v) {
+				if (getActivity() == null) return;
 				((EWSActivity) getActivity()).checkWifiConnectivity();
 			}
 		});

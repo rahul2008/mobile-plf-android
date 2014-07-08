@@ -34,6 +34,9 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSStepThreeFragment extends Fragment {
 	
+	public static final String EXTRA_PASSWORD = "password";
+	public static final String EXTRA_ADV_SETTING = "adv_setting";
+	
 	private FontTextView passwordLabelStep3, wifiNetworkAddStep3;
 	private EditText passwordStep3, deviceNameStep3, 
 					ipAddStep3, subnetMaskStep3, routerAddStep3;
@@ -45,6 +48,8 @@ public class EWSStepThreeFragment extends Fragment {
 	private OnFocusChangeListener focusListener;
 	private ButtonClickListener buttonClickListener;
 	private String ssid;
+	private String password = "";
+	private boolean advSetting = false;
 	private ArrayList<Integer> unicodes;
 //	private String specialCharacters = "[©®°@¶•&‰%≠≈∞=±+×–—-†‡*÷/()¡!¿?´“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦₩°•○●□■☆★♡♥》《¤◆◇…~^`§¤★πΠ√×∆♪♣♠♦↑←↓→™℅′″￥￡℃※♂♀↕↔' ]";
 	
@@ -58,6 +63,14 @@ public class EWSStepThreeFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+		Bundle bundle = getArguments();
+		if (bundle != null) {
+			password = bundle.getString(EXTRA_PASSWORD);
+			advSetting = bundle.getBoolean(EXTRA_ADV_SETTING, false);
+		}
+		ALog.i(ALog.EWS, "EWSStepThreeFragment bundle: " + bundle
+				+ ", password: " + password + ", advSetting: " + advSetting);
 		
 		unicodes = UnicodeSpecialCharacter.getSpecialCharaterUnicodes();
 		
@@ -93,6 +106,10 @@ public class EWSStepThreeFragment extends Fragment {
 			wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress());
 		}
 		
+		if (advSetting) {
+			advSettingLayoutStep3.setVisibility(View.VISIBLE);
+			advSettingBtnLayoutStep3.setVisibility(View.INVISIBLE);
+		}
 	}
 
 	private void enablePasswordFild() {
@@ -105,6 +122,7 @@ public class EWSStepThreeFragment extends Fragment {
 		} else {
 			passwordStep3.setEnabled(true);
 			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
+			passwordStep3.setText(password);
 		}
 		
 	}
@@ -220,11 +238,9 @@ public class EWSStepThreeFragment extends Fragment {
 				break;
 			case R.id.ews_step3_next_btn:
 				ALog.i(ALog.EWS, "step3 next button click");
-				if (ssid == null || ssid.isEmpty())
-				{
-					return;
-				}
+				if (ssid == null || ssid.isEmpty()) return;
 				((EWSActivity) getActivity()).sendNetworkDetails(ssid, passwordStep3.getText().toString()) ;
+				((EWSActivity) getActivity()).setAdvSettingViewVisibility(advSettingLayoutStep3.isShown());
 				break;
 			default:
 				ALog.i(ALog.EWS, "Default...");
