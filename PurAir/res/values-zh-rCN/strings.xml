@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">智能空气</string>
-    <string name="dashboard_title">智能空气净化器</string>
+    <string name="dashboard_title">智控净化器</string>
     <string name="action_settings">设置</string>
     <string name="philips_home">飞利</string>
 	<string name="empty_string"></string>
@@ -21,7 +21,7 @@
     <string name="connection_status">连接状态</string>
     <string name="connected">已连接</string>
     <string name="lost_connection">Lost Connection</string>
-    <string name="connected_via_philips">已连接 通过 飞利</string>
+    <string name="connected_via_philips">已通过飞利浦连接</string>
     <string name="not_connected">未连接</string>
     <string name="connect">连接</string>
     <string name="power">电源</string>
@@ -35,14 +35,14 @@
     <string name="scheduler">计划程序</string>
     <string name="child_lock">儿童锁</string>
     <string name="indicator_light">指示灯</string>
-    <string name="set_timer">设置时间</string>
+    <string name="set_timer">定时设置</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">过滤网状态</string>
     <string name="pre_filter">1 预过滤网</string>
     <string name="multicarefilter">2 Multi-Care 过滤网</string>
     <string name="activecarbonfilter">3 活性炭过滤网</string>
     <string name="hepa_filter">4 HEPA 过滤网</string>
-    <string name="change_soon">%s 个月后更换</string>
+    <string name="change_soon">%s 个天后更换</string>
     <string name="change_now">立即更换</string>
     <string name="onehour">1 小时</string>
     <string name="fourhour">4 小时</string>
@@ -51,7 +51,7 @@
     <string name="filter_lock">滤网锁</string>
     <string name="clean_soon">%s 天后清洁 </string>
     <string name="clean_now">清洁吧</string>
-    <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智能空气净化器的传感器</string>
+    <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智控净化器的传感器</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空气水平状态</string>
     <string name="rm_air_quality_message">连接设备开始读取室内空气质量</string>
@@ -67,9 +67,9 @@
     <string name="speed1">速度 1</string>
     <string name="speed2">速度 2</string>
     <string name="speed3">速度 3</string>
-    <string name="updated">最近更新。</string>
+    <string name="updated">最近更新</string>
     <string name="n_a">N.A.</string>
-    <string name="take_action">采取措施。</string>
+    <string name="take_action">采取措施</string>
     <string name="no_connection">无连接</string>
     <string name="no_data">无资料</string>
     <!-- AQI status -->
@@ -83,7 +83,7 @@
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">应用程序教程</string>
     <string name="subtitle_FAQ">常见问题解答</string>
-    <string name="subtitle_user_manual">飞利浦智能空气净化器用户手册</string>
+    <string name="subtitle_user_manual">飞利浦智控净化器用户手册</string>
     <string name="subtitle_wifi_connectivity">Wi-Fi 连接分步指南</string>
     <string name="subitle_philips_support">联系飞利浦支持</string>
     <string name="subtitle_call_us">致电我们 :</string>
@@ -92,10 +92,10 @@
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">仪表板显示室内和室外 AQI 的概览</string>
     <string name="tutorial_lOC_desc">画布左侧包含应用程序不同部分的链接。</string>
-    <string name="tutorial_rOC_desc">画布右侧包含飞利浦智能空气净化器的控件。</string>
-    <string name="tutorial_device_status_desc">在仪表板上可以看到飞利浦智能空气净化器的状态。</string>
-    <string name="tutorial_indoor_aqi_desc">室内详情页面显示飞利浦智能空气净化器的提供的空气水平读数和历史记录。</string>
-    <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气。</string>
+    <string name="tutorial_rOC_desc">画布右侧包含飞利浦智控净化器的控件。</string>
+    <string name="tutorial_device_status_desc">在仪表板上可以看到飞利浦智控净化器的状态。</string>
+    <string name="tutorial_indoor_aqi_desc">室内详情页面显示飞利浦智控净化器所提供的空气水平读数和历史记录。</string>
+    <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气情况。</string>
     <string name="dashboard_instruction">点击一次扩大每个类别，再点击一次查看详细信息。</string>
     <string name="loc_roc_remote_instruction">轻击可打开和关闭画布。</string>
 	<string name="status_instruction">轻击图标可打开和关闭画布。</string>
@@ -103,13 +103,13 @@
     <string name="dashboard_instruction_1">应用程序导航</string>
     <string name="dashboard_instruction_2">空气净化器控件</string>
     <string name="dashboard_instruction_3">室内空气水平读数</string>
-    <string name="dashboard_instruction_4">室外 AQI 读数</string>
+    <string name="dashboard_instruction_4">室外空气质量指数</string>
     <string name="tutorial_title_1">仪表板</string>
     <string name="tutorial_title_2">应用程序导航</string>
     <string name="tutorial_title_3">空气净化器控件</string>
     <string name="tutorial_title_4">设备状态</string>
     <string name="tutorial_title_5">室内空气水平读数</string>
-    <string name="tutorial_title_6">室外 AQI 读数</string>
+    <string name="tutorial_title_6">室外空气质量指数</string>
     <string name="finish_tutorial">结束体验</string>
     <string name="prompt_take_tour">体验应用程序</string>
     <string name="alert_take_tour">体验</string>
@@ -127,12 +127,12 @@
     <string name="next_step">下一步</string>
     <!-- Buy Online -->
     <string name="buy_online_lbl">在线购买</string>
-    <string name="buy_hepa_filter">HEPA 过滤网r</string>
+    <string name="buy_hepa_filter">HEPA 过滤网</string>
     <string name="buy_active_carbon_filter">活性炭过滤网</string>
     <string name="buy_multi_care_filter">Multi-Care 过滤网</string>
     <string name="buy_pre_filter">预过滤网</string>
-    <string name="buy_philips_smart_air_purifier">飞利浦智能空气净化器</string>
-    <string name="available_from">可从购买</string>
+    <string name="buy_philips_smart_air_purifier">飞利浦智控净化器</string>
+    <string name="available_from">可从%s购买</string>
     <!-- Indoor and Outdoor Details -->
     <string name = "purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
     <string name="aqi_history">AQI History</string>
@@ -213,9 +213,9 @@
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
     <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
     <string name="outdoor_analysis_detail1_head1">您呼吸了多少新鲜空气？说明</string>
-    <string name="outdoor_analysis_detail2_head100">在最近 7 天，飞利浦智能空气净化器将室内空气评为 \'%s\' 的数量，室外传感器将室外空气评为  的数量</string>
+    <string name="outdoor_analysis_detail2_head100">在最近 7 天，飞利浦智控净化器将室内空气评为 \'%s\' 的数量，室外传感器将室外空气评为  的数量</string>
     <string name="outdoor_analysis_detail_head2">如果 1&#8211;2 级持续 1 小时或更长时间，则预计 PM2.5 水平会低于中国 AQI 规定的 75 微克/u002F立方米 的室外空气标准。如果 2 级以上持续 1 小时或更长时间，则预计 PM2.5 级别会高于中国 AQI 规定的 75 微克/u002F立方米的室外空气标准。</string>
-    <string name="outdoor_analysis_detail_head3">因为没有室内 PM2.5 标准，所以未显示室内 PM2.5 水平。 飞利浦智能空气净化器可测量室内和室外 PM2.5 水平。 不过，室外和室内空气质量具有关联性：室内 PM2.5 水平越高，与室外 PM2.5 水平的关联就越密切。</string>
+    <string name="outdoor_analysis_detail_head3">因为没有室内 PM2.5 标准，所以未显示室内 PM2.5 水平。 飞利浦智控净化器可测量室内和室外 PM2.5 水平。 不过，室外和室内空气质量具有关联性：室内 PM2.5 水平越高，与室外 PM2.5 水平的关联就越密切。</string>
 <!--     <string name="pm25">PM2.5</string> -->
 <!--     <string name="pm10">PM10</string> -->
 <!--     <string name="so2">SO2</string> -->
@@ -239,17 +239,17 @@
     <string name="notification_enabling_msg">正在启用通知，请稍候..</string>
     <string name="notification_disabling_msg">正在禁用通知，请稍候..</string>
     <string name="notification_send_aqi_level_msg">正在发送选定的 AQI 级别，请稍候..</string>
-    <string name="notification_error_msg">Something went wrong, please try again later.</string>
-    <string name="notification_front_panel_title">Front panel</string> 
-    <string name="notification_front_panel_desc">You will receive a notification when front panel is opened.</string>
-    <string name="error_aqithreshold_setting">Error occurred while setting the AQI threshold.</string>
+    <string name="notification_error_msg">出错了，请再试一次。</string>
+    <string name="notification_front_panel_title">前面板</string> 
+    <string name="notification_front_panel_desc">当前面板打开时您会收到通知</string>
+    <string name="error_aqithreshold_setting">您设置AQI上限时出现错误。</string>
     <!-- Settings -->
-    <string name="rate_this_app">评价此应用程序</string>
+    <string name="rate_this_app">给此应用程序打分</string>
     <string name="send_us_feedback">给我们发送反馈</string>
     <string name="version_number">应用程序版本 </string>
     <string name="t_and_c">条款和条件</string>
     <!-- Air Quality Explained -->
-    <string name="air_quality_explained_intro">生活在城市中的人无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
+    <string name="air_quality_explained_intro">生活在城市中的人们无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
     <string name="purifier_feature_lbl_1">滤除最小 20 纳米的微小颗粒</string>
     <string name="purifier_feature_lbl_2">自然过滤可确保家人健康</string>
     <string name="purifier_feature_lbl_3">适应不同家居环境和各种需求</string>
@@ -272,41 +272,41 @@
     <string name="pollutant_intro_4">宠物毛发和尘螨聚集在地板和地毯上。 宠物毛发可能会导致眼睛和呼吸道过敏，而尘螨常常会引发过敏和哮喘。</string>
     <string name="pollutant_intro_5">黄沙尘、微尘和花粉可造成过敏及各种呼吸道疾病。 与室内空气质量息息相关的最大问题之一是室外空气。</string>
     <string name="pollutant_intro_6">小于 2.5 微米 (PM 2.5) 的颗粒可穿透并停留在肺的最深部位，并且导致心脏病和其他心血管健康问题。 这些颗粒可以在大气中停留很长一段时间，远距离传播并构成严重的健康威胁。</string>
-    <string name="vistashield_ips_system_intro">飞利浦 VitaShield 微护盾技术的核心是领先的多层活性过滤系统。 凭借精心设计的多层过滤网，该系统可保护您的健康，免受几乎所有室内空气污染物的威胁。</string>
+    <string name="vistashield_ips_system_intro">飞利浦 VitaShield 微护盾技术的核心是领先的多层活性过滤系统。 凭借精心设计的多层过滤网，该系统可保护您的健康，免受来自几乎所有室内空气污染物的威胁。</string>
     <string name="vistashield_ips_system_subheading">4 层过滤，4 倍保护</string>
     <string name="vistashield_heading_1">1. 筛分 </string>
     <string name="vistashield_heading_2">2. 惯性冲击 </string>
     <string name="vistashield_heading_3">3. 拦截 </string>
     <string name="vistashield_heading_4">4. 渗滤和吸收</string>
-    <string name="vistashield_intro_1">直径大于 1 微米的颗粒被滤网滤掉。</string>
-    <string name="vistashield_intro_2">直径大于 0.5 微米的颗粒在空气传播惯性运动期间粘在滤网上。</string>
+    <string name="vistashield_intro_1">直径大于1微米的颗粒可被滤网滤掉。</string>
+    <string name="vistashield_intro_2">直径大于0.5微米的颗粒在空气传播惯性运动期间会粘在滤网上。</string>
     <string name="vistashield_intro_3">直径介于 0.1 和 0.5 微米之间飘浮于气流中的颗粒则通过静电力吸附到滤网上。</string>
     <string name="vistashield_intro_4">随机吸附空气中呈不规则运动的微小颗粒。 去除直径小于 2.5 微米的有害微粒 (PM 2.5)。</string>
     <string name="vistashield_nanometer_ques">20 纳米细微到什么程度？</string>
     <string name="vistashield_performance_subheading">低噪音高性能</string>
-    <string name="vistashield_performance_intro">先进的空气动力学风洞设计和宁静引擎可快速吸入空气，甚至从很远的房间角落。 空气循环得到提升，净化工艺显著改善。 \n优化设计改善了通过滤网的气流，净化器低速运行，降低了噪音。</string>
+    <string name="vistashield_performance_intro">先进的空气动力学风道设计搭配低噪引擎，能快速吸入房间内甚至隐蔽角落里的所有空气并进行过滤。空气循环得到提升，净化工艺显著改善。 \n优化设计改善了通过滤网的气流，净化器低速运行，降低了噪音。</string>
     <string name="guards_environment_subheading">营造无过敏的环境。</string>
     <string name="guards_environment_intro">家中的灰尘、花粉、动物皮屑、PM 2.5、霉菌芽孢和其他悬浮颗粒可引起咳嗽、打喷嚏、眼睛发红、鼻子发痒、哮喘、湿疹及其他过敏症状。\n\n飞利浦 VitaShield 微护盾因其在缓解过敏体质人群过敏症状和营造安全环境方面的功效而获得了过敏症研究基金会欧洲中心 (ECARF) 认证。</string>
     <string name="guards_environment_filter">飞利浦 VitaShield 微护盾的多层活性过滤系统可滤掉多达 99.7%</string>
     <string name="guards_environment_monitoring_sensor">智能传感器提供持续监测，确保全天保护。</string>
     <string name="guards_environment_ozone_emmission">零臭氧排放防止进一步污染和感染。</string>
     <string name="new_home_syndrome_heading">告别“新居综合症”。</string>
-    <string name="new_home_syndrome_intro_part1" formatted="false">\'新居综合症\'正随着城市化蔓延。 甲醛和甲苯等有害及有毒气体是由合成建筑及装饰材料释放到空气中的。 这些污染物可在施工完成后持续释放 4 年。 \n\n在中国，高达 50% 家庭的空气中甲醛含量超过国家标准，TVOC 超出国家标准 40%。</string>
+    <string name="new_home_syndrome_intro_part1" formatted="false">\“新居综合症\”正随着城市化蔓延。 甲醛和甲苯等有害及有毒气体是由合成建筑及装饰材料释放到空气中的。 这些污染物会在施工完成后持续释放4年。 \n\n在中国，高达 50% 家庭的空气中甲醛含量超过国家标准，TVOC 超出国家标准 40%。</string>
     <string name="new_home_syndrome_intro_part2">飞利浦 VitaShield 微护盾的全新家用过滤网提供三重保护，防止\'新居综合症\'：</string>
     <string name="vistashield_features">1. 活性炭涂层可捕捉外表面的甲醛。 \n\n2. 每克活性炭的表面积约为 1000 平方米。 诸多污染物被如此巨大的表面积过滤掉。\n\n3. 纳米孔经过精确定位，可滤掉和吸附有害气体。\n\n在 30 立方米房间中的测试显示，使用全新家用过滤网 3 小时后，几乎可以过滤掉所有甲醛。</string>
     <string name="airborne_disease_heading">远离“飞”来横疾</string>
     <string name="airborne_disease_desc">人口密度的增加、全球化进程和抗药性加剧了通过空气传播疾病的发病率。 从办公室到各类公共场合，大大增加了人们罹患传染病的风险。\n\n飞利浦 VitaShield 微护盾可以滤除最低微观层级为 20 纳米的空气污染物，足够对付例如禽流感、流感病毒、军团杆菌等病原体和其他常见病原体。\n\n经测试，在 1 个小时之内，飞利浦 VitaShield 微护盾减少了 99.9% 的细菌 和病毒。</string>
     <string name="outdoor_color_explained_intro">主要城市空气质量和 PM2.5 水平检测。 来源：美国大使馆北京空气质量监测系统（美国驻华大使馆监测中心：beijing.usembassy-china.org.cn）和北京市环境保护监测中心（北京市环境保护监测中心：www.bjmemc.com.cn）。</string>
     <string name="outdoor_hazardous">有害。 健康人士会感觉到活动耐力降低。 可能会出现严重过敏，空气质量可能会引发其他疾病。 老人和病人应呆在室内，避免运动。 健康人士应避免室外活动。</string>
-    <string name="outdoor_unhealthy">非常不健康。 健康人士会受到明显影响。 呼吸系统或心脏有问题的人群会感觉到活动耐力降低。 这些人群和老人应呆在室内，限制活动。</string>
-    <string name="outdoor_moderately_polluted">不健康。 可能会发生 一些过敏。 呼吸系统或心脏有问题的人应减少室外锻炼。</string>
-    <string name="outdoor_slightly_polluted">对敏感人群不健康。 可能会发生一些过敏。呼吸系统或心脏有问题的 人应减少室外锻炼。</string>
+    <string name="outdoor_unhealthy">非常不健康。 健康人士会受到明显影响。 呼吸系统或心脏有问题的人群会感觉到活动耐力降低。 这些人群和老人应呆在室内，减少活动量。</string>
+    <string name="outdoor_moderately_polluted">不健康。 可能会出现一些过敏现象。 呼吸系统或心脏有问题的人应减少室外锻炼。</string>
+    <string name="outdoor_slightly_polluted">对敏感人群不健康。 可能会出现一些过敏现象。呼吸系统或心脏有问题的 人应减少室外锻炼。</string>
     <string name="outdoor_moderate">中等。 高度敏感人群应减少室外锻炼。</string>
     <string name="outdoor_good">良好。 对健康无负面影响。</string>
-    <string name="indoor_very_unhealthy">空气质量非常不健康。 颗粒水平极高。 预计 PM2.5 值会处于很高水平。 峰值水平可能是由香烟烟雾、烹饪、真空清扫、蜡烛和熏香造成。 应避免长时间呆在具有此类颗粒水平空气的区域中。 肺部有问题的成人和儿童、心脏有问题的成人以及老年人应避免剧烈的体力活动。 哮喘患者可能会需要更频繁地使用缓解型吸入器。 </string>
-    <string name="indoor_unhealthy">空气质量不健康。 颗粒水平很高。 预计 PM2.5 值也会处于更高水平。 应避免长期呆在具有此类颗粒水平空气的区域中。 可能会发生一些过敏。 肺部有问题的成人和儿童、心脏有问题的成人应减少剧烈的体力活动，尤其是出现症状的时候。 哮喘患者可能会需要更频繁地使用吸入器。 老人应减少体力活动。</string>
-    <string name="indoor_moderate">空气质量中等。 空气颗粒水平中等。 预计 PM2.5 水平也是中等。 肺部有问题的成人和儿童以及心脏有问题的成人，如果出现症状，应考虑减少剧烈的体力活动。</string>
-    <string name="indoor_good">空气质量良好。 总体而言，空气中的灰尘颗粒水平较低。 预计 PM2.5 水平也较低。 健康危害轻微。 可以进行日常室内活动。</string>
+    <string name="indoor_very_unhealthy">空气质量非常不健康。 颗粒水平极高。 预计 PM2.5 值会处于很高水平。 之所以达到如此之高的水平，可能是由香烟烟雾、烹饪、吸尘器使用、蜡烛燃烧和熏香所造成。 应避免长时间呆在具有此类颗粒水平空气的区域中。 肺部有问题的成人和儿童、心脏有问题的成人以及老年人应避免剧烈的体力活动。 哮喘患者可能会需要更频繁地使用缓解型吸入器。</string>
+    <string name="indoor_unhealthy">空气质量不健康。 颗粒水平很高。 预计 PM2.5 值也会处于更高水平。 应避免长期呆在具有此类颗粒水平空气的区域中。可能会出现一些过敏症状。 肺部有问题的成人和儿童、心脏有问题的成人应减少剧烈的体力活动，尤其是出现相应症状的时候。 哮喘患者可能会需要更频繁地使用吸入器。 老人应减少体力活动。</string>
+    <string name="indoor_moderate">空气质量中等。 空气颗粒水平中等。 预计 PM2.5 水平也是中等。 肺部有问题的成人和儿童以及心脏有问题的成人，如果出现相应症状，应考虑减少剧烈的体力活动。</string>
+    <string name="indoor_good">空气质量良好。总体而言，空气中的灰尘较少，颗粒水平较低。预计PM2.5水平也较低。对健康无甚危害。可以在室内进行一般的日常活动。</string>
     <string name="indoor_color_explained_intro">飞利浦智能空气应用程序按十分制显示内置的智能传感器测得的实时空气颗粒水平。您可以在家中读取更新的空气质量信息，包括 PM2.5 浓度。</string>
     <!-- Diagnostics -->
     <!-- EWS -->
@@ -314,33 +314,33 @@
     <string name="lbl_kitchen">Kitchen</string>
     <string name="img_description">描述</string>
     <string name="wifi_setup">Wi-Fi 设置</string>
-    <string name="ews_intro_message1_str">按照下面 4 个简单步骤，将飞利浦智能空气净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>
-    <string name="ews_intro_message2_str">为成功进行 Wi-Fi 连接，请将飞利浦智能空气净化器放置在路由器附近。墙壁等障碍物可能影响 Wi-Fi 性能</string>
+    <string name="ews_intro_message1_str">按照下面 4 个简单步骤，将飞利浦智控净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>
+    <string name="ews_intro_message2_str">为成功进行 Wi-Fi 连接，请将飞利浦智控净化器放置在路由器附近。墙壁等障碍物可能影响 Wi-Fi 性能。</string>
     <string name="get_start">使用入门</string>
     <string name="step1_off_3">步骤 1（共4 步）</string>
     <string name="step20_off_3">步骤 2（共 4 步</string>
     <string name="step2_off_3">步骤 3（共 4 步）</string>
     <string name="step3_off_3">步骤 4（共 4 步）</string>
     <string name="step1_instruction">确认 Wi-Fi 连接。</string>
-    <string name="step2_instruction">在飞利浦智能空气净化器上确认 Wi-Fi。</string>
-    <string name="step3_instruction">将飞利浦智能空气净化器连接到您的家庭 Wi-Fi 网络。</string>
+    <string name="step2_instruction">在飞利浦智控净化器上确认 Wi-Fi。</string>
+    <string name="step3_instruction">将飞利浦智控净化器连接到您的家庭 Wi-Fi 网络。</string>
     <string name="step1_msg1">您目前正在使用</string>
     <string name="step2_msg1">Press Power and Childlock buttons simultaneously until the Wi-Fi LED is</string>
     <string name="step2_msg2">Wi-Fi LED 是否</string>
     <string name="orange">橙色</string>
     <string name="step3_msg1">输入密码</string>
-    <string name="step3_msg2">您将在哪个房间放置飞利浦智能空气净化器（例如起居室）？</string>
-    <string name="congratulation_msg">您的飞利浦智能空气净化器现已连接到您的家庭 Wi-Fi 网络，并已与您的手机配对。</string>
-    <string name="congratulation_btn_txt">开始使用您的飞利浦智能空气净化器</string>
+    <string name="step3_msg2">您将在哪个房间放置飞利浦智控净化器（例如起居室）？</string>
+    <string name="congratulation_msg">您的飞利浦智控净化器现已连接到您的家庭 Wi-Fi 网络，并已与您的手机配对。</string>
+    <string name="congratulation_btn_txt">开始使用您的飞利浦智控净化器</string>
     <string name="show_password_label">显示密码。</string>
-    <string name="step1_alert_msg">是否要将您的飞利浦智能空气净化器连接到此 Wi-Fi 网络？</string>
+    <string name="step1_alert_msg">是否要将您的飞利浦智控净化器连接到此 Wi-Fi 网络？</string>
     <string name="connect_2_network_msg1">选择家庭 Wi-Fi 网络。</string>
     <string name="connect_2_network_msg2">离开应用程序之前，请先阅读所有 3 个步骤。</string>
     <string name="connect_2_network_msg3">轻击手机设置中的 Wi-Fi。</string>
     <string name="connect_2_network_msg4">选择您的家庭网络。</string>
-    <string name="connect_2_network_msg5">返回至飞利浦智能空气净化器应用程序。</string>
+    <string name="connect_2_network_msg5">返回至飞利浦智控净化器应用程序。</string>
     <string name="error_ssid_msg1">确保手机已连接至</string>
-    <string name="contact_philips_support_msg1">飞利浦智能空气净化器无法激活设置模式。</string>
+    <string name="contact_philips_support_msg1">飞利浦智控净化器无法激活设置模式。</string>
     <string name="contact_philips_support_msg1_3attempt">连接失败3次.</string>
     <string name="contact_philips_support_msg2">请联系飞利浦支持</string>
     <string name="contact_philips_support_msg3">致电我们：</string>
@@ -354,8 +354,8 @@
     <string name="b_capital">B</string>
     <string name="c_capital">C</string>
     <string name="error_purifier_not_detect_head">出现故障。</string>
-    <string name="error_purifier_not_detect_msg1">手机无法在  上检测到飞利浦智能空气净化器</string>
-    <string name="error_purifier_not_detect_msg2">请确保您的飞利浦智能空气净化器处于家庭 Wi-Fi 网络的范围内。</string>
+    <string name="error_purifier_not_detect_msg1">手机无法在  上检测到飞利浦智控净化器</string>
+    <string name="error_purifier_not_detect_msg2">请确保您的飞利浦智控净化器处于家庭 Wi-Fi 网络的范围内。</string>
     <string name="error_purifier_not_detect_btn_txt">请重试</string>
     <string name="no_network">没有 Wi-Fi 网络</string>
     <string name="yes">是</string>
@@ -368,21 +368,21 @@
     <string name="router">路由器</string>
     <string name="wifi_addr">Wi-Fi 地址</string>
     <string name="adv_confiq">高级配置</string>
-    <string name="error_ts01_01_title">您的飞利浦智能空气净化器未处于设置模式。</string>
+    <string name="error_ts01_01_title">您的飞利浦智控净化器未处于设置模式。</string>
     <string name="error_ts01_01_message">请按照下面 4 个简单步骤解决问题。</string>
-    <string name="error_ts01_02_title">飞利浦智能空气净化器的 Wi-Fi 信号太弱。</string>
-    <string name="error_ts01_03_title">您的手机无法接收来自飞利浦智能空气净化器的数据。</string>
+    <string name="error_ts01_02_title">飞利浦智控净化器的 Wi-Fi 信号太弱。</string>
+    <string name="error_ts01_03_title">您的手机无法接收来自飞利浦智控净化器的数据。</string>
     <string name="error_ts01_04_title">无法连接到您的空气净化器。</string>
-    <string name="error_ts01_05_title">手机无法在无线网络上找到飞利浦智能空气净化器。</string>
+    <string name="error_ts01_05_title">手机无法在无线网络上找到飞利浦智控净化器。</string>
     <string name="support_ts01_title">飞利浦支持</string>
     <string name="congratulations">恭喜您！</string>
-    <string name="support_ts01_message">拔掉飞利浦智能空气净化器的插头。</string>
+    <string name="support_ts01_message">拔掉飞利浦智控净化器的插头。</string>
     <string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in and press the Power button to switch on the purifier.</string>
     <string name="support_ts03_message">Press Power and Childlock buttons simultaneously until the Wi-Fi LED is ORANGE</string>
     <string name="support_ts05_message">是Wi-Fi的LED灯</string>
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
-    <string name="checking_signal_strength_title">正在将您的飞利浦智能空气净化器连接到  </string>
+    <string name="checking_signal_strength_title">正在将您的飞利浦智控净化器连接到  </string>
     <string name="checking_signal_strength_message">这可能需要几秒钟。您将会自动重定向。</string>
     <string name="cancel_wifi_setup_title">是否确定要取消 Wi-Fi 设置？</string>
     <string name="cancel_wifi_setup_message">这将删除目前为止输入的所有数据。</string>
