@@ -120,7 +120,14 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 				// Store user profile in UserRegistrationActivity so it can be used when usage agreement is accepted
 				storeUserProfile();
 				
-				((UserRegistrationActivity)getActivity()).showUsageAgreementFragment();
+				//((UserRegistrationActivity)getActivity()).showUsageAgreementFragment();
+				try {
+					((UserRegistrationActivity)getActivity()).createAccount();
+					((UserRegistrationActivity)getActivity()).showProgressDialog();
+				} catch (Exception e) {
+					ALog.e(ALog.USER_REGISTRATION, "Create account error " + e.getMessage());
+					showErrorDialog(Error.GENERIC_ERROR);
+				}
 				dismissKeyBoard();
 				break;
 			case PASSWORD:

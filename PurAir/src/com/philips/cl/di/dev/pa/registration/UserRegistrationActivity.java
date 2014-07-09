@@ -47,7 +47,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
 			showSuccessFragment();
 		} else {
-			showCreateAccountFragment();
+			showUsageAgreementFragment();
 		}
 	}
 	
@@ -126,13 +126,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 				break;
 			}
 			
-			try {
-				createAccount();
-				showProgressDialog();
-			} catch (Exception e) {
-				ALog.e(ALog.USER_REGISTRATION, "Create account error " + e.getMessage());
-				showErrorDialog(Error.GENERIC_ERROR);
-			}
+			showCreateAccountFragment() ;
 			break;
 		default:
 			break;
@@ -209,6 +203,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		if(mListener != null) {
 			mListener.userRegistrationClosed(firstUse);
 		}
+		ALog.i(ALog.USER_REGISTRATION, "Before calling finish") ;
 		finish();
 	}
 	
