@@ -63,7 +63,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		mPurifier = ((MainActivity) getActivity()).getCurrentPurifier();
+		mPurifier = PurifierManager.getInstance().getCurrentPurifier();
 		pairingHandler = new PairingHandler(null, mPurifier);
 		super.onCreate(savedInstanceState);
 	}
@@ -79,21 +79,27 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {		
 		super.onActivityCreated(savedInstanceState);
+		Activity parent = this.getActivity();
+		if (parent == null) return;
+		
+		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "+((MainActivity)parent).getRightMenuDisconnectionState());
+		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED 
+				|| ((MainActivity)parent).getRightMenuDisconnectionState()) {
 
-		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED) {
-			Activity parent = this.getActivity();
-			if (parent != null && parent instanceof MainActivity) {
-				try {
-					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.notification_nopurifier_title, R.string.notification_nopurifier_text, R.string.notification_nopurifier_positivebtn);
-					dialog.setOnClickListener(this);
+			try {
+				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
+						R.string.notification_nopurifier_title,
+						R.string.notification_nopurifier_text,
+						R.string.notification_nopurifier_positivebtn);
+				
+				dialog.setOnClickListener(this);
 //				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
-					FragmentManager fm = getActivity().getSupportFragmentManager();
-					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
-				} catch (IllegalStateException e) {
-					ALog.e(ALog.NOTIFICATION, e.getMessage());
-				}
-				return;
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+			} catch (IllegalStateException e) {
+				ALog.e(ALog.NOTIFICATION, e.getMessage());
 			}
+			return;
 		}
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		pairingHandler.setPermissionListener(this);
@@ -122,7 +128,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			@Override
 			public void onClick(View v) {
 				Activity parent = NotificationsFragment.this.getActivity();
-				if (parent == null || !(parent instanceof MainActivity)) return;
+				if (mPurifier == null || parent == null || !(parent instanceof MainActivity)) return;
 
 				((MainActivity) parent).showPairingDialog(mPurifier);
 				parent.onBackPressed();				

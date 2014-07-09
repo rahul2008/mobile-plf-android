@@ -941,6 +941,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		return PurifierManager.getInstance().getCurrentPurifier();
 	}
 	
+	//Added for checking right menu icon is orange
+	public boolean getRightMenuDisconnectionState() {
+		Drawable rightMenuDrawable = rightMenu.getDrawable();
+		Drawable disconnRightMenuDrawable = getResources().getDrawable(R.drawable.right_bar_icon_orange_2x);
+		if (disconnRightMenuDrawable == null) return false;
+		return disconnRightMenuDrawable.getConstantState().equals(rightMenuDrawable.getConstantState());
+	}
+	
 	private void initializeFirstPurifier() {
 		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 		if (devices.size() <= 0) return;
