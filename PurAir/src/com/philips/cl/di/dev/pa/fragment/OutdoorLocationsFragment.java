@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import java.util.Hashtable;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -37,12 +39,13 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
 	private OutdoorLocationAbstractUpdateAsyncTask mOutdoorLocationAbstractUpdateAsyncTask;
+	private Hashtable<String, Boolean> selectedItemHashtable;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		isGooglePlayServiceAvailable = Utils.isGooglePlayServiceAvailable();
 		Log.i(TAG, "isGooglePlayServiceAvailable " + isGooglePlayServiceAvailable);
-		
+		selectedItemHashtable = new Hashtable<String, Boolean>();
 		
 		super.onCreate(savedInstanceState);
 	}
@@ -131,6 +134,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 					tvName.setText(city + ", " + cityCN);
 					tvName.setTag(cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
+					
+					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
+					
+					String rowId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_ID));
+					if (selectedItemHashtable.containsKey(rowId) && selectedItemHashtable.get(rowId)) {
+						delete.setVisibility(View.VISIBLE);
+						deleteSign.setImageResource(R.drawable.delete_t2b);
+					} else {
+						delete.setVisibility(View.GONE);
+						deleteSign.setImageResource(R.drawable.delete_l2r);
+					}
 				}
 			};
 			
@@ -157,12 +171,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			
+			Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
+			cursor.moveToPosition(position);
+			
+			String rowId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_ID));
+			
 			if(delete.getVisibility() == View.GONE) {
+				
 				delete.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.delete_t2b);
 				
-				Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
-				cursor.moveToPosition(position);
+				selectedItemHashtable.put(rowId, true);
 				
 				final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
 				
@@ -193,6 +212,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			} else {
 				delete.setVisibility(View.GONE);
 				deleteSign.setImageResource(R.drawable.delete_l2r);
+				selectedItemHashtable.put(rowId, false);
 			}
 		}
 	};

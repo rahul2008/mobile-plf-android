@@ -100,7 +100,9 @@ public class OutdoorManager implements OutdoorEventListener {
 		if(outdoorAQI != null) {
 			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorAQIDataReceived aqi " + outdoorAQI.getPM25() + " : " + outdoorAQI.getAQI());
 			addCityDataToMap(areaID, null, null, outdoorAQI, null);
-			iListener.updateUIOnDataChange();
+			if (iListener != null) {
+				iListener.updateUIOnDataChange();
+			}
 		}
 	}
 
@@ -110,7 +112,9 @@ public class OutdoorManager implements OutdoorEventListener {
 		if(outdoorWeather != null) {
 			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorWeatherDataReceived temp " + outdoorWeather.getTemperature() + " : " + outdoorWeather.getWeatherIcon() + " : " + outdoorWeather.getHumidity());
 			addCityDataToMap(areaID, null, null, null, outdoorWeather);
-			iListener.updateUIOnDataChange();
+			if (iListener != null) {
+				iListener.updateUIOnDataChange();
+			}
 		}
 	}
 
