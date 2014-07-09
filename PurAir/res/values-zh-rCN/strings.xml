@@ -71,7 +71,7 @@
     <string name="n_a">N.A.</string>
     <string name="take_action">采取措施</string>
     <string name="no_connection">无连接</string>
-    <string name="no_data">无资料</string>
+    <string name="no_data">无数据</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">适中</string>
@@ -134,10 +134,10 @@
     <string name="buy_philips_smart_air_purifier">飞利浦智控净化器</string>
     <string name="available_from">可从%s购买</string>
     <!-- Indoor and Outdoor Details -->
-    <string name = "purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
-    <string name="aqi_history">AQI History</string>
-    <string name="aqi_history_download_failed">AQI historic data download failed!</string>
-    <string name="aqi_history_not_avialable">AQI historic data not available!</string>
+    <string name = "purifier_not_connect_error">空气净化器未连接。请您先与您的净化器进行连接。</string>
+    <string name="aqi_history">AQI历史数据</string>
+    <string name="aqi_history_download_failed">AQI历史数据下载失败！</string>
+    <string name="aqi_history_not_avialable">无法获取空气质量指数历史数据！</string>
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">戶外</string>
     <string name="current_location">当前位置</string>
@@ -310,8 +310,8 @@
     <string name="indoor_color_explained_intro">飞利浦智能空气应用程序按十分制显示内置的智能传感器测得的实时空气颗粒水平。您可以在家中读取更新的空气质量信息，包括 PM2.5 浓度。</string>
     <!-- Diagnostics -->
     <!-- EWS -->
-    <string name="lbl_living_room">Living Room</string>
-    <string name="lbl_kitchen">Kitchen</string>
+    <string name="lbl_living_room">客厅</string>
+    <string name="lbl_kitchen">厨房</string>
     <string name="img_description">描述</string>
     <string name="wifi_setup">Wi-Fi 设置</string>
     <string name="ews_intro_message1_str">按照下面 4 个简单步骤，将飞利浦智控净化器连接到您的家庭 Wi-Fi，并与您的手机配对。</string>
@@ -325,7 +325,7 @@
     <string name="step2_instruction">在飞利浦智控净化器上确认 Wi-Fi。</string>
     <string name="step3_instruction">将飞利浦智控净化器连接到您的家庭 Wi-Fi 网络。</string>
     <string name="step1_msg1">您目前正在使用</string>
-    <string name="step2_msg1">Press Power and Childlock buttons simultaneously until the Wi-Fi LED is</string>
+    <string name="step2_msg1">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变为</string>
     <string name="step2_msg2">Wi-Fi LED 是否</string>
     <string name="orange">橙色</string>
     <string name="step3_msg1">输入密码</string>
@@ -377,8 +377,8 @@
     <string name="support_ts01_title">飞利浦支持</string>
     <string name="congratulations">恭喜您！</string>
     <string name="support_ts01_message">拔掉飞利浦智控净化器的插头。</string>
-    <string name="support_ts02_message">Wait 15 seconds, then plug the Philips Smart Air Purifier back in and press the Power button to switch on the purifier.</string>
-    <string name="support_ts03_message">Press Power and Childlock buttons simultaneously until the Wi-Fi LED is ORANGE</string>
+    <string name="support_ts02_message">等待15秒钟之后请您再次将空气净化器接入电源并开启。</string>
+    <string name="support_ts03_message">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变为 橙色</string>
     <string name="support_ts05_message">是Wi-Fi的LED灯</string>
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
@@ -387,14 +387,14 @@
     <string name="cancel_wifi_setup_title">是否确定要取消 Wi-Fi 设置？</string>
     <string name="cancel_wifi_setup_message">这将删除目前为止输入的所有数据。</string>
     <string name="check_signal_strenth_title">正在与您的空气净化器通信。</string>
-    <string name="city_shanghai">Shanghai</string>
-    <string name="city_location">Chinese Govt</string>
+    <string name="city_shanghai">上海</string>
+    <string name="city_location">中国政府</string>
     <string name="date_empty">--:--</string>
-    <string name="alert_auto_network_switch_title">Auto network Switch</string>
-    <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch or Avoid poor connections\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
-    <string name="verify_power_on_title">Switching on the Philips Smart Air Purifier</string>
-    <string name="verify_power_on_msg1">Plug in the Philips Smart Air Purifier and press the Power button to switch on the purifier.</string>
-    <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
+    <string name="alert_auto_network_switch_title">网络自动切换</string>
+    <string name="alert_auto_network_switch_msg1">请至Wi-Fi高级设置中取消“网络自动切换或避免不良连接”功能</string>
+    <string name="verify_power_on_title">开启飞利浦智控空气净化器</string>
+    <string name="verify_power_on_msg1">插入式的空气净化器和按下电源按钮启动净化器。</string>
+    <string name="verify_power_on_msg2">您的飞利浦智控空气净化器开启了吗？</string>
     
     <!-- Tools fragments -->
 <!--     <string name="submit">提交</string> -->
@@ -428,12 +428,12 @@
     <string name="firmware_update">固件更新</string>
     <string name="firmware_download_failed">固件下载失败！</string>
     <string name="i">i</string>
-<!--     <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string> -->
+<!--     <string name="firmware_mandatory_msg">您的智控空气净化器固件将在几分钟后更新完成。感谢您的耐心等待。</string> -->
     <string name="firmware_download_info">您的智控空气净化器正在更新其固件。请稍候，请不要关闭智控空气净化器</string>
     <string name="firmware_failed_msg">请确保您的 %s 已通电并已连接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的固件安装失败。</string>
     <string name="firmware_failed_update_msg">请联系飞利浦以获得支持</string>
-    <string name="firmware_install_success">Successfully installed new firmware</string>
+    <string name="firmware_install_success">新固件已成功安装</string>
     <string name="new_firmware">新固件</string>
     <string name="firmware_version_txt">固件版本</string>
 <!--     <string name="releasedate_txt">释放日期</string> -->
@@ -441,7 +441,7 @@
 <!--     <string name="firmware_update_successful">固件更新成功！</string> -->
     <string name="firmware_current_version">当前版本： </string>
     <string name="firmware_new_version">新版本： </string>
-<!--     <string name="release_notes_detailedtxt">Release notes description</string> -->
+<!--     <string name="release_notes_detailedtxt">更新部分详述</string> -->
 <!--     <string name="release_notes_detailedtxt2">需要更新应用程序:\n</string> -->
     <string name="installing_firmware_step">步骤 2（共 2 步）</string>
     <string name="downloading_firmware_step">步骤 1（共 2 步）</string>
@@ -510,7 +510,37 @@
     <string name="demo_mode_final_step_msg">现在，您的飞利浦智控空气净化器已与手机配对，可随时进行演示。</string>
     <string name="demo_mode_final_step_btn_txt">开始演示</string>
     <string name="cancel_demo_setup_title">是否确定要取消演示设置？</string>
-    <string name="wifi_enable_title_txt">Your Wifi is switched off</string>
-    <string name="wifi_enable_msg_txt">Please go to your settings or swipe-up menu and enable wifi</string>
-    <string name="wifi_enable_button_txt">Go to settings</string>
+    <string name="wifi_enable_title_txt">你的Wi-Fi已关闭</string>
+    <string name="wifi_enable_msg_txt">请转到您的设置或刷卡式菜单，然后启用Wi-Fi</string>
+    <string name="wifi_enable_button_txt">去你的手机设置</string>
+    
+    <!-- Start flow -->
+    <string name="no_internet_title">无网络连接</string>
+    <string name="no_internet_text">若要继续请连接网络</string>
+    <string name="location_services_title">定位服务</string>
+    <string name="location_services_text">请提供您的位置以便我们向您提供您所在方位的实时空气质量信息</string>
+    <string name="location_services_turned_off_title">定位服务已关闭</string>
+    <string name="location_services_turned_off_text">开启定位服务您可以更准确地告知您的方位，以便我们向您提供空气质量信息实时更新</string>
+    <string name="no_wifi_title">没有找到无线网络</string>
+    <string name="no_wifi_text">若要继续请连接无线网络</string>
+    <string name="do_not_allow">不允许</string>
+    <string name="allow">允许</string>
+    <string name="turn_it_on">开启</string>
+    <string name="welcome">欢迎</string>
+    <string name="healthy_air_always">长久保护，持久健康</string>
+    <string name="connect_your_purifier">连接您的净化器 </string>
+    <string name="benefits_of_the_purifier">飞利浦智能空气净化器的益处 </string>
+    <string name="did_you_know">您了解吗？</string>
+    <string name="did_you_know_text">该应用程序可为您提供不同位置的室外 AQI 以及有关空气质量的其他信息。</string>
+    <string name="continue_without_smart_air_purifier">在不连接智控空气净化器的情况下继续</string>
+    <string name="purifier_connected_to_wlan">您的无线局域网 %s 下显示有不止一台智控空气净化器可供连接</string>
+    <string name="or_add_new_purifier">或添加一台新智控空气净化器</string>
+    <string name="add_that_one">添加此台</string>
+    <string name="which_purifier_to_connect">请问您想要连接哪一台智控空气净化器呢？</string>
+    <string name="searching">正在搜索智控空气净化器</string>
+    <string name="are_you_adding">您需要添加一台从未连接过的空气净化器吗？</string>
+    <string name="your_new_purifier">您的智控空气净化器是新加入的，还没有连接到您的家庭网络哦。</string>
+    <string name="yes_it_is_new">是的，还未连接。</string>
+    <string name="no_already_connected">不用，已经连接过了。</string>
+    <string name="how_clean_is_your_air">您家中的空气有多洁净？</string>
 </resources>
