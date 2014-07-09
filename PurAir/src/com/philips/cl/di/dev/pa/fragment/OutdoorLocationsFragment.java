@@ -25,6 +25,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractUpdateAsyncTask;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -75,7 +76,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	
 	@Override
 	public void onResume() {
-		mOutdoorLocationFillAsyncTask = (OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
+		mOutdoorLocationFillAsyncTask = 
+				(OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
 			
 			@Override
 			protected void onPostExecute(Void result) {
@@ -83,7 +85,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			}
 		}.execute(new String[]{});
 		
-		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
+		mOutdoorLocationGetAsyncTask = 
+				(OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
 
 			@Override
 			protected void onPostExecute(Cursor result) {
@@ -97,6 +100,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public void onPause() {
 		mOutdoorLocationFillAsyncTask.cancel(true);
 		mOutdoorLocationGetAsyncTask.cancel(true);
+		ALog.i(ALog.OUTDOOR_LOCATION, 
+				"mOutdoorLocationAbstractUpdateAsyncTask: "+mOutdoorLocationAbstractUpdateAsyncTask);
 		super.onPause();
 	}
 

@@ -50,10 +50,12 @@ public class OutdoorLocationDatabase {
 	}
 	
 	synchronized void fillDatabaseForCSV() {
-		InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.outdoor_locations_short);
+		InputStream inputStream = PurAirApplication.getAppContext()
+				.getResources().openRawResource(R.raw.outdoor_locations_short);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
 		
-		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorLocationDatabase fillDatabaseForCSV inputStream " + inputStream + " reader " + reader);
+		ALog.i(ALog.OUTDOOR_LOCATION,
+				"OutdoorLocationDatabase fillDatabaseForCSV inputStream " + inputStream + " reader " + reader);
 		
 		String outdoorLocation = "";
         StringTokenizer stringTokenizer = null;
@@ -81,7 +83,8 @@ public class OutdoorLocationDatabase {
 	        		values.put(AppConstants.KEY_DISTRICT, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
 
-	        		values.put(AppConstants.KEY_SHORTLIST, OutdoorManager.getInstance().getCitiesList().contains(areaID) ? 1 : 0);
+	        		values.put(AppConstants.KEY_SHORTLIST,
+	        				OutdoorManager.getInstance().getCitiesList().contains(areaID) ? 1 : 0);
 	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
@@ -133,7 +136,8 @@ public class OutdoorLocationDatabase {
 			values.put(AppConstants.KEY_SHORTLIST, "0");
 		}
 		
-		mOutdoorLocationDatabase.update(AppConstants.TABLE_CITYDETAILS, values, AppConstants.KEY_AREA_ID + " = " + areaId, null);
+		mOutdoorLocationDatabase.update(
+				AppConstants.TABLE_CITYDETAILS, values, AppConstants.KEY_AREA_ID + " = " + areaId, null);
 	}
 	
 	private boolean isCityDetailsTableFilled() {

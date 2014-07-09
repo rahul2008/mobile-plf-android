@@ -12,7 +12,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -81,6 +80,7 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
+//import android.content.SharedPreferences.Editor;
 //import java.util.HashMap;
 //import android.content.SharedPreferences.Editor;
 //import android.widget.ArrayAdapter;
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private MenuItem rightMenuItem;
 	private SharedPreferences mPreferences;
-	private Editor mEditor;
+//	private Editor mEditor;
 	private int mVisits;
 
 //	private SharedPreferences outdoorLocationPrefs;
@@ -694,7 +694,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public void onFirmwareEventReceived() {
 		final PurAirDevice purifier = getCurrentPurifier();
 		
-		ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived");
+		ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived: " + purifier);
 	}
 	
 	@Override

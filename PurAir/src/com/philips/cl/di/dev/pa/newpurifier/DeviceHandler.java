@@ -2,8 +2,10 @@ package com.philips.cl.di.dev.pa.newpurifier;
 
 import java.net.HttpURLConnection;
 import java.util.Hashtable;
+
 import android.annotation.SuppressLint;
 import android.os.Handler;
+
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
 import com.philips.cl.di.dev.pa.purifier.RoutingStrategy;
