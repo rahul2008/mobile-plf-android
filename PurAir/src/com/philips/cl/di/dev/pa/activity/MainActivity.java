@@ -71,6 +71,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
+import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
@@ -196,18 +197,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 		showFirstFragment();
 		
-//		outdoorLocationPrefs = getSharedPreferences(OUTDOOR_LOCATION_PREFS, Context.MODE_PRIVATE);
-//		HashMap<String, String> outdoorLocationsMap = (HashMap<String, String>) outdoorLocationPrefs.getAll();
-//		outdoorLocationsList = new ArrayList<String>();
-//		int size = outdoorLocationsMap.size();
-//		for (int i = 0; i < size; i++) {
-//			outdoorLocationsList.add(outdoorLocationsMap.get("" + i));
-//		}
-//		outdoorLocationsAdapter = new ArrayAdapter<String>(this, R.layout.list_item, R.id.list_text, outdoorLocationsList);
-		
 		initializeCPPController();
 		
-		initializeFirstPurifier();
+//		initializeFirstPurifier();
 		
 		checkForUpdatesHockeyApp();
 		
@@ -216,9 +208,11 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	@Override
 	protected void onResume() {
 		super.onResume();
-		NetworkReceiver.getInstance().addNetworkStateListener(this);
-		DiscoveryManager.getInstance().start(this);
-		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
+			NetworkReceiver.getInstance().addNetworkStateListener(this);
+			DiscoveryManager.getInstance().start(this);
+			PurifierManager.getInstance().addAirPurifierEventListener(this);
+		}
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		
 		removeFirmwareUpdateUI();
@@ -230,21 +224,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	@Override
 	protected void onPause() {
 		super.onPause();
-//		if (outdoorLocationPrefs != null) {
-//			Editor editor = outdoorLocationPrefs.edit();
-//			editor.clear();
-//			int count = outdoorLocationsAdapter.getCount();
-//			for (int i = 0; i < count; i++) {
-//				editor.putString("" + i, outdoorLocationsAdapter.getItem(i));
-//			}
-//			editor.commit();
-//		}
 		SetupDialogFactory.getInstance(this).cleanUp();
 		
-		NetworkReceiver.getInstance().removeNetworkStateListener(this);
-		
-		PurifierManager.getInstance().removeAirPurifierEventListener(this);
-		DiscoveryManager.getInstance().stop();
+		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
+			NetworkReceiver.getInstance().removeNetworkStateListener(this);
+			
+			PurifierManager.getInstance().removeAirPurifierEventListener(this);
+			DiscoveryManager.getInstance().stop();
+		}
 	}
 
 	@Override
@@ -378,8 +365,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public void setVisibilityAirPortTaskProgress(int state) {
 		airPortTaskProgress.setVisibility(state);
 	}
-
-
 	
 	private OnClickListener actionBarClickListener = new OnClickListener() {
 		
@@ -953,6 +938,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 		if (devices.size() <= 0) return;
 		
+		ALog.i(ALog.APP_START_UP, "MainAcitivty$initializeFirstPurifier devices list size " + devices.size() + " :: " + devices);
+		
 		// Select the first locally connected device
 		PurAirDevice firstPurifier = devices.get(0);
 		
@@ -965,9 +952,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 		
-		PurAirDevice current = getCurrentPurifier();
-		if( current != null ) return ;
-		initializeFirstPurifier();
+//		PurAirDevice current = getCurrentPurifier();
+//		if( current != null ) return ;
+//		initializeFirstPurifier();
 		// Connection update will happen from subscription callback
 	}
 

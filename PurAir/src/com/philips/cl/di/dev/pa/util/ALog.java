@@ -52,6 +52,7 @@ public class ALog {
 	public static final String SSDPHELPER = "SsdpHelper";
 	public static final String CPPDISCHELPER = "CppDiscoveryHelper";
 	public static final String TOOLS = "ToolsFragment";
+	public static final String APP_START_UP = "AppStartUp";
 	
 	private static boolean isLoggingEnabled = true;
 	

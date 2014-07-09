@@ -18,6 +18,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 
 public class StartFlowDialogFragment extends DialogFragment {
@@ -167,16 +169,22 @@ public class StartFlowDialogFragment extends DialogFragment {
 		
 		builder.setTitle(R.string.which_purifier_to_connect)
 		.setItems(listItems, new DialogInterface.OnClickListener() {
-               public void onClick(DialogInterface dialog, int position) {
-            	   Log.e("TEMP", "item clicked: " + apItems.get(position).getName());
-            	   //TODO connect with specific air purifier
-            	   
-            	   SharedPreferences mPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-            	   Editor mEditor = mPreferences.edit();
-            	   mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
-            	   mEditor.commit();
-            	   dismiss();            	   
-               }
+			public void onClick(DialogInterface dialog, int position) {
+				Log.e("TEMP", "item clicked: " + apItems.get(position).getName());
+				//TODO connect with specific air purifier
+				ALog.i(ALog.APP_START_UP, "StartFlow->Show purifiers list Item clicked @position " + position + " activity " + getActivity());
+				PurAirDevice currentPurifier = apItems.get(position);
+
+				PurifierManager.getInstance().setCurrentPurifier(currentPurifier);
+				
+				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
+
+				SharedPreferences mPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+				Editor mEditor = mPreferences.edit();
+				mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
+				mEditor.commit();
+				dismiss();            	   
+			}
         });
 		return builder;
 	}

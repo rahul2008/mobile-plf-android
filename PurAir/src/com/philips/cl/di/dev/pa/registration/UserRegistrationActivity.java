@@ -200,6 +200,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 	}
 	
 	public void closeUserRegistration(boolean firstUse) {
+		ALog.i(ALog.APP_START_UP, "UserRegistrationActivity$closeUserRegistration listener " + mListener + " firstUse " + firstUse);
 		if(mListener != null) {
 			mListener.userRegistrationClosed(firstUse);
 		}

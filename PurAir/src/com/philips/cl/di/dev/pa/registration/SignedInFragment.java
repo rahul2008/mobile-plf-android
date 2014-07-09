@@ -31,7 +31,7 @@ public class SignedInFragment extends BaseFragment {
 			public void onClick(View v) {
 				SharedPreferences preferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 				boolean firstUse = preferences.getBoolean(SHARED_PREFERENCE_FIRST_USE, true);
-
+				
 				((UserRegistrationActivity)getActivity()).closeUserRegistration(firstUse);
 			}
 		});

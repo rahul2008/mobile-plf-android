@@ -16,6 +16,9 @@ import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity.UserRegistrationChanged;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 
 public class ConnectPurifier {
 
@@ -53,6 +56,8 @@ public class ConnectPurifier {
 	 */
 	public void startAddPurifierToAppFlow() {
 		
+		ALog.i(ALog.APP_START_UP, "ConnectPurifier$startAddPurifierToAppFlow isWifiEnabled :: " + mWifiManager.isWifiEnabled() + " isUserSignedIn " + isUserSignedIn());
+		
 		if (!mWifiManager.isWifiEnabled()) {
 			showNoWifiDialog();
 		} else {
@@ -65,6 +70,7 @@ public class ConnectPurifier {
 	}
 	
 	private void showNoWifiDialog() {
+		ALog.i(ALog.APP_START_UP, "ConnectPurifier$showNoWifiDialog");
 		mBundle.clear();
 		mDialog = new StartFlowDialogFragment();
 		mDialog.setListener(mStartFlowListener);
@@ -74,6 +80,7 @@ public class ConnectPurifier {
 	}
 	
 	private void showNoInternetDialog() {
+		ALog.i(ALog.APP_START_UP, "ConnectPurifier$showNoInternetDialog");
 		mBundle.clear();
 		mDialog = new StartFlowDialogFragment();
 		mDialog.setListener(mStartFlowListener);
@@ -87,18 +94,12 @@ public class ConnectPurifier {
 	}
 	
 	private boolean isInternetConnected() {
-		NetworkMonitor monitor = new NetworkMonitor(mContext, mNetworkChangedListener);
-		mLastKnownNetworkState = monitor.getLastKnownNetworkState();
-		
-		if (mLastKnownNetworkState == NetworkState.MOBILE || mLastKnownNetworkState == NetworkState.WIFI_WITH_INTERNET) {
-			return true;
-		} else {
-			return false; 
-		}
+		ALog.i(ALog.APP_START_UP, "isInternetConnected " + NetworkReceiver.getInstance().getLastKnownNetworkState());
+		return ConnectionState.CONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState();
 	}
 	
 	private void startUserRegistrationFlow() {
-		
+		ALog.i(ALog.APP_START_UP, "ConnectPurifier$startUserRegistrationFlow");
 		if (isInternetConnected()) {
 			Intent intent = new Intent(mContext, UserRegistrationActivity.class);
 			mContext.startActivity(intent);
@@ -110,6 +111,7 @@ public class ConnectPurifier {
 	}
 	
 	private void startChooseFragment() {
+		ALog.i(ALog.APP_START_UP, "ConnectPurifier$startChooseFragment mContext " + mContext);
 		mContext.getSupportFragmentManager().beginTransaction()
 		.replace(R.id.llContainer, new StartFlowChooseFragment())
 		.addToBackStack(null)
