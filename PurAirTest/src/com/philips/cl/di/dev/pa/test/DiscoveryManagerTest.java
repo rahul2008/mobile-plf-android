@@ -179,8 +179,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -197,8 +197,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -215,8 +215,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -233,8 +233,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -251,8 +251,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -269,8 +269,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -329,8 +329,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -349,8 +349,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -369,8 +369,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -389,8 +389,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Connected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -467,8 +467,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -485,8 +485,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -503,8 +503,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -521,8 +521,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -539,8 +539,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -557,8 +557,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -577,8 +577,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -597,8 +597,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -617,8 +617,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -637,8 +637,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -657,8 +657,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -677,8 +677,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_1 + "\",\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, false);
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -856,7 +856,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -874,7 +874,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -892,7 +892,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -910,7 +910,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -928,7 +928,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -946,7 +946,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1006,7 +1006,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1026,7 +1026,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1046,7 +1046,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1066,7 +1066,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertFalse(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1143,8 +1143,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1161,8 +1161,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1179,8 +1179,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1198,7 +1198,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1216,7 +1216,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1234,7 +1234,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1254,7 +1254,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener).onDiscoveredDevicesListChanged();
@@ -1274,7 +1274,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener).onDiscoveredDevicesListChanged();
@@ -1293,8 +1293,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		String event = "{\"State\":\"Disconnected\",\"ClientIds\":[\"" + PURIFIER_EUI64_2 + "\"]}";
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1314,7 +1314,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1334,7 +1334,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1354,7 +1354,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onDiscoverEventReceived(event, true);
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1492,11 +1492,10 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOnViaCpp();
 		
-		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
-		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
-		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		assertFalse(purifier1.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
+		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
+		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
 	}
 	
 	public void testCppSignonEventReceivedRemoteLocal() {
@@ -1512,7 +1511,7 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		mDiscMan.onSignedOnViaCpp();
 		
 		assertTrue(purifier1.isOnlineViaCpp());
-		assertTrue(purifier2.isOnlineViaCpp());
+		assertFalse(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();
@@ -1530,11 +1529,10 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOffViaCpp();
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
-		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
-		assertEquals(ConnectionState.DISCONNECTED, purifier2.getConnectionState());
-		verify(mListener).onDiscoveredDevicesListChanged();
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
+		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier1.getConnectionState());
+		assertEquals(ConnectionState.CONNECTED_REMOTELY, purifier2.getConnectionState());
 	}
 	
 	public void testCppSignoffEventReceivedDisconnectedLocal() {
@@ -1549,8 +1547,8 @@ public class DiscoveryManagerTest extends InstrumentationTestCase {
 		when(mNetwork.getLastKnownNetworkState()).thenReturn(NetworkState.WIFI_WITH_INTERNET);
 		mDiscMan.onSignedOffViaCpp();
 		
-		assertFalse(purifier1.isOnlineViaCpp());
-		assertFalse(purifier2.isOnlineViaCpp());
+		assertTrue(purifier1.isOnlineViaCpp());
+		assertTrue(purifier2.isOnlineViaCpp());
 		assertEquals(ConnectionState.DISCONNECTED, purifier1.getConnectionState());
 		assertEquals(ConnectionState.CONNECTED_LOCALLY, purifier2.getConnectionState());
 		verify(mListener, never()).onDiscoveredDevicesListChanged();

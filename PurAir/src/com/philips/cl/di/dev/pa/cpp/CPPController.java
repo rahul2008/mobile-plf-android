@@ -334,10 +334,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if( action.equalsIgnoreCase("RESPONSE") && dcsResponseListener != null) {
 			dcsResponseListener.onDCSResponseReceived(data) ;
 		}
-		else {
-			if (data == null || dcsEventListener == null) return;		
-			dcsEventListener.onDCSEventReceived(data, fromEui64, action);
-		}
+		if (data == null || dcsEventListener == null) return;		
+		dcsEventListener.onDCSEventReceived(data, fromEui64, action);
 	}
 
 
@@ -481,7 +479,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			String action = "";
 			//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
 			if (status == Errors.SUCCESS) {
-				ALog.i(ALog.ICPCLIENT,"State :"+eventSubscription.getState()) ;
+				ALog.i(ALog.ICPCLIENT,"State :"+eventSubscription.getState())  ;
 				dcsState = ICP_CLIENT_DCS_STATE.STARTED;
 				if(eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
 					dcsState = ICP_CLIENT_DCS_STATE.STOPPED ;
