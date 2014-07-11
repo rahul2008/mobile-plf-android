@@ -176,8 +176,8 @@ public class StartFlowDialogFragment extends DialogFragment {
 				PurAirDevice currentPurifier = apItems.get(position);
 
 				PurifierManager.getInstance().setCurrentPurifier(currentPurifier);
-				
 				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
+				
 
 				SharedPreferences mPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
 				Editor mEditor = mPreferences.edit();

@@ -17,12 +17,20 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter {
 	@Override
 	public Fragment getItem(int position) {
 		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$getItem");
-		return new IndoorFragment();
+		switch (position) {
+		case 0:
+			return new IndoorFragment();
+		case 1:
+			return new AddPurifierFragment();
+		default:
+			return new IndoorFragment();
+		}
+		
 	}
 
 	@Override
 	public int getCount() {
-		return 1;
+		return 2;
 	}
 	
 	@Override

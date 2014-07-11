@@ -37,6 +37,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -298,6 +299,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 					.addToBackStack(null)
 					.commit();
 		} else {
+			//Start subscription for selected purifer.
+			
+			
 			showFragment(getDashboard());
 			setDashboardActionbarIconVisible();
 			setTitle(getString(R.string.dashboard_title));
@@ -936,15 +940,19 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 	
 	private void initializeFirstPurifier() {
-		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-		if (devices.size() <= 0) return;
+//		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+//		if (devices.size() <= 0) return;
 		
-		ALog.i(ALog.APP_START_UP, "MainAcitivty$initializeFirstPurifier devices list size " + devices.size() + " :: " + devices);
+//		ALog.i(ALog.APP_START_UP, "MainAcitivty$initializeFirstPurifier devices list size " + devices.size() + " :: " + devices);
 		
 		// Select the first locally connected device
-		PurAirDevice firstPurifier = devices.get(0);
+		SharedPreferences prefs = PurAirApplication.getAppContext().getSharedPreferences("currentPurifier", 0);
+		String currentPurifierEui64 = prefs.getString("eui64", null);
+		PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(currentPurifierEui64);
 		
-		PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
+		if(firstPurifier != null) {
+			PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
+		}
 		ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + firstPurifier.getName());
 	}
 	
@@ -953,10 +961,15 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 		
-//		PurAirDevice current = getCurrentPurifier();
-//		if( current != null ) return ;
-//		initializeFirstPurifier();
-		// Connection update will happen from subscription callback
+		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
+		if (devices.size() <= 0) return;
+		
+		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size " + devices.size() + " :: " + devices);
+		
+		PurAirDevice current = getCurrentPurifier();
+		if( current != null ) return ;
+		initializeFirstPurifier();
+//		 Connection update will happen from subscription callback
 	}
 
 	@Override

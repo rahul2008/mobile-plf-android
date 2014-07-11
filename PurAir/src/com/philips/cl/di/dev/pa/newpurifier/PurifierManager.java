@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
@@ -81,8 +86,17 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		startSubscription();
 		notifyPurifierChangedListeners();
+		
+		storeCurrentPurifier(purifier.getEui64());
 	}
 	
+	private void storeCurrentPurifier(String eui64) {
+		SharedPreferences prefs = PurAirApplication.getAppContext().getSharedPreferences("currentPurifier", 0);
+		Editor editor = prefs.edit();
+		editor.putString("eui64", eui64);
+		editor.commit();
+	}
+
 	public synchronized void removeCurrentPurifier() {
 		if (mCurrentPurifier == null) return;
 		

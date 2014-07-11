@@ -1,0 +1,43 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" 
+    android:background="@drawable/air_dashboard_indoor_v_android">
+
+    <ImageView
+        android:id="@+id/iv_circle_add_purifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="73dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/center_plus_2x" />
+
+    <TextView
+        android:id="@+id/tv_add_air_purifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="18sp"
+        android:text="Add an air purifier" />
+
+    <TextView
+        android:id="@+id/tv_bur_purifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/iv_circle_add_purifier"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="Or buy a new one" />
+
+    <Button
+        android:id="@+id/btn_go_to_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_bur_purifier"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="Take me to the shop" />
+
+</RelativeLayout>
