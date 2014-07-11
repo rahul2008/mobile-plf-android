@@ -181,7 +181,9 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 			if (action != null && action.toUpperCase().trim().equals(AppConstants.DISCOVER)) {
 				isResponseToRequest = true;
 			}
-			cppDiscoverEventListener.onDiscoverEventReceived(data, isResponseToRequest);
+			if (cppDiscoverEventListener != null) {
+				cppDiscoverEventListener.onDiscoverEventReceived(data, isResponseToRequest);
+			}
 			return;
 		}
 		

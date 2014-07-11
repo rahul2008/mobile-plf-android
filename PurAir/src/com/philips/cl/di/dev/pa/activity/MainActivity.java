@@ -688,6 +688,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				|| getCurrentPurifier().getConnectionState() == ConnectionState.DISCONNECTED) return;
 	
 		if( purifierEvent == PURIFIER_EVENT.DEVICE_CONTROL) {
+			setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 			ivConnectionError.setVisibility(View.VISIBLE);
 			tvConnectionStatus.setText(getString(R.string.lost_connection));
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_gray_2x));
