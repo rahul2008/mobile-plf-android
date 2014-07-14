@@ -51,11 +51,6 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		}
 	}
 	
-	@Override
-	public void onBackPressed() {
-		showPreviousFragment();
-	}
-	
 	private void initUsageAgreementActionBar() {
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();
@@ -152,23 +147,6 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
 		}
-	}
-	
-	private void showPreviousFragment() {
-		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager.findFragmentById(R.id.fl_simple_fragment_container);
-		
-		if (fragment instanceof CreateAccountFragment) {
-			finish();
-		} else if (fragment instanceof SignedInFragment) {
-			finish();
-		} else if (fragment instanceof UsageAgreementFragment) {
-			getSupportFragmentManager().beginTransaction()
-			.replace(R.id.fl_simple_fragment_container, new CreateAccountFragment(), CreateAccountFragment.class.getSimpleName())
-			.commit();
-			
-			setActionBar(R.string.create_account, View.GONE);
-		} 
 	}
 	
 	private void cancelProgressDialog() {

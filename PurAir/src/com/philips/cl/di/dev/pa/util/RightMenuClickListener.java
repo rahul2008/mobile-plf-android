@@ -521,13 +521,13 @@ public class RightMenuClickListener implements OnClickListener {
 			power.setClickable(false);
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
-			connect.setVisibility(View.VISIBLE) ;
+			connect.setVisibility(View.GONE) ;
 		} else {
 			//Added if enable shop demo mode, when AirPurifier all ready connected. 
 			PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 			if (purAirDevice == null || purAirDevice.getName() == null) return;
 			if (PurAirApplication.isDemoModeEnable() && !purAirDevice.isDemoPurifier()) {
-				connect.setVisibility(View.VISIBLE) ;
+				connect.setVisibility(View.GONE) ;
 			} else {
 				connect.setVisibility(View.GONE) ;
 			}

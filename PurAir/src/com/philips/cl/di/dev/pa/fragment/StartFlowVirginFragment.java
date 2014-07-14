@@ -100,14 +100,14 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		
 	private void startBenefitsFlow() {
 		// TODO: start benefits flow, for now show MainActivity
-		startActivity(new Intent(getActivity(), MainActivity.class));
-		getFragmentManager().popBackStack();
+//		startActivity(new Intent(getActivity(), MainActivity.class));
+//		getFragmentManager().popBackStack();
 	}
 	
 	private void startVideo() {
 		// TODO start video, for now show MainActivity
-		startActivity(new Intent(getActivity(), MainActivity.class));
-		getFragmentManager().popBackStack();
+//		startActivity(new Intent(getActivity(), MainActivity.class));
+//		getFragmentManager().popBackStack();
 	}
 	
 	private void startUseNoPurifierFlow() {

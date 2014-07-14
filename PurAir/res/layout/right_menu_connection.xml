@@ -47,7 +47,7 @@
         android:textColor="#ffffff"
         android:text="@string/connect" 
         android:textSize="12sp"
-        android:visibility="visible"/>
+        android:visibility="gone"/>
 
     <ImageView
         android:id="@+id/iv_connection_status"

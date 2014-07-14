@@ -282,21 +282,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 	
 	private void showFirstFragment() {
-		// Check if this is the first use
 		boolean firstUse = Utils.getAppFirstUse();
 		
 		if (firstUse) {
-			// TODO store only after successful added purifier to your app
-//			mEditor = mPreferences.edit();
-//			mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
-//			mEditor.commit();
-			
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.llContainer, new StartFlowVirginFragment())
 					.addToBackStack(null)
 					.commit();
 		} else {
-			//Start subscription for selected purifer.
 			showDashboardFragment();
 		}
 	}
