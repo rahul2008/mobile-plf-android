@@ -555,4 +555,7 @@
     <string name="yes_it_is_new">是的，它是新機</string>
     <string name="no_already_connected">不是，它已連接網絡</string>
     <string name="how_clean_is_your_air">How clean is your air in your home?</string>
+    <string name="add_new_purifier">Add an air purifier</string>
+    <string name="buy_new_purifier">Or buy a new one</string>
+    <string name="take_me_to_shop">Take me to the shop</string>
 </resources>

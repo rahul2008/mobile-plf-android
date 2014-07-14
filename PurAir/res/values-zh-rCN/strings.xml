@@ -543,4 +543,7 @@
     <string name="yes_it_is_new">是的，还未连接。</string>
     <string name="no_already_connected">不用，已经连接过了。</string>
     <string name="how_clean_is_your_air">您家中的空气有多洁净？</string>
+    <string name="add_new_purifier">Add an air purifier</string>
+    <string name="buy_new_purifier">Or buy a new one</string>
+    <string name="take_me_to_shop">Take me to the shop</string>
 </resources>

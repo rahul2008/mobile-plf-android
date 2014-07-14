@@ -22,7 +22,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:textSize="18sp"
-        android:text="Add an air purifier" />
+        android:text="@string/add_new_purifier" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -33,7 +33,7 @@
         android:layout_below="@+id/iv_circle_add_purifier"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="Or buy a new one" />
+        android:text="@string/buy_new_purifier" />
 
     <Button
         android:id="@+id/btn_go_to_shop"
