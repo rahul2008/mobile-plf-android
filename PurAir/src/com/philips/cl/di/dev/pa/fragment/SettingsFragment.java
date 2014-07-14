@@ -33,7 +33,6 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	private TextView tvRateThisApp, tvSendUsFeedback;
 	
 	private TextView versionNumber;
-	private TextView termsAndConditions;
 	
 	private ToggleButton demoModeTButton;
 	
@@ -60,9 +59,6 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		
 		versionNumber = (TextView) view.findViewById(R.id.tv_version_number);
 		versionNumber.setText(getString(R.string.version_number) + " " +((MainActivity) getActivity()).getVersionNumber()); //Should probably change it to version name.
-		
-		termsAndConditions = (TextView) view.findViewById(R.id.tv_t_and_c);
-		termsAndConditions.setOnClickListener(this);
 		
 		demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
 		demoModeTButton.setOnCheckedChangeListener(this);
@@ -93,10 +89,6 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				Toast.makeText(getActivity(), "No Network Send us feedback", Toast.LENGTH_SHORT).show();
 			}
 			
-			break;
-		case R.id.tv_t_and_c:
-			//TODO : Add Terms and conditions when recieved.
-//			getActivity().startActivity(new Intent(getActivity(), TermsAndConditionsActivity.class));
 			break;
 
 		default:

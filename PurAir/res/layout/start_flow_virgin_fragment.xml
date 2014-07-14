@@ -37,14 +37,14 @@
 		    android:layout_centerHorizontal="true"
 		    android:layout_below="@id/start_flow_virgin_tv_title"/>
 
-	   <ImageButton
+	   <ImageView
 	       android:id="@+id/start_flow_virgin_btn_play"
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
+	       android:layout_width="60dp"
+	       android:layout_height="60dp"
 	       android:layout_centerHorizontal="true"
 	       android:layout_marginTop="20dp"
 	       android:contentDescription="@string/img_description"
-	       android:src="@drawable/progress_circle" 
+	       android:src="@drawable/air_intro_play_2x" 
 	       android:layout_below="@id/start_flow_virgin_btn_connect"/>
 	   
 	   <com.philips.cl.di.dev.pa.view.FontTextView

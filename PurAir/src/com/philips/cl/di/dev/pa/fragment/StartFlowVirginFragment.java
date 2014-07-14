@@ -13,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -29,7 +30,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	private Bundle mBundle;
 	private Button mBtnConnectPurifier;
 	private Button mBtnNoPurifier;
-	private ImageButton mBtnPlayMovie;
+	private ImageView mBtnPlayMovie;
 	private FontTextView mTvBenefits;
 	
 	@Override
@@ -38,7 +39,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		View includeView = view.findViewById(R.id.start_flow_bottom_bar_include);
 				
 		mBtnConnectPurifier = (Button) view.findViewById(R.id.start_flow_virgin_btn_connect);
-		mBtnPlayMovie = (ImageButton) view.findViewById(R.id.start_flow_virgin_btn_play);
+		mBtnPlayMovie = (ImageView) view.findViewById(R.id.start_flow_virgin_btn_play);
 		mTvBenefits = (FontTextView) view.findViewById(R.id.start_flow_virgin_tv_benefits);
 		mBtnNoPurifier = (Button) includeView.findViewById(R.id.start_flow_bottom_btn_continue_without);
 		
