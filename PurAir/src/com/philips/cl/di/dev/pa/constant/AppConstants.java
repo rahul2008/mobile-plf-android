@@ -202,6 +202,8 @@ public class AppConstants {
 	/** DEMO MODE */
 	public final static String DEMO_MODE_PREF = "demo_mode_pref";
 	public final static String DEMO_MODE_ENABLE_KEY ="demo_mode_enable_key";
+	public final static int REQUEST_CODE_EWS = 66;
+	public final static int RESULT_CODE_EWS = 67;
 
 	public static final String EMPTY_STRING = "" ;
 
@@ -211,4 +213,12 @@ public class AppConstants {
 	public static final int INDEX_1 = 1;
 	public static final int INDEX_2 = 2;
 	public static final int INDEX_3 = 3;
+	
+	public static final String NO_OF_VISIT_PREF = "AIRPUR_PREFS";
+	public static final String NO_OF_VISIT_PREF_KEY = "NoOfVisit";
+	public static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
+	public static final String START_FLOW_PREF = "StartFlowPreferences";
+	public static final String START_FLOW_PREF_KEY = "FirstUse";
+	public static final String CURR_PURAIR_PREF = "StartFlowPreferences";
+	public static final String CURR_PURAIR_PREF_KEY = "eui64";
 }

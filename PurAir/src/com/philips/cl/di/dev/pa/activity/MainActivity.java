@@ -11,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -37,7 +36,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -67,6 +65,7 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -88,11 +87,6 @@ import com.philips.cl.di.dev.pa.view.ListViewItem;
 //import android.widget.ArrayAdapter;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
-
-	private static final String PREFS_NAME = "AIRPUR_PREFS";
-//	private static final String OUTDOOR_LOCATION_PREFS = "outdoor_location_prefs";
-	private static final String SHARED_PREFERENCE_NAME = "StartFlowPreferences";
-	private static final String SHARED_PREFERENCE_FIRST_USE = "FirstUse";
 
 	private static int screenWidth, screenHeight;
 
@@ -129,7 +123,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
 
 	private MenuItem rightMenuItem;
-	private SharedPreferences mPreferences;
+//	private SharedPreferences mPreferences;
 //	private Editor mEditor;
 	private int mVisits;
 
@@ -144,18 +138,18 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
-
-
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main_aj);
 		
-		mPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-		mVisits = mPreferences.getInt("NoOfVisit", 0);
-		SharedPreferences.Editor editor = mPreferences.edit();
-		editor.putInt("NoOfVisit", ++mVisits);
-		editor.commit();
+//		mPreferences = getSharedPreferences(AppConstants.PREFS_NAME, Context.MODE_PRIVATE);
+		mVisits = Utils.getNoOfVisit();
+		Utils.saveNoOfVisit(mVisits);
+//		SharedPreferences.Editor editor = mPreferences.edit();
+//		editor.putInt("NoOfVisit", ++mVisits);
+//		editor.commit();
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -197,13 +191,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		initFilterStatusViews();
 
 		showFirstFragment();
-		
 		initializeCPPController();
-		
-//		initializeFirstPurifier();
-		
+		initializeFirstPurifier();
 		checkForUpdatesHockeyApp();
-		
 	}
 	
 	@Override
@@ -220,6 +210,15 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 		checkForCrashesHockeyApp();
+	}
+	
+	@Override
+	protected void onResumeFragments() {
+		super.onResumeFragments();
+		if (PurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
+			showDashboardFragment();
+			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
+		}
 	}
 
 	@Override
@@ -283,10 +282,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 	
 	private void showFirstFragment() {
-		mPreferences = getSharedPreferences(SHARED_PREFERENCE_NAME, MODE_PRIVATE);
-		
 		// Check if this is the first use
-		boolean firstUse = mPreferences.getBoolean(SHARED_PREFERENCE_FIRST_USE, true);
+		boolean firstUse = Utils.getAppFirstUse();
 		
 		if (firstUse) {
 			// TODO store only after successful added purifier to your app
@@ -300,12 +297,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 					.commit();
 		} else {
 			//Start subscription for selected purifer.
-			
-			
-			showFragment(getDashboard());
-			setDashboardActionbarIconVisible();
-			setTitle(getString(R.string.dashboard_title));
+			showDashboardFragment();
 		}
+	}
+	
+	private void showDashboardFragment() {
+		showFragment(getDashboard());
+		setDashboardActionbarIconVisible();
+		setTitle(getString(R.string.dashboard_title));
 	}
 
 	private void initializeCPPController() {
@@ -532,12 +531,16 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	public void showFragment(Fragment fragment) {
 
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-		FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-		fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
-		fragmentTransaction.addToBackStack(fragment.getTag()) ;
-		fragmentTransaction.commit();
+		try {
+			FragmentManager fragmentManager = getSupportFragmentManager();
+			fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
+			fragmentTransaction.addToBackStack(fragment.getTag()) ;
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.MAINACTIVITY, e.getMessage());
+		}
 
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
@@ -940,20 +943,11 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 	
 	private void initializeFirstPurifier() {
-//		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
-//		if (devices.size() <= 0) return;
-		
-//		ALog.i(ALog.APP_START_UP, "MainAcitivty$initializeFirstPurifier devices list size " + devices.size() + " :: " + devices);
-		
-		// Select the first locally connected device
-		SharedPreferences prefs = PurAirApplication.getAppContext().getSharedPreferences("currentPurifier", 0);
-		String currentPurifierEui64 = prefs.getString("eui64", null);
+		String currentPurifierEui64 = PurifierManager.getInstance().getDefaultPurifierEUI64();
 		PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(currentPurifierEui64);
-		
-		if(firstPurifier != null) {
-			PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
-		}
-		ALog.d(ALog.MAINACTIVITY, "First purifier discovered: " + firstPurifier.getName());
+		if (firstPurifier == null) return;
+		PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
+		ALog.d(ALog.MAINACTIVITY, "Default purifier discovered: " + firstPurifier.getName());
 	}
 	
 	@Override
@@ -1007,24 +1001,22 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		case DRAWER_SLIDE_END:
 			//TODO : Move showFragment and startFirmwareUpdateActivity here?
 			break;
-		
-
 		default:
 			break;
 		}
 	}
 	
 	private void checkForCrashesHockeyApp() {
-	   CrashManager.register(this, AppConstants.HOCKEY_APPID, new CrashManagerListener() {
-		   public boolean shouldAutoUploadCrashes() {
-			    return true;
-			  }
-			});
-	 }
+		CrashManager.register(this, AppConstants.HOCKEY_APPID, new CrashManagerListener() {
+			public boolean shouldAutoUploadCrashes() {
+				return true;
+			}
+		});
+	}
 
-	 private void checkForUpdatesHockeyApp() {
-	   // TODO Remove this for store builds!
-	   UpdateManager.register(this, AppConstants.HOCKEY_APPID);
-	 }
-
+	private void checkForUpdatesHockeyApp() {
+		// TODO Remove this for store builds!
+		UpdateManager.register(this, AppConstants.HOCKEY_APPID);
+	}
+	 
 }

@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 
 public class StartFlowDialogFragment extends DialogFragment {
@@ -31,8 +32,6 @@ public class StartFlowDialogFragment extends DialogFragment {
 	public static final int NO_WIFI = 4;
 	public static final int AP_SELCTOR = 5;
 	public static final int SEARCHING = 6;
-	private static final String SHARED_PREFERENCE_NAME = "StartFlowPreferences";
-	private static final String SHARED_PREFERENCE_FIRST_USE = "FirstUse";
 	
 	private WifiManager mWifiManager;
 	
@@ -178,11 +177,11 @@ public class StartFlowDialogFragment extends DialogFragment {
 				PurifierManager.getInstance().setCurrentPurifier(currentPurifier);
 				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
 				
-
-				SharedPreferences mPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-				Editor mEditor = mPreferences.edit();
-				mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
-				mEditor.commit();
+				Utils.saveAppFirstUse(false);
+//				SharedPreferences mPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
+//				Editor mEditor = mPreferences.edit();
+//				mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
+//				mEditor.commit();
 				dismiss();            	   
 			}
         });

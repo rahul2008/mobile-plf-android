@@ -6,11 +6,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -50,6 +50,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private SchedulerListener scheduleListener ;
 	
 	public static enum PURIFIER_EVENT { DEVICE_CONTROL, SCHEDULER, FIRMWARE, AQI_THRESHOLD, PAIRING } ;
+
+	public static enum EWS_STATE { EWS, NONE } ;
+	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
 	public static synchronized PurifierManager getInstance() {
 		if (instance == null) {
@@ -72,7 +75,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	public synchronized void setCurrentPurifier(PurAirDevice purifier) {
 		if (purifier == null) throw new RuntimeException("Cannot set null purifier");
-			
+		
 		if (mCurrentPurifier != null && mCurrentSubscriptionState != ConnectionState.DISCONNECTED) {
 			unSubscribeFromAllEvents(mCurrentPurifier);
 			mDeviceHandler.stopDeviceThread() ;
@@ -87,14 +90,22 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		startSubscription();
 		notifyPurifierChangedListeners();
 		
-		storeCurrentPurifier(purifier.getEui64());
+		if (purifier.isDemoPurifier()) return;
+		saveCurrentPurifierEUI64(purifier.getEui64());
 	}
 	
-	private void storeCurrentPurifier(String eui64) {
-		SharedPreferences prefs = PurAirApplication.getAppContext().getSharedPreferences("currentPurifier", 0);
+	private void saveCurrentPurifierEUI64(String eui64) {
+		SharedPreferences prefs = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.CURR_PURAIR_PREF, Activity.MODE_PRIVATE);
 		Editor editor = prefs.edit();
-		editor.putString("eui64", eui64);
+		editor.putString(AppConstants.CURR_PURAIR_PREF_KEY, eui64);
 		editor.commit();
+	}
+	
+	public String getDefaultPurifierEUI64() {
+		SharedPreferences prefs = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.CURR_PURAIR_PREF, Activity.MODE_PRIVATE);
+		return prefs.getString(AppConstants.CURR_PURAIR_PREF_KEY, null);
 	}
 
 	public synchronized void removeCurrentPurifier() {
@@ -393,5 +404,13 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			break;
 		}
 		notifyPurifierChangedListeners();
+	}
+	
+	public void setEwsSate(EWS_STATE state) {
+		ewsState = state;
+	}
+	
+	public EWS_STATE getEwsState() {
+		return ewsState;
 	}
 }

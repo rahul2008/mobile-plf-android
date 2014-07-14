@@ -8,6 +8,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -288,6 +289,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				purifier.setLastPairedTime(new Date().getTime()) ;
 				long updated = purifierDatabase.updatePairingStatus(purifier);
 				if( updated != -1 ) {
+					String currentPurifierEui64 = PurifierManager.getInstance().getDefaultPurifierEUI64();
+					PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(currentPurifierEui64);
+					if (firstPurifier == null) return;
 					PurifierManager.getInstance().setCurrentPurifier(purifier) ;
 				}
  				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");

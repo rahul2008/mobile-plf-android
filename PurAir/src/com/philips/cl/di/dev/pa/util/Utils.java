@@ -28,6 +28,7 @@ import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.widget.ImageView;
@@ -811,4 +812,33 @@ public class Utils {
 		int diff = (int) (currTime - indoorTrendDto.getTimeMin());
 		return diff;
 	}
+	
+	public static void saveNoOfVisit(int count) {
+		SharedPreferences preferences = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.NO_OF_VISIT_PREF, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(AppConstants.NO_OF_VISIT_PREF_KEY, ++count);
+		editor.commit();
+	}
+	
+	public static int getNoOfVisit() {
+		SharedPreferences preferences = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.NO_OF_VISIT_PREF, Context.MODE_PRIVATE);
+		return preferences.getInt(AppConstants.NO_OF_VISIT_PREF_KEY, 0);
+	}
+	
+	public static void saveAppFirstUse(boolean firstUse) {
+		SharedPreferences preferences = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.START_FLOW_PREF, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(AppConstants.START_FLOW_PREF_KEY, firstUse);
+		editor.commit();
+	}
+	
+	public static boolean getAppFirstUse() {
+		SharedPreferences preferences = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.START_FLOW_PREF, Context.MODE_PRIVATE);
+		return preferences.getBoolean(AppConstants.START_FLOW_PREF_KEY, true);
+	}
+	
 }
