@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="73dp"
+        android:layout_marginTop="68dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/center_plus_2x" />
 
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_circle_add_purifier"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:text="@string/buy_new_purifier" />
 
     <Button
@@ -46,6 +46,6 @@
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:textColor="#ffffff"
-        android:text="Take me to the shop" />
+        android:text="@string/take_me_to_shop" />
 
 </RelativeLayout>
