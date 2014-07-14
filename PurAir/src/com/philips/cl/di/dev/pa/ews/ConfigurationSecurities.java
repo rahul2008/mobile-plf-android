@@ -52,6 +52,7 @@ public class ConfigurationSecurities {
     private static final String TAG = "ConfigurationSecuritiesV14";
     
     private static int getSecurity(WifiConfiguration config) {
+    	if (config == null)  return SECURITY_NONE;
         if (config.allowedKeyManagement.get(KeyMgmt.WPA_PSK)) {
             return SECURITY_PSK;
         }

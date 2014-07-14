@@ -141,7 +141,7 @@ public class Wifi {
 	public boolean connectToConfiguredNetwork(final Context ctx, 
 			final WifiManager wifiMgr, WifiConfiguration config, boolean reassociate) {
 		final String security = ConfigSec.getWifiConfigurationSecurity(config);
-		
+		if (config == null) return false;
 		int oldPri = config.priority;
 		// Make it the highest priority.
 		int newPri = getMaxPriority(wifiMgr) + 1;
