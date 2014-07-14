@@ -154,7 +154,6 @@ public class GraphPathDraw {
 	
 	/**The method to find the y axis pixel corresponding value for indoor.*/
 	public float getIndoorYcoordinate(float y) {
-		if (y >= 10) y = 9.9F;
 		float yFloat = coordinates.getIdY0();
 		if (y == -1) return -1;
 		if (y <= 0) {
@@ -165,6 +164,7 @@ public class GraphPathDraw {
 			if (yFloat < 0) {
 				yFloat = 0;
 			}
+			if (yFloat == 0) yFloat = coordinates.getIdRadius() ;
 			return yFloat;
 		}
 		
@@ -172,17 +172,17 @@ public class GraphPathDraw {
 	
 	/**The method to find the y axis pixel corresponding value for outdoor.*/
 	public float getOutdoorYcoordinate(float y) {
-		if (y >= 500) y = 499.9F;
-		float yfloat = coordinates.getOdY0();
+		float yFloat = coordinates.getOdY0();
 		if (y <= 0) {
-			return yfloat;
+			return yFloat;
 		} else {
 			float ft = y * coordinates.getMultiplyConst();
-			yfloat = yfloat - ft;
-			if (yfloat < 0) {
-				yfloat = 0;
+			yFloat = yFloat - ft;
+			if (yFloat < 0) {
+				yFloat = 0;
 			}
-			return yfloat;
+			if (yFloat == 0) yFloat = coordinates.getIdRadius() ;
+			return yFloat;
 		}
 		
 	}
@@ -400,6 +400,4 @@ public class GraphPathDraw {
 		x = ty+x1;
 		return x;
 	}
-	
-	
 }
