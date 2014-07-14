@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,8 +45,10 @@ public class AddPurifierFragment extends BaseFragment implements OnClickListener
 			((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
 			break;
 		case R.id.btn_go_to_shop:
-			//TODO : Open browser with shop URL
-			
+			Intent intent = new Intent(
+					Intent.ACTION_VIEW,
+					Uri.parse("http://shop.philips.com.cn/product/JY0002/detail.htm"));
+			startActivity(intent);
 			break;
 
 		default:
