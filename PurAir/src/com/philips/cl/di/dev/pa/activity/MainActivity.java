@@ -36,6 +36,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -216,7 +217,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	protected void onResumeFragments() {
 		super.onResumeFragments();
 		if (PurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
-			showDashboardFragment();
+			showFirstFragment();
 			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
 		}
 	}
@@ -542,7 +543,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		}		
 		
 	}
-
+	
 	public void setTitle(String title) {
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
 		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
@@ -579,8 +580,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
 			case 0:
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.dashboard_title));
+				if(!Utils.getAppFirstUse()) {
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.dashboard_title));
+				} else {
+					showFragment(new StartFlowVirginFragment());
+				}
 				break;
 			case 1:
 				showFragment(leftMenuItems.get(position));
@@ -595,8 +600,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				break;
 			case 3:
 				// Notifications
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_notifications));
+				if(!Utils.getAppFirstUse()) {
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_notifications));
+				} else {
+					Toast.makeText(PurAirApplication.getAppContext(), "Please connect to a purifier.", Toast.LENGTH_SHORT).show();
+				}
 				break;
 			case 4:
 				// Help and documentation

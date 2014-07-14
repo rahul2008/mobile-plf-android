@@ -77,6 +77,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		
+		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
 	}
 
 	/*Initialize action bar */

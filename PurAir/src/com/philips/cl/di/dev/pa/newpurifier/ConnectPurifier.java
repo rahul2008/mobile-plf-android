@@ -112,10 +112,7 @@ public class ConnectPurifier {
 	
 	private void startChooseFragment() {
 		ALog.i(ALog.APP_START_UP, "ConnectPurifier$startChooseFragment mContext " + mContext);
-		mContext.getSupportFragmentManager().beginTransaction()
-		.replace(R.id.llContainer, new StartFlowChooseFragment())
-		.addToBackStack(null)
-		.commitAllowingStateLoss();
+		((MainActivity) mContext).showFragment(new StartFlowChooseFragment());
 	}
 		
 	private StartFlowListener mStartFlowListener = new StartFlowListener() {
