@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 import com.philips.cl.di.common.ssdp.controller.BaseUrlParser;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.City;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
@@ -303,29 +302,6 @@ public class DataParserTest extends TestCase {
 		assertNull(result);
 	}
 		
-	public void testParseLocationDataNull() {
-		List<City> cities = DataParser.parseLocationData(null);
-		assertNull(cities);
-	}
-	
-	public void testParseLocationDataEmpty() {
-		List<City> cities = DataParser.parseLocationData("");
-		assertNull(cities);
-	}
-	
-	public void testParseLocationDataNoneFormat() {
-		List<City> cities = DataParser.parseLocationData("{hello}");
-		assertNull(cities);
-	}
-	
-	public void testParseLocationData() {
-		List<City> cities = DataParser.parseLocationData("{\"cities\": {\"泰安\": {\"weather_ex\": {\"wind_degrees\": 140,\"wind_kph\": 11,\"temp_c\": 7,\"high\": 13,\"weather\": \"\",\"low\": 3,\"icon\": \"clear\"},\"lon\": 117.08675,\"city_name\": \"泰安\",\"weather\": \"晴转多云 23~11°C 南风小于3级转3-4级\",\"key\": \"taian\",\"lat\": 36.200546,\"gov\": {\"co\": 776,\"idx\": 70,\"pm10\": 96,\"stations\": {\"交通技校\": {\"co\": 1090,\"idx\": 59,\"pm10\": 90,\"lon\": 117.041115,\"so2\": 12,\"no2\": 16,\"lat\": 36.201946,\"station_name\": \"交通技校\",\"o3\": 64,\"pm25\": 32,\"t\": \"2014-05-05 12:00\"}},\"so2\": 18,\"no2\": 17,\"o3\": 48,\"pm25\": 46,\"t\": \"2014-05-05 12:00\"}}}}");
-		String keyStr = cities.get(0).getKey().trim();
-		String iconStr = cities.get(0).getWeather().getIcon().trim();
-		assertEquals("taian", keyStr);
-		assertEquals("clear", iconStr);
-	}
-	
 	public void testGetEWSDeviceWifiDetailsNull() {
 		DeviceWifiDto deviceWifiDto = DataParser.getDeviceWifiDetails(null);
 		assertNull(deviceWifiDto);
