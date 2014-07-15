@@ -6,7 +6,7 @@ import static org.mockito.Mockito.verify;
 import android.app.Instrumentation;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -37,7 +37,7 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 	}
 
 	public void testActivityTitle() {
-		assertEquals("Smart Air", activity.getTitle());
+		assertEquals(activity.getString(R.string.dashboard_title), activity.getTitle());
 	}
 	
 	@UiThreadTest

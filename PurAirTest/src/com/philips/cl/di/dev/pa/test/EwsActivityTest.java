@@ -34,9 +34,9 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		FontTextView tv2 = (FontTextView) view.findViewById(R.id.setup_intro_message2_txt);
 		
         assertEquals(true, button.isClickable());
-        assertEquals("Get started", button.getText().toString());
-        assertEquals("Follow these 4 easy steps to connect your Philips Smart Air Purifier to your home Wi-Fi and pair with your phone.", tv.getText().toString());
-        assertEquals("For a successful Wi-Fi connection, position the Philips Smart Air Purifier within reach of your router. Obstacles such as walls may affect the Wi-Fi performance.", tv2.getText().toString());
+        assertEquals(activity.getString(R.string.get_start), button.getText().toString());
+        assertEquals(activity.getString(R.string.ews_intro_message1_str), tv.getText().toString());
+        assertEquals(activity.getString(R.string.ews_intro_message2_str), tv2.getText().toString());
 	}
 	
 	
@@ -44,14 +44,14 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		View view = activity.getLayoutInflater().inflate(R.layout.ews_step1, null);
         Button button = (Button) view.findViewById(R.id.ews_step1_yes_btn);
         assertEquals(true, button.isClickable());
-        assertEquals("Yes", button.getText().toString());
+        assertEquals(activity.getString(R.string.yes), button.getText().toString());
 
         button = (Button) view.findViewById(R.id.ews_step1_no_btn);
         assertEquals(true, button.isClickable());
-        assertEquals("No", button.getText().toString());
+        assertEquals(activity.getString(R.string.no), button.getText().toString());
         
         FontTextView tv = (FontTextView) view.findViewById(R.id.ews_step1_instruction);
-        assertEquals("Confirm your Wi-Fi connection.", tv.getText().toString());
+        assertEquals(activity.getString(R.string.step1_instruction), tv.getText().toString());
 
 	}
 	
@@ -59,7 +59,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		Button button = (Button) activity.findViewById(R.id.setup_actionbar_cancel_btn);
 
         assertEquals(true, button.isClickable());
-        assertEquals("Cancel", button.getText().toString());
+        assertEquals(activity.getString(R.string.cancel), button.getText().toString());
 
 	}
 	
@@ -67,11 +67,11 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		 View view = activity.getLayoutInflater().inflate(R.layout.setup_step2, null);
          Button button = (Button) view.findViewById(R.id.setup_step2_yes_btn);
          assertEquals(true, button.isClickable());
-         assertEquals("Yes", button.getText().toString());
+         assertEquals(activity.getString(R.string.yes), button.getText().toString());
 
          button = (Button) view.findViewById(R.id.setup_step2_no_btn);
          assertEquals(true, button.isClickable());
-         assertEquals("No", button.getText().toString());
+         assertEquals(activity.getString(R.string.no), button.getText().toString());
 
 	}
 	
@@ -79,7 +79,7 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		View view = activity.getLayoutInflater().inflate(R.layout.ews_step3, null);
         Button button = (Button) view.findViewById(R.id.ews_step3_next_btn);
         assertEquals(true, button.isClickable());
-        assertEquals("Next", button.getText().toString());
+        assertEquals(activity.getString(R.string.next), button.getText().toString());
 
         button = (Button) view.findViewById(R.id.ews_step3_edit_name_btn);
         assertEquals(true, button.isClickable());
@@ -90,14 +90,14 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		View view = activity.getLayoutInflater().inflate(R.layout.setup_congratulation, null);
         Button button = (Button) view.findViewById(R.id.finish_congratulation_btn);
         assertEquals(true, button.isClickable());
-        assertEquals("Start using your Philips Smart Air Purifier", button.getText().toString());
+        assertEquals(activity.getString(R.string.congratulation_btn_txt), button.getText().toString());
 	}
 	
 	public void testPurifierNotDetect() {
 		View view = activity.getLayoutInflater().inflate(R.layout.ews_error_purifier_not_detect, null);
         Button button = (Button) view.findViewById(R.id.ews_purifier_not_dect_btn);
         assertEquals(true, button.isClickable());
-        assertEquals("Try again", button.getText().toString());
+        assertEquals(activity.getString(R.string.error_purifier_not_detect_btn_txt), button.getText().toString());
 	}
 	
 	public void testSupportScreen() {

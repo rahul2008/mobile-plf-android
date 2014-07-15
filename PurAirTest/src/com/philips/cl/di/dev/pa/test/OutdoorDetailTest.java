@@ -56,9 +56,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 		FontTextView lastWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
 		FontTextView lastFourWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		
-		assertEquals("Last day", lastDayBtn.getText().toString());
-		assertEquals("Last 7 days", lastWeekBtn.getText().toString());
-		assertEquals("Last 4 weeks", lastFourWeekBtn.getText().toString());
+		assertEquals(activity.getString(R.string.lastday), lastDayBtn.getText().toString());
+		assertEquals(activity.getString(R.string.last7day), lastWeekBtn.getText().toString());
+		assertEquals(activity.getString(R.string.last4week), lastFourWeekBtn.getText().toString());
 	}
 	
 	@UiThreadTest
@@ -72,10 +72,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 			FontTextView openWindowTxt = (FontTextView) activity.findViewById(R.id.openWindowTxt); 
 			FontTextView maskTxt = (FontTextView) activity.findViewById(R.id.maskTxt);
 			
-			assertEquals("Hyper-sensitive people should reduce activities.", avoidTxt.getText().toString());
-			assertEquals("Masks not needed", maskTxt.getText().toString());
-			assertEquals("Open your windows for ventilation", openWindowTxt.getText().toString());
-			
+			assertEquals(activity.getString(R.string.advice_od_msg2), avoidTxt.getText().toString());
+			assertEquals(activity.getString(R.string.mask_od_msg1), maskTxt.getText().toString());
+			assertEquals(activity.getString(R.string.openwindow_od_msg2), openWindowTxt.getText().toString());
 				
 		} catch (Exception e) {
 			TestCase.fail(e.getMessage());
