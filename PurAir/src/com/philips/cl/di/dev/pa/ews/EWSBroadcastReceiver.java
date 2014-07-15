@@ -428,9 +428,9 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 	};
 
 	private class SSDPCountDownTimer implements Runnable {
-		private final int TOTAL_TIME_COUNT = 90;
-		private final int HOME_NETWORK_TIME_COUNT = 30;
-		private final int TIME_INTERVAL = 1000;
+		private static final int TOTAL_TIME_COUNT = 90;
+		private static final int HOME_NETWORK_TIME_COUNT = 30;
+		private static final int TIME_INTERVAL = 1000;
 		private int timeCount;
 
 		public SSDPCountDownTimer() {
