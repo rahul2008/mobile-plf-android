@@ -2,14 +2,20 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 
 public class SchedulerUtil {
 	public static final String BOOTSTRAP_KEY_1 = "NWI2YzU4MD" ;
-	public static int getFanspeedItemPosition(String [] values, String selectedValue) {
-		if (selectedValue == null || selectedValue.isEmpty()) return -1;
-		int selectedIndex = -1;
-		for (int i = 0; i < values.length; i++) {
-			if (selectedValue.equals(values[i])) {
+	
+	public static final String fanSpeedArr[] = {AppConstants.FAN_SPEED_AUTO, AppConstants.FAN_SPEED_SILENT,
+												AppConstants.FAN_SPEED_ONE, AppConstants.FAN_SPEED_TWO,
+												AppConstants.FAN_SPEED_THREE, AppConstants.FAN_SPEED_TURBO};
+	
+	public static int getFanspeedItemPosition(String selectedValue) {
+		if (selectedValue == null || selectedValue.isEmpty()) return 0;
+		int selectedIndex = 0;
+		for (int i = 0; i < fanSpeedArr.length; i++) {
+			if (selectedValue.equals(fanSpeedArr[i])) {
 				selectedIndex = i;
 				break;
 			}
@@ -36,17 +42,17 @@ public class SchedulerUtil {
 	public static String getFanspeedName(String mode) {
 	
 		String modeStr = mode;
-		if (mode.equals("a")) {
+		if (mode.equals(AppConstants.FAN_SPEED_AUTO)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.auto);
-		} else if (mode.equals("s")) {
+		} else if (mode.equals(AppConstants.FAN_SPEED_SILENT)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.silent);
-		} else if (mode.equals("1")) {
+		} else if (mode.equals(AppConstants.FAN_SPEED_ONE)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.speed1);
-		} else if (mode.equals("2")) {
+		} else if (mode.equals(AppConstants.FAN_SPEED_TWO)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.speed2);
-		} else if (mode.equals("3")) {
+		} else if (mode.equals(AppConstants.FAN_SPEED_THREE)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.speed3);
-		} else if (mode.equals("t")) {
+		} else if (mode.equals(AppConstants.FAN_SPEED_TURBO)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.turbo);
 		}
 		return modeStr;

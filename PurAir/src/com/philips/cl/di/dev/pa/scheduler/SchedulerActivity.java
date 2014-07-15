@@ -124,15 +124,16 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	public void setDays(String days) {
-		setDetails(SchedulerConstants.EMPTY_STRING, days, SchedulerConstants.EMPTY_STRING, null);
+		ALog.i(ALog.SCHEDULER, "Selected days: " + days);
+		selectedDays = days;
 	}
 
 	public void setFanSpeed(String fanspeed) {
-		setDetails(SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, fanspeed, null);
+		selectedFanspeed = fanspeed;
 	}
 	
 	public void setTime(String time) {
-		setDetails(time, SchedulerConstants.EMPTY_STRING, SchedulerConstants.EMPTY_STRING, null);
+		selectedTime = time;
 	}
 	
 	/**
@@ -193,7 +194,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				break;
 				
 			case R.id.larrow:
-				showPreviousScreen4BackPressed();
+				showPreviousScreenOnBackPressed();
 				break;
 			default:
 				break;
@@ -205,7 +206,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	 * This is called from 
 	 */
 	private void save() {
-		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");		
+		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");	
+		if (selectedDays.equals(getString(R.string.onetime))) selectedDays = "";
 		if (scheduleType == SCHEDULE_TYPE.ADD) {
 			addScheduler();
 		} else if (scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
@@ -264,26 +266,22 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	 * @param speed
 	 * @param markedDelete
 	 */
-	private void setDetails(String time, String date, String speed, List<Integer> markedDelete) {
-			if (!time.isEmpty())
-				selectedTime = time;
-			if (!date.isEmpty() && !date.equals(SchedulerConstants.ONE_TIME))
-				selectedDays = date;
-			if (!speed.isEmpty())
-				selectedFanspeed = speed;
-		
-		if (markedDelete != null) {
-			SchedulerMarked4Deletion = markedDelete;
-		}
-		ALog.d(ALog.DISCOVERY, "SchedulerMarked4Deletion in updateCRUDOperationData: " + SchedulerMarked4Deletion.toString());
-	}
-	
+//	private void setDetails(List<Integer> markedDelete) {
+//		if (markedDelete != null) {
+//			SchedulerMarked4Deletion = markedDelete;
+//		}
+//		ALog.d(ALog.DISCOVERY, "SchedulerMarked4Deletion in updateCRUDOperationData: " + SchedulerMarked4Deletion.toString());
+//	}
 	
 	private void showSchedulerOverviewFragment() {
-		schFragment =  new SchedulerOverviewFragment();
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, schFragment, "SchedulerOverviewFragment").commit();
+		try {
+			schFragment =  new SchedulerOverviewFragment();
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.ll_scheduler_container, schFragment, "SchedulerOverviewFragment").commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.SCHEDULER, e.getMessage());
+		}
 	}
 	
 	private void showAddSchedulerFragment() {
@@ -295,11 +293,15 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			bundle.putString(SchedulerConstants.SPEED, selectedFanspeed);
 		} 
 		
-		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
-		fragAddSch.setArguments(bundle);
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();		
+		try {
+			AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
+			fragAddSch.setArguments(bundle);
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.ll_scheduler_container, fragAddSch, "AddSchedulerFragment").commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.SCHEDULER, e.getMessage());
+		}	
 	}
 	
 	public void onEditScheduler(int position) {
@@ -334,11 +336,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	}
 	
-	private void showPreviousScreen4BackPressed() {
+	private void showPreviousScreenOnBackPressed() {
 		
-		if (actionbarTitle.getText().equals(SchedulerConstants.SET_SCHEDULE) || actionbarTitle.getText().equals(SchedulerConstants.EDIT_SCHEDULE)) {
+		if (actionbarTitle.getText().equals(getString(R.string.set_schedule)) 
+				|| actionbarTitle.getText().equals(getString(R.string.edit_schedule))) {
 			showSchedulerOverviewFragment(); 
-		} else if (actionbarTitle.getText().equals(SchedulerConstants.REPEAT) || actionbarTitle.getText().equals(SchedulerConstants.FANSPEED)) {
+		} else if (actionbarTitle.getText().equals(getString(R.string.repeat_text)) 
+				|| actionbarTitle.getText().equals(getString(R.string.fanspeed))) {
 			showAddSchedulerFragment();
 		} else {
 			finish();
@@ -353,7 +357,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onBackPressed() {
-		showPreviousScreen4BackPressed();
+		showPreviousScreenOnBackPressed();
 	}
 
 	@Override

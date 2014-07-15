@@ -2,12 +2,11 @@ package com.philips.cl.di.dev.pa.scheduler;
 
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
@@ -23,8 +22,6 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.add_scheduler, null);
-		
-		
 		return view;
 	}
 	
@@ -46,20 +43,16 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		}
 		
 		if (sSelectedFanspeed == null || sSelectedFanspeed.isEmpty()) {
-			((SchedulerActivity)getActivity()).setFanSpeed("a");
+			((SchedulerActivity)getActivity()).setFanSpeed(SchedulerConstants.DEFAULT_FANSPEED_SCHEDULER);
 		}
 		
-		sSelectedDays = setWeekDays2(sSelectedDays);
-		
+		sSelectedDays = setWeekDays(sSelectedDays);
 		
 		FontTextView tvAddTime = (FontTextView) view.findViewById(R.id.tvAddTime);
 		tvAddTime.setOnClickListener(this);
 		tvAddTime.setTypeface(null, Typeface.BOLD);
 		FontTextView txtView = (FontTextView) view.findViewById(R.id.tvAddSchdeduler);
 		txtView.setText(sSelectedTime);
-		
-		ImageView btnTime = (ImageView) view.findViewById(R.id.btnTime);
-		btnTime.setOnClickListener(this);
 		
 		FontTextView tvRepeat = (FontTextView) view.findViewById(R.id.repeat);
 		tvRepeat.setOnClickListener(this);
@@ -73,90 +66,93 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 			repeat_text.setText(sSelectedDays);
 		}
 		
-		ImageView btnRepeat = (ImageView) view.findViewById(R.id.btnrepeat);
-		btnRepeat.setOnClickListener(this);
-		
-		
 		FontTextView fanspeed_text = (FontTextView) view.findViewById(R.id.fanspeedtext);
 		if(sSelectedFanspeed != null && !sSelectedFanspeed.isEmpty()) {
 			fanspeed_text.setText(SchedulerUtil.getFanspeedName(sSelectedFanspeed));
 		}
-		
-		ImageView btnFanSpeed = (ImageView) view.findViewById(R.id.btnFanSpeed);
-		btnFanSpeed.setOnClickListener(this);
 	}
 	
 	public void setTime(String time) {
 		sSelectedTime = time;
 	}
 	
-	private String setWeekDays2(String days) {
-		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays2() method enter");
-		StringBuffer sWeStringBuffer = new StringBuffer();
-		String sWeekdays = "";
+	private String setWeekDays(String days) {
+		ALog.i(ALog.SCHEDULER, "AddSchedulerFragment::setWeekDays() method enter: " + days);
+		StringBuffer stringBuffer = new StringBuffer();
 		if (days == null || days.isEmpty()) return SchedulerConstants.ONE_TIME;
 			
-		if (days.equals(SchedulerConstants.ONE_TIME))
-			return days;
-		
-		String[] sParts = days.split(SchedulerConstants.DIGITS);
-		String sTempStr = "";
-		//int beginIndex = 0;
-		
-		for(int i=0; i<sParts.length;i++) {
-			sTempStr = sParts[i];
-			if (sTempStr.contains("0")) sWeStringBuffer.append(SchedulerConstants.SUNDAY + ", ");
-			if (sTempStr.contains("1")) sWeStringBuffer.append(SchedulerConstants.MONDAY + ", ");
-			if (sTempStr.contains("2")) sWeStringBuffer.append(SchedulerConstants.TUESDAY + ", ");
-			if (sTempStr.contains("3")) sWeStringBuffer.append(SchedulerConstants.WEDNESDAY + ", ");
-			if (sTempStr.contains("4")) sWeStringBuffer.append(SchedulerConstants.THURSDAY + ", ");
-			if (sTempStr.contains("5")) sWeStringBuffer.append(SchedulerConstants.FRIDAY + ", ");
-			if (sTempStr.contains("6")) sWeStringBuffer.append(SchedulerConstants.SATURDAY + ", ");
+		if (days.equals(SchedulerConstants.ONE_TIME)) return days;
+		char[] dayCharArray = days.toCharArray();
+		if(dayCharArray != null) {
+			int charArrayLengh = dayCharArray.length ;
+			for (int index = 0 ; index < charArrayLengh ; index ++) {
+				switch (dayCharArray[index]) { 
+				case SchedulerConstants.CHAR_ZERO:
+					stringBuffer.append(SchedulerConstants.SUNDAY);
+					break;
+				case SchedulerConstants.CHAR_ONE:
+					stringBuffer.append(SchedulerConstants.MONDAY);
+					break;
+				case SchedulerConstants.CHAR_TWO:
+					stringBuffer.append(SchedulerConstants.TUESDAY);
+					break;
+				case SchedulerConstants.CHAR_THREE:
+					stringBuffer.append(SchedulerConstants.WEDNESDAY);
+					break;
+				case SchedulerConstants.CHAR_FOUR:
+					stringBuffer.append(SchedulerConstants.THURSDAY);
+					break;
+				case SchedulerConstants.CHAR_FIVE:
+					stringBuffer.append(SchedulerConstants.FRIDAY);
+					break;
+				case SchedulerConstants.CHAR_SIX:
+					stringBuffer.append(SchedulerConstants.SATURDAY);
+					break;
+				default:
+					ALog.i(ALog.SCHEDULER, "Default");
+					break;
+					
+				}
+				if( index != charArrayLengh - 1 ) {
+					stringBuffer.append(", ") ;
+				}
+			}
 		}
-		sWeekdays = sWeStringBuffer.toString();
-		if (!sWeekdays.isEmpty()) {
-			sWeekdays = sWeekdays.substring(0, sWeekdays.length() - 2);
-		}
-		
-		return sWeekdays;
+		return stringBuffer.toString();
 	}
-	
-	
 
 	@Override
 	public void onClick(View v) {
 		Bundle bundle = new Bundle();
 		switch(v.getId()) {
 			case R.id.tvAddTime:
-			case R.id.btnTime:
 				android.support.v4.app.DialogFragment newFragment = new TimePickerFragment();
 				((TimePickerFragment) newFragment).setTime(sSelectedTime);
-				newFragment.show(getActivity().getSupportFragmentManager(), "timePicker");
+				newFragment.show(getActivity().getSupportFragmentManager(), SchedulerConstants.TIMER_FRAGMENT_TAG);
 				break;
 			case R.id.repeat:
-			case R.id.btnrepeat:
 				bundle.putString(SchedulerConstants.DAYS, sSelectedDays);
 				RepeatFragment fragRepeat = new RepeatFragment();
 				fragRepeat.setArguments(bundle);
-				getFragmentManager()
-		  	    .beginTransaction()
-		  		.replace(R.id.ll_scheduler_container, fragRepeat, "RepeatFragment")
-		  		.commit();
+				showFragment(fragRepeat, SchedulerConstants.REPEAT_FRAGMENT_TAG);
 				break;
 			case R.id.fanspeed:
-			case R.id.btnFanSpeed:
 				bundle.putString(SchedulerConstants.SPEED, sSelectedFanspeed);
 				FanspeedFragment fragFanSpeed = new FanspeedFragment();
 				fragFanSpeed.setArguments(bundle);
-				getFragmentManager()
-		  	    .beginTransaction()
-		  		.replace(R.id.ll_scheduler_container, fragFanSpeed, "FanspeedFragment")
-		  		.commit();
+				showFragment(fragFanSpeed, SchedulerConstants.FANSPEED_FRAGMENT_TAG);
 				break;
 			default:
 				break;
 		}
-		
 	}	
+	
+	private void showFragment(Fragment fragment, String fragTag) {
+		try {
+			getFragmentManager().beginTransaction()
+			.replace(R.id.ll_scheduler_container, fragment, fragTag).commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.SCHEDULER, e.getMessage());
+		}
+	}
 }
-

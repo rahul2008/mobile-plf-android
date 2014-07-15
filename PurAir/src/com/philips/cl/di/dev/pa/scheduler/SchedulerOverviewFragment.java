@@ -2,17 +2,14 @@ package com.philips.cl.di.dev.pa.scheduler;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -21,15 +18,15 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class SchedulerOverviewFragment extends BaseFragment implements OnClickListener {
+public class SchedulerOverviewFragment extends BaseFragment implements OnClickListener, SchedulerEditListener {
 	
-	private FontTextView edit;
+	private FontTextView editTxt;
 	private ImageView add;
 	private ListView lstView;
 	private SchedulerOverViewAdapter schOverviewAdapter;
 	private List<SchedulePortInfo> lstSchedulers;
-	private boolean isEdit;
-	private ArrayList<Boolean> isEditList;
+	private boolean edit;
+	private ArrayList<Boolean> editList;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,	Bundle savedInstanceState) {
@@ -47,86 +44,21 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList());
 		}
 		addSelectedEdit();
-		schOverviewAdapter = new SchedulerOverViewAdapter(getActivity(), R.layout.simple_list_item, lstSchedulers);
+		schOverviewAdapter = new SchedulerOverViewAdapter(getActivity(),
+				R.layout.simple_list_item, lstSchedulers, editList, edit, this);
 		lstView.setAdapter(schOverviewAdapter);
 	}
 	
 	
 	private void initViews(View view) {
-		edit = (FontTextView) view.findViewById(R.id.sch_edit);
-		edit.setOnClickListener(this);
+		editTxt = (FontTextView) view.findViewById(R.id.sch_edit);
+		editTxt.setOnClickListener(this);
 		add = (ImageView) view.findViewById(R.id.sch_add);
 		add.setOnClickListener(this);
 		lstView = (ListView) view.findViewById(R.id.event_scheduler_listview);
 		lstSchedulers = new ArrayList<SchedulePortInfo>();
-		isEditList = new ArrayList<Boolean>();
+		editList = new ArrayList<Boolean>();
 		ALog.i(ALog.SCHEDULER, "SchedulerOverview::initViews() method exit");
-	}
-	
-	private class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
-		public SchedulerOverViewAdapter(Context context, int resource, List<SchedulePortInfo> objects) {
-			super(context, resource, objects);
-			ALog.i(ALog.SCHEDULER, "RepeatFragment-DaysAdapter () method constructor enter " + objects);
-		}
-
-		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
-			LayoutInflater inflater = getActivity().getLayoutInflater();
-			View view = inflater.inflate(R.layout.simple_list_item, null);
-			final FontTextView name = (FontTextView) view.findViewById(R.id.list_item_name);
-			final RelativeLayout mainLayout = (RelativeLayout) view.findViewById(R.id.ll_list_item);
-			final ImageView selDelete = (ImageView) view.findViewById(R.id.list_item_delete);
-			final ImageView rhtArr = (ImageView) view.findViewById(R.id.list_item_right_arrow);
-			final FontTextView rhtArrtxt = (FontTextView) view.findViewById(R.id.list_item_right_text);
-			
-			final int tempPosition = position;
-			
-			if (lstSchedulers.get(position).getName() != null) {
-				name.setText(lstSchedulers.get(position).getName());
-			}
-			if (isEdit) {
-				selDelete.setVisibility(View.VISIBLE);
-				rhtArr.setVisibility(View.VISIBLE);
-				if (isEditList.get(tempPosition)) {
-					selDelete.setImageResource(R.drawable.delete_t2b);
-					rhtArr.setImageResource(R.drawable.delete);
-					rhtArrtxt.setVisibility(View.VISIBLE);
-				}
-			} else {
-				selDelete.setVisibility(View.GONE);
-				rhtArr.setImageResource(R.drawable.about_air_quality_goto);
-			}
-			
-			selDelete.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					isEditList.set(tempPosition, !isEditList.get(tempPosition));
-					schOverviewAdapter.notifyDataSetChanged();
-				}
-			});
-			
-			rhtArr.setOnClickListener(new OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					if (rhtArrtxt.getVisibility() == View.VISIBLE) {
-						lstSchedulers.remove(tempPosition);
-						isEditList.remove(tempPosition);
-						schOverviewAdapter.notifyDataSetChanged();
-						((SchedulerActivity) getActivity()).deleteScheduler(tempPosition);
-					} 
-				}
-			});
-			
-			mainLayout.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					((SchedulerActivity)getActivity()).onEditScheduler(tempPosition);
-				}
-			});
-			return view;
-		}
 	}
 	
 	public void updateList() {
@@ -147,7 +79,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 	
 	private void addSelectedEdit() {
 		for (int i = 0; i < lstSchedulers.size(); i++) {
-			isEditList.add(false);
+			editList.add(false);
 		}
 	}
 
@@ -156,16 +88,18 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 		switch(v.getId())
 		{
 			case R.id.sch_edit:
-				
-				if (edit.getText().equals(getString(R.string.edit))) {
-					isEdit = true;
-					edit.setText(getString(R.string.done));
+				if (editTxt.getText().equals(getString(R.string.edit))) {
+					edit = true;
+					editTxt.setText(getString(R.string.done));
 				} else {
-					isEdit = false;
-					edit.setText(getString(R.string.edit));
+					edit = false;
+					editTxt.setText(getString(R.string.edit));
 				}
 				if (schOverviewAdapter == null) return;
-				schOverviewAdapter.notifyDataSetChanged();
+				schOverviewAdapter = new SchedulerOverViewAdapter(getActivity(), 
+						R.layout.simple_list_item, lstSchedulers, editList, edit, this);
+				lstView.setAdapter(schOverviewAdapter);
+//				schOverviewAdapter.notifyDataSetChanged();
 				break;
 			case R.id.sch_add:
 				((SchedulerActivity)getActivity()).setSchedulerType(SCHEDULE_TYPE.ADD);
@@ -176,6 +110,15 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			default:
 				break;
 		}
-		
+	}
+
+	@Override
+	public void onDeleteSchedule(int position) {
+		((SchedulerActivity) getActivity()).deleteScheduler(position);
+	}
+
+	@Override
+	public void onEditSchedule(int position) {
+		((SchedulerActivity)getActivity()).onEditScheduler(position);
 	}
 }
