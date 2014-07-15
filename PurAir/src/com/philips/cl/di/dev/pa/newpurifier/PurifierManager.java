@@ -8,6 +8,7 @@ import java.util.Observer;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -53,6 +54,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	public static enum EWS_STATE { EWS, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
+	private final Handler handler = new Handler();
+	private Runnable re_subscribe;
 	
 	private SchedulerHandler schedulerHandler ;
 	
@@ -129,14 +132,29 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		return mCurrentPurifier;
 	}
 
-	private void subscribeToAllEvents(PurAirDevice purifier) {
+	private void subscribeToAllEvents(final PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
-		SubscriptionHandler.getInstance().subscribeToPurifierEvents(purifier);
-		SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purifier);
+		handler.removeCallbacks(re_subscribe);
+		handler.post(re_subscribe);
+		re_subscribe = new Runnable() { 
+			@Override 
+			public void run() { 
+				try{					
+					handler.removeCallbacks(re_subscribe);
+					SubscriptionHandler.getInstance().subscribeToPurifierEvents(purifier);
+					SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purifier);
+					handler.postDelayed(re_subscribe, 10000);
+				}
+				catch (Exception e) {
+					e.printStackTrace();
+				}
+			} 
+		}; 
 	}
 
 	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
+		handler.removeCallbacks(re_subscribe);
 		SubscriptionHandler.getInstance().unSubscribeFromPurifierEvents(purifier);
 		SubscriptionHandler.getInstance().unSubscribeFromFirmwareEvents(purifier);
 	}
