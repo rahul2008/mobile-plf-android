@@ -43,16 +43,7 @@ public class SessionDto {
 		this.indoorTrendDto = indoorTrendDto;
 	}
 
-	public CityDetails getCityDetails() {
-		return cityDetails;
-	}
-
-	public void setCityDetails(CityDetails cityDetails) {
-		this.cityDetails = cityDetails;
-	}
-
 	private OutdoorAQIEventDto outdoorEventDto ;
-	private CityDetails cityDetails ;
 	
 	public OutdoorAQIEventDto getOutdoorEventDto() {
 		return outdoorEventDto;

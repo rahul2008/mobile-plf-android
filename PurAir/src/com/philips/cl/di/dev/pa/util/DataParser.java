@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.util;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,8 +17,6 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.datamodel.City;
-import com.philips.cl.di.dev.pa.datamodel.CityDetails;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
@@ -295,27 +292,6 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-	public static List<City> parseLocationData(String dataToParse) {
-		if(dataToParse == null) {
-			return null;
-		}
-		try {
-			CityDetails cities = new GsonBuilder().create().fromJson(dataToParse, CityDetails.class);
-			Map<String, City> citiesMap = cities.getCities();
-			List<City> citiesList = new ArrayList<City>(citiesMap.values());
-			return citiesList;
-		} catch (JsonSyntaxException jse) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null;
-		} catch (JsonIOException jioe) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null;
-		} catch (Exception e) {
-			ALog.e(ALog.PARSER, "parseLocationData");
-			return null;
-		}
-	}
-	
 	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();

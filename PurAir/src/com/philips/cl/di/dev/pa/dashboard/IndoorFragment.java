@@ -23,7 +23,6 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
@@ -55,8 +54,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private ProgressBar firmwareProgress;
 	private AlertDialogFragment dialogFragment;
 	private AlertDialogFragment firmwareInfoDialog;
-	
-	private FirmwareState prevState;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -308,7 +305,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			return ;
 		}
 		updateFirmwareUI(showFirmwareUI, status,progressVisibility,progress,infoVisibility) ; 
-		prevState = firmwarePortInfo.getState() ;
 	}
 	private void updateFirmwareUI(final boolean showFirmwareUI, final String status, final int progressVisibility, final int progress, final int infoVisibility) {
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$updateFirmwareUI showFirmwareUI " + showFirmwareUI);
