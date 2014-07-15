@@ -50,6 +50,7 @@ public class TaskPutDeviceDetails implements Runnable {
 			URL urlConn = new URL(url) ;
 			conn = NetworkUtils.getConnection(urlConn, requestMethod, -1) ;
 			if(dataToUpload != null && !dataToUpload.isEmpty()) {
+				conn.setDoOutput(true) ;
 				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
 				out.write(dataToUpload);
 				out.flush() ;				
@@ -72,6 +73,7 @@ public class TaskPutDeviceDetails implements Runnable {
 		}
 
 		finally {
+			ALog.i(ALog.SCHEDULER, "Finally: "+result) ;
 			NetworkUtils.closeAllConnections(inputStream, out, conn) ;
 			if(responseListener != null )
 				responseListener.receiveServerResponse(responseCode, result, targetIpAddress);

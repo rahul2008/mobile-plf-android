@@ -54,6 +54,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public static enum EWS_STATE { EWS, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	
+	private SchedulerHandler schedulerHandler ;
+	
 	public static synchronized PurifierManager getInstance() {
 		if (instance == null) {
 			instance = new PurifierManager();
@@ -67,6 +69,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		airPurifierEventListeners = new ArrayList<AirPurifierEventListener>();
 		mSecurity = new DISecurity(this);
 		mDeviceHandler = new DeviceHandler(this) ;
+		schedulerHandler = new SchedulerHandler(this) ;
 	}
 	
 	public void setSchedulerListener(SchedulerListener schedulerListener) {
@@ -234,11 +237,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			notifyAirPurifierEventListeners(airPortInfo) ;
 			return ;
 		}
-		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
-		if( firmwarePortInfo != null ) {
-			notifyFirmwareEventListeners(firmwarePortInfo) ;
-			return ;
-		}
 		SchedulePortInfo schedulePortInfo = DataParser.parseScheduleDetails(data) ;
 		List<SchedulePortInfo> schedulerPortInfoList = DataParser.parseSchedulerDto(data) ;
 		
@@ -251,7 +249,14 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 				scheduleListener.onSchedulesReceived(schedulerPortInfoList) ;
 				return ;
 			}
-		}	
+		}
+		
+		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
+		if( firmwarePortInfo != null ) {
+			notifyFirmwareEventListeners(firmwarePortInfo) ;
+			return ;
+		}
+		
 	}
 	
 	private void notifyAirPurifierEventListeners(AirPortInfo airPortInfo) {
@@ -356,7 +361,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 	
 	public void sendScheduleDetailsToPurifier(String data, PurAirDevice purAirDevice, SCHEDULE_TYPE scheduleType,int scheduleNumber) {
-		SchedulerHandler schedulerHandler = new SchedulerHandler(this) ;
 		schedulerHandler.setScheduleDetails(data, purAirDevice, scheduleType, scheduleNumber) ;
 	}
 

@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,6 +17,8 @@ import android.widget.TimePicker;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
@@ -26,7 +29,7 @@ import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnClickListener,
-		OnTimeSetListener, SchedulerListener {
+		OnTimeSetListener, SchedulerListener, DiscoveryEventListener {
 
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
@@ -231,20 +234,17 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 	
 	private void showProgressDialog() {
+		cppTimer.start() ;
 		progressDialog = new ProgressDialog(this);
 		progressDialog.setMessage("Please wait...");
 		progressDialog.show();
 	}
 	
 	private void cancelProgressDialog() {
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				if(progressDialog != null && progressDialog.isShowing()) {
-					progressDialog.cancel() ;
-				}				
-			}			
-		});	
+		cppTimer.cancel() ;
+		if(progressDialog != null && progressDialog.isShowing()) {
+			progressDialog.cancel() ;
+		}				
 	}	
 	
 	/**
@@ -363,12 +363,14 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onPause() {
 		super.onPause();
+		DiscoveryManager.getInstance().stop();
 		setCancelled(true);
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		DiscoveryManager.getInstance().start(this);
 		if( schedulesList == null || schedulesList.size() == 0 ) {
 			getSchedulesFromPurifier() ;
 		}
@@ -397,12 +399,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) {
 		ALog.i(ALog.SCHEDULER, "onSchedulers list response");
-		cancelProgressDialog() ;
+		
 		if( scheduleList != null ) {
 			this.schedulesList = scheduleList ;
-			runOnUiThread(new Runnable() {				
+			runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
+					cancelProgressDialog() ;
 					if( scheduleType == SCHEDULE_TYPE.ADD) {
 						showSchedulerOverviewFragment() ;
 					}
@@ -416,6 +419,12 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onScheduleReceived(SchedulePortInfo schedule) {
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				cancelProgressDialog();
+			}
+		});
 
 		for(SchedulePortInfo schedulerPortInfo: schedulesList) {
 			if( schedulerPortInfo.getScheduleNumber() == schedulerNumberSelected) {
@@ -429,7 +438,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				schedulerPortInfo.setName(schedule.getName()) ;
 			}
 		}
-		cancelProgressDialog() ;
+		
 		if( scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {
 			showEditFragment(schedule) ;
 		}
@@ -441,6 +450,34 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	@Override
 	public void onErrorOccurred() {
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				cancelProgressDialog() ;
+				if(scheduleType == SCHEDULE_TYPE.DELETE ) {
+					schFragment.updateList();
+				}
+			}			
+		});	
 		
 	}
+
+	@Override
+	public void onDiscoveredDevicesListChanged() {
+		
+	}
+	
+	private CountDownTimer cppTimer = new CountDownTimer(30000,1000) {
+		@Override
+		public void onTick(long millisUntilFinished) {
+		}
+		
+		@Override
+		public void onFinish() {
+			cancelProgressDialog() ;
+			if(scheduleType == SCHEDULE_TYPE.DELETE ) {
+				schFragment.updateList();
+			}
+		}
+	};
 }

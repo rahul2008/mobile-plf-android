@@ -75,9 +75,9 @@ public class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
 			
 			@Override
 			public void onClick(View v) {
-				schedulers.remove(tempPosition);
-				editList.remove(tempPosition);
-				notifyDataSetChanged();
+//				schedulers.remove(tempPosition);
+//				editList.remove(tempPosition);
+				//notifyDataSetChanged();
 				listener.onDeleteSchedule(tempPosition);
 			}
 		});
