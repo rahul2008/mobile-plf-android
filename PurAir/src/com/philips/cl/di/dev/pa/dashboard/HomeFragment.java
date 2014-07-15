@@ -47,6 +47,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		super.onResume();
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
+		
+		((MainActivity) getActivity()).setActionBar();
 	}
 
 

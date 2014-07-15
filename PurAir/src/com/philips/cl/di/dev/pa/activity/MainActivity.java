@@ -206,6 +206,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			DiscoveryManager.getInstance().start(this);
 			PurifierManager.getInstance().addAirPurifierEventListener(this);
 		}
+		
+		setActionBar();
+		
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		
 		removeFirmwareUpdateUI();
@@ -214,6 +217,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		checkForCrashesHockeyApp();
 	}
 	
+	public void setActionBar() {
+		if(Utils.getAppFirstUse()) {
+			rightMenu.setVisibility(View.INVISIBLE);
+		} else {
+			rightMenu.setVisibility(View.VISIBLE);
+		}
+	}
+
 	@Override
 	protected void onResumeFragments() {
 		ALog.i(ALog.MAINACTIVITY, "onResumeFragments") ;
