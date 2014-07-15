@@ -175,10 +175,6 @@ public class StartFlowDialogFragment extends DialogFragment {
 				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
 				
 				Utils.saveAppFirstUse(false);
-//				SharedPreferences mPreferences = getActivity().getSharedPreferences(SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
-//				Editor mEditor = mPreferences.edit();
-//				mEditor.putBoolean(SHARED_PREFERENCE_FIRST_USE, false);
-//				mEditor.commit();
 				dismiss();            	   
 			}
         });

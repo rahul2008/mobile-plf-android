@@ -19,6 +19,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowVirginFragment extends BaseFragment implements OnClickListener {
@@ -58,12 +59,14 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 
 	@Override
 	public void onClick(View v) {
+		ALog.i(ALog.APP_START_UP, "StartVirginFlowFragment$onClick");
 		switch (v.getId()) {
 		case R.id.start_flow_virgin_btn_connect:
 						mConnectPurifier.startAddPurifierToAppFlow();
 			break;
 		case R.id.start_flow_virgin_btn_play:
 			startVideo();
+			break;
 		case R.id.start_flow_virgin_tv_benefits:
 			startBenefitsFlow();
 			break;
@@ -95,15 +98,11 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	}
 		
 	private void startBenefitsFlow() {
-		// TODO: start benefits flow, for now show MainActivity
-//		startActivity(new Intent(getActivity(), MainActivity.class));
-//		getFragmentManager().popBackStack();
+		// TODO: start benefits flow
 	}
 	
 	private void startVideo() {
-		// TODO start video, for now show MainActivity
-//		startActivity(new Intent(getActivity(), MainActivity.class));
-//		getFragmentManager().popBackStack();
+		// TODO start video
 	}
 	
 	private void startUseNoPurifierFlow() {
