@@ -206,8 +206,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			DiscoveryManager.getInstance().start(this);
 			PurifierManager.getInstance().addAirPurifierEventListener(this);
 		}
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.llContainer);
 		
-		setActionBar();
+		setActionBar(fragment);
 		
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		
@@ -217,11 +219,20 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		checkForCrashesHockeyApp();
 	}
 	
-	public void setActionBar() {
-		if(Utils.getAppFirstUse()) {
+	public void setActionBar(Fragment fragment) {
+		
+		if(fragment instanceof OutdoorLocationsFragment) {
 			rightMenu.setVisibility(View.INVISIBLE);
+			addLocation.setVisibility(View.VISIBLE);
 		} else {
-			rightMenu.setVisibility(View.VISIBLE);
+//			rightMenu.setVisibility(View.INVISIBLE);
+//			addLocation.setVisibility(View.VISIBLE);
+			if(Utils.getAppFirstUse()) {
+				rightMenu.setVisibility(View.INVISIBLE);
+			} else {
+				addLocation.setVisibility(View.INVISIBLE);
+				rightMenu.setVisibility(View.VISIBLE);
+			}
 		}
 	}
 
@@ -553,7 +564,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			ALog.e(ALog.MAINACTIVITY, e.getMessage());
 		}
 
-		setActionBar();
+		setActionBar(fragment);
 		
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
@@ -614,8 +625,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				// Outdoor locations
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
-				rightMenu.setVisibility(View.INVISIBLE);
-				addLocation.setVisibility(View.VISIBLE);
 				break;
 			case 3:
 				// Notifications
