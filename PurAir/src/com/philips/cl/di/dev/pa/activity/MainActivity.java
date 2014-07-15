@@ -300,11 +300,16 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		boolean firstUse = Utils.getAppFirstUse();
 
 		if (firstUse) {
-			showFragment(new StartFlowVirginFragment()) ;
+			showVirginFlowFragment();
 		} else {
 			showDashboardFragment();
 		}
 		
+	}
+	
+	private void showVirginFlowFragment() {
+		showFragment(new StartFlowVirginFragment()) ;
+		setTitle(getString(R.string.dashboard_title));
 	}
 	
 	private void showDashboardFragment() {
@@ -381,6 +386,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.right_menu_img:
+				
+				if(Utils.getAppFirstUse()) return;
 				
 				if (mRightDrawerOpened) {
 					mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -546,6 +553,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			ALog.e(ALog.MAINACTIVITY, e.getMessage());
 		}
 
+		setActionBar();
+		
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
@@ -592,10 +601,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			case 0:
 				if(!Utils.getAppFirstUse()) {
 					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.dashboard_title));
 				} else {
 					showFragment(new StartFlowVirginFragment());
 				}
+				setTitle(getString(R.string.dashboard_title));
 				break;
 			case 1:
 				showFragment(leftMenuItems.get(position));
@@ -610,12 +619,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				break;
 			case 3:
 				// Notifications
-				if(!Utils.getAppFirstUse()) {
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_notifications));
-				} else {
-					Toast.makeText(PurAirApplication.getAppContext(), "Please connect to a purifier.", Toast.LENGTH_SHORT).show();
-				}
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_notifications));
 				break;
 			case 4:
 				// Help and documentation
