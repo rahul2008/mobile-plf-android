@@ -34,10 +34,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
 		super.setUp();
 	}
 
-	public void testActivityTitle() {
-		assertEquals(activity.getString(R.string.dashboard_title), activity.getTitle());
-	}
-	
 	@UiThreadTest
 	public void testEnableDiscoveryInOnResume() {
 		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
