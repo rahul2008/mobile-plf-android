@@ -61,6 +61,7 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -215,6 +216,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 	@Override
 	protected void onResumeFragments() {
+		ALog.i(ALog.MAINACTIVITY, "onResumeFragments") ;
 		super.onResumeFragments();
 		if (PurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
 			showFirstFragment();
@@ -269,6 +271,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			mLeftDrawerOpened = false;
 			mRightDrawerOpened = false;
 		} else if (fragment instanceof StartFlowVirginFragment) {
+			ConnectPurifier.reset() ;
 			finish();
 		} else if (!(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
@@ -284,15 +287,13 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	
 	private void showFirstFragment() {
 		boolean firstUse = Utils.getAppFirstUse();
-		
+
 		if (firstUse) {
-			getSupportFragmentManager().beginTransaction()
-					.add(R.id.llContainer, new StartFlowVirginFragment())
-					.addToBackStack(null)
-					.commit();
+			showFragment(new StartFlowVirginFragment()) ;
 		} else {
 			showDashboardFragment();
 		}
+		
 	}
 	
 	private void showDashboardFragment() {
@@ -524,11 +525,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	public void showFragment(Fragment fragment) {
-
 		try {
-			FragmentManager fragmentManager = getSupportFragmentManager();
-			fragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			getSupportFragmentManager().popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 			fragmentTransaction.add(R.id.llContainer, fragment, fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag()) ;
 			fragmentTransaction.commit();

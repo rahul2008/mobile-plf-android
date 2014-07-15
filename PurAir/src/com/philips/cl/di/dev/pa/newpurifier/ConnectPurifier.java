@@ -31,7 +31,6 @@ public class ConnectPurifier {
 	
 	private ConnectPurifier(FragmentActivity context) {
 		mContext = context;
-		
 		mDialog = new StartFlowDialogFragment();
 		mDialog.setListener(mStartFlowListener);
 		mBundle = new Bundle();
@@ -161,4 +160,7 @@ public class ConnectPurifier {
 		}
 	};
 	
+	public static void reset() {
+		mInstance = null ;
+	}	
 }
