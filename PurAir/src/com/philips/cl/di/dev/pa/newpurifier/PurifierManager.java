@@ -38,6 +38,8 @@ import com.philips.cl.di.dev.pa.util.DataParser;
  */
 public class PurifierManager implements SubscriptionEventListener, KeyDecryptListener, Observer {
 
+	protected static final long RESUBSCRIBING_TIME = 300000;
+
 	private static PurifierManager instance;
 	
 	private DISecurity mSecurity;
@@ -143,7 +145,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 					handler.removeCallbacks(re_subscribe);
 					SubscriptionHandler.getInstance().subscribeToPurifierEvents(purifier);
 					SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purifier);
-					handler.postDelayed(re_subscribe, 10000);
+					handler.postDelayed(re_subscribe, RESUBSCRIBING_TIME);
 				}
 				catch (Exception e) {
 					e.printStackTrace();
