@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -154,7 +155,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 	
 	private AlertDialog.Builder createApSelectorDialog(AlertDialog.Builder builder) {
 		DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-		final ArrayList<PurAirDevice> apItems = discoveryManager.getDiscoveredDevices();
+		final List<PurAirDevice> apItems = discoveryManager.getNewDevicesDiscovered();
 		ArrayList<String> listItemsArrayList = new ArrayList<String>();
 		String[] listItems = {};
 		

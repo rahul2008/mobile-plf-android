@@ -57,7 +57,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	public static enum EWS_STATE { EWS, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	private final Handler handler = new Handler();
-	private Runnable re_subscribe;
+	private Runnable subscribeRunnable;
 	
 	private SchedulerHandler schedulerHandler ;
 	
@@ -136,16 +136,16 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private void subscribeToAllEvents(final PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
-		handler.removeCallbacks(re_subscribe);
-		handler.post(re_subscribe);
-		re_subscribe = new Runnable() { 
+		handler.removeCallbacks(subscribeRunnable);
+		handler.post(subscribeRunnable);
+		subscribeRunnable = new Runnable() { 
 			@Override 
 			public void run() { 
 				try{					
-					handler.removeCallbacks(re_subscribe);
+					handler.removeCallbacks(subscribeRunnable);
 					SubscriptionHandler.getInstance().subscribeToPurifierEvents(purifier);
 					SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purifier);
-					handler.postDelayed(re_subscribe, RESUBSCRIBING_TIME);
+					handler.postDelayed(subscribeRunnable, RESUBSCRIBING_TIME);
 				}
 				catch (Exception e) {
 					e.printStackTrace();
@@ -156,7 +156,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
-		handler.removeCallbacks(re_subscribe);
+		handler.removeCallbacks(subscribeRunnable);
 		SubscriptionHandler.getInstance().unSubscribeFromPurifierEvents(purifier);
 		SubscriptionHandler.getInstance().unSubscribeFromFirmwareEvents(purifier);
 	}

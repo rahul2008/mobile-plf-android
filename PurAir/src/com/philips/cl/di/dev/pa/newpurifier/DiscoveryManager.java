@@ -54,6 +54,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private CppDiscoveryHelper mCppHelper;
 
 	private DiscoveryEventListener mListener;
+	private List<PurAirDevice> storedDevices;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
 	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
@@ -113,6 +114,34 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	public ArrayList<PurAirDevice> getDiscoveredDevices() {
 		return new ArrayList<PurAirDevice>(mDevicesMap.values());
+	}
+	
+	public List<PurAirDevice> getDevicesFromDB() {
+		return mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED); 
+	}
+	
+	public List<PurAirDevice> getNewDevicesDiscovered() {
+		boolean addToNewDeviceList = true ;
+		List<PurAirDevice> discoveredDevices = getDiscoveredDevices() ;
+		List<PurAirDevice> devicesInDataBase = getDevicesFromDB() ;
+		List<PurAirDevice> newDevices = new ArrayList<PurAirDevice>() ;
+		
+		if(discoveredDevices == null || discoveredDevices.size() == 0) return null ;
+		
+		for(PurAirDevice device: discoveredDevices) {
+			for( PurAirDevice deviceInDB: devicesInDataBase) {
+				if( device.getEui64().equals(deviceInDB.getEui64())) {
+					addToNewDeviceList = false;
+					break;
+				}
+			}
+			if(addToNewDeviceList) {
+				newDevices.add(device) ;
+			}
+			addToNewDeviceList = true ;
+		}
+		
+		return newDevices ;
 	}
 
 	public PurAirDevice getDeviceByEui64(String eui64) {
@@ -587,9 +616,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 
 	private void initializeDevicesMapFromDataBase() {
+		ALog.i(ALog.DISCOVERY, "initializeDevicesMap") ;
 		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
 		// Disconnected by default to allow SSDP to discover first and only after try cpp
-		List<PurAirDevice> storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
+		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
 		//		if (storedDevices == null) return;
 		//		
 		//		ALog.d(ALog.DISCOVERY, "Successfully loaded stored devices: " + storedDevices.size());
