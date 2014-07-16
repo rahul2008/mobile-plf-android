@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -175,6 +176,11 @@ public class StartFlowDialogFragment extends DialogFragment {
 				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
 				
 				Utils.saveAppFirstUse(false);
+				
+				PurifierDatabase purifierDatabase = new PurifierDatabase();
+				purifierDatabase.insertPurAirDevice(currentPurifier);
+				purifierDatabase.closeDb();
+				
 				dismiss();            	   
 			}
         });
