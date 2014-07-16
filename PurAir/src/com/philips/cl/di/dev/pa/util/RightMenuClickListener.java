@@ -23,6 +23,7 @@ import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 
 public class RightMenuClickListener implements OnClickListener {
 	
@@ -364,9 +365,9 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_scheduler:
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
-//			intent = new Intent(mainActivity,SchedulerActivity.class);
-//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//			mainActivity.startActivity(intent) ;
+			intent = new Intent(mainActivity,SchedulerActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			mainActivity.startActivity(intent) ;
 			break;
 		default:
 			break;
@@ -435,8 +436,8 @@ public class RightMenuClickListener implements OnClickListener {
 			timer.setClickable(true);
 			timer.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			
-//			schedule.setClickable(true);
-//			schedule.setBackgroundResource(R.drawable.button_blue_bg_2x);
+			schedule.setClickable(true);
+			schedule.setBackgroundResource(R.drawable.button_blue_bg_2x);
 			childLock.setChecked(getOnOffStatus(airPurifierEventDto.getChildLock()));			
 			setFanSpeed(airPurifierEventDto);
 			indicatorLight.setChecked(getOnOffStatus(airPurifierEventDto.getAqiL()));
