@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="20dp"
     android:background="@color/white" >
 
     <RelativeLayout
@@ -150,7 +151,7 @@
         
         <Button
 	        android:id="@+id/btnCreateAccount"
-	        android:layout_width="wrap_content"
+	        android:layout_width="160dp"
 	        android:layout_height="wrap_content"
 	        android:layout_marginRight="16dp"
 	        android:layout_marginTop="16dp"
@@ -160,7 +161,7 @@
 	        android:text="@string/create_your_account"
 	        android:textColor="@color/white"
 	        android:textSize="14sp"
-	        android:layout_alignParentRight="true"
+	        android:layout_centerHorizontal="true"
 	        android:layout_below="@id/llPassword"/>
         
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -176,6 +177,23 @@
 			android:textSize="16sp"
 			custom:fontAssetName="fonts/gillsans.ttf"
 			android:layout_below="@id/btnCreateAccount" />
+        
+        <Button
+	        android:id="@+id/btnMyPhilips"
+	        android:layout_width="160dp"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="16dp"
+	        android:layout_marginTop="16dp"
+	        android:layout_marginBottom="20dp"
+	        android:paddingRight="16dp"
+	        android:paddingLeft="16dp"
+	        android:background="@drawable/blue_button_selector"
+	        android:text="@string/my_philips"
+	        android:textColor="@color/white"
+	        android:textSize="14sp"
+	        android:layout_centerHorizontal="true"
+	        android:layout_below="@id/tvSignInWith"/>
+        
 		
         <View
             android:id="@+id/vLayoutDivider"
@@ -183,7 +201,8 @@
 		    android:layout_height="1dp"
 		    android:layout_marginTop="8dp"
 		    android:background="#B9BCC5"
-		    android:layout_below="@id/tvSignInWith" />
+		    android:layout_below="@id/tvSignInWith" 
+		    android:visibility="gone"/>
         
         <LinearLayout
             android:id="@+id/llFirstRow"
@@ -192,7 +211,8 @@
             android:layout_alignParentLeft="true"
             android:orientation="horizontal"
             android:layout_below="@id/vLayoutDivider" 
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="gone">
 
             <include 
                 android:id="@+id/llMyPhilips"
@@ -237,7 +257,8 @@
             android:layout_alignParentLeft="true"
             android:orientation="horizontal"
             android:layout_below="@id/vRowDivider" 
-            android:weightSum="2">
+            android:weightSum="2"
+            android:visibility="gone">
 
             <include 
                 android:id="@+id/llTwitter"
@@ -273,7 +294,8 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="1dp"
 		    android:background="#B9BCC5"
-		    android:layout_below="@id/llSecondRow"/>
+		    android:layout_below="@id/llSecondRow"
+		    android:visibility="gone"/>
     </RelativeLayout>
 
 </ScrollView>

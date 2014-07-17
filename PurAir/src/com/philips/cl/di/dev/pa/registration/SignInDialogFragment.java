@@ -16,12 +16,14 @@ import android.widget.EditText;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment.ErrorType;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.errormapping.ErrorMessage;
+import com.philips.cl.di.reg.handlers.ForgotPasswordHandler;
 import com.philips.cl.di.reg.handlers.TraditionalLoginHandler;
 
 public class SignInDialogFragment extends DialogFragment implements TraditionalLoginHandler{
@@ -30,6 +32,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 	
 	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.registration.sign_in_dialog";
 	private FontTextView title;
+	private FontTextView resetPassword;
 	private Button btnClose;
 	private Button btnSignIn;
 	
@@ -58,6 +61,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 
 	private void initializeView(View view) {	
 		title = (FontTextView) view.findViewById(R.id.tvSingInTitle);
+		resetPassword = (FontTextView) view.findViewById(R.id.tv_reset_password);
 		btnClose = (Button) view.findViewById(R.id.btnClose);
 		btnSignIn = (Button) view.findViewById(R.id.btnSignIn);
 		
@@ -111,12 +115,41 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 				}
 				else if(v.getId() == R.id.btnClose) {
 					dismiss() ;
+				} else if(v.getId() == R.id.tv_reset_password) {
+					mEmail = etEmail.getText().toString();
+					if(! EmailValidator.getInstance().validate(mEmail)){
+						AlertDialogFragment resetPasswordSuccess = AlertDialogFragment.newInstance(R.string.invalid_email, R.string.ok);
+						resetPasswordSuccess.show(getChildFragmentManager(), getTag());
+					} else {
+						showProgressDialog();
+						User user = new User(PurAirApplication.getAppContext());
+						ALog.i(ALog.USER_REGISTRATION, "Forgot passwordEmail " + mEmail);
+						user.forgotPassword(mEmail, new ForgotPasswordHandler() {
+							
+							@Override
+							public void onSendForgotPasswordSuccess() {
+								cancelProgressDialog();
+								AlertDialogFragment resetPasswordSuccess = AlertDialogFragment.newInstance(R.string.reset_password_success, R.string.ok);
+								resetPasswordSuccess.show(getChildFragmentManager(), getTag());
+							}
+							
+							@Override
+							public void onSendForgotPasswordFailedWithError(int error) {
+								cancelProgressDialog();
+								ALog.i(ALog.USER_REGISTRATION, "onSendForgotPasswordFailedWithError error " + error);
+								AlertDialogFragment resetPasswordSuccess = AlertDialogFragment.newInstance(R.string.reset_password_failed, R.string.ok);
+								resetPasswordSuccess.show(getChildFragmentManager(), getTag());
+//								showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
+							}
+						});
+					}
 				}
 			}
 		};
 		
 		btnClose.setOnClickListener(clickListener);
 		btnSignIn.setOnClickListener(clickListener);
+		resetPassword.setOnClickListener(clickListener);
 	}
 	
 	private void signOnWithMyPhilips() {

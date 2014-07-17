@@ -33,6 +33,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	private CheckBox mCheckBoxReceivInfo;
 	
 	private Button mButtonCreateAccount;
+	private Button mButtonSigninPhilips;
 	
 	private LinearLayout mLayoutPhilips;
 	private LinearLayout mLayoutMyPhilips;
@@ -64,6 +65,9 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		mButtonCreateAccount = (Button) view.findViewById(R.id.btnCreateAccount);
 		mButtonCreateAccount.setOnClickListener(this);
 		
+		mButtonSigninPhilips = (Button) view.findViewById(R.id.btnMyPhilips);
+		mButtonSigninPhilips.setOnClickListener(this);
+		
 		mLayoutPhilips = (LinearLayout) view.findViewById(R.id.llFirstRow); 
 		mLayoutMyPhilips = (LinearLayout) view.findViewById(R.id.llMyPhilips);
 		
@@ -94,6 +98,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 	}
 	
 	private void showErrorDialog(Error type) {
+		ALog.i(ALog.USER_REGISTRATION, "Error " + type);
 		try {
 			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
 			FragmentManager fragMan = getFragmentManager();
@@ -144,7 +149,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			}
 			break;
 
-		case R.id.llFirstRow:
+		case R.id.btnMyPhilips:
 			showSignInDialog(SignInDialogFragment.DialogType.MY_PHILIPS);
 			break;
 		default:

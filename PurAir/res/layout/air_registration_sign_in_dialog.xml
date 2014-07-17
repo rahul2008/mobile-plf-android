@@ -88,6 +88,20 @@
 		android:hint="@string/enter_password"
 		android:inputType="textPassword" 
 		android:layout_below="@id/tvPassword" />
+	
+	<com.philips.cl.di.dev.pa.view.FontTextView
+		xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+		android:id="@+id/tv_reset_password"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:paddingRight="16dp"
+		android:paddingLeft="16dp"
+		android:layout_below="@+id/etPassword"
+		android:textColor="@color/philips_blue"
+		android:textSize="16sp"
+		custom:fontAssetName="fonts/gillsans.ttf"
+		android:text="@string/reset_password" />
       
 	<Button
 		android:id="@+id/btnSignIn"
@@ -101,6 +115,6 @@
 		android:textColor="@color/white"
 		android:textSize="14sp"
 		android:layout_alignParentRight="true"
-		android:layout_below="@id/etPassword"/>
+		android:layout_below="@id/tv_reset_password"/>
 
 </RelativeLayout>

@@ -513,6 +513,9 @@
     <string name="privacy_policy">私隱政策</string>
     <string name="terms_and_conditions">Terms &amp; conditions</string>
     <string name="eula">最終用戶授權協議</string>
+    <string name="reset_password_success">Reset password email has been sent to your email.</string>
+    <string name="reset_password_failed">There was a problem sending the reset password email, please try again after some time.</string>
+    <string name="reset_password">Forgot password? Reset on Philips.com</string>
     <!-- Demo Mode -->
     <string name="app_in_demo_mode_title">App is in demo mode</string>
     <string name="app_in_demo_mode_msg">The App is in demo mode, please make sure you are connected to the PHILIPS_SETUP network.</string>
