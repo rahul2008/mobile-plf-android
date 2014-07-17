@@ -145,7 +145,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	}
 
 	public PurAirDevice getDeviceByEui64(String eui64) {
-		if (eui64 == null) return null;
+		if (eui64 == null || eui64.isEmpty()) return null;
 		return mDevicesMap.get(eui64);
 	}
 
@@ -644,6 +644,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	@Override
 	public void keyDecrypt(String key, String deviceEui64) {
+		
 		PurAirDevice device = mDevicesMap.get(deviceEui64);
 		if (device == null || key == null) return;
 

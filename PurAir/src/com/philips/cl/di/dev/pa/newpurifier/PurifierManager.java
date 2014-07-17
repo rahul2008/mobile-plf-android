@@ -136,6 +136,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private void subscribeToAllEvents(final PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
+//		SubscriptionHandler.getInstance().subscribeToPurifierEvents(purAirDevice);
+//		SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purAirDevice);
 		handler.removeCallbacks(subscribeRunnable);
 		handler.post(subscribeRunnable);
 		subscribeRunnable = new Runnable() { 
@@ -143,8 +145,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			public void run() { 
 				try{					
 					handler.removeCallbacks(subscribeRunnable);
-					SubscriptionHandler.getInstance().subscribeToPurifierEvents(purifier);
-					SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purifier);
+					SubscriptionHandler.getInstance().subscribeToPurifierEvents(); 
+					SubscriptionHandler.getInstance().subscribeToFirmwareEvents();
 					handler.postDelayed(subscribeRunnable, RESUBSCRIBING_TIME);
 				}
 				catch (Exception e) {
@@ -157,8 +159,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void unSubscribeFromAllEvents(PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "UnSubscribe from all events from purifier: " + purifier) ;
 		handler.removeCallbacks(subscribeRunnable);
-		SubscriptionHandler.getInstance().unSubscribeFromPurifierEvents(purifier);
-		SubscriptionHandler.getInstance().unSubscribeFromFirmwareEvents(purifier);
+		SubscriptionHandler.getInstance().unSubscribeFromPurifierEvents();
+		SubscriptionHandler.getInstance().unSubscribeFromFirmwareEvents();
 	}
 
 	// TODO refactor into new architecture
@@ -341,6 +343,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	private void startRemoteConnection() {
+		
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		

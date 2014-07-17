@@ -514,6 +514,9 @@
     <string name="terms_and_conditions">Terms &amp; conditions</string>
     <string name="eula">最終用戶授權協議</string>
     <!-- Demo Mode -->
+    <string name="app_in_demo_mode_title">App is in demo mode</string>
+    <string name="app_in_demo_mode_msg">The App is in demo mode, please make sure you are connected to the PHILIPS_SETUP network.</string>
+    <string name="demo">演示</string>
     <string name="shop_demo_mode">商店示範模式</string>
     <string name="demo_mode_title">示範設定</string>
     <string name="demo_mode_support_title">示範設定支援</string>

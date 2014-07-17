@@ -61,8 +61,9 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		versionNumber.setText(getString(R.string.version_number) + " " +((MainActivity) getActivity()).getVersionNumber()); //Should probably change it to version name.
 		
 		demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
-		demoModeTButton.setOnCheckedChangeListener(this);
+		
 		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());
+		demoModeTButton.setOnCheckedChangeListener(this);
 	}
 
 	@Override
@@ -110,10 +111,10 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 					DemoModeTask task = new DemoModeTask(
 							null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 					task.start();
-
-					PurifierManager.getInstance().removeCurrentPurifier();
 				}
 			}
+			PurifierManager.getInstance().removeCurrentPurifier();
+			((MainActivity) getActivity()).setActionBar(new SettingsFragment());
 			((MainActivity) getActivity()).onAirPurifierChanged();
 		}
 	}

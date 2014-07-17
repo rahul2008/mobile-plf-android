@@ -21,7 +21,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 
-public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements NetworkStateListener{
+public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements NetworkStateListener {
 	
 	public static DemoModeWifiEnableDialogFragment newInstance() {
 		
@@ -60,7 +60,7 @@ public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements
 			switch (v.getId()) {
 			case R.id.wifi_enable_go_2_setting:
 				Intent intent = new Intent(Settings.ACTION_SETTINGS);
-				((DemoModeActivity) getActivity()).startActivityForResult(intent, DemoModeConstant.REQUEST_CODE);
+				startActivityForResult(intent, DemoModeConstant.REQUEST_CODE);
 				break;
 			case R.id.wifi_enable_dialog_support:
 				((DemoModeActivity) getActivity()).showSupportScreen();
@@ -84,9 +84,10 @@ public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements
 	}
 
 	@Override
-	public void onConnected() {
+	public void onConnected(String ssid) {
 		//Wifi connected dismiss dialog
 		if (getActivity() == null) return;
+		
 		ConnectivityManager connManager = 
 				(ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

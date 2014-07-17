@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class NetworkReceiver extends BroadcastReceiver {
@@ -65,24 +66,24 @@ public class NetworkReceiver extends BroadcastReceiver {
 			NetworkInfo netInfo = conMan.getActiveNetworkInfo();
 			if (netInfo != null && netInfo.isConnected()) {
 				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---CONNECTED");
-				
+				String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
 				lastKnownNetworkState = ConnectionState.CONNECTED;
-				notfiyListeners(lastKnownNetworkState);
+				notfiyListeners(lastKnownNetworkState, ssid);
 			} else {
 				ALog.i(ALog.CONNECTIVITY, "NR$onReceive---NOT CONNECTED");
 				
 				lastKnownNetworkState = ConnectionState.DISCONNECTED; 
-				notfiyListeners(lastKnownNetworkState);
+				notfiyListeners(lastKnownNetworkState, "");
 			}
 		}
 	}
 
-	private void notfiyListeners(ConnectionState state) {
+	private void notfiyListeners(ConnectionState state, String ssid) {
 		ALog.i(ALog.CONNECTIVITY, "NR$notifyListeners networkStateListeners " + networkStateListeners.size());
 		for(NetworkStateListener listener : networkStateListeners) {
 			if(ConnectionState.CONNECTED == state) {
 				ALog.i(ALog.CONNECTIVITY, "NR$notify onConnected");
-				listener.onConnected();
+				listener.onConnected(ssid);
 			} else if (ConnectionState.DISCONNECTED == state) {
 				ALog.i(ALog.CONNECTIVITY, "NR$notify onDisconnected");
 				listener.onDisconnected();

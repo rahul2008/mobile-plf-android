@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 
@@ -42,12 +45,18 @@ public class AddPurifierFragment extends BaseFragment implements OnClickListener
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.iv_circle_add_purifier:
-			((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+			if (PurAirApplication.isDemoModeEnable()) {
+				Intent intent = new Intent((MainActivity) getActivity(), DemoModeActivity.class);
+				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				((MainActivity) getActivity()).startActivity(intent) ;
+			} else {
+				((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+			}
 			break;
 		case R.id.btn_go_to_shop:
 			Intent intent = new Intent(
 					Intent.ACTION_VIEW,
-					Uri.parse("http://shop.philips.com.cn/product/JY0002/detail.htm"));
+					Uri.parse(AppConstants.PURIFIER_BUY_LINK));
 			startActivity(intent);
 			break;
 

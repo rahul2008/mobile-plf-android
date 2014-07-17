@@ -41,6 +41,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	private DemoModeTask task;
 	private int taskType = DemoModeConstant.DEMO_MODE_TASK_DEVICE_GET;
 	private IntentFilter filter = new IntentFilter();
+	private KeyInitializeState keyInitializeState = KeyInitializeState.NONE;
 	
 	public DemoModeBroadcastReceiver(DemoModeListener listener) {
 		this.listener = listener;
@@ -90,6 +91,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	
 	public void connectToDeviceAP() {
 		ALog.i(ALog.DEMO_MODE, "connecttoDevice AP");
+		keyInitializeState = KeyInitializeState.NONE;
 		WifiManager wifiManager = (WifiManager) PurAirApplication.getAppContext().getSystemService(Context.WIFI_SERVICE);
 		wifiManager.disconnect();
 		new Thread(new Runnable() {
@@ -106,11 +108,13 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 	
 	private void initializeKey() {
 		ALog.i(ALog.DEMO_MODE, "initiliazekey") ;
-		DISecurity di = new DISecurity(this) ;
-		di.initializeExchangeKeyCounter(tempDemoModePurifier.getEui64());
-		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getEui64()) ;
+		if (keyInitializeState == KeyInitializeState.NONE) {
+			keyInitializeState = KeyInitializeState.START;
+			DISecurity di = new DISecurity(this) ;
+			di.initializeExchangeKeyCounter(tempDemoModePurifier.getEui64());
+			di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempDemoModePurifier.getEui64()) ;
+		}
 	}
-	
 	public void registerListener() {
 		filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
 		if( !isRegistered ) {
@@ -171,6 +175,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver
 				eui64, null, EWSConstant.PURIFIER_ADHOCIP, purifierName, -1, ConnectionState.CONNECTED_LOCALLY);
 		tempDemoModePurifier.setEncryptionKey(encryptionKey);
 		PurifierManager.getInstance().setCurrentPurifier(tempDemoModePurifier);
+		PurAirApplication.setDemoModePurifier(eui64);
 	}
 	
 	private void getDeviceDetails() {

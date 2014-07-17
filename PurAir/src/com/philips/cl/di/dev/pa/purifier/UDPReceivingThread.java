@@ -41,6 +41,9 @@ public class UDPReceivingThread extends Thread {
 			byte [] buf = new byte[1024] ;
 			DatagramPacket packet = new DatagramPacket(buf, buf.length) ;
 			try {
+				if (socket == null) {
+					socket = new DatagramSocket(UDP_PORT) ;
+				}
 				socket.receive(packet) ;
 				
 				String packetReceived = new String(packet.getData(), Charset.defaultCharset()).trim();

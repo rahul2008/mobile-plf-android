@@ -75,10 +75,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetFirstLocalPurifier() {
@@ -92,8 +92,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetFirstRemotePurifierNotPaired() {
@@ -105,10 +105,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetFirstRemotePurifierPaired() {
@@ -123,8 +123,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetDisconnectedPurifierAfterDisconnected() {
@@ -141,10 +141,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetLocalPurifierAfterDisconnected() {
@@ -163,8 +163,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierNotPairedAfterDisconnected() {
@@ -181,10 +181,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierPairedAfterDisconnected() {
@@ -204,8 +204,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetDisconnectedPurifierAfterLocally() {
@@ -222,10 +222,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetLocalPurifierAfterLocally() {
@@ -244,8 +244,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierNotPairedAfterLocally() {
@@ -262,10 +262,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierPairedAfterLocally() {
@@ -285,8 +285,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetDisconnectedPurifierAfterNotPaired() {
@@ -303,10 +303,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetLocalPurifierAfterNotPaired() {
@@ -325,8 +325,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierNotPairedAfterNotPaired() {
@@ -343,10 +343,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierPairedAfterNotPaired() {
@@ -366,8 +366,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetDisconnectedPurifierAfterPaired() {
@@ -385,10 +385,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetLocalPurifierAfterPaired() {
@@ -408,8 +408,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierNotPairedAfterPaired() {
@@ -427,10 +427,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(device2);
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testSetRemotePurifierPairedAfterPaired() {
@@ -451,8 +451,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device2);
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device2);
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 	}
 	
 	public void testRemovePurifierPairedAfterNoPurifier() {
@@ -465,10 +465,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		assertNull(mPurifierMan.getCurrentPurifier());
 	}
@@ -486,10 +486,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(any(PurAirDevice.class));
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		assertNull(mPurifierMan.getCurrentPurifier());
 	}
@@ -507,10 +507,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(PurAirApplication.getAppContext());
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 		
 		assertNull(mPurifierMan.getCurrentPurifier());
 	}
@@ -528,10 +528,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 		
 		assertNull(mPurifierMan.getCurrentPurifier());
 	}
@@ -550,10 +550,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan).unSubscribeFromFirmwareEvents();
 		
 		assertNull(mPurifierMan.getCurrentPurifier());
 	}
@@ -578,10 +578,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		verify(listener).onAirPurifierChanged();
 	}
@@ -604,8 +604,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(any(PurAirDevice.class));
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		verify(listener).onAirPurifierChanged();
 	}
@@ -627,8 +627,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(any(PurAirDevice.class));
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		verify(listener).onAirPurifierChanged();
 	}
@@ -651,8 +651,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(any(PurAirDevice.class));
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		verify(listener).onAirPurifierChanged();
 	}
@@ -674,8 +674,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(any(PurAirDevice.class));
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		verify(listener).onAirPurifierChanged();
 	}
@@ -696,10 +696,10 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
 		verify(mSubscriptionMan, never()).disableRemoteSubscription(any(Context.class));
 		
-		verify(mSubscriptionMan, never()).subscribeToPurifierEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents(any(PurAirDevice.class));
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
+		verify(mSubscriptionMan, never()).subscribeToPurifierEvents();
+		verify(mSubscriptionMan, never()).subscribeToFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
 		
 		verify(listener).onAirPurifierChanged();
 	}
@@ -955,8 +955,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.removeAirPurifierEventListener(listener);
 		
 		verify(mSubscriptionMan).disableLocalSubscription();
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
 	}
 	
 	public void testStopSubscriptionRemoveSecondEventListener() {
@@ -973,8 +973,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.removeAirPurifierEventListener(listener);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
 	}
 	
 	public void testStopSubscriptionRemoveBothEventListeners() {
@@ -992,8 +992,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		mPurifierMan.removeAirPurifierEventListener(listener2);
 		
 		verify(mSubscriptionMan).disableLocalSubscription();
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
 	}
 	
 	public void testStartStopSubscriptionAddRemoveListenersSequence() {
@@ -1017,8 +1017,8 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 //		verify(mSubscriptionMan).subscribeToFirmwareEvents(device);
 //		verify(mSubscriptionMan).subscribeToPurifierEvents(device);
 		verify(mSubscriptionMan).disableLocalSubscription();
-		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents(device);
-		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents(device);
+		verify(mSubscriptionMan, never()).unSubscribeFromFirmwareEvents();
+		verify(mSubscriptionMan, never()).unSubscribeFromPurifierEvents();
 	}
 	
 // ***** END TEST TO START/STOP SUBSCRIPTION WHEN ADDING PURIFIEREVENTLISTENERS *****

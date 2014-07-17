@@ -25,6 +25,7 @@
         android:layout_centerHorizontal="true"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />

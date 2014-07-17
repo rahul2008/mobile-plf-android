@@ -75,6 +75,18 @@ public class PurAirApplication extends Application {
 		pref.edit().putBoolean(AppConstants.DEMO_MODE_ENABLE_KEY, isDemoMode).commit();
 	}
 	
+	public static void setDemoModePurifier(String eui64) {
+		SharedPreferences pref = 
+				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
+		pref.edit().putString(AppConstants.DEMO_MODE_PURIFIER_KEY, eui64).commit();
+	}
+	
+	public static String getDemoModePurifierEUI64() {
+		SharedPreferences pref = 
+				getAppContext().getSharedPreferences(AppConstants.DEMO_MODE_PREF, Activity.MODE_PRIVATE);
+		return pref.getString(AppConstants.DEMO_MODE_PURIFIER_KEY, "");
+	}
+	
 	/**
 	 * Bug 1943: Prevent Sockets from being reused.
 	 * - Only 1 socket opened per Purifier at any given point in time

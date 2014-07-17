@@ -49,6 +49,8 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
+import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
@@ -83,12 +85,9 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
-//import android.content.SharedPreferences.Editor;
-//import java.util.HashMap;
-//import android.content.SharedPreferences.Editor;
-//import android.widget.ArrayAdapter;
 
-public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
+public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
+PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
 	private static int screenWidth, screenHeight;
 
@@ -125,12 +124,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private boolean mRightDrawerOpened, mLeftDrawerOpened;
 
 	private MenuItem rightMenuItem;
-//	private SharedPreferences mPreferences;
-//	private Editor mEditor;
 	private int mVisits;
-
-//	private SharedPreferences outdoorLocationPrefs;
-//	private ArrayList<String> outdoorLocationsList;
 
 	public boolean isTutorialPromptShown = false;
 
@@ -140,18 +134,17 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
+	private AppInDemoMode appInDemoMode;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		setContentView(R.layout.activity_main_aj);
 		
-//		mPreferences = getSharedPreferences(AppConstants.PREFS_NAME, Context.MODE_PRIVATE);
 		mVisits = Utils.getNoOfVisit();
 		Utils.saveNoOfVisit(mVisits);
-//		SharedPreferences.Editor editor = mPreferences.edit();
-//		editor.putInt("NoOfVisit", ++mVisits);
-//		editor.commit();
+		
+		appInDemoMode = new AppInDemoMode(MainActivity.this);
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -194,17 +187,29 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 		showFirstFragment();
 		initializeCPPController();
-		initializeFirstPurifier();
+		selectPurifier();
 		checkForUpdatesHockeyApp();
+		
+	}
+	
+	private void selectPurifier() {
+		PurAirDevice current = getCurrentPurifier();
+		if (PurAirApplication.isDemoModeEnable()) {
+			if (current != null) current.setConnectionState(ConnectionState.DISCONNECTED);
+			appInDemoMode.connectPurifier();
+		} else {
+			initializeFirstPurifier() ;
+		}
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
-		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
-			NetworkReceiver.getInstance().addNetworkStateListener(this);
-			DiscoveryManager.getInstance().start(this);
-			PurifierManager.getInstance().addAirPurifierEventListener(this);
+		
+		if (PurAirApplication.isDemoModeEnable()) {
+			startDemoMode();
+		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
+			startNormalMode();
 		}
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
@@ -219,19 +224,56 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		checkForCrashesHockeyApp();
 	}
 	
+	private void startDemoMode() {
+		if (appInDemoMode != null) {
+			appInDemoMode.addNetworkListenerForDemoMode();
+		}
+		
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
+		DiscoveryManager.getInstance().stop();
+	}
+	
+	private void stopDemoMode() {
+		if (appInDemoMode != null) {
+			appInDemoMode.rmoveNetworkListenerForDemoMode();
+		}
+		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+	}
+	
+	private void stopNormalMode() {
+		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		DiscoveryManager.getInstance().stop();
+	}
+	
+	private void startNormalMode() {
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
+		DiscoveryManager.getInstance().start(this);
+		PurifierManager.getInstance().addAirPurifierEventListener(this);
+	}
+	
 	public void setActionBar(Fragment fragment) {
 		
 		if(fragment instanceof OutdoorLocationsFragment) {
 			rightMenu.setVisibility(View.INVISIBLE);
 			addLocation.setVisibility(View.VISIBLE);
 		} else {
-//			rightMenu.setVisibility(View.INVISIBLE);
-//			addLocation.setVisibility(View.VISIBLE);
-			if(Utils.getAppFirstUse()) {
+			if (PurAirApplication.isDemoModeEnable()) {
+				addLocation.setVisibility(View.INVISIBLE);
+				rightMenu.setVisibility(View.VISIBLE);
+				stopNormalMode();
+				startDemoMode();
+			} else if (Utils.getAppFirstUse()) {
 				rightMenu.setVisibility(View.INVISIBLE);
 			} else {
 				addLocation.setVisibility(View.INVISIBLE);
 				rightMenu.setVisibility(View.VISIBLE);
+				if (fragment instanceof SettingsFragment) {
+					stopDemoMode();
+					startNormalMode();
+				}
 			}
 		}
 	}
@@ -241,8 +283,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		ALog.i(ALog.MAINACTIVITY, "onResumeFragments") ;
 		super.onResumeFragments();
 		if (PurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
-			showFirstFragment();
 			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
+			showFirstFragment();
 		}
 	}
 
@@ -251,11 +293,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		super.onPause();
 		SetupDialogFactory.getInstance(this).cleanUp();
 		
-		if(UserRegistrationController.getInstance().isUserLoggedIn()) {
-			NetworkReceiver.getInstance().removeNetworkStateListener(this);
-			
-			PurifierManager.getInstance().removeAirPurifierEventListener(this);
-			DiscoveryManager.getInstance().stop();
+		if(UserRegistrationController.getInstance().isUserLoggedIn()
+				|| PurAirApplication.isDemoModeEnable()) {
+			appInDemoMode.rmoveNetworkListenerForDemoMode();
+			stopNormalMode();
 		}
 	}
 
@@ -310,12 +351,11 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private void showFirstFragment() {
 		boolean firstUse = Utils.getAppFirstUse();
 
-		if (firstUse) {
-			showVirginFlowFragment();
-		} else {
+		if (PurAirApplication.isDemoModeEnable() || !firstUse) {
 			showDashboardFragment();
+		} else {
+			showVirginFlowFragment();
 		}
-		
 	}
 	
 	private void showVirginFlowFragment() {
@@ -384,7 +424,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		airPortTaskProgress = (ProgressBar) viewActionbar.findViewById(R.id.actionbar_progressBar);
 
 		actionBar.setCustomView(viewActionbar);
-		
 	}
 	
 	public void setVisibilityAirPortTaskProgress(int state) {
@@ -398,7 +437,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			switch (view.getId()) {
 			case R.id.right_menu_img:
 				
-				if(Utils.getAppFirstUse()) return;
+				if(Utils.getAppFirstUse() && !PurAirApplication.isDemoModeEnable()) return;
 				
 				if (mRightDrawerOpened) {
 					mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -426,7 +465,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			default:
 				break;
 			}
-			
 		}
 	}; 
 	
@@ -504,9 +542,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private void updateRightMenuConnectedStatus() {
 		PurAirDevice purifier = this.getCurrentPurifier();
 		ConnectionState purifierState = ConnectionState.DISCONNECTED;
-		if (purifier != null) {
-			purifierState = purifier.getConnectionState();
-		}
+		if (purifier != null) purifierState = purifier.getConnectionState();
 		
 		final ConnectionState newState = purifierState;
 		ALog.i(ALog.MAINACTIVITY, "Connection status: " + purifierState);
@@ -532,7 +568,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 					ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 					rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 					setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-//					setRightMenuAirStatusBackground(0);// No need to set default icon
 					rightMenuClickListener.toggleControlPanel(false, null);
 					ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 					break;
@@ -568,10 +603,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
-					.getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}		
-		
 	}
 	
 	public void setTitle(String title) {
@@ -610,7 +643,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
 			case 0:
-				if(!Utils.getAppFirstUse()) {
+				if (PurAirApplication.isDemoModeEnable()) {
+					showFragment(leftMenuItems.get(position));
+				} else if (!Utils.getAppFirstUse()) {
 					showFragment(leftMenuItems.get(position));
 				} else {
 					showFragment(new StartFlowVirginFragment());
@@ -641,11 +676,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
 				break;
-//				case 6:
-					// TODO : Add this when enabling non-mandatory firmware update
-//					// Firmware update
-//					startFirmwareUpgradeActivity();
-//					break;
 				case 6:
 					// User registration
 					Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
@@ -664,7 +694,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				default:
 					break;
 			}
-			
 		}
 	}
 
@@ -788,7 +817,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_lost_connection_2x));
 				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
-//				setRightMenuAirStatusBackground(0);// No need to set default icon
 				rightMenuClickListener.toggleControlPanel(false, null);
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
 				rightMenuClickListener.toggleControlPanel(false , null);
@@ -971,6 +999,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private void initializeFirstPurifier() {
 		String currentPurifierEui64 = PurifierManager.getInstance().getDefaultPurifierEUI64();
 		PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(currentPurifierEui64);
+
 		if (firstPurifier == null) return;
 		PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
 		ALog.d(ALog.MAINACTIVITY, "Default purifier discovered: " + firstPurifier.getName());
@@ -979,12 +1008,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	@Override
 	public void onDiscoveredDevicesListChanged() {
 		ALog.d(ALog.MAINACTIVITY, "**************************");
-		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
+		if (PurAirApplication.isDemoModeEnable()) return;
 		
+		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
+
 		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 		if (devices.size() <= 0) return;
-		
-		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size " + devices.size() + " :: " + devices);
+		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
+				+ devices.size() + " :: " + devices);
 		
 		PurAirDevice current = getCurrentPurifier();
 		if( current != null ) return ;
@@ -993,14 +1024,32 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	@Override
-	public void onConnected() {
+	public void onConnected(String ssid) {
 		ALog.i(ALog.MAINACTIVITY, "onConnected start CPP");
-		CPPController.getInstance(this).signOnWithProvisioning();
+		if (ssid == null) return;
+		if (ssid.contains(EWSWifiManager.DEVICE_SSID)) {
+			return;
+		}
+		
+		if (PurAirApplication.isDemoModeEnable()) {
+			updateUIInDemoMode();
+		} else {
+			CPPController.getInstance(this).signOnWithProvisioning();
+		}
 	}
 
 	@Override
 	public void onDisconnected() {
 		ALog.i(ALog.MAINACTIVITY, "onDisconnected");
+		if (PurAirApplication.isDemoModeEnable()) {
+			updateUIInDemoMode();
+		}
+	}
+	
+	private void updateUIInDemoMode() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (purifier != null) purifier.setConnectionState(ConnectionState.DISCONNECTED);
+		updatePurifierUIFields();
 	}
 
 	@Override
@@ -1044,5 +1093,4 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		// TODO Remove this for store builds!
 		UpdateManager.register(this, AppConstants.HOCKEY_APPID);
 	}
-	 
 }

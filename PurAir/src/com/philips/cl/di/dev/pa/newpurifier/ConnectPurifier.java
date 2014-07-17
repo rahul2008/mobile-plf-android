@@ -10,7 +10,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity.UserRegistrationChanged;
@@ -142,14 +141,6 @@ public class ConnectPurifier {
 		}
 	};
 
-	private NetworkChangedCallback mNetworkChangedListener = new NetworkChangedCallback() {
-		
-		@Override
-		public void onNetworkChanged(NetworkState networkState, String networkSsid) {
-			mLastKnownNetworkState = networkState;
-		}
-	};
-	
 	private UserRegistrationChanged mUserRegistrationChangedListener = new UserRegistrationChanged() {
 		
 		@Override

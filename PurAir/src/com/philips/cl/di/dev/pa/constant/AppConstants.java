@@ -66,8 +66,6 @@ public class AppConstants {
 	public static final String KEY_AQI = "AQI";
 	public static final String KEY_TIME = "TIME";
 
-
-	
 	/** CONSTANTS FOR THE FILTERS */
 	public static final String ACT_NOW = "Act Now" ;
 	public static final String ACT_SOON = "Act Soon" ;
@@ -86,7 +84,6 @@ public class AppConstants {
 	public static final int COLOR_GOOD = Color.rgb(43, 166, 81);
 	public static final int COLOR_FAIR = Color.rgb(225, 138, 53);
 	public static final int COLOR_BAD = Color.rgb(209, 37, 49);
-	
 	
 	/** CONSTANTS FOR EVENTS */
 	//Power mode
@@ -184,8 +181,8 @@ public class AppConstants {
 	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
 	public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));
 	
-	
 	/** OTHER CONSTANTS */
+	public static final String PURIFIER_BUY_LINK = "http://shop.philips.com.cn/product/JY0002/detail.htm";
 	public static final String APP_TYPE="AC4373APP";
 	public static final String MODEL_NAME = "AirPurifier" ;
 	public static final String DI_COMM_REQUEST = "DICOMM-REQUEST" ;
@@ -202,8 +199,7 @@ public class AppConstants {
 	/** DEMO MODE */
 	public final static String DEMO_MODE_PREF = "demo_mode_pref";
 	public final static String DEMO_MODE_ENABLE_KEY ="demo_mode_enable_key";
-	public final static int REQUEST_CODE_EWS = 66;
-	public final static int RESULT_CODE_EWS = 67;
+	public final static String DEMO_MODE_PURIFIER_KEY ="demo_mode_purifier_key";
 
 	public static final String EMPTY_STRING = "" ;
 

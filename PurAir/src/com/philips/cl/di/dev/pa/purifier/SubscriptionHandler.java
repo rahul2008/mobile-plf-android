@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.purifier;
 import java.net.HttpURLConnection;
 
 import android.content.Context;
-import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -14,6 +13,7 @@ import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -53,22 +53,28 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		this.cppDiscoverEventListener = discoverListener ;
 	}
 
-	public void subscribeToPurifierEvents(final PurAirDevice purifier) {
+	public void subscribeToPurifierEvents() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Purifier events for purifier: " + purifier);
 		if (purifier == null) return;
+//		if (PurAirApplication.isDemoModeEnable()) purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+		
 		final String portUrl = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
 		subscribe(portUrl, purifier);
 	}
 
-	public void unSubscribeFromPurifierEvents(PurAirDevice purifier) {
+	public void unSubscribeFromPurifierEvents() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing to Purifier events for purifier: " + purifier);
 		if (purifier == null) return;
 		String portUrl = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
 		unSubscribe(portUrl, purifier);
 	}
 
-	public void subscribeToFirmwareEvents(final PurAirDevice purifier) {
-		if (purifier == null) return;
+	public void subscribeToFirmwareEvents() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (purifier == null || PurAirApplication.isDemoModeEnable()) return;
+		
 		boolean isLocalSubscription = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
 		if (isLocalSubscription) {
 			ALog.d(ALog.SUBSCRIPTION, "Subscribing to Firmware events for purifier: " + purifier);
@@ -77,7 +83,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		}
 	}
 
-	public void unSubscribeFromFirmwareEvents(PurAirDevice purifier) {
+	public void unSubscribeFromFirmwareEvents() {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (purifier == null) return;
 		ALog.d(ALog.SUBSCRIPTION, "Unsubscribing from Firmware events appEui64: " + purifier);
 		String portUrl = Utils.getPortUrl(Port.FIRMWARE, purifier.getIpAddress());
@@ -126,6 +133,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 			subscibeThread.start();
 		}
 		else {
+			if (PurAirApplication.isDemoModeEnable()) return;
 			CPPController.getInstance(PurAirApplication.getAppContext()).
 			publishEvent(JSONBuilder.getPublishEventBuilderForSubscribe(AppConstants.EVENTSUBSCRIBER_KEY, subscriberId), 
 					AppConstants.DI_COMM_REQUEST, AppConstants.SUBSCRIBE, subscriberId,"", 20,CPP_SUBSCRIPTIONTIME, purifier.getEui64()) ;
