@@ -399,6 +399,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
+		if (PurAirApplication.isDemoModeEnable()) {
+			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
+			return;
+		}
 		ALog.i(ALog.INDOOR_RDCP, "downloadDataFromCPP query: " + query +", isSignOn: " + isSignOn);
 		try {
 			if (isSignOn) {

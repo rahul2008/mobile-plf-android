@@ -12,14 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
-import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
@@ -49,7 +46,7 @@ public class RightMenuClickListener implements OnClickListener {
 	//Timer buttons
 	private Button[] timerButtons = new Button[4];
 	
-	private Button connect ;
+//	private Button connect ;
 	
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible, isFanSpeedAuto;
 	
@@ -86,7 +83,7 @@ public class RightMenuClickListener implements OnClickListener {
 		timerButtons[2] = (Button) activity.findViewById(R.id.four_hours);
 		timerButtons[3] = (Button) activity.findViewById(R.id.eight_hours);
 		
-		connect = (Button) activity.findViewById(R.id.connect) ;
+//		connect = (Button) activity.findViewById(R.id.connect) ;
 	}
 	
 	/**
@@ -217,16 +214,16 @@ public class RightMenuClickListener implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.connect:
-			Intent intent = null;
-			if (PurAirApplication.isDemoModeEnable()) {
-				intent = new Intent(mainActivity, DemoModeActivity.class);
-			} else {
-				intent = new Intent(mainActivity, EWSActivity.class);
-			}
-			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			mainActivity.startActivity(intent) ;
-			break;
+//		case R.id.connect:
+//			Intent intent = null;
+//			if (PurAirApplication.isDemoModeEnable()) {
+//				intent = new Intent(mainActivity, DemoModeActivity.class);
+//			} else {
+//				intent = new Intent(mainActivity, EWSActivity.class);
+//			}
+//			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//			mainActivity.startActivity(intent) ;
+//			break;
 		case R.id.btn_rm_power:
 			if(!isPowerOn) {				
 				power.setChecked(true);
@@ -365,7 +362,7 @@ public class RightMenuClickListener implements OnClickListener {
 		case R.id.btn_rm_scheduler:
 			collapseFanSpeedMenu(true);
 			collapseTimerMenu(true);
-			intent = new Intent(mainActivity,SchedulerActivity.class);
+			Intent intent = new Intent(mainActivity,SchedulerActivity.class);
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			mainActivity.startActivity(intent) ;
 			break;
@@ -522,16 +519,16 @@ public class RightMenuClickListener implements OnClickListener {
 			power.setClickable(false);
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
-			connect.setVisibility(View.GONE) ;
+//			connect.setVisibility(View.GONE) ;
 		} else {
 			//Added if enable shop demo mode, when AirPurifier all ready connected. 
 			PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 			if (purAirDevice == null || purAirDevice.getName() == null) return;
-			if (PurAirApplication.isDemoModeEnable() && !purAirDevice.isDemoPurifier()) {
-				connect.setVisibility(View.GONE) ;
-			} else {
-				connect.setVisibility(View.GONE) ;
-			}
+//			if (PurAirApplication.isDemoModeEnable() && !purAirDevice.isDemoPurifier()) {
+//				connect.setVisibility(View.GONE) ;
+//			} else {
+//				connect.setVisibility(View.GONE) ;
+//			}
 			
 			if( airPurifierEventDto != null ) {
 				power.setClickable(true);
