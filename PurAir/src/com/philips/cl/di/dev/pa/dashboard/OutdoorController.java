@@ -59,12 +59,16 @@ public class OutdoorController implements ServerResponseListener {
 	
 	private String buildURL(String areaID, String type, String date, String appID) {
 		String url = "";
-		String publicKey = BASE_URL + "?areaid=" +  areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID;
-		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKey);
+		StringBuilder publicKeyBuilder = new StringBuilder(BASE_URL) ;
+		publicKeyBuilder.append("?areaid=").append(areaID) ;
+		publicKeyBuilder.append("&type=").append(type);
+		publicKeyBuilder.append("&date=").append(date);
+		publicKeyBuilder.append("&appid=").append(APP_ID);
+		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKeyBuilder.toString());
 		String key = "";
 		String finalKey = "";
 		try {
-			finalKey = Util.encodeToBase64(hmacSha1(publicKey,  Utils.getCMA_PrivateKey()));
+			finalKey = Util.encodeToBase64(hmacSha1(publicKeyBuilder.toString(),  Utils.getCMA_PrivateKey()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -76,8 +80,13 @@ public class OutdoorController implements ServerResponseListener {
 		}
 		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
 		
-		url = BASE_URL + "?areaid=" + areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID.substring(0, 6) + "&key=" + mostCertainlyTheFinalKey;
+		StringBuilder urlBuilder = new StringBuilder() ; 
+		urlBuilder.append(BASE_URL).append("?areaid=").append(areaID);
+		urlBuilder.append("&type=").append(type).append("&date=").append(date) ;
+		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
+		urlBuilder.append("&key=").append(mostCertainlyTheFinalKey);
 		
+		url = urlBuilder.toString() ;
 		ALog.i(ALog.OUTDOOR_LOCATION, "Final Weather URL " + url);
 		
 		return url;
@@ -85,12 +94,16 @@ public class OutdoorController implements ServerResponseListener {
 	
 	private String buildURLAQI(String areaID, String type, String date, String appID) {
 		String url = "";
-		String publicKey = BASE_URL_AQI + "?areaid=" +  areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID;
-		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKey);
+		StringBuilder publicKeyBuilder = new StringBuilder(BASE_URL_AQI) ;
+		publicKeyBuilder.append("?areaid=").append(areaID);
+		publicKeyBuilder.append("&type=").append(type);
+		publicKeyBuilder.append("&date=").append(date);
+		publicKeyBuilder.append("&appid=").append(APP_ID);
+		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKeyBuilder.toString());
 		String key = "";
 		String finalKey = "";
 		try {
-			finalKey = Util.encodeToBase64(hmacSha1(publicKey,  Utils.getCMA_PrivateKey()));
+			finalKey = Util.encodeToBase64(hmacSha1(publicKeyBuilder.toString(),  Utils.getCMA_PrivateKey()));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -101,8 +114,14 @@ public class OutdoorController implements ServerResponseListener {
 			e.printStackTrace();
 		}
 		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
+		StringBuilder urlBuilder = new StringBuilder() ; 
+		urlBuilder.append(BASE_URL_AQI).append("?areaid=").append(areaID);
+		urlBuilder.append("&type=").append(type);
+		urlBuilder.append("&date=").append(date) ;
+		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
+		urlBuilder.append("&key=").append(mostCertainlyTheFinalKey);
 		
-		url = BASE_URL_AQI + "?areaid=" + areaID + "&type=" + type + "&date=" + date + "&appid="  + APP_ID.substring(0, 6) + "&key=" + mostCertainlyTheFinalKey;
+		url = urlBuilder.toString();
 		
 		ALog.i(ALog.OUTDOOR_LOCATION, "Final AQI URL " + url);
 		
