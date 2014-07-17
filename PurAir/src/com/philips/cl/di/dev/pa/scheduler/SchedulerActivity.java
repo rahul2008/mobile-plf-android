@@ -236,7 +236,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private void showProgressDialog() {
 		cppTimer.start() ;
 		progressDialog = new ProgressDialog(this);
-		progressDialog.setMessage("Please wait...");
+		progressDialog.setMessage(getString(R.string.please_wait));
+		progressDialog.setCancelable(false) ;
 		progressDialog.show();
 	}
 	
