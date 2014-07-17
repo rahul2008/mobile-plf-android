@@ -60,7 +60,7 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		appComponentInfo.componentVersion = PurAirApplication.getAppVersion();
 		this.ICPClientNVMComponents = new NVMComponentInfo[] {appComponentInfo};
 
-		this.ICPClientdevicePortalURL1="https://www.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
+		this.ICPClientdevicePortalURL1="https://www.uat.ecdinterface.philips.com/DevicePortalICPRequestHandler/RequestHandler.ashx";
 	}
 	
 	private String getCountryCode() {
