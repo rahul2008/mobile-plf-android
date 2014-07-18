@@ -7,6 +7,7 @@
     <string name="empty_string"></string>
     <!-- Left menu items -->
     <string name="list_item_home">Home</string>
+    <string name="list_item_manage_purifier">Manage purifiers</string>
     <string name="list_item_air_quality_explained">Air quality explained</string>
     <string name="list_item_outdoor_loc">Outdoor locations</string>
     <string name="list_item_notifications">Notifications</string>
@@ -565,4 +566,6 @@
     <string name="add_new_purifier">Add an air purifier</string>
     <string name="buy_new_purifier">Or buy a new one</string>
     <string name="take_me_to_shop">Take me to the shop</string>
+    <!-- Mangage Purifier -->
+    <string name="add_purifier">Add a purifier</string>
 </resources>

@@ -53,6 +53,7 @@ public class ALog {
 	public static final String CPPDISCHELPER = "CppDiscoveryHelper";
 	public static final String TOOLS = "ToolsFragment";
 	public static final String APP_START_UP = "AppStartUp";
+	public static final String MANAGE_PUR = "ManagePurifier";
 	
 	private static boolean isLoggingEnabled = true;
 	

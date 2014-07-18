@@ -39,7 +39,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
             android:clickable="true"
             android:contentDescription="@string/img_description"
             android:padding="4dp"

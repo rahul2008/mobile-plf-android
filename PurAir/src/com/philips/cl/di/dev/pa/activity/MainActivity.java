@@ -56,6 +56,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
+import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.PairingDialogFragment;
@@ -482,8 +483,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		leftMenuItems.add(new ListViewItem(R.string.list_item_home,
 				R.drawable.icon_1_2x));
-		leftMenuItems
-		.add(new ListViewItem(R.string.list_item_air_quality_explained,
+		leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
+				R.drawable.icon_1_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained,
 				R.drawable.icon_2_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
 				R.drawable.icon_3_2x));
@@ -499,8 +501,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
 				R.drawable.icon_7_2x));		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_10_2x));
-		leftMenuItems
-		.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
+		leftMenuItems.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
 		return leftMenuItems;
 	}
 
@@ -627,6 +628,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
+			leftMenuItems.add(new ManagePurifierFragment());
 			leftMenuItems.add(new AirQualityFragment());
 			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
@@ -643,51 +645,55 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			setDashboardActionbarIconVisible();
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
-			case 0:
-				if (PurAirApplication.isDemoModeEnable()) {
+				case 0:
+					if (PurAirApplication.isDemoModeEnable()) {
+						showFragment(leftMenuItems.get(position));
+					} else if (!Utils.getAppFirstUse()) {
+						showFragment(leftMenuItems.get(position));
+					} else {
+						showFragment(new StartFlowVirginFragment());
+					}
+					setTitle(getString(R.string.dashboard_title));
+					break;
+				case 1:
 					showFragment(leftMenuItems.get(position));
-				} else if (!Utils.getAppFirstUse()) {
+					setTitle(getString(R.string.list_item_manage_purifier));
+					break;
+				case 2:
 					showFragment(leftMenuItems.get(position));
-				} else {
-					showFragment(new StartFlowVirginFragment());
-				}
-				setTitle(getString(R.string.dashboard_title));
-				break;
-			case 1:
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_air_quality_explained));
-				break;
-			case 2:
-				// Outdoor locations
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_outdoor_loc));
-				break;
-			case 3:
-				// Notifications
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_notifications));
-				break;
-			case 4:
-				// Help and documentation
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_help_and_doc));
-				break;
-			case 5:
-				// Settings
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_settings));
-				break;
+					setTitle(getString(R.string.list_item_air_quality_explained));
+					break;
+				case 3:
+					// Outdoor locations
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_outdoor_loc));
+					break;
+				case 4:
+					// Notifications
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_notifications));
+					break;
+				case 5:
+					// Help and documentation
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_help_and_doc));
+					break;
 				case 6:
+					// Settings
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_settings));
+					break;
+				case 7:
 					// User registration
 					Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
 					startActivity(userRegistrationIntent);
 					break;
-				case 7:
+				case 8:
 					// Buy Online
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_buy_online));
 					break;
-				case 8:
+				case 9:
 					// Tools
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.tools));
