@@ -52,18 +52,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	}
 	
 	@Override
-	public void onStart() {
-//		locationClient.connect();
-		super.onStart();
-	}
-	
-	@Override
-	public void onStop() {
-//		locationClient.disconnect();
-		super.onStop();
-	}
-	
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView");
 		View view = inflater.inflate(R.layout.outdoor_locations_fragment, container, false);
@@ -142,14 +130,42 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					
 					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 					
-					String rowId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_ID));
-					if (selectedItemHashtable.containsKey(rowId) && selectedItemHashtable.get(rowId)) {
+					final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
+					if (selectedItemHashtable.containsKey(areaId) && selectedItemHashtable.get(areaId)) {
 						delete.setVisibility(View.VISIBLE);
 						deleteSign.setImageResource(R.drawable.delete_t2b);
 					} else {
 						delete.setVisibility(View.GONE);
 						deleteSign.setImageResource(R.drawable.delete_l2r);
 					}
+					
+					delete.setOnClickListener(new OnClickListener() {
+
+						@Override
+						public void onClick(View v) {
+							OutdoorManager.getInstance().removeAreaIDFromList(areaId);
+							OutdoorManager.getInstance().removeCityDataFromMap(areaId);
+							
+							mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
+
+								@Override
+								protected void onPostExecute(Void result) {
+									mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
+								}
+							}.execute(new String[]{areaId, "false"});
+							
+							mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
+								
+								@Override
+								protected void onPostExecute(Cursor result) {
+									if (selectedItemHashtable.containsKey(areaId)) {
+										selectedItemHashtable.remove(areaId);
+									}
+									fillListViewFromDatabase(result);
+								}
+							};
+						}
+					});
 				}
 			};
 			
@@ -160,13 +176,11 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	public void onDisconnected() {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {
@@ -179,45 +193,16 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
 			cursor.moveToPosition(position);
 			
-			String rowId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_ID));
+			final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
 			
 			if(delete.getVisibility() == View.GONE) {
-				
 				delete.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.delete_t2b);
-				
-				selectedItemHashtable.put(rowId, true);
-				
-				final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
-				
-				delete.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						OutdoorManager.getInstance().removeAreaIDFromList(areaId);
-						OutdoorManager.getInstance().removeCityDataFromMap(areaId);
-						
-						mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
-
-							@Override
-							protected void onPostExecute(Void result) {
-								mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
-							}
-						}.execute(new String[]{areaId, "false"});
-						
-						mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-							
-							@Override
-							protected void onPostExecute(Cursor result) {
-								fillListViewFromDatabase(result);
-							}
-						};
-					}
-				});
+				selectedItemHashtable.put(areaId, true);
 			} else {
 				delete.setVisibility(View.GONE);
 				deleteSign.setImageResource(R.drawable.delete_l2r);
-				selectedItemHashtable.put(rowId, false);
+				selectedItemHashtable.put(areaId, false);
 			}
 		}
 	};
