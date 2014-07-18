@@ -124,6 +124,7 @@
         android:layout_below="@+id/hf_outdoor_circle_layt"
         android:layout_centerHorizontal="true"
         android:textColor="@color/white"
+        android:gravity="center_horizontal"
         android:textSize="@dimen/text_size_large"
         custom:fontAssetName="fonts/gillsans.ttf" />
 
