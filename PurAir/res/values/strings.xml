@@ -567,5 +567,6 @@
     <string name="buy_new_purifier">Or buy a new one</string>
     <string name="take_me_to_shop">Take me to the shop</string>
     <!-- Mangage Purifier -->
+    <string name="add_purifier_heading">Manage purifiers</string>
     <string name="add_purifier">Add a purifier</string>
 </resources>
