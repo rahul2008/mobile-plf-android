@@ -14,6 +14,7 @@ import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import android.annotation.SuppressLint;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
@@ -128,7 +129,11 @@ public class OutdoorController implements ServerResponseListener {
 		return url;
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	public void startCitiesTask(String areaID) {
+		//If purifier in demo mode, skip download data
+		if (PurAirApplication.isDemoModeEnable()) return;
+			
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
 		String date = dateFormat.format(new Date(System.currentTimeMillis()));
 		ALog.i(ALog.DASHBOARD, "startCitiesTask dateFormate " + date);
@@ -136,7 +141,11 @@ public class OutdoorController implements ServerResponseListener {
 		citiesList.start();
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public void startOutdoorWeatherTask(String areaID) {
+		//If purifier in demo mode, skip download data
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
 		String date = dateFormat.format(new Date(System.currentTimeMillis()));
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(areaID, "observe", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);

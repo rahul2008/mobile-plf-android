@@ -399,6 +399,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	 * @param bufferSize
 	 */
 	public void downloadDataFromCPP(String query, int bufferSize) {
+		//If purifier in demo mode, skip download data
 		if (PurAirApplication.isDemoModeEnable()) {
 			downloadDataListener.onDataDownload(Errors.GENERAL_ERROR , null);
 			return;
