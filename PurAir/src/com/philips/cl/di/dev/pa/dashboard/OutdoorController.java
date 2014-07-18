@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
@@ -15,7 +14,9 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -57,77 +58,6 @@ public class OutdoorController implements ServerResponseListener {
 	public void removeOutdoorEventListener(OutdoorEventListener outdoorEventListener) {
 		outdoorEventListeners.remove(outdoorEventListener);
 	}
-	
-	private String buildURL(String areaID, String type, String date, String appID) {
-		String url = "";
-		StringBuilder publicKeyBuilder = new StringBuilder(BASE_URL) ;
-		publicKeyBuilder.append("?areaid=").append(areaID) ;
-		publicKeyBuilder.append("&type=").append(type);
-		publicKeyBuilder.append("&date=").append(date);
-		publicKeyBuilder.append("&appid=").append(APP_ID);
-		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKeyBuilder.toString());
-		String key = "";
-		String finalKey = "";
-		try {
-			finalKey = Util.encodeToBase64(hmacSha1(publicKeyBuilder.toString(),  Utils.getCMA_PrivateKey()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		String mostCertainlyTheFinalKey = "";
-		try {
-			mostCertainlyTheFinalKey = URLEncoder.encode(finalKey.trim(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
-		
-		StringBuilder urlBuilder = new StringBuilder() ; 
-		urlBuilder.append(BASE_URL).append("?areaid=").append(areaID);
-		urlBuilder.append("&type=").append(type).append("&date=").append(date) ;
-		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
-		urlBuilder.append("&key=").append(mostCertainlyTheFinalKey);
-		
-		url = urlBuilder.toString() ;
-		ALog.i(ALog.OUTDOOR_LOCATION, "Final Weather URL " + url);
-		
-		return url;
-	}
-	
-	private String buildURLAQI(String areaID, String type, String date, String appID) {
-		String url = "";
-		StringBuilder publicKeyBuilder = new StringBuilder(BASE_URL_AQI) ;
-		publicKeyBuilder.append("?areaid=").append(areaID);
-		publicKeyBuilder.append("&type=").append(type);
-		publicKeyBuilder.append("&date=").append(date);
-		publicKeyBuilder.append("&appid=").append(APP_ID);
-		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKeyBuilder.toString());
-		String key = "";
-		String finalKey = "";
-		try {
-			finalKey = Util.encodeToBase64(hmacSha1(publicKeyBuilder.toString(),  Utils.getCMA_PrivateKey()));
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		String mostCertainlyTheFinalKey = "";
-		try {
-			mostCertainlyTheFinalKey = URLEncoder.encode(finalKey.trim(), "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
-		StringBuilder urlBuilder = new StringBuilder() ; 
-		urlBuilder.append(BASE_URL_AQI).append("?areaid=").append(areaID);
-		urlBuilder.append("&type=").append(type);
-		urlBuilder.append("&date=").append(date) ;
-		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
-		urlBuilder.append("&key=").append(mostCertainlyTheFinalKey);
-		
-		url = urlBuilder.toString();
-		
-		ALog.i(ALog.OUTDOOR_LOCATION, "Final AQI URL " + url);
-		
-		return url;
-	}
 
 	@SuppressLint("SimpleDateFormat")
 	public void startCitiesTask(String areaID) {
@@ -137,7 +67,7 @@ public class OutdoorController implements ServerResponseListener {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
 		String date = dateFormat.format(new Date(System.currentTimeMillis()));
 		ALog.i(ALog.DASHBOARD, "startCitiesTask dateFormate " + date);
-		TaskGetHttp citiesList = new TaskGetHttp(buildURLAQI(areaID, "air", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI,areaID, "air", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
@@ -148,7 +78,7 @@ public class OutdoorController implements ServerResponseListener {
 		
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
 		String date = dateFormat.format(new Date(System.currentTimeMillis()));
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(areaID, "observe", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
@@ -185,6 +115,38 @@ public class OutdoorController implements ServerResponseListener {
 		}
 	}
 	
+	private String buildURL(String baseUrl, String areaID, String type, String date, String appID) {
+		String url = AppConstants.EMPTY_STRING;
+		String mostCertainlyTheFinalKey = AppConstants.EMPTY_STRING;
+		StringBuilder publicKeyBuilder = new StringBuilder(baseUrl) ;
+		publicKeyBuilder.append("?areaid=").append(areaID) ;
+		publicKeyBuilder.append("&type=").append(type);
+		publicKeyBuilder.append("&date=").append(date);
+		publicKeyBuilder.append("&appid=").append(APP_ID);
+		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKeyBuilder.toString());
+		String key = "";
+		String finalKey = "";
+		try {
+			finalKey = Util.encodeToBase64(hmacSha1(publicKeyBuilder.toString(),  Utils.getCMA_PrivateKey()));
+			mostCertainlyTheFinalKey = URLEncoder.encode(finalKey.trim(), "UTF-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}	
+		
+		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
+		
+		StringBuilder urlBuilder = new StringBuilder() ; 
+		urlBuilder.append(baseUrl).append("?areaid=").append(areaID);
+		urlBuilder.append("&type=").append(type).append("&date=").append(date) ;
+		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
+		urlBuilder.append("&key=").append(mostCertainlyTheFinalKey);
+		
+		url = urlBuilder.toString() ;
+		ALog.i(ALog.OUTDOOR_LOCATION, "Final Weather URL " + url);
+		
+		return url;
+	}
+	
 	private byte[] hmacSha1(String value, String key) {
 	    SecretKeySpec secret = new SecretKeySpec(key.getBytes(Charset.defaultCharset()), HASH_ALG);
 	    Mac mac = null;
@@ -196,11 +158,7 @@ public class OutdoorController implements ServerResponseListener {
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		}
-		
-		if(mac == null) {
-			return null;
-		}
-		
+		if( mac == null ) return null ;
 	    byte[] bytes = mac.doFinal(value.getBytes(Charset.defaultCharset()));
 	    return bytes;
 	}
