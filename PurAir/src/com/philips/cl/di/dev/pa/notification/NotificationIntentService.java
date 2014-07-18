@@ -1,13 +1,14 @@
 package com.philips.cl.di.dev.pa.notification;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -62,25 +63,27 @@ public class NotificationIntentService extends IntentService {
     	if(notificationMan==null) return;
     	if(msg==null || msg.isEmpty()) return;
     	
-    	Uri soundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-    	
     	Intent intent=new Intent(context, MainActivity.class);
     	intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
     	intent.setAction(Intent.ACTION_MAIN);
     	intent.addCategory(Intent.CATEGORY_LAUNCHER);
-
-        PendingIntent contentIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    	
+    	int requestID = (int) System.currentTimeMillis();
+    	 intent.setData (Uri.parse ("data: "+requestID));
+        PendingIntent contentIntent = PendingIntent.getActivity(context, requestID, intent, 0);
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
         mBuilder.setSmallIcon(R.drawable.purair_icon); // TODO change notification icon
         mBuilder.setContentTitle(context.getString(R.string.app_name));
+        mBuilder.setWhen(System.currentTimeMillis());
         mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(msg));
-        mBuilder.setAutoCancel(true);
         mBuilder.setContentText(msg);
-        mBuilder.setSound(soundUri);
+        mBuilder.setAutoCancel(true);
+        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+        mBuilder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
 
         mBuilder.setContentIntent(contentIntent);
-        notificationMan.notify(NOTIFICATION_ID, mBuilder.build());
+        notificationMan.notify(requestID, mBuilder.build());
         ALog.i(ALog.NOTIFICATION, "Successfully showed notification: " + msg);
     }
     
