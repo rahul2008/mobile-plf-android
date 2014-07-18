@@ -54,7 +54,8 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		mBundle = new Bundle();
 		mDialog = new StartFlowDialogFragment();
 		mDialog.setListener(mStartFlowListener);
-		mConnectPurifier = ConnectPurifier.getInstance(getActivity());		super.onResume();
+		mConnectPurifier = ConnectPurifier.getInstance(getActivity());		
+		super.onResume();
 	}
 
 	@Override
@@ -79,22 +80,30 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	}
 	
 	private void showLocationServiceDialog() {
-		mBundle.clear();
-		mDialog = new StartFlowDialogFragment();
-		mDialog.setListener(mStartFlowListener);
-		mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES);
-		mDialog.setArguments(mBundle);
-		mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
+		try {
+			mBundle.clear();
+			mDialog = new StartFlowDialogFragment();
+			mDialog.setListener(mStartFlowListener);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES);
+			mDialog.setArguments(mBundle);
+			mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 	}
 	
 	
 	private void showLocationServiceTurnedOffDialog() {
-		mBundle.clear();
-		mDialog = new StartFlowDialogFragment();
-		mDialog.setListener(mStartFlowListener);
-		mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES_TURNED_OFF);
-		mDialog.setArguments(mBundle);
-		mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
+		try {
+			mBundle.clear();
+			mDialog = new StartFlowDialogFragment();
+			mDialog.setListener(mStartFlowListener);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES_TURNED_OFF);
+			mDialog.setArguments(mBundle);
+			mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 	}
 		
 	private void startBenefitsFlow() {
@@ -108,12 +117,16 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	private void startUseNoPurifierFlow() {
 		WifiManager wifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
 		if (!wifiManager.isWifiEnabled()) {
-			mBundle.clear();
-			mDialog = new StartFlowDialogFragment();
-			mDialog.setListener(mStartFlowListener);
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_INTERNET);
-			mDialog.setArguments(mBundle);
-			mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
+			try {
+				mBundle.clear();
+				mDialog = new StartFlowDialogFragment();
+				mDialog.setListener(mStartFlowListener);
+				mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_INTERNET);
+				mDialog.setArguments(mBundle);
+				mDialog.show(getActivity().getSupportFragmentManager(), "start_flow_dialog");
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}	
 		} else {
 			// Ask user if we are allowed to use there location
 			showLocationServiceDialog();
@@ -128,11 +141,15 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		HomeFragment homeFragment = new HomeFragment();
 		homeFragment.setArguments(mBundle);
 		
-		getActivity().getSupportFragmentManager()
-			.beginTransaction()
-			.replace(R.id.llContainer, homeFragment)
-			.addToBackStack(null)
-			.commit();
+		try {
+			getActivity().getSupportFragmentManager()
+				.beginTransaction()
+				.replace(R.id.llContainer, homeFragment)
+				.addToBackStack(null)
+				.commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 	}
 
 	private StartFlowListener mStartFlowListener = new StartFlowListener() {

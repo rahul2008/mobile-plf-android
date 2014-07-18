@@ -51,9 +51,13 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setup_main);
         
-        getSupportFragmentManager().beginTransaction()
-		.add(R.id.setup_fragment_container, new DemoModeStartFragement(), "demo_mode_start")
-		.commit();
+        try {
+			getSupportFragmentManager().beginTransaction()
+			.add(R.id.setup_fragment_container, new DemoModeStartFragement(), "demo_mode_start")
+			.commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
         
         //Some time action bar getting ClassCastException
 		try {

@@ -331,9 +331,13 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		bundle.putString(SchedulerConstants.SPEED, schedulePortInfo.getMode());
 		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 		fragAddSch.setArguments(bundle);
-		getSupportFragmentManager()
-				.beginTransaction()
-				.replace(R.id.ll_scheduler_container, fragAddSch, "EditSchedulerFragment").commit();	
+		try {
+			getSupportFragmentManager()
+					.beginTransaction()
+					.replace(R.id.ll_scheduler_container, fragAddSch, "EditSchedulerFragment").commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 
 	}
 	

@@ -64,9 +64,13 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_setup_main);
         
-        getSupportFragmentManager().beginTransaction()
-		.add(R.id.setup_fragment_container, getIntroFragment(), EWSConstant.EWS_INTRO_SCREEN_FRAGMENT_TAG)
-		.commit();
+        try {
+			getSupportFragmentManager().beginTransaction()
+			.add(R.id.setup_fragment_container, getIntroFragment(), EWSConstant.EWS_INTRO_SCREEN_FRAGMENT_TAG)
+			.commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
         
         //Some time action bar getting ClassCastException
 		try {

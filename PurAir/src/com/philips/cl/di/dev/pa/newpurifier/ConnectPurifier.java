@@ -68,22 +68,30 @@ public class ConnectPurifier {
 	
 	private void showNoWifiDialog() {
 		ALog.i(ALog.APP_START_UP, "ConnectPurifier$showNoWifiDialog");
-		mBundle.clear();
-		mDialog = new StartFlowDialogFragment();
-		mDialog.setListener(mStartFlowListener);
-		mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_WIFI);
-		mDialog.setArguments(mBundle);
-		mDialog.show(mContext.getSupportFragmentManager(), "start_flow_dialog");
+		try {
+			mBundle.clear();
+			mDialog = new StartFlowDialogFragment();
+			mDialog.setListener(mStartFlowListener);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_WIFI);
+			mDialog.setArguments(mBundle);
+			mDialog.show(mContext.getSupportFragmentManager(), "start_flow_dialog");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void showNoInternetDialog() {
 		ALog.i(ALog.APP_START_UP, "ConnectPurifier$showNoInternetDialog");
-		mBundle.clear();
-		mDialog = new StartFlowDialogFragment();
-		mDialog.setListener(mStartFlowListener);
-		mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_INTERNET);
-		mDialog.setArguments(mBundle);
-		mDialog.show(mContext.getSupportFragmentManager(), "start_flow_dialog");
+		try {
+			mBundle.clear();
+			mDialog = new StartFlowDialogFragment();
+			mDialog.setListener(mStartFlowListener);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_INTERNET);
+			mDialog.setArguments(mBundle);
+			mDialog.show(mContext.getSupportFragmentManager(), "start_flow_dialog");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private boolean isUserSignedIn() {

@@ -57,13 +57,21 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	private void showFragment(String upgradeVersion) {
 		ALog.i(ALog.FIRMWARE, "FWUpdateActivity$showFragment upgradeVersion " + upgradeVersion );
 		if(upgradeVersion == null || upgradeVersion.isEmpty()) {
-			getSupportFragmentManager().beginTransaction()
-			.add(R.id.firmware_container, new FirmwareInstalledFragment(), FirmwareInstalledFragment.class.getSimpleName())
-			.commit();
+			try {
+				getSupportFragmentManager().beginTransaction()
+				.add(R.id.firmware_container, new FirmwareInstalledFragment(), FirmwareInstalledFragment.class.getSimpleName())
+				.commit();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
 		} else {
-			getSupportFragmentManager().beginTransaction()
-			.add(R.id.firmware_container, new FirmwareUpdateFragment(), FirmwareUpdateFragment.class.getSimpleName())
-			.commit();
+			try {
+				getSupportFragmentManager().beginTransaction()
+				.add(R.id.firmware_container, new FirmwareUpdateFragment(), FirmwareUpdateFragment.class.getSimpleName())
+				.commit();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -169,9 +177,13 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		if(fragment instanceof FirmwareUpdateFragment || fragment instanceof FirmwareInstalledFragment) {
 			finish();
 		} else if (fragment instanceof FirmwareContactSupportFragment) {
-			getSupportFragmentManager().beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareFailedSupportFragment.class.getSimpleName())
-			.commit();
+			try {
+				getSupportFragmentManager().beginTransaction()
+				.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareFailedSupportFragment.class.getSimpleName())
+				.commit();
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
 		} else if (fragment instanceof FirmwareFailedSupportFragment || fragment instanceof FirmwareDownloadFailedFragment){
 			setCancelled(true);
 			setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);

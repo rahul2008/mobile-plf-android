@@ -127,10 +127,14 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		Bundle bundle = new Bundle();
 		switch(v.getId()) {
 			case R.id.tvAddTime:
+			try {
 				android.support.v4.app.DialogFragment newFragment = new TimePickerFragment();
 				((TimePickerFragment) newFragment).setTime(sSelectedTime);
 				newFragment.show(getActivity().getSupportFragmentManager(), SchedulerConstants.TIMER_FRAGMENT_TAG);
-				break;
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
+			break;
 			case R.id.repeat:
 				bundle.putString(SchedulerConstants.DAYS, sSelectedDays);
 				RepeatFragment fragRepeat = new RepeatFragment();

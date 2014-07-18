@@ -168,9 +168,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	}
 	
 	private void showTutorialDialog() {
-		AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.alert_take_tour, R.string.alert_taketour_text, R.string.alert_take_tour, R.string.close);
-		dialog.setOnClickListener(this);
-		dialog.show(getActivity().getSupportFragmentManager(), "");
+		try {
+			AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.alert_take_tour, R.string.alert_taketour_text, R.string.alert_take_tour, R.string.close);
+			dialog.setOnClickListener(this);
+			dialog.show(getActivity().getSupportFragmentManager(), "");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

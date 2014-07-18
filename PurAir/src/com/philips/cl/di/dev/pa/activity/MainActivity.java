@@ -344,6 +344,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
+			ConnectPurifier.reset() ;
 			finish();
 		}
 	}
@@ -923,10 +924,15 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		{
 			if(purifier.isDemoPurifier())return;
 			
-			PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifier, PairingDialogFragment.dialog_type.SHOW_DIALOG);
-			FragmentManager fragMan = getSupportFragmentManager();
-			dialog.show(fragMan, null);
-			isPairingDialogShown = true;
+			try {
+				PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifier, PairingDialogFragment.dialog_type.SHOW_DIALOG);
+				FragmentManager fragMan = getSupportFragmentManager();
+				dialog.show(fragMan, null);
+				isPairingDialogShown = true;
+			} catch (IllegalStateException e) {
+				e.printStackTrace();
+			}
+			
 		}catch(IllegalStateException e){
 			isPairingDialogShown = false;
 		}

@@ -83,25 +83,37 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 	}
 	
 	private void showCreateAccountFragment() {
-		getSupportFragmentManager().beginTransaction()
-		.add(R.id.fl_simple_fragment_container, new CreateAccountFragment(), CreateAccountFragment.class.getSimpleName())
-		.commit();
+		try {
+			getSupportFragmentManager().beginTransaction()
+			.add(R.id.fl_simple_fragment_container, new CreateAccountFragment(), CreateAccountFragment.class.getSimpleName())
+			.commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 		
 		setActionBar(R.string.create_account, View.GONE);
 	}
 	
 	protected void showUsageAgreementFragment() {
-		getSupportFragmentManager().beginTransaction()
-		.replace(R.id.fl_simple_fragment_container, new UsageAgreementFragment(), UsageAgreementFragment.class.getSimpleName())
-		.commit();
+		try {
+			getSupportFragmentManager().beginTransaction()
+			.replace(R.id.fl_simple_fragment_container, new UsageAgreementFragment(), UsageAgreementFragment.class.getSimpleName())
+			.commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 		
 		setActionBar(R.string.usage_agreement, View.VISIBLE);
 	}
 	
 	public void showSuccessFragment() {
-		getSupportFragmentManager().beginTransaction()
-		.replace(R.id.fl_simple_fragment_container, new SignedInFragment(), SignedInFragment.class.getSimpleName())
-		.commit();
+		try {
+			getSupportFragmentManager().beginTransaction()
+			.replace(R.id.fl_simple_fragment_container, new SignedInFragment(), SignedInFragment.class.getSimpleName())
+			.commit();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
 		
 		setActionBar(R.string.create_account, View.GONE);
 	}
