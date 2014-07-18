@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.datamodel.ResponseDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -34,7 +36,7 @@ public class TaskGetDiagnosticData extends AsyncTask<String, Void, String[]> {
 	@Override
 	protected void onPreExecute() {
 		pDialog = new ProgressDialog(context);
-		pDialog.setMessage("Collecting diagnostics information...");
+		pDialog.setMessage(PurAirApplication.getAppContext().getString(R.string.collecting_information));
 		pDialog.setCancelable(false);
 		pDialog.show();
 	}

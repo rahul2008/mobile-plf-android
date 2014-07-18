@@ -314,6 +314,7 @@
     <string name="crash">Simulate app crash</string>
     <string name="logging_enable">Enable logging</string>
     <string name="logging_disable">Disable logging</string>
+    <string name="collecting_information">Collecting diagnostic information..</string>
     <!-- EWS -->
     <string name="lbl_living_room">Living Room</string>
     <string name="lbl_kitchen">Kitchen</string>

@@ -310,10 +310,11 @@
     <string name="indoor_good">良好的空氣。整體空氣的粉塵和粒子水平偏低。PM2.5 的數值預計也將會維持低水平。健康風險為輕微。可盡情享受平時的室內活動。</string>
     <string name="indoor_color_explained_intro">Philips 智能空氣應用程式由智能內置感應器以 1-10 顯示實時空氣微粒水平。您可於家裡查看最新的空氣質素，包括 PM2.5 濃度。</string>
     <!-- Diagnostics -->
-    <string name="diagnostics">Email Diagnostics</string>
-    <string name="crash">Simulate app crash</string>
-    <string name="logging_enable">Enable logging</string>
-    <string name="logging_disable">Disable logging</string>
+    <string name="diagnostics">電子郵件診斷</string>
+    <string name="crash">模擬應用程序崩潰</string>
+    <string name="logging_enable">啟用日誌記錄</string>
+    <string name="logging_disable">禁用日誌</string>
+    <string name="collecting_information">收集診斷信息..</string>
     <!-- EWS -->
     <string name="lbl_living_room">客廳</string>
     <string name="lbl_kitchen">廚房</string>
