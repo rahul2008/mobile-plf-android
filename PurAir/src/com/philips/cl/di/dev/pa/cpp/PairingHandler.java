@@ -285,6 +285,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				ALog.i(ALog.PAIRING, "DI COMM relationship exists, checking for notify relationship");
 			} 
 			else if (currentRelationshipType.equals(AppConstants.PAIRING_NOTIFY_RELATIONSHIP) && noOfRelations>0) {
+				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
+				notifyListenerSuccess();
+				ALog.i(ALog.PAIRING, "Paring status set to true");
 				purifier.setPairing(true);
 				purifier.setLastPairedTime(new Date().getTime()) ;
 				long updated = purifierDatabase.updatePairingStatus(purifier);
@@ -294,8 +297,6 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 					if (firstPurifier == null) return;
 					PurifierManager.getInstance().setCurrentPurifier(purifier) ;
 				}
- 				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
-				notifyListenerSuccess();
 			}
 		} 
 
@@ -312,6 +313,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				else {
 					ALog.i(ALog.PAIRING, "Notification relationship added successfully - Pairing completed");
 					notifyListenerSuccess();
+					ALog.i(ALog.PAIRING, "Paring status set to true");
 					purifier.setPairing(true);
 					purifier.setLastPairedTime(new Date().getTime()) ;
 					long updated = purifierDatabase.updatePairingStatus(purifier);
