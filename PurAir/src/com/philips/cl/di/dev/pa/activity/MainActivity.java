@@ -852,6 +852,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				tvAirStatusAqiValue.setText(getString(R.string.no_connection));
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(false);
+				remoteControlBtn.setChecked(false);
 			}
 		});
 	}
