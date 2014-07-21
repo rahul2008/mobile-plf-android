@@ -231,8 +231,8 @@
     <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notifications_indoor_aqi_lbl_4">4+</string>
     <string name="notifications_enable_all">發生以下情況會收到通知： \"%s\"</string>
-    <string name="notification_pairing_btn">遙控器</string>
-    <string name="notification_pairing_text">啟用遠端控制接收通知。</string>
+<!--     <string name="notification_pairing_btn">遙控器</string> -->
+<!--     <string name="notification_pairing_text">啟用遠端控制接收通知。</string> -->
     <string name="notification_nopurifier_title">沒有連接空氣清新機</string>
     <string name="notification_nopurifier_text">只有在連接空氣清新機的情況下才能設定通知。</string>
     <string name="notification_nopurifier_positivebtn">到主螢幕</string>
@@ -248,7 +248,7 @@
     <string name="rate_this_app">為這個應用程式評分</string>
     <string name="send_us_feedback">向我們傳送意見</string>
     <string name="version_number">應用程式版本</string>
-    <string name="t_and_c">"<u>條款及細則</u>"</string>
+<!--     <string name="t_and_c">"<u>條款及細則</u>"</string> -->
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">生活在城市環境，誰也不能避免日益嚴重的空氣質量問題。要自然、全面地淨化室内空氣，您可以依靠 Philips VitaShield 智能淨化系統。</string>
     <string name="purifier_feature_lbl_1">移除小達 20 納米的超微細粒子。</string>
@@ -412,7 +412,7 @@
     <string name="pair_text">您是否想於家庭網絡以外操控空氣清新機？</string>
     <string name="pair">是</string>
     <string name="error_title">抱歉！</string>
-    <string name="pairing_progress">啟用遙控器中。請稍後..</string>
+<!--     <string name="pairing_progress">啟用遙控器中。請稍後..</string> -->
     <string name="pairing_success">您現在可以於家庭網絡以外操控空氣清新機！</string>
     <string name="pairing_failed">未能啟用遙控器，請稍後再試。</string>
     <!-- Scheduler texts -->
@@ -448,7 +448,7 @@
     <string name="firmware_failed_msg">請確保您的 Philips 智能空氣清新機 已連接電源及已連接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的韌體安裝失敗。</string>
     <string name="firmware_failed_update_msg">請聯絡 Philips 支援</string>
-    <string name="firmware_install_success">已成功安裝新韌體</string>
+<!--     <string name="firmware_install_success">已成功安裝新韌體</string> -->
     <string name="new_firmware">新韌體</string>
     <string name="firmware_version_txt">韌體版本</string>
 <!--     <string name="releasedate_txt">發佈日期</string> -->

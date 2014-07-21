@@ -231,8 +231,8 @@
     <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notifications_indoor_aqi_lbl_4">4+</string>
     <string name="notifications_enable_all">接收  %s 的通知</string>
-    <string name="notification_pairing_btn">遥控器</string>
-    <string name="notification_pairing_text">启用遥控器，接收通知。</string>
+<!--     <string name="notification_pairing_btn">遥控器</string> -->
+<!--     <string name="notification_pairing_text">启用遥控器，接收通知。</string> -->
     <string name="notification_nopurifier_title">未连接任何净化器</string>
     <string name="notification_nopurifier_text">只有在净化器连接后，您方可配置通知。</string>
     <string name="notification_nopurifier_positivebtn">进入主屏幕</string>
@@ -248,7 +248,7 @@
     <string name="rate_this_app">给此应用程序打分</string>
     <string name="send_us_feedback">给我们发送反馈</string>
     <string name="version_number">应用程序版本 </string>
-    <string name="t_and_c">条款和条件</string>
+<!--     <string name="t_and_c">条款和条件</string> -->
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">生活在城市中的人们无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
     <string name="purifier_feature_lbl_1">滤除最小 20 纳米的微小颗粒</string>
@@ -406,7 +406,7 @@
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
     <string name="pair">是</string>
     <string name="error_title">很抱歉！</string>
-    <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string>
+<!--     <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string> -->
     <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string>
     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string>
 	<!-- Scheduler texts -->
@@ -436,7 +436,7 @@
     <string name="firmware_failed_msg">请确保您的 %s 已通电并已连接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的固件安装失败。</string>
     <string name="firmware_failed_update_msg">请联系飞利浦以获得支持</string>
-    <string name="firmware_install_success">新固件已成功安装</string>
+<!--     <string name="firmware_install_success">新固件已成功安装</string> -->
     <string name="new_firmware">新固件</string>
     <string name="firmware_version_txt">固件版本</string>
 <!--     <string name="releasedate_txt">释放日期</string> -->

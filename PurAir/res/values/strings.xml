@@ -232,8 +232,8 @@
     <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notifications_indoor_aqi_lbl_4">4+</string>
     <string name="notifications_enable_all">Receive notifications for: \"%s\"</string>
-    <string name="notification_pairing_btn">Remote control</string>
-    <string name="notification_pairing_text">Enable remote control to receive notifications.</string>
+<!--     <string name="notification_pairing_btn">Remote control</string> -->
+<!--     <string name="notification_pairing_text">Enable remote control to receive notifications.</string> -->
     <string name="notification_nopurifier_title">No purifier connected</string>
     <string name="notification_nopurifier_text">You can only configure notifications once a Purifier is connected.</string>
     <string name="notification_nopurifier_positivebtn">To home screen</string>
@@ -249,7 +249,7 @@
     <string name="rate_this_app">Rate this app</string>
     <string name="send_us_feedback">Send us feedback</string>
     <string name="version_number">App Version</string>
-    <string name="t_and_c">"<u>Terms &amp; Conditions</u>"</string>
+<!--     <string name="t_and_c">"<u>Terms &amp; Conditions</u>"</string> -->
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">Nobody can avoid the increasingly alarming air quality issues as we live in an urban setting. To purify indoor air in a natural and holistic way, count on the Philips VitaShield Intelligent Purification System.</string>
     <string name="purifier_feature_lbl_1">Removes ultra-fine particles of down to 20 nanometres.</string>
@@ -413,7 +413,7 @@
     <string name="pair_text">Do you want to control your Air Purifier outside of your home network?</string>
     <string name="pair">Yes</string>
     <string name="error_title">We are sorry!</string>
-    <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string>
+<!--     <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string> -->
     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
     <string name="pairing_failed">Failed to enable remote control, please try again later.</string>
     <!-- Scheduler texts -->
@@ -449,7 +449,7 @@
     <string name="firmware_failed_msg">Please make sure your Philips Smart Air Purifier is powered and connected to a WiFi network.</string>
     <string name="firmware_failed_update">The firmware installation for %s failed.</string>
     <string name="firmware_failed_update_msg">Please Contact Philips for support</string>
-    <string name="firmware_install_success">Successfully installed new firmware</string>
+<!--     <string name="firmware_install_success">Successfully installed new firmware</string> -->
     <string name="new_firmware">New firmware</string>
     <string name="firmware_version_txt">Firmware version</string>
 <!--     <string name="releasedate_txt">Release date</string> -->
