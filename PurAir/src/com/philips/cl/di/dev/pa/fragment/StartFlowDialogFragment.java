@@ -180,7 +180,6 @@ public class StartFlowDialogFragment extends DialogFragment {
 				
 				PurifierDatabase purifierDatabase = new PurifierDatabase();
 				purifierDatabase.insertPurAirDevice(currentPurifier);
-				purifierDatabase.closeDb();
 				
 				dismiss();            	   
 			}

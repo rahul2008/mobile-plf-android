@@ -114,25 +114,6 @@ public class PurifierDatabase {
 
 		return purAirDevicesList;
 	}
-	
-	public Cursor getAllPurifiers() {
-		ALog.i(ALog.DATABASE, "get all purifiers for manage purifier");
-		Cursor cursor = null;
-		try {
-			db = dbHelper.getReadableDatabase();
-			cursor = db.query(AppConstants.TABLE_AIRPUR_INFO, null, null, null, null, null, null);
-			if (cursor != null && cursor.getCount() > 0) {
-				cursor.moveToFirst();
-			}
-		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
-		} finally {
-//			closeCursor(cursor);
-			closeDb();
-		}
-		return cursor;
-	}
-	
 	/**
 	 * 
 	 * @param id
@@ -163,31 +144,6 @@ public class PurifierDatabase {
 			closeDb();
 		}
 		return newRowId;
-	}
-	/**
-	 * 
-	 * @param id
-	 * @return
-	 */
-	public long deletePurifier(PurAirDevice purifier) {
-		ALog.i(ALog.DATABASE, "Deleting purifier: " + purifier);
-		long rowId = getRowIdOfPurifier(purifier);
-		if (rowId <= 0) return -1;
-		
-		long newRowId = -1;
-		try {
-			db = dbHelper.getWritableDatabase();
-
-			newRowId = db.delete(AppConstants.TABLE_AIRPUR_INFO, 
-					AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
-		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to delete row "+e.getMessage());
-		} finally {
-			closeDb();
-		}
-
-		return newRowId;
-
 	}
 	
 	public int deletePurifier(String usn) {

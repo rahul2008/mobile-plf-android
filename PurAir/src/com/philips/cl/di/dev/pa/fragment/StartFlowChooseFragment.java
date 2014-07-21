@@ -48,10 +48,14 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 	}
 	
 	private void showApSelectorDialog() {
-		mBundle.clear();
-		mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.AP_SELCTOR);
-		mDialog.setArguments(mBundle);
-		mDialog.show(getFragmentManager(), "start_flow_dialog");
+		try {
+			mBundle.clear();
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.AP_SELCTOR);
+			mDialog.setArguments(mBundle);
+			mDialog.show(getFragmentManager(), "start_flow_dialog");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

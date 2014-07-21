@@ -105,6 +105,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 	private void fillListViewFromDatabase(Cursor cursor) {
 		if (cursor != null) {
+			
+			if (mOutdoorLocationAdapter != null) mOutdoorLocationAdapter = null;
+			
 			mOutdoorLocationAdapter = new CursorAdapter(getActivity(), cursor, false) {
 				
 				@Override
