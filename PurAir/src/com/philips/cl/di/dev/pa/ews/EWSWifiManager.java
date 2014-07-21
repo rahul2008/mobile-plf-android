@@ -23,13 +23,6 @@ public class EWSWifiManager {
 	public static boolean connectToPhilipsSetup() {
 		ALog.i(ALog.EWS, "connectToPhilipsSetup");
 		
-		//Check if already connected to PHILIPS Setup, return true
-		String ssid = getSsidOfConnectedNetwork();
-		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
-			ALog.i(ALog.EWS, "Already connected to Philips setup");
-			return true;
-		}
-		
 		int networkId = getConfiguredNetworkId(DEVICE_SSID);
 		if (networkId == -1) {
 			configureOpenNetwork(DEVICE_SSID);
