@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
@@ -19,16 +19,16 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 public class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
 	private Context context;
 	private List<SchedulePortInfo> schedulers;
-	private ArrayList<Boolean> editList;
+	private HashMap<Integer, Boolean> selectedItems;
 	private boolean edit;
 	private SchedulerEditListener listener;
 	
 	public SchedulerOverViewAdapter(Context context, int resource, List<SchedulePortInfo> schedulers,
-			ArrayList<Boolean> editList, boolean edit, SchedulerEditListener listener) {
+			HashMap<Integer, Boolean> selectedItems, boolean edit, SchedulerEditListener listener) {
 		super(context, resource, schedulers);
 		this.context = context;
 		this.schedulers = schedulers;
-		this.editList = editList;
+		this.selectedItems = selectedItems;
 		this.edit = edit;
 		this.listener = listener;
 		ALog.i(ALog.SCHEDULER, "RepeatFragment-DaysAdapter () method constructor enter " + schedulers);
@@ -49,14 +49,19 @@ public class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
 		if (schedulers.get(position).getName() != null) {
 			name.setText(schedulers.get(position).getName());
 		}
+		
+		final int scheduleNum = schedulers.get(position).getScheduleNumber();
+		
 		if (edit) {
 			deleteImg.setVisibility(View.VISIBLE);
 			rhtArrImg.setVisibility(View.VISIBLE);
-			if (editList.get(tempPosition)) {
+			if (selectedItems.containsKey(scheduleNum) 
+					&& selectedItems.get(scheduleNum)) {
 				deleteImg.setImageResource(R.drawable.delete_t2b);
 				rhtArrImg.setVisibility(View.INVISIBLE);
 				rhtArrtxt.setVisibility(View.VISIBLE);
 			} 
+			
 		} else {
 			deleteImg.setVisibility(View.GONE);
 			rhtArrImg.setImageResource(R.drawable.about_air_quality_goto);
@@ -66,8 +71,21 @@ public class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
 			
 			@Override
 			public void onClick(View v) {
-				editList.set(tempPosition, !editList.get(tempPosition));
-				notifyDataSetChanged();
+				if (selectedItems.containsKey(scheduleNum)) {
+					selectedItems.put(scheduleNum, !selectedItems.get(scheduleNum));
+				} else {
+					deleteImg.setImageResource(R.drawable.delete_t2b);
+					rhtArrImg.setVisibility(View.INVISIBLE);
+					rhtArrtxt.setVisibility(View.VISIBLE);
+					selectedItems.put(scheduleNum, true);
+				}
+				
+				if (!selectedItems.get(scheduleNum)) {
+					deleteImg.setImageResource(R.drawable.delete_l2r);
+					rhtArrImg.setVisibility(View.VISIBLE);
+					rhtArrtxt.setVisibility(View.INVISIBLE);
+				}
+				ALog.i(ALog.SCHEDULER, "selectedItems1"+ selectedItems);
 			}
 		});
 		
@@ -75,10 +93,11 @@ public class SchedulerOverViewAdapter extends ArrayAdapter<SchedulePortInfo> {
 			
 			@Override
 			public void onClick(View v) {
-//				schedulers.remove(tempPosition);
-//				editList.remove(tempPosition);
-				//notifyDataSetChanged();
-				listener.onDeleteSchedule(tempPosition);
+				ALog.i(ALog.SCHEDULER, "selectedItems2"+ selectedItems);
+				if (selectedItems.containsKey(scheduleNum)) {
+					selectedItems.remove(scheduleNum);
+				}
+				listener.onDeleteSchedule(tempPosition, selectedItems);
 			}
 		});
 		
