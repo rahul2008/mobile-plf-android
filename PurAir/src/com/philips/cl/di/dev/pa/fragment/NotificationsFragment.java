@@ -10,10 +10,8 @@ import android.os.CountDownTimer;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.LinearLayout;
@@ -37,17 +35,14 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener, android.widget.RadioGroup.OnCheckedChangeListener, AlertDialogBtnInterface {
 
-	private RelativeLayout pairingLayout;
 	private RelativeLayout enableLayout;
 	private LinearLayout detailedLayout;
 
-	private Button pairingButton;
 	private ToggleButton notificationToggle;
 	private LinearLayout indoorAqiLbls;
 	private RadioGroup indoorAqiRadioBtns;
@@ -111,29 +106,14 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			notificationsEnabled = isNotificationEnabled();
 			showNotificationsLayout(notificationsEnabled);
 		} else {
-			showPairingLayout();
+			showNotificationsLayout(false);
 		}
 	}
 
 
 	private void initializeAllViews(View rootView) {
-		pairingLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_pairing_layout);
 		enableLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_enable_layout);
 		detailedLayout = (LinearLayout) rootView.findViewById(R.id.notifications_detailed_layout);
-
-		pairingButton = (Button) rootView.findViewById(R.id.btn_notifications_pairing);
-		pairingButton.setTypeface(Fonts.getGillsans(getActivity()));
-		pairingButton.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Activity parent = NotificationsFragment.this.getActivity();
-				if (mPurifier == null || parent == null || !(parent instanceof MainActivity)) return;
-
-				((MainActivity) parent).showPairingDialog(mPurifier);
-				parent.onBackPressed();				
-			}
-		});
 
 		TextView enableText = (TextView) rootView.findViewById(R.id.notifications_enable_all_text);
 		String purifierName = (mPurifier == null ? "" : mPurifier.getName());
@@ -218,13 +198,11 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			showNotificationsLayout(false);
 			return;
 		}
-		pairingLayout.setVisibility(View.VISIBLE);
 		enableLayout.setVisibility(View.GONE);
 		disableDetailedNotificationsLayout();
 	}
 
 	private void showNotificationsLayout(boolean enabled) {
-		pairingLayout.setVisibility(View.GONE);
 		enableLayout.setVisibility(View.VISIBLE);
 		if (enabled) {
 			enableDetailedNotificationsLayout();

@@ -142,6 +142,7 @@
     <string name="outdoor_db">戶外</string>
     <string name="current_location">当前位置</string>
     <string name="title_outdoor_db">室外仪表板</string>
+    <string name="outdoor_search_hint">在地方填写</string>
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：对健康危害极小或无危害。</string>
     <string name="indoor_aqi_moderate_tip1">污染、颗粒水平和 PM2.5 均处于中级。 </string>

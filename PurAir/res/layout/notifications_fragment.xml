@@ -10,38 +10,6 @@
         android:orientation="vertical"
         android:paddingTop="10dp" >
 
-        <!-- Link to pairing -->
-
-        <RelativeLayout
-            android:id="@+id/notifications_pairing_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp" >
-
-            <Button
-                android:id="@+id/btn_notifications_pairing"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="15dp"
-                android:background="@drawable/blue_button_selector"
-                android:text="@string/notification_pairing_btn"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:layout_toLeftOf="@id/btn_notifications_pairing"
-                android:text="@string/notification_pairing_text"
-                android:textColor="@color/title_gray"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
-        </RelativeLayout>
-
         <!-- Toggle notifications -->
 
         <RelativeLayout

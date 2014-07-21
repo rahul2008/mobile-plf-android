@@ -96,7 +96,7 @@ public class PairingDialogFragment extends DialogFragment {
 		btnClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((MainActivity) getActivity()).setPairingDialog(false);
+				//((MainActivity) getActivity()).setPairingDialog(false);
 				dismiss();				
 			}
 		});

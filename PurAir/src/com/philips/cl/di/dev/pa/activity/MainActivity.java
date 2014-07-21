@@ -60,7 +60,6 @@ import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
-import com.philips.cl.di.dev.pa.fragment.PairingDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
@@ -133,15 +132,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	public boolean isDiagnostics;
 
-	private boolean isPairingDialogShown;
-
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
 	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
 		
 		mVisits = Utils.getNoOfVisit();
@@ -468,9 +465,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				break;
 			case R.id.btn_rm_remote_enable:
 				ALog.i(ALog.MAINACTIVITY, "Remote control: " + remoteControlBtn.isChecked());
-//				if (remoteControlBtn.isChecked()) {
-//					pairToPurifierIfNecessary();
-//				}
+				if (remoteControlBtn.isChecked()) {
+					pairToPurifierIfNecessary();
+				}
 				break;
 			default:
 				break;
@@ -678,6 +675,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 					break;
 				case 3:
 					// Notifications
+					PurAirDevice purifier = getCurrentPurifier();
+					if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+					
+					// if not paired return else open NotificationFragment
+					if( !purifier.isPaired()) return;
+					
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_notifications));
 					break;
@@ -920,97 +923,47 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void pairToPurifierIfNecessary() {
-		// Only show PairingDialog once (can be called via discovery and signon)
-		if (isPairingDialogShown) return;
-
 		if (!CPPController.getInstance(this).isSignOn()) return;
 
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
 		
-		// First time pairing or on EWS
-		if( !purifier.isPaired()) {
-			showPairingDialog(purifier);
-		}
-		// Everyday check for pairing
-		else {
-			long lastPairingCheckTime = purifier.getLastPairedTime();
-			
-			long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
-			if (diffInDays != 0) {
-				startPairingWithoutListener(purifier);
-			}
-		}
-	}
-
-	public void showPairingDialog(PurAirDevice purifier) {
-		try
-		{
-			if(purifier.isDemoPurifier())return;
-			
-			try {
-				PairingDialogFragment dialog = PairingDialogFragment.newInstance(purifier, PairingDialogFragment.dialog_type.SHOW_DIALOG);
-				FragmentManager fragMan = getSupportFragmentManager();
-				dialog.show(fragMan, null);
-				isPairingDialogShown = true;
-			} catch (IllegalStateException e) {
-				e.printStackTrace();
-			}
-			
-		}catch(IllegalStateException e){
-			isPairingDialogShown = false;
+		long lastPairingCheckTime = purifier.getLastPairedTime();		
+		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
+		// First time pairing or on EWS and Everyday check for pairing
+		if( !purifier.isPaired() || diffInDays != 0) {
+			startPairing(purifier);
 		}
 	}
 
 	public void startPairing(PurAirDevice purifier) {
 		if (purifier == null) return; // TODO why can this happen?
 			
-		progressDialog = new ProgressDialog(MainActivity.this);
-		progressDialog.setMessage(getString(R.string.pairing_progress));
-		progressDialog.setCancelable(false);
-		progressDialog.show();
-
 		PairingHandler pm = new PairingHandler(this, purifier);
 		pm.startPairing();
 	}
 
-	private void startPairingWithoutListener(PurAirDevice purifier) {
-		PairingHandler pm = new PairingHandler(null, purifier);
-		pm.startPairing();
-	}
-
 	@Override
-	public void onPairingSuccess() {		
-		isPairingDialogShown = false ;
-		if (progressDialog != null) {
-			progressDialog.cancel();
-		}
-		try{
-			PairingDialogFragment dialog = PairingDialogFragment.newInstance(null, PairingDialogFragment.dialog_type.PAIRING_SUCCESS);
-			FragmentManager fragMan = getSupportFragmentManager();
-			dialog.show(fragMan, null);
-		}catch(IllegalStateException ex){
-			ex.printStackTrace();
-		}
-		
-	}
+	public void onPairingSuccess() {	
+		runOnUiThread(new Runnable() {
 
-	public void setPairingDialog(boolean isPairingDialogShown) {
-		this.isPairingDialogShown = isPairingDialogShown ;
+            @Override
+            public void run() {
+            	remoteControlBtn.setChecked(true);
+            }
+        });
+		
 	}
 	
 	@Override
 	public void onPairingFailed() {		
-		if (progressDialog != null) {
-			progressDialog.cancel();
-		}
-		try{
-		PairingDialogFragment dialog = PairingDialogFragment.newInstance(getCurrentPurifier(), PairingDialogFragment.dialog_type.PAIRING_FAILED);
-		FragmentManager fragMan = getSupportFragmentManager();
-		dialog.show(fragMan, null);
-		}catch(IllegalStateException ex){
-			ex.printStackTrace();
-		}
+		runOnUiThread(new Runnable() {
+
+            @Override
+            public void run() {
+            	remoteControlBtn.setChecked(false);
+            }
+        });
 	}
 	
 	public PurAirDevice getCurrentPurifier() {
