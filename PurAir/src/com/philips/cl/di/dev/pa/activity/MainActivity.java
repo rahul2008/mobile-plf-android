@@ -483,8 +483,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		leftMenuItems.add(new ListViewItem(R.string.list_item_home,
 				R.drawable.icon_1_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
-				R.drawable.icon_1_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained,
 				R.drawable.icon_2_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
@@ -498,9 +496,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		// TODO : Add this when enabling non-mandatory firmware update
 //		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
 //				R.drawable.icon_8_2x));
+		leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
+				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
-				R.drawable.icon_7_2x));		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
-				R.drawable.icon_10_2x));
+				R.drawable.icon_8_2x));		
+		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
+				R.drawable.icon_9_2x));
 		leftMenuItems.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
 		return leftMenuItems;
 	}
@@ -628,12 +629,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
-			leftMenuItems.add(new ManagePurifierFragment());
 			leftMenuItems.add(new AirQualityFragment());
 			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
+			leftMenuItems.add(new ManagePurifierFragment());
 			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 			leftMenuItems.add(new ToolsFragment());
@@ -657,31 +658,31 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 					break;
 				case 1:
 					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_manage_purifier));
-					break;
-				case 2:
-					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_air_quality_explained));
 					break;
-				case 3:
+				case 2:
 					// Outdoor locations
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_outdoor_loc));
 					break;
-				case 4:
+				case 3:
 					// Notifications
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_notifications));
 					break;
-				case 5:
+				case 4:
 					// Help and documentation
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_help_and_doc));
 					break;
-				case 6:
+				case 5:
 					// Settings
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_settings));
+					break;
+				case 6:
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_manage_purifier));
 					break;
 				case 7:
 					// User registration
