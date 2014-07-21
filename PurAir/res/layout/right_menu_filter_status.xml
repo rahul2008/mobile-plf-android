@@ -176,5 +176,43 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
+    
+    <ImageView
+        android:id="@+id/divider_remote_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/seperator_line_2x" />
+    
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="30dp" 
+        android:paddingRight="30dp">
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_rm_remote_enable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/pair_title"
+            android:layout_centerVertical="true"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+        
+        <ToggleButton
+            android:id="@+id/btn_rm_remote_enable"
+            style="@style/Widget.Button.Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:checked="false" />
+    </RelativeLayout>
 
 </LinearLayout>

@@ -35,6 +35,7 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -104,6 +105,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
 	private ImageView ivConnectionError;
+	private ToggleButton remoteControlBtn;
 	
 	/**
 	 * Action bar
@@ -464,6 +466,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			case R.id.back_to_home_img:
 				//TODO
 				break;
+			case R.id.btn_rm_remote_enable:
+				ALog.i(ALog.MAINACTIVITY, "Remote control: " + remoteControlBtn.isChecked());
+//				if (remoteControlBtn.isChecked()) {
+//					pairToPurifierIfNecessary();
+//				}
+				break;
 			default:
 				break;
 			}
@@ -589,6 +597,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		multiCareFilterText = (TextView) findViewById(R.id.tv_rm_multi_care_filter_status);
 		activeCarbonFilterText = (TextView) findViewById(R.id.tv_rm_active_carbon_filter_status);
 		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
+		
+		remoteControlBtn = (ToggleButton) findViewById(R.id.btn_rm_remote_enable);
+		remoteControlBtn.setOnClickListener(actionBarClickListener);
 	}
 
 	public void showFragment(Fragment fragment) {
@@ -808,6 +819,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 						getString(R.string.philips_home)));
 					setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
+				
+				//For remote control enable and disable in right-canvas
+				remoteControlBtn.setClickable(true);
+				remoteControlBtn.setChecked(purifier.isPaired());
 			}
 		});
 		
@@ -832,6 +847,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
 				tvAirStatusAqiValue.setTextSize(14.0f);
 				tvAirStatusAqiValue.setText(getString(R.string.no_connection));
+				//For remote control enable and disable in right-canvas
+				remoteControlBtn.setClickable(false);
 			}
 		});
 	}
