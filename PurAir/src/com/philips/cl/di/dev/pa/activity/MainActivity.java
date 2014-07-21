@@ -56,6 +56,7 @@ import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
+import com.philips.cl.di.dev.pa.fragment.CancelDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
@@ -464,16 +465,33 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				//TODO
 				break;
 			case R.id.btn_rm_remote_enable:
+				if (getCurrentPurifier() == null) return;
 				ALog.i(ALog.MAINACTIVITY, "Remote control: " + remoteControlBtn.isChecked());
 				if (remoteControlBtn.isChecked()) {
 					pairToPurifierIfNecessary();
 				}
+				
+				if (getCurrentPurifier().isPaired()) {
+					showDialogFragment(CancelDialogFragment
+							.newInstance(getString(R.string.pair_disable_alert), 1));
+				}
+				
 				break;
 			default:
 				break;
 			}
 		}
 	}; 
+	
+	private void showDialogFragment(Fragment fragment) {
+		try {
+			FragmentManager fragMan = getSupportFragmentManager();
+			fragMan.beginTransaction().add(
+					fragment, "dialogfragment").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.MAINACTIVITY, e.getMessage());
+		}
+	}
 	
 	private void setDashboardActionbarIconVisible() {
 		rightMenu.setVisibility(View.VISIBLE);
