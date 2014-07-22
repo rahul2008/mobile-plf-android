@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.datamodel;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -14,11 +15,29 @@ public class SessionDto {
 	private List<Weatherdto> weatherDetails ;
 	
 	private IndoorTrendDto indoorTrendDto ;
+	private HashMap<String, IndoorTrendDto> indoorTrendsHashMap;
 	
 	private DeviceDto deviceDto ;
 	private DeviceWifiDto deviceWifiDto ;
 	private String Eui64;
 	
+	/**
+	 * Get the indoor trend from Hashmap using Purifier eui64
+	 * @param purifierEui64
+	 * @return
+	 */
+	public IndoorTrendDto getIndoorTrendDto(String purifierEui64) {
+		IndoorTrendDto inDto = null;
+		if (indoorTrendsHashMap.containsKey(purifierEui64)) {
+			inDto = indoorTrendsHashMap.get(purifierEui64);
+		}
+		return inDto;
+	}
+	
+	public void setIndoorTrendDto(String eui64, IndoorTrendDto indoorTrendDto) {
+		indoorTrendsHashMap.put(eui64, indoorTrendDto) ;
+	}
+
 	public DeviceDto getDeviceDto() {
 		return deviceDto;
 	}
@@ -37,10 +56,6 @@ public class SessionDto {
 
 	public IndoorTrendDto getIndoorTrendDto() {
 		return indoorTrendDto;
-	}
-
-	public void setIndoorTrendDto(IndoorTrendDto indoorTrendDto) {
-		this.indoorTrendDto = indoorTrendDto;
 	}
 
 	private OutdoorAQIEventDto outdoorEventDto ;
@@ -75,6 +90,7 @@ public class SessionDto {
 	 * This will be a singleton class, since there will be only one session for application.
 	 */
 	private SessionDto() {
+		indoorTrendsHashMap = new HashMap<String, IndoorTrendDto>();
 	}
 	
 	public static SessionDto getSessionDto() {

@@ -50,7 +50,7 @@ import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
+			PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 
 	private PurAirDevice currentPurifier;
 
@@ -116,24 +116,29 @@ PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 	}
 
 	private void getRDCPValue() {
-		ALog.i(ALog.INDOOR_RDCP, "Downloaded: "+isRdcpDowloadOneHourOld());
-		if( (SessionDto.getInstance().getIndoorTrendDto() == null ||
-				isRdcpDowloadOneHourOld()) && CPPController.getInstance(this) != null) {
+		
+		IndoorTrendDto trendDto = SessionDto.getInstance().getIndoorTrendDto(currentPurifier.getEui64());
+		
+		ALog.i(ALog.INDOOR_RDCP, "Downloaded: "+isRdcpDowloadOneHourOld(trendDto));
+		
+		if ((trendDto == null || isRdcpDowloadOneHourOld(trendDto))) {
 			rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
 			CPPController.getInstance(this).setDownloadDataListener(this) ;
 			CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
-		}
-		else {
+		} else {
 			rdcpDownloadProgressBar.setVisibility(View.GONE);
-			hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
-			dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
-			addGoodAQIIntoList(SessionDto.getInstance().getIndoorTrendDto());
+			hrlyAqiValues = trendDto.getHourlyList() ;
+			dailyAqiValues = trendDto.getDailyList() ;
+			addGoodAQIIntoList(trendDto);
 			addAqiReading();
-		}
+		} 
 	}
 
-	private boolean isRdcpDowloadOneHourOld() {
-		long prevTimeDiff = Utils.getTimeDiffInMinite();
+	private boolean isRdcpDowloadOneHourOld(IndoorTrendDto trendDto) {
+		
+		if (trendDto == null) return true;
+		
+		long prevTimeDiff = Utils.getTimeDiffInMinite(trendDto);
 		
 		if (prevTimeDiff == 0) return false;
 		
@@ -143,7 +148,8 @@ PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 		int currHr = cal.get(Calendar.HOUR_OF_DAY);
 		int currAmPm = cal.get(Calendar.AM_PM);
 	
-		cal.setTimeInMillis(SessionDto.getInstance().getIndoorTrendDto().getTimeMin()* 60*1000);
+//		cal.setTimeInMillis(SessionDto.getInstance().getIndoorTrendDto().getTimeMin()* 60*1000);
+		cal.setTimeInMillis(trendDto.getTimeMin()* 60*1000);
 		int prevHr = cal.get(Calendar.HOUR_OF_DAY);
 		int prevAmPm = cal.get(Calendar.AM_PM);
 		
@@ -521,15 +527,17 @@ PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 	@Override
 	public void onDataDownload(int status, String downloadedData) {
 		ALog.i(ALog.INDOOR_DETAILS, "onDataDownload status: " + status);
+		String eui64 = currentPurifier.getEui64();
 		if( status == Errors.SUCCESS ) {
 			if (downloadedData != null && !downloadedData.isEmpty()) {
-				Utils.getIndoorAqiValues(downloadedData) ;
-
-				if( SessionDto.getInstance().getIndoorTrendDto() != null ) {
-
-					hrlyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getHourlyList() ;
-					dailyAqiValues = SessionDto.getInstance().getIndoorTrendDto().getDailyList() ;
-					addGoodAQIIntoList(SessionDto.getInstance().getIndoorTrendDto());
+				Utils.getIndoorAqiValues(downloadedData, currentPurifier.getEui64()) ;
+				
+				IndoorTrendDto inDto = SessionDto.getInstance().getIndoorTrendDto(eui64);
+				
+				if (inDto != null) {
+					hrlyAqiValues = inDto.getHourlyList() ;
+					dailyAqiValues = inDto.getDailyList() ;
+					addGoodAQIIntoList(inDto);
 				}
 				handlerDownload.sendEmptyMessage(3);
 
@@ -543,9 +551,9 @@ PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 	}
 
 	private void addGoodAQIIntoList(IndoorTrendDto trendDto) {
-		if (SessionDto.getInstance().getIndoorTrendDto().getGoodAirQualityList() == null) return;
+		if (trendDto.getGoodAirQualityList() == null) return;
 		if (!goodAirInfos.isEmpty())  goodAirInfos.clear();
-		goodAirInfos.addAll(SessionDto.getInstance().getIndoorTrendDto().getGoodAirQualityList());
+		goodAirInfos.addAll(trendDto.getGoodAirQualityList());
 
 	}
 
@@ -573,7 +581,6 @@ PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
 		// TODO Auto-generated method stub
-
 	}
 }
 

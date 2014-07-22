@@ -125,7 +125,7 @@ public class Utils {
 	}
 
 	@SuppressLint("UseSparseArrays")
-	public static void getIndoorAqiValues(String downloadedData) {
+	public static void getIndoorAqiValues(String downloadedData, String eui64) {
 		ALog.i(ALog.INDOOR_RDCP, "Rdcp values downloaded successfully");
 
 		HashMap<Integer, Float> hrlyAqiValueMap = new HashMap<Integer, Float>();
@@ -219,7 +219,7 @@ public class Utils {
 				goodAirQualityList.add(getPercentage(monthlyGoodAqi, monthlyTotalAqi));
 
 				setIndoorAqiHistory(hrlyAqiValueMap,hrlyAqiValueCounterMap, 
-						dailyAqiValueMap, dailyAqiValueCounterMap, goodAirQualityList);
+						dailyAqiValueMap, dailyAqiValueCounterMap, goodAirQualityList, eui64);
 
 			}
 		}
@@ -229,7 +229,7 @@ public class Utils {
 			HashMap<Integer, Integer> hrlyAqiValueCounterMap, 
 			HashMap<Integer, Float> dailyAqiValueMap, 
 			HashMap<Integer, Integer> dailyAqiValueCounterMap,
-			List<Integer> goodAirQualityList) {
+			List<Integer> goodAirQualityList, String eui64) {
 
 		IndoorTrendDto indoorTrend = new IndoorTrendDto();
 		List<Float> hrlyAqiValues = getIndoorAqiHistoryLastDay(hrlyAqiValueMap, hrlyAqiValueCounterMap);
@@ -261,7 +261,7 @@ public class Utils {
 		dailyAqiValues = null;
 		goodAirQualityList = null;
 
-		SessionDto.getInstance().setIndoorTrendDto(indoorTrend);
+		SessionDto.getInstance().setIndoorTrendDto(eui64,indoorTrend);
 	}
 	
 	private static List<Float> getIndoorAqiHistoryLastDay(HashMap<Integer, Float> hrlyAqiValueMap, 
@@ -805,11 +805,10 @@ public class Utils {
 		return cmaBaseURL;
 	}
 	
-	public static int getTimeDiffInMinite() {
-		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();
-		if( indoorTrendDto == null) return 0;
+	public static int getTimeDiffInMinite(IndoorTrendDto trendDto) {
+		if( trendDto == null) return 0;
 		long currTime = Calendar.getInstance().getTimeInMillis() / 60000;
-		int diff = (int) (currTime - indoorTrendDto.getTimeMin());
+		int diff = (int) (currTime - trendDto.getTimeMin());
 		return diff;
 	}
 	
