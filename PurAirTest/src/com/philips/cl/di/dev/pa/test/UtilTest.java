@@ -245,7 +245,7 @@ public class UtilTest extends TestCase {
 		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();
 		if (indoorTrendDto != null) {
 			indoorTrendDto.setTimeMin(timeCurr);
-			int min = Utils.getTimeDiffInMinite();
+			int min = Utils.getTimeDiffInMinite(indoorTrendDto);
 			assertTrue(min >= 3);
 		} else {
 			assertNull(indoorTrendDto);
@@ -257,7 +257,7 @@ public class UtilTest extends TestCase {
 		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();
 		if (indoorTrendDto != null) {
 			indoorTrendDto.setTimeMin(timeCurr);
-			int min = Utils.getTimeDiffInMinite();
+			int min = Utils.getTimeDiffInMinite(indoorTrendDto);
 			assertTrue(min < 0);
 		} else {
 			assertNull(indoorTrendDto);

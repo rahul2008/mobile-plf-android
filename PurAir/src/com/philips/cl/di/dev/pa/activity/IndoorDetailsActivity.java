@@ -116,7 +116,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void getRDCPValue() {
-		
+		if (currentPurifier == null) return;
 		IndoorTrendDto trendDto = SessionDto.getInstance().getIndoorTrendDto(currentPurifier.getEui64());
 		
 		ALog.i(ALog.INDOOR_RDCP, "Downloaded: "+isRdcpDowloadOneHourOld(trendDto));
