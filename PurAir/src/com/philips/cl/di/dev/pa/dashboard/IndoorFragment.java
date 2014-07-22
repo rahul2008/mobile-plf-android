@@ -27,6 +27,7 @@ import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
@@ -55,6 +56,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private ProgressBar firmwareProgress;
 	private AlertDialogFragment dialogFragment;
 	private AlertDialogFragment firmwareInfoDialog;
+	private int position ;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,15 +68,26 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		if(getArguments() != null) {
+			position = getArguments().getInt("position");
+			String eui64 = DiscoveryManager.getInstance().getDevicesFromDB().get(position).getEui64() ;	
+			PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
+			PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+			
+		}
+		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
 		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
 		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		purifierNameTxt.setSelected(true);
+		purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 		aqiPointer.setOnClickListener(this);
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
+		
+		
 		initFirmwareUpdatePopup();
 	}
 	

@@ -4,6 +4,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -105,8 +106,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		} else {
 			noPurifierFlowLayout.setVisibility(View.GONE);
 			indoorViewPager.setVisibility(View.VISIBLE);
+//			indoorViewPager.setOffscreenPageLimit(-1) ;
+			
 			indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager());
 			indoorViewPager.setAdapter(indoorPagerAdapter);
+			indoorViewPager.setOnPageChangeListener(indoorPagerAdapter);
 		}		
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
