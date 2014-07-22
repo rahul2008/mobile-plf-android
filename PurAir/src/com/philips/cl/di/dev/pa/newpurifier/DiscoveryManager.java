@@ -21,6 +21,7 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
+import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -650,6 +651,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
 		device.setEncryptionKey(key);
+		device.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
 //		mDatabase.insertPurAirDevice(device);
 		notifyDiscoveryListener();
 	}

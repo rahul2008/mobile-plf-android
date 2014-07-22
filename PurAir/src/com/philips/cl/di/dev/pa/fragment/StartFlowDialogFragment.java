@@ -14,6 +14,7 @@ import android.util.Log;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
@@ -175,6 +176,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 				ALog.i(ALog.APP_START_UP, "StartFlow->Show purifiers list Item clicked @position " + position + " activity " + getActivity());
 				PurAirDevice currentPurifier = apItems.get(position);
 				currentPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY) ;
+				currentPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
 				PurifierManager.getInstance().setCurrentPurifier(currentPurifier);
 				
 				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
