@@ -42,6 +42,7 @@ public class DeviceHandler implements ServerResponseListener {
 	public synchronized void setPurifierDetails(String key, String value, PurAirDevice purifier) {
 		if (purifier == null) return;
 		this.purifier = purifier;
+		stop = false;
 		deviceDetailsTable.put(key, value) ;
 		ALog.i(ALog.DEVICEHANDLER, "Setting \"" + key + "\" to " + value + " for purifier: " + purifier.getName());
 		
