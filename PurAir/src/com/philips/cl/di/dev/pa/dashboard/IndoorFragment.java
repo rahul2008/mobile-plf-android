@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener, DrawerEventListener, AlertDialogBtnInterface {
@@ -79,6 +80,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private void initFirmwareUpdatePopup() {
 		firmwareUpdatePopup = (RelativeLayout) getView().findViewById(R.id.firmware_update_available);
+		firmwareUpdatePopup.setOnClickListener(this);
 		
 		firmwareInfoButton = (FontTextView) getView().findViewById(R.id.lbl_firmware_info);
 		firmwareInfoButton.setOnClickListener(this);
@@ -104,6 +106,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 
 	private void hideFirmwareUpdatePopup() {
 		firmwareUpdatePopup.setVisibility(View.GONE);
+		showFirmwareUI = false;
 	}
 
 	@Override
@@ -256,13 +259,17 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (purifier == null) return;
 		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
 		if(firmwarePortInfo == null) return;
+		
 		updateFirmwareUI(firmwarePortInfo);
 	}
 	
+	private String status = "";
+	private boolean showFirmwareUI = true;
+	
 	private void updateFirmwareUI(FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
-		boolean showFirmwareUI = false;
-		String status = "";
+		
+		
 		int progressVisibility = View.INVISIBLE;
 		int progress = 0;
 		int infoVisibility = View.INVISIBLE;
@@ -293,7 +300,25 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			return ;
 			
 		case IDLE:
-			showFirmwareUI = false;
+//			showFirmwareUI = false;
+			int prevFirmwareVersion = 0, currentFirmwareVersion = 0; 
+			try {
+				prevFirmwareVersion = Integer.parseInt(Utils.getFirmwareVersion());
+				currentFirmwareVersion = Integer.parseInt(firmwarePortInfo.getVersion());
+			} catch (NumberFormatException e) {
+				ALog.e(ALog.FIRMWARE, "Error parsing firmware version " + e.getMessage());
+			}
+			
+			ALog.i(ALog.FIRMWARE, "IDLE prevVersion " + prevFirmwareVersion + " currentVersion " + currentFirmwareVersion);
+			
+			if(prevFirmwareVersion < currentFirmwareVersion) {
+				ALog.i(ALog.FIRMWARE, "Show firmware installed");
+				status = getString(R.string.firmware_update) + " " + currentFirmwareVersion;
+				showFirmwareUI = true;
+				infoVisibility = View.INVISIBLE;
+			}
+			
+			Utils.saveFirmwareVersion(firmwarePortInfo.getVersion());
 			break;
 
 		case CANCELING:
@@ -328,7 +353,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.lbl_firmware_update_available:
+		case R.id.firmware_update_available:
 			hideFirmwareUpdatePopup();
 			break;
 		case R.id.lbl_firmware_info:

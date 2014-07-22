@@ -217,4 +217,6 @@ public class AppConstants {
 	public static final String START_FLOW_PREF_KEY = "FirstUse";
 	public static final String CURR_PURAIR_PREF = "StartFlowPreferences";
 	public static final String CURR_PURAIR_PREF_KEY = "eui64";
+	public static final String FIRMWARE_VERSION = "firmwareVersion";
+	public static final String FIRMWARE_VERSION_KEY = "firmwareversionKey";
 }
