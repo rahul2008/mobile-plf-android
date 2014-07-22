@@ -652,6 +652,11 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
 		device.setEncryptionKey(key);
 		device.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
+		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
+			if(PurifierManager.getInstance().getCurrentPurifier().getEui64().equals(deviceEui64)) {
+				PurifierManager.getInstance().setCurrentPurifier(device) ;
+			}
+		}
 //		mDatabase.insertPurAirDevice(device);
 		notifyDiscoveryListener();
 	}
