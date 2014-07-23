@@ -1,11 +1,9 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.adapter.ManagePurifierArrayAdapter;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -74,29 +72,10 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == R.id.manage_pur_add_img) {
-				DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-				final ArrayList<PurAirDevice> apItems = discoveryManager.getDiscoveredDevices();
-				if (apItems.size() > 0) {
-					showApSelectorDialog();
-				} else {
-					// TODO show troubleshoot flow
-					Log.e("TEMP", "-------------- Show troubleshoot flow!!! --------------");
-				}
+				((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
 			}
 		}
 	};
-	
-	private void showApSelectorDialog() {
-		try {
-			Bundle bundle = new Bundle();
-			bundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.AP_SELCTOR);
-			StartFlowDialogFragment dialogFrag = new StartFlowDialogFragment();
-			dialogFrag.setArguments(bundle);
-			dialogFrag.show(getFragmentManager(), "start_flow_dialog");
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}
-	}
 
 	@Override
 	public void onUpdate(String id, HashMap<String, Boolean> selectedItems) {
