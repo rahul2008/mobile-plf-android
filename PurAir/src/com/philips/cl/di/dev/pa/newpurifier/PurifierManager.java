@@ -7,7 +7,6 @@ import java.util.Observer;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -98,17 +97,17 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		startSubscription();
 		notifyPurifierChangedListeners();
 		
-		if (purifier.isDemoPurifier()) return;
-		saveCurrentPurifierEUI64(purifier.getEui64());
+		//if (purifier.isDemoPurifier()) return;
+		//saveCurrentPurifierEUI64(purifier.getEui64());
 	}
 	
-	private void saveCurrentPurifierEUI64(String eui64) {
-		SharedPreferences prefs = 
-				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.CURR_PURAIR_PREF, Activity.MODE_PRIVATE);
-		Editor editor = prefs.edit();
-		editor.putString(AppConstants.CURR_PURAIR_PREF_KEY, eui64);
-		editor.commit();
-	}
+//	private void saveCurrentPurifierEUI64(String eui64) {
+//		SharedPreferences prefs = 
+//				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.CURR_PURAIR_PREF, Activity.MODE_PRIVATE);
+//		Editor editor = prefs.edit();
+//		editor.putString(AppConstants.CURR_PURAIR_PREF_KEY, eui64);
+//		editor.commit();
+//	}
 	
 	public String getDefaultPurifierEUI64() {
 		SharedPreferences prefs = 

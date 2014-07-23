@@ -999,12 +999,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 	
 	private void initializeFirstPurifier() {
-		String currentPurifierEui64 = PurifierManager.getInstance().getDefaultPurifierEUI64();
-		PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(currentPurifierEui64);
+		List<PurAirDevice> deviceInDatabase =  DiscoveryManager.getInstance().getDevicesFromDB() ;
+		if( deviceInDatabase != null && deviceInDatabase.size() > 0 ) 
+		{
+			String firstPurifierEui64 = deviceInDatabase.get(0).getEui64();
+			PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(firstPurifierEui64);
 
-		if (firstPurifier == null) return;
-		PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
-		ALog.d(ALog.MAINACTIVITY, "Default purifier discovered: " + firstPurifier.getName());
+			if (firstPurifier == null) return;
+			PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
+			ALog.d(ALog.MAINACTIVITY, "Default purifier discovered: " + firstPurifier.getName());
+		}
 	}
 	
 	@Override
