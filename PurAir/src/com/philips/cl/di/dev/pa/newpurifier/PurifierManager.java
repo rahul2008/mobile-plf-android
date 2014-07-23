@@ -416,6 +416,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	@Override
 	public void update(Observable observable, Object data) {
+		if(mCurrentPurifier == null) return;
 		switch (mCurrentPurifier.getConnectionState()) {
 		case DISCONNECTED:
 			ALog.d(ALog.PURIFIER_MANAGER, "Current purifier went offline");

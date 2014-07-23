@@ -4,7 +4,6 @@ package com.philips.cl.di.dev.pa.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +22,9 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -93,6 +95,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
+		indoorViewPager.setOnPageChangeListener(new IndoorFragment());
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
@@ -106,11 +109,19 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		} else {
 			noPurifierFlowLayout.setVisibility(View.GONE);
 			indoorViewPager.setVisibility(View.VISIBLE);
-//			indoorViewPager.setOffscreenPageLimit(-1) ;
 			
-			indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager());
-			indoorViewPager.setAdapter(indoorPagerAdapter);
-			indoorViewPager.setOnPageChangeListener(indoorPagerAdapter);
+			int countIndoor = 0;
+            if (DiscoveryManager.getInstance().getDevicesFromDB().size() > 0) {
+                    countIndoor = DiscoveryManager.getInstance().getDevicesFromDB().size() ;
+                    String eui64 = DiscoveryManager.getInstance().getDevicesFromDB().get(0).getEui64();
+                    PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
+                    if(purifier != null) {
+                    	PurifierManager.getInstance().setCurrentPurifier(purifier);
+                    }
+            }
+            indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
+            indoorViewPager.setAdapter(indoorPagerAdapter);
+			
 		}		
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);

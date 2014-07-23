@@ -53,6 +53,24 @@
         android:textColor="@color/white"
         android:textSize="21sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_indoor_purifier_eui64"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/hf_indoor_filter_lb"
+        android:layout_toRightOf="@+id/hf_indoor_fan_mode_lb"
+        android:gravity="center"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/white"
+        android:textSize="21sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:visibility="invisible" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

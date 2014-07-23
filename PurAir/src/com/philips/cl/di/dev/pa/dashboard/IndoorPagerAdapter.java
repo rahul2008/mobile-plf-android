@@ -13,19 +13,21 @@ import com.philips.cl.di.dev.pa.util.ALog;
 
 public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnPageChangeListener{
 	
-	private int position;
 	
-	public IndoorPagerAdapter(FragmentManager fm) {
+	private int count;
+	
+	public IndoorPagerAdapter(FragmentManager fm, int count) {
 		super(fm);
+		this.count = count;
 	}
 
 	@Override
 	public Fragment getItem(int position) {
 		
 		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$getItem position: " + position);
-		if( this.position < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
+		if( position < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
 			Bundle bundle = new Bundle();
-			bundle.putInt("position", this.position) ;
+			bundle.putInt("position", position) ;
 			IndoorFragment fragment = new IndoorFragment();
 			fragment.setArguments(bundle);
 			return fragment;
@@ -33,7 +35,6 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 		else {
 			return new AddPurifierFragment() ;
 		}
-		
 	}
 	
 	@Override
@@ -43,13 +44,17 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 	
 	@Override
 	public int getCount() {
-		return DiscoveryManager.getInstance().getDevicesFromDB().size()+1; 
+		return count + 1;
 	}
 	
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
 		ALog.i(ALog.DASHBOARD, "Object in indoor view: "+object.toString()) ;
 	    return ((Fragment)object).getView() == view;
+	}
+	
+	public void setCount(int count) {
+        this.count = count ;
 	}
 	
 	@Override
@@ -70,7 +75,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 	@Override
 	public void onPageSelected(int position) {
 		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$onPageSelected position " + position);
-		this.position = position;
-		notifyDataSetChanged();
+//		this.position = position;
+//		notifyDataSetChanged();
 	}
 }
