@@ -521,7 +521,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		public void run() {
 			ALog.i(ALog.TEMP, "SubscribeOnPageSelectedThread$run");
 			try {
-				Thread.sleep(1000l);
+				Thread.sleep(500l);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
