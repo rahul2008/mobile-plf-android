@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -473,17 +472,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 	}
 	
-	private SubscribeOnPageSelectedThread subscribeThread;
 
-	@Override
 	public void onPageScrollStateChanged(int state) {
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageScrollStateChanged " + state);
-		if(ViewPager.SCROLL_STATE_IDLE == state) {
-			startSubscription = true;
-		} else {
-			startSubscription = false;
-		}
-		
 	}
 
 	@Override
@@ -493,67 +483,30 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	@Override
 	public void onPageSelected(int position) {
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position + " Thread name : " + Thread.currentThread().getName() + " getActivity " + getActivity() + " mActivity " + mActivity);
+		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position);
+//		if(subscribeThread != null && subscribeThread.isAlive()) {
+//			return;
+//		}
+//		subscribeThread = new SubscribeOnPageSelectedThread();
+//		subscribeThread.setPosition(position);
+//		subscribeThread.start();
 		
-		//Clear static context onPause and recreate it
-		if(mActivity != null) {
-			if( position < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
-				ALog.i(ALog.TEMP, "SHOW Right menu ICON");
-				mActivity.setRightMenuVisibility(View.VISIBLE);
-			}
-			else {
-				ALog.i(ALog.TEMP, "HIDE Right menu ICON");
+		if( position >= DiscoveryManager.getInstance().getDevicesFromDB().size()) {
+			if(mActivity != null) {
 				mActivity.setRightMenuVisibility(View.INVISIBLE);
 			}
-		}
-		
-		if(subscribeThread != null && subscribeThread.isAlive()) {
-			subscribeThread.setPosition(position);
 			return;
 		}
-		subscribeThread = new SubscribeOnPageSelectedThread(position);
-		subscribeThread.setPosition(position);
-		subscribeThread.start();
-	}
-	
-	private boolean startSubscription;
-	
-	private class SubscribeOnPageSelectedThread extends Thread {
 		
-		private int subscribeThreadPosition;
-		
-		public SubscribeOnPageSelectedThread(int position) {
-			super();
-		}
-		
-		public void setPosition(int position) {
-			this.subscribeThreadPosition = position;
-		}
-		
-		@Override
-		public void run() {
-			ALog.i(ALog.TEMP, "SubscribeOnPageSelectedThread$run");
-			try {
-				Thread.sleep(500l);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			
-			ALog.i(ALog.TEMP, "startSubscription " + startSubscription + " position " + subscribeThreadPosition + " size " + DiscoveryManager.getInstance().getDevicesFromDB().size());
-			
-			if(startSubscription && subscribeThreadPosition < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
-				ALog.i(ALog.TEMP, "SubscribeOnPageSelectedThread$run startSubscription");
-				PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(subscribeThreadPosition);
-				ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + tempPurifier);
-				if (tempPurifier == null) return;
+		PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
+		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + tempPurifier);
+		if (tempPurifier == null) return;
 
-				String eui64 = tempPurifier.getEui64() ;       
-				PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
-				ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from MAP " + purifier);
-				if (purifier == null) return;
+		String eui64 = tempPurifier.getEui64() ;       
+		PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
+		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from MAP " + purifier);
+		if (purifier == null) return;
 
-				PurifierManager.getInstance().setCurrentPurifier(purifier) ;
-			}
-		}
+		PurifierManager.getInstance().setCurrentPurifier(purifier) ;
 	}
 }
