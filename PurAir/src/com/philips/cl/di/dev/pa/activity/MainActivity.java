@@ -199,8 +199,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (PurAirApplication.isDemoModeEnable()) {
 			if (current != null) current.setConnectionState(ConnectionState.DISCONNECTED);
 			appInDemoMode.connectPurifier();
-		} else {
-			initializeFirstPurifier() ;
 		}
 	}
 
@@ -1004,18 +1002,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		return disconnRightMenuDrawable.getConstantState().equals(rightMenuDrawable.getConstantState());
 	}
 
-	private void initializeFirstPurifier() {
-		List<PurAirDevice> deviceInDatabase =  DiscoveryManager.getInstance().getDevicesFromDB() ;
-		if( deviceInDatabase != null && deviceInDatabase.size() > 0 ) 
-		{
-			String firstPurifierEui64 = deviceInDatabase.get(0).getEui64();
-			PurAirDevice firstPurifier = DiscoveryManager.getInstance().getDeviceByEui64(firstPurifierEui64);
-
-			if (firstPurifier == null) return;
-			PurifierManager.getInstance().setCurrentPurifier(firstPurifier);
-			ALog.d(ALog.MAINACTIVITY, "Default purifier discovered: " + firstPurifier.getName());
-		}
-	}
 
 	@Override
 	public void onDiscoveredDevicesListChanged() {
@@ -1030,9 +1016,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				+ devices.size() + " :: " + devices);
 
 		PurAirDevice current = getCurrentPurifier();
-		if( current != null ) return ;
-//		initializeFirstPurifier();
-		//		 Connection update will happen from subscription callback
+		if( current != null && current.getAirPortInfo() != null ) return ;
+		PurifierManager.getInstance().startSubscription() ;
 	}
 
 	@Override
