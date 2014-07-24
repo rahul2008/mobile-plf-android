@@ -969,6 +969,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || diffInDays != 0) {
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			startPairing(purifier);			
+			setVisibilityAirPortTaskProgress(View.VISIBLE);
 		}
 	}
 

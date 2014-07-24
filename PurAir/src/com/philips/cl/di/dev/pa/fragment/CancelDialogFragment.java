@@ -74,6 +74,7 @@ public class CancelDialogFragment extends DialogFragment {
 				case REMOTE:
 					PairingHandler pm = new PairingHandler((MainActivity)getActivity(), PurifierManager.getInstance().getCurrentPurifier());
 					pm.initializeRelationshipRemoval();
+					((MainActivity) getActivity()).setVisibilityAirPortTaskProgress(View.VISIBLE);
 					break;
 
 				default:
