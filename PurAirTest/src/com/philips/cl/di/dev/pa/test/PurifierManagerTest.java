@@ -113,7 +113,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	public void testSetFirstRemotePurifierPaired() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
@@ -194,7 +194,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		setMockSubscriptionManager();
 		
 		PurAirDevice device2 = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device2.setPairing(true);
+		device2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device2);
 		
 		verify(mSubscriptionMan, never()).enableLocalSubscription();
@@ -275,7 +275,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		setMockSubscriptionManager();
 		
 		PurAirDevice device2 = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device2.setPairing(true);
+		device2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device2);
 		
 		verify(mSubscriptionMan).disableLocalSubscription();
@@ -356,7 +356,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 		setMockSubscriptionManager();
 		
 		PurAirDevice device2 = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device2.setPairing(true);
+		device2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device2);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
@@ -372,7 +372,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	public void testSetDisconnectedPurifierAfterPaired() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		setMockSubscriptionManager();
@@ -393,7 +393,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	public void testSetLocalPurifierAfterPaired() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		setMockSubscriptionManager();
@@ -414,7 +414,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	public void testSetRemotePurifierNotPairedAfterPaired() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		setMockSubscriptionManager();
@@ -435,13 +435,13 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	public void testSetRemotePurifierPairedAfterPaired() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		setMockSubscriptionManager();
 		
 		PurAirDevice device2 = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device2.setPairing(true);
+		device2.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device2);
 		
 		verify(mSubscriptionMan, never()).disableLocalSubscription();
@@ -538,7 +538,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 	
 	public void testRemovePurifierPairedAfterRemotePaired() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		setMockSubscriptionManager();
@@ -588,7 +588,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 
 	public void testPurifierRemotedAfterLocal() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_LOCALLY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
@@ -635,7 +635,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 
 	public void testPurifierRemoteAfterDisconnected() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.DISCONNECTED);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
@@ -682,7 +682,7 @@ public class PurifierManagerTest extends InstrumentationTestCase {
 
 	public void testPurifierDisconnectedAfterRemote() {
 		PurAirDevice device = new PurAirDevice(null, null, null, null, -1, ConnectionState.CONNECTED_REMOTELY);
-		device.setPairing(true);
+		device.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 		mPurifierMan.setCurrentPurifier(device);
 		
 		AirPurifierEventListener listener = mock(AirPurifierEventListener.class);
