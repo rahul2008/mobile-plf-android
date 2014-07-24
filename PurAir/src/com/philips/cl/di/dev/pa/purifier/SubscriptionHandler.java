@@ -148,8 +148,9 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		boolean isLocal = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
 		String subscriberId = getSubscriberId(isLocal);
 		if (isLocal) {
-			LocalSubscription unSubscribe = new LocalSubscription(null,this,AppConstants.REQUEST_METHOD_DELETE) ;
+			//LocalSubscription unSubscribe = new LocalSubscription(null,this,AppConstants.REQUEST_METHOD_DELETE) ;
 			//unSubscribe.execute(url) ;
+			ALog.i(ALog.SUBSCRIPTION, "TODO Unsubscribe") ;
 		}
 		else {
 			CPPController.getInstance(PurAirApplication.getAppContext()).

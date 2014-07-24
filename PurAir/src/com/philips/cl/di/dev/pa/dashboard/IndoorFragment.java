@@ -490,6 +490,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 //		subscribeThread = new SubscribeOnPageSelectedThread();
 //		subscribeThread.setPosition(position);
 //		subscribeThread.start();
+		if(mActivity != null) {
+			mActivity.setRightMenuVisibility(View.VISIBLE) ;
+		}
 		
 		if( position >= DiscoveryManager.getInstance().getDevicesFromDB().size()) {
 			if(mActivity != null) {
@@ -497,6 +500,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 			return;
 		}
+		
 		
 		PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
 		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + tempPurifier);
