@@ -1,13 +1,9 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -73,27 +69,33 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		return view;
 	}
 
+	private static MainActivity mActivity;
+	
+	public static void resetActivity() {
+		mActivity = null;
+	}
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		String eui64 = "";
 
-        if(getArguments() != null) {
+		if(mActivity == null) {
+			ALog.i(ALog.TEMP, "Activity is null -- creating new");
+			mActivity = (MainActivity) getActivity();
+		}
+		
+		if(getArguments() != null) {
+			position = getArguments().getInt("position");
+			PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
+			if (tempPurifier == null) return;
 
-                position = getArguments().getInt("position");
+			eui64 = tempPurifier.getEui64() ;       
+			PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
 
-                PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
-
-                if (tempPurifier == null) return;
-
-                eui64 = tempPurifier.getEui64() ;       
-
-                PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
-
-                if (purifier == null) return;
-
-        }
-
+			if (purifier == null) return;
+		}
+		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
 		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
 		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
@@ -104,14 +106,14 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
 		purifierEui64Txt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_eui64);
 
-        purifierEui64Txt.setText(eui64);
+		purifierEui64Txt.setText(eui64);
 
 
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 		aqiPointer.setOnClickListener(this);
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
-		
-		
+
+
 		initFirmwareUpdatePopup();
 	}
 	
@@ -478,7 +480,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		ALog.i(ALog.TEMP, "IndoorFragment$onPageScrollStateChanged " + state);
 		if(ViewPager.SCROLL_STATE_IDLE == state) {
 			startSubscription = true;
-			
 		} else {
 			startSubscription = false;
 		}
@@ -492,7 +493,20 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	@Override
 	public void onPageSelected(int position) {
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position);
+		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position + " Thread name : " + Thread.currentThread().getName() + " getActivity " + getActivity() + " mActivity " + mActivity);
+		
+		//Clear static context onPause and recreate it
+		if(mActivity != null) {
+			if( position < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
+				ALog.i(ALog.TEMP, "SHOW Right menu ICON");
+				mActivity.setRightMenuVisibility(View.VISIBLE);
+			}
+			else {
+				ALog.i(ALog.TEMP, "HIDE Right menu ICON");
+				mActivity.setRightMenuVisibility(View.INVISIBLE);
+			}
+		}
+		
 		if(subscribeThread != null && subscribeThread.isAlive()) {
 			subscribeThread.setPosition(position);
 			return;
@@ -506,15 +520,14 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private class SubscribeOnPageSelectedThread extends Thread {
 		
-		private int position;
+		private int subscribeThreadPosition;
 		
 		public SubscribeOnPageSelectedThread(int position) {
 			super();
-//			this.position = position;
 		}
 		
 		public void setPosition(int position) {
-			this.position = position;
+			this.subscribeThreadPosition = position;
 		}
 		
 		@Override
@@ -526,11 +539,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				e.printStackTrace();
 			}
 			
-			ALog.i(ALog.TEMP, "startSubscription " + startSubscription + " position " + position + " size " + DiscoveryManager.getInstance().getDevicesFromDB().size());
+			ALog.i(ALog.TEMP, "startSubscription " + startSubscription + " position " + subscribeThreadPosition + " size " + DiscoveryManager.getInstance().getDevicesFromDB().size());
 			
-			if(startSubscription && position < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
+			if(startSubscription && subscribeThreadPosition < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
 				ALog.i(ALog.TEMP, "SubscribeOnPageSelectedThread$run startSubscription");
-				PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
+				PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(subscribeThreadPosition);
 				ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + tempPurifier);
 				if (tempPurifier == null) return;
 
@@ -543,5 +556,4 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 		}
 	}
-	
 }

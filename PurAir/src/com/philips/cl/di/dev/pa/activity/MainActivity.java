@@ -45,10 +45,12 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
+import com.philips.cl.di.dev.pa.dashboard.AddPurifierFragment;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
+import com.philips.cl.di.dev.pa.dashboard.IndoorFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -189,7 +191,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		showFirstFragment();
 		initializeCPPController();
 		selectPurifier();
-		checkForUpdatesHockeyApp();
+//		checkForUpdatesHockeyApp();
 		
 	}
 	
@@ -222,7 +224,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-		checkForCrashesHockeyApp();
+//		checkForCrashesHockeyApp();
 	}
 	
 	private void startDemoMode() {
@@ -257,26 +259,34 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	
 	public void setActionBar(Fragment fragment) {
 		
+		ALog.i(ALog.MAINACTIVITY, "setActionBar$fragment " + fragment);
+		
 		if(fragment instanceof OutdoorLocationsFragment) {
-			rightMenu.setVisibility(View.INVISIBLE);
+			setRightMenuVisibility(View.INVISIBLE);
 			addLocation.setVisibility(View.VISIBLE);
+		} else if(!(fragment instanceof HomeFragment)) {
+			setRightMenuVisibility(View.INVISIBLE);
 		} else {
 			if (PurAirApplication.isDemoModeEnable()) {
 				addLocation.setVisibility(View.INVISIBLE);
-				rightMenu.setVisibility(View.VISIBLE);
+				setRightMenuVisibility(View.VISIBLE);
 				stopNormalMode();
 				startDemoMode();
 			} else if (Utils.getAppFirstUse()) {
-				rightMenu.setVisibility(View.INVISIBLE);
+				setRightMenuVisibility(View.INVISIBLE);
 			} else {
 				addLocation.setVisibility(View.INVISIBLE);
-				rightMenu.setVisibility(View.VISIBLE);
+				setRightMenuVisibility(View.VISIBLE);
 				if (fragment instanceof SettingsFragment) {
 					stopDemoMode();
 					startNormalMode();
 				}
 			}
 		}
+	}
+	
+	public void setRightMenuVisibility(int visibility) {
+		rightMenu.setVisibility(visibility);
 	}
 
 	@Override
@@ -293,7 +303,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	protected void onPause() {
 		super.onPause();
 		SetupDialogFactory.getInstance(this).cleanUp();
-		
+		IndoorFragment.resetActivity();
 		if(UserRegistrationController.getInstance().isUserLoggedIn()
 				|| PurAirApplication.isDemoModeEnable()) {
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
@@ -306,9 +316,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
-		
 		DrawerAdapter.getInstance().removeDrawerListener(this);
-		
 		super.onStop();
 	}
 	
@@ -1025,7 +1033,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		
 		PurAirDevice current = getCurrentPurifier();
 		if( current != null ) return ;
-		initializeFirstPurifier();
+//		initializeFirstPurifier();
 //		 Connection update will happen from subscription callback
 	}
 
@@ -1099,4 +1107,5 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		// TODO Remove this for store builds!
 		UpdateManager.register(this, AppConstants.HOCKEY_APPID);
 	}
+
 }
