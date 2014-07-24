@@ -308,13 +308,13 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
 		if(firmwarePortInfo == null) return;
 		
-		updateFirmwareUI(firmwarePortInfo);
+		updateFirmwareUI(purifier.getEui64(), firmwarePortInfo);
 	}
 	
 	private String status = "";
 	private boolean showFirmwareUI = true;
 	
-	private void updateFirmwareUI(FirmwarePortInfo firmwarePortInfo) {
+	private void updateFirmwareUI(String purifierEui64, FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
 		
 		
@@ -351,7 +351,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 //			showFirmwareUI = false;
 			int prevFirmwareVersion = 0, currentFirmwareVersion = 0; 
 			try {
-				prevFirmwareVersion = Integer.parseInt(Utils.getFirmwareVersion());
+				prevFirmwareVersion = Integer.parseInt(Utils.getFirmwareVersion(purifierEui64));
 				currentFirmwareVersion = Integer.parseInt(firmwarePortInfo.getVersion());
 			} catch (NumberFormatException e) {
 				ALog.e(ALog.FIRMWARE, "Error parsing firmware version " + e.getMessage());
@@ -366,7 +366,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				infoVisibility = View.INVISIBLE;
 			}
 			
-			Utils.saveFirmwareVersion(firmwarePortInfo.getVersion());
+			Utils.saveFirmwareVersion(purifierEui64, firmwarePortInfo.getVersion());
 			break;
 
 		case CANCELING:

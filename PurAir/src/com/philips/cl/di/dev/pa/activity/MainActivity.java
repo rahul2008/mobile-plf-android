@@ -45,7 +45,6 @@ import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
-import com.philips.cl.di.dev.pa.dashboard.AddPurifierFragment;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;

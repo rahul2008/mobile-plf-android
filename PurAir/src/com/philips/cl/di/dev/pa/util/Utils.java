@@ -840,18 +840,18 @@ public class Utils {
 		return preferences.getBoolean(AppConstants.START_FLOW_PREF_KEY, true);
 	}
 	
-	public static void saveFirmwareVersion(String firmwareVersion) {
+	public static void saveFirmwareVersion(String purifierEui64, String firmwareVersion) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.FIRMWARE_VERSION, Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = preferences.edit();
-		editor.putString(AppConstants.FIRMWARE_VERSION_KEY, firmwareVersion);
+		editor.putString(purifierEui64, firmwareVersion);
 		editor.commit();
 	}
 	
-	public static String getFirmwareVersion() {
+	public static String getFirmwareVersion(String purifierEui64) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.FIRMWARE_VERSION, Context.MODE_PRIVATE);
-		return preferences.getString(AppConstants.FIRMWARE_VERSION_KEY, "");
+		return preferences.getString(purifierEui64, "");
 	}
 	
 }
