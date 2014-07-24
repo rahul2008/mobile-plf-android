@@ -88,8 +88,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			mDeviceHandler.stopDeviceThread() ;
 			mCurrentPurifier.deleteObserver(this);
 		}
-		stopCurrentSubscription();
-		
+		//stopCurrentSubscription();
 		mCurrentPurifier = purifier;
 		mCurrentPurifier.addObserver(this);
 		ALog.d(ALog.PURIFIER_MANAGER, "Current purifier set to: " + purifier);
@@ -212,8 +211,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
 		synchronized (airPurifierEventListeners) {
-			if (!airPurifierEventListeners.contains(airPurifierEventListener)) {
-				airPurifierEventListeners.add(airPurifierEventListener);
+			if( !airPurifierEventListeners.contains(airPurifierEventListener)) {
+				airPurifierEventListeners.add(airPurifierEventListener);				
 				if (airPurifierEventListeners.size() == 1) {
 					// TODO optimize not to call start after adding each listener
 					startSubscription();

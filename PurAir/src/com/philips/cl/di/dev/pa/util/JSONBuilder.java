@@ -65,7 +65,17 @@ public class JSONBuilder {
 		builder.append("\"").append("ttl\"").append(":").append(ttl) ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
-		ALog.i(ALog.SUBSCRIPTION, "dataToSend " + dataToSend) ;
+		ALog.i(ALog.SUBSCRIPTION, "Subscription Data " + dataToSend) ;
+		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier) ;
+		return dataToSend ;
+	}
+	
+	public static String getDICommBuilderForUnSubscribe(String subscriberId, PurAirDevice purifier) {
+		StringBuilder builder = new StringBuilder("{") ;
+		builder.append("\"").append("subscriber").append("\"").append(":").append("\"").append(subscriberId).append("\"") ;
+		builder.append("}") ;
+		String dataToSend = builder.toString();
+		ALog.i(ALog.SUBSCRIPTION, "UnSubscription Data  " + dataToSend) ;
 		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier) ;
 		return dataToSend ;
 	}

@@ -128,9 +128,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 			String dataToUpload = JSONBuilder.getDICommBuilderForSubscribe(subscriberId, LOCAL_SUBSCRIPTIONTIME, purifier);
 			if(dataToUpload == null) return;
 
-			TaskPutDeviceDetails subscribe = new TaskPutDeviceDetails(dataToUpload, url, this,AppConstants.REQUEST_METHOD_POST) ;
-			Thread subscibeThread = new Thread(subscribe) ;
-			subscibeThread.start();
+			LocalSubscription subscribe = new LocalSubscription(dataToUpload,this,AppConstants.REQUEST_METHOD_PUT) ;
+			subscribe.execute(url) ;
 		}
 		else {
 			if (PurAirApplication.isDemoModeEnable()) return;
@@ -149,9 +148,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		boolean isLocal = purifier.getConnectionState().equals(ConnectionState.CONNECTED_LOCALLY);
 		String subscriberId = getSubscriberId(isLocal);
 		if (isLocal) {
-			TaskPutDeviceDetails unSubscribe = new TaskPutDeviceDetails(JSONBuilder.getDICommBuilderForSubscribe(subscriberId,LOCAL_SUBSCRIPTIONTIME, purifier), url, this,AppConstants.REQUEST_METHOD_DELETE) ;
-			Thread unSubscibeThread = new Thread(unSubscribe) ;
-			unSubscibeThread.start() ;
+			LocalSubscription unSubscribe = new LocalSubscription(null,this,AppConstants.REQUEST_METHOD_DELETE) ;
+			//unSubscribe.execute(url) ;
 		}
 		else {
 			CPPController.getInstance(PurAirApplication.getAppContext()).
@@ -176,7 +174,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		if (data == null || data.isEmpty()) return;
 		if (fromIp == null || fromIp.isEmpty()) return;
 
-		ALog.i(ALog.SUBSCRIPTION, "UDP event received");
+		ALog.i(ALog.SUBSCRIPTION, "UDP event received: "+fromIp);
 		ALog.d(ALog.SUBSCRIPTION, data);
 		if (subscriptionEventListener != null) {
 			subscriptionEventListener.onLocalEventReceived(data, fromIp);
