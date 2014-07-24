@@ -108,7 +108,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ImageView ivConnectedImage;
 	private ImageView ivConnectionError;
 	private ToggleButton remoteControlBtn;
-	
+
 	/**
 	 * Action bar
 	 */
@@ -138,15 +138,15 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		
+
 		mVisits = Utils.getNoOfVisit();
 		Utils.saveNoOfVisit(mVisits);
-		
+
 		appInDemoMode = new AppInDemoMode(MainActivity.this);
 
 		DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -192,9 +192,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		initializeCPPController();
 		selectPurifier();
 //		checkForUpdatesHockeyApp();
-		
+
 	}
-	
+
 	private void selectPurifier() {
 		PurAirDevice current = getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
@@ -204,11 +204,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			initializeFirstPurifier() ;
 		}
 	}
-	
+
 	@Override
 	protected void onResume() {
 		super.onResume();
-		
+
 		if (PurAirApplication.isDemoModeEnable()) {
 			startDemoMode();
 		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
@@ -216,27 +216,27 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		
+
 		setActionBar(fragment);
-		
+
 		DrawerAdapter.getInstance().addDrawerListener(this);
-		
+
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 //		checkForCrashesHockeyApp();
 	}
-	
+
 	private void startDemoMode() {
 		if (appInDemoMode != null) {
 			appInDemoMode.addNetworkListenerForDemoMode();
 		}
-		
+
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
 	}
-	
+
 	private void stopDemoMode() {
 		if (appInDemoMode != null) {
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
@@ -244,21 +244,21 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
-	
+
 	private void stopNormalMode() {
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
 	}
-	
+
 	private void startNormalMode() {
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
-	
+
 	public void setActionBar(Fragment fragment) {
-		
+
 		ALog.i(ALog.MAINACTIVITY, "setActionBar$fragment " + fragment);
 		
 		if(fragment instanceof OutdoorLocationsFragment) {
@@ -304,6 +304,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onPause();
 		SetupDialogFactory.getInstance(this).cleanUp();
 		IndoorFragment.resetActivity();
+
 		if(UserRegistrationController.getInstance().isUserLoggedIn()
 				|| PurAirApplication.isDemoModeEnable()) {
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
@@ -316,10 +317,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (progressDialog != null) {
 			progressDialog.cancel();
 		}
+
 		DrawerAdapter.getInstance().removeDrawerListener(this);
 		super.onStop();
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
@@ -336,7 +338,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				&& android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
 			invalidateOptionsMenu();
 		}
-		
+
 		if (mLeftDrawerOpened || mRightDrawerOpened) {
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			mDrawerLayout.closeDrawer(mScrollViewRight);
@@ -357,7 +359,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			finish();
 		}
 	}
-	
+
 	private void showFirstFragment() {
 		boolean firstUse = Utils.getAppFirstUse();
 
@@ -367,12 +369,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			showVirginFlowFragment();
 		}
 	}
-	
+
 	private void showVirginFlowFragment() {
 		showFragment(new StartFlowVirginFragment()) ;
 		setTitle(getString(R.string.dashboard_title));
 	}
-	
+
 	private void showDashboardFragment() {
 		showFragment(getDashboard());
 		setDashboardActionbarIconVisible();
@@ -426,7 +428,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		backToHome = (ImageView) viewActionbar.findViewById(R.id.back_to_home_img);
 		addLocation = (ImageView) viewActionbar.findViewById(R.id.add_location_img);
 		noOffFirmwareUpdate = (FontTextView) viewActionbar.findViewById(R.id.actionbar_firmware_no_off_update);
-		
+
 		rightMenu.setOnClickListener(actionBarClickListener);
 		leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
@@ -435,20 +437,20 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		actionBar.setCustomView(viewActionbar);
 	}
-	
+
 	public void setVisibilityAirPortTaskProgress(int state) {
 		airPortTaskProgress.setVisibility(state);
 	}
-	
+
 	private OnClickListener actionBarClickListener = new OnClickListener() {
-		
+
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
 			case R.id.right_menu_img:
-				
+
 				if(Utils.getAppFirstUse() && !PurAirApplication.isDemoModeEnable()) return;
-				
+
 				if (mRightDrawerOpened) {
 					mDrawerLayout.closeDrawer(mScrollViewRight);
 				} else {
@@ -476,21 +478,25 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				if (getCurrentPurifier() == null) return;
 				ALog.i(ALog.MAINACTIVITY, "Remote control: " + remoteControlBtn.isChecked());
 				if (remoteControlBtn.isChecked()) {
+					PurAirDevice purifier=getCurrentPurifier();
+					if(purifier==null) return;
+					
+					purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 					pairToPurifierIfNecessary();
+				}else{
+					if (getCurrentPurifier().getPairedStatus()== PurAirDevice.PAIRED_STATUS.PAIRED) {
+						showDialogFragment(CancelDialogFragment
+								.newInstance(getString(R.string.pair_disable_alert), 1, remoteControlBtn));
+					}					
 				}
-				
-				if (getCurrentPurifier().isPaired()) {
-					showDialogFragment(CancelDialogFragment
-							.newInstance(getString(R.string.pair_disable_alert), 1));
-				}
-				
+								
 				break;
 			default:
 				break;
 			}
 		}
 	}; 
-	
+
 	private void showDialogFragment(Fragment fragment) {
 		try {
 			FragmentManager fragMan = getSupportFragmentManager();
@@ -525,8 +531,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
 				R.drawable.icon_6_2x));
 		// TODO : Add this when enabling non-mandatory firmware update
-//		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
-//				R.drawable.icon_8_2x));
+		//		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
+		//				R.drawable.icon_8_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
 				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
@@ -577,7 +583,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurAirDevice purifier = this.getCurrentPurifier();
 		ConnectionState purifierState = ConnectionState.DISCONNECTED;
 		if (purifier != null) purifierState = purifier.getConnectionState();
-		
+
 		final ConnectionState newState = purifierState;
 		ALog.i(ALog.MAINACTIVITY, "Connection status: " + purifierState);
 		this.runOnUiThread(new Runnable() {
@@ -609,7 +615,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 	}
-	
+
 	private void initFilterStatusViews() {
 		preFilterView = (FilterStatusView) findViewById(R.id.iv_pre_filter);
 		multiCareFilterView = (FilterStatusView) findViewById(R.id.iv_multi_care_filter);
@@ -620,7 +626,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		multiCareFilterText = (TextView) findViewById(R.id.tv_rm_multi_care_filter_status);
 		activeCarbonFilterText = (TextView) findViewById(R.id.tv_rm_active_carbon_filter_status);
 		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
-		
+
 		remoteControlBtn = (ToggleButton) findViewById(R.id.btn_rm_remote_enable);
 		remoteControlBtn.setOnClickListener(actionBarClickListener);
 	}
@@ -637,13 +643,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		setActionBar(fragment);
-		
+
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
 			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
 		}		
 	}
-	
+
 	public void setTitle(String title) {
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
 		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
@@ -651,7 +657,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		textView.setText(title);
 		super.setTitle(title);
 	}
-	
+
 	/** Left menu item clickListener */
 	private class MenuItemClickListener implements OnItemClickListener {
 
@@ -680,67 +686,67 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			setDashboardActionbarIconVisible();
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
-				case 0:
-					if (PurAirApplication.isDemoModeEnable()) {
-						showFragment(leftMenuItems.get(position));
-					} else if (!Utils.getAppFirstUse()) {
-						showFragment(leftMenuItems.get(position));
-					} else {
-						showFragment(new StartFlowVirginFragment());
-					}
-					setTitle(getString(R.string.dashboard_title));
-					break;
-				case 1:
+			case 0:
+				if (PurAirApplication.isDemoModeEnable()) {
 					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_air_quality_explained));
-					break;
-				case 2:
-					// Outdoor locations
+				} else if (!Utils.getAppFirstUse()) {
 					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_outdoor_loc));
-					break;
-				case 3:
-					// Notifications
-					PurAirDevice purifier = getCurrentPurifier();
-					if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
-					
-					// if not paired return else open NotificationFragment
-					if( !purifier.isPaired()) return;
-					
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_notifications));
-					break;
-				case 4:
-					// Help and documentation
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_help_and_doc));
-					break;
-				case 5:
-					// Settings
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_settings));
-					break;
-				case 6:
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_manage_purifier));
-					break;
-				case 7:
-					// User registration
-					Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
-					startActivity(userRegistrationIntent);
-					break;
-				case 8:
-					// Buy Online
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_buy_online));
-					break;
-				case 9:
-					// Tools
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.tools));
-					break;
-				default:
-					break;
+				} else {
+					showFragment(new StartFlowVirginFragment());
+				}
+				setTitle(getString(R.string.dashboard_title));
+				break;
+			case 1:
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_air_quality_explained));
+				break;
+			case 2:
+				// Outdoor locations
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_outdoor_loc));
+				break;
+			case 3:
+				// Notifications
+				PurAirDevice purifier = getCurrentPurifier();
+				if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+
+				// if not paired return else open NotificationFragment
+				if( purifier.getPairedStatus()!= PurAirDevice.PAIRED_STATUS.PAIRED) return;
+
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_notifications));
+				break;
+			case 4:
+				// Help and documentation
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_help_and_doc));
+				break;
+			case 5:
+				// Settings
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_settings));
+				break;
+			case 6:
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_manage_purifier));
+				break;
+			case 7:
+				// User registration
+				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
+				startActivity(userRegistrationIntent);
+				break;
+			case 8:
+				// Buy Online
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.list_item_buy_online));
+				break;
+			case 9:
+				// Tools
+				showFragment(leftMenuItems.get(position));
+				setTitle(getString(R.string.tools));
+				break;
+			default:
+				break;
 			}
 		}
 	}
@@ -758,21 +764,21 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private void removeFirmwareUpdateUI() {
 		setFirmwareSuperScript(0, false);
 	}
-	
+
 	private static void setScreenWidth(int width) {
 		screenWidth = width;
 	}
 	private static void setScreenHeight(int height) {
 		screenHeight = height;
 	}
-	
+
 	public static int getScreenWidth() {
 		return screenWidth;
 	}
 	public static int getScreenHeight() {
 		return screenHeight;
 	}
-	
+
 	@Override
 	public void onAirPurifierChanged() {
 		ALog.d(ALog.MAINACTIVITY, "AirPurifier Change - updating UI") ;
@@ -784,19 +790,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		ALog.d(ALog.MAINACTIVITY, "AirPurifier event received - updating UI") ;
 		updatePurifierUIFields();
 	}
-	
+
 	@Override
 	public void onFirmwareEventReceived() {
 		final PurAirDevice purifier = getCurrentPurifier();
-		
+
 		ALog.i(ALog.FIRMWARE, "onFirmwareEventReceived: " + purifier);
 	}
-	
+
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
 		if (getCurrentPurifier() == null 
 				|| getCurrentPurifier().getConnectionState() == ConnectionState.DISCONNECTED) return;
-	
+
 		if( purifierEvent == PURIFIER_EVENT.DEVICE_CONTROL) {
 			setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 			ivConnectionError.setVisibility(View.VISIBLE);
@@ -804,33 +810,33 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			ivConnectedImage.setImageDrawable(getResources().getDrawable(R.drawable.wifi_icon_gray_2x));
 		}
 	}
-	
+
 	private void hideFirmwareUpdateHomeIcon() {
 		noOffFirmwareUpdate.setVisibility(View.INVISIBLE);
 	}
 
 	private void updatePurifierUIFields() {
 		ALog.i(ALog.MAINACTIVITY, "updatePurifierUIFields");
-		
+
 		final PurAirDevice purifier = getCurrentPurifier();
-		
+
 		Fragment fragment = (Fragment) getSupportFragmentManager().findFragmentById(R.id.llContainer);
 		if(fragment instanceof BuyOnlineFragment){
 			((BuyOnlineFragment)fragment).updateFilterStatus(purifier); 
 		}
-		
+
 		if(purifier == null || purifier.getConnectionState() == ConnectionState.DISCONNECTED) {
 			disableRightMenuControls();
 			return ;
 		}
-		
+
 		ALog.i(ALog.MAINACTIVITY, "Current connectionstate for UI update: " + getCurrentPurifier().getConnectionState());
 		final AirPortInfo info = getAirPortInfo(purifier);
 		if (info == null) {
 			disableRightMenuControls();
 			return;
 		}
-		
+
 		updateRightMenuConnectedStatus();
 		this.runOnUiThread(new Runnable() {
 			@Override
@@ -846,20 +852,25 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				setRightMenuAirStatusMessage(getString(
 						Utils.getIndoorAQIMessage(indoorAQIUsableValue),
 						getString(R.string.philips_home)));
-					setRightMenuAirStatusBackground(indoorAQIUsableValue);
+				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
-				
+
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(true);
-				remoteControlBtn.setChecked(purifier.isPaired());
+				if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED)
+				{
+					remoteControlBtn.setChecked(true);
+				}else{
+					remoteControlBtn.setChecked(false);
+				}
 			}
 		});
-		
+
 		pairToPurifierIfNecessary();
 	}
-	
+
 	private void disableRightMenuControls() {
-		
+
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -882,7 +893,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 	}
-	
+
 	private void updateFilterStatus(int preFilterStatus,
 			int multiCareFilterStatus, int activeCarbonFilterStatus,
 			int hepaFilterStatus) {
@@ -954,50 +965,38 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
-		
+
 		long lastPairingCheckTime = purifier.getLastPairedTime();		
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
 		// First time pairing or on EWS and Everyday check for pairing
-		if( !purifier.isPaired() || diffInDays != 0) {
-			startPairing(purifier);
+		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || diffInDays != 0) {
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
+			startPairing(purifier);			
 		}
 	}
 
 	public void startPairing(PurAirDevice purifier) {
 		if (purifier == null) return; // TODO why can this happen?
-			
+
 		PairingHandler pm = new PairingHandler(this, purifier);
 		pm.startPairing();
 	}
 
 	@Override
 	public void onPairingSuccess() {	
-		runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-            	remoteControlBtn.setChecked(true);
-            }
-        });
-		
+		updatePurifierUIFields();
 	}
-	
+
 	@Override
 	public void onPairingFailed() {		
-		runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-            	remoteControlBtn.setChecked(false);
-            }
-        });
+		updatePurifierUIFields();
 	}
-	
+
 	public PurAirDevice getCurrentPurifier() {
 		// TODO change to field in class
 		return PurifierManager.getInstance().getCurrentPurifier();
 	}
-	
+
 	//Added for checking right menu icon is orange
 	public boolean getRightMenuDisconnectionState() {
 		Drawable rightMenuDrawable = rightMenu.getDrawable();
@@ -1005,7 +1004,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (disconnRightMenuDrawable == null) return false;
 		return disconnRightMenuDrawable.getConstantState().equals(rightMenuDrawable.getConstantState());
 	}
-	
+
 	private void initializeFirstPurifier() {
 		List<PurAirDevice> deviceInDatabase =  DiscoveryManager.getInstance().getDevicesFromDB() ;
 		if( deviceInDatabase != null && deviceInDatabase.size() > 0 ) 
@@ -1018,23 +1017,23 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			ALog.d(ALog.MAINACTIVITY, "Default purifier discovered: " + firstPurifier.getName());
 		}
 	}
-	
+
 	@Override
 	public void onDiscoveredDevicesListChanged() {
 		ALog.d(ALog.MAINACTIVITY, "**************************");
 		if (PurAirApplication.isDemoModeEnable()) return;
-		
+
 		DiscoveryManager.getInstance().printDiscoveredDevicesInfo(ALog.MAINACTIVITY);
 
 		ArrayList<PurAirDevice> devices = DiscoveryManager.getInstance().getDiscoveredDevices();
 		if (devices.size() <= 0) return;
 		ALog.i(ALog.APP_START_UP, "MainAcitivty$onDiscoveredDevicesListChanged devices list size "
 				+ devices.size() + " :: " + devices);
-		
+
 		PurAirDevice current = getCurrentPurifier();
 		if( current != null ) return ;
 //		initializeFirstPurifier();
-//		 Connection update will happen from subscription callback
+		//		 Connection update will happen from subscription callback
 	}
 
 	@Override
@@ -1044,7 +1043,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 			return;
 		}
-		
+
 		if (PurAirApplication.isDemoModeEnable()) {
 			updateUIInDemoMode();
 		} else {
@@ -1059,7 +1058,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			updateUIInDemoMode();
 		}
 	}
-	
+
 	private void updateUIInDemoMode() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (purifier != null) purifier.setConnectionState(ConnectionState.DISCONNECTED);
@@ -1094,7 +1093,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			break;
 		}
 	}
-	
+
 	private void checkForCrashesHockeyApp() {
 		CrashManager.register(this, AppConstants.HOCKEY_APPID, new CrashManagerListener() {
 			public boolean shouldAutoUploadCrashes() {

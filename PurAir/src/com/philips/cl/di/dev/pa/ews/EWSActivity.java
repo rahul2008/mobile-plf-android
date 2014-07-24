@@ -311,7 +311,8 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		// TODO move code to discovery manager
 		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
 		if (current != null) {
-			current.setPairing(false) ;
+			ALog.i(ALog.PAIRING, "EWS-setting paring to false");
+			current.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED) ;
 			new PurifierDatabase().insertPurAirDevice(current);
 		}
 		// STOP move code

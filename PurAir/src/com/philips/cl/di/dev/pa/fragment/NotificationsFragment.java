@@ -102,7 +102,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		boolean notificationsEnabled = true; // TODO replace by actual pairing check
 		if (mPurifier == null) {
 			showNotificationsLayout(false);
-		} else if (mPurifier.isPaired()) {
+		} else if (mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED) {
 			notificationsEnabled = isNotificationEnabled();
 			showNotificationsLayout(notificationsEnabled);
 		} else {
@@ -250,7 +250,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			return false;
 		}
 		PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
-		if (mPurifier != null && mPurifier.isPaired()) {
+		if (mPurifier != null && mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED) {
 
 			showProgressDialog(R.string.notification_permission_check_msg);
 

@@ -173,10 +173,11 @@ public class AppConstants {
 	/** PAIRING CONSTANTS */
 	public static final int PAIRING_RELATIONSHIPDURATION_SEC = 1000000000;  // 8 hours
 	public static final int PAIRING_REQUESTTTL_MIN = 5; // ingored by cpp, because purifier already defined it
-	public static final String PAIRING_REFERENCETYPE = "AC4373GENDEV";
+	public static final String PAIRING_REFERENCETYPE = "883437300710";
 	public static final String PAIRING_REFERENCEPROVIDER = "cpp";
 	public static final String PAIRING_DI_COMM_RELATIONSHIP="DI-COMM";
 	public static final String PAIRING_NOTIFY_RELATIONSHIP="NOTIFY";
+	public static final String PAIRING_APP_REFERENCETYPE="AC4373APP";
 	
 	public static final List<String> PAIRING_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Response", "Change"));
 	public static final List<String> PAIRING_PUSH_PERMISSIONS = Collections.unmodifiableList(Arrays.asList("Push"));

@@ -53,7 +53,17 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
 				values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
-				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.isPaired() ? 1 : 0);
+				
+				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getPairedStatus() +"is: "+ purifier.getPairedStatus().ordinal());
+				/*if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED)
+				{
+					values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 0);
+				}else if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED){
+					values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 1);
+				}else if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED){
+					values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 2);
+				}*/
+				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, e.getMessage());
@@ -66,7 +76,7 @@ public class PurifierDatabase {
 		}
 		return rowId;
 	}
-	
+
 	/**
 	 * 
 	 * @return
@@ -88,13 +98,14 @@ public class PurifierDatabase {
 					long bootId = cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_BOOT_ID));
 					String lastKnownNetwork = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK));
 					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_KEY));
-					boolean isPaired = cursor.getInt(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_IS_PAIRED)) == 1;
+					int pairedStatus = cursor.getInt(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_IS_PAIRED));
 					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(AppConstants.KEY_AIRPUR_LAST_PAIRED)) ;
-					
+
 					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
 					purifier.setLastKnownNetworkSsid(lastKnownNetwork);
 					purifier.setEncryptionKey(encryptionKey);
-					purifier.setPairing(isPaired);
+					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ PurAirDevice.getPairedStatusKey(pairedStatus));
+					purifier.setPairing(PurAirDevice.getPairedStatusKey(pairedStatus));
 					purifier.setLastPairedTime(lastPairedTime) ;
 
 					ALog.i(ALog.DATABASE, "Loaded purifier: " + purifier);
@@ -132,10 +143,12 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
-			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.isPaired() ? 1 : 0);
-			if(!purifier.isPaired()) {
+			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
+			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
+			{
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
+			
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
 		} catch (Exception e) {
@@ -145,7 +158,7 @@ public class PurifierDatabase {
 		}
 		return newRowId;
 	}
-	
+
 	public int deletePurifier(String usn) {
 		ALog.i(ALog.DATABASE, "Deleting purifier usn: " + usn);
 		int effectedRowId = -1;
@@ -160,7 +173,7 @@ public class PurifierDatabase {
 		} finally {
 			closeDb();
 		}
-		
+
 		return effectedRowId;
 	}
 
@@ -171,16 +184,17 @@ public class PurifierDatabase {
 	 * @param lastPaired long
 	 * @return long
 	 */
-	public long updatePairingStatus(PurAirDevice purifier) {
+	public long updatePairingStatus(PurAirDevice purifier, PurAirDevice.PAIRED_STATUS status) {
 		ALog.i(ALog.DATABASE, "Updating pairing status: " + purifier);
 		long newRowId = -1;
 		try {
 			db = dbHelper.getWritableDatabase();
 
 			ContentValues values = new ContentValues();
-			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 1);
+			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, status.ordinal());
+			if(status==PurAirDevice.PAIRED_STATUS.PAIRED){
 			values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, purifier.getLastPairedTime());
-
+			}
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getEui64())});
 		} catch (Exception e) {
@@ -200,7 +214,7 @@ public class PurifierDatabase {
 		ALog.i(ALog.DATABASE, "Getting purifier last Paired on: " + purifier);
 		long lastPaired = -1;
 		if (purifier == null) return -1;
-		
+
 		Cursor cursor = null;
 		try {
 			db = dbHelper.getReadableDatabase();
@@ -220,7 +234,7 @@ public class PurifierDatabase {
 		}
 		return lastPaired;
 	}
-	
+
 	private long getRowIdOfPurifier(PurAirDevice purifier) {
 		long id = -1;
 		if (purifier == null) return -1;
@@ -244,7 +258,7 @@ public class PurifierDatabase {
 		}
 		return id;
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -270,5 +284,5 @@ public class PurifierDatabase {
 		}
 
 	}
-	
+
 }

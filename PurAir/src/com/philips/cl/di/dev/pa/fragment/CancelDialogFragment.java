@@ -9,23 +9,27 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.cpp.PairingHandler;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class CancelDialogFragment extends DialogFragment {
 	
 	public final int REMOTE = 1;
+	private static ToggleButton remote;
 	
-	public static CancelDialogFragment newInstance(String msg, int state) {
+	public static CancelDialogFragment newInstance(String msg, int state, ToggleButton remoteControlBtn) {
 		CancelDialogFragment fragment =  new CancelDialogFragment();
 		
 		Bundle bundle = new Bundle();
 		bundle.putString("msg", msg);
 		bundle.putInt("state", state);
 		fragment.setArguments(bundle);
-		
+		remote=remoteControlBtn;
 		return fragment;
 	}
 	
@@ -68,7 +72,8 @@ public class CancelDialogFragment extends DialogFragment {
 			public void onClick(View v) {
 				switch (index) {
 				case REMOTE:
-					Toast.makeText(getActivity(), "Remove", 0).show();
+					PairingHandler pm = new PairingHandler((MainActivity)getActivity(), PurifierManager.getInstance().getCurrentPurifier());
+					pm.initializeRelationshipRemoval();
 					break;
 
 				default:
@@ -82,6 +87,7 @@ public class CancelDialogFragment extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				dismiss();
+				remote.setChecked(true);
 			}
 		});
 		setCancelable(false);

@@ -129,6 +129,9 @@ public class ICPCallbackHandler implements CallbackHandler
 		case Commands.PAIRING_GET_RELATIONSHIPS:
 			pairingGetRelationsCB(status,obj);
 			break;
+		case Commands.PAIRING_REMOVE_RELATIONSHIP:
+			pairingRemoveRelationsCB(status, obj);
+			break;
 		case Commands.PAIRING_ADD_PERMISSIONS:
 			pairingAddPermissionsCB(status,obj);
 			break;
@@ -243,6 +246,11 @@ public class ICPCallbackHandler implements CallbackHandler
 	public void pairingGetRelationsCB(int status, ICPClient obj)
 	{
 		listener.onICPCallbackEventOccurred(Commands.PAIRING_GET_RELATIONSHIPS,status,obj) ;
+	}
+	
+	public void pairingRemoveRelationsCB(int status, ICPClient obj)
+	{
+		listener.onICPCallbackEventOccurred(Commands.PAIRING_REMOVE_RELATIONSHIP,status,obj) ;
 	}
 
 	public void pairingAddPermissionsCB(int status, ICPClient obj)

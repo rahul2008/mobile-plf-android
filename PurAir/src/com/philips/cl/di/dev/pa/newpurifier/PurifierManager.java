@@ -348,7 +348,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		PurAirDevice purifier = getCurrentPurifier();
 		if (purifier == null) return;
 		
-		if (!purifier.isPaired()) {
+		if (purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED) {
 			ALog.i(ALog.PURIFIER_MANAGER, "Can't start remote connection - not paired to purifier");
 			return;
 		}

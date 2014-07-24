@@ -31,7 +31,8 @@ public class PurAirDevice extends Observable {
 		this.mLastPairedTime = mLastPairedTime;
 	}
 
-	private boolean 		isPaired 		= false;
+	public static enum PAIRED_STATUS {PAIRED, NOT_PAIRED, UNPAIRED, PAIRING};
+	private PAIRED_STATUS pairedState = PAIRED_STATUS.NOT_PAIRED ;
 	private long 			mLastPairedTime;
 	private boolean			isOnlineViaCpp 	= false;
 	private String 			mEncryptionKey;
@@ -115,14 +116,36 @@ public class PurAirDevice extends Observable {
 		notifyObservers();
 	}
 
-	public synchronized boolean isPaired() {
-		return isPaired;
+	public synchronized PAIRED_STATUS getPairedStatus() {
+		return pairedState;
 	}
 
-	public synchronized void setPairing(boolean paired) {
-		this.isPaired = paired;
+	public synchronized void setPairing(PAIRED_STATUS status) {
+		this.pairedState = status;
 	}
 	
+	public static PAIRED_STATUS getPairedStatusKey(int status){
+		PAIRED_STATUS state = null;
+		switch(status){
+		case 0:
+			state= PAIRED_STATUS.PAIRED;
+			break;
+		case 1:
+			state= PAIRED_STATUS.NOT_PAIRED;
+			break;
+		case 2:
+			state= PAIRED_STATUS.UNPAIRED;
+			break;
+		case 3:
+			state= PAIRED_STATUS.PAIRING;
+			break;
+		default:
+			state= PAIRED_STATUS.NOT_PAIRED;
+			break;
+		}
+		return state;
+	}
+			
 	public synchronized boolean isOnlineViaCpp() {
 		return isOnlineViaCpp;
 	}
@@ -163,7 +186,7 @@ public class PurAirDevice extends Observable {
 		StringBuilder builder = new StringBuilder();
 		builder.append("name: ").append(getName()).append("   ip: ").append(getIpAddress())
 				.append("   eui64: ").append(getEui64()).append("   bootId: ").append(getBootId())
-				.append("   usn: ").append(getUsn()).append("   paired: ").append(isPaired())
+				.append("   usn: ").append(getUsn()).append("   paired: ").append(getPairedStatus())
 				.append("   connectedState: ").append(getConnectionState()).append("   lastKnownssid: ")
 				.append(getLastKnownNetworkSsid());
 		return builder.toString();
