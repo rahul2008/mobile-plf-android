@@ -111,17 +111,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			indoorViewPager.setVisibility(View.VISIBLE);
 			
 			int countIndoor = 0;
-            if (DiscoveryManager.getInstance().getDevicesFromDB().size() > 0) {
-                    countIndoor = DiscoveryManager.getInstance().getDevicesFromDB().size() ;
-                    String eui64 = DiscoveryManager.getInstance().getDevicesFromDB().get(0).getEui64();
-                    PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
-                    if(purifier != null) {
-                    	PurifierManager.getInstance().setCurrentPurifier(purifier);
-                    }
-            }
+			if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+				countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+
+				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
+				if(purifier != null) {
+					PurifierManager.getInstance().setCurrentPurifier(purifier);
+				}
+			}
+            
             indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
             indoorViewPager.setAdapter(indoorPagerAdapter);
-			
 		}		
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);

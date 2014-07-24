@@ -7,11 +7,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
 
+import android.os.AsyncTask;
+
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
-
-import android.os.AsyncTask;
 
 public class LocalSubscription extends AsyncTask<String, Void, String> {
 	private String dataToUpload, targerIpAddress;

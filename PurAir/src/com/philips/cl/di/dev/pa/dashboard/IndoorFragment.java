@@ -86,13 +86,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		if(getArguments() != null) {
 			position = getArguments().getInt("position");
-			PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
-			if (tempPurifier == null) return;
-
-			eui64 = tempPurifier.getEui64() ;       
-			PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
-
+			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
 			if (purifier == null) return;
+			
+			eui64 = purifier.getEui64() ;
 		}
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
@@ -159,22 +156,19 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (parent == null || !(parent instanceof MainActivity)) return;
 		
 		PurAirDevice purifier = ((MainActivity) parent).getCurrentPurifier();
-		if (purifier == null) {
-			purifierNameTxt.setText("");
-			hideIndoorMeter();
-			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(0));
-			prevRotation = 0.0f;
-			return;
-		}
+//		if (purifier == null) {
+//			purifierNameTxt.setText("");
+//			hideIndoorMeter();
+//			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(0));
+//			prevRotation = 0.0f;
+//			return;
+//		}
 		String tempEui64 = purifierEui64Txt.getText().toString();
 
-        if (!purifier.getEui64().equals(tempEui64)) {
-
-                purifier = DiscoveryManager.getInstance().getDeviceByEui64(tempEui64);
-
-                if (purifier == null) return;
-
-        }
+		if (purifier == null || !purifier.getEui64().equals(tempEui64)) {
+			purifier = DiscoveryManager.getInstance().getDeviceByEui64(tempEui64);
+			if (purifier == null) return;
+		}
 
 		purifierNameTxt.setText(purifier.getName());
 		
@@ -484,33 +478,22 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onPageSelected(int position) {
 		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position);
-//		if(subscribeThread != null && subscribeThread.isAlive()) {
-//			return;
-//		}
-//		subscribeThread = new SubscribeOnPageSelectedThread();
-//		subscribeThread.setPosition(position);
-//		subscribeThread.start();
 		if(mActivity != null) {
 			mActivity.setRightMenuVisibility(View.VISIBLE) ;
 		}
 		
-		if( position >= DiscoveryManager.getInstance().getDevicesFromDB().size()) {
+		if( position >= DiscoveryManager.getInstance().getStoreDevices().size()) {
 			if(mActivity != null) {
 				mActivity.setRightMenuVisibility(View.INVISIBLE);
 			}
 			return;
 		}
-		
-		
-		PurAirDevice tempPurifier = DiscoveryManager.getInstance().getDevicesFromDB().get(position);
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + tempPurifier);
-		if (tempPurifier == null) return;
-
-		String eui64 = tempPurifier.getEui64() ;       
-		PurAirDevice purifier = DiscoveryManager.getInstance().getDeviceByEui64(eui64);
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from MAP " + purifier);
-		if (purifier == null) return;
-
-		PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
+			ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + purifier);
+			if (purifier == null) return;
+	
+			PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+		}
 	}
 }

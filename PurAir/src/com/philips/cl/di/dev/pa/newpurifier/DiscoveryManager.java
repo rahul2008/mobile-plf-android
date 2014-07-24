@@ -117,14 +117,22 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return new ArrayList<PurAirDevice>(mDevicesMap.values());
 	}
 	
-	public List<PurAirDevice> getDevicesFromDB() {
-		return mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED); 
+	public List<PurAirDevice> getStoreDevices() {
+		List<PurAirDevice> purifiers = new ArrayList<PurAirDevice>();
+		for (PurAirDevice purAirDevice : storedDevices) {
+			purifiers.add(mDevicesMap.get(purAirDevice.getEui64()));
+		}
+		return purifiers; 
+	}
+	
+	public List<PurAirDevice> updateStoreDevices() {
+		return storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED); 
 	}
 	
 	public List<PurAirDevice> getNewDevicesDiscovered() {
 		boolean addToNewDeviceList = true ;
 		List<PurAirDevice> discoveredDevices = getDiscoveredDevices() ;
-		List<PurAirDevice> devicesInDataBase = getDevicesFromDB() ;
+		List<PurAirDevice> devicesInDataBase = getStoreDevices() ;
 		List<PurAirDevice> newDevices = new ArrayList<PurAirDevice>() ;
 		
 		if(discoveredDevices == null || discoveredDevices.size() == 0) return null ;
@@ -622,9 +630,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mDevicesMap = new LinkedHashMap<String, PurAirDevice>();
 		// Disconnected by default to allow SSDP to discover first and only after try cpp
 		storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED);
-		//		if (storedDevices == null) return;
-		//		
-		//		ALog.d(ALog.DISCOVERY, "Successfully loaded stored devices: " + storedDevices.size());
+		
 		for (PurAirDevice device : storedDevices) {
 			mDevicesMap.put(device.getEui64(), device);
 		}

@@ -104,7 +104,6 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 				EWSConstant.PURIFIER_ADHOCIP, DemoModeConstant.DEMO, -1, ConnectionState.CONNECTED_LOCALLY);
 		demoModePurifier.setEncryptionKey(key);
 		PurifierManager.getInstance().setCurrentPurifier(demoModePurifier);
-		
 	}
 
 }

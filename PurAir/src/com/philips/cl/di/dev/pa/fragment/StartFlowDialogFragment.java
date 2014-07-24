@@ -15,9 +15,8 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
-
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
@@ -185,6 +184,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 				
 				PurifierDatabase purifierDatabase = new PurifierDatabase();
 				purifierDatabase.insertPurAirDevice(currentPurifier);
+				DiscoveryManager.getInstance().updateStoreDevices();
 				
 				dismiss();            	   
 			}

@@ -95,9 +95,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		
 		startSubscription();
 		notifyPurifierChangedListeners();
-		
-		//if (purifier.isDemoPurifier()) return;
-		//saveCurrentPurifierEUI64(purifier.getEui64());
 	}
 	
 //	private void saveCurrentPurifierEUI64(String eui64) {
@@ -201,6 +198,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
+		ALog.i(ALog.TEMP, "removeAirPurifierEventListener") ;
 		synchronized (airPurifierEventListeners) {
 			airPurifierEventListeners.remove(airPurifierEventListener);
 			if (airPurifierEventListeners.isEmpty()) {
@@ -210,6 +208,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
+		ALog.i(ALog.TEMP, "addAirPurifierEventListener") ;
 		synchronized (airPurifierEventListeners) {
 			if( !airPurifierEventListeners.contains(airPurifierEventListener)) {
 				airPurifierEventListeners.add(airPurifierEventListener);				
@@ -377,9 +376,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			ALog.e(ALog.PURIFIER_MANAGER, "Updated current purifier encryption key");
 			purifier.setEncryptionKey(key);
 			
-			PurifierDatabase db = new PurifierDatabase();
-			db.insertPurAirDevice(mCurrentPurifier);
-			db.closeDb();
+			new PurifierDatabase().insertPurAirDevice(mCurrentPurifier);
 		}
 	}
 	

@@ -25,7 +25,7 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 	public Fragment getItem(int position) {
 		
 		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$getItem position: " + position);
-		if( position < DiscoveryManager.getInstance().getDevicesFromDB().size()) {
+		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
 			Bundle bundle = new Bundle();
 			bundle.putInt("position", position) ;
 			IndoorFragment fragment = new IndoorFragment();

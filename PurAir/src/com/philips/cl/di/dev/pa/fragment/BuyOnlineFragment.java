@@ -206,6 +206,6 @@ public class BuyOnlineFragment extends BaseFragment {
 				mList.setAdapter(null);
 				mList.setAdapter(mAdapter);				
 			}
-		});
+		});			
 	}
 }

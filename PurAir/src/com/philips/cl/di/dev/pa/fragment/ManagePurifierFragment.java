@@ -15,6 +15,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.adapter.ManagePurifierArrayAdapter;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -87,6 +88,7 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 				selectedItems.remove(id);
 			}
 			loadDataFromDatabase();
+			DiscoveryManager.getInstance().updateStoreDevices();
 		}
 	}
 }
