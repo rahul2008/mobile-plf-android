@@ -10,7 +10,6 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
-import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity.UserRegistrationChanged;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
@@ -25,7 +24,6 @@ public class ConnectPurifier {
 	private Bundle mBundle;
 	private FragmentActivity mContext;
 	private WifiManager mWifiManager;
-	private NetworkState mLastKnownNetworkState = NetworkState.NONE;
 	
 	
 	private ConnectPurifier(FragmentActivity context) {

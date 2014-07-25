@@ -59,7 +59,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private FontTextView firmwareUpdateText;
 	private FontTextView firmwareInfoButton;
 	private ProgressBar firmwareProgress;
-	private AlertDialogFragment dialogFragment;
 	private AlertDialogFragment firmwareInfoDialog;
 	private int position ;
 	
@@ -342,11 +341,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			break;
 
 		case ERROR:
-//			if(null != dialogFragment && !dialogFragment.isVisible()) {
-//				dialogFragment = AlertDialogFragment.newInstance(R.string.firmware_download_failed, R.string.firmware_failed_msg, R.string.ok, R.string.help);
-//				dialogFragment.setOnClickListener(IndoorFragment.this);
-//				dialogFragment.show(getActivity().getSupportFragmentManager(), getTag());
-//			}
 			showFirmwareUI = false;
 			return ;
 			
@@ -458,7 +452,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onPositiveButtonClicked() {
 		hideFirmwareUpdatePopup();
-		dialogFragment.dismiss();
 	}
 
 	@Override
@@ -467,7 +460,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	private void showSupportFragment() {
-		dialogFragment.dismiss();
 		((MainActivity) getActivity()).showFragment(new SupportFragment());
 	}
 
