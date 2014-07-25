@@ -91,7 +91,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
-PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
+		PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
 	private static int screenWidth, screenHeight;
 

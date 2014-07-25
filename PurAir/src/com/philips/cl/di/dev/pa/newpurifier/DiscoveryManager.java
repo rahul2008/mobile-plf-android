@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -127,6 +128,18 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	
 	public List<PurAirDevice> updateStoreDevices() {
 		return storedDevices = mDatabase.getAllPurifiers(ConnectionState.DISCONNECTED); 
+	}
+	
+	public void removeFromDiscoveredList(String eui64) {
+		if (eui64 == null || eui64.isEmpty()) return;
+		mDevicesMap.remove(eui64);
+	}
+	
+	public void updatePairingStatus(String eui64, PAIRED_STATUS state) {
+		if (eui64 == null || eui64.isEmpty()) return;
+		if (mDevicesMap.containsKey(eui64)) {
+			mDevicesMap.get(eui64).setPairing(state);
+		}
 	}
 	
 	public List<PurAirDevice> getNewDevicesDiscovered() {

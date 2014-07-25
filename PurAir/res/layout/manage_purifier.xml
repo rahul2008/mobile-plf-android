@@ -23,13 +23,12 @@
         android:layout_alignTop="@+id/manage_pur_add_img"
         android:layout_alignBottom="@+id/manage_pur_add_img"
         android:layout_alignParentLeft="true"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="16dp"
         android:layout_toLeftOf="@+id/manage_pur_add_img"
         android:textSize="@dimen/title_text_size_medium"
         android:text="@string/add_purifier" 
         android:textColor="@color/subtitle_gray"
         custom:fontAssetName="fonts/gillsans.ttf"/>
-	
     <ImageView 
 	    android:id="@+id/manage_pur_separator_top"
         android:layout_width="match_parent"

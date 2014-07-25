@@ -16,27 +16,31 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.adapter.ManagePurifierArrayAdapter;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
+import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
-import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.UpdateListener;
+import com.philips.cl.di.dev.pa.util.Utils;
 
-public class ManagePurifierFragment extends BaseFragment implements UpdateListener {
+public class ManagePurifierFragment extends BaseFragment implements UpdateListener, PairingListener {
 	
 	private ManagePurifierArrayAdapter arrayAdapter;
 	private PurifierDatabase database;
 	private ListView listView;
 	private List<PurAirDevice> purifiers;
 	private HashMap<String, Boolean> selectedItems;
+//	private ProgressDialogFragment progressDialogFragment;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		database = new PurifierDatabase();
 		selectedItems = new HashMap<String, Boolean>();
+		
 	}
 	
 	@Override
@@ -49,6 +53,8 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		
+//		progressDialogFragment = ProgressDialogFragment.newInstance("");
 		
 		ImageView addPurifier = (ImageView) getView().findViewById(R.id.manage_pur_add_img);
 		addPurifier.setOnClickListener(addPurifierClickEvent);
@@ -69,6 +75,10 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 		arrayAdapter = new ManagePurifierArrayAdapter(
 				getActivity(), R.layout.simple_list_item, purifiers, listView, selectedItems, this);
 		listView.setAdapter(arrayAdapter);
+		
+		if (purifiers.isEmpty()) {
+			PurifierManager.getInstance().removeCurrentPurifier();
+		}
 	}
 	
 	private OnClickListener addPurifierClickEvent = new OnClickListener() {
@@ -78,6 +88,8 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 			//For demo mode
 			if (PurAirApplication.isDemoModeEnable()) return;
 			
+			if (Utils.getAppFirstUse()) return;
+			
 			if (v.getId() == R.id.manage_pur_add_img) {
 				((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
 			}
@@ -85,21 +97,48 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 	};
 
 	@Override
-	public void onUpdate(String id, HashMap<String, Boolean> selectedItems) {
+	public void onUpdate(PurAirDevice purifier, HashMap<String, Boolean> selectedItems) {
 		this.selectedItems = selectedItems;
-		ALog.i(ALog.MANAGE_PUR, "ManagePurifier$onUpdate usn= " + id);
-		int effectedRow = database.deletePurifier(id);
-		if (effectedRow > 0) {
-			if (selectedItems.containsKey(id)) {
-				selectedItems.remove(id);
-			}
+		
+		if (purifier == null) return;
+
+		if (purifier.getPairedStatus() == PAIRED_STATUS.PAIRED) {
 			//Remove pairing
-			PairingHandler pm = new PairingHandler((MainActivity)getActivity(), PurifierManager.getInstance().getCurrentPurifier());
-			pm.initializeRelationshipRemoval();
-			
+			PairingHandler pairingHandler = new PairingHandler(this, purifier);
+			pairingHandler.initializeRelationshipRemoval();
+		} 
+		
+		int effectedRow = database.deletePurifier(purifier.getUsn());
+		if (effectedRow > 0) {
+			if (selectedItems.containsKey(purifier.getUsn())) {
+				selectedItems.remove(purifier.getUsn());
+			}
+
 			loadDataFromDatabase();
 			//Updates store device from DB
 			DiscoveryManager.getInstance().updateStoreDevices();
 		}
+		
+		if (purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+			DiscoveryManager.getInstance().removeFromDiscoveredList(purifier.getEui64());
+		} else {
+			DiscoveryManager.getInstance().updatePairingStatus(purifier.getEui64(), PAIRED_STATUS.NOT_PAIRED);
+		}
+		
+		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if (currentPurifier == null) return;
+		if (currentPurifier.getEui64().equals(purifier.getEui64())) {
+			 PurifierManager.getInstance().removeCurrentPurifier();
+		}
+	}
+
+	@Override
+	public void onPairingSuccess() {
+		//TODO
+	}
+
+	@Override
+	public void onPairingFailed() {
+		//TODO
 	}
 }

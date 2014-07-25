@@ -49,6 +49,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 		
 		deleteSign.setVisibility(View.VISIBLE);
 		
+		final PurAirDevice purifier = purifiers.get(position);
 		final String purifierName = purifiers.get(position).getName();
 		final String usn = purifiers.get(position).getUsn();
 
@@ -76,7 +77,8 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 				if (selectedItems.containsKey(usn)) {
 					selectedItems.remove(usn);
 				}
-				listener.onUpdate(usn, selectedItems);
+				
+				listener.onUpdate(purifier, selectedItems);
 			}
 		});
 		
