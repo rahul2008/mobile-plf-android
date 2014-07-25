@@ -1023,7 +1023,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	@Override
 	public void onPairingSuccess() {	
-		if(getCurrentPurifier().getConnectionState()==ConnectionState.CONNECTED_REMOTELY && getCurrentPurifier().getPairedStatus()==PAIRED_STATUS.UNPAIRED){
+		if (getCurrentPurifier() != null && getCurrentPurifier().getConnectionState()==ConnectionState.CONNECTED_REMOTELY 
+				&& getCurrentPurifier().getPairedStatus()==PAIRED_STATUS.UNPAIRED) {
 			getCurrentPurifier().setConnectionState(ConnectionState.DISCONNECTED);
 		}
 		updatePurifierUIFields();
