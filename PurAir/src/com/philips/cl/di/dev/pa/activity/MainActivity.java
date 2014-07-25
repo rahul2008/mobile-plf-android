@@ -864,8 +864,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				rightMenuClickListener.toggleControlPanel(true,info);
 				
 				if(purifier.getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
-					remoteControlBtn.setClickable(false);
+					remoteControlBtn.setChecked(true);
 					remoteControlBtn.setEnabled(false);
+					return;
 				}
 
 				if(PurAirApplication.isDemoModeEnable()){
@@ -875,6 +876,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				}
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(true);
+				remoteControlBtn.setEnabled(true);
 				if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED)
 				{
 					remoteControlBtn.setChecked(true);
@@ -908,6 +910,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(false);
 				remoteControlBtn.setChecked(false);
+				remoteControlBtn.setEnabled(false);
 			}
 		});
 	}
