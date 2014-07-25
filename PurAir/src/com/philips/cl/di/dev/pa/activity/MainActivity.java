@@ -435,8 +435,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		actionBar.setCustomView(viewActionbar);
 	}
 
-	public void setVisibilityAirPortTaskProgress(int state) {
-		airPortTaskProgress.setVisibility(state);
+	public void setVisibilityAirPortTaskProgress(final int state) {
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				airPortTaskProgress.setVisibility(state);
+			}
+		});
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
