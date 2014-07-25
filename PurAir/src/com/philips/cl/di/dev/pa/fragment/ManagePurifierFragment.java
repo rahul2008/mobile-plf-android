@@ -70,7 +70,8 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 	}
 	
 	private void loadDataFromDatabase() {
-		purifiers = database.getAllPurifiers(ConnectionState.DISCONNECTED);
+//		purifiers = database.getAllPurifiers(ConnectionState.DISCONNECTED);
+		purifiers = DiscoveryManager.getInstance().getStoreDevices();
 		if (arrayAdapter != null) arrayAdapter = null;//For GarbageCollection
 		arrayAdapter = new ManagePurifierArrayAdapter(
 				getActivity(), R.layout.simple_list_item, purifiers, listView, selectedItems, this);
@@ -113,10 +114,9 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 			if (selectedItems.containsKey(purifier.getUsn())) {
 				selectedItems.remove(purifier.getUsn());
 			}
-
-			loadDataFromDatabase();
 			//Updates store device from DB
 			DiscoveryManager.getInstance().updateStoreDevices();
+			loadDataFromDatabase();
 		}
 		
 		if (purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
