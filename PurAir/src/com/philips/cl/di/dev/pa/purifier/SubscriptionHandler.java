@@ -57,6 +57,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier();
 		ALog.d(ALog.SUBSCRIPTION, "Subscribing to Purifier events for purifier: " + purifier);
 		if (purifier == null) return;
+
 //		if (PurAirApplication.isDemoModeEnable()) purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 		
 		final String portUrl = Utils.getPortUrl(Port.AIR, purifier.getIpAddress());
@@ -128,7 +129,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener, 
 			String dataToUpload = JSONBuilder.getDICommBuilderForSubscribe(subscriberId, LOCAL_SUBSCRIPTIONTIME, purifier);
 			if(dataToUpload == null) return;
 
-			LocalSubscription subscribe = new LocalSubscription(dataToUpload,this,AppConstants.REQUEST_METHOD_PUT) ;
+			LocalSubscription subscribe = new LocalSubscription(dataToUpload,this,AppConstants.REQUEST_METHOD_POST) ;
 			subscribe.execute(url) ;
 		}
 		else {
