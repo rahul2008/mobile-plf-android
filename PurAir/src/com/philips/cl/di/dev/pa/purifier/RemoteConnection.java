@@ -5,9 +5,11 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.DCSResponseListener;
 import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
+import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.icpinterface.data.Errors;
 
 public class RemoteConnection implements DeviceConnection, DCSResponseListener, PublishEventListener {
@@ -47,6 +49,10 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 	@Override
 	public void onDCSResponseReceived(String dcsResponse) {
 		//TODO - Check for Air Port Response
+		AirPortInfo airPortInfo = DataParser.parseAirPurifierEventData(dcsResponse) ;
+		if( airPortInfo == null ) {
+			return ;
+		}
 		response = dcsResponse ;
 		synchronized (this) {
 			ALog.i(ALog.DEVICEHANDLER, "Notified on DCS Response") ;
