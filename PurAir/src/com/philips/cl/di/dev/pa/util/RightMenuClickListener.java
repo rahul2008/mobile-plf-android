@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -496,22 +495,6 @@ public class RightMenuClickListener implements OnClickListener {
 			fanSpeedTwo.setVisibility(View.GONE);
 			fanSpeedThree.setVisibility(View.GONE);
 		}
-	}
-	
-	/**
-	 * @param viewGroup loops through the entire view group and adds
-	 * 					an onClickListerner to the buttons.
-	 */
-	public void setAllButtonListener(ViewGroup viewGroup) {
-	    View v;
-	    for (int i = 0; i < viewGroup.getChildCount(); i++) {
-	        v = viewGroup.getChildAt(i);
-	        if (v instanceof ViewGroup) {
-	            setAllButtonListener((ViewGroup) v);
-	        } else if (v instanceof Button) {
-	            ((Button) v).setOnClickListener(this);
-	        }
-	    }
 	}
 
 	public void toggleControlPanel(boolean connected, AirPortInfo airPurifierEventDto) {

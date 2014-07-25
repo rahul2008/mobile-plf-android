@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -64,6 +65,7 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 		ALog.i("Scheduler", "minute is " + minute);
 	}
 	
+	@SuppressLint("SimpleDateFormat")
 	public void setTime(String time) {
 		if (time == null || time.isEmpty()) return;
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
