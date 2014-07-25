@@ -865,6 +865,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				
 				if(purifier.getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
 					remoteControlBtn.setClickable(false);
+					remoteControlBtn.setEnabled(false);
 				}
 
 				if(PurAirApplication.isDemoModeEnable()){
