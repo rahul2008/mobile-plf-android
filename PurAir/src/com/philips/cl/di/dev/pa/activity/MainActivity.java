@@ -71,6 +71,7 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
@@ -190,7 +191,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		showFirstFragment();
 		initializeCPPController();
 		selectPurifier();
-//		checkForUpdatesHockeyApp();
+		//		checkForUpdatesHockeyApp();
 
 	}
 
@@ -221,7 +222,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-//		checkForCrashesHockeyApp();
+		//		checkForCrashesHockeyApp();
 	}
 
 	private void startDemoMode() {
@@ -257,7 +258,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public void setActionBar(Fragment fragment) {
 
 		ALog.i(ALog.MAINACTIVITY, "setActionBar$fragment " + fragment);
-		
+
 		if(fragment instanceof OutdoorLocationsFragment) {
 			setRightMenuVisibility(View.INVISIBLE);
 			addLocation.setVisibility(View.VISIBLE);
@@ -281,7 +282,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		}
 	}
-	
+
 	public void setRightMenuVisibility(int visibility) {
 		rightMenu.setVisibility(visibility);
 	}
@@ -479,11 +480,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			case R.id.btn_rm_remote_enable:
 				if (getCurrentPurifier() == null) return;
 				ALog.i(ALog.MAINACTIVITY, "Remote control: " + remoteControlBtn.isChecked());
+				if(getCurrentPurifier().getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
+					ALog.i(ALog.MAINACTIVITY, "Remote control: connected remotely");
+					return;
+				}
 				if (remoteControlBtn.isChecked()) {
 					PurAirDevice purifier=getCurrentPurifier();
 					if(purifier==null) return;
-					
+										
 					purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+					setVisibilityAirPortTaskProgress(View.VISIBLE);
 					pairToPurifierIfNecessary();
 				}else{
 					if (getCurrentPurifier().getPairedStatus()== PurAirDevice.PAIRED_STATUS.PAIRED) {
@@ -491,7 +497,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 								.newInstance(getString(R.string.pair_disable_alert), 1, remoteControlBtn));
 					}					
 				}
-								
+
 				break;
 			default:
 				break;
@@ -508,7 +514,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			ALog.e(ALog.MAINACTIVITY, e.getMessage());
 		}
 	}
-	
+
 	private void setDashboardActionbarIconVisible() {
 		rightMenu.setVisibility(View.VISIBLE);
 		leftMenu.setVisibility(View.VISIBLE);
@@ -856,7 +862,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 						getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
+				
+				if(purifier.getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
+					remoteControlBtn.setClickable(false);
+				}
 
+				if(PurAirApplication.isDemoModeEnable()){
+					remoteControlBtn.setClickable(false);
+					remoteControlBtn.setChecked(false);
+					return;
+				}
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(true);
 				if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED)
@@ -963,10 +978,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void pairToPurifierIfNecessary() {
-		if (!CPPController.getInstance(this).isSignOn()) return;
+		if (!CPPController.getInstance(this).isSignOn()){
+			setProgressDialogInvisible();
+			return;
+		}
 
 		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
+		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+			setProgressDialogInvisible();
+			return;
+		}
 
 		long lastPairingCheckTime = purifier.getLastPairedTime();		
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
@@ -974,8 +995,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || diffInDays != 0) {
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			startPairing(purifier);			
-			setVisibilityAirPortTaskProgress(View.VISIBLE);
+		}else{
+			setProgressDialogInvisible();
 		}
+	}
+	
+	
+	public void setProgressDialogInvisible(){
+		this.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				setVisibilityAirPortTaskProgress(View.INVISIBLE);
+			}
+		});
 	}
 
 	public void startPairing(PurAirDevice purifier) {
@@ -987,6 +1019,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	@Override
 	public void onPairingSuccess() {	
+		if(getCurrentPurifier().getConnectionState()==ConnectionState.CONNECTED_REMOTELY && getCurrentPurifier().getPairedStatus()==PAIRED_STATUS.UNPAIRED){
+			getCurrentPurifier().setConnectionState(ConnectionState.DISCONNECTED);
+		}
 		updatePurifierUIFields();
 	}
 

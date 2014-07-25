@@ -311,6 +311,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		if (status != Errors.SUCCESS) {
 			if(permissionListener==null){
 				ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add)");
+				purifier.setPairing(PurAirDevice.PAIRED_STATUS.UNPAIRED);
 				notifyListenerFailed();
 			}else{
 				ALog.e(ALog.PAIRING, "get permission call failed");
@@ -320,10 +321,10 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 
 		PairingService pairingObj = (PairingService) obj;
-		int noOfRelations= getNumberOfRelationships(pairingObj);
 		int diCommRelationships = pairingObj.getNumberOfRelationsReturned();
 		if (eventType == Commands.PAIRING_GET_RELATIONSHIPS) {			
 			ALog.i(ALog.PAIRING, "GetRelation call-SUCCESS");
+			int noOfRelations= getNumberOfRelationships(pairingObj);
 			if (diCommRelationships < 1 || noOfRelations<1) {
 				ALog.i(ALog.PAIRING, "No existing relationships - Requesting Purifier to start pairing");
 				startPairingPortTask(currentRelationshipType, AppConstants.PAIRING_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
@@ -422,6 +423,8 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				}
 			} else {
 				ALog.i(ALog.PAIRING, "Pairing status is PENDING");
+				purifier.setPairing(PurAirDevice.PAIRED_STATUS.UNPAIRED);
+				purifierDatabase.updatePairingStatus(purifier, PurAirDevice.PAIRED_STATUS.UNPAIRED);
 				notifyListenerFailed();
 			}
 		}
@@ -445,6 +448,8 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 	private int getNumberOfRelationships(PairingService pairingObj) {
 		int noOfRelationReturned=0;
+		if(pairingObj==null) return noOfRelationReturned;
+		
 		for(int i=0; i<pairingObj.getNumberOfRelationsReturned();i++){
 			PairingReceivedRelationships relation= pairingObj.getReceivedRelationsAtIndex(i);
 			PairingEntity entity= relation.pairingRcvdRelEntityTo;
