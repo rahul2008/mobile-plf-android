@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -25,7 +26,17 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 	public Fragment getItem(int position) {
 		
 		ALog.i(ALog.DASHBOARD, "IndoorPagerAdapter$getItem position: " + position);
-		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+		
+		//For demo mode
+		if (PurAirApplication.isDemoModeEnable()) {
+			if (position == 0) {
+				return new IndoorFragment();
+			} else {
+				return new AddPurifierFragment() ;
+			}
+		} 
+		
+		if	(position < DiscoveryManager.getInstance().getStoreDevices().size()) {
 			Bundle bundle = new Bundle();
 			bundle.putInt("position", position) ;
 			IndoorFragment fragment = new IndoorFragment();

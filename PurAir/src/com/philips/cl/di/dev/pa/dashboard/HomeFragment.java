@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -111,7 +112,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			indoorViewPager.setVisibility(View.VISIBLE);
 			
 			int countIndoor = 0;
-			if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+			
+			//For demo mode
+			if (PurAirApplication.isDemoModeEnable()) {
+				countIndoor = 1;
+			} else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
 				countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
 
 				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);

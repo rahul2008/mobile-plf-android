@@ -11,12 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.adapter.ManagePurifierArrayAdapter;
+import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.UpdateListener;
@@ -72,6 +75,9 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 		
 		@Override
 		public void onClick(View v) {
+			//For demo mode
+			if (PurAirApplication.isDemoModeEnable()) return;
+			
 			if (v.getId() == R.id.manage_pur_add_img) {
 				((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
 			}
@@ -87,7 +93,12 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 			if (selectedItems.containsKey(id)) {
 				selectedItems.remove(id);
 			}
+			//Remove pairing
+			PairingHandler pm = new PairingHandler((MainActivity)getActivity(), PurifierManager.getInstance().getCurrentPurifier());
+			pm.initializeRelationshipRemoval();
+			
 			loadDataFromDatabase();
+			//Updates store device from DB
 			DiscoveryManager.getInstance().updateStoreDevices();
 		}
 	}

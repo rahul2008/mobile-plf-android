@@ -131,8 +131,8 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private void subscribeToAllEvents(final PurAirDevice purifier) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Subscribe to all events for purifier: " + purifier) ;
-//		SubscriptionHandler.getInstance().subscribeToPurifierEvents(purAirDevice);
-//		SubscriptionHandler.getInstance().subscribeToFirmwareEvents(purAirDevice);
+		SubscriptionHandler.getInstance().subscribeToPurifierEvents();
+		SubscriptionHandler.getInstance().subscribeToFirmwareEvents();
 		handler.removeCallbacks(subscribeRunnable);
 		handler.post(subscribeRunnable);
 		subscribeRunnable = new Runnable() { 

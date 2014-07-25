@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.UpdateListener;
@@ -86,6 +87,10 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+			
+			//For demo mode
+			if (PurAirApplication.isDemoModeEnable()) return;
+			
 			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 			ImageView arrowImg = (ImageView) view.findViewById(R.id.list_item_right_arrow);
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);

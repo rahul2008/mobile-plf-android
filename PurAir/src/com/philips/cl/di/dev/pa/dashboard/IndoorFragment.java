@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.IndoorDetailsActivity;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -23,6 +24,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -99,7 +101,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		purifierNameTxt.setSelected(true);
-		purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
+		
+		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
+			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
+		}
+		
 		purifierEui64Txt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_eui64);
 
 		purifierEui64Txt.setText(eui64);
@@ -164,11 +170,15 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 //			return;
 //		}
 		String tempEui64 = purifierEui64Txt.getText().toString();
-
-		if (purifier == null || !purifier.getEui64().equals(tempEui64)) {
+		
+		//For demo mode
+		if (PurAirApplication.isDemoModeEnable()) {
+			purifierNameTxt.setText(DemoModeConstant.DEMO);
+		} else if (purifier == null || !purifier.getEui64().equals(tempEui64)) {
 			purifier = DiscoveryManager.getInstance().getDeviceByEui64(tempEui64);
-			if (purifier == null) return;
 		}
+		
+		if (purifier == null) return;
 
 		purifierNameTxt.setText(purifier.getName());
 		
@@ -488,6 +498,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 			return;
 		}
+		
+		//For demo mode
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
 		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
 			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
 			ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + purifier);
