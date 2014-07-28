@@ -222,7 +222,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-		//		checkForCrashesHockeyApp();
+		checkForCrashesHockeyApp();
 	}
 
 	private void startDemoMode() {
