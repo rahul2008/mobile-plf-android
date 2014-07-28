@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.newpurifier;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -145,6 +146,7 @@ public class NetworkMonitor {
 		return;
 	}
 	
+	@SuppressLint("HandlerLeak")
 	private class LooperThread extends Thread {
 		public Handler mHandler;
 

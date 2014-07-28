@@ -9,4 +9,7 @@
     <issue id = "EI_EXPOSE_REP2" severity="ignore" /> 
     <issue id = "DefaultLocale" severity="ignore" /> 
     <issue id = "IconDipSize" severity="ignore" /> 
+    <issue id = "TypographyOther" severity="ignore" /> 
+    <issue id = "TypographyFractions" severity="ignore" /> 
+    <issue id = " TypographyDashes" severity="ignore" /> 
 </lint>
