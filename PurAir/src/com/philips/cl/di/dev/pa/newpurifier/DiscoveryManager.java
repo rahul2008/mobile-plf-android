@@ -158,6 +158,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 				}
 			}
 			if(addToNewDeviceList) {
+				device.setPairing(PAIRED_STATUS.NOT_PAIRED);
 				newDevices.add(device) ;
 			}
 			addToNewDeviceList = true ;

@@ -874,6 +874,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 					remoteControlBtn.setChecked(false);
 					return;
 				}
+				
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(true);
 				remoteControlBtn.setEnabled(true);
@@ -886,6 +887,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			}
 		});
 
+		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.NOT_PAIRED) return;
+		ALog.i(ALog.PAIRING, "In updatePurifierUIFields(): "+ purifier.getPairedStatus());
 		pairToPurifierIfNecessary();
 	}
 
@@ -992,6 +995,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			setProgressDialogInvisible();
 			return;
 		}
+		
+		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
 
 		long lastPairingCheckTime = purifier.getLastPairedTime();		
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);

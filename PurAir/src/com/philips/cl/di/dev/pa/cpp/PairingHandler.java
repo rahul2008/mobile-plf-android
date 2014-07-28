@@ -311,7 +311,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		if (status != Errors.SUCCESS) {
 			if(permissionListener==null){
 				ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add)");
-				purifier.setPairing(PurAirDevice.PAIRED_STATUS.UNPAIRED);
+				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 				notifyListenerFailed();
 			}else{
 				ALog.e(ALog.PAIRING, "get permission call failed");
@@ -423,8 +423,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				}
 			} else {
 				ALog.i(ALog.PAIRING, "Pairing status is PENDING");
-				purifier.setPairing(PurAirDevice.PAIRED_STATUS.UNPAIRED);
-				purifierDatabase.updatePairingStatus(purifier, PurAirDevice.PAIRED_STATUS.UNPAIRED);
+				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 				notifyListenerFailed();
 			}
 		}
@@ -473,6 +472,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			addRelationship(currentRelationshipType, secretKey);
 		} else {
 			ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 			notifyListenerFailed();
 		}
 	}
