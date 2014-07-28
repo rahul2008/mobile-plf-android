@@ -28,14 +28,14 @@
         android:textColor="@color/white"
         android:text="@string/save" />   
 
-    <Button
+    <ImageButton
         android:id="@+id/larrow"        
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
-        android:background="@drawable/lef_arrow_blue_2x"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:textSize="12sp"/>   
+        android:src="@drawable/lef_arrow_blue_2x"
+        android:background="@android:color/transparent"
+        android:contentDescription="@string/img_description" />   
     
 </RelativeLayout>

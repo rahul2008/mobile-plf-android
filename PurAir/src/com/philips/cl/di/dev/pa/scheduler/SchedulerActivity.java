@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.R;
@@ -33,7 +34,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
-	private Button actionBarBackBtn;
+	private ImageButton actionBarBackBtn;
 	private FontTextView actionbarTitle;
 	private String selectedDays = "";
 	private String selectedTime;
@@ -67,7 +68,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_SHOW_HOME);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
 		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
 		actionBar.setBackgroundDrawable(d);
@@ -81,7 +82,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		actionBarCancelBtn.setOnClickListener(this);
 		actionBarCancelBtn.setOnClickListener(onClickListener);
 
-		actionBarBackBtn = (Button) view.findViewById(R.id.larrow);
+		actionBarBackBtn = (ImageButton) view.findViewById(R.id.larrow);
 		actionBarBackBtn.setOnClickListener(onClickListener);
 
 		actionBar.setCustomView(view);
