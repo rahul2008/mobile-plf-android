@@ -333,6 +333,6 @@ import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnecti
     }
 
     public static void setCustomUserAgent(String customUserAgent) {
-             USER_AGENT = customUserAgent;
+             USER_AGENT = "Smart Air";
     }
 }
