@@ -13,77 +13,40 @@ public class ForecastWeatherDto {
 	private String fh;
 	private String fi;
 
-	public String getFa() {
-	return fa;
+	public String getWeatherDay() {
+		return fa;
 	}
 
-	public void setFa(String fa) {
-	this.fa = fa;
+	public String getWeatherNight() {
+		return fb;
 	}
 
-	public String getFb() {
-	return fb;
+	public String getTemperatureDay() {
+		return fc;
 	}
 
-	public void setFb(String fb) {
-	this.fb = fb;
+	public String getTemperatureNight() {
+		return fd;
 	}
 
-	public String getFc() {
-	return fc;
+	public String getWindDirectionDay() {
+		return fe;
 	}
 
-	public void setFc(String fc) {
-	this.fc = fc;
+	public String getWindDirectionNight() {
+		return ff;
 	}
 
-	public String getFd() {
-	return fd;
+	public String getWindSpeedDay() {
+		return fg;
 	}
 
-	public void setFd(String fd) {
-	this.fd = fd;
+	public String getWindSpeedNight() {
+		return fh;
 	}
 
-	public String getFe() {
-	return fe;
+	public String getSolarCycleTimes() {
+		return fi;
 	}
 
-	public void setFe(String fe) {
-	this.fe = fe;
-	}
-
-	public String getFf() {
-	return ff;
-	}
-
-	public void setFf(String ff) {
-	this.ff = ff;
-	}
-
-	public String getFg() {
-	return fg;
-	}
-
-	public void setFg(String fg) {
-	this.fg = fg;
-	}
-
-	public String getFh() {
-	return fh;
-	}
-
-	public void setFh(String fh) {
-	this.fh = fh;
-	}
-
-	public String getFi() {
-	return fi;
-	}
-
-	public void setFi(String fi) {
-	this.fi = fi;
-	}
-
-	
 }

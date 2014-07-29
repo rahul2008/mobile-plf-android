@@ -25,67 +25,67 @@ public class ForecastCityDto {
 		return c1;
 	}
 
-	public String getC2() {
+	public String getAreaNameEnglish() {
 		return c2;
 	}
 
-	public String getC3() {
+	public String getAreaNameChinese() {
 		return c3;
 	}
 
-	public String getC4() {
+	public String getCityNameEnglish() {
 		return c4;
 	}
 
-	public String getC5() {
+	public String getCityNameChinese() {
 		return c5;
 	}
 
-	public String getC6() {
+	public String getProvinceNameEnglish() {
 		return c6;
 	}
 
-	public String getC7() {
+	public String getProvinceNameChinese() {
 		return c7;
 	}
 
-	public String getC8() {
+	public String getCountryNameEnglish() {
 		return c8;
 	}
 
-	public String getC9() {
+	public String getCountryNameChinese() {
 		return c9;
 	}
 
-	public String getC10() {
+	public String getAreaLevel() {
 		return c10;
 	}
 
-	public String getC11() {
+	public String getAreaCode() {
 		return c11;
 	}
 
-	public String getC12() {
+	public String getZipCode() {
 		return c12;
 	}
 
-	public String getC13() {
+	public String getLongitude() {
 		return c13;
 	}
 
-	public String getC14() {
+	public String getLatitude() {
 		return c14;
 	}
 
-	public String getC15() {
+	public String getAltitude() {
 		return c15;
 	}
 
-	public String getC16() {
+	public String getRadarStation() {
 		return c16;
 	}
 
-	public String getC17() {
+	public String getTimeZone() {
 		return c17;
 	}
 
