@@ -10,6 +10,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.DeviceDto;
 import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
@@ -607,6 +608,88 @@ public class DataParserTest extends TestCase {
 		assertFalse(discoverInfo.isConnected());
 	}
 	
+	public void testHourlyWeatherData() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertNotNull(hourlyWeatherList);
+	}
+	
+	public void testHourlyWeather_InvalidData() {
+		String data = "<hourly>\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertNull(hourlyWeatherList);
+	}
+	
+	public void testHourlyWeather_NumberOfRecords() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertEquals(1, hourlyWeatherList.size()) ;
+		assertNotSame(0, hourlyWeatherList.size()) ;
+	}
+	
+	public void testHourlyWeather_Temparature() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertEquals(33.5, hourlyWeatherList.get(0).getTempInCentigrade(),0.0) ;
+	}
+	
+	public void testHourlyWeather_InvalidTemparature() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.s</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertNull(hourlyWeatherList) ;
+	}
+	
+	public void testHourlyWeather_Time() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertEquals("2014-07-28 18:00:00.0", hourlyWeatherList.get(0).getTime()) ;
+	}
+	
+	public void testHourlyWeather_WindSpeed() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertEquals(5.5,hourlyWeatherList.get(0).getWindSpeed(),0.0) ;
+	}
+	
+	public void testHourlyWeather_InvalidWindSpeed() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>invalidwindspeed</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertNull(hourlyWeatherList);
+	}
+	
+	public void testHourlyWeather_WindDesc() {
+		String data = "<hourly><step time=\"2014-07-28 18:00:00.0\">" +
+				"<temperature>33.5</temperature><feelsLike>37.2</feelsLike><relativeHumidity>28</relativeHumidity>" +
+				"<windDirection_10m summary=\"S\">176</windDirection_10m><windSpeed_10m>5.5</windSpeed_10m>" +
+				"<icon>clear</icon></step></hourly>" ;
+		List<Weatherdto> hourlyWeatherList = DataParser.getHourlyWeatherData(data) ;
+		assertEquals("clear",hourlyWeatherList.get(0).getWeatherDesc()) ;
+		assertNotSame("sunny", hourlyWeatherList.get(0).getWeatherDesc()) ;
+	}
 	
 //	//TODO : Rewrite dataparser tests for Outdoor dashboard.
 //	public void testParseLocationEventWeatherWithInvalidJson() {

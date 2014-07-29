@@ -491,13 +491,12 @@ public class DataParser {
 			saxParser.parse(new ByteArrayInputStream(data.getBytes(Charset.defaultCharset())), handler);
 			weatherList = handler.getWeatherForecastHourlyList() ;
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch(Exception e) {
 			e.printStackTrace();
 		}
 		return weatherList;
