@@ -14,6 +14,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
+import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
+import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
@@ -418,5 +420,55 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "JsonSyntaxException");
 			return null;
 		}
+	}
+	
+	public static ForecastCityDto parseForecastCityData(String dataToParse, String areaID) {
+		JSONObject cityJson = null;
+		try {
+			cityJson = new JSONObject(dataToParse);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		JSONObject temp = cityJson.optJSONObject("forecast4d");
+		if(temp == null) return null;
+		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp C :: " + temp.optJSONObject(areaID).optJSONObject("c"));
+		JSONObject temp2 = temp.optJSONObject(areaID).optJSONObject("c");
+		Gson gson = new GsonBuilder().create();
+		ForecastCityDto cityDto =  gson.fromJson(temp2.toString(), ForecastCityDto.class);
+		if(cityDto == null) return null; 
+		ALog.i(ALog.PARSER, "ForecastCityDto :: " + cityDto.getAreaID());
+		
+		return cityDto;
+	}
+	
+	public static ForecastWeatherDto parseFourDaysForecastData(String dataToParse, String areaID) {
+		JSONObject cityJson = null;
+		try {
+			cityJson = new JSONObject(dataToParse);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		JSONObject temp = cityJson.optJSONObject("forecast4d");
+		if(temp == null) return null;
+		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp F :: " + temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1"));
+
+		JSONArray forecastArray = temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1");
+		ALog.i(ALog.PARSER, "forecastArray " + forecastArray.length());
+		
+		List<ForecastWeatherDto> weatherDtos = new ArrayList<ForecastWeatherDto>();
+		Gson gson = new GsonBuilder().create();
+		for (int i = 0; i < forecastArray.length(); i++) {
+			try {
+				ALog.i(ALog.PARSER, "Forecast for day " + i + " :: " + forecastArray.getJSONObject(i));
+				ForecastWeatherDto dto = gson.fromJson(forecastArray.getJSONObject(i).toString(), ForecastWeatherDto.class);
+				weatherDtos.add(dto);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		ALog.i(ALog.PARSER, "ForecastCityDto weatherDtos :: " + weatherDtos);
+		
+		return new ForecastWeatherDto();
 	}
 }
