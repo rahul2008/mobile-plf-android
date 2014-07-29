@@ -7,6 +7,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 
 public class WeatherHourlyDataParser extends DefaultHandler {
@@ -26,12 +27,12 @@ public class WeatherHourlyDataParser extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName,
 			Attributes attributes) throws SAXException {
-		if( qName.equalsIgnoreCase("hourly")) {
+		if( qName.equalsIgnoreCase(ParserConstants.HOURLY)) {
 			
 		}
-		else if(qName.equalsIgnoreCase("step")) {
+		else if(qName.equalsIgnoreCase(ParserConstants.STEP)) {
 			weatherDto = new Weatherdto();
-			weatherDto.setTime(attributes.getValue("time")) ;
+			weatherDto.setTime(attributes.getValue(ParserConstants.TIME)) ;
 		}
 	}
 	
@@ -44,16 +45,16 @@ public class WeatherHourlyDataParser extends DefaultHandler {
 	@Override
 	public void endElement(String uri, String localName, String qName)
 			throws SAXException {
-		if(qName.equalsIgnoreCase("step")) {
+		if(qName.equalsIgnoreCase(ParserConstants.STEP)) {
 			weatherList.add(weatherDto) ;
 		}
-		else if( qName.equalsIgnoreCase("temperature")) {
+		else if( qName.equalsIgnoreCase(ParserConstants.TEMPARATURE)) {
 			weatherDto.setTempInCentigrade(Float.parseFloat(builder.toString())) ;
 		}
-		else if(qName.equalsIgnoreCase("windSpeed_10m")) {
+		else if(qName.equalsIgnoreCase(ParserConstants.WIND_SPEED_HOURLY)) {
 			weatherDto.setWindSpeed(Float.parseFloat(builder.toString())) ;
 		}
-		else if(qName.equalsIgnoreCase("icon")) {
+		else if(qName.equalsIgnoreCase(ParserConstants.ICON)) {
 			weatherDto.setWeatherDesc(builder.toString()) ;
 		}
 		builder.setLength(0);

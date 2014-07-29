@@ -57,4 +57,10 @@ public class ParserConstants {
 	public static final String DATA_VALUE_KEYPAIRS = "DataKeyValuePairs" ;
 	
 	public static final String BOOT_STRAP_KEY_3 = "yOGYxNzk" ;
+	
+	// Weather Hourly Data Constants
+	public static final String TEMPARATURE = "temperature" ;
+	public static final String WIND_SPEED_HOURLY = "windSpeed_10m" ;
+	public static final String ICON = "icon" ;
+	public static final String STEP = "step" ;
 } 
