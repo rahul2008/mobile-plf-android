@@ -1,11 +1,18 @@
 package com.philips.cl.di.dev.pa.util;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xml.sax.SAXException;
 
 import android.util.Log;
 
@@ -470,5 +477,26 @@ public class DataParser {
 		ALog.i(ALog.PARSER, "ForecastCityDto weatherDtos :: " + weatherDtos);
 		
 		return new ForecastWeatherDto();
+	}
+	
+	public static List<Weatherdto> getHourlyWeatherData(String data) {
+		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
+		SAXParser saxParser = null;
+		WeatherHourlyDataParser handler = null;
+		try {
+			saxParser = saxParserFactory.newSAXParser();
+			handler = new WeatherHourlyDataParser();
+			saxParser.parse(new ByteArrayInputStream(data.getBytes()), handler);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return handler.getWeatherForecastHourlyList();
 	}
 }
