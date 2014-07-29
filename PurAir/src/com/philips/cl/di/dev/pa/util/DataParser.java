@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -483,10 +484,12 @@ public class DataParser {
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		SAXParser saxParser = null;
 		WeatherHourlyDataParser handler = null;
+		List<Weatherdto> weatherList = null ;
 		try {
 			saxParser = saxParserFactory.newSAXParser();
 			handler = new WeatherHourlyDataParser();
-			saxParser.parse(new ByteArrayInputStream(data.getBytes()), handler);
+			saxParser.parse(new ByteArrayInputStream(data.getBytes(Charset.defaultCharset())), handler);
+			weatherList = handler.getWeatherForecastHourlyList() ;
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -497,6 +500,6 @@ public class DataParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return handler.getWeatherForecastHourlyList();
+		return weatherList;
 	}
 }
