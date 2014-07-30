@@ -49,7 +49,6 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
-import com.philips.cl.di.dev.pa.dashboard.IndoorFragment;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -192,7 +191,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		initializeCPPController();
 		selectPurifier();
 		//		checkForUpdatesHockeyApp();
-
+		
 	}
 
 	private void selectPurifier() {
@@ -223,6 +222,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 		checkForCrashesHockeyApp();
+		
 	}
 
 	private void startDemoMode() {
@@ -256,7 +256,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	public void setActionBar(Fragment fragment) {
-
 		ALog.i(ALog.MAINACTIVITY, "setActionBar$fragment " + fragment);
 
 		if(fragment instanceof OutdoorLocationsFragment) {
@@ -267,14 +266,14 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		} else {
 			if (PurAirApplication.isDemoModeEnable()) {
 				addLocation.setVisibility(View.INVISIBLE);
-				setRightMenuVisibility(View.VISIBLE);
+//				setRightMenuVisibility(View.VISIBLE);
 				stopNormalMode();
 				startDemoMode();
 			} else if (Utils.getAppFirstUse()) {
 				setRightMenuVisibility(View.INVISIBLE);
 			} else {
 				addLocation.setVisibility(View.INVISIBLE);
-				setRightMenuVisibility(View.VISIBLE);
+//				setRightMenuVisibility(View.VISIBLE);
 				if (fragment instanceof SettingsFragment) {
 					stopDemoMode();
 					startNormalMode();
@@ -301,7 +300,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	protected void onPause() {
 		super.onPause();
 		SetupDialogFactory.getInstance(this).cleanUp();
-		IndoorFragment.resetActivity();
+//		IndoorFragment.resetActivity();
 
 		if(UserRegistrationController.getInstance().isUserLoggedIn()
 				|| PurAirApplication.isDemoModeEnable()) {
@@ -375,7 +374,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private void showDashboardFragment() {
 		showFragment(getDashboard());
-		setDashboardActionbarIconVisible();
+//		setDashboardActionbarIconVisible();
 		setTitle(getString(R.string.dashboard_title));
 	}
 
@@ -516,7 +515,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	private void setDashboardActionbarIconVisible() {
-		rightMenu.setVisibility(View.VISIBLE);
+		rightMenu.setVisibility(View.INVISIBLE);
 		leftMenu.setVisibility(View.VISIBLE);
 		backToHome.setVisibility(View.INVISIBLE);
 		addLocation.setVisibility(View.INVISIBLE);
@@ -691,7 +690,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		@Override
 		public void onItemClick(AdapterView<?> listView, View listItem,
 				int position, long id) {
-			setDashboardActionbarIconVisible();
+//			setDashboardActionbarIconVisible();
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
 			case 0:

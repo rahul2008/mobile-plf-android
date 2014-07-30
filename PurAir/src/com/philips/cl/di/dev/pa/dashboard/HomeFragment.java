@@ -4,6 +4,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,7 +34,8 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
-public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener, AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener{
+public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener,
+		AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener, OnPageChangeListener {
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
@@ -53,6 +55,17 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		
 		((MainActivity) getActivity()).setActionBar(this);
+		
+		if (indoorViewPager != null) {
+			int currentPage = indoorViewPager.getCurrentItem();
+			
+			if (PurAirApplication.isDemoModeEnable()) {
+				setRightMenuIconVisibilityDemoMode(currentPage);
+				return;
+			}
+			
+			setRightMenuIconVisibilityNormalMode(currentPage);
+		}
 	}
 
 
@@ -96,7 +109,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
-		indoorViewPager.setOnPageChangeListener(new IndoorFragment());
+//		indoorViewPager.setOnPageChangeListener(new IndoorFragment());
+		indoorViewPager.setOnPageChangeListener(this);
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
@@ -127,6 +141,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             
             indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
             indoorViewPager.setAdapter(indoorPagerAdapter);
+            
 		}		
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
@@ -246,9 +261,61 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ALog.i(ALog.DASHBOARD, "HomeFragment$onConnected");
 		OutdoorManager.getInstance().startCitiesTask();
 	}
+	
+	private void setRightMenuIconVisibility(int visibility) {
+		if (getActivity() == null) return;
+		((MainActivity)getActivity()).setRightMenuVisibility(visibility);
+		
+	}
+	
+	private void setRightMenuIconVisibilityDemoMode(int position) {
+		//For demo mode
+		if (position == 1) {
+			setRightMenuIconVisibility(View.INVISIBLE);
+		} else {
+			setRightMenuIconVisibility(View.VISIBLE);
+		}
+	}
+	
+	private void setRightMenuIconVisibilityNormalMode(int position) {
+		if (position >= DiscoveryManager.getInstance().getStoreDevices().size()) {
+			setRightMenuIconVisibility(View.INVISIBLE);
+		} else {
+			setRightMenuIconVisibility(View.VISIBLE);
+		}
+	}
 
 	@Override
 	public void onDisconnected() {
 		
+	}
+
+	@Override
+	public void onPageScrollStateChanged(int arg0) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onPageScrolled(int arg0, float arg1, int arg2) {
+		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	public void onPageSelected(int position) {
+		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position + ", getActivity: " + getActivity());
+		if (PurAirApplication.isDemoModeEnable()) {
+			setRightMenuIconVisibilityDemoMode(position);
+			return;
+		}
+		
+		setRightMenuIconVisibilityNormalMode(position);
+		
+		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
+			ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + purifier);
+			if (purifier == null) return;
+	
+			PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+		}
 	}
 }

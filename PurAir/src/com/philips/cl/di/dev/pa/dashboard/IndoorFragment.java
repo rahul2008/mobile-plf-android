@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,7 +40,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
-	DrawerEventListener, AlertDialogBtnInterface, OnPageChangeListener {
+	DrawerEventListener, AlertDialogBtnInterface {
 
 	private RelativeLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -467,39 +466,5 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
 		
 	}
-	
 
-	public void onPageScrollStateChanged(int state) {
-	}
-
-	@Override
-	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		
-	}
-	
-	@Override
-	public void onPageSelected(int position) {
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position);
-		if(mActivity != null) {
-			mActivity.setRightMenuVisibility(View.VISIBLE) ;
-		}
-		
-		if( position >= DiscoveryManager.getInstance().getStoreDevices().size()) {
-			if(mActivity != null) {
-				mActivity.setRightMenuVisibility(View.INVISIBLE);
-			}
-			return;
-		}
-		
-		//For demo mode
-		if (PurAirApplication.isDemoModeEnable()) return;
-		
-		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-			ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + purifier);
-			if (purifier == null) return;
-	
-			PurifierManager.getInstance().setCurrentPurifier(purifier) ;
-		}
-	}
 }
