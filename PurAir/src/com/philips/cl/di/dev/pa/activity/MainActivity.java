@@ -46,6 +46,7 @@ import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
@@ -343,6 +344,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			mLeftDrawerOpened = false;
 			mRightDrawerOpened = false;
 		} else if (fragment instanceof StartFlowVirginFragment) {
+			OutdoorManager.getInstance().clearCityOutdoorInfo() ;
 			ConnectPurifier.reset() ;
 			finish();
 		} else if (!(fragment instanceof HomeFragment)
@@ -353,6 +355,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
+			OutdoorManager.getInstance().clearCityOutdoorInfo() ;
 			ConnectPurifier.reset() ;
 			finish();
 		}

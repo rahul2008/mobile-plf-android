@@ -2,8 +2,10 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import android.database.Cursor;
 
@@ -161,4 +163,16 @@ public class OutdoorManager implements OutdoorEventListener {
 		return citiesMap.get(areaID);
 	}
 
+	public void clearCityOutdoorInfo() {
+		if(citiesMap != null && !citiesMap.isEmpty()) {
+			Set<String> keys = citiesMap.keySet() ;
+			Iterator<String> i = keys.iterator();
+			while(i.hasNext()) {
+				String areadID = i.next() ;
+				citiesMap.get(areadID).setOutdoorAQI(null) ;
+				citiesMap.get(areadID).setOutdoorWeather(null) ;
+			}
+			
+		}
+	}
 }
