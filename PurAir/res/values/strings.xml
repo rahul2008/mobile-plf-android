@@ -441,6 +441,8 @@
     <string name="edit_schedule">Edit Schedule</string>
     <string name="repeat_text">Repeat</string>
     <string name="delete_text">Delete</string>
+    <string name="error">Error!!</string>
+    <string name="max_schedules_reached">Maximum 10 schedules can be added. Please delete existing schedules to add a new schedule</string>
     <!-- Firmware Screen text -->
     <string name="firmware">Firmware</string>
     <string name="firmware_update">Firmware update</string>
