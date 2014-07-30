@@ -715,12 +715,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				break;
 			case 3:
 				// Notifications
-				PurAirDevice purifier = getCurrentPurifier();
-				if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) return;
-
-				// if not paired return else open NotificationFragment
-				if( purifier.getPairedStatus()!= PurAirDevice.PAIRED_STATUS.PAIRED) return;
-
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_notifications));
 				break;

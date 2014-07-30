@@ -76,7 +76,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		super.onActivityCreated(savedInstanceState);
 		Activity parent = this.getActivity();
 		if (parent == null) return;
-		
+
 		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "+((MainActivity)parent).getRightMenuDisconnectionState());
 		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED 
 				|| ((MainActivity)parent).getRightMenuDisconnectionState()) {
@@ -86,9 +86,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 						R.string.notification_nopurifier_title,
 						R.string.notification_nopurifier_text,
 						R.string.notification_nopurifier_positivebtn);
-				
+
 				dialog.setOnClickListener(this);
-//				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+				//				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
@@ -106,7 +106,22 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			notificationsEnabled = isNotificationEnabled();
 			showNotificationsLayout(notificationsEnabled);
 		} else {
-			showNotificationsLayout(false);
+			//showNotificationsLayout(false);			
+			try {
+				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
+						R.string.notification_notpaired_title,
+						R.string.notification_notpaired_text,
+						R.string.notification_nopurifier_positivebtn);
+
+				dialog.setOnClickListener(this);
+				//					dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+				FragmentManager fm = getActivity().getSupportFragmentManager();
+				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+			} catch (IllegalStateException e) {
+				ALog.e(ALog.NOTIFICATION, e.getMessage());
+			}
+			return;
+
 		}
 	}
 
@@ -156,7 +171,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			break;
 		}
 	}
-	
+
 	private void highLightLabel(int position) {
 		switch (position) {
 		case AppConstants.INDEX_0:
@@ -191,7 +206,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 			break;
 		}
 	}
-	
+
 	private void showPairingLayout() {		
 		if(!CPPController.getInstance(getActivity()).isSignOn() || (mPurifier!=null && mPurifier.isDemoPurifier())){
 			notificationToggle.setEnabled(false);
@@ -292,12 +307,12 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
 		PurifierManager.getInstance().setPurifierDetails(ParserConstants.AQI_THRESHOLD, aqiThreshold, PURIFIER_EVENT.AQI_THRESHOLD);
 	}
-	
+
 	private CountDownTimer aqiThresholdTimer = new CountDownTimer(AQI_THRESHOLD_TIMEOUT,1000) {
-		
+
 		@Override
 		public void onTick(long millisUntilFinished) {	}
-		
+
 		@Override
 		public void onFinish() {
 			if (progressDialog != null) progressDialog.dismiss();			
@@ -358,7 +373,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 				try {
 					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.notification_nopurifier_positivebtn);
 					dialog.setOnClickListener(NotificationsFragment.this);
-//				dialog.show(getActivity().getSupportFragmentManager(), null);
+					//				dialog.show(getActivity().getSupportFragmentManager(), null);
 					FragmentManager fm = getActivity().getSupportFragmentManager();
 					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 				} catch (IllegalStateException e) {
@@ -428,7 +443,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	private void showProgressDialog(int msg){
 		if(getActivity()==null) return;
-		
+
 		progressDialog = new ProgressDialog(getActivity());
 		progressDialog.setMessage(getString(msg));
 		progressDialog.setCancelable(false);
@@ -443,20 +458,20 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		if (purifierEvent != PURIFIER_EVENT.AQI_THRESHOLD ) return ;
 		if( aqiThresholdTimer != null )	aqiThresholdTimer.cancel() ;
 		if (progressDialog != null) progressDialog.dismiss();
-		
+
 		showErrorDialog() ;
 	}
-	
+
 	private void showErrorDialog() {
 		if( getActivity() != null ) {
 			getActivity().runOnUiThread(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					try {
 						AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.error_aqithreshold_setting, R.string.ok);
 						dialog.setOnClickListener(NotificationsFragment.this);
-//					dialog.show(getActivity().getSupportFragmentManager(), null);
+						//					dialog.show(getActivity().getSupportFragmentManager(), null);
 						FragmentManager fm = getActivity().getSupportFragmentManager();
 						fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 					} catch (IllegalStateException e) {

@@ -244,6 +244,8 @@
     <string name="notification_front_panel_title">前方面板</string> 
     <string name="notification_front_panel_desc">前方面板開啟時，您會收到通知。</string>
     <string name="error_aqithreshold_setting">設定 AQI 限額時出錯。</string>
+    <string name="notification_notpaired_title">Remote control disabled</string>
+    <string name="notification_notpaired_text">You can only configure notifications once remote control is enabled. You can enable remote control from control panel.</string>
     <!-- Settings -->
     <string name="rate_this_app">為這個應用程式評分</string>
     <string name="send_us_feedback">向我們傳送意見</string>
