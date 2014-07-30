@@ -179,7 +179,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 				PurifierManager.getInstance().setCurrentPurifier(currentPurifier);
 				
 				((MainActivity) getActivity()).showFragment(((MainActivity) getActivity()).getDashboard());
-				
+				((MainActivity)getActivity()).setTitle(getString(R.string.dashboard_title));
 				Utils.saveAppFirstUse(false);
 				
 				PurifierDatabase purifierDatabase = new PurifierDatabase();
