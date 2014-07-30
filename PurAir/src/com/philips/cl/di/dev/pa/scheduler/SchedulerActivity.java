@@ -8,15 +8,20 @@ import android.app.TimePickerDialog.OnTimeSetListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -455,17 +460,39 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 
 	@Override
-	public void onErrorOccurred() {
+	public void onErrorOccurred(final int errorType) {
 		this.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				cancelProgressDialog() ;
+				if( errorType == SchedulerHandler.MAX_SCHEDULES_REACHED) {
+					showErrorDialog(getString(R.string.error_title),getString(R.string.max_schedules_reached)) ;
+				}
 				if(scheduleType == SCHEDULE_TYPE.DELETE ) {
 					schFragment.updateList();
 				}
 			}			
 		});	
 		
+	}
+	
+	/**
+	 * Show alert dialog AQI historic data download failed
+	 */
+	private void showErrorDialog(String title, String message) {
+		try {
+			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("error_schedules");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "error_schedules").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.SCHEDULER, e.getMessage());
+		}
 	}
 
 	@Override

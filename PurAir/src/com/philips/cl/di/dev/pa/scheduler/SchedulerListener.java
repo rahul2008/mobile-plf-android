@@ -6,5 +6,5 @@ import java.util.List;
 public interface SchedulerListener {
 	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) ;
 	public void onScheduleReceived(SchedulePortInfo schedule) ;
-	public void onErrorOccurred() ;
+	public void onErrorOccurred(int errorType) ;
 }

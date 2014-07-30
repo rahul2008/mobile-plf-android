@@ -268,6 +268,9 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 				scheduleListener.onSchedulesReceived(schedulerPortInfoList) ;
 				return ;
 			}
+			else if( data.contains(AppConstants.OUT_OF_MEMORY)) {
+				scheduleListener.onErrorOccurred(SchedulerHandler.MAX_SCHEDULES_REACHED) ;
+			}
 		}
 		
 		FirmwarePortInfo firmwarePortInfo = DataParser.parseFirmwareEventData(data);
@@ -389,7 +392,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		switch (purifierEvent) {
 		case SCHEDULER:
 			if( scheduleListener != null ) {
-				scheduleListener.onErrorOccurred() ;
+				scheduleListener.onErrorOccurred(SchedulerHandler.DEFAULT_ERROR) ;
 			}
 			break;
 		case DEVICE_CONTROL:

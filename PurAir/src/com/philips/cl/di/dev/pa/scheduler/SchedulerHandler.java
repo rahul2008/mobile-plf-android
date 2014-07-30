@@ -19,8 +19,11 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class SchedulerHandler implements ServerResponseListener {
+	public static final int DEFAULT_ERROR = 999 ;
+	public static final int MAX_SCHEDULES_REACHED = 1 ;
 	
 	private SubscriptionEventListener mListener;
+	private PurAirDevice purifier;
 	
 	public SchedulerHandler(SubscriptionEventListener listener) 
 	{
@@ -28,6 +31,7 @@ public class SchedulerHandler implements ServerResponseListener {
 	}
 	
 	public void setScheduleDetails(String dataToSend, PurAirDevice purifier,SCHEDULE_TYPE scheduleType, int scheduleNumber) {
+		this.purifier = purifier ;
 		switch (purifier.getConnectionState()) {
 		case CONNECTED_LOCALLY: 
 			sendScheduleDetailsLocally(dataToSend,scheduleType, purifier,scheduleNumber) ;
@@ -95,14 +99,18 @@ public class SchedulerHandler implements ServerResponseListener {
 		notifyListener(responseCode,responseData, fromIp) ;
 	}
 	
-	private void notifyListener(int responseCode, String encryptedData, String fromIp) {
+	private void notifyListener(int responseCode, String data, String fromIp) {
 		ALog.i(ALog.DEVICEHANDLER, "Response Code: "+responseCode) ;
 		if (mListener == null) return;
-		if(responseCode != HttpURLConnection.HTTP_OK) {
-			mListener.onLocalEventLost(PURIFIER_EVENT.SCHEDULER) ; 
+		if(responseCode == HttpURLConnection.HTTP_OK) {
+			mListener.onLocalEventReceived(data, fromIp) ;
+		}
+		else if(responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+			String encryptedData = new DISecurity(null).encryptData(data, purifier) ;
+			mListener.onLocalEventReceived(encryptedData, fromIp) ;
 		}
 		else {
-			mListener.onLocalEventReceived(encryptedData, fromIp) ;
+			mListener.onLocalEventLost(PURIFIER_EVENT.SCHEDULER) ; 
 		}
 	}
 }
