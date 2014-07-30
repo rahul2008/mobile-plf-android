@@ -1,120 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content" 
-	android:background="@color/white"
-	android:padding="16dp" >
-    
-    <Button
-	    android:id="@+id/btnClose"
-	    android:layout_width="15dp"
-	    android:layout_height="15dp"
-	    android:layout_alignParentRight="true"
-	    android:layout_alignParentTop="true" 
-	    android:background="@drawable/close_icon_2x"/>
-    
-	<com.philips.cl.di.dev.pa.view.FontTextView
-		xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-		android:id="@+id/tvSingInTitle"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_margin="16dp"
-		android:text="@string/sign_in_to_my_philips"
-		android:textColor="@color/title_gray"
-		android:textSize="20sp"
-		custom:fontAssetName="fonts/gillsans.ttf" 
-		android:layout_below="@id/btnClose"/>
-      
-	<com.philips.cl.di.dev.pa.view.FontTextView
-		xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-		android:id="@+id/tvEmailAddress"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:layout_marginTop="8dp"
-		android:text="@string/email_address"
-		android:textColor="@color/title_gray"
-		android:textSize="16sp"
-		custom:fontAssetName="fonts/gillsans.ttf"
-		android:layout_below="@id/tvSingInTitle" />
-      
-	<EditText
-		android:id="@+id/etEmailAddress"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="48dp"
-		android:paddingLeft="16dp"
-		android:paddingRight="8dp"
-		android:background="@drawable/ews_edit_txt_2_bg"
-		android:ems="10"
-		android:singleLine="true"
-		android:textColor="@color/title_gray"
-		android:textSize="14sp"
-		android:hint="@string/enter_email_address"
-		android:inputType="textEmailAddress" 
-		android:layout_below="@id/tvEmailAddress" />
-      
-	<com.philips.cl.di.dev.pa.view.FontTextView
-		xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-		android:id="@+id/tvPassword"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="16dp"
-		android:layout_marginTop="8dp"
-		android:text="@string/password"
-		android:textColor="@color/title_gray"
-		android:textSize="16sp"
-		custom:fontAssetName="fonts/gillsans.ttf"
-		android:layout_below="@id/etEmailAddress" />
-      
-	<EditText
-		android:id="@+id/etPassword"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_alignParentLeft="true"
-		android:layout_marginLeft="16dp"
-		android:layout_marginRight="48dp"
-		android:paddingLeft="16dp"
-		android:paddingRight="8dp"
-		android:background="@drawable/ews_edit_txt_2_bg"
-		android:ems="10"
-		android:singleLine="true"
-		android:textColor="@color/title_gray"
-		android:textSize="14sp"
-		android:hint="@string/enter_password"
-		android:inputType="textPassword" 
-		android:layout_below="@id/tvPassword" />
-	
-	<com.philips.cl.di.dev.pa.view.FontTextView
-		xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-		android:id="@+id/tv_reset_password"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:paddingRight="16dp"
-		android:paddingLeft="16dp"
-		android:layout_below="@+id/etPassword"
-		android:textColor="@color/philips_blue"
-		android:textSize="16sp"
-		custom:fontAssetName="fonts/gillsans.ttf"
-		android:text="@string/reset_password" />
-      
-	<Button
-		android:id="@+id/btnSignIn"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
-		android:paddingRight="16dp"
-		android:paddingLeft="16dp"
-		android:background="@drawable/blue_button_selector"
-		android:text="@string/sign_in"
-		android:textColor="@color/white"
-		android:textSize="14sp"
-		android:layout_alignParentRight="true"
-		android:layout_below="@id/tv_reset_password"/>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
-</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/dialog_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:padding="16dp" 
+        >
+
+        <Button
+            android:id="@+id/btnClose"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/close_icon_2x" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvSingInTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/btnClose"
+            android:layout_margin="16dp"
+            android:text="@string/sign_in_to_my_philips"
+            android:textColor="@color/title_gray"
+            android:textSize="20sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvEmailAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvSingInTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/email_address"
+            android:textColor="@color/title_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <EditText
+            android:id="@+id/etEmailAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tvEmailAddress"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="48dp"
+            android:background="@drawable/ews_edit_txt_2_bg"
+            android:ems="10"
+            android:hint="@string/enter_email_address"
+            android:inputType="textEmailAddress"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:singleLine="true"
+            android:textColor="@color/title_gray"
+            android:textSize="14sp"
+            android:imeOptions="actionNext" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etEmailAddress"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/password"
+            android:textColor="@color/title_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <EditText
+            android:id="@+id/etPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/tvPassword"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="48dp"
+            android:background="@drawable/ews_edit_txt_2_bg"
+            android:ems="10"
+            android:hint="@string/enter_password"
+            android:inputType="textPassword"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
+            android:singleLine="true"
+            android:textColor="@color/title_gray"
+            android:textSize="14sp"
+            android:imeOptions="actionDone" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_reset_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/etPassword"
+            android:layout_marginTop="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/reset_password"
+            android:textColor="@color/philips_blue"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsans.ttf" />
+
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_reset_password"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/blue_button_selector"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="@string/sign_in"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</ScrollView>

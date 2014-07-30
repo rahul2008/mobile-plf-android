@@ -1,16 +1,21 @@
 package com.philips.cl.di.dev.pa.registration;
 
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -59,7 +64,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		return view;
 	}
 
-	private void initializeView(View view) {	
+	private void initializeView(final View view) {	
 		title = (FontTextView) view.findViewById(R.id.tvSingInTitle);
 		resetPassword = (FontTextView) view.findViewById(R.id.tv_reset_password);
 		btnClose = (Button) view.findViewById(R.id.btnClose);
@@ -150,6 +155,20 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		btnClose.setOnClickListener(clickListener);
 		btnSignIn.setOnClickListener(clickListener);
 		resetPassword.setOnClickListener(clickListener);
+		
+		view.findViewById(R.id.dialog_layout).setOnTouchListener(new OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                 hideSoftKeyboard(view);
+                return false;
+            }
+        });
+	}
+	
+	public void hideSoftKeyboard(View view) {
+	    InputMethodManager inputMethodManager = (InputMethodManager)  view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+	    inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 	
 	private void signOnWithMyPhilips() {
