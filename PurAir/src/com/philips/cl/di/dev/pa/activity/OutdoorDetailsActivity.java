@@ -35,11 +35,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -52,6 +49,7 @@ import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -59,7 +57,7 @@ import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
 public class OutdoorDetailsActivity extends BaseActivity 
-	implements OnClickListener, ServerResponseListener, WeatherDataListener {
+	implements OnClickListener, ServerResponseListener, WeatherDataListener, OutdoorDetailsListener {
 
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
@@ -250,9 +248,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
+		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
 		areaId = getIntent().getStringExtra(AppConstants.EXTRA_AREA_ID);
-		Toast.makeText(getApplicationContext(), "areaId : " + areaId, 0).show();
+		Toast.makeText(getApplicationContext(), "areaId : " + areaId, Toast.LENGTH_LONG).show();
 		startCityAQIHistoryTask(areaId);
+		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
 
 //		if(bundle != null) {
 //			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
@@ -619,13 +619,15 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	private void startWeatherDataTask(String geoCoordinate) {
-		ALog.i(ALog.OUTDOOR_DETAILS, "Latitute and Longitude: " + geoCoordinate);
-		if (geoCoordinate == null) {
-			return;
-		}
-		TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(
-				String.format(AppConstants.WEATHER_SERVICE_URL, geoCoordinate), this);
-		statusUpdateTask.start();
+//		ALog.i(ALog.OUTDOOR_DETAILS, "Latitute and Longitude: " + geoCoordinate);
+//		if (geoCoordinate == null) {
+//			return;
+//		}
+//		TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(
+//				String.format(AppConstants.WEATHER_SERVICE_URL, geoCoordinate), this);
+//		statusUpdateTask.start();
+		
+		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
 
 	}
 	
@@ -677,5 +679,32 @@ public class OutdoorDetailsActivity extends BaseActivity
 		handler.sendEmptyMessage(2) ;
 	}
 
+	@Override
+	public void onHourlyWeatherForecastReceived(final List<Weatherdto> weatherList) {
+		if( weatherList != null ) {
+			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					wetherScrollView.addView(new WeatherReportLayout(OutdoorDetailsActivity.this, null,
+							currentCityTime,weatherList));
+					
+				}
+			});
+			
+		}
+	}
 
+	@Override
+	public void onWeatherForecastReceived(List<Weatherdto> weatherList) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
+		// TODO Auto-generated method stub
+		
+	}
 }

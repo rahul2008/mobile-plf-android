@@ -15,6 +15,7 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
@@ -48,7 +49,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			return;
 		}
 		nextFourDays = new String[4];
-		hrsDays = new String[8];
+		hrsDays = new String[weatherDetails.size()];
 		weatherForecatDays(context, timeStr);
 		
 		/**
@@ -65,14 +66,13 @@ public class WeatherReportLayout extends  LinearLayout {
 	private void todaysWeather(Context context, List<Weatherdto> weatherDetails) {
 		/** Today's weather report*/
 		
-		for (int i = 0; i < 8; i++) {
-			Log.i("Weatherdto", "Weatherdto current days== "+ weatherDetails.size());
-			float tempInCentigrade = weatherDetails.get(i+1).getTempInCentigrade();
-			weatherDetails.get(i+1).getTempInFahrenheit();
-			weatherDetails.get(i+1).getDate();
-			String time = weatherDetails.get(i+1).getTime();
-			String weatherDesc = weatherDetails.get(i+1).getWeatherDesc();
-			String isdaytime = weatherDetails.get(i+1).getIsdaytime();
+		for (int i = 0; i < weatherDetails.size(); i++) {
+			float tempInCentigrade = weatherDetails.get(i).getTempInCentigrade();
+			weatherDetails.get(i).getTempInFahrenheit();
+			weatherDetails.get(i).getDate();
+			String time = weatherDetails.get(i).getTime().substring(10,16);
+			String weatherDesc = weatherDetails.get(i).getWeatherDesc();
+			String isdaytime = weatherDetails.get(i).getIsdaytime();
 			
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -83,7 +83,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			FontTextView tempTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTemp);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
-			timeTxt.setText(Utils.splitToHr(time));
+			timeTxt.setText(time);
 			tempTxt.setText(tempInCentigrade+AppConstants.UNICODE_DEGREE);
 			weatherImg.setImageDrawable(
 					Utils.getOutdoorTemperatureImage(context,weatherDesc, isdaytime));
