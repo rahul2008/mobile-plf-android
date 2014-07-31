@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import java.util.Locale;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -14,6 +15,7 @@ import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -22,11 +24,12 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
 	
-	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2;
+	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2, cityId;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	
 	private ImageView aqiCircleMeter ;
+	private int currentPageIndex;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	
 	private void initViews(View view) {
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
+		cityId  = (FontTextView) view.findViewById(R.id.hf_outdoor_city_id);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
 		aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
@@ -69,9 +73,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
 					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-						updateUI(city, city.getCityNameCN());
+						updateUI(city, city.getCityNameCN(), areaID);
 					} else {
-						updateUI(city, city.getCityName());
+						updateUI(city, city.getCityName(), areaID);
 					}
 				}
 			}
@@ -79,10 +83,11 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		
 	}
 	
-	private void updateUI(OutdoorCity city, String outdoorCityName) {
+	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
 		
 		cityName.setText(outdoorCityName);
+		cityId.setText(areaID);
 		
 		if(city.getOutdoorAQI() != null) {
 			OutdoorAQI outdoorAQI = city.getOutdoorAQI();
@@ -132,6 +137,11 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.hf_outdoor_circle_pointer:
+			if (cityId.getText() == null) return;
+			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
+			intent.putExtra(AppConstants.EXTRA_AREA_ID, cityId.getText().toString());
+			startActivity(intent);
+			
 //			Bundle bundle = getArguments();
 //			if (bundle != null) {
 //				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
@@ -158,5 +168,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	@Override
 	public void onPageSelected(int position) {
 		ALog.i(ALog.TEMP, "OutdoorFragment$onPageSelected " + position);
+		currentPageIndex = position;
 	}
 }

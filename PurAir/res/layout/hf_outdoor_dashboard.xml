@@ -39,6 +39,18 @@
         android:textColor="@color/white"
         android:textSize="22sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_outdoor_city_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:visibility="invisible" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

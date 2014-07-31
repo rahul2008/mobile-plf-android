@@ -221,4 +221,5 @@ public class AppConstants {
 	public static final String CURR_PURAIR_PREF_KEY = "eui64";
 	public static final String FIRMWARE_VERSION = "firmwareVersion";
 	public static final String FIRMWARE_VERSION_KEY = "firmwareversionKey";
+	public static final String EXTRA_AREA_ID = "area_id";
 }

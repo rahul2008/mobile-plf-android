@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,10 +32,18 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
+import com.philips.cl.di.dev.pa.dashboard.TaskType;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData;
@@ -76,6 +87,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private View mapBackground;
 	private double latitude;
 	private double longitude;
+	private String areaId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +106,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		setActionBarTitle();
 		getDataFromDashboard();
 	}
-
+	
 	/**
 	 * Reading data from server
 	 * */
@@ -239,7 +251,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		Bundle bundle = getIntent().getExtras();
+		areaId = getIntent().getStringExtra(AppConstants.EXTRA_AREA_ID);
+		Toast.makeText(getApplicationContext(), "areaId : " + areaId, 0).show();
+		startCityAQIHistoryTask(areaId);
 
 //		if(bundle != null) {
 //			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
@@ -459,8 +473,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private void setViewlastDayAQIReadings() {
 		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
-			graphLayout.addView(
-					new GraphView(this, lastDayAQIReadings, coordinates));
+			graphLayout.addView(new GraphView(this, lastDayAQIReadings, coordinates));
 		}
 		lastDayBtn.setTextColor(GraphConst.COLOR_DODLE_BLUE);
 		lastWeekBtn.setTextColor(Color.LTGRAY);
@@ -490,11 +503,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private void updateWeatherFields() {
 		/**Add today weather*/
-		wetherScrollView.addView(new WeatherReportLayout(this, null, 8, 
+		wetherScrollView.addView(new WeatherReportLayout(this, null,
 				currentCityTime, SessionDto.getInstance().getWeatherDetails()));
 
 		/**Add weather forecast*/
-		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null, 5, 
+		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null,
 				currentCityTime, SessionDto.getInstance().getWeatherDetails());
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
@@ -629,12 +642,29 @@ public class OutdoorDetailsActivity extends BaseActivity
 		};
 	};
 	
+	
+	public void startCityAQIHistoryTask(String areaID) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
+		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
+				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
+				Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," 
+				+ Utils.getDate(System.currentTimeMillis()), OutdoorController.APP_ID), 
+				areaID, PurAirApplication.getAppContext(), this);
+		aqiHistoricTask.start();
+	}
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
+	public void receiveServerResponse(int responseCode, String responseData, String areaID) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
 		if (responseCode == 200) {
-			SessionDto.getInstance().setOutdoorEventDto(DataParser.parseOutdoorAQIData(responseData)) ;
+			List<OutdoorAQI> outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
+			for (OutdoorAQI aqi : outdoorAQIs) {
+				//pm25, aqi, pm10, so2, no2, areaID
+				ALog.i(ALog.OUTDOOR_DETAILS, outdoorAQIs.size()+" Outdoor Aqi outdoorAQIs: AQI: " + aqi.getAQI() +
+						", pm25: " + aqi.getPM25() + ", pm10: " + aqi.getPm10()+
+						", so2: " + aqi.getSo2()+ ", no2: " + aqi.getNo2()+ ", time: " + aqi.getTimeStamp());
+			}
 			handler.sendEmptyMessage(1);
 		}
 		
@@ -647,4 +677,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		SessionDto.getInstance().setWeatherDetails(DataParser.parseWeatherData(weatherData)) ;
 		handler.sendEmptyMessage(2) ;
 	}
+
+
 }
