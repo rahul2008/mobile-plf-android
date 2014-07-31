@@ -304,7 +304,6 @@ public class DataParser {
 
 	public static OutdoorAQI parseLocationAQI(String dataToParse, String areaID) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
-		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();
 		if( dataToParse == null ) return null ;
 		try {
 			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("p");
@@ -315,9 +314,10 @@ public class DataParser {
 			int pm10 = 	cityData.getJSONObject(areaID).optInt("p3");
 			int so2 = cityData.getJSONObject(areaID).optInt("p4");
 			int no2 = cityData.getJSONObject(areaID).optInt("p5");
+			String timeStamp = cityData.getJSONObject(areaID).optString("updatetime");
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
 
-			return new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID);
+			return new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp);
 			
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");

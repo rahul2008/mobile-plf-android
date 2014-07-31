@@ -22,6 +22,7 @@ public class OutdoorAQI {
 		this.p4 = so2;
 		this.p5 = no2;
 		this.timeStamp = timeStamp;
+		this.areaID = areaID;
 	}
 	
 	public String getTimeStamp() {
