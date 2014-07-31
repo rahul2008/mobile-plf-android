@@ -24,11 +24,11 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class OutdoorController implements ServerResponseListener {
 	
-	public static String APP_ID = "0283ef34a38902227fd8"; //TODO : Obscure constant
+	private static final String APP_ID = "0283ef34a38902227fd8"; //TODO : Obscure constant
 	
 	private static String BASE_URL;
 	
-	public static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
+	private static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
 	private static final String BASE_URL_HOURLY_FORECAST = "http://data.fuwu.weather.com.cn/getareaid/areaid?id=";
 	
 	private static final String HASH_ALG = "HmacSHA1";
@@ -99,16 +99,19 @@ public class OutdoorController implements ServerResponseListener {
 	private void notifyListeners(String data, String areaID) {
 		if(outdoorEventListeners == null) return;
 		
-		List<OutdoorAQI> outdoorAQIList = DataParser.parseLocationAQI(data, areaID);
+		OutdoorAQI outdoorAQIList = DataParser.parseLocationAQI(data, areaID);
 		List<OutdoorWeather> outdoorWeatherList = DataParser.parseLocationWeather(data);
 	
 		for(int index = 0; index < outdoorEventListeners.size(); index++) {
-			if(outdoorAQIList != null && !outdoorAQIList.isEmpty()) {
-				Iterator<OutdoorAQI> iter = outdoorAQIList.iterator();
-				while(iter.hasNext()) {
-					OutdoorAQI outdoorAQI = iter.next();
-					outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQI, areaID);
-				}
+//			if(outdoorAQIList != null && !outdoorAQIList.isEmpty()) {
+//				Iterator<OutdoorAQI> iter = outdoorAQIList.iterator();
+//				while(iter.hasNext()) {
+//					OutdoorAQI outdoorAQI = iter.next();
+//					outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQI, areaID);
+//				}
+//			}
+			if(outdoorAQIList != null) {
+				outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQIList, areaID);
 			}
 			
 			if(outdoorWeatherList != null && !outdoorWeatherList.isEmpty()) {
@@ -129,7 +132,7 @@ public class OutdoorController implements ServerResponseListener {
 		}
 	}
 	
-	public String buildURL(String baseUrl, String areaID, String type, String date, String appID) {
+	private String buildURL(String baseUrl, String areaID, String type, String date, String appID) {
 		String url = AppConstants.EMPTY_STRING;
 		String mostCertainlyTheFinalKey = AppConstants.EMPTY_STRING;
 		StringBuilder publicKeyBuilder = new StringBuilder(baseUrl) ;

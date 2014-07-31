@@ -302,19 +302,23 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-	public static List<OutdoorAQI> parseLocationAQI(String dataToParse, String areaID) {
+	public static OutdoorAQI parseLocationAQI(String dataToParse, String areaID) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();
 		if( dataToParse == null ) return null ;
 		try {
-			JSONObject responseObject = new JSONObject(dataToParse);
-			int pm25 = responseObject.getJSONObject("p").getInt("p1");
-			int aqi = responseObject.getJSONObject("p").getInt("p2");
-
+			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("p");
+			if(responseObject == null) return null;
+			JSONObject cityData = responseObject.getJSONObject(0); //Area code
+			int pm25 = cityData.getJSONObject(areaID).optInt("p1");
+			int aqi = cityData.getJSONObject(areaID).optInt("p2");
+			int pm10 = 	cityData.getJSONObject(areaID).optInt("p3");
+			int so2 = cityData.getJSONObject(areaID).optInt("p4");
+			int no2 = cityData.getJSONObject(areaID).optInt("p5");
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
 
-//			outdoorAQIList.add(new OutdoorAQI(pm25, aqi, ""));
-			return outdoorAQIList;
+			return new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID);
+			
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
 			return null;
@@ -483,6 +487,8 @@ public class DataParser {
 	}
 	
 	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {
+		
+		
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
 //			ALog.i(ALog.PARSER, "historicalAQIObject " + historicalAQIObject);
@@ -502,7 +508,6 @@ public class DataParser {
 				
 				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			}
-//			ALog.i(ALog.PARSER, "historicalAQIs length " + outdoorAQIs);
 			return outdoorAQIs;
 			
 		} catch (JSONException e) {
