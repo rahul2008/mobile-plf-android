@@ -12,14 +12,20 @@ public class OutdoorAQI {
 	private int p3;
 	private int p4;
 	private int p5;
+	private String timeStamp;
 	private String areaID;
 
-	public OutdoorAQI(int p1, int p2, int pm10, int so2, int no2, String areaID) {
+	public OutdoorAQI(int p1, int p2, int pm10, int so2, int no2, String areaID, String timeStamp) {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = pm10;
 		this.p4 = so2;
 		this.p5 = no2;
+		this.timeStamp = timeStamp;
+	}
+	
+	public String getTimeStamp() {
+		return timeStamp;
 	}
 
 	public int getPM25() {

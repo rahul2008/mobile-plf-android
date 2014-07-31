@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
 	
-	String[] nextFiveDays;
+	String[] nextFourDays;
 	String[] hrsDays;
 	
 	public WeatherReportLayout(Context context) {
@@ -40,21 +40,21 @@ public class WeatherReportLayout extends  LinearLayout {
 	 * @param AttributeSet
 	 * @param int number of view to show
 	 * */
-	public WeatherReportLayout(final Context context, AttributeSet attrs,  final int num, String timeStr, 
+	public WeatherReportLayout(final Context context, AttributeSet attrs, String timeStr, 
 			List<Weatherdto> weatherDetails) {
 		super(context, attrs);
 		
 		if (weatherDetails == null) {
 			return;
 		}
-		nextFiveDays = new String[5];
+		nextFourDays = new String[4];
 		hrsDays = new String[8];
 		weatherForecatDays(context, timeStr);
 		
 		/**
 		 * For weather report condition
 		 * */
-		if (num == 5) {
+		if (weatherDetails.size() == 4) {
 			fourDaysWeatherForecast(context, weatherDetails);
 		} else {
 			todaysWeather(context, weatherDetails);
@@ -140,7 +140,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odWeatherForcastImg);
 			ImageView windDirImg = (ImageView) v.findViewById(R.id.odWeatherForcastWindImg);
 			
-			dayTxt.setText(nextFiveDays[i]);
+			dayTxt.setText(nextFourDays[i]);
 			weatherImg.setImageDrawable(
 					Utils.getOutdoorTemperatureImage(context, weatherDesc, "yes"));
 			Utils.setOutdoorWeatherDirImg(context, windSpeedTemp, windDirection, windDegree, windDirImg);
@@ -167,14 +167,14 @@ public class WeatherReportLayout extends  LinearLayout {
 		}
 		
 		int dayInt = cal.get(Calendar.DAY_OF_WEEK);
-		for (int j = 0; j < nextFiveDays.length; j++) {
+		for (int j = 0; j < nextFourDays.length; j++) {
 			if (dayInt < 7) {
 				dayInt++;
 			} else {
 				dayInt = 1;
 			}
 			String dayStr = Utils.getDayOfWeek(context, dayInt);
-			nextFiveDays[j] = dayStr;
+			nextFourDays[j] = dayStr;
 		}
 		
 		for (int j = 0; j < hrsDays.length; j++) {

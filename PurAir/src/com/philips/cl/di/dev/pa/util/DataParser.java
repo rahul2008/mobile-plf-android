@@ -485,21 +485,22 @@ public class DataParser {
 	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
-			ALog.i(ALog.PARSER, "historicalAQIObject " + historicalAQIObject);
+//			ALog.i(ALog.PARSER, "historicalAQIObject " + historicalAQIObject);
 			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("p");
 			if(historicalAQIs == null) return null;
 			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
 			ALog.i(ALog.PARSER, "historicalAQIs length " + historicalAQIs.length());
 			
 			for (int i = 0; i < historicalAQIs.length(); i++) {
-				ALog.i(ALog.PARSER, "historicalAQIs.getJSONObject(i) " + historicalAQIs.getJSONObject(i));
+//				ALog.i(ALog.PARSER, "historicalAQIs.getJSONObject(i) " + historicalAQIs.getJSONObject(i));
 				int pm25 = historicalAQIs.getJSONObject(i).optInt("p1");
 				int aqi = historicalAQIs.getJSONObject(i).optInt("p2");
 				int pm10 = historicalAQIs.getJSONObject(i).optInt("p3");
 				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
 				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
+				String timeStamp = historicalAQIs.getJSONObject(i).getString("updatetime");
 				
-				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID));
+				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			}
 //			ALog.i(ALog.PARSER, "historicalAQIs length " + outdoorAQIs);
 			return outdoorAQIs;
