@@ -23,7 +23,8 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	private OutdoorDataChangeListener iListener;
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
+	@SuppressWarnings("unused")
+	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; // Suppressed as this is a false positive.
 
 	public synchronized static OutdoorManager getInstance() {
 		if(smInstance == null) {
@@ -35,10 +36,10 @@ public class OutdoorManager implements OutdoorEventListener {
 	public void startCitiesTask() {
 		for(String areaID : citiesList) {
 			if(citiesMap == null || citiesMap.get(areaID) == null || citiesMap.get(areaID).getOutdoorAQI() == null)  {
-				OutdoorController.getInstance().startCitiesTask(areaID);
+				OutdoorController.getInstance().startCityAQITask(areaID);
 			}
 			if(citiesMap == null || citiesMap.get(areaID) == null || citiesMap.get(areaID).getOutdoorWeather() == null) {
-				OutdoorController.getInstance().startOutdoorWeatherTask(areaID);
+				OutdoorController.getInstance().startCityWeatherTask(areaID);
 			}
 		}
 	}

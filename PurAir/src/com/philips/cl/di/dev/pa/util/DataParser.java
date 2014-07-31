@@ -302,7 +302,7 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
+	public static List<OutdoorAQI> parseLocationAQI(String dataToParse, String areaID) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();
 		if( dataToParse == null ) return null ;
@@ -313,7 +313,7 @@ public class DataParser {
 
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
 
-			outdoorAQIList.add(new OutdoorAQI(pm25, aqi, ""));
+//			outdoorAQIList.add(new OutdoorAQI(pm25, aqi, ""));
 			return outdoorAQIList;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
@@ -436,20 +436,21 @@ public class DataParser {
 			cityJson = new JSONObject(dataToParse);
 		} catch (JSONException e) {
 			e.printStackTrace();
+			ALog.e(ALog.PARSER, "Parse ERROR in parseForecastCityData " + e.getMessage());
+			return null;
 		}
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
 		if(temp == null) return null;
-		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp C :: " + temp.optJSONObject(areaID).optJSONObject("c"));
+		
 		JSONObject temp2 = temp.optJSONObject(areaID).optJSONObject("c");
 		Gson gson = new GsonBuilder().create();
 		ForecastCityDto cityDto =  gson.fromJson(temp2.toString(), ForecastCityDto.class);
 		if(cityDto == null) return null; 
-		ALog.i(ALog.PARSER, "ForecastCityDto :: " + cityDto.getAreaID());
-		
+
 		return cityDto;
 	}
 	
-	public static ForecastWeatherDto parseFourDaysForecastData(String dataToParse, String areaID) {
+	public static List<ForecastWeatherDto> parseFourDaysForecastData(String dataToParse, String areaID) {
 		JSONObject cityJson = null;
 		try {
 			cityJson = new JSONObject(dataToParse);
@@ -470,14 +471,44 @@ public class DataParser {
 				ALog.i(ALog.PARSER, "Forecast for day " + i + " :: " + forecastArray.getJSONObject(i));
 				ForecastWeatherDto dto = gson.fromJson(forecastArray.getJSONObject(i).toString(), ForecastWeatherDto.class);
 				weatherDtos.add(dto);
+				return weatherDtos;
 			} catch (JSONException e) {
-				e.printStackTrace();
+				ALog.e(ALog.PARSER, "Parse ERROR in parseFourDaysForecastData " + e.getMessage());
 			}
 		}
 		
 		ALog.i(ALog.PARSER, "ForecastCityDto weatherDtos :: " + weatherDtos);
 		
-		return new ForecastWeatherDto();
+		return null;
+	}
+	
+	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {
+		try {
+			JSONObject historicalAQIObject = new JSONObject(dataToParse);
+			ALog.i(ALog.PARSER, "historicalAQIObject " + historicalAQIObject);
+			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("p");
+			if(historicalAQIs == null) return null;
+			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
+			ALog.i(ALog.PARSER, "historicalAQIs length " + historicalAQIs.length());
+			
+			for (int i = 0; i < historicalAQIs.length(); i++) {
+				ALog.i(ALog.PARSER, "historicalAQIs.getJSONObject(i) " + historicalAQIs.getJSONObject(i));
+				int pm25 = historicalAQIs.getJSONObject(i).optInt("p1");
+				int aqi = historicalAQIs.getJSONObject(i).optInt("p2");
+				int pm10 = historicalAQIs.getJSONObject(i).optInt("p3");
+				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
+				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
+				
+				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID));
+			}
+//			ALog.i(ALog.PARSER, "historicalAQIs length " + outdoorAQIs);
+			return outdoorAQIs;
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 	
 	public static List<Weatherdto> getHourlyWeatherData(String data) {

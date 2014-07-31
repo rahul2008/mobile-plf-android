@@ -123,6 +123,12 @@ public class Utils {
 
 		return noOfHrs;
 	}
+	
+	public static String getDate(long timeMillis) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+		String date = dateFormat.format(new Date(timeMillis));
+		return date;
+	}
 
 	@SuppressLint("UseSparseArrays")
 	public static void getIndoorAqiValues(String downloadedData, String eui64) {
@@ -788,6 +794,7 @@ public class Utils {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		cmaPrivateKey = "feilipu_test_twoweek";
 		return cmaPrivateKey;
 	}
 	

@@ -4,9 +4,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,11 +24,12 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class OutdoorController implements ServerResponseListener {
 	
-	private static String APP_ID ;
+	private static String APP_ID = "0283ef34a38902227fd8"; //TODO : Obscure constant
 	
 	private static String BASE_URL;
 	
 	private static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
+	private static final String BASE_URL_HOURLY_FORECAST = "http://data.fuwu.weather.com.cn/getareaid/areaid?id=";
 	
 	private static final String HASH_ALG = "HmacSHA1";
 
@@ -39,7 +38,7 @@ public class OutdoorController implements ServerResponseListener {
 	private static OutdoorController smInstance;
 	
 	private OutdoorController() {
-		APP_ID = Utils.getCMA_AppID() ;
+//		APP_ID = Utils.getCMA_AppID() ;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 	}
@@ -60,34 +59,49 @@ public class OutdoorController implements ServerResponseListener {
 	}
 
 	@SuppressLint("SimpleDateFormat")
-	public void startCitiesTask(String areaID) {
-		//If purifier in demo mode, skip download data
-		if (PurAirApplication.isDemoModeEnable()) return;
-			
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
-		String date = dateFormat.format(new Date(System.currentTimeMillis()));
-		ALog.i(ALog.DASHBOARD, "startCitiesTask dateFormate " + date);
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI,areaID, "air", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);
-		citiesList.start();
-	}
-	
-	@SuppressLint("SimpleDateFormat")
-	public void startOutdoorWeatherTask(String areaID) {
+	public void startCityAQITask(String areaID) {
 		//If purifier in demo mode, skip download data
 		if (PurAirApplication.isDemoModeEnable()) return;
 		
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
-		String date = dateFormat.format(new Date(System.currentTimeMillis()));
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", date, APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
+	public void startCityAQIHistoryTask(String areaID) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air_his", Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		citiesList.start();
+	}
+	
+	public void startCityWeatherTask(String areaID) {
+		//If purifier in demo mode, skip download data
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		citiesList.start();
+	}
+	
+	public void startCityFourDayForecastTask(String areaID) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL, areaID, "forecast4d", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		citiesList.start();
+	}
+	
+	public void startCityOneDayForecastTask(String areaID) {
+		if (PurAirApplication.isDemoModeEnable()) return;
+		
+		TaskGetHttp citiesList = new TaskGetHttp(BASE_URL_HOURLY_FORECAST + areaID + "&time=day", areaID, PurAirApplication.getAppContext(), this);
+		citiesList.start();
+	}
+	 
 	private void notifyListeners(String data, String areaID) {
 		if(outdoorEventListeners == null) return;
 		
-		List<OutdoorAQI> outdoorAQIList = DataParser.parseLocationAQI(data);
+		List<OutdoorAQI> outdoorAQIList = DataParser.parseLocationAQI(data, areaID);
 		List<OutdoorWeather> outdoorWeatherList = DataParser.parseLocationWeather(data);
-		
+	
 		for(int index = 0; index < outdoorEventListeners.size(); index++) {
 			if(outdoorAQIList != null && !outdoorAQIList.isEmpty()) {
 				Iterator<OutdoorAQI> iter = outdoorAQIList.iterator();
@@ -109,7 +123,7 @@ public class OutdoorController implements ServerResponseListener {
 	
 	@Override
 	public void receiveServerResponse(int responseCode, String data, String areaID) {
-		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode);
+		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode + " areaID " + areaID);
 		if(data != null) {
 			notifyListeners(data, areaID);
 		}
