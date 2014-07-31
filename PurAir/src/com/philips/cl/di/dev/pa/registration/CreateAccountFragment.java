@@ -24,7 +24,7 @@ import com.philips.cl.di.reg.errormapping.Error;
 
 public class CreateAccountFragment extends BaseFragment implements OnClickListener {
 	
-	public enum ErrorType { NAME, PASSWORD, EMAIL, NONE}
+	public enum ErrorType { NAME, PASSWORD, EMAIL, NONE, WHITESPACE}
 
 	private EditText mEditTextName;
 	private EditText mEditTextEmail;
@@ -138,6 +138,9 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 			case PASSWORD:
 				showErrorDialog(Error.INVALID_PASSWORD) ;
 				break;
+			case WHITESPACE:
+				showErrorDialog(Error.INVALID_USERNAME_OR_PASSWORD) ;
+				break;
 			case EMAIL:
 				showErrorDialog(Error.INVALID_EMAILID) ;
 				break;			
@@ -170,6 +173,7 @@ public class CreateAccountFragment extends BaseFragment implements OnClickListen
 		if(mName == null || mName.length() < 1) return ErrorType.NAME;
 		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
 		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
+		if(!mPassword.matches("[a-zA-Z0-9@#$%^&+=_]+"))return ErrorType.WHITESPACE;
 		return ErrorType.NONE ;
 	}
 	
