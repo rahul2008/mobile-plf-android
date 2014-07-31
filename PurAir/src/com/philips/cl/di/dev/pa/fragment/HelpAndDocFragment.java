@@ -29,7 +29,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		TextView lblAppTutorial=(TextView) rootView.findViewById(R.id.app_tutorial);
 		TextView lblFAQ= (TextView) rootView.findViewById(R.id.faq);
 		TextView lblUserManual=(TextView) rootView.findViewById(R.id.lbl_user_manual);
-		TextView lblWifiConnectivity=(TextView) rootView.findViewById(R.id.lbl_wifi_connectivity);
 		TextView lblPhilipsSupport=(TextView) rootView.findViewById(R.id.lbl_philips_support);
 		TextView lblCallUs=(TextView) rootView.findViewById(R.id.lbl_call_us);
 		TextView lblEmailUs=(TextView) rootView.findViewById(R.id.lbl_email_us);
@@ -38,7 +37,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		lblAppTutorial.setTypeface(Fonts.getGillsans(getActivity()));		
 		lblFAQ.setTypeface(Fonts.getGillsans(getActivity()));
 		lblUserManual.setTypeface(Fonts.getGillsans(getActivity()));
-		lblWifiConnectivity.setTypeface(Fonts.getGillsans(getActivity()));
 		lblPhilipsSupport.setTypeface(Fonts.getGillsans(getActivity()));
 		lblCallUs.setTypeface(Fonts.getGillsans(getActivity()));
 		lblEmailUs.setTypeface(Fonts.getGillsans(getActivity()));
@@ -63,11 +61,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.app_tutorial:
-			Intent intent = new Intent(getActivity(), AirTutorialActivity.class);
-	        startActivity(intent);
-			break;
-			
 		case R.id.layout_call_us:
 			//TODO : Move to one place.
 			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
@@ -90,6 +83,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			
 		case R.id.faq:
 		case R.id.lbl_user_manual:
+		case R.id.app_tutorial:
 			Intent faq = new Intent(Intent.ACTION_VIEW);
 			faq.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
 			startActivity(faq);

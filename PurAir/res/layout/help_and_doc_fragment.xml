@@ -64,23 +64,6 @@
             android:layout_height="1dp"
             android:background="@color/darkgray" />
 
-        <TextView
-            android:id="@+id/lbl_wifi_connectivity"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableRight="@drawable/wifi_help"
-            android:gravity="center_vertical"
-            android:minHeight="85dp"
-            android:padding="5dp"
-            android:text="@string/subtitle_wifi_connectivity"
-            android:textSize="@dimen/text_size_medium" 
-            android:textColor="@color/subtitle_gray"
-            />
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/darkgray" />
 
         <TextView
             android:id="@+id/lbl_philips_support"
