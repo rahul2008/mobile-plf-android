@@ -325,6 +325,7 @@ public class DataParser {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static List<OutdoorWeather> parseLocationWeather(String dataToParse) {
 		if( dataToParse == null ) return null ;
 		
@@ -455,6 +456,7 @@ public class DataParser {
 	}
 	
 	public static List<ForecastWeatherDto> parseFourDaysForecastData(String dataToParse, String areaID) {
+		ALog.i(ALog.PARSER, "parseFourDaysForecastDat dataToParse: " + dataToParse);
 		JSONObject cityJson = null;
 		try {
 			cityJson = new JSONObject(dataToParse);
@@ -464,7 +466,7 @@ public class DataParser {
 		}
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
 		if(temp == null) return null;
-		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp F :: " + temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1"));
+//		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp F :: " + temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1"));
 
 		JSONArray forecastArray = temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1");
 		ALog.i(ALog.PARSER, "forecastArray " + forecastArray.length());
@@ -476,7 +478,7 @@ public class DataParser {
 				ALog.i(ALog.PARSER, "Forecast for day " + i + " :: " + forecastArray.getJSONObject(i));
 				ForecastWeatherDto dto = gson.fromJson(forecastArray.getJSONObject(i).toString(), ForecastWeatherDto.class);
 				weatherDtos.add(dto);
-				return weatherDtos;
+//				return weatherDtos;
 			} catch (JSONException e) {
 				ALog.e(ALog.PARSER, "Parse ERROR in parseFourDaysForecastData " + e.getMessage());
 			}
@@ -484,7 +486,7 @@ public class DataParser {
 		
 		ALog.i(ALog.PARSER, "ForecastCityDto weatherDtos :: " + weatherDtos);
 		
-		return null;
+		return weatherDtos;
 	}
 	
 	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {

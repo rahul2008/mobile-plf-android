@@ -29,7 +29,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private ImageView weatherIcon ;
 	
 	private ImageView aqiCircleMeter ;
-	private int currentPageIndex;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -168,6 +167,5 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	@Override
 	public void onPageSelected(int position) {
 		ALog.i(ALog.TEMP, "OutdoorFragment$onPageSelected " + position);
-		currentPageIndex = position;
 	}
 }

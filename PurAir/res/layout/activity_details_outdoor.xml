@@ -94,7 +94,7 @@
             android:id="@+id/odTodayWetherReportHSV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fadeScrollbars="false" >
+            android:scrollbars="none" >
         </HorizontalScrollView>
 
         <View

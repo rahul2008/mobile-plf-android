@@ -57,6 +57,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
+	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private FontTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
@@ -423,12 +424,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private void updateWeatherFields() {
 		/**Add today weather*/
-		wetherScrollView.addView(new WeatherReportLayout(this, null,
-				currentCityTime, SessionDto.getInstance().getWeatherDetails()));
+		wetherScrollView.addView(
+				new WeatherReportLayout(this, null, SessionDto.getInstance().getWeatherDetails()));
 
 		/**Add weather forecast*/
-		WeatherReportLayout weatherReportLayout = new WeatherReportLayout(this, null,
-				currentCityTime, SessionDto.getInstance().getWeatherDetails());
+		WeatherReportLayout weatherReportLayout = 
+				new WeatherReportLayout(this, null, SessionDto.getInstance().getWeatherDetails());
 		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 		wetherForcastLayout.addView(weatherReportLayout);
 	}
@@ -530,9 +531,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 				
 				@Override
 				public void run() {
-					wetherScrollView.addView(new WeatherReportLayout(OutdoorDetailsActivity.this, null,
-							currentCityTime,weatherList));
-					
+					if (wetherScrollView != null && wetherScrollView.getChildCount() > 0) {
+						wetherScrollView.removeAllViews();
+					}
+					wetherScrollView.addView(
+							new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
 				}
 			});
 			
@@ -542,19 +545,31 @@ public class OutdoorDetailsActivity extends BaseActivity
 	@Override
 	public void onWeatherForecastReceived(final List<ForecastWeatherDto> weatherList) {
 		// TODO Auto-generated method stub
-		if( weatherList != null ) {
-			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
-			runOnUiThread(new Runnable() {
-				
-				@Override
-				public void run() {
-					wetherScrollView.addView(new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
+
+		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				weatherProgressBar.setVisibility(View.GONE);
+				if( weatherList != null ) {
 					
+					if (weatherReportLayout != null && weatherReportLayout.getChildCount() > 0) {
+						weatherReportLayout.removeAllViews();
+					}
+					
+					weatherReportLayout = 
+							new WeatherReportLayout(OutdoorDetailsActivity.this, null, 0, weatherList);
+					weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
+					wetherForcastLayout.addView(weatherReportLayout);
+
+					//						wetherScrollView.addView(
+					//						new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
 				}
-			});
-			
-		}
+			}
+		});
 	}
+	
 
 	@Override
 	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {

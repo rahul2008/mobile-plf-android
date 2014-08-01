@@ -643,10 +643,9 @@ public class Utils {
 		return weatherImage;
 	}
 
-	public static void setOutdoorWeatherDirImg(Context contex, float windSpeed,
-			String windDir, float degree, ImageView iv) {
+	public static void setOutdoorWeatherDirImg(Context contex, float windSpeed, float degree, ImageView iv) {
 		Drawable weatherImage = null;
-		if (windDir == null || windDir.equals("") || degree < 0) {
+		if (degree < 0) {
 			return;
 		}
 		if (windSpeed < 15) {
