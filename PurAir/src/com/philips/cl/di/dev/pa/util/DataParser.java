@@ -460,6 +460,7 @@ public class DataParser {
 			cityJson = new JSONObject(dataToParse);
 		} catch (JSONException e) {
 			e.printStackTrace();
+			return null ;
 		}
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
 		if(temp == null) return null;

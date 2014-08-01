@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -32,6 +33,12 @@ public class WeatherReportLayout extends  LinearLayout {
 	public WeatherReportLayout(Context context, AttributeSet attr, int defStyle) {
 		super(context, attr);
 	}
+	
+	public WeatherReportLayout(Context context, AttributeSet attrs,
+			List<ForecastWeatherDto> weatherDetails) {
+		super(context, attrs);
+		nextFourDays = new String[4];
+	}
 
 	/**
 	 * Constructor
@@ -46,18 +53,13 @@ public class WeatherReportLayout extends  LinearLayout {
 		if (weatherDetails == null) {
 			return;
 		}
-		nextFourDays = new String[4];
+		
 		hrsDays = new String[weatherDetails.size()];
-		weatherForecatDays(context, timeStr);
 		
 		/**
 		 * For weather report condition
 		 * */
-		if (weatherDetails.size() == 4) {
-			fourDaysWeatherForecast(context, weatherDetails);
-		} else {
-			todaysWeather(context, weatherDetails);
-		}
+		todaysWeather(context, weatherDetails);
 		
 	}
 	
@@ -91,7 +93,7 @@ public class WeatherReportLayout extends  LinearLayout {
 		}
 	}
 	
-	private void fourDaysWeatherForecast(Context context, List<Weatherdto> weatherDetails) {
+	private void fourDaysWeatherForecast(Context context, List<ForecastWeatherDto> weatherDetails) {
 		/** Next 4 days weather report*/
 		int count = 9;
 		for (int i = 0; i < 5; i++) {
@@ -103,21 +105,18 @@ public class WeatherReportLayout extends  LinearLayout {
 			float minTempC = 0;
 			float windSpeed = 0;
 			for (int j = 0; j < 8; j++) {
-				weatherDetails.get(count).getTempInCentigrade();
-				weatherDetails.get(count).getTempInFahrenheit();
-				weatherDetails.get(count).getDate();
-				weatherDetails.get(count).getTime();
-				maxTempC = weatherDetails.get(count).getMaxTempC();
-				weatherDetails.get(count).getMaxTempF();
-				minTempC = weatherDetails.get(count).getMinTempC();
-				windSpeed = weatherDetails.get(count).getWindSpeed();
-				weatherDetails.get(count).getMinTempF();
+				weatherDetails.get(count).getTemperatureDay();
+				weatherDetails.get(count).getTemperatureNight();
+				weatherDetails.get(count).getWeatherDay();
+				weatherDetails.get(count).getSolarCycleTimes();
+				maxTempC = Float.parseFloat(weatherDetails.get(count).getTemperatureDay());
+				minTempC = 0.0f;
+				windSpeed = Float.parseFloat( weatherDetails.get(count).getWindSpeedDay());
 				
 				if (j == 4) {
-					weatherDesc = weatherDetails.get(count).getWeatherDesc();
-					weatherDetails.get(count).getIsdaytime();
-					windDirection = weatherDetails.get(count).getWindDirection();
-					windDegree = weatherDetails.get(count).getWindDegree();
+					weatherDesc = weatherDetails.get(count).getWeatherDay();
+					windDirection = weatherDetails.get(count).getWindDirectionNight();
+					windDegree = 4;
 				}
 				
 				if (windSpeed > windSpeedTemp) {

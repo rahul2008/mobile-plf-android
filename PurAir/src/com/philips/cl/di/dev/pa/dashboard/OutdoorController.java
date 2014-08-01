@@ -114,7 +114,12 @@ public class OutdoorController implements ServerResponseListener {
 		if( outdoorAQIList == null && outdoorWeatherList == null ) {
 			if( outdoorDetailsListener == null ) return ;
 			List<Weatherdto>  weatherList = DataParser.getHourlyWeatherData(data) ;
-			outdoorDetailsListener.onHourlyWeatherForecastReceived(weatherList) ;
+			if( weatherList != null)
+				outdoorDetailsListener.onHourlyWeatherForecastReceived(weatherList) ;
+			List<ForecastWeatherDto> forecastWeatherDto = DataParser.parseFourDaysForecastData(data, areaID) ;
+			if( forecastWeatherDto != null ) {
+				outdoorDetailsListener.onWeatherForecastReceived(forecastWeatherDto) ;
+			}
 		}
 		else {
 			for(int index = 0; index < outdoorEventListeners.size(); index++) {

@@ -31,6 +31,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
+import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -207,6 +209,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		areaId = getIntent().getStringExtra(AppConstants.EXTRA_AREA_ID);
 		startCityAQIHistoryTask(areaId);
 		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
+		OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
 
 	}
 	
@@ -537,13 +540,24 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 
 	@Override
-	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
+	public void onWeatherForecastReceived(final List<ForecastWeatherDto> weatherList) {
 		// TODO Auto-generated method stub
-		
+		if( weatherList != null ) {
+			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
+			runOnUiThread(new Runnable() {
+				
+				@Override
+				public void run() {
+					wetherScrollView.addView(new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
+					
+				}
+			});
+			
+		}
 	}
 
 	@Override
-	public void onWeatherForecastReceived(List<Weatherdto> weatherList) {
+	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
 		// TODO Auto-generated method stub
 		
 	}
