@@ -80,17 +80,17 @@ public class IndoorDashboardUtils {
 
 	public static float getAqiPointerRotation(int indoorAqi) {
 		float rotation = 0.0f;
-		float indoorAqiFloat = (float) indoorAqi;
 		float step = 31;
 		float start = 105;
-		if(indoorAqi >= 0 && indoorAqi <= 14) {
+		if(indoorAqi <= 0) return 0;
+		if(indoorAqi > 0 && indoorAqi <= 14) {
 			rotation = 14;
 		} else if (indoorAqi > 14 && indoorAqi <= 23) {
 			rotation = 40;
 		} else if (indoorAqi > 23 && indoorAqi <= 35) {
 			rotation = 68;
 		} else if (indoorAqi > 35 && indoorAqi <= 95) {
-			rotation = start + (step * ((int)(indoorAqiFloat - 36) / 10));
+			rotation = start + (step * ((indoorAqi - 36) / 10));
 		} else {
 			rotation = start + (step * 6);
 		}

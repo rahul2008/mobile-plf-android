@@ -465,7 +465,7 @@ public class DataParser {
 			return null ;
 		}
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
-		if(temp == null) return null;
+		if(temp == null || temp.isNull(areaID)) return null;
 //		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp F :: " + temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1"));
 
 		JSONArray forecastArray = temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1");

@@ -95,7 +95,7 @@ public class IndoorDashboardUtilsTest extends TestCase {
 	
 	public void testGetAqiPointerRotationBig() {
 		float rotation = IndoorDashboardUtils.getAqiPointerRotation(1000);
-		assertEquals(302.0f, rotation);
+		assertEquals(291.0f, rotation);
 	}
 	
 	public void testGetAqiPointerRotationGood() {
