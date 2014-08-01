@@ -141,9 +141,9 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 							public void onSendForgotPasswordFailedWithError(int error) {
 								cancelProgressDialog();
 								ALog.i(ALog.USER_REGISTRATION, "onSendForgotPasswordFailedWithError error " + error);
-								AlertDialogFragment resetPasswordSuccess = AlertDialogFragment.newInstance(R.string.reset_password_failed, R.string.ok);
-								resetPasswordSuccess.show(getChildFragmentManager(), getTag());
-//								showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
+//								AlertDialogFragment resetPasswordSuccess = AlertDialogFragment.newInstance(R.string.reset_password_failed, R.string.ok);
+//								resetPasswordSuccess.show(getChildFragmentManager(), getTag());
+								showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
 							}
 						});
 					}

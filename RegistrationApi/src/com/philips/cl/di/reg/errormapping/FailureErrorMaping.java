@@ -53,19 +53,20 @@ public class FailureErrorMaping {
 	}
 
 	public int checkFogetPassWordError() {
-
+		
 		if (forgetpassworderror.reason == ForgetPasswordError.FailureReason.FORGOTPASSWORD_CAPTURE_API_ERROR) {
 			code = Error.GENERIC_ERROR.geterrorList();
 		} else if (forgetpassworderror.reason == ForgetPasswordError.FailureReason.FORGOTPASSWORD_JUMP_NOT_INITIALIZED) {
 			code = Error.GENERIC_ERROR.geterrorList();
 		} else if (forgetpassworderror.reason == ForgetPasswordError.FailureReason.FORGOTPASSWORD_FORM_NAME_NOT_INITIALIZED) {
 			code = Error.INVALID_PARAM.geterrorList();
-		} else if (error.captureApiError.code == 212) {
-			code = Error.ACCOUNT_DOESNOT_EXIST.geterrorList();
 		} else if (forgetpassworderror.reason == ForgetPasswordError.FailureReason.FORGOTPASSWORD_INVALID_EMAILID) {
 			code = Error.INVALID_EMAILID.geterrorList();
 		} else {
 			code = Error.GENERIC_ERROR.geterrorList();
+		}
+		if (forgetpassworderror.captureApiError.code == 212) {
+			code = Error.ACCOUNT_DOESNOT_EXIST.geterrorList();
 		}
 		return code;
 	}

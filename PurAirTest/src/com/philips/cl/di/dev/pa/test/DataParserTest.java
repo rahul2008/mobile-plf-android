@@ -790,12 +790,17 @@ public class DataParserTest extends TestCase {
 		List<OutdoorAQI> aqis = DataParser.parseHistoricalAQIData(data, "101270101");
 		assertNull(aqis);
 	}
-	
-	public void testParseHistoricalAQIData_validJson() {
-		String data = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-		List<OutdoorAQI> aqis = DataParser.parseHistoricalAQIData(data, "101270101");
-		assertNotNull(aqis);
-	}
+//	{"p":
+//		[
+//		{"p1":"15","p2":"25","p3":"26","p4":"9","p5":"15","updatetime":"201407310705"},
+//		{"p1":"14","p2":"28","p3":"30","p4":"9","p5":"15","updatetime":"201407310605"},
+//		{"p1":"18","p2":"33","p3":"34","p4":"9","p5":"16","updatetime":"201407310507"},
+//		{"p1":"21","p2":"41","p3":"39","p4":"29","p5":"20","updatetime":"201407310407"}]}
+//	public void testParseHistoricalAQIData_validJson() {
+//		String data = "{\"p\":[{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
+//		List<OutdoorAQI> aqis = DataParser.parseHistoricalAQIData(data, "101270101");
+//		assertNotNull(aqis);
+//	}
 	
 	private String fourDayForecastData = "{\"forecast4d\":{\"101270101\":"
 			+ "{\"c\":{\"c1\":\"101270101\",\"c2\":\"chengdu\",\"c3\":\"成都\",\"c4\":\"chengdu\",\"c5\":\"成都\",\"c6\":\"sichuan\",\"c7\":\"四川\",\"c8\":\"china\",\"c9\":\"中国\",\"c10\":\"1\",\"c11\":\"028\",\"c12\":\"610000\",\"c13\":\"104.066541\",\"c14\":\"30.572269\",\"c15\":\"507\",\"c16\":\"AZ9280\",\"c17\":\"+8\"},"
@@ -813,7 +818,40 @@ public class DataParserTest extends TestCase {
 	}
 	
 	public void testParseFourDayForecast_validJson() {
-		List<ForecastWeatherDto> dtos = DataParser.parseFourDaysForecastData(fourDayForecastData, "101270101");
+		String data = "{\"forecast4d\":{\"101270101\":"
+				+ "{\"c\":{\"c1\":\"101270101\",\"c2\":\"chengdu\",\"c3\":\"成都\",\"c4\":\"chengdu\",\"c5\":\"成都\",\"c6\":\"sichuan\",\"c7\":\"四川\",\"c8\":\"china\",\"c9\":\"中国\",\"c10\":\"1\",\"c11\":\"028\",\"c12\":\"610000\",\"c13\":\"104.066541\",\"c14\":\"30.572269\",\"c15\":\"507\",\"c16\":\"AZ9280\",\"c17\":\"+8\"},"
+				+ "\"f\":{\"f1\":["
+				+ "{\"fa\":\"01\",\"fb\":\"03\",\"fc\":\"33\",\"fd\":\"24\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:18|20:01\"},"
+				+ "{\"fa\":\"01\",\"fb\":\"03\",\"fc\":\"32\",\"fd\":\"23\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:19|20:00\"},"
+				+ "{\"fa\":\"02\",\"fb\":\"08\",\"fc\":\"31\",\"fd\":\"23\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:20|20:00\"},"
+				+ "{\"fa\":\"03\",\"fb\":\"08\",\"fc\":\"30\",\"fd\":\"22\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:20|19:59\"}],"
+				+ "\"f0\":\"201407281100\"}}}}";
+		List<ForecastWeatherDto> dtos = DataParser.parseFourDaysForecastData(data, "101270101");
 		assertEquals(dtos.get(0).getTemperatureDay(), "33");
+	}
+	
+	public void testParseFourDayForecast_incompeleteJson() {
+		String data = "{\"forecast4d\":{\"101270101\":"
+				+ "{\"c\":{\"c1\":\"101270101\",\"c2\":\"chengdu\",\"c3\":\"成都\",\"c4\":\"chengdu\",\"c5\":\"成都\",\"c6\":\"sichuan\",\"c7\":\"四川\",\"c8\":\"china\",\"c9\":\"中国\",\"c10\":\"1\",\"c11\":\"028\",\"c12\":\"610000\",\"c13\":\"104.066541\",\"c14\":\"30.572269\",\"c15\":\"507\",\"c16\":\"AZ9280\",\"c17\":\"+8\"},"
+				+ "\"f\":{\"f1\":["
+				+ "{\"fa\":\"01\",\"fb\":\"03\",\"fc\":\"33\",\"fd\":\"24\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:18|20:01\"},"
+				+ "{\"fa\":\"01\",\"fb\":\"03\",\"fc\":\"32\",\"fd\":\"23\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:19|20:00\"},"
+				+ "{\"fa\":\"02\",\"fb\":\"08\",\"fc\":\"31\",\"fd\":\"23\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:20|20:00\"},"
+				+ "\"f0\":\"201407281100\"}}}}";
+		List<ForecastWeatherDto> dtos = DataParser.parseFourDaysForecastData(data, "101270101");
+		assertNull(dtos);
+	}
+	
+	public void testParseFourDayForecast_emptyField() {
+		String data = "{\"forecast4d\":{\"101270101\":"
+				+ "{\"c\":{\"c1\":\"101270101\",\"c2\":\"chengdu\",\"c3\":\"成都\",\"c4\":\"chengdu\",\"c5\":\"成都\",\"c6\":\"sichuan\",\"c7\":\"四川\",\"c8\":\"china\",\"c9\":\"中国\",\"c10\":\"1\",\"c11\":\"028\",\"c12\":\"610000\",\"c13\":\"104.066541\",\"c14\":\"30.572269\",\"c15\":\"507\",\"c16\":\"AZ9280\",\"c17\":\"+8\"},"
+				+ "\"f\":{\"f1\":["
+				+ "{\"fa\":\"01\",\"fb\":\"03\",\"fc\":\"\",\"fd\":\"24\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:18|20:01\"},"
+				+ "{\"fa\":\"01\",\"fb\":\"03\",\"fc\":\"32\",\"fd\":\"23\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:19|20:00\"},"
+				+ "{\"fa\":\"02\",\"fb\":\"08\",\"fc\":\"31\",\"fd\":\"23\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:20|20:00\"},"
+				+ "{\"fa\":\"03\",\"fb\":\"08\",\"fc\":\"30\",\"fd\":\"22\",\"fe\":\"4\",\"ff\":\"4\",\"fg\":\"0\",\"fh\":\"0\",\"fi\":\"06:20|19:59\"}],"
+				+ "\"f0\":\"201407281100\"}}}}";
+		List<ForecastWeatherDto> dtos = DataParser.parseFourDaysForecastData(data, "101270101");
+		assertEquals(dtos.get(0).getTemperatureDay(), "");
 	}
 }
