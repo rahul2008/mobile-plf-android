@@ -54,15 +54,13 @@ public class BuyOnlineFragment extends BaseFragment {
 
 		/* Create a list with known data */
 		list = new ArrayList<ProductDto>();
-		list.add(new ProductDto(R.string.buy_philips_smart_air_purifier, "000 000 000",
+		list.add(new ProductDto(R.string.buy_philips_smart_air_purifier, "AC4373",
 				"Philips.com.cn", R.drawable.purifier));
-		list.add(new ProductDto(R.string.buy_pre_filter, "000 000 000", "Philips.com.cn",
-				R.drawable.filter));
-		list.add(new ProductDto(R.string.buy_multi_care_filter, "000 000 000",
+		list.add(new ProductDto(R.string.buy_multi_care_filter, "AC4151",
 				"Philips.com.cn", R.drawable.multi_care));
-		list.add(new ProductDto(R.string.buy_active_carbon_filter, "000 000 000",
+		list.add(new ProductDto(R.string.buy_active_carbon_filter, "AC4153",
 				"Philips.com.cn", R.drawable.carbon_filter));
-		list.add(new ProductDto(R.string.buy_hepa_filter, "000 000 000", "Philips.com.cn",
+		list.add(new ProductDto(R.string.buy_hepa_filter, "AC4154", "Philips.com.cn",
 				R.drawable.hepa_filter));
 
 		/* Create an adapter to display the loaded data. */
@@ -84,7 +82,7 @@ public class BuyOnlineFragment extends BaseFragment {
 		}
 
 		@Override
-		public View getView(int position, View convertView, ViewGroup parent) {
+		public View getView(final int position, View convertView, ViewGroup parent) {
 			View view;
 
 			if (convertView == null) {
@@ -127,20 +125,12 @@ public class BuyOnlineFragment extends BaseFragment {
 				case 1:
 					setFilterVisibility(filterVisibility);
 					filterView
-					.setPrefilterValue(airPortInfo.getFilterStatus1());
-					txtFilterStatus
-					.setText(Utils
-							.getPreFilterStatusText(airPortInfo.getFilterStatus1()));
-					break;
-				case 2:
-					setFilterVisibility(filterVisibility);
-					filterView
 					.setMultiCareFilterValue(airPortInfo.getFilterStatus2());
 					txtFilterStatus
 					.setText(Utils
 							.getMultiCareFilterStatusText(airPortInfo.getFilterStatus2()));
 					break;
-				case 3:
+				case 2:
 					setFilterVisibility(filterVisibility);
 					filterView
 					.setActiveCarbonFilterValue(airPortInfo.getFilterStatus3());
@@ -148,7 +138,7 @@ public class BuyOnlineFragment extends BaseFragment {
 					.setText(Utils
 							.getActiveCarbonFilterStatusText(airPortInfo.getFilterStatus3()));
 					break;
-				case 4:
+				case 3:
 					setFilterVisibility(filterVisibility);
 					filterView
 					.setHEPAfilterValue(airPortInfo.getFilterStatus4());
@@ -175,10 +165,29 @@ public class BuyOnlineFragment extends BaseFragment {
 
 				@Override
 				public void onClick(View v) {
+					String uri="";
+					switch (position) {
+					case 0:
+						uri="http://shop.philips.com.cn/product/JY0002/detail.htm";
+						break;
+					case 1:
+						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072";
+						break;
+					case 2:
+						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.zulDHJ&id=39911620022";
+						break;
+					case 3:
+						uri="http://detail.tmall.com/item.htm?id=39899461374";
+						break;
+					default:
+						break;
+					}
+					
 					Intent intent = new Intent(
 							Intent.ACTION_VIEW,
-							Uri.parse("http://shop.philips.com.cn/product/JY0002/detail.htm"));
+							Uri.parse(uri));
 					startActivity(intent);
+					
 				}
 			});
 
@@ -203,6 +212,10 @@ public class BuyOnlineFragment extends BaseFragment {
 			
 			@Override
 			public void run() {
+				if(filterVisibility==View.VISIBLE && current!=null && current.getConnectionState() != ConnectionState.DISCONNECTED) return;
+				
+				if(filterVisibility==View.GONE && current!=null && current.getConnectionState() == ConnectionState.DISCONNECTED) return;
+				
 				mList.setAdapter(null);
 				mList.setAdapter(mAdapter);				
 			}
