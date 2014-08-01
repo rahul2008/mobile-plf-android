@@ -159,6 +159,9 @@ public class AppConstants {
 	public static final String REQUEST_METHOD_PUT = "PUT" ;
 	public static final String REQUEST_METHOD_GET = "GET" ;
 	
+	public static final int LOCAL_SUBSCRIPTIONTIME = 300; // IN SEC
+	public static final int CPP_SUBSCRIPTIONTIME = 5; // IN MIN
+	
 	/** CONSTANTS FOR NOTIFICATIONS */
 	public static final String NOTIFICATION_SERVICE_TAG="3pns";
 	public static final String NOTIFICATION_PROTOCOL="push";

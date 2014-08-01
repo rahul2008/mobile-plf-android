@@ -90,14 +90,14 @@ public class JSONBuilder {
 	public static String getPublishEventBuilderForSubscribe(String key, String value) {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"1\",\"port\":\"air\",\"data\":{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
-		builder.append(",\"ttl\":3360}}") ;		
+		builder.append(",\"ttl\":").append(AppConstants.LOCAL_SUBSCRIPTIONTIME).append("}}") ;		
 		return builder.toString() ;
 	}
 
 	public static String getPublishEventBuilderForSubscribeFirmware(String key, String value) {
 		StringBuilder builder = new StringBuilder("{ \"product\":\"0\",\"port\":\"firmware\",\"data\":{") ;
 		builder.append("\"").append(key).append("\"").append(":").append("\"").append(value).append("\"") ;
-		builder.append(",\"ttl\":3360}}") ;		
+		builder.append(",\"ttl\":").append(AppConstants.LOCAL_SUBSCRIPTIONTIME).append("}}") ;		
 		return builder.toString() ;
 	}
 	
