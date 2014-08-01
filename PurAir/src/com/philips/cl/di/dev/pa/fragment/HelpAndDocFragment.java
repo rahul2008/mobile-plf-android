@@ -11,7 +11,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class HelpAndDocFragment extends BaseFragment implements OnClickListener{

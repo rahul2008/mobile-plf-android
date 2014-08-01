@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.registration;
 
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;

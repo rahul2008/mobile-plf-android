@@ -16,9 +16,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
