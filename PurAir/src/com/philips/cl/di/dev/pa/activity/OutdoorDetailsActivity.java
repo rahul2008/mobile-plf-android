@@ -1,10 +1,14 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -22,27 +26,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMap.OnMapLoadedCallback;
-import com.google.android.gms.maps.GoogleMap.SnapshotReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
-import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData;
 import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData.WeatherDataListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -73,10 +67,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private ProgressBar aqiProgressBar;
 	private ProgressBar weatherProgressBar;
 	private Coordinates coordinates;
-	private float lastDayAQIReadings[] = new float[24];
-	private float last7dayAQIReadings[] = new float[7];
-	private float last4weekAQIReadings[] = new float[28];
-	private OutdoorAQIEventDto aqiEventDto;
 	private static String currentCityTime;
 	
 	private ViewGroup mapLayout;
@@ -85,6 +75,16 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private double latitude;
 	private double longitude;
 	private String areaId;
+	
+	private List<OutdoorAQI> outdoorAQIs;
+	
+	public float lastDayAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F };
+
+	public float last7dayAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+
+	public float last4weekAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F };
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -107,140 +107,95 @@ public class OutdoorDetailsActivity extends BaseActivity
 	/**
 	 * Reading data from server
 	 * */
-	private void getXCoordinates() {
+	@SuppressLint({ "UseSparseArrays", "SimpleDateFormat" })
+	private void addAQIHistoricData() {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
-		aqiEventDto = SessionDto.getInstance().getOutdoorEventDto();
-		if (aqiEventDto == null) {
-			return;
-		}
 		
-		int idx[] = aqiEventDto.getIdx();
-			
-		if (idx == null || idx.length == 0) {
-			return;
-		}
-	
-		if (aqiValue.getText() == null) {
-			return;
-		}
+		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		
-		String currentCityTimeHr =  aqiEventDto.getT().substring(11, 13);
-		int hr = Utils.getLastDayHours(currentCityTimeHr);
+		Date currentDate = new Date(cal.getTimeInMillis());
+		String currentDateStr = formatDate.format(currentDate);
+		String currentDateWithHrStr = currentDateStr + " " + Utils.get2DigitHr(cal.get(Calendar.HOUR_OF_DAY));
+		
+		HashMap<Integer, Float> hourlyAqiValueMap = new HashMap<Integer, Float>();
+		HashMap<Integer, Float> dailyAqiValueMap = new HashMap<Integer, Float>();
+		HashMap<Integer, Integer> dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
+		
+		for (int index = 0; index < outdoorAQIs.size(); index++) {
+			if (outdoorAQIs.get(index) == null || outdoorAQIs.get(index).getTimeStamp() == null) return;
+			String upadtedDateStr = getHistoricDataUpdateDate(outdoorAQIs.get(index).getTimeStamp());
+			float aqi = outdoorAQIs.get(index).getAQI();
+			int numberOfHr = Utils.getDifferenceBetweenHrFromCurrentHr(currentDateWithHrStr,
+					upadtedDateStr + " " + outdoorAQIs.get(index).getTimeStamp().substring(8, 10));
+			if (numberOfHr >= 0 && numberOfHr < 24) {
+				hourlyAqiValueMap.put(numberOfHr, aqi);
+			}
+			int numberOfDays = Utils.getDifferenceBetweenDaysFromCurrentDay(currentDateStr, upadtedDateStr);
+			if (numberOfDays >= 0) {
+				if (dailyAqiValueMap.containsKey(numberOfDays) 
+						&& dailyAqiValueCounterMap.containsKey(numberOfDays)) {
+					float tempAqi = dailyAqiValueMap.get(numberOfDays);
+					tempAqi = tempAqi + aqi;
+					dailyAqiValueMap.put(numberOfDays, tempAqi);
+					int counterMap = dailyAqiValueCounterMap.get(numberOfDays);
+					counterMap++;
+					dailyAqiValueCounterMap.put(numberOfDays, counterMap);
 
-		calculatelastDayAQIReadings(idx);	
-		calculatelast7DayAQIReadings(idx, hr);	
-		calculatelast4WeeksAQIReadings(idx, hr);
-		
-		if (graphLayout.getChildCount() > 0) {
-			graphLayout.removeAllViews();
-		}
-		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
-			graphLayout.addView(
-					new GraphView(OutdoorDetailsActivity.this, lastDayAQIReadings, coordinates));
-		}
-			
-	}
-	
-	private void calculatelastDayAQIReadings(int idx[]) {
-		/** last day days */
-		/**
-		 * Calculate last 24 hours values and add in to last day AQI value
-		 * array
-		 */
-		int lastDayHr = 24;
-		if (idx.length < lastDayHr) {
-			return;
-		}
-		for (int i = 0; i < lastDayAQIReadings.length; i++) {
-			if (i == 0 && idx[i] == 0) {
-				try {
-					idx[i] = Integer.parseInt(aqiValue.getText().toString());
-				} catch (NumberFormatException e) {
-					ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
+				} else {
+					dailyAqiValueCounterMap.put(numberOfDays, 1);
+					dailyAqiValueMap.put(numberOfDays, aqi);
 				}
 			}
-			
-			lastDayAQIReadings[i] = idx[lastDayHr - 1 - i];
 		}
+		updateLastDayArray(hourlyAqiValueMap);
+		updateWeeklyArray(dailyAqiValueMap, dailyAqiValueCounterMap);
+		setViewlastDayAQIReadings();
 	}
 	
-	private void calculatelast7DayAQIReadings(int idx[], int hr) {
-		/**
-		 * Calculate 7 days hours 6 days hours plus current hours Calculate
-		 * average of every days hours value
-		 */
-		int last7dayHrs = 6 * 24 + hr;
-		
-		if (idx.length < last7dayHrs) {
-			return;
-		}
-
-		float sum = 0;
-		float avg = 0;
-		int j = 0;
-		for (int i = 0; i < last7dayHrs; i++) {
-			float x = idx[last7dayHrs - 1 - i];
-			sum = sum + x;
-			if (is24Hours(i)) {
-				avg = sum / (float) 24;
-				last7dayAQIReadings[j] = avg;
-				j++;
-				sum = 0;
-				avg = 0;
-			} else if (i == last7dayHrs - 1) {
-				avg = sum / (float) hr;
-				last7dayAQIReadings[j] = avg;
-				sum = 0;
-				avg = 0;
+	private void updateLastDayArray(HashMap<Integer, Float> hourlyAqiValueMap) {
+		if (!hourlyAqiValueMap.isEmpty()) {
+			for (int i = 0; i < 24; i++) {
+				if (hourlyAqiValueMap.containsKey(i)) {
+					lastDayAQIReadings[23 - i] = hourlyAqiValueMap.get(i);;
+				} else {
+					lastDayAQIReadings[23 - i] = -1;
+				}
 			}
 		}
 	}
 	
-	private boolean is24Hours(int index) {
-		boolean is24Hr = false;
-		index = index + 1;
-		if (index % 24 == 0) {
-			is24Hr = true;
-		}
-		return is24Hr;
-	}
-	
-	private void calculatelast4WeeksAQIReadings(int idx[], int hr) {
-		/** last 4 weeks */
-		/**
-		 * Calculate last 4 weeks hours Calculate average of every days
-		 * hours value
-		 */
-		int last4WeekHrs = 3 * 7 * 24 + 6 * 24 + hr;
-		
-		if (idx.length < last4WeekHrs) {
-			return;
-		}
-
-		int count = 1;
-		float sum = 0;
-		float avg = 0;
-		int j = 0;
-		for (int i = 0; i < last4WeekHrs; i++) {
-
-			float x = idx[last4WeekHrs - 1 - i];
-			sum = sum + x;
-			if (count == 24 && j < 21) {
-				avg = sum / (float) 24;
-				last4weekAQIReadings[j] = avg;
-				j++;
-				sum = 0;
-				avg = 0;
-				count = 0;
-			} else if (j >= 21) {
-				for (int m = 0; m < last7dayAQIReadings.length; m++) {
-					last4weekAQIReadings[j] = last7dayAQIReadings[m];
-					j++;
+	private void updateWeeklyArray(HashMap<Integer, Float> dailyAqiValueMap, 
+			HashMap<Integer, Integer> dailyAqiValueCounterMap) {
+		if (dailyAqiValueMap.isEmpty()) return;
+		for (int mapKey = 0; mapKey < dailyAqiValueMap.size(); mapKey++) {
+			float avgAqi = 0.0F;
+			if (mapKey < 28) {
+				if (dailyAqiValueMap.get(mapKey) != null) {
+					avgAqi = dailyAqiValueMap.get(mapKey) / dailyAqiValueCounterMap.get(mapKey);
+				} else if (mapKey == 0) {
+					avgAqi = -1;
 				}
+				if (mapKey < 7) {
+					last7dayAQIReadings[6 - mapKey] = avgAqi;
+				}
+				
+				if (mapKey < 28) {
+					last4weekAQIReadings[27 - mapKey] = avgAqi;
+				}
+			} else {
 				break;
 			}
-			count++;
 		}
+	}
+	
+	private String getHistoricDataUpdateDate(String timeStamp) {
+		if (timeStamp == null || timeStamp.isEmpty()) return null;
+		StringBuilder builder = new StringBuilder();
+		builder.append(timeStamp.substring(0, 4)).append("-");
+		builder.append(timeStamp.substring(4, 6)).append("-");;
+		builder.append(timeStamp.substring(6, 8));
+		return builder.toString();
 	}
 	
 	/** Getting data from Main screen*/
@@ -250,44 +205,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 		 */
 		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
 		areaId = getIntent().getStringExtra(AppConstants.EXTRA_AREA_ID);
-		Toast.makeText(getApplicationContext(), "areaId : " + areaId, Toast.LENGTH_LONG).show();
 		startCityAQIHistoryTask(areaId);
 		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
 
-//		if(bundle != null) {
-//			ALog.i(ALog.OUTDOOR_DETAILS, "Data come from dashboard");
-//			OutdoorDto city= (OutdoorDto) bundle.getSerializable(AppConstants.KEY_CITY);
-//			if (city == null) return;
-//			heading.setText(city.getCityName());
-//			location.setText("");
-//			summaryTitle.setText(city.getAqiTitle());
-//			summary.setText(city.getAqiSummary()[0]);
-//			aqiValue.setText(city.getAqi());
-//			pm1.setText(getString(R.string.pm25) + "  " + city.getPm25());
-//			pm2.setText(getString(R.string.pm10) + "  " + city.getPm25());
-//			pm3.setText(getString(R.string.so2) + "  " + city.getSo2());
-//			pm4.setText(getString(R.string.no2) + "  " + city.getNo2());
-//			if (city.getAqi() != null) {
-//				try {
-//					int aqiInt = Integer.parseInt(city.getAqi().trim());
-//					circleImg.setImageDrawable(Utils.getOutdoorAQICircleBackground(this, aqiInt));
-//					
-//					setAdviceIconTex(aqiInt);
-//				} catch (NumberFormatException e) {
-//					e.printStackTrace();
-//				}
-//			}
-//			startOutdoorAQITask(city.getCityName());
-//			currentCityTime = city.getUpdatedTime();
-//			startWeatherDataTask(city.getGeo());
-//			
-//			if(Utils.isGooglePlayServiceAvailable()) {
-//				setUpMapIfNeeded(city.getGeo());
-//			} else {
-//				mapLayout.setVisibility(View.GONE);
-//			}
-//		} 
-	
 	}
 	
 	/**Set advice icon and text*/ 
@@ -413,13 +333,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
 		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
 		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
-//		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
 		ImageView backToHome = ((ImageView)view.findViewById(R.id.back_to_home_img));
 		backToHome.setVisibility(View.VISIBLE);
 		backToHome.setOnClickListener(this);
 		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
 		actionBar.setCustomView(view);
-		
 	}
 	
 	/*Sets Action bar title */
@@ -438,17 +356,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 		switch (v.getId()) {
 			case R.id.detailsOutdoorLastDayLabel: {
-				removeChildViewFromBar();
 				setViewlastDayAQIReadings();
 				break;
 			}
 			case R.id.detailsOutdoorLastWeekLabel: {
-				removeChildViewFromBar();
 				setViewlast7DayAQIReadings();
 				break;
 			}
 			case R.id.detailsOutdoorLastFourWeekLabel: {
-				removeChildViewFromBar();
 				setViewlast4WeeksAQIReadings();
 				break;
 			}
@@ -471,6 +386,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	private void setViewlastDayAQIReadings() {
+		removeChildViewFromBar();
 		if (lastDayAQIReadings != null && lastDayAQIReadings.length > 0) {
 			graphLayout.addView(new GraphView(this, lastDayAQIReadings, coordinates));
 		}
@@ -481,6 +397,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	private void setViewlast7DayAQIReadings() {
+		removeChildViewFromBar();
 		if (last7dayAQIReadings != null && last7dayAQIReadings.length > 0) {
 			graphLayout.addView(new GraphView(this, last7dayAQIReadings, coordinates));
 		}
@@ -491,6 +408,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 
 	private void setViewlast4WeeksAQIReadings() {
+		removeChildViewFromBar();
 		if (last4weekAQIReadings != null && last4weekAQIReadings.length > 0) {
 			graphLayout.addView(new GraphView(this, last4weekAQIReadings, coordinates));
 		}
@@ -534,70 +452,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 	}
 
-	/**
-	 * 
-	 */
-	private void setUpMapIfNeeded(String geo) {
-		if (mMap == null) {
-			mMap = ((SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map))
-					.getMap();
-			mMap.setOnMapLoadedCallback(new OnMapLoadedCallback() {
-				
-				@Override
-				public void onMapLoaded() {
-					mMap.snapshot(new SnapshotReadyCallback() {
-						
-						@Override
-						public void onSnapshotReady(Bitmap bmp0) {
-							mapImg.setImageBitmap(bmp0);
-							mapBackground.setVisibility(View.GONE);
-							mapEnlargeImg.setVisibility(View.VISIBLE);
-						}
-					});
-				}
-			});
-			if (mMap != null) {
-				setUpMap(geo);
-			}
-		}
-	}
-
-	/**
-	 * 
-	 */
-	private void setUpMap(String geo) {
-		if (geo == null) {
-			return;
-		}
-		String geoArr[] =geo.split(",");
-		if (geoArr == null || geoArr.length < 2) {
-			return;
-		}
-		try {
-			latitude = Double.parseDouble(geoArr[0].trim());
-			longitude = Double.parseDouble(geoArr[1].trim());
-			CameraPosition cameraPosition = new CameraPosition.Builder()
-			.target(new LatLng(latitude, longitude))
-			.zoom(13)              
-			.bearing(0)                
-			.tilt(30)                   
-			.build();                   
-			
-			mMap.getUiSettings().setZoomControlsEnabled(false);
-			mMap.getUiSettings().setScrollGesturesEnabled(false);
-			mMap.getUiSettings().setZoomGesturesEnabled(false);
-			mMap.getUiSettings().setAllGesturesEnabled(false);
-			mMap.getUiSettings().setCompassEnabled(false);
-			mMap.getUiSettings().setRotateGesturesEnabled(false);
-			mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-			mMap.addMarker(new MarkerOptions().position(new LatLng(latitude, longitude)));
-		} catch (NumberFormatException e) {
-			ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
-		}
-
-	}
-	
 	public static String getCurrentCityTime() {
 		return currentCityTime;
 	}
@@ -607,6 +461,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		finish();
 	}
 	
+	@SuppressLint("HandlerLeak")
 	private void startOutdoorAQITask(String cityName) {
 		if (cityName == null) {
 			return;
@@ -618,24 +473,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	}
 	
-	private void startWeatherDataTask(String geoCoordinate) {
-//		ALog.i(ALog.OUTDOOR_DETAILS, "Latitute and Longitude: " + geoCoordinate);
-//		if (geoCoordinate == null) {
-//			return;
-//		}
-//		TaskGetWeatherData statusUpdateTask = new TaskGetWeatherData(
-//				String.format(AppConstants.WEATHER_SERVICE_URL, geoCoordinate), this);
-//		statusUpdateTask.start();
-		
-		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
-
-	}
-	
+	@SuppressLint("HandlerLeak")
 	private final Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			if ( msg.what == 1 ) {
 				aqiProgressBar.setVisibility(View.GONE);
-				getXCoordinates();
+				if (outdoorAQIs != null && !outdoorAQIs.isEmpty()) {
+					addAQIHistoricData();
+				}
 			} else if ( msg.what == 2 ) {
 				weatherProgressBar.setVisibility(View.GONE);
 				updateWeatherFields() ;
@@ -643,14 +488,15 @@ public class OutdoorDetailsActivity extends BaseActivity
 		};
 	};
 	
-	
 	public void startCityAQIHistoryTask(String areaID) {
 		if (PurAirApplication.isDemoModeEnable()) return;
 		
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
 				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
-				Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," 
-				+ Utils.getDate(System.currentTimeMillis()), OutdoorController.APP_ID), 
+				Utils.getDate((cal.getTimeInMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," 
+				+ Utils.getDate(cal.getTimeInMillis()), OutdoorController.APP_ID), 
 				areaID, PurAirApplication.getAppContext(), this);
 		aqiHistoricTask.start();
 	}
@@ -659,13 +505,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	public void receiveServerResponse(int responseCode, String responseData, String areaID) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
 		if (responseCode == 200) {
-			List<OutdoorAQI> outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
-			for (OutdoorAQI aqi : outdoorAQIs) {
-				//pm25, aqi, pm10, so2, no2, areaID
-				ALog.i(ALog.OUTDOOR_DETAILS, outdoorAQIs.size()+" Outdoor Aqi outdoorAQIs: AQI: " + aqi.getAQI() +
-						", pm25: " + aqi.getPM25() + ", pm10: " + aqi.getPm10()+
-						", so2: " + aqi.getSo2()+ ", no2: " + aqi.getNo2()+ ", time: " + aqi.getTimeStamp());
-			}
+			outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
 			handler.sendEmptyMessage(1);
 		}
 		
@@ -697,13 +537,13 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 
 	@Override
-	public void onWeatherForecastReceived(List<Weatherdto> weatherList) {
+	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
+	public void onWeatherForecastReceived(List<Weatherdto> weatherList) {
 		// TODO Auto-generated method stub
 		
 	}

@@ -21,6 +21,7 @@ public class OutdoorAQI {
 		this.p3 = pm10;
 		this.p4 = so2;
 		this.p5 = no2;
+		this.areaID = areaID;
 		this.timeStamp = timeStamp;
 		this.areaID = areaID;
 	}

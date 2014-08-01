@@ -173,6 +173,7 @@ public class GraphPathDraw {
 	/**The method to find the y axis pixel corresponding value for outdoor.*/
 	public float getOutdoorYcoordinate(float y) {
 		float yFloat = coordinates.getOdY0();
+		if (y == -1) return -1;
 		if (y <= 0) {
 			return yFloat;
 		} else {

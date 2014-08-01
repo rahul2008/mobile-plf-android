@@ -80,6 +80,7 @@ public class Utils {
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {
 		int noOfDays = -2;
+		if (date == null || date.isEmpty()) return noOfDays;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
 		long timeDiff = 0;
@@ -347,7 +348,7 @@ public class Utils {
 		return qry;
 	}
 
-	private static String get2DigitHr( int hr) {
+	public static String get2DigitHr( int hr) {
 		String hrStr = null;
 		if (hr == 0) {
 			hrStr = "00";
