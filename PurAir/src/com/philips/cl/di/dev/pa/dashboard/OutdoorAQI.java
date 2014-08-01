@@ -1,12 +1,18 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.io.Serializable;
+
 import android.content.Context;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 
-public class OutdoorAQI {
+public class OutdoorAQI implements  Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int p1;
 	private int p2;
 	private int p3;

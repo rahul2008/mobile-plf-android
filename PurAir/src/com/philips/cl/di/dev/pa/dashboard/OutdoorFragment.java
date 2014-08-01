@@ -82,6 +82,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		
 	}
 	
+	private OutdoorAQI outdoorAQI ;
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
 		
@@ -89,7 +90,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		cityId.setText(areaID);
 		
 		if(city.getOutdoorAQI() != null) {
-			OutdoorAQI outdoorAQI = city.getOutdoorAQI();
+			outdoorAQI = city.getOutdoorAQI();
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
 			aqi.setText("" + outdoorAQI.getAQI());
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
@@ -138,7 +139,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		case R.id.hf_outdoor_circle_pointer:
 			if (cityId.getText() == null) return;
 			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-			intent.putExtra(AppConstants.EXTRA_AREA_ID, cityId.getText().toString());
+			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
+			intent.putExtra(AppConstants.OUTDOOR_AQI,outdoorAQI) ;
 			startActivity(intent);
 			
 //			Bundle bundle = getArguments();

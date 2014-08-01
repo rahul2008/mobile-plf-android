@@ -78,6 +78,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private double latitude;
 	private double longitude;
 	private String areaId;
+
 	
 	private List<OutdoorAQI> outdoorAQIs;
 	
@@ -207,11 +208,43 @@ public class OutdoorDetailsActivity extends BaseActivity
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
 		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
-		areaId = getIntent().getStringExtra(AppConstants.EXTRA_AREA_ID);
+		
+		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
+		areaId = aqiValue.getAreaID() ;
+		if( aqiValue != null) {
+			setAdviceIconTex(aqiValue.getAQI());
+			this.aqiValue.setText(""+aqiValue.getAQI()) ;
+			this.circleImg.setImageResource(getImageResId(aqiValue.getAQI())) ;
+			String [] summary = aqiValue.getAqiSummary() ;
+			if( summary != null && summary.length == 2 ) {
+				this.summaryTitle.setText(summary[0]) ;
+				this.summary.setText(summary[1]);
+			}
+		}
+		
 		startCityAQIHistoryTask(areaId);
 		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
 		OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
 
+	}
+	
+	private int getImageResId(int p2) {
+
+		if(p2 >= 0 && p2 <= 50) {
+			return R.drawable.aqi_blue_circle_2x;
+		} else if(p2 > 50 && p2 <= 100) {
+			return R.drawable.aqi_pink_circle_2x;
+		} else if(p2 > 100 && p2 <= 150) {
+			return R.drawable.aqi_light_pink_circle_2x;
+		} else if(p2 > 150 && p2 <= 200) {
+			return R.drawable.aqi_purple_circle_2x;
+		} else if(p2 > 200 && p2 <= 300) {
+			return R.drawable.aqi_fusia_circle_2x;
+		} else if(p2 > 300 && p2 <= 500) {
+			return R.drawable.aqi_red_circle_2x;
+		}
+
+		return R.drawable.blue_circle_with_arrow_small;
 	}
 	
 	/**Set advice icon and text*/ 
@@ -349,7 +382,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		heading = (TextView) findViewById(R.id.action_bar_title);
 		heading.setTypeface(Fonts.getGillsansLight(this));
 		heading.setTextSize(24);
-		heading.setText(getString(R.string.title_outdoor_db));
+		heading.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
 	}
 
 	/**

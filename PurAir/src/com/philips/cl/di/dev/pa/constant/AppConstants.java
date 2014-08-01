@@ -225,4 +225,6 @@ public class AppConstants {
 	public static final String FIRMWARE_VERSION = "firmwareVersion";
 	public static final String FIRMWARE_VERSION_KEY = "firmwareversionKey";
 	public static final String EXTRA_AREA_ID = "area_id";
+	public static final String OUTDOOR_CITY_NAME = "city_name" ;
+	public static final String OUTDOOR_AQI = "outdoor_aqi" ;
 }
