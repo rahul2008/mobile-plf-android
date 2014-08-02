@@ -210,8 +210,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
 		
 		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
-		areaId = aqiValue.getAreaID() ;
+		
 		if( aqiValue != null) {
+			areaId = aqiValue.getAreaID() ;
 			setAdviceIconTex(aqiValue.getAQI());
 			this.aqiValue.setText(""+aqiValue.getAQI()) ;
 			this.circleImg.setImageResource(getImageResId(aqiValue.getAQI())) ;
@@ -220,12 +221,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 				this.summaryTitle.setText(summary[0]) ;
 				this.summary.setText(summary[1]);
 			}
+			
+			startCityAQIHistoryTask(areaId);
+			OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
+			OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
 		}
-		
-		startCityAQIHistoryTask(areaId);
-		OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
-		OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
-
 	}
 	
 	private int getImageResId(int p2) {

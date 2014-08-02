@@ -790,17 +790,12 @@ public class DataParserTest extends TestCase {
 		List<OutdoorAQI> aqis = DataParser.parseHistoricalAQIData(data, "101270101");
 		assertNull(aqis);
 	}
-//	{"p":
-//		[
-//		{"p1":"15","p2":"25","p3":"26","p4":"9","p5":"15","updatetime":"201407310705"},
-//		{"p1":"14","p2":"28","p3":"30","p4":"9","p5":"15","updatetime":"201407310605"},
-//		{"p1":"18","p2":"33","p3":"34","p4":"9","p5":"16","updatetime":"201407310507"},
-//		{"p1":"21","p2":"41","p3":"39","p4":"29","p5":"20","updatetime":"201407310407"}]}
-//	public void testParseHistoricalAQIData_validJson() {
-//		String data = "{\"p\":[{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-//		List<OutdoorAQI> aqis = DataParser.parseHistoricalAQIData(data, "101270101");
-//		assertNotNull(aqis);
-//	}
+	
+	public void testParseHistoricalAQIData_validJson() {
+		String data1 = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
+		List<OutdoorAQI> aqis = DataParser.parseHistoricalAQIData(data1, "101270101");
+		assertNotNull(aqis);
+	}
 	
 	private String fourDayForecastData = "{\"forecast4d\":{\"101270101\":"
 			+ "{\"c\":{\"c1\":\"101270101\",\"c2\":\"chengdu\",\"c3\":\"成都\",\"c4\":\"chengdu\",\"c5\":\"成都\",\"c6\":\"sichuan\",\"c7\":\"四川\",\"c8\":\"china\",\"c9\":\"中国\",\"c10\":\"1\",\"c11\":\"028\",\"c12\":\"610000\",\"c13\":\"104.066541\",\"c14\":\"30.572269\",\"c15\":\"507\",\"c16\":\"AZ9280\",\"c17\":\"+8\"},"

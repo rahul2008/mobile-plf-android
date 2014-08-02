@@ -466,7 +466,8 @@ public class DataParser {
 		}
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
 		if(temp == null || temp.isNull(areaID)) return null;
-//		ALog.i(ALog.PARSER, "parseFourDaysForecastData temp F :: " + temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1"));
+		if(temp.optJSONObject(areaID) == null) return null;
+		if(temp.optJSONObject(areaID).optJSONObject("f") == null) return null;
 
 		JSONArray forecastArray = temp.optJSONObject(areaID).optJSONObject("f").optJSONArray("f1");
 		ALog.i(ALog.PARSER, "forecastArray " + forecastArray.length());
@@ -490,8 +491,6 @@ public class DataParser {
 	}
 	
 	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {
-		
-		
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
 //			ALog.i(ALog.PARSER, "historicalAQIObject " + historicalAQIObject);
@@ -507,9 +506,9 @@ public class DataParser {
 				int pm10 = historicalAQIs.getJSONObject(i).optInt("p3");
 				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
 				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
-				String timeStamp = historicalAQIs.getJSONObject(i).getString("updatetime");
+				int timeStamp = historicalAQIs.getJSONObject(i).optInt("updatetime");
 				
-				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
+				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, String.valueOf(timeStamp)));
 			}
 			return outdoorAQIs;
 			
