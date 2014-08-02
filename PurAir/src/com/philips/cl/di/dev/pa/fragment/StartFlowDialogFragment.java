@@ -5,16 +5,23 @@ import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
+import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -24,7 +31,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 
-public class StartFlowDialogFragment extends DialogFragment {
+public class StartFlowDialogFragment extends DialogFragment implements AddNewPurifierListener {
 
 	public static final String DIALOG_NUMBER = "dialog_number";
 	public static final int NO_INTERNET = 0;
@@ -38,6 +45,8 @@ public class StartFlowDialogFragment extends DialogFragment {
 	
 	private int mSelectedDialogNumber = 0;
 	private StartFlowListener mListener;
+	private AppSelectorAdapter appSelectorAdapter;
+	private ArrayList<String> listItemsArrayList;
 	
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 	
@@ -60,7 +69,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 			builder = createNoWifiDialog(builder);
 			break;
 		case AP_SELCTOR:
-			builder = createApSelectorDialog(builder);
+			builder = createAppSelectorDialog(builder);
 			break;
 		case SEARCHING:
 			builder = createSearchingDialog(builder);
@@ -78,101 +87,100 @@ public class StartFlowDialogFragment extends DialogFragment {
 	
 	private AlertDialog.Builder createNoInternetDialog(AlertDialog.Builder builder) {
 		builder.setTitle(R.string.no_internet_title)
-        .setMessage(R.string.no_internet_text)
-               .setPositiveButton(R.string.turn_it_on, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   mWifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
-                	   mWifiManager.setWifiEnabled(true);
-                	   dismiss();
-                	   mListener.noInternetTurnOnClicked(StartFlowDialogFragment.this);
-                   }
-               })
-               .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   dismiss();
-                	   mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-                   }
-               });
+		.setMessage(R.string.no_internet_text)
+		.setPositiveButton(R.string.turn_it_on, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				mWifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
+				mWifiManager.setWifiEnabled(true);
+				dismiss();
+				mListener.noInternetTurnOnClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 	
 	private AlertDialog.Builder createLocationServicesTurnedOffDialog(AlertDialog.Builder builder) {
 		builder.setTitle(R.string.location_services_turned_off_title)
-        .setMessage(R.string.location_services_turned_off_text)
-               .setPositiveButton(R.string.turn_it_on, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-		            	// Enable device location service window since android doesn't allow to change location settings in code
-		       			Intent myIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-		       			startActivity(myIntent);
-		       			dismiss();
-		       			mListener.locationServiceTurnOnClicked(StartFlowDialogFragment.this);
-                   }
-               })
-               .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   dismiss();
-                	   mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-                   }
-               });
+		.setMessage(R.string.location_services_turned_off_text)
+		.setPositiveButton(R.string.turn_it_on, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// Enable device location service window since android doesn't allow to change location settings in code
+				Intent myIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(myIntent);
+				dismiss();
+				mListener.locationServiceTurnOnClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 	
 	private AlertDialog.Builder createLocationServicesDialog(AlertDialog.Builder builder) {
 		builder.setTitle(R.string.location_services_title)
-        .setMessage(R.string.location_services_text)
-               .setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   dismiss();
-                	   mListener.locationServiceAllowClicked(StartFlowDialogFragment.this);
-                   }
-               })
-               .setNegativeButton(R.string.do_not_allow, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   dismiss();
-                	   mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-                   }
-               });
+		.setMessage(R.string.location_services_text)
+		.setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.locationServiceAllowClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.do_not_allow, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 	
 	private AlertDialog.Builder createNoWifiDialog(AlertDialog.Builder builder) {
 		builder.setTitle(R.string.no_wifi_title)
-        .setMessage(R.string.no_wifi_text)
-               .setPositiveButton(R.string.turn_it_on, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   mWifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
-                	   mWifiManager.setWifiEnabled(true);
-                	   dismiss();
-                	   mListener.noWifiTurnOnClicked(StartFlowDialogFragment.this);
-                   }
-               })
-               .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   dismiss();
-                	   mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-                   }
-               });
+		.setMessage(R.string.no_wifi_text)
+		.setPositiveButton(R.string.turn_it_on, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				mWifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
+				mWifiManager.setWifiEnabled(true);
+				dismiss();
+				mListener.noWifiTurnOnClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 	
-	private AlertDialog.Builder createApSelectorDialog(AlertDialog.Builder builder) {
-		DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
+	private AlertDialog.Builder createAppSelectorDialog(AlertDialog.Builder builder) {
+		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
+		discoveryManager.setAddNewPurifierListener(this);
 		final List<PurAirDevice> apItems = discoveryManager.getNewDevicesDiscovered();
-		ArrayList<String> listItemsArrayList = new ArrayList<String>();
-		String[] listItems = {};
+		listItemsArrayList = new ArrayList<String>();
 		
 		for (int i = 0; i < apItems.size(); i++) {
 			listItemsArrayList.add(apItems.get(i).getName());
 		}
 		
-		listItems = listItemsArrayList.toArray(new String[listItemsArrayList.size()]);
+		appSelectorAdapter = new AppSelectorAdapter(getActivity(), 
+				android.R.layout.simple_list_item_1, android.R.id.text1, listItemsArrayList);
 		
 		builder.setTitle(R.string.which_purifier_to_connect)
-		.setItems(listItems, new DialogInterface.OnClickListener() {
+		.setAdapter(appSelectorAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int position) {
-				Log.e("TEMP", "item clicked: " + apItems.get(position).getName());
 				//TODO connect with specific air purifier
-				ALog.i(ALog.APP_START_UP, "StartFlow->Show purifiers list Item clicked @position " + position + " activity " + getActivity());
 				PurAirDevice currentPurifier = apItems.get(position);
 				currentPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY) ;
 				currentPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
@@ -185,21 +193,32 @@ public class StartFlowDialogFragment extends DialogFragment {
 				PurifierDatabase purifierDatabase = new PurifierDatabase();
 				purifierDatabase.insertPurAirDevice(currentPurifier);
 				DiscoveryManager.getInstance().updateStoreDevices();
-				
+				clearSelectPurifierObject();
 				dismiss();            	   
 			}
         });
+		
+		builder.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+				if (keyCode == KeyEvent.KEYCODE_BACK) {
+					clearSelectPurifierObject();
+				}
+				return false;
+			}
+		});
 		return builder;
 	}
 	
 	private AlertDialog.Builder createSearchingDialog(AlertDialog.Builder builder) {
 		builder.setMessage(R.string.searching)
-               .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                   public void onClick(DialogInterface dialog, int id) {
-                	   dismiss();
-                	   mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-                   }
-               });
+		.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 	
@@ -212,4 +231,43 @@ public class StartFlowDialogFragment extends DialogFragment {
 		public void dialogCancelClicked(DialogFragment dialog);
 	}
 	
+	private class AppSelectorAdapter extends ArrayAdapter<String> {
+
+		public AppSelectorAdapter(Context context, int resource,
+				int textViewResourceId, List<String> objects) {
+			super(context, resource, textViewResourceId, objects);
+			Log.i(ALog.TEMP, "AppSelectorAdapter constructor call.");
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			return super.getView(position, convertView, parent);
+		}
+		
+	}
+
+	@Override
+	public void onNewPurifierDiscover() {
+		if (appSelectorAdapter == null || listItemsArrayList == null) return;
+		getActivity().runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				final List<PurAirDevice> apItems = DiscoveryManager.getInstance().getNewDevicesDiscovered();
+				if (!listItemsArrayList.isEmpty()) {
+					listItemsArrayList.clear();
+				}
+				for (int i = 0; i < apItems.size(); i++) {
+					listItemsArrayList.add(apItems.get(i).getName());
+				}
+				appSelectorAdapter.notifyDataSetChanged();
+			}
+		});
+	};
+	
+	private void clearSelectPurifierObject() {
+		DiscoveryManager.getInstance().removeAddNewPurifierListener();
+		appSelectorAdapter = null;
+		listItemsArrayList = null;
+	}
 }

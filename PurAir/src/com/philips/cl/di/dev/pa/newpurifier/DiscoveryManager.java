@@ -8,6 +8,7 @@ import java.util.List;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.util.Log;
 
 import com.philips.cl.di.common.ssdp.contants.DiscoveryMessageID;
 import com.philips.cl.di.common.ssdp.controller.InternalMessage;
@@ -15,6 +16,7 @@ import com.philips.cl.di.common.ssdp.lib.SsdpService;
 import com.philips.cl.di.common.ssdp.models.DeviceModel;
 import com.philips.cl.di.common.ssdp.models.SSDPdevice;
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
@@ -57,6 +59,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	private DiscoveryEventListener mListener;
 	private List<PurAirDevice> storedDevices;
+	private AddNewPurifierListener addNewPurifierListener;
 
 	public static final int DISCOVERY_WAITFORLOCAL_MESSAGE = 9000001;
 	public static final int DISCOVERY_SYNCLOCAL_MESSAGE = 9000002;
@@ -112,6 +115,14 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		mCppHelper.stopDiscoveryViaCpp();
 		mNetwork.stopNetworkChangedReceiver(PurAirApplication.getAppContext());
 		mListener = null;
+	}
+	
+	public void setAddNewPurifierListener(AddNewPurifierListener addNewPurifierListener) {
+		this.addNewPurifierListener = addNewPurifierListener;
+	}
+	
+	public void removeAddNewPurifierListener() {
+		this.addNewPurifierListener = null;
 	}
 
 	public ArrayList<PurAirDevice> getDiscoveredDevices() {
@@ -437,22 +448,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		List<String> eui64s = Arrays.asList(info.getClientIds());
 
 		ALog.i(ALog.DISCOVERY, "List: "+eui64s) ;
-		/*for (PurAirDevice current : getDiscoveredDevices()) {
-			boolean currentOnlineViaCpp = connected;
-			if (!eui64s.contains(current.getEui64())) {
-				currentOnlineViaCpp = !connected;
-			}
-
-			if (current.isOnlineViaCpp() != currentOnlineViaCpp) {
-				current.setOnlineViaCpp(currentOnlineViaCpp);
-				if (currentOnlineViaCpp) {
-					notifyListeners = updateConnectedStateOnlineViaCpp(current) ? true : notifyListeners;
-				} else {
-					notifyListeners = updateConnectedStateOfflineViaCpp(current) ? true : notifyListeners;
-				}
-			}
-		}
-		return notifyListeners;*/
+		
 		for (PurAirDevice current : getDiscoveredDevices()) {
 			boolean updatedState = false ;
 			boolean currentOnlineViaCpp = connected;
@@ -524,25 +520,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		return true;
 	}
 
-//	private void updateAllPurifiersOnlineViaCpp() {
-//		DiscoverInfo info = DiscoverInfo.getMarkAllOnlineDiscoverInfo();
-//		synchronized (mDiscoveryLock) {
-//			// Sending event none offline, will mark all cpponline.
-//			if (updateConnectedStateViaCppAllPurifiers(info)) {
-//				notifyDiscoveryListener();
-//			}
-//		}
-//	}
-
-//	private void updateAllPurifiersOfflineViaCpp() {
-//		DiscoverInfo info = DiscoverInfo.getMarkAllOfflineDiscoverInfo();
-//		synchronized (mDiscoveryLock) {
-//			// Sending event none offline, will mark all cpponline.
-//			if (updateConnectedStateViaCppAllPurifiers(info)) {
-//				notifyDiscoveryListener();
-//			}
-//		}
-//	}
 	// ********** END CPP METHODS ************
 
 	// ********** START ASYNC METHODS ************
@@ -654,7 +631,15 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		if (mListener == null) return;
 		mListener.onDiscoveredDevicesListChanged();
 
+		notifyAddNewPurifier();
 		ALog.v(ALog.DISCOVERY, "Notified listener of change event");
+	}
+	
+	private void notifyAddNewPurifier() {
+		Log.i("TEMP", "notifyAddNewPurifier datasetChanged: " + addNewPurifierListener);
+		if (mListener instanceof MainActivity && addNewPurifierListener != null) {
+			addNewPurifierListener.onNewPurifierDiscover();
+		}
 	}
 
 	private void startKeyExchange(PurAirDevice purifier) {
