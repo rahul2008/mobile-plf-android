@@ -31,7 +31,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -51,6 +55,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerUtil;
 import com.philips.cl.di.dev.pa.security.Util;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 
 /**
@@ -859,6 +864,21 @@ public class Utils {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.FIRMWARE_VERSION, Context.MODE_PRIVATE);
 		return preferences.getString(purifierEui64, "");
+	}
+	
+	public static Toast getCustomToast(String message) {
+		LayoutInflater inflater = (LayoutInflater)PurAirApplication.getAppContext()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		View toastView = inflater.inflate(R.layout.toast, null);
+		FontTextView msg = (FontTextView) toastView.findViewById(R.id.tv_toast_msg);
+		msg.setText(message);
+
+		Toast toast = new Toast(PurAirApplication.getAppContext());
+		toast.setView(toastView);
+		toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+		toast.setDuration(Toast.LENGTH_LONG);
+		return toast;
 	}
 	
 }

@@ -574,4 +574,5 @@
     <!-- Mangage Purifier -->
     <string name="add_purifier_heading">Manage purifiers</string>
     <string name="add_purifier">Add a purifier</string>
+    <string name="no_purifier_found">There are no additional Purifiers found</string>
 </resources>
