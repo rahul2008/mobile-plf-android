@@ -79,7 +79,6 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 
 	public void testDiscoveryOnStartStart() {
 		mHelper.startDiscoveryAsync();
-		mHelper.startDiscoveryAsync();
 		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
 		mHelper.removePendingMessagesOnQueueForTesting();
 
