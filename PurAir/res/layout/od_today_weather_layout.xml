@@ -23,16 +23,14 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_connected" />
     
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+    <TextView
         android:id="@+id/odTodyWeatherTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:layout_margin="8dp"
         android:textColor="@color/gray"
-        android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        android:textSize="14sp" />
 
     
 

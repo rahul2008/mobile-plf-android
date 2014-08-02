@@ -10,11 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class WeatherReportLayout extends  LinearLayout {
@@ -72,11 +74,12 @@ public class WeatherReportLayout extends  LinearLayout {
 			v.setPadding(10, 10, 10, 10);
 			
 			FontTextView timeTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTime);
-			FontTextView tempTxt = (FontTextView) v.findViewById(R.id.odTodyWeatherTemp);
+			TextView tempTxt = (TextView) v.findViewById(R.id.odTodyWeatherTemp);
+			tempTxt.setTypeface(Fonts.getGillsansLight(context));
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
 			timeTxt.setText(time);
-			tempTxt.setText(tempInCentigrade+AppConstants.UNICODE_DEGREE);
+			tempTxt.setText(tempInCentigrade + "\u00B0");
 			weatherImg.setImageDrawable(
 					Utils.getOutdoorTemperatureImage(context,weatherDesc, isdaytime));
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
@@ -96,8 +99,10 @@ public class WeatherReportLayout extends  LinearLayout {
 			v.setPadding(10, 10, 10, 10);
 			
 			FontTextView dayTxt = (FontTextView) v.findViewById(R.id.odDayWeatherForcast);
-			FontTextView dayTemp = (FontTextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
-			FontTextView nightTemp = (FontTextView) v.findViewById(R.id.odWeatherForcastMinTemp);
+			TextView dayTemp = (TextView) v.findViewById(R.id.odWeatherForcastMaxTemp);
+			dayTemp.setTypeface(Fonts.getGillsansLight(context));
+			TextView nightTemp = (TextView) v.findViewById(R.id.odWeatherForcastMinTemp);
+			nightTemp.setTypeface(Fonts.getGillsansLight(context));
 			FontTextView windSpeedTxt = (FontTextView) v.findViewById(R.id.odWeatherForcastWind);
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odWeatherForcastImg);
 			ImageView windDirImg = (ImageView) v.findViewById(R.id.odWeatherForcastWindImg);
@@ -106,10 +111,10 @@ public class WeatherReportLayout extends  LinearLayout {
 			weatherImg.setImageResource(weatherDetails.get(i).getWeatherIcon());
 			Utils.setOutdoorWeatherDirImg(context, 
 					weatherDetails.get(i).getWindSpeed(), weatherDetails.get(i).getWindDirection(), windDirImg);
-			dayTemp.setText(weatherDetails.get(i).getTemperatureDay()+"\u2103");
-			nightTemp.setText(weatherDetails.get(i).getTemperatureNight()+"\u2103");
-			windSpeedTxt.setText(weatherDetails.get(i).getWindSpeed()+"km/h");
-			
+			dayTemp.setText(weatherDetails.get(i).getTemperatureDay() + "\u00B0");
+			nightTemp.setText(weatherDetails.get(i).getTemperatureNight() + "\u00B0");
+			windSpeedTxt.setText(weatherDetails.get(i).getWindSpeed()+ context.getString(R.string.kmph));
+			 
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			this.addView(v, parentParams);

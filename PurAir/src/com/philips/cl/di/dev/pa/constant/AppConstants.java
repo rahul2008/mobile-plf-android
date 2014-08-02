@@ -118,6 +118,7 @@ public class AppConstants {
 	public static final String CLEAR = "Clear";
 	public static final String UNICODE_DEGREE = "\u2103" ;
 	
+	
 	public static final String PRODUCT = "product";
 	public static final String STATUS = "status" ;
 	

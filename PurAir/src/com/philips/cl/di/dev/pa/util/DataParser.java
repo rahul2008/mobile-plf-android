@@ -506,9 +506,9 @@ public class DataParser {
 				int pm10 = historicalAQIs.getJSONObject(i).optInt("p3");
 				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
 				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
-				int timeStamp = historicalAQIs.getJSONObject(i).optInt("updatetime");
+				String timeStamp = historicalAQIs.getJSONObject(i).optString("updatetime");
 				
-				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, String.valueOf(timeStamp)));
+				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			}
 			return outdoorAQIs;
 			
