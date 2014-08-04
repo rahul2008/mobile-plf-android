@@ -18,9 +18,26 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
-
+	<com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tv_rm_power_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/tv_rm_power"
+        android:layout_toLeftOf="@+id/btn_rm_power"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="25dp"
+        android:paddingBottom="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/gray"
+        android:textSize="16sp"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        custom:fontAssetName="fonts/gillsans.ttf" />
     <ToggleButton
-        android:id="@+id/btn_rm_power"
+        android:id="@id/btn_rm_power"
         style="@style/Widget.Button.Toggle"
         android:layout_width="80dp"
         android:layout_height="40dp"

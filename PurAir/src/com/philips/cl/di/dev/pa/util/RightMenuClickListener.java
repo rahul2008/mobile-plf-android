@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class RightMenuClickListener implements OnClickListener {
 	
@@ -37,7 +38,7 @@ public class RightMenuClickListener implements OnClickListener {
 	
 	//On/off states for power, child lock and indicator light.
 	private boolean isPowerOn, isChildLockOn, isIndicatorLightOn;
-	
+	private FontTextView powerStatus ;
 	//Fan speed menu buttons
 	private Button fanSpeedSilent, fanSpeedTurbo, fanSpeedOne, fanSpeedTwo, fanSpeedThree;
 	private ToggleButton fanSpeedAuto;
@@ -74,6 +75,9 @@ public class RightMenuClickListener implements OnClickListener {
 		fanSpeedOne = (Button) activity.findViewById(R.id.fan_speed_one);
 		fanSpeedTwo = (Button) activity.findViewById(R.id.fan_speed_two);
 		fanSpeedThree = (Button) activity.findViewById(R.id.fan_speed_three);
+		
+		powerStatus = (FontTextView) activity.findViewById(R.id.tv_rm_power_status) ;
+		powerStatus.setSelected(true) ;
 		
 		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);
 		timerLayout = (RelativeLayout)activity.findViewById(R.id.layout_timer);
@@ -176,11 +180,20 @@ public class RightMenuClickListener implements OnClickListener {
 		if(airportInfo == null) {
 			return false ;
 		}
+		powerStatus.setText(AppConstants.EMPTY_STRING) ;
+		power.setClickable(true) ;
 		String powerMode = airportInfo.getPowerMode();
-		if(powerMode != null && powerMode.equals(AppConstants.POWER_ON)) {
+		if(powerMode != null && powerMode.equalsIgnoreCase(AppConstants.POWER_ON)) {
+			
 			enableButtonsOnPowerOn(airportInfo);
 			isPowerOn = true;
-		} else {
+		} else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_C) || powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_E)) {
+			disableControlPanelButtonsOnPowerOff() ;
+			powerStatus.setText("Cover missing") ;
+			power.setClickable(false) ;
+			isPowerOn = false;
+		}
+		else {
 			disableControlPanelButtonsOnPowerOff();
 			isPowerOn = false;
 		}

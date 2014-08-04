@@ -88,6 +88,8 @@ public class AppConstants {
 	/** CONSTANTS FOR EVENTS */
 	//Power mode
 	public static final String POWER_ON = "1";
+	public static final String POWER_STATUS_C = "C";
+	public static final String POWER_STATUS_E = "E";
 	
 	//Fan speeds
 	public static final String FAN_SPEED_SILENT = "s";
