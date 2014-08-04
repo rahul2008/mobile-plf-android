@@ -125,12 +125,12 @@ public class OutdoorController implements ServerResponseListener {
 			for(int index = 0; index < outdoorEventListeners.size(); index++) {
 				if(outdoorAQIList != null) {
 					outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQIList, areaID);
-					if(outdoorWeatherList != null && !outdoorWeatherList.isEmpty()) {
-						Iterator<OutdoorWeather> iter = outdoorWeatherList.iterator();
-						while(iter.hasNext()) {
-							OutdoorWeather outdoorWeather = iter.next();
-							outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, areaID);
-						}
+				}
+				if(outdoorWeatherList != null && !outdoorWeatherList.isEmpty()) {
+					Iterator<OutdoorWeather> iter = outdoorWeatherList.iterator();
+					while(iter.hasNext()) {
+						OutdoorWeather outdoorWeather = iter.next();
+						outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, areaID);
 					}
 				}
 			}
