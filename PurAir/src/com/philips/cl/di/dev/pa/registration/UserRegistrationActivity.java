@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.view.View;
@@ -14,6 +15,8 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
+import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -88,6 +91,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		try {
 			getSupportFragmentManager().beginTransaction()
 			.add(R.id.fl_simple_fragment_container, new CreateAccountFragment(), CreateAccountFragment.class.getSimpleName())
+			.addToBackStack(null)
 			.commit();
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -100,6 +104,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		try {
 			getSupportFragmentManager().beginTransaction()
 			.replace(R.id.fl_simple_fragment_container, new UsageAgreementFragment(), UsageAgreementFragment.class.getSimpleName())
+			.addToBackStack(null)
 			.commit();
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -112,6 +117,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		try {
 			getSupportFragmentManager().beginTransaction()
 			.replace(R.id.fl_simple_fragment_container, new SignedInFragment(), SignedInFragment.class.getSimpleName())
+			.addToBackStack(null)
 			.commit();
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
@@ -206,5 +212,18 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 	
 	public interface UserRegistrationChanged {
 		public void userRegistrationClosed(boolean firstUse);
+	}
+	
+	@Override
+	public void onBackPressed() {
+		FragmentManager manager = getSupportFragmentManager();
+		Fragment fragment = manager.findFragmentById(R.id.fl_simple_fragment_container);
+		
+		if (fragment instanceof CreateAccountFragment) {
+			setActionBar(R.string.usage_agreement, View.VISIBLE);
+			manager.popBackStack();
+		}else if(fragment instanceof UsageAgreementFragment){
+			finish();
+		}
 	}
 }
