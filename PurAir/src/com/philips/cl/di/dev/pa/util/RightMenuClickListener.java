@@ -187,9 +187,14 @@ public class RightMenuClickListener implements OnClickListener {
 			
 			enableButtonsOnPowerOn(airportInfo);
 			isPowerOn = true;
-		} else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_C) || powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_E)) {
+		} else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_C)) {
 			disableControlPanelButtonsOnPowerOff() ;
-			powerStatus.setText("Cover missing") ;
+			powerStatus.setText(mainActivity.getString(R.string.cover_missing)) ;
+			power.setClickable(false) ;
+			isPowerOn = false;
+		}
+		else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_E)) {
+			disableControlPanelButtonsOnPowerOff() ;
 			power.setClickable(false) ;
 			isPowerOn = false;
 		}

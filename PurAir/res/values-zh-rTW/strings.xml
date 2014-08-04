@@ -37,6 +37,7 @@
     <string name="child_lock">兒童安全鎖</string>
     <string name="indicator_light">指示燈</string>
     <string name="set_timer">設定定時功能</string>
+    <string name="cover_missing">Cover missing</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">過濾狀態</string>
     <string name="pre_filter">1 預過濾網</string>

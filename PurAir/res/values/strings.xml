@@ -38,6 +38,7 @@
     <string name="child_lock">Child lock</string>
     <string name="indicator_light">Indicator light</string>
     <string name="set_timer">Set timer</string>
+    <string name="cover_missing">Cover missing</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">Filter Status</string>
     <string name="pre_filter">1 Pre-filter</string>
