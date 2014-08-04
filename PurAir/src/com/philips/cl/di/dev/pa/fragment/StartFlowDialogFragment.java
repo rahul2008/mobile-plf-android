@@ -251,7 +251,7 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 
 	@Override
 	public void onNewPurifierDiscover() {
-		if (appSelectorAdapter == null || listItemsArrayList == null) return;
+		if (getActivity() == null || appSelectorAdapter == null || listItemsArrayList == null ) return;
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
