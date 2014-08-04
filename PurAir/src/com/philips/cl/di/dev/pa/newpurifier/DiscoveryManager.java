@@ -159,8 +159,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		List<PurAirDevice> devicesInDataBase = getStoreDevices() ;
 		List<PurAirDevice> newDevices = new ArrayList<PurAirDevice>() ;
 		
-		if(discoveredDevices == null || discoveredDevices.size() == 0) return null ;
-		
 		for(PurAirDevice device: discoveredDevices) {
 			for( PurAirDevice deviceInDB: devicesInDataBase) {
 				if( device.getEui64().equals(deviceInDB.getEui64())) {
