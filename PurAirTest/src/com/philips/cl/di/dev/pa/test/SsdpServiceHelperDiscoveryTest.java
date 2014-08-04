@@ -68,14 +68,14 @@ public class SsdpServiceHelperDiscoveryTest extends InstrumentationTestCase {
 		verify(mService, never()).stopDeviceDiscovery();
 	}
 
-	public void testDiscoveryOnStart() {
-		mHelper.startDiscoveryAsync();
-		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
-		mHelper.removePendingMessagesOnQueueForTesting();
-
-		verify(mService).startDeviceDiscovery(any(Callback.class));
-		verify(mService, never()).stopDeviceDiscovery();
-	}
+//	public void testDiscoveryOnStart() {
+//		mHelper.startDiscoveryAsync();
+//		waitForMessagesToBeProcessed(SHORT_TIMEOUT);
+//		mHelper.removePendingMessagesOnQueueForTesting();
+//
+//		verify(mService).startDeviceDiscovery(any(Callback.class));
+//		verify(mService, never()).stopDeviceDiscovery();
+//	}
 
 	public void testDiscoveryOnStartStart() {
 		mHelper.startDiscoveryAsync();
