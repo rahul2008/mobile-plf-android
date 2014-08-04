@@ -68,7 +68,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
 				+ AppConstants.KEY_CITY + " TEXT,"
 				+ AppConstants.KEY_AREA_ID + " NUMERIC,"
-				+ AppConstants.KEY_DISTRICT + " TEXT,"
+				+ AppConstants.KEY_LONGITUDE + " NUMERIC,"
+				+ AppConstants.KEY_LATITUDE + " NUMERIC,"
 				+ AppConstants.KEY_CITY_CN + " TEXT," 
 				+ AppConstants.KEY_SHORTLIST + " NUMERIC" 
 				+ ")";

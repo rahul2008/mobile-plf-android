@@ -42,7 +42,9 @@ public class AppConstants {
 	public static final String KEY_COUNTRY = "COUNTRY";
 	public static final String KEY_STATION_TYPE = "STATION_TYPE";
 	public static final String KEY_SHORTLIST = "SHORTLIST";
-	
+	public static final String KEY_LONGITUDE = "LONGITUDE";
+	public static final String KEY_LATITUDE = "LATITUDE";
+ 	
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS = AppConstants.KEY_SHORTLIST + " = '1' ";
 	
 	

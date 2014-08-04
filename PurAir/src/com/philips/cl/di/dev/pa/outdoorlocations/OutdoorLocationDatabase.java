@@ -29,7 +29,8 @@ public class OutdoorLocationDatabase {
 									AppConstants.KEY_ID,
 									AppConstants.KEY_CITY,
 									AppConstants.KEY_AREA_ID,
-									AppConstants.KEY_DISTRICT,
+									AppConstants.KEY_LONGITUDE,
+									AppConstants.KEY_LATITUDE,
 									AppConstants.KEY_CITY_CN,
 									AppConstants.KEY_SHORTLIST };
 	
@@ -51,7 +52,7 @@ public class OutdoorLocationDatabase {
 	
 	synchronized void fillDatabaseForCSV() {
 		InputStream inputStream = PurAirApplication.getAppContext()
-				.getResources().openRawResource(R.raw.outdoor_locations_short);
+				.getResources().openRawResource(R.raw.city_list);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
 		
 		ALog.i(ALog.OUTDOOR_LOCATION,
@@ -75,12 +76,17 @@ public class OutdoorLocationDatabase {
 	            while ((outdoorLocation = reader.readLine()) != null) {
 	            	stringTokenizer = new StringTokenizer(outdoorLocation, ";");
 	            	
+//	            	while(stringTokenizer.hasMoreTokens()) {
+//	            		ALog.i(ALog.OUTDOOR_LOCATION, "Tokens " + stringTokenizer.nextToken());
+//	            	}
+	            	
 	                ContentValues values = new ContentValues();
 	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
 
 	                String areaID = stringTokenizer.nextToken();
 	        		values.put(AppConstants.KEY_AREA_ID, areaID);
-	        		values.put(AppConstants.KEY_DISTRICT, stringTokenizer.nextToken());
+	        		values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
+	        		values.put(AppConstants.KEY_LATITUDE, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
 
 	        		values.put(AppConstants.KEY_SHORTLIST,

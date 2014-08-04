@@ -6,6 +6,8 @@ public class OutdoorCity {
 	private OutdoorWeather outdoorWeather;
 	private String cityName;
 	private String cityNameCN;
+	private float longitude;
+	private float latitude;
 	
 	
 	public String getCityNameCN() {

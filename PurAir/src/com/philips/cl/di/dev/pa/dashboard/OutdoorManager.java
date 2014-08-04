@@ -83,6 +83,8 @@ public class OutdoorManager implements OutdoorEventListener {
 				String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 				String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
 				String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+				float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
+				float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 
 				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + areaID);
 
