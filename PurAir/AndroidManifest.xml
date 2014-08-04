@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
     android:versionCode="33"
-    android:versionName="1.14.1" >
+    android:versionName="1.14.1"
+    android:installLocation="preferExternal" >
 
     <uses-sdk
         android:minSdkVersion="9"
@@ -36,7 +37,8 @@
         android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:name="com.philips.cl.di.dev.pa.PurAirApplication"
@@ -123,19 +125,22 @@
             android:name="com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <receiver android:name=".notification.NotificationBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+
+        <receiver
+            android:name=".notification.NotificationBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
                 <category android:name="com.philips.cl.di.dev.pa" />
-            </intent-filter>            
+            </intent-filter>
         </receiver>
-        <service android:name=".notification.NotificationIntentService"></service>
-        
-        <!--  for Hockey app sdk -->
+
+        <service android:name=".notification.NotificationIntentService" >
+        </service>
+
+        <!-- for Hockey app sdk -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
-        
-        
     </application>
 
 </manifest>
