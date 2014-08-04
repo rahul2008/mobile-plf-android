@@ -194,7 +194,7 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 				PurifierDatabase purifierDatabase = new PurifierDatabase();
 				purifierDatabase.insertPurAirDevice(currentPurifier);
 				List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
-				PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
+//				PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 				clearSelectPurifierObject();
 				dismiss();            	   
 			}
