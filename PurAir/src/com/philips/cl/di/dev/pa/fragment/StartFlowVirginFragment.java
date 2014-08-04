@@ -54,6 +54,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		mBundle = new Bundle();
 		mDialog = new StartFlowDialogFragment();
 		mDialog.setListener(mStartFlowListener);
+		ConnectPurifier.reset();
 		mConnectPurifier = ConnectPurifier.getInstance(getActivity());		
 		super.onResume();
 	}

@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.ews;
 
+import java.util.List;
+
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -314,7 +316,9 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			ALog.i(ALog.PAIRING, "EWS-setting paring to false");
 			current.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED) ;
 			new PurifierDatabase().insertPurAirDevice(current);
-			DiscoveryManager.getInstance().updateStoreDevices();
+//			DiscoveryManager.getInstance().updateStoreDevices();
+			List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
+			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 		}
 		// STOP move code
 		finish() ;

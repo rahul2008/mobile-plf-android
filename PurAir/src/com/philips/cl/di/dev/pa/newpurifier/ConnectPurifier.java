@@ -42,7 +42,6 @@ public class ConnectPurifier {
 		}
 		return mInstance;
 	}
-	
 		
 	/**
 	 * start the flow to add a 

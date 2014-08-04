@@ -101,6 +101,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (getActivity() == null) return;
+		MainActivity mainActivity = (MainActivity) getActivity();
 		if (buttonView.getId() == R.id.settings_demo_mode_toggle) {
 			ALog.i(ALog.DEMO_MODE, "Demo mode enable: " + isChecked);
 			PurAirApplication.setDemoModeEnable(isChecked);
@@ -112,10 +113,16 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 							null, Utils.getPortUrl(Port.WIFIUI, EWSConstant.PURIFIER_ADHOCIP),dataToSend , "PUT") ;
 					task.start();
 				}
+				PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
+				mainActivity.startNormalMode();
+			} else {
+				PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(1);
+				mainActivity.startDemoMode();
 			}
 			PurifierManager.getInstance().removeCurrentPurifier();
 			((MainActivity) getActivity()).setActionBar(new SettingsFragment());
 			((MainActivity) getActivity()).onAirPurifierChanged();
+			
 		}
 	}
 }

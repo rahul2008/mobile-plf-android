@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Intent;

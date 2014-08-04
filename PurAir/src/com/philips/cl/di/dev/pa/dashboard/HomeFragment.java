@@ -63,11 +63,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				setRightMenuIconVisibilityDemoMode(currentPage);
 				return;
 			}
-			
 			setRightMenuIconVisibilityNormalMode(currentPage);
 		}
 	}
-
 
 	@Override
 	public void onPause() {
@@ -109,7 +107,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
-//		indoorViewPager.setOnPageChangeListener(new IndoorFragment());
 		indoorViewPager.setOnPageChangeListener(this);
 		Bundle bundle = getArguments();
 		if (bundle != null) {
@@ -141,6 +138,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             
             indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
             indoorViewPager.setAdapter(indoorPagerAdapter);
+            
+            indoorViewPager.setCurrentItem(
+            		PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
             
 		}		
 	
@@ -303,6 +303,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public void onPageSelected(int position) {
 		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position + ", getActivity: " + getActivity());
+		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
 		if (PurAirApplication.isDemoModeEnable()) {
 			setRightMenuIconVisibilityDemoMode(position);
 			return;

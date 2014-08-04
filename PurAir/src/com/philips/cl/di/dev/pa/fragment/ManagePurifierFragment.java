@@ -116,6 +116,9 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 			}
 			//Updates store device from DB
 			DiscoveryManager.getInstance().updateStoreDevices();
+//			List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
+			//At least one page exists in IndoorDashboard
+			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 			loadDataFromDatabase();
 		}
 		

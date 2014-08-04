@@ -8,6 +8,7 @@
     <!-- Left menu items -->
     <string name="list_item_home">主页</string>
     <string name="list_item_air_quality_explained">空气质量说明</string>
+    <string name="list_item_manage_purifier">管理器</string>
     <string name="list_item_outdoor_loc">户外场所</string>
     <string name="list_item_notifications">通知</string>
     <string name="list_item_help_and_doc">帮助和文档</string>

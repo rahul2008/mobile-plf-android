@@ -55,14 +55,6 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
 				
 				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getPairedStatus() +"is: "+ purifier.getPairedStatus().ordinal());
-				/*if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED)
-				{
-					values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 0);
-				}else if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED){
-					values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 1);
-				}else if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED){
-					values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, 2);
-				}*/
 				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
@@ -151,6 +143,35 @@ public class PurifierDatabase {
 			
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
+		} finally {
+			closeDb();
+		}
+		return newRowId;
+	}
+	
+	public long updatePurifierUsingUsn(PurAirDevice purifier) {
+		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
+		long newRowId = -1;
+		
+		if (purifier == null || purifier.getUsn() == null) return newRowId;
+		try {
+			db = dbHelper.getWritableDatabase();
+
+			ContentValues values = new ContentValues();
+			values.put(AppConstants.KEY_AIRPUR_DEVICE_NAME, purifier.getName());
+			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
+			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
+			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
+			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
+			{
+				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
+			}
+			
+			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
+					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
 		} finally {

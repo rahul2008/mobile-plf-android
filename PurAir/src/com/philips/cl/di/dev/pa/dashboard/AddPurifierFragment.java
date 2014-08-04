@@ -38,7 +38,6 @@ public class AddPurifierFragment extends BaseFragment implements OnClickListener
 		ivAddNewPurifier.setOnClickListener(this);
 		btnGotoShop = (Button) getActivity().findViewById(R.id.btn_go_to_shop);
 		btnGotoShop.setOnClickListener(this);
-		
 	}
 
 	@Override

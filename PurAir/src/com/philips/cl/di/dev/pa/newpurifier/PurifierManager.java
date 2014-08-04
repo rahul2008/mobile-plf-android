@@ -53,12 +53,13 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	public static enum PURIFIER_EVENT { DEVICE_CONTROL, SCHEDULER, FIRMWARE, AQI_THRESHOLD, PAIRING } ;
 
-	public static enum EWS_STATE { EWS, NONE } ;
+	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
 	private final Handler handler = new Handler();
 	private Runnable subscribeRunnable;
 	
 	private SchedulerHandler schedulerHandler ;
+	private int indoorViewPagerPosition;
 	
 	public static synchronized PurifierManager getInstance() {
 		if (instance == null) {
@@ -96,14 +97,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 		startSubscription();
 		notifyPurifierChangedListeners();
 	}
-	
-//	private void saveCurrentPurifierEUI64(String eui64) {
-//		SharedPreferences prefs = 
-//				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.CURR_PURAIR_PREF, Activity.MODE_PRIVATE);
-//		Editor editor = prefs.edit();
-//		editor.putString(AppConstants.CURR_PURAIR_PREF_KEY, eui64);
-//		editor.commit();
-//	}
 	
 	public String getDefaultPurifierEUI64() {
 		SharedPreferences prefs = 
@@ -379,7 +372,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 			ALog.e(ALog.PURIFIER_MANAGER, "Updated current purifier encryption key");
 			purifier.setEncryptionKey(key);
 			
-			new PurifierDatabase().insertPurAirDevice(mCurrentPurifier);
+			new PurifierDatabase().updatePurifierUsingUsn(mCurrentPurifier);
 		}
 	}
 	
@@ -440,5 +433,13 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	
 	public EWS_STATE getEwsState() {
 		return ewsState;
+	}
+	
+	public void setCurrentIndoorViewPagerPosition(int indoorViewPagerPosition) {
+		this.indoorViewPagerPosition = indoorViewPagerPosition;
+	}
+	
+	public int getCurrentIndoorViewPagerPosition() {
+		return indoorViewPagerPosition;
 	}
 }

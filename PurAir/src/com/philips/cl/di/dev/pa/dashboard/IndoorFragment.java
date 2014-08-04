@@ -68,21 +68,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		return view;
 	}
 
-	private static MainActivity mActivity;
-	
-	public static void resetActivity() {
-		mActivity = null;
-	}
-	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		String eui64 = "";
-
-		if(mActivity == null) {
-			ALog.i(ALog.TEMP, "Activity is null -- creating new");
-			mActivity = (MainActivity) getActivity();
-		}
 		
 		if(getArguments() != null) {
 			position = getArguments().getInt("position");

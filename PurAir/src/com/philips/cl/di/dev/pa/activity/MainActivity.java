@@ -64,6 +64,7 @@ import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
+import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
 import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
@@ -191,6 +192,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		showFirstFragment();
 		initializeCPPController();
 		selectPurifier();
+		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
 		
 	}
@@ -227,7 +229,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		
 	}
 
-	private void startDemoMode() {
+	public void startDemoMode() {
+		stopNormalMode();
 		if (appInDemoMode != null) {
 			appInDemoMode.addNetworkListenerForDemoMode();
 		}
@@ -251,7 +254,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		DiscoveryManager.getInstance().stop();
 	}
 
-	private void startNormalMode() {
+	public void startNormalMode() {
+		stopDemoMode();
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		DiscoveryManager.getInstance().start(this);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
@@ -268,18 +272,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		} else {
 			if (PurAirApplication.isDemoModeEnable()) {
 				addLocation.setVisibility(View.INVISIBLE);
-//				setRightMenuVisibility(View.VISIBLE);
-				stopNormalMode();
-				startDemoMode();
 			} else if (Utils.getAppFirstUse()) {
 				setRightMenuVisibility(View.INVISIBLE);
 			} else {
 				addLocation.setVisibility(View.INVISIBLE);
-//				setRightMenuVisibility(View.VISIBLE);
-				if (fragment instanceof SettingsFragment) {
-					stopDemoMode();
-					startNormalMode();
-				}
 			}
 		}
 	}
@@ -295,6 +291,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		if (PurifierManager.getInstance().getEwsState() == EWS_STATE.EWS) {
 			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
 			showFirstFragment();
+		} else if (PurifierManager.getInstance().getEwsState() == EWS_STATE.REGISTRATION) {
+			PurifierManager.getInstance().setEwsSate(EWS_STATE.NONE);
+			showFragment(new StartFlowChooseFragment());
 		}
 	}
 
@@ -302,8 +301,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	protected void onPause() {
 		super.onPause();
 		SetupDialogFactory.getInstance(this).cleanUp();
-//		IndoorFragment.resetActivity();
-
 		if(UserRegistrationController.getInstance().isUserLoggedIn()
 				|| PurAirApplication.isDemoModeEnable()) {
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
@@ -347,6 +344,11 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			OutdoorManager.getInstance().clearCityOutdoorInfo() ;
 			ConnectPurifier.reset() ;
 			finish();
+		}	else if (fragment instanceof StartFlowChooseFragment 
+				&& getString(R.string.list_item_manage_purifier).equals(getTitle().toString()) ) {
+			manager.popBackStackImmediate(null,
+					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			showFragment(new ManagePurifierFragment());
 		} else if (!(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager.popBackStackImmediate(null,
@@ -518,12 +520,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		}
 	}
 
-	private void setDashboardActionbarIconVisible() {
-		rightMenu.setVisibility(View.INVISIBLE);
-		leftMenu.setVisibility(View.VISIBLE);
-		backToHome.setVisibility(View.INVISIBLE);
-		addLocation.setVisibility(View.INVISIBLE);
-	}
+//	private void setDashboardActionbarIconVisible() {
+//		rightMenu.setVisibility(View.INVISIBLE);
+//		leftMenu.setVisibility(View.VISIBLE);
+//		backToHome.setVisibility(View.INVISIBLE);
+//		addLocation.setVisibility(View.INVISIBLE);
+//	}
 
 	/** Create the left menu items. */
 	private List<ListViewItem> getLeftMenuItems() {
@@ -1005,7 +1007,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			setProgressDialogInvisible();
 		}
 	}
-	
 	
 	public void setProgressDialogInvisible(){
 		this.runOnUiThread(new Runnable() {

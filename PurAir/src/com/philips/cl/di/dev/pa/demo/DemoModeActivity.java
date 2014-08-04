@@ -186,6 +186,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	
 	public void showHomeScreen() {
 		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
+		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		finish();
 	}
 	

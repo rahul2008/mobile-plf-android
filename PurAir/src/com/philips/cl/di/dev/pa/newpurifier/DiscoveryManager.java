@@ -172,7 +172,6 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			}
 			addToNewDeviceList = true ;
 		}
-		
 		return newDevices ;
 	}
 
@@ -302,7 +301,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 		if (!newPurifier.getLastKnownNetworkSsid().equals(existingPurifier.getLastKnownNetworkSsid())) {
 			existingPurifier.setLastKnownNetworkSsid(newPurifier.getLastKnownNetworkSsid());
-			mDatabase.insertPurAirDevice(existingPurifier);
+			mDatabase.updatePurifierUsingUsn(existingPurifier);
 		}
 
 		if (!newPurifier.getIpAddress().equals(existingPurifier.getIpAddress())) {
@@ -316,7 +315,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 		if (!existingPurifier.getName().equals(newPurifier.getName())) {
 			existingPurifier.setName(newPurifier.getName());
-			mDatabase.insertPurAirDevice(existingPurifier);
+			mDatabase.updatePurifierUsingUsn(existingPurifier);
 			notifyListeners = true;
 		}
 
