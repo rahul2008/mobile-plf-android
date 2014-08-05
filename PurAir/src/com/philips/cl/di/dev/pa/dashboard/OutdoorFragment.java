@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
@@ -27,7 +28,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2, cityId;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
-	
+	private RelativeLayout rootLayout;
 	private ImageView aqiCircleMeter ;
 	
 	@Override
@@ -48,6 +49,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	}
 	
 	private void initViews(View view) {
+		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
 		cityId  = (FontTextView) view.findViewById(R.id.hf_outdoor_city_id);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
@@ -92,6 +94,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		if(city.getOutdoorAQI() != null) {
 			outdoorAQI = city.getOutdoorAQI();
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
+			//Set outdoor background
+			rootLayout.setBackgroundResource(OutdoorImage.valueOf(areaID, outdoorAQI.getAQI()));
 			aqi.setText("" + outdoorAQI.getAQI());
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;

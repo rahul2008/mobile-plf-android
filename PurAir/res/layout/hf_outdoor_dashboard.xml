@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hf_outdoor_root_lyt"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/air_dashboard_outdoor_shanghai_300" >
+    android:background="@drawable/air_dashboard_outdoor_generic_city_50" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

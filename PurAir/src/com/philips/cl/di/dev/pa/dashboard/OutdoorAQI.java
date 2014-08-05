@@ -113,7 +113,7 @@ public class OutdoorAQI implements  Serializable {
 			return R.drawable.light_pink_circle_arrow1_small;
 		} else if(p2 > 200 && p2 <= 300) {
 			return R.drawable.red_circle_arrow_small;
-		} else if(p2 > 300 && p2 <= 500) {
+		} else if(p2 > 300) {
 			return R.drawable.light_red_circle_arrow_small;
 		}
 

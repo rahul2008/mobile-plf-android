@@ -35,6 +35,7 @@ import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorImage;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
@@ -62,7 +63,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private FontTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
 	private TextView heading;
-	private ImageView circleImg;
+	private ImageView circleImg, backgroundImage;
 	private ImageView avoidImg, openWindowImg, maskImg;
 	private ImageView mapEnlargeImg;
 	private FontTextView avoidTxt, openWindowTxt, maskTxt;
@@ -214,6 +215,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 		if( aqiValue != null) {
 			areaId = aqiValue.getAreaID() ;
 			setAdviceIconTex(aqiValue.getAQI());
+			//set image background corresponding with city and areaId
+			backgroundImage.setImageResource(OutdoorImage.valueOf(areaId, aqiValue.getAQI()));
 			this.aqiValue.setText(""+aqiValue.getAQI()) ;
 			this.circleImg.setImageResource(getImageResId(aqiValue.getAQI())) ;
 			String [] summary = aqiValue.getAqiSummary() ;
@@ -327,6 +330,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		pm3 = (FontTextView) findViewById(R.id.odPMValue3);
 		pm4 = (FontTextView) findViewById(R.id.odPMValue4);
 
+		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg);
 		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
@@ -507,7 +511,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		TaskGetHttp shanghaiAQI = new TaskGetHttp(String.format(
 				AppConstants.OUTDOOR_AQI_URL,cityName.trim()), OutdoorDetailsActivity.this, this);
 		shanghaiAQI.start();
-
 	}
 	
 	@SuppressLint("HandlerLeak")
@@ -545,7 +548,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 			outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
 			handler.sendEmptyMessage(1);
 		}
-		
 	}
 
 	@SuppressLint("HandlerLeak")
@@ -571,7 +573,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 							new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
 				}
 			});
-			
 		}
 	}
 
@@ -595,9 +596,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 							new WeatherReportLayout(OutdoorDetailsActivity.this, null, 0, weatherList);
 					weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
 					wetherForcastLayout.addView(weatherReportLayout);
-
-					//						wetherScrollView.addView(
-					//						new WeatherReportLayout(OutdoorDetailsActivity.this, null, weatherList));
 				}
 			}
 		});
