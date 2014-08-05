@@ -177,6 +177,7 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	private boolean getPowerButtonState(AirPortInfo airportInfo) {
+		isPowerOn = false ;
 		if(airportInfo == null) {
 			return false ;
 		}
@@ -184,25 +185,22 @@ public class RightMenuClickListener implements OnClickListener {
 		power.setClickable(true) ;
 		String powerMode = airportInfo.getPowerMode();
 		if(powerMode != null && powerMode.equalsIgnoreCase(AppConstants.POWER_ON)) {
-			
 			enableButtonsOnPowerOn(airportInfo);
-			isPowerOn = true;
-		} else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_C)) {
+			isPowerOn = true ;			
+		} 
+		else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_C)) {
 			disableControlPanelButtonsOnPowerOff() ;
-			powerStatus.setText(mainActivity.getString(R.string.cover_missing)) ;
 			power.setClickable(false) ;
-			isPowerOn = false;
+			powerStatus.setText(mainActivity.getString(R.string.cover_missing)) ;
 		}
 		else if(powerMode.equalsIgnoreCase(AppConstants.POWER_STATUS_E)) {
 			disableControlPanelButtonsOnPowerOff() ;
 			power.setClickable(false) ;
-			isPowerOn = false;
+			powerStatus.setText(mainActivity.getString(R.string.error)) ;
 		}
 		else {
-			disableControlPanelButtonsOnPowerOff();
-			isPowerOn = false;
+			disableControlPanelButtonsOnPowerOff() ;
 		}
-		
 		
 		return isPowerOn;
 	}
