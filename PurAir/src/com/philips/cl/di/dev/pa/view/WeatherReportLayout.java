@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -111,8 +110,17 @@ public class WeatherReportLayout extends  LinearLayout {
 			weatherImg.setImageResource(weatherDetails.get(i).getWeatherIcon());
 			Utils.setOutdoorWeatherDirImg(context, 
 					weatherDetails.get(i).getWindSpeed(), weatherDetails.get(i).getWindDirection(), windDirImg);
-			dayTemp.setText(weatherDetails.get(i).getTemperatureDay() + "\u00B0");
-			nightTemp.setText(weatherDetails.get(i).getTemperatureNight() + "\u00B0");
+			
+			if (weatherDetails.get(i).getTemperatureDay() != null
+					&& !weatherDetails.get(i).getTemperatureDay().isEmpty()) {
+				dayTemp.setText(weatherDetails.get(i).getTemperatureDay() + "\u00B0");
+			} 
+			
+			if (weatherDetails.get(i).getTemperatureNight() != null 
+					&& !weatherDetails.get(i).getTemperatureNight().isEmpty()) {
+				nightTemp.setText(weatherDetails.get(i).getTemperatureNight() + "\u00B0");
+			} 
+			
 			windSpeedTxt.setText(weatherDetails.get(i).getWindSpeed()+ context.getString(R.string.kmph));
 			 
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(

@@ -32,6 +32,7 @@
         android:layout_weight="1"
         android:gravity="right"
         android:textColor="@color/gray"
+        android:text="@string/hiphen"
         android:textSize="14sp"
         android:textStyle="bold" />
 
@@ -42,6 +43,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/lightgrey"
+        android:text="@string/hiphen"
         android:textSize="14sp"
         android:textStyle="bold" />
 

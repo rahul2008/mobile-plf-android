@@ -64,6 +64,7 @@
     <string name="weather_forecast">Weather Forecast</string>
     <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
     <string name="kmph">km/h</string>
+    <string name="hiphen">-</string>
     <string name="one_zero">0</string>
     <string name="colon_2_zero">:00</string>
     <!-- Dashboard texts -->

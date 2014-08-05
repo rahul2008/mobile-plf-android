@@ -650,9 +650,6 @@ public class Utils {
 
 	public static void setOutdoorWeatherDirImg(Context contex, float windSpeed, float degree, ImageView iv) {
 		Drawable weatherImage = null;
-		if (degree < 0) {
-			return;
-		}
 		if (windSpeed < 15) {
 			weatherImage = contex.getResources().getDrawable(R.drawable.arrow_down_1x);
 		} else if (windSpeed >= 15 && windSpeed < 25) {

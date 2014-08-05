@@ -63,6 +63,7 @@
     <string name="weather_forecast">天气预报</string>
     <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
     <string name="kmph">公里/小时</string>
+    <string name="hiphen">-</string>
     <string name="one_zero">0</string>
     <string name="colon_2_zero">:00</string>
     <!-- Dashboard texts -->

@@ -113,7 +113,7 @@ public class ForecastWeatherDto {
 	}
 	
 	public enum WindDirection {
-		ZERO(0, -1),
+		ZERO(0, 0),
 		ONE(1, 45),
 		TWO(2, 90),
 		THREE(3, 135),
@@ -123,7 +123,7 @@ public class ForecastWeatherDto {
 		SEVEN(7, 315), 
 		EIGHT(8, 0),
 		NINE(9, -2),
-		UNKNOWN(10, -1); 
+		UNKNOWN(10, 0); 
 		
 		private int windDirectionID;
 		private int windDirectionAngle;
