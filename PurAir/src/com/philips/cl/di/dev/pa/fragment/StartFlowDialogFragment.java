@@ -152,7 +152,7 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 			public void onClick(DialogInterface dialog, int id) {
 				mWifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
 				mWifiManager.setWifiEnabled(true);
-				dismiss();
+				dialog.dismiss();
 				mListener.noWifiTurnOnClicked(StartFlowDialogFragment.this);
 			}
 		})
