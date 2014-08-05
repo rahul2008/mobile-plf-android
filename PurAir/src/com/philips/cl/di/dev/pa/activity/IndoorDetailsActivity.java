@@ -58,6 +58,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
 	private ImageView circleImg;
+	private ImageView backgroundImage;
 	private FontTextView msgFirst, msgSecond, indoorDbIndexName;
 	private ImageView indexBottBg;
 	private HorizontalScrollView horizontalScrollView;
@@ -69,7 +70,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private List<float[]> lastDayRDCPValues;
 	private List<float[]> last7daysRDCPValues;
 	private List<float[]> last4weeksRDCPValues;
-
 	private List<Float> hrlyAqiValues;
 	private List<Float> dailyAqiValues ;
 	private List<Integer> goodAirInfos;
@@ -190,6 +190,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		lastWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
 		lastFourWeekBtn = (TextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 
+		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg); 
 		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
 		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
 
@@ -445,6 +446,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			mode.setText(getString(R.string.off));
 			aqiStatusTxt.setText(getString(R.string.no_connection));
 			aqiStatusTxt.setTextSize(18.0f);
+			//set image background
+			backgroundImage.setImageResource(R.drawable.home_indoor_bg_2x);
 			circleImg.setImageResource(R.drawable.grey_circle_2x);
 			aqiSummary.setText(AppConstants.EMPTY_STRING) ;
 			filter.setText(AppConstants.EMPTY_STRING);
@@ -467,6 +470,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			aqiStatusTxt.setText(aqiStatusAndCommentArray[0]);
 			aqiStatusTxt.setTextSize(22.0f);
 			aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
+			backgroundImage.setImageResource(Utils.getBackgroundResource(indoorAQI));
 		}
 	}
 

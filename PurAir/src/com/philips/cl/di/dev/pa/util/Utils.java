@@ -737,6 +737,20 @@ public class Utils {
 		}
 		return aqiStatusArray;
 	}
+	
+	public static int getBackgroundResource(int indoorAQI) {
+		int resId = R.drawable.home_indoor_bg_2x;
+		if(indoorAQI > -1 && indoorAQI <= 14) {
+			resId = R.drawable.indoor_very_healthy_2x;
+		} else if(indoorAQI > 14 && indoorAQI <= 23) {
+			resId = R.drawable.indoor_moduralty_polluted_2x;
+		} else if(indoorAQI > 23 && indoorAQI <= 35) {
+			resId = R.drawable.indoor_unhelathy_2x;
+		} else if(indoorAQI > 35) {
+			resId = R.drawable.indoor_harzadous_2x;
+		}
+		return resId;
+	}
 
 	public static String getPreFilterFormattedText(int days){
 		if(days==0)
