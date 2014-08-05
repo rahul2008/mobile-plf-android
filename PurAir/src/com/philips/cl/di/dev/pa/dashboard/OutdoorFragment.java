@@ -73,7 +73,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			if(OutdoorManager.getInstance().getCitiesList().size() > 0) {
 				String areaID = OutdoorManager.getInstance().getCitiesList().get(position);
 				OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
-				if(city != null) {
+				if(city != null && city.getOutdoorCityInfo() != null) {
 					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
 					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
