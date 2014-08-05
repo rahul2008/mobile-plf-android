@@ -66,9 +66,9 @@ public class OutdoorLocationDatabase {
     		OutdoorManager.getInstance().addAreaIDToList("101020100");
     		OutdoorManager.getInstance().addAreaIDToList("101270101");
     		
-    		OutdoorManager.getInstance().addCityDataToMap("101010100", null, null, null, null);
-    		OutdoorManager.getInstance().addCityDataToMap("101020100", null, null, null, null);
-    		OutdoorManager.getInstance().addCityDataToMap("101270101", null, null, null, null);
+    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101010100");
+    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101020100");
+    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101270101");
     		
 	        mOutdoorLocationDatabase.beginTransaction();
 	        try {

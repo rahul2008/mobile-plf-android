@@ -51,10 +51,12 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 		ALog.d(ALog.DATABASE, "Create table");
 		String createSQL = "CREATE TABLE " + AppConstants.TABLE_CITYDETAILS + "("
 				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY,"
-				+ AppConstants.KEY_CITY + " TEXT," + AppConstants.KEY_PROVINCE
-				+ " TEXT," + AppConstants.KEY_AQI + " NUMERIC,"
-				+ AppConstants.KEY_DATE + " TEXT," + AppConstants.KEY_TIME
-				+ " TEXT" + ")";
+				+ AppConstants.KEY_CITY + " TEXT," 
+				+ AppConstants.KEY_PROVINCE + " TEXT," 
+				+ AppConstants.KEY_AQI + " NUMERIC,"
+				+ AppConstants.KEY_DATE + " TEXT," 
+				+ AppConstants.KEY_TIME	+ " TEXT" + ")";
+		
 		String createTableAirPurifierEvent = "CREATE TABLE "+ AppConstants.TABLE_AIRPURIFIER_EVENT + "(" 
 				+ AppConstants.KEY_INDOOR_AQI + " INTEGER ," + 
 				AppConstants.KEY_LAST_SYNC_DATETIME + " TEXT )";

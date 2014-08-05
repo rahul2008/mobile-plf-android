@@ -353,6 +353,7 @@ public class DataParser {
 			}
 			return outdoorWeatherList;
 		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "ERROR parseLocationWeather");
 			return null;
 		}catch(Exception e) {
 			return null ;

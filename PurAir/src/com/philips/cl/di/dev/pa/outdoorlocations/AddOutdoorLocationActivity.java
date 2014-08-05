@@ -22,6 +22,7 @@ import android.widget.ListView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -164,13 +165,17 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
 			cursor.moveToPosition(position);
 			
-			final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
-			final String cityName = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-			final String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+			String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+			String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+			String areaId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+			float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
+			float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
+
+			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, longitude, latitude, areaId);
 			
-			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + cityName);
+			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());
 			OutdoorManager.getInstance().addAreaIDToList(areaId);
-			OutdoorManager.getInstance().addCityDataToMap(areaId, cityName, cityCN, null, null);
+			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
 			
 			mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
 

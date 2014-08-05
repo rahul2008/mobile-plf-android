@@ -31,6 +31,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private RelativeLayout rootLayout;
 	private ImageView aqiCircleMeter ;
 	
+	private FontTextView lastUpdated;
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -62,6 +64,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		aqiPointerCircle.setOnClickListener(this);
 		aqiCircleMeter = (ImageView) view.findViewById(R.id.hf_outdoor_circle_meter);
 		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
+		lastUpdated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update_lb);
 		Bundle bundle = getArguments();
 
 		if(bundle != null) {
@@ -74,9 +77,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
 					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-						updateUI(city, city.getCityNameCN(), areaID);
+						updateUI(city, city.getOutdoorCityInfo().getCityNameCN(), areaID);
 					} else {
-						updateUI(city, city.getCityName(), areaID);
+						updateUI(city, city.getOutdoorCityInfo().getCityName(), areaID);
 					}
 				}
 			}
@@ -90,7 +93,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		
 		cityName.setText(outdoorCityName);
 		cityId.setText(areaID);
-		
+		lastUpdated.setVisibility(View.VISIBLE);
 		if(city.getOutdoorAQI() != null) {
 			outdoorAQI = city.getOutdoorAQI();
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
@@ -144,7 +147,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			if (cityId.getText() == null) return;
 			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
 			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
-			intent.putExtra(AppConstants.OUTDOOR_AQI,outdoorAQI) ;
+			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
 			startActivity(intent);
 			
 //			Bundle bundle = getArguments();

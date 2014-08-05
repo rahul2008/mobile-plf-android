@@ -4,26 +4,14 @@ public class OutdoorCity {
 	
 	private OutdoorAQI outdoorAQI;
 	private OutdoorWeather outdoorWeather;
-	private String cityName;
-	private String cityNameCN;
-	private float longitude;
-	private float latitude;
-	
-	
-	public String getCityNameCN() {
-		return cityNameCN;
+	private OutdoorCityInfo outdoorCityInfo;
+
+	public OutdoorCityInfo getOutdoorCityInfo() {
+		return outdoorCityInfo;
 	}
-	public void setCityNameCN(String cityNameCN) {
-		this.cityNameCN = cityNameCN;
+	public void setOutdoorCityInfo(OutdoorCityInfo outdoorCityInfo) {
+		this.outdoorCityInfo = outdoorCityInfo;
 	}
-	
-	public void setCityName(String cityName) {
-		this.cityName = cityName;
-	}
-	public String getCityName() {
-		return cityName;
-	}
-	
 	public void setOutdoorAQI(OutdoorAQI aqi) {
 		this.outdoorAQI = aqi;
 	}
