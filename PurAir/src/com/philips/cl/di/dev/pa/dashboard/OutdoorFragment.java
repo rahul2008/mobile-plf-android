@@ -149,15 +149,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
 			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
 			startActivity(intent);
-			
-//			Bundle bundle = getArguments();
-//			if (bundle != null) {
-//				Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-//				intent.putExtras(bundle);
-//				startActivity(intent);
-//			}
 			break;
-			
 		default:
 			break;	
 		}

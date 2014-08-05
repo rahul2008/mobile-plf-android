@@ -16,6 +16,8 @@ public class TaskGetHttp extends Thread {
 	private String url ;
 	private ServerResponseListener listener ;
 	private String areaID ;
+	private int responseCode;
+	private String result = "" ;
 
 	public TaskGetHttp(String url,Context context, ServerResponseListener listener) {
 		ALog.i(ALog.TASK_GET, "Url: " + url);
@@ -39,16 +41,13 @@ public class TaskGetHttp extends Thread {
 			conn.setRequestMethod("GET");
 			// Starts the query
 			conn.connect();
-			int responseCode = conn.getResponseCode() ;
-			String result = "" ;
+			responseCode = conn.getResponseCode() ;
+			result = "" ;
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();					
 				result = NetworkUtils.readFully(inputStream) ;
 			}
 			
-			if ( listener != null ) {
-				listener.receiveServerResponse(responseCode, result, areaID) ;
-			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -56,6 +55,11 @@ public class TaskGetHttp extends Thread {
 		finally {
 			// Makes sure that the InputStream is closed after the app is
 			// finished using it.
+			
+			if ( listener != null ) {
+				listener.receiveServerResponse(responseCode, result, areaID) ;
+			}
+			
 			if (inputStream != null) {
 				try {
 					inputStream.close();

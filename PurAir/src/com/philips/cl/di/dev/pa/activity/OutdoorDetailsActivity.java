@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -54,7 +55,7 @@ import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
 public class OutdoorDetailsActivity extends BaseActivity 
-	implements OnClickListener, ServerResponseListener, WeatherDataListener, OutdoorDetailsListener {
+	implements OnClickListener, ServerResponseListener, OutdoorDetailsListener {
 
 	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
@@ -155,7 +156,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 		updateLastDayArray(hourlyAqiValueMap);
 		updateWeeklyArray(dailyAqiValueMap, dailyAqiValueCounterMap);
-		setViewlastDayAQIReadings();
+		handler.sendEmptyMessage(1);
 	}
 	
 	private void updateLastDayArray(HashMap<Integer, Float> hourlyAqiValueMap) {
@@ -459,18 +460,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		msgSecond.setText(getString(R.string.detail_aiq_message_last4week));
 	}
 	
-	private void updateWeatherFields() {
-		/**Add today weather*/
-		wetherScrollView.addView(
-				new WeatherReportLayout(this, null, SessionDto.getInstance().getWeatherDetails()));
-
-		/**Add weather forecast*/
-		WeatherReportLayout weatherReportLayout = 
-				new WeatherReportLayout(this, null, SessionDto.getInstance().getWeatherDetails());
-		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
-		wetherForcastLayout.addView(weatherReportLayout);
-	}
-
 	/**
 	 * 
 	 */
@@ -518,12 +507,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		public void handleMessage(Message msg) {
 			if ( msg.what == 1 ) {
 				aqiProgressBar.setVisibility(View.GONE);
-				if (outdoorAQIs != null && !outdoorAQIs.isEmpty()) {
-					addAQIHistoricData();
-				}
+				setViewlastDayAQIReadings();
 			} else if ( msg.what == 2 ) {
-				weatherProgressBar.setVisibility(View.GONE);
-				updateWeatherFields() ;
+				aqiProgressBar.setVisibility(View.GONE);
+				Toast toast = Utils.getCustomToast(
+						PurAirApplication.getAppContext().getString(R.string.outdoor_download_failed));
+				toast.show();
 			}
 		};
 	};
@@ -546,16 +535,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
 		if (responseCode == 200) {
 			outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
-			handler.sendEmptyMessage(1);
+			if (outdoorAQIs != null && !outdoorAQIs.isEmpty()) {
+				addAQIHistoricData();
+			}
+		} else {
+			handler.sendEmptyMessage(2);
 		}
-	}
-
-	@SuppressLint("HandlerLeak")
-	@Override
-	public void weatherDataUpdated(String weatherData) {
-		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather downloaded");
-		SessionDto.getInstance().setWeatherDetails(DataParser.parseWeatherData(weatherData)) ;
-		handler.sendEmptyMessage(2) ;
 	}
 
 	@Override
