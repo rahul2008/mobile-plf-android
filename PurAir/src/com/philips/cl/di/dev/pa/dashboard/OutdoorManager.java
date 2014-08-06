@@ -126,6 +126,10 @@ public class OutdoorManager implements OutdoorEventListener {
 	public synchronized List<String> getCitiesList() {
 		return citiesList;
 	}
+	
+	public synchronized void clearCitiesList() {
+		if (citiesList != null && !citiesList.isEmpty()) citiesList.clear();
+	}
 
 	public synchronized void addAreaIDToList(String areaID) {
 		if(!citiesList.contains(areaID)) {

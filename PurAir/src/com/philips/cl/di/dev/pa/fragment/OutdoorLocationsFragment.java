@@ -102,6 +102,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			Log.i(TAG, "onConnectionFailed#noResolution");
 		}
 	}
+	
+	private void addAreaIdToCityList(Cursor cursor) {
+		if (cursor.getCount() > 0) {
+			OutdoorManager.getInstance().clearCitiesList();
+			cursor.moveToFirst();
+			do {
+				OutdoorManager.getInstance().addAreaIDToList(
+						cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
+			} while (cursor.moveToNext());
+		}
+	}
 
 	private void fillListViewFromDatabase(Cursor cursor) {
 		if (cursor != null) {
@@ -173,6 +184,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			};
 			
 			mOutdoorLocationListView.setAdapter(mOutdoorLocationAdapter);
+			//Add city to list
+			addAreaIdToCityList(cursor);
 		}
 	}
 
