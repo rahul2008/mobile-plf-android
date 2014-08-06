@@ -194,7 +194,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
-		
 	}
 
 	private void selectPurifier() {
@@ -269,14 +268,12 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			addLocation.setVisibility(View.VISIBLE);
 		} else if(!(fragment instanceof HomeFragment)) {
 			setRightMenuVisibility(View.INVISIBLE);
+			addLocation.setVisibility(View.INVISIBLE);
 		} else {
-			if (PurAirApplication.isDemoModeEnable()) {
-				addLocation.setVisibility(View.INVISIBLE);
-			} else if (Utils.getAppFirstUse()) {
+			if (Utils.getAppFirstUse() && !PurAirApplication.isDemoModeEnable()) {
 				setRightMenuVisibility(View.INVISIBLE);
-			} else {
-				addLocation.setVisibility(View.INVISIBLE);
-			}
+			} 
+			addLocation.setVisibility(View.INVISIBLE);
 		}
 	}
 
