@@ -205,6 +205,7 @@ public class AppConstants {
 	public static final String GETPROPS_ACTION = "{\"product\":\"1\",\"port\":\"air\"}" ;
 	
 	public static final String NO_PURIFIER_FLOW = "no_purifier_flow";
+	public static final int MAX_PURIFIER_LIMIT = 20;
 	
 	/** DEMO MODE */
 	public final static String DEMO_MODE_PREF = "demo_mode_pref";

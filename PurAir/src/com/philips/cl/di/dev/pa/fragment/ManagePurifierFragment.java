@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +17,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.adapter.ManagePurifierArrayAdapter;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.cpp.PairingListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
@@ -23,6 +26,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.UpdateListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
@@ -87,15 +91,35 @@ public class ManagePurifierFragment extends BaseFragment implements UpdateListen
 		@Override
 		public void onClick(View v) {
 			//For demo mode
-			if (PurAirApplication.isDemoModeEnable()) return;
-			
-			if (Utils.getAppFirstUse()) return;
+			if (PurAirApplication.isDemoModeEnable() || Utils.getAppFirstUse()) return;
 			
 			if (v.getId() == R.id.manage_pur_add_img) {
-				((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+				List<PurAirDevice> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
+				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
+					showAlertDialog("", getString(R.string.max_purifier_reached));
+				} else {
+					((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+				}
 			}
 		}
 	};
+	
+	private void showAlertDialog(String title, String message) {
+		if (getActivity() == null) return;
+		try {
+			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getActivity().getSupportFragmentManager().findFragmentByTag("max_purifier_reached");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "max_purifier_reached").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.MANAGE_PUR, e.getMessage());
+		}
+	}
 
 	@Override
 	public void onUpdate(PurAirDevice purifier, HashMap<String, Boolean> selectedItems) {

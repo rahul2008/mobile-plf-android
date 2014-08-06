@@ -1,8 +1,12 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.util.List;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -16,7 +20,11 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class AddPurifierFragment extends BaseFragment implements OnClickListener{
 	
@@ -49,18 +57,39 @@ public class AddPurifierFragment extends BaseFragment implements OnClickListener
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				((MainActivity) getActivity()).startActivity(intent) ;
 			} else {
-				((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+				List<PurAirDevice> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
+				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
+					showAlertDialog("", getString(R.string.max_purifier_reached));
+				} else {
+					((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+				}
 			}
 			break;
 		case R.id.btn_go_to_shop:
-			Intent intent = new Intent(
-					Intent.ACTION_VIEW,
+			Intent intent = new Intent(Intent.ACTION_VIEW,
 					Uri.parse(AppConstants.PURIFIER_BUY_LINK));
 			startActivity(intent);
 			break;
 
 		default:
 			break;
+		}
+	}
+	
+	private void showAlertDialog(String title, String message) {
+		if (getActivity() == null) return;
+		try {
+			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getActivity().getSupportFragmentManager().findFragmentByTag("max_purifier_reached");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "max_purifier_reached").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.TEMP, e.getMessage());
 		}
 	}
 
