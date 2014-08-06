@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -26,6 +27,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class DemoModeActivity extends BaseActivity implements OnClickListener, DemoModeListener {
@@ -187,7 +189,21 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 	public void showHomeScreen() {
 		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
+		setStaticIpAddress() ;
 		finish();
+	}
+	
+	/**
+	 * Set the static ipAddress for the 2.3 version and below
+	 */
+	private void setStaticIpAddress() {
+		if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ) {
+			android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_USE_STATIC_IP, "1");        
+			android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_IP, Utils.getStaticIpAddress());
+			android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_NETMASK, "255.255.255.0");
+			android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_GATEWAY, "192.168.1.1");
+			android.provider.Settings.System.putString(getContentResolver(), android.provider.Settings.System.WIFI_STATIC_DNS1, "0.0.0.0");
+		}
 	}
 	
 	private void showDemoModeFragment(Fragment fragment) {

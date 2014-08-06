@@ -17,14 +17,20 @@ import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
 import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
 
+import java.net.InetAddress;
+import java.net.NetworkInterface;
 import java.nio.charset.Charset;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
+
+import org.apache.http.conn.util.InetAddressUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -891,5 +897,47 @@ public class Utils {
 		toast.setDuration(Toast.LENGTH_LONG);
 		return toast;
 	}
+	public static String getStaticIpAddress() {
+//		int Low = 2;
+//		int High = 255;
+//		Random r = new Random() ;
+//		int randomIpAddress = r.nextInt(High-Low) + Low;
+//		
+//		StringBuilder ipAddress = new StringBuilder("192.168.1.").append(randomIpAddress) ;
+//		
+//		return ipAddress.toString() ;
+		
+		return getIPAddress(true) ;
+	}
 	
+	 /**
+     * Get IP address from first non-localhost interface
+     * @param ipv4  true=return ipv4, false=return ipv6
+     * @return  address or empty string
+     */
+    public static String getIPAddress(boolean useIPv4) {
+        try {
+            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+            for (NetworkInterface intf : interfaces) {
+                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+                for (InetAddress addr : addrs) {
+                    if (!addr.isLoopbackAddress()) {
+                        String sAddr = addr.getHostAddress().toUpperCase();
+                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr); 
+                        if (useIPv4) {
+                            if (isIPv4) 
+                                return sAddr;
+                        } else {
+                            if (!isIPv4) {
+                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
+                                return delim<0 ? sAddr : sAddr.substring(0, delim);
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) { } // for now eat exceptions
+        return "";
+    }
+
 }

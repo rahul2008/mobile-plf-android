@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -106,6 +107,9 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 			ALog.i(ALog.DEMO_MODE, "Demo mode enable: " + isChecked);
 			PurAirApplication.setDemoModeEnable(isChecked);
 			if (!isChecked) {
+				if(android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB ) {
+					android.provider.Settings.System.putString(getActivity().getContentResolver(), android.provider.Settings.System.WIFI_USE_STATIC_IP, "0");  
+				}
 				PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 				if (purAirDevice != null && purAirDevice.isDemoPurifier()) {
 					String dataToSend = JSONBuilder.getDICommUIBuilder(purAirDevice);

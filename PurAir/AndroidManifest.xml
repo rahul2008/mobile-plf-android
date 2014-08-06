@@ -39,7 +39,7 @@
         android:resizeable="true"
         android:smallScreens="true"
         android:xlargeScreens="true" />
-
+	<uses-permission android:maxSdkVersion="8" android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
