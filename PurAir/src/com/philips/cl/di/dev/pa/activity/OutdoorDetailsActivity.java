@@ -74,6 +74,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private static String currentCityTime;
 	
 	private ViewGroup mapLayout;
+	private ViewGroup mapGaodeLayout;
 	private ImageView mapImg;
 	private View mapBackground;
 	private double latitude;
@@ -203,6 +204,16 @@ public class OutdoorDetailsActivity extends BaseActivity
 		return builder.toString();
 	}
 	
+	private static String mSelectedCityCode = null;
+
+	public static String getSelectedCityCode(){
+		return mSelectedCityCode;
+	}
+	
+	private void setOutdoorCityCode(String areaCode){
+		mSelectedCityCode = areaCode;
+	}
+	
 	/** Getting data from Main screen*/
 	private void getDataFromDashboard() {
 		/**
@@ -211,6 +222,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
 		
 		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
+		setOutdoorCityCode(aqiValue.getAreaID());
 		
 		if( aqiValue != null) {
 			areaId = aqiValue.getAreaID() ;
@@ -336,7 +348,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
 		maskImg = (ImageView) findViewById(R.id.maskImg); 
 		mapEnlargeImg = (ImageView) findViewById(R.id.oDmapInlarge); 
-		mapEnlargeImg.setVisibility(View.INVISIBLE);
+//		mapEnlargeImg.setVisibility(View.INVISIBLE);
 
 		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
 		avoidTxt = (FontTextView) findViewById(R.id.avoidOutdoorTxt); 
@@ -347,11 +359,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		weatherProgressBar = (ProgressBar) findViewById(R.id.weatherProgressBar);
 		
 		mapLayout = (RelativeLayout) findViewById(R.id.img_map_layt);
+		mapGaodeLayout = (RelativeLayout) findViewById(R.id.gaode_map_layt);
 		mapImg = (ImageView) findViewById(R.id.img_map);
 		mapBackground = (View) findViewById(R.id.view_map_bg);
 
 		if(!Utils.isGooglePlayServiceAvailable()) {
-			mapLayout.setVisibility(View.GONE);
+			setupGaodeMap();
 		}
 		/**
 		 * Set click listener
@@ -360,6 +373,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
 		mapEnlargeImg.setOnClickListener(this);
+	}
+	
+	private void setupGaodeMap() {
+		mapLayout.setVisibility(View.GONE);
+		mapGaodeLayout.setVisibility(View.VISIBLE);
+		
+		ImageView gaodeMapZoom = (ImageView) findViewById(R.id.gaodeMapZoomImg);
+		gaodeMapZoom.setOnClickListener(this);
 	}
 	
 	/**
@@ -396,6 +417,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+			case R.id.gaodeMapZoomImg:
+				Intent gaodeMapIntent = new Intent(OutdoorDetailsActivity.this, MarkerActivity.class);
+				startActivity(gaodeMapIntent);
+				break;
 			case R.id.detailsOutdoorLastDayLabel: {
 				setViewlastDayAQIReadings();
 				break;

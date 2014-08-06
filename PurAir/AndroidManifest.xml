@@ -22,7 +22,9 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <permission
         android:name="com.philips.cl.di.dev.pa.permission.C2D_MESSAGE"
@@ -54,7 +56,9 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
+ 	<meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="c338b0f177ae1b43e6a8f3ffc9482186" />
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.MainActivity"
             android:label="@string/app_name"
@@ -141,6 +145,11 @@
 
         <!-- for Hockey app sdk -->
         <activity android:name="net.hockeyapp.android.UpdateActivity" />
+        
+         <activity
+            android:name=".activity.MarkerActivity"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        
     </application>
 
 </manifest>
