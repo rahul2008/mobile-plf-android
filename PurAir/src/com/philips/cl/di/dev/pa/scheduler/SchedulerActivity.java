@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.app.ProgressDialog;
@@ -408,6 +409,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) {
 		ALog.i(ALog.SCHEDULER, "onSchedulers list response");
 		
+		Collections.sort(scheduleList) ;
 		if( scheduleList != null ) {
 			this.schedulesList = scheduleList ;
 			runOnUiThread(new Runnable() {

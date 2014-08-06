@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.scheduler;
 
-public class SchedulePortInfo {
+
+public class SchedulePortInfo implements Comparable<SchedulePortInfo> {
 	private String time;
 	private String days ;
 	private String mode ;
@@ -45,4 +46,8 @@ public class SchedulePortInfo {
 		this.name = name;
 	}
 	
+	@Override
+	public int compareTo(SchedulePortInfo port) {
+		return name.compareTo(port.getName());
+	}	
 }
