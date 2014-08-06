@@ -14,7 +14,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -26,22 +28,19 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorImage;
-import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
-import com.philips.cl.di.dev.pa.purifier.TaskGetWeatherData.WeatherDataListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -510,12 +509,26 @@ public class OutdoorDetailsActivity extends BaseActivity
 				setViewlastDayAQIReadings();
 			} else if ( msg.what == 2 ) {
 				aqiProgressBar.setVisibility(View.GONE);
-				Toast toast = Utils.getCustomToast(
-						PurAirApplication.getAppContext().getString(R.string.outdoor_download_failed));
-				toast.show();
+				showAlertDialog("", getString(R.string.outdoor_download_failed));
 			}
 		};
 	};
+	
+	private void showAlertDialog(String title, String message) {
+		try {
+			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("outdoor_download_failed");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "outdoor_download_failed").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.TEMP, e.getMessage());
+		}
+	}
 	
 	public void startCityAQIHistoryTask(String areaID) {
 		if (PurAirApplication.isDemoModeEnable()) return;

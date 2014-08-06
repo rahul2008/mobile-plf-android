@@ -4,20 +4,19 @@ import java.util.List;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 
 public class StartFlowChooseFragment extends BaseFragment implements OnClickListener {
@@ -73,15 +72,29 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 			if (apItems.size() > 0) {
 				showApSelectorDialog();
 			} else {
+				showAlertDialog("", getString(R.string.no_purifier_found));
 				// TODO show troubleshoot flow
-				Toast toast = Utils.getCustomToast(
-						PurAirApplication.getAppContext().getString(R.string.no_purifier_found));
-				toast.show();
-				Log.e("TEMP", "-------------- Show troubleshoot flow!!! --------------");
 			}
 			break;
 		default:
 			break;
+		}
+	}
+	
+	private void showAlertDialog(String title, String message) {
+		if (getActivity() == null) return;
+		try {
+			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getActivity().getSupportFragmentManager().findFragmentByTag("no_purifier_found");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "no_purifier_found").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.TEMP, e.getMessage());
 		}
 	}
 }
