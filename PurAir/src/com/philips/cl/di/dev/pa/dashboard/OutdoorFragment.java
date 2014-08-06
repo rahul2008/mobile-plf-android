@@ -93,12 +93,13 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		
 		cityName.setText(outdoorCityName);
 		cityId.setText(areaID);
-		lastUpdated.setVisibility(View.VISIBLE);
+		
 		if(city.getOutdoorAQI() != null) {
 			outdoorAQI = city.getOutdoorAQI();
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
 			//Set outdoor background
 			rootLayout.setBackgroundResource(OutdoorImage.valueOf(areaID, outdoorAQI.getAQI()));
+			lastUpdated.setVisibility(View.VISIBLE);
 			aqi.setText("" + outdoorAQI.getAQI());
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
