@@ -95,7 +95,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		event = id;
 		switch (id) {
 		case OVERVIEW_EVENT:
-			setActionBar(R.string.scheduler, View.INVISIBLE, View.INVISIBLE);
+			setActionBar(R.string.scheduler, View.INVISIBLE, View.VISIBLE);
 			break;
 		case ADD_EVENT:
 			if (scheduleType == SCHEDULE_TYPE.ADD) {
@@ -199,7 +199,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			case R.id.scheduler_actionbar_add_btn:
 				save();
 				break;
-				
 			case R.id.larrow:
 				showPreviousScreenOnBackPressed();
 				break;
