@@ -108,7 +108,9 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	}
 		
 	private void startBenefitsFlow() {
-		// TODO: start benefits flow
+		if (getActivity() == null) return;
+		((MainActivity) getActivity()).setTitle(getString(R.string.benefits_of_the_purifier));
+		((MainActivity) getActivity()).showFragment(new AirQualityFragment());
 	}
 	
 	private void startVideo() {

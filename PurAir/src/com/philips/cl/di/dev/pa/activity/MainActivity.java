@@ -82,7 +82,6 @@ import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -118,6 +117,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	private ImageView addLocation;
 	private ImageView backToHome;
 	private FontTextView noOffFirmwareUpdate;
+	private FontTextView actionBarTitle;
 
 	/** Filter status bars */
 	private FilterStatusView preFilterView, multiCareFilterView,
@@ -428,6 +428,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		backToHome = (ImageView) viewActionbar.findViewById(R.id.back_to_home_img);
 		addLocation = (ImageView) viewActionbar.findViewById(R.id.add_location_img);
 		noOffFirmwareUpdate = (FontTextView) viewActionbar.findViewById(R.id.actionbar_firmware_no_off_update);
+		actionBarTitle = (FontTextView) viewActionbar.findViewById(R.id.action_bar_title);
 
 		rightMenu.setOnClickListener(actionBarClickListener);
 		leftMenu.setOnClickListener(actionBarClickListener);
@@ -517,13 +518,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		}
 	}
 
-//	private void setDashboardActionbarIconVisible() {
-//		rightMenu.setVisibility(View.INVISIBLE);
-//		leftMenu.setVisibility(View.VISIBLE);
-//		backToHome.setVisibility(View.INVISIBLE);
-//		addLocation.setVisibility(View.INVISIBLE);
-//	}
-
 	/** Create the left menu items. */
 	private List<ListViewItem> getLeftMenuItems() {
 		List<ListViewItem> leftMenuItems = new ArrayList<ListViewItem>();
@@ -540,9 +534,6 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				R.drawable.icon_5_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
 				R.drawable.icon_6_2x));
-		// TODO : Add this when enabling non-mandatory firmware update
-		//		leftMenuItems.add(new ListViewItem(R.string.list_item_firmware,
-		//				R.drawable.icon_8_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
 				R.drawable.icon_7_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
@@ -661,11 +652,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	}
 
 	public void setTitle(String title) {
-		TextView textView = (TextView) findViewById(R.id.action_bar_title);
-		textView.setTypeface(Fonts.getGillsansLight(MainActivity.this));
-		textView.setTextSize(24);
-		textView.setText(title);
-		super.setTitle(title);
+		actionBarTitle.setText(title);
 	}
 
 	/** Left menu item clickListener */
