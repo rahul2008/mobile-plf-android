@@ -60,6 +60,7 @@
     <!-- Outdoor Locations -->
 <!--     <string name="enter_city_name">Enter location</string> -->
     <string name="cancel">取消</string>
+    <string name="decline">Decline</string>
     <string name="weather_forecast">天氣預報</string>
     <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
     <string name="kmph">公里/小時</string>

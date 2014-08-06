@@ -61,6 +61,7 @@
     <!-- Outdoor Locations -->
     <!-- <string name="enter_city_name">Enter location</string> -->
     <string name="cancel">Cancel</string>
+    <string name="decline">Decline</string>
     <string name="weather_forecast">Weather Forecast</string>
     <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
     <string name="kmph">km/h</string>

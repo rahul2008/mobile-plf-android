@@ -15,8 +15,6 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
-import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -33,6 +31,7 @@ import com.philips.cl.di.reg.handlers.TraditionalRegistrationHandler;
 public class UserRegistrationActivity extends BaseActivity implements OnClickListener, TraditionalRegistrationHandler {
 
 	private Button mActionBarCancelBtn;
+	private Button mDeclineBtn;
 	private ImageView mActionBarBackBtn;
 	private FontTextView mActionbarTitle;
 	public DIUserProfile mDIUserProfile;
@@ -62,18 +61,25 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
 		actionBar.setBackgroundDrawable(d);
-		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
+		View view  = getLayoutInflater().inflate(R.layout.user_registration_actionbar, null);
 		
-		mActionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
+		mActionbarTitle = (FontTextView) view.findViewById(R.id.user_reg_actionbar_title);
 		mActionbarTitle.setText(getString(R.string.create_account));
 		
-		mActionBarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
+		mActionBarCancelBtn = (Button) view.findViewById(R.id.user_reg_actionbar_cancel_btn);
 		mActionBarCancelBtn.setText(R.string.i_accept);
 		mActionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
 		mActionBarCancelBtn.setOnClickListener(this);
 		mActionBarCancelBtn.setVisibility(View.GONE);
 		
-		mActionBarBackBtn = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
+		mDeclineBtn = (Button) view.findViewById(R.id.user_reg_actionbar_decline_btn);
+		mDeclineBtn.setText(R.string.decline);
+		mDeclineBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
+		mDeclineBtn.setOnClickListener(this);
+		mDeclineBtn.setVisibility(View.GONE);
+		
+		mActionBarBackBtn = (ImageView) view.findViewById(R.id.user_reg_actionbar_back_img);
+		mActionBarBackBtn.setOnClickListener(this);
 		mActionBarBackBtn.setVisibility(View.GONE);
 		actionBar.setCustomView(view);
 	}
@@ -98,6 +104,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		}	
 		
 		setActionBar(R.string.create_account, View.GONE);
+		mActionBarBackBtn.setVisibility(View.VISIBLE);
 	}
 	
 	protected void showUsageAgreementFragment() {
@@ -111,6 +118,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		}	
 		
 		setActionBar(R.string.usage_agreement, View.VISIBLE);
+		mActionBarBackBtn.setVisibility(View.GONE);
 	}
 	
 	public void showSuccessFragment() {
@@ -124,23 +132,28 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		}	
 		
 		setActionBar(R.string.create_account, View.GONE);
+		mActionBarBackBtn.setVisibility(View.GONE);
 	}
 	
 	private void setActionBar(int textId, int cancelButtonVisisbility) {
 		mActionbarTitle.setText(textId);
 		mActionBarCancelBtn.setVisibility(cancelButtonVisisbility);
+		mDeclineBtn.setVisibility(cancelButtonVisisbility);
 	}
 	
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.setup_actionbar_cancel_btn:
+		case R.id.user_reg_actionbar_cancel_btn:
 			if(ConnectionState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
 				showErrorDialog(Error.NO_NETWORK_CONNECTION); //TODO : Change error type to "Connect to internet"
 				break;
 			}
-			
 			showCreateAccountFragment() ;
+			break;
+		case R.id.user_reg_actionbar_decline_btn:
+		case R.id.user_reg_actionbar_back_img:
+			onBackPressed();
 			break;
 		default:
 			break;
@@ -221,6 +234,7 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		
 		if (fragment instanceof CreateAccountFragment) {
 			setActionBar(R.string.usage_agreement, View.VISIBLE);
+			mActionBarBackBtn.setVisibility(View.GONE);
 			manager.popBackStack();
 		}else if(fragment instanceof UsageAgreementFragment){
 			finish();

@@ -7,15 +7,13 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/setup_actionbar_title"
+        android:id="@+id/user_reg_actionbar_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="4dp"
         android:paddingBottom="4dp"
 		android:gravity="center"
 		android:layout_centerVertical="true"
-		android:layout_toLeftOf="@+id/setup_actionbar_cancel_btn"
-		android:layout_toRightOf="@+id/setup_actionbar_back_img"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         android:ellipsize="end"
@@ -23,7 +21,7 @@
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <Button
-        android:id="@+id/setup_actionbar_cancel_btn"
+        android:id="@+id/user_reg_actionbar_cancel_btn"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
@@ -33,21 +31,9 @@
         android:textSize="12sp"
         android:textColor="@color/white"
         android:text="@string/cancel" />
-
-    <ImageView
-        android:id="@+id/setup_actionbar_back_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:padding="12dp"
-        android:clickable="true"
-        android:background="@drawable/clickable_image_bg_selector"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/lef_arrow_blue_2x" />
     
     <Button
-        android:id="@+id/setup_actionbar_decline_btn"
+        android:id="@+id/user_reg_actionbar_decline_btn"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
         android:layout_alignParentLeft="true"
@@ -58,4 +44,16 @@
         android:text="@string/decline"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/user_reg_actionbar_back_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:padding="12dp"
+        android:clickable="true"
+        android:background="@drawable/clickable_image_bg_selector"
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/lef_arrow_blue_2x" />
+    
 </RelativeLayout>
