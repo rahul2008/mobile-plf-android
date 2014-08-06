@@ -4,6 +4,8 @@ package com.philips.cl.di.dev.pa.outdoorlocations;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
@@ -24,6 +26,7 @@ import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -157,10 +160,31 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 		}
 	}
 	
+	private void showAlertDialog(String title, String message) {
+		try {
+			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("max_purifier_reached");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "max_purifier_reached").commitAllowingStateLoss();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.TEMP, e.getMessage());
+		}
+	}
+	
 	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+			
+			if(OutdoorManager.getInstance().getCitiesList().size() > 19) {
+				showAlertDialog(null, getString(R.string.max_city_reached));
+				return;
+			}
 			
 			Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
 			cursor.moveToPosition(position);
