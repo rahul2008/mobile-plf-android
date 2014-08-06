@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
+import com.philips.cl.di.dev.pa.dashboard.WeatherIcon;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -79,8 +80,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			
 			timeTxt.setText(time);
 			tempTxt.setText(tempInCentigrade + "\u00B0");
-			weatherImg.setImageDrawable(
-					Utils.getOutdoorTemperatureImage(context,weatherDesc, isdaytime));
+			weatherImg.setImageResource(WeatherIcon.getWeatherIconResId(weatherDesc));
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			this.addView(v, parentParams);

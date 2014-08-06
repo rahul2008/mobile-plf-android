@@ -51,6 +51,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		citiesMap = new HashMap<String, OutdoorCity>();
 		citiesList = new ArrayList<String>();
 		
+		WeatherIcon.populateWeatherIconMap();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
 	}

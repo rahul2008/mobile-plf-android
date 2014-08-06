@@ -1,6 +1,6 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather.WeatherInfo;
+import com.philips.cl.di.dev.pa.R;
 
 public class ForecastWeatherDto {
 
@@ -55,10 +55,11 @@ public class ForecastWeatherDto {
 		int faInt = 0;
 		try {
 			faInt = Integer.parseInt(fa);
+			return WeatherIcon.getWeatherIconResID(faInt);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
-		return WeatherInfo.valueOf(faInt);
+		return R.drawable.weather_icon_0;
 	}
 	
 	public int getWindSpeed() {
