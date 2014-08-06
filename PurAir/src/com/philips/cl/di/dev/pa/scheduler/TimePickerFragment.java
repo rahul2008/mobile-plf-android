@@ -68,13 +68,14 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 	@SuppressLint("SimpleDateFormat")
 	public void setTime(String time) {
 		if (time == null || time.isEmpty()) return;
-		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 		Date date;
 		try {
 			date = sdf.parse(time);
 			Calendar c = Calendar.getInstance();
 			c.setTime(date);
 			hourSelected = c.get(Calendar.HOUR_OF_DAY);
+			
 			minSelected = c.get(Calendar.MINUTE);
 		} catch (ParseException e) {
 			e.printStackTrace();
