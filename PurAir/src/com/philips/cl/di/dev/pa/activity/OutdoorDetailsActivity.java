@@ -363,9 +363,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 		mapImg = (ImageView) findViewById(R.id.img_map);
 		mapBackground = (View) findViewById(R.id.view_map_bg);
 
-		if(!Utils.isGooglePlayServiceAvailable()) {
-			setupGaodeMap();
-		}
+		//if(!Utils.isGooglePlayServiceAvailable()) {
+		setupGaodeMap();
+		//}
 		/**
 		 * Set click listener
 		 * */
