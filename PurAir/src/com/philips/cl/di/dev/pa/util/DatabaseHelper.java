@@ -19,7 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 *            the context
 	 */
 	public DatabaseHelper(Context context) {
-		super(context, AppConstants.PURIFIERDB_NAME, null, 1);//AppConstants.PURIFIERDB_VERSION);
+		super(context, AppConstants.PURIFIERDB_NAME, null, 5);//AppConstants.PURIFIERDB_VERSION);
 	}
 
 	/**
@@ -89,23 +89,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		ALog.d(ALog.DATABASE, "Upgrade table");
-		if (newVersion == 3) {
-			// Only city details has changed from version 2 to 3.
-			db.execSQL(String.format("DROP TABLE IF EXISTS %s", 
-					AppConstants.TABLE_CITYDETAILS));
-			return;
-		}
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " DROP COLUMN " + AppConstants.KEY_DISTRICT);
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LONGITUDE + " NUMERIC");
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE + " NUMERIC");
 		
-		// default - clear all tables
-		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.TABLE_AIRPURIFIER_EVENT));
-		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.TABLE_AIRPUR_INFO));
-		db.execSQL(String.format("DROP TABLE IF EXISTS %s", 
-				AppConstants.TABLE_CITYDETAILS));
-		this.onCreate(db);
-
 	}
 
 }

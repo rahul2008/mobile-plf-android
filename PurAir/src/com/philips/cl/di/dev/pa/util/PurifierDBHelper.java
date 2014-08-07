@@ -95,9 +95,6 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 //		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
 //				AppConstants.TABLE_AIRPUR_INFO));
 		
-		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " DROP COLUMN " + AppConstants.KEY_DISTRICT);
-		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LONGITUDE);
-		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE);
 		
 //		this.onCreate(db);
 
