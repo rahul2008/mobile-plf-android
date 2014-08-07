@@ -117,7 +117,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
-		paint.setTextSize(60);
+		paint.setTextSize(30);
 		paint.setTypeface(tf);
 		paint.setTextAlign(Align.CENTER);
 

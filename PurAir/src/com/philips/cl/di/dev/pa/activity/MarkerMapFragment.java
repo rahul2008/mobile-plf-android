@@ -119,7 +119,7 @@ public class MarkerMapFragment extends Fragment implements
 		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
-		paint.setTextSize(60);
+		paint.setTextSize(30);
 		paint.setTypeface(tf);
 		paint.setTextAlign(Align.CENTER);
 
@@ -170,19 +170,19 @@ public class MarkerMapFragment extends Fragment implements
 	static int getAqiPointerImageResId(int p2) {
 
 		if (p2 >= 0 && p2 <= 50) {
-			return R.drawable.blue_circle_with_arrow_small;
+			return R.drawable.map_circle_6;
 		} else if (p2 > 50 && p2 <= 100) {
-			return R.drawable.pink_circle_with_arrow_small;
+			return R.drawable.map_circle_5;
 		} else if (p2 > 100 && p2 <= 150) {
-			return R.drawable.light_pink_circle_arrow_small;
+			return R.drawable.map_circle_4;
 		} else if (p2 > 150 && p2 <= 200) {
-			return R.drawable.light_pink_circle_arrow1_small;
+			return R.drawable.map_circle_3;
 		} else if (p2 > 200 && p2 <= 300) {
-			return R.drawable.red_circle_arrow_small;
+			return R.drawable.map_circle_2;
 		} else if (p2 > 300) {
-			return R.drawable.light_red_circle_arrow_small;
+			return R.drawable.map_circle_1;
 		}
 
-		return R.drawable.blue_circle_with_arrow_small;
+		return R.drawable.map_circle_6;
 	}
 }
