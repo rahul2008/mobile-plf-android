@@ -305,7 +305,7 @@
     <string name="vistashield_features">1. 活性炭涂层可捕捉外表面的甲醛。 \n\n2. 每克活性炭的表面积约为 1000 平方米。 诸多污染物被如此巨大的表面积过滤掉。\n\n3. 纳米孔经过精确定位，可滤掉和吸附有害气体。\n\n在 30 立方米房间中的测试显示，使用全新家用过滤网 3 小时后，几乎可以过滤掉所有甲醛。</string>
     <string name="airborne_disease_heading">远离“飞”来横疾</string>
     <string name="airborne_disease_desc">人口密度的增加、全球化进程和抗药性加剧了通过空气传播疾病的发病率。 从办公室到各类公共场合，大大增加了人们罹患传染病的风险。\n\n飞利浦 VitaShield 微护盾可以滤除最低微观层级为 20 纳米的空气污染物，足够对付例如禽流感、流感病毒、军团杆菌等病原体和其他常见病原体。\n\n经测试，在 1 个小时之内，飞利浦 VitaShield 微护盾减少了 99.9% 的细菌 和病毒。</string>
-    <string name="outdoor_color_explained_intro">主要城市空气质量和 PM2.5 水平检测。 来源：美国大使馆北京空气质量监测系统（美国驻华大使馆监测中心：beijing.usembassy-china.org.cn）和北京市环境保护监测中心（北京市环境保护监测中心：www.bjmemc.com.cn）。</string>
+    <string name="outdoor_color_explained_intro">主要城市空气质量和 PM2.5 水平检测。 来源：美国大使馆北京空气质量监测系统（美国驻华大使馆监测中心： <a href="http://beijing.usembassy-china.org.cn">beijing.usembassy-china.org.cn</a> ）和北京市环境保护监测中心（北京市环境保护监测中心： <a href="http://www.bjmemc.com.cn">www.bjmemc.com.cn</a> ）。</string>
     <string name="outdoor_hazardous">有害。 健康人士会感觉到活动耐力降低。 可能会出现严重过敏，空气质量可能会引发其他疾病。 老人和病人应呆在室内，避免运动。 健康人士应避免室外活动。</string>
     <string name="outdoor_unhealthy">非常不健康。 健康人士会受到明显影响。 呼吸系统或心脏有问题的人群会感觉到活动耐力降低。 这些人群和老人应呆在室内，减少活动量。</string>
     <string name="outdoor_moderately_polluted">不健康。 可能会出现一些过敏现象。 呼吸系统或心脏有问题的人应减少室外锻炼。</string>
