@@ -52,7 +52,6 @@ public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDe
 		
 		instrumentation.callActivityOnPause(activity);
 		
-		verify(discManager, never()).start(any(DiscoveryEventListener.class));
 		verify(discManager).stop();
 		
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(null);
