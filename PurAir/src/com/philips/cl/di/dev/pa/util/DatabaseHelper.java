@@ -89,7 +89,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " DROP COLUMN " + AppConstants.KEY_DISTRICT);
 		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LONGITUDE + " NUMERIC");
 		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE + " NUMERIC");
 		

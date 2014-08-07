@@ -98,6 +98,8 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 		
 //		this.onCreate(db);
 
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LONGITUDE + " NUMERIC");
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE + " NUMERIC");
 	}
 
 }
