@@ -88,13 +88,18 @@ public class PurifierDBHelper extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		ALog.d(ALog.DATABASE, "Upgrade table");
-		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.TABLE_CITYDETAILS));
-		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.TABLE_AIRPURIFIER_EVENT));
-		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
-				AppConstants.TABLE_AIRPUR_INFO));
-		this.onCreate(db);
+//		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
+//				AppConstants.TABLE_CITYDETAILS));
+//		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
+//				AppConstants.TABLE_AIRPURIFIER_EVENT));
+//		db.execSQL(String.format("DROP TABLE IF EXISTS %s",
+//				AppConstants.TABLE_AIRPUR_INFO));
+		
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " DROP COLUMN " + AppConstants.KEY_DISTRICT);
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LONGITUDE);
+		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE);
+		
+//		this.onCreate(db);
 
 	}
 
