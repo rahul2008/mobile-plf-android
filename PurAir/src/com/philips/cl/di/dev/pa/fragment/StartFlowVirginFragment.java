@@ -109,7 +109,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		
 	private void startBenefitsFlow() {
 		if (getActivity() == null) return;
-		((MainActivity) getActivity()).setTitle(getString(R.string.benefits_of_the_purifier));
+		((MainActivity) getActivity()).setTitle(getString(R.string.dashboard_title));
 		((MainActivity) getActivity()).showFragment(new AirQualityFragment());
 	}
 	
