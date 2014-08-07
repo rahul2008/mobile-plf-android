@@ -129,6 +129,10 @@
             android:name="com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.activity.PrivacyPolicyActivity"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <receiver
             android:name=".notification.NotificationBroadcastReceiver"

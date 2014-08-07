@@ -18,6 +18,7 @@ import android.widget.ToggleButton;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.activity.PrivacyPolicyActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -36,6 +37,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	private TextView versionNumber;
 	
 	private ToggleButton demoModeTButton;
+	private TextView privacyPolicy;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +67,9 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		
 		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());
 		demoModeTButton.setOnCheckedChangeListener(this);
+		
+		privacyPolicy = (TextView) view.findViewById(R.id.tv_privacy_policy);
+		privacyPolicy.setOnClickListener(this);
 	}
 
 	@Override
@@ -91,6 +96,10 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 				Toast.makeText(getActivity(), "No Network Send us feedback", Toast.LENGTH_SHORT).show();
 			}
 			
+			break;
+			
+		case R.id.tv_privacy_policy:
+			getActivity().startActivity(new Intent(getActivity(), PrivacyPolicyActivity.class));
 			break;
 
 		default:
