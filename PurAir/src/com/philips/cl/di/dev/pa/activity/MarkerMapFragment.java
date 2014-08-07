@@ -97,6 +97,10 @@ public class MarkerMapFragment extends Fragment implements
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityName = outdoorCity.getOutdoorCityInfo().getCityName();
 
+		if(outdoorCity == null || outdoorCity.getOutdoorAQI() == null){
+			return;
+		}
+		
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 
 		aMap.addMarker(new MarkerOptions()
