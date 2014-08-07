@@ -222,6 +222,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
 		
 		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
+		if (aqiValue == null) return;
 		setOutdoorCityCode(aqiValue.getAreaID());
 		
 		if( aqiValue != null) {

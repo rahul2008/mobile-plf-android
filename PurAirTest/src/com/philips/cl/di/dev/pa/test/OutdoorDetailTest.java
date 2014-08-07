@@ -43,12 +43,10 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 		FontTextView lastDayBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastDayLabel);
 		FontTextView lastWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastWeekLabel);
 		FontTextView lastFourWeekBtn = (FontTextView) activity.findViewById(R.id.detailsOutdoorLastFourWeekLabel);
-		ImageView mapClickImg = (ImageView) activity.findViewById(R.id.oDmapInlarge);
 		
 		assertEquals(true, lastDayBtn.isClickable());
 		assertEquals(true, lastWeekBtn.isClickable());
 		assertEquals(true, lastFourWeekBtn.isClickable());
-		assertEquals(true, mapClickImg.isClickable());
 	}
 	
 	public void testButtonText() {

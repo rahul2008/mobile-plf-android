@@ -50,6 +50,8 @@ public class MarkerMapFragment extends Fragment implements
 		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
 				OutdoorDetailsActivity.getSelectedCityCode());
 
+		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null) return;
+		
 		LatLngBounds bounds = new LatLngBounds.Builder().include(
 				new LatLng(outdoorCity.getOutdoorCityInfo().getLatitude(),
 						outdoorCity.getOutdoorCityInfo().getLongitude()))
@@ -93,6 +95,7 @@ public class MarkerMapFragment extends Fragment implements
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
+		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null || outdoorCity.getOutdoorAQI() == null) return;
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityName = outdoorCity.getOutdoorCityInfo().getCityName();
