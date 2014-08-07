@@ -54,7 +54,7 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 	};
 
 	private static final String COLOR_LIST_LABEL[]={
-		"10+", "4","3","2"
+		"", "","",""
 	};
 
 	private ExpandableListView expListView;
