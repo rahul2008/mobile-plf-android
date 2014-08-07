@@ -164,5 +164,6 @@
     <color name="darker_blue">#27509F</color>
     
     <color name="light_sky_blue">#85D3EF</color>
+    <color name="transparent_white">#CAFFFFFF</color>
    
     </resources>

@@ -61,7 +61,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private FontTextView aqiValue, location, summaryTitle, summary, pm1, pm2, pm3, pm4;
+	private FontTextView aqiValue, summaryTitle, summary, pm1, pm2, pm3, pm4;
 	private TextView heading;
 	private ImageView circleImg, backgroundImage;
 	private ImageView avoidImg, openWindowImg, maskImg;
@@ -80,6 +80,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private double latitude;
 	private double longitude;
 	private String areaId;
+	private FontTextView pmValue;
+	private LinearLayout pmLayout;
 
 	
 	private List<OutdoorAQI> outdoorAQIs;
@@ -238,6 +240,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 				this.summary.setText(summary[1]);
 			}
 			
+			pmLayout.setVisibility(View.VISIBLE);
+			pmValue.setText(""+aqiValue.getPM25());
+			
 			startCityAQIHistoryTask(areaId);
 			OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
 			OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
@@ -335,9 +340,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		lastWeekBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastWeekLabel);
 		lastFourWeekBtn = (FontTextView) findViewById(R.id.detailsOutdoorLastFourWeekLabel);
 		aqiValue = (FontTextView) findViewById(R.id.od_detail_aqi_reading);
-		location = (FontTextView) findViewById(R.id.od_detail_location);
 		summaryTitle = (FontTextView) findViewById(R.id.odStatusTitle);
 		summary = (FontTextView) findViewById(R.id.odStatusDescr);
+		
+		pmValue=(FontTextView)findViewById(R.id.hf_outdoor_pm_value);
+		pmLayout=(LinearLayout)findViewById(R.id.pm_layout);
+		
 		pm1 = (FontTextView) findViewById(R.id.odPMValue1);
 		pm2 = (FontTextView) findViewById(R.id.odPMValue2);
 		pm3 = (FontTextView) findViewById(R.id.odPMValue3);

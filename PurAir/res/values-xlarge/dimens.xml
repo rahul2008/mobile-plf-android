@@ -6,6 +6,7 @@
 
 <!--     <dimen name="field_vertical_margin_top">5dp</dimen> -->
 <!--     <dimen name="field_vertical_margin_bottom">5dp</dimen> -->
+<dimen name="text_size_very_very_small">15sp</dimen>
 <dimen name="text_size_very_small">18sp</dimen>
 <dimen name="text_size_small">20sp</dimen>
 <dimen name="text_size_medium">22sp</dimen>

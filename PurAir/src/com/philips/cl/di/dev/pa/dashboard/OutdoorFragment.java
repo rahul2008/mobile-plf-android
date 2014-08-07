@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
@@ -32,6 +33,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private ImageView aqiCircleMeter ;
 	
 	private FontTextView lastUpdated;
+	private FontTextView pmValue;
+	private LinearLayout pmLayout;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -65,6 +68,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		aqiCircleMeter = (ImageView) view.findViewById(R.id.hf_outdoor_circle_meter);
 		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
 		lastUpdated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update_lb);
+		pmValue=(FontTextView)view.findViewById(R.id.hf_outdoor_pm_value);
+		pmLayout=(LinearLayout)view.findViewById(R.id.pm_layout);
 		Bundle bundle = getArguments();
 
 		if(bundle != null) {
@@ -110,6 +115,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
 			setRotationAnimation(aqiPointerCircle, outdoorAQI.getAqiPointerRotaion());
 			aqiCircleMeter.setVisibility(View.VISIBLE) ;
+			pmLayout.setVisibility(View.VISIBLE);
+			pmValue.setText(""+outdoorAQI.getPM25());
 		}
 		if(city.getOutdoorWeather() != null) {
 			OutdoorWeather weather = city.getOutdoorWeather();

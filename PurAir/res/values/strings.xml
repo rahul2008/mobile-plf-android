@@ -79,6 +79,7 @@
     <string name="take_action">Take action</string>
     <string name="no_connection">No \nConnection</string>
     <string name="no_data">No \nData</string>
+    <string name="pm_2.5">PM2.5</string>
     <!-- AQI status -->
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>

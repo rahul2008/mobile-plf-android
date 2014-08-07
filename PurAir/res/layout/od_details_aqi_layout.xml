@@ -25,19 +25,39 @@
         android:textColor="@color/white"
         android:textSize="70sp" />
     
+
     
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/od_detail_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="25dp"
-        android:layout_alignBottom="@+id/od_detail_circle_pointer"
-        android:layout_alignLeft="@+id/od_detail_circle_pointer"
-        android:layout_alignRight="@+id/od_detail_circle_pointer"
-        android:gravity="center"
-        android:text="@string/city_location"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+    <LinearLayout
+            android:id="@+id/pm_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_alignBottom="@+id/od_detail_circle_pointer"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="25dp"
+            android:visibility="gone"
+            >
+            
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/hf_outdoor_pm_reading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/pm_2.5"
+                android:textColor="@color/transparent_white"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/hf_outdoor_pm_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_small"
+                android:textStyle="bold"
+                android:paddingLeft="2dp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+        </LinearLayout>
     
 </RelativeLayout>
