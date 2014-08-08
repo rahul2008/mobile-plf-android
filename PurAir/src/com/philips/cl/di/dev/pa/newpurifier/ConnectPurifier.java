@@ -33,7 +33,6 @@ public class ConnectPurifier implements NetworkStateListener{
 		mBundle = new Bundle();
 
 		mWifiManager = (WifiManager) mContext.getSystemService(MainActivity.WIFI_SERVICE);
-
 	}
 
 	public static synchronized ConnectPurifier getInstance(FragmentActivity context) {
@@ -113,8 +112,8 @@ public class ConnectPurifier implements NetworkStateListener{
 		@Override
 		public void noWifiTurnOnClicked(DialogFragment dialog) {
 			if (!isUserSignedIn()) {
-				NetworkReceiver.getInstance().removeNetworkStateListener(ConnectPurifier.this);
-				NetworkReceiver.getInstance().addNetworkStateListener(ConnectPurifier.this);
+//				NetworkReceiver.getInstance().removeNetworkStateListener(ConnectPurifier.this);
+//				NetworkReceiver.getInstance().addNetworkStateListener(ConnectPurifier.this);
 			} else {
 				startChooseFragment();
 			}
@@ -157,13 +156,13 @@ public class ConnectPurifier implements NetworkStateListener{
 		Intent intent = new Intent(mContext, UserRegistrationActivity.class);
 		mContext.startActivity(intent);
 
-		UserRegistrationActivity.setUserRegistrationChangedListener(mUserRegistrationChangedListener);
-		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+//		UserRegistrationActivity.setUserRegistrationChangedListener(mUserRegistrationChangedListener);
+//		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
 
 	@Override
 	public void onDisconnected() {
 		showNoInternetDialog();
-		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+//		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}	
 }

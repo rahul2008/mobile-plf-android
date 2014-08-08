@@ -2,28 +2,32 @@ package com.philips.cl.di.dev.pa.registration;
 
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.Error;
 import com.philips.cl.di.reg.settings.JanrainConfigurationSettings;
 
-public class UserRegistrationController {
+public class UserRegistrationController implements NetworkStateListener{
 
 	private static UserRegistrationController smInstance;
 
-	//private static final String CAPTURE_CLIENT_ID_EVAL = "yakfnsg2hph355fhga2mcac5ywn6fgzt";
-	//private static final String CAPTURE_CLIENT_ID_PROD = "ypzud56u92tqa7xhfqry6np9f5zpr3bu";
+//	private static final String CAPTURE_CLIENT_ID_EVAL = "yakfnsg2hph355fhga2mcac5ywn6fgzt";
+	private static final String CAPTURE_CLIENT_ID_PROD = "ypzud56u92tqa7xhfqry6np9f5zpr3bu";
 	private static final String CAPTURE_CLIENT_ID_DEV  = "4gc24tp5rr84ftrfu3nn4hnrkwuyqxyp";
 	
 	private static final String MICRO_SITE_ID = "81374";
 	
-	//private static final String REGISTRATION_TYPE_EVAL = "REGISTRATION_USE_EVAL";
-	//private static final String REGISTRATION_TYPE_PROD = "REGISTRATION_USE_PRODUCTION";
+//	private static final String REGISTRATION_TYPE_EVAL = "REGISTRATION_USE_EVAL";
+	private static final String REGISTRATION_TYPE_PROD = "REGISTRATION_USE_PRODUCTION";
 	private static final String REGISTRATION_TYPE_DEV  = "REGISTRATION_USE_DEVICE";
 	
 	private UserRegistrationController() {
-		JanrainConfigurationSettings config = new JanrainConfigurationSettings();
-		config.init(PurAirApplication.getAppContext(), CAPTURE_CLIENT_ID_DEV, MICRO_SITE_ID, REGISTRATION_TYPE_DEV);
+//		ALog.i(ALog.USER_REGISTRATION, "UserRegistrationController<init> DONE");
+		NetworkReceiver.getInstance().addNetworkStateListener(this);
+		
 	}
 	
 	public static UserRegistrationController getInstance() {
@@ -55,5 +59,21 @@ public class UserRegistrationController {
 		if (errorCode == 13) return Error.MERGE_FLOW_ERROR;
 		if (errorCode == 14) return Error.EMAIL_ALREADY_EXIST;
 		return Error.GENERIC_ERROR ;
+	}
+
+	private boolean isJRInitilised = false;
+	
+	@Override
+	public void onConnected(String ssid) {
+		if(!isJRInitilised) {
+			JanrainConfigurationSettings config = new JanrainConfigurationSettings();
+			config.init(PurAirApplication.getAppContext(), CAPTURE_CLIENT_ID_PROD, MICRO_SITE_ID, REGISTRATION_TYPE_PROD);
+			isJRInitilised = true;
+		}
+	}
+
+	@Override
+	public void onDisconnected() {
+		
 	}
 }
