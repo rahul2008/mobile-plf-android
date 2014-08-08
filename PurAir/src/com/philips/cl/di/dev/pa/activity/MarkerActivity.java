@@ -111,31 +111,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		mapView.onDestroy();
 	}
 
-	private Bitmap writeTextOnDrawable(int drawableId, Integer text) {
-		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
-				.copy(Bitmap.Config.ARGB_8888, true);
-		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
-		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTextSize(30);
-		paint.setTypeface(tf);
-		paint.setTextAlign(Align.CENTER);
-
-		Rect textRect = new Rect();
-		String newText = text.toString();
-		paint.getTextBounds(newText, 0, newText.length(), textRect);
-
-		Canvas canvas = new Canvas(bm);
-		// Calculate the positions
-		int xPos = (canvas.getWidth() / 2) - 2; // -2 is for regulating the x
-												// position offset
-		// baseline to the center.
-		int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint
-				.ascent()) / 2));
-		canvas.drawText(newText, xPos, yPos, paint);
-		return bm;
-	}
-
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
@@ -148,7 +123,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 				.title(cityName)
 				.snippet(latitude + " , " + longitude)
 				.draggable(true)
-				.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
+				.icon(BitmapDescriptorFactory.fromBitmap(MarkerMapFragment.writeTextOnDrawable(
 						MarkerMapFragment.getAqiPointerImageResId(aqiValue),
 						aqiValue))));
 	}

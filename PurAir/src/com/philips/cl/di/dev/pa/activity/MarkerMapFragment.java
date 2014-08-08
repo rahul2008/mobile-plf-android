@@ -27,6 +27,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
@@ -116,13 +117,13 @@ public class MarkerMapFragment extends Fragment implements
 						getAqiPointerImageResId(aqiValue), aqiValue))));
 	}
 
-	private Bitmap writeTextOnDrawable(int drawableId, Integer text) {
-		Bitmap bm = BitmapFactory.decodeResource(getResources(), drawableId)
+	static Bitmap writeTextOnDrawable(int drawableId, Integer text) {
+		Bitmap bm = BitmapFactory.decodeResource(PurAirApplication.getAppContext().getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
-		Typeface tf = Typeface.create("Helvetica", Typeface.BOLD);
+		Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
-		paint.setTextSize(30);
+		paint.setTextSize(20);
 		paint.setTypeface(tf);
 		paint.setTextAlign(Align.CENTER);
 
