@@ -307,10 +307,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private void updateFirmwareUI(String purifierEui64, FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
 		
-		
 		int progressVisibility = View.INVISIBLE;
 		int progress = 0;
 		int infoVisibility = View.INVISIBLE;
+		// Added to check getState is null, in getState method some case return null
+		if (firmwarePortInfo.getState() == null) return;
 		
 		switch (firmwarePortInfo.getState()) {
 		case DOWNLOADING:
