@@ -25,7 +25,8 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 public class StartFlowVirginFragment extends BaseFragment implements OnClickListener {
 
 	private StartFlowDialogFragment mDialog;
-	private ConnectPurifier mConnectPurifier;	private Bundle mBundle;
+	private ConnectPurifier mConnectPurifier;	
+	private Bundle mBundle;
 	private Button mBtnConnectPurifier;
 	private Button mBtnNoPurifier;
 	private ImageView mBtnPlayMovie;
@@ -64,7 +65,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		ALog.i(ALog.APP_START_UP, "StartVirginFlowFragment$onClick");
 		switch (v.getId()) {
 		case R.id.start_flow_virgin_btn_connect:
-						mConnectPurifier.startAddPurifierToAppFlow();
+			mConnectPurifier.startAddPurifierToAppFlow();
 			break;
 		case R.id.start_flow_virgin_btn_play:
 			startVideo();

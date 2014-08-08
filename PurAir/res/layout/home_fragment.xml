@@ -14,23 +14,50 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true" />
-        
-        <RelativeLayout 
+
+        <RelativeLayout
             android:id="@+id/hf_indoor_dashboard_rl_no_purifier"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/home_indoor_bg_2x"
-            android:visibility="gone">
-	        <com.philips.cl.di.dev.pa.view.FontTextView
-	            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-	            android:layout_width="match_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_margin="16dp"
-	            android:layout_centerInParent="true"
-	            android:text="@string/how_clean_is_your_air"
-	            android:textColor="@color/gray"
-	            android:textSize="@dimen/title_text_size_medium"
-	            custom:fontAssetName="fonts/gillsans.ttf" />
+            android:background="@drawable/no_purifier_indoor"
+            android:visibility="visible" >
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/hf_indoor_dashboard_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="8dp"
+                android:gravity="center_horizontal"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/healthy_air_always"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                custom:fontAssetName="fonts/gillsans.ttf" />
+
+            <Button
+                android:id="@+id/hf_indoor_dashboard_btn_connect"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"  
+                android:layout_below="@id/hf_indoor_dashboard_tv_title"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/blue_button_selector"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/connect_your_purifier"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/hf_indoor_dashboard_btn_play"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_below="@id/hf_indoor_dashboard_btn_connect"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/air_intro_play_2x" />
         </RelativeLayout>
     </RelativeLayout>
 
@@ -45,46 +72,46 @@
             android:layout_height="match_parent"
             android:layout_alignParentTop="true" />
 
-    <com.viewpagerindicator.CirclePageIndicator
-        android:id="@+id/indicator"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
-    
-    <LinearLayout
-        android:id="@+id/take_tour_prompt_drawer"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@color/white"
-        android:padding="0.5dp"
-        android:visibility="gone" >
-
-        <com.philips.cl.di.dev.pa.view.FontTextView
-            android:id="@+id/lbl_take_tour"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_marginRight="0.5dp"
-            android:layout_weight="1"
-            android:background="@color/philips_blue"
-            android:gravity="center"
-            android:text="@string/prompt_take_tour"
-            android:textColor="#FFF" 
-            android:textSize="18sp"/>
-
-        <ImageButton
-            android:id="@+id/btn_close_tour_layout"
-            style="?android:attr/buttonStyleSmall"
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/philips_blue"
-            android:contentDescription="@string/img_description"
-            android:src="@drawable/help_close" />
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="10dp" />
+
+        <LinearLayout
+            android:id="@+id/take_tour_prompt_drawer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:background="@color/white"
+            android:minHeight="30dp"
+            android:padding="0.5dp"
+            android:visibility="gone" >
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                android:id="@+id/lbl_take_tour"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_marginRight="0.5dp"
+                android:layout_weight="1"
+                android:background="@color/philips_blue"
+                android:gravity="center"
+                android:text="@string/prompt_take_tour"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+            <ImageButton
+                android:id="@+id/btn_close_tour_layout"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/philips_blue"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/help_close" />
+        </LinearLayout>
     </RelativeLayout>
-    
+
 </LinearLayout>

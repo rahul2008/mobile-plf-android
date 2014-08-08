@@ -11,7 +11,9 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
@@ -24,6 +26,7 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
@@ -116,8 +119,14 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		}
 				
 		if(mNoPurifierMode) {
+			((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
 			noPurifierFlowLayout.setVisibility(View.VISIBLE);
 			indoorViewPager.setVisibility(View.INVISIBLE);
+			Button connectPurifier = (Button) getView().findViewById(R.id.hf_indoor_dashboard_btn_connect);
+			ImageView playVideo = (ImageView) getView().findViewById(R.id.hf_indoor_dashboard_btn_play);
+			
+			connectPurifier.setOnClickListener(withoutPurifierClickListener);
+			playVideo.setOnClickListener(withoutPurifierClickListener);
 		} else {
 			noPurifierFlowLayout.setVisibility(View.GONE);
 			indoorViewPager.setVisibility(View.VISIBLE);
@@ -231,6 +240,18 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			break;
 		}
 	}
+	
+	private OnClickListener withoutPurifierClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			if (v.getId() == R.id.hf_indoor_dashboard_btn_connect) {
+				ConnectPurifier.getInstance(getActivity()).startAddPurifierToAppFlow();
+			} else if (v.getId() == R.id.hf_indoor_dashboard_btn_play) {
+				//TODO play video link
+			}
+		}
+	};
 
 	@Override
 	public void onPositiveButtonClicked() {

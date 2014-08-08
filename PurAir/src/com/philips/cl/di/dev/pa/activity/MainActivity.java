@@ -326,6 +326,11 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public void onBackPressed() {
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
+		
+		String title = "";
+		if (actionBarTitle.getText() != null) {
+			title = actionBarTitle.getText().toString();
+		}
 
 		if (fragment instanceof OutdoorLocationsFragment
 				&& android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.GINGERBREAD_MR1) {
@@ -341,12 +346,22 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			OutdoorManager.getInstance().clearCityOutdoorInfo() ;
 			ConnectPurifier.reset() ;
 			finish();
-		}	else if (fragment instanceof StartFlowChooseFragment 
-				&& getString(R.string.list_item_manage_purifier).equals(getTitle().toString()) ) {
+		} else if (fragment instanceof StartFlowChooseFragment 
+				&& getString(R.string.list_item_manage_purifier).equals(title) ) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFragment(new ManagePurifierFragment());
-		} else if (!(fragment instanceof HomeFragment)
+		} else if (fragment instanceof StartFlowChooseFragment 
+				&& getString(R.string.welcome).equals(title) ) {
+			manager.popBackStackImmediate(null,
+					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			Bundle bundle = new Bundle();
+			bundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
+			
+			HomeFragment homeFragment = new HomeFragment();
+			homeFragment.setArguments(bundle);
+			showFragment(homeFragment);
+		}else if (!(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);

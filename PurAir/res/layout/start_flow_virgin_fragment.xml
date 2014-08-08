@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
     	android:layout_height="0px"
     	android:layout_weight="1"
-    	android:background="@drawable/intro_indoor_2x">
+    	android:background="@drawable/no_purifier_indoor">
         
 		<com.philips.cl.di.dev.pa.view.FontTextView
 			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
