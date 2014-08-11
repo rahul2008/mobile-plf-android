@@ -105,6 +105,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
+		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null) return;
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
