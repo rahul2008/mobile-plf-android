@@ -14,7 +14,7 @@ public class JanrainConfigurationSettings {
 	
 private String ProductEngageAppId = "ddjbpmgpeifijdlibdio";
 private String ProductCaptureDomain = "philips.janraincapture.com";
-private String ProductCaptureFlowVersion = "f21780f4-ef38-4d4b-8cef-2cf498642c0a";
+private String ProductCaptureFlowVersion = "e67f2db4-8a9d-4525-959f-a6768a4a2269";
 private String ProductCaptureAppId = "hffxcm638rna8wrxxggx2gykhc";
 private String ProductRegisterForgotEmailNative = "https://philips.janraincapture.com/oauth/forgot_password_native/";
 private String ProductRegisterActivationUrl = "https://secure.philips.co.uk/myphilips/activateUser.jsp";
