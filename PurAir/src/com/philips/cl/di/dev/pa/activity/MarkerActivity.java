@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -28,6 +29,7 @@ import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 
 /**
  * 
@@ -110,7 +112,16 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
-		String cityName = outdoorCity.getOutdoorCityInfo().getCityName();
+		String cityName = null;
+		
+		//added to support traditional and simplified Chinese in map
+		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+			cityName= outdoorCity.getOutdoorCityInfo().getCityNameCN();
+		} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			cityName= outdoorCity.getOutdoorCityInfo().getCityNameTW();
+		}else {
+			cityName= outdoorCity.getOutdoorCityInfo().getCityName();
+		}
 
 		aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
