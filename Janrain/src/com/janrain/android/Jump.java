@@ -115,6 +115,8 @@ public class Jump {
         /*package*/ String captureResendEmailVerificationFormName;
         /*package*/ String userAgent;
         /*package*/ String accessToken;
+        String captureLanguageCode;
+        String captureCountryCode;
 
         // Transient state values:
         /*
@@ -186,6 +188,8 @@ public class Jump {
         state.captureClientId = jumpConfig.captureClientId;
         state.traditionalSignInType = jumpConfig.traditionalSignInType;
         state.captureLocale = jumpConfig.captureLocale;
+        state.captureCountryCode = jumpConfig.captureCountryCode;
+		state.captureLanguageCode = jumpConfig.captureLanguageCode;
         state.captureTraditionalSignInFormName = jumpConfig.captureTraditionalSignInFormName;
         state.captureForgotPasswordFormName = jumpConfig.captureForgotPasswordFormName;
         state.captureResendEmailVerificationFormName = jumpConfig.captureResendEmailVerificationFormName;
@@ -234,7 +238,15 @@ public class Jump {
     public static String getCaptureLocale() {
         return state.captureLocale;
     }
-
+    
+    public static String getCaptureLanguageCode() {
+    	return state.captureLanguageCode;
+    }
+    
+    public static String getCaptureCountryCode() {
+    	return state.captureCountryCode;
+    }
+    
     public static String getCaptureTraditionalSignInFormName() {
         return state.captureTraditionalSignInFormName;
     }

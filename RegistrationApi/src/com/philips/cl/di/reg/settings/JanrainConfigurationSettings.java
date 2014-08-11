@@ -43,7 +43,7 @@ private String CountryCode;
 private String Language;
 
 public void init(Context context,String CaptureClientId,String MicroSiteId,String registrationType) {
-	
+	System.out.println("JanRainConfigurationSettings <init> start");
 	SharedPreferences pref = context.getSharedPreferences("MyPref", 0); 
 	Editor editor = pref.edit();
 	editor.putString("microSiteId", MicroSiteId);
@@ -98,8 +98,15 @@ public void init(Context context,String CaptureClientId,String MicroSiteId,Strin
     String LanguageCode = context.getResources().getConfiguration().locale.getLanguage();
     String CountryCode = context.getResources().getConfiguration().locale.getCountry(); 
 	String locale =  LanguageCode+"-"+CountryCode;
+
+	jumpConfig.captureCountryCode = CountryCode;
+	jumpConfig.captureLanguageCode = LanguageCode;
+	
     CheckLocale checkLocale = new CheckLocale();
     String localeLanguageCode = checkLocale.checkLanguage(locale);
+    
+    System.out.println("*******JAN-RAIN*********");
+    System.out.println("LanguageCode " + LanguageCode + " CountryCode " + CountryCode + " locale " + locale + " localeLanguageCode " + localeLanguageCode);
     
     jumpConfig.captureLocale = localeLanguageCode;
     Jump.init(context, jumpConfig);   

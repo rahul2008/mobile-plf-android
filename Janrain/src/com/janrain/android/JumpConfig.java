@@ -86,6 +86,8 @@ public final class JumpConfig {
      * The name of the locale to use in the Capture flow
      */
     public String captureLocale;
+    public String captureLanguageCode;
+    public String captureCountryCode;
 
     /**
      * Controls whether thin registration is enabled. See Jump_Registration_Guide.md.
