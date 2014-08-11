@@ -153,7 +153,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_aiq_analysis_title1"
+                    android:text="@string/very_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -206,7 +206,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_aiq_analysis_title2"
+                    android:text="@string/unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -257,7 +257,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_aiq_analysis_title3"
+                    android:text="@string/moderate"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
@@ -308,7 +308,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="4dp"
-                    android:text="@string/indoor_aiq_analysis_title4"
+                    android:text="@string/good"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsans.ttf" />
