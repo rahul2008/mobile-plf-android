@@ -52,6 +52,7 @@
     <string name="off">关</string>
     <string name="filter_lock">滤网锁</string>
     <string name="clean_soon">%s 天后清洁 </string>
+    <string name="clean_today">清洁即将</string>
     <string name="clean_now">清洁吧</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智控净化器的传感器</string>
     <!-- Timer texts -->

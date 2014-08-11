@@ -53,6 +53,7 @@
     <string name="off">OFF</string>
     <string name="filter_lock">Filter Lock</string>
     <string name="clean_soon">Clean in %s days. </string>
+    <string name="clean_today">Clean Soon</string>
     <string name="clean_now">Clean Now</string>
     <string name="filter_tip">Remember to clean the Philips Smart Air Purifier\'s sensor every 2 months.</string>
     <!-- Timer texts -->

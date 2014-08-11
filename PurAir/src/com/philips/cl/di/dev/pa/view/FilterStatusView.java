@@ -70,22 +70,22 @@ public class FilterStatusView extends ImageView {
 	}
 
 	public void setPrefilterValue(int filterValue) {
-		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.PRE_FILTER_MAX_VALUE;
+		float length = getWidth() * filterValue / AppConstants.PRE_FILTER_MAX_VALUE;
 		setColorAndLength(Utils.getPreFilterStatusColour(filterValue), length);
 	}
 	
 	public void setMultiCareFilterValue(int filterValue) {
-		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.MULTI_CARE_FILTER_MAX_VALUE;
+		float length = getWidth() * filterValue / AppConstants.MULTI_CARE_FILTER_MAX_VALUE;
 		setColorAndLength(Utils.getMultiCareFilterStatusColour(filterValue), length);
 	}
 	
 	public void setActiveCarbonFilterValue(int filterValue) {
-		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE;
+		float length = getWidth() * filterValue / AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE;
 		setColorAndLength(Utils.getActiveCarbonFilterStatusColour(filterValue), length);
 	}
 	
 	public void setHEPAfilterValue(int filterValue) {
-		float length = AppConstants.MAXWIDTH * filterValue / AppConstants.HEPA_FILTER_MAX_VALUE;
+		float length = getWidth() * filterValue / AppConstants.HEPA_FILTER_MAX_VALUE;
 		setColorAndLength(Utils.getHEPAFilterStatusColour(filterValue), length);
 	}
 }

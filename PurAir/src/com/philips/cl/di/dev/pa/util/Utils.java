@@ -435,9 +435,9 @@ public class Utils {
 
 	public static String getPreFilterStatusText(int filterStatusValue) {
 		if (filterStatusValue < 96) {
-			return getPreFilterFormattedText((AppConstants.PRE_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+			return getPreFilterFormattedText((AppConstants.PRE_FILTER_MAX_VALUE-filterStatusValue));
 		} else if (filterStatusValue >= 96 && filterStatusValue < 112) {
-			return getPreFilterFormattedText((AppConstants.PRE_FILTER_MAX_VALUE-filterStatusValue)/AppConstants.RUNNING_HRS);
+			return getPreFilterFormattedText((AppConstants.PRE_FILTER_MAX_VALUE-filterStatusValue));
 		} else {
 			return getPreFilterFormattedText(0);
 		}
@@ -755,11 +755,13 @@ public class Utils {
 		return resId;
 	}
 
-	public static String getPreFilterFormattedText(int days){
-		if(days==0)
+	public static String getPreFilterFormattedText(int hours){
+		if(hours==0)
 			return PurAirApplication.getAppContext().getString(R.string.clean_now);
+		else if(hours<8 && hours>0)
+			return PurAirApplication.getAppContext().getString(R.string.clean_today);
 		else
-			return PurAirApplication.getAppContext().getString(R.string.clean_soon, days);	
+			return PurAirApplication.getAppContext().getString(R.string.clean_soon, (int)hours/AppConstants.RUNNING_HRS);	
 	}
 
 	public static String getFilterFormattedText(int days){

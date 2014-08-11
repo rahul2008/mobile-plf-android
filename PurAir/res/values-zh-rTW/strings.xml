@@ -52,6 +52,7 @@
     <string name="off">關閉</string>
     <string name="filter_lock">過濾網鎖</string>
     <string name="clean_soon">在 %s 天後清洗。 </string>
+    <string name="clean_today">清潔很快</string>
     <string name="clean_now">立即清洗</string>
     <string name="filter_tip">請記得每兩個月清洗一次智能空氣清新機的感應器。</string>
     <!-- Timer texts -->
