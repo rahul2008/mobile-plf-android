@@ -151,8 +151,9 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 					
 					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 					String province = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+					String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
 
-					tvName.setText(city + ", " + province);
+					tvName.setText(city + ", " + province + ", "+cityTW);
 				}
 			};
 			
@@ -191,11 +192,12 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			
 			String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 			String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+			String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
 			String areaId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
 			float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 			float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 
-			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, longitude, latitude, areaId);
+			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
 			
 			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());
 			OutdoorManager.getInstance().addAreaIDToList(areaId);

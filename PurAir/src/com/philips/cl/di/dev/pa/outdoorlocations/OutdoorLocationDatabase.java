@@ -32,7 +32,8 @@ public class OutdoorLocationDatabase {
 									AppConstants.KEY_LONGITUDE,
 									AppConstants.KEY_LATITUDE,
 									AppConstants.KEY_CITY_CN,
-									AppConstants.KEY_SHORTLIST };
+									AppConstants.KEY_SHORTLIST,
+									AppConstants.KEY_CITY_TW };
 	
 	public OutdoorLocationDatabase() {
 		mDatabaseHelper = new DatabaseHelper(PurAirApplication.getAppContext());
@@ -52,7 +53,7 @@ public class OutdoorLocationDatabase {
 	
 	synchronized void fillDatabaseForCSV() {
 		InputStream inputStream = PurAirApplication.getAppContext()
-				.getResources().openRawResource(R.raw.city_list);
+				.getResources().openRawResource(R.raw.city_list_hk);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
 		
 		ALog.i(ALog.OUTDOOR_LOCATION,
@@ -88,6 +89,7 @@ public class OutdoorLocationDatabase {
 	        		values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_LATITUDE, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
+	        		values.put(AppConstants.KEY_CITY_TW, stringTokenizer.nextToken());
 
 	        		values.put(AppConstants.KEY_SHORTLIST,
 	        				OutdoorManager.getInstance().getCitiesList().contains(areaID) ? 1 : 0);

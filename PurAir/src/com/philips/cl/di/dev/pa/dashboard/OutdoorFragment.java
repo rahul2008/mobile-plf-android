@@ -83,7 +83,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
 						updateUI(city, city.getOutdoorCityInfo().getCityNameCN(), areaID);
-					} else {
+					} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+						updateUI(city, city.getOutdoorCityInfo().getCityNameTW(), areaID);
+					}else {
 						updateUI(city, city.getOutdoorCityInfo().getCityName(), areaID);
 					}
 				}

@@ -7,11 +7,13 @@ public class OutdoorCityInfo {
 	private float longitude;
 	private float latitude;
 	private String areaID;
+	private String cityNameTW;
 	
-	public OutdoorCityInfo(String cityName, String cityNameCN, float longitude, float latitude, String areaID) {
+	public OutdoorCityInfo(String cityName, String cityNameCN, String cityNameTW, float longitude, float latitude, String areaID) {
 		this.areaID = areaID;
 		this.cityName = cityName;
 		this.cityNameCN = cityNameCN;
+		this.cityNameTW= cityNameTW;
 		this.longitude = longitude;
 		this.latitude = latitude;
 	}
@@ -22,6 +24,10 @@ public class OutdoorCityInfo {
 
 	public String getCityNameCN() {
 		return cityNameCN;
+	}
+	
+	public String getCityNameTW() {
+		return cityNameTW;
 	}
 
 	public float getLongitude() {

@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
 import android.content.Context;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -19,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 *            the context
 	 */
 	public DatabaseHelper(Context context) {
-		super(context, AppConstants.PURIFIERDB_NAME, null, 5);//AppConstants.PURIFIERDB_VERSION);
+		super(context, AppConstants.PURIFIERDB_NAME, null, AppConstants.PURIFIERDB_VERSION);//AppConstants.PURIFIERDB_VERSION);
 	}
 
 	/**
@@ -71,6 +72,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ AppConstants.KEY_LONGITUDE + " NUMERIC,"
 				+ AppConstants.KEY_LATITUDE + " NUMERIC,"
 				+ AppConstants.KEY_CITY_CN + " TEXT," 
+				+ AppConstants.KEY_CITY_TW + " TEXT," 
 				+ AppConstants.KEY_SHORTLIST + " NUMERIC" 
 				+ ")";
 		
@@ -89,9 +91,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 */
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+		try{
 		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LONGITUDE + " NUMERIC");
-		db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE + " NUMERIC");
-		
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		try {
+			db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_LATITUDE + " NUMERIC");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		try {
+			db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_CITY_TW + " TEXT");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

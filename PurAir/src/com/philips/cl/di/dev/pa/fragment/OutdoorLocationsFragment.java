@@ -138,8 +138,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					
 					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 					String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+					String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
 
-					tvName.setText(city + ", " + cityCN);
+					tvName.setText(city + ", " + cityCN+ ", "+ cityTW);
 					tvName.setTag(cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
 					
 					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
