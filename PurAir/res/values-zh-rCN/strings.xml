@@ -29,6 +29,7 @@
     <string name="fan_speed">风扇速度</string>
     <string name="auto">自动</string>
     <string name="turbo">强力</string>
+    <string name="fanspeed_off">Off</string>
     <string name="silent">静音</string>
     <string name="one">1</string>
     <string name="two">2</string>

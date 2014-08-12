@@ -30,6 +30,7 @@
     <string name="fan_speed">Fan speed</string>
     <string name="auto">Auto</string>
     <string name="turbo">Turbo</string>
+    <string name="fanspeed_off">Off</string>
     <string name="silent">Silent</string>
     <string name="one">1</string>
     <string name="two">2</string>

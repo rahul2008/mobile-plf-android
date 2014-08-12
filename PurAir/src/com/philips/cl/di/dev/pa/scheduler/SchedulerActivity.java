@@ -215,6 +215,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private void save() {
 		ALog.i(ALog.SCHEDULER, "SchedulerActivity::Save() method enter");	
 		if (selectedDays.equals(getString(R.string.onetime))) selectedDays = "";
+		
 		if (scheduleType == SCHEDULE_TYPE.ADD) {
 			addScheduler();
 		} else if (scheduleType == SCHEDULE_TYPE.GET_SCHEDULE_DETAILS) {

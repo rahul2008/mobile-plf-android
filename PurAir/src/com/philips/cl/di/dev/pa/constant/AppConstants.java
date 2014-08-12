@@ -101,6 +101,7 @@ public class AppConstants {
 	public static final String FAN_SPEED_ONE = "1";
 	public static final String FAN_SPEED_TWO = "2";
 	public static final String FAN_SPEED_THREE = "3";
+	public static final String FAN_SPEED_OFF = "0";
 	
 	//Child lock and indicator light status.
 	public static final int ON = 1;
