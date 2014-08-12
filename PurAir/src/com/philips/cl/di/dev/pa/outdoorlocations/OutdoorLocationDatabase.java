@@ -52,8 +52,7 @@ public class OutdoorLocationDatabase {
 	}
 	
 	synchronized void fillDatabaseForCSV() {
-		InputStream inputStream = PurAirApplication.getAppContext()
-				.getResources().openRawResource(R.raw.city_list_hk);
+		InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.city_list_hk);
 		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
 		
 		ALog.i(ALog.OUTDOOR_LOCATION,
@@ -77,10 +76,6 @@ public class OutdoorLocationDatabase {
 	            while ((outdoorLocation = reader.readLine()) != null) {
 	            	stringTokenizer = new StringTokenizer(outdoorLocation, ";");
 	            	
-//	            	while(stringTokenizer.hasMoreTokens()) {
-//	            		ALog.i(ALog.OUTDOOR_LOCATION, "Tokens " + stringTokenizer.nextToken());
-//	            	}
-	            	
 	                ContentValues values = new ContentValues();
 	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
 
@@ -96,7 +91,6 @@ public class OutdoorLocationDatabase {
 	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
-	        
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
@@ -105,7 +99,6 @@ public class OutdoorLocationDatabase {
 	        }
         }
 	}
-	
 	/**
 	 * Get outdoor locations that matches the filter
 	 * 
@@ -153,13 +146,50 @@ public class OutdoorLocationDatabase {
 		Cursor cursor = getDataFromOutdoorLoacation(null);
 		try {
 			cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+			String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
+			if (cityTW == null) {
+				updateDatabaseForCSV();
+			}
 		} catch (Exception e) {
-			Log.w(ALog.DATABASE, "CityDetails database not yet filled " + e);
+			Log.e(ALog.DATABASE, "CityDetails database not yet filled " + e);
 			return false;
 		}
 		return true;
 	}
+	
+	/**
+	 * Update city table with traditional Chinese city name, if city name is null
+	 */
+	public synchronized void updateDatabaseForCSV() {
+		InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.city_list_hk);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
+
+		String outdoorLocation = "";
+		StringTokenizer stringTokenizer = null;
+
+		mOutdoorLocationDatabase.beginTransaction();
+		try {
+			while ((outdoorLocation = reader.readLine()) != null) {
+				stringTokenizer = new StringTokenizer(outdoorLocation, ";");
+
+				ContentValues values = new ContentValues();
+				values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
+
+				String areaID = stringTokenizer.nextToken();
+				values.put(AppConstants.KEY_AREA_ID, areaID);
+				values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
+				values.put(AppConstants.KEY_LATITUDE, stringTokenizer.nextToken());
+				values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
+				values.put(AppConstants.KEY_CITY_TW, stringTokenizer.nextToken());
+				mOutdoorLocationDatabase.update(AppConstants.TABLE_CITYDETAILS,
+						values, AppConstants.KEY_AREA_ID + "= ?", new String[] {areaID});
+			}
+			mOutdoorLocationDatabase.setTransactionSuccessful();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		finally {
+			mOutdoorLocationDatabase.endTransaction();
+		}
+	}
 }
-
-
-

@@ -1,6 +1,9 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
+import com.philips.cl.di.dev.pa.util.ALog;
+
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
 
 public abstract class OutdoorLocationAbstractGetAsyncTask extends AsyncTask<String, Void, Cursor> {
@@ -10,13 +13,18 @@ public abstract class OutdoorLocationAbstractGetAsyncTask extends AsyncTask<Stri
 		OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
 		Cursor cursor = null;
 		
-		database.open();
-		
-		if (params != null) {
-			cursor = database.getDataFromOutdoorLoacation(params[0]);
+		try {
+			database.open();
+			
+			if (params != null) {
+				cursor = database.getDataFromOutdoorLoacation(params[0]);
+			}
+			
+			database.close();
+		} catch (SQLiteException e) {
+			ALog.e(ALog.OUTDOOR_LOCATION, 
+					"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
 		}
-		
-		database.close();
 		return cursor;
 	}
 
