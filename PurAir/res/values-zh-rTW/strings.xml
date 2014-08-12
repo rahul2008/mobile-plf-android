@@ -514,6 +514,7 @@
     <string name="generic_error">無法處理！！</string>
     <string name="invalid_email">電郵地址無效</string>
     <string name="invalid_password">密碼無效！！密碼應為至少 6 位數字</string>
+    <string name="no_account">An account with that e-mail address does not exist.</string>
     <string name="please_wait">請稍候..</string>
     <string name="authentication_cancelled_by_user">被使用者取消</string>
     <string name="authentication_failed">驗證失敗</string>

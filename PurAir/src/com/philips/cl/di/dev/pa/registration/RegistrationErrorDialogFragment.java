@@ -64,7 +64,7 @@ public class RegistrationErrorDialogFragment extends DialogFragment {
 			message.setText(R.string.invalid_password) ;
 			break;
 		case ACCOUNT_DOESNOT_EXIST:
-			message.setText(R.string.invalid_password) ;
+			message.setText(R.string.no_account) ;
 			break;
 		case AUTHENTICATION_CANCELED_BY_USER:
 			message.setText(R.string.authentication_cancelled_by_user) ;

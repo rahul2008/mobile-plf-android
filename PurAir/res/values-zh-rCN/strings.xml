@@ -502,6 +502,7 @@
     <string name="generic_error">无法处理！！！</string>
     <string name="invalid_email">无效电子邮件</string>
     <string name="invalid_password">无效的密码！！密码长度应为至少 6 个字符</string>
+    <string name="no_account">An account with that e-mail address does not exist.</string>
     <string name="please_wait">请稍候..</string>
     <string name="authentication_cancelled_by_user">用户已取消</string>
     <string name="authentication_failed">验证失败</string>
