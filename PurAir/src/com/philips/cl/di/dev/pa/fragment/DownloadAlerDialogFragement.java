@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -58,10 +59,13 @@ public class DownloadAlerDialogFragement extends DialogFragment {
 			@Override
 			public void onClick(View v) {
 				dismiss();
+				if (getActivity() instanceof AddOutdoorLocationActivity) {
+					getActivity().finish();
+				}
 			}
 		});
 		
-		setCancelable(true);
+		setCancelable(false);
 	}
 
 }
