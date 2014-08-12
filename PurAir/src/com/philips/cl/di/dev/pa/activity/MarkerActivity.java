@@ -8,7 +8,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -61,10 +60,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
 					mCitiesList.get(i));
 			addMarkerToMap(outdoorCity);
-
-			Log.i("testing", "cityName : "
-					+ outdoorCity.getOutdoorAQI().getAQI() + " --- cityName : "
-					+ outdoorCity.getOutdoorCityInfo().getCityName());
 		}
 	}
 

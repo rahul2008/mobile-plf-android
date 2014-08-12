@@ -124,9 +124,19 @@ public class MarkerMapFragment extends Fragment implements
 		Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);
 		Paint paint = new Paint();
 		paint.setColor(Color.WHITE);
-		paint.setTextSize(20);
 		paint.setTypeface(tf);
 		paint.setTextAlign(Align.CENTER);
+		
+		/*
+		 * Putting this logic here because we have fixed circle resources. 
+		 * We need to manipulate the font size only to fit in the circle.
+		 */
+		if(Integer.valueOf(text) > 99){
+			paint.setTextSize(16);
+		}
+		else{
+			paint.setTextSize(18);
+		}
 
 		Rect textRect = new Rect();
 		String newText = text.toString();
