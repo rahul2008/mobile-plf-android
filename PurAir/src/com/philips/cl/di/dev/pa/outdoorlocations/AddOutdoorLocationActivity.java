@@ -31,13 +31,10 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class AddOutdoorLocationActivity extends BaseActivity {
+public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorCityListener {
 	
 	private ListView mOutdoorLocationListView;
 	private CursorAdapter mOutdoorLocationAdapter;
-	
-	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	private OutdoorLocationAbstractUpdateAsyncTask mOutdoorLocationAbstractUpdateAsyncTask;
 	
 	private Button mActionBarCancelBtn;
 	private EditText mEnteredCityName;
@@ -64,31 +61,21 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 	
 	@Override
 	public void onResume() {
-		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-
-			@Override
-			protected void onPostExecute(Cursor result) {
-				fillListViewFromDatabase(result);
-			}
-		}.execute(new String[]{null});
+		
+		OutdoorLocationHandler.getInstance().setCityListener(this);
+		OutdoorLocationHandler.getInstance().fetchCities(null);
 		super.onResume();
 	}
 	
 	private void updateAdapter(String input) {
 		String selection = AppConstants.KEY_CITY + " like '%" + input + "%'";
 		
-		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-
-			@Override
-			protected void onPostExecute(Cursor result) {
-				fillListViewFromDatabase(result);
-			}
-		}.execute(new String[]{selection});
+		OutdoorLocationHandler.getInstance().fetchCities(selection);
 	}
 	
 	@Override
 	public void onPause() {
-		mOutdoorLocationGetAsyncTask.cancel(true);
+		OutdoorLocationHandler.getInstance().removeCityListener();
 		super.onPause();
 	}
 
@@ -116,7 +103,6 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				mOutdoorLocationGetAsyncTask.cancel(true);
 				updateAdapter(s.toString());
 			}
 			
@@ -203,13 +189,20 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			OutdoorManager.getInstance().addAreaIDToList(areaId);
 			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
 			
-			mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
-
-				@Override
-				protected void onPostExecute(Void result) {
-					finish();
-				}
-			}.execute(new String[]{areaId, "true"});
+			OutdoorLocationHandler.getInstance().updateSelectedCity(areaId, true);
+			finish();
 		}
 	};
+
+	@Override
+	public void onCityLoad(final Cursor cursor) {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				fillListViewFromDatabase(cursor);
+			}
+		});
+		
+	}
 }

@@ -22,24 +22,19 @@ import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailed
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractUpdateAsyncTask;
-import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks, OnConnectionFailedListener{
+public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks, OnConnectionFailedListener, OutdoorSelectedCityListener {
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;
 	
 	private ListView mOutdoorLocationListView;
 	private CursorAdapter mOutdoorLocationAdapter;
-	
-	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask;
-	private OutdoorLocationAbstractUpdateAsyncTask mOutdoorLocationAbstractUpdateAsyncTask;
 	private Hashtable<String, Boolean> selectedItemHashtable;
 	
 	@Override
@@ -64,32 +59,14 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	
 	@Override
 	public void onResume() {
-		mOutdoorLocationFillAsyncTask = 
-				(OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
-			
-			@Override
-			protected void onPostExecute(Void result) {
-				mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
-			}
-		}.execute(new String[]{});
-		
-		mOutdoorLocationGetAsyncTask = 
-				(OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-
-			@Override
-			protected void onPostExecute(Cursor result) {
-				fillListViewFromDatabase(result);
-			}
-		};
+		OutdoorLocationHandler.getInstance().setSelectedCityListener(this); 
+		OutdoorLocationHandler.getInstance().fetchSelectedCity();
 		super.onResume();
 	}
 	
 	@Override
 	public void onPause() {
-		mOutdoorLocationFillAsyncTask.cancel(true);
-		mOutdoorLocationGetAsyncTask.cancel(true);
-		ALog.i(ALog.OUTDOOR_LOCATION, 
-				"mOutdoorLocationAbstractUpdateAsyncTask: "+mOutdoorLocationAbstractUpdateAsyncTask);
+		OutdoorLocationHandler.getInstance().removeSelectedCityListener();
 		super.onPause();
 	}
 
@@ -161,24 +138,16 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 							OutdoorManager.getInstance().removeAreaIDFromList(areaId);
 							OutdoorManager.getInstance().removeCityDataFromMap(areaId);
 							
-							mOutdoorLocationAbstractUpdateAsyncTask = (OutdoorLocationAbstractUpdateAsyncTask) new OutdoorLocationAbstractUpdateAsyncTask() {
+							OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
 
-								@Override
-								protected void onPostExecute(Void result) {
-									mOutdoorLocationGetAsyncTask.execute(new String[]{AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS});
-								}
-							}.execute(new String[]{areaId, "false"});
+							database.open();
+							database.updateOutdoorLocationShortListItem(areaId, false);
+							database.close();
 							
-							mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-								
-								@Override
-								protected void onPostExecute(Cursor result) {
-									if (selectedItemHashtable.containsKey(areaId)) {
-										selectedItemHashtable.remove(areaId);
-									}
-									fillListViewFromDatabase(result);
-								}
-							};
+							if (selectedItemHashtable.containsKey(areaId)) {
+								selectedItemHashtable.remove(areaId);
+							}
+							OutdoorLocationHandler.getInstance().fetchSelectedCity();
 						}
 					});
 				}
@@ -223,4 +192,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			}
 		}
 	};
+
+	@Override
+	public void onSelectedCityLoad(final Cursor cursor) {
+		if (getActivity() == null) return;
+		
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				fillListViewFromDatabase(cursor);
+			}
+		});
+	}
 }

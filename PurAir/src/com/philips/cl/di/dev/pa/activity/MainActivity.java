@@ -77,6 +77,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
@@ -144,6 +145,9 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
+		
+		//Read data from CLV
+		OutdoorLocationHandler.getInstance();
 
 		mVisits = Utils.getNoOfVisit();
 		Utils.saveNoOfVisit(mVisits);
@@ -343,9 +347,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			mLeftDrawerOpened = false;
 			mRightDrawerOpened = false;
 		} else if (fragment instanceof StartFlowVirginFragment) {
-			OutdoorManager.getInstance().clearCityOutdoorInfo() ;
-			ConnectPurifier.reset() ;
-			finish();
+			clearObjectFinish();
 		} else if (fragment instanceof StartFlowChooseFragment 
 				&& getString(R.string.list_item_manage_purifier).equals(title) ) {
 			manager.popBackStackImmediate(null,
@@ -369,10 +371,15 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
-			OutdoorManager.getInstance().clearCityOutdoorInfo() ;
-			ConnectPurifier.reset() ;
-			finish();
+			clearObjectFinish();
 		}
+	}
+	
+	private void clearObjectFinish() {
+		OutdoorManager.getInstance().clearCityOutdoorInfo() ;
+		ConnectPurifier.reset() ;
+		OutdoorLocationHandler.reset();
+		finish();
 	}
 
 	private void showFirstFragment() {

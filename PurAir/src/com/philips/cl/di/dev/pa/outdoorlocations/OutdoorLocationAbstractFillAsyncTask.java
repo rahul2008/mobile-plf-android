@@ -13,9 +13,11 @@ public class OutdoorLocationAbstractFillAsyncTask extends AsyncTask<String, Void
 		
 		try {
 			database.open();
-			
+			ALog.i(ALog.OUTDOOR_LOCATION, 
+					"OutdoorLocationAbstractFillAsyncTask before filling data from DB" );
 			database.fillDatabaseForCSV();
-			
+			ALog.i(ALog.OUTDOOR_LOCATION, 
+					"OutdoorLocationAbstractFillAsyncTask after filling data from DB" );
 			database.close();
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION, 
