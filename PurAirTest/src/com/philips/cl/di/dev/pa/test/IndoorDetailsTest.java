@@ -34,6 +34,7 @@ public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDe
 	
 	@UiThreadTest
 	public void testEnableDiscoveryInOnResume() {
+		if (activity == null) return;
 		DiscoveryManager discManager = mock(DiscoveryManager.class);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(discManager);
 		
@@ -47,6 +48,7 @@ public class IndoorDetailsTest extends ActivityInstrumentationTestCase2<IndoorDe
 	
 	@UiThreadTest
 	public void testDisableDiscoveryInOnPause() {
+		if (activity == null) return;
 		DiscoveryManager discManager = mock(DiscoveryManager.class);
 		DiscoveryManager.setDummyDiscoveryManagerForTesting(discManager);
 		
