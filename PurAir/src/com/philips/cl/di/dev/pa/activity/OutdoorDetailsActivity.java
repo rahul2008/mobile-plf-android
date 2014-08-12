@@ -276,17 +276,17 @@ public class OutdoorDetailsActivity extends BaseActivity
 			openWindowImg.setImageResource(R.drawable.blue_win_2x);  
 			avoidImg.setImageResource(R.drawable.blue_run_2x); 
 
-			maskTxt.setText(getString(R.string.mask_od_msg2));
-			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
-			avoidTxt.setText(getString(R.string.advice_od_msg2));
+			maskTxt.setText(getString(R.string.mask_od_msg1));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg1));
 
 		} else if(aqiInt > 50 && aqiInt <= 100) {
 			maskImg.setImageResource(R.drawable.dark_blue_mask_2x); 
 			openWindowImg.setImageResource(R.drawable.dark_blue_win_2x);  
 			avoidImg.setImageResource(R.drawable.dark_blue_run_2x); 
 
-			maskTxt.setText(getString(R.string.mask_od_msg2));
-			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			maskTxt.setText(getString(R.string.mask_od_msg1));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
 			avoidTxt.setText(getString(R.string.advice_od_msg2));
 
 		} else if(aqiInt > 100 && aqiInt <= 150) {
@@ -294,36 +294,36 @@ public class OutdoorDetailsActivity extends BaseActivity
 			openWindowImg.setImageResource(R.drawable.purple_win_2x);  
 			avoidImg.setImageResource(R.drawable.purple_close_run_2x); 
 
-			maskTxt.setText(getString(R.string.mask_od_msg2));
-			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
-			avoidTxt.setText(getString(R.string.advice_od_msg1));
+			maskTxt.setText(getString(R.string.mask_od_msg1));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		} else if(aqiInt > 150 && aqiInt <= 200) {
 			maskImg.setImageResource(R.drawable.dark_purple_mask_2x); 
 			openWindowImg.setImageResource(R.drawable.dark_purple_close_win_2x);  
 			avoidImg.setImageResource(R.drawable.dark_purple_run_2x); 
 
-			maskTxt.setText(getString(R.string.mask_od_msg2));
-			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
-			avoidTxt.setText(getString(R.string.advice_od_msg1));
+			maskTxt.setText(getString(R.string.mask_od_msg1));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		} else if(aqiInt > 200 && aqiInt <= 300) {
 			maskImg.setImageResource(R.drawable.light_red_close_mask_2x); 
 			openWindowImg.setImageResource(R.drawable.light_red_close_win_2x);  
 			avoidImg.setImageResource(R.drawable.light_red_close_run_2x); 
 
-			maskTxt.setText(getString(R.string.mask_od_msg1));
-			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
-			avoidTxt.setText(getString(R.string.advice_od_msg1));
+			maskTxt.setText(getString(R.string.mask_od_msg2));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		} else if (aqiInt > 300) {
 			maskImg.setImageResource(R.drawable.red_close_mask_2x); 
 			openWindowImg.setImageResource(R.drawable.red_close_win_2x);  
 			avoidImg.setImageResource(R.drawable.red_close_run_2x); 
 
-			maskTxt.setText(getString(R.string.mask_od_msg1));
-			openWindowTxt.setText(getString(R.string.openwindow_od_msg1)); 
-			avoidTxt.setText(getString(R.string.advice_od_msg1));
+			maskTxt.setText(getString(R.string.mask_od_msg2));
+			openWindowTxt.setText(getString(R.string.openwindow_od_msg2)); 
+			avoidTxt.setText(getString(R.string.advice_od_msg3));
 
 		}
 	}

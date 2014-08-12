@@ -159,9 +159,10 @@
     <!-- Outdoor details -->
     <string name="mask_od_msg1">無須口罩</string>
     <string name="openwindow_od_msg1">打開窗以通風。</string>
-    <string name="advice_od_msg1">適合進行戶外活動</string>
-    <string name="mask_od_msg2">無須口罩</string>
-    <string name="openwindow_od_msg2">打開窗以通風。</string>
+    <string name="advice_od_msg1">適合進行戶外活動。</string>
+    <string name="advice_od_msg3">避免戶外活動。</string>
+    <string name="mask_od_msg2">面具需要。</string>
+    <string name="openwindow_od_msg2">不要打開窗戶。</string>
     <string name="advice_od_msg2">容易敏感的人士應該減少活動。</string>
     <!-- Outdoor Detail Tips -->
     <string name="outdoor_aqi_good_tip1"> 適合進行戶外活動。打開窗以通風。</string>
