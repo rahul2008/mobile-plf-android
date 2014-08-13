@@ -60,8 +60,6 @@ public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedL
 			return AppConstants.FAN_SPEED_THREE ;
 		case 5:
 			return AppConstants.FAN_SPEED_TURBO;
-		case 6:
-			return AppConstants.FAN_SPEED_OFF;
 		default:
 			return "" ;
 
