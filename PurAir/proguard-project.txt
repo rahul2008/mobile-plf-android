@@ -42,6 +42,9 @@
 -keep public class com.google.android.gms.common.GooglePlayServicesUtil
 -keep public class com.google.android.gms.common.**
 -keep public class com.android.vending.licensing.ILicensingService
+-keepclassmembers class **.R$* {
+    public static <fields>;
+}
 
 
 
@@ -124,6 +127,8 @@
 -keep class com.philips.cl.di.dev.pa.datamodel.DiscoverInfo { *; }
 -keep class com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo { *; }
 -keep class com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto { *; }
+-keep class com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto { *; }
+-keep class com.philips.cl.di.dev.pa.dashboard.WeatherIcon { *; }
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
