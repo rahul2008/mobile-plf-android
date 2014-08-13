@@ -1,6 +1,9 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import java.util.Locale;
+
 import android.annotation.TargetApi;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -14,6 +17,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 
 public class OutdoorAirColorIndicationActivity extends BaseActivity {
 
@@ -109,7 +113,13 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	/*Sets Action bar title */
 	public void setActionBarTitle(int title) {    	
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
-		textView.setTypeface(Fonts.getGillsansLight(this));
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			textView.setTypeface(Typeface.DEFAULT);
+		} else {
+			textView.setTypeface(Fonts.getGillsansLight(this));
+		}
 		textView.setTextSize(24);
 		textView.setText(this.getText(title));
 	}

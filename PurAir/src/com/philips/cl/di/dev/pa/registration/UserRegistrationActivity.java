@@ -1,8 +1,10 @@
 package com.philips.cl.di.dev.pa.registration;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.app.ProgressDialog;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -65,6 +68,11 @@ public class UserRegistrationActivity extends BaseActivity implements OnClickLis
 		
 		mActionbarTitle = (FontTextView) view.findViewById(R.id.user_reg_actionbar_title);
 		mActionbarTitle.setText(getString(R.string.create_account));
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			mActionbarTitle.setTypeface(Typeface.DEFAULT);
+		}
 		
 		mActionBarCancelBtn = (Button) view.findViewById(R.id.user_reg_actionbar_cancel_btn);
 		mActionBarCancelBtn.setText(R.string.i_accept);

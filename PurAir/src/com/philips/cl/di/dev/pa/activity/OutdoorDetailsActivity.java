@@ -5,11 +5,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,6 +48,7 @@ import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -270,7 +273,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	/**Set advice icon and text*/ 
 	private void setAdviceIconTex(int aqiInt) {
-		
 		if(aqiInt >= 0 && aqiInt <= 50) {
 			maskImg.setImageResource(R.drawable.blue_mask_2x); 
 			openWindowImg.setImageResource(R.drawable.blue_win_2x);  
@@ -414,7 +416,13 @@ public class OutdoorDetailsActivity extends BaseActivity
 	/*Sets Action bar title */
 	public void setActionBarTitle() {    	
 		heading = (TextView) findViewById(R.id.action_bar_title);
-		heading.setTypeface(Fonts.getGillsansLight(this));
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			heading.setTypeface(Typeface.DEFAULT);
+		} else {
+			heading.setTypeface(Fonts.getGillsansLight(this));
+		}
 		heading.setTextSize(24);
 		heading.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
 	}

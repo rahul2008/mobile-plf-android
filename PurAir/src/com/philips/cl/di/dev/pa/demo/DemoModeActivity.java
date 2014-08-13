@@ -1,7 +1,10 @@
 package com.philips.cl.di.dev.pa.demo;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.wifi.WifiManager;
 import android.os.Build;
@@ -27,6 +30,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -78,6 +82,11 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		actionBar.setBackgroundDrawable(d);
 		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
 		actionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			actionbarTitle.setTypeface(Typeface.DEFAULT);
+		}
 		actionbarTitle.setText(getString(R.string.demo_mode_title));
 		actionbarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
 		actionbarCancelBtn.setTypeface(Fonts.getGillsansLight(this));

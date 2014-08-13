@@ -3,9 +3,11 @@ package com.philips.cl.di.dev.pa.scheduler;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -31,6 +33,7 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnClickListener,
@@ -80,6 +83,11 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		View view = getLayoutInflater().inflate(R.layout.scheduler_actionbar, null);
 		actionbarTitle = (FontTextView) view.findViewById(R.id.scheduler_actionbar_title);
 		actionbarTitle.setText(getString(R.string.scheduler));
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			actionbarTitle.setTypeface(Typeface.DEFAULT);
+		}
 
 		actionBarCancelBtn = (Button) view.findViewById(R.id.scheduler_actionbar_add_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));

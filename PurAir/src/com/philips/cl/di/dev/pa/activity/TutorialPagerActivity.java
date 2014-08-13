@@ -1,6 +1,9 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import java.util.Locale;
+
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -14,6 +17,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ViewPagerAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class TutorialPagerActivity extends BaseActivity {
@@ -110,7 +114,13 @@ public class TutorialPagerActivity extends BaseActivity {
 	/*Sets Action bar title */
 	public void setActionBarTitle(int tutorialTitle) {    	
 		TextView textView = (TextView) findViewById(R.id.action_bar_title);
-		textView.setTypeface(Fonts.getGillsansLight(this));
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			textView.setTypeface(Typeface.DEFAULT);
+		} else {
+			textView.setTypeface(Fonts.getGillsansLight(this));
+		}
 		textView.setTextSize(24);
 		textView.setText(this.getText(tutorialTitle));
 	}

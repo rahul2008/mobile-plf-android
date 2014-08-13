@@ -3,9 +3,11 @@ package com.philips.cl.di.dev.pa.activity;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -42,6 +44,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -241,7 +244,13 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	/*Sets Action bar title */
 	public void setActionBarTitle(String name) {    	
 		heading = (TextView) findViewById(R.id.action_bar_title);
-		heading.setTypeface(Fonts.getGillsansLight(this));
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			heading.setTypeface(Typeface.DEFAULT);
+		} else {
+			heading.setTypeface(Fonts.getGillsansLight(this));
+		}
 		heading.setTextSize(24);
 		if (name == null || name.trim().length() == 0) {
 			heading.setText("");

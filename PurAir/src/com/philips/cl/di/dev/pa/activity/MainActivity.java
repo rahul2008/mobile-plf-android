@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
@@ -13,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -83,6 +85,7 @@ import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -451,6 +454,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		addLocation = (ImageView) viewActionbar.findViewById(R.id.add_location_img);
 		noOffFirmwareUpdate = (FontTextView) viewActionbar.findViewById(R.id.actionbar_firmware_no_off_update);
 		actionBarTitle = (FontTextView) viewActionbar.findViewById(R.id.action_bar_title);
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			actionBarTitle.setTypeface(Typeface.DEFAULT);
+		}
 
 		rightMenu.setOnClickListener(actionBarClickListener);
 		leftMenu.setOnClickListener(actionBarClickListener);

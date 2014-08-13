@@ -1,5 +1,8 @@
 package com.philips.cl.di.dev.pa.firmware;
 
+import java.util.Locale;
+
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -20,6 +23,7 @@ import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -111,6 +115,11 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		actionBar.setBackgroundDrawable(d);
 		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
 		actionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			actionbarTitle.setTypeface(Typeface.DEFAULT);
+		}
 		actionbarTitle.setText(getString(R.string.firmware));
 		actionBarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
