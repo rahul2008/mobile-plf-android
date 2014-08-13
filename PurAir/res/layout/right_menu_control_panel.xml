@@ -2,7 +2,8 @@
     android:id="@+id/right_menu_control_panel"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/final_layout_border" >
+    android:background="@drawable/final_layout_border"
+    android:paddingBottom="30dp" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -18,25 +19,27 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
-	<com.philips.cl.di.dev.pa.view.FontTextView
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_power_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@id/tv_rm_power"
-        android:layout_toLeftOf="@+id/btn_rm_power"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="25dp"
-        android:paddingBottom="10dp"
+        android:layout_toLeftOf="@+id/btn_rm_power"
+        android:layout_toRightOf="@id/tv_rm_power"
+        android:ellipsize="marquee"
         android:gravity="center"
+        android:paddingBottom="10dp"
+        android:singleLine="true"
         android:text=""
         android:textColor="@color/red"
-        android:textStyle="bold"
         android:textSize="16sp"
-        android:singleLine="true"
-        android:ellipsize="marquee"
+        android:textStyle="bold"
         custom:fontAssetName="fonts/gillsans.ttf" />
+
     <ToggleButton
         android:id="@id/btn_rm_power"
         style="@style/Widget.Button.Toggle"
@@ -45,8 +48,8 @@
         android:layout_alignBottom="@+id/tv_rm_power"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:paddingTop="40dp"
-        android:clickable="false" />
+        android:clickable="false"
+        android:paddingTop="40dp" />
 
     <ImageView
         android:id="@+id/divider_1"
@@ -81,10 +84,10 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:background="@drawable/button_bg_2x"
+        android:clickable="false"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="10sp" 
-        android:clickable="false"/>
+        android:textSize="10sp" />
 
     <ImageView
         android:id="@+id/divider_2"
@@ -224,11 +227,11 @@
         android:layout_alignBottom="@+id/tv_rm_set_timer"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:background="@drawable/button_bg_2x"
         android:alpha="2"
+        android:background="@drawable/button_bg_2x"
+        android:clickable="false"
         android:text="@string/off"
         android:textColor="#ffffff"
-        android:clickable="false"
         android:textSize="10sp" />
 
     <ImageView
@@ -299,14 +302,13 @@
             android:layout_height="30dp"
             android:layout_alignLeft="@+id/timer_off"
             android:layout_below="@+id/timer_off"
-            android:layout_marginTop="15dp"
             android:layout_marginRight="8dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/button_bg_normal_2x"
             android:text="@string/onehour"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
             android:visibility="visible" />
-
     </RelativeLayout>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -332,8 +334,8 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
         android:background="@drawable/button_bg_2x"
-        android:text="@string/scheduler"
         android:clickable="false"
+        android:text="@string/scheduler"
         android:textColor="#ffffff"
         android:textSize="8sp" />
 
@@ -370,8 +372,8 @@
         android:layout_alignBottom="@+id/tv_rm_child_lock"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:paddingTop="40dp" 
-        android:clickable="false"/>
+        android:clickable="false"
+        android:paddingTop="40dp" />
 
     <ImageView
         android:id="@+id/divider_5"
@@ -406,16 +408,43 @@
         android:layout_alignBottom="@+id/tv_rm_indicator_light"
         android:layout_alignParentRight="true"
         android:layout_marginRight="30dp"
-        android:paddingTop="40dp" 
-        android:clickable="false"/>
+        android:clickable="false"
+        android:paddingTop="40dp" />
 
-    <View
+    <ImageView
         android:id="@+id/divider_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/btn_rm_indicator_light"
         android:layout_centerVertical="true"
         android:layout_margin="10dp"
+        android:src="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/tv_rm_remote_enable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/divider_6"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="10dp"
+        android:text="@string/pair_title"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_medium"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <ToggleButton
+        android:id="@+id/btn_rm_remote_enable"
+        style="@style/Widget.Button.Toggle"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@+id/tv_rm_remote_enable"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:paddingTop="40dp"
+        android:checked="false" />
 
 </RelativeLayout>
