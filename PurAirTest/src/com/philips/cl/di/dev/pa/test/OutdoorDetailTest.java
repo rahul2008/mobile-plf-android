@@ -70,9 +70,9 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 			FontTextView openWindowTxt = (FontTextView) activity.findViewById(R.id.openWindowTxt); 
 			FontTextView maskTxt = (FontTextView) activity.findViewById(R.id.maskTxt);
 			
-			assertEquals(activity.getString(R.string.advice_od_msg2), avoidTxt.getText().toString());
+			assertEquals(activity.getString(R.string.advice_od_msg1), avoidTxt.getText().toString());
 			assertEquals(activity.getString(R.string.mask_od_msg1), maskTxt.getText().toString());
-			assertEquals(activity.getString(R.string.openwindow_od_msg2), openWindowTxt.getText().toString());
+			assertEquals(activity.getString(R.string.openwindow_od_msg1), openWindowTxt.getText().toString());
 				
 		} catch (Exception e) {
 			TestCase.fail(e.getMessage());
