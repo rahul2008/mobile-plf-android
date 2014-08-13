@@ -92,7 +92,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
-		PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
+PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
 	private static int screenWidth, screenHeight;
 
@@ -228,8 +228,8 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
 		// Enable for release build
-//		checkForCrashesHockeyApp(); 
-		
+		//		checkForCrashesHockeyApp(); 
+
 	}
 
 	public void startDemoMode() {
@@ -330,7 +330,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 	public void onBackPressed() {
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.llContainer);
-		
+
 		String title = "";
 		if (actionBarTitle.getText() != null) {
 			title = actionBarTitle.getText().toString();
@@ -359,7 +359,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			Bundle bundle = new Bundle();
 			bundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
-			
+
 			HomeFragment homeFragment = new HomeFragment();
 			homeFragment.setArguments(bundle);
 			showFragment(homeFragment);
@@ -399,7 +399,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 
 	private void showDashboardFragment() {
 		showFragment(getDashboard());
-//		setDashboardActionbarIconVisible();
+		//		setDashboardActionbarIconVisible();
 		setTitle(getString(R.string.dashboard_title));
 	}
 
@@ -512,7 +512,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				if (remoteControlBtn.isChecked()) {
 					PurAirDevice purifier=getCurrentPurifier();
 					if(purifier==null) return;
-										
+
 					purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 					setVisibilityAirPortTaskProgress(View.VISIBLE);
 					pairToPurifierIfNecessary();
@@ -702,7 +702,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 		@Override
 		public void onItemClick(AdapterView<?> listView, View listItem,
 				int position, long id) {
-//			setDashboardActionbarIconVisible();
+			//			setDashboardActionbarIconVisible();
 			mDrawerLayout.closeDrawer(mListViewLeft);
 			switch (position) {
 			case 0:
@@ -740,8 +740,10 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 				setTitle(getString(R.string.list_item_settings));
 				break;
 			case 6:
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.list_item_manage_purifier));
+				if(UserRegistrationController.getInstance().isUserLoggedIn()){
+					showFragment(leftMenuItems.get(position));
+					setTitle(getString(R.string.list_item_manage_purifier));
+				}
 				break;
 			case 7:
 				// User registration
@@ -867,7 +869,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 						getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
-				
+
 				if(purifier.getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
 					remoteControlBtn.setChecked(true);
 					remoteControlBtn.setEnabled(false);
@@ -879,7 +881,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 					remoteControlBtn.setChecked(false);
 					return;
 				}
-				
+
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(true);
 				remoteControlBtn.setEnabled(true);
@@ -1000,7 +1002,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			setProgressDialogInvisible();
 			return;
 		}
-		
+
 		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
 
 		long lastPairingCheckTime = purifier.getLastPairedTime();		
@@ -1013,7 +1015,7 @@ public class MainActivity extends BaseActivity implements AirPurifierEventListen
 			setProgressDialogInvisible();
 		}
 	}
-	
+
 	public void setProgressDialogInvisible(){
 		this.runOnUiThread(new Runnable() {
 			@Override

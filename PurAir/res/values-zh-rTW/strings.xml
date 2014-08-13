@@ -81,13 +81,13 @@
     <string name="no_connection">No \nConnection</string>
    	<string name="no_data">無資料</string>
     <!-- AQI status -->
-    <string name="good">良好</string>
-    <string name="moderate">適中</string>
-    <string name="unhealthy_for_sensitive_groups">對敏感人群不健康</string>
-    <string name="unhealthy">不健康</string>
-    <string name="very_unhealthy">非常不健康</string>
-    <string name="very_unhealthy_split">非常 \n 不健康</string>
-    <string name="hazardous">有害</string>
+    <string name="good">優</string>
+    <string name="moderate">良</string>
+    <string name="unhealthy_for_sensitive_groups">輕微污染</string>
+    <string name="unhealthy">輕度污染</string>
+    <string name="very_unhealthy">中度污染</string>
+    <string name="very_unhealthy_split">中度 \n 污染</string>
+    <string name="hazardous">重污染 </string>
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">應用程式教程</string>
     <string name="subtitle_FAQ">常見問題</string>
@@ -376,7 +376,7 @@
     <string name="error_purifier_not_detect_btn_txt">重試</string>
     <string name="no_network">沒有 Wi-fi 網絡</string>
     <string name="yes">是</string>
-    <string name="ok">OK</string>
+    <string name="ok">行</string>
     <string name="no">否</string>
     <string name="save">儲存</string>
     <string name="next">下一步</string>
@@ -395,8 +395,8 @@
     <string name="congratulations">恭喜您!</string>
     <string name="support_ts01_message">移除 Philips 智能空氣清新機。</string>
     <string name="support_ts02_message">請等候 15 秒，然後重新接回飛利浦空氣清新機，再按 [電源] 鍵開機。</string>
-    <string name="support_ts03_message">Press Power and Childlock buttons simultaneously until the Wi-Fi LED is ORANGE.</string>
-    <string name="support_ts05_message">Is the Wi-Fi LED</string>
+    <string name="support_ts03_message">請同時按住開關鍵與兒童鎖鍵直至Wi-Fi指示燈變橙</string>
+    <string name="support_ts05_message">Wi-Fi指示燈是否變</string>
     <string name="now">now?</string>
     <string name="wrong_wifi_password">輸入密碼錯誤</string>
     <string name="checking_signal_strength_title">現在，連接 Philips 智能空氣清新機到  </string>
@@ -410,7 +410,7 @@
     <string name="alert_auto_network_switch_title">自動切換網絡</string>
     <string name="alert_auto_network_switch_msg1">在 [Wi-Fi 進階設定] 中停用 [自動切換網絡] 或 [略過不佳連線]，開啟 [Wi-Fi 設定]。</string>
     <string name="verify_power_on_title">啟動飛利浦空氣清新機</string>
-    <string name="verify_power_on_msg1">Plug in the Philips Smart Air Purifier and press the Power button to switch on the purifier.</string>
+    <string name="verify_power_on_msg1">請將飛利浦智控淨化器接入電源，并按下開關開啟淨化器。</string>
     <string name="verify_power_on_msg2">Philips 智能空氣清新機是否已開啟？</string>
     
     <!-- Tools fragments -->
@@ -447,8 +447,8 @@
     <string name="set_schedule">設置時間表</string>
     <string name="edit_schedule">編輯時間表</string>
     <string name="repeat_text">重複</string>
-    <string name="delete_text">Delete</string>
-    <string name="error">Error!!</string>
+    <string name="delete_text">刪除</string>
+    <string name="error">錯誤！</string>
     <string name="max_schedules_reached">Maximum 10 schedules can be added. Please delete existing schedules to add a new schedule</string>
     <!-- Firmware Screen text -->
     <string name="firmware">韌體</string>
@@ -482,7 +482,7 @@
     <string name="call">致電</string>
     <string name="send_email">發送電郵</string>
     <string name="send_report">發送報告</string>
-    <string name="help">Help</string>
+    <string name="help">幫助</string>
     <string name="try_again">重試</string>
     <string name="done">完成</string>
     <string name="lbl_firmware_update_available">韌體可供更新</string>

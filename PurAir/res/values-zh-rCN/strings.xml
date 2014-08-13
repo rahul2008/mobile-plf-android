@@ -81,13 +81,13 @@
     <string name="no_connection">无连接</string>
     <string name="no_data">无数据</string>
     <!-- AQI status -->
-    <string name="good">良好</string>
-    <string name="moderate">适中</string>
-    <string name="unhealthy_for_sensitive_groups">对敏感人群不健康</string>
-    <string name="unhealthy">不健康</string>
-    <string name="very_unhealthy">非常不健康</string>
-    <string name="very_unhealthy_split">非常 \n 不健康</string>
-    <string name="hazardous">危险</string>
+    <string name="good">优</string>
+    <string name="moderate">良</string>
+    <string name="unhealthy_for_sensitive_groups">轻微污染</string>
+    <string name="unhealthy">轻度污染</string>
+    <string name="very_unhealthy">中度污染</string>
+    <string name="very_unhealthy_split">中度 \n 污染</string>
+    <string name="hazardous">重污染 </string>
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">应用程序教程</string>
     <string name="subtitle_FAQ">常见问题解答</string>
@@ -391,7 +391,7 @@
     <string name="congratulations">恭喜您！</string>
     <string name="support_ts01_message">拔掉飞利浦智控净化器的插头。</string>
     <string name="support_ts02_message">等待15秒钟之后请您再次将空气净化器接入电源并开启。</string>
-    <string name="support_ts03_message">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变为 橙色</string>
+    <string name="support_ts03_message">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变橙</string>
     <string name="support_ts05_message">是Wi-Fi的LED灯</string>
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
@@ -406,7 +406,7 @@
     <string name="alert_auto_network_switch_title">网络自动切换</string>
     <string name="alert_auto_network_switch_msg1">请至Wi-Fi高级设置中取消“网络自动切换或避免不良连接”功能</string>
     <string name="verify_power_on_title">开启飞利浦智控空气净化器</string>
-    <string name="verify_power_on_msg1">插入式的空气净化器和按下电源按钮启动净化器。</string>
+    <string name="verify_power_on_msg1">请将飞利浦智控净化器接入电源，并按下开关开启净化器。</string>
     <string name="verify_power_on_msg2">您的飞利浦智控空气净化器开启了吗？</string>
     
     <!-- Tools fragments -->
@@ -437,7 +437,7 @@
     <string name="edit_schedule">编辑日程表</string>    
     <string name="repeat_text">重复</string>
     <string name="delete_text">删除</string>
-    <string name="error">Error!!</string>
+    <string name="error">错误！</string>
     <string name="max_schedules_reached">Maximum 10 schedules can be added. Please delete existing schedules to add a new schedule</string>
     <!-- Firmware Screen text -->
     <string name="firmware">固件</string>
