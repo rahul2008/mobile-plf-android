@@ -9,7 +9,7 @@ public class SchedulerUtil {
 	
 	public static final String fanSpeedArr[] = {AppConstants.FAN_SPEED_AUTO, AppConstants.FAN_SPEED_SILENT,
 												AppConstants.FAN_SPEED_ONE, AppConstants.FAN_SPEED_TWO,
-												AppConstants.FAN_SPEED_THREE, AppConstants.FAN_SPEED_TURBO};
+												AppConstants.FAN_SPEED_THREE, AppConstants.FAN_SPEED_TURBO, AppConstants.FAN_SPEED_OFF};
 	
 	public static int getFanspeedItemPosition(String selectedValue) {
 		if (selectedValue == null || selectedValue.isEmpty()) return 0;
@@ -54,7 +54,9 @@ public class SchedulerUtil {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.speed3);
 		} else if (mode.equals(AppConstants.FAN_SPEED_TURBO)) {
 			modeStr = PurAirApplication.getAppContext().getString(R.string.turbo);
-		} 
+		} else if (mode.equals(AppConstants.FAN_SPEED_OFF)) {
+			modeStr = PurAirApplication.getAppContext().getString(R.string.fanspeed_off);
+		}
 		return modeStr;
 	}
 }

@@ -142,6 +142,11 @@ public class JSONBuilder {
 
 	public static String getSchedulesJson(String time, String fanSpeed, String days, boolean enabled) {
 		ALog.i(ALog.SCHEDULER, time+":"+fanSpeed+":"+days) ;
+		int pwr = 1 ;
+		if( fanSpeed.equals("0")) {
+			pwr = 0 ;
+		}
+		
 		StringBuilder builder = new StringBuilder("{") ;
 		builder.append("\"").append("name").append("\"").append(":").append("\"").append(time).append("\",") ;
 		builder.append("\"").append("enabled\"").append(":").append(enabled).append(",") ;
@@ -150,7 +155,8 @@ public class JSONBuilder {
 		builder.append("\"").append("product\"").append(":").append(1).append(",") ;
 		builder.append("\"").append("port\"").append(":\"").append("air").append("\",") ;
 		builder.append("\"").append("command\"").append(":") ;
-		builder.append("{\"").append("om\"").append(":\"").append(fanSpeed).append("\"}") ;
+		builder.append("{\"").append("pwr\"").append(":\"").append(pwr).append("\",\"") ;
+		builder.append("om\"").append(":\"").append(fanSpeed).append("\"}") ;
 		builder.append("}") ;
 		String dataToSend = builder.toString();
 		ALog.i(ALog.SCHEDULER, dataToSend) ;
