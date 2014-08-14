@@ -1,9 +1,9 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class OutdoorLocationAbstractFillAsyncTask extends AsyncTask<String, Void, Void> {
 	

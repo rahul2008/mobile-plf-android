@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.InflateException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -22,7 +23,11 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_tutorial);
 		
-		this.getSupportActionBar().hide();
+		try {
+			this.getSupportActionBar().hide();
+		} catch (InflateException e) {
+			e.printStackTrace();
+		}
 		
 		Resources resources = getResources();
     	float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, resources.getDisplayMetrics());    	

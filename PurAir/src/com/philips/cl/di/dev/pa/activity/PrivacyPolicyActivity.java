@@ -1,10 +1,11 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import com.philips.cl.di.dev.pa.R;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+
+import com.philips.cl.di.dev.pa.R;
 
 public class PrivacyPolicyActivity extends BaseActivity {
 

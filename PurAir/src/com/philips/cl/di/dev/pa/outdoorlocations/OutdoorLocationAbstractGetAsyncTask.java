@@ -1,10 +1,10 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.AsyncTask;
+
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public abstract class OutdoorLocationAbstractGetAsyncTask extends AsyncTask<String, Void, Cursor> {
 	

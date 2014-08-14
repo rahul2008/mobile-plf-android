@@ -1,13 +1,13 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
-import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.util.ALog;
-
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 import android.os.Handler;
 import android.os.Message;
+
+import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 public class OutdoorLocationHandler {
 	
