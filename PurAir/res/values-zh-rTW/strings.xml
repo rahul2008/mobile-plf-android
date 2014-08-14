@@ -84,9 +84,9 @@
     <string name="good">優</string>
     <string name="moderate">良</string>
     <string name="unhealthy_for_sensitive_groups">輕微污染</string>
-    <string name="unhealthy">輕度污染</string>
-    <string name="very_unhealthy">中度污染</string>
-    <string name="very_unhealthy_split">中度 \n 污染</string>
+    <string name="unhealthy">不健康</string>
+    <string name="very_unhealthy">非常不健康</string>
+    <string name="very_unhealthy_split">非常 \n 不健康</string>
     <string name="hazardous">重污染 </string>
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">應用程式教程</string>
@@ -218,7 +218,7 @@
     <string name="outdoor_aiq_analysis_title4">150</string>
     <string name="outdoor_aiq_analysis_title5">100</string>
     <string name="outdoor_aiq_analysis_title6">50</string>
-    <string name="indoor_aiq_analysis_title1">4&#8211;10+</string>
+    <string name="indoor_aiq_analysis_title1">4+</string>
     <string name="indoor_aiq_analysis_title2">3&#8211;4</string>
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
     <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
