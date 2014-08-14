@@ -27,7 +27,9 @@
     <string name="connect">连接</string>
     <string name="power">电源</string>
     <string name="fan_speed">风扇速度</string>
-    <string name="auto">自动</string>
+<!--     <string name="auto">自动</string> -->
+	<!-- Auto translate in Chinese Smart -->
+    <string name="auto">智能</string>
     <string name="turbo">强力</string>
     <string name="fanspeed_off">Off</string>
     <string name="silent">静音</string>
