@@ -8,7 +8,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.UiThreadTest;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
