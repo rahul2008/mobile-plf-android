@@ -68,7 +68,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	};
 
 	private static final String COLOR_LIST_LABEL[]={
-		"500+", "300","200","150","100","50"
+		"300+", "201-300","151-200","101-150","51-100","0-50"
 	};
 
 	private ExpandableListView expListView;

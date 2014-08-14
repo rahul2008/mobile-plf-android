@@ -14,7 +14,7 @@
         android:background="@drawable/circle_1"
         android:gravity="center"
         android:textColor="#FFF"
-        android:textSize="12sp"
+        android:textSize="9sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
