@@ -38,7 +38,7 @@ public class JPushReceiver extends BroadcastReceiver {
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction()
 				+ ", extras: " + printBundle(bundle));
 		
-		if (!Utils.isGooglePlayServiceAvailable()) {
+		if (Utils.isGooglePlayServiceAvailable()) {
 			JPushInterface.setDebugMode(false); 
 			return;  
 		}
@@ -47,16 +47,12 @@ public class JPushReceiver extends BroadcastReceiver {
 			String regKey = bundle
 					.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 			Log.d(TAG, "[MyReceiver] Receive Registration Id : " + regKey);
-			// init();
-			// send the Registration Id to your server...
-
 			preferences = PreferenceManager
 					.getDefaultSharedPreferences(context);
 			SharedPreferences.Editor editor = preferences.edit();
 			editor.putString("regKey", regKey);
 			editor.apply();
 			
-
 			PurAirApplication.getAppContext()
 					.getNotificationRegisteringManager()
 					.registerAppForNotification();
