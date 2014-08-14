@@ -17,6 +17,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
 import com.philips.icpinterface.EventSubscription;
@@ -379,9 +380,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}
-		
 		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
-		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, AppConstants.NOTIFICATION_PROVIDER, gcmRegistrationId);
+		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, 
+				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE : 
+					AppConstants.NOTIFICATION_PROVIDER_JPUSH, gcmRegistrationId);
+		
 		int retStatus =  thirdParty.executeCommand();
 		if (Errors.SUCCESS != retStatus)	{
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");

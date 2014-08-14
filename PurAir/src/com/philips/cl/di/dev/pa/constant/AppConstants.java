@@ -172,7 +172,9 @@ public class AppConstants {
 	/** CONSTANTS FOR NOTIFICATIONS */
 	public static final String NOTIFICATION_SERVICE_TAG="3pns";
 	public static final String NOTIFICATION_PROTOCOL="push";
-	public static final String NOTIFICATION_PROVIDER="gcma";
+	public static final String NOTIFICATION_PROVIDER_GOOGLE="gcma";
+	public static final String NOTIFICATION_PROVIDER_JPUSH="jpush";
+	
 	public static final String NOTIFICATION_SENDER_ID = "589734100886";
 	
 	public static final String NOTIFICATION_PREFERENCE_FILE_NAME = "GCMRegistrion";

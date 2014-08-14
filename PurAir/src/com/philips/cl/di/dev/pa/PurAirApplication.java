@@ -12,6 +12,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 
 public class PurAirApplication extends Application {
@@ -36,6 +37,7 @@ public class PurAirApplication extends Application {
 		getNotificationRegisteringManager();
 	}
 	
+	
 	public static int getAppVersion() {
 		try {
 			PackageInfo packageInfo = getAppContext().getPackageManager().getPackageInfo(getAppContext().getPackageName(), 0);
@@ -56,9 +58,16 @@ public class PurAirApplication extends Application {
 	}
 	
 	public NotificationRegisteringManager getNotificationRegisteringManager() {
-		if (mNotificationManager == null) {
-			mNotificationManager = new NotificationRegisteringManager();
-			mNotificationManager.registerAppForNotification();
+		if (Utils.isGooglePlayServiceAvailable()) {
+			if (mNotificationManager == null) {
+				mNotificationManager = new NotificationRegisteringManager();
+				mNotificationManager.registerAppForNotification();
+			}
+		}
+		else{
+			if (mNotificationManager == null) {
+				mNotificationManager = new NotificationRegisteringManager();
+			}
 		}
 		return mNotificationManager;
 	}

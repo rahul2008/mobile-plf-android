@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -25,22 +27,34 @@ public class NotificationRegisteringManager implements SignonListener, SendNotif
 		CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).setNotificationListener(this);
 		
-		gcm = GoogleCloudMessaging.getInstance(PurAirApplication.getAppContext());
-		regid = getRegistrationId();
+		if (!Utils.isGooglePlayServiceAvailable()) {
+			JPushInterface.setDebugMode(false); 
+			JPushInterface.init(PurAirApplication.getAppContext());  
+		}
+		else{
+			gcm = GoogleCloudMessaging.getInstance(PurAirApplication.getAppContext());
+			regid = getRegistrationId();
+		}
 	}
 
 	public void registerAppForNotification() {
 		if (!Utils.isGooglePlayServiceAvailable()) {
 			ALog.e(ALog.NOTIFICATION, "Google play services not supported on this device");
-			return;
-		}
-
-		if (isRegisteredForGCM()) {
-			ALog.i(ALog.NOTIFICATION, "App already registered for Google Play push notifications");
-		} else {
-			ALog.i(ALog.NOTIFICATION, "App not yet registered for Google Play push notifications - registering now");
+			
+			regid = JPushReceiver.getRegKey();
+			
+			if(regid == null || regid.isEmpty()) return;
+			
 			registerForGCMInBackground();
-			return;
+		}
+		else{
+			if (isRegisteredForGCM()) {
+				ALog.i(ALog.NOTIFICATION, "App already registered for Google Play push notifications");
+			} else {
+				ALog.i(ALog.NOTIFICATION, "App not yet registered for Google Play push notifications - registering now");
+				registerForGCMInBackground();
+				return;
+			}
 		}
 
 		if (getIsRegistrationKeySendToCpp()) {
@@ -58,6 +72,22 @@ public class NotificationRegisteringManager implements SignonListener, SendNotif
 	 * shared preferences.
 	 */
 	private void registerForGCMInBackground() {
+		if (Utils.isGooglePlayServiceAvailable()) {
+			registerForGoogleService();
+		}
+		else{
+			registerForJPushService();
+		}
+	}
+	
+	public void registerForJPushService() {
+		// send the registration ID to CPP server.
+		sendRegistrationIdToBackend(regid);
+		// Persist the regID - no need to register again.
+		storeRegistrationId(PurAirApplication.getAppContext(), regid);
+	}
+
+	private void registerForGoogleService(){
 		new AsyncTask<Void, Void, String>() {
 			@Override
 			protected String doInBackground(Void... params) {
@@ -91,7 +121,6 @@ public class NotificationRegisteringManager implements SignonListener, SendNotif
 		if(!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn())return;
 		storeRegistrationKeySendToCPP(false);
 		if(regid == null || regid.isEmpty()) return;
-		
 		CPPController.getInstance(PurAirApplication.getAppContext()).sendNotificationRegistrationId(regid);
 	}
 	

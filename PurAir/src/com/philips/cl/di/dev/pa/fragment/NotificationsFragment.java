@@ -260,10 +260,10 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 
 	private boolean isNotificationEnabled() {
-		if(!Utils.isGooglePlayServiceAvailable()){
-			notificationToggle.setEnabled(false);
-			return false;
-		}
+//		if(!Utils.isGooglePlayServiceAvailable()){
+//			notificationToggle.setEnabled(false);
+//			return false;
+//		}
 		PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
 		if (mPurifier != null && mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED) {
 
