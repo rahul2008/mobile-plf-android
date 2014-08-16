@@ -6,6 +6,7 @@ import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class NotificationRegisteringManagerTest extends TestCase {	
 
@@ -36,7 +37,9 @@ public class NotificationRegisteringManagerTest extends TestCase {
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
-		assertNotNull(regStr);
+		if (Utils.isGooglePlayServiceAvailable()) {
+			assertNotNull(regStr);
+		} 
 	}
 
 //	public void testNotificationRegisteringManager_2(){
