@@ -7,7 +7,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 public class SchedulerUtil {
 	public static final String BOOTSTRAP_KEY_1 = "NWI2YzU4MD" ;
 	
-	public static final String fanSpeedArr[] = {AppConstants.FAN_SPEED_AUTO, AppConstants.FAN_SPEED_SILENT,
+	protected static final String fanSpeedArr[] = {AppConstants.FAN_SPEED_AUTO, AppConstants.FAN_SPEED_SILENT,
 												AppConstants.FAN_SPEED_ONE, AppConstants.FAN_SPEED_TWO,
 												AppConstants.FAN_SPEED_THREE, AppConstants.FAN_SPEED_TURBO, AppConstants.FAN_SPEED_OFF};
 	

@@ -417,9 +417,8 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	public void onSchedulesReceived(List<SchedulePortInfo> scheduleList) {
 		ALog.i(ALog.SCHEDULER, "onSchedulers list response");
-		
-		Collections.sort(scheduleList) ;
 		if( scheduleList != null ) {
+			Collections.sort(scheduleList) ;
 			this.schedulesList = scheduleList ;
 			runOnUiThread(new Runnable() {
 				@Override
