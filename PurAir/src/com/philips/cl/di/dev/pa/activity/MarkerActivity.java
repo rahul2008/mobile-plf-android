@@ -199,10 +199,14 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 
 	@Override
 	public void onClick(View v) {
+		if (v.getId() == R.id.gaodeMapFinish) {
+			finish();
+		}
+		/*
 		switch(v.getId()){
 		case R.id.gaodeMapFinish:
 			finish();
 		}
-		
+		*/
 	}
 }

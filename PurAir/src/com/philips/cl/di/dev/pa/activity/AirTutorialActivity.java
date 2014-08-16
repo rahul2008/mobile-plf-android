@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.TypedValue;
-import android.view.InflateException;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -23,11 +22,7 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_tutorial);
 		
-		try {
-			this.getSupportActionBar().hide();
-		} catch (InflateException e) {
-			e.printStackTrace();
-		}
+		this.getSupportActionBar().hide();
 		
 		Resources resources = getResources();
     	float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, resources.getDisplayMetrics());    	
@@ -38,7 +33,7 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		float float1 = 30 * px;
 		float double1 = MainActivity.getScreenHeight()*0.5F- MainActivity.getScreenHeight() * 0.075F;
 		setMargins(btnIndoorAIQReadings, 
-				Math.round(MainActivity.getScreenWidth()/2+float1), Math.round(double1/2), 0, 0);
+				Math.round(MainActivity.getScreenWidth()/(float)2+float1), Math.round(double1/ (float)2), 0, 0);
 		
 		Button btnOutdoorAIQReadings=(Button) findViewById(R.id.btn_outdoor_aqi_readings);
 		Button btnFinish=(Button) findViewById(R.id.btn_finish_tour);

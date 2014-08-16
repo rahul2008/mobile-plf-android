@@ -44,7 +44,7 @@ public class MarkerMapFragment extends Fragment implements
 	private AMap aMap;
 	private MapView mapView;
 	private UiSettings mUiSettings;
-	private static List<String> mCitiesList = null;
+	private List<String> mCitiesList = null;
 
 	@Override
 	public void onMapLoaded() {
@@ -118,7 +118,7 @@ public class MarkerMapFragment extends Fragment implements
 						getAqiPointerImageResId(aqiValue), aqiValue))));
 	}
 
-	static Bitmap writeTextOnDrawable(int drawableId, Integer text) {
+	static Bitmap writeTextOnDrawable(int drawableId, int text) {
 		Bitmap bm = BitmapFactory.decodeResource(PurAirApplication.getAppContext().getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
 		Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);
@@ -131,7 +131,7 @@ public class MarkerMapFragment extends Fragment implements
 		 * Putting this logic here because we have fixed circle resources. 
 		 * We need to manipulate the font size only to fit in the circle.
 		 */
-		if(Integer.valueOf(text) > 99){
+		if(text > 99){
 			paint.setTextSize(16);
 		}
 		else{
@@ -139,7 +139,7 @@ public class MarkerMapFragment extends Fragment implements
 		}
 
 		Rect textRect = new Rect();
-		String newText = text.toString();
+		String newText = String.valueOf(text);
 		paint.getTextBounds(newText, 0, newText.length(), textRect);
 
 		Canvas canvas = new Canvas(bm);
@@ -148,7 +148,7 @@ public class MarkerMapFragment extends Fragment implements
 												// position offset
 		// baseline to the center.
 		int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint
-				.ascent()) / 2));
+				.ascent()) / (float) 2));
 		canvas.drawText(newText, xPos, yPos, paint);
 		return bm;
 	}
