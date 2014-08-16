@@ -189,6 +189,11 @@ public class OutdoorLocationDatabase {
 			e.printStackTrace();
 		}
 		finally {
+			try {
+				inputStream.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			mOutdoorLocationDatabase.endTransaction();
 		}
 	}

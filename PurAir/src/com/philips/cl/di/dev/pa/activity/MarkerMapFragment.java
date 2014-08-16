@@ -148,7 +148,7 @@ public class MarkerMapFragment extends Fragment implements
 												// position offset
 		// baseline to the center.
 		int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint
-				.ascent()) / (float) 2));
+				.ascent()) / 2));
 		canvas.drawText(newText, xPos, yPos, paint);
 		return bm;
 	}
