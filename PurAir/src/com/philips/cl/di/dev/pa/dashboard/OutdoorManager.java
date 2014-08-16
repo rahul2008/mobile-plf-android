@@ -23,7 +23,6 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	private OutdoorDataChangeListener iListener;
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	@SuppressWarnings("unused")
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; // Suppressed as this is a false positive.
 
 	public synchronized static OutdoorManager getInstance() {
@@ -53,7 +52,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		
 		WeatherIcon.populateWeatherIconMap();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
-		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask");
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: " + mOutdoorLocationFillAsyncTask);
 	}
 
 	private void insertDataAndGetShortListCities() {

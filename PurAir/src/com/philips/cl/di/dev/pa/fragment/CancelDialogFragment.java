@@ -19,7 +19,7 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class CancelDialogFragment extends DialogFragment {
 	
-	public final int REMOTE = 1;
+	public static final int REMOTE = 1;
 	private static ToggleButton remote;
 	
 	public static CancelDialogFragment newInstance(String msg, int state, ToggleButton remoteControlBtn) {
