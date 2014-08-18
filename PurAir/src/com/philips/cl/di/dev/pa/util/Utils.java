@@ -28,6 +28,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -899,16 +900,20 @@ public class Utils {
 		return toast;
 	}
 	public static String getStaticIpAddress() {
-//		int Low = 2;
-//		int High = 255;
-//		Random r = new Random() ;
-//		int randomIpAddress = r.nextInt(High-Low) + Low;
-//		
-//		StringBuilder ipAddress = new StringBuilder("192.168.1.").append(randomIpAddress) ;
-//		
-//		return ipAddress.toString() ;
+		String ipAddress = "";
 		
-		return getIPAddress(true) ;
+		if( ipAddress == null || ipAddress.isEmpty() ) {
+			int Low = 2;
+			int High = 255;
+			Random r = new Random() ;
+			int randomIpAddress = r.nextInt(High-Low) + Low;
+			
+			StringBuilder ipAddressBuilder = new StringBuilder("192.168.1.").append(randomIpAddress) ;
+			
+			ipAddress =  ipAddressBuilder.toString() ;
+		}
+		
+		return ipAddress;
 	}
 	
 	 /**
