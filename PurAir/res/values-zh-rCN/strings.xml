@@ -439,7 +439,7 @@
     <string name="edit_schedule">编辑日程表</string>    
     <string name="repeat_text">重复</string>
     <string name="delete_text">删除</string>
-    <string name="error">错误！</string>
+    <string name="error">错误</string>
     <string name="max_schedules_reached">Maximum 10 schedules can be added. Please delete existing schedules to add a new schedule</string>
     <!-- Firmware Screen text -->
     <string name="firmware">固件</string>
