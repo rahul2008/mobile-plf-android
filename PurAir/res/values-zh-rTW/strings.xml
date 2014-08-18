@@ -21,7 +21,7 @@
     <!-- Right menu texts -->
     <string name="connection_status">連接狀態</string>
     <string name="connected">已連接</string>
-    <string name="lost_connection">Lost Connection</string>
+    <string name="lost_connection">連接中斷</string>
     <string name="connected_via_philips">已透過 PHILIPS 連接 </string>
     <string name="not_connected">沒有連接</string>
     <string name="connect">連接</string>
@@ -62,9 +62,9 @@
     <!-- Outdoor Locations -->
 <!--     <string name="enter_city_name">Enter location</string> -->
     <string name="cancel">取消</string>
-    <string name="decline">Decline</string>
+    <string name="decline">拒絕</string>
     <string name="weather_forecast">天氣預報</string>
-    <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
+    <string name="outdoor_download_failed">室外空氣質量歷史數據下載失敗！</string>
     <string name="kmph">公里/小時</string>
     <string name="hiphen">-</string>
     <string name="one_zero">0</string>
@@ -76,9 +76,9 @@
     <string name="speed2">速度 2</string>
     <string name="speed3">速度 3</string>
     <string name="updated">最新更新</string>
-    <string name="n_a">N.A.</string>
+    <string name="n_a">不適用</string>
     <string name="take_action">採取行動</string>
-    <string name="no_connection">No \nConnection</string>
+    <string name="no_connection">無連接</string>
    	<string name="no_data">無資料</string>
     <!-- AQI status -->
     <string name="good">優</string>
@@ -146,11 +146,11 @@
     <string name="aqi_history">AQI 紀錄</string>
     <string name="aqi_history_download_failed">AQI 紀錄資料下載失敗！</string>
     <string name="aqi_history_not_avialable">並無 AQI 紀錄資料！</string>
-    <string name="indoor_db">Indoor</string>
-    <string name="outdoor_db">Outdoor</string>
-    <string name="current_location">Current location</string>
+    <string name="indoor_db">室內</string>
+    <string name="outdoor_db">室外</string>
+    <string name="current_location">目前位置</string>
     <string name="title_outdoor_db">室外儀表板</string>
-    <string name="outdoor_search_hint">Fill in place</string>
+    <string name="outdoor_search_hint">請填空</string>
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：對身體帶來很少或沒有健康影響。</string>
     <string name="indoor_aqi_moderate_tip1">污染，粒子水平及 PM2.5 都在中等水平</string>
@@ -204,9 +204,9 @@
     <string name="detail_aiq_message_last_day">昨天的詳盡空氣質素？</string>
     <string name="detail_aiq_message_last7day">過去 7 天的詳盡空氣質素？</string>
     <string name="detail_aiq_message_last4week">過去 4 星期的詳盡空氣質素？</string>
-    <string name="aqi_message_last_day">During the last day, how much good air did you have?</string>
-    <string name="aqi_message_last7day">During the last 7 days, how much good air did you have?</string>
-    <string name="aqi_message_last4week">During the last 4 weeks, how much good air did you have?</string>
+    <string name="aqi_message_last_day">過去的一天中，您呼吸了多少新鮮空氣？</string>
+    <string name="aqi_message_last7day">過去的一周內，您呼吸了多少新鮮空氣？</string>
+    <string name="aqi_message_last4week">過去的一月內，您呼吸了多少新鮮空氣？</string>
     <string name="outdoor_aiq_analysis_head1">空氣分析 已解釋</string>
     <string name="outdoor_aiq_analysis_head2">室內空氣質量水平和 PM 2.5</string>
     <string name="outdoor_aiq_analysis_head3">室內和室外空氣水平的關係，以及它們是如何測量出來的</string>
@@ -253,8 +253,8 @@
     <string name="notification_front_panel_title">前方面板</string> 
     <string name="notification_front_panel_desc">前方面板開啟時，您會收到通知。</string>
     <string name="error_aqithreshold_setting">設定 AQI 限額時出錯。</string>
-    <string name="notification_notpaired_title">Remote control disabled</string>
-    <string name="notification_notpaired_text">You can only configure notifications once remote control is enabled. You can enable remote control from control panel.</string>
+    <string name="notification_notpaired_title">遠程遙控功能被禁用</string>
+    <string name="notification_notpaired_text">只有在啟用遠程遙控功能時才可以設置“通知”功能。您可以從控制面板上啟用遠程遙控功能。</string>
     <!-- Settings -->
     <string name="rate_this_app">為這個應用程式評分</string>
     <string name="send_us_feedback">向我們傳送意見</string>
@@ -358,7 +358,7 @@
     <string name="connect_2_network_msg5">返回 Philips 智能空氣清新機應用程式。</string>
     <string name="error_ssid_msg1">請確保手機已連接到</string>
     <string name="contact_philips_support_msg1">Philips 智能空氣清新機無法啟動設定模式。</string>
-    <string name="contact_philips_support_msg1_3attempt">Connection has failed 3 times.</string>
+    <string name="contact_philips_support_msg1_3attempt">連接已三次失敗。</string>
     <string name="contact_philips_support_msg2">請聯絡 Philips 支援</string>
     <string name="contact_philips_support_msg3">致電我們：</string>
     <string name="contact_philips_support_phone_num">4008 800 008</string>
@@ -397,7 +397,7 @@
     <string name="support_ts02_message">請等候 15 秒，然後重新接回飛利浦空氣清新機，再按 [電源] 鍵開機。</string>
     <string name="support_ts03_message">請同時按住開關鍵與兒童鎖鍵直至Wi-Fi指示燈變橙</string>
     <string name="support_ts05_message">Wi-Fi指示燈是否變</string>
-    <string name="now">now?</string>
+    <string name="now">現在？</string>
     <string name="wrong_wifi_password">輸入密碼錯誤</string>
     <string name="checking_signal_strength_title">現在，連接 Philips 智能空氣清新機到  </string>
     <string name="checking_signal_strength_message">可能需時數秒。您即將被自動轉頁。</string>
@@ -418,7 +418,7 @@
     <string name="eui64">Purifier Eui64: </string>
 <!--     <string name="submit">Submit</string> -->
     <!-- Pairing -->
-    <string name="pair_disable_alert">Are you sure you want to disable Remote control?</string>
+    <string name="pair_disable_alert">您確定要禁用遠程遙控功能嗎？</string>
     <string name="pair_title">遙控器</string>
     <string name="pair_text">您是否想於家庭網絡以外操控空氣清新機？</string>
     <string name="pair">是</string>
@@ -449,14 +449,14 @@
     <string name="repeat_text">重複</string>
     <string name="delete_text">刪除</string>
     <string name="error">錯誤</string>
-    <string name="max_schedules_reached">Maximum 10 schedules can be added. Please delete existing schedules to add a new schedule</string>
+    <string name="max_schedules_reached">您最多可添加10個計劃程序。若還需添加新程序，請刪除已有的某程序。</string>
     <!-- Firmware Screen text -->
     <string name="firmware">韌體</string>
     <string name="firmware_update">韌體更新</string>
 <!--     <string name="firmware_download">Firmware download</string> -->
     <string name="firmware_download_failed">韌體 下載失敗！</string>
     <string name="i">i</string>
-    <string name="firmware_download_info">Your Smart Air Purifier is updating its firmware. Please wait and DO NOT TURN OFF your Smart Air Purifier</string>
+    <string name="firmware_download_info">您的智控淨化器正在更新固件，請稍後。期間請不要關閉智控淨化器。</string>
 <!--     <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string> -->
     <string name="firmware_failed_msg">請確保您的 Philips 智能空氣清新機 已連接電源及已連接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的韌體安裝失敗。</string>
@@ -502,7 +502,7 @@
     <string name="receive_information">我想收到有關 Philips 產品和服務的資訊</string>
     <string name="create_your_account">建立您的帳戶</string>
     <string name="sign_in_with">或透過以下方法登入</string>
-    <string name="my_philips">My Philips</string>
+    <string name="my_philips">我的飛利浦</string>
     <string name="password_not_correct">您的密碼不正確</string>
     <string name="sign_in_to_my_philips">登入到 My Philips</string>
     <string name="sign_in_to_facebook">登入到 Facebook</string>
@@ -515,7 +515,7 @@
     <string name="generic_error">無法處理！！</string>
     <string name="invalid_email">電郵地址無效</string>
     <string name="invalid_password">密碼無效！！密碼應為至少 6 位數字</string>
-    <string name="no_account">An account with that e-mail address does not exist.</string>
+    <string name="no_account">該電郵地址沒有帳戶。</string>
     <string name="please_wait">請稍候..</string>
     <string name="authentication_cancelled_by_user">被使用者取消</string>
     <string name="authentication_failed">驗證失敗</string>
@@ -527,14 +527,14 @@
     <string name="i_accept">我接受</string>
     <string name="continue_registration">要繼續註冊，請接受並同意下列資訊。</string>
     <string name="privacy_policy">私隱政策</string>
-    <string name="terms_and_conditions">Terms &amp; conditions</string>
+    <string name="terms_and_conditions">條款</string>
     <string name="eula">最終用戶授權協議</string>
-    <string name="reset_password_success">Reset password email has been sent to your email.</string>
-    <string name="reset_password_failed">There was a problem sending the reset password email, please try again after some time.</string>
-    <string name="reset_password">Forgot password? Reset on Philips.com</string>
+    <string name="reset_password_success">重置密碼已發至您的郵箱。</string>
+    <string name="reset_password_failed">給您發送重置密碼郵件時出現錯誤，請稍後再進行重試。</string>
+    <string name="reset_password">忘記密碼？請至Philips.com進行重置。</string>
     <!-- Demo Mode -->
-    <string name="app_in_demo_mode_title">App is in demo mode</string>
-    <string name="app_in_demo_mode_msg">The App is in demo mode, please make sure you are connected to the PHILIPS_SETUP network.</string>
+    <string name="app_in_demo_mode_title">APP正處於商店演示模式</string>
+    <string name="app_in_demo_mode_msg">APP正處於商店演示模式，請確保您已連接到PHILIPS_SETUP。</string>
     <string name="demo">演示</string>
     <string name="shop_demo_mode">商店示範模式</string>
     <string name="demo_mode_title">示範設定</string>
@@ -545,9 +545,9 @@
     <string name="demo_mode_final_step_msg">您的 Philips 智能空氣清新機已經配對到電話，並已準備好進行示範。</string>
     <string name="demo_mode_final_step_btn_txt">開始示範</string>
     <string name="cancel_demo_setup_title">您是否確定要取消示範設定？</string>
-    <string name="wifi_enable_title_txt">Your Wifi is switched off</string>
-    <string name="wifi_enable_msg_txt">Please go to your settings or swipe-up menu and enable wifi</string>
-    <string name="wifi_enable_button_txt">Go to settings</string>
+    <string name="wifi_enable_title_txt">您的Wi-Fi功能已關閉</string>
+    <string name="wifi_enable_msg_txt">請至您的手機設置頁面，或是向上滑動菜單以開啟Wi-Fi功能</string>
+    <string name="wifi_enable_button_txt">轉到手機設置頁面</string>
     <!-- Start flow -->
     <string name="no_internet_title">無互聯網</string>
     <string name="no_internet_text">如要繼續程序，須具備有效的互聯網連線</string>
@@ -560,12 +560,12 @@
     <string name="do_not_allow">不允許</string>
     <string name="allow">允許</string>
     <string name="turn_it_on">開啟</string>
-    <string name="welcome">Welcome</string>
-    <string name="healthy_air_always">Healthy air, always</string>
-    <string name="connect_your_purifier">Connect your purifier</string>
-    <string name="benefits_of_the_purifier">Benefits of the Air purifier ></string>
-    <string name="did_you_know">Did you know?</string>
-    <string name="did_you_know_text">This app can give you AQI of different locations, as well as other information about air quality</string>
+    <string name="welcome">歡迎</string>
+    <string name="healthy_air_always">長久保護，持久健康</string>
+    <string name="connect_your_purifier">連接淨化器</string>
+    <string name="benefits_of_the_purifier">淨化器產品亮點></string>
+    <string name="did_you_know">您知道嗎？</string>
+    <string name="did_you_know_text">本APP可為您提供不同城市的空氣質量指數，以及很多其它與空氣質量相關的信息</string>
     <string name="continue_without_smart_air_purifier">在沒有智能空氣清新機下繼續</string>
     <string name="purifier_connected_to_wlan">您的 WLAN %s 已連接至少一部智能空氣清新機</string>
     <string name="or_add_new_purifier">或者，加入新的智能空氣清新機</string>
@@ -576,15 +576,15 @@
     <string name="your_new_purifier">若您的智能空氣清新機未連接家居網絡，即表示它是新機。</string>
     <string name="yes_it_is_new">是的，它是新機</string>
     <string name="no_already_connected">不是，它已連接網絡</string>
-    <string name="how_clean_is_your_air">How clean is your air in your home?</string>
-    <string name="add_new_purifier">Add an air purifier</string>
-    <string name="buy_new_purifier">Or buy a new one</string>
-    <string name="take_me_to_shop">Take me to the shop</string>
+    <string name="how_clean_is_your_air">您家中的空氣質量如何？</string>
+    <string name="add_new_purifier">添加一台空氣淨化器</string>
+    <string name="buy_new_purifier">或購買一台空氣淨化器</string>
+    <string name="take_me_to_shop">我想去商店逛逛</string>
     <!-- Mangage Purifier -->
-    <string name="add_purifier_heading">Manage purifiers</string>
-    <string name="add_purifier">Add a purifier</string>
-    <string name="no_purifier_found">There are no additional Purifiers found</string>
-    <string name="max_purifier_reached">Maximum 20 purifier can be added. Please delete existing purifier to add a new purifier</string>
-	<string name="purifier_add_fail_title">Purifier not added</string>
-	<string name="purifier_add_fail_msg">Your phone could not communicate with the selected Philips Smart Air Purifier.</string>
+    <string name="add_purifier_heading">管理淨化器</string>
+    <string name="add_purifier">添加一台淨化器</string>
+    <string name="no_purifier_found">未找到更多淨化器</string>
+    <string name="max_purifier_reached">最多只可添加20臺淨化器。還想添加新淨化器？請刪除已有淨化器。</string>
+	<string name="purifier_add_fail_title">淨化器未添加</string>
+	<string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
 </resources>

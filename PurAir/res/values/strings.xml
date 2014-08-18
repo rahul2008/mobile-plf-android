@@ -517,7 +517,7 @@
     <string name="generic_error">Unable to process !!!</string>
     <string name="invalid_email">Invalid E-mail</string>
     <string name="invalid_password">Invalid password !! Password should be atleast 6 characters</string>
-    <string name="no_account">An account with that e-mail address does not exist.</string>
+    <string name="no_account">No account with that email address.</string>
     <string name="please_wait">Please wait..</string>
     <string name="authentication_cancelled_by_user">Cancelled by User</string>
     <string name="authentication_failed">Authentication failed</string>

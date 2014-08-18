@@ -64,9 +64,9 @@
     <!-- Outdoor Locations -->
 <!--     <string name="enter_city_name">输入位置</string> -->
     <string name="cancel">取消</string>
-    <string name="decline">Decline</string>
+    <string name="decline">拒绝</string>
     <string name="weather_forecast">天气预报</string>
-    <string name="outdoor_download_failed">Outdoor historic data download failed!</string>
+    <string name="outdoor_download_failed">室外空气质量历史数据下载失败！</string>
     <string name="kmph">公里/小时</string>
     <string name="hiphen">-</string>
     <string name="one_zero">0</string>
@@ -78,7 +78,7 @@
     <string name="speed2">速度 2</string>
     <string name="speed3">速度 3</string>
     <string name="updated">最近更新</string>
-    <string name="n_a">N.A.</string>
+    <string name="n_a">不适用</string>
     <string name="take_action">采取措施</string>
     <string name="no_connection">无连接</string>
     <string name="no_data">无数据</string>
@@ -255,8 +255,8 @@
     <string name="notification_front_panel_title">前面板</string> 
     <string name="notification_front_panel_desc">当前面板打开时您会收到通知</string>
     <string name="error_aqithreshold_setting">您设置AQI上限时出现错误。</string>
-    <string name="notification_notpaired_title">Remote control disabled</string>
-    <string name="notification_notpaired_text">You can only configure notifications once remote control is enabled. You can enable remote control from control panel.</string>
+    <string name="notification_notpaired_title">远程遥控功能被禁用</string>
+    <string name="notification_notpaired_text">只有在启用远程遥控功能时才可以设置‘通知’功能。您可以从控制面板上启用远程遥控功能。</string>
     <!-- Settings -->
     <string name="rate_this_app">给此应用程序打分</string>
     <string name="send_us_feedback">给我们发送反馈</string>
@@ -414,7 +414,7 @@
     <!-- Tools fragments -->
 <!--     <string name="submit">提交</string> -->
     <!-- Pairing -->
-    <string name="pair_disable_alert">Are you sure you want to disable Remote control?</string>
+    <string name="pair_disable_alert">您确定要禁用远程遥控功能吗？</string>
     <string name="pair_title">遥控器</string>
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
     <string name="pair">是</string>
@@ -440,7 +440,7 @@
     <string name="repeat_text">重复</string>
     <string name="delete_text">删除</string>
     <string name="error">错误</string>
-    <string name="max_schedules_reached">Maximum 10 schedules can be added. Please delete existing schedules to add a new schedule</string>
+    <string name="max_schedules_reached">您最多可添加10个计划程序。若还需添加新程序，请删除已有的某程序。</string>
     <!-- Firmware Screen text -->
     <string name="firmware">固件</string>
     <string name="firmware_update">固件更新</string>
@@ -505,7 +505,7 @@
     <string name="generic_error">无法处理！！！</string>
     <string name="invalid_email">无效电子邮件</string>
     <string name="invalid_password">无效的密码！！密码长度应为至少 6 个字符</string>
-    <string name="no_account">An account with that e-mail address does not exist.</string>
+    <string name="no_account">该电子邮件地址未关联帐户。</string>
     <string name="please_wait">请稍候..</string>
     <string name="authentication_cancelled_by_user">用户已取消</string>
     <string name="authentication_failed">验证失败</string>
@@ -519,12 +519,12 @@
     <string name="privacy_policy">隐私政策</string>
     <string name="terms_and_conditions">条款和条件</string>
     <string name="eula">EULA（最终用户许可协议）</string>
-    <string name="reset_password_success">Reset password email has been sent to your email.</string>
-    <string name="reset_password_failed">There was a problem sending the reset password email, please try again after some time.</string>
-    <string name="reset_password">Forgot password? Reset on Philips.com</string>
+    <string name="reset_password_success">重置密码已发至您的邮箱。</string>
+    <string name="reset_password_failed">给您发送重置密码邮件时出现错误，请稍后再进行重试。</string>
+    <string name="reset_password">忘记密码？请至Philips.com进行重置。</string>
     <!-- Demo Mode -->
-    <string name="app_in_demo_mode_title">App is in demo mode</string>
-    <string name="app_in_demo_mode_msg">The App is in demo mode, please make sure you are connected to the PHILIPS_SETUP network.</string>
+    <string name="app_in_demo_mode_title">APP正处于商店演示模式</string>
+    <string name="app_in_demo_mode_msg">APP正处于商店演示模式，请确保您已连接到PHILIPS_SETUP。</string>
     <string name="demo">演示</string>
     <string name="shop_demo_mode">商店演示模式</string>
     <string name="demo_mode_title">演示设置</string>
@@ -568,14 +568,14 @@
     <string name="yes_it_is_new">是的，还未连接。</string>
     <string name="no_already_connected">不用，已经连接过了。</string>
     <string name="how_clean_is_your_air">您家中的空气有多洁净？</string>
-    <string name="add_new_purifier">Add an air purifier</string>
-    <string name="buy_new_purifier">Or buy a new one</string>
-    <string name="take_me_to_shop">Take me to the shop</string>
+    <string name="add_new_purifier">添加一台空气净化器</string>
+    <string name="buy_new_purifier">或购买一台空气净化器</string>
+    <string name="take_me_to_shop">我想去商店逛逛</string>
     <!-- Mangage Purifier -->
-    <string name="add_purifier_heading">Manage purifiers</string>
-    <string name="add_purifier">Add a purifier</string>
-    <string name="no_purifier_found">There are no additional Purifiers found</string>
-    <string name="max_purifier_reached">Maximum 20 purifier can be added. Please delete existing purifier to add a new purifier</string>
-	<string name="purifier_add_fail_title">Purifier not added</string>
-	<string name="purifier_add_fail_msg">Your phone could not communicate with the selected Philips Smart Air Purifier.</string>
+    <string name="add_purifier_heading">管理净化器</string>
+    <string name="add_purifier">添加一台净化器</string>
+    <string name="no_purifier_found">未找到更多净化器</string>
+    <string name="max_purifier_reached">最多只可添加20台净化器。还想添加新净化器？请删除已有净化器。</string>
+	<string name="purifier_add_fail_title">净化器未添加</string>
+	<string name="purifier_add_fail_msg">您选中的飞利浦智控净化器无法与您的手机进行通讯</string>
 </resources>
