@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
@@ -52,6 +53,12 @@ public class ListItemAdapter extends ArrayAdapter<ListViewItem> {
 		 } else if(superscript > 0) {
 			 superscriptTv.setVisibility(View.VISIBLE);
 			 superscriptTv.setText(String.valueOf(superscript));
+		 }
+		 
+		 if(!UserRegistrationController.getInstance().isUserLoggedIn() && position==6){
+			 view.setFocusable(true);
+		 }else{
+			 view.setFocusable(false);
 		 }
 		 
 		 return view;

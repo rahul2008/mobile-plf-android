@@ -751,6 +751,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				if(UserRegistrationController.getInstance().isUserLoggedIn()){
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_manage_purifier));
+				}else{
+					return;
 				}
 				break;
 			case 7:
