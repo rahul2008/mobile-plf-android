@@ -10,6 +10,7 @@ import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -44,6 +45,7 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.BitmapDecodeImage;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -227,14 +229,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
 		
 		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
-		if (aqiValue == null) return;
-		setOutdoorCityCode(aqiValue.getAreaID());
 		
 		if( aqiValue != null) {
+			setOutdoorCityCode(aqiValue.getAreaID());
 			areaId = aqiValue.getAreaID() ;
 			setAdviceIconTex(aqiValue.getAQI());
 			//set image background corresponding with city and areaId
 			backgroundImage.setImageResource(OutdoorImage.valueOf(areaId, aqiValue.getAQI()));
+			
 			this.aqiValue.setText(""+aqiValue.getAQI()) ;
 			this.circleImg.setImageResource(getImageResId(aqiValue.getAQI())) ;
 			String [] summary = aqiValue.getAqiSummary() ;
@@ -606,7 +608,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 				
 				@Override
 				public void run() {
-					if (wetherScrollView != null && wetherScrollView.getChildCount() > 0) {
+					if (wetherScrollView.getChildCount() > 0) {
 						wetherScrollView.removeAllViews();
 					}
 					wetherScrollView.addView(

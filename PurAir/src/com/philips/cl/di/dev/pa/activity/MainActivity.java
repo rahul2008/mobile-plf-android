@@ -23,6 +23,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,6 +51,7 @@ import com.philips.cl.di.dev.pa.cpp.SignonListener;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
@@ -60,6 +62,7 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.CancelDialogFragment;
+import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
@@ -269,13 +272,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	public void setActionBar(Fragment fragment) {
 		ALog.i(ALog.MAINACTIVITY, "setActionBar$fragment " + fragment);
-
+		leftMenu.setVisibility(View.VISIBLE);
 		if(fragment instanceof OutdoorLocationsFragment) {
 			setRightMenuVisibility(View.INVISIBLE);
 			addLocation.setVisibility(View.VISIBLE);
 		} else if(!(fragment instanceof HomeFragment)) {
 			setRightMenuVisibility(View.INVISIBLE);
 			addLocation.setVisibility(View.INVISIBLE);
+			if (fragment instanceof CongratulationFragment) {
+				leftMenu.setVisibility(View.INVISIBLE);
+			}
 		} else {
 			if (Utils.getAppFirstUse() && !PurAirApplication.isDemoModeEnable()) {
 				setRightMenuVisibility(View.INVISIBLE);
@@ -366,6 +372,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			HomeFragment homeFragment = new HomeFragment();
 			homeFragment.setArguments(bundle);
 			showFragment(homeFragment);
+		}else if (fragment instanceof CongratulationFragment) {
+			return;
 		}else if (!(fragment instanceof HomeFragment)
 				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
 			manager.popBackStackImmediate(null,
@@ -381,6 +389,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private void clearObjectFinish() {
 		OutdoorManager.getInstance().clearCityOutdoorInfo() ;
 		ConnectPurifier.reset() ;
+		GPSLocation.reset();
 		OutdoorLocationHandler.reset();
 		finish();
 	}

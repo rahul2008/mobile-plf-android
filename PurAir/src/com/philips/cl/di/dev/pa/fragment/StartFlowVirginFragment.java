@@ -19,6 +19,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -188,6 +189,10 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		
 		@Override
 		public void dialogCancelClicked(DialogFragment dialog) {
+		}
+
+		@Override
+		public void onPurifierSelect(PurAirDevice purifier) {
 		}
 		
 	};

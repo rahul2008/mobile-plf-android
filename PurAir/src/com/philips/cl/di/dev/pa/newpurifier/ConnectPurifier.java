@@ -134,6 +134,10 @@ public class ConnectPurifier implements NetworkStateListener{
 		@Override
 		public void dialogCancelClicked(DialogFragment dialog) {
 		}
+
+		@Override
+		public void onPurifierSelect(PurAirDevice purifier) {
+		}
 	};
 
 	private UserRegistrationChanged mUserRegistrationChangedListener = new UserRegistrationChanged() {

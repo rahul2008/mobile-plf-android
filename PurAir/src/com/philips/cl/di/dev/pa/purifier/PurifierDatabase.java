@@ -31,14 +31,15 @@ public class PurifierDatabase {
 	 * @return
 	 */
 	public long insertPurAirDevice(PurAirDevice purifier) {
-
+		long rowId = -1L;
+		if (purifier == null) return rowId;
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + purifier.getUsn()
 				+ ", CppId: " + purifier.getEui64()
 				+ ", BootId: " + purifier.getBootId()
 				+ ", Name: " + purifier.getName()
 				+ ", Key: " + purifier.getEncryptionKey());
 
-		long rowId = -1L;
+		
 		rowId = getRowIdOfPurifier(purifier);
 		Cursor cursor = null;
 		if (rowId == -1L) {

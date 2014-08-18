@@ -20,15 +20,10 @@ import android.widget.ArrayAdapter;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
-import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 
 public class StartFlowDialogFragment extends DialogFragment implements AddNewPurifierListener {
@@ -70,7 +65,7 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 			builder = createNoWifiDialog(builder);
 			break;
 		case AP_SELCTOR:
-			builder = createAppSelectorDialog(builder);
+			builder = createAPSelectorDialog(builder);
 			break;
 		case SEARCHING:
 			builder = createSearchingDialog(builder);
@@ -165,7 +160,8 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 		return builder;
 	}
 	
-	private AlertDialog.Builder createAppSelectorDialog(AlertDialog.Builder builder) {
+	private AlertDialog.Builder createAPSelectorDialog(AlertDialog.Builder builder) {
+		
 		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
 		discoveryManager.setAddNewPurifierListener(this);
 		appItems = discoveryManager.getNewDevicesDiscovered();
@@ -181,9 +177,15 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 		builder.setTitle(R.string.which_purifier_to_connect)
 		.setAdapter(appSelectorAdapter, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int position) {
-				//TODO connect with specific air purifier
 				PurAirDevice currentPurifier = appItems.get(position);
-				currentPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY) ;
+				//TODO
+				if (mListener != null) {
+					mListener.onPurifierSelect(currentPurifier);
+				}
+				clearSelectPurifierObject();
+				dismiss(); 
+				//TODO
+				/*currentPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY) ;
 				currentPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
 				PurifierManager.getInstance().setCurrentPurifier(currentPurifier);
 				
@@ -196,7 +198,7 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 				List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
 				PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 				clearSelectPurifierObject();
-				dismiss();            	   
+				dismiss();        */    	   
 			}
         });
 		
@@ -226,12 +228,14 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 	}
 	
 	public interface StartFlowListener {
-		public void noWifiTurnOnClicked(DialogFragment dialog);
-		public void noInternetTurnOnClicked(DialogFragment dialog);
-		public void locationServiceAllowClicked(DialogFragment dialog);
-		public void locationServiceTurnOnClicked(DialogFragment dialog);
+		void noWifiTurnOnClicked(DialogFragment dialog);
+		void noInternetTurnOnClicked(DialogFragment dialog);
+		void locationServiceAllowClicked(DialogFragment dialog);
+		void locationServiceTurnOnClicked(DialogFragment dialog);
 		
-		public void dialogCancelClicked(DialogFragment dialog);
+		void dialogCancelClicked(DialogFragment dialog);
+		
+		void onPurifierSelect(PurAirDevice purifier);
 	}
 	
 	private class AppSelectorAdapter extends ArrayAdapter<String> {

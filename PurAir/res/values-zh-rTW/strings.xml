@@ -585,4 +585,6 @@
     <string name="add_purifier">Add a purifier</string>
     <string name="no_purifier_found">There are no additional Purifiers found</string>
     <string name="max_purifier_reached">Maximum 20 purifier can be added. Please delete existing purifier to add a new purifier</string>
+	<string name="purifier_add_fail_title">Purifier not added</string>
+	<string name="purifier_add_fail_msg">Your phone could not communicate with the selected Philips Smart Air Purifier.</string>
 </resources>
