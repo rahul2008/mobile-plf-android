@@ -38,8 +38,9 @@ public class JPushReceiver extends BroadcastReceiver {
 		Log.d(TAG, "[MyReceiver] onReceive - " + intent.getAction()
 				+ ", extras: " + printBundle(bundle));
 		
+		JPushInterface.setDebugMode(false); 
+		
 		if (Utils.isGooglePlayServiceAvailable()) {
-			JPushInterface.setDebugMode(false); 
 			return;  
 		}
 

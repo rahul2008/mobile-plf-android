@@ -27,8 +27,9 @@ public class NotificationRegisteringManager implements SignonListener, SendNotif
 		CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(this);
 		CPPController.getInstance(PurAirApplication.getAppContext()).setNotificationListener(this);
 		
+		JPushInterface.setDebugMode(false); 
+		
 		if (!Utils.isGooglePlayServiceAvailable()) {
-			JPushInterface.setDebugMode(false); 
 			JPushInterface.init(PurAirApplication.getAppContext());  
 		}
 		else{
