@@ -31,7 +31,7 @@
 	<!-- Auto translate in Chinese Smart -->
     <string name="auto">智能</string>
     <string name="turbo">强力</string>
-    <string name="fanspeed_off">Off</string>
+    <string name="fanspeed_off">关</string>
     <string name="silent">静音</string>
     <string name="one">1</string>
     <string name="two">2</string>
