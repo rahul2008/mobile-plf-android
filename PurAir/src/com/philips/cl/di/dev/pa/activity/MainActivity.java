@@ -233,9 +233,15 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
+		
+		//Check if App in demo mode and WI-FI not connected PHILIPS Setup show dialog
+		
+		if (PurAirApplication.isDemoModeEnable()) {
+			appInDemoMode.checkPhilipsSetupWifiSelected();
+		}
+		
 		// Enable for release build
-		//		checkForCrashesHockeyApp(); 
-
+//		checkForCrashesHockeyApp(); 
 	}
 
 	public void startDemoMode() {

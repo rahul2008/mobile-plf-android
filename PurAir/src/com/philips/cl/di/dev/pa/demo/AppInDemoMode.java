@@ -50,6 +50,14 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 		}
 	}
 	
+	public void checkPhilipsSetupWifiSelected() {
+		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+		if (ssid == null || !ssid.contains(EWSWifiManager.DEVICE_SSID)) {
+			showAlertDialogAppInDemoMode(
+					ctx.getString(R.string.app_in_demo_mode_title), ctx.getString(R.string.app_in_demo_mode_msg));
+		}
+	}
+	
 	private void showAlertDialogAppInDemoMode(String title, String message) {
 		try {
 			FragmentTransaction fragTransaction = 
@@ -57,10 +65,12 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 			
 			Fragment prevFrag = 
 					((MainActivity)ctx).getSupportFragmentManager().findFragmentByTag("app_in_demo_mode");
-			if (prevFrag == null) {
-				fragTransaction.add(DownloadAlerDialogFragement.
-						newInstance(title, message), "app_in_demo_mode").commitAllowingStateLoss();
+			if (prevFrag != null) {
+				return;
 			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "app_in_demo_mode").commitAllowingStateLoss();
 			
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
