@@ -40,6 +40,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import cn.jpush.android.api.JPushInterface;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -217,7 +219,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		JPushInterface.onResume(this);
+		
 		if (PurAirApplication.isDemoModeEnable()) {
 			startDemoMode();
 		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
@@ -316,6 +319,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onPause() {
 		super.onPause();
+		JPushInterface.onPause(this);
 		SetupDialogFactory.getInstance(this).cleanUp();
 		if(UserRegistrationController.getInstance().isUserLoggedIn()
 				|| PurAirApplication.isDemoModeEnable()) {
