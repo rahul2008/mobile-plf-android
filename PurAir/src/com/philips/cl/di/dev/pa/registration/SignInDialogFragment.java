@@ -196,6 +196,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		ALog.i(ALog.USER_REGISTRATION, "isInputValidated: password: " + mPassword + " + emailId: " +mEmail) ;
 		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
 		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
+		if(!mPassword.matches("[a-zA-Z0-9@#$%^&+=_]+"))return ErrorType.WHITESPACE;
 		return ErrorType.NONE ;
 	}
 	

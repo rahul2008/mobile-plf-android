@@ -9,7 +9,7 @@ public class EmailValidator {
 	private Matcher matcher;
 	
 	private  final String EMAIL_PATTERN = 
-			"^[_A-Za-z0-9-\\+]{2,35}+(\\.[_A-Za-z0-9-]+)*@"
+			"^[A-Za-z0-9._%+\\-]+(\\.[_A-Za-z0-9-]+)*@"
 					+ "[A-Za-z0-9-]{2,30}+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,5})$";
 	
 	private static EmailValidator smInstance;
