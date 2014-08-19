@@ -107,6 +107,10 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
+		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
+		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
+		int so2 = outdoorCity.getOutdoorAQI().getSo2();
+		int no2 = outdoorCity.getOutdoorAQI().getNo2();
 		String cityName = null;
 		
 		//added to support traditional and simplified Chinese in map
@@ -122,7 +126,8 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 				.anchor(0.5f, 0.5f)
 				.position(new LatLng(latitude, longitude))
 				.title(cityName)
-				.snippet(latitude + " , " + longitude)
+				.snippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + 
+								so2 + ", NO2: " + no2)
 				.draggable(true)
 				.icon(BitmapDescriptorFactory.fromBitmap(MarkerMapFragment.writeTextOnDrawable(
 						MarkerMapFragment.getAqiPointerImageResId(aqiValue),
