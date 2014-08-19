@@ -225,13 +225,13 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 		
 		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_2_3 + 5);
 		int color = graphPathDraw.getColorIndoor(y);
-		assertEquals(GraphConst.COLOR_MIDNIGHT_BLUE, color);
+		assertEquals(GraphConst.COLOR_PURPLE, color);
 	}
 	
 	public void testGetColorIndoor_3() {
 		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.ID_YAXIS_3_5 + 5);
 		int color = graphPathDraw.getColorIndoor(y);
-		assertEquals(GraphConst.COLOR_PURPLE, color);
+		assertEquals(GraphConst.COLOR_DEEP_PINK, color);
 	}
 	
 	public void testGetColorIndoor_4() {
@@ -246,7 +246,7 @@ public class OutdoorDetailTest extends ActivityInstrumentationTestCase2<OutdoorD
 		
 		float y = Coordinates.getPxWithRespectToDip(activity, GraphConst.OD_YAXIS50 + 5);
 		int color = graphPathDraw.getColorOutdoor(y);
-		assertEquals(GraphConst.COLOR_DEEPSKY_BLUE, color);
+		assertEquals(GraphConst.COLOR_STATE_BLUE, color);
 	}
 	
 	public void testGetColorOutdoor_2() {

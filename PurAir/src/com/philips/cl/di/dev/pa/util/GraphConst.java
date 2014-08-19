@@ -10,15 +10,13 @@ public class GraphConst {
  	
 	public static final int COLOR_TITLE_GRAY = Color.rgb(93,101,119);
 	public static final int COLOR_PHILIPS_BLUE = Color.rgb(50,133,255);
-	public static final int COLOR_DEEPSKY_BLUE = Color.rgb(95, 187, 235);
-	public static final int COLOR_ROYAL_BLUE = Color.rgb(58, 111, 182);
-	public static final int COLOR_INDIGO = Color.rgb(101, 66, 148);
-	public static final int COLOR_PURPLE = Color.rgb(174, 22, 95);
-	public static final int COLOR_DEEP_PINK = Color.rgb(192, 21, 81);
+	public static final int COLOR_ROYAL_BLUE = Color.rgb(59, 108, 180);
+	public static final int COLOR_INDIGO = Color.rgb(84, 72, 157);
+	public static final int COLOR_PURPLE = Color.rgb(130, 51, 146);
+	public static final int COLOR_DEEP_PINK = Color.rgb(174, 22, 95);
 	public static final int COLOR_RED = Color.rgb(214, 31, 42);
 	public static final int COLOR_DODLE_BLUE = Color.rgb(30, 144, 255);
 	public static final int COLOR_STATE_BLUE = Color.rgb(45, 175, 228);
-	public static final int COLOR_MIDNIGHT_BLUE = Color.rgb(130, 51, 146);
 	
 	
 	public static final float GRAPH_BG_START_XAXIS = 0;

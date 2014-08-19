@@ -150,13 +150,13 @@ public class GraphView extends View {
 			
 			/** The y axis purple rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(GraphConst.COLOR_PURPLE);
+			paint.setColor(GraphConst.COLOR_DEEP_PINK);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY4(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY3(), paint);
 			
 			/** The y axis navy blue rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(GraphConst.COLOR_MIDNIGHT_BLUE);
+			paint.setColor(GraphConst.COLOR_PURPLE);
 			canvas.drawRect(coordinates.getIdRectMarginLeft(), coordinates.getIdY3(), 
 					coordinates.getIdRectWidth(), coordinates.getIdY2(), paint);
 			
@@ -233,7 +233,7 @@ public class GraphView extends View {
 			
 			/** The y axis Turquoise  color rectangle*/
 			paint.setStyle(Paint.Style.FILL);
-			paint.setColor(GraphConst.COLOR_DEEPSKY_BLUE);
+			paint.setColor(GraphConst.COLOR_STATE_BLUE);
 			canvas.drawRect(coordinates.getOdRectMarginLeft(), coordinates.getOdY50(), 
 					coordinates.getOdRectWidth(), coordinates.getOdY0(), paint);
 		}

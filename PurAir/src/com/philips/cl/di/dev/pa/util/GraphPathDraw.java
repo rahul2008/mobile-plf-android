@@ -79,10 +79,10 @@ public class GraphPathDraw {
 			color = GraphConst.COLOR_STATE_BLUE; 
 		} else if (y > coordinates.getIdY3() && y <= coordinates.getIdY2()) {
 			/**Navy color circle*/
-			color = GraphConst.COLOR_MIDNIGHT_BLUE;
+			color = GraphConst.COLOR_PURPLE;
 		} else if (y > coordinates.getIdY4() && y <= coordinates.getIdY3()) {
 			/**Purple color circle*/
-			color = GraphConst.COLOR_PURPLE;
+			color = GraphConst.COLOR_DEEP_PINK;
 		} else {
 			/**Red color circle*/
 			color = GraphConst.COLOR_RED; 
@@ -96,7 +96,7 @@ public class GraphPathDraw {
 		int color = Color.GRAY;
 		if (y > coordinates.getOdY50()) {
 			/**Blue color circle*/
-			color = GraphConst.COLOR_DEEPSKY_BLUE; 
+			color = GraphConst.COLOR_STATE_BLUE; 
 		} else if (y > coordinates.getOdY100() && y <= coordinates.getOdY50()) {
 			/**Navy color circle*/
 			color = GraphConst.COLOR_ROYAL_BLUE;
@@ -303,11 +303,11 @@ public class GraphPathDraw {
     	        paint.setColor(GraphConst.COLOR_STATE_BLUE);
 			} else if (y1 > coordinates.getIdY3() && y1 <= coordinates.getIdY2()) {
 				/**Navy color*/
-    	        paint.setColor(GraphConst.COLOR_MIDNIGHT_BLUE);
+    	        paint.setColor(GraphConst.COLOR_PURPLE);
 				
 			} else if (y1 > coordinates.getIdY4() && y1 <= coordinates.getIdY3()) {
 				/**Purple color*/
-    	        paint.setColor(GraphConst.COLOR_PURPLE);
+    	        paint.setColor(GraphConst.COLOR_DEEP_PINK);
 			} else {
 				/**Red color*/
     	        paint.setColor(GraphConst.COLOR_RED);
@@ -319,10 +319,10 @@ public class GraphPathDraw {
 				paint.setColor(GraphConst.COLOR_STATE_BLUE);
 			} else if (y1 >= coordinates.getIdY3() && y1 < coordinates.getIdY2()) {
 				/**Navy color*/
-				 paint.setColor(GraphConst.COLOR_MIDNIGHT_BLUE);
+				 paint.setColor(GraphConst.COLOR_PURPLE);
 			}else if (y1 >= coordinates.getIdY4() && y1 < coordinates.getIdY2()) {
 				/**Purple color*/
-				paint.setColor(GraphConst.COLOR_PURPLE);
+				paint.setColor(GraphConst.COLOR_DEEP_PINK);
 			}else if (y1 < coordinates.getIdY4()) {
 				/**Red color*/
 				paint.setColor(GraphConst.COLOR_RED);
@@ -345,7 +345,7 @@ public class GraphPathDraw {
 			/**The conditions for color, to draw graph upward.*/
 			if (y1 > coordinates.getOdY50() && y1 <= coordinates.getOdY0()) {
 				/**Blue color*/
-				paint.setColor(GraphConst.COLOR_DEEPSKY_BLUE);
+				paint.setColor(GraphConst.COLOR_STATE_BLUE);
 			} else if (y1 > coordinates.getOdY100() && y1 <= coordinates.getOdY50()) {
 				/**Navy color*/
 				paint.setColor(GraphConst.COLOR_ROYAL_BLUE);
@@ -367,7 +367,7 @@ public class GraphPathDraw {
 			/**The conditions for color, to draw graph down.*/
 			if (y1 >= coordinates.getOdY50()) {
 				/**Blue color*/
-				paint.setColor(GraphConst.COLOR_DEEPSKY_BLUE);
+				paint.setColor(GraphConst.COLOR_STATE_BLUE);
 			} else if (y1 >= coordinates.getOdY100() && y1 < coordinates.getOdY50()) {
 				/**Navy color*/
 				paint.setColor(GraphConst.COLOR_ROYAL_BLUE);
