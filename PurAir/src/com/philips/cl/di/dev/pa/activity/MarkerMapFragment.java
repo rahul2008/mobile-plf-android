@@ -27,6 +27,7 @@ import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
@@ -45,6 +46,8 @@ public class MarkerMapFragment extends Fragment implements
 	private MapView mapView;
 	private UiSettings mUiSettings;
 	private List<String> mCitiesList = null;
+	private LatLngBounds bounds = null;
+	private Builder builder = null;
 
 	@Override
 	public void onMapLoaded() {
@@ -53,11 +56,13 @@ public class MarkerMapFragment extends Fragment implements
 
 		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null) return;
 		
-		LatLngBounds bounds = new LatLngBounds.Builder().include(
+		LatLngBounds boundsNew = new LatLngBounds.Builder().include(
 				new LatLng(outdoorCity.getOutdoorCityInfo().getLatitude(),
 						outdoorCity.getOutdoorCityInfo().getLongitude()))
 				.build();
+		bounds = builder.build();
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 	}
 
 	@Override
@@ -69,7 +74,8 @@ public class MarkerMapFragment extends Fragment implements
 		mapView = (MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
 		mCitiesList = OutdoorManager.getInstance().getCitiesList();
-
+		builder = new LatLngBounds.Builder();
+		
 		init();
 
 		for (int i = 0; i < mCitiesList.size(); i++) {
@@ -101,21 +107,31 @@ public class MarkerMapFragment extends Fragment implements
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityName = outdoorCity.getOutdoorCityInfo().getCityName();
+		boolean iconOval = false;
+		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
 
 //		if(outdoorCity == null || outdoorCity.getOutdoorAQI() == null){
 //			return;
 //		}
 		
+		LatLng latLng = new LatLng(latitude, longitude);
+		builder.include(latLng);
+		
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
+		if(OutdoorDetailsActivity.getSelectedCityCode() != null && 
+				OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(cityCode)){
+			iconOval = true;
+		}
 
 		aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
-				.position(new LatLng(latitude, longitude))
+				.position(latLng)
 				.title(cityName)
 				.snippet(cityName + " : " + latitude + " , " + longitude)
 				.draggable(false)
 				.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
-						getAqiPointerImageResId(aqiValue), aqiValue))));
+						MarkerMapFragment.getAqiPointerImageResId(aqiValue, iconOval),
+						aqiValue))));
 	}
 
 	static Bitmap writeTextOnDrawable(int drawableId, int text) {
@@ -182,20 +198,37 @@ public class MarkerMapFragment extends Fragment implements
 		return false;
 	}
 
-	static int getAqiPointerImageResId(int p2) {
+	static int getAqiPointerImageResId(int p2, boolean iconOval) {
 
-		if (p2 >= 0 && p2 <= 50) {
-			return R.drawable.map_circle_6;
-		} else if (p2 > 50 && p2 <= 100) {
-			return R.drawable.map_circle_5;
-		} else if (p2 > 100 && p2 <= 150) {
-			return R.drawable.map_circle_4;
-		} else if (p2 > 150 && p2 <= 200) {
-			return R.drawable.map_circle_3;
-		} else if (p2 > 200 && p2 <= 300) {
-			return R.drawable.map_circle_2;
-		} else if (p2 > 300) {
-			return R.drawable.map_circle_1;
+		if(!iconOval){
+			if (p2 >= 0 && p2 <= 50) {
+				return R.drawable.map_circle_6;
+			} else if (p2 > 50 && p2 <= 100) {
+				return R.drawable.map_circle_5;
+			} else if (p2 > 100 && p2 <= 150) {
+				return R.drawable.map_circle_4;
+			} else if (p2 > 150 && p2 <= 200) {
+				return R.drawable.map_circle_3;
+			} else if (p2 > 200 && p2 <= 300) {
+				return R.drawable.map_circle_2;
+			} else if (p2 > 300) {
+				return R.drawable.map_circle_1;
+			}
+		}
+		else{
+			if (p2 >= 0 && p2 <= 50) {
+				return R.drawable.map_oval_6;
+			} else if (p2 > 50 && p2 <= 100) {
+				return R.drawable.map_oval_5;
+			} else if (p2 > 100 && p2 <= 150) {
+				return R.drawable.map_oval_4;
+			} else if (p2 > 150 && p2 <= 200) {
+				return R.drawable.map_oval_3;
+			} else if (p2 > 200 && p2 <= 300) {
+				return R.drawable.map_oval_2;
+			} else if (p2 > 300) {
+				return R.drawable.map_oval_1;
+			}
 		}
 
 		return R.drawable.map_circle_6;

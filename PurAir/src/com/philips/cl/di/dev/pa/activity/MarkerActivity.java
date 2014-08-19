@@ -23,6 +23,7 @@ import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
 import com.amap.api.maps2d.model.LatLngBounds;
+import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
@@ -42,6 +43,8 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private MapView mapView;
 	private static List<String> mCitiesList = null;
 	private ImageView mFinishActivity = null;
+	private LatLngBounds bounds = null;
+	private Builder builder = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		mFinishActivity = (ImageView)findViewById(R.id.gaodeMapFinish);
 		mFinishActivity.setVisibility(View.VISIBLE);
 		mFinishActivity.setOnClickListener(this);
+		builder = new LatLngBounds.Builder();
 		
 		init();
 
@@ -107,11 +111,13 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
+		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
 		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
 		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
 		int so2 = outdoorCity.getOutdoorAQI().getSo2();
 		int no2 = outdoorCity.getOutdoorAQI().getNo2();
 		String cityName = null;
+		boolean iconOval = false;
 		
 		//added to support traditional and simplified Chinese in map
 		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
@@ -122,16 +128,23 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			cityName= outdoorCity.getOutdoorCityInfo().getCityName();
 		}
 
+		LatLng latLng = new LatLng(latitude, longitude);
+		builder.include(latLng);
+		
+		if(OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(cityCode)){
+			iconOval = true;
+		}
+		
 		aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
-				.position(new LatLng(latitude, longitude))
+				.position(latLng)
 				.title(cityName)
 				.snippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + 
 								so2 + ", NO2: " + no2)
 				.draggable(true)
 				.icon(BitmapDescriptorFactory.fromBitmap(MarkerMapFragment.writeTextOnDrawable(
-						MarkerMapFragment.getAqiPointerImageResId(aqiValue),
-						aqiValue))));
+							MarkerMapFragment.getAqiPointerImageResId(aqiValue, iconOval),
+							aqiValue))));
 	}
 
 	@Override
@@ -152,11 +165,13 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		
 		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null) return;
 
-		LatLngBounds bounds = new LatLngBounds.Builder().include(
+		LatLngBounds boundsNew = new LatLngBounds.Builder().include(
 				new LatLng(outdoorCity.getOutdoorCityInfo().getLatitude(),
 						outdoorCity.getOutdoorCityInfo().getLongitude()))
 				.build();
+		bounds = builder.build();
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 	}
 
 	@Override
