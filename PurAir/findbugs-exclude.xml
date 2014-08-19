@@ -1,0 +1,136 @@
+<FindBugsFilter>
+
+    <Match>
+
+        <Class name="~.*\.R\$.*" />
+
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.app" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.content" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.util" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.view" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.widget" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.app" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.appcompat" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.internal.view.menu" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.internal.widget" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.widget" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android.api" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android.c" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android.service" />
+    </Match>
+
+    <Match>
+
+        <Package name="cn.jpush.android.ui" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.a.a.a.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.a.a.b.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.a.a.c" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.amap.api.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.amap.api.a.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.amap.api.maps2d" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.amap.api.maps2d.model" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.internal" />
+    </Match>
+
+
+</FindBugsFilter>
