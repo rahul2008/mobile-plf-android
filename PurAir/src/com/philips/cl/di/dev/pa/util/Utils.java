@@ -99,8 +99,8 @@ public class Utils {
 			Date prevDate = sf.parse(date0);
 			timeDiff = lastDate.getTime() - prevDate.getTime();
 			noOfDays = (int) (timeDiff / (1000 * 60 * 60 * 24));
-			ALog.i(ALog.INDOOR_RDCP, 
-					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
+//			ALog.i(ALog.INDOOR_RDCP, 
+//					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException");
 			return noOfDays;
@@ -124,8 +124,8 @@ public class Utils {
 			}
 
 			noOfHrs = (int) (timeDiff / (1000 * 60 * 60));
-			ALog.i(ALog.INDOOR_RDCP, 
-					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
+//			ALog.i(ALog.INDOOR_RDCP, 
+//					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
 
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException");
@@ -152,12 +152,12 @@ public class Utils {
 		HashMap<Integer, Integer> dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
 		
 		List<Integer> goodAirQualityList = new ArrayList<Integer>();
-		float totalAqi = 0.0F;
-		float goodAqi = 0.0F;
-		float monthlyTotalAqi = 0.0F;
-		float monthlyGoodAqi = 0.0F;
-		float weeklyTotalAqi = 0.0F;
-		float weeklyGoodAqi = 0.0F;
+		int totalAqi = 0;
+		int goodAqi = 0;
+		int monthlyTotalAqi = 0;
+		int monthlyGoodAqi = 0;
+		int weeklyTotalAqi = 0;
+		int weeklyGoodAqi = 0;
 		
 		if (downloadedData != null) {
 			List<IndoorHistoryDto> indoorAQIHistory = DataParser.parseHistoryData(downloadedData);
@@ -187,11 +187,11 @@ public class Utils {
 							hrlyAqiValueMap.put(diffOfHrs, indoorAQIHistory.get(index).getAqi());
 						}
 						
-						totalAqi = totalAqi + indoorAQIHistory.get(index).getAqi();
+						totalAqi = totalAqi + 1;
 						if (indoorAQIHistory.get(index).getAqi() <= 14) {
-							goodAqi = goodAqi + indoorAQIHistory.get(index).getAqi(); 
+							goodAqi = goodAqi + 1; 
 						}
-						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; Sum: " + goodAqi +"; Total: "+ totalAqi);
+						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; goodAqi: " + goodAqi +"; Total: "+ totalAqi);
 					}
 					
 					/**
@@ -216,18 +216,18 @@ public class Utils {
 						}
 						
 						if (numberOfDays > 20) {
-							weeklyTotalAqi = weeklyTotalAqi + indoorAQIHistory.get(index).getAqi();
+							weeklyTotalAqi = weeklyTotalAqi + 1;
 							if (indoorAQIHistory.get(index).getAqi() <= 14) {
-								weeklyGoodAqi = weeklyGoodAqi + indoorAQIHistory.get(index).getAqi(); 
+								weeklyGoodAqi = weeklyGoodAqi + 1; 
 							}
-							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; Sum: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
+							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; weeklyGoodAqi: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
 						}
 						
-						monthlyTotalAqi = monthlyTotalAqi + indoorAQIHistory.get(index).getAqi();
+						monthlyTotalAqi = monthlyTotalAqi + 1;
 						if (indoorAQIHistory.get(index).getAqi() <= 14) {
-							monthlyGoodAqi = monthlyGoodAqi + indoorAQIHistory.get(index).getAqi(); 
+							monthlyGoodAqi = monthlyGoodAqi + 1; 
 						}
-						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; Sum: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
+						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; monthlyGoodAqi: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
 					}
 					
 				}
@@ -545,11 +545,10 @@ public class Utils {
 	 * @param goodAir
 	 * @param totalAir
 	 */
-	public static int getPercentage(float goodAir, float totalAir) {
-		
+	public static int getPercentage(int goodAir, int totalAir) {
 		int percent = 0;
 		if (totalAir > 0) {
-			percent = (int) ((goodAir * 100) / totalAir);
+			percent = (goodAir * 100) / totalAir;
 		}
 		return percent;
 	}
