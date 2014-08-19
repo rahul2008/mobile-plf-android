@@ -132,5 +132,274 @@
         <Package name="com.google.android.gms.internal" />
     </Match>
 
+    <Match>
+
+        <Package name="com.c.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.c.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.c.c" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.c.c.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.a.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.a.a.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.ads" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.auth" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.common" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.common.data" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.common.images" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.common.internal.safeparcel" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.games" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.games.multiplayer" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.games.multiplayer.realtime" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.internal" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.location" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.maps.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.maps.model" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.plus" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.android.gms.wallet" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.b.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.b.b.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.google.b.d" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.engage" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.engage.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.engage.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.engage.c" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.janrain.android.engage.ui" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.mobeta.android.dslv" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.a.c" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.a.e" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.common.ssdp.b" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.common.ssdp.c" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.common.ssdp.d" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa.activity" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa.adapter" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa.d" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa.dashboard" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.cl.di.dev.pa.datamodel" />
+    </Match>
+
+    <Package name="com.philips.icpinterface" />
+
+    <Match>
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.icpinterface.a" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.philips.icpinterface.data" />
+    </Match>
+
+    <Match>
+
+        <Package name="com.viewpagerindicator" />
+    </Match>
+
+    <Match>
+
+        <Package name="net.hockeyapp.android" />
+    </Match>
+
+    <Match>
+
+        <Package name="net.hockeyapp.android.d" />
+    </Match>
+
+    <Match>
+
+        <Package name="net.hockeyapp.android.views" />
+    </Match>
 
 </FindBugsFilter>
