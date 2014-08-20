@@ -10,12 +10,13 @@ import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.AMap.InfoWindowAdapter;
-import com.amap.api.maps2d.AMap.OnInfoWindowClickListener;
 import com.amap.api.maps2d.AMap.OnMapLoadedListener;
 import com.amap.api.maps2d.AMap.OnMarkerClickListener;
 import com.amap.api.maps2d.CameraUpdateFactory;
@@ -30,6 +31,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 /**
  * 
@@ -38,13 +40,17 @@ import com.philips.cl.di.dev.pa.util.LanguageUtils;
  * 
  */
 public class MarkerActivity extends Activity implements OnMarkerClickListener,
-		OnInfoWindowClickListener, OnMapLoadedListener, InfoWindowAdapter, OnClickListener {
+		OnMapLoadedListener, OnClickListener {
 	private AMap aMap;
 	private MapView mapView;
 	private static List<String> mCitiesList = null;
 	private ImageView mFinishActivity = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
+	private RelativeLayout mAqiDrawer = null;
+	private FontTextView mAqiCity = null;
+	private FontTextView mAqiDetails = null;
+	private ImageView mAqiMarker = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -53,11 +59,16 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		mapView = (MapView) findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
 		mCitiesList = OutdoorManager.getInstance().getCitiesList();
-		mFinishActivity = (ImageView)findViewById(R.id.gaodeMapFinish);
+		mFinishActivity = (ImageView) findViewById(R.id.gaodeMapFinish);
+		mAqiDrawer = (RelativeLayout) findViewById(R.id.aqi_prompt_drawer);
+		mAqiCity = (FontTextView) findViewById(R.id.aqiCity);
+		mAqiDetails = (FontTextView) findViewById(R.id.aqiDetails);
+		mAqiMarker = (ImageView) findViewById(R.id.aqiMarker);
 		mFinishActivity.setVisibility(View.VISIBLE);
 		mFinishActivity.setOnClickListener(this);
 		builder = new LatLngBounds.Builder();
-		
+		mapView.setOnClickListener(this);
+
 		init();
 
 		for (int i = 0; i < mCitiesList.size(); i++) {
@@ -77,8 +88,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private void setUpMap() {
 		aMap.setOnMapLoadedListener(this);
 		aMap.setOnMarkerClickListener(this);
-		aMap.setOnInfoWindowClickListener(this);
-		aMap.setInfoWindowAdapter(this);
 	}
 
 	@Override
@@ -106,8 +115,9 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
-		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null 
-				|| outdoorCity.getOutdoorCityInfo() == null) return;
+		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null
+				|| outdoorCity.getOutdoorCityInfo() == null)
+			return;
 		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
@@ -118,52 +128,73 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		int no2 = outdoorCity.getOutdoorAQI().getNo2();
 		String cityName = null;
 		boolean iconOval = false;
-		
-		//added to support traditional and simplified Chinese in map
-		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-			cityName= outdoorCity.getOutdoorCityInfo().getCityNameCN();
-		} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			cityName= outdoorCity.getOutdoorCityInfo().getCityNameTW();
-		}else {
-			cityName= outdoorCity.getOutdoorCityInfo().getCityName();
+
+		// added to support traditional and simplified Chinese in map
+		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
+				"ZH-HANS")) {
+			cityName = outdoorCity.getOutdoorCityInfo().getCityNameCN();
+		} else if (LanguageUtils.getLanguageForLocale(Locale.getDefault())
+				.contains("ZH-HANT")) {
+			cityName = outdoorCity.getOutdoorCityInfo().getCityNameTW();
+		} else {
+			cityName = outdoorCity.getOutdoorCityInfo().getCityName();
 		}
 
 		LatLng latLng = new LatLng(latitude, longitude);
 		builder.include(latLng);
-		
-		if(OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(cityCode)){
+
+		if (OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(
+				cityCode)) {
 			iconOval = true;
 		}
-		
+
 		aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
 				.position(latLng)
 				.title(cityName)
-				.snippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + 
-								so2 + ", NO2: " + no2)
+				.snippet(
+						"PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2
+								+ ", NO2: " + no2)
 				.draggable(true)
-				.icon(BitmapDescriptorFactory.fromBitmap(MarkerMapFragment.writeTextOnDrawable(
-							MarkerMapFragment.getAqiPointerImageResId(aqiValue, iconOval),
-							aqiValue))));
+				.icon(BitmapDescriptorFactory.fromBitmap(MarkerMapFragment
+						.writeTextOnDrawable(MarkerMapFragment
+								.getAqiPointerImageResId(aqiValue, iconOval),
+								aqiValue))));
 	}
 
 	@Override
 	public boolean onMarkerClick(final Marker marker) {
+		mAqiCity.setText(marker.getTitle());
+		mAqiDetails.setText(marker.getSnippet());
+		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap()/*
+																	 * BitmapDescriptorFactory
+																	 * .
+																	 * fromBitmap
+																	 * (
+																	 * MarkerMapFragment
+																	 * .
+																	 * writeTextOnDrawable
+																	 * (
+																	 * MarkerMapFragment
+																	 * .
+																	 * getAqiPointerImageResId
+																	 * (
+																	 * aqiValue,
+																	 * false),
+																	 * aqiValue
+																	 * ))
+																	 */);
+		showAqiDetails();
 		return false;
-	}
-
-	@Override
-	public void onInfoWindowClick(Marker marker) {
-//		Toast.makeText(this, "You clicked infoWindow " + marker.getTitle(),
-//				Toast.LENGTH_SHORT).show();
 	}
 
 	@Override
 	public void onMapLoaded() {
 		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
 				OutdoorDetailsActivity.getSelectedCityCode());
-		
-		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null) return;
+
+		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null)
+			return;
 
 		LatLngBounds boundsNew = new LatLngBounds.Builder().include(
 				new LatLng(outdoorCity.getOutdoorCityInfo().getLatitude(),
@@ -172,23 +203,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		bounds = builder.build();
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
-	}
-
-	@Override
-	public View getInfoContents(Marker marker) {
-		View infoContent = getLayoutInflater().inflate(
-				R.layout.custom_info_contents, null);
-		render(marker, infoContent);
-		return infoContent;
-	}
-
-	@Override
-	public View getInfoWindow(Marker marker) {
-		View infoWindow = getLayoutInflater().inflate(
-				R.layout.custom_info_window, null);
-
-		render(marker, infoWindow);
-		return infoWindow;
 	}
 
 	public void render(Marker marker, View view) {
@@ -223,10 +237,14 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			finish();
 		}
 		/*
-		switch(v.getId()){
-		case R.id.gaodeMapFinish:
-			finish();
-		}
-		*/
+		 * switch(v.getId()){ case R.id.gaodeMapFinish: finish(); }
+		 */
+	}
+
+	private void showAqiDetails() {
+		mAqiDrawer.setVisibility(View.VISIBLE);
+		Animation bottomUp = AnimationUtils.loadAnimation(MarkerActivity.this,
+				R.anim.bottom_up_aqi_drawer);
+		mAqiDrawer.startAnimation(bottomUp);
 	}
 }

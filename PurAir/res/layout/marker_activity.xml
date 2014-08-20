@@ -22,5 +22,7 @@
         android:padding="8dp"
         android:visibility="gone"
         android:src="@drawable/close_icon_blue" />
+    
+     <include layout="@layout/map_details_drawer"/>
 
 </RelativeLayout>

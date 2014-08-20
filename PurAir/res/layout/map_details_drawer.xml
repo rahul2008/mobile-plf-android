@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/aqi_prompt_drawer"
+    android:layout_width="fill_parent"
+    android:layout_height="100dp"
+    android:layout_alignParentBottom="true"
+    android:layout_alignParentLeft="true"
+    android:background="@color/white"
+    android:minHeight="30dp"
+    android:padding="0.5dp"
+    android:clickable="false"
+    android:visibility="gone" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        android:id="@+id/aqiCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:layout_marginLeft="2dp"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        android:id="@+id/aqiDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="1dp"
+        android:layout_marginLeft="2dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:textColor="#000000"
+        android:textSize="15sp" />
+
+    <ImageView
+        android:id="@+id/aqiMarker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin ="20dp"
+        android:contentDescription="@string/img_description" />
+
+</RelativeLayout>
