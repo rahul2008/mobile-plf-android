@@ -27,8 +27,9 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/list_item_delete"
-            android:gravity="center"
+            android:gravity="center_vertical"
             android:paddingLeft="8dp"
+            android:lineSpacingExtra="15dp"
             android:textColor="@color/black"
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />

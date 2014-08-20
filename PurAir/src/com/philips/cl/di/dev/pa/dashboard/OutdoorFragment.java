@@ -56,6 +56,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private void initViews(View view) {
 		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
+		cityName.setSelected(true);
 		cityId  = (FontTextView) view.findViewById(R.id.hf_outdoor_city_id);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
@@ -106,7 +107,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
 			//Set outdoor background
 			rootLayout.setBackgroundResource(OutdoorImage.valueOf(areaID, outdoorAQI.getAQI()));
-			lastUpdated.setVisibility(View.VISIBLE);
 			aqi.setText("" + outdoorAQI.getAQI());
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
@@ -119,12 +119,14 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			aqiCircleMeter.setVisibility(View.VISIBLE) ;
 			pmLayout.setVisibility(View.VISIBLE);
 			pmValue.setText(""+outdoorAQI.getPM25());
+			lastUpdated.setVisibility(View.VISIBLE);
 		}
 		if(city.getOutdoorWeather() != null) {
 			OutdoorWeather weather = city.getOutdoorWeather();
 			updated.setText(weather.getUpdatedTime());
 			weatherIcon.setImageResource(weather.getWeatherIcon());
 			temp.setText("" + weather.getTemperature()+AppConstants.UNICODE_DEGREE);
+			lastUpdated.setVisibility(View.VISIBLE);
 		}
 	}
 	
