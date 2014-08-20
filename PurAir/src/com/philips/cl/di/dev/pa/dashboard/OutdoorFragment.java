@@ -26,7 +26,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
 	
-	private FontTextView cityName, updated,temp,aqi,aqiTitle,aqiSummary1,aqiSummary2, cityId;
+	private FontTextView cityName, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private RelativeLayout rootLayout;
@@ -62,7 +62,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
 		aqi = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_reading);
 		aqiTitle = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_title);
+		//Remove as track ticket #1165
 		aqiSummary1 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary1);
+		aqiSummary1.setVisibility(View.GONE);
 		aqiSummary2 = (FontTextView) view.findViewById(R.id.hf_outdoor_aqi_summary2);
 		aqiPointerCircle = (ImageView) view.findViewById(R.id.hf_outdoor_circle_pointer);
 		aqiPointerCircle.setOnClickListener(this);
@@ -111,7 +113,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 			aqiTitle.setText(outdoorAQI.getAqiTitle());
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
 			if( outdoorAQISummary != null && outdoorAQISummary.length > 1 ) {
-				aqiSummary1.setText(outdoorAQI.getAqiSummary()[0]);
+//				aqiSummary1.setText(outdoorAQI.getAqiSummary()[0]);
 				aqiSummary2.setText(outdoorAQI.getAqiSummary()[1]);
 			}
 			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
