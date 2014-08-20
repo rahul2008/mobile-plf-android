@@ -10,7 +10,6 @@ import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -32,7 +31,6 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -45,7 +43,6 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.BitmapDecodeImage;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -61,12 +58,12 @@ import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 public class OutdoorDetailsActivity extends BaseActivity 
 	implements OnClickListener, ServerResponseListener, OutdoorDetailsListener {
 
-	private GoogleMap mMap;
+//	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private FontTextView aqiValue, summaryTitle, summary, pm1, pm2, pm3, pm4;
+	private FontTextView aqiValue, summaryTitle, summary/*, pm1, pm2, pm3, pm4*/;
 	private TextView heading;
 	private ImageView circleImg, backgroundImage;
 	private ImageView avoidImg, openWindowImg, maskImg;
@@ -80,8 +77,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private ViewGroup mapLayout;
 	private ViewGroup mapGaodeLayout;
-	private ImageView mapImg;
-	private View mapBackground;
+//	private ImageView mapImg;
+//	private View mapBackground;
 	private double latitude;
 	private double longitude;
 	private String areaId;
@@ -115,6 +112,19 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 		setActionBarTitle();
 		getDataFromDashboard();
+		if(dashBoardDataFetchListener != null){
+			dashBoardDataFetchListener.isCompleted(true);
+		}
+	}
+	
+	interface DashBoardDataFetchListener{
+		void isCompleted(boolean isCompleted);
+	}
+	
+	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
+	
+	public static void setDashBoardDataFetch(DashBoardDataFetchListener dashBoardListener){
+		dashBoardDataFetchListener = dashBoardListener;
 	}
 	
 	/**
@@ -349,11 +359,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		pmValue=(FontTextView)findViewById(R.id.hf_outdoor_pm_value);
 		pmLayout=(LinearLayout)findViewById(R.id.pm_layout);
-		
-		pm1 = (FontTextView) findViewById(R.id.odPMValue1);
-		pm2 = (FontTextView) findViewById(R.id.odPMValue2);
-		pm3 = (FontTextView) findViewById(R.id.odPMValue3);
-		pm4 = (FontTextView) findViewById(R.id.odPMValue4);
+//		
+//		pm1 = (FontTextView) findViewById(R.id.odPMValue1);
+//		pm2 = (FontTextView) findViewById(R.id.odPMValue2);
+//		pm3 = (FontTextView) findViewById(R.id.odPMValue3);
+//		pm4 = (FontTextView) findViewById(R.id.odPMValue4);
 
 		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg);
 		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
@@ -373,8 +383,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		mapLayout = (RelativeLayout) findViewById(R.id.img_map_layt);
 		mapGaodeLayout = (RelativeLayout) findViewById(R.id.gaode_map_layt);
-		mapImg = (ImageView) findViewById(R.id.img_map);
-		mapBackground = (View) findViewById(R.id.view_map_bg);
+//		mapImg = (ImageView) findViewById(R.id.img_map);
+//		mapBackground = (View) findViewById(R.id.view_map_bg);
 
 		//if(!Utils.isGooglePlayServiceAvailable()) {
 		setupGaodeMap();
