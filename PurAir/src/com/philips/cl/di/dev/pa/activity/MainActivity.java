@@ -89,6 +89,7 @@ import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.LocationTracker;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -146,6 +147,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
+	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -164,6 +166,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		setScreenWidth(displayMetrics.widthPixels);
 		setScreenHeight(displayMetrics.heightPixels);
+		
+		if (!Utils.isGooglePlayServiceAvailable()) {
+			mLocationTracker = new LocationTracker(this);
+		}
 
 		try {
 			initActionBar();
@@ -204,6 +210,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
+		
 	}
 
 	private void selectPurifier() {
@@ -339,6 +346,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onDestroy() {
 		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
+		if(mLocationTracker !=null){
+			mLocationTracker.deactivate();
+		}
 		super.onDestroy();
 	}
 
