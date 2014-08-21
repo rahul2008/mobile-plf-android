@@ -47,7 +47,7 @@
     <string name="multicarefilter">2 Multi-Care 过滤网</string>
     <string name="activecarbonfilter">3 活性炭过滤网</string>
     <string name="hepa_filter">4 HEPA 过滤网</string>
-    <string name="change_soon">%s 个天后更换</string>
+    <string name="change_soon">%s 天后更换</string>
     <string name="change_now">立即更换</string>
     <string name="onehour">1 小时</string>
     <string name="fourhour">4 小时</string>

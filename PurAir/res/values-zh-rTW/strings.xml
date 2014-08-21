@@ -22,7 +22,7 @@
     <string name="connection_status">連接狀態</string>
     <string name="connected">已連接</string>
     <string name="lost_connection">連接中斷</string>
-    <string name="connected_via_philips">已透過 PHILIPS 連接 </string>
+    <string name="connected_via_philips">已通過飛利浦連接</string>
     <string name="not_connected">沒有連接</string>
     <string name="connect">連接</string>
     <string name="power">電源</string>
