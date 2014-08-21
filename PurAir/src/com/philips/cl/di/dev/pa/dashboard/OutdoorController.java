@@ -16,6 +16,7 @@ import android.annotation.SuppressLint;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -70,14 +71,16 @@ public class OutdoorController implements ServerResponseListener {
 	@SuppressLint("SimpleDateFormat")
 	public void startCityAQITask(String areaID) {
 		//If purifier in demo mode, skip download data
-		if (PurAirApplication.isDemoModeEnable()) return;
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
 	public void startCityAQIHistoryTask(String areaID) {
-		if (PurAirApplication.isDemoModeEnable()) return;
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air_his", Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
@@ -85,21 +88,24 @@ public class OutdoorController implements ServerResponseListener {
 
 	public void startCityWeatherTask(String areaID) {
 		//If purifier in demo mode, skip download data
-		if (PurAirApplication.isDemoModeEnable()) return;
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
 	public void startCityFourDayForecastTask(String areaID) {
-		if (PurAirApplication.isDemoModeEnable()) return;
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL, areaID, "forecast4d", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
 	public void startCityOneDayForecastTask(String areaID) {
-		if (PurAirApplication.isDemoModeEnable()) return;
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(BASE_URL_HOURLY_FORECAST + areaID + "&time=day", areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
@@ -191,6 +197,14 @@ public class OutdoorController implements ServerResponseListener {
 		if( mac == null ) return null ;
 		byte[] bytes = mac.doFinal(value.getBytes(Charset.defaultCharset()));
 		return bytes;
+	}
+	
+	public boolean isPhilipsSetupWifiSelected() {
+		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
+		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
+			return true;
+		} 
+		return false;
 	}
 
 }

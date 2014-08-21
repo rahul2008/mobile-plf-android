@@ -67,6 +67,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (getActivity() == null) return;

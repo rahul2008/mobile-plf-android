@@ -258,6 +258,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 			pmLayout.setVisibility(View.VISIBLE);
 			pmValue.setText(""+aqiValue.getPM25());
 			
+			if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()){
+				weatherProgressBar.setVisibility(View.GONE);
+				aqiProgressBar.setVisibility(View.GONE);
+				showAlertDialog("", getString(R.string.outdoor_download_failed));
+				return;
+			}
 			startCityAQIHistoryTask(areaId);
 			OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
 			OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
@@ -585,7 +591,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	public void startCityAQIHistoryTask(String areaID) {
-		if (PurAirApplication.isDemoModeEnable()) return;
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
 		
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		
@@ -659,4 +666,5 @@ public class OutdoorDetailsActivity extends BaseActivity
 		// TODO Auto-generated method stub
 		
 	}
+	
 }
