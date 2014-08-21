@@ -154,29 +154,29 @@
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：對身體帶來很少或沒有健康影響。</string>
     <string name="indoor_aqi_moderate_tip1">污染，粒子水平及 PM2.5 都在中等水平</string>
-    <string name="indoor_aqi_unhealthy_tip1">高微粒水平 PM2.5：可能會產生過敏。</string>
-    <string name="indoor_aqi_very_unhealthy_tip1">很高的微粒水平：PM2.5。</string>
+    <string name="indoor_aqi_unhealthy_tip1">高微粒水平 PM2.5：可能會產生過敏</string>
+    <string name="indoor_aqi_very_unhealthy_tip1">很高的微粒水平：PM2.5</string>
     <!-- Outdoor details -->
     <string name="mask_od_msg1">無須口罩</string>
-    <string name="openwindow_od_msg1">打開窗以通風。</string>
-    <string name="advice_od_msg1">適合進行戶外活動。</string>
-    <string name="advice_od_msg3">避免戶外活動。</string>
-    <string name="mask_od_msg2">面具需要。</string>
-    <string name="openwindow_od_msg2">不要打開窗戶。</string>
-    <string name="advice_od_msg2">容易敏感的人士應該減少活動。</string>
+    <string name="openwindow_od_msg1">打開窗以通風</string>
+    <string name="advice_od_msg1">適合進行戶外活動</string>
+    <string name="advice_od_msg3">避免戶外活動</string>
+    <string name="mask_od_msg2">面具需要</string>
+    <string name="openwindow_od_msg2">不要打開窗戶</string>
+    <string name="advice_od_msg2">容易敏感的人士應該減少活動</string>
     <!-- Outdoor Detail Tips -->
     <string name="outdoor_aqi_good_tip1"> 適合進行戶外活動。打開窗以通風。</string>
     <string name="outdoor_aqi_good_tip2">空氣乾淨，對健康有很少或沒有影響。享受日常的戶外活動。</string>
     <string name="outdoor_aqi_moderate_tip1"> 適合進行戶外活動，但容易敏感的人士應該注意。</string>
-    <string name="outdoor_aqi_moderate_tip2"> 容易敏感的人士應該減少活動。 </string>
-    <string name="outdoor_aqi_unhealthy_sensitive_group_tip1">應該減少戶外活動及間中開窗通風。</string>
-    <string name="outdoor_aqi_unhealthy_sensitive_group_tip2">對敏感人群如嬰兒及老人不健康。</string>
-    <string name="outdoor_aqi_unhealthy_tip1">減少戶外活動及關窗。</string>
-    <string name="outdoor_aqi_unhealthy_tip2">可能會產生輕微敏感。</string>
-    <string name="outdoor_aqi_very_unhealthy_tip1">建議戴口罩。</string>
-    <string name="outdoor_aqi_very_unhealthy_tip2">將戶外活動延期。</string>
+    <string name="outdoor_aqi_moderate_tip2"> 容易敏感的人士應該減少活動 </string>
+    <string name="outdoor_aqi_unhealthy_sensitive_group_tip1">應該減少戶外活動及間中開窗通風</string>
+    <string name="outdoor_aqi_unhealthy_sensitive_group_tip2">對敏感人群如嬰兒及老人不健康</string>
+    <string name="outdoor_aqi_unhealthy_tip1">減少戶外活動及關窗</string>
+    <string name="outdoor_aqi_unhealthy_tip2">可能會產生輕微敏感</string>
+    <string name="outdoor_aqi_very_unhealthy_tip1">建議戴口罩</string>
+    <string name="outdoor_aqi_very_unhealthy_tip2">將戶外活動延期</string>
     <string name="outdoor_aqi_hazardous_tip1">避免到戶外或佩帶口罩到戶外。關上家中窗戶。</string>
-    <string name="outdoor_aqi_hazardous_tip2">只在必須的情況下出門。</string>
+    <string name="outdoor_aqi_hazardous_tip2">只在必須的情況下出門</string>
     <string name="od_yaxis_label1">50</string>
     <string name="od_yaxis_label2">100</string>
     <string name="od_yaxis_label3">150</string>
