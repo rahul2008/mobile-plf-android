@@ -25,7 +25,10 @@
         android:background="@drawable/clickable_image_bg_selector"
         android:clickable="true"
         android:contentDescription="@string/img_description"
-        android:padding="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:src="@drawable/lef_arrow_blue_2x"
         android:visibility="invisible" />
     
