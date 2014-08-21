@@ -428,6 +428,7 @@
     <!-- Scheduler texts -->
 <!--     <string name="days">天</string> -->
     <string name="edit">編輯</string>
+    <string name="enable">啟用</string>
 <!--     <string name="repeat">重複</string> -->
     <string name="time">時間</string>
     <string name="days2">天</string>

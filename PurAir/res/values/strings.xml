@@ -268,8 +268,8 @@
     <string name="purifier_feature_lbl_3">Adapts to different home environment and various needs.</string>
     <string name="indoor_pollutants">Indoor pollutants</string>
     <string name="vistashield_ips_system">Philips VitaShield IPS System</string>
-    <string name="indoor_colors_explained">Indoor air level colours explained</string>
-    <string name="outdoor_colors_explained">Outdoor air quality colours explained</string>
+    <string name="indoor_colors_explained">Indoor air level colors explained</string>
+    <string name="outdoor_colors_explained">Outdoor air quality colors explained</string>
     <string name="guards_environment">Guards your environment</string>
     <string name="indoor_pollutants_intro">World Health Organization (WHO) studies show that indoor air is often 10&#8211;30 times more polluted than outdoor air. Our homes are threatened by many air pollutants.</string>
     <string name="indoor_pollutants_subheading">Main indoor pollutants</string>
@@ -279,7 +279,7 @@
     <string name="pollutant_heading_4">Pet hair and dust mites</string>
     <string name="pollutant_heading_5">Outdoor particulates</string>
     <string name="pollutant_heading_6">Particulate matter (PM) 2.5</string>
-    <string name="pollutant_intro_1">A colourless gas released from paints, solvents and adhesives found in furniture and wood products. It is irritant and a known carcinogen, forming serious health risk with prolonged exposure.</string>
+    <string name="pollutant_intro_1">A colorless gas released from paints, solvents and adhesives found in furniture and wood products. It is irritant and a known carcinogen, forming serious health risk with prolonged exposure.</string>
     <string name="pollutant_intro_2">TVOCs are harmful gas emitting from cleaning agents, disinfectants and paints. They include toluene, benzene, xylene, higher alkenes and aldehydes.</string>
     <string name="pollutant_intro_3">Bacteria, fungi (moulds) and viruses are all present in indoor air. Bacteria cause coughs, colds and more serious illnesses like tuberculosis.</string>
     <string name="pollutant_intro_4">Pet hair and dust mites gather on the floor and carpet. Pet hair may cause allergies of the eyes and airways while dust mites often trigger allergies and asthma.</string>
@@ -439,6 +439,7 @@
     <!-- Scheduler texts -->
     <!-- <string name="days">Days</string> -->
     <string name="edit">Edit</string>
+    <string name="enable">Enable</string>
     <!-- <string name="repeat">Repeat</string> -->
     <string name="time">Time</string>
     <string name="days2">Days</string>
