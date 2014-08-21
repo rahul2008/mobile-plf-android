@@ -32,11 +32,11 @@ public class GPSLocation implements LocationListener {
 		requestGPSLocation();
 	}
 	
-	private boolean isGPSEnabled() {
+	public boolean isGPSEnabled() {
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
 	
-	private void requestGPSLocation() {
+	public void requestGPSLocation() {
 		if (isGPSEnabled()) {
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER,
