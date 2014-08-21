@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -32,6 +33,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -112,7 +114,15 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
 		indoorViewPager.setOnPageChangeListener(this);
 		Bundle bundle = getArguments();
+		GPSLocation.getInstance().requestGPSLocation();
 		if (bundle != null) {
+			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isGPSEnabled()) {
+				//TODO : Show pop-up inviting the user to enable GPS
+			} else {
+				//Add user location to dashboard
+				Location location = GPSLocation.getInstance().getGPSLocation();
+				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+			}
 			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
 		} else {
 			mNoPurifierMode = false;
@@ -155,8 +165,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
 		int count = 1 ;
-		if( OutdoorManager.getInstance().getCitiesList() != null && OutdoorManager.getInstance().getCitiesList().size() > 0 ) {
-			count = OutdoorManager.getInstance().getCitiesList().size() ;
+		if( OutdoorManager.getInstance().getUsersCitiesList() != null && OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
+			count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 		}
 		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
 		//outdoorViewPager.setOffscreenPageLimit(3);
@@ -185,8 +195,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			public void run() {
 				try {
 					int size = 1;
-					if( OutdoorManager.getInstance().getCitiesList() != null ) {
-						size = OutdoorManager.getInstance().getCitiesList().size() ;
+					if( OutdoorManager.getInstance().getUsersCitiesList() != null ) {
+						size = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 					}
 					outdoorPagerAdapter.mCount(size) ;
 					outdoorPagerAdapter.notifyDataSetChanged() ;
