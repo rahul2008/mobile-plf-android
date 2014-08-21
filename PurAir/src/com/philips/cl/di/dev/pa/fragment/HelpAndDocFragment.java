@@ -30,7 +30,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		TextView lblUserManual=(TextView) rootView.findViewById(R.id.lbl_user_manual);
 		TextView lblPhilipsSupport=(TextView) rootView.findViewById(R.id.lbl_philips_support);
 		TextView lblCallUs=(TextView) rootView.findViewById(R.id.lbl_call_us);
-		TextView lblEmailUs=(TextView) rootView.findViewById(R.id.lbl_email_us);
 		TextView lblSupport=(TextView) rootView.findViewById(R.id.lbl_support);		
 		
 		lblAppTutorial.setTypeface(Fonts.getGillsans(getActivity()));		
@@ -38,16 +37,12 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		lblUserManual.setTypeface(Fonts.getGillsans(getActivity()));
 		lblPhilipsSupport.setTypeface(Fonts.getGillsans(getActivity()));
 		lblCallUs.setTypeface(Fonts.getGillsans(getActivity()));
-		lblEmailUs.setTypeface(Fonts.getGillsans(getActivity()));
 		lblSupport.setTypeface(Fonts.getGillsans(getActivity()));		
 		
 		lblAppTutorial.setOnClickListener(this);
 		
 		RelativeLayout callUs = (RelativeLayout) rootView.findViewById(R.id.layout_call_us);
 		callUs.setOnClickListener(this);
-		
-		RelativeLayout emailUs = (RelativeLayout) rootView.findViewById(R.id.layout_email_us);
-		emailUs.setOnClickListener(this);
 		
 		RelativeLayout contactUs = (RelativeLayout) rootView.findViewById(R.id.layout_help);
 		contactUs.setOnClickListener(this);
@@ -65,13 +60,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
-			break;
-			
-		case R.id.layout_email_us:
-			Intent supportEmailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto","philips_helpdesk@pccwteleservices.com.cn", null));
-			supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
-			supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
-			startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
 			break;
 			
 		case R.id.layout_help:

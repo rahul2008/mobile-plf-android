@@ -41,7 +41,7 @@
     <!-- Filter texts and messages -->
     <string name="filter_status">過濾狀態</string>
     <string name="pre_filter">1 預過濾網</string>
-    <string name="multicarefilter">2 全效濾網</string>
+    <string name="multicarefilter">2 多重防護過濾網</string>
     <string name="activecarbonfilter">3 活性碳隔濾網</string>
     <string name="hepa_filter">4 HEPA 濾網</string>
     <string name="change_soon">在 %s 天後更換。</string>

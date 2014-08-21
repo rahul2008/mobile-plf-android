@@ -131,51 +131,6 @@
             android:background="@color/darkgray" />
 
         <RelativeLayout
-            android:id="@+id/layout_email_us"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:minHeight="85dp" >
-
-            <ImageView
-                android:id="@+id/help_email_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:contentDescription="@string/img_description"
-                android:src="@drawable/email_help" />
-
-            <TextView
-                android:id="@+id/lbl_email_us"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_toRightOf="@+id/help_email_icon"
-                android:text="@string/subtitle_email_us"
-                android:textSize="@dimen/text_size_medium"
-                android:textColor="@color/subtitle_gray"
-                />
-
-           <com.philips.cl.di.dev.pa.view.FontTextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/help_contact_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/lbl_email_us"
-                android:layout_below="@+id/lbl_email_us"
-                android:text="@string/contact_philips_support_email" 
-                android:textColor="@color/subtitle_gray"
-                android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf"
-                />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:background="@color/darkgray" />
-
-        <RelativeLayout
             android:id="@+id/layout_help"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
