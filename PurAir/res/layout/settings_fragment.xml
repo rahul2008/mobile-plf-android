@@ -25,7 +25,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/divider2"
         android:layout_marginRight="8dp"
         android:checked="false" />
 
@@ -34,6 +33,28 @@
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/settings_demo_mode_toggle"
+        android:background="@color/darkgray" />
+    
+     <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/diagnostics_lb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/settings_demo_mode_toggle"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="@string/diagnostics"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_medium"
+        custom:fontAssetName="fonts/gillsans.ttf" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/diagnostics_lb"
         android:background="@color/darkgray" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView

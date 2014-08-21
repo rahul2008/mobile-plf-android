@@ -328,6 +328,15 @@
     <string name="logging_enable">Enable logging</string>
     <string name="logging_disable">Disable logging</string>
     <string name="collecting_information">Collecting diagnostic information..</string>
+    <string name="diagnostics_intro">This is an automatically generated diagnostic email send by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.</string>
+    <string name="janrain_user">Jan Rain User: </string>
+    <string name="app_version">App version: </string>
+    <string name="mobile_platform">Mobile platform: </string>
+    <string name="sdk_version">Mobile platform version: </string>
+    <string name="app_eui64">App EUI64: </string>
+    <string name="purifier">Purifier </string>
+    <string name="purifier_name">Purifier Name: </string>
+    <string name="purifier_eui64">EUI64: </string>
     <!-- EWS -->
     <string name="lbl_living_room">Living Room</string>
     <string name="lbl_kitchen">Kitchen</string>
