@@ -58,7 +58,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		setContentView(R.layout.marker_activity);
 		mapView = (MapView) findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		mCitiesList = OutdoorManager.getInstance().getCitiesList();
+		mCitiesList = OutdoorManager.getInstance().getAllCitiesList();
 		mFinishActivity = (ImageView) findViewById(R.id.gaodeMapFinish);
 		mAqiDrawer = (RelativeLayout) findViewById(R.id.aqi_prompt_drawer);
 		mAqiCity = (FontTextView) findViewById(R.id.aqiCity);

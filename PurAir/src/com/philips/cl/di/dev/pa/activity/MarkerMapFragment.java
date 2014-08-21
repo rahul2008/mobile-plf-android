@@ -77,7 +77,7 @@ public class MarkerMapFragment extends Fragment implements
 		view = inflater.inflate(R.layout.marker_activity, container, false);
 		mapView = (MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		mCitiesList = OutdoorManager.getInstance().getCitiesList();
+		mCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
 		builder = new LatLngBounds.Builder();
 		
 		init();

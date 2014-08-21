@@ -62,13 +62,13 @@ public class OutdoorLocationDatabase {
         StringTokenizer stringTokenizer = null;
         
         if (!isCityDetailsTableFilled()) {
-    		OutdoorManager.getInstance().addAreaIDToList("101010100");
-    		OutdoorManager.getInstance().addAreaIDToList("101020100");
-    		OutdoorManager.getInstance().addAreaIDToList("101270101");
+    		OutdoorManager.getInstance().addAreaIDToUsersList("101010100");
+    		OutdoorManager.getInstance().addAreaIDToUsersList("101270101");
+    		OutdoorManager.getInstance().addAreaIDToUsersList("101020100");
     		
     		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101010100");
-    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101020100");
     		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101270101");
+    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101020100");
     		
 	        mOutdoorLocationDatabase.beginTransaction();
 	        try {
@@ -80,6 +80,7 @@ public class OutdoorLocationDatabase {
 	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
 
 	                String areaID = stringTokenizer.nextToken();
+	                OutdoorManager.getInstance().addAreaIdToAllCitiesList(areaID);
 	        		values.put(AppConstants.KEY_AREA_ID, areaID);
 	        		values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_LATITUDE, stringTokenizer.nextToken());
@@ -87,7 +88,7 @@ public class OutdoorLocationDatabase {
 	        		values.put(AppConstants.KEY_CITY_TW, stringTokenizer.nextToken());
 
 	        		values.put(AppConstants.KEY_SHORTLIST,
-	        				OutdoorManager.getInstance().getCitiesList().contains(areaID) ? 1 : 0);
+	        				OutdoorManager.getInstance().getUsersCitiesList().contains(areaID) ? 1 : 0);
 	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();

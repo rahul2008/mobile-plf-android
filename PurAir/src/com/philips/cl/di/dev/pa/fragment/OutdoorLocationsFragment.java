@@ -85,7 +85,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			OutdoorManager.getInstance().clearCitiesList();
 			cursor.moveToFirst();
 			do {
-				OutdoorManager.getInstance().addAreaIDToList(
+				OutdoorManager.getInstance().addAreaIDToUsersList(
 						cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
 			} while (cursor.moveToNext());
 		}
@@ -135,7 +135,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 						@Override
 						public void onClick(View v) {
-							OutdoorManager.getInstance().removeAreaIDFromList(areaId);
+							OutdoorManager.getInstance().removeAreaIDFromUsersList(areaId);
 							OutdoorManager.getInstance().removeCityDataFromMap(areaId);
 							
 							OutdoorLocationDatabase database =  new OutdoorLocationDatabase();

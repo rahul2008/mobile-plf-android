@@ -77,9 +77,9 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 
 		if(bundle != null) {
 			int position = bundle.getInt("position");
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + OutdoorManager.getInstance().getCitiesList().size());
-			if(OutdoorManager.getInstance().getCitiesList().size() > 0) {
-				String areaID = OutdoorManager.getInstance().getCitiesList().get(position);
+			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + OutdoorManager.getInstance().getUsersCitiesList().size());
+			if(OutdoorManager.getInstance().getUsersCitiesList().size() > 0) {
+				String areaID = OutdoorManager.getInstance().getUsersCitiesList().get(position);
 				OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
 				if(city != null && city.getOutdoorCityInfo() != null) {
 					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);

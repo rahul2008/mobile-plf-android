@@ -168,7 +168,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
 			
-			if(OutdoorManager.getInstance().getCitiesList().size() > 19) {
+			if(OutdoorManager.getInstance().getUsersCitiesList().size() > 19) {
 				showAlertDialog(null, getString(R.string.max_city_reached));
 				return;
 			}
@@ -186,7 +186,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
 			
 			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());
-			OutdoorManager.getInstance().addAreaIDToList(areaId);
+			OutdoorManager.getInstance().addAreaIDToUsersList(areaId);
 			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
 			
 			OutdoorLocationHandler.getInstance().updateSelectedCity(areaId, true);

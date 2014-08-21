@@ -17,7 +17,8 @@ import com.philips.cl.di.dev.pa.util.ALog;
 public class OutdoorManager implements OutdoorEventListener {
 
 	private Map<String, OutdoorCity> citiesMap;
-	private List<String> citiesList;
+	private List<String> userCitiesList;
+	private List<String> allCitiesList;
 
 	private static OutdoorManager smInstance;
 
@@ -33,7 +34,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void startCitiesTask() {
-		for(String areaID : citiesList) {
+		for(String areaID : userCitiesList) {
 			if(citiesMap == null || citiesMap.get(areaID) == null || citiesMap.get(areaID).getOutdoorAQI() == null)  {
 				OutdoorController.getInstance().startCityAQITask(areaID);
 			}
@@ -48,7 +49,8 @@ public class OutdoorManager implements OutdoorEventListener {
 		insertDataAndGetShortListCities();
 
 		citiesMap = new HashMap<String, OutdoorCity>();
-		citiesList = new ArrayList<String>();
+		userCitiesList = new ArrayList<String>();
+		allCitiesList = new ArrayList<String>();
 		
 		WeatherIcon.populateWeatherIconMap();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
@@ -89,7 +91,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + areaID);
 				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaID);
-				OutdoorManager.getInstance().addAreaIDToList(areaID);
+				OutdoorManager.getInstance().addAreaIDToUsersList(areaID);
 				OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaID);
 			} while (cursor.moveToNext());
 			OutdoorManager.getInstance().startCitiesTask();
@@ -124,25 +126,36 @@ public class OutdoorManager implements OutdoorEventListener {
 		}
 	}
 
-	public synchronized List<String> getCitiesList() {
-		return citiesList;
+	public synchronized List<String> getAllCitiesList() {
+		return allCitiesList;
+	}
+	
+	public synchronized List<String> getUsersCitiesList() {
+		return userCitiesList;
 	}
 	
 	public synchronized void clearCitiesList() {
-		if (citiesList != null && !citiesList.isEmpty()) citiesList.clear();
+		if (userCitiesList != null && !userCitiesList.isEmpty()) userCitiesList.clear();
 	}
 
-	public synchronized void addAreaIDToList(String areaID) {
-		if(!citiesList.contains(areaID)) {
-			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToCitiesList areaID " + areaID);
-			citiesList.add(areaID);
+	public synchronized void addAreaIdToAllCitiesList(String areaID) {
+		if(!allCitiesList.contains(areaID)) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToAllCitiesList areaID " + areaID);
+			allCitiesList.add(areaID);
+		}
+	}
+	
+	public synchronized void addAreaIDToUsersList(String areaID) {
+		if(!userCitiesList.contains(areaID)) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToUserCitiesList areaID " + areaID);
+			userCitiesList.add(areaID);
 		}
 	}
 
-	public void removeAreaIDFromList(String areaID) {
-		if(citiesList.contains(areaID)) {
+	public void removeAreaIDFromUsersList(String areaID) {
+		if(userCitiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$removeAreaIDFromList areaID " + areaID);
-			citiesList.remove(areaID);
+			userCitiesList.remove(areaID);
 		}
 	}
 
