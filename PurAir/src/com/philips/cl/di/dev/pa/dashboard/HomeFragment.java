@@ -116,13 +116,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		Bundle bundle = getArguments();
 		GPSLocation.getInstance().requestGPSLocation();
 		if (bundle != null) {
-			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isGPSEnabled()) {
-				//TODO : Show pop-up inviting the user to enable GPS
-			} else {
-				//Add user location to dashboard
-				Location location = GPSLocation.getInstance().getGPSLocation();
-				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
-			}
+//			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isGPSEnabled()) {
+//				//TODO : Show pop-up inviting the user to enable GPS
+//			} else {
+//				//Add user location to dashboard
+//				Location location = GPSLocation.getInstance().getGPSLocation();
+//				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+//			}
 			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
 		} else {
 			mNoPurifierMode = false;
