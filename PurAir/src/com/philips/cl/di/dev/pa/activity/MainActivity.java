@@ -71,7 +71,6 @@ import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
 import com.philips.cl.di.dev.pa.fragment.SettingsFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowVirginFragment;
-import com.philips.cl.di.dev.pa.fragment.ToolsFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
@@ -597,7 +596,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				R.drawable.icon_8_2x));		
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
 				R.drawable.icon_9_2x));
-		leftMenuItems.add(new ListViewItem(R.string.tools, R.drawable.icon_6_2x));
 		return leftMenuItems;
 	}
 
@@ -731,7 +729,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			leftMenuItems.add(new ManagePurifierFragment());
 			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
-			leftMenuItems.add(new ToolsFragment());
 		}
 
 		@Override
@@ -791,11 +788,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				// Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
-				break;
-			case 9:
-				// Tools
-				showFragment(leftMenuItems.get(position));
-				setTitle(getString(R.string.tools));
 				break;
 			default:
 				break;
