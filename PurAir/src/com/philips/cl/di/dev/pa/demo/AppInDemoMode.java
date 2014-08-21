@@ -44,18 +44,16 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
 		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
 			initializeKeyExchange();
-		} else {
-			showAlertDialogAppInDemoMode(
-					ctx.getString(R.string.app_in_demo_mode_title), ctx.getString(R.string.app_in_demo_mode_msg));
-		}
+		} 
+//		else {
+//			showAlertDialogAppInDemoMode(
+//					ctx.getString(R.string.app_in_demo_mode_title), ctx.getString(R.string.app_in_demo_mode_msg));
+//		}
 	}
 	
 	public void checkPhilipsSetupWifiSelected() {
-		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
-		if (ssid == null || !ssid.contains(EWSWifiManager.DEVICE_SSID)) {
-			showAlertDialogAppInDemoMode(
-					ctx.getString(R.string.app_in_demo_mode_title), ctx.getString(R.string.app_in_demo_mode_msg));
-		}
+		showAlertDialogAppInDemoMode(
+				ctx.getString(R.string.app_in_demo_mode_title), ctx.getString(R.string.app_in_demo_mode_msg));
 	}
 	
 	private void showAlertDialogAppInDemoMode(String title, String message) {
