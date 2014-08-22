@@ -136,7 +136,7 @@ public class Utils {
 	}
 	
 	public static String getDate(long timeMillis) {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmm");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
 		String date = dateFormat.format(new Date(timeMillis));
 		return date;
 	}
