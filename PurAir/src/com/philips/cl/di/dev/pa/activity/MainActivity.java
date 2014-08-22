@@ -939,8 +939,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				rightMenu.setImageDrawable(getResources().getDrawable(R.drawable.right_bar_icon_orange_2x));
 				setRightMenuAirStatusMessage(getString(R.string.rm_air_quality_message));
 				rightMenuClickListener.toggleControlPanel(false, null);
+				rightMenuClickListener.disableScheduler() ;
 				ALog.d(ALog.MAINACTIVITY, "Updating right menu to disconnected");
-				rightMenuClickListener.toggleControlPanel(false , null);
 				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
 				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
 				tvAirStatusAqiValue.setTextSize(14.0f);

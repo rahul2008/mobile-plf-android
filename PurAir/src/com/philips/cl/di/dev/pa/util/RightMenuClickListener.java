@@ -426,9 +426,6 @@ public class RightMenuClickListener implements OnClickListener {
 		timer.setClickable(false);
 		timer.setBackgroundResource(R.drawable.button_bg_2x);
 		
-		schedule.setClickable(false);
-		schedule.setBackgroundResource(R.drawable.button_bg_2x);
-		
 		childLock.setClickable(false);
 		childLock.setChecked(false);
 		
@@ -512,6 +509,11 @@ public class RightMenuClickListener implements OnClickListener {
 			fanSpeedThree.setVisibility(View.GONE);
 		}
 	}
+	
+	public void disableScheduler() {
+		schedule.setClickable(false);
+		schedule.setBackgroundResource(R.drawable.button_bg_2x);
+	}
 
 	public void toggleControlPanel(boolean connected, AirPortInfo airPurifierEventDto) {
 		if(!connected) {
@@ -532,8 +534,13 @@ public class RightMenuClickListener implements OnClickListener {
 			if( airPurifierEventDto != null ) {
 				power.setClickable(true);
 				power.setChecked(getPowerButtonState(airPurifierEventDto));
-				if(isPowerOn)
+				if(isPowerOn) {
 					enableButtonsOnPowerOn(airPurifierEventDto);
+				}
+				else {
+					schedule.setClickable(true);
+					schedule.setBackgroundResource(R.drawable.button_blue_bg_2x);
+				}
 			}
 			else {
 				disableControlPanelButtonsOnPowerOff() ;
