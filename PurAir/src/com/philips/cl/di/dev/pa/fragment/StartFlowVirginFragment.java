@@ -21,7 +21,6 @@ import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListen
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class StartFlowVirginFragment extends BaseFragment implements OnClickListener {
 
@@ -31,7 +30,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	private Button mBtnConnectPurifier;
 	private Button mBtnNoPurifier;
 	private ImageView mBtnPlayMovie;
-	private FontTextView mTvBenefits;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,12 +38,10 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 				
 		mBtnConnectPurifier = (Button) view.findViewById(R.id.start_flow_virgin_btn_connect);
 		mBtnPlayMovie = (ImageView) view.findViewById(R.id.start_flow_virgin_btn_play);
-		mTvBenefits = (FontTextView) view.findViewById(R.id.start_flow_virgin_tv_benefits);
 		mBtnNoPurifier = (Button) includeView.findViewById(R.id.start_flow_bottom_btn_continue_without);
 		
 		mBtnConnectPurifier.setOnClickListener(this);
 		mBtnPlayMovie.setOnClickListener(this);
-		mTvBenefits.setOnClickListener(this);
 		mBtnNoPurifier.setOnClickListener(this);
 		
 		return view;
@@ -70,9 +66,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			break;
 		case R.id.start_flow_virgin_btn_play:
 			startVideo();
-			break;
-		case R.id.start_flow_virgin_tv_benefits:
-			startBenefitsFlow();
 			break;
 		case R.id.start_flow_bottom_btn_continue_without:
 			startUseNoPurifierFlow();
@@ -109,12 +102,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		}	
 	}
 		
-	private void startBenefitsFlow() {
-		if (getActivity() == null) return;
-		((MainActivity) getActivity()).setTitle(getString(R.string.dashboard_title));
-		((MainActivity) getActivity()).showFragment(new AirQualityFragment());
-	}
-	
 	private void startVideo() {
 		// TODO start video
 	}

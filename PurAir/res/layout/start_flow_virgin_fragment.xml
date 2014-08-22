@@ -46,19 +46,6 @@
 	       android:contentDescription="@string/img_description"
 	       android:src="@drawable/air_intro_play_2x" 
 	       android:layout_below="@id/start_flow_virgin_btn_connect"/>
-	   
-	   <com.philips.cl.di.dev.pa.view.FontTextView
-			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-			android:id="@+id/start_flow_virgin_tv_benefits"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:lineSpacingExtra="5dp"
-			android:text="@string/benefits_of_the_purifier"
-			android:textColor="@color/white"
-			android:textSize="12sp"
-			custom:fontAssetName="fonts/gillsans.ttf"
-			android:gravity="center_horizontal"
-			android:layout_alignParentBottom="true"/>
 
     </RelativeLayout>
 	<include 

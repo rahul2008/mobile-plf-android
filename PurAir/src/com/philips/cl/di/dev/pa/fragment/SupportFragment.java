@@ -57,7 +57,7 @@ public class SupportFragment extends BaseFragment {
 				break;
 			case R.id.contact_support_email_layout:
 				Intent supportEmailIntent = new Intent(
-						Intent.ACTION_SENDTO, Uri.fromParts("mailto","sangamesh.bn@philips.com", null));
+						Intent.ACTION_SENDTO, Uri.fromParts("mailto",getString(R.string.contact_philips_support_email), null));
 				supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
 				supportEmailIntent.putExtra(Intent.EXTRA_TEXT, "No template");
 				startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
