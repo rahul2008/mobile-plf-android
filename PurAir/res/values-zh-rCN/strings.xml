@@ -414,7 +414,7 @@
 <!--     <string name="submit">提交</string> -->
     <!-- Pairing -->
     <string name="pair_disable_alert">您确定要禁用远程遥控功能吗？</string>
-    <string name="pair_title">遥控器</string>
+    <string name="pair_title">在非无线网络环境下开启远程遥控</string>
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
     <string name="pair">是</string>
     <string name="error_title">很抱歉！</string>

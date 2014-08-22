@@ -420,17 +420,22 @@
         android:layout_margin="10dp"
         android:src="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
-
+	<LinearLayout  
+	    android:id="@+id/ll_remote_control"
+	    android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_6"
+        android:orientation="horizontal" 
+        android:gravity="center_vertical"
+        android:layout_marginTop="15dp"
+        android:paddingBottom="10dp">
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_remote_enable"
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/divider_6"
+        android:layout_width="0dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:paddingBottom="10dp"
+        android:layout_weight="1"
         android:text="@string/pair_title"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_medium"
@@ -440,11 +445,9 @@
         android:id="@+id/btn_rm_remote_enable"
         style="@style/Widget.Button.Toggle"
         android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignBottom="@+id/tv_rm_remote_enable"
-        android:layout_alignParentRight="true"
+        android:layout_height="40dp"        
         android:layout_marginRight="30dp"
         android:paddingTop="40dp"
         android:checked="false" />
-
+</LinearLayout>
 </RelativeLayout>
