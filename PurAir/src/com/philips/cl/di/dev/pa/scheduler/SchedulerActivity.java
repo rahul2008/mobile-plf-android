@@ -46,6 +46,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	private String selectedDays = "";
 	private String selectedTime;
 	private String selectedFanspeed = SchedulerConstants.DEFAULT_FANSPEED_SCHEDULER;
+	private boolean enabled = true;
 	
 	private SCHEDULE_TYPE scheduleType;
 	private PurAirDevice purAirDevice ;
@@ -152,6 +153,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		selectedTime = time;
 	}
 	
+	public void isEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+	
 	/**
 	 * This method is used to add a new scheduler to the Purifier
 	 */
@@ -161,7 +166,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		String addSchedulerJson = "" ;
 		
 		if(purAirDevice == null) return ;
-		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, true) ;
+		addSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, enabled) ;
 		PurifierManager.getInstance().sendScheduleDetailsToPurifier(addSchedulerJson, purAirDevice,scheduleType,-1) ;
 		showProgressDialog() ;
 		//TODO - Implement Add scheduler Via CPP
@@ -177,9 +182,10 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		String editSchedulerJson = "" ;
 		if(!selectedDays.equals(schedulesList.get(indexSelected).getDays()) ||
 				!selectedFanspeed.equals(schedulesList.get(indexSelected).getMode()) ||
-				!selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime())) {
+				!selectedTime.equals(schedulesList.get(indexSelected).getScheduleTime()) ||
+				enabled != schedulesList.get(indexSelected).isEnabled()) {
 			showProgressDialog() ;
-			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, true) ;
+			editSchedulerJson = JSONBuilder.getSchedulesJson(selectedTime, selectedFanspeed, selectedDays, enabled) ;
 			PurifierManager.getInstance().sendScheduleDetailsToPurifier(editSchedulerJson, purAirDevice,scheduleType,schedulerNumberSelected) ;
 		}
 		else {
@@ -305,6 +311,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			bundle.putString(SchedulerConstants.TIME, selectedTime);
 			bundle.putString(SchedulerConstants.DAYS, selectedDays);
 			bundle.putString(SchedulerConstants.SPEED, selectedFanspeed);
+			bundle.putBoolean(SchedulerConstants.ENABLED, enabled) ;
 		} 
 		
 		try {
@@ -342,6 +349,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		bundle.putString(SchedulerConstants.TIME, schedulePortInfo.getScheduleTime());
 		bundle.putString(SchedulerConstants.DAYS, schedulePortInfo.getDays());
 		bundle.putString(SchedulerConstants.SPEED, schedulePortInfo.getMode());
+		bundle.putBoolean(SchedulerConstants.ENABLED, schedulePortInfo.isEnabled());
 		AddSchedulerFragment fragAddSch = new AddSchedulerFragment();
 		fragAddSch.setArguments(bundle);
 		try {

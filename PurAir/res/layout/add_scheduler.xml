@@ -4,11 +4,52 @@
     android:background="@color/white"
     android:paddingRight="16dp" >
 
+    <LinearLayout
+        android:id="@+id/enable_lyt"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvEnableSchedule"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="16dp"
+            android:text="@string/enable"
+            android:textColor="@color/title_gray"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <ToggleButton
+            android:id="@+id/enable_schedule_toggle"
+            style="@style/Widget.Button.Toggle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:checked="false" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/enable_lyt"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@android:color/black"
+        android:contentDescription="@string/img_description"
+        android:textColor="@color/title_gray" />
+
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvAddTime"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:layout_below="@+id/divider4"
         android:paddingLeft="16dp"
         android:paddingTop="20dp"
         android:text="@string/time"
@@ -34,6 +75,7 @@
         android:layout_width="32dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/divider4"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:contentDescription="@string/img_description"

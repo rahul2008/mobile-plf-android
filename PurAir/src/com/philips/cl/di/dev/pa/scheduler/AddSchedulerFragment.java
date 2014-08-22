@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
@@ -14,11 +17,12 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class AddSchedulerFragment extends BaseFragment implements OnClickListener {
+public class AddSchedulerFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
 
 	private String sSelectedTime = "";
 	private String sSelectedDays = "";
 	private String sSelectedFanspeed = "";
+	private boolean enabled ;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		sSelectedTime = getArguments().getString(SchedulerConstants.TIME);
 		sSelectedDays = getArguments().getString(SchedulerConstants.DAYS);
 		sSelectedFanspeed = getArguments().getString(SchedulerConstants.SPEED);
+		enabled = getArguments().getBoolean(SchedulerConstants.ENABLED) ;
 		
 		if (sSelectedDays == null || sSelectedDays.isEmpty() ) {
 			((SchedulerActivity)getActivity()).setDays(SchedulerConstants.ONE_TIME);
@@ -71,6 +76,10 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 		if(sSelectedFanspeed != null && !sSelectedFanspeed.isEmpty()) {
 			fanspeed_text.setText(SchedulerUtil.getFanspeedName(sSelectedFanspeed));
 		}
+		((FontTextView) view.findViewById(R.id.tvEnableSchedule)).setTypeface(null, Typeface.BOLD);
+		ToggleButton enableDisableBtn = (ToggleButton) view.findViewById(R.id.enable_schedule_toggle);
+		enableDisableBtn.setChecked(enabled);
+		enableDisableBtn.setOnCheckedChangeListener(this);
 	}
 	
 	public void setTime(String time) {
@@ -160,4 +169,15 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 			ALog.e(ALog.SCHEDULER, e.getMessage());
 		}
 	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (buttonView.getId() == R.id.enable_schedule_toggle) {
+			if(getActivity() != null ) {
+				((SchedulerActivity) getActivity()).isEnabled(isChecked);
+			}
+		}
+		
+	}
+
 }
