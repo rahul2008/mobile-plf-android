@@ -12,11 +12,18 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
+import android.location.Location;
+import android.os.Bundle;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -25,7 +32,7 @@ import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
-public class OutdoorController implements ServerResponseListener {
+public class OutdoorController implements ServerResponseListener, AMapLocationListener {
 
 	public static final String APP_ID = "0283ef34a38902227fd8"; //TODO : Obscure constant
 	
@@ -33,20 +40,26 @@ public class OutdoorController implements ServerResponseListener {
 
 	public static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
 	public static final String BASE_URL_HOURLY_FORECAST = "http://data.fuwu.weather.com.cn/getareaid/areaid?id=";
-
-	
 	
 	private static final String HASH_ALG = "HmacSHA1";
 
 	private List<OutdoorEventListener> outdoorEventListeners;
 	private OutdoorDetailsListener outdoorDetailsListener ;
 
+	private LocationManagerProxy mAMapLocationManager;
+	private double latitude;
+	private double longitude;
+	
 	private static OutdoorController smInstance;
 
 	private OutdoorController() {
 		//		APP_ID = Utils.getCMA_AppID() ;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
+		
+		mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
+		mAMapLocationManager.setGpsEnable(true);
+		mAMapLocationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 2000, 10, this);
 	}
 
 	public static OutdoorController getInstance() {
@@ -146,8 +159,16 @@ public class OutdoorController implements ServerResponseListener {
 	@Override
 	public void receiveServerResponse(int responseCode, String data, String areaID) {
 		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode + " areaID " + areaID);
-		if(data != null) {
+		if(data != null && !areaID.isEmpty()) {
 			notifyListeners(data, areaID);
+		} else if (areaID.isEmpty() && data != null) {
+			
+			String[] areaIDResponse = data.split(",");
+			String[] areaIDSplit = areaIDResponse[0].split(":");
+			String newAreaID = areaIDSplit[1];
+			OutdoorManager.getInstance().addAreaIDToUsersList(newAreaID);
+			OutdoorManager.getInstance().startCitiesTask();
+			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
 		}
 	}
 
@@ -205,6 +226,48 @@ public class OutdoorController implements ServerResponseListener {
 			return true;
 		} 
 		return false;
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged Android.Location " + location);
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		
+	}
+	
+	private boolean done = false;
+	@Override
+	public void onLocationChanged(AMapLocation aLocation) {
+		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation);
+		if(aLocation != null && !done) { //&& User's location is not already set
+			latitude = aLocation.getLatitude();
+			longitude = aLocation.getLongitude();
+			startGetAreaIDTask(longitude, latitude);
+			done = true;
+		}
+	}
+	
+	public void startGetAreaIDTask(double longitude, double latitude) {
+		//If purifier in demo mode, skip download data
+//		if (PurAirApplication.isDemoModeEnable()) return;
+		if (isPhilipsSetupWifiSelected()) return;
+
+		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "", PurAirApplication.getAppContext(), this);
+		citiesList.start();
 	}
 
 }
