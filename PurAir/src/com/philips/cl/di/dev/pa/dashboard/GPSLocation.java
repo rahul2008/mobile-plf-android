@@ -7,7 +7,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 public class GPSLocation implements LocationListener {
 	

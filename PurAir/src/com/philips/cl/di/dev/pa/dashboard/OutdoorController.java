@@ -14,17 +14,18 @@ import javax.crypto.spec.SecretKeySpec;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
@@ -174,6 +175,25 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			String newAreaID = areaIDSplit[1];
 			saveCurrentLocationAreaId(newAreaID);
 			OutdoorManager.getInstance().addAreaIDToUsersList(newAreaID);
+			
+			//Update city in from database to map
+			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
+			database.open();
+			Cursor c = database.getDataCurrentLoacation(newAreaID);
+			if (c != null && c.getCount() == 1) {
+				c.moveToFirst();
+				String city = c.getString(c.getColumnIndex(AppConstants.KEY_CITY));
+				String cityCN = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_CN));
+				String cityTW = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_TW));
+				float longitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LONGITUDE));
+				float latitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LATITUDE));
+
+				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + newAreaID);
+				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, newAreaID);
+				OutdoorManager.getInstance().addCityDataToMap(info, null, null, newAreaID);
+			}
+			database.close();
+			
 			OutdoorManager.getInstance().startCitiesTask();
 			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
 		}

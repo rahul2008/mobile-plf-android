@@ -35,6 +35,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	public void startCitiesTask() {
 		for(String areaID : userCitiesList) {
+			System.out.println("manzer: check city data : " + areaID);
 			if(citiesMap == null || citiesMap.get(areaID) == null || citiesMap.get(areaID).getOutdoorAQI() == null)  {
 				OutdoorController.getInstance().startCityAQITask(areaID);
 			}
@@ -167,6 +168,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	public void addCityDataToMap(OutdoorCityInfo info, OutdoorAQI aqi, OutdoorWeather weather, String areaID) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addCityDataToMap areaID " + areaID);
 		OutdoorCity city = citiesMap.get(areaID);
+		System.out.println("manzer addCityDataToMap1: " + city);
 		if(city == null) {
 			city = new OutdoorCity();
 		}

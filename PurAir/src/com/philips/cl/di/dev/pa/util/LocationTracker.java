@@ -8,7 +8,6 @@ import android.util.Log;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 
 /**
  * LocationTracker : This class provides Current Location Details.

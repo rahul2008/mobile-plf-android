@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.Hashtable;
-import java.util.TooManyListenersException;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -23,7 +22,6 @@ import android.widget.ToggleButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -109,16 +107,18 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		//If current location get, add into outdoor location info list
 		if (OutdoorController.getCurrentLocationEnabled() 
 				&& !OutdoorController.getCurrentLocationAreaId().isEmpty()) {
-			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-
-			database.open();
-			Cursor c = database.getDataCurrentLoacation(OutdoorController.getCurrentLocationAreaId());
-			if (c != null && c.getCount() == 1) {
-				c.moveToFirst();
-				OutdoorManager.getInstance().addAreaIDToUsersList(
-						c.getString(c.getColumnIndex(AppConstants.KEY_AREA_ID)));
-			}
-			database.close();
+			OutdoorManager.getInstance().addAreaIDToUsersList(OutdoorController.getCurrentLocationAreaId());
+			
+//			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
+//
+//			database.open();
+//			Cursor c = database.getDataCurrentLoacation(OutdoorController.getCurrentLocationAreaId());
+//			if (c != null && c.getCount() == 1) {
+//				c.moveToFirst();
+//				OutdoorManager.getInstance().addAreaIDToUsersList(
+//						c.getString(c.getColumnIndex(AppConstants.KEY_AREA_ID)));
+//			}
+//			database.close();
 		}
 	}
 	
