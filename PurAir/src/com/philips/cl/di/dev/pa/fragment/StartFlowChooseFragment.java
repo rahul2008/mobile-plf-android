@@ -138,7 +138,7 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 			fragTransaction.add(GPSLocationDialogFragment
 					.newInstance(), "gps_enable").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.TEMP, e.getMessage());
+			ALog.e(ALog.ERROR, e.getMessage());
 		}
 	}
 	
@@ -155,7 +155,7 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 			fragTransaction.add(DownloadAlerDialogFragement.
 					newInstance(title, message), "no_purifier_found").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.TEMP, e.getMessage());
+			ALog.e(ALog.ERROR, e.getMessage());
 		}
 	}
 	

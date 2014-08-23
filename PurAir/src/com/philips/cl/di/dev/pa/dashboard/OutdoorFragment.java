@@ -38,7 +38,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
+		super.onActivityCreated(savedInstanceState); 
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
 		initViews(getView());
 	}
@@ -82,7 +82,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 				String areaID = OutdoorManager.getInstance().getUsersCitiesList().get(position);
 				OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
 				if(city != null && city.getOutdoorCityInfo() != null) {
-					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city + " areaID " + areaID);
+					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city.getOutdoorCityInfo().getCityName() + " areaID " + areaID);
 					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
 						updateUI(city, city.getOutdoorCityInfo().getCityNameCN(), areaID);
@@ -171,7 +171,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	
 	@Override
 	public void onPageScrollStateChanged(int state) {
-		ALog.i(ALog.TEMP, "OutdoorFragment$onPageScrollStateChanged " + state);
 	}
 
 	@Override
@@ -181,6 +180,5 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 
 	@Override
 	public void onPageSelected(int position) {
-		ALog.i(ALog.TEMP, "OutdoorFragment$onPageSelected " + position);
 	}
 }

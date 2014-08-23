@@ -883,6 +883,20 @@ public class Utils {
 		return preferences.getString(purifierEui64, "");
 	}
 	
+	public static void saveUserGPSPermission(boolean allowGPS) {
+		SharedPreferences preferences = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.ALLOW_GPS, Context.MODE_PRIVATE);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean("allow_gps", allowGPS);
+		editor.commit();
+	}
+	
+	public static boolean getUserGPSPermission( ) {
+		SharedPreferences preferences = 
+				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.ALLOW_GPS, Context.MODE_PRIVATE);
+		return preferences.getBoolean("allow_gps", true);
+	}
+	
 	public static Toast getCustomToast(String message) {
 		LayoutInflater inflater = (LayoutInflater)PurAirApplication.getAppContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

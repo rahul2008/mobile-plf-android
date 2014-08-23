@@ -586,7 +586,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			fragTransaction.add(DownloadAlerDialogFragement.
 					newInstance(title, message), "outdoor_download_failed").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.TEMP, e.getMessage());
+			ALog.e(ALog.ERROR, e.getMessage());
 		}
 	}
 	

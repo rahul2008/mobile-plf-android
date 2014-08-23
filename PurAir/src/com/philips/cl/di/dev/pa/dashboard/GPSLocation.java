@@ -58,13 +58,11 @@ public class GPSLocation implements LocationListener {
 	
 	public void stopGPSListener() {
 		stopGpsUpdate = true;
-		ALog.i(ALog.TEMP, "Stop GPS : " + stopGpsUpdate);
 	}
 
 	@Override
 	public void onLocationChanged(Location location) {
 		this.location = location;
-		ALog.i(ALog.TEMP, "GPSLocation$onLocationChanged: " + location);
 	}
 
 	@Override

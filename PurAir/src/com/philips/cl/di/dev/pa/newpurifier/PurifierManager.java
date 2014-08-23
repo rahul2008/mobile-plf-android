@@ -191,7 +191,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	public void removeAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		ALog.i(ALog.TEMP, "removeAirPurifierEventListener") ;
 		synchronized (airPurifierEventListeners) {
 			airPurifierEventListeners.remove(airPurifierEventListener);
 			if (airPurifierEventListeners.isEmpty()) {
@@ -201,7 +200,6 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	public void addAirPurifierEventListener(AirPurifierEventListener airPurifierEventListener) {
-		ALog.i(ALog.TEMP, "addAirPurifierEventListener") ;
 		synchronized (airPurifierEventListeners) {
 			if( !airPurifierEventListeners.contains(airPurifierEventListener)) {
 				airPurifierEventListeners.add(airPurifierEventListener);				
@@ -232,14 +230,11 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	private void notifyPurifierChangedListeners() {
 		ALog.d(ALog.PURIFIER_MANAGER, "Notify purifier changed listeners");
 		
-		ALog.d(ALog.TEMP, "Started notifying listeners");
 		synchronized (airPurifierEventListeners) {
 			for (AirPurifierEventListener listener : airPurifierEventListeners) {
-				ALog.d(ALog.TEMP, "Listener: " + listener.getClass().getSimpleName());
 				listener.onAirPurifierChanged();
 			}
 		}
-		ALog.d(ALog.TEMP, "Stopped notifying listeners");
 	}
 	
 	private void notifySubscriptionListeners(String data) {

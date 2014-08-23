@@ -116,13 +116,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		Bundle bundle = getArguments();
 		GPSLocation.getInstance().requestGPSLocation();
 		if (bundle != null) {
-//			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isGPSEnabled()) {
-//				//TODO : Show pop-up inviting the user to enable GPS
-//			} else {
-//				//Add user location to dashboard
-//				Location location = GPSLocation.getInstance().getGPSLocation();
-//				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
-//			}
+			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isGPSEnabled()) {
+				//TODO : Show pop-up inviting the user to enable GPS
+			} else {
+				//Add user location to dashboard
+				Location location = GPSLocation.getInstance().getGPSLocation();
+				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+			}
 			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
 		} else {
 			mNoPurifierMode = false;
@@ -333,7 +333,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	@Override
 	public void onPageSelected(int position) {
-		ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected " + position + ", getActivity: " + getActivity());
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
 		if (PurAirApplication.isDemoModeEnable()) {
 			setRightMenuIconVisibilityDemoMode(position);
@@ -344,7 +343,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
 			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-			ALog.i(ALog.TEMP, "IndoorFragment$onPageSelected purifier from DB " + purifier);
 			if (purifier == null) return;
 	
 			PurifierManager.getInstance().setCurrentPurifier(purifier) ;

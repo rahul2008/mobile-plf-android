@@ -53,6 +53,7 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
@@ -146,7 +147,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
-	private LocationTracker mLocationTracker = null;
+//	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -166,10 +167,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		setScreenWidth(displayMetrics.widthPixels);
 		setScreenHeight(displayMetrics.heightPixels);
 		
-		if (!Utils.isGooglePlayServiceAvailable()) {
-			mLocationTracker = new LocationTracker(this);
-		}
-
+//		mLocationTracker = new LocationTracker(this);
+		OutdoorController.getInstance();
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
@@ -344,9 +343,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onDestroy() {
 		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
-		if(mLocationTracker !=null){
-			mLocationTracker.deactivate();
-		}
+//		if(mLocationTracker !=null){
+//			mLocationTracker.deactivate();
+//		}
 		super.onDestroy();
 	}
 

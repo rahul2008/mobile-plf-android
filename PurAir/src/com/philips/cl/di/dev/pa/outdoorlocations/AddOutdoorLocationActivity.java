@@ -159,7 +159,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 			fragTransaction.add(DownloadAlerDialogFragement.
 					newInstance(title, message), "max_purifier_reached").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.TEMP, e.getMessage());
+			ALog.e(ALog.ERROR, e.getMessage());
 		}
 	}
 	

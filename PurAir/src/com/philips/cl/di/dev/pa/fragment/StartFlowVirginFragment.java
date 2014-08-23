@@ -1,8 +1,6 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import java.util.List;
-
-import android.location.LocationManager;
+import android.location.Location;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -16,6 +14,7 @@ import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
@@ -68,7 +67,8 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			startVideo();
 			break;
 		case R.id.start_flow_bottom_btn_continue_without:
-			startUseNoPurifierFlow();
+//			startUseNoPurifierFlow();
+			startHomeScreenWithoutAPLayout();
 			break;
 		default:
 			break;
@@ -156,12 +156,15 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			// The user allowed to use location services
 			
 			//Check if device location service is turned on otherwise show pop-up
-			LocationManager locationManager = (LocationManager) getActivity().getSystemService(MainActivity.LOCATION_SERVICE);
-			List<String> enabledProviders = locationManager.getProviders(true);
+//			LocationManager locationManager = (LocationManager) getActivity().getSystemService(MainActivity.LOCATION_SERVICE);
+//			List<String> enabledProviders = locationManager.getProviders(true);
 			
-			if(enabledProviders.isEmpty()) {
+			if(!GPSLocation.getInstance().isGPSEnabled()) {
 				showLocationServiceTurnedOffDialog();
 			} else {
+				GPSLocation.getInstance().requestGPSLocation();
+				Location locations = GPSLocation.getInstance().getGPSLocation();
+				ALog.i(ALog.APP_START_UP, "Location " + locations);
 				startHomeScreenWithoutAPLayout();
 			}
 		}
@@ -176,6 +179,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		
 		@Override
 		public void dialogCancelClicked(DialogFragment dialog) {
+			startHomeScreenWithoutAPLayout();
 		}
 
 		@Override
@@ -183,4 +187,5 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		}
 		
 	};
+
 }

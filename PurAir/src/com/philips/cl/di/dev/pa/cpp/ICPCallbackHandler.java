@@ -270,6 +270,6 @@ public class ICPCallbackHandler implements CallbackHandler
 	@Override
 	public void setHandler(Handler handler) {
 		//TODO
-		ALog.i(ALog.TEMP, "setHandler: " + handler);
+		ALog.i(ALog.CPPCONTROLLER, "setHandler: " + handler);
 	}
 }

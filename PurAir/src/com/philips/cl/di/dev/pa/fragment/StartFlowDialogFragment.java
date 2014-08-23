@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -127,6 +128,9 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 		.setMessage(R.string.location_services_text)
 		.setPositiveButton(R.string.allow, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
+				if(!GPSLocation.getInstance().isGPSEnabled()) {
+					//If GPS is not enabled, request user to enable location services here.
+				}
 				dismiss();
 				mListener.locationServiceAllowClicked(StartFlowDialogFragment.this);
 			}
@@ -243,7 +247,7 @@ public class StartFlowDialogFragment extends DialogFragment implements AddNewPur
 		public AppSelectorAdapter(Context context, int resource,
 				int textViewResourceId, List<String> objects) {
 			super(context, resource, textViewResourceId, objects);
-			Log.i(ALog.TEMP, "AppSelectorAdapter constructor call.");
+			Log.i(ALog.APP_START_UP, "AppSelectorAdapter constructor call.");
 		}
 		
 		@Override
