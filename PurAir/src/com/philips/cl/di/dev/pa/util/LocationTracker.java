@@ -33,13 +33,13 @@ public class LocationTracker implements AMapLocationListener {
 			mAMapLocationManager = LocationManagerProxy.getInstance(mContext);
 			mAMapLocationManager.setGpsEnable(true);
 			mAMapLocationManager.requestLocationUpdates(
-					LocationProviderProxy.AMapNetwork, 2000, 10, this);
+					LocationManagerProxy.GPS_PROVIDER, 2000, 10, this);
 		}
 	}
 
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
-		Log.i("testing", " LocationSourceActivity onLocationChanged aLocation");
+		Log.i("testing", " LocationSourceActivity onLocationChanged aLocation  " + aLocation);
 		if (aLocation != null) {
 			Log.i("testing",
 					" aLocation.getLatitude() : " + aLocation.getLatitude());

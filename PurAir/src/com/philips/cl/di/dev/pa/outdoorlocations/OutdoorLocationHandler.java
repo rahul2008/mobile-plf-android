@@ -65,7 +65,7 @@ public class OutdoorLocationHandler {
 				try {
 					database.open();
 					Cursor cursor = database.getDataFromOutdoorLoacation(
-							AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS);
+							AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_CURR_LOC);
 					database.close();
 					if (selectedCityListener != null) {
 						selectedCityListener.onSelectedCityLoad(cursor);

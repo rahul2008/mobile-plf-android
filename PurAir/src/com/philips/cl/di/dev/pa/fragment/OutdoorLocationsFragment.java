@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.Hashtable;
+import java.util.TooManyListenersException;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -13,14 +14,19 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
@@ -28,7 +34,8 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks, OnConnectionFailedListener, OutdoorSelectedCityListener {
+public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks,
+	OnConnectionFailedListener, OutdoorSelectedCityListener, OnCheckedChangeListener {
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;
@@ -36,6 +43,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private ListView mOutdoorLocationListView;
 	private CursorAdapter mOutdoorLocationAdapter;
 	private Hashtable<String, Boolean> selectedItemHashtable;
+	private ToggleButton currentLocation;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -50,9 +58,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView");
 		View view = inflater.inflate(R.layout.outdoor_locations_fragment, container, false);
+		currentLocation = (ToggleButton) view.findViewById(R.id.btn_current_location);
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
 		
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
+		
+		if (OutdoorController.getCurrentLocationAreaId().isEmpty()) {
+			currentLocation.setClickable(false);
+		} else {
+			currentLocation.setChecked(OutdoorController.getCurrentLocationEnabled());
+			currentLocation.setOnCheckedChangeListener(this);
+		}
 		
 		return view;
 	}
@@ -89,8 +105,23 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 						cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
 			} while (cursor.moveToNext());
 		}
-	}
+		
+		//If current location get, add into outdoor location info list
+		if (OutdoorController.getCurrentLocationEnabled() 
+				&& !OutdoorController.getCurrentLocationAreaId().isEmpty()) {
+			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
 
+			database.open();
+			Cursor c = database.getDataCurrentLoacation(OutdoorController.getCurrentLocationAreaId());
+			if (c != null && c.getCount() == 1) {
+				c.moveToFirst();
+				OutdoorManager.getInstance().addAreaIDToUsersList(
+						c.getString(c.getColumnIndex(AppConstants.KEY_AREA_ID)));
+			}
+			database.close();
+		}
+	}
+	
 	private void fillListViewFromDatabase(Cursor cursor) {
 		if (cursor != null) {
 			
@@ -108,6 +139,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				
 				@Override
 				public void bindView(View view, Context context, Cursor cursor) {
+					final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
+					
 					ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 					FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
 					
@@ -122,7 +155,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					
 					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 					
-					final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
 					if (selectedItemHashtable.containsKey(areaId) && selectedItemHashtable.get(areaId)) {
 						delete.setVisibility(View.VISIBLE);
 						deleteSign.setImageResource(R.drawable.delete_t2b);
@@ -154,6 +186,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			};
 			
 			mOutdoorLocationListView.setAdapter(mOutdoorLocationAdapter);
+			
 			//Add city to list
 			addAreaIdToCityList(cursor);
 		}
@@ -204,5 +237,26 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				fillListViewFromDatabase(cursor);
 			}
 		});
+	}
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		if (buttonView.getId() == R.id.btn_current_location) {
+			OutdoorController.saveCurrentLocationEnabled(isChecked);
+			
+			//Update database
+			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
+
+			database.open();
+			database.updateOutdoorLocationShortListItem(OutdoorController.getCurrentLocationAreaId(), isChecked);
+			database.close();
+			
+			//Update outdoor location info list;
+			if (isChecked) {
+				OutdoorManager.getInstance().addAreaIDToUsersList(OutdoorController.getCurrentLocationAreaId());
+			} else {
+				OutdoorManager.getInstance().removeAreaIDFromUsersList(OutdoorController.getCurrentLocationAreaId());
+			}
+		}
 	}
 }

@@ -148,7 +148,12 @@ public class OutdoorManager implements OutdoorEventListener {
 	public synchronized void addAreaIDToUsersList(String areaID) {
 		if(!userCitiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToUserCitiesList areaID " + areaID);
-			userCitiesList.add(areaID);
+			//Add current location first position in the list
+			if (areaID.equals(OutdoorController.getCurrentLocationAreaId())) {
+				userCitiesList.add(0, areaID);
+			} else {
+				userCitiesList.add(areaID);
+			}
 		}
 	}
 

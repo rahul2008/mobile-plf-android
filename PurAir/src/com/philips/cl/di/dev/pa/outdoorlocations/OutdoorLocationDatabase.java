@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.StringTokenizer;
 
+import android.app.Activity;
 import android.content.ContentValues;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.util.Log;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
@@ -34,6 +37,9 @@ public class OutdoorLocationDatabase {
 									AppConstants.KEY_CITY_CN,
 									AppConstants.KEY_SHORTLIST,
 									AppConstants.KEY_CITY_TW };
+	
+	public static String CURR_LOC_PREF = "current_loc_pref";
+	public static String CURR_LOC_AREAID = "current_loc_aid";
 	
 	public OutdoorLocationDatabase() {
 		mDatabaseHelper = new DatabaseHelper(PurAirApplication.getAppContext());
@@ -122,6 +128,12 @@ public class OutdoorLocationDatabase {
 		if (cursor != null) {
 			cursor.moveToFirst();
 		}
+		return cursor;
+	}
+	
+	public synchronized Cursor getDataCurrentLoacation(String areaID) {
+		Cursor cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
+				AppConstants.KEY_AREA_ID + "= ?", new String[]{areaID}, null, null, null, null);
 		return cursor;
 	}
 	
