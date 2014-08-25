@@ -95,6 +95,10 @@ public class EWSStepThreeFragment extends Fragment {
 		passwordLabelStep3.setText(Html.fromHtml(passwordLabel));
 		if (SessionDto.getInstance().getDeviceDto() != null) {
 			String name = SessionDto.getInstance().getDeviceDto().getName();
+			if(name.equals(EWSConstant.EWS_PURIFIER_DEFAULT_NAME)){
+				name=getString(R.string.purifier_name);
+				((EWSActivity) getActivity()).sendDeviceNameToPurifier(name) ;
+			}
 			ALog.i(ALog.EWS, "Name: " + name);
 			deviceNameStep3.setText(name) ;
 		}

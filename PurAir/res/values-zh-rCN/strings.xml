@@ -409,6 +409,7 @@
     <string name="verify_power_on_title">开启飞利浦智控空气净化器</string>
     <string name="verify_power_on_msg1">请将飞利浦智控净化器接入电源，并按下开关开启净化器。</string>
     <string name="verify_power_on_msg2">您的飞利浦智控空气净化器开启了吗？</string>
+    <string name="purifier_name">我的家</string>
     
     <!-- Tools fragments -->
 <!--     <string name="submit">提交</string> -->

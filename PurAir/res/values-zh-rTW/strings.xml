@@ -411,6 +411,7 @@
     <string name="verify_power_on_title">啟動飛利浦空氣清新機</string>
     <string name="verify_power_on_msg1">請將飛利浦智控淨化器接入電源，并按下開關開啟淨化器。</string>
     <string name="verify_power_on_msg2">Philips 智能空氣清新機是否已開啟？</string>
+    <string name="purifier_name">我的家</string>
     
     <!-- Tools fragments -->
     <string name="ipaddress">Purifier IPAddress: </string>

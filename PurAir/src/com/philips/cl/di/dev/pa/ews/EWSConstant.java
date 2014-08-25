@@ -14,6 +14,7 @@ public class EWSConstant {
 	public static final String EWS_ERROR_DISCOVER_FRAGMENT_TAG = "error_discovery_fragment";
 	public static final String EWS_SUPPORT_FRAGMENT_TAG = "support_fragment";
 	public static final String EWS_DISCOVERED_FRAGMENT_TAG = "discovered_fragment";
+	public static final String EWS_PURIFIER_DEFAULT_NAME="AC4373"; 
 	
 	public static final int EWS_STEP_START = -1;
 	public static final int EWS_STEP_CHANGE_NETWORK = 0;
