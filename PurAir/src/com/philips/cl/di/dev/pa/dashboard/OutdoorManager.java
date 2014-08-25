@@ -17,6 +17,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 public class OutdoorManager implements OutdoorEventListener {
 
 	private Map<String, OutdoorCity> citiesMap;
+	private Map<String, OutdoorCity> citiesMapAll; // This is for entire city list
 	private List<String> userCitiesList;
 	private List<String> allCitiesList;
 
@@ -50,6 +51,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		insertDataAndGetShortListCities();
 
 		citiesMap = new HashMap<String, OutdoorCity>();
+		citiesMapAll = new HashMap<String, OutdoorCity>();
 		userCitiesList = new ArrayList<String>();
 		allCitiesList = new ArrayList<String>();
 		
@@ -177,6 +179,18 @@ public class OutdoorManager implements OutdoorEventListener {
 		if(weather != null) city.setOutdoorWeather(weather);
 		citiesMap.put(areaID, city);
 	}
+	
+	public void addAllCityDataToMap(OutdoorCityInfo info, OutdoorAQI aqi, OutdoorWeather weather, String areaID) {
+		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addAllCityDataToMap areaID " + areaID);
+		OutdoorCity city = citiesMap.get(areaID);
+		if(city == null) {
+			city = new OutdoorCity();
+		}
+		if(info != null) city.setOutdoorCityInfo(info);
+		if(aqi != null) city.setOutdoorAQI(aqi);
+		if(weather != null) city.setOutdoorWeather(weather);
+		citiesMapAll.put(areaID, city);
+	}
 
 	public void removeCityDataFromMap(String areaID) {
 		if(citiesMap != null && citiesMap.containsKey(areaID)) {
@@ -188,6 +202,11 @@ public class OutdoorManager implements OutdoorEventListener {
 	public OutdoorCity getCityData(String areaID) {
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$getCityData " + areaID);
 		return citiesMap.get(areaID);
+	}
+
+	public OutdoorCity getCityDataAll(String areaID) {
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$getCityDataAll " + areaID);
+		return citiesMapAll.get(areaID);
 	}
 
 	public void clearCityOutdoorInfo() {

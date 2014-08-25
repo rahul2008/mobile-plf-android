@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -27,9 +30,14 @@ import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
+import com.google.android.gms.plus.model.people.Person.PlacesLived;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -51,6 +59,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private FontTextView mAqiCity = null;
 	private FontTextView mAqiDetails = null;
 	private ImageView mAqiMarker = null;
+	private static List<String> mCitiesListAll = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +80,11 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 
 		init();
 
-		for (int i = 0; i < mCitiesList.size(); i++) {
-			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
-					mCitiesList.get(i));
+		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
+		ALog.i("testing", "mCitiesListAll : " + mCitiesListAll.size());
+		for (int i = 0; i < mCitiesListAll.size()/3; i++) {
+			OutdoorCity outdoorCity = OutdoorManager.getInstance()
+					.getCityDataAll(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
 	}
@@ -115,17 +126,26 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
-		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null
+		if (outdoorCity == null /*|| outdoorCity.getOutdoorAQI() == null*/
 				|| outdoorCity.getOutdoorCityInfo() == null)
 			return;
-		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
+		
+//		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
+		int aqiValue = 101;
+		if (outdoorCity.getOutdoorAQI() != null)
+			aqiValue = outdoorCity.getOutdoorAQI().getAQI();
+		
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
-		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
-		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
-		int so2 = outdoorCity.getOutdoorAQI().getSo2();
-		int no2 = outdoorCity.getOutdoorAQI().getNo2();
+//		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
+//		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
+//		int so2 = outdoorCity.getOutdoorAQI().getSo2();
+//		int no2 = outdoorCity.getOutdoorAQI().getNo2();
+		int pm25 = 1;
+		int pm10 = 2;
+		int so2 = 3;
+		int no2 = 4;
 		String cityName = null;
 		boolean iconOval = false;
 
@@ -200,9 +220,14 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 				new LatLng(outdoorCity.getOutdoorCityInfo().getLatitude(),
 						outdoorCity.getOutdoorCityInfo().getLongitude()))
 				.build();
-		bounds = builder.build();
-		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+		try {
+			bounds = builder.build();
+			aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
+		} catch (IllegalStateException e) {
+			ALog.d("MarkerActivity", "IllegalStateException");
+		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
+	
 	}
 
 	public void render(Marker marker, View view) {

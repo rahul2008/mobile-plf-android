@@ -208,6 +208,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
 		
+		OutdoorLocationHandler.getInstance().fetchAllCityList();
 	}
 
 	private void selectPurifier() {
@@ -1173,5 +1174,4 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		// TODO Remove this for store builds!
 		UpdateManager.register(this, AppConstants.HOCKEY_APPID);
 	}
-
 }
