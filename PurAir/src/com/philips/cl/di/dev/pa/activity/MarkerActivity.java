@@ -186,24 +186,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	public boolean onMarkerClick(final Marker marker) {
 		mAqiCity.setText(marker.getTitle());
 		mAqiDetails.setText(marker.getSnippet());
-		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap()/*
-																	 * BitmapDescriptorFactory
-																	 * .
-																	 * fromBitmap
-																	 * (
-																	 * MarkerMapFragment
-																	 * .
-																	 * writeTextOnDrawable
-																	 * (
-																	 * MarkerMapFragment
-																	 * .
-																	 * getAqiPointerImageResId
-																	 * (
-																	 * aqiValue,
-																	 * false),
-																	 * aqiValue
-																	 * ))
-																	 */);
+		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap());
 		showAqiDetails();
 		return false;
 	}

@@ -175,16 +175,8 @@ public class OutdoorLocationHandler {
 
 				mDatabaseHelper = new DatabaseHelper(PurAirApplication.getAppContext());
 				open();
-
-//				String whereCondition = "(" + AppConstants.KEY_LONGITUDE + "<"
-//						+ longitudePlus + " AND " + AppConstants.KEY_LONGITUDE + ">"
-//						+ longitudeMinus + ") AND (" + AppConstants.KEY_LATITUDE + "<"
-//						+ latitudePlus + " AND " + AppConstants.KEY_LATITUDE + ">"
-//						+ latitudeMinus + ")";
 				String filterText = null;
-
 				Cursor cursor = null;
-
 				cursor = mOutdoorLocationDatabase.query(true,
 						AppConstants.TABLE_CITYDETAILS, mTableColumns, filterText,
 						null, null, null, AppConstants.KEY_CITY + " ASC", null);
@@ -198,20 +190,6 @@ public class OutdoorLocationHandler {
 				fillAllCitiesListFromDatabase(cursor);
 
 				close();
-//				OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-//				
-//				try {
-//					database.open();
-//					Cursor cursor = database.getDataFromOutdoorLoacation(
-//							AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS);
-//					database.close();
-//					if (selectedCityListener != null) {
-//						selectedCityListener.onSelectedCityLoad(cursor);
-//					}
-//				} catch (SQLiteException e) {
-//					ALog.e(ALog.OUTDOOR_LOCATION, 
-//							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
-//				}
 			}
 		}).start();
 	}
@@ -228,29 +206,6 @@ public class OutdoorLocationHandler {
 			mOutdoorLocationDatabase.close();
 		}
 	}
-
-//	/**
-//	 * Get outdoor locations that matches the filter
-//	 * 
-//	 * @param filterText
-//	 *            Text that is used to filter outdoor locations
-//	 * @return cursor with outdoor locations
-//	 */
-//	public synchronized Cursor getDataFromOutdoorLoacation(String filterText) {
-//		ALog.i("testing", "Text to filter: " + filterText);
-//
-//		Cursor cursor = null;
-//
-//		cursor = mOutdoorLocationDatabase.query(true,
-//				AppConstants.TABLE_CITYDETAILS, mTableColumns, filterText,
-//				null, null, null, AppConstants.KEY_CITY + " ASC", null);
-//
-//		Log.i("testing", " testing cursor.size : " + cursor.getCount());
-//
-//		fillAllCitiesListFromDatabase(cursor);
-//
-//		return cursor;
-//	}
 
 	private synchronized void fillAllCitiesListFromDatabase(Cursor cursor) {
 

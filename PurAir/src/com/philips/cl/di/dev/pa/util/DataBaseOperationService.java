@@ -17,7 +17,7 @@ public class DataBaseOperationService extends Service{
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		ALog.i("testing", "Service Started DataBaseOperationService");
+		ALog.i("testing", "Service Started DataBaseOperationService context : " + this);
 //		new Thread(new Runnable() {
 //
 //			@Override
