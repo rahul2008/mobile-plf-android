@@ -290,7 +290,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation);
-		if(aLocation != null && !done) {
+		if(aLocation != null && !done && getCurrentLocationAreaId().isEmpty()) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
 			startGetAreaIDTask(longitude, latitude);

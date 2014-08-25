@@ -426,7 +426,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void showVirginFlowFragment() {
-		showFragment(new StartFlowVirginFragment()) ;
+		if(OutdoorController.getCurrentLocationAreaId().isEmpty()) {
+			showFragment(new StartFlowVirginFragment()) ;
+		} else {
+			Bundle bundle = new Bundle();
+			bundle.putBoolean(AppConstants.NO_PURIFIER_FLOW, true);
+			HomeFragment homeFragment = new HomeFragment();
+			homeFragment.setArguments(bundle);
+			showFragment(homeFragment);
+		}
+		
 		setTitle(getString(R.string.dashboard_title));
 	}
 
