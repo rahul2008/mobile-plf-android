@@ -21,6 +21,7 @@ import android.os.Bundle;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -63,10 +64,19 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		//		APP_ID = Utils.getCMA_AppID() ;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
-		
+
 		mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
-		mAMapLocationManager.setGpsEnable(true);
-		mAMapLocationManager.requestLocationUpdates(LocationManagerProxy.GPS_PROVIDER, 2000, 10, this);
+		List<String> providers = mAMapLocationManager.getAllProviders();
+		ALog.i(ALog.TEMP, "Providers " + providers);
+		for (String provider : providers) {
+			if(mAMapLocationManager.isProviderEnabled(provider)) {
+				ALog.i(ALog.TEMP, "Enabled provider " + provider);
+				mAMapLocationManager.setGpsEnable(true);
+				mAMapLocationManager.requestLocationUpdates(provider, 2000, 10, this);
+			}
+		}
+//		mAMapLocationManager.setGpsEnable(true);
+//		mAMapLocationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 2000, 10, this);
 	}
 
 	public static OutdoorController getInstance() {
@@ -280,7 +290,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation);
-		if(aLocation != null && !done) { //&& User's location is not already set
+		if(aLocation != null && !done) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
 			startGetAreaIDTask(longitude, latitude);

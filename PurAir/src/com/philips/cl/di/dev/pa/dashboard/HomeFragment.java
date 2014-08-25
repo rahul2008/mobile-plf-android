@@ -122,6 +122,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				//Add user location to dashboard
 				Location location = GPSLocation.getInstance().getGPSLocation();
 				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+				if(location != null) { //TODO : Check if user location is already set
+					OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
+				}
 			}
 			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
 		} else {
