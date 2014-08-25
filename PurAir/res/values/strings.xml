@@ -422,7 +422,7 @@
     <string name="verify_power_on_title">Switching on the Philips Smart Air Purifier</string>
     <string name="verify_power_on_msg1">Plug in the Philips Smart Air Purifier and press the Power button to switch on the purifier.</string>
     <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
-    <string name="purifier_name">My home</string>
+    <string name="default_purifier_name">My home</string>
 
     <!-- Tools fragments -->
     <string name="ipaddress">Purifier IPAddress: </string>
