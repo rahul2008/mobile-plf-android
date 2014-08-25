@@ -35,6 +35,9 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.util.networkutils.GPSStateListener;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
+import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 
 public class OutdoorController implements ServerResponseListener, AMapLocationListener {
 
@@ -53,9 +56,11 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private LocationManagerProxy mAMapLocationManager;
 	private double latitude;
 	private double longitude;
+	private Location location;
 	
 	public static String CURR_LOC_PREF = "current_loc_pref";
 	public static String CURR_LOC_AREAID = "current_loc_aid";
+	public static String EWS_STATE = "ews_state";
 	public static String CURR_LOC_ENABLEB = "current_loc_enabled";
 	
 	private static OutdoorController smInstance;
@@ -66,6 +71,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 
 		mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
+		
 		List<String> providers = mAMapLocationManager.getAllProviders();
 		ALog.i(ALog.TEMP, "Providers " + providers);
 		for (String provider : providers) {
@@ -75,8 +81,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 				mAMapLocationManager.requestLocationUpdates(provider, 2000, 10, this);
 			}
 		}
-//		mAMapLocationManager.setGpsEnable(true);
-//		mAMapLocationManager.requestLocationUpdates(LocationProviderProxy.AMapNetwork, 2000, 10, this);
 	}
 
 	public static OutdoorController getInstance() {
@@ -264,6 +268,14 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		} 
 		return false;
 	}
+	
+	public Location getCurrentLocation() {
+		return location;
+	}
+	
+	public void setCurrentLocation(Location location) {
+		this.location = location;
+	}
 
 	@Override
 	public void onLocationChanged(Location location) {
@@ -289,7 +301,8 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private boolean done = false;
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
-		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation);
+		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + getCurrentLocationAreaId());
+		location = aLocation;
 		if(aLocation != null && !done && getCurrentLocationAreaId().isEmpty()) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
@@ -300,7 +313,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	
 	public void startGetAreaIDTask(double longitude, double latitude) {
 		//If purifier in demo mode, skip download data
-//		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "", PurAirApplication.getAppContext(), this);
@@ -335,6 +347,20 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		SharedPreferences pref = PurAirApplication.getAppContext()
 				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
 		return pref.getBoolean(CURR_LOC_ENABLEB, true);
+	}
+	
+	public static void saveFirstTimeEWSState(boolean state) {
+		SharedPreferences pref = PurAirApplication.getAppContext()
+				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor edit = pref.edit();
+		edit.putBoolean(EWS_STATE, state);
+		edit.commit();
+	}
+	
+	public static boolean getFirstTimeEWSState() {
+		SharedPreferences pref = PurAirApplication.getAppContext()
+				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
+		return pref.getBoolean(EWS_STATE, false);
 	}
 	
 	public static void reset() {

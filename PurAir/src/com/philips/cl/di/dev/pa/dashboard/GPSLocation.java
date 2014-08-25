@@ -48,6 +48,9 @@ public class GPSLocation implements LocationListener {
 		if (location == null && isGPSEnabled()) {
 			location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		}
+		if (location != null) {
+			OutdoorController.getInstance().setCurrentLocation(location);
+		}
 		return location;
 	}
 	
@@ -62,6 +65,9 @@ public class GPSLocation implements LocationListener {
 	@Override
 	public void onLocationChanged(Location location) {
 		this.location = location;
+		if (location != null) {
+			OutdoorController.getInstance().setCurrentLocation(location);
+		}
 	}
 
 	@Override

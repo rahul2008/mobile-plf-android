@@ -6,6 +6,7 @@ import java.util.Locale;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
@@ -24,6 +25,8 @@ import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
@@ -328,6 +331,16 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 			List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
 			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 		}
+		
+		//Save current location after first time EWS
+		if (!OutdoorController.getFirstTimeEWSState()) {
+			Location location = OutdoorController.getInstance().getCurrentLocation();
+			if (location != null) {
+				OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
+			} 
+			OutdoorController.saveFirstTimeEWSState(true);
+		}
+		
 		// STOP move code
 		finish() ;
 		

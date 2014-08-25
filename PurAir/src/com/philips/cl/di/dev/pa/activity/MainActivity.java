@@ -42,6 +42,7 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import cn.jpush.android.api.JPushInterface;
 
+import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -423,6 +424,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		ConnectPurifier.reset() ;
 		GPSLocation.reset();
 		OutdoorLocationHandler.reset();
+		OutdoorController.reset();
 		finish();
 	}
 
