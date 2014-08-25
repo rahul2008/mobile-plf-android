@@ -21,7 +21,6 @@ import android.os.Bundle;
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
-import com.amap.api.location.LocationProviderProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
@@ -35,9 +34,6 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
-import com.philips.cl.di.dev.pa.util.networkutils.GPSStateListener;
-import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
-import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 
 public class OutdoorController implements ServerResponseListener, AMapLocationListener {
 
