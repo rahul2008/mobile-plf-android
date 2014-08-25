@@ -208,7 +208,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
 		
-		OutdoorLocationHandler.getInstance().fetchAllCityList();
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				OutdoorLocationHandler.getInstance().fetchAllCityList();
+			}
+		}).start();
 	}
 
 	private void selectPurifier() {
