@@ -171,6 +171,14 @@
             android:exported="false" >
         </service>
     
+         <service
+            android:name="com.philips.cl.di.dev.pa.util.DataBaseOperationService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.philips.cl.di.dev.pa.util.DataBaseService" />
+            </intent-filter>
+        </service>
        
       
         <service

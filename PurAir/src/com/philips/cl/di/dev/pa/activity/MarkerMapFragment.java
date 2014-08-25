@@ -2,8 +2,6 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.util.List;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,7 +13,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,13 +31,9 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity.DashBoardDataFetchListener;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 
 /**
  * 
@@ -54,7 +47,7 @@ public class MarkerMapFragment extends Fragment implements
 	private AMap aMap;
 	private MapView mapView;
 	private UiSettings mUiSettings;
-	private List<String> mCitiesList = null;
+//	private List<String> mCitiesList = null;
 	private static List<String> mCitiesListAll = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
@@ -82,8 +75,6 @@ public class MarkerMapFragment extends Fragment implements
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 	}
 
-	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -92,14 +83,14 @@ public class MarkerMapFragment extends Fragment implements
 		view = inflater.inflate(R.layout.marker_activity, container, false);
 		mapView = (MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		mCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
+//		mCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
 		builder = new LatLngBounds.Builder();
 
 		init();
 
-		populatingDashboardData();
+//		populatingDashboardData();
 		// testing
-		mHandler.sendEmptyMessageDelayed(0, 10);
+		mHandler.sendEmptyMessageDelayed(0, 100);
 		return view;
 	}
 
@@ -111,31 +102,26 @@ public class MarkerMapFragment extends Fragment implements
 	};
 
 	private void addMarker() {
+		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
+		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityDataAll(selectedCityCode);
+		float selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
+		float selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
+		
+		float latitudePlus = selectedLatitude + 4;
+		float latitudeMinus = selectedLatitude - 4;
+		float longitudePlus = selectedLongitude + 4;
+		float longitudeMinus = selectedLongitude - 4;
+		
+//		mCitiesListAll = OutdoorManager.getInstance().getAllMatchingCitiesList(latitudePlus, latitudeMinus, longitudePlus, longitudeMinus);
+		
 		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
 		ALog.i("testing", "mCitiesListAll : " + mCitiesListAll.size());
-		for (int i = 0; i < mCitiesListAll.size()/3; i++) {
+		for (int i = 0; i < (mCitiesListAll.size())/4; i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
 	};
-
-	private void populatingDashboardData() {
-		dashBoardDataFetchListener = new DashBoardDataFetchListener() {
-
-			@Override
-			public void isCompleted(boolean isCompleted) {
-				// for (int i = 0; i < mCitiesList.size(); i++) {
-				// OutdoorCity outdoorCity = OutdoorManager.getInstance()
-				// .getCityData(mCitiesList.get(i));
-				// addMarkerToMap(outdoorCity);
-				// }
-			}
-		};
-
-		OutdoorDetailsActivity
-				.setDashBoardDataFetch(dashBoardDataFetchListener);
-	}
 
 	private void init() {
 		if (aMap == null) {

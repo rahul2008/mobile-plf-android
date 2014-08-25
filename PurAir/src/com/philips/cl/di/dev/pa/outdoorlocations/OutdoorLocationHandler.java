@@ -156,6 +156,16 @@ public class OutdoorLocationHandler {
 			AppConstants.KEY_SHORTLIST, AppConstants.KEY_CITY_TW };
 	
 	
+	public interface DashBoardDataFetchListener{
+		void isCompleted(boolean isCompleted);
+	}
+	
+	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
+	
+	public static void setDashBoardDataFetch(DashBoardDataFetchListener dashBoardListener){
+		dashBoardDataFetchListener = dashBoardListener;
+	}
+	
 	public synchronized void fetchAllCityList() {
 		
 		new Thread(new Runnable() {
@@ -179,8 +189,12 @@ public class OutdoorLocationHandler {
 						AppConstants.TABLE_CITYDETAILS, mTableColumns, filterText,
 						null, null, null, AppConstants.KEY_CITY + " ASC", null);
 
-//				Log.i("testing", " testing cursor.size : " + cursor.getCount());
-
+				ALog.i("testing", " testing cursor.size : " + cursor.getCount());
+				
+				if(dashBoardDataFetchListener != null){
+					dashBoardDataFetchListener.isCompleted(true);
+				}
+				
 				fillAllCitiesListFromDatabase(cursor);
 
 				close();
@@ -205,7 +219,7 @@ public class OutdoorLocationHandler {
 	public synchronized void open() {
 		if (mOutdoorLocationDatabase == null
 				|| !mOutdoorLocationDatabase.isOpen()) {
-			mOutdoorLocationDatabase = mDatabaseHelper.getReadableDatabase();
+			mOutdoorLocationDatabase = mDatabaseHelper.getWritableDatabase();
 		}
 	}
 

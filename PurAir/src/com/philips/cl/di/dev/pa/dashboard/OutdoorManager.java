@@ -9,6 +9,7 @@ import java.util.Set;
 
 import android.database.Cursor;
 
+import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
@@ -20,6 +21,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	private Map<String, OutdoorCity> citiesMapAll; // This is for entire city list
 	private List<String> userCitiesList;
 	private List<String> allCitiesList;
+	private List<String> allMatchingCitiesList;
 
 	private static OutdoorManager smInstance;
 
@@ -54,6 +56,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		citiesMapAll = new HashMap<String, OutdoorCity>();
 		userCitiesList = new ArrayList<String>();
 		allCitiesList = new ArrayList<String>();
+		allMatchingCitiesList = new ArrayList<String>();
 		
 		WeatherIcon.populateWeatherIconMap();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
@@ -128,6 +131,24 @@ public class OutdoorManager implements OutdoorEventListener {
 			}
 		}
 	}
+	
+	public List<String> getAllMatchingCitiesList(float latitudePlus, float latitudeMinus, float longitudePlus, float longitudeMinus){
+		for (int i = 0; i < getAllCitiesList().size(); i++) {
+			OutdoorCity outdoorCity = OutdoorManager.getInstance()
+					.getCityDataAll(getAllCitiesList().get(i));
+			float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
+			
+			if((latitude <  longitudePlus && latitude  >
+				longitudeMinus)  &&  (latitude <
+				latitudePlus &&  latitude  >
+				latitudeMinus)){				
+					allMatchingCitiesList.add(getAllCitiesList().get(i));
+				}
+		}
+		
+		return allMatchingCitiesList;
+	}
+	
 
 	public synchronized List<String> getAllCitiesList() {
 		return allCitiesList;

@@ -10,6 +10,7 @@ import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.UpdateManager;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -17,6 +18,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -83,6 +85,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler.DashBoardDataFetchListener;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
@@ -146,6 +149,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
+	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
+	private Intent mIntent = null;
 //	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -207,16 +212,22 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
+		mIntent = new Intent("com.philips.cl.di.dev.pa.util.DataBaseService");
 		
-		new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
-				OutdoorLocationHandler.getInstance().fetchAllCityList();
-			}
-		}).start();
-	}
+		startService(mIntent);
+	
+		dashBoardDataFetchListener = new DashBoardDataFetchListener() {
 
+			@Override
+			public void isCompleted(boolean isCompleted) {
+				ALog.i("testing","MainActivity Now comeplte your DB Service isCompelted : " + isCompleted);
+				stopService(mIntent);
+			}
+		};
+
+		OutdoorLocationHandler.setDashBoardDataFetch(dashBoardDataFetchListener);
+	}
+	
 	private void selectPurifier() {
 		PurAirDevice current = getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
