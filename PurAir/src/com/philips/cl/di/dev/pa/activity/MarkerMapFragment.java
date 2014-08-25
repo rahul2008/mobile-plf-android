@@ -102,15 +102,15 @@ public class MarkerMapFragment extends Fragment implements
 	};
 
 	private void addMarker() {
-		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
-		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityDataAll(selectedCityCode);
-		float selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
-		float selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
-		
-		float latitudePlus = selectedLatitude + 4;
-		float latitudeMinus = selectedLatitude - 4;
-		float longitudePlus = selectedLongitude + 4;
-		float longitudeMinus = selectedLongitude - 4;
+//		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
+//		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityDataAll(selectedCityCode);
+//		float selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
+//		float selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
+//		
+//		float latitudePlus = selectedLatitude + 4;
+//		float latitudeMinus = selectedLatitude - 4;
+//		float longitudePlus = selectedLongitude + 4;
+//		float longitudeMinus = selectedLongitude - 4;
 		
 //		mCitiesListAll = OutdoorManager.getInstance().getAllMatchingCitiesList(latitudePlus, latitudeMinus, longitudePlus, longitudeMinus);
 		
