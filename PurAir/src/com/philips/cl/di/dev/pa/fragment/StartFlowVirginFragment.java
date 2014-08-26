@@ -11,11 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.amap.api.location.LocationManagerProxy;
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -68,9 +71,9 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			startVideo();
 			break;
 		case R.id.start_flow_bottom_btn_continue_without:
-//			startUseNoPurifierFlow();
+			startUseNoPurifierFlow();
 			LocationUtils.saveDashboardWithoutPurifierState(true);
-			startHomeScreenWithoutAPLayout();
+//			startHomeScreenWithoutAPLayout();
 			break;
 		default:
 			break;
@@ -123,7 +126,12 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			}	
 		} else {
 			// Ask user if we are allowed to use there location
-			showLocationServiceDialog();
+//			showLocationServiceDialog();
+			if(!GPSLocation.getInstance().isGPSEnabled()) {
+				showLocationServiceTurnedOffDialog();
+			} else {
+				startHomeScreenWithoutAPLayout();
+			}
 		}
 
 	}
@@ -150,7 +158,12 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		
 		@Override
 		public void noInternetTurnOnClicked(DialogFragment dialog) {
-			showLocationServiceDialog();
+//			showLocationServiceDialog();
+			if(!GPSLocation.getInstance().isGPSEnabled()) {
+				showLocationServiceTurnedOffDialog();
+			} else {
+				startHomeScreenWithoutAPLayout();
+			}
 		}
 		
 		@Override
@@ -161,12 +174,12 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 //			LocationManager locationManager = (LocationManager) getActivity().getSystemService(MainActivity.LOCATION_SERVICE);
 //			List<String> enabledProviders = locationManager.getProviders(true);
 			
-			if(!GPSLocation.getInstance().isGPSEnabled()) {
+			LocationManagerProxy mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
+			if(!mAMapLocationManager.isProviderEnabled(LocationManagerProxy.GPS_PROVIDER)){
 				showLocationServiceTurnedOffDialog();
 			} else {
 				GPSLocation.getInstance().requestGPSLocation();
-				Location locations = GPSLocation.getInstance().getGPSLocation();
-				ALog.i(ALog.APP_START_UP, "Location " + locations);
+				OutdoorController.getInstance().setLocationProvider();
 				startHomeScreenWithoutAPLayout();
 			}
 		}
