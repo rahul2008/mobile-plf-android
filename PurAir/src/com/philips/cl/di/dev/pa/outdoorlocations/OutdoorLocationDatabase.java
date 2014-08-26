@@ -80,12 +80,12 @@ public class OutdoorLocationDatabase {
         
         if (!isCityDetailsTableFilled()) {
     		OutdoorManager.getInstance().addAreaIDToUsersList("101010100");
-    		OutdoorManager.getInstance().addAreaIDToUsersList("101270101");
-    		OutdoorManager.getInstance().addAreaIDToUsersList("101020100");
+//    		OutdoorManager.getInstance().addAreaIDToUsersList("101270101");
+//    		OutdoorManager.getInstance().addAreaIDToUsersList("101020100");
     		
     		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101010100");
-    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101270101");
-    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101020100");
+//    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101270101");
+//    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101020100");
     		
 	        mOutdoorLocationDatabase.beginTransaction();
 	        try {

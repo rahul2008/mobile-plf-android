@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import android.content.Intent;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -263,9 +264,18 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				ConnectPurifier.getInstance(getActivity()).startAddPurifierToAppFlow();
 			} else if (v.getId() == R.id.hf_indoor_dashboard_btn_play) {
 				//TODO play video link
+				startVideo();
 			}
 		}
 	};
+	
+	private void startVideo() {
+		// TODO start video
+//		http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c
+		Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
+		gotoSupportWebisteIntent.setData(Uri.parse("http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c"));
+		startActivity(gotoSupportWebisteIntent);
+	}
 
 	@Override
 	public void onPositiveButtonClicked() {

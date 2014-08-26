@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import android.location.Location;
+import android.content.Intent;
+import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -111,6 +112,10 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		
 	private void startVideo() {
 		// TODO start video
+//		http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c
+		Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
+		gotoSupportWebisteIntent.setData(Uri.parse("http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c"));
+		startActivity(gotoSupportWebisteIntent);
 	}
 	
 	private void startUseNoPurifierFlow() {
@@ -171,10 +176,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		@Override
 		public void locationServiceAllowClicked(DialogFragment dialog) {
 			// The user allowed to use location services
-			
-			//Check if device location service is turned on otherwise show pop-up
-//			LocationManager locationManager = (LocationManager) getActivity().getSystemService(MainActivity.LOCATION_SERVICE);
-//			List<String> enabledProviders = locationManager.getProviders(true);
 			
 			LocationManagerProxy mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
 			if(!mAMapLocationManager.isProviderEnabled(LocationManagerProxy.GPS_PROVIDER)){
