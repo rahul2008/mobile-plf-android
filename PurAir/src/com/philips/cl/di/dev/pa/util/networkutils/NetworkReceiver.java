@@ -12,6 +12,7 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
@@ -33,6 +34,7 @@ public class NetworkReceiver extends BroadcastReceiver {
 		filter.addAction(WifiManager.SUPPLICANT_CONNECTION_CHANGE_ACTION);
 		filter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
 		filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
+		filter.addAction("android.location.PROVIDERS_CHANGED");
 		
 		lastKnownNetworkState = ConnectionState.DISCONNECTED;
 	}
@@ -76,6 +78,10 @@ public class NetworkReceiver extends BroadcastReceiver {
 				notfiyListeners(lastKnownNetworkState, "");
 			}
 		}
+		
+		if (intent.getAction().equals("android.location.PROVIDERS_CHANGED")) {
+			OutdoorController.getInstance().setLocationProvider();
+		}
 	}
 
 	private void notfiyListeners(ConnectionState state, String ssid) {
@@ -103,5 +109,4 @@ public class NetworkReceiver extends BroadcastReceiver {
 	public ConnectionState getLastKnownNetworkState() {
 		return lastKnownNetworkState;
 	}
-	
 }

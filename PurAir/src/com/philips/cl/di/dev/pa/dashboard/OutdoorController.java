@@ -65,7 +65,10 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		//		APP_ID = Utils.getCMA_AppID() ;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
-
+		setLocationProvider();
+	}
+	
+	public void setLocationProvider() {
 		mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
 		
 		List<String> providers = mAMapLocationManager.getAllProviders();

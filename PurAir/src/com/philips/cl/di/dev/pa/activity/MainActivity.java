@@ -10,7 +10,6 @@ import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.UpdateManager;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -18,7 +17,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -42,7 +40,6 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 import cn.jpush.android.api.JPushInterface;
 
-import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -263,6 +260,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (PurAirApplication.isDemoModeEnable()) {
 			appInDemoMode.checkPhilipsSetupWifiSelected();
 		}
+		
+		OutdoorController.getInstance().setLocationProvider();
 		
 		// Enable for release build
 //		checkForCrashesHockeyApp(); 
