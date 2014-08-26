@@ -118,7 +118,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
-		if (outdoorCity == null /*|| outdoorCity.getOutdoorAQI() == null*/
+		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null
 				|| outdoorCity.getOutdoorCityInfo() == null)
 			return;
 		

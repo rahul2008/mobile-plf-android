@@ -19,6 +19,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -73,6 +74,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		case R.id.start_flow_bottom_btn_continue_without:
 			startUseNoPurifierFlow();
 			LocationUtils.saveDashboardWithoutPurifierState(true);
+			OutdoorManager.getInstance().startAllCitiesTask();
 //			startHomeScreenWithoutAPLayout();
 			break;
 		default:
