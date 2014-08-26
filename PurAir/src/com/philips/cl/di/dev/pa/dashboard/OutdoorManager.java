@@ -249,6 +249,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	@Override
 	public void allOutdoorAQIDataReceived(List<OutdoorAQI> aqis) {
+		if(aqis == null || aqis.isEmpty()) return;
 		for (OutdoorAQI outdoorAQI : aqis) {
 			addAllCityDataToMap(null, outdoorAQI, null, outdoorAQI.getAreaID());
 		}
