@@ -181,8 +181,6 @@ public class OutdoorLocationHandler {
 						AppConstants.TABLE_CITYDETAILS, mTableColumns, filterText,
 						null, null, null, AppConstants.KEY_CITY + " ASC", null);
 
-				ALog.i("testing", " testing cursor.size : " + cursor.getCount());
-				
 				if(dashBoardDataFetchListener != null){
 					dashBoardDataFetchListener.isCompleted(true);
 				}
@@ -234,7 +232,6 @@ public class OutdoorLocationHandler {
 				OutdoorManager.getInstance().addAllCityDataToMap(info, null,
 						null, areaID);
 			} while (cursor.moveToNext());
-
 //			mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
 		}
 	}

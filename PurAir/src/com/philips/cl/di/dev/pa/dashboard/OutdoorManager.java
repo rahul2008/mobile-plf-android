@@ -37,6 +37,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 	
 	public void startAllCitiesTask() {
+		ALog.i("testing","AQI downloading from CMA");
 		OutdoorController.getInstance().startAllCitiesAQITask();
 	}
 	
@@ -136,14 +137,16 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 	
 	public List<String> getAllMatchingCitiesList(float latitudePlus, float latitudeMinus, float longitudePlus, float longitudeMinus){
+		allMatchingCitiesList.clear();
 		for (int i = 0; i < getAllCitiesList().size(); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(getAllCitiesList().get(i));
 			float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
+			float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 			
-			if((latitude <  longitudePlus && latitude  >
-				longitudeMinus)  &&  (latitude <
-				latitudePlus &&  latitude  >
+			if((longitude <=  longitudePlus && longitude  >=
+				longitudeMinus)  &&  (latitude <=
+				latitudePlus &&  latitude  >=
 				latitudeMinus)){				
 					allMatchingCitiesList.add(getAllCitiesList().get(i));
 				}
@@ -205,7 +208,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	
 	public void addAllCityDataToMap(OutdoorCityInfo info, OutdoorAQI aqi, OutdoorWeather weather, String areaID) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addAllCityDataToMap areaID " + areaID);
-		OutdoorCity city = citiesMap.get(areaID);
+		OutdoorCity city = citiesMapAll.get(areaID);
 		if(city == null) {
 			city = new OutdoorCity();
 		}

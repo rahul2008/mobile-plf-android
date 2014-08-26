@@ -83,7 +83,7 @@ public class OutdoorLocationDatabase {
 	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
 
 	                String areaID = stringTokenizer.nextToken();
-	                OutdoorManager.getInstance().addAreaIdToAllCitiesList(areaID);
+//	                OutdoorManager.getInstance().addAreaIdToAllCitiesList(areaID);
 	        		values.put(AppConstants.KEY_AREA_ID, areaID);
 	        		values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_LATITUDE, stringTokenizer.nextToken());

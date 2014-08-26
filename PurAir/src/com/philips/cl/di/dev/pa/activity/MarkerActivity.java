@@ -44,7 +44,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		OnMapLoadedListener, OnClickListener {
 	private AMap aMap;
 	private MapView mapView;
-	private static List<String> mCitiesList = null;
 	private ImageView mFinishActivity = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
@@ -53,6 +52,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private FontTextView mAqiDetails = null;
 	private ImageView mAqiMarker = null;
 	private static List<String> mCitiesListAll = null;
+	private OutdoorCity mOutdoorCity = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		setContentView(R.layout.marker_activity);
 		mapView = (MapView) findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-		mCitiesList = OutdoorManager.getInstance().getAllCitiesList();
 		mFinishActivity = (ImageView) findViewById(R.id.gaodeMapFinish);
 		mAqiDrawer = (RelativeLayout) findViewById(R.id.aqi_prompt_drawer);
 		mAqiCity = (FontTextView) findViewById(R.id.aqiCity);
@@ -74,12 +73,12 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		init();
 
 		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
-		ALog.i("testing", "mCitiesListAll : " + mCitiesListAll.size());
-		for (int i = 0; i < mCitiesListAll.size()/3; i++) {
+		for (int i = 0; i < mCitiesListAll.size(); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
+		addMarkerToMap(mOutdoorCity);
 	}
 
 	private void init() {
@@ -123,22 +122,17 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 				|| outdoorCity.getOutdoorCityInfo() == null)
 			return;
 		
-//		int aqiValue = outdoorCity.getOutdoorAQI().getAQI();
-		int aqiValue = 101;
+		int aqiValue = 0;
 		if (outdoorCity.getOutdoorAQI() != null)
 			aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 		
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
-//		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
-//		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
-//		int so2 = outdoorCity.getOutdoorAQI().getSo2();
-//		int no2 = outdoorCity.getOutdoorAQI().getNo2();
-		int pm25 = 1;
-		int pm10 = 2;
-		int so2 = 3;
-		int no2 = 4;
+		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
+		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
+		int so2 = outdoorCity.getOutdoorAQI().getSo2();
+		int no2 = outdoorCity.getOutdoorAQI().getNo2();
 		String cityName = null;
 		boolean iconOval = false;
 
@@ -159,6 +153,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		if (OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(
 				cityCode)) {
 			iconOval = true;
+			mOutdoorCity = outdoorCity;
 		}
 
 		aMap.addMarker(new MarkerOptions()

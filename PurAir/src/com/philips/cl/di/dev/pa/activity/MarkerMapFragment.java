@@ -11,7 +11,6 @@ import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +50,7 @@ public class MarkerMapFragment extends Fragment implements
 	private static List<String> mCitiesListAll = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
+	private OutdoorCity mOutdoorCity = null;
 
 	private static final String TAG = "MapMarkerFragment";
 
@@ -58,6 +58,8 @@ public class MarkerMapFragment extends Fragment implements
 	public void onMapLoaded() {
 		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
 				OutdoorDetailsActivity.getSelectedCityCode());
+		
+		addMarker();
 
 		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null)
 			return;
@@ -89,38 +91,31 @@ public class MarkerMapFragment extends Fragment implements
 		init();
 
 //		populatingDashboardData();
-		// testing
-		mHandler.sendEmptyMessageDelayed(0, 100);
 		return view;
 	}
 
-	private Handler mHandler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-//			dbOperations();
-			addMarker();
-		}
-	};
-
 	private void addMarker() {
-//		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
+		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
 //		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityDataAll(selectedCityCode);
-//		float selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
-//		float selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
-//		
-//		float latitudePlus = selectedLatitude + 4;
-//		float latitudeMinus = selectedLatitude - 4;
-//		float longitudePlus = selectedLongitude + 4;
-//		float longitudeMinus = selectedLongitude - 4;
+		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityData(selectedCityCode);
+		float selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
+		float selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
 		
-//		mCitiesListAll = OutdoorManager.getInstance().getAllMatchingCitiesList(latitudePlus, latitudeMinus, longitudePlus, longitudeMinus);
+		float latitudePlus = selectedLatitude + 4;
+		float latitudeMinus = selectedLatitude - 4;
+		float longitudePlus = selectedLongitude + 4;
+		float longitudeMinus = selectedLongitude - 4;
 		
-		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
-		ALog.i("testing", "mCitiesListAll : " + mCitiesListAll.size());
-		for (int i = 0; i < (mCitiesListAll.size())/4; i++) {
+		mCitiesListAll = OutdoorManager.getInstance().getAllMatchingCitiesList(latitudePlus, 
+				latitudeMinus, longitudePlus, longitudeMinus);
+		
+//		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
+		for (int i = 0; i < (mCitiesListAll.size()); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
+		addMarkerToMap(mOutdoorCity);
 	};
 
 	private void init() {
@@ -139,7 +134,7 @@ public class MarkerMapFragment extends Fragment implements
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
 		if (outdoorCity == null || outdoorCity.getOutdoorCityInfo() == null
-		/* || outdoorCity.getOutdoorAQI() == null */)
+		 || outdoorCity.getOutdoorAQI() == null )
 			return;
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
@@ -147,20 +142,17 @@ public class MarkerMapFragment extends Fragment implements
 		boolean iconOval = false;
 		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
 
-		// if(outdoorCity == null || outdoorCity.getOutdoorAQI() == null){
-		// return;
-		// }
-
 		LatLng latLng = new LatLng(latitude, longitude);
 		builder.include(latLng);
 
-		int aqiValue = 101;
+		int aqiValue = 0;
 		if (outdoorCity.getOutdoorAQI() != null)
 			aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 
 		if (OutdoorDetailsActivity.getSelectedCityCode() != null
 				&& OutdoorDetailsActivity.getSelectedCityCode()
 						.equalsIgnoreCase(cityCode)) {
+			mOutdoorCity = outdoorCity;
 			iconOval = true;
 		}
 
@@ -226,9 +218,6 @@ public class MarkerMapFragment extends Fragment implements
 	public void onDestroy() {
 		super.onDestroy();
 		mapView.onDestroy();
-		if (mHandler != null) {
-			mHandler = null;
-		}
 	}
 
 	@Override

@@ -159,6 +159,10 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		switch (v.getId()) {
 		case R.id.hf_outdoor_circle_pointer:
 			if (cityId.getText() == null || outdoorAQI == null) return;
+//			if((OutdoorManager.getInstance().getAllCitiesList() != null) 
+//					&& (OutdoorManager.getInstance().getAllCitiesList().size() < 100)){
+				OutdoorManager.getInstance().startAllCitiesTask();
+//			}
 			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
 			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
 			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
