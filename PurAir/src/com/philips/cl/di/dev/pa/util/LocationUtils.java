@@ -6,11 +6,11 @@ import android.content.SharedPreferences;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 
 public class LocationUtils {
-	public static String CURR_LOC_PREF = "current_loc_pref";
-	public static String CURR_LOC_AREAID = "current_loc_aid";
-	public static String EWS_STATE = "ews_state";
-	public static String OUTDOOR_LOCATION_VISITED = "outdoor_location_visited";
-	public static String CURR_LOC_ENABLEB = "current_loc_enabled";
+	public final static String CURR_LOC_PREF = "current_loc_pref";
+	public final static String CURR_LOC_AREAID = "current_loc_aid";
+	public final static String EWS_STATE = "ews_state";
+	public final static String OUTDOOR_LOCATION_VISITED = "outdoor_location_visited";
+	public final static String CURR_LOC_ENABLEB = "current_loc_enabled";
 	
 	public static void saveCurrentLocationAreaId(String areaId) {
 		SharedPreferences pref = PurAirApplication.getAppContext()
