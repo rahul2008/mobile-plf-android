@@ -142,7 +142,6 @@ public class ICPCallbackHandler implements CallbackHandler
 			pairingGetPermissionsCB(status,obj);
 			break;
 		default:
-			System.out.println("No callback function found!!!");
 			break;
 		}
 	}
