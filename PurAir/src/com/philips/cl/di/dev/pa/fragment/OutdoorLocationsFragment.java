@@ -63,6 +63,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		
 		if (LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			currentLocation.setClickable(false);
+			currentLocation.setEnabled(false);
 		} else {
 			currentLocation.setChecked(LocationUtils.getCurrentLocationEnabled());
 			currentLocation.setOnCheckedChangeListener(this);

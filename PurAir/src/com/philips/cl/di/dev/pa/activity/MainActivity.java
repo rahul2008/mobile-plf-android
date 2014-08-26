@@ -425,7 +425,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		ConnectPurifier.reset() ;
 		GPSLocation.reset();
 		OutdoorLocationHandler.reset();
-		OutdoorController.reset();
 		finish();
 	}
 

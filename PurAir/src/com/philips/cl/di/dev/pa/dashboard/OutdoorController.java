@@ -188,11 +188,19 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode + " areaID " + areaID);
 		if(data != null && !areaID.isEmpty()) {
 			notifyListeners(data, areaID);
-		} else if (areaID.isEmpty() && data != null) {
+		} else if (areaID.isEmpty() && data != null && !data.isEmpty()) {
 			
 			String[] areaIDResponse = data.split(",");
-			String[] areaIDSplit = areaIDResponse[0].split(":");
-			String newAreaID = areaIDSplit[1];
+			String newAreaID = "";
+			if (areaIDResponse != null && areaIDResponse.length > 0) {
+				String[] areaIDSplit = areaIDResponse[0].split(":");
+				if (areaIDSplit != null && areaIDSplit.length > 1) {
+					newAreaID = areaIDSplit[1];
+				}
+			}
+			
+			if (newAreaID.isEmpty()) return;
+			
 			LocationUtils.saveCurrentLocationAreaId(newAreaID);
 			OutdoorManager.getInstance().addAreaIDToUsersList(newAreaID);
 			
