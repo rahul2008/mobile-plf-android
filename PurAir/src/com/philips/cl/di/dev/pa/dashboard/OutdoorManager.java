@@ -35,7 +35,11 @@ public class OutdoorManager implements OutdoorEventListener {
 		}
 		return smInstance;
 	}
-
+	
+	public void startAllCitiesTask() {
+		OutdoorController.getInstance().startAllCitiesAQITask();
+	}
+	
 	public void startCitiesTask() {
 		for(String areaID : userCitiesList) {
 			System.out.println("manzer: check city data : " + areaID);
@@ -46,6 +50,7 @@ public class OutdoorManager implements OutdoorEventListener {
 				OutdoorController.getInstance().startCityWeatherTask(areaID);
 			}
 		}
+		startAllCitiesTask();
 	}
 
 	private OutdoorManager() {
@@ -240,6 +245,13 @@ public class OutdoorManager implements OutdoorEventListener {
 				citiesMap.get(areadID).setOutdoorWeather(null) ;
 			}
 			
+		}
+	}
+
+	@Override
+	public void allOutdoorAQIDataReceived(List<OutdoorAQI> aqis) {
+		for (OutdoorAQI outdoorAQI : aqis) {
+			addAllCityDataToMap(null, outdoorAQI, null, outdoorAQI.getAreaID());
 		}
 	}
 }

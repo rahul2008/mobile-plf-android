@@ -325,6 +325,41 @@ public class DataParser {
 		}
 	}
 	
+	public static List<OutdoorAQI> parseAllLocationAQI(String dataToParse) {
+
+		if( dataToParse == null ) return null ;
+		
+		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();
+		
+		try {
+			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("p");
+			if(responseObject == null) return null;
+			JSONObject observeObject = responseObject.getJSONObject(0);
+			
+			Iterator<String> areaIDIterator = observeObject.keys();
+			while(areaIDIterator.hasNext()) {
+				String areaID = areaIDIterator.next();
+				JSONObject cityData = observeObject.getJSONObject(areaID); //Area code
+				
+				int pm25 = cityData.optInt("p1");
+				int aqi = cityData.optInt("p2");
+				int pm10 = 	cityData.optInt("p3");
+				int so2 = cityData.optInt("p4");
+				int no2 = cityData.optInt("p5");
+				
+				outdoorAQIList.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, ""));
+				
+			}
+			return outdoorAQIList;
+		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "ERROR parseLocationWeather");
+			return null;
+		}catch(Exception e) {
+			return null ;
+		}
+	
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static List<OutdoorWeather> parseLocationWeather(String dataToParse) {
 		if( dataToParse == null ) return null ;

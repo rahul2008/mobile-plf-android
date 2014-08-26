@@ -107,6 +107,15 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
+	
+	public void startAllCitiesAQITask() {
+		if (isPhilipsSetupWifiSelected()) return;
+		String areaIds = OutdoorManager.getInstance().getAllCitiesList().toString().replace("[", "").replace("]", "")
+	            .replace(", ", ",");
+		
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), "all_cities", PurAirApplication.getAppContext(), this);
+		citiesList.start();
+	}
 
 	public void startCityAQIHistoryTask(String areaID) {
 //		if (PurAirApplication.isDemoModeEnable()) return;
@@ -147,7 +156,12 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		OutdoorAQI outdoorAQIList = DataParser.parseLocationAQI(data, areaID);
 		List<OutdoorWeather> outdoorWeatherList = DataParser.parseLocationWeather(data);
 
-		if( outdoorAQIList == null && outdoorWeatherList == null ) {
+		if(areaID.equals("all_cities")) {
+			List<OutdoorAQI> aqis = DataParser.parseAllLocationAQI(data);
+			for(int index = 0; index < outdoorEventListeners.size(); index++) {
+				outdoorEventListeners.get(index).allOutdoorAQIDataReceived(aqis);
+			}
+		} else if( outdoorAQIList == null && outdoorWeatherList == null ) {
 			if( outdoorDetailsListener == null ) return ;
 			List<Weatherdto>  weatherList = DataParser.getHourlyWeatherData(data) ;
 			if( weatherList != null)
@@ -156,8 +170,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			if( forecastWeatherDto != null ) {
 				outdoorDetailsListener.onWeatherForecastReceived(forecastWeatherDto) ;
 			}
-		}
-		else {
+		} else {
 			for(int index = 0; index < outdoorEventListeners.size(); index++) {
 				if(outdoorAQIList != null) {
 					outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQIList, areaID);
@@ -206,7 +219,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			
 			OutdoorManager.getInstance().startCitiesTask();
 			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
-		}
+		} 
 	}
 
 	public String buildURL(String baseUrl, String areaID, String type, String date, String appID) {
