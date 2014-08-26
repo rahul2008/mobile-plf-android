@@ -98,8 +98,14 @@ public class MarkerMapFragment extends Fragment implements
 		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
 //		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityDataAll(selectedCityCode);
 		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityData(selectedCityCode);
-		float selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
-		float selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
+		float selectedLatitude = 50f;
+		float selectedLongitude = 50f;
+		
+		//Adding below condition because UnitTest case is crashing.
+		if(selectedOutdoorCity != null && selectedOutdoorCity.getOutdoorCityInfo() != null){
+			selectedLatitude = selectedOutdoorCity.getOutdoorCityInfo().getLatitude();
+			selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
+		}
 		
 		float latitudePlus = selectedLatitude + 4;
 		float latitudeMinus = selectedLatitude - 4;
