@@ -9,7 +9,9 @@ import java.util.StringTokenizer;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.util.Log;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -96,6 +98,10 @@ public class OutdoorLocationDatabase {
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
 	        } catch (IOException e) {
+	            e.printStackTrace();
+	        } catch (SQLiteConstraintException e) {
+	            e.printStackTrace();
+	        } catch (SQLiteException e) {
 	            e.printStackTrace();
 	        }
 	        finally {
@@ -196,8 +202,12 @@ public class OutdoorLocationDatabase {
 			}
 			mOutdoorLocationDatabase.setTransactionSuccessful();
 		} catch (IOException e) {
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        } catch (SQLiteConstraintException e) {
+            e.printStackTrace();
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
 		finally {
 			try {
 				inputStream.close();
