@@ -37,7 +37,7 @@
     <string name="child_lock">兒童安全鎖</string>
     <string name="indicator_light">指示燈</string>
     <string name="set_timer">設定定時功能</string>
-    <string name="cover_missing">Cover missing</string>
+    <string name="cover_missing">未找到前面板</string>
     <!-- Filter texts and messages -->
     <string name="filter_status">過濾狀態</string>
     <string name="pre_filter">1 預過濾網</string>
@@ -136,7 +136,7 @@
     <string name="buy_online_lbl">網上購買</string>
     <string name="buy_hepa_filter">HEPA 隔濾網</string>
     <string name="buy_active_carbon_filter">活性碳隔濾網</string>
-    <string name="buy_multi_care_filter">全效濾網</string>
+    <string name="buy_multi_care_filter">飛利浦甲醛過濾網</string>
     <string name="buy_pre_filter">預過濾網</string>
     <string name="buy_philips_smart_air_purifier">Philips 智能空氣清新機</string>
     <string name="available_from">可在以下地點購買 %s</string>
@@ -320,11 +320,7 @@
     <string name="indoor_good">良好的空氣。整體空氣的粉塵和粒子水平偏低。PM2.5 的數值預計也將會維持低水平。健康風險為輕微。可盡情享受平時的室內活動。</string>
     <string name="indoor_color_explained_intro">Philips 智能空氣應用程式由智能內置感應器以 1-10 顯示實時空氣微粒水平。您可於家裡查看最新的空氣質素，包括 PM2.5 濃度。</string>
     <!-- Diagnostics -->
-    <string name="diagnostics">電子郵件診斷</string>
-    <string name="crash">模擬應用程序崩潰</string>
-    <string name="logging_enable">啟用日誌記錄</string>
-    <string name="logging_disable">禁用日誌</string>
-    <string name="collecting_information">收集診斷信息..</string>
+    <string name="diagnostics">發送報錯郵件</string>
     <!-- EWS -->
     <string name="lbl_living_room">客廳</string>
     <string name="lbl_kitchen">廚房</string>
