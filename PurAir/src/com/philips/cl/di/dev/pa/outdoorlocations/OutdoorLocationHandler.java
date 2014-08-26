@@ -89,11 +89,16 @@ public class OutdoorLocationHandler {
 			
 			@Override
 			public void run() {
-				OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-
-				database.open();
-				database.updateOutdoorLocationShortListItem(areaId, selected);
-				database.close();
+				try {
+					OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
+	
+					database.open();
+					database.updateOutdoorLocationShortListItem(areaId, selected);
+					database.close();
+				} catch (SQLiteException e) {
+					ALog.e(ALog.OUTDOOR_LOCATION, 
+							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
+				}
 				handler.sendEmptyMessage(0);//TODO change
 			}
 		}).start();

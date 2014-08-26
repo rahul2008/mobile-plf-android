@@ -45,14 +45,26 @@ public class OutdoorLocationDatabase {
 	}
 	
 	public synchronized void open() {
-		if (mOutdoorLocationDatabase == null || !mOutdoorLocationDatabase.isOpen()) {
-			mOutdoorLocationDatabase = mDatabaseHelper.getWritableDatabase();
+		try {
+			if (mOutdoorLocationDatabase == null || !mOutdoorLocationDatabase.isOpen()) {
+				mOutdoorLocationDatabase = mDatabaseHelper.getWritableDatabase();
+			}
+		} catch (SQLiteConstraintException e) {
+			e.printStackTrace();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
 		}
 	}
 	
 	public synchronized void close() {
-		if (mOutdoorLocationDatabase.isOpen()) {
-			mOutdoorLocationDatabase.close();
+		try {
+			if (mOutdoorLocationDatabase.isOpen()) {
+				mOutdoorLocationDatabase.close();
+			}
+		} catch (SQLiteConstraintException e) {
+			e.printStackTrace();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -117,27 +129,39 @@ public class OutdoorLocationDatabase {
 	 */
 	public synchronized Cursor getDataFromOutdoorLoacation(String filterText) {
 		Log.d(TAG, "Text to filter: " + filterText);
-		
+
 		Cursor cursor = null;
-		
-		if (filterText == null  ||  filterText.length () == 0)  {
-			cursor = mOutdoorLocationDatabase.query(AppConstants.TABLE_CITYDETAILS, mTableColumns, 
-					null, null, null, null, AppConstants.KEY_CITY + " ASC");
-		}
-		else {
-			cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
-			filterText, null, null, null, AppConstants.KEY_CITY + " ASC", null);
-		}
-		if (cursor != null) {
-			cursor.moveToFirst();
+		try {
+			if (filterText == null  ||  filterText.length () == 0)  {
+				cursor = mOutdoorLocationDatabase.query(AppConstants.TABLE_CITYDETAILS, mTableColumns, 
+						null, null, null, null, AppConstants.KEY_CITY + " ASC");
+			}
+			else {
+				cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
+						filterText, null, null, null, AppConstants.KEY_CITY + " ASC", null);
+			}
+			if (cursor != null) {
+				cursor.moveToFirst();
+			}
+		} catch (SQLiteConstraintException e) {
+			e.printStackTrace();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
 		}
 		return cursor;
 	}
 	
 	public synchronized Cursor getDataCurrentLoacation(String areaID) {
-		Cursor cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
-				AppConstants.KEY_AREA_ID + "= ?", new String[]{areaID}, null, null, null, null);
-		return cursor;
+		try {
+			Cursor cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
+					AppConstants.KEY_AREA_ID + "= ?", new String[]{areaID}, null, null, null, null);
+			return cursor;
+		} catch (SQLiteConstraintException e) {
+			e.printStackTrace();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
@@ -146,15 +170,21 @@ public class OutdoorLocationDatabase {
 	 * @param outdoorLocation location that needs to be updated
 	 */
 	public synchronized void updateOutdoorLocationShortListItem(String areaId, boolean inShortList) {
-		ContentValues values = new ContentValues();
-		if (inShortList) {
-			values.put(AppConstants.KEY_SHORTLIST, "1");
-		} else {
-			values.put(AppConstants.KEY_SHORTLIST, "0");
+		try {
+			ContentValues values = new ContentValues();
+			if (inShortList) {
+				values.put(AppConstants.KEY_SHORTLIST, "1");
+			} else {
+				values.put(AppConstants.KEY_SHORTLIST, "0");
+			}
+			
+			mOutdoorLocationDatabase.update(
+					AppConstants.TABLE_CITYDETAILS, values, AppConstants.KEY_AREA_ID + " = " + areaId, null);
+		} catch (SQLiteConstraintException e) {
+			e.printStackTrace();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
 		}
-		
-		mOutdoorLocationDatabase.update(
-				AppConstants.TABLE_CITYDETAILS, values, AppConstants.KEY_AREA_ID + " = " + areaId, null);
 	}
 	
 	private boolean isCityDetailsTableFilled() {
