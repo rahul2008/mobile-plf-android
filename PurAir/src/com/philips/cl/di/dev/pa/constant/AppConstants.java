@@ -7,7 +7,7 @@ import java.util.List;
 import android.graphics.Color;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -50,7 +50,7 @@ public class AppConstants {
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS = AppConstants.KEY_SHORTLIST + " = '1' ";
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_CURR_LOC = 
 			AppConstants.KEY_SHORTLIST + " = '1' and " +
-			AppConstants.KEY_AREA_ID + " != '"+OutdoorController.getCurrentLocationAreaId()+"' ";
+			AppConstants.KEY_AREA_ID + " != '"+LocationUtils.getCurrentLocationAreaId()+"' ";
 	
 	
 	// AirPurifier event table

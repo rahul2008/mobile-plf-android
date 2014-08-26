@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListen
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class StartFlowVirginFragment extends BaseFragment implements OnClickListener {
 
@@ -68,6 +69,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			break;
 		case R.id.start_flow_bottom_btn_continue_without:
 //			startUseNoPurifierFlow();
+			LocationUtils.saveDashboardWithoutPurifierState(true);
 			startHomeScreenWithoutAPLayout();
 			break;
 		default:

@@ -12,8 +12,6 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
@@ -31,6 +29,7 @@ import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -53,11 +52,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private double latitude;
 	private double longitude;
 	private Location location;
-	
-	public static String CURR_LOC_PREF = "current_loc_pref";
-	public static String CURR_LOC_AREAID = "current_loc_aid";
-	public static String EWS_STATE = "ews_state";
-	public static String CURR_LOC_ENABLEB = "current_loc_enabled";
 	
 	private static OutdoorController smInstance;
 
@@ -199,7 +193,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			String[] areaIDResponse = data.split(",");
 			String[] areaIDSplit = areaIDResponse[0].split(":");
 			String newAreaID = areaIDSplit[1];
-			saveCurrentLocationAreaId(newAreaID);
+			LocationUtils.saveCurrentLocationAreaId(newAreaID);
 			OutdoorManager.getInstance().addAreaIDToUsersList(newAreaID);
 			
 			//Update city in from database to map
@@ -313,9 +307,9 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private boolean done = false;
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
-		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + getCurrentLocationAreaId());
+		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());
 		location = aLocation;
-		if(aLocation != null && !done && getCurrentLocationAreaId().isEmpty()) {
+		if(aLocation != null && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
 			startGetAreaIDTask(longitude, latitude);
@@ -329,50 +323,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 
 		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "", PurAirApplication.getAppContext(), this);
 		citiesList.start();
-	}
-	
-	public static void saveCurrentLocationAreaId(String areaId) {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		SharedPreferences.Editor edit = pref.edit();
-		edit.putString(CURR_LOC_AREAID, areaId);
-		edit.commit();
-		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorController$current location areaID " + areaId);
-	}
-	
-	public static String getCurrentLocationAreaId() {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		return pref.getString(CURR_LOC_AREAID, "");
-	}
-	
-	public static void saveCurrentLocationEnabled(boolean enabled) {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		SharedPreferences.Editor edit = pref.edit();
-		edit.putBoolean(CURR_LOC_ENABLEB, enabled);
-		edit.commit();
-		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorController$current location enabled " + enabled);
-	}
-	
-	public static boolean getCurrentLocationEnabled() {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		return pref.getBoolean(CURR_LOC_ENABLEB, true);
-	}
-	
-	public static void saveFirstTimeEWSState(boolean state) {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		SharedPreferences.Editor edit = pref.edit();
-		edit.putBoolean(EWS_STATE, state);
-		edit.commit();
-	}
-	
-	public static boolean getFirstTimeEWSState() {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		return pref.getBoolean(EWS_STATE, false);
 	}
 	
 	public static void reset() {

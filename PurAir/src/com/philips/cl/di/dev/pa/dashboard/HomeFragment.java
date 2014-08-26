@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -122,7 +123,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				//Add user location to dashboard
 				Location location = GPSLocation.getInstance().getGPSLocation();
 				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
-				if(location != null && OutdoorController.getCurrentLocationAreaId().isEmpty()) { 
+				if(location != null && LocationUtils.getCurrentLocationAreaId().isEmpty()) { 
 					OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
 				}
 			}

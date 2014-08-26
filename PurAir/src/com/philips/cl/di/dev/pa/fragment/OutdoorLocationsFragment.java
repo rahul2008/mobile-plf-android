@@ -24,11 +24,11 @@ import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallback
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -61,10 +61,10 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
 		
-		if (OutdoorController.getCurrentLocationAreaId().isEmpty()) {
+		if (LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			currentLocation.setClickable(false);
 		} else {
-			currentLocation.setChecked(OutdoorController.getCurrentLocationEnabled());
+			currentLocation.setChecked(LocationUtils.getCurrentLocationEnabled());
 			currentLocation.setOnCheckedChangeListener(this);
 		}
 		
@@ -105,9 +105,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		}
 		
 		//If current location get, add into outdoor location info list
-		if (OutdoorController.getCurrentLocationEnabled() 
-				&& !OutdoorController.getCurrentLocationAreaId().isEmpty()) {
-			OutdoorManager.getInstance().addAreaIDToUsersList(OutdoorController.getCurrentLocationAreaId());
+		if (LocationUtils.getCurrentLocationEnabled() 
+				&& !LocationUtils.getCurrentLocationAreaId().isEmpty()) {
+			OutdoorManager.getInstance().addAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 			
 //			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
 //
@@ -242,20 +242,20 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (buttonView.getId() == R.id.btn_current_location) {
-			OutdoorController.saveCurrentLocationEnabled(isChecked);
+			LocationUtils.saveCurrentLocationEnabled(isChecked);
 			
 			//Update database
 			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
 
 			database.open();
-			database.updateOutdoorLocationShortListItem(OutdoorController.getCurrentLocationAreaId(), isChecked);
+			database.updateOutdoorLocationShortListItem(LocationUtils.getCurrentLocationAreaId(), isChecked);
 			database.close();
 			
 			//Update outdoor location info list;
 			if (isChecked) {
-				OutdoorManager.getInstance().addAreaIDToUsersList(OutdoorController.getCurrentLocationAreaId());
+				OutdoorManager.getInstance().addAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 			} else {
-				OutdoorManager.getInstance().removeAreaIDFromUsersList(OutdoorController.getCurrentLocationAreaId());
+				OutdoorManager.getInstance().removeAreaIDFromUsersList(LocationUtils.getCurrentLocationAreaId());
 			}
 		}
 	}

@@ -37,6 +37,7 @@ import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -332,12 +333,12 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		}
 		
 		//Save current location after first time EWS
-		if (!OutdoorController.getFirstTimeEWSState()) {
+		if (!LocationUtils.getFirstTimeEWSState()) {
 			Location location = OutdoorController.getInstance().getCurrentLocation();
 			if (location != null) {
 				OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
 			} 
-			OutdoorController.saveFirstTimeEWSState(true);
+			LocationUtils.saveFirstTimeEWSState(true);
 		}
 		
 		// STOP move code

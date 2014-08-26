@@ -13,6 +13,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class OutdoorManager implements OutdoorEventListener {
 
@@ -176,7 +177,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		if(!userCitiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$addToUserCitiesList areaID " + areaID);
 			//Add current location first position in the list
-			if (areaID.equals(OutdoorController.getCurrentLocationAreaId())) {
+			if (areaID.equals(LocationUtils.getCurrentLocationAreaId())) {
 				userCitiesList.add(0, areaID);
 			} else {
 				userCitiesList.add(areaID);

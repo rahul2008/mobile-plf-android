@@ -82,7 +82,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler.DashBoardDataFetchListener;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
@@ -91,6 +90,7 @@ import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
@@ -439,7 +439,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void showVirginFlowFragment() {
-		if(OutdoorController.getCurrentLocationAreaId().isEmpty()) {
+		if(!LocationUtils.getDashboardWithoutPurifierState()) {
 			showFragment(new StartFlowVirginFragment()) ;
 		} else {
 			Bundle bundle = new Bundle();
