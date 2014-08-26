@@ -50,7 +50,6 @@ public class OutdoorManager implements OutdoorEventListener {
 				OutdoorController.getInstance().startCityWeatherTask(areaID);
 			}
 		}
-		startAllCitiesTask();
 	}
 
 	private OutdoorManager() {
