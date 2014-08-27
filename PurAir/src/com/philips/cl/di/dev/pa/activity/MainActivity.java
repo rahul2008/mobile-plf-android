@@ -150,13 +150,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private AppInDemoMode appInDemoMode;
 	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
 	private Intent mIntent = null;
-//	private LocationTracker mLocationTracker = null;
+	//	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		
+
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 
@@ -169,8 +169,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 		setScreenWidth(displayMetrics.widthPixels);
 		setScreenHeight(displayMetrics.heightPixels);
-		
-//		mLocationTracker = new LocationTracker(this);
+
+		//		mLocationTracker = new LocationTracker(this);
 		OutdoorController.getInstance();
 		try {
 			initActionBar();
@@ -211,13 +211,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
-		
+
 		if(OutdoorManager.getInstance().getAllCitiesList() != null 
 				&& OutdoorManager.getInstance().getAllCitiesList().size() <= 0){
 			mIntent = new Intent("com.philips.cl.di.dev.pa.util.DataBaseService");
 			startService(mIntent);
 			dashBoardDataFetchListener = new DashBoardDataFetchListener() {
-	
+
 				@Override
 				public void isCompleted(boolean isCompleted) {
 					ALog.i("testing","MainActivity Now comeplte your DB Service isCompelted : " + isCompleted);
@@ -227,7 +227,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			OutdoorLocationHandler.setDashBoardDataFetch(dashBoardDataFetchListener);
 		}
 	}
-	
+
 	private void selectPurifier() {
 		PurAirDevice current = getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
@@ -241,6 +241,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onResume();
 		JPushInterface.onResume(this);
 		
+		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
+		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
+
 		if (PurAirApplication.isDemoModeEnable()) {
 			startDemoMode();
 		} else if (UserRegistrationController.getInstance().isUserLoggedIn()) {
@@ -256,16 +259,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		removeFirmwareUpdateUI();
 		hideFirmwareUpdateHomeIcon();
 		updatePurifierUIFields() ;
-		
+
 		//Check if App in demo mode and WI-FI not connected PHILIPS Setup show dialog
 		if (PurAirApplication.isDemoModeEnable()) {
 			appInDemoMode.checkPhilipsSetupWifiSelected();
 		}
-		
+
 		OutdoorController.getInstance().setLocationProvider();
-		
+
 		// Enable for release build
-//		checkForCrashesHockeyApp(); 
+		//		checkForCrashesHockeyApp(); 
 	}
 
 	public void startDemoMode() {
@@ -362,9 +365,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onDestroy() {
 		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
-//		if(mLocationTracker !=null){
-//			mLocationTracker.deactivate();
-//		}
+		//		if(mLocationTracker !=null){
+		//			mLocationTracker.deactivate();
+		//		}
 		super.onDestroy();
 	}
 
@@ -419,7 +422,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			clearObjectFinish();
 		}
 	}
-	
+
 	private void clearObjectFinish() {
 		OutdoorManager.getInstance().clearCityOutdoorInfo() ;
 		ConnectPurifier.reset() ;
@@ -448,7 +451,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			homeFragment.setArguments(bundle);
 			showFragment(homeFragment);
 		}
-		
+
 		setTitle(getString(R.string.dashboard_title));
 	}
 
@@ -616,8 +619,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				R.drawable.icon_5_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
 				R.drawable.icon_6_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
-				R.drawable.icon_7_2x));
+		if(UserRegistrationController.getInstance().isUserLoggedIn()){
+			leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
+					R.drawable.icon_7_2x));
+		}
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
 				R.drawable.icon_8_2x));		
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
@@ -752,7 +757,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
-			leftMenuItems.add(new ManagePurifierFragment());
+			if(UserRegistrationController.getInstance().isUserLoggedIn()){
+				leftMenuItems.add(new ManagePurifierFragment());
+			}
 			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
@@ -761,9 +768,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		public void onItemClick(AdapterView<?> listView, View listItem,
 				int position, long id) {
 			//			setDashboardActionbarIconVisible();
+			String leftMenuItemName= listItem.getTag().toString();
+
 			mDrawerLayout.closeDrawer(mListViewLeft);
-			switch (position) {
-			case 0:
+
+			if(leftMenuItemName.equals(getString(R.string.list_item_home))){
 				if (PurAirApplication.isDemoModeEnable()) {
 					showFragment(leftMenuItems.get(position));
 				} else if (!Utils.getAppFirstUse()) {
@@ -772,51 +781,40 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 					showFragment(new StartFlowVirginFragment());
 				}
 				setTitle(getString(R.string.dashboard_title));
-				break;
-			case 1:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_air_quality_explained))){
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_air_quality_explained));
-				break;
-			case 2:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_outdoor_loc))){
 				// Outdoor locations
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
-				break;
-			case 3:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_notifications))){
 				// Notifications
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_notifications));
-				break;
-			case 4:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_help_and_doc))){
 				// Help and documentation
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_help_and_doc));
-				break;
-			case 5:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_settings))){
 				// Settings
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
-				break;
-			case 6:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_manage_purifier))){
 				if(UserRegistrationController.getInstance().isUserLoggedIn()){
 					showFragment(leftMenuItems.get(position));
 					setTitle(getString(R.string.list_item_manage_purifier));
 				}else{
 					return;
 				}
-				break;
-			case 7:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_user_reg))){
 				// User registration
 				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
 				startActivity(userRegistrationIntent);
-				break;
-			case 8:
+			}else if(leftMenuItemName.equals(getString(R.string.list_item_buy_online))){
 				// Buy Online
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_buy_online));
-				break;
-			default:
-				break;
 			}
 		}
 	}
