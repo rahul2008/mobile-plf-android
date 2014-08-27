@@ -38,7 +38,8 @@
         android:orientation="horizontal"
         android:padding="16dp" >
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btn_support"
             android:layout_width="122dp"
             android:layout_height="wrap_content"
@@ -47,7 +48,8 @@
             android:lineSpacingExtra="5dp"
             android:text="@string/support"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -9,33 +9,32 @@ public class OutdoorLocation {
 	private String mCountry;
 	private String mStationType;
 	private int mShortlist;
-	
-	public OutdoorLocation(int areaId, String city, String district, 
-			String province, String country, 
-			String stationType, boolean onShortList) {
-		
+
+	public OutdoorLocation(int areaId, String city, String district,
+			String province, String country, String stationType,
+			boolean onShortList) {
+
 		mAreaId = areaId;
-		mCity = city;   
+		mCity = city;
 		mDistrict = district;
 		mProvince = province;
 		mCountry = country;
 		mStationType = stationType;
-		setIsOnShortlist(onShortList);    
+		setIsOnShortlist(onShortList);
 	}
-	
-	
+
 	public int getAreaId() {
 		return mAreaId;
 	}
-	
+
 	public void setAreaId(int areaId) {
 		mAreaId = areaId;
 	}
-	
+
 	public String getCity() {
 		return mCity;
 	}
-	
+
 	public void setCity(String city) {
 		mCity = city;
 	}

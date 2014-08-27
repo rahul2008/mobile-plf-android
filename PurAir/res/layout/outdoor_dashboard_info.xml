@@ -13,12 +13,11 @@
         android:scaleType="fitXY"
         android:src="@drawable/air_dashboard_outdoor_generic_city_50" />
 
-    
     <include
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        layout="@layout/od_details_aqi_layout"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        layout="@layout/od_details_aqi_layout" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -36,8 +35,8 @@
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         layout="@layout/od_status_layout" />
 
 </RelativeLayout>

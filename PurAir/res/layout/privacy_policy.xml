@@ -14,16 +14,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:contentDescription="@string/img_description"
             android:background="@android:color/transparent"
-            android:src="@drawable/close_icon_2x" 
-            android:padding="8dp"/>
+            android:contentDescription="@string/img_description"
+            android:padding="8dp"
+            android:src="@drawable/close_icon_2x" />
 
-        <TextView
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tv_privacy_policy_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/privacy_policy_text" />
+            android:text="@string/privacy_policy_text"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>

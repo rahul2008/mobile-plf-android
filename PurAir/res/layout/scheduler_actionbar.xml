@@ -10,32 +10,34 @@
         android:id="@+id/scheduler_actionbar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_centerInParent="true"
+        android:gravity="center"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/scheduler_actionbar_add_btn"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="32dp"
-        android:background="@drawable/save"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:textSize="12sp"
+        android:background="@drawable/save"
+        android:text="@string/save"
         android:textColor="@color/white"
-        android:text="@string/save" />   
+        android:textSize="12sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageButton
-        android:id="@+id/larrow"        
+        android:id="@+id/larrow"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:src="@drawable/lef_arrow_blue_2x"
         android:background="@android:color/transparent"
-        android:contentDescription="@string/img_description" />   
-    
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/lef_arrow_blue_2x" />
+
 </RelativeLayout>

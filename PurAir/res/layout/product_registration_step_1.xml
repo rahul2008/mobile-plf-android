@@ -2,36 +2,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:padding="15dp">
+    android:orientation="vertical"
+    android:padding="15dp" >
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/registration_step_1_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="@string/reg_step1_title" />
+        android:text="@string/reg_step1_title"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/registration_email_address_subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registration_step_email" 
-        android:textSize="18sp"/>
+        android:text="@string/registration_step_email"
+        android:textSize="18sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/registration_email_ques"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/registration_email_ques" 
-        android:layout_marginBottom="5dp"/>
- 
+        android:layout_marginBottom="5dp"
+        android:text="@string/registration_email_ques"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
     <EditText
         android:id="@+id/email_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10" 
-        android:inputType="textEmailAddress">
+        android:ems="10"
+        android:inputType="textEmailAddress" >
 
         <requestFocus />
     </EditText>
@@ -40,17 +46,19 @@
         android:id="@+id/promotions_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/promotion_ques" 
-        android:textSize="13sp"/>
+        android:text="@string/promotion_ques"
+        android:textSize="13sp" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/btn_next_step"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
-        android:text="@string/next_step"
-        android:enabled="false"
         android:background="@drawable/registration_button_selector"
-        android:textColor="#FFF"/>
+        android:enabled="false"
+        android:text="@string/next_step"
+        android:textColor="#FFF"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </LinearLayout>

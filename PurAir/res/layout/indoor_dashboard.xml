@@ -9,8 +9,8 @@
         android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
         android:contentDescription="@string/img_description"
+        android:scaleType="fitXY"
         android:src="@drawable/home_indoor_bg_2x" />
 
     <include

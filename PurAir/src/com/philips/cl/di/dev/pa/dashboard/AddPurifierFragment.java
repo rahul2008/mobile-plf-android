@@ -26,23 +26,25 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 
-public class AddPurifierFragment extends BaseFragment implements OnClickListener{
-	
+public class AddPurifierFragment extends BaseFragment implements
+		OnClickListener {
+
 	private ImageView ivAddNewPurifier;
 	private Button btnGotoShop;
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.add_new_purifier, null);
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
-		ivAddNewPurifier = (ImageView) getActivity().findViewById(R.id.iv_circle_add_purifier);
+
+		ivAddNewPurifier = (ImageView) getActivity().findViewById(
+				R.id.iv_circle_add_purifier);
 		ivAddNewPurifier.setOnClickListener(this);
 		btnGotoShop = (Button) getActivity().findViewById(R.id.btn_go_to_shop);
 		btnGotoShop.setOnClickListener(this);
@@ -53,15 +55,19 @@ public class AddPurifierFragment extends BaseFragment implements OnClickListener
 		switch (v.getId()) {
 		case R.id.iv_circle_add_purifier:
 			if (PurAirApplication.isDemoModeEnable()) {
-				Intent intent = new Intent((MainActivity) getActivity(), DemoModeActivity.class);
+				Intent intent = new Intent((MainActivity) getActivity(),
+						DemoModeActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				((MainActivity) getActivity()).startActivity(intent) ;
+				((MainActivity) getActivity()).startActivity(intent);
 			} else {
-				List<PurAirDevice> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
+				List<PurAirDevice> storePurifiers = DiscoveryManager
+						.getInstance().updateStoreDevices();
 				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
-					showAlertDialog("", getString(R.string.max_purifier_reached));
+					showAlertDialog("",
+							getString(R.string.max_purifier_reached));
 				} else {
-					((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+					((MainActivity) getActivity())
+							.showFragment(new StartFlowChooseFragment());
 				}
 			}
 			break;
@@ -75,19 +81,23 @@ public class AddPurifierFragment extends BaseFragment implements OnClickListener
 			break;
 		}
 	}
-	
+
 	private void showAlertDialog(String title, String message) {
-		if (getActivity() == null) return;
+		if (getActivity() == null)
+			return;
 		try {
-			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-			
-			Fragment prevFrag = getActivity().getSupportFragmentManager().findFragmentByTag("max_purifier_reached");
+			FragmentTransaction fragTransaction = getActivity()
+					.getSupportFragmentManager().beginTransaction();
+
+			Fragment prevFrag = getActivity().getSupportFragmentManager()
+					.findFragmentByTag("max_purifier_reached");
 			if (prevFrag != null) {
 				fragTransaction.remove(prevFrag);
 			}
-			
-			fragTransaction.add(DownloadAlerDialogFragement.
-					newInstance(title, message), "max_purifier_reached").commitAllowingStateLoss();
+
+			fragTransaction.add(
+					DownloadAlerDialogFragement.newInstance(title, message),
+					"max_purifier_reached").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.ERROR, e.getMessage());
 		}

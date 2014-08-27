@@ -2,12 +2,12 @@
     android:id="@+id/scheduler_container"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
-    
+
     <LinearLayout
-            android:id="@+id/ll_scheduler_container"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+        android:id="@+id/ll_scheduler_container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical" >
     </LinearLayout>
 
 </FrameLayout>

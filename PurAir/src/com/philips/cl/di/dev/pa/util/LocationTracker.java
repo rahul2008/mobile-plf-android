@@ -38,7 +38,9 @@ public class LocationTracker implements AMapLocationListener {
 
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
-		Log.i("testing", " LocationSourceActivity onLocationChanged aLocation  " + aLocation);
+		Log.i("testing",
+				" LocationSourceActivity onLocationChanged aLocation  "
+						+ aLocation);
 		if (aLocation != null) {
 			Log.i("testing",
 					" aLocation.getLatitude() : " + aLocation.getLatitude());

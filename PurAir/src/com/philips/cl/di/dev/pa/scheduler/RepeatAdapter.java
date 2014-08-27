@@ -19,32 +19,37 @@ public class RepeatAdapter extends ArrayAdapter<String> {
 	private String[] weekDays;
 	private boolean[] daysSelected;
 	private SchedulerRepeatListener listener;
-	
-	public RepeatAdapter(Context context, 
-			int resource, String[] weekDays,  boolean[] daysSelected, SchedulerRepeatListener listener) {
+
+	public RepeatAdapter(Context context, int resource, String[] weekDays,
+			boolean[] daysSelected, SchedulerRepeatListener listener) {
 		super(context, resource, weekDays);
 		this.context = context;
 		this.weekDays = weekDays;
 		this.daysSelected = daysSelected;
 		this.listener = listener;
-		ALog.i(ALog.SCHEDULER, "RepeatFragment-DaysAdapter () method constructor enter size: " + weekDays.length);
+		ALog.i(ALog.SCHEDULER,
+				"RepeatFragment-DaysAdapter () method constructor enter size: "
+						+ weekDays.length);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.repeat_scheduler_item, null);
-		final FontTextView day = (FontTextView) view.findViewById(R.id.rs_daytxt);
-		final RelativeLayout dayLayout = (RelativeLayout) view.findViewById(R.id.rs_main_lyt);
+		final FontTextView day = (FontTextView) view
+				.findViewById(R.id.rs_daytxt);
+		final RelativeLayout dayLayout = (RelativeLayout) view
+				.findViewById(R.id.rs_main_lyt);
 		day.setText(weekDays[position]);
-		
+
 		final int tempPosition = position;
 		if (daysSelected[tempPosition]) {
 			dayLayout.setBackgroundColor(GraphConst.COLOR_DODLE_BLUE);
 		}
-		
+
 		dayLayout.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				daysSelected[tempPosition] = !daysSelected[tempPosition];
@@ -58,7 +63,7 @@ public class RepeatAdapter extends ArrayAdapter<String> {
 				listener.onItemClick(daysSelected);
 			}
 		});
-		
+
 		return view;
 	}
 }

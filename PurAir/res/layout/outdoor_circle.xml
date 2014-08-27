@@ -20,19 +20,21 @@
         android:contentDescription="@string/img_description"
         android:paddingTop="23dp"
         android:src="@drawable/blue_circle_with_arrow_2x" />
-    
-    <TextView
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/outdoor_aqi_reading"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:paddingTop="23dp"
+        android:layout_alignBottom="@id/outdoor_circle_pointer"
+        android:layout_alignTop="@id/outdoor_circle_pointer"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:layout_alignTop="@id/outdoor_circle_pointer"
-        android:layout_alignBottom="@id/outdoor_circle_pointer"
         android:gravity="center"
+        android:paddingTop="23dp"
+        android:text=""
         android:textColor="@color/white"
         android:textSize="60sp"
-        android:text="" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

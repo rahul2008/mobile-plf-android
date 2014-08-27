@@ -1,55 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-        
-		<com.philips.cl.di.dev.pa.view.FontTextView
-			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-			android:id="@+id/start_flow_choose_tv_title"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="16dp"
-			android:lineSpacingExtra="5dp"
-			android:text="@string/are_you_adding"
-			android:textColor="@color/gray"
-			android:textSize="18sp"
-			custom:fontAssetName="fonts/gillsanslight.ttf"/>
-		
-		<com.philips.cl.di.dev.pa.view.FontTextView
-			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-			android:id="@+id/start_flow_choose_tv_text"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_margin="16dp"
-			android:lineSpacingExtra="5dp"
-			android:text="@string/your_new_purifier"
-			android:textColor="@color/gray"
-			android:textSize="14sp"
-			custom:fontAssetName="fonts/gillsanslight.ttf"/>
 
-	   <Button
-		    android:id="@+id/start_flow_choose_btn_connect_new"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:paddingRight="16dp"
-		    android:paddingLeft="16dp"
-		    android:layout_margin="16dp"
-		    android:background="@drawable/blue_button_selector"
-		    android:text="@string/yes_it_is_new"
-		    android:textColor="@color/white"
-		    android:textSize="14sp"/>
-	   
-	   <Button
-		    android:id="@+id/start_flow_choose_btn_already_connected"
-		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:paddingRight="16dp"
-		    android:paddingLeft="16dp"
-		    android:layout_margin="16dp"
-		    android:background="@drawable/blue_button_selector"
-		    android:text="@string/no_already_connected"
-		    android:textColor="@color/white"
-		    android:textSize="14sp"/>
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/start_flow_choose_tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/are_you_adding"
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/start_flow_choose_tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:lineSpacingExtra="5dp"
+        android:text="@string/your_new_purifier"
+        android:textColor="@color/gray"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/start_flow_choose_btn_connect_new"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/blue_button_selector"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/yes_it_is_new"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/start_flow_choose_btn_already_connected"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/blue_button_selector"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:text="@string/no_already_connected"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
 </LinearLayout>

@@ -7,16 +7,16 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFF"
         android:orientation="vertical"
-        android:padding="15dp" 
-        android:background="#FFF">
+        android:padding="15dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginBottom="15dp"
+            android:layout_marginTop="10dp"
             android:text="@string/guards_environment_subheading"
             android:textColor="@color/philips_blue"
             android:textSize="@dimen/text_size_large"
@@ -41,8 +41,8 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/vistashield_filter" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -78,8 +78,8 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/monitoring_sensor" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -115,8 +115,8 @@
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/ozone_emission" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -149,11 +149,11 @@
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
             android:text="@string/new_home_syndrome_intro_part1"
             android:textColor="#7F8595"
-            custom:fontAssetName="fonts/gillsanslight.ttf" 
             android:textSize="@dimen/text_size_small"
-            android:layout_marginBottom="25dp"/>
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -179,8 +179,8 @@
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
+            android:layout_marginTop="25dp"
             android:text="@string/new_home_syndrome_intro_part2"
             android:textColor="#7F8595"
             android:textSize="@dimen/text_size_small"

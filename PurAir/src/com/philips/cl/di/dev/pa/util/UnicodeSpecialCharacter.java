@@ -32,12 +32,13 @@ public class UnicodeSpecialCharacter {
 	public static final int UNICODE12296 = 12296;
 	public static final int UNICODE12299 = 12299;
 	public static final int UNICODE11622 = 11622;
-	
-	private static final Integer[] unicodeArr = {UNICODE38, UNICODE47, UNICODE92, UNICODE60,
-		UNICODE62, UNICODE171, UNICODE187, UNICODE706, UNICODE8249, UNICODE8250,
-		UNICODE9065, UNICODE65286, UNICODE65308, UNICODE65120, UNICODE65124, 
-		UNICODE65125, UNICODE11622};
-	
+
+	private static final Integer[] unicodeArr = { UNICODE38, UNICODE47,
+			UNICODE92, UNICODE60, UNICODE62, UNICODE171, UNICODE187,
+			UNICODE706, UNICODE8249, UNICODE8250, UNICODE9065, UNICODE65286,
+			UNICODE65308, UNICODE65120, UNICODE65124, UNICODE65125,
+			UNICODE11622 };
+
 	public static ArrayList<Integer> getSpecialCharaterUnicodes() {
 		ArrayList<Integer> unicodes = new ArrayList<Integer>();
 		unicodes.addAll(Arrays.asList(unicodeArr));
@@ -49,9 +50,10 @@ public class UnicodeSpecialCharacter {
 		ALog.i(ALog.EWS, "Unicodes: " + unicodes);
 		return unicodes;
 	}
-	
-	private static void addUnicodes(int start, int end, ArrayList<Integer> unicodes) {
-		for (int i = start; i <= end ; i++) {
+
+	private static void addUnicodes(int start, int end,
+			ArrayList<Integer> unicodes) {
+		for (int i = start; i <= end; i++) {
 			unicodes.add(i);
 		}
 	}

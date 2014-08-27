@@ -1,7 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:background="@drawable/air_dashboard_indoor_v_android">
+    android:layout_height="fill_parent"
+    android:background="@drawable/air_dashboard_indoor_v_android" >
 
     <ImageView
         android:id="@+id/iv_circle_add_purifier"
@@ -15,27 +15,28 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_add_air_purifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:text="@string/add_new_purifier"
         android:textSize="18sp"
-        android:text="@string/add_new_purifier" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_bur_purifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_circle_add_purifier"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:text="@string/buy_new_purifier" />
+        android:text="@string/buy_new_purifier"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/btn_go_to_shop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,7 +46,8 @@
         android:background="@drawable/blue_button_selector"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:text="@string/take_me_to_shop"
         android:textColor="#ffffff"
-        android:text="@string/take_me_to_shop" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

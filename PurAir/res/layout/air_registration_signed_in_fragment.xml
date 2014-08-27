@@ -7,49 +7,50 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-        
-		<com.philips.cl.di.dev.pa.view.FontTextView
-			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-			android:id="@+id/tvThankYouTitle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
-			android:layout_marginTop="16dp"
-			android:text="@string/thank_you"
-			android:textColor="@color/title_gray"
-			android:textSize="16sp"
-			custom:fontAssetName="fonts/gillsanslight.ttf" />
-        
-        <com.philips.cl.di.dev.pa.view.FontTextView
-			xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-			android:id="@+id/tvThankYouSubtitle"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8dp"
-			android:layout_marginLeft="16dp"
-			android:layout_marginRight="16dp"
-			android:text="@string/signed_in_ready_to_use"
-			android:textColor="@color/gray"
-			android:textSize="14sp"
-			custom:fontAssetName="fonts/gillsanslight.ttf"
-			android:layout_below="@id/tvThankYouTitle" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvThankYouTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/thank_you"
+            android:textColor="@color/title_gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tvThankYouSubtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvThankYouTitle"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/signed_in_ready_to_use"
+            android:textColor="@color/gray"
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/air_registration_close_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignParentBottom="true"
-            android:layout_below="@id/tvThankYouSubtitle" 
-            android:text="@string/close"
+            android:layout_below="@id/tvThankYouSubtitle"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
+            android:background="@drawable/blue_button_selector"
+            android:paddingLeft="16dp"
             android:paddingRight="16dp"
-	        android:paddingLeft="16dp"
-	        android:background="@drawable/blue_button_selector"
-	        android:textColor="@color/white"
-	        android:textSize="14sp" />
-       
+            android:text="@string/close"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
 </ScrollView>

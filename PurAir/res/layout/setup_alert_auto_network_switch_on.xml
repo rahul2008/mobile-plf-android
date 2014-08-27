@@ -10,8 +10,8 @@
         android:id="@+id/setup_alert_ans_title_txtView"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
         android:text="@string/alert_auto_network_switch_title"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
@@ -31,7 +31,8 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/setup_alert_ans_cancel_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -43,6 +44,7 @@
         android:paddingRight="64dp"
         android:text="@string/ok"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

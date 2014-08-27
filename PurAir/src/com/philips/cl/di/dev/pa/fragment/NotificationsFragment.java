@@ -37,7 +37,10 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class NotificationsFragment extends BaseFragment implements OnCheckedChangeListener, PermissionListener, AirPurifierEventListener, android.widget.RadioGroup.OnCheckedChangeListener, AlertDialogBtnInterface {
+public class NotificationsFragment extends BaseFragment implements
+		OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
+		android.widget.RadioGroup.OnCheckedChangeListener,
+		AlertDialogBtnInterface {
 
 	private RelativeLayout enableLayout;
 	private LinearLayout detailedLayout;
@@ -45,7 +48,8 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private ToggleButton notificationToggle;
 	private LinearLayout indoorAqiLbls;
 	private RadioGroup indoorAqiRadioBtns;
-	private FontTextView radioButtonLable0, radioButtonLable1, radioButtonLable2, radioButtonLable3;
+	private FontTextView radioButtonLable0, radioButtonLable1,
+			radioButtonLable2, radioButtonLable3;
 
 	private PairingHandler pairingHandler;
 	private ProgressDialog progressDialog;
@@ -53,7 +57,7 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	private PurAirDevice mPurifier;
 
 	private String aqiThreshold;
-	private static final int AQI_THRESHOLD_TIMEOUT = 120 * 1000 ;
+	private static final int AQI_THRESHOLD_TIMEOUT = 120 * 1000;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,20 +69,24 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.notifications_fragment, container, false);
+		View view = inflater.inflate(R.layout.notifications_fragment,
+				container, false);
 		initializeAllViews(view);
 		return view;
 	}
 
 	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {		
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		Activity parent = this.getActivity();
-		if (parent == null) return;
+		if (parent == null)
+			return;
 
-		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "+((MainActivity)parent).getRightMenuDisconnectionState());
-		if (mPurifier == null || mPurifier.getConnectionState() == ConnectionState.DISCONNECTED 
-				|| ((MainActivity)parent).getRightMenuDisconnectionState()) {
+		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "
+				+ ((MainActivity) parent).getRightMenuDisconnectionState());
+		if (mPurifier == null
+				|| mPurifier.getConnectionState() == ConnectionState.DISCONNECTED
+				|| ((MainActivity) parent).getRightMenuDisconnectionState()) {
 
 			try {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
@@ -87,9 +95,11 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 						R.string.notification_nopurifier_positivebtn);
 
 				dialog.setOnClickListener(this);
-				//				dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+				// dialog.show(((MainActivity)
+				// parent).getSupportFragmentManager(), null);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+				fm.beginTransaction().add(dialog, null)
+						.commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.NOTIFICATION, e.getMessage());
 			}
@@ -98,14 +108,15 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		pairingHandler.setPermissionListener(this);
 
-		boolean notificationsEnabled = true; // TODO replace by actual pairing check
+		boolean notificationsEnabled = true; // TODO replace by actual pairing
+												// check
 		if (mPurifier == null) {
 			showNotificationsLayout(false);
-		} else if (mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED) {
+		} else if (mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 			notificationsEnabled = isNotificationEnabled();
 			showNotificationsLayout(notificationsEnabled);
 		} else {
-			//showNotificationsLayout(false);			
+			// showNotificationsLayout(false);
 			try {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
 						R.string.notification_notpaired_title,
@@ -113,9 +124,11 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 						R.string.notification_nopurifier_positivebtn);
 
 				dialog.setOnClickListener(this);
-				//					dialog.show(((MainActivity) parent).getSupportFragmentManager(), null);
+				// dialog.show(((MainActivity)
+				// parent).getSupportFragmentManager(), null);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+				fm.beginTransaction().add(dialog, null)
+						.commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.NOTIFICATION, e.getMessage());
 			}
@@ -124,44 +137,58 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		}
 	}
 
-
 	private void initializeAllViews(View rootView) {
-		enableLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_enable_layout);
-		detailedLayout = (LinearLayout) rootView.findViewById(R.id.notifications_detailed_layout);
+		enableLayout = (RelativeLayout) rootView
+				.findViewById(R.id.notifications_enable_layout);
+		detailedLayout = (LinearLayout) rootView
+				.findViewById(R.id.notifications_detailed_layout);
 
-		TextView enableText = (TextView) rootView.findViewById(R.id.notifications_enable_all_text);
+		TextView enableText = (TextView) rootView
+				.findViewById(R.id.notifications_enable_all_text);
 		String purifierName = (mPurifier == null ? "" : mPurifier.getName());
-		enableText.setText(String.format(getString(R.string.notifications_enable_all), purifierName));
+		enableText.setText(String.format(
+				getString(R.string.notifications_enable_all), purifierName));
 
-		notificationToggle =(ToggleButton) rootView.findViewById(R.id.notifications_enable_all_toggle);
+		notificationToggle = (ToggleButton) rootView
+				.findViewById(R.id.notifications_enable_all_toggle);
 
-		indoorAqiLbls= (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
-		indoorAqiRadioBtns= (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);	
-		radioButtonLable0 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label0);
-		radioButtonLable1 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label1);
-		radioButtonLable2 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label2);
-		radioButtonLable3 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label3);
+		indoorAqiLbls = (LinearLayout) rootView
+				.findViewById(R.id.notifications_indoor_aqi_lbls);
+		indoorAqiRadioBtns = (RadioGroup) rootView
+				.findViewById(R.id.notifications_indoor_radioGroup);
+		radioButtonLable0 = (FontTextView) rootView
+				.findViewById(R.id.notifications_indoor_label0);
+		radioButtonLable1 = (FontTextView) rootView
+				.findViewById(R.id.notifications_indoor_label1);
+		radioButtonLable2 = (FontTextView) rootView
+				.findViewById(R.id.notifications_indoor_label2);
+		radioButtonLable3 = (FontTextView) rootView
+				.findViewById(R.id.notifications_indoor_label3);
 	}
 
 	private void setUIAqiThreshold(int aqiThreshold) {
-		switch(aqiThreshold){
+		switch (aqiThreshold) {
 		case 13:
-			RadioButton aqiRadioButton0= (RadioButton) indoorAqiRadioBtns.getChildAt(0);
+			RadioButton aqiRadioButton0 = (RadioButton) indoorAqiRadioBtns
+					.getChildAt(0);
 			aqiRadioButton0.setChecked(true);
 			highLightLabel(AppConstants.INDEX_0);
 			break;
 		case 19:
-			RadioButton aqiRadioButton1= (RadioButton) indoorAqiRadioBtns.getChildAt(1);
+			RadioButton aqiRadioButton1 = (RadioButton) indoorAqiRadioBtns
+					.getChildAt(1);
 			aqiRadioButton1.setChecked(true);
 			highLightLabel(AppConstants.INDEX_1);
 			break;
 		case 29:
-			RadioButton aqiRadioButton2= (RadioButton) indoorAqiRadioBtns.getChildAt(2);
+			RadioButton aqiRadioButton2 = (RadioButton) indoorAqiRadioBtns
+					.getChildAt(2);
 			aqiRadioButton2.setChecked(true);
 			highLightLabel(AppConstants.INDEX_2);
 			break;
 		case 40:
-			RadioButton aqiRadioButton3= (RadioButton) indoorAqiRadioBtns.getChildAt(3);
+			RadioButton aqiRadioButton3 = (RadioButton) indoorAqiRadioBtns
+					.getChildAt(3);
 			aqiRadioButton3.setChecked(true);
 			highLightLabel(AppConstants.INDEX_3);
 			break;
@@ -206,8 +233,9 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 		}
 	}
 
-	private void showPairingLayout() {		
-		if(!CPPController.getInstance(getActivity()).isSignOn() || (mPurifier!=null && mPurifier.isDemoPurifier())){
+	private void showPairingLayout() {
+		if (!CPPController.getInstance(getActivity()).isSignOn()
+				|| (mPurifier != null && mPurifier.isDemoPurifier())) {
 			notificationToggle.setEnabled(false);
 			showNotificationsLayout(false);
 			return;
@@ -259,24 +287,31 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 
 	private boolean isNotificationEnabled() {
-//		if(!Utils.isGooglePlayServiceAvailable()){
-//			notificationToggle.setEnabled(false);
-//			return false;
-//		}
-		PurAirApplication.getAppContext().getNotificationRegisteringManager().registerAppForNotification();
-		if (mPurifier != null && mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED) {
+		// if(!Utils.isGooglePlayServiceAvailable()){
+		// notificationToggle.setEnabled(false);
+		// return false;
+		// }
+		PurAirApplication.getAppContext().getNotificationRegisteringManager()
+				.registerAppForNotification();
+		if (mPurifier != null
+				&& mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 
 			showProgressDialog(R.string.notification_permission_check_msg);
 
-			//Enable UI and check if permission exists
-			pairingHandler.getPermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+			// Enable UI and check if permission exists
+			pairingHandler
+					.getPermission(
+							AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
+							AppConstants.PAIRING_PUSH_PERMISSIONS
+									.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
+											.size()]));
 		}
 		return true;
 	}
 
 	@Override
 	public void onCheckedChanged(CompoundButton button, boolean isChecked) {
-		switch(button.getId()){
+		switch (button.getId()) {
 		case R.id.notifications_enable_all_toggle:
 			updateNotificationPermission(isChecked);
 			break;
@@ -286,69 +321,88 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	}
 
 	private void updateNotificationPermission(boolean isChecked) {
-		if(isChecked){
+		if (isChecked) {
 			showProgressDialog(R.string.notification_enabling_msg);
 			enableDetailedNotificationsLayout();
-			pairingHandler.addPermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
-		}
-		else{
+			pairingHandler
+					.addPermission(
+							AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
+							AppConstants.PAIRING_PUSH_PERMISSIONS
+									.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
+											.size()]));
+		} else {
 			showProgressDialog(R.string.notification_disabling_msg);
-			pairingHandler.removePermission(AppConstants.PAIRING_NOTIFY_RELATIONSHIP, AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()]));
+			pairingHandler
+					.removePermission(
+							AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
+							AppConstants.PAIRING_PUSH_PERMISSIONS
+									.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
+											.size()]));
 			disableDetailedNotificationsLayout();
 		}
 	}
+
 	private void setAQIThreshold(String aqiThreshold) {
-		ALog.i(ALog.NOTIFICATION, "Setting AQIThreshold: "+aqiThreshold) ;
-		if (mPurifier == null ) {
-			return ;
+		ALog.i(ALog.NOTIFICATION, "Setting AQIThreshold: " + aqiThreshold);
+		if (mPurifier == null) {
+			return;
 		}
-		aqiThresholdTimer.start() ;
+		aqiThresholdTimer.start();
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
-		PurifierManager.getInstance().setPurifierDetails(ParserConstants.AQI_THRESHOLD, aqiThreshold, PURIFIER_EVENT.AQI_THRESHOLD);
+		PurifierManager.getInstance().setPurifierDetails(
+				ParserConstants.AQI_THRESHOLD, aqiThreshold,
+				PURIFIER_EVENT.AQI_THRESHOLD);
 	}
 
-	private CountDownTimer aqiThresholdTimer = new CountDownTimer(AQI_THRESHOLD_TIMEOUT,1000) {
+	private CountDownTimer aqiThresholdTimer = new CountDownTimer(
+			AQI_THRESHOLD_TIMEOUT, 1000) {
 
 		@Override
-		public void onTick(long millisUntilFinished) {	}
+		public void onTick(long millisUntilFinished) {
+		}
 
 		@Override
 		public void onFinish() {
-			if (progressDialog != null) progressDialog.dismiss();			
-			showErrorDialog() ;
+			if (progressDialog != null)
+				progressDialog.dismiss();
+			showErrorDialog();
 		}
 	};
 
 	@Override
 	public void onPermissionReturned(final boolean permissionExists) {
-		if(progressDialog!=null) progressDialog.dismiss();
-		if (getActivity() == null) return;
-		ALog.i(ALog.NOTIFICATION, "Permission exists: "+permissionExists);
-		// toggleOn the notification toggle	is permission Exists
+		if (progressDialog != null)
+			progressDialog.dismiss();
+		if (getActivity() == null)
+			return;
+		ALog.i(ALog.NOTIFICATION, "Permission exists: " + permissionExists);
+		// toggleOn the notification toggle is permission Exists
 
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if(permissionExists){
+				if (permissionExists) {
 					enableDetailedNotificationsLayout();
-				}
-				else{
+				} else {
 					disableDetailedNotificationsLayout();
 				}
-				notificationToggle.setOnCheckedChangeListener(NotificationsFragment.this);
-				if(mPurifier!=null && mPurifier.getAirPortInfo() != null)
-				{
-					setUIAqiThreshold(mPurifier.getAirPortInfo().getAqiThreshold());
-				}				
-				indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
+				notificationToggle
+						.setOnCheckedChangeListener(NotificationsFragment.this);
+				if (mPurifier != null && mPurifier.getAirPortInfo() != null) {
+					setUIAqiThreshold(mPurifier.getAirPortInfo()
+							.getAqiThreshold());
+				}
+				indoorAqiRadioBtns
+						.setOnCheckedChangeListener(NotificationsFragment.this);
 			}
-		});		
+		});
 	}
 
 	@Override
 	public void onPermissionRemoved() {
 		ALog.i(ALog.NOTIFICATION, "Permission removed");
-		if (progressDialog!=null) progressDialog.dismiss();
+		if (progressDialog != null)
+			progressDialog.dismiss();
 		// toggleOff the notification toggle
 	}
 
@@ -356,36 +410,47 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	public void onPermissionAdded() {
 		ALog.i(ALog.NOTIFICATION, "Permission added");
 		// toggleOff the notification toggle
-		if (progressDialog!=null) progressDialog.dismiss();
+		if (progressDialog != null)
+			progressDialog.dismiss();
 	}
 
 	@Override
 	public void onCallFailed() {
 		ALog.i(ALog.NOTIFICATION, "Failed to change permissions");
-		if (getActivity() == null ) return;
+		if (getActivity() == null)
+			return;
 		getActivity().runOnUiThread(new Runnable() {
 
 			@Override
 			public void run() {
-				if (progressDialog!=null) progressDialog.dismiss();
+				if (progressDialog != null)
+					progressDialog.dismiss();
 
 				try {
-					AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.notification_error_msg, R.string.notification_nopurifier_positivebtn);
+					AlertDialogFragment dialog = AlertDialogFragment
+							.newInstance(
+									R.string.error_title,
+									R.string.notification_error_msg,
+									R.string.notification_nopurifier_positivebtn);
 					dialog.setOnClickListener(NotificationsFragment.this);
-					//				dialog.show(getActivity().getSupportFragmentManager(), null);
-					FragmentManager fm = getActivity().getSupportFragmentManager();
-					fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+					// dialog.show(getActivity().getSupportFragmentManager(),
+					// null);
+					FragmentManager fm = getActivity()
+							.getSupportFragmentManager();
+					fm.beginTransaction().add(dialog, null)
+							.commitAllowingStateLoss();
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.NOTIFICATION, e.getMessage());
 				}
 			}
-		});		
+		});
 	}
 
 	@Override
 	public void onPositiveButtonClicked() {
 		Activity parent = this.getActivity();
-		if (parent == null || !(parent instanceof MainActivity)) return;
+		if (parent == null || !(parent instanceof MainActivity))
+			return;
 
 		((MainActivity) parent).onBackPressed();
 
@@ -406,8 +471,10 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	@Override
 	public void onAirPurifierEventReceived() {
 		ALog.i(ALog.NOTIFICATION, "aqi threshold added");
-		if (progressDialog != null) progressDialog.dismiss();
-		if (aqiThresholdTimer != null ) aqiThresholdTimer.cancel() ;
+		if (progressDialog != null)
+			progressDialog.dismiss();
+		if (aqiThresholdTimer != null)
+			aqiThresholdTimer.cancel();
 	}
 
 	@Override
@@ -417,31 +484,32 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 
 	@Override
 	public void onCheckedChanged(RadioGroup group, int checkedId) {
-		switch(checkedId){
+		switch (checkedId) {
 		case R.id.notifications_indoor_radio0:
-			aqiThreshold="13";
+			aqiThreshold = "13";
 			highLightLabel(AppConstants.INDEX_0);
 			break;
 		case R.id.notifications_indoor_radio1:
-			aqiThreshold="19";
+			aqiThreshold = "19";
 			highLightLabel(AppConstants.INDEX_1);
 			break;
 		case R.id.notifications_indoor_radio2:
-			aqiThreshold="29";
+			aqiThreshold = "29";
 			highLightLabel(AppConstants.INDEX_2);
 			break;
 		case R.id.notifications_indoor_radio3:
-			aqiThreshold="40";
+			aqiThreshold = "40";
 			highLightLabel(AppConstants.INDEX_3);
 			break;
 		default:
 			break;
 		}
 		setAQIThreshold(aqiThreshold);
-	}	
+	}
 
-	private void showProgressDialog(int msg){
-		if(getActivity()==null) return;
+	private void showProgressDialog(int msg) {
+		if (getActivity() == null)
+			return;
 
 		progressDialog = new ProgressDialog(getActivity());
 		progressDialog.setMessage(getString(msg));
@@ -454,30 +522,39 @@ public class NotificationsFragment extends BaseFragment implements OnCheckedChan
 	 */
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
-		if (purifierEvent != PURIFIER_EVENT.AQI_THRESHOLD ) return ;
-		if( aqiThresholdTimer != null )	aqiThresholdTimer.cancel() ;
-		if (progressDialog != null) progressDialog.dismiss();
+		if (purifierEvent != PURIFIER_EVENT.AQI_THRESHOLD)
+			return;
+		if (aqiThresholdTimer != null)
+			aqiThresholdTimer.cancel();
+		if (progressDialog != null)
+			progressDialog.dismiss();
 
-		showErrorDialog() ;
+		showErrorDialog();
 	}
 
 	private void showErrorDialog() {
-		if( getActivity() != null ) {
+		if (getActivity() != null) {
 			getActivity().runOnUiThread(new Runnable() {
 
 				@Override
 				public void run() {
 					try {
-						AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.error_title, R.string.error_aqithreshold_setting, R.string.ok);
+						AlertDialogFragment dialog = AlertDialogFragment
+								.newInstance(R.string.error_title,
+										R.string.error_aqithreshold_setting,
+										R.string.ok);
 						dialog.setOnClickListener(NotificationsFragment.this);
-						//					dialog.show(getActivity().getSupportFragmentManager(), null);
-						FragmentManager fm = getActivity().getSupportFragmentManager();
-						fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
+						// dialog.show(getActivity().getSupportFragmentManager(),
+						// null);
+						FragmentManager fm = getActivity()
+								.getSupportFragmentManager();
+						fm.beginTransaction().add(dialog, null)
+								.commitAllowingStateLoss();
 					} catch (IllegalStateException e) {
 						ALog.e(ALog.NOTIFICATION, e.getMessage());
 					}
 				}
 			});
-		} 
+		}
 	}
 }

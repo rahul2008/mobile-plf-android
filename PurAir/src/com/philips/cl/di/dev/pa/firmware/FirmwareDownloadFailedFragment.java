@@ -13,24 +13,30 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class FirmwareDownloadFailedFragment extends BaseFragment implements OnClickListener{
+public class FirmwareDownloadFailedFragment extends BaseFragment implements
+		OnClickListener {
 
-	private TextView tvFirmwareUpdMsg; 
+	private TextView tvFirmwareUpdMsg;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.firmware_download_failed, container, false);
+		View view = inflater.inflate(R.layout.firmware_download_failed,
+				container, false);
 		initViews(view);
-		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_DOWNLOAD_FAILED);
+		((FirmwareUpdateActivity) getActivity())
+				.setActionBar(FragmentID.FIRMWARE_DOWNLOAD_FAILED);
 		return view;
 	}
 
 	private void initViews(View view) {
-		tvFirmwareUpdMsg = (TextView) view.findViewById(R.id.firmware_update_msg);		
-		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
-		tvFirmwareUpdMsg.setText(getString(R.string.firmware_failed_msg, activity.getPurifierName())) ;
-		Button btnTryAgainFirmwareFailed = (Button) view.findViewById(R.id.btn_try_again_firmware_failed);
+		tvFirmwareUpdMsg = (TextView) view
+				.findViewById(R.id.firmware_update_msg);
+		FirmwareUpdateActivity activity = (FirmwareUpdateActivity) getActivity();
+		tvFirmwareUpdMsg.setText(getString(R.string.firmware_failed_msg,
+				activity.getPurifierName()));
+		Button btnTryAgainFirmwareFailed = (Button) view
+				.findViewById(R.id.btn_try_again_firmware_failed);
 		btnTryAgainFirmwareFailed.setTypeface(Fonts.getGillsans(getActivity()));
 		btnTryAgainFirmwareFailed.setOnClickListener(this);
 	}
@@ -41,12 +47,17 @@ public class FirmwareDownloadFailedFragment extends BaseFragment implements OnCl
 		case R.id.btn_try_again_firmware_failed:
 			FirmwareDownloadFragment.setCounter(0);
 			FirmwareUpdateActivity.setCancelled(false);
-			((FirmwareUpdateActivity) getActivity()).setFirmwareUpdateJsonParams(FirmwareConstants.VERSION, ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+			((FirmwareUpdateActivity) getActivity())
+					.setFirmwareUpdateJsonParams(FirmwareConstants.VERSION,
+							((FirmwareUpdateActivity) getActivity())
+									.getUpgradeVersion());
 
 			getFragmentManager()
-			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareDownloadFragment(), FirmwareDownloadFragment.class.getSimpleName())
-			.commit();
+					.beginTransaction()
+					.replace(R.id.firmware_container,
+							new FirmwareDownloadFragment(),
+							FirmwareDownloadFragment.class.getSimpleName())
+					.commit();
 			break;
 
 		default:

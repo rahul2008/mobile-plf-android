@@ -24,28 +24,32 @@
         android:layout_weight="1"
         android:contentDescription="@string/img_description" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMaxTemp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginRight="16dp"
         android:layout_weight="1"
         android:gravity="right"
-        android:textColor="@color/gray"
         android:text="@string/hiphen"
+        android:textColor="@color/gray"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odWeatherForcastMinTemp"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="@color/lightgrey"
         android:text="@string/hiphen"
+        android:textColor="@color/lightgrey"
         android:textSize="14sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

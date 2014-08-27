@@ -15,18 +15,19 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
 public class DemoModeTask extends Thread {
 
-	private String url ;
-	private ServerResponseListener listener ;
+	private String url;
+	private ServerResponseListener listener;
 	private int responseCode;
-	private String result = "" ;
+	private String result = "";
 	private boolean stop;
 	private String requestType = "GET";
 	private String putData;
 
-	public DemoModeTask(ServerResponseListener listener, String url, String putData, String requestType) {
+	public DemoModeTask(ServerResponseListener listener, String url,
+			String putData, String requestType) {
 		ALog.i(ALog.DEMO_MODE, "Url: " + url);
-		this.url = url ;
-		this.listener = listener ;
+		this.url = url;
+		this.listener = listener;
 		this.requestType = requestType;
 		this.putData = putData;
 	}
@@ -34,35 +35,36 @@ public class DemoModeTask extends Thread {
 	@Override
 	public void run() {
 		InputStream inputStream = null;
-		HttpURLConnection conn = null ;
-		OutputStreamWriter os = null ;
+		HttpURLConnection conn = null;
+		OutputStreamWriter os = null;
 		try {
 			URL urlConn = new URL(url);
-			conn = (HttpURLConnection) urlConn.openConnection() ;
+			conn = (HttpURLConnection) urlConn.openConnection();
 			conn.setRequestMethod(requestType);
-			if(requestType.equals("PUT")) {
-				if (putData == null) return;
+			if (requestType.equals("PUT")) {
+				if (putData == null)
+					return;
 				if (Build.VERSION.SDK_INT <= 10) {
 					conn.setDoOutput(true);
 				}
-				os = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
+				os = new OutputStreamWriter(conn.getOutputStream(),
+						Charset.defaultCharset());
 				os.write(putData);
-				os.flush() ;
+				os.flush();
 			}
 			conn.connect();
-			responseCode = conn.getResponseCode() ;
-			if ( responseCode == HttpURLConnection.HTTP_OK ) {
-				inputStream = conn.getInputStream();					
-				result = NetworkUtils.readFully(inputStream) ;
+			responseCode = conn.getResponseCode();
+			if (responseCode == HttpURLConnection.HTTP_OK) {
+				inputStream = conn.getInputStream();
+				result = NetworkUtils.readFully(inputStream);
 			}
-			
+
 		} catch (IOException e) {
 			ALog.e(ALog.DEMO_MODE, e.getMessage());
-		}
-		finally {
-			
-			if ( listener != null && !stop) {
-				listener.receiveServerResponse(responseCode, result, null) ;
+		} finally {
+
+			if (listener != null && !stop) {
+				listener.receiveServerResponse(responseCode, result, null);
 			}
 
 			if (inputStream != null) {
@@ -71,9 +73,9 @@ public class DemoModeTask extends Thread {
 				} catch (IOException e) {
 					ALog.e(ALog.DEMO_MODE, e.getMessage());
 				}
-				inputStream = null ;
-			} 
-			
+				inputStream = null;
+			}
+
 			if (os != null) {
 				try {
 					os.close();
@@ -82,13 +84,13 @@ public class DemoModeTask extends Thread {
 				}
 				os = null;
 			}
-			if( conn != null ) {
-				conn.disconnect() ;
-				conn = null ;
+			if (conn != null) {
+				conn.disconnect();
+				conn = null;
 			}
 		}
 	}
-	
+
 	public void stopTask() {
 		stop = true;
 	}

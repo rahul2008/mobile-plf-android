@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ProvObject {
-	Map<String,List<String>> myString;
+	Map<String, List<String>> myString;
 
 	/**
 	 * @return the myString
@@ -18,14 +18,13 @@ public class ProvObject {
 	 * @param myString
 	 *            the myString to set
 	 */
-	public void setMyString(HashMap<String, List<String>> pmyString ) {
+	public void setMyString(HashMap<String, List<String>> pmyString) {
 		this.myString = pmyString;
 	}
 
 	@Override
 	public String toString() {
-	    return super.toString();
+		return super.toString();
 	}
-	
 
 }

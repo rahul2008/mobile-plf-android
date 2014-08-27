@@ -1,13 +1,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="24dp"
+    android:background="@color/white"
     android:paddingBottom="24dp"
-    android:paddingRight="16dp"
     android:paddingLeft="16dp"
-    android:background="@color/white" >
+    android:paddingRight="16dp"
+    android:paddingTop="24dp" >
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -16,9 +17,11 @@
         android:text="@string/cancel_wifi_setup_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/philips_blue"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,17 +31,19 @@
         android:lineSpacingExtra="10dp"
         android:text="@string/cancel_wifi_setup_message"
         android:textColor="@color/title_gray"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_cancel_wifi_setup_message"
-        android:paddingTop="16dp"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingTop="16dp" >
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btn_cancel_wifi_no"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
@@ -46,16 +51,19 @@
             android:background="@drawable/gray_button_selector"
             android:text="@string/no"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btn_cancel_wifi_yes"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:background="@drawable/blue_button_selector"
             android:text="@string/yes"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

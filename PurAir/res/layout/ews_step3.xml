@@ -7,10 +7,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp" 
-        android:focusable="true"
         android:clickable="true"
-        android:focusableInTouchMode="true">
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:padding="16dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -36,7 +36,7 @@
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
- 
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_password_lb"
@@ -113,7 +113,8 @@
             android:textSize="14sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_edit_name_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,49 +125,48 @@
             android:background="@drawable/blue_button_selector"
             android:text="@string/edit"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        
         <EditText
             android:id="@+id/ews_step3_place_name_edittxt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:layout_alignBaseline="@+id/ews_step3_edit_name_btn"
+            android:layout_alignParentLeft="true"
             android:layout_below="@+id/ews_step3_message2"
             android:layout_toLeftOf="@+id/ews_step3_edit_name_btn"
             android:background="@color/white"
-            android:paddingLeft="16dp"
-            android:paddingRight="8dp"
+            android:enabled="false"
+            android:hint=""
             android:maxEms="10"
             android:maxLength="30"
+            android:paddingLeft="16dp"
+            android:paddingRight="8dp"
             android:singleLine="true"
-            android:hint=""
-            android:enabled="false"
             android:text="@string/lbl_living_room"
             android:textColor="@color/philips_blue"
             android:textSize="14sp" >
         </EditText>
-        
+
         <RelativeLayout
             android:id="@+id/ews_step3_adv_config_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ews_step3_edit_name_btn"
-            android:visibility="invisible"
             android:layout_marginRight="16dp"
-            android:layout_marginTop="16dp" >
-            
-            <ImageView 
+            android:layout_marginTop="16dp"
+            android:visibility="invisible" >
+
+            <ImageView
                 android:id="@+id/ews_hide_adv_setting"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
-                android:layout_marginLeft="5dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentRight="true"
-                android:contentDescription="@string/img_description"
-                android:background="@drawable/help_close"/>
-            
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/help_close"
+                android:contentDescription="@string/img_description" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -179,93 +179,93 @@
                 android:text="@string/ip"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />            
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
             <EditText
                 android:id="@+id/ews_step3_ip_edittxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
+                android:layout_marginBottom="4dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="32dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
+                android:ems="10"
                 android:enabled="false"
                 android:gravity="center"
-                android:ems="10"
                 android:hint=""
                 android:singleLine="true"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp" >
             </EditText>
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_subnet_lb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/ews_step3_subnet_edittxt"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ews_step3_ip_edittxt"
-                android:layout_alignBaseline="@+id/ews_step3_subnet_edittxt"
                 android:text="@string/subnet"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-            
+
             <EditText
                 android:id="@+id/ews_step3_subnet_edittxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_below="@+id/ews_step3_ip_edittxt"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="32dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
-                android:layout_below="@+id/ews_step3_ip_edittxt"
                 android:background="@drawable/ews_edit_txt_bg"
+                android:ems="10"
                 android:enabled="false"
                 android:gravity="center"
                 android:hint=""
-	            android:ems="10"
                 android:singleLine="true"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp" >
             </EditText>
-            
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_router_lb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/ews_step3_router_edittxt"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ews_step3_subnet_edittxt"
-                android:layout_alignBaseline="@+id/ews_step3_router_edittxt"
                 android:text="@string/router"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-            
+
             <EditText
                 android:id="@+id/ews_step3_router_edittxt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_below="@+id/ews_step3_subnet_edittxt"
+                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="32dp"
-                android:layout_marginBottom="8dp"
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
-                android:layout_below="@+id/ews_step3_subnet_edittxt"
                 android:background="@drawable/ews_edit_txt_bg"
+                android:ems="10"
                 android:enabled="false"
                 android:gravity="center"
                 android:hint=""
-                android:ems="10"
                 android:singleLine="true"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp" >
             </EditText>
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add_lb"
@@ -277,37 +277,38 @@
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
                 android:layout_below="@+id/ews_step3_router_edittxt"
+                android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/ews_step3_wifi_add_lb"
                 android:text="@string/router"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-
         </RelativeLayout>
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/ews_step3_next_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="48dp"
-            android:paddingRight="48dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="8dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/ews_step3_adv_config_layout"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/blue_button_selector"
+            android:paddingLeft="48dp"
+            android:paddingRight="48dp"
             android:text="@string/next"
             android:textColor="@color/white"
-            android:textSize="16sp" />
-        
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
         <LinearLayout
             android:id="@+id/ews_adv_config_layout"
             android:layout_width="match_parent"
@@ -323,9 +324,9 @@
                 android:id="@+id/ews_adv_config_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="12dp"
                 android:clickable="true"
                 android:contentDescription="@string/img_description"
+                android:padding="12dp"
                 android:src="@drawable/ews_setting_selector" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -340,7 +341,6 @@
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
-            
     </RelativeLayout>
 
 </ScrollView>

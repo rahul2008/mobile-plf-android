@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp" >
-        
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/setup_step2_title"
@@ -20,6 +20,7 @@
             android:textColor="@color/title_gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/setup_step2_instruction"
@@ -27,36 +28,36 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/setup_step2_title"
-            android:text="@string/step2_instruction"
             android:lineSpacingExtra="10dp"
+            android:text="@string/step2_instruction"
             android:textColor="@color/philips_blue"
             android:textSize="21sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
-        
+
         <ImageView
             android:id="@+id/setup_step2_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/setup_step2_instruction"
             android:layout_centerHorizontal="true"
-            android:contentDescription="@string/img_description"
             android:layout_marginTop="32dp"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/ews_help_bg4_2x" />
-        
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/setup_step2_message1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
             android:layout_alignParentLeft="true"
-             android:layout_below="@+id/setup_step2_img"
-            android:text="@string/step2_msg1"
+            android:layout_below="@+id/setup_step2_img"
+            android:layout_marginTop="40dp"
             android:lineSpacingExtra="10dp"
+            android:text="@string/step2_msg1"
             android:textColor="@color/contain_gray"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
-        
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/setup_step2_message2"
@@ -78,7 +79,8 @@
             android:layout_below="@+id/setup_step2_message2"
             android:orientation="horizontal" >
 
-            <Button
+            <com.philips.cl.di.dev.pa.view.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/setup_step2_no_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,23 +90,23 @@
                 android:background="@drawable/gray_button_selector"
                 android:text="@string/no"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <Button
+            <com.philips.cl.di.dev.pa.view.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/setup_step2_yes_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/blue_button_selector"
                 android:text="@string/yes"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
-
-        
-        
     </RelativeLayout>
 
 </ScrollView>

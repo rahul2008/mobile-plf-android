@@ -62,23 +62,22 @@
                 android:contentDescription="@string/img_description"
                 android:padding="8dp"
                 android:src="@drawable/zoom_arrow_icon_2x" />
-            
-          <View 
+
+            <View
                 android:id="@+id/view_map_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/map_background" />
-        </RelativeLayout> 
-        
-        
-       <!-- Map layout -->
+        </RelativeLayout>
+
+        <!-- Map layout -->
 
         <RelativeLayout
             android:id="@+id/gaode_map_layt"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp" >
 
             <fragment
                 android:id="@+id/markerMap"
@@ -86,8 +85,8 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
                 class="com.philips.cl.di.dev.pa.activity.MarkerMapFragment" />
-            
-             <ImageView
+
+            <ImageView
                 android:id="@+id/gaodeMapZoomImg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,7 +99,7 @@
                 android:padding="8dp"
                 android:src="@drawable/zoom_arrow_icon_2x" />
         </RelativeLayout>
-		
+
         <!-- <include -->
         <!-- android:id="@+id/include_map" -->
         <!-- android:layout_width="match_parent" -->
@@ -201,7 +200,8 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/detailsOutdoorAnExplain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -213,7 +213,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/outdoor_aiq_analysis_head1"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>

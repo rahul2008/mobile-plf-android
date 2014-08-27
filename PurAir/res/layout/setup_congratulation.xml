@@ -18,7 +18,7 @@
             android:layout_marginTop="16dp"
             android:contentDescription="@string/img_description"
             android:src="@drawable/large_purifier" />
-        
+
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/congratulation_msg"
@@ -26,28 +26,29 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_below="@+id/ews_congratulation_img"
-            android:text="@string/congratulation_msg"
             android:lineSpacingExtra="10dp"
+            android:text="@string/congratulation_msg"
             android:textColor="@color/philips_blue"
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/finish_congratulation_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="center"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/congratulation_msg"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/blue_button_selector"
+            android:gravity="center"
+            android:text="@string/congratulation_btn_txt"
             android:textColor="@color/white"
             android:textSize="14sp"
-            android:text="@string/congratulation_btn_txt" />
-        
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
 </ScrollView>

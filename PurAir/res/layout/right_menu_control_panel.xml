@@ -76,7 +76,8 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/btn_rm_fan_speed"
         android:layout_width="80dp"
         android:layout_height="35dp"
@@ -87,7 +88,8 @@
         android:clickable="false"
         android:text=""
         android:textColor="#ffffff"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
         android:id="@+id/divider_2"
@@ -144,7 +146,8 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/seperator_line_2x" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/fan_speed_silent"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -158,9 +161,11 @@
             android:text="@string/silent"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/fan_speed_turbo"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -171,9 +176,11 @@
             android:text="@string/turbo"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/fan_speed_two"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -181,9 +188,11 @@
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/fan_speed_one"
             android:background="@drawable/fan_speed_two_white"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/fan_speed_three"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -191,9 +200,11 @@
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@+id/fan_speed_turbo"
             android:background="@drawable/fan_speed_three_white"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/fan_speed_one"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -202,7 +213,8 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="4dp"
             android:background="@drawable/fan_speed_one_white"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -220,7 +232,8 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/btn_rm_set_timer"
         android:layout_width="80dp"
         android:layout_height="35dp"
@@ -232,7 +245,8 @@
         android:clickable="false"
         android:text="@string/off"
         android:textColor="#ffffff"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
         android:id="@+id/divider_3"
@@ -255,7 +269,8 @@
         android:paddingBottom="15dp"
         android:visibility="gone" >
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/timer_off"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -266,9 +281,11 @@
             android:text="@string/off"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/four_hours"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -280,9 +297,11 @@
             android:text="@string/fourhour"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/eight_hours"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -294,9 +313,11 @@
             android:text="@string/eighthour"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/one_hour"
             android:layout_width="65dp"
             android:layout_height="30dp"
@@ -308,7 +329,8 @@
             android:text="@string/onehour"
             android:textColor="#6D6D6D"
             android:textSize="10sp"
-            android:visibility="visible" />
+            android:visibility="visible"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -326,7 +348,8 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/btn_rm_scheduler"
         android:layout_width="80dp"
         android:layout_height="35dp"
@@ -337,7 +360,8 @@
         android:clickable="false"
         android:text="@string/scheduler"
         android:textColor="#ffffff"
-        android:textSize="8sp" />
+        android:textSize="8sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
         android:id="@+id/divider_4"
@@ -420,15 +444,16 @@
         android:layout_margin="10dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/seperator_line_2x" />
+
     <ToggleButton
         android:id="@+id/btn_rm_remote_enable"
         style="@style/Widget.Button.Toggle"
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/divider_6"
         android:layout_marginRight="30dp"
         android:checked="false"
-        android:layout_below="@id/divider_6"
         android:paddingTop="40dp" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView

@@ -4,5 +4,6 @@ import java.util.HashMap;
 
 public interface SchedulerEditListener {
 	void onDeleteSchedule(int position, HashMap<Integer, Boolean> selectedItems);
+
 	void onEditSchedule(int position);
 }

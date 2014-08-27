@@ -39,16 +39,16 @@
         <RelativeLayout
             android:id="@+id/contact_support_phone_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:clickable="true">
+            android:layout_height="wrap_content"
+            android:clickable="true" >
 
             <ImageView
                 android:id="@+id/contact_support_phone_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_mobile_2x" />
 
@@ -64,17 +64,17 @@
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_phone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/contact_support_phone_img"
                 android:layout_below="@+id/contact_support_phone_lanbel"
+                android:layout_toRightOf="@+id/contact_support_phone_img"
                 android:drawablePadding="16dp"
-                android:lineSpacingExtra="10dp"
                 android:gravity="left"
+                android:lineSpacingExtra="10dp"
                 android:text="@string/contact_philips_support_phone_num"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
@@ -88,19 +88,19 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/ews_divider_2x" />
 
-         <RelativeLayout
+        <RelativeLayout
             android:id="@+id/contact_support_email_layout"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
+            android:layout_height="wrap_content"
             android:clickable="true" >
 
             <ImageView
                 android:id="@+id/contact_support_email_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_mail_2x" />
 
@@ -116,14 +116,14 @@
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/contact_support_email_img"
                 android:layout_below="@+id/contact_support_email_lanbel"
+                android:layout_toRightOf="@+id/contact_support_email_img"
                 android:drawablePadding="16dp"
                 android:lineSpacingExtra="10dp"
                 android:text="@string/contact_philips_support_email"
@@ -149,9 +149,9 @@
                 android:id="@+id/contact_support_website_img"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/ews_web_2x" />
 
@@ -167,14 +167,14 @@
                 android:textColor="@color/title_gray"
                 android:textSize="22sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-            
+
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_website"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/contact_support_website_img"
                 android:layout_below="@+id/contact_support_website_lanbel"
+                android:layout_toRightOf="@+id/contact_support_website_img"
                 android:drawablePadding="16dp"
                 android:lineSpacingExtra="10dp"
                 android:text="@string/contact_philips_support_website"
@@ -182,6 +182,7 @@
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
         </RelativeLayout>
+
         <View
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

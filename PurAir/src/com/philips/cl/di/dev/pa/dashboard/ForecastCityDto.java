@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-
 public class ForecastCityDto {
 
 	private String c1;

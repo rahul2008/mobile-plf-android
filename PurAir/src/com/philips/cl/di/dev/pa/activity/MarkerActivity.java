@@ -87,10 +87,10 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		if (aMap == null) {
 			aMap = mapView.getMap();
 			aMap.setOnMapClickListener(new OnMapClickListener() {
-				
+
 				@Override
 				public void onMapClick(LatLng latLng) {
-					if(isAnimationDrawableOpen){
+					if (isAnimationDrawableOpen) {
 						hideAnimation();
 					}
 				}
@@ -98,7 +98,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			setUpMap();
 		}
 	}
-	
 
 	private void setUpMap() {
 		aMap.setOnMapLoadedListener(this);
@@ -133,11 +132,11 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null
 				|| outdoorCity.getOutdoorCityInfo() == null)
 			return;
-		
+
 		int aqiValue = 0;
 		if (outdoorCity.getOutdoorAQI() != null)
 			aqiValue = outdoorCity.getOutdoorAQI().getAQI();
-		
+
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
@@ -210,7 +209,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			ALog.d("MarkerActivity", "IllegalStateException");
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
-	
+
 	}
 
 	public void render(Marker marker, View view) {
@@ -245,12 +244,13 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			finish();
 		}
 	}
-	
-	private void hideAnimation(){
+
+	private void hideAnimation() {
 		Animation topDown = AnimationUtils.loadAnimation(MarkerActivity.this,
 				R.anim.bottom_down_aqi_drawer);
 		mAqiDrawer.startAnimation(topDown);
-		isAnimationDrawableOpen = false;;
+		isAnimationDrawableOpen = false;
+		;
 		mAqiDrawer.setVisibility(View.GONE);
 	}
 

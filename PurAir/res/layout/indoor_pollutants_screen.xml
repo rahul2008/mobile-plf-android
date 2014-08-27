@@ -6,17 +6,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#FFF"
         android:orientation="vertical"
-        android:padding="15dp" 
-        android:background="#FFF">
+        android:padding="15dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="@string/indoor_pollutants_intro"
             android:textColor="#7F8595"
-            android:layout_marginTop="10dp"
             android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
@@ -42,8 +42,8 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/formaldehyde" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -93,8 +93,8 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/tvoc" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -145,8 +145,8 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/airborne_pathogens" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -196,8 +196,8 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/pet_hair_dust_mites" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -250,8 +250,8 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/outdoor_particles" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
@@ -301,8 +301,8 @@
                 android:layout_width="55dp"
                 android:layout_height="55dp"
                 android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:contentDescription="@string/img_description"
+                android:scaleType="centerInside"
                 android:src="@drawable/particulate_matter" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView

@@ -3,7 +3,7 @@ package com.philips.cl.di.dev.pa.util;
 import android.content.Context;
 
 public class Coordinates {
-	public static final String CMA_BASEURL_2 = "S5mdXd1LndlY" ;
+	public static final String CMA_BASEURL_2 = "S5mdXd1LndlY";
 	/**
 	 * Indoor and outdoor
 	 * */
@@ -21,22 +21,22 @@ public class Coordinates {
 	private float outerCirclePadd;
 	private float outerIndexPadd;
 	private float strokeWidth;
-	
+
 	/**
 	 * Indoor
 	 * */
 	private float idGraphHeight;
 	private float idPaddingRight;
 	private float idRectMarginLeft;
-	private float idRectWidth;  
+	private float idRectWidth;
 	private float idY10Point0;
 	private float idY5Point5;
-	private float idY4Point5; 
+	private float idY4Point5;
 	private float idY3Point5;
 	private float idY2Point5;
 	private float idY1Point5;
 	private float idY0Point0;
-	
+
 	private float idY10;
 	private float idY9;
 	private float idY7P5;
@@ -48,13 +48,13 @@ public class Coordinates {
 	private float idY1P4;
 	private float idY1;
 	private float idY0;
-	
+
 	private float idX0;
 	private float idRadius;
 	private float idYxLabelPadding;
 	private float idYxTopLabelPadding;
 	private float idTxtSize;
-	
+
 	/**
 	 * Outdoor
 	 * */
@@ -70,11 +70,10 @@ public class Coordinates {
 	private float odRectMarginLeft;
 	private float odRectWidth;
 	private float odPaddingRight;
-	
-	
+
 	private static Coordinates coordinates;
-	
-	private Coordinates (Context ctx) {
+
+	private Coordinates(Context ctx) {
 		/**
 		 * Initialize
 		 * */
@@ -89,16 +88,18 @@ public class Coordinates {
 		powerRect2 = getPxWithRespectToDip(ctx, GraphConst.POWER_RECT2);
 		powerLabelPadd = getPxWithRespectToDip(ctx, GraphConst.POWER_LABEL_PADD);
 		outerlineDist = getPxWithRespectToDip(ctx, GraphConst.OUTER_LINE_DIST);
-		outerCirclePadd = getPxWithRespectToDip(ctx, GraphConst.OUTER_CIRCLE_PADD);
+		outerCirclePadd = getPxWithRespectToDip(ctx,
+				GraphConst.OUTER_CIRCLE_PADD);
 		outerIndexPadd = getPxWithRespectToDip(ctx, GraphConst.OUTER_INDEX_PADD);
 		strokeWidth = getPxWithRespectToDip(ctx, GraphConst.STROKE_WIDTH);
-		
+
 		/**
 		 * Indoor
 		 * */
 		idGraphHeight = getPxWithRespectToDip(ctx, GraphConst.GRAPH_BG_HEGHT);
 		idPaddingRight = getPxWithRespectToDip(ctx, GraphConst.ID_PADDING_RIGHT);
-		idRectMarginLeft = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
+		idRectMarginLeft = getPxWithRespectToDip(ctx,
+				GraphConst.ID_YAXIS_RECT_MARGIN_LEFT);
 		idRectWidth = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_RECT_WIDTH);
 		idY10Point0 = 0;
 		idX0 = getPxWithRespectToDip(ctx, GraphConst.XAXIS0);
@@ -106,7 +107,7 @@ public class Coordinates {
 		idYxLabelPadding = getPxWithRespectToDip(ctx, GraphConst.FIVE);
 		idYxTopLabelPadding = getPxWithRespectToDip(ctx, GraphConst.TEN);
 		idTxtSize = getPxWithRespectToDip(ctx, GraphConst.TEXT_SIZE);
-		
+
 		idY10 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_10);
 		idY9 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_9);
 		idY7P5 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_7_5);
@@ -115,7 +116,7 @@ public class Coordinates {
 		idY2P3 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_2_3);
 		idY1P4 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_1_4);
 		idY0 = getPxWithRespectToDip(ctx, GraphConst.ID_YAXIS_0_0);
-		
+
 		/**
 		 * Outdoor
 		 * */
@@ -127,11 +128,12 @@ public class Coordinates {
 		odY100 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS100);
 		odY50 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS50);
 		odY0 = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS0);
-		odX0  = getPxWithRespectToDip(ctx, GraphConst.OD_XAXIS0);
-		odRectMarginLeft= getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_MARGIN_LEFT);
-		odRectWidth= getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_WIDTH);
+		odX0 = getPxWithRespectToDip(ctx, GraphConst.OD_XAXIS0);
+		odRectMarginLeft = getPxWithRespectToDip(ctx,
+				GraphConst.OD_YAXIS_RECT_MARGIN_LEFT);
+		odRectWidth = getPxWithRespectToDip(ctx, GraphConst.OD_YAXIS_RECT_WIDTH);
 		odPaddingRight = getPxWithRespectToDip(ctx, GraphConst.OD_PADDING_RIGHT);
-		
+
 	}
 
 	public float getX1() {
@@ -141,7 +143,7 @@ public class Coordinates {
 	public float getY1() {
 		return y1;
 	}
-	
+
 	public float getXlabelPaddLast() {
 		return xlabelPaddLast;
 	}
@@ -149,7 +151,7 @@ public class Coordinates {
 	public float getxLabelPadd() {
 		return xLabelPadd;
 	}
-	
+
 	public float getMultiplyConst() {
 		return multiplyConst;
 	}
@@ -185,7 +187,7 @@ public class Coordinates {
 	public float getOuterIndexPadd() {
 		return outerIndexPadd;
 	}
-	
+
 	public float getStrokeWidth() {
 		return strokeWidth;
 	}
@@ -256,7 +258,6 @@ public class Coordinates {
 	public float getIdTxtSize() {
 		return idTxtSize;
 	}
-	
 
 	/**
 	 * Outdoor
@@ -308,57 +309,66 @@ public class Coordinates {
 	public float getOdPaddingRight() {
 		return odPaddingRight;
 	}
-	
-	
+
 	public float getIdY10() {
 		return idY10;
 	}
+
 	public float getIdY9() {
 		return idY9;
 	}
+
 	public float getIdY8() {
 		return idY7P5;
 	}
+
 	public float getIdY7() {
 		return idY7;
 	}
+
 	public float getIdY6() {
 		return idY5P5;
 	}
+
 	public float getIdY5() {
 		return idY5;
 	}
+
 	public float getIdY4() {
 		return idY3P5;
 	}
+
 	public float getIdY3() {
 		return idY2P3;
 	}
+
 	public float getIdY2() {
 		return idY1P4;
 	}
+
 	public float getIdY1() {
 		return idY1;
 	}
+
 	public float getIdY0() {
 		return idY0;
 	}
-	
+
 	public static float getPxWithRespectToDip(Context context, float dip) {
 		return context.getResources().getDisplayMetrics().density * dip;
 	}
-	
+
 	public static Coordinates getInstance(Context ctx) {
-		synchronized(Coordinates.class) {
-			if ( null == coordinates ) {
-				coordinates = new Coordinates(ctx) ;
+		synchronized (Coordinates.class) {
+			if (null == coordinates) {
+				coordinates = new Coordinates(ctx);
 			}
 		}
-		return coordinates ;
+		return coordinates;
 	}
-	
+
 	public static void reset() {
-		coordinates = null ;
+		coordinates = null;
 	}
 
 }

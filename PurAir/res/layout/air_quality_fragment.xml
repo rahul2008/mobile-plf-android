@@ -15,9 +15,9 @@
             android:id="@+id/intro_lbl"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:paddingRight="15dp"
             android:text="@string/air_quality_explained_intro"
             android:textColor="#808080"
-            android:paddingRight="15dp"
             android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 

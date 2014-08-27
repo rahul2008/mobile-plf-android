@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="60dp"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
     android:layout_alignParentLeft="true"
-    android:layout_alignParentTop="true" >
+    android:layout_alignParentTop="true"
+    android:layout_margin="10dp" >
 
     <RelativeLayout
         android:id="@+id/indoorDashboardBarPerc"
@@ -13,8 +13,9 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@color/lightgrey" >
-        
-       <!--  <com.philips.cl.di.dev.pa.view.FontTextView
+
+        <!--
+             <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/indoorDashboardPercentTxt"
             android:layout_width="match_parent"
@@ -25,8 +26,10 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" /> -->
-		<View
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+        -->
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:layout_alignParentTop="true"
@@ -48,12 +51,11 @@
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <include 
+    <include
         android:layout_width="60dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        layout="@layout/indoor_dashboard_circle_with_txt"
-        android:layout_below="@+id/indoorDashboardBarName"/>
-    
+        android:layout_below="@+id/indoorDashboardBarName"
+        layout="@layout/indoor_dashboard_circle_with_txt" />
 
 </RelativeLayout>

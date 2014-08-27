@@ -13,8 +13,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EWSPurifierSwitchOnFragment  extends Fragment {
-
+public class EWSPurifierSwitchOnFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -27,31 +26,32 @@ public class EWSPurifierSwitchOnFragment  extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO);
-		
-		((FontTextView) getView().findViewById(
-				R.id.setup_step2_title)).setText(getString(R.string.step20_off_3));
-		
-		((FontTextView) getView().findViewById(
-				R.id.setup_step2_instruction)).setText(getString(R.string.verify_power_on_title));
-		
-		((ImageView) getView().findViewById(
-				R.id.setup_step2_img)).setImageResource(R.drawable.purifier_power_on);
+		((EWSActivity) getActivity())
+				.setActionBarHeading(EWSConstant.EWS_STEP_TWO);
 
-		((FontTextView) getView().findViewById(
-				R.id.setup_step2_message1)).setText(getString(R.string.verify_power_on_msg1));
-		
-		((FontTextView) getView().findViewById(
-				R.id.setup_step2_message2)).setText(getString(R.string.verify_power_on_msg2));
+		((FontTextView) getView().findViewById(R.id.setup_step2_title))
+				.setText(getString(R.string.step20_off_3));
 
-		Button yesBtn = (Button) getView().findViewById(R.id.setup_step2_yes_btn);
+		((FontTextView) getView().findViewById(R.id.setup_step2_instruction))
+				.setText(getString(R.string.verify_power_on_title));
+
+		((ImageView) getView().findViewById(R.id.setup_step2_img))
+				.setImageResource(R.drawable.purifier_power_on);
+
+		((FontTextView) getView().findViewById(R.id.setup_step2_message1))
+				.setText(getString(R.string.verify_power_on_msg1));
+
+		((FontTextView) getView().findViewById(R.id.setup_step2_message2))
+				.setText(getString(R.string.verify_power_on_msg2));
+
+		Button yesBtn = (Button) getView().findViewById(
+				R.id.setup_step2_yes_btn);
 		yesBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		yesBtn.setText(getString(R.string.yes));
-		
+
 		Button noBtn = (Button) getView().findViewById(R.id.setup_step2_no_btn);
 		noBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		noBtn.setText(getString(R.string.no));
-		
 
 		yesBtn.setOnClickListener(new OnClickListener() {
 			@Override
@@ -67,5 +67,5 @@ public class EWSPurifierSwitchOnFragment  extends Fragment {
 			}
 		});
 
-	}	
+	}
 }

@@ -2,20 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    
-     <com.philips.cl.di.dev.pa.view.FontTextView
+    android:orientation="vertical" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/odStatusTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
         android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
         android:textSize="18sp"
-        android:layout_marginTop="2dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -23,29 +23,28 @@
         android:id="@+id/odStatusDescr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp"
         android:layout_marginBottom="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
         android:textSize="12sp"
-        android:layout_marginTop="2dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="16dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue1"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text=""
             android:textColor="@color/whitesmoke"
@@ -55,9 +54,9 @@
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue2"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text=""
             android:textColor="@color/whitesmoke"
@@ -67,9 +66,9 @@
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue3"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text=""
             android:textColor="@color/whitesmoke"
@@ -79,9 +78,9 @@
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odPMValue4"
-            android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text=""
             android:textColor="@color/whitesmoke"
@@ -89,5 +88,4 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
-   
 </LinearLayout>

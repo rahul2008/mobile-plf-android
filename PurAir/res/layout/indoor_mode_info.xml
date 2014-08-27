@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:contentDescription="@string/img_description"
         android:layout_marginTop="3dp"
+        android:contentDescription="@string/img_description"
         android:src="@drawable/fan_icon_white_2x" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -44,8 +44,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="3dp"
         android:layout_marginRight="2dp"
+        android:layout_marginTop="3dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/filter_icon_2x" />
 

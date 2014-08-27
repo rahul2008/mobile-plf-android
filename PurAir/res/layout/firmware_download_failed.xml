@@ -38,7 +38,7 @@
         android:orientation="horizontal"
         android:padding="16dp" >
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
             android:id="@+id/btn_try_again_firmware_failed"
             android:layout_width="122dp"
             android:layout_height="wrap_content"

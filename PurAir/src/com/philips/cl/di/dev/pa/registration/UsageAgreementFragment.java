@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.FontLoader;
 
 public class UsageAgreementFragment extends BaseFragment {
@@ -122,7 +123,7 @@ public class UsageAgreementFragment extends BaseFragment {
 	    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsanslight.ttf");
 	    	childText.setTextColor(mContext.getResources().getColor(R.color.gray));
 	    	childText.setText(mListChildData[groupPosition][childPosition]);
-	    	childText.setLineSpacing(5, 1);
+	    	childText.setLineSpacing(Coordinates.getPxWithRespectToDip(mContext, 8F), 1);
 	        return childText;
 		}
 

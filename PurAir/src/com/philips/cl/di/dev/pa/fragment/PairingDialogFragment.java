@@ -18,14 +18,19 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 public class PairingDialogFragment extends DialogFragment {
 
 	private static final String EXTRA_EUI64 = "com.philips.cl.di.dev.pa.extraeui64";
-	private static final String DIALOG_SELECTED="com.philips.cl.dev.pa.pairingDialog";
-	public static enum dialog_type {SHOW_DIALOG, PAIRING_FAILED, PAIRING_SUCCESS};
+	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.pairingDialog";
+
+	public static enum dialog_type {
+		SHOW_DIALOG, PAIRING_FAILED, PAIRING_SUCCESS
+	};
+
 	private TextView title;
 	private TextView message;
 	private Button btnClose;
 	private Button btn_pair;
 
-	public static PairingDialogFragment newInstance(PurAirDevice purifier, dialog_type showDialog) {
+	public static PairingDialogFragment newInstance(PurAirDevice purifier,
+			dialog_type showDialog) {
 		PairingDialogFragment fragment = new PairingDialogFragment();
 
 		Bundle args = new Bundle();
@@ -34,8 +39,8 @@ public class PairingDialogFragment extends DialogFragment {
 			args.putString(EXTRA_EUI64, purifier.getEui64());
 		}
 
-		fragment.setArguments(args);		
-		return fragment;		
+		fragment.setArguments(args);
+		return fragment;
 	}
 
 	@Override
@@ -49,20 +54,19 @@ public class PairingDialogFragment extends DialogFragment {
 		return view;
 	}
 
-	private void initializeView(View view) {	
+	private void initializeView(View view) {
 		title = (TextView) view.findViewById(R.id.alert_title);
 		message = (TextView) view.findViewById(R.id.alert_message);
 		btnClose = (Button) view.findViewById(R.id.btn_alertdialog_no);
 		btn_pair = (Button) view.findViewById(R.id.btn_alertdialog_yes);
 		message.setTypeface(Fonts.getGillsans(getActivity()));
-		dialog_type dialog = (dialog_type)getArguments().getSerializable(DIALOG_SELECTED);
-		if(dialog==dialog_type.SHOW_DIALOG){	
+		dialog_type dialog = (dialog_type) getArguments().getSerializable(
+				DIALOG_SELECTED);
+		if (dialog == dialog_type.SHOW_DIALOG) {
 			initializePairingDialogView();
-		}
-		else if(dialog==dialog_type.PAIRING_SUCCESS){
+		} else if (dialog == dialog_type.PAIRING_SUCCESS) {
 			initializePairingDialogSuccessView();
-		}
-		else if(dialog==dialog_type.PAIRING_FAILED){
+		} else if (dialog == dialog_type.PAIRING_FAILED) {
 			initializePairingDialogFailedView();
 		}
 	}
@@ -74,7 +78,7 @@ public class PairingDialogFragment extends DialogFragment {
 		btnClose.setVisibility(View.INVISIBLE);
 		btn_pair.setText(R.string.close);
 
-		btn_pair.setTypeface(Fonts.getGillsans(getActivity()));			
+		btn_pair.setTypeface(Fonts.getGillsans(getActivity()));
 		btn_pair.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -96,8 +100,8 @@ public class PairingDialogFragment extends DialogFragment {
 		btnClose.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//((MainActivity) getActivity()).setPairingDialog(false);
-				dismiss();				
+				// ((MainActivity) getActivity()).setPairingDialog(false);
+				dismiss();
 			}
 		});
 
@@ -140,18 +144,18 @@ public class PairingDialogFragment extends DialogFragment {
 			}
 		});
 	}
-	
+
 	private PurAirDevice getPurifier() {
 		String purifierEui64 = getArguments().getString(EXTRA_EUI64);
-		
-		//TODO use PurifierDiscovery to get the purifier to pair to
-		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
-		
+
+		// TODO use PurifierDiscovery to get the purifier to pair to
+		PurAirDevice current = PurifierManager.getInstance()
+				.getCurrentPurifier();
+
 		if (current != null && current.getEui64().equals(purifierEui64)) {
 			return current;
 		}
 		return null;
 	}
-
 
 }

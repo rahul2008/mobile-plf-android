@@ -8,16 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="16dp" 
-        >
+        android:padding="16dp" >
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btnClose"
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:background="@drawable/close_icon_2x" />
+            android:background="@drawable/close_icon_2x"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -56,13 +57,13 @@
             android:background="@drawable/ews_edit_txt_2_bg"
             android:ems="10"
             android:hint="@string/enter_email_address"
+            android:imeOptions="actionNext"
             android:inputType="textEmailAddress"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:singleLine="true"
             android:textColor="@color/title_gray"
-            android:textSize="14sp"
-            android:imeOptions="actionNext" />
+            android:textSize="14sp" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -89,13 +90,13 @@
             android:background="@drawable/ews_edit_txt_2_bg"
             android:ems="10"
             android:hint="@string/enter_password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:paddingLeft="16dp"
             android:paddingRight="8dp"
             android:singleLine="true"
             android:textColor="@color/title_gray"
-            android:textSize="14sp"
-            android:imeOptions="actionDone" />
+            android:textSize="14sp" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -111,7 +112,8 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btnSignIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -123,7 +125,8 @@
             android:paddingRight="16dp"
             android:text="@string/sign_in"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
 </ScrollView>

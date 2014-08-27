@@ -127,10 +127,10 @@
                 android:layout_alignBottom="@+id/indoorDbIndexBott"
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/indoorDbIndexBottBg"
-                android:gravity="center_vertical"
-                android:text="@string/lbl_living_room"
-                android:singleLine="true"
                 android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:text="@string/lbl_living_room"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -160,7 +160,8 @@
 
         <!-- Bottom Bottom -->
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idAnExplain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -172,7 +173,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/outdoor_aiq_analysis_head1"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>

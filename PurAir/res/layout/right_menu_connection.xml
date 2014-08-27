@@ -1,11 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:paddingBottom="15dp">
-    
+    android:layout_height="fill_parent"
+    android:paddingBottom="15dp" >
+
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/connection_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,26 +14,27 @@
         android:layout_marginTop="16dp"
         android:layout_toLeftOf="@+id/connect"
         android:text="@string/connection_status"
-        android:textSize="18sp" 
-        android:textColor="@color/gray"/>
+        android:textColor="@color/gray"
+        android:textSize="18sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_connection_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/connection_status_title"
         android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
         android:layout_toLeftOf="@+id/connect"
         android:layout_toRightOf="@+id/iv_connection_error"
-        android:layout_below="@+id/connection_status_title" 
         android:text="@string/not_connected"
         android:textColor="@color/gray"
-        android:layout_marginTop="5dp"
         android:textSize="16sp"
-        />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/connect"
         android:layout_width="80dp"
         android:layout_height="40dp"
@@ -44,33 +44,34 @@
         android:background="@drawable/blue_button_selector"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:text="@string/connect"
         android:textColor="#ffffff"
-        android:text="@string/connect" 
         android:textSize="12sp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
         android:id="@+id/iv_connection_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_connection_status"
-        android:layout_alignTop="@+id/tv_connection_status"
         android:layout_alignLeft="@+id/connection_status_title"
+        android:layout_alignTop="@+id/tv_connection_status"
+        android:layout_marginBottom="3dp"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/wifi_icon_lost_connection_2x"
-        android:layout_marginBottom="3dp" />
-    
+        android:src="@drawable/wifi_icon_lost_connection_2x" />
+
     <ImageView
         android:id="@+id/iv_connection_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/tv_connection_status"
         android:layout_alignTop="@+id/tv_connection_status"
+        android:layout_marginBottom="3dp"
+        android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/iv_connection_status"
         android:contentDescription="@string/img_description"
         android:src="@drawable/bad_conn_2x"
-        android:layout_marginBottom="3dp"
-        android:layout_marginLeft="4dp"
         android:visibility="gone" />
 
 </RelativeLayout>

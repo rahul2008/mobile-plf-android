@@ -28,15 +28,16 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FirmwareUpdateActivity extends BaseActivity implements OnClickListener, ServerResponseListener{
-	
+public class FirmwareUpdateActivity extends BaseActivity implements
+		OnClickListener, ServerResponseListener {
+
 	private PurAirDevice currentPurifier;
 	private int downloadFailedCount;
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
 	private ImageView actionBarBackBtn;
 	private FontTextView actionbarTitle;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,50 +46,64 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 
 		currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
 		if (currentPurifier == null) {
-			ALog.d(ALog.FIRMWARE, "Did not start FWUpdate activity - Purifier cannot be null");
+			ALog.d(ALog.FIRMWARE,
+					"Did not start FWUpdate activity - Purifier cannot be null");
 			finish();
 			return;
 		}
-		
+
 		if (currentPurifier.getFirmwarePortInfo() == null) {
-			ALog.d(ALog.FIRMWARE, "No firmware update information available for purifier");
+			ALog.d(ALog.FIRMWARE,
+					"No firmware update information available for purifier");
 		}
-		
-		ALog.i(ALog.FIRMWARE, "Intent params purifierName " + getPurifierName() + " getFirmwarePortInfo() " + currentPurifier.getFirmwarePortInfo() +" upgradeVersion " + getUpgradeVersion() + " currentVersion " + getCurrentVersion());
+
+		ALog.i(ALog.FIRMWARE,
+				"Intent params purifierName " + getPurifierName()
+						+ " getFirmwarePortInfo() "
+						+ currentPurifier.getFirmwarePortInfo()
+						+ " upgradeVersion " + getUpgradeVersion()
+						+ " currentVersion " + getCurrentVersion());
 		showFragment(getUpgradeVersion());
 	}
-			
+
 	private void showFragment(String upgradeVersion) {
-		ALog.i(ALog.FIRMWARE, "FWUpdateActivity$showFragment upgradeVersion " + upgradeVersion );
-		if(upgradeVersion == null || upgradeVersion.isEmpty()) {
+		ALog.i(ALog.FIRMWARE, "FWUpdateActivity$showFragment upgradeVersion "
+				+ upgradeVersion);
+		if (upgradeVersion == null || upgradeVersion.isEmpty()) {
 			try {
-				getSupportFragmentManager().beginTransaction()
-				.add(R.id.firmware_container, new FirmwareInstalledFragment(), FirmwareInstalledFragment.class.getSimpleName())
-				.commit();
+				getSupportFragmentManager()
+						.beginTransaction()
+						.add(R.id.firmware_container,
+								new FirmwareInstalledFragment(),
+								FirmwareInstalledFragment.class.getSimpleName())
+						.commit();
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			}
 		} else {
 			try {
-				getSupportFragmentManager().beginTransaction()
-				.add(R.id.firmware_container, new FirmwareUpdateFragment(), FirmwareUpdateFragment.class.getSimpleName())
-				.commit();
+				getSupportFragmentManager()
+						.beginTransaction()
+						.add(R.id.firmware_container,
+								new FirmwareUpdateFragment(),
+								FirmwareUpdateFragment.class.getSimpleName())
+						.commit();
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		showPreviousFragment();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
 		setCancelled(true);
-		
+
 		// TODO add bootid
 	}
 
@@ -97,7 +112,7 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		super.onResume();
 		setCancelled(false);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -105,26 +120,32 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 		FirmwareInstallFragment.setCounter(0);
 	}
 
-	/*Initialize action bar */
+	/* Initialize action bar */
 	private void initActionBar() {
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();
 		actionBar.setIcon(null);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
+		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
 		actionBar.setBackgroundDrawable(d);
-		View view  = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
-		actionbarTitle = (FontTextView) view.findViewById(R.id.setup_actionbar_title);
-		//If Chinese language selected set font-type-face normal
-		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+		View view = getLayoutInflater().inflate(R.layout.setup_actionbar, null);
+		actionbarTitle = (FontTextView) view
+				.findViewById(R.id.setup_actionbar_title);
+		// If Chinese language selected set font-type-face normal
+		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
+				"ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault())
+						.contains("ZH-HANT")) {
 			actionbarTitle.setTypeface(Typeface.DEFAULT);
 		}
 		actionbarTitle.setText(getString(R.string.firmware));
-		actionBarCancelBtn = (Button) view.findViewById(R.id.setup_actionbar_cancel_btn);
-		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
+		actionBarCancelBtn = (Button) view
+				.findViewById(R.id.setup_actionbar_cancel_btn);
+		actionBarCancelBtn.setTypeface(Fonts
+				.getGillsansLight(getApplicationContext()));
 		actionBarCancelBtn.setOnClickListener(this);
-		actionBarBackBtn = (ImageView) view.findViewById(R.id.setup_actionbar_back_img);
+		actionBarBackBtn = (ImageView) view
+				.findViewById(R.id.setup_actionbar_back_img);
 		actionBarBackBtn.setOnClickListener(this);
 		actionBar.setCustomView(view);
 	}
@@ -140,7 +161,8 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			break;
 		case FIRMWARE_INSTALL:
 		case FIRMWARE_INSTALL_SUCCESS:
-			setActionBar(R.string.firmware_update, View.INVISIBLE, View.INVISIBLE);
+			setActionBar(R.string.firmware_update, View.INVISIBLE,
+					View.INVISIBLE);
 			break;
 		case FIRMWARE_DOWNLOAD_FAILED:
 			setActionBar(R.string.firmware_update, View.VISIBLE, View.INVISIBLE);
@@ -155,19 +177,20 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			break;
 		}
 	}
-	
+
 	private void setActionBar(int textId, int cancelButton, int backButton) {
 		actionbarTitle.setText(textId);
 		actionBarCancelBtn.setVisibility(cancelButton);
 		actionBarBackBtn.setVisibility(backButton);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.setup_actionbar_cancel_btn:
 			setCancelled(true);
-			setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
+			setFirmwareUpdateJsonParams(FirmwareConstants.STATE,
+					FirmwareConstants.CANCEL);
 			finish();
 			break;
 		case R.id.setup_actionbar_back_img:
@@ -177,77 +200,96 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 			break;
 		}
 	}
-	
+
 	private void showPreviousFragment() {
 		FragmentManager manager = getSupportFragmentManager();
 		Fragment fragment = manager.findFragmentById(R.id.firmware_container);
-		ALog.i(ALog.FIRMWARE, " NewFirmwareUpdateFragment " + (fragment instanceof FirmwareUpdateFragment));
-		
-		if(fragment instanceof FirmwareUpdateFragment || fragment instanceof FirmwareInstalledFragment) {
+		ALog.i(ALog.FIRMWARE, " NewFirmwareUpdateFragment "
+				+ (fragment instanceof FirmwareUpdateFragment));
+
+		if (fragment instanceof FirmwareUpdateFragment
+				|| fragment instanceof FirmwareInstalledFragment) {
 			finish();
 		} else if (fragment instanceof FirmwareContactSupportFragment) {
 			try {
-				getSupportFragmentManager().beginTransaction()
-				.replace(R.id.firmware_container, new FirmwareFailedSupportFragment(), FirmwareFailedSupportFragment.class.getSimpleName())
-				.commit();
+				getSupportFragmentManager()
+						.beginTransaction()
+						.replace(
+								R.id.firmware_container,
+								new FirmwareFailedSupportFragment(),
+								FirmwareFailedSupportFragment.class
+										.getSimpleName()).commit();
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			}
-		} else if (fragment instanceof FirmwareFailedSupportFragment || fragment instanceof FirmwareDownloadFailedFragment){
+		} else if (fragment instanceof FirmwareFailedSupportFragment
+				|| fragment instanceof FirmwareDownloadFailedFragment) {
 			setCancelled(true);
-			setFirmwareUpdateJsonParams(FirmwareConstants.STATE, FirmwareConstants.CANCEL);
+			setFirmwareUpdateJsonParams(FirmwareConstants.STATE,
+					FirmwareConstants.CANCEL);
 			finish();
 		}
 	}
 
-	public void setFirmwareUpdateJsonParams(String key, String value )
-	{
-		String dataToUpload = JSONBuilder.getDICommBuilder(key,value, getCurrentPurifier()) ;
-		if(dataToUpload != null && !dataToUpload.isEmpty()) {
-			startServerTask(dataToUpload) ;
+	public void setFirmwareUpdateJsonParams(String key, String value) {
+		String dataToUpload = JSONBuilder.getDICommBuilder(key, value,
+				getCurrentPurifier());
+		if (dataToUpload != null && !dataToUpload.isEmpty()) {
+			startServerTask(dataToUpload);
 		}
 	}
-	
+
 	private void startServerTask(String dataToUpload) {
-		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(dataToUpload, Utils.getPortUrl(Port.FIRMWARE, currentPurifier.getIpAddress()),this) ;
-		Thread statusUpdateTaskThread = new Thread(statusUpdateTask) ;
-		statusUpdateTaskThread.start() ;
+		FirmwarePutPropsTask statusUpdateTask = new FirmwarePutPropsTask(
+				dataToUpload, Utils.getPortUrl(Port.FIRMWARE,
+						currentPurifier.getIpAddress()), this);
+		Thread statusUpdateTaskThread = new Thread(statusUpdateTask);
+		statusUpdateTaskThread.start();
 	}
 
 	/**
 	 * We are not doing anything with the response object.
 	 */
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
-		ALog.i(ALog.FIRMWARE, "FUActivity$receiveServerResponse resp code " + responseCode + " resp data " + new DISecurity(null).decryptData(responseData, currentPurifier));
+	public void receiveServerResponse(int responseCode, String responseData,
+			String fromIp) {
+		ALog.i(ALog.FIRMWARE,
+				"FUActivity$receiveServerResponse resp code "
+						+ responseCode
+						+ " resp data "
+						+ new DISecurity(null).decryptData(responseData,
+								currentPurifier));
 	}
-	
+
 	public String getUpgradeVersion() {
-		FirmwarePortInfo firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
+		FirmwarePortInfo firmwarePortInfo = currentPurifier
+				.getFirmwarePortInfo();
 		if (firmwarePortInfo == null) {
 			return null;
 		}
 		return firmwarePortInfo.getUpgrade();
 	}
-	
+
 	public String getCurrentVersion() {
-		FirmwarePortInfo firmwarePortInfo = currentPurifier.getFirmwarePortInfo();
+		FirmwarePortInfo firmwarePortInfo = currentPurifier
+				.getFirmwarePortInfo();
 		if (firmwarePortInfo == null) {
 			return null;
 		}
 		return firmwarePortInfo.getVersion();
 	}
-	
+
 	public PurAirDevice getCurrentPurifier() {
 		return currentPurifier;
 	}
-	
+
 	public FirmwarePortInfo getFirmwarePortInfo() {
 		return getCurrentPurifier().getFirmwarePortInfo();
 	}
-	
+
 	public String getPurifierName() {
-		if (currentPurifier == null) return null;
+		if (currentPurifier == null)
+			return null;
 		return currentPurifier.getName();
 	}
 
@@ -258,17 +300,19 @@ public class FirmwareUpdateActivity extends BaseActivity implements OnClickListe
 	public void setDownloadFailedCount(int downloadFailedCount) {
 		this.downloadFailedCount = downloadFailedCount;
 	}
-	
+
 	public String getFirmwareURL() {
-		if (currentPurifier == null) return null;
-		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE, currentPurifier.getEui64());
+		if (currentPurifier == null)
+			return null;
+		String firmwareUrl = Utils.getPortUrl(Port.FIRMWARE,
+				currentPurifier.getEui64());
 		return firmwareUrl;
 	}
-	
+
 	public static void setCancelled(boolean cancelled) {
 		FirmwareUpdateActivity.cancelled = cancelled;
 	}
-	
+
 	public static boolean isCancelled() {
 		return cancelled;
 	}

@@ -2,22 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFF"
     android:orientation="vertical"
-    android:padding="15dp" 
-    android:background="#FFF">
+    android:padding="15dp" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/color_explained_intro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="@string/outdoor_color_explained_intro"
         android:layout_marginTop="10dp"
-        android:textColor="#7F8595" 
-        android:textSize="@dimen/text_size_small"
-        android:linksClickable="true"
         android:autoLink="web"
-        custom:fontAssetName="fonts/gillsanslight.ttf"/>
+        android:linksClickable="true"
+        android:text="@string/outdoor_color_explained_intro"
+        android:textColor="#7F8595"
+        android:textSize="@dimen/text_size_small"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <View
         android:layout_width="fill_parent"

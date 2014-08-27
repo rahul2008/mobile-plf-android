@@ -13,20 +13,25 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class FirmwareInstallSuccessFragment extends BaseFragment{
-	
+public class FirmwareInstallSuccessFragment extends BaseFragment {
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.firmware_update_successful, container, false);
+		View view = inflater.inflate(R.layout.firmware_update_successful,
+				container, false);
 		Button startAppBtn = (Button) view.findViewById(R.id.btn_start_app);
 		startAppBtn.setTypeface(Fonts.getGillsans(getActivity()));
-		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_INSTALL_SUCCESS);
-		FontTextView firmwareVersion = (FontTextView) view.findViewById(R.id.firmware_current_version);
-		firmwareVersion.setText(getString(R.string.firmware_current_version) + " " + ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
-		
+		((FirmwareUpdateActivity) getActivity())
+				.setActionBar(FragmentID.FIRMWARE_INSTALL_SUCCESS);
+		FontTextView firmwareVersion = (FontTextView) view
+				.findViewById(R.id.firmware_current_version);
+		firmwareVersion.setText(getString(R.string.firmware_current_version)
+				+ " "
+				+ ((FirmwareUpdateActivity) getActivity()).getUpgradeVersion());
+
 		startAppBtn.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				getActivity().finish();

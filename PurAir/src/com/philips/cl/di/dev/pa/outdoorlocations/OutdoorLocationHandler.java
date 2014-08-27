@@ -15,15 +15,15 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
 
 public class OutdoorLocationHandler {
-	
+
 	private static OutdoorLocationHandler mInstance;
 	private OutdoorCityListener cityListener;
 	private OutdoorSelectedCityListener selectedCityListener;
-	
+
 	private OutdoorLocationHandler() {
-		//TODO
+		// TODO
 	}
-	
+
 	public synchronized static OutdoorLocationHandler getInstance() {
 		if (mInstance == null) {
 			mInstance = new OutdoorLocationHandler();
@@ -31,127 +31,134 @@ public class OutdoorLocationHandler {
 		}
 		return mInstance;
 	}
-	
+
 	public void setCityListener(OutdoorCityListener cityListener) {
 		this.cityListener = cityListener;
 	}
-	
+
 	public void removeCityListener() {
 		cityListener = null;
 	}
-	
-	public void setSelectedCityListener(OutdoorSelectedCityListener selectedCityListener) {
+
+	public void setSelectedCityListener(
+			OutdoorSelectedCityListener selectedCityListener) {
 		this.selectedCityListener = selectedCityListener;
 	}
-	
+
 	public void removeSelectedCityListener() {
 		selectedCityListener = null;
 	}
-	
+
 	@SuppressLint("HandlerLeak")
 	private static Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			if (msg.what == 0) {
 				ALog.i(ALog.OUTDOOR_LOCATION, "Data loaded successfully");
 			} else if (msg.what == 1) {
-				//TODO failed
-			} 
+				// TODO failed
+			}
 		};
 	};
-	
+
 	public void fetchSelectedCity() {
-		
+
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-				
+				OutdoorLocationDatabase database = new OutdoorLocationDatabase();
+
 				try {
 					database.open();
-					Cursor cursor = database.getDataFromOutdoorLoacation(
-							AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_CURR_LOC);
+					Cursor cursor = database
+							.getDataFromOutdoorLoacation(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_CURR_LOC);
 					database.close();
 					if (selectedCityListener != null) {
 						selectedCityListener.onSelectedCityLoad(cursor);
 					}
 				} catch (SQLiteException e) {
-					ALog.e(ALog.OUTDOOR_LOCATION, 
-							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
+					ALog.e(ALog.OUTDOOR_LOCATION,
+							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
+									+ e.getMessage());
 				}
 			}
 		}).start();
 	}
-	
+
 	public void updateSelectedCity(final String areaId, final boolean selected) {
-		
+
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
-					OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-	
+					OutdoorLocationDatabase database = new OutdoorLocationDatabase();
+
 					database.open();
-					database.updateOutdoorLocationShortListItem(areaId, selected);
+					database.updateOutdoorLocationShortListItem(areaId,
+							selected);
 					database.close();
 				} catch (SQLiteException e) {
-					ALog.e(ALog.OUTDOOR_LOCATION, 
-							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
+					ALog.e(ALog.OUTDOOR_LOCATION,
+							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
+									+ e.getMessage());
 				}
-				handler.sendEmptyMessage(0);//TODO change
+				handler.sendEmptyMessage(0);// TODO change
 			}
 		}).start();
 	}
-	
+
 	public void fetchCities(final String selection) {
-		
+
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-				
+				OutdoorLocationDatabase database = new OutdoorLocationDatabase();
+
 				try {
 					database.open();
-					Cursor cursor = database.getDataFromOutdoorLoacation(selection);
+					Cursor cursor = database
+							.getDataFromOutdoorLoacation(selection);
 					database.close();
 					if (cityListener != null) {
 						cityListener.onCityLoad(cursor);
 					}
 				} catch (SQLiteException e) {
-					ALog.e(ALog.OUTDOOR_LOCATION, 
-							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
+					ALog.e(ALog.OUTDOOR_LOCATION,
+							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
+									+ e.getMessage());
 				}
 			}
 		}).start();
 	}
-	
+
 	private static void readFromFileAddToDatabase() {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
-				OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-				
+				OutdoorLocationDatabase database = new OutdoorLocationDatabase();
+
 				try {
 					database.open();
 					database.fillDatabaseForCSV();
 					database.close();
 					handler.sendEmptyMessage(0);
 				} catch (SQLiteException e) {
-					ALog.e(ALog.OUTDOOR_LOCATION, 
-							"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: " + e.getMessage());
+					ALog.e(ALog.OUTDOOR_LOCATION,
+							"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: "
+									+ e.getMessage());
 					handler.sendEmptyMessage(1);
 				}
 			}
 		}).start();
 	}
-	
+
 	public static void reset() {
 		mInstance = null;
 	}
-	
+
 	private DatabaseHelper mDatabaseHelper = null;
 	private SQLiteDatabase mOutdoorLocationDatabase = null;
 	private static final String[] mTableColumns = new String[] {
@@ -159,44 +166,46 @@ public class OutdoorLocationHandler {
 			AppConstants.KEY_AREA_ID, AppConstants.KEY_LONGITUDE,
 			AppConstants.KEY_LATITUDE, AppConstants.KEY_CITY_CN,
 			AppConstants.KEY_SHORTLIST, AppConstants.KEY_CITY_TW };
-	
-	
-	public interface DashBoardDataFetchListener{
+
+	public interface DashBoardDataFetchListener {
 		void isCompleted(boolean isCompleted);
 	}
-	
+
 	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
-	
-	public static void setDashBoardDataFetch(DashBoardDataFetchListener dashBoardListener){
+
+	public static void setDashBoardDataFetch(
+			DashBoardDataFetchListener dashBoardListener) {
 		dashBoardDataFetchListener = dashBoardListener;
 	}
-	
+
 	public synchronized void fetchAllCityList() {
-		
+
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 
-				mDatabaseHelper = new DatabaseHelper(PurAirApplication.getAppContext());
+				mDatabaseHelper = new DatabaseHelper(
+						PurAirApplication.getAppContext());
 				open();
 				String filterText = null;
 				Cursor cursor = null;
 				cursor = mOutdoorLocationDatabase.query(true,
-						AppConstants.TABLE_CITYDETAILS, mTableColumns, filterText,
-						null, null, null, AppConstants.KEY_CITY + " ASC", null);
+						AppConstants.TABLE_CITYDETAILS, mTableColumns,
+						filterText, null, null, null, AppConstants.KEY_CITY
+								+ " ASC", null);
 
-				if(dashBoardDataFetchListener != null){
+				if (dashBoardDataFetchListener != null) {
 					dashBoardDataFetchListener.isCompleted(true);
 				}
-				
+
 				fillAllCitiesListFromDatabase(cursor);
 
 				close();
 			}
 		}).start();
 	}
-	
+
 	public synchronized void open() {
 		if (mOutdoorLocationDatabase == null
 				|| !mOutdoorLocationDatabase.isOpen()) {
@@ -237,7 +246,7 @@ public class OutdoorLocationHandler {
 				OutdoorManager.getInstance().addAllCityDataToMap(info, null,
 						null, areaID);
 			} while (cursor.moveToNext());
-//			mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
+			// mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
 		}
 	}
 }

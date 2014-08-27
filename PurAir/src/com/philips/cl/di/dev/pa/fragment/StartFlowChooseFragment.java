@@ -35,10 +35,9 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
+public class StartFlowChooseFragment extends BaseFragment implements
+		OnClickListener, StartFlowListener, ServerResponseListener {
 
-public class StartFlowChooseFragment extends BaseFragment implements OnClickListener, StartFlowListener, ServerResponseListener {
-
-	
 	private Button mBtnNewPurifier;
 	private Button mBtnConnectedPurifier;
 	private Bundle mBundle;
@@ -49,53 +48,57 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 	private LocationManager locationManager;
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.start_flow_choose_fragment, container, false);
-		
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.start_flow_choose_fragment,
+				container, false);
+
 		mBundle = new Bundle();
 		mDialog = new StartFlowDialogFragment();
-		
-		mBtnNewPurifier = (Button) view.findViewById(R.id.start_flow_choose_btn_connect_new);
-		mBtnConnectedPurifier = (Button) view.findViewById(R.id.start_flow_choose_btn_already_connected);
-				
+
+		mBtnNewPurifier = (Button) view
+				.findViewById(R.id.start_flow_choose_btn_connect_new);
+		mBtnConnectedPurifier = (Button) view
+				.findViewById(R.id.start_flow_choose_btn_already_connected);
+
 		mBtnNewPurifier.setOnClickListener(this);
 		mBtnConnectedPurifier.setOnClickListener(this);
-		
+
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		locationManager = (LocationManager) 
-				PurAirApplication.getAppContext().getSystemService(Context.LOCATION_SERVICE);
+		locationManager = (LocationManager) PurAirApplication.getAppContext()
+				.getSystemService(Context.LOCATION_SERVICE);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		/*if (isGPSEnabled()) {
-			gpsLocation = GPSLocation.getInstance();
-			ALog.i(ALog.OUTDOOR_LOCATION, "gpsLocation: " + gpsLocation);
-		} else {
-			showEnableGPSDialog();
-		}*/
+		/*
+		 * if (isGPSEnabled()) { gpsLocation = GPSLocation.getInstance();
+		 * ALog.i(ALog.OUTDOOR_LOCATION, "gpsLocation: " + gpsLocation); } else
+		 * { showEnableGPSDialog(); }
+		 */
 	}
-	
+
 	private boolean isGPSEnabled() {
 		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
 	}
-	
+
 	private void startEWS() {
 		Intent intent = new Intent(getActivity(), EWSActivity.class);
 		getActivity().startActivity(intent);
 		getFragmentManager().popBackStackImmediate();
 	}
-	
+
 	private void showApSelectorDialog() {
 		try {
 			mBundle.clear();
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.AP_SELCTOR);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER,
+					StartFlowDialogFragment.AP_SELCTOR);
 			mDialog.setArguments(mBundle);
 			mDialog.setListener(this);
 			mDialog.show(getFragmentManager(), "start_flow_dialog");
@@ -112,7 +115,8 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 			break;
 		case R.id.start_flow_choose_btn_already_connected:
 			DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-			final List<PurAirDevice> apItems = discoveryManager.getNewDevicesDiscovered();
+			final List<PurAirDevice> apItems = discoveryManager
+					.getNewDevicesDiscovered();
 			if (apItems.size() > 0) {
 				showApSelectorDialog();
 			} else {
@@ -124,41 +128,48 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 			break;
 		}
 	}
-	
+
 	private void showEnableGPSDialog() {
-		if (getActivity() == null) return;
+		if (getActivity() == null)
+			return;
 		try {
-			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-			
-			Fragment prevFrag = getActivity().getSupportFragmentManager().findFragmentByTag("gps_enable");
+			FragmentTransaction fragTransaction = getActivity()
+					.getSupportFragmentManager().beginTransaction();
+
+			Fragment prevFrag = getActivity().getSupportFragmentManager()
+					.findFragmentByTag("gps_enable");
 			if (prevFrag != null) {
 				fragTransaction.remove(prevFrag);
 			}
-			
-			fragTransaction.add(GPSLocationDialogFragment
-					.newInstance(), "gps_enable").commitAllowingStateLoss();
+
+			fragTransaction.add(GPSLocationDialogFragment.newInstance(),
+					"gps_enable").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.ERROR, e.getMessage());
 		}
 	}
-	
+
 	private void showAlertDialog(String title, String message) {
-		if (getActivity() == null) return;
+		if (getActivity() == null)
+			return;
 		try {
-			FragmentTransaction fragTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-			
-			Fragment prevFrag = getActivity().getSupportFragmentManager().findFragmentByTag("no_purifier_found");
+			FragmentTransaction fragTransaction = getActivity()
+					.getSupportFragmentManager().beginTransaction();
+
+			Fragment prevFrag = getActivity().getSupportFragmentManager()
+					.findFragmentByTag("no_purifier_found");
 			if (prevFrag != null) {
 				fragTransaction.remove(prevFrag);
 			}
-			
-			fragTransaction.add(DownloadAlerDialogFragement.
-					newInstance(title, message), "no_purifier_found").commitAllowingStateLoss();
+
+			fragTransaction.add(
+					DownloadAlerDialogFragement.newInstance(title, message),
+					"no_purifier_found").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.ERROR, e.getMessage());
 		}
 	}
-	
+
 	private CountDownTimer connectTimer = new CountDownTimer(30000, 1000) {
 		@Override
 		public void onTick(long millisUntilFinished) {
@@ -172,73 +183,85 @@ public class StartFlowChooseFragment extends BaseFragment implements OnClickList
 			showErrorOnConnectPurifier();
 		}
 	};
-	
+
 	private void showErrorOnConnectPurifier() {
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
-		showAlertDialog(getString(R.string.purifier_add_fail_title), getString(R.string.purifier_add_fail_msg));
+		showAlertDialog(getString(R.string.purifier_add_fail_title),
+				getString(R.string.purifier_add_fail_msg));
 	}
-	
+
 	private void stopSSIDTimer() {
-		if (connectTimer != null ) {
-			connectTimer.cancel() ;
+		if (connectTimer != null) {
+			connectTimer.cancel();
 		}
 	}
-	
+
 	private void getWifiDetails() {
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
-		
-		if (selectedPurifier == null) return;
-		connectTimer.start() ;
-		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI, selectedPurifier.getIpAddress()),"" , "GET");
+
+		if (selectedPurifier == null)
+			return;
+		connectTimer.start();
+		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
+				selectedPurifier.getIpAddress()), "", "GET");
 		connectTask.start();
 	}
-	
+
 	private void onSuccessfullyConnected() {
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
-		if (selectedPurifier != null ) {
-			selectedPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY) ;
-			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
+		if (selectedPurifier != null) {
+			selectedPurifier
+					.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager
+					.getSsidOfConnectedNetwork());
 			PurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
-			
-			((MainActivity)getActivity()).setTitle(getString(R.string.congratulations));
-			((MainActivity) getActivity()).showFragment(new CongratulationFragment());
 
-//			Utils.saveAppFirstUse(false);
-//			
-//			PurifierDatabase purifierDatabase = new PurifierDatabase();
-//			purifierDatabase.insertPurAirDevice(selectedPurifier);
-//			List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
-//			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
+			((MainActivity) getActivity())
+					.setTitle(getString(R.string.congratulations));
+			((MainActivity) getActivity())
+					.showFragment(new CongratulationFragment());
+
+			// Utils.saveAppFirstUse(false);
+			//
+			// PurifierDatabase purifierDatabase = new PurifierDatabase();
+			// purifierDatabase.insertPurAirDevice(selectedPurifier);
+			// List<PurAirDevice> purifiers =
+			// DiscoveryManager.getInstance().updateStoreDevices();
+			// PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size()
+			// - 1);
 		} else {
-			showAlertDialog(getString(R.string.purifier_add_fail_title), getString(R.string.purifier_add_fail_msg));
+			showAlertDialog(getString(R.string.purifier_add_fail_title),
+					getString(R.string.purifier_add_fail_msg));
 		}
 	}
-	
+
 	@Override
 	public void onPurifierSelect(PurAirDevice purifier) {
 		selectedPurifier = purifier;
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
-		SetupDialogFactory.getInstance(getActivity()).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
+		SetupDialogFactory.getInstance(getActivity())
+				.getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		getWifiDetails();
 	}
 
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData,
 			final String fromIp) {
-		
-		final String decryptedResponse = new DISecurity(null).decryptData(responseData, selectedPurifier);
-		
+
+		final String decryptedResponse = new DISecurity(null).decryptData(
+				responseData, selectedPurifier);
+
 		if (getActivity() != null) {
 			getActivity().runOnUiThread(new Runnable() {
-				
+
 				@Override
 				public void run() {
-					if( decryptedResponse != null ) {
-						ALog.i(ALog.MANAGE_PUR,decryptedResponse) ;
-						
+					if (decryptedResponse != null) {
+						ALog.i(ALog.MANAGE_PUR, decryptedResponse);
+
 						stopSSIDTimer();
 						onSuccessfullyConnected();
-					}	
+					}
 				}
 			});
 		}

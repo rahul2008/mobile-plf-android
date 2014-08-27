@@ -3,24 +3,23 @@
     android:id="@+id/take_tour_pop_up_alert"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@color/white" 
-    android:padding="15dp">
+    android:background="@color/white"
+    android:padding="15dp" >
 
     <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/alert_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:gravity="left"
         android:text="@string/alert_take_tour"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
-        android:layout_marginBottom="10dp" />
-    
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" 
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/alert_message"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -32,16 +31,18 @@
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <!-- Dual button layout -->
+
     <LinearLayout
         android:id="@+id/alertdialog_dualbtns_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/alert_message"
-        android:orientation="horizontal" 
         android:layout_marginTop="10dp"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btn_alertdialog_no"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -50,20 +51,23 @@
             android:background="@drawable/blue_button_selector"
             android:text="@string/close"
             android:textColor="#FFF"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <Button
+        <com.philips.cl.di.dev.pa.view.FontButton
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/btn_alertdialog_yes"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:maxLines="1"
             android:background="@drawable/blue_button_selector"
+            android:gravity="center"
+            android:maxLines="1"
             android:text="@string/alert_take_tour"
             android:textColor="#FFF"
-            android:gravity="center"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </RelativeLayout>

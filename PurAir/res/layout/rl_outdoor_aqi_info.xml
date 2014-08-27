@@ -1,84 +1,98 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="wrap_content" 
-    android:clipChildren="false">
-    
-    <TextView
+    android:layout_height="wrap_content"
+    android:clipChildren="false" >
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_updated_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:paddingLeft="10dp"
         android:layout_alignParentTop="true"
+        android:paddingLeft="10dp"
+        android:text="@string/updated"
         android:textColor="@color/white"
-        android:text="@string/updated" />
-    
-    <TextView
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_updated_at_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true" 
+        android:layout_alignParentLeft="true"
         android:layout_below="@id/tv_updated_title"
         android:paddingLeft="10dp"
+        android:text="@string/date_empty"
         android:textColor="@color/white"
-        android:text="@string/date_empty" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_location_city"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:text="@string/city_shanghai"
         android:textColor="@color/white"
-        android:text="@string/city_shanghai" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_location_city"
         android:layout_centerHorizontal="true"
+        android:text="@string/city_location"
         android:textColor="@color/white"
-        android:text="@string/city_location" />
-    
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
     <ImageView
         android:id="@+id/iv_outdoor_weather_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
         android:contentDescription="@string/img_description"
         android:paddingRight="10dp"
         android:src="@drawable/star_icon_2x" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_outdoor_weather_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/iv_outdoor_weather_image"
         android:layout_alignParentRight="true"
+        android:layout_below="@id/iv_outdoor_weather_image"
         android:paddingRight="10dp"
+        android:text="@string/n_a"
         android:textColor="@color/white"
-        android:text="@string/n_a" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_outdoor_aqi_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:text=""
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:text="" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_outdoor_aqi_status_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/tv_outdoor_aqi_status_title"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text=""
         android:textColor="@color/white"
-        android:text="" />
-    
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
 </RelativeLayout>

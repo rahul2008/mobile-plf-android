@@ -3,7 +3,6 @@
     android:layout_height="fill_parent"
     android:background="@android:color/white" >
 
-
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/settings_demo_mode_lb"
@@ -34,17 +33,17 @@
         android:layout_height="1dp"
         android:layout_below="@+id/settings_demo_mode_toggle"
         android:background="@color/darkgray" />
-    
-     <com.philips.cl.di.dev.pa.view.FontTextView
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/diagnostics_lb"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/settings_demo_mode_toggle"
         android:gravity="center_vertical"
+        android:paddingBottom="15dp"
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
-        android:paddingBottom="15dp"
         android:text="@string/diagnostics"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_medium"
@@ -68,7 +67,7 @@
         android:text="@string/version_number"
         android:textColor="@color/gray"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
+
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_privacy_policy"

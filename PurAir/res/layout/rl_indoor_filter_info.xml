@@ -1,9 +1,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" 
-    android:paddingTop="5dp">
+    android:layout_height="fill_parent"
+    android:paddingTop="5dp" >
 
-    <!-- <TextView
+    <!--
+    <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_filter_mode_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,7 +14,7 @@
         android:textColor="@color/white"
         android:text="@string/mode" />
     
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_filter_mode_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -23,7 +24,7 @@
         android:textColor="@color/white"
         android:text="" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_filter_home"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +35,7 @@
 
     
     
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_filter_status_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +45,7 @@
         android:textColor="@color/white"
         android:text="Filters" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_filter_status_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
         android:layout_alignParentRight="true"
         android:paddingRight="10dp"
         android:textColor="@color/white"
-        android:text="" /> -->
+        android:text="" />
+    -->
 
 </RelativeLayout>

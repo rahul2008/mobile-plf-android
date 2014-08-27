@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/indoorDashboardBarTopNumBg"
@@ -34,9 +34,9 @@
         android:layout_alignBottom="@+id/indoorDbBarTopNum"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/indoorDashboardBarTopNumBg"
+        android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:ellipsize="end"
         android:text="@string/lbl_living_room"
         android:textColor="@color/gray"
         android:textSize="16sp"

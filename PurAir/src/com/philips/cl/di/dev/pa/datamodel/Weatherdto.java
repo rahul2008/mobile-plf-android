@@ -1,14 +1,15 @@
 package com.philips.cl.di.dev.pa.datamodel;
 
 public class Weatherdto {
-	private float tempInCentigrade ;
-	private float tempInFahrenheit ;
-	private String date ;
-	private String time ;
-	
-	private float windDegree ;
-	
-	private String windDirection ;
+	private float tempInCentigrade;
+	private float tempInFahrenheit;
+	private String date;
+	private String time;
+
+	private float windDegree;
+
+	private String windDirection;
+
 	public float getWindDegree() {
 		return windDegree;
 	}
@@ -25,10 +26,10 @@ public class Weatherdto {
 		this.windDirection = windDirection;
 	}
 
-	private float maxTempC ;
-	private float maxTempF ;
-	private float minTempC ;
-	
+	private float maxTempC;
+	private float maxTempF;
+	private float minTempC;
+
 	public float getWindSpeed() {
 		return windSpeed;
 	}
@@ -37,8 +38,8 @@ public class Weatherdto {
 		this.windSpeed = windSpeed;
 	}
 
-	private float windSpeed ;
-	
+	private float windSpeed;
+
 	public float getMaxTempC() {
 		return maxTempC;
 	}
@@ -71,10 +72,10 @@ public class Weatherdto {
 		this.minTempF = minTempF;
 	}
 
-	private float minTempF ;
-	
-	private String weatherDesc ;
-	private String isdaytime ;
+	private float minTempF;
+
+	private String weatherDesc;
+	private String isdaytime;
 
 	public float getTempInCentigrade() {
 		return tempInCentigrade;
@@ -115,7 +116,7 @@ public class Weatherdto {
 	public void setWeatherDesc(String weatherDesc) {
 		this.weatherDesc = weatherDesc;
 	}
-	
+
 	public String getIsdaytime() {
 		return isdaytime;
 	}
@@ -123,5 +124,5 @@ public class Weatherdto {
 	public void setIsdaytime(String isdaytime) {
 		this.isdaytime = isdaytime;
 	}
-	
+
 }

@@ -47,5 +47,5 @@
         android:textColor="@color/lightgrey"
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
-	
+
 </LinearLayout>

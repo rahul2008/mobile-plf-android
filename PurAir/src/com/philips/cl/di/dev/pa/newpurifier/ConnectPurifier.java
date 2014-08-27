@@ -16,7 +16,7 @@ import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 
-public class ConnectPurifier implements NetworkStateListener{
+public class ConnectPurifier implements NetworkStateListener {
 
 	private static ConnectPurifier mInstance;
 	private StartFlowDialogFragment mDialog;
@@ -24,17 +24,18 @@ public class ConnectPurifier implements NetworkStateListener{
 	private FragmentActivity mContext;
 	private WifiManager mWifiManager;
 
-
 	private ConnectPurifier(FragmentActivity context) {
 		mContext = context;
 		mDialog = new StartFlowDialogFragment();
 		mDialog.setListener(mStartFlowListener);
 		mBundle = new Bundle();
 
-		mWifiManager = (WifiManager) mContext.getSystemService(MainActivity.WIFI_SERVICE);
+		mWifiManager = (WifiManager) mContext
+				.getSystemService(MainActivity.WIFI_SERVICE);
 	}
 
-	public static synchronized ConnectPurifier getInstance(FragmentActivity context) {
+	public static synchronized ConnectPurifier getInstance(
+			FragmentActivity context) {
 		if (mInstance == null) {
 			mInstance = new ConnectPurifier(context);
 		}
@@ -42,13 +43,15 @@ public class ConnectPurifier implements NetworkStateListener{
 	}
 
 	/**
-	 * start the flow to add a 
-	 * - new purifier to your app
-	 * - existing purifier to your app
+	 * start the flow to add a - new purifier to your app - existing purifier to
+	 * your app
 	 */
 	public void startAddPurifierToAppFlow() {
 
-		ALog.i(ALog.APP_START_UP, "ConnectPurifier$startAddPurifierToAppFlow isWifiEnabled :: " + mWifiManager.isWifiEnabled() + " isUserSignedIn " + isUserSignedIn());
+		ALog.i(ALog.APP_START_UP,
+				"ConnectPurifier$startAddPurifierToAppFlow isWifiEnabled :: "
+						+ mWifiManager.isWifiEnabled() + " isUserSignedIn "
+						+ isUserSignedIn());
 
 		if (!mWifiManager.isWifiEnabled()) {
 			showNoWifiDialog();
@@ -57,7 +60,7 @@ public class ConnectPurifier implements NetworkStateListener{
 				startUserRegistrationFlow();
 			} else {
 				startChooseFragment();
-			} 
+			}
 		}
 	}
 
@@ -67,9 +70,11 @@ public class ConnectPurifier implements NetworkStateListener{
 			mBundle.clear();
 			mDialog = new StartFlowDialogFragment();
 			mDialog.setListener(mStartFlowListener);
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_WIFI);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER,
+					StartFlowDialogFragment.NO_WIFI);
 			mDialog.setArguments(mBundle);
-			mDialog.show(mContext.getSupportFragmentManager(), "start_flow_dialog");
+			mDialog.show(mContext.getSupportFragmentManager(),
+					"start_flow_dialog");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
@@ -81,9 +86,11 @@ public class ConnectPurifier implements NetworkStateListener{
 			mBundle.clear();
 			mDialog = new StartFlowDialogFragment();
 			mDialog.setListener(mStartFlowListener);
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.NO_INTERNET);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER,
+					StartFlowDialogFragment.NO_INTERNET);
 			mDialog.setArguments(mBundle);
-			mDialog.show(mContext.getSupportFragmentManager(), "start_flow_dialog");
+			mDialog.show(mContext.getSupportFragmentManager(),
+					"start_flow_dialog");
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}
@@ -98,11 +105,13 @@ public class ConnectPurifier implements NetworkStateListener{
 		Intent intent = new Intent(mContext, UserRegistrationActivity.class);
 		mContext.startActivity(intent);
 
-		UserRegistrationActivity.setUserRegistrationChangedListener(mUserRegistrationChangedListener);
+		UserRegistrationActivity
+				.setUserRegistrationChangedListener(mUserRegistrationChangedListener);
 	}
 
 	private void startChooseFragment() {
-		ALog.i(ALog.APP_START_UP, "ConnectPurifier$startChooseFragment mContext " + mContext);
+		ALog.i(ALog.APP_START_UP,
+				"ConnectPurifier$startChooseFragment mContext " + mContext);
 		((MainActivity) mContext).showFragment(new StartFlowChooseFragment());
 	}
 
@@ -111,8 +120,8 @@ public class ConnectPurifier implements NetworkStateListener{
 		@Override
 		public void noWifiTurnOnClicked(DialogFragment dialog) {
 			if (!isUserSignedIn()) {
-//				NetworkReceiver.getInstance().removeNetworkStateListener(ConnectPurifier.this);
-//				NetworkReceiver.getInstance().addNetworkStateListener(ConnectPurifier.this);
+				// NetworkReceiver.getInstance().removeNetworkStateListener(ConnectPurifier.this);
+				// NetworkReceiver.getInstance().addNetworkStateListener(ConnectPurifier.this);
 			} else {
 				startChooseFragment();
 			}
@@ -151,7 +160,7 @@ public class ConnectPurifier implements NetworkStateListener{
 	};
 
 	public static void reset() {
-		mInstance = null ;
+		mInstance = null;
 	}
 
 	@Override
@@ -159,13 +168,13 @@ public class ConnectPurifier implements NetworkStateListener{
 		Intent intent = new Intent(mContext, UserRegistrationActivity.class);
 		mContext.startActivity(intent);
 
-//		UserRegistrationActivity.setUserRegistrationChangedListener(mUserRegistrationChangedListener);
-//		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+		// UserRegistrationActivity.setUserRegistrationChangedListener(mUserRegistrationChangedListener);
+		// NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
 
 	@Override
 	public void onDisconnected() {
 		showNoInternetDialog();
-//		NetworkReceiver.getInstance().removeNetworkStateListener(this);
-	}	
+		// NetworkReceiver.getInstance().removeNetworkStateListener(this);
+	}
 }

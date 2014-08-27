@@ -15,27 +15,30 @@ import com.philips.cl.di.dev.pa.util.NetworkUtils;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 
 public class TaskPutDeviceDetails implements Runnable {
-	private static final String TAG = TaskPutDeviceDetails.class.getSimpleName();
+	private static final String TAG = TaskPutDeviceDetails.class
+			.getSimpleName();
 
-	private String dataToUpload ;
+	private String dataToUpload;
 	private ServerResponseListener responseListener = null;
 
-	private int responseCode ;
+	private int responseCode;
 	private String url;
-	
-	private String requestMethod = AppConstants.REQUEST_METHOD_PUT ;
 
-	public TaskPutDeviceDetails(String dataToUpload,String url, ServerResponseListener responseListener) {
+	private String requestMethod = AppConstants.REQUEST_METHOD_PUT;
+
+	public TaskPutDeviceDetails(String dataToUpload, String url,
+			ServerResponseListener responseListener) {
 		this.dataToUpload = dataToUpload;
 		this.responseListener = responseListener;
-		this.url = url ;
+		this.url = url;
 	}
 
-	public TaskPutDeviceDetails(String dataToUpload,String url, ServerResponseListener responseListener, String requestMethod) {
+	public TaskPutDeviceDetails(String dataToUpload, String url,
+			ServerResponseListener responseListener, String requestMethod) {
 		this.dataToUpload = dataToUpload;
 		this.responseListener = responseListener;
-		this.url = url ;
-		this.requestMethod = requestMethod ;
+		this.url = url;
+		this.requestMethod = requestMethod;
 	}
 
 	@Override
@@ -43,28 +46,29 @@ public class TaskPutDeviceDetails implements Runnable {
 		String result = "";
 		String targetIpAddress = null;
 		InputStream inputStream = null;
-		OutputStreamWriter out = null ;
-		HttpURLConnection conn = null ;
+		OutputStreamWriter out = null;
+		HttpURLConnection conn = null;
 		try {
-			ALog.i(ALog.SUBSCRIPTION, "TastPutDeviceDetails$run requestMethod " + requestMethod + " url " + url) ;
-			URL urlConn = new URL(url) ;
-			conn = NetworkUtils.getConnection(urlConn, requestMethod, -1) ;
-			if(dataToUpload != null && !dataToUpload.isEmpty()) {
-				conn.setDoOutput(true) ;
-				out = new OutputStreamWriter(conn.getOutputStream(), Charset.defaultCharset());
+			ALog.i(ALog.SUBSCRIPTION, "TastPutDeviceDetails$run requestMethod "
+					+ requestMethod + " url " + url);
+			URL urlConn = new URL(url);
+			conn = NetworkUtils.getConnection(urlConn, requestMethod, -1);
+			if (dataToUpload != null && !dataToUpload.isEmpty()) {
+				conn.setDoOutput(true);
+				out = new OutputStreamWriter(conn.getOutputStream(),
+						Charset.defaultCharset());
 				out.write(dataToUpload);
-				out.flush() ;				
-			}			
+				out.flush();
+			}
 			targetIpAddress = urlConn.getHost();
 			conn.connect();
-			responseCode = conn.getResponseCode() ;
+			responseCode = conn.getResponseCode();
 
-			if ( responseCode == 200 ) {
+			if (responseCode == 200) {
 				inputStream = conn.getInputStream();
 				result = NetworkUtils.readFully(inputStream);
-				Log.i(TAG, result) ;				
-			}
-			else {
+				Log.i(TAG, result);
+			} else {
 				inputStream = conn.getErrorStream();
 				result = NetworkUtils.readFully(inputStream);
 			}
@@ -73,10 +77,11 @@ public class TaskPutDeviceDetails implements Runnable {
 		}
 
 		finally {
-			ALog.i(ALog.SCHEDULER, "Finally: "+result) ;
-			NetworkUtils.closeAllConnections(inputStream, out, conn) ;
-			if(responseListener != null )
-				responseListener.receiveServerResponse(responseCode, result, targetIpAddress);
+			ALog.i(ALog.SCHEDULER, "Finally: " + result);
+			NetworkUtils.closeAllConnections(inputStream, out, conn);
+			if (responseListener != null)
+				responseListener.receiveServerResponse(responseCode, result,
+						targetIpAddress);
 		}
 	}
 }

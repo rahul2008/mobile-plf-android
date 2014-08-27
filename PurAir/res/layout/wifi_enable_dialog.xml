@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:paddingBottom="16dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="8dp"
-    android:background="@color/white" >
+    android:paddingTop="8dp" >
 
     <ImageView
         android:id="@+id/wifi_enable_dialog_support"
@@ -37,7 +37,7 @@
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
+
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/wifi_enable_dialog_msg"
@@ -45,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/wifi_enable_dialog_title"
         android:layout_marginTop="8dp"
-        android:paddingLeft="4dp"
         android:lineSpacingExtra="5dp"
+        android:paddingLeft="4dp"
         android:text="@string/wifi_enable_msg_txt"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
@@ -57,14 +57,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wifi_enable_dialog_msg"
-        android:layout_marginTop="16dp"
         android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
         android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_enable" />
 
-    
-
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/wifi_enable_go_2_setting"
         android:layout_width="122dp"
         android:layout_height="wrap_content"
@@ -74,6 +73,7 @@
         android:background="@drawable/blue_button_selector"
         android:text="@string/wifi_enable_button_txt"
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

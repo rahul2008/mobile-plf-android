@@ -2,10 +2,10 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:paddingTop="8dp"
     android:paddingBottom="16dp"
     android:paddingLeft="8dp"
-    android:paddingRight="8dp" >
+    android:paddingRight="8dp"
+    android:paddingTop="8dp" >
 
     <ImageView
         android:id="@+id/iv_support"
@@ -25,7 +25,8 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/help_close" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_support_popup_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +35,8 @@
         android:text="@string/support_ts01_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/philips_blue"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
         android:id="@+id/iv_support_popup_image"
@@ -46,7 +48,8 @@
         android:padding="8dp"
         android:src="@drawable/ic_launcher" />
 
-    <TextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_support_popup_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -56,9 +59,11 @@
         android:padding="16dp"
         android:text=""
         android:textColor="@color/title_gray"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <Button
+    <com.philips.cl.di.dev.pa.view.FontButton
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/btn_support_button"
         android:layout_width="122dp"
         android:layout_height="wrap_content"
@@ -68,5 +73,7 @@
         android:background="@drawable/blue_button_selector"
         android:text=""
         android:textColor="@color/white"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
 </RelativeLayout>

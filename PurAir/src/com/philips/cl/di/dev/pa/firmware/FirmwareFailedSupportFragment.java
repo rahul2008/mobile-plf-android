@@ -13,23 +13,28 @@ import com.philips.cl.di.dev.pa.firmware.FirmwareConstants.FragmentID;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class FirmwareFailedSupportFragment extends BaseFragment implements OnClickListener{
+public class FirmwareFailedSupportFragment extends BaseFragment implements
+		OnClickListener {
 
-	private TextView tvFirmwareFailedUpd; 
+	private TextView tvFirmwareFailedUpd;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.firmware_failed_support, container, false);
+		View view = inflater.inflate(R.layout.firmware_failed_support,
+				container, false);
 		initViews(view);
-		((FirmwareUpdateActivity) getActivity()).setActionBar(FragmentID.FIRMWARE_FAILED_SUPPORT);
+		((FirmwareUpdateActivity) getActivity())
+				.setActionBar(FragmentID.FIRMWARE_FAILED_SUPPORT);
 		return view;
 	}
 
 	private void initViews(View view) {
-		tvFirmwareFailedUpd = (TextView) view.findViewById(R.id.firmware_failed_update);
-		FirmwareUpdateActivity activity=(FirmwareUpdateActivity) getActivity();
-		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update, activity.getPurifierName())) ;
+		tvFirmwareFailedUpd = (TextView) view
+				.findViewById(R.id.firmware_failed_update);
+		FirmwareUpdateActivity activity = (FirmwareUpdateActivity) getActivity();
+		tvFirmwareFailedUpd.setText(getString(R.string.firmware_failed_update,
+				activity.getPurifierName()));
 		Button btnSupport = (Button) view.findViewById(R.id.btn_support);
 		btnSupport.setTypeface(Fonts.getGillsans(getActivity()));
 		btnSupport.setOnClickListener(this);
@@ -41,9 +46,12 @@ public class FirmwareFailedSupportFragment extends BaseFragment implements OnCli
 		case R.id.btn_support:
 			((FirmwareUpdateActivity) getActivity()).setDownloadFailedCount(0);
 			getFragmentManager()
-			.beginTransaction()
-			.replace(R.id.firmware_container, new FirmwareContactSupportFragment(), FirmwareContactSupportFragment.class.getSimpleName())
-			.commit();
+					.beginTransaction()
+					.replace(
+							R.id.firmware_container,
+							new FirmwareContactSupportFragment(),
+							FirmwareContactSupportFragment.class
+									.getSimpleName()).commit();
 			break;
 
 		default:

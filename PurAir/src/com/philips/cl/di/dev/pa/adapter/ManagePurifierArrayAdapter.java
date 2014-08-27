@@ -27,8 +27,9 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 	private HashMap<String, Boolean> selectedItems;
 	private UpdateListener listener;
 
-	public ManagePurifierArrayAdapter(Context context, int resource, List<PurAirDevice> purifiers,
-			ListView listView, HashMap<String, Boolean> selectedItems, UpdateListener listener) {
+	public ManagePurifierArrayAdapter(Context context, int resource,
+			List<PurAirDevice> purifiers, ListView listView,
+			HashMap<String, Boolean> selectedItems, UpdateListener listener) {
 		super(context, resource, purifiers);
 		this.purifiers = purifiers;
 		this.context = context;
@@ -37,29 +38,34 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 		this.listener = listener;
 		listView.setOnItemClickListener(managePurifierItemClickListener);
 	}
-	
+
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater inflater = (LayoutInflater) context
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(resource, null);
-		
-		ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
-		ImageView arrowImg = (ImageView) view.findViewById(R.id.list_item_right_arrow);
-		FontTextView purifierNameTxt = (FontTextView) view.findViewById(R.id.list_item_name);
-		
+
+		ImageView deleteSign = (ImageView) view
+				.findViewById(R.id.list_item_delete);
+		ImageView arrowImg = (ImageView) view
+				.findViewById(R.id.list_item_right_arrow);
+		FontTextView purifierNameTxt = (FontTextView) view
+				.findViewById(R.id.list_item_name);
+
 		deleteSign.setVisibility(View.VISIBLE);
-		
+
 		final PurAirDevice purifier = purifiers.get(position);
 		final String purifierName = purifiers.get(position).getName();
 		final String usn = purifiers.get(position).getUsn();
 
 		purifierNameTxt.setText(purifierName);
 		purifierNameTxt.setTag(usn);
-		
+
 		arrowImg.setImageResource(R.drawable.arrow_blue);
-		
-		FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-		
+
+		FontTextView delete = (FontTextView) view
+				.findViewById(R.id.list_item_right_text);
+
 		if (selectedItems.containsKey(usn) && selectedItems.get(usn)) {
 			delete.setVisibility(View.VISIBLE);
 			deleteSign.setImageResource(R.drawable.delete_t2b);
@@ -69,37 +75,42 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 			deleteSign.setImageResource(R.drawable.delete_l2r);
 			arrowImg.setVisibility(View.VISIBLE);
 		}
-		
+
 		delete.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				if (selectedItems.containsKey(usn)) {
 					selectedItems.remove(usn);
 				}
-				
+
 				listener.onUpdate(purifier, selectedItems);
 			}
 		});
-		
+
 		return view;
 	}
-	
+
 	private OnItemClickListener managePurifierItemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-			
-			//For demo mode
-			if (PurAirApplication.isDemoModeEnable()) return;
-			
-			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
-			ImageView arrowImg = (ImageView) view.findViewById(R.id.list_item_right_arrow);
-			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-			
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long arg3) {
+
+			// For demo mode
+			if (PurAirApplication.isDemoModeEnable())
+				return;
+
+			ImageView deleteSign = (ImageView) view
+					.findViewById(R.id.list_item_delete);
+			ImageView arrowImg = (ImageView) view
+					.findViewById(R.id.list_item_right_arrow);
+			FontTextView delete = (FontTextView) view
+					.findViewById(R.id.list_item_right_text);
+
 			final String usn = purifiers.get(position).getUsn();
-			
-			if(delete.getVisibility() == View.GONE) {
+
+			if (delete.getVisibility() == View.GONE) {
 				delete.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.delete_t2b);
 				arrowImg.setVisibility(View.INVISIBLE);

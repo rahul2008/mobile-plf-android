@@ -12,21 +12,21 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/grey_circle_2x" />
 
-     <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/inDetailsDbStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/inDetailsDbCircle"
         android:layout_alignLeft="@+id/inDetailsDbCircle"
-        android:layout_alignTop="@+id/inDetailsDbCircle"
         android:layout_alignRight="@+id/inDetailsDbCircle"
+        android:layout_alignTop="@+id/inDetailsDbCircle"
         android:gravity="center"
         android:text="@string/no_connection"
         android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size_small" />
-    
+        android:textSize="@dimen/title_text_size_small"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
+
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/inDetailsDbSummary"
@@ -34,12 +34,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/inDetailsDbCircle"
         android:layout_marginTop="50dp"
+        android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:gravity="center"
         android:textColor="@color/white"
         android:textSize="18sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
-    
 
 </RelativeLayout>

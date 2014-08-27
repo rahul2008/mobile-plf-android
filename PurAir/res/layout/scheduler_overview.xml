@@ -14,7 +14,7 @@
         android:gravity="center"
         android:text="@string/edit"
         android:textColor="@color/white"
-        android:textSize="16sp" 
+        android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
@@ -22,35 +22,38 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentRight="true"
-        android:layout_margin="16dp"        
+        android:layout_margin="16dp"
         android:contentDescription="@string/img_description"
         android:scaleType="centerCrop"
         android:src="@drawable/plus_blue"
         android:textColor="@color/white"
         android:textSize="12sp" />
-	<ImageView 
-	    android:id="@+id/event_scheduler_listview_top_separator"
+
+    <ImageView
+        android:id="@+id/event_scheduler_listview_top_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/sch_edit"
-        android:contentDescription="@string/img_description"
-        android:background="@drawable/seperator_line_2x"/>
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
+
     <ListView
         android:id="@+id/event_scheduler_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/event_scheduler_listview_top_separator"
+        android:background="@color/white"
         android:divider="@drawable/seperator_line_2x"
-        android:dividerHeight="0dp"
-        android:layout_below="@+id/event_scheduler_listview_top_separator" >
+        android:dividerHeight="0dp" >
     </ListView>
-    <ImageView 
-	    android:id="@+id/event_scheduler_listview_bottom_separator"
+
+    <ImageView
+        android:id="@+id/event_scheduler_listview_bottom_separator"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/event_scheduler_listview"
-        android:contentDescription="@string/img_description"
-        android:background="@drawable/seperator_line_2x"/>
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
 
 </RelativeLayout>
