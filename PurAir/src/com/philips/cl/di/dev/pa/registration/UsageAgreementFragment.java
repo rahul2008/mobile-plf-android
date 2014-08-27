@@ -119,7 +119,7 @@ public class UsageAgreementFragment extends BaseFragment {
 	            boolean isLastChild, View convertView, ViewGroup parent) {
 			TextView childText= new TextView(mContext);
 	    	childText.setPadding(0, 20, 0, 20);
-	    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsans.ttf");
+	    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsanslight.ttf");
 	    	childText.setTextColor(mContext.getResources().getColor(R.color.gray));
 	    	childText.setText(mListChildData[groupPosition][childPosition]);
 	    	childText.setLineSpacing(5, 1);

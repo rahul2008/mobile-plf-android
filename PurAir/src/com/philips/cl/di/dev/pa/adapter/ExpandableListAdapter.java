@@ -45,7 +45,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
        
     	TextView childText= new TextView(context);
     	childText.setPadding(0, 20, 0, 20);
-    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsans.ttf");
+    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsanslight.ttf");
     	childText.setTextColor(context.getResources().getColor(R.color.gray));
     	childText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) context.getResources().getDimension(R.dimen.text_size_small));
     	childText.setText(colorListChildData[groupPosition][childPosition]);
