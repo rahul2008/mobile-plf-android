@@ -231,7 +231,7 @@
 <!--     <string name="no2">NO2</string> -->
     <!-- Notifications -->
     <string name="notifications_indoor_title">室内空氣水平</string>
-    <string name="notifications_indoor_AQI_desc">當家中的空氣質素上升到高於您設定的水平時，您將會收到通知。</string>
+    <string name="notifications_indoor_AQI_desc">當家中的空氣污染水平超過所設置的水平時便會通知您。</string>
     <string name="notifications_filters_title">濾網	</string>
     <string name="notifications_filters_desc">當需要更換過濾網時，您將會收到通知。</string>
     <string name="notifications_indoor_aqi_lbl_1">1&#8211;2</string>
@@ -285,14 +285,14 @@
     <string name="pollutant_intro_6">小於 2.5 微米（PM 2.5）的空氣粒子可以穿透並積聚於肺的最深部位，並導致心臟病和其它心血管健康問題。他們會在大氣中停留一段很長的時間，傳播到很遠的距離，並造成嚴重的健康風險。</string>
     <string name="vistashield_ips_system_intro">Philips VitaShield IPS 技術的核心是領先的多方位主動過濾系統。隨著精心設計的濾網層，這個系統幫助您對抗幾乎所有的室內空氣污染物，守護您的健康。</string>
     <string name="vistashield_ips_system_subheading">4 層濾網，4 倍的保護</string>
-    <string name="vistashield_heading_1">1. 過濾 </string>
-    <string name="vistashield_heading_2">2. 慣性撞擊 </string>
-    <string name="vistashield_heading_3">3. 攔截 </string>
-    <string name="vistashield_heading_4">4. 擴散和吸收</string>
-    <string name="vistashield_intro_1">直徑大於 1 微米的粒子會被濾網阻隔。</string>
-    <string name="vistashield_intro_2">直徑大於 0.5 微米的粒子會在空氣慣性運動過程中黏到濾網上。</string>
-    <string name="vistashield_intro_3">在空氣中漂浮、直徑在 0.1 和 0.5 微米之間的粒子會因爲靜電力吸引而附在濾網上。</string>
-    <string name="vistashield_intro_4">隨機吸收空氣中不規則運動的細微粒子，移除直徑小於 2.5 微米 (PM 2.5) 的有害粒子。</string>
+    <string name="vistashield_heading_1">1.	篩分過濾 </string>
+    <string name="vistashield_heading_2">2. 慣性碰撞 </string>
+    <string name="vistashield_heading_3">3. 主動攔截 </string>
+    <string name="vistashield_heading_4">4. 擴散吸附</string>
+    <string name="vistashield_intro_1">通過濾網間隙的排布，將直徑大於1微米的空氣微粒拒之門外。</string>
+    <string name="vistashield_intro_2">藉助氣流控制，引導直徑大於0.5微米的顆粒在慣性運動中碰觸吸附濾網。</string>
+    <string name="vistashield_intro_3">對於直徑在100-500納米間跟從氣流控制的微粒，以靜電粘附的方式攔截通過。</string>
+    <string name="vistashield_intro_4">隨機吸附布朗運動中的微小顆粒，有效濾除小至20納米直徑的有害顆粒。</string>
     <string name="vistashield_nanometer_ques">20nm（納米）有多精細？</string>
     <string name="vistashield_performance_subheading">低噪音、高性能</string>
     <string name="vistashield_performance_intro">先進空氣動力學的風洞設計及安靜的引擎可快速、平均地吸入空氣，遠至房間角落。由於空氣循環獲得促進，淨化過程也會顯著提升。</string>

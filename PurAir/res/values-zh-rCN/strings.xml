@@ -233,7 +233,7 @@
 <!--     <string name="no2">NO2</string> -->
     <!-- Notifications -->
     <string name="notifications_indoor_title">室内空气水平</string>
-    <string name="notifications_indoor_AQI_desc">当家中的空气质量超过所设置的水平时便会通知您。</string>
+    <string name="notifications_indoor_AQI_desc">当家中的空气污染水平超过所设置的水平时便会通知您。</string>
     <string name="notifications_filters_title">过滤网</string>
     <string name="notifications_filters_desc">需要更换滤网时便会通知您。</string>
     <string name="notifications_indoor_aqi_lbl_1">1&#8211;2</string>
@@ -287,14 +287,14 @@
     <string name="pollutant_intro_6">小于 2.5 微米 (PM 2.5) 的颗粒可穿透并停留在肺的最深部位，并且导致心脏病和其他心血管健康问题。 这些颗粒可以在大气中停留很长一段时间，远距离传播并构成严重的健康威胁。</string>
     <string name="vistashield_ips_system_intro">飞利浦 VitaShield 微护盾技术的核心是领先的多层活性过滤系统。 凭借精心设计的多层过滤网，该系统可保护您的健康，免受来自几乎所有室内空气污染物的威胁。</string>
     <string name="vistashield_ips_system_subheading">4 层过滤，4 倍保护</string>
-    <string name="vistashield_heading_1">1. 筛分 </string>
-    <string name="vistashield_heading_2">2. 惯性冲击 </string>
-    <string name="vistashield_heading_3">3. 拦截 </string>
-    <string name="vistashield_heading_4">4. 渗滤和吸收</string>
-    <string name="vistashield_intro_1">直径大于1微米的颗粒可被滤网滤掉。</string>
-    <string name="vistashield_intro_2">直径大于0.5微米的颗粒在空气传播惯性运动期间会粘在滤网上。</string>
-    <string name="vistashield_intro_3">直径介于 0.1 和 0.5 微米之间飘浮于气流中的颗粒则通过静电力吸附到滤网上。</string>
-    <string name="vistashield_intro_4">随机吸附空气中呈不规则运动的微小颗粒。 去除直径小于 2.5 微米的有害微粒 (PM 2.5)。</string>
+    <string name="vistashield_heading_1">1.	筛分过滤</string>
+    <string name="vistashield_heading_2">2.	惯性碰撞 </string>
+    <string name="vistashield_heading_3">3.	主动拦截 </string>
+    <string name="vistashield_heading_4">4.	扩散吸附</string>
+    <string name="vistashield_intro_1">通过滤网间隙的排布，将直径大于1微米的空气微粒拒之门外。</string>
+    <string name="vistashield_intro_2">借助气流控制，引导直径大于0.5微米的颗粒在惯性运动中碰触吸附滤网。</string>
+    <string name="vistashield_intro_3">对于直径在100-500纳米间跟从气流控制的微粒，以静电粘附的方式拦截通过。</string>
+    <string name="vistashield_intro_4">随机吸附布朗运动中的微小颗粒，有效滤除小至20纳米直径的有害颗粒。</string>
     <string name="vistashield_nanometer_ques">20 纳米细微到什么程度？</string>
     <string name="vistashield_performance_subheading">低噪音高性能</string>
     <string name="vistashield_performance_intro">先进的空气动力学风道设计搭配低噪引擎，能快速吸入房间内甚至隐蔽角落里的所有空气并进行过滤。空气循环得到提升，净化工艺显著改善。 \n优化设计改善了通过滤网的气流，净化器低速运行，降低了噪音。</string>
