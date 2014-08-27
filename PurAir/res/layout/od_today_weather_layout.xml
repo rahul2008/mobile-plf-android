@@ -10,8 +10,8 @@
         android:id="@+id/odTodyWeatherTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_margin="8dp"
+        android:gravity="center_horizontal"
         android:textColor="@color/gray"
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsans.ttf" />
@@ -22,16 +22,14 @@
         android:layout_height="wrap_content"
         android:contentDescription="@string/img_description"
         android:src="@drawable/wifi_connected" />
-    
+
     <TextView
         android:id="@+id/odTodyWeatherTemp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_margin="8dp"
+        android:gravity="center_horizontal"
         android:textColor="@color/gray"
         android:textSize="14sp" />
-
-    
 
 </LinearLayout>
