@@ -18,7 +18,7 @@
         android:drawablePadding="4dp"
         android:text="@string/mode"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -34,7 +34,7 @@
         android:drawableRight="@drawable/filter_icon_2x"
         android:text="@string/filters"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -52,7 +52,7 @@
         android:padding="4dp"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="21sp"
+        android:textSize="@dimen/title_text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -83,7 +83,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -96,7 +96,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
@@ -146,8 +146,9 @@
         android:layout_centerHorizontal="true"
         android:layout_marginRight="16dp"
         android:gravity="center"
+        android:lineSpacingExtra="5dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_very_small"
+        android:textSize="@dimen/text_size_large"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
@@ -158,8 +159,8 @@
         android:layout_alignParentTop="true"
         android:background="@color/philips_blue"
         android:minHeight="30dp"
-        android:padding="5dp" >
-
+        android:padding="5dp">
+        
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/lbl_firmware_info"
