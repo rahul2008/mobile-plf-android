@@ -32,7 +32,7 @@
             android:text="@string/outdoor_aiq_analysis_head1"
             android:textColor="@color/dodgerblue"
             android:textSize="24sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -45,7 +45,7 @@
             android:text="@string/indoor_color_explained_intro"
             android:textColor="@color/gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -58,7 +58,7 @@
             android:text="@string/outdoor_analysis_detail1_head1"
             android:textColor="@color/gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -71,7 +71,7 @@
             android:text="@string/outdoor_analysis_detail2_head100"
             android:textColor="@color/gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -84,7 +84,7 @@
             android:text="@string/outdoor_aiq_analysis_head2"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -97,7 +97,7 @@
             android:text="@string/outdoor_analysis_detail_head2"
             android:textColor="@color/gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -110,7 +110,7 @@
             android:text="@string/outdoor_aiq_analysis_head3"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -123,7 +123,7 @@
             android:text="@string/outdoor_analysis_detail_head3"
             android:textColor="@color/gray"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
         
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -136,7 +136,7 @@
             android:text="@string/outdoor_aiq_analysis_head4"
             android:textColor="@color/dodgerblue"
             android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <LinearLayout android:id="@+id/aqiAnalysisLayout4"
             android:layout_width="match_parent"
@@ -169,7 +169,7 @@
                     android:text="@string/indoor_aiq_analysis_title1"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -181,7 +181,7 @@
                     android:text="@string/indoor_very_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
 
@@ -222,7 +222,7 @@
                     android:text="@string/indoor_aiq_analysis_title2"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -234,7 +234,7 @@
                     android:text="@string/indoor_unhealthy"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
         <View
@@ -273,7 +273,7 @@
                     android:text="@string/indoor_aiq_analysis_title3"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -285,7 +285,7 @@
                     android:text="@string/indoor_moderate"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
         <View
@@ -324,7 +324,7 @@
                     android:text="@string/indoor_aiq_analysis_title4"
                     android:textColor="@color/gray"
                     android:textSize="18sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -336,7 +336,7 @@
                     android:text="@string/indoor_good"
                     android:textColor="@color/gray"
                     android:textSize="16sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
             </LinearLayout>
         </LinearLayout>
        

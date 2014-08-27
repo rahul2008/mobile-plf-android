@@ -18,7 +18,7 @@
             android:textColor="#7F8595"
             android:layout_marginTop="10dp"
             android:textSize="@dimen/text_size_small"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -29,7 +29,7 @@
             android:text="@string/indoor_pollutants_subheading"
             android:textColor="@color/philips_blue"
             android:textSize="@dimen/title_text_size_small"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <!-- Formaldehyde -->
 
@@ -58,7 +58,7 @@
                 android:text="@string/pollutant_heading_1"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/title_text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -70,7 +70,7 @@
                 android:text="@string/pollutant_intro_1"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -109,7 +109,7 @@
                 android:text="@string/pollutant_heading_2"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -121,7 +121,7 @@
                 android:text="@string/pollutant_intro_2"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -161,7 +161,7 @@
                 android:text="@string/pollutant_heading_3"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -173,7 +173,7 @@
                 android:text="@string/pollutant_intro_3"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -212,7 +212,7 @@
                 android:text="@string/pollutant_heading_4"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -224,7 +224,7 @@
                 android:text="@string/pollutant_intro_4"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -266,7 +266,7 @@
                 android:text="@string/pollutant_heading_5"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -278,7 +278,7 @@
                 android:text="@string/pollutant_intro_5"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <View
                 android:layout_width="fill_parent"
@@ -317,7 +317,7 @@
                 android:text="@string/pollutant_heading_6"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -329,7 +329,7 @@
                 android:text="@string/pollutant_intro_6"
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <View
                 android:layout_width="fill_parent"

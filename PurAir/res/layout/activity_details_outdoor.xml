@@ -121,7 +121,7 @@
             android:text="@string/weather_forecast"
             android:textColor="@color/dodgerblue"
             android:textSize="@dimen/title_text_size_medium"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <HorizontalScrollView
             android:id="@+id/odTodayWetherReportHSV"
@@ -179,7 +179,7 @@
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="@dimen/title_text_size_medium"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <RelativeLayout
             android:layout_width="match_parent"

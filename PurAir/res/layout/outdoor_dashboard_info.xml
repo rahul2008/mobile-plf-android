@@ -31,7 +31,7 @@
         android:textColor="@color/white"
         android:textSize="48sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <include
         android:layout_width="match_parent"

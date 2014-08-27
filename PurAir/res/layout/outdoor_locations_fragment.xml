@@ -27,7 +27,7 @@
         android:textSize="@dimen/title_text_size_medium"
         android:text="@string/current_location" 
         android:textColor="@color/subtitle_gray"
-        custom:fontAssetName="fonts/gillsans.ttf"/>
+        custom:fontAssetName="fonts/gillsanslight.ttf"/>
 
     <ListView
         android:id="@+id/outdoor_locations_list"

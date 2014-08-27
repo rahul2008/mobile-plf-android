@@ -18,7 +18,7 @@
         android:text="@string/power"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -38,7 +38,7 @@
         android:textColor="@color/red"
         android:textSize="16sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ToggleButton
         android:id="@id/btn_rm_power"
@@ -74,7 +74,7 @@
         android:text="@string/fan_speed"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <Button
         android:id="@+id/btn_rm_fan_speed"
@@ -121,7 +121,7 @@
             android:text="@string/auto"
             android:textColor="@color/gray"
             android:visibility="visible"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <ToggleButton
             android:id="@+id/fan_speed_auto"
@@ -218,7 +218,7 @@
         android:text="@string/set_timer"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <Button
         android:id="@+id/btn_rm_set_timer"
@@ -324,7 +324,7 @@
         android:text="@string/scheduler"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <Button
         android:id="@+id/btn_rm_scheduler"
@@ -362,7 +362,7 @@
         android:text="@string/child_lock"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ToggleButton
         android:id="@+id/btn_rm_child_lock"
@@ -398,7 +398,7 @@
         android:text="@string/indicator_light"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ToggleButton
         android:id="@+id/btn_rm_indicator_light"
@@ -446,6 +446,6 @@
         android:text="@string/pair_title"
         android:textColor="@color/gray"
         android:textSize="@dimen/text_size_medium"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

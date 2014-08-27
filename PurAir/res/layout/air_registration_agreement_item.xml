@@ -22,6 +22,6 @@
 		android:layout_margin="16dp"
 		android:textColor="@color/gray"
 		android:textSize="18sp"
-		custom:fontAssetName="fonts/gillsans.ttf"/>
+		custom:fontAssetName="fonts/gillsanslight.ttf"/>
 
 </LinearLayout>

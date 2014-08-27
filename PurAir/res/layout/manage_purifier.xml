@@ -28,7 +28,7 @@
         android:textSize="@dimen/title_text_size_medium"
         android:text="@string/add_purifier" 
         android:textColor="@color/subtitle_gray"
-        custom:fontAssetName="fonts/gillsans.ttf"/>
+        custom:fontAssetName="fonts/gillsanslight.ttf"/>
     <ImageView 
 	    android:id="@+id/manage_pur_separator_top"
         android:layout_width="match_parent"

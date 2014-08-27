@@ -126,7 +126,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -138,7 +138,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="11sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -151,7 +151,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
         android:id="@+id/hf_outdoor_circle_layt"
@@ -187,7 +187,7 @@
             android:text="@string/no_data"
             android:textColor="@color/white"
             android:textSize="@dimen/title_text_size_small"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <LinearLayout
             android:id="@+id/pm_layout"
@@ -206,7 +206,7 @@
                 android:text="@string/pm_2.5"
                 android:textColor="@color/transparent_white"
                 android:textSize="@dimen/text_size_very_very_small"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -217,7 +217,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_very_very_small"
                 android:textStyle="bold"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -231,7 +231,7 @@
         android:gravity="center_horizontal"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_large"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

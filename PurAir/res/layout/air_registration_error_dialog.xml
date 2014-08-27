@@ -23,7 +23,7 @@
 		android:text="@string/error_title"
 		android:textColor="@color/indianred"
 		android:textSize="18sp"
-		custom:fontAssetName="fonts/gillsans.ttf" 
+		custom:fontAssetName="fonts/gillsanslight.ttf" 
 		android:layout_below="@id/btnClose"/>
 
 </RelativeLayout>

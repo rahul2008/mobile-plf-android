@@ -15,7 +15,7 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_add_air_purifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +26,7 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_bur_purifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

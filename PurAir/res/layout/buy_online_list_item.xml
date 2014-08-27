@@ -20,7 +20,7 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/lbl_product_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,7 +32,7 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/lbl_product_price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/lbl_availability"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
     
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/txt_filter_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

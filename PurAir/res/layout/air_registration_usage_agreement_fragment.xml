@@ -15,7 +15,7 @@
 			android:lineSpacingExtra="5dp"
 			android:textColor="@color/gray"
 			android:textSize="14sp"
-			custom:fontAssetName="fonts/gillsans.ttf" />
+			custom:fontAssetName="fonts/gillsanslight.ttf" />
 		
         <View
             android:id="@+id/v_layout_divider_1"

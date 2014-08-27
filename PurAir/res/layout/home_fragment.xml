@@ -34,7 +34,7 @@
                 android:text="@string/healthy_air_always"
                 android:textColor="@color/white"
                 android:textSize="20sp"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <Button
                 android:id="@+id/hf_indoor_dashboard_btn_connect"

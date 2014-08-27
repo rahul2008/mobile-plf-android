@@ -14,7 +14,7 @@
     
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        custom:fontAssetName="fonts/gillsans.ttf"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
         android:id="@+id/tv_rm_air_status_aqi_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -17,7 +17,7 @@
         android:textSize="@dimen/text_size_small"
         android:linksClickable="true"
         android:autoLink="web"
-        custom:fontAssetName="fonts/gillsans.ttf"/>
+        custom:fontAssetName="fonts/gillsanslight.ttf"/>
 
     <View
         android:layout_width="fill_parent"

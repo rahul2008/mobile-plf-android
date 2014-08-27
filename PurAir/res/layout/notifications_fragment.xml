@@ -38,7 +38,7 @@
                 android:text="@string/notifications_enable_all"
                 android:textColor="@color/title_gray"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
         </RelativeLayout>
 
         <!-- Horizontal line -->
@@ -70,7 +70,7 @@
                 android:text="@string/notifications_indoor_title"
                 android:textColor="@color/title_gray"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -84,7 +84,7 @@
                 android:text="@string/notifications_indoor_AQI_desc"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <LinearLayout
                 android:id="@+id/notifications_indoor_aqi_lbls"
@@ -104,7 +104,7 @@
                     android:gravity="center"
                     android:text="@string/notifications_indoor_aqi_lbl_1"
                     android:textSize="10sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -114,7 +114,7 @@
                     android:gravity="center"
                     android:text="@string/notifications_indoor_aqi_lbl_2"
                     android:textSize="10sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -124,7 +124,7 @@
                     android:gravity="center"
                     android:text="@string/notifications_indoor_aqi_lbl_3"
                     android:textSize="10sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
 
                 <com.philips.cl.di.dev.pa.view.FontTextView
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -134,7 +134,7 @@
                     android:gravity="center"
                     android:text="@string/notifications_indoor_aqi_lbl_4"
                     android:textSize="10sp"
-                    custom:fontAssetName="fonts/gillsans.ttf" />
+                    custom:fontAssetName="fonts/gillsanslight.ttf" />
             </LinearLayout>
 
             <RadioGroup
@@ -191,7 +191,7 @@
                 android:text="@string/notifications_filters_title"
                 android:textColor="@color/title_gray"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -205,7 +205,7 @@
                 android:text="@string/notifications_filters_desc"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <!-- Horizontal line -->
 
@@ -227,7 +227,7 @@
                 android:text="@string/notification_front_panel_title"
                 android:textColor="@color/title_gray"
                 android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -241,7 +241,7 @@
                 android:text="@string/notification_front_panel_desc"
                 android:textColor="@color/contain_gray"
                 android:textSize="@dimen/text_size_medium"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
     </LinearLayout>
 

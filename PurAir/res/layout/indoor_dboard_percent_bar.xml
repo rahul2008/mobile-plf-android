@@ -25,7 +25,7 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp"
-            custom:fontAssetName="fonts/gillsans.ttf" /> -->
+            custom:fontAssetName="fonts/gillsanslight.ttf" /> -->
 		<View
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -46,7 +46,7 @@
         android:text="@string/indoor_db"
         android:textColor="@color/gray"
         android:textSize="12sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <include 
         android:layout_width="60dp"

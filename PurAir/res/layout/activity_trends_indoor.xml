@@ -49,7 +49,7 @@
             android:text="@string/aqi_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="22sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <!-- Detail Percentage Bar -->
 
@@ -88,7 +88,7 @@
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="22sp"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <!-- Graph Layout -->
 
@@ -116,7 +116,7 @@
                 android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="12sp"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -133,7 +133,7 @@
                 android:ellipsize="end"
                 android:textColor="@color/gray"
                 android:textSize="16sp"
-                custom:fontAssetName="fonts/gillsans.ttf" />
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
         </RelativeLayout>
 
         <RelativeLayout

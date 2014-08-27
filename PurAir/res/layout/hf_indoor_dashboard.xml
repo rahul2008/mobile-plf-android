@@ -84,7 +84,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -97,7 +97,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
         android:id="@+id/hf_indoor_circle_layt"
@@ -133,7 +133,7 @@
             android:textColor="@color/white"
             android:textSize="@dimen/title_text_size_small"
             android:text="@string/no_connection"
-            custom:fontAssetName="fonts/gillsans.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -148,7 +148,7 @@
         android:layout_marginRight="16dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_very_small"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
         android:id="@+id/firmware_update_available"

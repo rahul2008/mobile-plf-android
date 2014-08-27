@@ -16,7 +16,7 @@
         android:textColor="@color/philips_blue"
         android:textSize="18sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -28,7 +28,7 @@
         android:text="@string/filter_tip"
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -39,7 +39,7 @@
         android:text=""
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -52,7 +52,7 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -73,7 +73,7 @@
         android:text=""
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -86,7 +86,7 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -107,7 +107,7 @@
         android:text=""
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -120,7 +120,7 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -141,7 +141,7 @@
         android:text=""
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -154,7 +154,7 @@
         android:textColor="@color/gray"
         android:textSize="16sp"
         android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FilterStatusView
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -175,5 +175,5 @@
         android:text=""
         android:textColor="@color/gray"
         android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 </LinearLayout>

@@ -23,6 +23,6 @@
         android:text="@string/one"
         android:textColor="@color/white"
         android:textSize="12sp"
-        custom:fontAssetName="fonts/gillsans.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>
