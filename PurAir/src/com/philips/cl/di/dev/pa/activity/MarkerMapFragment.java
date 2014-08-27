@@ -11,6 +11,7 @@ import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,8 +31,12 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 /**
@@ -41,7 +46,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
  * 
  */
 public class MarkerMapFragment extends Fragment implements
-		OnMarkerClickListener, OnMapLoadedListener {
+		OnMarkerClickListener, OnMapLoadedListener, OutdoorEventListener {
 
 	private AMap aMap;
 	private MapView mapView;
@@ -51,11 +56,38 @@ public class MarkerMapFragment extends Fragment implements
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
 	private OutdoorCity mOutdoorCity = null;
+	private boolean isMapLoaded = false;
+	private boolean isAllAqiReceived = false;
 
 	private static final String TAG = "MapMarkerFragment";
 
 	@Override
 	public void onMapLoaded() {
+		isMapLoaded = true;
+	}
+	
+	Handler mHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			switch(msg.what){
+			case 0:
+				if(isMapLoaded && isAllAqiReceived){
+					mHandler.sendEmptyMessageDelayed(1, 500);
+				}
+				else{
+					mHandler.sendEmptyMessageDelayed(0, 500);
+				}
+				break;
+			case 1:
+				isMapLoaded = false;
+				isAllAqiReceived = false;
+				fillMapWithMarker();
+				break;
+			}
+			
+		};
+	};
+	
+	private void fillMapWithMarker(){
 		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
 				OutdoorDetailsActivity.getSelectedCityCode());
 		
@@ -76,6 +108,7 @@ public class MarkerMapFragment extends Fragment implements
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 	}
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,7 +120,7 @@ public class MarkerMapFragment extends Fragment implements
 		mapView.onCreate(savedInstanceState);
 //		mCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
 		builder = new LatLngBounds.Builder();
-
+		OutdoorController.getInstance().setOutdoorEventListener(this);
 		init();
 
 //		populatingDashboardData();
@@ -107,6 +140,9 @@ public class MarkerMapFragment extends Fragment implements
 			selectedLongitude = selectedOutdoorCity.getOutdoorCityInfo().getLongitude();
 		}
 		
+		/*
+		 * logic to find nearBy cities.
+		 */
 		float latitudePlus = selectedLatitude + 4;
 		float latitudeMinus = selectedLatitude - 4;
 		float longitudePlus = selectedLongitude + 4;
@@ -115,7 +151,6 @@ public class MarkerMapFragment extends Fragment implements
 		mCitiesListAll = OutdoorManager.getInstance().getAllMatchingCitiesList(latitudePlus, 
 				latitudeMinus, longitudePlus, longitudeMinus);
 		
-//		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
 		for (int i = 0; i < (mCitiesListAll.size()); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(mCitiesListAll.get(i));
@@ -224,6 +259,11 @@ public class MarkerMapFragment extends Fragment implements
 	public void onDestroy() {
 		super.onDestroy();
 		mapView.onDestroy();
+		OutdoorController.getInstance().removeOutdoorEventListener(this);
+		if(mHandler != null){
+			mHandler.removeMessages(0);
+			mHandler = null;
+		}
 	}
 
 	@Override
@@ -270,5 +310,27 @@ public class MarkerMapFragment extends Fragment implements
 		}
 
 		return R.drawable.map_circle_6;
+	}
+
+
+	@Override
+	public void allOutdoorAQIDataReceived(List<OutdoorAQI> aqis) {
+		isAllAqiReceived = true;
+		mHandler.sendEmptyMessageDelayed(0, 500);		
+	}
+
+
+	@Override
+	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather,
+			String areaID) {
+		// TODO Auto-generated method stub
+		
 	}
 }

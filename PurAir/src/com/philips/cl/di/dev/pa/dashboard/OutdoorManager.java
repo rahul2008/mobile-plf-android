@@ -44,7 +44,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void startAllCitiesTask() {
-		ALog.i("testing", "AQI downloading from CMA");
+		ALog.i(ALog.DASHBOARD, "AQI downloading from CMA");
 		OutdoorController.getInstance().startAllCitiesAQITask();
 	}
 

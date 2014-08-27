@@ -75,7 +75,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		case R.id.start_flow_bottom_btn_continue_without:
 			startUseNoPurifierFlow();
 			LocationUtils.saveDashboardWithoutPurifierState(true);
-			OutdoorManager.getInstance().startAllCitiesTask();
 //			startHomeScreenWithoutAPLayout();
 			break;
 		default:
