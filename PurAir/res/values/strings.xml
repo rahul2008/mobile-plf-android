@@ -224,7 +224,7 @@
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
     <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
     <string name="outdoor_analysis_detail1_head1">\'How much good air did you have?\' explained</string>
-    <string name="outdoor_analysis_detail2_head100">During the last 7 day, amount of indoor air rated as \'%s\' by your Philips Smart Air Purifier and outdoor air rated as by outdoor sensors.</string>
+    <string name="outdoor_analysis_detail2_head100">During the last day, 7 days, or 4 weeks, amount of indoor air rated as \'%1$s\' by your Philips Smart Air Purifier and outdoor air rated as \'%2$s\' by outdoor sensors.</string>
     <string name="outdoor_analysis_detail_head2">If 1&#8211;2 for one hour or longer, then the PM2.5 level is expected to be lower than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre. If level above 2 for one hour or longer, then PM2.5 is expected to be higher than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre.</string>
     <string name="outdoor_analysis_detail_head3">There is no standard for PM2.5 indoors, therefore there is no indoor PM2.5 level shown. Your Philips Smart Air Purifier measures both indoor and outdoor PM2.5 levels. However, there is a correlation between outdoor and indoor air quality: the higher the level of PM2.5 indoors is strongly correlated to the PM2.5 level outdoors.</string>
     <!-- <string name="pm25">PM2.5</string> -->

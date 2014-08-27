@@ -43,15 +43,19 @@ public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 			});
 		}
 		
-//		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
+		String outdoorTitle = getArguments().getString(EXTRA_OUTDOORTITLE);
 		String indoorTitle = getArguments().getString(EXTRA_INDOORTITLE);
 		if (indoorTitle != null && !indoorTitle.isEmpty()) {
-			indoorTitle = indoorTitle.toLowerCase();
 			indoorTitle = indoorTitle.replace("\n", "");
+		} else {
+			indoorTitle = "_";
 		}
 		
-		// TODO - Include indoorTitle and OutdoorTitle
-		String aqiAnalysis = String.format(getString(R.string.outdoor_analysis_detail2_head100), indoorTitle) ;
+		if (outdoorTitle == null || outdoorTitle.isEmpty()) {
+			outdoorTitle = "_";
+		}
+		
+		String aqiAnalysis = String.format(getString(R.string.outdoor_analysis_detail2_head100), indoorTitle, outdoorTitle) ;
 		((FontTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText(aqiAnalysis);
 		
 		return view; 

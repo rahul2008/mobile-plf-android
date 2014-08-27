@@ -224,7 +224,7 @@
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
     <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
     <string name="outdoor_analysis_detail1_head1">\'您呼吸了多少新鲜空气？\'说明</string>
-    <string name="outdoor_analysis_detail2_head100">在最近 7 天，飞利浦智控净化器将室内空气评为 \'%s\' 的数量，室外传感器将室外空气评为  的数量</string>
+    <string name="outdoor_analysis_detail2_head100">在过去的一天，一周，或一月内，您的飞利浦智控净化器检测到您家中的空气水平为“%1$s”。经室外探测器检测，您所在位置的室外空气质量为“%2$s”。</string>
     <string name="outdoor_analysis_detail_head2">如果 1&#8211;2 级持续 1 小时或更长时间，则预计 PM2.5 水平会低于中国 AQI 规定的 75 微克/u002F立方米 的室外空气标准。如果 2 级以上持续 1 小时或更长时间，则预计 PM2.5 级别会高于中国 AQI 规定的 75 微克/u002F立方米的室外空气标准。</string>
     <string name="outdoor_analysis_detail_head3">因为没有室内 PM2.5 标准，所以未显示室内 PM2.5 水平。 飞利浦智控净化器可测量室内和室外 PM2.5 水平。 不过，室外和室内空气质量具有关联性：室内 PM2.5 水平越高，与室外 PM2.5 水平的关联就越密切。</string>
 <!--     <string name="pm25">PM2.5</string> -->

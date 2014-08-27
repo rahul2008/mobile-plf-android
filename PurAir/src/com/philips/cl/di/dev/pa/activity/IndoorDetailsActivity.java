@@ -23,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
@@ -78,7 +79,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private List<Integer> goodAirInfos;
 	private Coordinates coordinates;
 
-	private String outdoorTitle = "";
+	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good);
 
 	private int powerOnReadings[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0, 0, 0, 0 };

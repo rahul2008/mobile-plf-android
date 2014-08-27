@@ -222,7 +222,7 @@
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
     <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
     <string name="outdoor_analysis_detail1_head1">\'您室内擁有良好空氣的量是多少？\'已解釋</string>
-    <string name="outdoor_analysis_detail2_head100">在最近的 ，您的 Philips 智能空氣清新機量度出來的室内空氣評分為 %s，而室外感應器量度的評分為 。</string>
+    <string name="outdoor_analysis_detail2_head100">在過去的一天，一周，或一月內，您的飛利浦智控淨化器檢測到您家中的空氣水平為“%1$s”。經室外檢測器檢測，您所在位置的室外空氣質量為“%2$s”。</string>
     <string name="outdoor_analysis_detail_head2">如為 1-2 級別一個小時或以上，PM2.5 水平預算為低於中國 AQI 標準，即室外空氣每立方米 75 微克。如為 2 以上級別一個小時或以上，PM2.5 水平預算為高於中國 AQI 標準，即室外空氣每立方米 75 微克。</string>
     <string name="outdoor_analysis_detail_head3">現時沒有 PM2.5 的室内標準，所以沒有顯示出室内 PM2.5 水平。然而，室外和室內空氣質素息息相關：高的室内 PM2.5 水平和室外 PM2.5 水平關係非常大。</string>
 <!--     <string name="pm25">PM2.5</string> -->
