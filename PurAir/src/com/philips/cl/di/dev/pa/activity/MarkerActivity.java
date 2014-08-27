@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMap.OnMapClickListener;
 import com.amap.api.maps2d.AMap.OnMapLoadedListener;
 import com.amap.api.maps2d.AMap.OnMarkerClickListener;
 import com.amap.api.maps2d.CameraUpdateFactory;
@@ -53,6 +54,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private ImageView mAqiMarker = null;
 	private static List<String> mCitiesListAll = null;
 	private OutdoorCity mOutdoorCity = null;
+	private boolean isAnimationDrawableOpen = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -84,9 +86,19 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private void init() {
 		if (aMap == null) {
 			aMap = mapView.getMap();
+			aMap.setOnMapClickListener(new OnMapClickListener() {
+				
+				@Override
+				public void onMapClick(LatLng latLng) {
+					if(isAnimationDrawableOpen){
+						hideAnimation();
+					}
+				}
+			});
 			setUpMap();
 		}
 	}
+	
 
 	private void setUpMap() {
 		aMap.setOnMapLoadedListener(this);
@@ -232,9 +244,14 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		if (v.getId() == R.id.gaodeMapFinish) {
 			finish();
 		}
-		/*
-		 * switch(v.getId()){ case R.id.gaodeMapFinish: finish(); }
-		 */
+	}
+	
+	private void hideAnimation(){
+		Animation topDown = AnimationUtils.loadAnimation(MarkerActivity.this,
+				R.anim.bottom_down_aqi_drawer);
+		mAqiDrawer.startAnimation(topDown);
+		isAnimationDrawableOpen = false;;
+		mAqiDrawer.setVisibility(View.GONE);
 	}
 
 	private void showAqiDetails() {
@@ -242,5 +259,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		Animation bottomUp = AnimationUtils.loadAnimation(MarkerActivity.this,
 				R.anim.bottom_up_aqi_drawer);
 		mAqiDrawer.startAnimation(bottomUp);
+		isAnimationDrawableOpen = true;
 	}
 }
