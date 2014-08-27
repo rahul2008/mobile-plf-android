@@ -25,7 +25,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/help_close" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_support_popup_title"
         android:layout_width="match_parent"
@@ -48,14 +48,13 @@
         android:padding="8dp"
         android:src="@drawable/ic_launcher" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_support_popup_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_support_popup_image"
         android:layout_marginTop="8dp"
-        android:lineSpacingExtra="10dp"
         android:padding="16dp"
         android:text=""
         android:textColor="@color/title_gray"

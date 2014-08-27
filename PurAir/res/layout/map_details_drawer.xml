@@ -11,7 +11,7 @@
     android:padding="0.5dp"
     android:visibility="gone" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         android:id="@+id/aqiCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -22,7 +22,7 @@
         android:textSize="18sp"
         android:textStyle="bold" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         android:id="@+id/aqiDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -13,7 +13,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/indoorcircle" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDashboardBarNum"
         android:layout_width="32dp"

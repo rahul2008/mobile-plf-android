@@ -123,7 +123,7 @@ public class UsageAgreementFragment extends BaseFragment {
 	    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsanslight.ttf");
 	    	childText.setTextColor(mContext.getResources().getColor(R.color.gray));
 	    	childText.setText(mListChildData[groupPosition][childPosition]);
-	    	childText.setLineSpacing(Coordinates.getPxWithRespectToDip(mContext, 8F), 1);
+	    	childText.setLineSpacing(Coordinates.getPxWithRespectToDip(mContext, 7F), 1);
 	        return childText;
 		}
 

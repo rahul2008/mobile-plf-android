@@ -22,13 +22,12 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/help_close" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_ts05_confirm_wifi_mode_enabled_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:lineSpacingExtra="10dp"
         android:padding="16dp"
         android:text="@string/support_ts01_title"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -46,7 +45,7 @@
         android:padding="16dp"
         android:src="@drawable/ews_help_bg4_2x" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_cancel_wifi_setup_message"
         android:layout_width="wrap_content"
@@ -54,7 +53,6 @@
         android:layout_below="@id/tv_ts05_confirm_wifi_mode_enabled_message"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:lineSpacingExtra="10dp"
         android:padding="16dp"
         android:text="@string/support_ts05_message"
         android:textColor="@color/title_gray"

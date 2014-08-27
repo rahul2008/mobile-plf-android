@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:paddingBottom="30dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_filter_status_title"
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/textView1"
         android:layout_width="fill_parent"
@@ -30,7 +30,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_filter_status_reminder"
         android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_pre_filter"
         android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_pre_filter_status"
         android:layout_width="wrap_content"
@@ -75,7 +75,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_multi_care_filter"
         android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_multi_care_filter_status"
         android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_active_carbon_filter"
         android:layout_width="wrap_content"
@@ -131,7 +131,7 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_active_carbon_filter_status"
         android:layout_width="wrap_content"
@@ -143,7 +143,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_hepa_filter"
         android:layout_width="wrap_content"
@@ -165,7 +165,7 @@
         android:layout_marginTop="4dp"
         android:background="@drawable/process_light_black_bar" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_hepa_filter_status"
         android:layout_width="wrap_content"

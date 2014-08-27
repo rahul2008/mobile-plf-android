@@ -28,7 +28,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="15dp" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_enable_all_text"
                 android:layout_width="match_parent"
@@ -59,7 +59,7 @@
 
             <!-- Indoor notifications -->
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_indoor_title"
                 android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_indoor_description"
                 android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                 android:paddingRight="5dp"
                 android:visibility="visible" >
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/notifications_indoor_label0"
                     android:layout_width="60dp"
@@ -106,7 +106,7 @@
                     android:textSize="10sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/notifications_indoor_label1"
                     android:layout_width="60dp"
@@ -116,7 +116,7 @@
                     android:textSize="10sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/notifications_indoor_label2"
                     android:layout_width="60dp"
@@ -126,7 +126,7 @@
                     android:textSize="10sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/notifications_indoor_label3"
                     android:layout_width="60dp"
@@ -180,7 +180,7 @@
 
             <!-- Filter notifications -->
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_filters_title"
                 android:layout_width="wrap_content"
@@ -193,7 +193,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_filters_description"
                 android:layout_width="wrap_content"
@@ -216,7 +216,7 @@
 
             <!-- Filter notifications -->
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_front_panel_title"
                 android:layout_width="wrap_content"
@@ -229,7 +229,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/notifications_front_panel_description"
                 android:layout_width="wrap_content"

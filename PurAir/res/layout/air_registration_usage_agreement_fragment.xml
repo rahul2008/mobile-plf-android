@@ -6,12 +6,11 @@
     android:orientation="vertical"
     android:padding="16dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_continue_registration"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lineSpacingExtra="8dp"
         android:text="@string/continue_registration"
         android:textColor="@color/gray"
         android:textSize="14sp"

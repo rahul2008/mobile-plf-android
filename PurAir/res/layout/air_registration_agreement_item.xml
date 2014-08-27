@@ -14,13 +14,13 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/plus_blue_reg" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView 
+        android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_agreement_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:lineSpacingExtra="8dp"
         android:textColor="@color/gray"
         android:textSize="18sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />

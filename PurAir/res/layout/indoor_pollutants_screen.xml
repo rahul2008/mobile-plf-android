@@ -10,7 +10,7 @@
         android:orientation="vertical"
         android:padding="15dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -20,7 +20,7 @@
             android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/formaldehyde" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/formaldehyde_heading"
                 android:layout_width="wrap_content"
@@ -60,7 +60,7 @@
                 android:textSize="@dimen/title_text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/formaldehyde_intro"
                 android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/tvoc" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tvoc_heading"
                 android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tvoc_intro"
                 android:layout_width="wrap_content"
@@ -149,7 +149,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/airborne_pathogens" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/airborne_pathogens_heading"
                 android:layout_width="wrap_content"
@@ -163,7 +163,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/airborne_pathogens_intro"
                 android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/pet_hair_dust_mites" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/pet_hair_dust_mites_heading"
                 android:layout_width="wrap_content"
@@ -214,7 +214,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/pet_hair_dust_mites_intro"
                 android:layout_width="wrap_content"
@@ -254,7 +254,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/outdoor_particles" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/outdoor_particles_heading"
                 android:layout_width="wrap_content"
@@ -268,7 +268,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/outdoor_particles_intro"
                 android:layout_width="wrap_content"
@@ -305,7 +305,7 @@
                 android:scaleType="centerInside"
                 android:src="@drawable/particulate_matter" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/particulate_matter_heading"
                 android:layout_width="wrap_content"
@@ -319,7 +319,7 @@
                 android:textSize="@dimen/text_size_large"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/particulate_matter_intro"
                 android:layout_width="wrap_content"

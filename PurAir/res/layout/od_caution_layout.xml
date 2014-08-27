@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/avoidOutdoorTxt"
             android:layout_width="match_parent"
@@ -51,7 +51,7 @@
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/openWindowTxt"
             android:layout_width="match_parent"
@@ -63,7 +63,7 @@
             android:textSize="12sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/maskTxt"
             android:layout_width="match_parent"

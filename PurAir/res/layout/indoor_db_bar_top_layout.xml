@@ -12,7 +12,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/circle_5" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDbBarTopNum"
         android:layout_width="32dp"
@@ -25,7 +25,7 @@
         android:textSize="12sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDbBarTopName"
         android:layout_width="match_parent"

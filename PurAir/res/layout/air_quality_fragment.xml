@@ -10,7 +10,7 @@
         android:paddingLeft="15dp"
         android:paddingTop="25dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/intro_lbl"
             android:layout_width="fill_parent"
@@ -31,7 +31,7 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/large_purifier" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/purifier_feature_lbl_1"
             android:layout_width="wrap_content"
@@ -44,7 +44,7 @@
             android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/purifier_feature_lbl_2"
             android:layout_width="wrap_content"
@@ -58,7 +58,7 @@
             android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/purifier_feature_lbl_3"
             android:layout_width="wrap_content"
@@ -89,7 +89,7 @@
             android:layout_marginRight="15dp"
             android:orientation="vertical" >
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_indoor_pollutant"
                 android:layout_width="fill_parent"
@@ -112,7 +112,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_vistashield"
                 android:layout_width="fill_parent"
@@ -134,7 +134,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_outdoor_colors_explained"
                 android:layout_width="fill_parent"
@@ -156,7 +156,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_indoor_colors_explained"
                 android:layout_width="fill_parent"
@@ -178,7 +178,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@color/darkgray" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_guard_environment"
                 android:layout_width="fill_parent"

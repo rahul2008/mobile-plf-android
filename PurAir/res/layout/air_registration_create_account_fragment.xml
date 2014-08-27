@@ -9,19 +9,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvRegistrationStatement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:lineSpacingExtra="5dp"
             android:text="@string/registration_statement"
             android:textColor="@color/gray"
             android:textSize="14sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvName"
             android:layout_width="match_parent"
@@ -52,7 +51,7 @@
             android:textColor="@color/title_gray"
             android:textSize="14sp" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvEmailAddress"
             android:layout_width="match_parent"
@@ -84,7 +83,7 @@
             android:textColor="@color/title_gray"
             android:textSize="14sp" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvPassword"
             android:layout_width="match_parent"
@@ -134,14 +133,13 @@
                 android:layout_height="wrap_content"
                 android:button="@drawable/radio_button_selector" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tvReceiveInformation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:gravity="center_vertical"
-                android:lineSpacingExtra="5dp"
                 android:text="@string/receive_information"
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
@@ -165,7 +163,7 @@
             android:textSize="14sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvSignInWith"
             android:layout_width="match_parent"

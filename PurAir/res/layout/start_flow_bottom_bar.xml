@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/intro_outdoor_bg_2x" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/start_flow_bottom_tv_title"
         android:layout_width="match_parent"
@@ -12,13 +12,12 @@
         android:layout_alignParentTop="true"
         android:layout_margin="16dp"
         android:gravity="center_horizontal"
-        android:lineSpacingExtra="5dp"
         android:text="@string/did_you_know"
         android:textColor="@color/white"
         android:textSize="20sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/start_flow_bottom_tv_text"
         android:layout_width="match_parent"

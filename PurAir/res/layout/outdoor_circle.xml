@@ -21,7 +21,7 @@
         android:paddingTop="23dp"
         android:src="@drawable/blue_circle_with_arrow_2x" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/outdoor_aqi_reading"
         android:layout_width="wrap_content"

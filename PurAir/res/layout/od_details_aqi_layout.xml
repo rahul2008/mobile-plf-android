@@ -12,7 +12,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/aqi_blue_circle_2x" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/od_detail_aqi_reading"
         android:layout_width="wrap_content"
@@ -35,7 +35,7 @@
         android:orientation="horizontal"
         android:visibility="gone" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/hf_outdoor_pm_reading"
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
             android:textSize="@dimen/text_size_small"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/hf_outdoor_pm_value"
             android:layout_width="wrap_content"

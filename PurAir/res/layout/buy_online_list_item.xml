@@ -18,7 +18,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/purifier" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_product_name"
         android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
         android:textSize="@dimen/title_text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_product_price"
         android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
         android:textSize="21sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/lbl_availability"
         android:layout_width="wrap_content"
@@ -84,7 +84,7 @@
         android:layout_marginTop="25dp"
         android:background="@drawable/process_light_black_bar" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/txt_filter_status"
         android:layout_width="wrap_content"

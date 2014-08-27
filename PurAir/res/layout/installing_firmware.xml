@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:padding="16dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/downloading_firmware_step"
         android:layout_width="wrap_content"
@@ -15,20 +15,19 @@
         android:textSize="18sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/installing_firmware_for_purifier_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/downloading_firmware_step"
         android:layout_marginLeft="16dp"
-        android:lineSpacingExtra="10dp"
         android:text="@string/installing_firmware_for_purifier_msg"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/downloading_firmware_text"
         android:layout_width="wrap_content"
@@ -37,7 +36,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="75dp"
-        android:lineSpacingExtra="5dp"
         android:padding="16dp"
         android:text="@string/installing_firmware_text"
         android:textColor="@color/philips_blue"
@@ -55,7 +53,7 @@
         android:indeterminateDrawable="@drawable/progress_circle"
         android:progressDrawable="@drawable/customprogressbar" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/upgrade_version_number"
         android:layout_width="wrap_content"
@@ -69,7 +67,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/current_version_number"
         android:layout_width="wrap_content"

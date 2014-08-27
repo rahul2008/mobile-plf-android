@@ -3,14 +3,13 @@
     android:layout_height="fill_parent"
     android:padding="16dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/firmware_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="6dp"
-        android:lineSpacingExtra="5dp"
         android:text="@string/new_firmware"
         android:textColor="@color/philips_blue"
         android:textSize="24sp"
@@ -30,21 +29,20 @@
         android:src="@drawable/separator"
         android:textColor="@color/title_gray" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/firmware_version_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/divider1"
         android:layout_marginTop="6dp"
-        android:lineSpacingExtra="5dp"
         android:padding="16dp"
         android:text="@string/firmware_version_txt"
         android:textColor="@color/title_gray"
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/firmware_version"
         android:layout_width="wrap_content"
@@ -53,7 +51,6 @@
         android:layout_below="@+id/divider1"
         android:layout_marginRight="20dp"
         android:layout_marginTop="6dp"
-        android:lineSpacingExtra="5dp"
         android:padding="16dp"
         android:textColor="@color/title_gray"
         android:textSize="16sp"

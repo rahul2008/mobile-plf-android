@@ -22,7 +22,7 @@
             android:background="@drawable/no_purifier_indoor"
             android:visibility="visible" >
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/hf_indoor_dashboard_tv_title"
                 android:layout_width="match_parent"
@@ -30,7 +30,6 @@
                 android:layout_alignParentTop="true"
                 android:layout_margin="8dp"
                 android:gravity="center_horizontal"
-                android:lineSpacingExtra="5dp"
                 android:text="@string/healthy_air_always"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -93,7 +92,7 @@
             android:padding="0.5dp"
             android:visibility="gone" >
 
-            <com.philips.cl.di.dev.pa.view.FontTextView
+            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                 android:id="@+id/lbl_take_tour"
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"

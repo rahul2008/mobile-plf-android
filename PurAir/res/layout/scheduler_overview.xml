@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:background="@color/white" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
+    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/sch_edit"
         android:layout_width="wrap_content"

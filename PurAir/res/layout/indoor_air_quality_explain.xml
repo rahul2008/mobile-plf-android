@@ -21,7 +21,7 @@
             android:paddingRight="8dp"
             android:src="@drawable/help_close" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisHeading"
             android:layout_width="match_parent"
@@ -34,7 +34,7 @@
             android:textSize="24sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisIntro"
             android:layout_width="match_parent"
@@ -47,7 +47,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg10"
             android:layout_width="match_parent"
@@ -60,7 +60,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg11"
             android:layout_width="match_parent"
@@ -73,7 +73,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle2"
             android:layout_width="match_parent"
@@ -86,7 +86,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg20"
             android:layout_width="match_parent"
@@ -99,7 +99,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle3"
             android:layout_width="match_parent"
@@ -112,7 +112,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisMsg30"
             android:layout_width="match_parent"
@@ -125,7 +125,7 @@
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/aqiAnalysisTitle4"
             android:layout_width="match_parent"
@@ -160,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg40"
                     android:layout_width="match_parent"
@@ -171,7 +171,7 @@
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg41"
                     android:layout_width="match_parent"
@@ -214,7 +214,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg50"
                     android:layout_width="match_parent"
@@ -225,7 +225,7 @@
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg51"
                     android:layout_width="match_parent"
@@ -268,7 +268,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg60"
                     android:layout_width="match_parent"
@@ -279,7 +279,7 @@
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg61"
                     android:layout_width="match_parent"
@@ -322,7 +322,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg70"
                     android:layout_width="match_parent"
@@ -333,7 +333,7 @@
                     android:textSize="18sp"
                     custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-                <com.philips.cl.di.dev.pa.view.FontTextView
+                <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                     android:id="@+id/aqiAnalysisMsg71"
                     android:layout_width="match_parent"
