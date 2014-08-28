@@ -23,7 +23,7 @@
     <string name="connected">Connected</string>
     <string name="lost_connection">Lost Connection</string>
     <string name="connected_via_philips">Connected via PHILIPS</string>
-    <string name="not_connected">Connecting..</string>
+    <string name="not_connected">Connecting&#8230;</string>
     <string name="connect">Connect</string>
     <string name="power">Power</string>
     <string name="fan_speed">Fan speed</string>
