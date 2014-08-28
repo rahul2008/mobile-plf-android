@@ -17,10 +17,13 @@
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <View
+    
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/fanspeed_item"
-        android:background="@color/lightgrey" />
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
+    
 
 </RelativeLayout>

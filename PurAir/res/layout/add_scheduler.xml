@@ -40,11 +40,11 @@
         android:layout_below="@+id/enable_lyt"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/black"
+        android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description"
-        android:textColor="@color/title_gray" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+      	/>
+    
+        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tvAddTime"
         android:layout_width="match_parent"
@@ -89,9 +89,8 @@
         android:layout_below="@+id/tvAddSchdeduler"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/black"
-        android:contentDescription="@string/img_description"
-        android:textColor="@color/title_gray" />
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -144,9 +143,8 @@
         android:layout_below="@+id/repeat"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/black"
-        android:contentDescription="@string/img_description"
-        android:textColor="@color/title_gray" />
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -199,8 +197,7 @@
         android:layout_below="@+id/fanspeed"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:background="@android:color/black"
-        android:contentDescription="@string/img_description"
-        android:textColor="@color/title_gray" />
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
 
 </RelativeLayout>
