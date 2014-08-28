@@ -32,7 +32,7 @@
         android:src="@drawable/lef_arrow_blue_2x"
         android:visibility="invisible" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/action_bar_title"
         android:layout_width="match_parent"
@@ -87,7 +87,7 @@
         android:src="@drawable/action_bar_plus_icon_blue"
         android:visibility="invisible" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/actionbar_firmware_no_off_update"
         android:layout_width="wrap_content"

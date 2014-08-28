@@ -20,7 +20,7 @@
         android:textSize="16sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_rm_power_status"
         android:layout_width="wrap_content"

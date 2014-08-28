@@ -106,7 +106,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/indoorcircle" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexBott"
                 android:layout_width="32dp"
@@ -118,7 +118,7 @@
                 android:textSize="12sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexName"
                 android:layout_width="match_parent"
@@ -126,6 +126,8 @@
                 android:layout_alignBaseline="@+id/indoorDbIndexBott"
                 android:layout_alignBottom="@+id/indoorDbIndexBott"
                 android:layout_marginLeft="10dp"
+                android:paddingTop="4dp"
+       			android:paddingBottom="4dp"
                 android:layout_toRightOf="@+id/indoorDbIndexBottBg"
                 android:ellipsize="end"
                 android:gravity="center_vertical"

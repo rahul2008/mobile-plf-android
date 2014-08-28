@@ -8,7 +8,9 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.FontLoader;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -51,7 +53,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		childText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) context
 				.getResources().getDimension(R.dimen.text_size_small));
 		childText.setText(colorListChildData[groupPosition][childPosition]);
-		childText.setLineSpacing(5, 1) ;
+		childText.setLineSpacing(Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 7F), 1) ;
 		return childText;
 	}
 

@@ -494,7 +494,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			}
 			
 			fragTransaction.add(IndoorAQIExplainedDialogFragment.
-					newInstance(aqiStatusTxt.getText().toString(), outdoorTitle), "indoor_aqi_analysis").commit();
+					newInstance(outdoorTitle, outdoorTitle), "indoor_aqi_analysis").commit();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
 		}
