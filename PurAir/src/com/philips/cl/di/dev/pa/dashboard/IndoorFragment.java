@@ -179,7 +179,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			filterStatusTxt.setText(AppConstants.EMPTY_STRING);
 			aqiStatusTxt.setTextSize(18.0f);
 			aqiPointer.setImageResource(R.drawable.grey_circle_2x);
-			aqiStatusTxt.setText(getString(R.string.no_connection));
+			aqiStatusTxt.setText(getString(R.string.not_connected));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
 			prevRotation = 0.0f;
 

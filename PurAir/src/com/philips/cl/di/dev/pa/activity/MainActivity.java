@@ -963,7 +963,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				setRightMenuAirStatusMessage(AppConstants.EMPTY_STRING);
 				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
 				tvAirStatusAqiValue.setTextSize(14.0f);
-				tvAirStatusAqiValue.setText(getString(R.string.no_connection));
+				tvAirStatusAqiValue.setText(getString(R.string.not_connected));
 				//For remote control enable and disable in right-canvas
 				remoteControlBtn.setClickable(false);
 				remoteControlBtn.setChecked(false);

@@ -454,7 +454,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 		if (ConnectionState.DISCONNECTED == currentPurifier.getConnectionState()) {
 			mode.setText(getString(R.string.off));
-			aqiStatusTxt.setText(getString(R.string.no_connection));
+			aqiStatusTxt.setText(getString(R.string.not_connected));
 			aqiStatusTxt.setTextSize(18.0f);
 			//set image background
 			backgroundImage.setImageResource(R.drawable.home_indoor_bg_2x);

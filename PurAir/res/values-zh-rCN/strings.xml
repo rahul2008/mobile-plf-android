@@ -22,7 +22,7 @@
     <string name="connected">已连接</string>
     <string name="lost_connection">失去连接</string>
     <string name="connected_via_philips">已通过飞利浦连接</string>
-    <string name="not_connected">未连接</string>
+    <string name="not_connected">连接中…</string>
     <string name="connect">连接</string>
     <string name="power">电源</string>
     <string name="fan_speed">风扇速度</string>
@@ -79,7 +79,6 @@
     <string name="updated">最近更新</string>
     <string name="n_a">不适用</string>
     <string name="take_action">采取措施</string>
-    <string name="no_connection">无连接</string>
     <string name="no_data">无数据</string>
     <!-- AQI status -->
     <string name="good">优</string>
