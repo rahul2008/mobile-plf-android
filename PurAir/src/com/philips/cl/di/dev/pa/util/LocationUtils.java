@@ -11,6 +11,7 @@ public class LocationUtils {
 	public final static String EWS_STATE = "ews_state";
 	public final static String OUTDOOR_LOCATION_VISITED = "outdoor_location_visited";
 	public final static String CURR_LOC_ENABLEB = "current_loc_enabled";
+	public final static String LOC_ADDED = "loc_added";
 	
 	public static void saveCurrentLocationAreaId(String areaId) {
 		SharedPreferences pref = PurAirApplication.getAppContext()
@@ -68,5 +69,19 @@ public class LocationUtils {
 		SharedPreferences pref = PurAirApplication.getAppContext()
 				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
 		return pref.getBoolean(OUTDOOR_LOCATION_VISITED, false);
+	}
+	
+	public static void saveOutdoorLocationInsertedIntoDB(boolean state) {
+		SharedPreferences pref = PurAirApplication.getAppContext()
+				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor edit = pref.edit();
+		edit.putBoolean(LOC_ADDED, state);
+		edit.commit();
+	}
+	
+	public static boolean isOutdoorLocationInsertedIntoDB() {
+		SharedPreferences pref = PurAirApplication.getAppContext()
+				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
+		return pref.getBoolean(LOC_ADDED, false);
 	}
 }

@@ -20,6 +20,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DatabaseHelper;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class OutdoorLocationDatabase {
 	
@@ -69,23 +70,21 @@ public class OutdoorLocationDatabase {
 	}
 	
 	synchronized void fillDatabaseForCSV() {
-		InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.city_list_hk);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
-		
-		ALog.i(ALog.OUTDOOR_LOCATION,
-				"OutdoorLocationDatabase fillDatabaseForCSV inputStream " + inputStream + " reader " + reader);
-		
-		String outdoorLocation = "";
-        StringTokenizer stringTokenizer = null;
-        
         if (!isCityDetailsTableFilled()) {
-    		OutdoorManager.getInstance().addAreaIDToUsersList("101010100");
-//    		OutdoorManager.getInstance().addAreaIDToUsersList("101270101");
-//    		OutdoorManager.getInstance().addAreaIDToUsersList("101020100");
+        	
+        	InputStream inputStream = PurAirApplication.getAppContext().getResources().openRawResource(R.raw.city_list_hk);
+    		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, Charset.defaultCharset()));
     		
+    		ALog.i(ALog.OUTDOOR_LOCATION,
+    				"OutdoorLocationDatabase fillDatabaseForCSV inputStream " + inputStream + " reader " + reader);
+    		
+    		String outdoorLocation = "";
+            StringTokenizer stringTokenizer = null;
+            
+    		OutdoorManager.getInstance().addAreaIDToUsersList("101010100");
     		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101010100");
-//    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101270101");
-//    		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101020100");
+    		
+    		long rowID = -1;
     		
 	        mOutdoorLocationDatabase.beginTransaction();
 	        try {
@@ -97,7 +96,6 @@ public class OutdoorLocationDatabase {
 	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
 
 	                String areaID = stringTokenizer.nextToken();
-//	                OutdoorManager.getInstance().addAreaIdToAllCitiesList(areaID);
 	        		values.put(AppConstants.KEY_AREA_ID, areaID);
 	        		values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_LATITUDE, stringTokenizer.nextToken());
@@ -106,7 +104,11 @@ public class OutdoorLocationDatabase {
 
 	        		values.put(AppConstants.KEY_SHORTLIST,
 	        				OutdoorManager.getInstance().getUsersCitiesList().contains(areaID) ? 1 : 0);
-	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
+	        		rowID = mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
+	            }
+	            
+	            if(rowID != -1) {
+	            	LocationUtils.saveOutdoorLocationInsertedIntoDB(true);
 	            }
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
 	        } catch (IOException e) {
@@ -189,18 +191,21 @@ public class OutdoorLocationDatabase {
 	
 	private boolean isCityDetailsTableFilled() {
 		ALog.i(ALog.DASHBOARD, "isCityDetailsTableFilled");
-		Cursor cursor = getDataFromOutdoorLoacation(null);
-		try {
-			cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
-			String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-			if (cityTW == null) {
-				updateDatabaseForCSV();
-			}
-		} catch (Exception e) {
-			Log.e(ALog.DATABASE, "CityDetails database not yet filled " + e);
-			return false;
-		}
-		return true;
+		
+		return LocationUtils.isOutdoorLocationInsertedIntoDB();
+		
+//		Cursor cursor = getDataFromOutdoorLoacation(null);
+//		try {
+//			cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+//			String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
+//			if (cityTW == null) {
+//				updateDatabaseForCSV();
+//			}
+//		} catch (Exception e) {
+//			Log.e(ALog.DATABASE, "CityDetails database not yet filled " + e);
+//			return false;
+//		}
+//		return true;
 	}
 	
 	/**

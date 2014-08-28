@@ -13,6 +13,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
+import android.hardware.Camera.Size;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -107,11 +108,18 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	
 	public void startAllCitiesAQITask() {
 		if (isPhilipsSetupWifiSelected()) return;
-		String areaIds = OutdoorManager.getInstance().getAllCitiesList().toString().replace("[", "").replace("]", "")
-	            .replace(", ", ",");
+		
+		String areaIds = OutdoorManager.getInstance().getAllCitiesList().subList(0, 97).toString().replace("[", "").replace("]", "")
+        .replace(", ", ",");
+		
+		String areaIds2 = OutdoorManager.getInstance().getAllCitiesList().subList(98, OutdoorManager.getInstance().getAllCitiesList().size()).toString().replace("[", "").replace("]", "")
+		        .replace(", ", ",");
 		
 		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), "all_cities", PurAirApplication.getAppContext(), this);
 		citiesList.start();
+		
+		TaskGetHttp citiesList2 = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds2, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), "all_cities", PurAirApplication.getAppContext(), this);
+		citiesList2.start();
 	}
 
 	public void startCityAQIHistoryTask(String areaID) {
@@ -315,7 +323,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private boolean done = false;
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
-		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());
+//		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());
 		location = aLocation;
 		if(aLocation != null && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			latitude = aLocation.getLatitude();
