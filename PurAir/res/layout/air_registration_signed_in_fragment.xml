@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView 
+            android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvThankYouTitle"
             android:layout_width="match_parent"
@@ -18,10 +19,11 @@
             android:layout_marginTop="16dp"
             android:text="@string/thank_you"
             android:textColor="@color/title_gray"
-            android:textSize="16sp"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView 
+            android:lineSpacingExtra="5dp"
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tvThankYouSubtitle"
             android:layout_width="match_parent"
@@ -32,7 +34,7 @@
             android:layout_marginTop="8dp"
             android:text="@string/signed_in_ready_to_use"
             android:textColor="@color/gray"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontButton
@@ -49,7 +51,7 @@
             android:paddingRight="16dp"
             android:text="@string/close"
             android:textColor="@color/white"
-            android:textSize="14sp"
+            android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 

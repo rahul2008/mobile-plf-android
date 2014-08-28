@@ -43,11 +43,12 @@
 
         <!-- Horizontal line -->
 
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="0dp"
-            android:background="@color/darkgray" />
+        <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
         <!-- Detailed notifications layout (easy toggling) -->
 
@@ -173,10 +174,12 @@
 
             <!-- Horizontal line -->
 
-            <View
+        <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/darkgray" />
+                android:layout_marginTop="0dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <!-- Filter notifications -->
 
@@ -209,10 +212,12 @@
 
             <!-- Horizontal line -->
 
-            <View
+              <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
-                android:background="@color/darkgray" />
+                android:layout_marginTop="0dp"
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
 
             <!-- Filter notifications -->
 
