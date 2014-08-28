@@ -45,6 +45,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AnimatorConstants;
@@ -664,7 +665,7 @@ public class Utils {
 
 		iv.setImageDrawable(weatherImage);
 		Log.i("degree", "Wind degree: " + degree);
-//		ObjectAnimator.ofFloat(iv, ANIM_ROTATION, 0, degree).setDuration(2000).start();
+		ObjectAnimator.ofFloat(iv, AnimatorConstants.ANIM_ROTATION, 0, degree).setDuration(2000).start();
 //		Animation aqiCircleRotateAnim = new RotateAnimation(0, degree, weatherImage.getMinimumWidth() / (float) 2, weatherImage.getMinimumHeight() / (float) 2);
 //		
 //	    aqiCircleRotateAnim.setDuration(2000);
