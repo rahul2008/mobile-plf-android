@@ -773,13 +773,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			mDrawerLayout.closeDrawer(mListViewLeft);
 
 			if(leftMenuItemName.equals(getString(R.string.list_item_home))){
-				if (PurAirApplication.isDemoModeEnable()) {
-					showFragment(leftMenuItems.get(position));
-				} else if (!Utils.getAppFirstUse()) {
-					showFragment(leftMenuItems.get(position));
-				} else {
-					showFragment(new StartFlowVirginFragment());
-				}
+				showFirstFragment();
 				setTitle(getString(R.string.dashboard_title));
 			}else if(leftMenuItemName.equals(getString(R.string.list_item_air_quality_explained))){
 				showFragment(leftMenuItems.get(position));
