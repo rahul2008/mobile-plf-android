@@ -14,7 +14,7 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/plus_blue" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/manage_pur_add_txt"
         android:layout_width="wrap_content"
