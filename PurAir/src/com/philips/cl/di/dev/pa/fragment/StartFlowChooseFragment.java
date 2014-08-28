@@ -237,10 +237,10 @@ public class StartFlowChooseFragment extends BaseFragment implements
 
 	@Override
 	public void onPurifierSelect(PurAirDevice purifier) {
+		SetupDialogFactory.getInstance(getActivity()).cleanUp();
 		selectedPurifier = purifier;
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
-		SetupDialogFactory.getInstance(getActivity())
-				.getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
+		SetupDialogFactory.getInstance(getActivity()).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		getWifiDetails();
 	}
 

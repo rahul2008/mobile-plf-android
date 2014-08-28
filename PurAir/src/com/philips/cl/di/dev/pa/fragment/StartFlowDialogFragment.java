@@ -211,9 +211,6 @@ public class StartFlowDialogFragment extends DialogFragment implements
 				appSelectorAdapter, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int position) {
 						
-						appSelectorAdapter = null;
-						listItemsArrayList = null;
-						
 						PurAirDevice currentPurifier = appItems.get(position);
 						if (mListener != null) {
 							mListener.onPurifierSelect(currentPurifier);
