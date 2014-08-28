@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="15dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/color_explained_intro"
         android:layout_width="fill_parent"
@@ -17,6 +17,7 @@
         android:text="@string/outdoor_color_explained_intro"
         android:textColor="#7F8595"
         android:textSize="@dimen/text_size_small"
+        android:lineSpacingExtra="5dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <View
