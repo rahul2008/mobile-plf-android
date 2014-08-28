@@ -20,7 +20,7 @@
         android:textColor="@color/white"
         android:visibility="gone" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/list_item_name"
         android:layout_width="wrap_content"
@@ -28,6 +28,7 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/list_item_delete"
         android:gravity="center_vertical"
+        android:lineSpacingExtra="15dp"
         android:paddingLeft="8dp"
         android:textColor="@color/black"
         android:textSize="24sp"
@@ -46,7 +47,7 @@
         android:textColor="@color/white"
         android:visibility="invisible" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/list_item_right_text"
         android:layout_width="wrap_content"

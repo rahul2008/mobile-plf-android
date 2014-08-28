@@ -11,18 +11,22 @@
     android:padding="0.5dp"
     android:visibility="gone" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/aqiCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:layout_marginTop="1dp"
         android:gravity="center"
+        android:lineSpacingExtra="5dp"
         android:textColor="#000000"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/aqiDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -30,9 +34,11 @@
         android:layout_marginBottom="1dp"
         android:layout_marginLeft="2dp"
         android:gravity="center"
+        android:lineSpacingExtra="5dp"
         android:maxLines="1"
         android:textColor="#000000"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
         android:id="@+id/aqiMarker"
