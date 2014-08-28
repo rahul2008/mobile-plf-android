@@ -191,8 +191,7 @@ public class StartFlowDialogFragment extends DialogFragment implements
 		return builder;
 	}
 
-	private AlertDialog.Builder createAPSelectorDialog(
-			AlertDialog.Builder builder) {
+	private AlertDialog.Builder createAPSelectorDialog(AlertDialog.Builder builder) {
 
 		final DiscoveryManager discoveryManager = DiscoveryManager
 				.getInstance();
@@ -211,39 +210,16 @@ public class StartFlowDialogFragment extends DialogFragment implements
 		builder.setTitle(R.string.which_purifier_to_connect).setAdapter(
 				appSelectorAdapter, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int position) {
+						
+						appSelectorAdapter = null;
+						listItemsArrayList = null;
+						
 						PurAirDevice currentPurifier = appItems.get(position);
-						// TODO
 						if (mListener != null) {
 							mListener.onPurifierSelect(currentPurifier);
 						}
 						clearSelectPurifierObject();
 						dismiss();
-						// TODO
-						/*
-						 * currentPurifier.setConnectionState(ConnectionState.
-						 * CONNECTED_LOCALLY) ;
-						 * currentPurifier.setLastKnownNetworkSsid
-						 * (EWSWifiManager.getSsidOfConnectedNetwork()) ;
-						 * PurifierManager
-						 * .getInstance().setCurrentPurifier(currentPurifier);
-						 * 
-						 * ((MainActivity)
-						 * getActivity()).showFragment(((MainActivity)
-						 * getActivity()).getDashboard());
-						 * ((MainActivity)getActivity
-						 * ()).setTitle(getString(R.string.dashboard_title));
-						 * Utils.saveAppFirstUse(false);
-						 * 
-						 * PurifierDatabase purifierDatabase = new
-						 * PurifierDatabase();
-						 * purifierDatabase.insertPurAirDevice(currentPurifier);
-						 * List<PurAirDevice> purifiers =
-						 * DiscoveryManager.getInstance().updateStoreDevices();
-						 * PurifierManager
-						 * .getInstance().setCurrentIndoorViewPagerPosition
-						 * (purifiers.size() - 1); clearSelectPurifierObject();
-						 * dismiss();
-						 */
 					}
 				});
 
