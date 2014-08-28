@@ -15,7 +15,7 @@
         android:gravity="center_horizontal"
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_large"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -30,7 +30,7 @@
         android:gravity="center_horizontal"
         android:text="@string/advice_od_msg1"
         android:textColor="@color/whitesmoke"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <LinearLayout
