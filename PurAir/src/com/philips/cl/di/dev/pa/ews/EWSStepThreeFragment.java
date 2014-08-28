@@ -103,7 +103,7 @@ public class EWSStepThreeFragment extends Fragment {
 		if (SessionDto.getInstance().getDeviceDto() != null) {
 			String name = SessionDto.getInstance().getDeviceDto().getName();
 			if (name.equals(EWSConstant.EWS_PURIFIER_DEFAULT_NAME)) {
-				name = getString(R.string.purifier_name);
+				name = getString(R.string.default_purifier_name);
 				((EWSActivity) getActivity()).sendDeviceNameToPurifier(name);
 			}
 			ALog.i(ALog.EWS, "Name: " + name);
