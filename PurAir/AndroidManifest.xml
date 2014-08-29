@@ -143,6 +143,10 @@
             android:name="com.philips.cl.di.dev.pa.activity.PrivacyPolicyActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.philips.cl.di.dev.pa.activity.OpenSourceLibLicensActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         
          <activity
             android:name=".activity.MarkerActivity"

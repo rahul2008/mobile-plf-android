@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicensActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
 public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
@@ -30,14 +31,16 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		TextView lblUserManual=(TextView) rootView.findViewById(R.id.lbl_user_manual);
 		TextView lblPhilipsSupport=(TextView) rootView.findViewById(R.id.lbl_philips_support);
 		TextView lblCallUs=(TextView) rootView.findViewById(R.id.lbl_call_us);
-		TextView lblSupport=(TextView) rootView.findViewById(R.id.lbl_support);		
+		TextView lblSupport=(TextView) rootView.findViewById(R.id.lbl_support);	
+		TextView lblOpensource = (TextView) rootView.findViewById(R.id.opensource_lb);
 		
 		lblAppTutorial.setTypeface(Fonts.getGillsans(getActivity()));		
 		lblFAQ.setTypeface(Fonts.getGillsans(getActivity()));
 		lblUserManual.setTypeface(Fonts.getGillsans(getActivity()));
 		lblPhilipsSupport.setTypeface(Fonts.getGillsans(getActivity()));
 		lblCallUs.setTypeface(Fonts.getGillsans(getActivity()));
-		lblSupport.setTypeface(Fonts.getGillsans(getActivity()));		
+		lblSupport.setTypeface(Fonts.getGillsans(getActivity()));	
+		lblOpensource.setTypeface(Fonts.getGillsans(getActivity()));	
 		
 		lblAppTutorial.setOnClickListener(this);
 		
@@ -49,6 +52,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		
 		lblFAQ.setOnClickListener(this);
 		lblUserManual.setOnClickListener(this);
+		lblOpensource.setOnClickListener(this);
 	}	
 	
 
@@ -74,6 +78,10 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			Intent faq = new Intent(Intent.ACTION_VIEW);
 			faq.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
 			startActivity(faq);
+			break;
+		
+		case R.id.opensource_lb:
+			getActivity().startActivity(new Intent(getActivity(), OpenSourceLibLicensActivity.class));
 			break;
 			
 		default:

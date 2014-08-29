@@ -10,7 +10,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView 
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/app_tutorial"
             android:layout_width="match_parent"
@@ -25,20 +25,19 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
-
-
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/faq"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/faq"
             android:gravity="center_vertical"
+            android:lineSpacingExtra="5dp"
             android:minHeight="85dp"
             android:padding="5dp"
             android:text="@string/subtitle_FAQ"
@@ -46,20 +45,20 @@
             android:textSize="@dimen/text_size_medium"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-       <ImageView
-	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
-	        android:background="@drawable/seperator_line_2x"
-	        android:contentDescription="@string/img_description" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
-
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/lbl_user_manual"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:drawableRight="@drawable/user_manual"
             android:gravity="center_vertical"
+            android:lineSpacingExtra="5dp"
             android:minHeight="85dp"
             android:padding="5dp"
             android:text="@string/subtitle_user_manual"
@@ -68,18 +67,18 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
-
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/lbl_philips_support"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom"
+            android:lineSpacingExtra="5dp"
             android:minHeight="85dp"
             android:paddingBottom="20dp"
             android:paddingLeft="5dp"
@@ -91,11 +90,10 @@
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
-
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <RelativeLayout
             android:id="@+id/layout_call_us"
@@ -112,7 +110,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/call_us_help" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_call_us"
                 android:layout_width="wrap_content"
@@ -124,7 +122,7 @@
                 android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
@@ -138,11 +136,10 @@
         </RelativeLayout>
 
         <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
-
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <RelativeLayout
             android:id="@+id/layout_help"
@@ -159,7 +156,7 @@
                 android:contentDescription="@string/img_description"
                 android:src="@drawable/help_section" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/lbl_support"
                 android:layout_width="wrap_content"
@@ -171,18 +168,39 @@
                 android:textSize="@dimen/text_size_medium"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/help_contact_website"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/lbl_support"
                 android:layout_below="@+id/lbl_support"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/contact_philips_support_website"
                 android:textColor="@color/subtitle_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
         </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/opensource_lb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:lineSpacingExtra="5dp"
+            android:minHeight="85dp"
+            android:padding="5dp"
+            android:text="@string/subtitle_opensource_lib"
+            android:textColor="@color/subtitle_gray"
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>
