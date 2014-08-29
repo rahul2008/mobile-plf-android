@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -18,7 +18,7 @@ public class RegistrationErrorDialogFragment extends DialogFragment {
 //	public static enum DialogType {INVALID_NAME, INVALID_PASSWORD, INVALID_EMAILID, INCORRECT_PASSWORD,ALREADY_REGISTERED, };
 	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.registration.error_dialog";
 	private FontTextView message;
-	private Button btnClose;
+	private ImageButton btnClose;
 
 	public static RegistrationErrorDialogFragment newInstance(Error showDialog) {
 		RegistrationErrorDialogFragment fragment = new RegistrationErrorDialogFragment();
@@ -41,7 +41,7 @@ public class RegistrationErrorDialogFragment extends DialogFragment {
 
 	private void initializeView(View view) {	
 		message = (FontTextView) view.findViewById(R.id.tvErrorMessage);
-		btnClose = (Button) view.findViewById(R.id.btnClose);
+		btnClose = (ImageButton) view.findViewById(R.id.btnClose);
 		
 		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 		

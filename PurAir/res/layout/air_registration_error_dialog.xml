@@ -4,16 +4,19 @@
     android:layout_height="wrap_content"
     android:padding="16dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+    <ImageButton
         android:id="@+id/btnClose"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/close_icon_2x"
-        android:padding="16dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:contentDescription="@string/img_description"
+        android:src="@drawable/close_icon_2x"
+        android:background="@android:color/transparent"
+        android:paddingRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

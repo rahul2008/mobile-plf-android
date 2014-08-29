@@ -17,6 +17,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -37,7 +38,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 	private static final String DIALOG_SELECTED = "com.philips.cl.dev.pa.registration.sign_in_dialog";
 	private FontTextView title;
 	private FontTextView resetPassword;
-	private Button btnClose;
+	private ImageButton btnClose;
 	private Button btnSignIn;
 	
 	private User user;
@@ -66,7 +67,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 	private void initializeView(final View view) {	
 		title = (FontTextView) view.findViewById(R.id.tvSingInTitle);
 		resetPassword = (FontTextView) view.findViewById(R.id.tv_reset_password);
-		btnClose = (Button) view.findViewById(R.id.btnClose);
+		btnClose = (ImageButton) view.findViewById(R.id.btnClose);
 		btnSignIn = (Button) view.findViewById(R.id.btnSignIn);
 		
 		getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
