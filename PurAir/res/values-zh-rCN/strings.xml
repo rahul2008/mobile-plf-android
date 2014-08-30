@@ -40,7 +40,7 @@
     <string name="set_timer">定时设置</string>
     <string name="cover_missing">未找到前面板</string>
     <!-- Filter texts and messages -->
-    <string name="filter_status">过滤网状态</string>
+    <string name="filter_status">过滤网使用状态</string>
     <string name="pre_filter">1 预过滤网</string>
     <string name="multicarefilter">2 多重防护过滤网 </string>
     <string name="activecarbonfilter">3 活性炭过滤网</string>
@@ -53,8 +53,8 @@
     <string name="off">关</string>
     <string name="filter_lock">滤网锁</string>
     <string name="clean_soon">%s 天后清洁 </string>
-    <string name="clean_today">清洁即将</string>
-    <string name="clean_now">清洁吧</string>
+    <string name="clean_today">即将清洁</string>
+    <string name="clean_now">即刻清洁</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智控净化器的传感器</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空气水平状态</string>
@@ -80,7 +80,7 @@
     <string name="take_action">采取措施</string>
     <string name="no_data">无数据</string>
     <!-- AQI status -->
-    <string name="good">优</string>
+    <string name="good">良好</string>
     <string name="moderate">良</string>
     <string name="unhealthy_for_sensitive_groups">轻微污染</string>
     <string name="unhealthy">轻度污染</string>

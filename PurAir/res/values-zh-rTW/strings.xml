@@ -39,7 +39,7 @@
     <string name="set_timer">設定定時功能</string>
     <string name="cover_missing">未找到前面板</string>
     <!-- Filter texts and messages -->
-    <string name="filter_status">過濾狀態</string>
+    <string name="filter_status">濾網使用狀態</string>
     <string name="pre_filter">1 預過濾網</string>
     <string name="multicarefilter">2 多重防護過濾網</string>
     <string name="activecarbonfilter">3 活性碳隔濾網</string>
@@ -52,8 +52,8 @@
     <string name="off">關閉</string>
     <string name="filter_lock">過濾網鎖</string>
     <string name="clean_soon">在 %s 天後清洗。 </string>
-    <string name="clean_today">清潔很快</string>
-    <string name="clean_now">立即清洗</string>
+    <string name="clean_today">馬上清洗</string>
+    <string name="clean_now">此刻清洗</string>
     <string name="filter_tip">請記得每兩個月清洗一次智能空氣清新機的感應器。</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空氣水平狀態</string>
@@ -79,7 +79,7 @@
     <string name="take_action">採取行動</string>
    	<string name="no_data">無資料</string>
     <!-- AQI status -->
-    <string name="good">優</string>
+    <string name="good">良好</string>
     <string name="moderate">良</string>
     <string name="unhealthy_for_sensitive_groups">輕微污染</string>
     <string name="unhealthy">不健康</string>
