@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 import java.util.Locale;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -57,6 +58,11 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
 		cityName.setSelected(true);
+		//If Chinese language selected set font-type-face normal
+		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			cityName.setTypeface(Typeface.DEFAULT);
+		}
 		cityId  = (FontTextView) view.findViewById(R.id.hf_outdoor_city_id);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
 		temp = (FontTextView) view.findViewById(R.id.hf_outdoor_temprature);
