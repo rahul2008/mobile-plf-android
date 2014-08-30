@@ -79,7 +79,7 @@
     <string name="updated">最近更新</string>
     <string name="n_a">不适用</string>
     <string name="take_action">采取措施</string>
-    <string name="no_connection">无连接</string>
+<!--     <string name="no_connection">无连接</string> -->
     <string name="no_data">无数据</string>
     <!-- AQI status -->
     <string name="good">良好</string>
