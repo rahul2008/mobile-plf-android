@@ -26,6 +26,7 @@
     <string name="connect">连接</string>
     <string name="power">电源</string>
     <string name="fan_speed">风扇速度</string>
+<!--     <string name="auto">自动</string> -->
 	<!-- Auto translate in Chinese Smart -->
     <string name="auto">智能</string>
     <string name="turbo">强力</string>
@@ -78,14 +79,15 @@
     <string name="updated">最近更新</string>
     <string name="n_a">不适用</string>
     <string name="take_action">采取措施</string>
+    <string name="no_connection">无连接</string>
     <string name="no_data">无数据</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">良</string>
     <string name="unhealthy_for_sensitive_groups">轻微污染</string>
     <string name="unhealthy">轻度污染</string>
-    <string name="very_unhealthy">中度污染</string>
-    <string name="very_unhealthy_split">中度 \n 污染</string>
+    <string name="very_unhealthy">非常不健康</string>
+    <string name="very_unhealthy_split">非常不 \n 健康</string>
     <string name="hazardous">重污染 </string>
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">应用程序教程</string>
@@ -97,27 +99,28 @@
     <string name="subtitle_email_us">给我们发邮件：</string>
     <string name="subtitle_help_section">访问我们的帮助板块：</string>
     <string name="subtitle_opensource_lib">Open source libraries license</string>
-    <string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>NineOldAndroids:</b>\n\nCopyright 2012 Jake Wharton\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>NineOldAndroids:</b>\n\nCopyright 2012 Jake Wharton\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    
     <!-- Air Tutorial -->
-    <string name="tutorial_dashboard_desc">仪表板显示室内和室外 AQI 的概览</string>
-    <string name="tutorial_lOC_desc">画布左侧包含应用程序不同部分的链接。</string>
-    <string name="tutorial_rOC_desc">画布右侧包含飞利浦智控净化器的控件。</string>
-    <string name="tutorial_device_status_desc">在仪表板上可以看到飞利浦智控净化器的状态。</string>
-    <string name="tutorial_indoor_aqi_desc">室内详情页面显示飞利浦智控净化器所提供的空气水平读数和历史记录。</string>
+    <string name="tutorial_dashboard_desc">主页面显示室内和室外空气质量指数的概览</string>
+    <string name="tutorial_lOC_desc">主页面左上角包含前至应用程序不同部分的链接</string>
+    <string name="tutorial_rOC_desc">主页面右上角包含净化器的控制面板</string>
+    <string name="tutorial_device_status_desc">在主页面上可以看到飞利浦智控净化器的状态</string>
+    <string name="tutorial_indoor_aqi_desc">室内详情页面显示飞利浦智控净化器所提供的空气水平信息和历史记录</string>
     <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气情况。</string>
-    <string name="dashboard_instruction">点击一次扩大每个类别，再点击一次查看详细信息。</string>
-    <string name="loc_roc_remote_instruction">轻击可打开和关闭画布。</string>
-	<string name="status_instruction">轻击图标可打开和关闭画布。</string>
-    <string name="indoor_outdoor_aqi_instruction">轻击箭头可返回仪表板。</string>
+    <string name="dashboard_instruction">点击一次扩大相应类别，继续点击可查看详细信息。</string>
+    <string name="loc_roc_remote_instruction">轻击可打开和关闭控制菜单。</string>
+	<string name="status_instruction">轻击图标可打开和关闭相应面板。</string>
+    <string name="indoor_outdoor_aqi_instruction">轻击箭头可返回主页面。</string>
     <string name="dashboard_instruction_1">应用程序导航</string>
     <string name="dashboard_instruction_2">空气净化器控件</string>
     <string name="dashboard_instruction_3">室内空气水平读数</string>
     <string name="dashboard_instruction_4">室外空气质量指数</string>
-    <string name="tutorial_title_1">仪表板</string>
+    <string name="tutorial_title_1">主页面</string>
     <string name="tutorial_title_2">应用程序导航</string>
     <string name="tutorial_title_3">空气净化器控件</string>
     <string name="tutorial_title_4">设备状态</string>
-    <string name="tutorial_title_5">室内空气水平读数</string>
+    <string name="tutorial_title_5">室内空气质量水平显示</string>
     <string name="tutorial_title_6">室外空气质量指数</string>
     <string name="finish_tutorial">结束体验</string>
     <string name="prompt_take_tour">体验应用程序</string>
@@ -151,7 +154,7 @@
     <string name="outdoor_db">戶外</string>
     <string name="current_location">当前位置</string>
     <string name="title_outdoor_db">室外仪表板</string>
-    <string name="outdoor_search_hint">在地方填写</string>
+    <string name="outdoor_search_hint">输入地名</string>
     <!-- Indoor details tips -->
     <string name="indoor_aqi_good_tip1">低污染，低 PM2.5：对健康危害极小或无危害</string>
     <string name="indoor_aqi_moderate_tip1">污染、颗粒水平和 PM2.5 均处于中级 </string>
@@ -188,27 +191,27 @@
     <string name="id_yaxis_label2">3</string>
     <string name="id_yaxis_label3">4</string>
     <string name="id_yaxis_label4">10</string>
-    <string name="sun">星期天</string>
+    <string name="sun">周日</string>
     <string name="mon">周一</string>
     <string name="tue">周二</string>
     <string name="wed">周三</string>
     <string name="thu">周四</string>
     <string name="fri">周五</string>
-    <string name="sat">星期六</string>
+    <string name="sat">周六</string>
     <string name="week1">周1</string>
     <string name="week2">周2</string>
     <string name="week3">周3</string>
     <string name="week4">周4</string>
-    <string name="lastday">最近 1 天</string>
-    <string name="last7day">最近 7 天</string>
-    <string name="last4week">最近 4 周</string>
-    <string name="detail_aiq_message_last_day">最近 1 天空气质量详情。</string>
+    <string name="lastday">过去1天</string>
+    <string name="last7day">过去1周</string>
+    <string name="last4week">过去4周</string>
+    <string name="detail_aiq_message_last_day">过去1天空气质量详情</string>
     <string name="detail_aiq_message_last7day">最近 7 天空气质量详情。</string>
     <string name="detail_aiq_message_last4week">最近 4 周空气质量详情。</string>
     <string name="aqi_message_last_day">在最近 1 天，您呼吸了多少新鲜空气？</string>
     <string name="aqi_message_last7day">在最近 7 天，您呼吸了多少新鲜空气？</string>
     <string name="aqi_message_last4week">在最近 4 周，您呼吸了多少新鲜空气？</string>
-    <string name="outdoor_aiq_analysis_head1">空气分析说明</string>
+    <string name="outdoor_aiq_analysis_head1">空气质量分析说明</string>
     <string name="outdoor_aiq_analysis_head2">室内空气质量水平和 PM2.5</string>
     <string name="outdoor_aiq_analysis_head3">室内和室外空气质量的关联性及测量方法。</string>
     <string name="outdoor_aiq_analysis_head4">室内空气水平说明</string>
@@ -309,7 +312,7 @@
     <string name="vistashield_features">1. 活性炭涂层可捕捉外表面的甲醛。 \n\n2. 每克活性炭的表面积约为 1000 平方米。 诸多污染物被如此巨大的表面积过滤掉。\n\n3. 纳米孔经过精确定位，可滤掉和吸附有害气体。\n\n在 30 立方米房间中的测试显示，使用全新家用过滤网 3 小时后，几乎可以过滤掉所有甲醛。</string>
     <string name="airborne_disease_heading">远离“飞”来横疾</string>
     <string name="airborne_disease_desc">人口密度的增加、全球化进程和抗药性加剧了通过空气传播疾病的发病率。 从办公室到各类公共场合，大大增加了人们罹患传染病的风险。\n\n飞利浦 VitaShield 微护盾可以滤除最低微观层级为 20 纳米的空气污染物，足够对付例如禽流感、流感病毒、军团杆菌等病原体和其他常见病原体。\n\n经测试，在 1 个小时之内，飞利浦 VitaShield 微护盾减少了 99.9% 的细菌 和病毒。</string>
-    <string name="outdoor_color_explained_intro">主要城市空气质量和PM2.5水平监测。来源：中国气象局（  <a href="http://www.cma.gov.cn">www.cma.gov.cn</a>）。</string>
+    <string name="outdoor_color_explained_intro">主要城市空气质量和PM2.5水平监测。来源：中国气象局（  <a href="http://www.cma.gov.cn">www.cma.gov.cn</a> ）。</string>  
     <string name="outdoor_hazardous">有害。 健康人士会感觉到活动耐力降低。 可能会出现严重过敏，空气质量可能会引发其他疾病。 老人和病人应呆在室内，避免运动。 健康人士应避免室外活动。</string>
     <string name="outdoor_unhealthy">非常不健康。 健康人士会受到明显影响。 呼吸系统或心脏有问题的人群会感觉到活动耐力降低。 这些人群和老人应呆在室内，减少活动量。</string>
     <string name="outdoor_moderately_polluted">不健康。 可能会出现一些过敏现象。 呼吸系统或心脏有问题的人应减少室外锻炼。</string>
@@ -332,7 +335,7 @@
     <string name="ews_intro_message2_str">为成功进行 Wi-Fi 连接，请将飞利浦智控净化器放置在路由器附近。墙壁等障碍物可能影响 Wi-Fi 性能。</string>
     <string name="get_start">使用入门</string>
     <string name="step1_off_3">步骤 1（共4 步）</string>
-    <string name="step20_off_3">步骤 2（共 4 步</string>
+    <string name="step20_off_3">步骤 2（共 4 步）</string>
     <string name="step2_off_3">步骤 3（共 4 步）</string>
     <string name="step3_off_3">步骤 4（共 4 步）</string>
     <string name="step1_instruction">确认 Wi-Fi 连接。</string>
@@ -373,7 +376,7 @@
     <string name="error_purifier_not_detect_btn_txt">请重试</string>
     <string name="no_network">没有 Wi-Fi 网络</string>
     <string name="yes">是</string>
-    <string name="ok">行</string>
+    <string name="ok">确定</string>
     <string name="no">否</string>
     <string name="save">保存</string>
     <string name="next"> 下一个</string>
@@ -397,7 +400,7 @@
     <string name="now">此时?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
     <string name="checking_signal_strength_title">正在将您的飞利浦智控净化器连接到  </string>
-    <string name="checking_signal_strength_message">这可能需要几秒钟。您将会自动重定向。</string>
+    <string name="checking_signal_strength_message">这可能需要几秒钟。页面将会自动跳转。</string>
     <string name="cancel_wifi_setup_title">是否确定要取消 Wi-Fi 设置？</string>
     <string name="cancel_wifi_setup_message">这将删除目前为止输入的所有数据。</string>
     <string name="check_signal_strenth_title">正在与您的空气净化器通信。</string>
@@ -406,9 +409,9 @@
     <string name="date_empty">--:--</string>
     <string name="alert_auto_network_switch_title">网络自动切换</string>
     <string name="alert_auto_network_switch_msg1">请至Wi-Fi高级设置中取消“网络自动切换或避免不良连接”功能</string>
-    <string name="verify_power_on_title">开启飞利浦智控空气净化器</string>
+    <string name="verify_power_on_title">开启飞利浦智控净化器</string>
     <string name="verify_power_on_msg1">请将飞利浦智控净化器接入电源，并按下开关开启净化器。</string>
-    <string name="verify_power_on_msg2">您的飞利浦智控空气净化器开启了吗？</string>
+    <string name="verify_power_on_msg2">您的飞利浦智控净化器开启了吗？</string>
     <string name="default_purifier_name">我的家</string>
     
     <!-- Tools fragments -->
@@ -546,7 +549,7 @@
     <string name="location_services_title">定位服务</string>
     <string name="location_services_text">请提供您的位置以便我们向您提供您所在方位的实时空气质量信息</string>
     <string name="location_services_turned_off_title">定位服务已关闭</string>
-    <string name="location_services_turned_off_text">开启定位服务您可以更准确地告知您的方位，以便我们向您提供空气质量信息实时更新</string>
+    <string name="location_services_turned_off_text">开启定位服务您可以更准确地告知您的方位，以便我们向您提供空气质量信息实时更新。</string>
     <string name="no_wifi_title">没有找到无线网络</string>
     <string name="no_wifi_text">若要继续请连接无线网络</string>
     <string name="do_not_allow">不允许</string>
@@ -557,15 +560,15 @@
     <string name="connect_your_purifier">连接您的净化器 </string>
     <string name="benefits_of_the_purifier">飞利浦智能空气净化器的益处 </string>
     <string name="did_you_know">您了解吗？</string>
-    <string name="did_you_know_text">该应用程序可为您提供不同位置的室外 AQI 以及有关空气质量的其他信息。</string>
-    <string name="continue_without_smart_air_purifier">在不连接智控空气净化器的情况下继续</string>
+    <string name="did_you_know_text">该应用程序可为您提供不同位置的室外空气质量指数以及有关空气质量的其它信息。</string>
+    <string name="continue_without_smart_air_purifier">在不连接智控净化器的情况下继续</string>
     <string name="purifier_connected_to_wlan">您的无线局域网 %s 下显示有不止一台智控空气净化器可供连接</string>
     <string name="or_add_new_purifier">或添加一台新智控空气净化器</string>
     <string name="add_that_one">添加此台</string>
     <string name="which_purifier_to_connect">请问您想要连接哪一台智控空气净化器呢？</string>
     <string name="searching">正在搜索智控空气净化器</string>
     <string name="are_you_adding">您需要添加一台从未连接过的空气净化器吗？</string>
-    <string name="your_new_purifier">您的智控空气净化器是新加入的，还没有连接到您的家庭网络哦。</string>
+    <string name="your_new_purifier">您的智控净化器是新加入的，还没有连接到您的家庭网络哦。</string>
     <string name="yes_it_is_new">是的，还未连接。</string>
     <string name="no_already_connected">不用，已经连接过了。</string>
     <string name="how_clean_is_your_air">您家中的空气有多洁净？</string>
