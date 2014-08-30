@@ -160,12 +160,12 @@
     <string name="indoor_aqi_very_unhealthy_tip1">Very high particle levels: PM2.5.</string>
     <!-- Outdoor details -->
     <string name="mask_od_msg1">Masks not needed</string>
-    <string name="openwindow_od_msg1">Open your windows for ventilation.</string>
-    <string name="advice_od_msg1">Great for outdoor activities.</string>
-    <string name="advice_od_msg3">Avoid outdoor activities.</string>
-    <string name="mask_od_msg2">Masks needed.</string>
-    <string name="openwindow_od_msg2">Don\'t open windows.</string>
-    <string name="advice_od_msg2">Hyper-sensitive people should reduce activities.</string>
+    <string name="openwindow_od_msg1">Open your windows for ventilation</string>
+    <string name="advice_od_msg1">Great for outdoor activities</string>
+    <string name="advice_od_msg3">Avoid outdoor activities</string>
+    <string name="mask_od_msg2">Masks needed</string>
+    <string name="openwindow_od_msg2">Don\'t open windows</string>
+    <string name="advice_od_msg2">Hyper-sensitive people should reduce activities</string>
     <!-- Outdoor Detail Tips -->
     <string name="outdoor_aqi_good_tip1"> Great for outdoor activities. Open your windows for ventilation.</string>
     <string name="outdoor_aqi_good_tip2">Clean air, little or no risk to health. Enjoy your usual outdoor activities.</string>
@@ -214,12 +214,12 @@
     <string name="outdoor_aiq_analysis_head3">Correlation between indoor and outdoor air quality, and how they are measured</string>
     <string name="outdoor_aiq_analysis_head4">Indoor air quality explained</string>
     <string name="outdoor_aiq_analysis_head5">Outdoor air quality explained</string>
-    <string name="outdoor_aiq_analysis_title1">300+</string>
-    <string name="outdoor_aiq_analysis_title2">201&#8211;300</string>
-    <string name="outdoor_aiq_analysis_title3">151&#8211;200</string>
-    <string name="outdoor_aiq_analysis_title4">101&#8211;150</string>
-    <string name="outdoor_aiq_analysis_title5">51&#8211;100</string>
-    <string name="outdoor_aiq_analysis_title6">0&#8211;50</string>
+    <string name="outdoor_aiq_analysis_title1">300+, Hazardous</string>
+    <string name="outdoor_aiq_analysis_title2">201&#8211;300, Unhealthy</string>
+    <string name="outdoor_aiq_analysis_title3">151&#8211;200, Moderately polluted</string>
+    <string name="outdoor_aiq_analysis_title4">101&#8211;150, Slightly polluted</string>
+    <string name="outdoor_aiq_analysis_title5">51&#8211;100, Moderate</string>
+    <string name="outdoor_aiq_analysis_title6">0&#8211;50, Good</string>
     <string name="indoor_aiq_analysis_title1">4+</string>
     <string name="indoor_aiq_analysis_title2">3&#8211;4</string>
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
@@ -310,7 +310,7 @@
     <string name="vistashield_features">1. Active carbon coating traps formaldehyde on the outside surface.\n\n2. Each gram of active carbon has a surface area of  around 1000m2. Many pollutants are filtered by this enormous surface area.\n\n3. Nano-pores are precisely positioned to block and collect hazardous gases.\n\nTest conducted in a 30M³ room reveal that almost all formaldehyde is removed after using the New Home filter for three hours.</string>
     <string name="airborne_disease_heading">Protects against airborne diseases</string>
     <string name="airborne_disease_desc">Increasing population density, globalisation and drug resistance lead to high incidence of airborne disease. From workplaces to  public areas, we are getting more vulnerable to epidemic disease.\n\nThe Philips VitaShield IPS  traps pollutants down to a microscopic level of just 20 nanometres, removing bird flu and influenza virus, legionnella and other common pathogens.\n\nTest results indicate a reduction of 99.9% of bacteria and viruses within one hour of using the Philips VitaShield IPS</string>
-    <string name="outdoor_color_explained_intro">Check air quality and PM2.5 levels in major cities.</string>
+    <string name="outdoor_color_explained_intro">Check air quality and PM2.5 level in major cities. Source: China Meteorological Administration (中国气象局):<a href="http://www.cma.gov.cn">www.cma.gov.cn</a>.</string>
     <string name="outdoor_hazardous">Hazardous. Healthy people will experience reduced endurance in activities. There may be significant irritation and air quality may trigger other illnesses. The elderly and sick should remain indoors and avoid exercise. Healthy individuals should avoid outdoor activities.</string>
     <string name="outdoor_unhealthy">Very unhealthy. Healthy people will be noticeably affected. People with breathing or heart problems will experience reduced endurance in activities. These individuals and the elderly should remain indoors and restrict activities.</string>
     <string name="outdoor_moderately_polluted">Unhealthy. Some slight irritation may occur.  Individuals with breathing or heart problems should reduce outdoor exercise.</string>
@@ -438,7 +438,6 @@
     <!-- <string name="days">Days</string> -->
     <string name="edit">Edit</string>
     <string name="enable">Enable</string>
-    <!-- <string name="repeat">Repeat</string> -->
     <string name="time">Time</string>
     <string name="days2">Days</string>
     <string name="onetime">One Time</string>

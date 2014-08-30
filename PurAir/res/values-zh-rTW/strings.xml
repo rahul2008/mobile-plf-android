@@ -212,12 +212,12 @@
     <string name="outdoor_aiq_analysis_head3">室內和室外空氣水平的關係，以及它們是如何測量出來的</string>
     <string name="outdoor_aiq_analysis_head4">室內空氣質素 已解釋</string>
     <string name="outdoor_aiq_analysis_head5">室外空氣質素 已解釋</string>
-    <string name="outdoor_aiq_analysis_title1">300+</string>
-    <string name="outdoor_aiq_analysis_title2">201&#8211;300</string>
-    <string name="outdoor_aiq_analysis_title3">151&#8211;200</string>
-    <string name="outdoor_aiq_analysis_title4">101&#8211;150</string>
-    <string name="outdoor_aiq_analysis_title5">51&#8211;100</string>
-    <string name="outdoor_aiq_analysis_title6">0&#8211;50</string>
+    <string name="outdoor_aiq_analysis_title1">300+, 重污染</string>
+    <string name="outdoor_aiq_analysis_title2">201&#8211;300, 中度污染</string>
+    <string name="outdoor_aiq_analysis_title3">151&#8211;200, 輕度污染</string>
+    <string name="outdoor_aiq_analysis_title4">101&#8211;150, 輕微污染</string>
+    <string name="outdoor_aiq_analysis_title5">51&#8211;100, 良</string>
+    <string name="outdoor_aiq_analysis_title6">0&#8211;50, 優</string>
     <string name="indoor_aiq_analysis_title1">4+</string>
     <string name="indoor_aiq_analysis_title2">3&#8211;4</string>
     <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
@@ -308,7 +308,7 @@
     <string name="vistashield_features">1. 第一層，活性炭表面，能與甲醛粒子產生反應並緊緊附在外層。\n\n2. 第二層，每克活性炭含1000m2的巨大表面積，過濾掉大量的污染物。\n\n3. 第三層，精確設計的納米孔，能將危險氣體卡住並儲存起來。\n\n實驗證明，在一個30m3的空間內，甲醛含量在使用新家空氣篩檢程式3小時後被幾乎完全淨化。（如圖）</string>
     <string name="airborne_disease_heading">預防空氣傳播的疾病</string>
     <string name="airborne_disease_desc">不斷上升的人口密度、全球化和病毒耐藥性導致空氣傳播疾病的高病發率。無論是工作場所還是公共場所，我們越來越容易感染傳染病。\n\n飛利浦VitaShield 微護盾可以濾除最低微觀層級為20納米的空氣污染物，足夠對付例如禽流感、流感病毒、軍團桿菌等病原體和其他常見病原體。\n\n經測試，在1個小時之內，VitaShield微護盾減少了99.99%的細菌和病毒。（如圖）</string>
-    <string name="outdoor_color_explained_intro">看看各主要城市的空氣質素及 PM2.5 等級。</string>
+    <string name="outdoor_color_explained_intro">主要城市空氣質量和PM2.5水平監測。來源：中國氣象局（ <a href="http://www.cma.gov.cn">www.cma.gov.cn</a> ）。</string>
     <string name="outdoor_hazardous">有害。身體健康的人會感受到運動持久力下降。可能會有顯著的敏感反應，空氣質素可能會引發其他疾病。長者和病人應留在室內，避免運動。身體健康人士應避免戶外活動。</string>
     <string name="outdoor_unhealthy">非常不健康。身體健康的人士將會受到明顯的影響。患有呼吸或心臟問題的人士將感受到活動持久力下降。這些人士和長者應留在室內，避免進行活動。</string>
     <string name="outdoor_moderately_polluted">不健康。可能會出現輕微的敏感反應。有呼吸或心臟問題的人士，應減少戶外運動。</string>
