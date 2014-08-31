@@ -15,27 +15,27 @@ public class OutdoorAQITest extends TestCase{
 	
 	public void testGetAqiTitleCase1() {
 		OutdoorAQI outdoorDto = new OutdoorAQI(10, 25, 0, 0, 0, null, null);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.good), outdoorDto.getAqiTitle());
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.good_outdoor), outdoorDto.getAqiTitle());
 	}
 	
 	public void testGetAqiTitleCase2() {
 		OutdoorAQI outdoorDto = new OutdoorAQI(10, 75, 0, 0, 0, null, null);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.moderate), outdoorDto.getAqiTitle());
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.moderate_outdoor), outdoorDto.getAqiTitle());
 	}
 	
 	public void testGetAqiTitleCase3() {
 		OutdoorAQI outdoorDto = new OutdoorAQI(10, 125, 0, 0, 0, null, null);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.unhealthy_for_sensitive_groups), outdoorDto.getAqiTitle());
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.slightly_polluted_outdoor), outdoorDto.getAqiTitle());
 	}
 	
 	public void testGetAqiTitleCase4() {
 		OutdoorAQI outdoorDto = new OutdoorAQI(10, 175, 0, 0, 0, null, null);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.unhealthy), outdoorDto.getAqiTitle());
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.moderately_polluted_outdoor), outdoorDto.getAqiTitle());
 	}
 	
 	public void testGetAqiTitleCase5() {
 		OutdoorAQI outdoorDto = new OutdoorAQI(10, 225, 0, 0, 0, null, null);
-		assertEquals(PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split), outdoorDto.getAqiTitle());
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.unhealthy_outdoor), outdoorDto.getAqiTitle());
 	}
 	
 	public void testGetAqiTitleCase6() {
