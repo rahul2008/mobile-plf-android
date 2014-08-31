@@ -80,6 +80,8 @@ public class OutdoorLocationHandler {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
 									+ e.getMessage());
+				} finally {
+					handler.sendEmptyMessage(0);// TODO change
 				}
 			}
 		}).start();
@@ -95,15 +97,16 @@ public class OutdoorLocationHandler {
 					OutdoorLocationDatabase database = new OutdoorLocationDatabase();
 
 					database.open();
-					database.updateOutdoorLocationShortListItem(areaId,
-							selected);
+					
+					database.updateOutdoorLocationShortListItem(areaId,	selected);
 					database.close();
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
 									+ e.getMessage());
+				} finally {
+					handler.sendEmptyMessage(0);// TODO change
 				}
-				handler.sendEmptyMessage(0);// TODO change
 			}
 		}).start();
 	}
@@ -118,8 +121,7 @@ public class OutdoorLocationHandler {
 
 				try {
 					database.open();
-					Cursor cursor = database
-							.getDataFromOutdoorLoacation(selection);
+					Cursor cursor = database.getDataFromOutdoorLoacation(selection);
 					database.close();
 					if (cityListener != null) {
 						cityListener.onCityLoad(cursor);
@@ -128,6 +130,8 @@ public class OutdoorLocationHandler {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
 									+ e.getMessage());
+				} finally {
+					handler.sendEmptyMessage(0);// TODO change
 				}
 			}
 		}).start();
@@ -144,12 +148,12 @@ public class OutdoorLocationHandler {
 					database.open();
 					database.fillDatabaseForCSV();
 					database.close();
-					handler.sendEmptyMessage(0);
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: "
 									+ e.getMessage());
-					handler.sendEmptyMessage(1);
+				} finally {
+					handler.sendEmptyMessage(0);// TODO change
 				}
 			}
 		}).start();
@@ -188,6 +192,7 @@ public class OutdoorLocationHandler {
 				mDatabaseHelper = new DatabaseHelper(
 						PurAirApplication.getAppContext());
 				open();
+				
 				String filterText = null;
 				Cursor cursor = null;
 				cursor = mOutdoorLocationDatabase.query(true,

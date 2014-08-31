@@ -59,7 +59,7 @@ public class OutdoorLocationDatabase {
 	
 	public synchronized void close() {
 		try {
-			if (mOutdoorLocationDatabase.isOpen()) {
+			if (mOutdoorLocationDatabase != null && mOutdoorLocationDatabase.isOpen()) {
 				mOutdoorLocationDatabase.close();
 			}
 		} catch (SQLiteConstraintException e) {
@@ -85,6 +85,8 @@ public class OutdoorLocationDatabase {
     		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101010100");
     		
     		long rowID = -1;
+    		
+    		if (mOutdoorLocationDatabase == null) return;//Due to synchronized DB open null
     		
 	        mOutdoorLocationDatabase.beginTransaction();
 	        try {
@@ -131,7 +133,7 @@ public class OutdoorLocationDatabase {
 	 */
 	public synchronized Cursor getDataFromOutdoorLoacation(String filterText) {
 		Log.d(TAG, "Text to filter: " + filterText);
-
+		if (mOutdoorLocationDatabase == null) return null; //Due to synchronized DB open null
 		Cursor cursor = null;
 		try {
 			if (filterText == null  ||  filterText.length () == 0)  {
@@ -154,6 +156,7 @@ public class OutdoorLocationDatabase {
 	}
 	
 	public synchronized Cursor getDataCurrentLoacation(String areaID) {
+		if (mOutdoorLocationDatabase == null) return null;//Due to synchronized DB open null
 		try {
 			Cursor cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
 					AppConstants.KEY_AREA_ID + "= ?", new String[]{areaID}, null, null, null, null);
@@ -172,6 +175,7 @@ public class OutdoorLocationDatabase {
 	 * @param outdoorLocation location that needs to be updated
 	 */
 	public synchronized void updateOutdoorLocationShortListItem(String areaId, boolean inShortList) {
+		if (mOutdoorLocationDatabase == null) return;
 		try {
 			ContentValues values = new ContentValues();
 			if (inShortList) {
@@ -217,6 +221,8 @@ public class OutdoorLocationDatabase {
 
 		String outdoorLocation = "";
 		StringTokenizer stringTokenizer = null;
+		
+		if (mOutdoorLocationDatabase == null) return;//Due to synchronized DB open null
 
 		mOutdoorLocationDatabase.beginTransaction();
 		try {
