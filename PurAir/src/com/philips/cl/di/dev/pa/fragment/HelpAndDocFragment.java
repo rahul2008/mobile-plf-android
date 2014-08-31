@@ -32,7 +32,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		TextView lblPhilipsSupport=(TextView) rootView.findViewById(R.id.lbl_philips_support);
 		TextView lblCallUs=(TextView) rootView.findViewById(R.id.lbl_call_us);
 		TextView lblSupport=(TextView) rootView.findViewById(R.id.lbl_support);	
-		TextView lblOpensource = (TextView) rootView.findViewById(R.id.opensource_lb);
+		//TODO 
+//		TextView lblOpensource = (TextView) rootView.findViewById(R.id.opensource_lb);
 		
 		lblAppTutorial.setTypeface(Fonts.getGillsans(getActivity()));		
 		lblFAQ.setTypeface(Fonts.getGillsans(getActivity()));
@@ -40,7 +41,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		lblPhilipsSupport.setTypeface(Fonts.getGillsans(getActivity()));
 		lblCallUs.setTypeface(Fonts.getGillsans(getActivity()));
 		lblSupport.setTypeface(Fonts.getGillsans(getActivity()));	
-		lblOpensource.setTypeface(Fonts.getGillsans(getActivity()));	
+		//TODO 
+//		lblOpensource.setTypeface(Fonts.getGillsans(getActivity()));	
 		
 		lblAppTutorial.setOnClickListener(this);
 		
@@ -52,7 +54,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		
 		lblFAQ.setOnClickListener(this);
 		lblUserManual.setOnClickListener(this);
-		lblOpensource.setOnClickListener(this);
+		//TODO 
+//		lblOpensource.setOnClickListener(this);
 	}	
 	
 
@@ -79,10 +82,10 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			faq.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
 			startActivity(faq);
 			break;
-		
-		case R.id.opensource_lb:
-			getActivity().startActivity(new Intent(getActivity(), OpenSourceLibLicensActivity.class));
-			break;
+		//TODO 
+//		case R.id.opensource_lb:
+//			getActivity().startActivity(new Intent(getActivity(), OpenSourceLibLicensActivity.class));
+//			break;
 			
 		default:
 			break;
