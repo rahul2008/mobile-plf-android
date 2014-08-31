@@ -261,6 +261,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		@Override
 		public void onClick(View v) {
 			if (v.getId() == R.id.hf_indoor_dashboard_btn_connect) {
+				ConnectPurifier.reset();
 				ConnectPurifier.getInstance(getActivity()).startAddPurifierToAppFlow();
 			} else if (v.getId() == R.id.hf_indoor_dashboard_btn_play) {
 				//TODO play video link
