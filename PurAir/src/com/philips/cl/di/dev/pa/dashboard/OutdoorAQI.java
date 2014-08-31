@@ -60,17 +60,17 @@ public class OutdoorAQI implements  Serializable {
 
 	public String getAqiTitle() {
 		if(p2 >= 0 && p2 <= 50) {
-			return PurAirApplication.getAppContext().getString(R.string.good);
+			return PurAirApplication.getAppContext().getString(R.string.good_outdoor);
 		} else if(p2 > 50 && p2 <= 100) {
-			return PurAirApplication.getAppContext().getString(R.string.moderate);
+			return PurAirApplication.getAppContext().getString(R.string.moderate_outdoor);
 		} else if(p2 > 100 && p2 <= 150) {
-			return PurAirApplication.getAppContext().getString(R.string.unhealthy_for_sensitive_groups);
+			return PurAirApplication.getAppContext().getString(R.string.slightly_polluted_outdoor);
 		} else if(p2 > 150 && p2 <= 200) {
-			return PurAirApplication.getAppContext().getString(R.string.unhealthy);
+			return PurAirApplication.getAppContext().getString(R.string.moderately_polluted_outdoor);
 		} else if(p2 > 200 && p2 <= 300) {
-			return PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split);
+			return PurAirApplication.getAppContext().getString(R.string.unhealthy_outdoor);
 		} else if(p2 > 300) {
-			return PurAirApplication.getAppContext().getString(R.string.hazardous);
+			return PurAirApplication.getAppContext().getString(R.string.hazardous_outdoor);
 		}
 		return "";
 	}

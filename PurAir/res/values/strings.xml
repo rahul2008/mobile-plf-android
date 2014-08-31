@@ -88,6 +88,20 @@
     <string name="very_unhealthy">Very unhealthy</string>
     <string name="very_unhealthy_split">Very \n unhealthy</string>
     <string name="hazardous">Hazardous</string>
+    
+    <string name="good_indoor">Good</string>
+    <string name="moderate_indoor">Moderate</string>
+    <string name="unhealthy_indoor">Unhealthy</string>
+    <string name="very_unhealthy_indoor">Very unhealthy</string>
+    <string name="very_unhealthy_split_indoor">Very \n unhealthy</string>
+    
+    <string name="good_outdoor">Good</string>
+    <string name="moderate_outdoor">Moderate</string>
+    <string name="slightly_polluted_outdoor">Slightly polluted</string>
+    <string name="moderately_polluted_outdoor">Moderately polluted</string>
+    <string name="unhealthy_outdoor">Unhealthy</string>
+    <string name="hazardous_outdoor">Hazardous</string>
+    
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">App tutorial</string>
     <string name="subtitle_FAQ">FAQ</string>

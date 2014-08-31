@@ -109,13 +109,13 @@ public class IndoorDashboardUtils {
 
 	public static int getAqiTitle(int indoorAqi) {
 		if (indoorAqi >= 0 && indoorAqi <= 14) {
-			return R.string.good;
+			return R.string.good_indoor;
 		} else if (indoorAqi > 14 && indoorAqi <= 23) {
-			return R.string.moderate;
+			return R.string.moderate_indoor;
 		} else if (indoorAqi > 23 && indoorAqi <= 35) {
-			return R.string.unhealthy;
+			return R.string.unhealthy_indoor;
 		} else if (indoorAqi > 35) {
-			return R.string.very_unhealthy_split;
+			return R.string.very_unhealthy_split_indoor;
 		}
 		return R.string.empty_string;
 	}

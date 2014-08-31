@@ -26,10 +26,10 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 	 * strings for group elements
 	 */
 	private static final int ARR_GROUP_ELEMENTS[] ={
-		R.string.very_unhealthy,
-		R.string.unhealthy,
-		R.string.moderate,
-		R.string.good
+		R.string.very_unhealthy_indoor,
+		R.string.unhealthy_indoor,
+		R.string.moderate_indoor,
+		R.string.good_indoor
 	};
 
 	/**

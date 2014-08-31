@@ -25,12 +25,12 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 	 * strings for group elements
 	 */
 	private static final int ARR_GROUP_ELEMENTS[] ={
-		R.string.hazardous,
-		R.string.very_unhealthy,
-		R.string.unhealthy,
-		R.string.unhealthy_for_sensitive_groups,
-		R.string.moderate,
-		R.string.good
+		R.string.hazardous_outdoor,
+		R.string.unhealthy_outdoor,
+		R.string.moderately_polluted_outdoor,
+		R.string.slightly_polluted_outdoor,
+		R.string.moderate_outdoor,
+		R.string.good_outdoor
 	};
 
 	/**

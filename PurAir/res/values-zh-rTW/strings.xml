@@ -86,6 +86,20 @@
     <string name="very_unhealthy">非常不健康</string>
     <string name="very_unhealthy_split">非常 \n 不健康</string>
     <string name="hazardous">重污染 </string>
+    
+    <string name="good_indoor">優</string>
+    <string name="moderate_indoor">良</string>
+    <string name="unhealthy_indoor">不健康</string>
+    <string name="very_unhealthy_indoor">非常不健康</string>
+    <string name="very_unhealthy_split_indoor">非常不健康</string>
+    
+    <string name="good_outdoor">優</string>
+    <string name="moderate_outdoor">良</string>
+    <string name="slightly_polluted_outdoor">輕微污染</string>
+    <string name="moderately_polluted_outdoor">輕度污染</string>
+    <string name="unhealthy_outdoor">中度污染</string>
+    <string name="hazardous_outdoor">重污染 </string>
+    
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">應用程式教程</string>
     <string name="subtitle_FAQ">常見問題</string>

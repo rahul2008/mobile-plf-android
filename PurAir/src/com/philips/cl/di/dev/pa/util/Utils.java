@@ -732,16 +732,16 @@ public class Utils {
 	public static String[] getAQIStatusAndSummary(int indoorAQI) {
 		String [] aqiStatusArray = new String[2] ;
 		if(indoorAQI > -1 && indoorAQI <= 14) {
-			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.good) ;
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.good_indoor) ;
 			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_good_tip1) ;
 		} else if(indoorAQI > 14 && indoorAQI <= 23) {
-			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.moderate) ;
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.moderate_indoor) ;
 			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_moderate_tip1) ;
 		} else if(indoorAQI > 23 && indoorAQI <= 35) {
-			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.unhealthy) ;
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.unhealthy_indoor) ;
 			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_unhealthy_tip1) ;
 		} else if(indoorAQI > 35) {
-			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split) ;
+			aqiStatusArray[0] = PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split_indoor) ;
 			aqiStatusArray[1] = PurAirApplication.getAppContext().getString(R.string.indoor_aqi_very_unhealthy_tip1) ;
 		}
 		return aqiStatusArray;
