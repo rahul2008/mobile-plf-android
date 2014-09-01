@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.graphics.Path.FillType;
 import android.os.Handler;
 import android.os.Message;
 
@@ -97,7 +98,7 @@ public class OutdoorLocationHandler {
 					OutdoorLocationDatabase database = new OutdoorLocationDatabase();
 
 					database.open();
-					
+
 					database.updateOutdoorLocationShortListItem(areaId,	selected);
 					database.close();
 				} catch (SQLiteException e) {
@@ -147,7 +148,9 @@ public class OutdoorLocationHandler {
 				try {
 					database.open();
 					database.fillDatabaseForCSV();
+					fetchAllCityList(database) ;
 					database.close();
+
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: "
@@ -164,67 +167,27 @@ public class OutdoorLocationHandler {
 	}
 
 	private DatabaseHelper mDatabaseHelper = null;
-	private SQLiteDatabase mOutdoorLocationDatabase = null;
+	private SQLiteDatabase mOutdoorLocationDatabase ;
 	private static final String[] mTableColumns = new String[] {
-			AppConstants.KEY_ID, AppConstants.KEY_CITY,
-			AppConstants.KEY_AREA_ID, AppConstants.KEY_LONGITUDE,
-			AppConstants.KEY_LATITUDE, AppConstants.KEY_CITY_CN,
-			AppConstants.KEY_SHORTLIST, AppConstants.KEY_CITY_TW };
+		AppConstants.KEY_ID, AppConstants.KEY_CITY,
+		AppConstants.KEY_AREA_ID, AppConstants.KEY_LONGITUDE,
+		AppConstants.KEY_LATITUDE, AppConstants.KEY_CITY_CN,
+		AppConstants.KEY_SHORTLIST, AppConstants.KEY_CITY_TW };
 
 	public interface DashBoardDataFetchListener {
 		void isCompleted(boolean isCompleted);
 	}
 
-	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
-
-	public static void setDashBoardDataFetch(
-			DashBoardDataFetchListener dashBoardListener) {
-		dashBoardDataFetchListener = dashBoardListener;
-	}
-
-	public synchronized void fetchAllCityList() {
-
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-
-				mDatabaseHelper = new DatabaseHelper(
-						PurAirApplication.getAppContext());
-				open();
-				
-				String filterText = null;
-				Cursor cursor = null;
-				cursor = mOutdoorLocationDatabase.query(true,
-						AppConstants.TABLE_CITYDETAILS, mTableColumns,
-						filterText, null, null, null, AppConstants.KEY_CITY
-								+ " ASC", null);
-
-				if (dashBoardDataFetchListener != null) {
-					dashBoardDataFetchListener.isCompleted(true);
-				}
-
-				fillAllCitiesListFromDatabase(cursor);
-
-				close();
-			}
-		}).start();
-	}
-
-	public synchronized void open() {
-		if (mOutdoorLocationDatabase == null
-				|| !mOutdoorLocationDatabase.isOpen()) {
-			mOutdoorLocationDatabase = mDatabaseHelper.getWritableDatabase();
+	public static synchronized void fetchAllCityList(final OutdoorLocationDatabase database) {
+		if(OutdoorManager.getInstance().getAllCitiesList() != null 
+				&& OutdoorManager.getInstance().getAllCitiesList().size() <= 0){
+			Cursor cursor = database.getDataFromOutdoorLoacation(null);
+			fillAllCitiesListFromDatabase(cursor);
 		}
+
 	}
 
-	public synchronized void close() {
-		if (mOutdoorLocationDatabase.isOpen()) {
-			mOutdoorLocationDatabase.close();
-		}
-	}
-
-	private synchronized void fillAllCitiesListFromDatabase(Cursor cursor) {
+	private static synchronized void fillAllCitiesListFromDatabase(Cursor cursor) {
 
 		if (cursor != null && cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -244,7 +207,7 @@ public class OutdoorLocationHandler {
 
 				ALog.i(ALog.OUTDOOR_LOCATION,
 						"Add cities from DB to outdoor dashboard city " + city
-								+ " areaID " + areaID);
+						+ " areaID " + areaID);
 				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN,
 						cityTW, longitude, latitude, areaID);
 				OutdoorManager.getInstance().addAreaIdToAllCitiesList(areaID);

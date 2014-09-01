@@ -212,20 +212,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
 
-		if(OutdoorManager.getInstance().getAllCitiesList() != null 
-				&& OutdoorManager.getInstance().getAllCitiesList().size() <= 0){
-			mIntent = new Intent("com.philips.cl.di.dev.pa.util.DataBaseService");
-			startService(mIntent);
-			dashBoardDataFetchListener = new DashBoardDataFetchListener() {
-
-				@Override
-				public void isCompleted(boolean isCompleted) {
-					ALog.i("testing","MainActivity Now comeplte your DB Service isCompelted : " + isCompleted);
-					stopService(mIntent);
-				}
-			};
-			OutdoorLocationHandler.setDashBoardDataFetch(dashBoardDataFetchListener);
-		}
 	}
 
 	private void selectPurifier() {
