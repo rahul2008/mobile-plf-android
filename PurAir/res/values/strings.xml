@@ -234,10 +234,10 @@
     <string name="outdoor_aiq_analysis_title4">101&#8211;150, Slightly polluted</string>
     <string name="outdoor_aiq_analysis_title5">51&#8211;100, Moderate</string>
     <string name="outdoor_aiq_analysis_title6">0&#8211;50, Good</string>
-    <string name="indoor_aiq_analysis_title1">4+</string>
-    <string name="indoor_aiq_analysis_title2">3&#8211;4</string>
-    <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
-    <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
+    <string name="indoor_aiq_analysis_title1">4+, Very unhealthy</string>
+    <string name="indoor_aiq_analysis_title2">3&#8211;4, Unhealthy</string>
+    <string name="indoor_aiq_analysis_title3">2&#8211;3, Moderate</string>
+    <string name="indoor_aiq_analysis_title4">1&#8211;2, Good</string>
     <string name="outdoor_analysis_detail1_head1">\'How much good air did you have?\' explained</string>
     <string name="outdoor_analysis_detail2_head100">During the last day, 7 days, or 4 weeks, amount of indoor air rated as \'%1$s\' by your Philips Smart Air Purifier and outdoor air rated as \'%2$s\' by outdoor sensors.</string>
     <string name="outdoor_analysis_detail_head2">If 1&#8211;2 for one hour or longer, then the PM2.5 level is expected to be lower than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre. If level above 2 for one hour or longer, then PM2.5 is expected to be higher than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre.</string>
@@ -365,7 +365,7 @@
     <string name="step1_msg1">You are currently using</string>
     <string name="step2_msg1">Press Power and Childlock buttons simultaneously until the Wi-Fi LED is</string>
     <string name="step2_msg2">Is the Wi-Fi LED</string>
-    <string name="orange">ORANGE</string>
+    <string name="orange">" "ORANGE</string>
     <string name="step3_msg1">Enter the password for</string>
     <string name="step3_msg2">In which room will you place the Philips Smart Air Purifier (e.g. the living room)?</string>
     <string name="congratulation_msg">Your Philips Smart Air Purifier is now connected to your home Wi-Fi network and paired with your phone.</string>

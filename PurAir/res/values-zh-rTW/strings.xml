@@ -232,10 +232,11 @@
     <string name="outdoor_aiq_analysis_title4">101&#8211;150, 輕微污染</string>
     <string name="outdoor_aiq_analysis_title5">51&#8211;100, 良</string>
     <string name="outdoor_aiq_analysis_title6">0&#8211;50, 優</string>
-    <string name="indoor_aiq_analysis_title1">4+</string>
-    <string name="indoor_aiq_analysis_title2">3&#8211;4</string>
-    <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
-    <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
+    
+    <string name="indoor_aiq_analysis_title1">4+, 非常不健康</string>
+    <string name="indoor_aiq_analysis_title2">3&#8211;4, 不健康</string>
+    <string name="indoor_aiq_analysis_title3">2&#8211;3, 良</string>
+    <string name="indoor_aiq_analysis_title4">1&#8211;2, 優</string>
     <string name="outdoor_analysis_detail1_head1">\'您室内擁有良好空氣的量是多少？\'已解釋</string>
     <string name="outdoor_analysis_detail2_head100">在過去的一天，一周，或一月內，您的飛利浦智控淨化器檢測到您家中的空氣水平為“%1$s”。經室外檢測器檢測，您所在位置的室外空氣質量為“%2$s”。</string>
     <string name="outdoor_analysis_detail_head2">如為 1-2 級別一個小時或以上，PM2.5 水平預算為低於中國 AQI 標準，即室外空氣每立方米 75 微克。如為 2 以上級別一個小時或以上，PM2.5 水平預算為高於中國 AQI 標準，即室外空氣每立方米 75 微克。</string>
@@ -353,7 +354,7 @@
     <string name="step3_instruction">連接 Philips 智能空氣清新機到家庭的 Wi-Fi 網絡。</string>
     <string name="step1_msg1">可即使用</string>
     <string name="step2_msg1">若 Wi-Fi LED 燈號呈現以下顏色，請同時按住 [電源] 及 [兒童鎖] 鍵：</string>
-    <string name="step2_msg2">LED 燈是否已轉為橙色？</string>
+    <string name="step2_msg2">LED 燈是否已轉為橙色</string>
     <string name="orange">橙色</string>
     <string name="step3_msg1">輸入密碼</string>
     <string name="step3_msg2">您會把 Philips 智能空氣清新機放於哪個房間（例如客廳）？</string>

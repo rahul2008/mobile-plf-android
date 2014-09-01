@@ -165,7 +165,7 @@
     <string name="aqi_history_download_failed">AQI历史数据下载失败！</string>
     <string name="aqi_history_not_avialable">无法获取空气质量指数历史数据！</string>
     <string name="indoor_db">室內</string>
-    <string name="outdoor_db">戶外</string>
+    <string name="outdoor_db">室外</string>
     <string name="current_location">当前位置</string>
     <string name="title_outdoor_db">室外仪表板</string>
     <string name="outdoor_search_hint">输入地名</string>
@@ -236,10 +236,11 @@
     <string name="outdoor_aiq_analysis_title4">101&#8211;150, 轻微污染</string>
     <string name="outdoor_aiq_analysis_title5">51&#8211;100, 良</string>
     <string name="outdoor_aiq_analysis_title6">0&#8211;50, 优</string>
-    <string name="indoor_aiq_analysis_title1">4+</string>
-    <string name="indoor_aiq_analysis_title2">3&#8211;4</string>
-    <string name="indoor_aiq_analysis_title3">2&#8211;3</string>
-    <string name="indoor_aiq_analysis_title4">1&#8211;2</string>
+    
+    <string name="indoor_aiq_analysis_title1">4+, 非常不健康</string>
+    <string name="indoor_aiq_analysis_title2">3&#8211;4, 不健康</string>
+    <string name="indoor_aiq_analysis_title3">2&#8211;3, 良</string>
+    <string name="indoor_aiq_analysis_title4">1&#8211;2, 优</string>
     <string name="outdoor_analysis_detail1_head1">\'您呼吸了多少新鲜空气？\'说明</string>
     <string name="outdoor_analysis_detail2_head100">在过去的一天，一周，或一月内，您的飞利浦智控净化器检测到您家中的空气水平为“%1$s”。经室外探测器检测，您所在位置的室外空气质量为“%2$s”。</string>
     <string name="outdoor_analysis_detail_head2">如果 1&#8211;2 级持续 1 小时或更长时间，则预计 PM2.5 水平会低于中国 AQI 规定的 75 微克/u002F立方米 的室外空气标准。如果 2 级以上持续 1 小时或更长时间，则预计 PM2.5 级别会高于中国 AQI 规定的 75 微克/u002F立方米的室外空气标准。</string>
@@ -269,7 +270,7 @@
     <string name="notification_send_aqi_level_msg">正在发送选定的 AQI 级别，请稍候..</string>
     <string name="notification_error_msg">出错了，请再试一次。</string>
     <string name="notification_front_panel_title">前面板</string> 
-    <string name="notification_front_panel_desc">当前面板打开时您会收到通知</string>
+    <string name="notification_front_panel_desc">当前面板打开时您会收到通知。</string>
     <string name="error_aqithreshold_setting">您设置AQI上限时出现错误。</string>
     <string name="notification_notpaired_title">远程遥控功能被禁用</string>
     <string name="notification_notpaired_text">只有在启用远程遥控功能时才可以设置‘通知’功能。您可以从控制面板上启用远程遥控功能。</string>
@@ -357,8 +358,8 @@
     <string name="step3_instruction">将飞利浦智控净化器连接到您的家庭 Wi-Fi 网络。</string>
     <string name="step1_msg1">您目前正在使用</string>
     <string name="step2_msg1">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变为</string>
-    <string name="step2_msg2">Wi-Fi LED 是否</string>
-    <string name="orange">橙色</string>
+    <string name="step2_msg2">Wi-Fi 指示灯是否变为</string>
+    <string name="orange">橙</string>
     <string name="step3_msg1">输入密码</string>
     <string name="step3_msg2">您将在哪个房间放置飞利浦智控净化器（例如起居室）？</string>
     <string name="congratulation_msg">您的飞利浦智控净化器现已连接到您的家庭 Wi-Fi 网络，并已与您的手机配对。</string>
@@ -369,7 +370,7 @@
     <string name="connect_2_network_msg2">离开应用程序之前，请先阅读所有 3 个步骤。</string>
     <string name="connect_2_network_msg3">轻击手机设置中的 Wi-Fi。</string>
     <string name="connect_2_network_msg4">选择您的家庭网络。</string>
-    <string name="connect_2_network_msg5">返回至飞利浦智控净化器应用程序。</string>
+    <string name="connect_2_network_msg5">返回至飞利浦智能空气应用程序。</string>
     <string name="error_ssid_msg1">确保手机已连接至</string>
     <string name="contact_philips_support_msg1">飞利浦智控净化器无法激活设置模式。</string>
     <string name="contact_philips_support_msg1_3attempt">连接失败3次.</string>
@@ -393,7 +394,7 @@
     <string name="ok">确定</string>
     <string name="no">否</string>
     <string name="save">保存</string>
-    <string name="next"> 下一个</string>
+    <string name="next">下一步</string>
     <string name="ip">IP 地址</string>
     <string name="subnet">子网掩码</string>
     <string name="router">路由器</string>
@@ -410,8 +411,8 @@
     <string name="support_ts01_message">拔掉飞利浦智控净化器的插头。</string>
     <string name="support_ts02_message">等待15秒钟之后请您再次将空气净化器接入电源并开启。</string>
     <string name="support_ts03_message">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变橙</string>
-    <string name="support_ts05_message">是Wi-Fi的LED灯</string>
-    <string name="now">此时?</string>
+    <string name="support_ts05_message">Wi-Fi指示灯此刻是否变</string>
+    <string name="now">""?</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
     <string name="checking_signal_strength_title">正在将您的飞利浦智控净化器连接到  </string>
     <string name="checking_signal_strength_message">这可能需要几秒钟。页面将会自动跳转。</string>

@@ -29,11 +29,11 @@ public class EWSStepTwoFragment extends Fragment {
 		
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO);
 		
-		String orangeStr = " <font color=#EF6921>"+getString(R.string.orange)+"</font>";
+		String orangeStr = "<font color=#EF6921>"+getString(R.string.orange)+"</font>";
 		String msg1 = getString(R.string.step2_msg1) + orangeStr+".";
 		((FontTextView) getView().findViewById(R.id.setup_step2_message1)).setText(Html.fromHtml(msg1));
 
-		String msg2 = getString(R.string.step2_msg2) + " <font color=#EF6921>"+getString(R.string.orange)+"</font>?";
+		String msg2 = getString(R.string.step2_msg2) + "<font color=#EF6921>"+getString(R.string.orange)+"</font>?";
 		((FontTextView) getView().findViewById(R.id.setup_step2_message2)).setText(Html.fromHtml(msg2));
 		
 		Button yesBtn = (Button) getView().findViewById(R.id.setup_step2_yes_btn);

@@ -164,7 +164,7 @@ public class SetupDialogFactory implements OnClickListener{
 				R.id.tv_ts05_confirm_wifi_mode_enabled_header)).setTypeface(Fonts.getGillsansLight(context));
 		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
 		tvMessage.setTypeface(Fonts.getGillsansLight(context));
-		String msg1 = context.getString(R.string.support_ts05_message) + " <font color=#EF6921>"+context.getString(R.string.orange)+"</font>" + " " + context.getString(R.string.now);
+		String msg1 = context.getString(R.string.support_ts05_message) + "<font color=#EF6921>"+context.getString(R.string.orange)+"</font>" + " " + context.getString(R.string.now);
 		tvMessage.setText(Html.fromHtml(msg1));
 		ImageView ivGotoSupport = (ImageView) alertLayout.findViewById(R.id.iv_support);
 		ivGotoSupport.setOnClickListener(this);
