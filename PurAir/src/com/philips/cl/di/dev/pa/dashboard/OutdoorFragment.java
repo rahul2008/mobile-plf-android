@@ -23,6 +23,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
@@ -31,7 +32,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private RelativeLayout rootLayout;
-	private ImageView aqiCircleMeter ;
+	private ImageView aqiCircleMeter, myLocArrowImg ;
 	
 	private FontTextView lastUpdated;
 	private FontTextView pmValue;
@@ -56,6 +57,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	
 	private void initViews(View view) {
 		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
+		myLocArrowImg = (ImageView) view.findViewById(R.id.hf_my_loc_image);
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
 		cityName.setSelected(true);
 		//If Chinese language selected set font-type-face normal
@@ -106,6 +108,13 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private OutdoorAQI outdoorAQI ;
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
+		
+		if (LocationUtils.getCurrentLocationAreaId().equals(areaID) 
+				&& LocationUtils.getCurrentLocationEnabled()) {
+			myLocArrowImg.setVisibility(View.VISIBLE);
+		} else {
+			myLocArrowImg.setVisibility(View.GONE);
+		}
 		
 		cityName.setText(outdoorCityName);
 		cityId.setText(areaID);
