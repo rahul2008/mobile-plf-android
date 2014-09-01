@@ -301,8 +301,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	private void updateExistingDevice(PurAirDevice newPurifier) {
 		PurAirDevice existingPurifier = mDevicesMap.get(newPurifier.getEui64());
 		boolean notifyListeners = true;
-
-		if (!newPurifier.getLastKnownNetworkSsid().equals(existingPurifier.getLastKnownNetworkSsid())) {
+		
+		if (newPurifier.getLastKnownNetworkSsid() != null &&
+				!newPurifier.getLastKnownNetworkSsid().equals(existingPurifier.getLastKnownNetworkSsid())) {
 			existingPurifier.setLastKnownNetworkSsid(newPurifier.getLastKnownNetworkSsid());
 			mDatabase.updatePurifierUsingUsn(existingPurifier);
 		}
