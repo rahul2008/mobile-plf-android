@@ -185,6 +185,7 @@ public class AppConstants {
 	public static final String PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP = "is_registrationkey_sendtocpp";
 	public static final String PROPERTY_APP_VERSION = "appVersion";
 	public static final String PROPERTY_REG_ID = "registration_id";
+	public static final String PROPERTY_NOTIFICATION_PROVIDER = "provider";
 	
 	
 	/** PAIRING CONSTANTS */

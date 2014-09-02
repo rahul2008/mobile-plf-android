@@ -19,8 +19,6 @@ public class PurAirApplication extends Application {
 	
 	private static PurAirApplication mInstance = null;
 	
-	private NotificationRegisteringManager mNotificationManager;
-	
 	@Override
 	public void onCreate() {
 		super.onCreate();
@@ -33,8 +31,8 @@ public class PurAirApplication extends Application {
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
 		
-		// Ensure app is registered for notifications
-		getNotificationRegisteringManager();
+//		// Ensure app is registered for notifications
+//		getNotificationRegisteringManager();
 	}
 	
 	
@@ -55,21 +53,6 @@ public class PurAirApplication extends Application {
 	
 	public static PurAirApplication getAppContext() {
 		return mInstance;
-	}
-	
-	public NotificationRegisteringManager getNotificationRegisteringManager() {
-		if (Utils.isGooglePlayServiceAvailable()) {
-			if (mNotificationManager == null) {
-				mNotificationManager = new NotificationRegisteringManager();
-				mNotificationManager.registerAppForNotification();
-			}
-		}
-		else{
-			if (mNotificationManager == null) {
-				mNotificationManager = new NotificationRegisteringManager();
-			}
-		}
-		return mNotificationManager;
 	}
 	
 	public static boolean isDemoModeEnable() {

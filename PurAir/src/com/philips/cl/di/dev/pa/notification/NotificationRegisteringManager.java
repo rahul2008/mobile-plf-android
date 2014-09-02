@@ -29,14 +29,25 @@ public class NotificationRegisteringManager implements SignonListener,
 		CPPController.getInstance(PurAirApplication.getAppContext())
 				.setNotificationListener(this);
 
-		JPushInterface.setDebugMode(false);
-
 		if (!Utils.isGooglePlayServiceAvailable()) {
+			ALog.i("testing","NO GOOGLE SERVICE");
+			if(gcm!=null){
+				try {
+					gcm.unregister();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				gcm = null;
+			}
+			JPushInterface.setDebugMode(false);
 			JPushInterface.init(PurAirApplication.getAppContext());
+			JPushInterface.resumePush(PurAirApplication.getAppContext());
 		} else {
+			ALog.i("testing","GOOGLE SERVICE");
 			gcm = GoogleCloudMessaging.getInstance(PurAirApplication
 					.getAppContext());
 			regid = getRegistrationId();
+			ALog.i(ALog.NOTIFICATION, "NotificationRegisteringManager : regId " + regid);
 		}
 	}
 
@@ -44,13 +55,19 @@ public class NotificationRegisteringManager implements SignonListener,
 		if (!Utils.isGooglePlayServiceAvailable()) {
 			ALog.e(ALog.NOTIFICATION,
 					"Google play services not supported on this device");
-
 			regid = JPushReceiver.getRegKey();
-
 			if (regid == null || regid.isEmpty())
 				return;
-
-			registerForGCMInBackground();
+			
+			if (isRegisteredForGCM()) {
+				ALog.i(ALog.NOTIFICATION,
+						"App already registered for JPUSH notifications");
+			} else {
+				ALog.i(ALog.NOTIFICATION,
+						"App not yet registered for JPUSH notifications - registering now");
+				registerForGCMInBackground();
+				//return;
+			}
 		} else {
 			if (isRegisteredForGCM()) {
 				ALog.i(ALog.NOTIFICATION,
@@ -59,17 +76,17 @@ public class NotificationRegisteringManager implements SignonListener,
 				ALog.i(ALog.NOTIFICATION,
 						"App not yet registered for Google Play push notifications - registering now");
 				registerForGCMInBackground();
-				return;
+		//		return;
 			}
 		}
 
-		if (getIsRegistrationKeySendToCpp()) {
-			ALog.i(ALog.NOTIFICATION, "GCM Registration ID already sent to CPP");
-		} else {
-			ALog.i(ALog.NOTIFICATION,
-					"GCM Registration ID not yet sent to CPP - Sending ID to CPP now");
-			sendRegistrationIdToBackend(regid);
-		}
+//		if (getIsRegistrationKeySendToCpp()) {
+//			ALog.i(ALog.NOTIFICATION, "GCM Registration ID already sent to CPP");
+//		} else {
+//			ALog.i(ALog.NOTIFICATION,
+//					"GCM Registration ID not yet sent to CPP - Sending ID to CPP now");
+//			sendRegistrationIdToBackend(regid);
+//		}
 	}
 
 	/**
@@ -90,7 +107,9 @@ public class NotificationRegisteringManager implements SignonListener,
 		// send the registration ID to CPP server.
 		sendRegistrationIdToBackend(regid);
 		// Persist the regID - no need to register again.
-		storeRegistrationId(PurAirApplication.getAppContext(), regid);
+		if(regid != null && !regid.isEmpty()){
+			storeRegistrationId(PurAirApplication.getAppContext(), regid);
+		}
 	}
 
 	private void registerForGoogleService() {
@@ -110,8 +129,11 @@ public class NotificationRegisteringManager implements SignonListener,
 					sendRegistrationIdToBackend(regid);
 
 					// Persist the regID - no need to register again.
-					storeRegistrationId(PurAirApplication.getAppContext(),
-							regid);
+					if(regid != null && !regid.isEmpty()){
+						storeRegistrationId(PurAirApplication.getAppContext(),
+								regid);
+					}
+					ALog.i(ALog.NOTIFICATION, "registerForGoogleService  regid" + regid);
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();
 				}
@@ -155,6 +177,11 @@ public class NotificationRegisteringManager implements SignonListener,
 					"Registration ID expired - App version changed");
 			return false;
 		}
+		
+		if(!getIsRegistrationKeySendToCpp()){
+			ALog.i(ALog.NOTIFICATION, "!getIsRegistrationKeySendToCpp()");
+			return false;
+		}
 
 		ALog.d(ALog.NOTIFICATION, "App already registered for GCM");
 		return true;
@@ -193,16 +220,27 @@ public class NotificationRegisteringManager implements SignonListener,
 		return registrationId;
 	}
 
-	private void storeRegistrationId(Context ctx, String registrationId) {
+	public void storeRegistrationId(Context ctx, String registrationId) {
 		final SharedPreferences prefs = getGCMPreferences();
 		int appVersion = PurAirApplication.getAppVersion();
 
 		ALog.i(ALog.NOTIFICATION,
-				"Storing GCM registration ID for app version: " + appVersion);
+				"Storing GCM registration ID for app ");
 
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(AppConstants.PROPERTY_REG_ID, registrationId);
-		editor.putInt(AppConstants.PROPERTY_APP_VERSION, appVersion);
+//		editor.putInt(AppConstants.PROPERTY_APP_VERSION, appVersion);
+		editor.commit();
+	}
+	
+	public void storeVersion(Context ctx, Integer version) {
+		final SharedPreferences prefs = getGCMPreferences();
+
+		ALog.i(ALog.NOTIFICATION,
+				"Storing version ID for app : " + version);
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putInt(AppConstants.PROPERTY_APP_VERSION, version);
 		editor.commit();
 	}
 
@@ -219,7 +257,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		return isRegistrationKeySendToCpp;
 	}
 
-	private void storeRegistrationKeySendToCPP(boolean registrationKeySent) {
+	public void storeRegistrationKeySendToCPP(boolean registrationKeySent) {
 		final SharedPreferences prefs = getGCMPreferences();
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP,
@@ -244,11 +282,20 @@ public class NotificationRegisteringManager implements SignonListener,
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
+				String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
+				
+				if(previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()){
+					regid = JPushReceiver.getRegKey();
+				}			
 				sendRegistrationIdToBackend(regid);
+				if(regid != null && !regid.isEmpty()){
+					storeRegistrationId(PurAirApplication.getAppContext(), regid);
+				}
+				ALog.i(ALog.NOTIFICATION, "new Timer().schedule : regId " + regid);
 			}
 		}, 3000);
 	}
-
+		
 	@Override
 	public void onRegistrationIdSentSuccess() {
 		ALog.i(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");

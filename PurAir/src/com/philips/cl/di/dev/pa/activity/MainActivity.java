@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -81,6 +82,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler.DashBoardDataFetchListener;
@@ -150,12 +152,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private AppInDemoMode appInDemoMode;
 	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
 	private Intent mIntent = null;
+	private static NotificationRegisteringManager mNotificationManager;
 	//	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
+		
+		// Ensure app is registered for notifications
+		getNotificationRegisteringManager();
 
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
@@ -212,6 +218,99 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
 		//		checkForUpdatesHockeyApp();
 
+	}
+
+	public static NotificationRegisteringManager getNotificationManager(){
+		if(mNotificationManager == null){
+			mNotificationManager = new NotificationRegisteringManager();
+		}
+		return mNotificationManager;	
+	}
+	
+	private boolean isVersionChanged() {
+		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
+				getGCMPreferences();
+
+		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
+				Integer.MIN_VALUE);
+		int currentVersion = PurAirApplication.getAppVersion();
+		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
+
+		if (isGCMRegistrationExpired) {
+			ALog.d(ALog.NOTIFICATION,
+					"Registration ID expired - App version changed");
+			return true;
+		}
+
+		return false;
+	}
+	
+	private void initNotification(){
+		mNotificationManager = null;
+
+//		SharedPreferences preferences = PreferenceManager
+//				.getDefaultSharedPreferences(PurAirApplication.getAppContext());
+//		SharedPreferences.Editor editor = preferences.edit();
+//		editor.putString("regKey", "");
+//		editor.apply();
+		
+//		JPushInterface.stopPush(PurAirApplication.getAppContext());
+		getNotificationManager();
+//		mNotificationManager.storeRegistrationId(PurAirApplication.getAppContext(), "");
+		mNotificationManager.storeRegistrationKeySendToCPP(false);
+		
+		if (Utils.isGooglePlayServiceAvailable()) {
+			mNotificationManager.registerAppForNotification();
+		}
+	}
+
+	private static boolean registerNow = true; 
+	
+	public static boolean registrationNeededNow(){
+		return registerNow;
+	}
+	
+	public static void setRegistrationNeededNow(boolean needed){
+		registerNow = needed;
+	}
+	
+	private void getNotificationRegisteringManager() {
+		
+		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
+		
+		if(isVersionChanged()){
+			registerNow = true;
+			initNotification();
+			ALog.i("testing"," first");
+		}
+		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
+			registerNow = false;
+			ALog.i("testing","second");
+		}
+		else if (!Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			registerNow = false;
+			ALog.i("testing","third");
+		}
+		else{
+			registerNow = true;
+			ALog.i("testing","fourth");
+			initNotification();
+		}
+		
+		//if(registerNow){
+//			if (Utils.isGooglePlayServiceAvailable()) {
+//				if (mNotificationManager == null) {
+//					mNotificationManager = new NotificationRegisteringManager();
+//					mNotificationManager.registerAppForNotification();
+//				}
+//			}
+//			else{
+//				if (mNotificationManager == null) {
+//					mNotificationManager = new NotificationRegisteringManager();
+//				}
+//			}
+//		}
+//		return mNotificationManager;
 	}
 
 	private void selectPurifier() {

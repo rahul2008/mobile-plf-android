@@ -291,8 +291,8 @@ public class NotificationsFragment extends BaseFragment implements
 		// notificationToggle.setEnabled(false);
 		// return false;
 		// }
-		PurAirApplication.getAppContext().getNotificationRegisteringManager()
-				.registerAppForNotification();
+		MainActivity.getNotificationManager().registerAppForNotification();
+		
 		if (mPurifier != null
 				&& mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 

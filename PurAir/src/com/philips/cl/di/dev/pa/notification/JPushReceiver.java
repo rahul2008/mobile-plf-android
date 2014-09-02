@@ -10,6 +10,7 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 /*
@@ -45,6 +46,9 @@ public class JPushReceiver extends BroadcastReceiver {
 		}
 
 		if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
+			if(!MainActivity.registrationNeededNow()){
+				return;
+			}
 			String regKey = bundle
 					.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 			Log.d(TAG, "[MyReceiver] Receive Registration Id : " + regKey);
@@ -54,10 +58,12 @@ public class JPushReceiver extends BroadcastReceiver {
 			editor.putString("regKey", regKey);
 			editor.apply();
 			
-			PurAirApplication.getAppContext()
-					.getNotificationRegisteringManager()
-					.registerAppForNotification();
-
+//			PurAirApplication.getAppContext()
+//					.getNotificationRegisteringManager()
+//					.registerAppForNotification();
+			
+			MainActivity.setRegistrationNeededNow(false);
+			MainActivity.getNotificationManager().registerAppForNotification();
 		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
 				.getAction())) {
 			Log.i(TAG, "[MyReceiver] Push down received a custom message: "

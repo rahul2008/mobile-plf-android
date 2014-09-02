@@ -8,13 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -72,6 +75,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private ICPDownloadListener downloadDataListener;
 	private StringBuilder downloadDataBuilder;
 	private PublishEventListener publishEventListener ;
+	private String provider = null;
 //	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
 	
 	private enum KEY_PROVISION {
@@ -380,8 +384,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}
+		
 		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
-		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, 
+		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, provider = 
 				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE : 
 					AppConstants.NOTIFICATION_PROVIDER_JPUSH, gcmRegistrationId);
 		
@@ -392,6 +397,39 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		return true;
 	}
+	
+	public SharedPreferences getGCMPreferences() {
+		return PurAirApplication.getAppContext().getSharedPreferences(
+				AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
+				Context.MODE_PRIVATE);
+	}
+	
+	public String getNotificationProvider() {
+		final SharedPreferences prefs = getGCMPreferences();
+		String previousProvider = prefs.getString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER, AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
+
+		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
+			return AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
+		} 
+		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			return AppConstants.NOTIFICATION_PROVIDER_JPUSH;
+		}
+		else {
+			return AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
+		}
+	}
+	
+	private void storeProviderInPref(String provider) {
+		final SharedPreferences prefs = getGCMPreferences();
+
+		ALog.i(ALog.NOTIFICATION,
+				"Storing Push notification provider name : " + provider);
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER, provider);
+		editor.commit();
+	}
+
 	
 	/**
 	 * This method will download the data from the cpp given the query and the
@@ -531,6 +569,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		case Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS :
 			if (status==Errors.SUCCESS) {	
 				ALog.i(ALog.CPPCONTROLLER, "Registration ID successfully sent to CPP");
+				storeProviderInPref(provider);
+				MainActivity.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
 				notifyNotificationListener(true);
 			} else {
 				ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
