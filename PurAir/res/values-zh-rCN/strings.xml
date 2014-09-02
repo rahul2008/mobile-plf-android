@@ -411,8 +411,8 @@
     <string name="support_ts01_message">拔掉飞利浦智控净化器的插头。</string>
     <string name="support_ts02_message">等待15秒钟之后请您再次将智控净化器接入电源并开启。</string>
     <string name="support_ts03_message">请同时按住开关键与儿童锁键直至Wi-Fi指示灯变橙色。</string>
-    <string name="support_ts05_message">Wi-Fi指示灯此刻是否变</string>
-    <string name="now">""?</string>
+    <string name="support_ts05_message">Wi-Fi指示灯是否变为</string>
+    <string name="now">""？</string>
     <string name="wrong_wifi_password">您输入了错误的密码</string>
     <string name="checking_signal_strength_title">正在将您的飞利浦智控净化器连接到  </string>
     <string name="checking_signal_strength_message">这可能需要几秒钟。页面将会自动跳转。</string>
