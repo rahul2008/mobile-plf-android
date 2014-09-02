@@ -45,7 +45,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.nineoldandroids.animation.ObjectAnimator;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AnimatorConstants;
@@ -664,15 +663,21 @@ public class Utils {
 		}
 
 		iv.setImageDrawable(weatherImage);
+		rotateImageView(iv, degree);
 		Log.i("degree", "Wind degree: " + degree);
-		ObjectAnimator.ofFloat(iv, AnimatorConstants.ANIM_ROTATION, 0, degree).setDuration(2000).start();
-//		Animation aqiCircleRotateAnim = new RotateAnimation(0, degree, weatherImage.getMinimumWidth() / (float) 2, weatherImage.getMinimumHeight() / (float) 2);
-//		
-//	    aqiCircleRotateAnim.setDuration(2000);
-//	    aqiCircleRotateAnim.setRepeatCount(0);
-//	    aqiCircleRotateAnim.setFillAfter(true);
-//	 
-//	    iv.setAnimation(aqiCircleRotateAnim);
+	}
+	
+	public static void rotateImageView(ImageView imageView, float rotation) {
+		Drawable drawable = imageView.getDrawable();
+		ALog.i(ALog.OUTDOOR_DETAILS, "Utils$setRotationAnimation rotation " + rotation + " aqiPointer.getWidth()/2 " + (imageView.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
+
+		Animation rotateAnim = new RotateAnimation(0, rotation, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		
+	    rotateAnim.setDuration(2000);
+	    rotateAnim.setRepeatCount(0);
+	    rotateAnim.setFillAfter(true);
+	 
+	    imageView.setAnimation(rotateAnim);
 	}
 
 	public static float getPxWithRespectToDip(Context context, float dip) {

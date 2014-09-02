@@ -202,25 +202,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		aqiPointer.invalidate();
 		if(prevIndoorAqi != indoorAqi) {
-			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
+//			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
+			Utils.rotateImageView(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
 		}
 		prevIndoorAqi = indoorAqi;
 	}
 
-	private void setRotationAnimation(ImageView aqiPointer, float rotation) {
-		Drawable drawable = aqiPointer.getDrawable();
-		ALog.i(ALog.DASHBOARD, "IndoorFragment$getRotationAnimation rotation " + rotation + " aqiPointer.getWidth()/2 " + (aqiPointer.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
-
-		Animation aqiCircleRotateAnim = new RotateAnimation(prevRotation, rotation, drawable.getMinimumWidth() / (float) 2, drawable.getMinimumHeight() / (float) 2);
-		
-	    aqiCircleRotateAnim.setDuration(2000);
-	    aqiCircleRotateAnim.setRepeatCount(0);
-	    aqiCircleRotateAnim.setFillAfter(true);
-	 
-	    aqiPointer.setAnimation(aqiCircleRotateAnim);
-	    prevRotation = rotation;
-	}
-	
 	private void showFirmwareUpdatePopup() {
 		if(View.VISIBLE != firmwareUpdatePopup.getVisibility()) {
 			firmwareUpdatePopup.setVisibility(View.VISIBLE);
@@ -350,6 +337,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				status = getString(R.string.firmware_update) + " " + currentFirmwareVersion;
 				showFirmwareUI = true;
 				infoVisibility = View.INVISIBLE;
+			} else {
+				showFirmwareUI = false;
 			}
 			
 			Utils.saveFirmwareVersion(purifierEui64, firmwarePortInfo.getVersion());

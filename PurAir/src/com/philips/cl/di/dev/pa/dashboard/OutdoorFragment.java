@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
@@ -132,7 +133,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 				aqiSummary2.setText(outdoorAQI.getAqiSummary()[1]);
 			}
 			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
-			setRotationAnimation(aqiPointerCircle, outdoorAQI.getAqiPointerRotaion());
+			Utils.rotateImageView(aqiPointerCircle, outdoorAQI.getAqiPointerRotaion());
 			aqiCircleMeter.setVisibility(View.VISIBLE) ;
 			pmLayout.setVisibility(View.VISIBLE);
 			pmValue.setText(""+outdoorAQI.getPM25());
@@ -154,19 +155,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		
 		View view = inflater.inflate(R.layout.hf_outdoor_dashboard, null);
 		return view;
-	}
-	
-	private void setRotationAnimation(ImageView aqiPointer, float rotation) {
-		Drawable drawable = aqiPointer.getDrawable();
-		ALog.i(ALog.DASHBOARD, "OutdoorFragment$getRotationAnimation rotation " + rotation + " aqiPointer.getWidth()/2 " + (aqiPointer.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
-		
-		Animation aqiCircleRotateAnim = new RotateAnimation(0.0f, rotation, drawable.getMinimumWidth() / (float) 2, drawable.getMinimumHeight() / (float) 2);
-		
-	    aqiCircleRotateAnim.setDuration(2000);  
-	    aqiCircleRotateAnim.setRepeatCount(0);     
-	    aqiCircleRotateAnim.setFillAfter(true);
-	 
-	    aqiPointer.setAnimation(aqiCircleRotateAnim);
 	}
 	
 	@Override
