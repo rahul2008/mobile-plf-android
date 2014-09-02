@@ -581,12 +581,22 @@ public class OutdoorDetailsActivity extends BaseActivity
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
 		
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
+		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
+		
+		//Time difference between time zone and GMT
+		int offsetChina = timeZoneChina.getOffset(Calendar.getInstance().getTimeInMillis());
+		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
+		int offset = offsetChina - offsetCurrent;
+		
+		Calendar cal = Calendar.getInstance(timeZoneChina);
+		// cal.getTimeInMillis() selected time zone, time in milli seconds, it give same time all time zone
+		// So we implemented time zone concept to get selected time zone, time in milli seconds
 		
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
 				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
-				Utils.getDate((cal.getTimeInMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," 
-				+ Utils.getDate(cal.getTimeInMillis()), OutdoorController.APP_ID), 
+				Utils.getDate((cal.getTimeInMillis() + offset - (1000 * 60 * 60 * 24 * 30l))) + "," 
+				+ Utils.getDate(cal.getTimeInMillis() + offset), OutdoorController.APP_ID), 
 				areaID, PurAirApplication.getAppContext(), this);
 		aqiHistoricTask.start();
 	}
