@@ -385,7 +385,7 @@
     <string name="a_capital">A</string>
     <string name="b_capital">B</string>
     <string name="c_capital">C</string>
-    <string name="error_purifier_not_detect_head">出现故障。</string>
+    <string name="error_purifier_not_detect_head">出现故障</string>
     <string name="error_purifier_not_detect_msg1">手机无法在  上检测到飞利浦智控净化器</string>
     <string name="error_purifier_not_detect_msg2">请确保您的飞利浦智控净化器处于家庭 Wi-Fi 网络的范围内。</string>
     <string name="error_purifier_not_detect_btn_txt">请重试</string>

@@ -121,10 +121,18 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private void addAQIHistoricData() {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
 		
+		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
+		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
+		
+		//Time difference between time zone and GMT
+		int offsetChina = timeZoneChina.getOffset(Calendar.getInstance().getTimeInMillis());
+		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
+		int offset = offsetChina - offsetCurrent;
+		
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		
-		Date currentDate = new Date(cal.getTimeInMillis());
+		Date currentDate = new Date(cal.getTimeInMillis() + offset);
 		String currentDateStr = formatDate.format(currentDate);
 		String currentDateWithHrStr = currentDateStr + " " + Utils.get2DigitHr(cal.get(Calendar.HOUR_OF_DAY));
 		
