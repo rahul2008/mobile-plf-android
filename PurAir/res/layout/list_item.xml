@@ -17,7 +17,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/delete_dash_horizontal_black" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView 
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/list_text"
         android:layout_width="wrap_content"

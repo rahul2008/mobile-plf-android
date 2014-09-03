@@ -1,9 +1,12 @@
 package com.philips.cl.di.dev.pa.util;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.graphics.Typeface;
+import android.os.Build;
+import android.view.Gravity;
 import android.widget.TextView;
 
 /*
@@ -38,8 +41,25 @@ public class FontLoader {
 				typeface = Typeface.createFromAsset(tv.getContext().getAssets(), fontName);
 				mFonts.put(fontName, typeface);
 			}
-			tv.setTypeface(typeface);
+			
+			
+			if(!(getDeviceName().equalsIgnoreCase("Sony Ericsson LT18i") && LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH"))){
+				tv.setTypeface(typeface);
+			}
 		}
 	}
+	
+	private String getDeviceName() {
+		  String manufacturer = Build.MANUFACTURER;
+		  String model = Build.MODEL;
+		  
+		  ALog.i(ALog.MAINACTIVITY, "Manufacturer: " + manufacturer +", Model: "+model);
+		  
+		  if (model.startsWith(manufacturer)) {
+		    return model;
+		  } else {
+		    return manufacturer + " " + model;
+		  }
+		}
 
 }
