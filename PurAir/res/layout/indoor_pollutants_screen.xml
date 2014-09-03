@@ -71,14 +71,14 @@
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-            <View
-                android:layout_width="fill_parent"
+			 <ImageView
+               android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/formaldehyde_heading"
                 android:layout_below="@+id/formaldehyde_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
 
         <!-- TVOC -->
@@ -123,14 +123,14 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/tvoc_heading"
                 android:layout_below="@+id/tvoc_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray"
-                android:textColor="#7F8595" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
 
         <!-- Airborne Pathogens -->
@@ -175,13 +175,14 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
-                android:layout_width="fill_parent"
+            <ImageView
+               android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/airborne_pathogens_heading"
                 android:layout_below="@+id/airborne_pathogens_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
 
         <!-- Pet hair and dust mites -->
@@ -226,13 +227,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+            
+            <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/pet_hair_dust_mites_heading"
                 android:layout_below="@+id/pet_hair_dust_mites_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
 
         <!-- Airborne Pathogens -->
@@ -280,13 +283,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+            
+              <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/outdoor_particles_heading"
                 android:layout_below="@+id/outdoor_particles_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
 
         <!-- particulate matter -->
@@ -330,14 +335,14 @@
                 android:textColor="#7F8595"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-            <View
-                android:layout_width="fill_parent"
+			<ImageView
+			    android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/particulate_matter_heading"
                 android:layout_below="@+id/particulate_matter_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
     </LinearLayout>
 

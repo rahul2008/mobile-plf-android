@@ -59,13 +59,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+            <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/vistashield_filter_intro"
                 android:layout_below="@+id/vistashield_filter_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+            
         </RelativeLayout>
 
         <RelativeLayout
@@ -96,13 +98,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+            <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/monitoring_sensor_intro"
                 android:layout_below="@+id/monitoring_sensor_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+            
         </RelativeLayout>
 
         <RelativeLayout

@@ -73,13 +73,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/sieving_heading"
                 android:layout_below="@+id/sieving_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+            
         </RelativeLayout>
 
         <!-- Inertial Impaction -->
@@ -124,13 +126,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/inertial_impaction_heading"
                 android:layout_below="@+id/inertial_impaction_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
+            
         </RelativeLayout>
 
         <!-- Interception -->
@@ -176,13 +180,15 @@
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-            <View
+            
+            <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="1dp"
                 android:layout_alignLeft="@+id/interception_heading"
                 android:layout_below="@+id/interception_intro"
                 android:layout_marginTop="11dp"
-                android:background="@color/darkgray" />
+                android:background="@drawable/seperator_line_2x"
+                android:contentDescription="@string/img_description" />
         </RelativeLayout>
 
         <!-- Diffusion and Absorbtion -->
