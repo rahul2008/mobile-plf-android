@@ -13,7 +13,6 @@ import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.hardware.Camera.Size;
 import android.location.Location;
 import android.os.Bundle;
 
