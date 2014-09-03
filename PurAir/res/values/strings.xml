@@ -225,7 +225,7 @@
     <string name="aqi_message_last4week">During the last 4 weeks, how much good air did you have?</string>
     <string name="outdoor_aiq_analysis_head1">Air Analysis Explained</string>
     <string name="outdoor_aiq_analysis_head2">Indoor air quality level and PM2.5</string>
-    <string name="outdoor_aiq_analysis_head3">Correlation between indoor and outdoor air quality, and how they are measured</string>
+    <string name="outdoor_aiq_analysis_head3">How Indoor air quality is measured?</string>
     <string name="outdoor_aiq_analysis_head4">Indoor air quality explained</string>
     <string name="outdoor_aiq_analysis_head5">Outdoor air quality explained</string>
     <string name="outdoor_aiq_analysis_title1">300+, Hazardous</string>
@@ -241,7 +241,7 @@
     <string name="outdoor_analysis_detail1_head1">\'How much good air did you have?\' explained</string>
     <string name="outdoor_analysis_detail2_head100">During the last day, 7 days, or 4 weeks, amount of indoor air rated as \'%1$s\' by your Philips Smart Air Purifier and outdoor air rated as \'%2$s\' by outdoor sensors.</string>
     <string name="outdoor_analysis_detail_head2">If 1&#8211;2 for one hour or longer, then the PM2.5 level is expected to be lower than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre. If level above 2 for one hour or longer, then PM2.5 is expected to be higher than the Chinese AQI standard of outdoor air of 75 micrograms per cubic metre.</string>
-    <string name="outdoor_analysis_detail_head3">There is no standard for PM2.5 indoors, therefore there is no indoor PM2.5 level shown. Your Philips Smart Air Purifier measures both indoor and outdoor PM2.5 levels. However, there is a correlation between outdoor and indoor air quality: the higher the level of PM2.5 indoors is strongly correlated to the PM2.5 level outdoors.</string>
+    <string name="outdoor_analysis_detail_head3"> The Smart Air Purifier measures particles ≥1.0 µm. Particles ≥1.0 µm may consists of dust, smoke, cooking, pets hair, road dust, etc \n Particles larger than one micron give an indication on the particle level in the room where the smart air purifier is placed. The sensor detects a part of the amount of particles belonging to PM2.5. Particulate Matter (PM) is represented by mass, the current sensor counts particles. Your Philips Smart Air Purifier measures both indoor and outdoor PM2.5 levels. There is a correlation between outdoor and indoor air quality: the higher level of PM2.5 indoors is strongly correlated to the PM2.5 levels outdoors.</string>
     <!-- <string name="pm25">PM2.5</string> -->
     <!-- <string name="pm10">PM10</string> -->
     <!-- <string name="so2">SO2</string> -->
@@ -331,7 +331,7 @@
     <string name="outdoor_slightly_polluted">Unhealthy for sensitive groups. Some irritation may occur. Individuals with breathing or heart problems should reduce outdoor exercise.</string>
     <string name="outdoor_moderate">Moderate. Hyper-sensitive individuals should reduce outdoor exercise.</string>
     <string name="outdoor_good">Good. No negative health implications.</string>
-    <string name="indoor_very_unhealthy">Very unhealthy air. Very high particle levels. PM2.5 values are expected to be at high levels. Peaks can be due to cigarrete smoke, cooking, vacuum-cleaning, candles and incense. You should avoid to be in a areas with this particle level of air for longer period of time. Adults and children with lung problems, adults with heart problems, and older people, should avoid strenuous physical activity. People with asthma may find they need to use their reliever inhaler more often.</string>
+    <string name="indoor_very_unhealthy">Very unhealthy air. Very high particle levels. PM2.5 values are expected to be at high levels. Peaks can be due to Cigarette smoke, cooking, vacuum-cleaning, candles and incense. You should avoid to be in a areas with this particle level of air for longer period of time. Adults and children with lung problems, adults with heart problems, and older people, should avoid strenuous physical activity. People with asthma may find they need to use their reliever inhaler more often.</string>
     <string name="indoor_unhealthy">Unhealthy air. High particle levels. PM2.5 values are expected to be at higher levels too. You should avoid being in areas with these particle levels for extended periods. Some irritation may occur. Adults and children with lung problems, and adults with heart problems, should reduce strenuous physical exertion, and particularly if they experience symptoms. People with asthma may find they need to use their inhalers more often. Older people should also reduce physical exertion.</string>
     <string name="indoor_moderate">Moderate air. Moderate particle levels in the air. The PM2.5 level is also expected to be moderate. Adults and children with lung problems, and adults with heart problems who experience symptoms should consider reducing strenuous physical activity.</string>
     <string name="indoor_good">Good air. Overall there is low dust and particle levels in the air. The PM2.5 level is expected to be low. Health risk is considered to be minor. Enjoy your usual indoor activities.</string>

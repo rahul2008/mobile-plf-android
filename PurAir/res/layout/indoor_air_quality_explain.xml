@@ -59,7 +59,7 @@
             android:layout_marginTop="6dp"
             android:lineSpacingExtra="5dp"
             android:text="@string/outdoor_analysis_detail1_head1"
-            android:textColor="@color/gray"
+            android:textColor="@color/dodgerblue"
             android:textSize="16sp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
