@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -168,7 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="25dp"
             android:layout_marginTop="8dp"
             android:background="@drawable/indoor_outdoor_air_quality_expl_button_bg_selector"
             android:onClick="aqiAnalysisClick"

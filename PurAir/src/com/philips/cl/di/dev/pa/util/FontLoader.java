@@ -6,7 +6,6 @@ import java.util.Map;
 
 import android.graphics.Typeface;
 import android.os.Build;
-import android.view.Gravity;
 import android.widget.TextView;
 
 /*
@@ -52,9 +51,7 @@ public class FontLoader {
 	private String getDeviceName() {
 		  String manufacturer = Build.MANUFACTURER;
 		  String model = Build.MODEL;
-		  
-		  ALog.i(ALog.MAINACTIVITY, "Manufacturer: " + manufacturer +", Model: "+model);
-		  
+
 		  if (model.startsWith(manufacturer)) {
 		    return model;
 		  } else {
