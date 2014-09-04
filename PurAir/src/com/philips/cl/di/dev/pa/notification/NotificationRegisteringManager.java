@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.notification;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -40,6 +41,7 @@ public class NotificationRegisteringManager implements SignonListener,
 
 		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			ALog.i(ALog.NOTIFICATION,"NO GOOGLE SERVICE");
+			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
 			if(gcm!=null){
 				try {
 					gcm.unregister();
@@ -339,8 +341,41 @@ public class NotificationRegisteringManager implements SignonListener,
 		return mProvider;
 	}
 	
+	private static class MyHandler extends Handler {
+	    private final WeakReference<NotificationRegisteringManager> mReference;
+
+	    public MyHandler(NotificationRegisteringManager activity) {
+	    	mReference = new WeakReference<NotificationRegisteringManager>(activity);
+	    }
+
+	    @Override
+	    public void handleMessage(Message msg) {
+	    	NotificationRegisteringManager activity = mReference.get();
+	    	ALog.i(ALog.NOTIFICATION,"MyHandler handleMessage activity : " +activity);
+
+	    	switch(msg.what){
+	  		case TRY_GCM:
+	      		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
+	      		mRegTryCount = 0;
+	      		mChildHandler.sendEmptyMessageDelayed(0, 3000);
+	      		//removeHandler();
+	      		break;
+	  		
+	  		case TRY_JPUSH: 
+	  			mChildHandler.sendEmptyMessage(1);
+	  			//removeHandler();
+	  			break;
+	  		
+	  		default:
+	  		//	removeHandler();
+	  			break;
+  		}
+	    }
+	  }
+	
 	public class LooperThread extends Thread {
-	    private Handler mHandler;
+//	    private Handler mHandler;
+	    private MyHandler mHandler = null;
 	    void removeHandler(){
         	if(mHandler!=null){
     			mHandler.removeMessages(TRY_GCM);
@@ -352,28 +387,29 @@ public class NotificationRegisteringManager implements SignonListener,
 	    public void run() {
 	        Looper.prepare();
 	        ALog.i(ALog.NOTIFICATION,"LooperThread inside run");
-	        mHandler = new Handler() {
-	        	@Override
-	        	public void handleMessage(Message msg) {
-	        		switch(msg.what){
-	        		case TRY_GCM:
-		        		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
-		        		mRegTryCount = 0;
-		        		mChildHandler.sendEmptyMessageDelayed(0, 3000);
-		        		removeHandler();
-		        		break;
-	        		
-	        		case TRY_JPUSH: 
-	        			mChildHandler.sendEmptyMessage(1);
-	        			removeHandler();
-	        			break;
-	        		
-	        		default:
-	        			removeHandler();
-	        			break;
-	        		}
-	        	}
-	        };
+	        mHandler = new MyHandler(NotificationRegisteringManager.this);
+//	        mHandler = new Handler() {
+//	        	@Override
+//	        	public void handleMessage(Message msg) {
+//	        		switch(msg.what){
+//	        		case TRY_GCM:
+//		        		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
+//		        		mRegTryCount = 0;
+//		        		mChildHandler.sendEmptyMessageDelayed(0, 3000);
+//		        		removeHandler();
+//		        		break;
+//	        		
+//	        		case TRY_JPUSH: 
+//	        			mChildHandler.sendEmptyMessage(1);
+//	        			removeHandler();
+//	        			break;
+//	        		
+//	        		default:
+//	        			removeHandler();
+//	        			break;
+//	        		}
+//	        	}
+//	        };
 	        
 	        if(getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
 				mHandler.sendEmptyMessageDelayed(TRY_JPUSH, 100);
@@ -388,7 +424,6 @@ public class NotificationRegisteringManager implements SignonListener,
 	
 	public static Handler mChildHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
-			
 			switch(msg.what){
 			case TRY_GCM:
 				ALog.i(ALog.NOTIFICATION,"mChildHandler handleMessage mRegTryCount : " + mRegTryCount + " ....mRegistrationDone : " + mRegistrationDone);
