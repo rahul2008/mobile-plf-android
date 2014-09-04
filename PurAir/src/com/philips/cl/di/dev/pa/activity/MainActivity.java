@@ -361,7 +361,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 	}
 
-	private void stopNormalMode() {
+	public void stopNormalMode() {
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
 		DiscoveryManager.getInstance().stop();
@@ -1191,7 +1191,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				+ devices.size() + " :: " + devices);
 
 		PurAirDevice current = getCurrentPurifier();
-		if( current != null && current.getAirPortInfo() != null ) return ;
+		if( current != null && current.getAirPortInfo() != null) return ;
 		PurifierManager.getInstance().startSubscription() ;
 	}
 

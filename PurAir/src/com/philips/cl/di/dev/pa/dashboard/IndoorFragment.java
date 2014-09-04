@@ -2,14 +2,12 @@ package com.philips.cl.di.dev.pa.dashboard;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -25,6 +23,7 @@ import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
 import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
@@ -149,13 +148,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (parent == null || !(parent instanceof MainActivity)) return;
 		
 		PurAirDevice purifier = ((MainActivity) parent).getCurrentPurifier();
-//		if (purifier == null) {
-//			purifierNameTxt.setText("");
-//			hideIndoorMeter();
-//			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(0));
-//			prevRotation = 0.0f;
-//			return;
-//		}
 		String tempEui64 = purifierEui64Txt.getText().toString();
 		
 		//For demo mode
@@ -166,7 +158,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		
 		if (purifier == null) return;
-
+		
+		if(purifier.getFirmwarePortInfo() == null || purifier.getFirmwarePortInfo().getState() != FirmwareState.IDLE) {
+			ALog.i(ALog.FIRMWARE, "IndoorFragment$updateDashboardUI hideFirmwareUpdatePopup ");
+			hideFirmwareUpdatePopup();
+		}
+		
 		purifierNameTxt.setText(purifier.getName());
 		
 		AirPortInfo airPortInfo = purifier.getAirPortInfo();
@@ -174,6 +171,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		
 		int indoorAqi = airPortInfo.getIndoorAQI();
 		if (ConnectionState.DISCONNECTED == purifier.getConnectionState()) {
+			hideFirmwareUpdatePopup();
 			hideIndoorMeter();
 			fanModeTxt.setText(getString(R.string.off));
 			filterStatusTxt.setText(AppConstants.EMPTY_STRING);
@@ -203,8 +201,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiPointer.invalidate();
 		if(prevIndoorAqi != indoorAqi) {
 //			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
-			Utils.rotateImageView(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
+			Utils.rotateImageView(aqiPointer, prevRotation, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
 		}
+		prevRotation = IndoorDashboardUtils.getAqiPointerRotation(indoorAqi);
 		prevIndoorAqi = indoorAqi;
 	}
 
@@ -279,17 +278,36 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		if (getActivity() == null || !(getActivity() instanceof MainActivity)) return;
 
 		ALog.i(ALog.DASHBOARD, "IndoorFragment$onFirmwareEventReceived");
-		
+
 		PurAirDevice purifier = ((MainActivity) getActivity()).getCurrentPurifier();
 		if (purifier == null) return;
 		final FirmwarePortInfo firmwarePortInfo = purifier.getFirmwarePortInfo();
 		if(firmwarePortInfo == null) return;
-		
+
 		updateFirmwareUI(purifier.getEui64(), firmwarePortInfo);
 	}
 	
 	private String status = "";
 	private boolean showFirmwareUI = true;
+	private boolean timerStarted;
+	
+	private CountDownTimer deviceSSIDTimer = new CountDownTimer(60000, 1000) {
+		@Override
+		public void onTick(long millisUntilFinished) {
+			ALog.i(ALog.SUBSCRIPTION, "Tick Tick tick " + millisUntilFinished);
+		}
+
+		@Override
+		public void onFinish() {
+			ALog.i(ALog.SUBSCRIPTION, "Firmware timer onFinish  " + (getActivity() != null));
+			if(getActivity() != null && timerStarted) {
+				MainActivity activity = (MainActivity) getActivity();
+				activity.stopNormalMode();
+				activity.startNormalMode();
+			}
+			timerStarted = false;
+		}
+	};
 	
 	private void updateFirmwareUI(String purifierEui64, FirmwarePortInfo firmwarePortInfo) {
 		ALog.i(ALog.FIRMWARE, "updateFirmwareUI state " + firmwarePortInfo.getState());
@@ -307,6 +325,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			progressVisibility = View.VISIBLE;
 			progress = firmwarePortInfo.getProgress();
 			infoVisibility = View.VISIBLE;
+			
+			if(!timerStarted) {
+				deviceSSIDTimer.start();
+				timerStarted = true;
+			}
 			break;
 		case CHECKING:
 			//Follow through

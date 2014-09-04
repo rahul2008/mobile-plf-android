@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
+import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkChangedCallback;
 import com.philips.cl.di.dev.pa.newpurifier.NetworkMonitor.NetworkState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
@@ -270,9 +271,10 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 
 	// ********** START SSDP METHODS ************
 	private boolean onDeviceDiscovered(DeviceModel deviceModel) {
+		
 		PurAirDevice purifier = getPurAirDevice(deviceModel);
 		if (purifier == null) return false;
-
+		ALog.i(ALog.SSDP, "Discovered device name: " + purifier.getName());
 		if (mDevicesMap.containsKey(purifier.getEui64())) {
 			updateExistingDevice(purifier);
 		} else {
@@ -290,6 +292,9 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (PurAirDevice purifier : devices) {
 			if (purifier.getUsn().equals(lostDeviceUsn)) {
 				ALog.d(ALog.DISCOVERY, "Lost purifier - marking as DISCONNECTED: " + purifier);
+				if(purifier.getFirmwarePortInfo() != null && FirmwareState.IDLE != purifier.getFirmwarePortInfo().getState()) {
+					return false;
+				}
 				purifier.setConnectionState(ConnectionState.DISCONNECTED);
 				notifyDiscoveryListener();
 				return true;

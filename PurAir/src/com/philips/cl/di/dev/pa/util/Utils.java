@@ -663,15 +663,15 @@ public class Utils {
 		}
 
 		iv.setImageDrawable(weatherImage);
-		rotateImageView(iv, degree);
+		rotateImageView(iv, 0, degree);
 		Log.i("degree", "Wind degree: " + degree);
 	}
 	
-	public static void rotateImageView(ImageView imageView, float rotation) {
+	public static void rotateImageView(ImageView imageView, float prevRotation, float newRotation) {
 		Drawable drawable = imageView.getDrawable();
-		ALog.i(ALog.OUTDOOR_DETAILS, "Utils$setRotationAnimation rotation " + rotation + " aqiPointer.getWidth()/2 " + (imageView.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
+		ALog.i(ALog.OUTDOOR_DETAILS, "Utils$setRotationAnimation rotation " + newRotation + " aqiPointer.getWidth()/2 " + (imageView.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
 
-		Animation rotateAnim = new RotateAnimation(0, rotation, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+		Animation rotateAnim = new RotateAnimation(prevRotation, newRotation, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 		
 	    rotateAnim.setDuration(2000);
 	    rotateAnim.setRepeatCount(0);
