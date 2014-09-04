@@ -85,7 +85,9 @@ public class NotificationRegisteringManager implements SignonListener,
 		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			ALog.e(ALog.NOTIFICATION,
 					"Google play services not supported on this device");
+			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
 			regid = JPushReceiver.getRegKey();
+			ALog.i(ALog.NOTIFICATION,"JPush RegID : " + regid);
 			if (regid == null || regid.isEmpty())
 				return;
 			
@@ -135,6 +137,7 @@ public class NotificationRegisteringManager implements SignonListener,
 
 	public void registerForJPushService() {
 		// send the registration ID to CPP server.
+		regid = JPushReceiver.getRegKey();
 		sendRegistrationIdToBackend(regid);
 		// Persist the regID - no need to register again.
 		if(regid != null && !regid.isEmpty()){
@@ -256,7 +259,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		final SharedPreferences prefs = getGCMPreferences();
 
 		ALog.i(ALog.NOTIFICATION,
-				"Storing GCM registration ID for app ");
+				"Storing registration ID for app ");
 
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putString(AppConstants.PROPERTY_REG_ID, registrationId);
@@ -394,7 +397,11 @@ public class NotificationRegisteringManager implements SignonListener,
 		ALog.i(ALog.NOTIFICATION, "creatingJpushNotificationManager now");
 		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
 		setNotificationManager();
-		getNotificationManager().registerAppForNotification();
+		for(int i = 0; i < 2; i++){
+			if(!mRegistrationDone){
+				getNotificationManager().registerAppForNotification();
+			}
+		}
 	}
 	
 	private static void sendRegistrationId(){
