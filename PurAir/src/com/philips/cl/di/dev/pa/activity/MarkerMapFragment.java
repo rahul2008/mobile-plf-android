@@ -2,14 +2,11 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.util.List;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -38,6 +35,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 /**
  * 
@@ -66,6 +64,7 @@ public class MarkerMapFragment extends Fragment implements
 		isMapLoaded = true;
 	}
 	
+	@SuppressLint("HandlerLeak")
 	Handler mHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch(msg.what){
@@ -212,34 +211,18 @@ public class MarkerMapFragment extends Fragment implements
 		Bitmap bm = BitmapFactory.decodeResource(
 				PurAirApplication.getAppContext().getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
-		Typeface tf = Typeface.create("Helvetica", Typeface.NORMAL);
-		Paint paint = new Paint();
-		paint.setColor(Color.WHITE);
-		paint.setTypeface(tf);
-		paint.setTextAlign(Align.CENTER);
-
-		/*
-		 * Putting this logic here because we have fixed circle resources. We
-		 * need to manipulate the font size only to fit in the circle.
-		 */
-		if (text > 99) {
-			paint.setTextSize(16);
-		} else {
-			paint.setTextSize(18);
-		}
-
-		Rect textRect = new Rect();
-		String newText = String.valueOf(text);
-		paint.getTextBounds(newText, 0, newText.length(), textRect);
-
 		Canvas canvas = new Canvas(bm);
-		// Calculate the positions
-		int xPos = (canvas.getWidth() / 2) - 2; // -2 is for regulating the x
-												// position offset
-		// baseline to the center.
-		int yPos = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint
-				.ascent()) / 2));
-		canvas.drawText(newText, xPos, yPos, paint);
+		
+		LayoutInflater inflater = (LayoutInflater) 
+				PurAirApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		View view = inflater.inflate(R.layout.circle_lyt, null);
+		FontTextView textView = (FontTextView) view.findViewById(R.id.circle_txt); 
+		textView.setText(String.valueOf(text));
+
+		view.measure(canvas.getWidth(), canvas.getHeight());
+		view.layout(0, 0, canvas.getWidth(), canvas.getHeight());
+		view.draw(canvas);
 		return bm;
 	}
 
