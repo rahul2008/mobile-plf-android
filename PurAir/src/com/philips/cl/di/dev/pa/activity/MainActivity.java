@@ -152,7 +152,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private AppInDemoMode appInDemoMode;
 	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
 	private Intent mIntent = null;
-	private static NotificationRegisteringManager mNotificationManager;
+//	private static NotificationRegisteringManager mNotificationManager;
 	//	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
@@ -220,12 +220,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	}
 
-	public static NotificationRegisteringManager getNotificationManager(){
-		if(mNotificationManager == null){
-			mNotificationManager = new NotificationRegisteringManager();
-		}
-		return mNotificationManager;	
-	}
+//	public static NotificationRegisteringManager getNotificationManager(){
+//		if(mNotificationManager == null){
+//			mNotificationManager = new NotificationRegisteringManager();
+//		}
+//		return mNotificationManager;	
+//	}
 	
 	private boolean isVersionChanged() {
 		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
@@ -246,21 +246,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 	
 	private void initNotification(){
-		mNotificationManager = null;
+		NotificationRegisteringManager.setNotificationManager();
 
-//		SharedPreferences preferences = PreferenceManager
-//				.getDefaultSharedPreferences(PurAirApplication.getAppContext());
-//		SharedPreferences.Editor editor = preferences.edit();
-//		editor.putString("regKey", "");
-//		editor.apply();
-		
 //		JPushInterface.stopPush(PurAirApplication.getAppContext());
-		getNotificationManager();
+//		NotificationRegisteringManager.getNotificationManager();
 //		mNotificationManager.storeRegistrationId(PurAirApplication.getAppContext(), "");
-		mNotificationManager.storeRegistrationKeySendToCPP(false);
+		NotificationRegisteringManager.getNotificationManager().storeRegistrationKeySendToCPP(false);
 		
-		if (Utils.isGooglePlayServiceAvailable()) {
-			mNotificationManager.registerAppForNotification();
+		if (Utils.isGooglePlayServiceAvailable() && !(NotificationRegisteringManager.getNotificationManager().getRegitrationProvider().
+				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))) {
+			NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 		}
 	}
 
@@ -280,20 +275,20 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		
 		if(isVersionChanged()){
 			registerNow = true;
+			ALog.i(ALog.NOTIFICATION," MainActivity first");
 			initNotification();
-			ALog.i("testing"," first");
 		}
 		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
 			registerNow = false;
-			ALog.i("testing","second");
+			ALog.i(ALog.NOTIFICATION,"MainActivity second");
 		}
 		else if (!Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			registerNow = false;
-			ALog.i("testing","third");
+			ALog.i(ALog.NOTIFICATION,"MainActivity third");
 		}
 		else{
 			registerNow = true;
-			ALog.i("testing","fourth");
+			ALog.i(ALog.NOTIFICATION,"MainActivity fourth");
 			initNotification();
 		}
 		

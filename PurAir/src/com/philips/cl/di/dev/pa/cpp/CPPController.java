@@ -14,7 +14,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
@@ -385,10 +384,20 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			return false;
 		}
 		
+		if(NotificationRegisteringManager.getNotificationManager().getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH) || !Utils.isGooglePlayServiceAvailable()){
+			provider = AppConstants.NOTIFICATION_PROVIDER_JPUSH;
+		}
+		else{
+			provider = AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
+		}
+		
+		ALog.i(ALog.NOTIFICATION, "CPPController sendNotificationRegistrationId provider : " + provider 
+				+"------------RegId : " + gcmRegistrationId);
+		
 		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
-		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, provider = 
+		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, provider/* = 
 				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE : 
-					AppConstants.NOTIFICATION_PROVIDER_JPUSH, gcmRegistrationId);
+					AppConstants.NOTIFICATION_PROVIDER_JPUSH*/, gcmRegistrationId);
 		
 		int retStatus =  thirdParty.executeCommand();
 		if (Errors.SUCCESS != retStatus)	{
@@ -570,7 +579,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			if (status==Errors.SUCCESS) {	
 				ALog.i(ALog.CPPCONTROLLER, "Registration ID successfully sent to CPP");
 				storeProviderInPref(provider);
-				MainActivity.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
+				NotificationRegisteringManager.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
 				notifyNotificationListener(true);
 			} else {
 				ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);

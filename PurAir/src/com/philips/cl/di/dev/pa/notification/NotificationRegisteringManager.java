@@ -1,12 +1,13 @@
 package com.philips.cl.di.dev.pa.notification;
 
 import java.io.IOException;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import cn.jpush.android.api.JPushInterface;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -21,7 +22,13 @@ public class NotificationRegisteringManager implements SignonListener,
 		SendNotificationRegistrationIdListener {
 
 	private GoogleCloudMessaging gcm;
-	private String regid;
+	private static String regid;
+	private static NotificationRegisteringManager mNotificationManager;
+	private static boolean mRegistrationDone = false;
+	private static int mRegTryCount = 0;
+	private LooperThread mLooperThread = null;;
+//	private Handler mHandler= null;
+	private static String mProvider = AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
 
 	public NotificationRegisteringManager() {
 		CPPController.getInstance(PurAirApplication.getAppContext())
@@ -29,8 +36,8 @@ public class NotificationRegisteringManager implements SignonListener,
 		CPPController.getInstance(PurAirApplication.getAppContext())
 				.setNotificationListener(this);
 
-		if (!Utils.isGooglePlayServiceAvailable()) {
-			ALog.i("testing","NO GOOGLE SERVICE");
+		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			ALog.i(ALog.NOTIFICATION,"NO GOOGLE SERVICE");
 			if(gcm!=null){
 				try {
 					gcm.unregister();
@@ -39,20 +46,39 @@ public class NotificationRegisteringManager implements SignonListener,
 				}
 				gcm = null;
 			}
-			JPushInterface.setDebugMode(false);
+//			JPushInterface.setDebugMode(false);
 			JPushInterface.init(PurAirApplication.getAppContext());
 			JPushInterface.resumePush(PurAirApplication.getAppContext());
 		} else {
-			ALog.i("testing","GOOGLE SERVICE");
+			ALog.i(ALog.NOTIFICATION,"GOOGLE SERVICE");
+			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_GOOGLE);
 			gcm = GoogleCloudMessaging.getInstance(PurAirApplication
 					.getAppContext());
 			regid = getRegistrationId();
 			ALog.i(ALog.NOTIFICATION, "NotificationRegisteringManager : regId " + regid);
 		}
 	}
-
+	
+	private void startHandlerThread(){
+		mLooperThread = null;
+		mLooperThread = new LooperThread();
+		mLooperThread.start();
+	}
+	
+	public static NotificationRegisteringManager getNotificationManager(){
+		if(mNotificationManager == null){
+			mNotificationManager = new NotificationRegisteringManager();
+		}
+		return mNotificationManager;	
+	}
+	
+	public static void setNotificationManager(){
+		mNotificationManager = null;
+		mRegistrationDone = false;
+	}
+	
 	public void registerAppForNotification() {
-		if (!Utils.isGooglePlayServiceAvailable()) {
+		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			ALog.e(ALog.NOTIFICATION,
 					"Google play services not supported on this device");
 			regid = JPushReceiver.getRegKey();
@@ -96,10 +122,10 @@ public class NotificationRegisteringManager implements SignonListener,
 	 * shared preferences.
 	 */
 	private void registerForGCMInBackground() {
-		if (Utils.isGooglePlayServiceAvailable()) {
-			registerForGoogleService();
-		} else {
+		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			registerForJPushService();
+		} else {
+			registerForGoogleService();
 		}
 	}
 
@@ -136,6 +162,7 @@ public class NotificationRegisteringManager implements SignonListener,
 					ALog.i(ALog.NOTIFICATION, "registerForGoogleService  regid" + regid);
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();
+					creatingJpushNotificationManager();	
 				}
 				return msg;
 			}
@@ -147,7 +174,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		}.execute(null, null, null);
 	}
 
-	private void sendRegistrationIdToBackend(String regid) {
+	private static void sendRegistrationIdToBackend(String regid) {
 		if (!CPPController.getInstance(PurAirApplication.getAppContext())
 				.isSignOn())
 			return;
@@ -187,7 +214,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		return true;
 	}
 
-	private SharedPreferences getGCMPreferences() {
+	private static SharedPreferences getGCMPreferences() {
 		return PurAirApplication.getAppContext().getSharedPreferences(
 				AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
 				Context.MODE_PRIVATE);
@@ -220,7 +247,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		return registrationId;
 	}
 
-	public void storeRegistrationId(Context ctx, String registrationId) {
+	public static void storeRegistrationId(Context ctx, String registrationId) {
 		final SharedPreferences prefs = getGCMPreferences();
 		int appVersion = PurAirApplication.getAppVersion();
 
@@ -257,7 +284,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		return isRegistrationKeySendToCpp;
 	}
 
-	public void storeRegistrationKeySendToCPP(boolean registrationKeySent) {
+	public static void storeRegistrationKeySendToCPP(boolean registrationKeySent) {
 		final SharedPreferences prefs = getGCMPreferences();
 		SharedPreferences.Editor editor = prefs.edit();
 		editor.putBoolean(AppConstants.PROPERTY_IS_REGISTRATIONKEY_SEND_TO_CPP,
@@ -275,30 +302,116 @@ public class NotificationRegisteringManager implements SignonListener,
 		ALog.i(ALog.NOTIFICATION,
 				"ICPCLient signed on - sending GCM Registration ID to cpp: "
 						+ regid);
+		
+		startHandlerThread();
+//		ALog.i(ALog.NOTIFICATION,"mLooperThread : " + mLooperThread);
+//		ALog.i(ALog.NOTIFICATION,"mLooperThread.mHandler : " + mLooperThread.mHandler);
+//		mLooperThread.mHandler.sendEmptyMessageDelayed(0, 1500);
 
 		// Dirty: need to send registration ID after 3sec so ICPClient can
 		// properly startup
 		// otherwise it will fail.
-		new Timer().schedule(new TimerTask() {
-			@Override
-			public void run() {
-				String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
-				
-				if(previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()){
-					regid = JPushReceiver.getRegKey();
-				}			
-				sendRegistrationIdToBackend(regid);
-				if(regid != null && !regid.isEmpty()){
-					storeRegistrationId(PurAirApplication.getAppContext(), regid);
-				}
-				ALog.i(ALog.NOTIFICATION, "new Timer().schedule : regId " + regid);
-			}
-		}, 3000);
+//		new Timer().schedule(new TimerTask() {
+//			@Override
+//			public void run() {
+//				String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
+//				
+//				if(previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()){
+//					regid = JPushReceiver.getRegKey();
+//				}			
+//				sendRegistrationIdToBackend(regid);
+//				if(regid != null && !regid.isEmpty()){
+//					storeRegistrationId(PurAirApplication.getAppContext(), regid);
+//				}
+//				ALog.i(ALog.NOTIFICATION, "new Timer().schedule : regId " + regid);
+//			}
+//		}, 3000);
 	}
+	
+	private static void setRegistrationProvider(String provider){
+		mProvider = provider; 
+	}
+	
+	public static String getRegitrationProvider(){
+		return mProvider;
+	}
+	
+	public class LooperThread extends Thread {
+	    public Handler mHandler;
+
+	    public void run() {
+	        Looper.prepare();
+	        ALog.i(ALog.NOTIFICATION,"LooperThread inside run");
+	        mHandler = new Handler() {
+	        	@Override
+	        	public void handleMessage(Message msg) {
+	        		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
+	        		mRegTryCount = 0;
+	        		mChildHandler.sendEmptyMessageDelayed(0, 3000);
+	        	}
+	        };
+
+	        mHandler.sendEmptyMessageDelayed(0, 100);
+	        ALog.i(ALog.NOTIFICATION,"LooperThread mHandler : " + mHandler);
+	        
+	        Looper.loop();
+	    }
+	}
+	
+	public static Handler mChildHandler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			switch(msg.what){
+			case 0:
+				ALog.i(ALog.NOTIFICATION,"mChildHandler handleMessage mRegTryCount : " + mRegTryCount + " ....mRegistrationDone : " + mRegistrationDone);
+				mRegTryCount ++;
+				if(mChildHandler != null && !mRegistrationDone && mRegTryCount <= 2){
+					ALog.i(ALog.NOTIFICATION, " regID : " + regid);
+					sendRegistrationId();
+					mChildHandler.sendEmptyMessageDelayed(0, 4000);
+				}
+				else if(mRegTryCount > 3){
+					mRegTryCount = 0;
+					creatingJpushNotificationManager();					
+				}
+				break;
+				
+			case 1: 	
+				break;
+			}
+		};
+	};
+	
+	private static void creatingJpushNotificationManager(){
+		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
+		setNotificationManager();
+		getNotificationManager();
+	}
+	
+//	private static void creatingGCMNotificationManager(){
+//		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_GOOGLE);
+//		setNotificationManager();
+//		getNotificationManager();
+//	}
+	
+	private static void sendRegistrationId(){
+		String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
 		
+		if((previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()) || 
+				getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
+			regid = JPushReceiver.getRegKey();
+		}			
+		sendRegistrationIdToBackend(regid);
+		if(regid != null && !regid.isEmpty()){
+			storeRegistrationId(PurAirApplication.getAppContext(), regid);
+		}
+		ALog.i(ALog.NOTIFICATION, "sendRegistrationId : regId " + regid);
+	}
+	
 	@Override
 	public void onRegistrationIdSentSuccess() {
 		ALog.i(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
+		mRegistrationDone = true;
+		mChildHandler.removeMessages(0);
 		storeRegistrationKeySendToCPP(true);
 	}
 

@@ -11,7 +11,6 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 /*
  * This class will receives registration ID from JPush server.
@@ -41,9 +40,9 @@ public class JPushReceiver extends BroadcastReceiver {
 		
 		JPushInterface.setDebugMode(false); 
 		
-		if (Utils.isGooglePlayServiceAvailable()) {
-			return;  
-		}
+//		if (Utils.isGooglePlayServiceAvailable()) {
+//			return;  
+//		}
 
 		if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
 			if(!MainActivity.registrationNeededNow()){
@@ -63,7 +62,7 @@ public class JPushReceiver extends BroadcastReceiver {
 //					.registerAppForNotification();
 			
 			MainActivity.setRegistrationNeededNow(false);
-			MainActivity.getNotificationManager().registerAppForNotification();
+			NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
 				.getAction())) {
 			Log.i(TAG, "[MyReceiver] Push down received a custom message: "
