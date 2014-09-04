@@ -28,6 +28,8 @@ public class NotificationRegisteringManager implements SignonListener,
 	private static int mRegTryCount = 0;
 	private LooperThread mLooperThread = null;;
 //	private Handler mHandler= null;
+	private static final int TRY_GCM = 0;
+	private static final int TRY_JPUSH = 1;
 	private static String mProvider = AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
 
 	public NotificationRegisteringManager() {
@@ -162,6 +164,7 @@ public class NotificationRegisteringManager implements SignonListener,
 					ALog.i(ALog.NOTIFICATION, "registerForGoogleService  regid" + regid);
 				} catch (IOException ex) {
 					msg = "Error :" + ex.getMessage();
+					ALog.i(ALog.NOTIFICATION, "registerForGoogleService Error : " + msg);
 					creatingJpushNotificationManager();	
 				}
 				return msg;
@@ -337,37 +340,63 @@ public class NotificationRegisteringManager implements SignonListener,
 	}
 	
 	public class LooperThread extends Thread {
-	    public Handler mHandler;
-
+	    private Handler mHandler;
+	    void removeHandler(){
+        	if(mHandler!=null){
+    			mHandler.removeMessages(TRY_GCM);
+    			mHandler.removeMessages(TRY_JPUSH);
+    			mHandler = null;
+    		}
+        }
+	    
 	    public void run() {
 	        Looper.prepare();
 	        ALog.i(ALog.NOTIFICATION,"LooperThread inside run");
 	        mHandler = new Handler() {
 	        	@Override
 	        	public void handleMessage(Message msg) {
-	        		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
-	        		mRegTryCount = 0;
-	        		mChildHandler.sendEmptyMessageDelayed(0, 3000);
+	        		switch(msg.what){
+	        		case TRY_GCM:
+		        		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
+		        		mRegTryCount = 0;
+		        		mChildHandler.sendEmptyMessageDelayed(0, 3000);
+		        		removeHandler();
+		        		break;
+	        		
+	        		case TRY_JPUSH: 
+	        			mChildHandler.sendEmptyMessage(1);
+	        			removeHandler();
+	        			break;
+	        		
+	        		default:
+	        			removeHandler();
+	        			break;
+	        		}
 	        	}
 	        };
-
-	        mHandler.sendEmptyMessageDelayed(0, 100);
-	        ALog.i(ALog.NOTIFICATION,"LooperThread mHandler : " + mHandler);
 	        
+	        if(getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
+				mHandler.sendEmptyMessageDelayed(TRY_JPUSH, 100);
+			}
+	        else{
+	        	mHandler.sendEmptyMessageDelayed(TRY_GCM, 100);
+	        }
+	        ALog.i(ALog.NOTIFICATION,"LooperThread mHandler : " + mHandler);
 	        Looper.loop();
 	    }
 	}
 	
 	public static Handler mChildHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
+			
 			switch(msg.what){
-			case 0:
+			case TRY_GCM:
 				ALog.i(ALog.NOTIFICATION,"mChildHandler handleMessage mRegTryCount : " + mRegTryCount + " ....mRegistrationDone : " + mRegistrationDone);
 				mRegTryCount ++;
 				if(mChildHandler != null && !mRegistrationDone && mRegTryCount <= 2){
 					ALog.i(ALog.NOTIFICATION, " regID : " + regid);
 					sendRegistrationId();
-					mChildHandler.sendEmptyMessageDelayed(0, 4000);
+					mChildHandler.sendEmptyMessageDelayed(TRY_GCM, 4000);
 				}
 				else if(mRegTryCount > 3){
 					mRegTryCount = 0;
@@ -375,23 +404,19 @@ public class NotificationRegisteringManager implements SignonListener,
 				}
 				break;
 				
-			case 1: 	
+			case TRY_JPUSH: 	
+				creatingJpushNotificationManager();	
 				break;
 			}
 		};
 	};
 	
 	private static void creatingJpushNotificationManager(){
+		ALog.i(ALog.NOTIFICATION, "creatingJpushNotificationManager now");
 		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
 		setNotificationManager();
 		getNotificationManager();
 	}
-	
-//	private static void creatingGCMNotificationManager(){
-//		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_GOOGLE);
-//		setNotificationManager();
-//		getNotificationManager();
-//	}
 	
 	private static void sendRegistrationId(){
 		String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
@@ -409,9 +434,11 @@ public class NotificationRegisteringManager implements SignonListener,
 	
 	@Override
 	public void onRegistrationIdSentSuccess() {
-		ALog.i(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
+		ALog.d(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
 		mRegistrationDone = true;
-		mChildHandler.removeMessages(0);
+		if(mChildHandler!=null){
+			mChildHandler.removeMessages(0);
+		}
 		storeRegistrationKeySendToCPP(true);
 	}
 
@@ -421,5 +448,4 @@ public class NotificationRegisteringManager implements SignonListener,
 				"Failed to send Registration ID to CPP - callback");
 		storeRegistrationKeySendToCPP(false);
 	}
-
 }
