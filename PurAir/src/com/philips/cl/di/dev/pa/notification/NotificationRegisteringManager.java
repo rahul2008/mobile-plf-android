@@ -157,7 +157,7 @@ public class NotificationRegisteringManager implements SignonListener,
 					}
 					regid = gcm.register(AppConstants.NOTIFICATION_SENDER_ID);
 					msg = "Device registered, registration ID=" + regid;
-
+					ALog.i(ALog.NOTIFICATION, msg);
 					// send the registration ID to CPP server.
 					sendRegistrationIdToBackend(regid);
 
@@ -313,7 +313,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		startHandlerThread();
 	}
 	
-	private static void setRegistrationProvider(String provider){
+	public static void setRegistrationProvider(String provider){
 		mProvider = provider; 
 	}
 	

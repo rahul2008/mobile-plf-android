@@ -384,7 +384,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			return false;
 		}
 		
-		if(NotificationRegisteringManager.getNotificationManager().getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH) || !Utils.isGooglePlayServiceAvailable()){
+		NotificationRegisteringManager.getNotificationManager();
+		if(NotificationRegisteringManager.getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH) || !Utils.isGooglePlayServiceAvailable()){
 			provider = AppConstants.NOTIFICATION_PROVIDER_JPUSH;
 		}
 		else{

@@ -219,13 +219,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		//		checkForUpdatesHockeyApp();
 
 	}
-
-//	public static NotificationRegisteringManager getNotificationManager(){
-//		if(mNotificationManager == null){
-//			mNotificationManager = new NotificationRegisteringManager();
-//		}
-//		return mNotificationManager;	
-//	}
 	
 	private boolean isVersionChanged() {
 		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
@@ -246,15 +239,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 	
 	private void initNotification(){
+		NotificationRegisteringManager.setRegistrationProvider(AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
 		NotificationRegisteringManager.setNotificationManager();
-
-//		JPushInterface.stopPush(PurAirApplication.getAppContext());
-//		NotificationRegisteringManager.getNotificationManager();
-//		mNotificationManager.storeRegistrationId(PurAirApplication.getAppContext(), "");
-		NotificationRegisteringManager.getNotificationManager().storeRegistrationKeySendToCPP(false);
+		NotificationRegisteringManager.getNotificationManager();
+		NotificationRegisteringManager.storeRegistrationKeySendToCPP(false);
 		
-		if (Utils.isGooglePlayServiceAvailable() && !(NotificationRegisteringManager.getNotificationManager().getRegitrationProvider().
-				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))) {
+		if (Utils.isGooglePlayServiceAvailable()/* && !(NotificationRegisteringManager.getRegitrationProvider().
+				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))*/) {
 			NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 		}
 	}
