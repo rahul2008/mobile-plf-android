@@ -114,6 +114,8 @@
     <string name="subtitle_help_section">访问我们的帮助板块：</string>
     <string name="subtitle_opensource_lib">Open source libraries license</string>
 	<string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>NineOldAndroids:</b>\n\nCopyright 2012 Jake Wharton\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="subtitle_we_chat">WeChat:</string>
+    <string name="wechat_id">飞利浦优质生活</string>
     
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">主页面显示室内和室外空气质量指数的概览</string>
@@ -340,7 +342,7 @@
     <string name="indoor_good">空气质量良好。总体而言，空气中的灰尘较少，颗粒水平较低。预计PM2.5水平也较低。对健康无甚危害。可以在室内进行一般的日常活动。</string>
     <string name="indoor_color_explained_intro">飞利浦智能空气应用程序按十分制显示内置的智能传感器测得的实时空气颗粒水平。您可以在家中读取更新的空气质量信息，包括 PM2.5 浓度。</string>
     <!-- Diagnostics -->
-    <string name="diagnostics">发送报错邮件</string>
+    <string name="diagnostics">飞利浦甲醛过滤网:</string>
     <!-- EWS -->
     <string name="lbl_living_room">客厅</string>
     <string name="lbl_kitchen">厨房</string>

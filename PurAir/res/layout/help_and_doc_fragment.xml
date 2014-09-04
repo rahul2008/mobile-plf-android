@@ -140,6 +140,97 @@
             android:layout_height="1dp"
             android:background="@drawable/seperator_line_2x"
             android:contentDescription="@string/img_description" />
+        
+        <RelativeLayout
+            android:id="@+id/layout_we_chat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="85dp" >
+
+            <ImageView
+                android:id="@+id/we_chat_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/we_chat" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/lbl_we_chat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/we_chat_icon"
+                android:text="@string/subtitle_we_chat"
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_we_chat"
+                android:layout_below="@+id/lbl_we_chat"
+                android:text="@string/wechat_id"
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
+        
+        
+        <RelativeLayout
+            android:id="@+id/layout_email_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:minHeight="85dp" >
+
+            <ImageView
+                android:id="@+id/email_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/email_help" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/lbl_email_us"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="24dp"
+                android:layout_toRightOf="@+id/email_icon"
+                android:text="@string/diagnostics"
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/lbl_email_us"
+                android:layout_below="@+id/lbl_email_us"
+                android:text="@string/contact_philips_support_email"
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@drawable/seperator_line_2x"
+            android:contentDescription="@string/img_description" />
 
         <RelativeLayout
             android:id="@+id/layout_help"

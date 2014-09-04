@@ -113,6 +113,8 @@
     <string name="subtitle_help_section">Visit our Help section:</string>
     <string name="subtitle_opensource_lib">Open source libraries license</string>
     <string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>NineOldAndroids:</b>\n\nCopyright 2012 Jake Wharton\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    <string name="subtitle_we_chat">WeChat:</string>
+    <string name="wechat_id">philipslifestyle</string>
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor AQI</string>
     <string name="tutorial_lOC_desc">Left of canvas contains links to different sections of the app.</string>
@@ -337,7 +339,7 @@
     <string name="indoor_good">Good air. Overall there is low dust and particle levels in the air. The PM2.5 level is expected to be low. Health risk is considered to be minor. Enjoy your usual indoor activities.</string>
     <string name="indoor_color_explained_intro">The Philips Smart Air app shows real-time air particle level on a scale of 1&#8211;10 measured by a smart built-in sensor. You can read update air quality information in your home, including PM2.5 concentration.</string>
     <!-- Diagnostics -->
-    <string name="diagnostics">Email Diagnostics</string>
+    <string name="diagnostics">Email Diagnostics:</string>
     <string name="diagnostics_intro">This is an automatically generated diagnostic email send by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.</string>
     <string name="janrain_user">Jan Rain User: </string>
     <string name="app_version">App version: </string>
