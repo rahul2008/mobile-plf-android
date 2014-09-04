@@ -252,9 +252,8 @@ public class NotificationRegisteringManager implements SignonListener,
 		return registrationId;
 	}
 
-	public static void storeRegistrationId(Context ctx, String registrationId) {
+	private static void storeRegistrationId(Context ctx, String registrationId) {
 		final SharedPreferences prefs = getGCMPreferences();
-		int appVersion = PurAirApplication.getAppVersion();
 
 		ALog.i(ALog.NOTIFICATION,
 				"Storing GCM registration ID for app ");
@@ -307,30 +306,8 @@ public class NotificationRegisteringManager implements SignonListener,
 		ALog.i(ALog.NOTIFICATION,
 				"ICPCLient signed on - sending GCM Registration ID to cpp: "
 						+ regid);
-		
-		startHandlerThread();
-//		ALog.i(ALog.NOTIFICATION,"mLooperThread : " + mLooperThread);
-//		ALog.i(ALog.NOTIFICATION,"mLooperThread.mHandler : " + mLooperThread.mHandler);
-//		mLooperThread.mHandler.sendEmptyMessageDelayed(0, 1500);
 
-		// Dirty: need to send registration ID after 3sec so ICPClient can
-		// properly startup
-		// otherwise it will fail.
-//		new Timer().schedule(new TimerTask() {
-//			@Override
-//			public void run() {
-//				String previousProvider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider();
-//				
-//				if(previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE) && !Utils.isGooglePlayServiceAvailable()){
-//					regid = JPushReceiver.getRegKey();
-//				}			
-//				sendRegistrationIdToBackend(regid);
-//				if(regid != null && !regid.isEmpty()){
-//					storeRegistrationId(PurAirApplication.getAppContext(), regid);
-//				}
-//				ALog.i(ALog.NOTIFICATION, "new Timer().schedule : regId " + regid);
-//			}
-//		}, 3000);
+		startHandlerThread();
 	}
 	
 	private static void setRegistrationProvider(String provider){
@@ -341,7 +318,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		return mProvider;
 	}
 	
-	private static class MyHandler extends Handler {
+	private static final class MyHandler extends Handler {
 	    private final WeakReference<NotificationRegisteringManager> mReference;
 
 	    public MyHandler(NotificationRegisteringManager activity) {
@@ -358,58 +335,25 @@ public class NotificationRegisteringManager implements SignonListener,
 	      		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
 	      		mRegTryCount = 0;
 	      		mChildHandler.sendEmptyMessageDelayed(0, 3000);
-	      		//removeHandler();
 	      		break;
 	  		
 	  		case TRY_JPUSH: 
-	  			mChildHandler.sendEmptyMessage(1);
-	  			//removeHandler();
+  				mChildHandler.sendEmptyMessage(1);
 	  			break;
 	  		
 	  		default:
-	  		//	removeHandler();
 	  			break;
   		}
 	    }
 	  }
 	
-	public class LooperThread extends Thread {
-//	    private Handler mHandler;
+	private class LooperThread extends Thread {
 	    private MyHandler mHandler = null;
-	    void removeHandler(){
-        	if(mHandler!=null){
-    			mHandler.removeMessages(TRY_GCM);
-    			mHandler.removeMessages(TRY_JPUSH);
-    			mHandler = null;
-    		}
-        }
 	    
 	    public void run() {
 	        Looper.prepare();
 	        ALog.i(ALog.NOTIFICATION,"LooperThread inside run");
 	        mHandler = new MyHandler(NotificationRegisteringManager.this);
-//	        mHandler = new Handler() {
-//	        	@Override
-//	        	public void handleMessage(Message msg) {
-//	        		switch(msg.what){
-//	        		case TRY_GCM:
-//		        		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
-//		        		mRegTryCount = 0;
-//		        		mChildHandler.sendEmptyMessageDelayed(0, 3000);
-//		        		removeHandler();
-//		        		break;
-//	        		
-//	        		case TRY_JPUSH: 
-//	        			mChildHandler.sendEmptyMessage(1);
-//	        			removeHandler();
-//	        			break;
-//	        		
-//	        		default:
-//	        			removeHandler();
-//	        			break;
-//	        		}
-//	        	}
-//	        };
 	        
 	        if(getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
 				mHandler.sendEmptyMessageDelayed(TRY_JPUSH, 100);
@@ -422,7 +366,7 @@ public class NotificationRegisteringManager implements SignonListener,
 	    }
 	}
 	
-	public static Handler mChildHandler = new Handler(){
+	private static final Handler mChildHandler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
 			switch(msg.what){
 			case TRY_GCM:
@@ -450,7 +394,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		ALog.i(ALog.NOTIFICATION, "creatingJpushNotificationManager now");
 		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
 		setNotificationManager();
-		getNotificationManager();
+		getNotificationManager().registerAppForNotification();
 	}
 	
 	private static void sendRegistrationId(){
