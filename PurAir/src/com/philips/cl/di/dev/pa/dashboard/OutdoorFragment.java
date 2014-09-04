@@ -4,15 +4,12 @@ import java.util.Locale;
 
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -34,6 +31,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 	private ImageView weatherIcon ;
 	private RelativeLayout rootLayout;
 	private ImageView aqiCircleMeter, myLocArrowImg ;
+	private float prevRotation;
 	
 	private FontTextView lastUpdated;
 	private FontTextView pmValue;
@@ -133,7 +131,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 				aqiSummary2.setText(outdoorAQI.getAqiSummary()[1]);
 			}
 			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
-			Utils.rotateImageView(aqiPointerCircle, outdoorAQI.getAqiPointerRotaion());
+			Utils.rotateImageView(aqiPointerCircle, prevRotation, outdoorAQI.getAqiPointerRotaion());
+			prevRotation = outdoorAQI.getAqiPointerRotaion();
 			aqiCircleMeter.setVisibility(View.VISIBLE) ;
 			pmLayout.setVisibility(View.VISIBLE);
 			pmValue.setText(""+outdoorAQI.getPM25());
