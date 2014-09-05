@@ -238,6 +238,24 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		return false;
 	}
 	
+	private boolean isLocaleChanged() {
+		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
+				getGCMPreferences();
+		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
+		
+		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
+				LanguageUtils.DEFAULT_LANGUAGE);
+		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
+
+		if (!isLocalChanged) {
+			ALog.d(ALog.NOTIFICATION,
+					"App Locale change happened");
+			return true;
+		}
+
+		return false;
+	}
+	
 	private void initNotification(){
 		NotificationRegisteringManager.setRegistrationProvider(AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
 		NotificationRegisteringManager.setNotificationManager();
@@ -264,7 +282,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		
 		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
 		
-		if(isVersionChanged()){
+		if(isVersionChanged() || isLocaleChanged()){
 			registerNow = true;
 			ALog.i(ALog.NOTIFICATION," MainActivity first");
 			initNotification();
@@ -311,7 +329,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);
-		
+	
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 

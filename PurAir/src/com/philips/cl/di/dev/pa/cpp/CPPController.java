@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
@@ -581,6 +583,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				ALog.i(ALog.CPPCONTROLLER, "Registration ID successfully sent to CPP");
 				storeProviderInPref(provider);
 				NotificationRegisteringManager.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
+				String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
+				NotificationRegisteringManager.getNotificationManager().storeLocale(context, languageLocale);
 				notifyNotificationListener(true);
 			} else {
 				ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);

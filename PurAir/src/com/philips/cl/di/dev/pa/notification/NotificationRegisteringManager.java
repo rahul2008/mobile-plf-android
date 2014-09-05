@@ -277,6 +277,17 @@ public class NotificationRegisteringManager implements SignonListener,
 		editor.putInt(AppConstants.PROPERTY_APP_VERSION, version);
 		editor.commit();
 	}
+	
+	public void storeLocale(Context ctx, String locale) {
+		final SharedPreferences prefs = getGCMPreferences();
+
+		ALog.i(ALog.NOTIFICATION,
+				"Storing locale for app : " + locale);
+
+		SharedPreferences.Editor editor = prefs.edit();
+		editor.putString(AppConstants.PROPERTY_APP_LOCALE, locale);
+		editor.commit();
+	}
 
 	private boolean getIsRegistrationKeySendToCpp() {
 		final SharedPreferences prefs = getGCMPreferences();

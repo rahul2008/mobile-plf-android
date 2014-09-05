@@ -6,6 +6,7 @@ import java.util.Locale;
 public class LanguageUtils {
 	
 	public static final String DEFAULT_LANGUAGE = "EN";
+	public static final String LANGUAGE_ZH = "ZH-HANT";
 	
 	private static HashMap<Locale, String> customMapping = null;
 	static {
@@ -18,12 +19,20 @@ public class LanguageUtils {
 		if (loc == null) return DEFAULT_LANGUAGE;
 
 		String language = loc.getLanguage();
+
+		if (language == null || language.isEmpty())
+			return DEFAULT_LANGUAGE;
+		
+		/*
+		 * In Some chinies phone we are getting Local Language as "ZH". Like : Lenovo A298t
+		 * So we are treating it as "ZH-HANT".
+		 */
+		if(language.toUpperCase().equalsIgnoreCase("ZH")) return LANGUAGE_ZH;
+		
 		for (Locale custom : customMapping.keySet()) {
 			if (!custom.equals(loc)) continue;
 			language = customMapping.get(custom);
 		}
-		
-		if (language == null || language.isEmpty()) return DEFAULT_LANGUAGE;
 		
 		return language.toUpperCase();
 	}
