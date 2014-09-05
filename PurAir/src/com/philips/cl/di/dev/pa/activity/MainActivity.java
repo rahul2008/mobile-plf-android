@@ -160,9 +160,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
 		
-		// Ensure app is registered for notifications
-		getNotificationRegisteringManager();
-
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 
@@ -450,6 +447,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}
 
+	@Override
+	protected void onStart() {
+		super.onStart();
+		// Ensure app is registered for notifications
+		getNotificationRegisteringManager();
+	}
+	
 	@Override
 	protected void onStop() {
 		if (progressDialog != null) {
