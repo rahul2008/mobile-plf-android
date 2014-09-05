@@ -579,8 +579,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			break;
 			
 		case Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS :
-			if (status==Errors.SUCCESS) {	
-				ALog.i(ALog.CPPCONTROLLER, "Registration ID successfully sent to CPP");
+			ThirdPartyNotification tpns = (ThirdPartyNotification) obj;			
+			if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
+				ALog.i(ALog.CPPCONTROLLER, "Successfully registered with CPP");
 				storeProviderInPref(provider);
 				NotificationRegisteringManager.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
 				String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
