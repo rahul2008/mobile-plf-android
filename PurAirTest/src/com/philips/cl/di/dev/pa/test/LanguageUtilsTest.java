@@ -56,7 +56,7 @@ public class LanguageUtilsTest extends TestCase {
 		Locale loc = Locale.FRENCH;
 		String language = LanguageUtils.getLanguageForLocale(loc);
 		
-		assertEquals(LANGUAGE_FRENCH, language);
+		assertEquals(LANGUAGE_ENGLISH, language);
 	}
 
 }
