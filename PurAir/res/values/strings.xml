@@ -394,7 +394,7 @@
     <string name="b_capital">B</string>
     <string name="c_capital">C</string>
     <string name="error_purifier_not_detect_head">Something went wrong</string>
-    <string name="error_purifier_not_detect_msg1">The phone could not detect your Philips Smart Air Purifier on</string>
+    <string name="error_purifier_not_detect_msg1">The phone could not detect your Philips Smart Air Purifier in</string>
     <string name="error_purifier_not_detect_msg2">Make sure your Philips Smart Air Purifier is within range of your home Wi-Fi network.</string>
     <string name="error_purifier_not_detect_btn_txt">Try again</string>
     <string name="no_network">No Wi-fi network</string>

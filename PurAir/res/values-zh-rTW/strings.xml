@@ -385,7 +385,7 @@
     <string name="b_capital">B</string>
     <string name="c_capital">C</string>
     <string name="error_purifier_not_detect_head">出錯</string>
-    <string name="error_purifier_not_detect_msg1">手機未能偵測在  上的 Philips 智能空氣清新機</string>
+    <string name="error_purifier_not_detect_msg1">手機無法在如下網絡中檢測到您的智能空氣清新機：</string>
     <string name="error_purifier_not_detect_msg2">確保您的 Philips 智能空氣清新機位於家庭 Wi-Fi 網絡內。</string>
     <string name="error_purifier_not_detect_btn_txt">重試</string>
     <string name="no_network">沒有 Wi-fi 網絡</string>
