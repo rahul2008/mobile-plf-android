@@ -282,22 +282,31 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		
 		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
 		
-		if(isVersionChanged() || isLocaleChanged()){
+		if(isVersionChanged()){
 			registerNow = true;
-			ALog.i(ALog.NOTIFICATION," MainActivity first");
+			ALog.i(ALog.NOTIFICATION," MainActivity first version changed");
 			initNotification();
+		}
+		if(isLocaleChanged()){
+			registerNow = true;
+			ALog.i(ALog.NOTIFICATION," MainActivity second locale changed");
+			initNotification();
+			if (!Utils.isGooglePlayServiceAvailable() || (NotificationRegisteringManager.getRegitrationProvider().
+					equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))){
+				NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
+			}
 		}
 		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
 			registerNow = false;
-			ALog.i(ALog.NOTIFICATION,"MainActivity second");
+			ALog.i(ALog.NOTIFICATION,"MainActivity third previsouly=GCM now = GCM");
 		}
 		else if (!Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			registerNow = false;
-			ALog.i(ALog.NOTIFICATION,"MainActivity third");
+			ALog.i(ALog.NOTIFICATION,"MainActivity fourth  previsouly=GCM now = GCM not available");
 		}
 		else{
 			registerNow = true;
-			ALog.i(ALog.NOTIFICATION,"MainActivity fourth");
+			ALog.i(ALog.NOTIFICATION,"MainActivity fifth else ");
 			initNotification();
 		}
 		
