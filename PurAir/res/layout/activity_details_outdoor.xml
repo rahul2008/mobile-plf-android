@@ -1,7 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@android:color/white">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,50 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             layout="@layout/od_caution_layout" />
-
-        <!-- Map layout -->
-
-        <RelativeLayout
-            android:id="@+id/img_map_layt"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_margin="16dp"
-            android:visibility="gone" >
-
-            <fragment
-                android:id="@+id/map"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:layout_margin="8dp"
-                class="com.google.android.gms.maps.SupportMapFragment" />
-
-            <ImageView
-                android:id="@+id/img_map"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@string/img_description" />
-
-            <ImageView
-                android:id="@+id/oDmapInlarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp"
-                android:clickable="true"
-                android:contentDescription="@string/img_description"
-                android:padding="8dp"
-                android:src="@drawable/zoom_arrow_icon_2x" />
-
-            <View
-                android:id="@+id/view_map_bg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/map_background" />
-        </RelativeLayout>
-
+        
         <!-- Map layout -->
 
         <RelativeLayout
@@ -111,13 +68,14 @@
 
         <!-- Weather report -->
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/odWeatherHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:gravity="center_horizontal"
+            android:lineSpacingExtra="5dp"
             android:text="@string/weather_forecast"
             android:textColor="@color/dodgerblue"
             android:textSize="@dimen/title_text_size_medium"
@@ -170,12 +128,13 @@
             android:layout_marginRight="16dp"
             android:background="@color/gray" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/detailsOutdoorSecondMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:lineSpacingExtra="5dp"
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="@dimen/title_text_size_medium"

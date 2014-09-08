@@ -58,7 +58,6 @@ import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 public class OutdoorDetailsActivity extends BaseActivity 
 	implements OnClickListener, ServerResponseListener, OutdoorDetailsListener {
 
-//	private GoogleMap mMap;
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
@@ -67,7 +66,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private TextView heading;
 	private ImageView circleImg, backgroundImage;
 	private ImageView avoidImg, openWindowImg, maskImg;
-	private ImageView mapEnlargeImg;
 	private FontTextView avoidTxt, openWindowTxt, maskTxt;
 	private FontTextView msgSecond;
 	private ProgressBar aqiProgressBar;
@@ -75,12 +73,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private Coordinates coordinates;
 	private static String currentCityTime;
 	
-	private ViewGroup mapLayout;
 	private ViewGroup mapGaodeLayout;
-//	private ImageView mapImg;
-//	private View mapBackground;
-	private double latitude;
-	private double longitude;
 	private String areaId;
 	private FontTextView pmValue;
 	private LinearLayout pmLayout;
@@ -371,7 +364,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
 		maskImg = (ImageView) findViewById(R.id.maskImg); 
-		mapEnlargeImg = (ImageView) findViewById(R.id.oDmapInlarge); 
 //		mapEnlargeImg.setVisibility(View.INVISIBLE);
 
 		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
@@ -382,12 +374,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		aqiProgressBar = (ProgressBar) findViewById(R.id.outdoorAqiDownloadProgressBar);
 		weatherProgressBar = (ProgressBar) findViewById(R.id.weatherProgressBar);
 		
-		mapLayout = (RelativeLayout) findViewById(R.id.img_map_layt);
 		mapGaodeLayout = (RelativeLayout) findViewById(R.id.gaode_map_layt);
-//		mapImg = (ImageView) findViewById(R.id.img_map);
-//		mapBackground = (View) findViewById(R.id.view_map_bg);
-
-		//if(!Utils.isGooglePlayServiceAvailable()) {
 		setupGaodeMap();
 		//}
 		/**
@@ -396,11 +383,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 		lastDayBtn.setOnClickListener(this);
 		lastWeekBtn.setOnClickListener(this);
 		lastFourWeekBtn.setOnClickListener(this);
-		mapEnlargeImg.setOnClickListener(this);
 	}
 	
 	private void setupGaodeMap() {
-		mapLayout.setVisibility(View.GONE);
 		mapGaodeLayout.setVisibility(View.VISIBLE);
 		
 		ImageView gaodeMapZoom = (ImageView) findViewById(R.id.gaodeMapZoomImg);
@@ -461,15 +446,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 			}
 			case R.id.detailsOutdoorLastFourWeekLabel: {
 				setViewlast4WeeksAQIReadings();
-				break;
-			}
-			case R.id.oDmapInlarge: {
-				Intent mapIntent = new Intent(OutdoorDetailsActivity.this, MapOdActivity.class);
-				mapIntent.putExtra("centerLatF", latitude);
-				mapIntent.putExtra("centerLngF", longitude);
-				mapIntent.putExtra("centerCity", "Shanghai");
-				mapIntent.putExtra("otherInfo", new String[]{});
-				startActivity(mapIntent);
 				break;
 			}
 			case R.id.back_to_home_img: {
@@ -642,7 +618,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	@Override
 	public void onWeatherForecastReceived(final List<ForecastWeatherDto> weatherList) {
-		// TODO Auto-generated method stub
 
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
 		runOnUiThread(new Runnable() {

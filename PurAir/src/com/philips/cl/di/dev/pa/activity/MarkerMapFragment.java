@@ -9,7 +9,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +33,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
+import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -43,14 +43,14 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
  * Author : Ritesh.jha@philips.com Date : 4 Aug 2014
  * 
  */
-public class MarkerMapFragment extends Fragment implements
+public class MarkerMapFragment extends BaseFragment implements
 		OnMarkerClickListener, OnMapLoadedListener, OutdoorEventListener {
 
 	private AMap aMap;
 	private MapView mapView;
 	private UiSettings mUiSettings;
 //	private List<String> mCitiesList = null;
-	private static List<String> mCitiesListAll = null;
+	private List<String> mCitiesListAll = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
 	private OutdoorCity mOutdoorCity = null;
@@ -241,6 +241,7 @@ public class MarkerMapFragment extends Fragment implements
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		if(aMap != null) aMap.clear();
 		mapView.onDestroy();
 		OutdoorController.getInstance().removeOutdoorEventListener(this);
 		if(mHandler != null){
