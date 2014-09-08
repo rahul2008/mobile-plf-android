@@ -91,10 +91,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.activity.MapOdActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="com.philips.cl.di.dev.pa.activity.TutorialPagerActivity"
             android:screenOrientation="portrait" >
         </activity>
