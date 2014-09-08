@@ -297,7 +297,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 					return false;
 				}
 				purifier.setConnectionState(ConnectionState.DISCONNECTED);
-				//Clear AQI historic
+				//Clear indoor AQI historic data
 				SessionDto.getInstance().setIndoorTrendDto(purifier.getEui64(), null);
 				notifyDiscoveryListener();
 				return true;

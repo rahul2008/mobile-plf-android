@@ -390,26 +390,17 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				getRelationship(currentRelationshipType, purifier.getEui64());
 				ALog.i(ALog.PAIRING,
 						"DI COMM relationship exists, checking for notify relationship");
-			} else if (currentRelationshipType
-					.equals(AppConstants.PAIRING_NOTIFY_RELATIONSHIP)
+			} else if (currentRelationshipType.equals(AppConstants.PAIRING_NOTIFY_RELATIONSHIP)
 					&& noOfRelations > 0) {
-				ALog.i(ALog.PAIRING,
-						"Notify relationship exists, pairing already successfull");
+				ALog.i(ALog.PAIRING, "Notify relationship exists, pairing already successfull");
 				notifyListenerSuccess();
 				ALog.i(ALog.PAIRING, "Paring status set to true");
 				purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRED);
 				purifier.setLastPairedTime(new Date().getTime());
-				purifierDatabase.updatePairingStatus(purifier,
-						PurAirDevice.PAIRED_STATUS.PAIRED);
-				/*
-				 * if( updated != -1 ) { String currentPurifierEui64 =
-				 * PurifierManager.getInstance().getDefaultPurifierEUI64();
-				 * PurAirDevice firstPurifier =
-				 * DiscoveryManager.getInstance().getDeviceByEui64
-				 * (currentPurifierEui64); if (firstPurifier == null) return;
-				 * PurifierManager.getInstance().setCurrentPurifier(purifier) ;
-				 * }
-				 */
+				purifierDatabase.updatePairingStatus(purifier,	PurAirDevice.PAIRED_STATUS.PAIRED);
+				//Clear indoor AQI historic data
+				SessionDto.getInstance().setIndoorTrendDto(purifier.getEui64(), null);
+				
 			}
 		}
 
