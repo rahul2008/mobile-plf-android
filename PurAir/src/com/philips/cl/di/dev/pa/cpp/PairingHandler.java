@@ -480,11 +480,8 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 					purifier.setLastPairedTime(new Date().getTime());
 					purifierDatabase.updatePairingStatus(purifier,
 							PurAirDevice.PAIRED_STATUS.PAIRED);
-					/*
-					 * if( updated != -1 ) {
-					 * PurifierManager.getInstance().setCurrentPurifier
-					 * (purifier) ; }
-					 */
+					//Clear indoor AQI historic data
+					SessionDto.getInstance().setIndoorTrendDto(purifier.getEui64(), null);
 
 				}
 			} else {
