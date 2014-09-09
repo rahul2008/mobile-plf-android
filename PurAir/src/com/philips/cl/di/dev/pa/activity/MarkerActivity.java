@@ -1,13 +1,19 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -55,11 +61,15 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private List<String> mCitiesListAll = null;
 	private OutdoorCity mOutdoorCity = null;
 	private boolean isAnimationDrawableOpen = false;
+	private ArrayList<Marker> mArrayListMarker = null;
+	private RelativeLayout mParentLayout = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.marker_activity);
+		mArrayListMarker = new ArrayList<Marker>();
+		mParentLayout = (RelativeLayout)findViewById(R.id.mapParent);
 		mapView = (MapView) findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
 		mFinishActivity = (ImageView) findViewById(R.id.gaodeMapFinish);
@@ -72,6 +82,11 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		builder = new LatLngBounds.Builder();
 		mapView.setOnClickListener(this);
 
+		
+		inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
+		view = inflater.inflate(R.layout.circle_lyt, null);
+		
 		init();
 
 		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
@@ -124,9 +139,32 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
-		if(aMap != null) aMap.clear();
-		mapView.onDestroy();
+		super.onDestroy();		
+		
+		view = null;
+		inflater = null;
+		
+		if(aMap!=null){		
+			aMap.stopAnimation();
+			aMap.clear();
+			aMap = null;
+		}
+		if(mapView != null){
+			mapView.setBackgroundColor(Color.BLACK);
+			mapView.removeAllViewsInLayout();
+			mapView.onDestroy();
+			mapView = null;
+		}
+		
+		if(mParentLayout != null){
+			mParentLayout.removeAllViews();
+			mParentLayout = null;
+		}
+		
+		if(mArrayListMarker!=null && mArrayListMarker.size()>0){
+			mArrayListMarker.clear();
+			mArrayListMarker=null;
+		}
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
@@ -149,9 +187,11 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		boolean iconOval = false;
 
 		// added to support traditional and simplified Chinese in map
-		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
+				"ZH-HANS")) {
 			cityName = outdoorCity.getOutdoorCityInfo().getCityNameCN();
-		} else if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+		} else if (LanguageUtils.getLanguageForLocale(Locale.getDefault())
+				.contains("ZH-HANT")) {
 			cityName = outdoorCity.getOutdoorCityInfo().getCityNameTW();
 		} else {
 			cityName = outdoorCity.getOutdoorCityInfo().getCityName();
@@ -166,7 +206,16 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			mOutdoorCity = outdoorCity;
 		}
 
-		aMap.addMarker(new MarkerOptions()
+		if(mBitMap != null){
+			mBitMap.recycle();
+			mBitMap = null;
+		}			
+		
+		mBitMap = writeTextOnDrawable(MarkerMapFragment
+				.getAqiPointerImageResId(aqiValue, iconOval),
+				aqiValue);
+				
+		mArrayListMarker.add(aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
 				.position(latLng)
 				.title(cityName)
@@ -174,10 +223,28 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 						"PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2
 								+ ", NO2: " + no2)
 				.draggable(true)
-				.icon(BitmapDescriptorFactory.fromBitmap(MarkerMapFragment
-						.writeTextOnDrawable(MarkerMapFragment
-								.getAqiPointerImageResId(aqiValue, iconOval),
-								aqiValue))));
+				.icon(BitmapDescriptorFactory.fromBitmap(mBitMap))));
+	}
+	
+	private LayoutInflater inflater = null;
+	private View view = null;
+	private Bitmap mBitMap = null;
+	
+	private Bitmap writeTextOnDrawable(int drawableId, int text) {
+		
+		Bitmap bm = BitmapFactory.decodeResource(
+				this.getResources(), drawableId)
+				.copy(Bitmap.Config.ARGB_4444, true);
+		
+		Canvas canvas = new Canvas(bm);
+	
+		FontTextView textView = (FontTextView) view.findViewById(R.id.circle_txt); 
+		textView.setText(String.valueOf(text));
+
+		view.measure(canvas.getWidth(), canvas.getHeight());
+		view.layout(0, 0, canvas.getWidth(), canvas.getHeight());
+		view.draw(canvas);
+		return bm;
 	}
 
 	@Override
@@ -209,6 +276,32 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 
+	}
+
+	public void render(Marker marker, View view) {
+		String title = marker.getTitle();
+		TextView titleUi = ((TextView) view.findViewById(R.id.title));
+		if (title != null) {
+			SpannableString titleText = new SpannableString(title);
+			titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
+					titleText.length(), 0);
+			titleUi.setTextSize(20);
+			titleUi.setText(titleText);
+
+		} else {
+			titleUi.setText("");
+		}
+		String snippet = marker.getSnippet();
+		TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+		if (snippet != null) {
+			SpannableString snippetText = new SpannableString(snippet);
+			snippetText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
+					snippetText.length(), 0);
+			snippetUi.setTextSize(15);
+			snippetUi.setText(snippetText);
+		} else {
+			snippetUi.setText("");
+		}
 	}
 
 	@Override
