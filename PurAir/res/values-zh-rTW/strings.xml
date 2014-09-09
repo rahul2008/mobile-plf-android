@@ -56,8 +56,8 @@
     <string name="clean_today">馬上清洗</string>
     <string name="clean_now">此刻清洗</string>
     <string name="filter_tip">請記得每兩個月清洗一次智能空氣清新機的感應器。</string>
-    <string name="replace_filter_text">Multi-Care Filter, Active Carbon Filter and HEPA Filter</string>
-    <string name="replace_filter_title">How to Replace Filters</string>
+    <string name="replace_filter_text">多重防護過濾網，活性炭過濾網和HEPA過濾網</string>
+    <string name="replace_filter_title">如何更換過濾網</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空氣水平狀態</string>
     <string name="rm_air_quality_message">連接裝置以開始探測室内空氣質素</string>

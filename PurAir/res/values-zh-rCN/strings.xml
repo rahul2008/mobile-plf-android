@@ -58,8 +58,8 @@
     <string name="clean_today">即将清洁</string>
     <string name="clean_now">即刻清洁</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智控净化器的传感器</string>
-    <string name="replace_filter_text">Multi-Care Filter, Active Carbon Filter and HEPA Filter</string>
-    <string name="replace_filter_title">How to Replace Filters</string>
+    <string name="replace_filter_text">多重防护过滤网，活性炭过滤网和HEPA过滤网</string>
+    <string name="replace_filter_title">如何更换过滤网</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空气水平状态</string>
     <string name="rm_air_quality_message">连接设备开始读取室内空气质量</string>
