@@ -108,20 +108,25 @@ public class WeatherReportLayout extends  LinearLayout {
 			
 			dayTxt.setText(nextFourDays[i]);
 			weatherImg.setImageResource(weatherDetails.get(i).getWeatherIcon());
-			Utils.setOutdoorWeatherDirImg(context, 
-					weatherDetails.get(i).getWindSpeed(), weatherDetails.get(i).getWindDirection(), windDirImg);
 			
-			if (weatherDetails.get(i).getTemperatureDay() != null
-					&& !weatherDetails.get(i).getTemperatureDay().isEmpty()) {
-				dayTemp.setText(weatherDetails.get(i).getTemperatureDay() + "\u00B0");
+			int windDirectionId = weatherDetails.get(i).getWindDirection();
+			int windSpeed =  weatherDetails.get(i).getWindSpeed();
+			String nightTemprature = weatherDetails.get(i).getTemperatureNight();
+			String dayTemprature = weatherDetails.get(i).getTemperatureDay();
+			
+			if (windDirectionId != - 1) {
+				Utils.setOutdoorWeatherDirImg(context, windSpeed, windDirectionId, windDirImg);
+			}
+			
+			if (dayTemprature != null && !dayTemprature.isEmpty()) {
+				dayTemp.setText(dayTemprature + "\u00B0");
 			} 
 			
-			if (weatherDetails.get(i).getTemperatureNight() != null 
-					&& !weatherDetails.get(i).getTemperatureNight().isEmpty()) {
+			if (nightTemprature != null	&& !nightTemprature.isEmpty()) {
 				nightTemp.setText(weatherDetails.get(i).getTemperatureNight() + "\u00B0");
 			} 
 			
-			windSpeedTxt.setText(weatherDetails.get(i).getWindSpeed()+ context.getString(R.string.kmph));
+			windSpeedTxt.setText(windSpeed + context.getString(R.string.kmph));
 			 
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);

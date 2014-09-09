@@ -109,12 +109,13 @@ public class ForecastWeatherDto {
 			feInt = Integer.parseInt(fe);
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
+			return -1;
 		}
 		return WindDirection.valueOf(feInt);
 	}
 	
 	public enum WindDirection {
-		ZERO(0, 0),
+		ZERO(0, -1),
 		ONE(1, 45),
 		TWO(2, 90),
 		THREE(3, 135),
@@ -123,8 +124,8 @@ public class ForecastWeatherDto {
 		SIX(6, 270), 
 		SEVEN(7, 315), 
 		EIGHT(8, 0),
-		NINE(9, -2),
-		UNKNOWN(10, 0); 
+		NINE(9, -1),
+		UNKNOWN(10, -1); 
 		
 		private int windDirectionID;
 		private int windDirectionAngle;
