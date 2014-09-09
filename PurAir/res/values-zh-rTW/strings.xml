@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">智能空氣</string>
     <string name="dashboard_title">智能空氣清新機</string>
     <string name="action_settings">設定</string>
@@ -16,7 +17,7 @@
     <string name="list_item_prod_reg">產品註冊</string>
     <string name="list_item_user_reg">用戶註冊</string>
     <string name="list_item_buy_online">網上購買</string>
-<!--     <string name="list_item_firmware">韌體</string> -->
+    <!-- <string name="list_item_firmware">韌體</string> -->
     <!-- Right menu texts -->
     <string name="connection_status">連接狀態</string>
     <string name="connected">已連接</string>
@@ -55,11 +56,13 @@
     <string name="clean_today">馬上清洗</string>
     <string name="clean_now">此刻清洗</string>
     <string name="filter_tip">請記得每兩個月清洗一次智能空氣清新機的感應器。</string>
+    <string name="replace_filter_text">Multi-Care Filter, Active Carbon Filter and HEPA Filter</string>
+    <string name="replace_filter_title">How to Replace Filters</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空氣水平狀態</string>
     <string name="rm_air_quality_message">連接裝置以開始探測室内空氣質素</string>
     <!-- Outdoor Locations -->
-<!--     <string name="enter_city_name">Enter location</string> -->
+    <!-- <string name="enter_city_name">Enter location</string> -->
     <string name="cancel">取消</string>
     <string name="decline">拒絕</string>
     <string name="weather_forecast">天氣預報</string>
@@ -77,7 +80,7 @@
     <string name="updated">最新更新</string>
     <string name="n_a">不適用</string>
     <string name="take_action">採取行動</string>
-   	<string name="no_data">無資料</string>
+    <string name="no_data">無資料</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">良</string>
@@ -86,20 +89,18 @@
     <string name="very_unhealthy">非常不健康</string>
     <string name="very_unhealthy_split">非常 \n 不健康</string>
     <string name="hazardous">重污染 </string>
-    
     <string name="good_indoor">優</string>
     <string name="moderate_indoor">良</string>
     <string name="unhealthy_indoor">不健康</string>
     <string name="very_unhealthy_indoor">非常不健康</string>
     <string name="very_unhealthy_split_indoor">非常不健康</string>
-    
     <string name="good_outdoor">優</string>
     <string name="moderate_outdoor">良</string>
     <string name="slightly_polluted_outdoor">輕微污染</string>
     <string name="moderately_polluted_outdoor">輕度污染</string>
     <string name="unhealthy_outdoor">中度污染</string>
     <string name="hazardous_outdoor">重污染 </string>
-    
+
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">應用程式教程</string>
     <string name="subtitle_FAQ">常見問題</string>
@@ -113,7 +114,7 @@
     <string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
     <string name="subtitle_we_chat">WeChat:</string>
     <string name="wechat_id">飞利浦优质生活</string>
-    
+
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">儀表板顯示室內及室外 AQI	</string>
     <string name="tutorial_lOC_desc">畫面左邊有連結帶您到應用程式的不同部分。</string>
@@ -159,7 +160,7 @@
     <string name="buy_philips_smart_air_purifier">Philips 智能空氣清新機</string>
     <string name="available_from">可在以下地點購買 %s</string>
     <!-- Indoor and Outdoor Details -->
-    <string name = "purifier_not_connect_error">空氣清新機並未連接。請連接空氣清新機。</string>
+    <string name="purifier_not_connect_error">空氣清新機並未連接。請連接空氣清新機。</string>
     <string name="aqi_history">AQI 紀錄</string>
     <string name="aqi_history_download_failed">AQI 紀錄資料下載失敗！</string>
     <string name="aqi_history_not_avialable">並無 AQI 紀錄資料！</string>
@@ -235,7 +236,6 @@
     <string name="outdoor_aiq_analysis_title4">101&#8211;150, 輕微污染</string>
     <string name="outdoor_aiq_analysis_title5">51&#8211;100, 良</string>
     <string name="outdoor_aiq_analysis_title6">0&#8211;50, 優</string>
-    
     <string name="indoor_aiq_analysis_title1">4+, 非常不健康</string>
     <string name="indoor_aiq_analysis_title2">3&#8211;4, 不健康</string>
     <string name="indoor_aiq_analysis_title3">2&#8211;3, 良</string>
@@ -244,10 +244,10 @@
     <string name="outdoor_analysis_detail2_head100">在過去的一天，一周，或一月內，您的飛利浦智控淨化器檢測到您家中的空氣水平為“%1$s”。經室外檢測器檢測，您所在位置的室外空氣質量為“%2$s”。</string>
     <string name="outdoor_analysis_detail_head2">如為 1-2 級別一個小時或以上，PM2.5 水平預算為低於中國 AQI 標準，即室外空氣每立方米 75 微克。如為 2 以上級別一個小時或以上，PM2.5 水平預算為高於中國 AQI 標準，即室外空氣每立方米 75 微克。</string>
     <string name="outdoor_analysis_detail_head3">現時沒有 PM2.5 的室内標準，所以沒有顯示出室内 PM2.5 水平。然而，室外和室內空氣質素息息相關：高的室内 PM2.5 水平和室外 PM2.5 水平關係非常大。</string>
-<!--     <string name="pm25">PM2.5</string> -->
-<!--     <string name="pm10">PM10</string> -->
-<!--     <string name="so2">SO2</string> -->
-<!--     <string name="no2">NO2</string> -->
+    <!-- <string name="pm25">PM2.5</string> -->
+    <!-- <string name="pm10">PM10</string> -->
+    <!-- <string name="so2">SO2</string> -->
+    <!-- <string name="no2">NO2</string> -->
     <!-- Notifications -->
     <string name="notifications_indoor_title">室内空氣水平</string>
     <string name="notifications_indoor_AQI_desc">當家中的空氣污染水平超過所設置的水平時便會通知您。</string>
@@ -258,8 +258,8 @@
     <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notifications_indoor_aqi_lbl_4">4+</string>
     <string name="notifications_enable_all">發生以下情況會收到通知： \"%s\"</string>
-<!--     <string name="notification_pairing_btn">遙控器</string> -->
-<!--     <string name="notification_pairing_text">啟用遠端控制接收通知。</string> -->
+    <!-- <string name="notification_pairing_btn">遙控器</string> -->
+    <!-- <string name="notification_pairing_text">啟用遠端控制接收通知。</string> -->
     <string name="notification_nopurifier_title">沒有連接空氣清新機</string>
     <string name="notification_nopurifier_text">只有在連接空氣清新機的情況下才能設定通知。</string>
     <string name="notification_nopurifier_positivebtn">到主螢幕</string>
@@ -268,7 +268,7 @@
     <string name="notification_disabling_msg">正在停用通知狀態，請稍候..</string>
     <string name="notification_send_aqi_level_msg">正在傳送已選擇的 AQI 水平，請稍候..</string>
     <string name="notification_error_msg">產品出現錯誤，請稍後重試。</string>
-    <string name="notification_front_panel_title">前方面板</string> 
+    <string name="notification_front_panel_title">前方面板</string>
     <string name="notification_front_panel_desc">前方面板開啟時，您會收到通知。</string>
     <string name="error_aqithreshold_setting">設定 AQI 限額時出錯。</string>
     <string name="notification_notpaired_title">遠程遙控功能被禁用</string>
@@ -277,7 +277,7 @@
     <string name="rate_this_app">為這個應用程式評分</string>
     <string name="send_us_feedback">向我們傳送意見</string>
     <string name="version_number">應用程式版本</string>
-<!--     <string name="t_and_c">"<u>條款及細則</u>"</string> -->
+    <!-- <string name="t_and_c">"<u>條款及細則</u>"</string> -->
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">生活在城市環境，誰也不能避免日益嚴重的空氣質量問題。要自然、全面地淨化室内空氣，您可以依靠 Philips VitaShield 智能淨化系統。</string>
     <string name="purifier_feature_lbl_1">移除小達 20 納米的超微細粒子。</string>
@@ -427,32 +427,32 @@
     <string name="verify_power_on_msg1">請將飛利浦智控淨化器接入電源，并按下開關開啟淨化器。</string>
     <string name="verify_power_on_msg2">Philips 智能空氣清新機是否已開啟？</string>
     <string name="default_purifier_name">我的家</string>
-    
+
     <!-- Tools fragments -->
     <string name="ipaddress">Purifier IPAddress: </string>
     <string name="eui64">Purifier Eui64: </string>
-<!--     <string name="submit">Submit</string> -->
+    <!-- <string name="submit">Submit</string> -->
     <!-- Pairing -->
     <string name="pair_disable_alert">您確定要禁用遠程遙控功能嗎？</string>
     <string name="pair_title">在非無線網絡環境下開啟遠程遙控</string>
     <string name="pair_text">您是否想於家庭網絡以外操控空氣清新機？</string>
     <string name="pair">是</string>
     <string name="error_title">抱歉！</string>
-<!--     <string name="pairing_progress">啟用遙控器中。請稍後..</string> -->
+    <!-- <string name="pairing_progress">啟用遙控器中。請稍後..</string> -->
     <string name="pairing_success">您現在可以於家庭網絡以外操控空氣清新機！</string>
     <string name="pairing_failed">未能啟用遙控器，請稍後再試。</string>
     <!-- Scheduler texts -->
-<!--     <string name="days">天</string> -->
+    <!-- <string name="days">天</string> -->
     <string name="edit">編輯</string>
     <string name="enable">啟用</string>
-<!--     <string name="repeat">重複</string> -->
+    <!-- <string name="repeat">重複</string> -->
     <string name="time">時間</string>
     <string name="days2">天</string>
     <string name="onetime">一次</string>
     <string name="fanspeed">風扇速度</string>
-<!--     <string name="fanspeed_one">1</string> -->
-<!--     <string name="fanspeed_two">2</string> -->
-<!--     <string name="fanspeed_three">3</string> -->
+    <!-- <string name="fanspeed_one">1</string> -->
+    <!-- <string name="fanspeed_two">2</string> -->
+    <!-- <string name="fanspeed_three">3</string> -->
     <string name="sunday">週日</string>
     <string name="monday">週一</string>
     <string name="tuesday">週二</string>
@@ -469,24 +469,24 @@
     <!-- Firmware Screen text -->
     <string name="firmware">韌體</string>
     <string name="firmware_update">韌體更新</string>
-<!--     <string name="firmware_download">Firmware download</string> -->
+    <!-- <string name="firmware_download">Firmware download</string> -->
     <string name="firmware_download_failed">韌體 下載失敗！</string>
     <string name="i">i</string>
     <string name="firmware_download_info">您的智控淨化器正在更新固件，請稍後。期間請不要關閉智控淨化器。</string>
-<!--     <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string> -->
+    <!-- <string name="firmware_mandatory_msg">The firmware of your Smart Air Purifier is being updated. This will take a few minutes</string> -->
     <string name="firmware_failed_msg">請確保您的 Philips 智能空氣清新機 已連接電源及已連接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的韌體安裝失敗。</string>
     <string name="firmware_failed_update_msg">請聯絡 Philips 支援</string>
-<!--     <string name="firmware_install_success">已成功安裝新韌體</string> -->
+    <!-- <string name="firmware_install_success">已成功安裝新韌體</string> -->
     <string name="new_firmware">新韌體</string>
     <string name="firmware_version_txt">韌體版本</string>
-<!--     <string name="releasedate_txt">發佈日期</string> -->
-<!--     <string name="release_notes_txt">發佈說明</string> -->
+    <!-- <string name="releasedate_txt">發佈日期</string> -->
+    <!-- <string name="release_notes_txt">發佈說明</string> -->
     <string name="firmware_update_successful">韌體成功更新！</string>
     <string name="firmware_current_version">現時版本：  </string>
     <string name="firmware_new_version">新版本：  </string>
-<!--     <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string> -->
-<!--     <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string> -->
+    <!-- <string name="release_notes_detailedtxt">With the new firmware version your Air Purifier will be able to communicate more stable. Lorem ipsum dolot sit amet, con-sectetur adipiscing elit lahs lhjaslhuh jhaslkhiuh kjhashuh klhashi;hkl oihaslk;hals;hhlah ihi hli;ahsihliha;ish;hi</string> -->
+    <!-- <string name="release_notes_detailedtxt2">App update needed:\nThe new firmware will unlock the use of features. The update is available for iOS6 and higher Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</string> -->
     <string name="installing_firmware_step">步驟 2/2</string>
     <string name="downloading_firmware_step">步驟 1/2</string>
     <string name="downloading_firmware_for_purifier_msg">下載 %s 韌體</string>
@@ -601,6 +601,7 @@
     <string name="add_purifier">添加一台淨化器</string>
     <string name="no_purifier_found">未找到更多淨化器</string>
     <string name="max_purifier_reached">最多只可添加20臺淨化器。還想添加新淨化器？請刪除已有淨化器。</string>
-	<string name="purifier_add_fail_title">淨化器未添加</string>
-	<string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
+    <string name="purifier_add_fail_title">淨化器未添加</string>
+    <string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
+
 </resources>

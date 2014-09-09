@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -255,7 +256,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setLocationProvider();
 
 		// Enable for release build
-		checkForCrashesHockeyApp(); 
+		//checkForCrashesHockeyApp(); 
 	}
 
 	public void startDemoMode() {
@@ -531,6 +532,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		@Override
 		public void onClick(View view) {
+			Intent intent;
 			switch (view.getId()) {
 			case R.id.right_menu_img:
 
@@ -553,7 +555,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				break;
 			case R.id.add_location_img:
 				//TODO : Drop down city list
-				Intent intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
+				intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
 				startActivity(intent);
 				break;
 			case R.id.back_to_home_img:
@@ -581,6 +583,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				}
 
 				break;
+				
+			case R.id.clean_filter_link:
+				intent = new Intent(Intent.ACTION_VIEW);
+				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_clean.mp4"), "video/mp4");
+				startActivity(Intent.createChooser(intent,""));  
+				break;
+				
+			case R.id.replace_filter_link:
+				intent = new Intent(Intent.ACTION_VIEW);
+				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_replace.mp4"), "video/mp4");
+				view.getContext().startActivity(Intent.createChooser(intent,""));  
+				break;
+				
 			default:
 				break;
 			}
@@ -710,6 +725,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		remoteControlBtn = (ToggleButton) findViewById(R.id.btn_rm_remote_enable);
 		remoteControlBtn.setOnClickListener(actionBarClickListener);
+		
+		TextView linkFilterClean=(TextView) findViewById(R.id.clean_filter_link);
+		linkFilterClean.setOnClickListener(actionBarClickListener);
+		
+		TextView linkFilterReplace=(TextView) findViewById(R.id.replace_filter_link);
+		linkFilterReplace.setOnClickListener(actionBarClickListener);
 	}
 
 	public void showFragment(Fragment fragment) {

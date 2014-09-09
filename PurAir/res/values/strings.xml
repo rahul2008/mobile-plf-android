@@ -56,6 +56,8 @@
     <string name="clean_today">Clean Soon</string>
     <string name="clean_now">Clean Now</string>
     <string name="filter_tip">Remember to clean the Philips Smart Air Purifier\'s sensor every 2 months.</string>
+    <string name="replace_filter_text">Multi-Care Filter, Active Carbon Filter and HEPA Filter</string>
+    <string name="replace_filter_title">How to Replace Filters</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">Indoor Air Level Status</string>
     <string name="rm_air_quality_message">Connect device to begin reading indoor air quality</string>
@@ -88,20 +90,18 @@
     <string name="very_unhealthy">Very unhealthy</string>
     <string name="very_unhealthy_split">Very \n unhealthy</string>
     <string name="hazardous">Hazardous</string>
-    
     <string name="good_indoor">Good</string>
     <string name="moderate_indoor">Moderate</string>
     <string name="unhealthy_indoor">Unhealthy</string>
     <string name="very_unhealthy_indoor">Very unhealthy</string>
     <string name="very_unhealthy_split_indoor">Very \n unhealthy</string>
-    
     <string name="good_outdoor">Good</string>
     <string name="moderate_outdoor">Moderate</string>
     <string name="slightly_polluted_outdoor">Slightly polluted</string>
     <string name="moderately_polluted_outdoor">Moderately polluted</string>
     <string name="unhealthy_outdoor">Unhealthy</string>
     <string name="hazardous_outdoor">Hazardous</string>
-    
+
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">App tutorial</string>
     <string name="subtitle_FAQ">FAQ</string>
@@ -610,7 +610,7 @@
     <string name="no_purifier_found">There are no additional Purifiers found</string>
     <string name="max_purifier_reached">Maximum 20 purifier can be added. Please delete existing purifier to add a new purifier</string>
     <string name="max_city_reached">A Maximum of 20 cities can be added. Please delete an existing city to add a new city.</string>
-	<string name="purifier_add_fail_title">Purifier not added</string>
-	<string name="purifier_add_fail_msg">Your phone could not communicate with the selected Philips Smart Air Purifier.</string>
-    
+    <string name="purifier_add_fail_title">Purifier not added</string>
+    <string name="purifier_add_fail_msg">Your phone could not communicate with the selected Philips Smart Air Purifier.</string>
+
 </resources>

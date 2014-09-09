@@ -1,10 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="app_name">智能空气</string>
     <string name="dashboard_title">智控净化器</string>
     <string name="action_settings">设置</string>
     <string name="philips_home">飞利</string>
-	<string name="empty_string"></string>
+    <string name="empty_string"></string>
     <!-- Left menu items -->
     <string name="list_item_home">主页</string>
     <string name="list_item_air_quality_explained">空气质量说明</string>
@@ -14,9 +15,9 @@
     <string name="list_item_help_and_doc">帮助和文档</string>
     <string name="list_item_settings">设置</string>
     <string name="list_item_prod_reg">产品注册</string>
-	<string name="list_item_user_reg">用户注册</string>
+    <string name="list_item_user_reg">用户注册</string>
     <string name="list_item_buy_online">在线购买</string>
-<!--     <string name="list_item_firmware">固件</string> -->
+    <!-- <string name="list_item_firmware">固件</string> -->
     <!-- Right menu texts -->
     <string name="connection_status">连接状态</string>
     <string name="connected">已连接</string>
@@ -26,8 +27,8 @@
     <string name="connect">连接</string>
     <string name="power">电源</string>
     <string name="fan_speed">风扇速度</string>
-<!--     <string name="auto">自动</string> -->
-	<!-- Auto translate in Chinese Smart -->
+    <!-- <string name="auto">自动</string> -->
+    <!-- Auto translate in Chinese Smart -->
     <string name="auto">智能</string>
     <string name="turbo">强力</string>
     <string name="fanspeed_off">关</string>
@@ -57,11 +58,13 @@
     <string name="clean_today">即将清洁</string>
     <string name="clean_now">即刻清洁</string>
     <string name="filter_tip">请记得每 2 个月清洁一次飞利浦智控净化器的传感器</string>
+    <string name="replace_filter_text">Multi-Care Filter, Active Carbon Filter and HEPA Filter</string>
+    <string name="replace_filter_title">How to Replace Filters</string>
     <!-- Timer texts -->
     <string name="rm_air_quality_title">室内空气水平状态</string>
     <string name="rm_air_quality_message">连接设备开始读取室内空气质量</string>
     <!-- Outdoor Locations -->
-<!--     <string name="enter_city_name">输入位置</string> -->
+    <!-- <string name="enter_city_name">输入位置</string> -->
     <string name="cancel">取消</string>
     <string name="decline">拒绝</string>
     <string name="weather_forecast">天气预报</string>
@@ -79,7 +82,7 @@
     <string name="updated">最近更新</string>
     <string name="n_a">不适用</string>
     <string name="take_action">采取措施</string>
-<!--     <string name="no_connection">无连接</string> -->
+    <!-- <string name="no_connection">无连接</string> -->
     <string name="no_data">无数据</string>
     <!-- AQI status -->
     <string name="good">良好</string>
@@ -89,20 +92,18 @@
     <string name="very_unhealthy">非常不健康</string>
     <string name="very_unhealthy_split">非常不 \n 健康</string>
     <string name="hazardous">重污染 </string>
-    
     <string name="good_indoor">优</string>
     <string name="moderate_indoor">良</string>
     <string name="unhealthy_indoor">不健康</string>
     <string name="very_unhealthy_indoor">非常不健康</string>
     <string name="very_unhealthy_split_indoor">非常不健康</string>
-    
     <string name="good_outdoor">优</string>
     <string name="moderate_outdoor">良</string>
     <string name="slightly_polluted_outdoor">轻微污染</string>
     <string name="moderately_polluted_outdoor">轻度污染</string>
     <string name="unhealthy_outdoor">中度污染</string>
     <string name="hazardous_outdoor">重污染 </string>
-    
+
     <!-- Help and Documentation -->
     <string name="subtitle_app_tutorial">应用程序教程</string>
     <string name="subtitle_FAQ">常见问题解答</string>
@@ -116,7 +117,7 @@
 	<string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
 	<string name="subtitle_we_chat">WeChat:</string>
     <string name="wechat_id">飞利浦优质生活</string>
-    
+
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">主页面显示室内和室外空气质量指数的概览</string>
     <string name="tutorial_lOC_desc">主页面左上角包含前至应用程序不同部分的链接</string>
@@ -126,7 +127,7 @@
     <string name="tutorial_outdoor_aqi_desc">室外详情页面显示所选位置的空气质量水平读数、历史记录和天气情况。</string>
     <string name="dashboard_instruction">点击一次扩大相应类别，继续点击可查看详细信息。</string>
     <string name="loc_roc_remote_instruction">轻击可打开和关闭控制菜单。</string>
-	<string name="status_instruction">轻击图标可打开和关闭相应面板。</string>
+    <string name="status_instruction">轻击图标可打开和关闭相应面板。</string>
     <string name="indoor_outdoor_aqi_instruction">轻击箭头可返回主页面。</string>
     <string name="dashboard_instruction_1">应用程序导航</string>
     <string name="dashboard_instruction_2">空气净化器控件</string>
@@ -162,7 +163,7 @@
     <string name="buy_philips_smart_air_purifier">飞利浦智控净化器</string>
     <string name="available_from">可从%s购买</string>
     <!-- Indoor and Outdoor Details -->
-    <string name = "purifier_not_connect_error">空气净化器未连接。请您先与您的净化器进行连接。</string>
+    <string name="purifier_not_connect_error">空气净化器未连接。请您先与您的净化器进行连接。</string>
     <string name="aqi_history">AQI历史数据</string>
     <string name="aqi_history_download_failed">AQI历史数据下载失败！</string>
     <string name="aqi_history_not_avialable">无法获取空气质量指数历史数据！</string>
@@ -238,7 +239,6 @@
     <string name="outdoor_aiq_analysis_title4">101&#8211;150, 轻微污染</string>
     <string name="outdoor_aiq_analysis_title5">51&#8211;100, 良</string>
     <string name="outdoor_aiq_analysis_title6">0&#8211;50, 优</string>
-    
     <string name="indoor_aiq_analysis_title1">4+, 非常不健康</string>
     <string name="indoor_aiq_analysis_title2">3&#8211;4, 不健康</string>
     <string name="indoor_aiq_analysis_title3">2&#8211;3, 良</string>
@@ -247,10 +247,10 @@
     <string name="outdoor_analysis_detail2_head100">在过去的一天，一周，或一月内，您的飞利浦智控净化器检测到您家中的空气水平为“%1$s”。经室外探测器检测，您所在位置的室外空气质量为“%2$s”。</string>
     <string name="outdoor_analysis_detail_head2">如果 1&#8211;2 级持续 1 小时或更长时间，则预计 PM2.5 水平会低于中国 AQI 规定的 75 微克/u002F立方米 的室外空气标准。如果 2 级以上持续 1 小时或更长时间，则预计 PM2.5 级别会高于中国 AQI 规定的 75 微克/u002F立方米的室外空气标准。</string>
     <string name="outdoor_analysis_detail_head3">因为没有室内 PM2.5 标准，所以未显示室内 PM2.5 水平。 飞利浦智控净化器可测量室内和室外 PM2.5 水平。 不过，室外和室内空气质量具有关联性：室内 PM2.5 水平越高，与室外 PM2.5 水平的关联就越密切。</string>
-<!--     <string name="pm25">PM2.5</string> -->
-<!--     <string name="pm10">PM10</string> -->
-<!--     <string name="so2">SO2</string> -->
-<!--     <string name="no2">NO2</string> -->
+    <!-- <string name="pm25">PM2.5</string> -->
+    <!-- <string name="pm10">PM10</string> -->
+    <!-- <string name="so2">SO2</string> -->
+    <!-- <string name="no2">NO2</string> -->
     <!-- Notifications -->
     <string name="notifications_indoor_title">室内空气水平</string>
     <string name="notifications_indoor_AQI_desc">当家中的空气污染水平超过所设置的水平线时便会通知您。</string>
@@ -261,8 +261,8 @@
     <string name="notifications_indoor_aqi_lbl_3">3&#8211;4</string>
     <string name="notifications_indoor_aqi_lbl_4">4+</string>
     <string name="notifications_enable_all">接收  %s 的通知</string>
-<!--     <string name="notification_pairing_btn">遥控器</string> -->
-<!--     <string name="notification_pairing_text">启用遥控器，接收通知。</string> -->
+    <!-- <string name="notification_pairing_btn">遥控器</string> -->
+    <!-- <string name="notification_pairing_text">启用遥控器，接收通知。</string> -->
     <string name="notification_nopurifier_title">未连接任何净化器</string>
     <string name="notification_nopurifier_text">只有在净化器连接后，您方可配置通知。</string>
     <string name="notification_nopurifier_positivebtn">进入主页面</string>
@@ -271,7 +271,7 @@
     <string name="notification_disabling_msg">正在禁用通知，请稍候..</string>
     <string name="notification_send_aqi_level_msg">正在发送选定的 AQI 级别，请稍候..</string>
     <string name="notification_error_msg">出错了，请再试一次。</string>
-    <string name="notification_front_panel_title">前面板</string> 
+    <string name="notification_front_panel_title">前面板</string>
     <string name="notification_front_panel_desc">当前面板打开时您会收到通知。</string>
     <string name="error_aqithreshold_setting">您设置AQI上限时出现错误。</string>
     <string name="notification_notpaired_title">远程遥控功能被禁用</string>
@@ -280,7 +280,7 @@
     <string name="rate_this_app">给此应用程序打分</string>
     <string name="send_us_feedback">给我们发送反馈</string>
     <string name="version_number">应用程序版本 </string>
-<!--     <string name="t_and_c">条款和条件</string> -->
+    <!-- <string name="t_and_c">条款和条件</string> -->
     <!-- Air Quality Explained -->
     <string name="air_quality_explained_intro">生活在城市中的人们无法回避日益严重的空气质量问题。 要以自然和整体的方式净化室内空气，您可以依赖飞利浦 VitaShield 微护盾智能净化系统。</string>
     <string name="purifier_feature_lbl_1">滤除最小 20 纳米的微小颗粒</string>
@@ -329,7 +329,7 @@
     <string name="vistashield_features">1. 活性炭涂层可捕捉外表面的甲醛。 \n\n2. 每克活性炭的表面积约为 1000 平方米。 诸多污染物被如此巨大的表面积过滤掉。\n\n3. 纳米孔经过精确定位，可滤掉和吸附有害气体。\n\n在 30 立方米房间中的测试显示，使用全新家用过滤网 3 小时后，几乎可以过滤掉所有甲醛。</string>
     <string name="airborne_disease_heading">远离“飞”来横疾</string>
     <string name="airborne_disease_desc">人口密度的增加、全球化进程和抗药性加剧了通过空气传播疾病的发病率。 从办公室到各类公共场合，大大增加了人们罹患传染病的风险。\n\n飞利浦 VitaShield 微护盾可以滤除最低微观层级为 20 纳米的空气污染物，足够对付例如禽流感、流感病毒、军团杆菌等病原体和其他常见病原体。\n\n经测试，在 1 个小时之内，飞利浦 VitaShield 微护盾减少了 99.9% 的细菌 和病毒。</string>
-    <string name="outdoor_color_explained_intro">主要城市空气质量和PM2.5水平监测。来源：中国气象局（  <a href="http://www.cma.gov.cn">www.cma.gov.cn</a> ）。</string>  
+    <string name="outdoor_color_explained_intro">主要城市空气质量和PM2.5水平监测。来源：中国气象局（  <a href="http://www.cma.gov.cn">www.cma.gov.cn</a> ）。</string>
     <string name="outdoor_hazardous">有害。 健康人士会感觉到活动耐力降低。 可能会出现严重过敏，空气质量可能会引发其他疾病。 老人和病人应呆在室内，避免运动。 健康人士应避免室外活动。</string>
     <string name="outdoor_unhealthy">非常不健康。 健康人士会受到明显影响。 呼吸系统或心脏有问题的人群会感觉到活动耐力降低。 这些人群和老人应呆在室内，减少活动量。</string>
     <string name="outdoor_moderately_polluted">不健康。 可能会出现一些过敏现象。 呼吸系统或心脏有问题的人应减少室外锻炼。</string>
@@ -430,19 +430,19 @@
     <string name="verify_power_on_msg1">请将飞利浦智控净化器接入电源，并按下开关开启净化器。</string>
     <string name="verify_power_on_msg2">您的飞利浦智控净化器开启了吗？</string>
     <string name="default_purifier_name">我的家</string>
-    
+
     <!-- Tools fragments -->
-<!--     <string name="submit">提交</string> -->
+    <!-- <string name="submit">提交</string> -->
     <!-- Pairing -->
     <string name="pair_disable_alert">您确定要禁用远程遥控功能吗？</string>
     <string name="pair_title">在非无线网络环境下开启远程遥控</string>
     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string>
     <string name="pair">是</string>
     <string name="error_title">很抱歉！</string>
-<!--     <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string> -->
+    <!-- <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string> -->
     <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string>
     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string>
-	<!-- Scheduler texts -->
+    <!-- Scheduler texts -->
     <string name="edit">编辑</string>
     <string name="enable">启用</string>
     <string name="time">时间</string>
@@ -457,7 +457,7 @@
     <string name="friday">周五</string>
     <string name="saturday">周六</string>
     <string name="set_schedule">设置日程表</string>
-    <string name="edit_schedule">编辑日程表</string>    
+    <string name="edit_schedule">编辑日程表</string>
     <string name="repeat_text">重复</string>
     <string name="delete_text">删除</string>
     <string name="error">错误</string>
@@ -467,21 +467,21 @@
     <string name="firmware_update">固件更新</string>
     <string name="firmware_download_failed">固件下载失败！</string>
     <string name="i">i</string>
-<!--     <string name="firmware_mandatory_msg">您的智控空气净化器固件将在几分钟后更新完成。感谢您的耐心等待。</string> -->
+    <!-- <string name="firmware_mandatory_msg">您的智控空气净化器固件将在几分钟后更新完成。感谢您的耐心等待。</string> -->
     <string name="firmware_download_info">您的智控净化器正在更新其固件。请稍候，请不要关闭智控净化器</string>
     <string name="firmware_failed_msg">请确保您的 %s 已通电并已连接到 WiFi。</string>
     <string name="firmware_failed_update">%s 的固件安装失败。</string>
     <string name="firmware_failed_update_msg">请联系飞利浦以获得支持</string>
-<!--     <string name="firmware_install_success">新固件已成功安装</string> -->
+    <!-- <string name="firmware_install_success">新固件已成功安装</string> -->
     <string name="new_firmware">新固件</string>
     <string name="firmware_version_txt">固件版本</string>
-<!--     <string name="releasedate_txt">释放日期</string> -->
-<!--     <string name="release_notes_txt">版本注释</string> -->
-<!--     <string name="firmware_update_successful">固件更新成功！</string> -->
+    <!-- <string name="releasedate_txt">释放日期</string> -->
+    <!-- <string name="release_notes_txt">版本注释</string> -->
+    <!-- <string name="firmware_update_successful">固件更新成功！</string> -->
     <string name="firmware_current_version">当前版本： </string>
     <string name="firmware_new_version">新版本： </string>
-<!--     <string name="release_notes_detailedtxt">更新部分详述</string> -->
-<!--     <string name="release_notes_detailedtxt2">需要更新应用程序:\n</string> -->
+    <!-- <string name="release_notes_detailedtxt">更新部分详述</string> -->
+    <!-- <string name="release_notes_detailedtxt2">需要更新应用程序:\n</string> -->
     <string name="installing_firmware_step">步骤 2（共 2 步）</string>
     <string name="downloading_firmware_step">步骤 1（共 2 步）</string>
     <string name="downloading_firmware_for_purifier_msg">正在下载  %s 版本的固件</string>
@@ -500,7 +500,7 @@
     <string name="downloading_new_firmware">正在下载新固件</string>
     <string name="contact_support">联系支持</string>
     <string name="firmware_toast_nodeviceselected">请连接到空气净化器。</string>
-	<!-- Registration screens -->
+    <!-- Registration screens -->
     <string name="create_account">创建帐户</string>
     <string name="registration_statement">通过创建帐户或登录，您证明自己已年满 18 岁，并且同意我们的条款和条件及隐私政策。</string>
     <string name="your_name">您的姓名</string>
@@ -559,7 +559,7 @@
     <string name="wifi_enable_title_txt">你的Wi-Fi已关闭</string>
     <string name="wifi_enable_msg_txt">请转到您的设置或刷卡式菜单，然后启用Wi-Fi</string>
     <string name="wifi_enable_button_txt">去你的手机设置</string>
-    
+
     <!-- Start flow -->
     <string name="no_internet_title">无网络连接</string>
     <string name="no_internet_text">若要继续请连接网络</string>
@@ -597,6 +597,7 @@
     <string name="add_purifier">添加一台净化器</string>
     <string name="no_purifier_found">未找到更多净化器</string>
     <string name="max_purifier_reached">最多只可添加20台净化器。还想添加新净化器？请删除已有净化器。</string>
-	<string name="purifier_add_fail_title">净化器未添加</string>
-	<string name="purifier_add_fail_msg">您选中的飞利浦智控净化器无法与您的手机进行通讯</string>
+    <string name="purifier_add_fail_title">净化器未添加</string>
+    <string name="purifier_add_fail_msg">您选中的飞利浦智控净化器无法与您的手机进行通讯</string>
+
 </resources>

@@ -109,9 +109,9 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	}
 		
 	private void startVideo() {
-		Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
-		gotoSupportWebisteIntent.setData(Uri.parse("http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c"));
-		startActivity(gotoSupportWebisteIntent);
+		Intent intent = new Intent(Intent.ACTION_VIEW);
+		intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"), "video/mp4");
+		getActivity().startActivity(Intent.createChooser(intent,"")); 
 	}
 	
 	private void startUseNoPurifierFlow() {
