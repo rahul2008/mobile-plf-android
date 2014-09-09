@@ -63,6 +63,11 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private boolean isAnimationDrawableOpen = false;
 	private ArrayList<Marker> mArrayListMarker = null;
 	private RelativeLayout mParentLayout = null;
+	private LayoutInflater inflater = null;
+	private View view = null;
+	private Bitmap mBitMap = null;
+	private FontTextView textView = null;
+	private Canvas mCanvas = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +86,11 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		mFinishActivity.setOnClickListener(this);
 		builder = new LatLngBounds.Builder();
 		mapView.setOnClickListener(this);
-
 		
 		inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		
 		view = inflater.inflate(R.layout.circle_lyt, null);
+		textView = (FontTextView) view.findViewById(R.id.circle_txt); 
 		
 		init();
 
@@ -226,24 +231,21 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 				.icon(BitmapDescriptorFactory.fromBitmap(mBitMap))));
 	}
 	
-	private LayoutInflater inflater = null;
-	private View view = null;
-	private Bitmap mBitMap = null;
-	
 	private Bitmap writeTextOnDrawable(int drawableId, int text) {
 		
 		Bitmap bm = BitmapFactory.decodeResource(
 				this.getResources(), drawableId)
-				.copy(Bitmap.Config.ARGB_4444, true);
+				.copy(Bitmap.Config.ARGB_8888, true);
 		
-		Canvas canvas = new Canvas(bm);
-	
-		FontTextView textView = (FontTextView) view.findViewById(R.id.circle_txt); 
+		if(mCanvas!=null){
+			mCanvas = null;
+		}
+		
+		mCanvas = new Canvas(bm);
 		textView.setText(String.valueOf(text));
-
-		view.measure(canvas.getWidth(), canvas.getHeight());
-		view.layout(0, 0, canvas.getWidth(), canvas.getHeight());
-		view.draw(canvas);
+		view.measure(mCanvas.getWidth(), mCanvas.getHeight());
+		view.layout(0, 0, mCanvas.getWidth(), mCanvas.getHeight());
+		view.draw(mCanvas);
 		return bm;
 	}
 

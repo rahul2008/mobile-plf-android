@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -7,11 +8,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.AMap.OnMapLoadedListener;
@@ -25,7 +28,6 @@ import com.amap.api.maps2d.model.LatLngBounds;
 import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
@@ -56,7 +58,14 @@ public class MarkerMapFragment extends BaseFragment implements
 	private OutdoorCity mOutdoorCity = null;
 	private boolean isMapLoaded = false;
 	private boolean isAllAqiReceived = false;
-
+	private View mView = null;
+	private Bitmap mBitMap = null;
+	private LayoutInflater mInflater = null;
+	private RelativeLayout mParentLayout = null;
+	private ArrayList<Marker> mArrayListMarker = null;
+	private FontTextView textView = null;
+	private Canvas mCanvas = null;
+	
 	private static final String TAG = "MapMarkerFragment";
 
 	@Override
@@ -117,12 +126,15 @@ public class MarkerMapFragment extends BaseFragment implements
 		view = inflater.inflate(R.layout.marker_activity, container, false);
 		mapView = (MapView) view.findViewById(R.id.map);
 		mapView.onCreate(savedInstanceState);
-//		mCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
+		mParentLayout = (RelativeLayout)view.findViewById(R.id.mapParent);
 		builder = new LatLngBounds.Builder();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
+		mInflater = (LayoutInflater) 
+				getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		mView = mInflater.inflate(R.layout.circle_lyt, null);
+		textView = (FontTextView) mView.findViewById(R.id.circle_txt); 
 		init();
-
-//		populatingDashboardData();
+		mArrayListMarker = new ArrayList<Marker>();
 		return view;
 	}
 
@@ -196,33 +208,36 @@ public class MarkerMapFragment extends BaseFragment implements
 			iconOval = true;
 		}
 
-		aMap.addMarker(new MarkerOptions()
+		if(mBitMap != null){
+			mBitMap.recycle();
+			mBitMap = null;
+		}
+		
+		mBitMap = writeTextOnDrawable(
+				MarkerMapFragment.getAqiPointerImageResId(aqiValue,
+						iconOval), aqiValue);
+				
+		mArrayListMarker.add(aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
 				.position(latLng)
 				.title(cityName)
 				.snippet(cityName + " : " + latitude + " , " + longitude)
 				.draggable(false)
-				.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
-						MarkerMapFragment.getAqiPointerImageResId(aqiValue,
-								iconOval), aqiValue))));
+				.icon(BitmapDescriptorFactory.fromBitmap(mBitMap))));
 	}
 
-	static Bitmap writeTextOnDrawable(int drawableId, int text) {
+	private Bitmap writeTextOnDrawable(int drawableId, int text) {
 		Bitmap bm = BitmapFactory.decodeResource(
-				PurAirApplication.getAppContext().getResources(), drawableId)
+				getActivity().getResources(), drawableId)
 				.copy(Bitmap.Config.ARGB_8888, true);
-		Canvas canvas = new Canvas(bm);
-		
-		LayoutInflater inflater = (LayoutInflater) 
-				PurAirApplication.getAppContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		
-		View view = inflater.inflate(R.layout.circle_lyt, null);
-		FontTextView textView = (FontTextView) view.findViewById(R.id.circle_txt); 
+		if(mCanvas!=null){
+			mCanvas = null;
+		}
+		mCanvas = new Canvas(bm);
 		textView.setText(String.valueOf(text));
-
-		view.measure(canvas.getWidth(), canvas.getHeight());
-		view.layout(0, 0, canvas.getWidth(), canvas.getHeight());
-		view.draw(canvas);
+		mView.measure(mCanvas.getWidth(), mCanvas.getHeight());
+		mView.layout(0, 0, mCanvas.getWidth(), mCanvas.getHeight());
+		mView.draw(mCanvas);
 		return bm;
 	}
 
@@ -241,12 +256,36 @@ public class MarkerMapFragment extends BaseFragment implements
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		if(aMap != null) aMap.clear();
-		mapView.onDestroy();
 		OutdoorController.getInstance().removeOutdoorEventListener(this);
+		mView = null;
+		mInflater = null;
+		
 		if(mHandler != null){
 			mHandler.removeMessages(0);
+			mHandler.removeMessages(1);
 			mHandler = null;
+		}
+		
+		if(aMap!=null){		
+			aMap.stopAnimation();
+			aMap.clear();
+			aMap = null;
+		}
+		if(mapView != null){
+			mapView.setBackgroundColor(Color.BLACK);
+			mapView.removeAllViewsInLayout();
+			mapView.onDestroy();
+			mapView = null;
+		}
+		
+		if(mParentLayout != null){
+			mParentLayout.removeAllViews();
+			mParentLayout = null;
+		}
+		
+		if(mArrayListMarker!=null && mArrayListMarker.size()>0){
+			mArrayListMarker.clear();
+			mArrayListMarker=null;
 		}
 	}
 
