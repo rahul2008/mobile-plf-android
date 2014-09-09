@@ -52,7 +52,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	private FontTextView mAqiCity = null;
 	private FontTextView mAqiDetails = null;
 	private ImageView mAqiMarker = null;
-	private static List<String> mCitiesListAll = null;
+	private List<String> mCitiesListAll = null;
 	private OutdoorCity mOutdoorCity = null;
 	private boolean isAnimationDrawableOpen = false;
 
@@ -125,6 +125,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if(aMap != null) aMap.clear();
 		mapView.onDestroy();
 	}
 
@@ -148,11 +149,9 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		boolean iconOval = false;
 
 		// added to support traditional and simplified Chinese in map
-		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
-				"ZH-HANS")) {
+		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
 			cityName = outdoorCity.getOutdoorCityInfo().getCityNameCN();
-		} else if (LanguageUtils.getLanguageForLocale(Locale.getDefault())
-				.contains("ZH-HANT")) {
+		} else if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
 			cityName = outdoorCity.getOutdoorCityInfo().getCityNameTW();
 		} else {
 			cityName = outdoorCity.getOutdoorCityInfo().getCityName();
@@ -210,32 +209,6 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 
-	}
-
-	public void render(Marker marker, View view) {
-		String title = marker.getTitle();
-		TextView titleUi = ((TextView) view.findViewById(R.id.title));
-		if (title != null) {
-			SpannableString titleText = new SpannableString(title);
-			titleText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
-					titleText.length(), 0);
-			titleUi.setTextSize(20);
-			titleUi.setText(titleText);
-
-		} else {
-			titleUi.setText("");
-		}
-		String snippet = marker.getSnippet();
-		TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
-		if (snippet != null) {
-			SpannableString snippetText = new SpannableString(snippet);
-			snippetText.setSpan(new ForegroundColorSpan(Color.BLACK), 0,
-					snippetText.length(), 0);
-			snippetUi.setTextSize(15);
-			snippetUi.setText(snippetText);
-		} else {
-			snippetUi.setText("");
-		}
 	}
 
 	@Override

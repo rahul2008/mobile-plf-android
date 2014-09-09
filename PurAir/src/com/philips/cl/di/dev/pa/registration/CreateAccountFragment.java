@@ -183,28 +183,20 @@ public class CreateAccountFragment extends BaseFragment implements
 	}
 
 	public ErrorType isInputValidated() {
-		ALog.i(ALog.USER_REGISTRATION, "isInputValidated name " + mName
-				+ " pass " + mPassword + " email " + mEmail);
-		if (mName == null || mName.length() < 1)
-			return ErrorType.NAME;
-		if (!EmailValidator.getInstance().validate(mEmail))
-			return ErrorType.EMAIL;
-		if (mPassword == null || mPassword.length() < 6)
-			return ErrorType.PASSWORD;
-		if (!mPassword.matches("[a-zA-Z0-9@#$%^&+=_]+"))
-			return ErrorType.WHITESPACE;
+		ALog.i(ALog.USER_REGISTRATION, "isInputValidated name " + mName	+ " pass " + mPassword + " email " + mEmail);
+		if (mName == null || mName.length() < 1) return ErrorType.NAME;
+		if (!EmailValidator.getInstance().validate(mEmail))	return ErrorType.EMAIL;
+		if (mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
+		if (!mPassword.matches("[a-zA-Z0-9@#$%^&+=_]+")) return ErrorType.WHITESPACE;
 		return ErrorType.NONE;
 	}
 
 	private void dismissKeyBoard() {
-		if (getActivity() == null)
-			return;
-		InputMethodManager imm = (InputMethodManager) getActivity()
-				.getSystemService(Context.INPUT_METHOD_SERVICE);
-		if (getActivity().getWindow() != null
-				&& getActivity().getWindow().getCurrentFocus() != null) {
-			imm.hideSoftInputFromWindow(getActivity().getWindow()
-					.getCurrentFocus().getWindowToken(), 0);
+		if (getActivity() == null) return;
+		
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getActivity().getWindow() != null && getActivity().getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getActivity().getWindow().getCurrentFocus().getWindowToken(), 0);
 		}
 	}
 }

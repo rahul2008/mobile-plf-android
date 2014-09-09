@@ -109,8 +109,6 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 	}
 		
 	private void startVideo() {
-		// TODO start video
-//		http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c
 		Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
 		gotoSupportWebisteIntent.setData(Uri.parse("http://v.youku.com/v_show/id_XNzMyMzU3MTMy.html?qq-pf-to=pcqq.c2c"));
 		startActivity(gotoSupportWebisteIntent);

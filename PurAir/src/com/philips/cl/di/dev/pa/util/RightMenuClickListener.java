@@ -461,6 +461,8 @@ public class RightMenuClickListener implements OnClickListener {
 
 		collapseFanSpeedMenu(true);
 		collapseTimerMenu(true);
+		
+		disabledButton = null;
 	}
 
 	private void enableButtonsOnPowerOn(AirPortInfo airPurifierEventDto) {
