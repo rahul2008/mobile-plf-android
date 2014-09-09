@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -1023,27 +1022,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void pairToPurifierIfNecessary() {
-		if (!CPPController.getInstance(this).isSignOn()){
-			setProgressDialogInvisible();
-			return;
-		}
-
-		PurAirDevice purifier = getCurrentPurifier();
-		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
-			setProgressDialogInvisible();
-			return;
-		}
-
-		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
-
-		long lastPairingCheckTime = purifier.getLastPairedTime();		
-		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
-		// First time pairing or on EWS and Everyday check for pairing
-		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || diffInDays != 0) {
+		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
+		if( PairingHandler.pairPurifierIfNecessary(purifier)) {
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			startPairing(purifier);			
-		}else{
-			setProgressDialogInvisible();
+		}
+		else {
+			setProgressDialogInvisible() ;
 		}
 	}
 

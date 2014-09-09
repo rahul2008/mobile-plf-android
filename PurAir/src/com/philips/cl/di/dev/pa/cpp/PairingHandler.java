@@ -8,6 +8,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.fragment.PermissionListener;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
@@ -644,4 +645,24 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 	}
 
+	public static boolean pairPurifierIfNecessary(PurAirDevice purifier) {
+		
+		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
+			return false;
+		}
+
+		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
+			return false;
+		}
+
+		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
+
+		long lastPairingCheckTime = purifier.getLastPairedTime();		
+		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
+		// First time pairing or on EWS and Everyday check for pairing
+		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || diffInDays != 0) {
+			return true;			
+		}
+		return false;
+	}
 }
