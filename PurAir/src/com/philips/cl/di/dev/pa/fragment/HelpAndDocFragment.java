@@ -12,14 +12,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 
@@ -124,7 +125,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			userEmail=profile.getEmail();
 			jainRainUser= getString(R.string.janrain_user)+ userEmail ;
 		}
-		String appVersion= getString(R.string.app_version)+((MainActivity) getActivity()).getVersionNumber();
+		String appVersion= getString(R.string.app_version)+Utils.getVersionNumber();
 		String platform= getString(R.string.mobile_platform) +"Android";
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
 		String appEui64 = getString(R.string.app_eui64) + SessionDto.getInstance().getAppEui64();

@@ -43,7 +43,7 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	private void initViews(View view) {
 
 		versionNumber = (TextView) view.findViewById(R.id.tv_version_number);
-		versionNumber.setText(getString(R.string.version_number) + " " +((MainActivity) getActivity()).getVersionNumber()); //Should probably change it to version name.
+		versionNumber.setText(getString(R.string.version_number) + " " +Utils.getVersionNumber()); //Should probably change it to version name.
 
 		demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
 

@@ -12,7 +12,6 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -217,112 +216,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	}
 	
-	private boolean isVersionChanged() {
-		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
-				getGCMPreferences();
-
-		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
-				Integer.MIN_VALUE);
-		int currentVersion = PurAirApplication.getAppVersion();
-		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
-
-		if (isGCMRegistrationExpired) {
-			ALog.d(ALog.NOTIFICATION,
-					"Registration ID expired - App version changed");
-			return true;
-		}
-
-		return false;
-	}
-	
-	private boolean isLocaleChanged() {
-		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
-				getGCMPreferences();
-		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-		
-		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
-				LanguageUtils.DEFAULT_LANGUAGE);
-		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
-
-		if (!isLocalChanged) {
-			ALog.d(ALog.NOTIFICATION,
-					"App Locale change happened");
-			return true;
-		}
-
-		return false;
-	}
-	
-	private void initNotification(){
-		NotificationRegisteringManager.setRegistrationProvider(AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
-		NotificationRegisteringManager.setNotificationManager();
-		NotificationRegisteringManager.getNotificationManager();
-		NotificationRegisteringManager.storeRegistrationKeySendToCPP(false);
-		
-		if (Utils.isGooglePlayServiceAvailable()/* && !(NotificationRegisteringManager.getRegitrationProvider().
-				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))*/) {
-			NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
-		}
-	}
-
-	private static boolean registerNow = true; 
-	
-	public static boolean registrationNeededNow(){
-		return registerNow;
-	}
-	
-	public static void setRegistrationNeededNow(boolean needed){
-		registerNow = needed;
-	}
-	
-	private void getNotificationRegisteringManager() {
-		
-		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
-		
-		if(isVersionChanged()){
-			registerNow = true;
-			ALog.i(ALog.NOTIFICATION," MainActivity first version changed");
-			initNotification();
-		}
-		if(isLocaleChanged()){
-			registerNow = true;
-			ALog.i(ALog.NOTIFICATION," MainActivity second locale changed");
-			initNotification();
-			if (!Utils.isGooglePlayServiceAvailable() || (NotificationRegisteringManager.getRegitrationProvider().
-					equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))){
-				NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
-			}
-		}
-		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
-			registerNow = false;
-			ALog.i(ALog.NOTIFICATION,"MainActivity third previsouly=GCM now = GCM");
-		}
-		else if (!Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
-			registerNow = false;
-			ALog.i(ALog.NOTIFICATION,"MainActivity fourth  previsouly=GCM now = GCM not available");
-		}
-		else{
-			registerNow = true;
-			ALog.i(ALog.NOTIFICATION,"MainActivity fifth else ");
-			initNotification();
-		}
-		
-		//if(registerNow){
-//			if (Utils.isGooglePlayServiceAvailable()) {
-//				if (mNotificationManager == null) {
-//					mNotificationManager = new NotificationRegisteringManager();
-//					mNotificationManager.registerAppForNotification();
-//				}
-//			}
-//			else{
-//				if (mNotificationManager == null) {
-//					mNotificationManager = new NotificationRegisteringManager();
-//				}
-//			}
-//		}
-//		return mNotificationManager;
-	}
-
 	private void selectPurifier() {
 		PurAirDevice current = getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
@@ -451,7 +344,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	protected void onStart() {
 		super.onStart();
 		// Ensure app is registered for notifications
-		getNotificationRegisteringManager();
+		NotificationRegisteringManager.getNotificationManager().getNotificationRegisteringManager();
 	}
 	
 	@Override
@@ -1105,17 +998,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	public int getVisits() {
 		return mVisits;
-	}
-
-	public String getVersionNumber() {
-		String versionCode = "";
-		try {
-			versionCode = getPackageManager().getPackageInfo(getPackageName(),
-					0).versionName;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
-		}
-		return versionCode;
 	}
 
 	private void setFirmwareSuperScript(int superscriptNumber, boolean isUpdateAvailable) {

@@ -32,6 +32,7 @@ public class NotificationRegisteringManager implements SignonListener,
 	private static final int TRY_GCM = 0;
 	private static final int TRY_JPUSH = 1;
 	private static String mProvider = AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
+	private boolean isRegistered = true;
 
 	public NotificationRegisteringManager() {
 		CPPController.getInstance(PurAirApplication.getAppContext())
@@ -444,5 +445,58 @@ public class NotificationRegisteringManager implements SignonListener,
 		ALog.i(ALog.NOTIFICATION,
 				"Failed to send Registration ID to CPP - callback");
 		storeRegistrationKeySendToCPP(false);
+	}
+	
+	private void initNotification() {
+		setRegistrationProvider(AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
+		setNotificationManager();
+		getNotificationManager();
+		storeRegistrationKeySendToCPP(false);
+		
+		if (Utils.isGooglePlayServiceAvailable()/* && !(NotificationRegisteringManager.getRegitrationProvider().
+				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))*/) {
+			getNotificationManager().registerAppForNotification();
+		}
+	}
+
+	
+	public void getNotificationRegisteringManager() {
+		
+		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
+		if(Utils.isVersionChanged()){
+			isRegistered = true ;
+			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager first version changed");
+			initNotification();
+		}
+		else if(Utils.isLocaleChanged()) {
+			isRegistered = true ;
+			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager second locale changed");
+			initNotification();
+			if (!Utils.isGooglePlayServiceAvailable() || (NotificationRegisteringManager.getRegitrationProvider().
+					equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))){
+				NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
+			}
+		}
+		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
+			isRegistered = false;
+			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager third previsouly=GCM now = GCM");
+		}
+		else if (!Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			isRegistered = false;
+			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager fourth  previsouly=GCM now = GCM not available");
+		}
+		else {			
+			isRegistered = true;
+			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager fifth else ");
+			initNotification();
+		}		
+	}
+
+	public boolean isRegistrationNeeded() {
+		return isRegistered;
+	}
+
+	public void setRegistered(boolean isRegistered) {
+		this.isRegistered = isRegistered;
 	}
 }

@@ -27,12 +27,14 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.Gravity;
@@ -51,6 +53,7 @@ import com.philips.cl.di.dev.pa.constant.AnimatorConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -966,5 +969,52 @@ public class Utils {
         } catch (Exception ex) { } // for now eat exceptions
         return "";
     }
+    
+    public static boolean isVersionChanged() {
+		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
+				getGCMPreferences();
+
+		int registeredVersion = prefs.getInt(AppConstants.PROPERTY_APP_VERSION,
+				Integer.MIN_VALUE);
+		int currentVersion = PurAirApplication.getAppVersion();
+		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
+
+		if (isGCMRegistrationExpired) {
+			ALog.d(ALog.NOTIFICATION,
+					"Registration ID expired - App version changed");
+			return true;
+		}
+
+		return false;
+	}
+    
+    public static boolean isLocaleChanged() {
+		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
+				getGCMPreferences();
+		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
+		
+		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
+				LanguageUtils.DEFAULT_LANGUAGE);
+		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
+
+		if (!isLocalChanged) {
+			ALog.d(ALog.NOTIFICATION,
+					"App Locale change happened");
+			return true;
+		}
+
+		return false;
+	}
+    
+    public static String getVersionNumber() {
+		String versionCode = "";
+		try {
+			versionCode = PurAirApplication.getAppContext().getPackageManager().getPackageInfo(PurAirApplication.getAppContext().getPackageName(),
+					0).versionName;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return versionCode;
+	}
 
 }
