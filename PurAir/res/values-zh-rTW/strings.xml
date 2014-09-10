@@ -135,7 +135,7 @@
     <string name="tutorial_title_3">空氣清新機控制選項</string>
     <string name="tutorial_title_4">裝置狀態</string>
     <string name="tutorial_title_5">室内空氣水平讀數</string>
-    <string name="tutorial_title_6">室外 AQI 讀數</string>
+    <string name="tutorial_title_6">室外 空氣質量 讀數</string>
     <string name="finish_tutorial">完成導覽</string>
     <string name="prompt_take_tour">進行應用程式導覽</string>
     <string name="alert_take_tour">進行導覽</string>
@@ -161,9 +161,9 @@
     <string name="available_from">可在以下地點購買 %s</string>
     <!-- Indoor and Outdoor Details -->
     <string name="purifier_not_connect_error">空氣清新機並未連接。請連接空氣清新機。</string>
-    <string name="aqi_history">AQI 紀錄</string>
-    <string name="aqi_history_download_failed">AQI 紀錄資料下載失敗！</string>
-    <string name="aqi_history_not_avialable">並無 AQI 紀錄資料！</string>
+    <string name="aqi_history">空氣質量 紀錄</string>
+    <string name="aqi_history_download_failed">空氣質量紀錄資料下載失敗！</string>
+    <string name="aqi_history_not_avialable">並無 空氣質量紀錄資料！</string>
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">室外</string>
     <string name="current_location">目前位置</string>
@@ -266,11 +266,11 @@
     <string name="notification_permission_check_msg">正在查看通知狀態，請稍候..</string>
     <string name="notification_enabling_msg">正在啟用通知狀態，請稍候..</string>
     <string name="notification_disabling_msg">正在停用通知狀態，請稍候..</string>
-    <string name="notification_send_aqi_level_msg">正在傳送已選擇的 AQI 水平，請稍候..</string>
+    <string name="notification_send_aqi_level_msg">正在傳送已選擇的 空氣質量 水平，請稍候..</string>
     <string name="notification_error_msg">產品出現錯誤，請稍後重試。</string>
     <string name="notification_front_panel_title">前方面板</string>
     <string name="notification_front_panel_desc">前方面板開啟時，您會收到通知。</string>
-    <string name="error_aqithreshold_setting">設定 AQI 限額時出錯。</string>
+    <string name="error_aqithreshold_setting">設定 空氣質量 限額時出錯。</string>
     <string name="notification_notpaired_title">遠程遙控功能被禁用</string>
     <string name="notification_notpaired_text">只有在啟用遠程遙控功能時才可以設置“通知”功能。您可以從控制面板上啟用遠程遙控功能。</string>
     <!-- Settings -->

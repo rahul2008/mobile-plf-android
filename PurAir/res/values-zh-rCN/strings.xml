@@ -164,8 +164,8 @@
     <string name="available_from">可从%s购买</string>
     <!-- Indoor and Outdoor Details -->
     <string name="purifier_not_connect_error">空气净化器未连接。请您先与您的净化器进行连接。</string>
-    <string name="aqi_history">AQI历史数据</string>
-    <string name="aqi_history_download_failed">AQI历史数据下载失败！</string>
+    <string name="aqi_history">空气质量历史数据</string>
+    <string name="aqi_history_download_failed">空气质量历史数据下载失败！</string>
     <string name="aqi_history_not_avialable">无法获取空气质量指数历史数据！</string>
     <string name="indoor_db">室內</string>
     <string name="outdoor_db">室外</string>

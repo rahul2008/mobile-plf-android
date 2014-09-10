@@ -116,7 +116,7 @@
     <string name="subtitle_we_chat">WeChat:</string>
     <string name="wechat_id">philipslifestyle</string>
     <!-- Air Tutorial -->
-    <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor AQI</string>
+    <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor Air Quality</string>
     <string name="tutorial_lOC_desc">Left of canvas contains links to different sections of the app.</string>
     <string name="tutorial_rOC_desc">Right of canvas contains controls for your Philips Smart Air Purifier.</string>
     <string name="tutorial_device_status_desc">You will see the status of your Philips Smart Air Purifier on the dashboard.</string>
@@ -129,13 +129,13 @@
     <string name="dashboard_instruction_1">App navigation</string>
     <string name="dashboard_instruction_2">Air purifier controls</string>
     <string name="dashboard_instruction_3">Indoor air level readings</string>
-    <string name="dashboard_instruction_4">Outdoor AQI readings</string>
+    <string name="dashboard_instruction_4">Outdoor air quality readings</string>
     <string name="tutorial_title_1">Dashboard</string>
     <string name="tutorial_title_2">App Navigation</string>
     <string name="tutorial_title_3">Air Purifier Controls</string>
     <string name="tutorial_title_4">Device Status</string>
     <string name="tutorial_title_5">Indoor Air Level Readings</string>
-    <string name="tutorial_title_6">Outdoor AQI readings</string>
+    <string name="tutorial_title_6">Outdoor Air Quality readings</string>
     <string name="finish_tutorial">Finish the tour</string>
     <string name="prompt_take_tour">Take a tour of the app</string>
     <string name="alert_take_tour">Take the tour</string>
@@ -161,9 +161,9 @@
     <string name="available_from">Available to purchase from %s</string>
     <!-- Indoor and Outdoor Details -->
     <string name="purifier_not_connect_error">Air Purifier is not connected. Please connect to an Air Purifier.</string>
-    <string name="aqi_history">AQI History</string>
-    <string name="aqi_history_download_failed">AQI historic data download failed!</string>
-    <string name="aqi_history_not_avialable">AQI historic data not available!</string>
+    <string name="aqi_history">Air Quality History</string>
+    <string name="aqi_history_download_failed">Air Quality historic data download failed!</string>
+    <string name="aqi_history_not_avialable">Air Quality historic data not available!</string>
     <string name="indoor_db">Indoor</string>
     <string name="outdoor_db">Outdoor</string>
     <string name="current_location">Current location</string>
@@ -266,11 +266,11 @@
     <string name="notification_permission_check_msg">Checking notification status, please wait..</string>
     <string name="notification_enabling_msg">Enabling notification, please wait..</string>
     <string name="notification_disabling_msg">Disabling notification, please wait..</string>
-    <string name="notification_send_aqi_level_msg">Sending selected AQI level, please wait..</string>
+    <string name="notification_send_aqi_level_msg">Sending selected Air Quality level, please wait..</string>
     <string name="notification_error_msg">Something went wrong, please try again later.</string>
     <string name="notification_front_panel_title">Front panel</string>
     <string name="notification_front_panel_desc">You will receive a notification when front panel is opened.</string>
-    <string name="error_aqithreshold_setting">Error occurred while setting the AQI threshold.</string>
+    <string name="error_aqithreshold_setting">Error occurred while setting the Air Quality threshold.</string>
     <string name="notification_notpaired_title">Remote control disabled</string>
     <string name="notification_notpaired_text">You can only configure notifications once remote control is enabled. You can enable remote control from control panel.</string>
     <!-- Settings -->
@@ -589,7 +589,7 @@
     <string name="connect_your_purifier">Connect your purifier</string>
     <string name="benefits_of_the_purifier">Benefits of the Air purifier ></string>
     <string name="did_you_know">Did you know?</string>
-    <string name="did_you_know_text">This app can give you AQI of different locations, as well as other information about air quality</string>
+    <string name="did_you_know_text">This app can give you Air Quality of different locations, as well as other information about air quality</string>
     <string name="continue_without_smart_air_purifier">Continue without Smart Air Purifier</string>
     <string name="purifier_connected_to_wlan">There is at least one Smart Air Purifier connected to your WLAN %1$s</string>
     <string name="or_add_new_purifier">Or, add a new Smart Air Purifier ></string>
