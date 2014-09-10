@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -47,7 +46,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
  * Author : Ritesh.jha@philips.com Date : 4 Aug 2014
  * 
  */
-public class MarkerActivity extends Activity implements OnMarkerClickListener,
+public class MarkerActivity extends BaseActivity implements OnMarkerClickListener,
 		OnMapLoadedListener, OnClickListener {
 	private AMap aMap;
 	private MapView mapView;
@@ -170,6 +169,12 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			mArrayListMarker.clear();
 			mArrayListMarker=null;
 		}
+		
+		/*
+		 *  Since calling gc() is not recommended but by using this
+		 *  we are able to release 4~5 MB when come out from this activity. 
+		 */
+		System.gc();
 	}
 
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
