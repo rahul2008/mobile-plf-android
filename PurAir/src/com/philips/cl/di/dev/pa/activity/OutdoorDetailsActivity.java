@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.TimeZone;
 
 import android.annotation.SuppressLint;
@@ -62,7 +63,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private FontTextView aqiValue, summaryTitle, summary/*, pm1, pm2, pm3, pm4*/;
+	private FontTextView aqiValue, summaryTitle, summary;
 	private TextView heading;
 	private ImageView circleImg, backgroundImage;
 	private ImageView avoidImg, openWindowImg, maskImg;
@@ -77,22 +78,29 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private String areaId;
 	private FontTextView pmValue;
 	private LinearLayout pmLayout;
-
-	
 	private List<OutdoorAQI> outdoorAQIs;
+	@SuppressLint("SimpleDateFormat")
+	private SimpleDateFormat formatDate;
+	private Calendar calenderGMTChinese;
 	
-	public float lastDayAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+	private float lastDayAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F };
 
-	public float last7dayAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
+	private float last7dayAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F};
 
-	public float last4weekAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
+	private float last4weekAQIReadings[] = { -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F,
 			-1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F, -1F };
+	
+	private HashMap<Integer, Float> dailyAqiValueMap;
+	private HashMap<Integer, Integer> dailyAqiValueCounterMap;
 
+	@SuppressLint("SimpleDateFormat")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_details_outdoor);
+		formatDate = new SimpleDateFormat("yyyy-MM-dd");
+		calenderGMTChinese = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		coordinates = Coordinates.getInstance(this);
 		DisplayMetrics displayMetrics = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -107,13 +115,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		getDataFromDashboard();
 	}
 	
-	/**
-	 * Reading data from server
-	 * */
-	@SuppressLint({ "UseSparseArrays", "SimpleDateFormat" })
-	private void addAQIHistoricData() {
-		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
-		
+	private Date getCurrentDate() {
 		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
 		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
 		
@@ -122,71 +124,129 @@ public class OutdoorDetailsActivity extends BaseActivity
 		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
 		int offset = offsetChina - offsetCurrent;
 		
-		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		
 		Date currentDate = new Date(cal.getTimeInMillis() + offset);
-		String currentDateStr = formatDate.format(currentDate);
-		String currentDateWithHrStr = currentDateStr + " " + Utils.get2DigitHr(cal.get(Calendar.HOUR_OF_DAY));
+		return currentDate;
+	}
+	
+	/**
+	 * Reading data from server
+	 * */
+	@SuppressLint({ "UseSparseArrays", "SimpleDateFormat" })
+	private void addAQIHistoricData() {
+		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
 		
-		HashMap<Integer, Float> hourlyAqiValueMap = new HashMap<Integer, Float>();
-		HashMap<Integer, Float> dailyAqiValueMap = new HashMap<Integer, Float>();
-		HashMap<Integer, Integer> dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
+		HashMap<String, Float> allHourlyAqiValueMap = new HashMap<String, Float>();
+		HashMap<String, Integer> allHourlyAqiValueCounterMap = new HashMap<String, Integer>();
+		
+		dailyAqiValueMap = new HashMap<Integer, Float>();
+		dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
 		
 		for (int index = 0; index < outdoorAQIs.size(); index++) {
 			if (outdoorAQIs.get(index) == null || outdoorAQIs.get(index).getTimeStamp() == null) return;
-			String upadtedDateStr = getHistoricDataUpdateDate(outdoorAQIs.get(index).getTimeStamp());
+			String updatedDateStr = getHistoricDataUpdateDate(outdoorAQIs.get(index).getTimeStamp());
 			float aqi = outdoorAQIs.get(index).getAQI();
-			int numberOfHr = Utils.getDifferenceBetweenHrFromCurrentHr(currentDateWithHrStr,
-					upadtedDateStr + " " + outdoorAQIs.get(index).getTimeStamp().substring(8, 10));
-			if (numberOfHr >= 0 && numberOfHr < 24) {
-				hourlyAqiValueMap.put(numberOfHr, aqi);
-			}
-			int numberOfDays = Utils.getDifferenceBetweenDaysFromCurrentDay(currentDateStr, upadtedDateStr);
-			if (numberOfDays >= 0) {
-				if (dailyAqiValueMap.containsKey(numberOfDays) 
-						&& dailyAqiValueCounterMap.containsKey(numberOfDays)) {
-					float tempAqi = dailyAqiValueMap.get(numberOfDays);
-					tempAqi = tempAqi + aqi;
-					dailyAqiValueMap.put(numberOfDays, tempAqi);
-					int counterMap = dailyAqiValueCounterMap.get(numberOfDays);
-					counterMap++;
-					dailyAqiValueCounterMap.put(numberOfDays, counterMap);
-
-				} else {
-					dailyAqiValueCounterMap.put(numberOfDays, 1);
-					dailyAqiValueMap.put(numberOfDays, aqi);
-				}
+//			System.out.println("Outdoor historic aqi : " + aqi + " time: " + outdoorAQIs.get(index).getTimeStamp());
+			String dateWithHour = updatedDateStr + " " + outdoorAQIs.get(index).getTimeStamp().substring(8, 10);
+			
+			if (allHourlyAqiValueMap.containsKey(dateWithHour) 
+					&& allHourlyAqiValueCounterMap.containsKey(dateWithHour)) {
+				
+				float faqi = allHourlyAqiValueMap.get(dateWithHour);
+				faqi = faqi + aqi;
+				allHourlyAqiValueMap.put(dateWithHour, faqi);
+				int counterMap = allHourlyAqiValueCounterMap.get(dateWithHour);
+				counterMap++;
+				allHourlyAqiValueCounterMap.put(dateWithHour, counterMap);
+			} else {
+				allHourlyAqiValueMap.put(dateWithHour, aqi);
+				allHourlyAqiValueCounterMap.put(dateWithHour, 1);
 			}
 		}
-		updateLastDayArray(hourlyAqiValueMap);
+		
+		averageHourlyAQI(allHourlyAqiValueMap, allHourlyAqiValueCounterMap);
 		updateWeeklyArray(dailyAqiValueMap, dailyAqiValueCounterMap);
+		
+		//Clear object
+		allHourlyAqiValueMap.clear();
+		allHourlyAqiValueMap = null;
+		allHourlyAqiValueCounterMap.clear();
+		allHourlyAqiValueCounterMap = null;
+		dailyAqiValueMap.clear();
+		dailyAqiValueMap = null;
+		dailyAqiValueCounterMap.clear();
+		dailyAqiValueCounterMap = null;
+		
 		handler.sendEmptyMessage(1);
 	}
 	
-	private void updateLastDayArray(HashMap<Integer, Float> hourlyAqiValueMap) {
-		if (!hourlyAqiValueMap.isEmpty()) {
-			for (int i = 0; i < 24; i++) {
-				if (hourlyAqiValueMap.containsKey(i)) {
-					lastDayAQIReadings[23 - i] = hourlyAqiValueMap.get(i);;
-				} else {
-					lastDayAQIReadings[23 - i] = -1;
-				}
+	private void averageHourlyAQI(HashMap<String, Float> allHourlyAqiValueMap,
+			HashMap<String, Integer> allHourlyAqiValueCounterMap) {
+		if (allHourlyAqiValueMap.isEmpty()) return;
+		
+		Set<String> mapKeys = allHourlyAqiValueMap.keySet();
+		for (String mapKey : mapKeys) {
+			if (allHourlyAqiValueMap.containsKey(mapKey) 
+					&& allHourlyAqiValueCounterMap.containsKey(mapKey)) {
+				float aqi = allHourlyAqiValueMap.get(mapKey) / allHourlyAqiValueCounterMap.get(mapKey);
+				allHourlyAqiValueMap.put(mapKey, aqi);
+				updateLastDayArray(aqi, mapKey);
+				averageDailyAQI(aqi, mapKey);
 			}
 		}
 	}
 	
+	private void updateLastDayArray(float aqi, String key) {
+		String currentDateStr = formatDate.format(getCurrentDate());
+		String currentDateWithHrStr = currentDateStr + " " + 
+				Utils.get2DigitHr(calenderGMTChinese.get(Calendar.HOUR_OF_DAY));
+		
+		int numberOfHr = Utils.getDifferenceBetweenHrFromCurrentHr(currentDateWithHrStr, key);
+		
+		if (numberOfHr >= 0 && numberOfHr < 24) {
+			lastDayAQIReadings[23 - numberOfHr] = aqi;
+		}
+	}
+	
+	private void averageDailyAQI(float aqi, String key) {
+		
+		String currentDateStr = formatDate.format(getCurrentDate());
+		String updatedDateStr = "";
+		String [] keyArr = key.split(" ");
+		if (keyArr != null && keyArr.length > 0) {
+			updatedDateStr = keyArr[0];
+		}
+		
+		int numberOfDays = Utils.getDifferenceBetweenDaysFromCurrentDay(currentDateStr, updatedDateStr);
+		if (numberOfDays >= 0) {
+			if (dailyAqiValueMap.containsKey(numberOfDays) 
+					&& dailyAqiValueCounterMap.containsKey(numberOfDays)) {
+				float tempAqi = dailyAqiValueMap.get(numberOfDays);
+				tempAqi = tempAqi + aqi;
+				dailyAqiValueMap.put(numberOfDays, tempAqi);
+				int counterMap = dailyAqiValueCounterMap.get(numberOfDays);
+				counterMap++;
+				dailyAqiValueCounterMap.put(numberOfDays, counterMap);
+
+			} else {
+				dailyAqiValueCounterMap.put(numberOfDays, 1);
+				dailyAqiValueMap.put(numberOfDays, aqi);
+			}
+		}
+	}
+
 	private void updateWeeklyArray(HashMap<Integer, Float> dailyAqiValueMap, 
 			HashMap<Integer, Integer> dailyAqiValueCounterMap) {
 		if (dailyAqiValueMap.isEmpty()) return;
 		for (int mapKey = 0; mapKey < dailyAqiValueMap.size(); mapKey++) {
-			float avgAqi = 0.0F;
+			float avgAqi = -1F;
 			if (mapKey < 28) {
-				if (dailyAqiValueMap.get(mapKey) != null) {
+				if (dailyAqiValueMap.containsKey(mapKey) 
+						&& dailyAqiValueCounterMap.containsKey(mapKey)) {
 					avgAqi = dailyAqiValueMap.get(mapKey) / dailyAqiValueCounterMap.get(mapKey);
-				} else if (mapKey == 0) {
-					avgAqi = -1;
-				}
+				} 
+				
 				if (mapKey < 7) {
 					last7dayAQIReadings[6 - mapKey] = avgAqi;
 				}
@@ -259,7 +319,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	private int getImageResId(int p2) {
-
 		if(p2 >= 0 && p2 <= 50) {
 			return R.drawable.aqi_blue_circle_2x;
 		} else if(p2 > 50 && p2 <= 100) {
@@ -353,18 +412,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		pmValue=(FontTextView)findViewById(R.id.hf_outdoor_pm_value);
 		pmLayout=(LinearLayout)findViewById(R.id.pm_layout);
-//		
-//		pm1 = (FontTextView) findViewById(R.id.odPMValue1);
-//		pm2 = (FontTextView) findViewById(R.id.odPMValue2);
-//		pm3 = (FontTextView) findViewById(R.id.odPMValue3);
-//		pm4 = (FontTextView) findViewById(R.id.odPMValue4);
 
 		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg);
 		circleImg = (ImageView) findViewById(R.id.od_detail_circle_pointer);
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
 		maskImg = (ImageView) findViewById(R.id.maskImg); 
-//		mapEnlargeImg.setVisibility(View.INVISIBLE);
 
 		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
 		avoidTxt = (FontTextView) findViewById(R.id.avoidOutdoorTxt); 
@@ -376,7 +429,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		mapGaodeLayout = (RelativeLayout) findViewById(R.id.gaode_map_layt);
 		setupGaodeMap();
-		//}
+		
 		/**
 		 * Set click listener
 		 * */
@@ -506,7 +559,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	public void aqiAnalysisClick(View v) {
 		try {
 			FragmentManager fragMan = this.getSupportFragmentManager();
-			fragMan.beginTransaction().add(OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
+			fragMan.beginTransaction().add(
+					OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
 		}
@@ -540,6 +594,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 				setViewlastDayAQIReadings();
 			} else if ( msg.what == 2 ) {
 				aqiProgressBar.setVisibility(View.GONE);
+				weatherProgressBar.setVisibility(View.GONE);
 				showAlertDialog("", getString(R.string.outdoor_download_failed));
 			}
 		};
@@ -562,7 +617,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	public void startCityAQIHistoryTask(String areaID) {
-//		if (PurAirApplication.isDemoModeEnable()) return;
 		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
 		
 		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
@@ -639,12 +693,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 			}
 		});
 	}
-	
 
 	@Override
 	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 }
