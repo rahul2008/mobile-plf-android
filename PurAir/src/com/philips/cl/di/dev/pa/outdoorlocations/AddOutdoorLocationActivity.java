@@ -63,12 +63,12 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 	public void onResume() {
 		
 		OutdoorLocationHandler.getInstance().setCityListener(this);
-		OutdoorLocationHandler.getInstance().fetchCities(null);
+		OutdoorLocationHandler.getInstance().fetchCities(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED);
 		super.onResume();
 	}
 	
 	private void updateAdapter(String input) {
-		String selection = AppConstants.KEY_CITY + " like '%" + input + "%'";
+		String selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED + " and " + AppConstants.KEY_CITY + " like '%" + input + "%'";
 		
 		OutdoorLocationHandler.getInstance().fetchCities(selection);
 	}

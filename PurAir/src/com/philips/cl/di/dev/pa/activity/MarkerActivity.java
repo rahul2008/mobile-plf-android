@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -46,7 +47,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
  * Author : Ritesh.jha@philips.com Date : 4 Aug 2014
  * 
  */
-public class MarkerActivity extends BaseActivity implements OnMarkerClickListener,
+public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		OnMapLoadedListener, OnClickListener {
 	private AMap aMap;
 	private MapView mapView;

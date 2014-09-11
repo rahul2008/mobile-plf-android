@@ -227,10 +227,11 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, newAreaID);
 				OutdoorManager.getInstance().addCityDataToMap(info, null, null, newAreaID);
 			}
+			database.updateOutdoorLocationShortListItem(newAreaID,	true);
 			database.close();
 			
 			OutdoorManager.getInstance().startCitiesTask();
-			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
+//			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
 		} 
 	}
 
