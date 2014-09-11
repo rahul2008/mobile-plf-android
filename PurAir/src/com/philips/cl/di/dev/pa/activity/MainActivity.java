@@ -84,7 +84,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler.DashBoardDataFetchListener;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
@@ -149,7 +148,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
-	private static DashBoardDataFetchListener dashBoardDataFetchListener = null;
 	private Intent mIntent = null;
 //	private static NotificationRegisteringManager mNotificationManager;
 	//	private LocationTracker mLocationTracker = null;
@@ -256,7 +254,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setLocationProvider();
 
 		// Enable for release build
-		//checkForCrashesHockeyApp(); 
+		checkForCrashesHockeyApp(); 
 	}
 
 	public void startDemoMode() {
@@ -446,10 +444,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			homeFragment.setArguments(bundle);
 			showFragment(homeFragment);
 		}
-
 		setTitle(getString(R.string.dashboard_title));
 	}
-
+	
 	private void showDashboardFragment() {
 		showFragment(getDashboard());
 		//		setDashboardActionbarIconVisible();
