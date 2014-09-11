@@ -28,6 +28,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.apache.http.conn.util.InetAddressUtils;
 
@@ -77,6 +78,8 @@ public class Utils {
 	//private static String currentDateHr = "";
 	private static String ago24HrDate = "";
 	private static String ago27DayDate = "";
+	private static int currentTimeHourOfDay;
+	private static int currentTimeDayOfWeek;
 	public static final String BOOT_STRAP_ID_4 = "AwMg==" ;
 	public static final String CMA_BASEURL_3 = "XRoZXIuY29tL" ;
 
@@ -326,6 +329,8 @@ public class Utils {
 
 		Calendar cal = Calendar.getInstance();
 		int hrOffDayInt = cal.get(Calendar.HOUR_OF_DAY);
+		currentTimeHourOfDay = hrOffDayInt;
+		currentTimeDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
 		String hrOffDay = get2DigitHr(hrOffDayInt);
 		String endDate = formatDate.format(new Date());
 		String endTime = hrOffDay + formatTime.format(new Date());
@@ -359,6 +364,14 @@ public class Utils {
 		ago27DayDate = formatDate.format(dateStart1);
 
 		return qry;
+	}
+	
+	public static int getCurrentTimeHourOfDay() {
+		return currentTimeHourOfDay;
+	}
+	
+	public static int getCurrentTimeDayOfWeek() {
+		return currentTimeDayOfWeek;
 	}
 
 	public static String get2DigitHr( int hr) {
@@ -1015,6 +1028,30 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return versionCode;
+	}
+    
+    public static Date getCurrentChineseDate() {
+		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
+		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
+		
+		//Time difference between time zone and GMT
+		int offsetChina = timeZoneChina.getOffset(Calendar.getInstance().getTimeInMillis());
+		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
+		int offset = offsetChina - offsetCurrent;
+		
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		
+		Date currentDate = new Date(cal.getTimeInMillis() + offset);
+		return currentDate;
+	}
+    
+    public static String getHistoricDataUpdateDate(String timeStamp) {
+		if (timeStamp == null || timeStamp.isEmpty()) return null;
+		StringBuilder builder = new StringBuilder();
+		builder.append(timeStamp.substring(0, 4)).append("-");
+		builder.append(timeStamp.substring(4, 6)).append("-");;
+		builder.append(timeStamp.substring(6, 8));
+		return builder.toString();
 	}
 
 }

@@ -103,7 +103,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 
 		setContentView(R.layout.activity_trends_indoor);
-		HomeOutdoorData.getInstance().startOutdoorAQITask();
+		HomeOutdoorData.getInstance().startOutdoorCurrentLocationAQITask();
 		coordinates = Coordinates.getInstance(this);
 		initializeUI();
 
@@ -595,6 +595,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
 		// TODO Auto-generated method stub
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		Coordinates.reset();
 	}
 }
 

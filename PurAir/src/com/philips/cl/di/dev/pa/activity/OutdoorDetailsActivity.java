@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.activity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -72,7 +71,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private ProgressBar aqiProgressBar;
 	private ProgressBar weatherProgressBar;
 	private Coordinates coordinates;
-	private static String currentCityTime;
+	private static int currentCityHourOfDay;
+	private static int currentCityDayOfWeek;
 	
 	private ViewGroup mapGaodeLayout;
 	private String areaId;
@@ -115,21 +115,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		getDataFromDashboard();
 	}
 	
-	private Date getCurrentDate() {
-		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
-		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
-		
-		//Time difference between time zone and GMT
-		int offsetChina = timeZoneChina.getOffset(Calendar.getInstance().getTimeInMillis());
-		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
-		int offset = offsetChina - offsetCurrent;
-		
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
-		
-		Date currentDate = new Date(cal.getTimeInMillis() + offset);
-		return currentDate;
-	}
-	
 	/**
 	 * Reading data from server
 	 * */
@@ -145,7 +130,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		for (int index = 0; index < outdoorAQIs.size(); index++) {
 			if (outdoorAQIs.get(index) == null || outdoorAQIs.get(index).getTimeStamp() == null) return;
-			String updatedDateStr = getHistoricDataUpdateDate(outdoorAQIs.get(index).getTimeStamp());
+			String updatedDateStr = Utils.getHistoricDataUpdateDate(outdoorAQIs.get(index).getTimeStamp());
 			float aqi = outdoorAQIs.get(index).getAQI();
 //			System.out.println("Outdoor historic aqi : " + aqi + " time: " + outdoorAQIs.get(index).getTimeStamp());
 			String dateWithHour = updatedDateStr + " " + outdoorAQIs.get(index).getTimeStamp().substring(8, 10);
@@ -198,9 +183,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	private void updateLastDayArray(float aqi, String key) {
-		String currentDateStr = formatDate.format(getCurrentDate());
+		String currentDateStr = formatDate.format(Utils.getCurrentChineseDate());
 		String currentDateWithHrStr = currentDateStr + " " + 
 				Utils.get2DigitHr(calenderGMTChinese.get(Calendar.HOUR_OF_DAY));
+		currentCityHourOfDay = calenderGMTChinese.get(Calendar.HOUR_OF_DAY);
 		
 		int numberOfHr = Utils.getDifferenceBetweenHrFromCurrentHr(currentDateWithHrStr, key);
 		
@@ -211,7 +197,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private void averageDailyAQI(float aqi, String key) {
 		
-		String currentDateStr = formatDate.format(getCurrentDate());
+		String currentDateStr = formatDate.format(Utils.getCurrentChineseDate());
+		currentCityDayOfWeek = calenderGMTChinese.get(Calendar.DAY_OF_WEEK);
 		String updatedDateStr = "";
 		String [] keyArr = key.split(" ");
 		if (keyArr != null && keyArr.length > 0) {
@@ -258,15 +245,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 				break;
 			}
 		}
-	}
-	
-	private String getHistoricDataUpdateDate(String timeStamp) {
-		if (timeStamp == null || timeStamp.isEmpty()) return null;
-		StringBuilder builder = new StringBuilder();
-		builder.append(timeStamp.substring(0, 4)).append("-");
-		builder.append(timeStamp.substring(4, 6)).append("-");;
-		builder.append(timeStamp.substring(6, 8));
-		return builder.toString();
 	}
 	
 	private static String mSelectedCityCode = null;
@@ -566,8 +544,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 	}
 
-	public static String getCurrentCityTime() {
-		return currentCityTime;
+	public static int getCurrentCityHourOfDay() {
+		return currentCityHourOfDay;
+	}
+	
+	public static int getCurrentCityDayOfWeek() {
+		return currentCityDayOfWeek;
 	}
 
 	@Override

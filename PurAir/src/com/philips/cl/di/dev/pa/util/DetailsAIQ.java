@@ -258,14 +258,9 @@ public class DetailsAIQ {
 		int hourOfDay = cal.get(Calendar.HOUR_OF_DAY);
 		Log.i("outdoor", "hourOfDay=="+hourOfDay);
 		if (isOutdoor) {
-			String timeStr = OutdoorDetailsActivity.getCurrentCityTime();
-			if (timeStr != null && timeStr.length() > 0) {
-				try {
-					hourOfDay = Integer.parseInt(timeStr.substring(11, 13));
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				}
-			}
+			hourOfDay = OutdoorDetailsActivity.getCurrentCityHourOfDay();
+		} else {
+			hourOfDay = Utils.getCurrentTimeHourOfDay();
 		}
 		/** X axis label.*/
 		if (arrLen == 7) {
@@ -274,6 +269,11 @@ public class DetailsAIQ {
 			 * */
 			xLabels = new String[7];
 			int dayInt = cal.get(Calendar.DAY_OF_WEEK);
+			if (isOutdoor) {
+				dayInt = OutdoorDetailsActivity.getCurrentCityDayOfWeek();
+			} else {
+				dayInt = Utils.getCurrentTimeDayOfWeek();
+			}
 			for (int j = 0; j < 7; j++) {
 				
 				String dayStr = Utils.getDayOfWeek(context, dayInt);

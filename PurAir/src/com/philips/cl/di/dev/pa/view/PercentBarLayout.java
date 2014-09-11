@@ -34,18 +34,18 @@ public class PercentBarLayout extends LinearLayout {
 		for (int i = 0; i < 2; i++) {
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View v = inflater.inflate(R.layout.indoor_dboard_percent_bar, null);
-			RelativeLayout indoorDashboardBarPerc = (RelativeLayout) v
+			View view = inflater.inflate(R.layout.indoor_dboard_percent_bar, null);
+			RelativeLayout indoorDashboardBarPerc = (RelativeLayout) view
 					.findViewById(R.id.indoorDashboardBarPerc);
-			TextView serialNum = (TextView) v
+			TextView serialNum = (TextView) view
 					.findViewById(R.id.indoorDashboardBarNum);
-			FontTextView name = (FontTextView) v
+			FontTextView name = (FontTextView) view
 					.findViewById(R.id.indoorDashboardBarName);
-			final ImageView indexBg = (ImageView) v
+			final ImageView indexBg = (ImageView) view
 					.findViewById(R.id.indoorDashboardBarNumBg);
 
 			serialNum.setText("" + (i + 1));
-			v.setPadding(10, 10, 10, 10);
+			view.setPadding(10, 10, 10, 10);
 			FontTextView percentTxt = new FontTextView(context);
 			RelativeLayout.LayoutParams percentTxtParams = new RelativeLayout.LayoutParams(
 					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -56,16 +56,13 @@ public class PercentBarLayout extends LinearLayout {
 			if (i == 1) {
 				name.setText(context.getString(R.string.outdoor_db));
 				try {
-					List<Integer> outdoorAqiPercentList = HomeOutdoorData
-							.getInstance().getOutdoorPercentList();
-					if (outdoorAqiPercentList != null
-							&& outdoorAqiPercentList.size() > 0) {
-						indoorDashboardBarPerc.addView(new AirView(context,
-								outdoorAqiPercentList.get(index), 60, 80));
-						percentTxt.setText(outdoorAqiPercentList.get(index)
-								+ "%");
-						indoorDashboardBarPerc.addView(percentTxt,
-								percentTxtParams);
+					List<Integer> outdoorAqiPercentList = 
+							HomeOutdoorData.getInstance().getOutdoorPercentList();
+					if (outdoorAqiPercentList != null && outdoorAqiPercentList.size() > 0) {
+						indoorDashboardBarPerc.addView(
+								new AirView(context,	outdoorAqiPercentList.get(index), 60, 80));
+						percentTxt.setText(outdoorAqiPercentList.get(index)	+ "%");
+						indoorDashboardBarPerc.addView(percentTxt, percentTxtParams);
 					}
 
 				} catch (Exception e) {
@@ -74,11 +71,10 @@ public class PercentBarLayout extends LinearLayout {
 			} else {
 				try {
 					if (goodAirInfos != null) {
-						indoorDashboardBarPerc.addView(new AirView(context,
-								goodAirInfos.get(index), 60, 80));
+						indoorDashboardBarPerc.addView(
+								new AirView(context,	goodAirInfos.get(index), 60, 80));
 						percentTxt.setText(goodAirInfos.get(index) + "%");
-						indoorDashboardBarPerc.addView(percentTxt,
-								percentTxtParams);
+						indoorDashboardBarPerc.addView(percentTxt,	percentTxtParams);
 					}
 				} catch (Exception e) {
 					ALog.e(ALog.INDOOR_RDCP, e.getMessage());
@@ -95,7 +91,7 @@ public class PercentBarLayout extends LinearLayout {
 
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			this.addView(v, parentParams);
+			this.addView(view, parentParams);
 		}
 	}
 
