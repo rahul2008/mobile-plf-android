@@ -110,6 +110,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 	}
 	
+	@SuppressWarnings("deprecation")
 	private void initDashboardViewPager() {
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
@@ -144,6 +145,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			playVideo.setOnClickListener(withoutPurifierClickListener);
 		} else {
 			noPurifierFlowLayout.setVisibility(View.GONE);
+			noPurifierFlowLayout.setBackgroundDrawable(null); //Releases background from memory, this image is not used anymore.
 			indoorViewPager.setVisibility(View.VISIBLE);
 			
 			int countIndoor = 0;
