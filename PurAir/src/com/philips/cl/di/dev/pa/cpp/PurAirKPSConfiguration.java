@@ -47,8 +47,9 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 	}
 	
 	public void setNVMConfigParams() {		
-		this.ICPClientBootStrapID = Util.getBootStrapID();
-		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
+		//TODO - Obscure the below constants.
+		this.ICPClientBootStrapID = "000000ffe0000002";//Util.getBootStrapID();
+		this.ICPClientBootStrapKey = "173d707cf2d48eea2e15e8ecd9142ae5" ;//Utils.getBootStrapKey();
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
 		this.ICPClientproductCountry = getCountryCode();
@@ -56,7 +57,7 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		
 		this.ICPClientComponentCount = 1;
 		NVMComponentInfo appComponentInfo = new NVMComponentInfo();
-		appComponentInfo.componentID = "AC4373-AND";
+		appComponentInfo.componentID = "AC4373-AND";//AC4373APP
 		appComponentInfo.componentVersion = PurAirApplication.getAppVersion();
 		this.ICPClientNVMComponents = new NVMComponentInfo[] {appComponentInfo};
 
