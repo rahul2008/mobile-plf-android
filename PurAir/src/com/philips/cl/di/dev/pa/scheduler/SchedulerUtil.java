@@ -5,7 +5,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 
 public class SchedulerUtil {
-	public static final String BOOTSTRAP_KEY_1 = "NWI2YzU4MD";
+	public static final String BOOTSTRAP_KEY_1 = "MTczZDcw";
 
 	protected static final String fanSpeedArr[] = {
 			AppConstants.FAN_SPEED_AUTO, AppConstants.FAN_SPEED_SILENT,

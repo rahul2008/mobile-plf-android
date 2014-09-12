@@ -48,8 +48,8 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 	
 	public void setNVMConfigParams() {		
 		//TODO - Obscure the below constants.
-		this.ICPClientBootStrapID = "000000ffe0000002";//Util.getBootStrapID();
-		this.ICPClientBootStrapKey = "173d707cf2d48eea2e15e8ecd9142ae5" ;//Utils.getBootStrapKey();
+		this.ICPClientBootStrapID = Util.getBootStrapID();
+		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
 		this.ICPClientproductCountry = getCountryCode();

@@ -56,7 +56,7 @@ public class ParserConstants {
 	public static final String TIMESTAMP_INDOORAQI_HISTORY = "Timestamp" ;
 	public static final String DATA_VALUE_KEYPAIRS = "DataKeyValuePairs" ;
 	
-	public static final String BOOT_STRAP_KEY_3 = "yOGYxNzk" ;
+	public static final String BOOT_STRAP_KEY_3 = "OGVlYTJl" ;
 	
 	// Weather Hourly Data Constants
 	public static final String TEMPARATURE = "temperature" ;

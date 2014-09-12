@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 
 public class Fonts {
-	public static final String BOOT_STRAP_KEY_4 = "4MTVhMzgw" ;
+	public static final String BOOT_STRAP_KEY_4 = "MTVlOGVjZ" ;
 	public static Typeface getGillsans(Context context) {
 		if(gillsans == null) {
 			gillsans = Typeface.createFromAsset(context.getAssets(), "fonts/gillsanslight.ttf");
