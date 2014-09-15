@@ -54,6 +54,8 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
 				values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 				values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+				values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
+				values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 				
 				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getPairedStatus() +"is: "+ purifier.getPairedStatus().ordinal());
 				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
@@ -93,6 +95,8 @@ public class PurifierDatabase {
 					String encryptionKey = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_KEY));
 					int pairedStatus = cursor.getInt(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_IS_PAIRED));
 					long lastPairedTime = cursor.getLong(cursor.getColumnIndexOrThrow(AppConstants.KEY_AIRPUR_LAST_PAIRED)) ;
+					String latitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
+					String longitude = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 
 					PurAirDevice purifier = new PurAirDevice(eui64, usn, null, name, bootId, state);
 					purifier.setLastKnownNetworkSsid(lastKnownNetwork);
@@ -100,6 +104,8 @@ public class PurifierDatabase {
 					ALog.i(ALog.PAIRING, "Database- pairing status set to: "+ PurAirDevice.getPairedStatusKey(pairedStatus));
 					purifier.setPairing(PurAirDevice.getPairedStatusKey(pairedStatus));
 					purifier.setLastPairedTime(lastPairedTime) ;
+					purifier.setLatitude(latitude);
+					purifier.setLongitude(longitude);
 
 					ALog.i(ALog.DATABASE, "Loaded purifier: " + purifier);
 
@@ -136,6 +142,8 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
+			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
 			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
 			{
@@ -165,6 +173,8 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_AIRPUR_BOOT_ID, purifier.getBootId());
 			values.put(AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK, purifier.getLastKnownNetworkSsid());
 			values.put(AppConstants.KEY_AIRPUR_KEY, purifier.getEncryptionKey());
+			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
+			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
 			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
 			{
@@ -175,6 +185,28 @@ public class PurifierDatabase {
 					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
+		} finally {
+			closeDb();
+		}
+		return newRowId;
+	}
+	
+	public long updateGeoLocation(PurAirDevice purifier) {
+		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
+		long newRowId = -1;
+		
+		if (purifier == null || purifier.getUsn() == null) return newRowId;
+		try {
+			db = dbHelper.getWritableDatabase();
+
+			ContentValues values = new ContentValues();
+			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
+			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
+			
+			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
+					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Failed to update row with location co-ordinate " +e.getMessage());
 		} finally {
 			closeDb();
 		}

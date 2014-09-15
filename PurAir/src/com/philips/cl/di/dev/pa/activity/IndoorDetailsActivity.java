@@ -28,8 +28,9 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
+import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
+import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData.PurifierCurrentCityPercentListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
@@ -54,7 +55,7 @@ import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-			PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener {
+			PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener, PurifierCurrentCityPercentListener {
 
 	private PurAirDevice currentPurifier;
 
@@ -77,7 +78,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private List<Float> hrlyAqiValues;
 	private List<Float> dailyAqiValues ;
 	private List<Integer> goodAirInfos;
+	private List<Integer> currentCityGoodAirInfos;
 	private Coordinates coordinates;
+	private int dayIndex = 0;
 
 	private String outdoorTitle = PurAirApplication.getAppContext().getString(R.string.good);
 
@@ -100,12 +103,19 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (currentPurifier == null) {
 			ALog.d(ALog.INDOOR_DETAILS, "Not starting indoor activity - Current purifier cannot be null");
 			finish();
+			return;
 		}
 
 		setContentView(R.layout.activity_trends_indoor);
-		HomeOutdoorData.getInstance().startOutdoorCurrentLocationAQITask();
 		coordinates = Coordinates.getInstance(this);
 		initializeUI();
+		
+		//Purifier current city good air quality historic data download
+		PurifierCurrentCityData.getInstance().setListener(this);
+		if (currentPurifier != null) {
+			PurifierCurrentCityData.getInstance().startCurrentCityAreaIdTask(
+					currentPurifier.getLatitude(), currentPurifier.getLongitude());
+		}
 
 		try {
 			initActionBar();
@@ -134,6 +144,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			hrlyAqiValues = trendDto.getHourlyList() ;
 			dailyAqiValues = trendDto.getDailyList() ;
 			addGoodAQIIntoList(trendDto);
+			addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
 			addAqiReading();
 		} 
 	}
@@ -187,6 +198,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		last7daysRDCPValues = new ArrayList<float[]>();
 		last4weeksRDCPValues = new ArrayList<float[]>();
 		goodAirInfos = new ArrayList<Integer>();
+		currentCityGoodAirInfos = new ArrayList<Integer>();
 
 		graphLayout = (LinearLayout) findViewById(R.id.trendsOutdoorlayoutGraph);
 
@@ -351,11 +363,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void callGraphViewOnClickEvent(int index, List<float[]> rdcpValues) {
+		dayIndex = index;
 		setViewOnClick(index);
 		removeChildViewFromBar();
-		if (goodAirInfos != null && goodAirInfos.size() > 0) {
+		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
 			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-					null, goodAirInfos, this, index, 0);
+					null, goodAirInfos, currentCityGoodAirInfos, this, index, 0);
 			percentBarLayout.setClickable(true);
 			horizontalScrollView.addView(percentBarLayout);
 		}
@@ -417,9 +430,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (horizontalScrollView.getChildCount() > 0) {
 			horizontalScrollView.removeAllViews();
 		}
-		if (goodAirInfos != null && goodAirInfos.size() > 0) {
+		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
 			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-					null, goodAirInfos, this, index, position);
+					null, goodAirInfos, currentCityGoodAirInfos, this, index, position);
 			percentBarLayout.setClickable(true);
 			horizontalScrollView.addView(percentBarLayout);
 		}
@@ -472,7 +485,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			filter.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 
 			int indoorAQI = airPortInfo.getIndoorAQI();
-			ALog.i(ALog.INDOOR_DETAILS, "indoorAQI: " + indoorAQI);
+			
 			circleImg.setImageDrawable(Utils.getIndoorAQICircleBackground(this, indoorAQI));
 
 			String [] aqiStatusAndCommentArray = Utils.getAQIStatusAndSummary(indoorAQI) ;
@@ -552,6 +565,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 					hrlyAqiValues = inDto.getHourlyList() ;
 					dailyAqiValues = inDto.getDailyList() ;
 					addGoodAQIIntoList(inDto);
+					addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
 				}
 				handlerDownload.sendEmptyMessage(3);
 
@@ -568,7 +582,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		if (trendDto.getGoodAirQualityList() == null) return;
 		if (!goodAirInfos.isEmpty())  goodAirInfos.clear();
 		goodAirInfos.addAll(trendDto.getGoodAirQualityList());
-
+	}
+	
+	private void addCurrentCityGoodAQIIntoList(List<Integer> goodAQ) {
+		if (goodAQ == null || goodAQ.isEmpty()) return;
+		if (!currentCityGoodAirInfos.isEmpty())  currentCityGoodAirInfos.clear();
+		currentCityGoodAirInfos.addAll(goodAQ);
 	}
 
 	@Override
@@ -601,6 +620,33 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	protected void onDestroy() {
 		super.onDestroy();
 		Coordinates.reset();
+		PurifierCurrentCityData.getInstance().removeListener();
+	}
+
+	//Current city percentage calculation task
+	@Override
+	public void onTaskComplete() {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (currentPurifier == null) return;
+				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
+				
+				//Remove child view if exists
+				if (horizontalScrollView.getChildCount() > 0) {
+					horizontalScrollView.removeAllViews();
+				}
+
+				if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
+					percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, null,
+							goodAirInfos, currentCityGoodAirInfos, IndoorDetailsActivity.this, dayIndex, 0);
+					percentBarLayout.setClickable(true);
+					horizontalScrollView.addView(percentBarLayout);
+				}
+				ALog.i(ALog.INDOOR_DETAILS, "Updated purifier current city good air: " + currentCityGoodAirInfos);
+			}
+		});
 	}
 }
 

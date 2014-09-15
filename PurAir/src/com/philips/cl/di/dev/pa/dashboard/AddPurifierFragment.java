@@ -55,19 +55,16 @@ public class AddPurifierFragment extends BaseFragment implements
 		switch (v.getId()) {
 		case R.id.iv_circle_add_purifier:
 			if (PurAirApplication.isDemoModeEnable()) {
-				Intent intent = new Intent((MainActivity) getActivity(),
-						DemoModeActivity.class);
+				Intent intent = new Intent((MainActivity) getActivity(), DemoModeActivity.class);
 				intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				((MainActivity) getActivity()).startActivity(intent);
 			} else {
 				List<PurAirDevice> storePurifiers = DiscoveryManager
 						.getInstance().updateStoreDevices();
 				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
-					showAlertDialog("",
-							getString(R.string.max_purifier_reached));
+					showAlertDialog("",	getString(R.string.max_purifier_reached));
 				} else {
-					((MainActivity) getActivity())
-							.showFragment(new StartFlowChooseFragment());
+					((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
 				}
 			}
 			break;

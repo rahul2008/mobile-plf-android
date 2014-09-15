@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import android.location.Location;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
@@ -22,6 +23,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoveryHelper;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -329,6 +331,17 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			existingPurifier.setName(newPurifier.getName());
 			mDatabase.updatePurifierUsingUsn(existingPurifier);
 			notifyListeners = true;
+		}
+		
+		//If current location latitude and longitude null, then update
+		if (existingPurifier.getLatitude() == null && existingPurifier.getLongitude() == null) {
+			Location location = OutdoorController.getInstance().getCurrentLocation();
+			if (location != null) {
+				existingPurifier.setLatitude(String.valueOf(location.getLatitude()));
+				existingPurifier.setLongitude(String.valueOf(location.getLongitude()));
+				mDatabase.updatePurifierUsingUsn(existingPurifier);
+				notifyListeners = true;
+			}
 		}
 
 		if (existingPurifier.getBootId() != newPurifier.getBootId() || existingPurifier.getEncryptionKey() == null) {
@@ -667,6 +680,16 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		ALog.v(ALog.DISCOVERY, "Updated key for purifier: " + device);
 		device.setEncryptionKey(key);
 		device.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork()) ;
+		/*
+		//add geo co-ordinate if null
+		if (device.getLatitude() == null && device.getLongitude() == null) {
+			Location location = OutdoorController.getInstance().getCurrentLocation();
+			if (location != null) {
+				device.setLatitude(String.valueOf(location.getLatitude()));
+				device.setLongitude(String.valueOf(location.getLongitude()));
+			}
+		}
+		*/
 		if(PurifierManager.getInstance().getCurrentPurifier() != null) {
 			if(PurifierManager.getInstance().getCurrentPurifier().getEui64().equals(deviceEui64)) {
 				PurifierManager.getInstance().setCurrentPurifier(device) ;
@@ -729,7 +752,5 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 	public Handler getDiscoveryTimeoutHandlerForTesting() {
 		return mDiscoveryTimeoutHandler;
 	}
-
 	// ********** END TEST METHODS ************
-
 }

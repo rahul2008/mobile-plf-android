@@ -16,6 +16,8 @@ public class PurAirDevice extends Observable {
 
 	private final String mEui64;
 	private final String mUsn;
+	private String latitude;
+	private String longitude;
 	
 	private String mIpAddress;
 	private String mName;
@@ -50,8 +52,6 @@ public class PurAirDevice extends Observable {
 		this.mSchedulerPortInfoList = mSchedulerPortInfoList;
 	}
 
-	
-
 	public PurAirDevice(String eui64, String usn, String ipAddress, String name, 
 			long bootId, ConnectionState connectionState) {
 		mBootId = bootId;
@@ -61,7 +61,23 @@ public class PurAirDevice extends Observable {
 		mName = name;
 		mConnectionState = connectionState;
 	}
-	
+
+	public String getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+
 	public String getEui64() {
 		return mEui64;
 	}
@@ -189,6 +205,7 @@ public class PurAirDevice extends Observable {
 				.append("   usn: ").append(getUsn()).append("   paired: ").append(getPairedStatus())
 				.append("   airportInfo: ").append(getAirPortInfo()).append("   firmwareInfo: ").append(getFirmwarePortInfo())
 				.append("   connectedState: ").append(getConnectionState()).append("   lastKnownssid: ")
+				.append("   lat: ").append(getLatitude()).append("   long: ").append(getLongitude())
 				.append(getLastKnownNetworkSsid());
 		return builder.toString();
 	}

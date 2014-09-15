@@ -24,13 +24,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.amap.api.location.LocationManagerProxy;
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
-import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
@@ -42,11 +39,11 @@ import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
-import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class EWSActivity extends BaseActivity implements OnClickListener, EWSListener, DiscoveryEventListener, StartFlowListener {
+public class EWSActivity extends BaseActivity implements 
+	OnClickListener, EWSListener, DiscoveryEventListener, StartFlowListener {
 
 	private EWSStartFragment ewsIntroductionScreenFragment;
 	
@@ -96,26 +93,6 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		
 		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
-		
-		LocationManagerProxy mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
-		if(!mAMapLocationManager.isProviderEnabled(LocationManagerProxy.GPS_PROVIDER)){
-			showLocationServiceTurnedOffDialog();
-		}
-	}
-	
-	private void showLocationServiceTurnedOffDialog() {
-		Bundle mBundle = new Bundle();
-		StartFlowDialogFragment mDialog;
-		try {
-			mBundle.clear();
-			mDialog = new StartFlowDialogFragment();
-			mDialog.setListener(this);
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES_TURNED_OFF);
-			mDialog.setArguments(mBundle);
-			mDialog.show(getSupportFragmentManager(), "start_flow_dialog");
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}
 	}
 
 	/*Initialize action bar */
@@ -346,29 +323,26 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
 		Utils.saveAppFirstUse(false);
 		
-		// TODO move code to discovery manager
+		Location location = OutdoorController.getInstance().getCurrentLocation();
+		
 		PurAirDevice current = PurifierManager.getInstance().getCurrentPurifier();
 		if (current != null) {
 			ALog.i(ALog.PAIRING, "EWS-setting paring to false");
 			current.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED) ;
+			//Save current location latitude and longitude
+			if (location != null) {
+				ALog.i(ALog.INDOOR_DETAILS, 
+						"EWS Purifier Current city lat: " + location.getLatitude() + "; long:" + location.getLongitude());
+				current.setLatitude(String.valueOf(location.getLatitude()));
+				current.setLongitude(String.valueOf(location.getLongitude()));
+			}
 			new PurifierDatabase().insertPurAirDevice(current);
-//			DiscoveryManager.getInstance().updateStoreDevices();
 			List<PurAirDevice> purifiers = DiscoveryManager.getInstance().updateStoreDevices();
 			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size() - 1);
 		}
 		
-		//Save current location after first time EWS
-		if (!LocationUtils.getFirstTimeEWSState()) {
-			Location location = OutdoorController.getInstance().getCurrentLocation();
-			if (location != null) {
-				OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
-			} 
-			LocationUtils.saveFirstTimeEWSState(true);
-		}
-		
 		// STOP move code
 		finish() ;
-		
 	}
 	
 	public void changeWifiNetwork() {
@@ -722,37 +696,36 @@ public class EWSActivity extends BaseActivity implements OnClickListener, EWSLis
 	
 	private void stopSearchPurifierTimer() {
 		if( searchPurifierTimer != null) searchPurifierTimer.cancel() ;
-			
 	}
 
 	@Override
 	public void noWifiTurnOnClicked(DialogFragment dialog) {
-		
+		//NOP
 	}
 
 	@Override
 	public void noInternetTurnOnClicked(DialogFragment dialog) {
-		
+		//NOP
 	}
 
 	@Override
 	public void locationServiceAllowClicked(DialogFragment dialog) {
-		
+		//NOP
 	}
 
 	@Override
 	public void locationServiceTurnOnClicked(DialogFragment dialog) {
-		
+		//NOP
 	}
 
 	@Override
 	public void dialogCancelClicked(DialogFragment dialog) {
-		
+		//NOP
 	}
 
 	@Override
 	public void onPurifierSelect(PurAirDevice purifier) {
-		
+		//NOP
 	}
 
 }

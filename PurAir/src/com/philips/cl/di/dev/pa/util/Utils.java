@@ -172,7 +172,7 @@ public class Utils {
 
 				for (int index = 0; index < indoorAQIHistory.size(); index++) {
 					String date = indoorAQIHistory.get(index).getTimeStamp();
-					ALog.i(ALog.INDOOR_RDCP, "Date: " + date +",  " + indoorAQIHistory.get(index).getAqi());
+//					ALog.i(ALog.INDOOR_RDCP, "Date: " + date +",  " + indoorAQIHistory.get(index).getAqi());
 					/**
 					 * Hourly
 					 */
@@ -197,7 +197,7 @@ public class Utils {
 						if (indoorAQIHistory.get(index).getAqi() <= 14) {
 							goodAqi = goodAqi + 1; 
 						}
-						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; goodAqi: " + goodAqi +"; Total: "+ totalAqi);
+//						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; goodAqi: " + goodAqi +"; Total: "+ totalAqi);
 					}
 					
 					/**
@@ -226,14 +226,14 @@ public class Utils {
 							if (indoorAQIHistory.get(index).getAqi() <= 14) {
 								weeklyGoodAqi = weeklyGoodAqi + 1; 
 							}
-							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; weeklyGoodAqi: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
+//							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; weeklyGoodAqi: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
 						}
 						
 						monthlyTotalAqi = monthlyTotalAqi + 1;
 						if (indoorAQIHistory.get(index).getAqi() <= 14) {
 							monthlyGoodAqi = monthlyGoodAqi + 1; 
 						}
-						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; monthlyGoodAqi: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
+//						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; monthlyGoodAqi: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
 					}
 					
 				}
@@ -257,9 +257,9 @@ public class Utils {
 		IndoorTrendDto indoorTrend = new IndoorTrendDto();
 		List<Float> hrlyAqiValues = getIndoorAqiHistoryLastDay(hrlyAqiValueMap, hrlyAqiValueCounterMap);
 
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
 
 		indoorTrend.setHourlyList(hrlyAqiValues);
 
@@ -269,11 +269,11 @@ public class Utils {
 		
 		List<Float> dailyAqiValues = getIndoorAqiHistoryLastMonth(dailyAqiValueMap, dailyAqiValueCounterMap);
 
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp goodAirQualityList: " + goodAirQualityList);
-		ALog.i(ALog.INDOOR_RDCP, "Rdcp downloaded time: " + Calendar.getInstance().get(Calendar.DATE));
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp goodAirQualityList: " + goodAirQualityList);
+//		ALog.i(ALog.INDOOR_RDCP, "Rdcp downloaded time: " + Calendar.getInstance().get(Calendar.DATE));
 
 		indoorTrend.setDailyList(dailyAqiValues);
 		indoorTrend.setGoodAirQualityList(goodAirQualityList);

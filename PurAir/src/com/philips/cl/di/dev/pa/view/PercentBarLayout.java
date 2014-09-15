@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.dashboard.HomeOutdoorData;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.PercentDetailsClickListener;
 
@@ -28,7 +27,7 @@ public class PercentBarLayout extends LinearLayout {
 	 * @param int number of view to show
 	 * */
 	public PercentBarLayout(final Context context, AttributeSet attrs,
-			List<Integer> goodAirInfos, PercentDetailsClickListener pCallback,
+			List<Integer> goodAirInfos, List<Integer> currentCityGoodAirInfos,  PercentDetailsClickListener pCallback,
 			final int index, final int position) {
 		super(context, attrs);
 		for (int i = 0; i < 2; i++) {
@@ -56,12 +55,10 @@ public class PercentBarLayout extends LinearLayout {
 			if (i == 1) {
 				name.setText(context.getString(R.string.outdoor_db));
 				try {
-					List<Integer> outdoorAqiPercentList = 
-							HomeOutdoorData.getInstance().getOutdoorPercentList();
-					if (outdoorAqiPercentList != null && outdoorAqiPercentList.size() > 0) {
+					if (currentCityGoodAirInfos != null && currentCityGoodAirInfos.size() > 2) {
 						indoorDashboardBarPerc.addView(
-								new AirView(context,	outdoorAqiPercentList.get(index), 60, 80));
-						percentTxt.setText(outdoorAqiPercentList.get(index)	+ "%");
+								new AirView(context, currentCityGoodAirInfos.get(index), 60, 80));
+						percentTxt.setText(currentCityGoodAirInfos.get(index) + "%");
 						indoorDashboardBarPerc.addView(percentTxt, percentTxtParams);
 					}
 
@@ -70,9 +67,9 @@ public class PercentBarLayout extends LinearLayout {
 				}
 			} else {
 				try {
-					if (goodAirInfos != null) {
+					if (goodAirInfos != null && goodAirInfos.size() > 2) {
 						indoorDashboardBarPerc.addView(
-								new AirView(context,	goodAirInfos.get(index), 60, 80));
+								new AirView(context, goodAirInfos.get(index), 60, 80));
 						percentTxt.setText(goodAirInfos.get(index) + "%");
 						indoorDashboardBarPerc.addView(percentTxt,	percentTxtParams);
 					}

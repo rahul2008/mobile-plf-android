@@ -24,7 +24,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;

@@ -1,10 +1,8 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.List;
-
-import android.content.Context;
 import android.content.Intent;
-import android.location.LocationManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.DialogFragment;
@@ -16,11 +14,12 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
-import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -30,6 +29,7 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
@@ -44,8 +44,6 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	private StartFlowDialogFragment mDialog;
 	private PurAirDevice selectedPurifier;
 	private DemoModeTask connectTask;
-	private GPSLocation gpsLocation;
-	private LocationManager locationManager;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,22 +68,31 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		locationManager = (LocationManager) PurAirApplication.getAppContext()
-				.getSystemService(Context.LOCATION_SERVICE);
+		LocationManagerProxy mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
+		if(!mAMapLocationManager.isProviderEnabled(LocationManagerProxy.GPS_PROVIDER)){
+			showLocationServiceTurnedOffDialog();
+		}
 	}
-
+	
+	private void showLocationServiceTurnedOffDialog() {
+		Bundle mBundle = new Bundle();
+		StartFlowDialogFragment mDialog;
+		try {
+			mBundle.clear();
+			mDialog = new StartFlowDialogFragment();
+			mDialog.setListener(this);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES_TURNED_OFF);
+			mDialog.setArguments(mBundle);
+			mDialog.show(getFragmentManager(), "start_flow_dialog");
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void onResume() {
 		super.onResume();
-		/*
-		 * if (isGPSEnabled()) { gpsLocation = GPSLocation.getInstance();
-		 * ALog.i(ALog.OUTDOOR_LOCATION, "gpsLocation: " + gpsLocation); } else
-		 * { showEnableGPSDialog(); }
-		 */
-	}
-
-	private boolean isGPSEnabled() {
-		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		OutdoorController.getInstance().setLocationProvider();
 	}
 
 	private void startEWS() {
@@ -129,25 +136,6 @@ public class StartFlowChooseFragment extends BaseFragment implements
 		}
 	}
 
-	private void showEnableGPSDialog() {
-		if (getActivity() == null)
-			return;
-		try {
-			FragmentTransaction fragTransaction = getActivity()
-					.getSupportFragmentManager().beginTransaction();
-
-			Fragment prevFrag = getActivity().getSupportFragmentManager()
-					.findFragmentByTag("gps_enable");
-			if (prevFrag != null) {
-				fragTransaction.remove(prevFrag);
-			}
-
-			fragTransaction.add(GPSLocationDialogFragment.newInstance(),
-					"gps_enable").commitAllowingStateLoss();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.ERROR, e.getMessage());
-		}
-	}
 
 	private void showAlertDialog(String title, String message) {
 		if (getActivity() == null)
@@ -209,17 +197,24 @@ public class StartFlowChooseFragment extends BaseFragment implements
 
 	private void onSuccessfullyConnected() {
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
+		Location location = OutdoorController.getInstance().getCurrentLocation();
 		if (selectedPurifier != null) {
-			selectedPurifier
-					.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
-			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager
-					.getSsidOfConnectedNetwork());
+			selectedPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
+			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork());
+			if (location != null) {
+				ALog.i(ALog.MANAGE_PUR, 
+						"Add purifier: Purifier Current city lat: " + location.getLatitude() + "; long:" + location.getLongitude());
+				selectedPurifier.setLatitude(String.valueOf(location.getLatitude()));
+				selectedPurifier.setLongitude(String.valueOf(location.getLongitude()));
+			}
+			
 			PurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
 
-			((MainActivity) getActivity())
-					.setTitle(getString(R.string.congratulations));
-			((MainActivity) getActivity())
-					.showFragment(new CongratulationFragment());
+			((MainActivity) getActivity()).setTitle(getString(R.string.congratulations));
+			((MainActivity) getActivity()).showFragment(new CongratulationFragment());
+			
+			 PurifierDatabase purifierDatabase = new PurifierDatabase();
+			 purifierDatabase.insertPurAirDevice(selectedPurifier);
 
 			// Utils.saveAppFirstUse(false);
 			//
@@ -248,8 +243,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	public void receiveServerResponse(int responseCode, String responseData,
 			final String fromIp) {
 
-		final String decryptedResponse = new DISecurity(null).decryptData(
-				responseData, selectedPurifier);
+		final String decryptedResponse = new DISecurity(null).decryptData(responseData, selectedPurifier);
 
 		if (getActivity() != null) {
 			getActivity().runOnUiThread(new Runnable() {
@@ -269,26 +263,26 @@ public class StartFlowChooseFragment extends BaseFragment implements
 
 	@Override
 	public void noWifiTurnOnClicked(DialogFragment dialog) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override
 	public void noInternetTurnOnClicked(DialogFragment dialog) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override
 	public void locationServiceAllowClicked(DialogFragment dialog) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override
 	public void locationServiceTurnOnClicked(DialogFragment dialog) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override
 	public void dialogCancelClicked(DialogFragment dialog) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 }

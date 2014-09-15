@@ -20,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 *            the context
 	 */
 	public DatabaseHelper(Context context) {
-		super(context, AppConstants.PURIFIERDB_NAME, null, AppConstants.PURIFIERDB_VERSION);//AppConstants.PURIFIERDB_VERSION);
+		super(context, AppConstants.PURIFIERDB_NAME, null, AppConstants.PURIFIERDB_VERSION);
 	}
 
 	/**
@@ -63,6 +63,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ AppConstants.KEY_AIRPUR_LASTKNOWN_NETWORK + " TEXT,"
 				+ AppConstants.KEY_AIRPUR_IS_PAIRED + " SMALLINT NOT NULL  DEFAULT 0,"
 				+ AppConstants.KEY_AIRPUR_LAST_PAIRED + " NUMERIC,"
+				+ AppConstants.KEY_LATITUDE + " TEXT,"
+				+ AppConstants.KEY_LONGITUDE + " TEXT,"
 				+ AppConstants.KEY_AIRPUR_KEY + " TEXT" + ")";
 		
 		String createCityDetailsTableSQL = "CREATE TABLE  IF NOT EXISTS " + AppConstants.TABLE_CITYDETAILS + " ("
@@ -103,6 +105,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		}
 		try {
 			db.execSQL("ALTER TABLE  " + AppConstants.TABLE_CITYDETAILS + " ADD COLUMN " + AppConstants.KEY_CITY_TW + " TEXT");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			db.execSQL("ALTER TABLE  " + AppConstants.TABLE_AIRPUR_INFO + " ADD COLUMN " + AppConstants.KEY_LATITUDE + " TEXT");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			db.execSQL("ALTER TABLE  " + AppConstants.TABLE_AIRPUR_INFO + " ADD COLUMN " + AppConstants.KEY_LONGITUDE + " TEXT");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
