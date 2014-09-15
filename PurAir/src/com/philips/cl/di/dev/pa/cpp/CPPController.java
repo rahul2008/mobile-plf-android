@@ -582,6 +582,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ThirdPartyNotification tpns = (ThirdPartyNotification) obj;			
 			if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
 				ALog.i(ALog.CPPCONTROLLER, "Successfully registered with CPP");
+				ALog.i(ALog.NOTIFICATION, "Successfully registered with CPP");
 				storeProviderInPref(provider);
 				NotificationRegisteringManager.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
 				String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());

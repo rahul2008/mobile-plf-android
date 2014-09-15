@@ -32,7 +32,8 @@ public class NotificationRegisteringManager implements SignonListener,
 	private static final int TRY_GCM = 0;
 	private static final int TRY_JPUSH = 1;
 	private static String mProvider = AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
-	private boolean isRegistered = true;
+	private boolean isRegistrationNeeded = true;
+	private static int jPushRetryCount = 0;
 
 	public NotificationRegisteringManager() {
 		CPPController.getInstance(PurAirApplication.getAppContext())
@@ -40,31 +41,32 @@ public class NotificationRegisteringManager implements SignonListener,
 		CPPController.getInstance(PurAirApplication.getAppContext())
 				.setNotificationListener(this);
 
-		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
-			ALog.i(ALog.NOTIFICATION,"NO GOOGLE SERVICE");
+//		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			ALog.d(ALog.NOTIFICATION,"NO GOOGLE SERVICE");
 			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
-			if(gcm!=null){
-				try {
-					gcm.unregister();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				gcm = null;
-			}
+//			if(gcm!=null){
+//				try {
+//					gcm.unregister();
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				gcm = null;
+//			}
 //			JPushInterface.setDebugMode(false);
 			JPushInterface.init(PurAirApplication.getAppContext());
 			JPushInterface.resumePush(PurAirApplication.getAppContext());
-		} else {
-			ALog.i(ALog.NOTIFICATION,"GOOGLE SERVICE");
-			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_GOOGLE);
-			gcm = GoogleCloudMessaging.getInstance(PurAirApplication
-					.getAppContext());
-			regid = getRegistrationId();
-			ALog.i(ALog.NOTIFICATION, "NotificationRegisteringManager : regId " + regid);
-		}
+//		} else {
+//			ALog.i(ALog.NOTIFICATION,"GOOGLE SERVICE");
+//			setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_GOOGLE);
+//			gcm = GoogleCloudMessaging.getInstance(PurAirApplication
+//					.getAppContext());
+//			regid = getRegistrationId();
+//			ALog.i(ALog.NOTIFICATION, "NotificationRegisteringManager : regId " + regid);
+//		}
 	}
 	
 	private void startHandlerThread(){
+		ALog.i(ALog.NOTIFICATION, "startHandlerThread()");
 		mLooperThread = null;
 		mLooperThread = new LooperThread();
 		mLooperThread.start();
@@ -73,6 +75,7 @@ public class NotificationRegisteringManager implements SignonListener,
 	public static NotificationRegisteringManager getNotificationManager(){
 		if(mNotificationManager == null){
 			mNotificationManager = new NotificationRegisteringManager();
+			jPushRetryCount = 0;
 		}
 		return mNotificationManager;	
 	}
@@ -83,6 +86,11 @@ public class NotificationRegisteringManager implements SignonListener,
 	}
 	
 	public void registerAppForNotification() {
+		ALog.d(ALog.NOTIFICATION, "registerAppForNotification");
+		if(!isRegistrationNeeded()){
+			ALog.e(ALog.NOTIFICATION, "registerAppForNotification Already registered");
+			return;
+		}
 		if (!Utils.isGooglePlayServiceAvailable() || getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
 			ALog.e(ALog.NOTIFICATION,
 					"Google play services not supported on this device");
@@ -140,6 +148,7 @@ public class NotificationRegisteringManager implements SignonListener,
 		// send the registration ID to CPP server.
 		regid = JPushReceiver.getRegKey();
 		sendRegistrationIdToBackend(regid);
+		ALog.i(ALog.NOTIFICATION, "registerForJPushService regId :  " + regid);
 		// Persist the regID - no need to register again.
 		if(regid != null && !regid.isEmpty()){
 			storeRegistrationId(PurAirApplication.getAppContext(), regid);
@@ -321,8 +330,9 @@ public class NotificationRegisteringManager implements SignonListener,
 		ALog.i(ALog.NOTIFICATION,
 				"ICPCLient signed on - sending GCM Registration ID to cpp: "
 						+ regid);
-
-		startHandlerThread();
+		if(isRegistrationNeeded()){
+			startHandlerThread();
+		}
 	}
 	
 	public static void setRegistrationProvider(String provider){
@@ -347,13 +357,14 @@ public class NotificationRegisteringManager implements SignonListener,
 
 	    	switch(msg.what){
 	  		case TRY_GCM:
-	      		ALog.i(ALog.NOTIFICATION,"LooperThread run handleMessage");
+	      		ALog.i(ALog.NOTIFICATION,"MyHandler run handleMessage TRY_GCM");
 	      		mRegTryCount = 0;
-	      		mChildHandler.sendEmptyMessageDelayed(0, 3000);
+	      		mChildHandler.sendEmptyMessageDelayed(TRY_GCM, 3000);
 	      		break;
 	  		
 	  		case TRY_JPUSH: 
-  				mChildHandler.sendEmptyMessage(1);
+  				mChildHandler.sendEmptyMessage(TRY_JPUSH);
+  				ALog.i(ALog.NOTIFICATION,"MyHandler run handleMessage TRY_JPUSH");
 	  			break;
 	  		
 	  		default:
@@ -368,10 +379,12 @@ public class NotificationRegisteringManager implements SignonListener,
 	    public void run() {
 	        Looper.prepare();
 	        ALog.i(ALog.NOTIFICATION,"LooperThread inside run");
+	        
 	        mHandler = new MyHandler(NotificationRegisteringManager.this);
 	        
 	        if(getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)){
-				mHandler.sendEmptyMessageDelayed(TRY_JPUSH, 100);
+				mHandler.sendEmptyMessage(TRY_JPUSH);
+				getNotificationManager().registerAppForNotification();
 			}
 	        else{
 	        	mHandler.sendEmptyMessageDelayed(TRY_GCM, 100);
@@ -398,7 +411,8 @@ public class NotificationRegisteringManager implements SignonListener,
 				}
 				break;
 				
-			case TRY_JPUSH: 	
+			case TRY_JPUSH: 
+				ALog.i(ALog.NOTIFICATION,"mChildHandler handleMessage TRY_JPUSH");
 				creatingJpushNotificationManager();	
 				break;
 			}
@@ -407,13 +421,14 @@ public class NotificationRegisteringManager implements SignonListener,
 	
 	private static void creatingJpushNotificationManager(){
 		ALog.i(ALog.NOTIFICATION, "creatingJpushNotificationManager now");
+		regid = JPushReceiver.getRegKey();
 		setRegistrationProvider(AppConstants.NOTIFICATION_PROVIDER_JPUSH);
 		setNotificationManager();
-		for(int i = 0; i < 2; i++){
-			if(!mRegistrationDone){
-				getNotificationManager().registerAppForNotification();
-			}
-		}
+//		for(int i = 0; i < 2; i++){
+//			if(!mRegistrationDone){
+//				getNotificationManager().registerAppForNotification();
+//			}
+//		}
 	}
 	
 	private static void sendRegistrationId(){
@@ -434,17 +449,28 @@ public class NotificationRegisteringManager implements SignonListener,
 	public void onRegistrationIdSentSuccess() {
 		ALog.d(ALog.NOTIFICATION, "Registration ID successfully sent to CPP");
 		mRegistrationDone = true;
+		jPushRetryCount = 0;
 		if(mChildHandler!=null){
-			mChildHandler.removeMessages(0);
+			mChildHandler.removeMessages(TRY_JPUSH);
+			mChildHandler.removeMessages(TRY_GCM);
 		}
 		storeRegistrationKeySendToCPP(true);
 	}
 
 	@Override
 	public void onRegistrationIdSentFailed() {
+		jPushRetryCount ++;
 		ALog.i(ALog.NOTIFICATION,
 				"Failed to send Registration ID to CPP - callback");
-		storeRegistrationKeySendToCPP(false);
+		ALog.i(ALog.NOTIFICATION, "JPUSH retry count : = " + jPushRetryCount);
+		
+		/*
+		 * If failed to send token to CPP then retry again.
+		 */
+		if(jPushRetryCount <= 2 && !mRegistrationDone){
+			storeRegistrationKeySendToCPP(false);
+			getNotificationManager().registerAppForNotification();
+		}
 	}
 	
 	private void initNotification() {
@@ -453,50 +479,50 @@ public class NotificationRegisteringManager implements SignonListener,
 		getNotificationManager();
 		storeRegistrationKeySendToCPP(false);
 		
-		if (Utils.isGooglePlayServiceAvailable()/* && !(NotificationRegisteringManager.getRegitrationProvider().
-				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))*/) {
-			getNotificationManager().registerAppForNotification();
-		}
+//		if (Utils.isGooglePlayServiceAvailable()/* && !(NotificationRegisteringManager.getRegitrationProvider().
+//				equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))*/) {
+//			getNotificationManager().registerAppForNotification();
+//		}
 	}
 
 	
 	public void getNotificationRegisteringManager() {
-		
+		jPushRetryCount = 0;
 		String provider = CPPController.getInstance(PurAirApplication.getAppContext()).getNotificationProvider(); 
 		if(Utils.isVersionChanged()){
-			isRegistered = true ;
-			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager first version changed");
+			isRegistrationNeeded = true ;
+			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager version changed");
 			initNotification();
 		}
 		else if(Utils.isLocaleChanged()) {
-			isRegistered = true ;
-			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager second locale changed");
+			isRegistrationNeeded = true ;
+			ALog.i(ALog.NOTIFICATION," NotificationRegisteringManager locale changed");
 			initNotification();
 			if (!Utils.isGooglePlayServiceAvailable() || (NotificationRegisteringManager.getRegitrationProvider().
 					equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH))){
 				NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 			}
 		}
-		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
-			isRegistered = false;
-			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager third previsouly=GCM now = GCM");
-		}
-		else if (!Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
-			isRegistered = false;
-			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager fourth  previsouly=GCM now = GCM not available");
+//		else if (Utils.isGooglePlayServiceAvailable() && provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
+//			isRegistered = false;
+//			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager third previsouly=GCM now = GCM");
+//		}
+		else if (/*!Utils.isGooglePlayServiceAvailable() && */provider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH)) {
+			isRegistrationNeeded = false;
+			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager No need to register. Its already registered with JPush.");
 		}
 		else {			
-			isRegistered = true;
-			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager fifth else ");
+			isRegistrationNeeded = true;
+			ALog.i(ALog.NOTIFICATION,"NotificationRegisteringManager else block");
 			initNotification();
 		}		
 	}
 
-	public boolean isRegistrationNeeded() {
-		return isRegistered;
+	private boolean isRegistrationNeeded() {
+		return isRegistrationNeeded;
 	}
 
-	public void setRegistered(boolean isRegistered) {
-		this.isRegistered = isRegistered;
-	}
+//	private void setRegistered(boolean isRegistered) {
+//		this.isRegistrationNeeded = isRegistered;
+//	}
 }

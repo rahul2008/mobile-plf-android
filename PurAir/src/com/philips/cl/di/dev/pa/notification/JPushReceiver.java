@@ -10,6 +10,8 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.cpp.CPPController;
+import com.philips.cl.di.dev.pa.util.ALog;
 
 /*
  * This class will receives registration ID from JPush server.
@@ -39,14 +41,10 @@ public class JPushReceiver extends BroadcastReceiver {
 		
 		JPushInterface.setDebugMode(true); 
 		
-//		if (Utils.isGooglePlayServiceAvailable()) {
-//			return;  
-//		}
-
 		if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-			if(!NotificationRegisteringManager.getNotificationManager().isRegistrationNeeded()) {
-				return;
-			}
+//			if(!NotificationRegisteringManager.getNotificationManager().isRegistrationNeeded()) {
+//				return;
+//			}
 			String regKey = bundle
 					.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 			Log.d(TAG, "[MyReceiver] Receive Registration Id : " + regKey);
@@ -59,8 +57,12 @@ public class JPushReceiver extends BroadcastReceiver {
 //			PurAirApplication.getAppContext()
 //					.getNotificationRegisteringManager()
 //					.registerAppForNotification();
+//			NotificationRegisteringManager.getNotificationManager().setRegistered(false);
+//			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
+//				ALog.e(ALog.NOTIFICATION, "JPushReceiver Failed to send registration ID to CPP - not signed on");
+//				return;
+//			}
 			
-			NotificationRegisteringManager.getNotificationManager().setRegistered(false);
 			NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
 				.getAction())) {
