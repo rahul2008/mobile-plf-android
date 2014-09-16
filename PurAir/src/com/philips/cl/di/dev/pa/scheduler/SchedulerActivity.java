@@ -273,17 +273,25 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	}
 
 	private void showProgressDialog() {
-		cppTimer.start();
-		progressDialog = new ProgressDialog(this);
-		progressDialog.setMessage(getString(R.string.please_wait));
-		progressDialog.setCancelable(false);
-		progressDialog.show();
+		try {
+			cppTimer.start();
+			progressDialog = new ProgressDialog(this);
+			progressDialog.setMessage(getString(R.string.please_wait));
+			progressDialog.setCancelable(false);
+			progressDialog.show();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	private void cancelProgressDialog() {
-		cppTimer.cancel();
-		if (progressDialog != null && progressDialog.isShowing()) {
-			progressDialog.cancel();
+		try {
+			cppTimer.cancel();
+			if (progressDialog != null && progressDialog.isShowing()) {
+				progressDialog.cancel();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
