@@ -27,7 +27,7 @@ public class NotificationRegisteringManagerTest extends TestCase {
 		super.setUp();
 	}
 	
-
+/*
 	public void testNotificationRegisteringManager(){
 		String regStr = "";
 		try {
@@ -41,7 +41,7 @@ public class NotificationRegisteringManagerTest extends TestCase {
 			assertNotNull(regStr);
 		} 
 	}
-
+*/
 //	public void testNotificationRegisteringManager_2(){
 //		String regStr = "";
 //		try {
