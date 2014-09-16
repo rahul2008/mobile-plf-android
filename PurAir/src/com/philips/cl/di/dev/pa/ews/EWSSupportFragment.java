@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -46,8 +47,15 @@ public class EWSSupportFragment extends Fragment {
 		
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_SUPPORT);
 		
-		((RelativeLayout) getView().findViewById
-				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener);  
+		/*((RelativeLayout) getView().findViewById
+				(R.id.contact_support_phone_layout)).setOnClickListener(buttonClickListener); */
+		((TextView) getView().findViewById
+				(R.id.contact_support_phone)).setOnClickListener(buttonClickListener); 
+		TextView phone_two= (TextView) getView().findViewById
+				(R.id.contact_support_phone_two); 
+		phone_two.setText(" / "+getString(R.string.contact_philips_support_phone_num_2));
+		phone_two.setOnClickListener(buttonClickListener);
+		
 		((RelativeLayout) getView().findViewById
 				(R.id.contact_support_email_layout)).setOnClickListener(buttonClickListener);  						
 		((RelativeLayout)getView().findViewById
@@ -59,10 +67,15 @@ public class EWSSupportFragment extends Fragment {
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.contact_support_phone_layout:
+			case R.id.contact_support_phone:
 				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+				break;
+			case R.id.contact_support_phone_two:
+				Intent callIntent = new Intent(Intent.ACTION_DIAL);
+				callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));
+				startActivity(Intent.createChooser(callIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_email_layout:
 				Intent supportEmailIntent = new Intent(

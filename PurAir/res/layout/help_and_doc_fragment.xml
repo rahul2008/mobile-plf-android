@@ -124,12 +124,24 @@
 
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/textView1"
+                android:id="@+id/phone_number_one"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/lbl_call_us"
                 android:layout_below="@+id/lbl_call_us"
                 android:text="@string/contact_philips_support_phone_num"
+                android:textColor="@color/subtitle_gray"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+            
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/phone_number_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/phone_number_one"
+                android:layout_below="@+id/lbl_call_us"
+                android:text="@string/contact_philips_support_phone_num_2"
                 android:textColor="@color/subtitle_gray"
                 android:textSize="@dimen/text_size_small"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />

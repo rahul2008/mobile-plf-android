@@ -375,7 +375,8 @@
     <string name="contact_philips_support_msg1_3attempt">連接已三次失敗。</string>
     <string name="contact_philips_support_msg2">請聯絡 Philips 支援</string>
     <string name="contact_philips_support_msg3">致電我們：</string>
-    <string name="contact_philips_support_phone_num">8008205128</string>
+    <string name="contact_philips_support_phone_num">800-820-5128</string>
+    <string name="contact_philips_support_phone_num_2">400-880-0008</string>
     <string name="contact_philips_support_msg4">發送電郵：</string>
     <string name="contact_philips_support_email">airpurifier.service@philips.com</string>
     <string name="contact_philips_support_msg5">瀏覽說明部份：</string>

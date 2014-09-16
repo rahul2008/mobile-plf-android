@@ -56,8 +56,15 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		
 		lblAppTutorial.setOnClickListener(this);
 		
-		RelativeLayout callUs = (RelativeLayout) rootView.findViewById(R.id.layout_call_us);
-		callUs.setOnClickListener(this);
+		//RelativeLayout callUs = (RelativeLayout) rootView.findViewById(R.id.layout_call_us);
+		//callUs.setOnClickListener(this);
+		
+		TextView phoneNumber1= (TextView) rootView.findViewById(R.id.phone_number_one);
+		TextView phoneNumber2= (TextView) rootView.findViewById(R.id.phone_number_two);
+		
+		phoneNumber2.setText(" / "+getString(R.string.contact_philips_support_phone_num_2));
+		phoneNumber1.setOnClickListener(this);
+		phoneNumber2.setOnClickListener(this);
 		
 		RelativeLayout contactUs = (RelativeLayout) rootView.findViewById(R.id.layout_help);
 		contactUs.setOnClickListener(this);
@@ -74,11 +81,18 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.layout_call_us:
+		case R.id.phone_number_one:
 			//TODO : Move to one place.
 			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
+			break;
+			
+		case R.id.phone_number_two:
+			//TODO : Move to one place.
+			Intent callIntent = new Intent(Intent.ACTION_DIAL);
+			callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));
+			startActivity(Intent.createChooser(callIntent, "Air Purifier support"));
 			break;
 			
 		case R.id.layout_email_us:

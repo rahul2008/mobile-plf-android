@@ -68,13 +68,24 @@
             <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/contact_support_phone"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/contact_support_phone_lanbel"
                 android:layout_toRightOf="@+id/contact_support_phone_img"
                 android:drawablePadding="16dp"
                 android:gravity="left"
                 android:text="@string/contact_philips_support_phone_num"
+                android:textColor="@color/title_gray"
+                android:textSize="16sp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/contact_support_phone_two"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/contact_support_phone"
+                android:layout_below="@+id/contact_support_phone_lanbel"
+                android:text="@string/contact_philips_support_phone_num_2"
                 android:textColor="@color/title_gray"
                 android:textSize="16sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
