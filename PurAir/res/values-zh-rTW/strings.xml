@@ -591,7 +591,7 @@
     <string name="are_you_adding">您想加入新的智能空氣清新機？</string>
     <string name="your_new_purifier">若您的智能空氣清新機未連接家居網絡，即表示它是新機。</string>
     <string name="yes_it_is_new">是的，它是新機</string>
-    <string name="no_already_connected">不是，它已連接網絡</string>
+    <string name="no_already_connected">已連接？您可以選擇以下智能空氣清新機…</string>
     <string name="how_clean_is_your_air">您家中的空氣質量如何？</string>
     <string name="add_new_purifier">添加一台空氣淨化器</string>
     <string name="buy_new_purifier">或購買一台空氣淨化器</string>

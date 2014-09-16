@@ -2,26 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:orientation="vertical" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/start_flow_choose_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:lineSpacingExtra="5dp"
         android:text="@string/are_you_adding"
         android:textColor="@color/gray"
         android:textSize="18sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/start_flow_choose_tv_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:lineSpacingExtra="5dp"
         android:text="@string/your_new_purifier"
         android:textColor="@color/gray"
         android:textSize="14sp"
@@ -41,18 +44,54 @@
         android:textSize="14sp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontButton
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/start_flow_choose_btn_already_connected"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:background="@drawable/blue_button_selector"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:text="@string/no_already_connected"
-        android:textColor="@color/white"
-        android:textSize="14sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/start_flow_choose_btn_already_connected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:paddingRight="16dp"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/no_already_connected"
+            android:textColor="@color/gray"
+            android:textSize="16sp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <ProgressBar
+            android:id="@+id/start_flow_choose_progressBar"
+            style="?android:attr/progressBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateDrawable="@drawable/progress_circle"
+            android:visibility="gone"
+            android:layout_marginRight="16dp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/start_flow_choose_listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@drawable/seperator_line_2x"
+        android:dividerHeight="0dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp" >
+    </ListView>
+    <ImageView
+        android:id="@+id/manage_pur_separator_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@drawable/seperator_line_2x"
+        android:layout_marginRight="16dp"
+        android:layout_marginLeft="16dp"
+        android:contentDescription="@string/img_description" />
 
 </LinearLayout>

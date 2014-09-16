@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -12,7 +14,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -25,6 +32,7 @@ import com.philips.cl.di.dev.pa.ews.EWSActivity;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment.StartFlowListener;
+import com.philips.cl.di.dev.pa.newpurifier.AddNewPurifierListener;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -36,39 +44,39 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-		OnClickListener, StartFlowListener, ServerResponseListener {
+		OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
-	private Button mBtnConnectedPurifier;
-	private Bundle mBundle;
-	private StartFlowDialogFragment mDialog;
+	private ProgressBar searchingPurifierProgressBar;
+	private ListView discoveredPurifierListView;
 	private PurAirDevice selectedPurifier;
 	private DemoModeTask connectTask;
+	private ArrayAdapter<String> appSelectorAdapter;
+	private ArrayList<String> listItemsArrayList;
+	private List<PurAirDevice> appItems;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.start_flow_choose_fragment,
-				container, false);
-
-		mBundle = new Bundle();
-		mDialog = new StartFlowDialogFragment();
+		View view = inflater.inflate(R.layout.start_flow_choose_fragment, container, false);
 
 		mBtnNewPurifier = (Button) view
 				.findViewById(R.id.start_flow_choose_btn_connect_new);
-		mBtnConnectedPurifier = (Button) view
-				.findViewById(R.id.start_flow_choose_btn_already_connected);
+		searchingPurifierProgressBar = (ProgressBar) view
+				.findViewById(R.id.start_flow_choose_progressBar);
+		discoveredPurifierListView  = (ListView) view
+				.findViewById(R.id.start_flow_choose_listView);
 
 		mBtnNewPurifier.setOnClickListener(this);
-		mBtnConnectedPurifier.setOnClickListener(this);
-
+		discoveredPurifierListView.setOnItemClickListener(this);
 		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		LocationManagerProxy mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
+		LocationManagerProxy mAMapLocationManager = 
+				LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
 		if(!mAMapLocationManager.isProviderEnabled(LocationManagerProxy.GPS_PROVIDER)){
 			showLocationServiceTurnedOffDialog();
 		}
@@ -81,7 +89,8 @@ public class StartFlowChooseFragment extends BaseFragment implements
 			mBundle.clear();
 			mDialog = new StartFlowDialogFragment();
 			mDialog.setListener(this);
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES_TURNED_OFF);
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, 
+					StartFlowDialogFragment.LOCATION_SERVICES_TURNED_OFF);
 			mDialog.setArguments(mBundle);
 			mDialog.show(getFragmentManager(), "start_flow_dialog");
 		} catch (IllegalStateException e) {
@@ -93,6 +102,13 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	public void onResume() {
 		super.onResume();
 		OutdoorController.getInstance().setLocationProvider();
+		showDiscoveredPurifier();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		clearDiscoveredPurifierObject();
 	}
 
 	private void startEWS() {
@@ -101,45 +117,19 @@ public class StartFlowChooseFragment extends BaseFragment implements
 		getFragmentManager().popBackStackImmediate();
 	}
 
-	private void showApSelectorDialog() {
-		try {
-			mBundle.clear();
-			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER,
-					StartFlowDialogFragment.AP_SELCTOR);
-			mDialog.setArguments(mBundle);
-			mDialog.setListener(this);
-			mDialog.show(getFragmentManager(), "start_flow_dialog");
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.start_flow_choose_btn_connect_new:
 			startEWS();
 			break;
-		case R.id.start_flow_choose_btn_already_connected:
-			DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
-			final List<PurAirDevice> apItems = discoveryManager
-					.getNewDevicesDiscovered();
-			if (apItems.size() > 0) {
-				showApSelectorDialog();
-			} else {
-				showAlertDialog("", getString(R.string.no_purifier_found));
-				// TODO show troubleshoot flow
-			}
-			break;
 		default:
 			break;
 		}
 	}
 
-
 	private void showAlertDialog(String title, String message) {
-		if (getActivity() == null)
-			return;
+		if (getActivity() == null)	return;
 		try {
 			FragmentTransaction fragTransaction = getActivity()
 					.getSupportFragmentManager().beginTransaction();
@@ -150,8 +140,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 				fragTransaction.remove(prevFrag);
 			}
 
-			fragTransaction.add(
-					DownloadAlerDialogFragement.newInstance(title, message),
+			fragTransaction.add(DownloadAlerDialogFragement.newInstance(title, message),
 					"no_purifier_found").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.ERROR, e.getMessage());
@@ -187,8 +176,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	private void getWifiDetails() {
 		ALog.i(ALog.MANAGE_PUR, "gettWifiDetails");
 
-		if (selectedPurifier == null)
-			return;
+		if (selectedPurifier == null) return;
 		connectTimer.start();
 		connectTask = new DemoModeTask(this, Utils.getPortUrl(Port.WIFI,
 				selectedPurifier.getIpAddress()), "", "GET");
@@ -199,6 +187,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
 		Location location = OutdoorController.getInstance().getCurrentLocation();
 		if (selectedPurifier != null) {
+			clearDiscoveredPurifierObject();//Clear adapter object 
 			selectedPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork());
 			if (location != null) {
@@ -215,21 +204,13 @@ public class StartFlowChooseFragment extends BaseFragment implements
 			
 			 PurifierDatabase purifierDatabase = new PurifierDatabase();
 			 purifierDatabase.insertPurAirDevice(selectedPurifier);
-
-			// Utils.saveAppFirstUse(false);
-			//
-			// PurifierDatabase purifierDatabase = new PurifierDatabase();
-			// purifierDatabase.insertPurAirDevice(selectedPurifier);
-			// List<PurAirDevice> purifiers =
-			// DiscoveryManager.getInstance().updateStoreDevices();
-			// PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size()
-			// - 1);
+			 
 		} else {
 			showAlertDialog(getString(R.string.purifier_add_fail_title),
 					getString(R.string.purifier_add_fail_msg));
 		}
 	}
-
+	
 	@Override
 	public void onPurifierSelect(PurAirDevice purifier) {
 		SetupDialogFactory.getInstance(getActivity()).cleanUp();
@@ -262,27 +243,78 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	}
 
 	@Override
-	public void noWifiTurnOnClicked(DialogFragment dialog) {
-		// NOP
-	}
+	public void noWifiTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void noInternetTurnOnClicked(DialogFragment dialog) {
-		// NOP
-	}
+	public void noInternetTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void locationServiceAllowClicked(DialogFragment dialog) {
-		// NOP
-	}
+	public void locationServiceAllowClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void locationServiceTurnOnClicked(DialogFragment dialog) {
-		// NOP
-	}
+	public void locationServiceTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void dialogCancelClicked(DialogFragment dialog) {
-		// NOP
+	public void dialogCancelClicked(DialogFragment dialog) {/**NOP*/}
+	
+	private void showDiscoveredPurifier() {
+		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
+		discoveryManager.setAddNewPurifierListener(this);
+		appItems = discoveryManager.getNewDevicesDiscovered();
+		listItemsArrayList = new ArrayList<String>();
+
+		for (int i = 0; i < appItems.size(); i++) {
+			listItemsArrayList.add(appItems.get(i).getName());
+		}
+		
+		showSearchingPurifierProgressBar(listItemsArrayList);
+
+		appSelectorAdapter = new ArrayAdapter<String>(getActivity(),
+				R.layout.single_item, R.id.single_list_item_name, listItemsArrayList);
+		discoveredPurifierListView.setAdapter(appSelectorAdapter);
+
+	}
+	
+	private void showSearchingPurifierProgressBar(ArrayList<String> listItems) {
+		if (listItems.isEmpty()) {
+			searchingPurifierProgressBar.setVisibility(View.VISIBLE);
+		} else {
+			searchingPurifierProgressBar.setVisibility(View.GONE);
+		}
+	}
+	
+	private void clearDiscoveredPurifierObject() {
+		DiscoveryManager.getInstance().removeAddNewPurifierListener();
+		appSelectorAdapter = null;
+		listItemsArrayList = null;
+	}
+	
+	@Override
+	public void onNewPurifierDiscover() {
+		
+		if (getActivity() == null || appSelectorAdapter == null || listItemsArrayList == null) return;
+		getActivity().runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				appItems = DiscoveryManager.getInstance().getNewDevicesDiscovered();
+				if (!listItemsArrayList.isEmpty()) {
+					listItemsArrayList.clear();
+				}
+				for (int i = 0; i < appItems.size(); i++) {
+					listItemsArrayList.add(appItems.get(i).getName());
+				}
+				
+				showSearchingPurifierProgressBar(listItemsArrayList);
+				appSelectorAdapter.notifyDataSetChanged();
+			}
+		});
+	};
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		PurAirDevice currentPurifier = appItems.get(position);
+		onPurifierSelect(currentPurifier);
 	}
 }

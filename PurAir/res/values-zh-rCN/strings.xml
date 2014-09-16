@@ -587,7 +587,7 @@
     <string name="are_you_adding">您需要添加一台从未连接过的空气净化器吗？</string>
     <string name="your_new_purifier">您的智控净化器是新加入的，还没有连接到您的家庭网络哦。</string>
     <string name="yes_it_is_new">是的，还未连接。</string>
-    <string name="no_already_connected">不用，已经连接过了。</string>
+    <string name="no_already_connected">已连接？您可以选择以下智控净化器…</string>
     <string name="how_clean_is_your_air">您家中的空气有多洁净？</string>
     <string name="add_new_purifier">添加一台空气净化器</string>
     <string name="buy_new_purifier">或购买一台空气净化器</string>
