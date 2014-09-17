@@ -35,8 +35,11 @@ import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -95,12 +98,14 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		init();
 
 		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
+		
 		for (int i = 0; i < mCitiesListAll.size(); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
 		addMarkerToMap(mOutdoorCity);
+		addMarkerCurrentPurifer();
 	}
 
 	private void init() {
@@ -178,6 +183,35 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 		System.gc();
 	}
 
+	private void addMarkerCurrentPurifer(){
+		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier == null){
+			return;
+		}
+		
+		Float latitude = Float.parseFloat(currentPurifier.getLatitude());
+		Float longitude = Float.parseFloat(currentPurifier.getLongitude());
+		String purifierName = currentPurifier.getName();
+		
+		int currentPurifierAQI = 0;
+		if(currentPurifier.getAirPortInfo()!=null){
+			currentPurifierAQI = currentPurifier.getAirPortInfo().getIndoorAQI();
+		}
+		LatLng latLng = new LatLng(latitude, longitude);
+		String snippet = getResources().getString(R.string.outdoor_aqi_map_purifier_title) + " "
+				+ getResources().getString(IndoorDashboardUtils.getAqiTitle(currentPurifierAQI));
+		
+		mArrayListMarker.add(aMap.addMarker(new MarkerOptions()
+				.anchor(0.5f, 0.5f)
+				.position(latLng)
+				.title(purifierName)
+				.snippet(snippet)
+				.draggable(true)
+				.icon(BitmapDescriptorFactory.fromBitmap(writeTextOnDrawable(
+						IndoorDashboardUtils.getAqiPointerMarker(currentPurifierAQI), currentPurifierAQI)))));
+	}
+	
+	
 	private void addMarkerToMap(OutdoorCity outdoorCity) {
 		if (outdoorCity == null || outdoorCity.getOutdoorAQI() == null
 				|| outdoorCity.getOutdoorCityInfo() == null)

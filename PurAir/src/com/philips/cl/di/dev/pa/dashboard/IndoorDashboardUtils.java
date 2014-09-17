@@ -119,6 +119,20 @@ public class IndoorDashboardUtils {
 		}
 		return R.string.empty_string;
 	}
+	
+	public static int getAqiPointerMarker(int indoorAQI) {
+		if (indoorAQI >= 0 && indoorAQI <= 14) {
+			return R.drawable.air_dashboard_indoor_map_good;
+		} else if (indoorAQI > 14 && indoorAQI <= 23) {
+			return R.drawable.air_dashboard_indoor_map_moderate;
+		} else if (indoorAQI > 23 && indoorAQI <= 35) {
+			return R.drawable.air_dashboard_indoor_map_unhealthy;
+		} else if (indoorAQI > 35) {
+			return R.drawable.air_dashboard_indoor_map_very_unhealthy;
+		}
+
+		return R.drawable.air_dashboard_indoor_map_good;
+	}
 
 	public static int getAqiSummary(int indoorAqi) {
 		if (indoorAqi >= 0 && indoorAqi <= 14) {
