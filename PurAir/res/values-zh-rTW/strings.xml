@@ -574,6 +574,9 @@
     <string name="location_services_text">我們希望使用您的位置資訊，為您提供所在之處的即時空氣質素資料</string>
     <string name="location_services_turned_off_title">定位服務已關閉</string>
     <string name="location_services_turned_off_text">定位服務可讓您更易說明所在之處，有助我們向您提供即時的空氣質素最新消息</string>
+    <string name="location_services_turned_on_title">Location sevices are turned on</string>
+    <string name="location_services_turned_on_text">We have received your location information. Would you like to turn off the location services now?</string>
+    <string name="turn_it_off">Turn it off</string>
     <string name="no_wifi_title">無 Wifi</string>
     <string name="no_wifi_text">如要繼續程序，須具備有效的 Wifi 連線</string>
     <string name="do_not_allow">不允許</string>

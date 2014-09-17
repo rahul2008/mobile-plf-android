@@ -112,7 +112,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		iListener = null;
 	}
 
-	public void addUIChangeListener(OutdoorDataChangeListener listener) {
+	public void setUIChangeListener(OutdoorDataChangeListener listener) {
 		iListener = listener;
 	}
 

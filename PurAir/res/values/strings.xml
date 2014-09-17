@@ -583,6 +583,9 @@
     <string name="location_services_text">We would like to use your location to give you real-time air quality information from where you are</string>
     <string name="location_services_turned_off_title">Location sevices are turned off</string>
     <string name="location_services_turned_off_text">Location services will make it easier for you to indicate where you are. Then we can give you real-time air quality updates</string>
+    <string name="location_services_turned_on_title">Location sevices are turned on</string>
+    <string name="location_services_turned_on_text">We have received your location information. Would you like to turn off the location services now?</string>
+    <string name="turn_it_off">Turn it off</string>
     <string name="no_wifi_title">No wifi</string>
     <string name="no_wifi_text">We need a working wifi connection to continue</string>
     <string name="do_not_allow">Do not allow</string>

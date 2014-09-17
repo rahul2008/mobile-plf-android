@@ -570,6 +570,9 @@
     <string name="location_services_text">请提供您的位置以便我们向您提供您所在方位的实时空气质量信息</string>
     <string name="location_services_turned_off_title">定位服务已关闭</string>
     <string name="location_services_turned_off_text">开启定位服务您可以更准确地告知您的方位，以便我们向您提供空气质量信息实时更新。</string>
+    <string name="location_services_turned_on_title">Location sevices are turned on</string>
+    <string name="location_services_turned_on_text">We have received your location information. Would you like to turn off the location services now?</string>
+    <string name="turn_it_off">Turn it off</string>
     <string name="no_wifi_title">没有找到无线网络</string>
     <string name="no_wifi_text">若要继续请连接无线网络</string>
     <string name="do_not_allow">不允许</string>

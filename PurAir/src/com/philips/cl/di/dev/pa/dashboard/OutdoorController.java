@@ -12,17 +12,19 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
-
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
+import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.security.Util;
@@ -53,6 +55,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private Location location;
 	
 	private static OutdoorController smInstance;
+	private Activity mActivity;
 
 	private OutdoorController() {
 		//		APP_ID = Utils.getCMA_AppID() ;
@@ -231,6 +234,8 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			
 			OutdoorManager.getInstance().startCitiesTask();
 //			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
+			
+			if(LocationUtils.getCurrentLocationAreaId().isEmpty()) done=false;
 		} 
 	}
 
@@ -324,6 +329,10 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	public void onLocationChanged(AMapLocation aLocation) {
 //		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());
 		location = aLocation;
+		
+		if(location!=null && location.getLatitude()>0 && location.getLongitude()>0 && !LocationUtils.getCurrentLocationAreaId().isEmpty())
+			showLocationServiceTurnedOnDialog();
+		
 		if(aLocation != null && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
@@ -343,5 +352,26 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	public static void reset() {
 		smInstance = null;
 	}
-
+	
+	public void setActivity(Activity activity){
+		mActivity= activity;
+	}
+	
+	private void showLocationServiceTurnedOnDialog() {
+		try {
+			if(mActivity==null || !(mActivity instanceof MainActivity))return;
+			
+			if(!Utils.getGPSDisabledDialogShownValue() || Utils.getGPSEnabledDialogShownValue())return;
+			
+			Bundle mBundle= new Bundle();
+			StartFlowDialogFragment mDialog = new StartFlowDialogFragment();
+			mBundle.putInt(StartFlowDialogFragment.DIALOG_NUMBER, StartFlowDialogFragment.LOCATION_SERVICES_TURNED_ON);
+			mDialog.setArguments(mBundle);
+			mDialog.show(((MainActivity) mActivity).getSupportFragmentManager(), "start_flow_dialog");
+			Utils.setGPSEnabledDialogShownValue(true);
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		}	
+	}
+	
 }

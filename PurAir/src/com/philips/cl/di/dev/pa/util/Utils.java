@@ -35,6 +35,7 @@ import org.apache.http.conn.util.InetAddressUtils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
@@ -1052,6 +1053,36 @@ public class Utils {
 		builder.append(timeStamp.substring(4, 6)).append("-");;
 		builder.append(timeStamp.substring(6, 8));
 		return builder.toString();
+	}
+    
+	private static SharedPreferences getGPSPreferences() {
+		return PurAirApplication.getAppContext().getSharedPreferences(
+				AppConstants.GPS_PREFERENCE_FILE_NAME,
+				Context.MODE_PRIVATE);
+	}
+	
+	public static void setGPSDisabledDialogShownValue(boolean isShown){
+		SharedPreferences preferences= getGPSPreferences();
+		Editor editor= preferences.edit();
+		editor.putBoolean(AppConstants.DIABLED_DIALOG_SHOWN, isShown);
+		editor.commit();
+	}
+	
+	public static boolean getGPSDisabledDialogShownValue(){
+		SharedPreferences preferences= getGPSPreferences();
+		return preferences.getBoolean(AppConstants.DIABLED_DIALOG_SHOWN, false);
+	}
+	
+	public static void setGPSEnabledDialogShownValue(boolean isShown){
+		SharedPreferences preferences= getGPSPreferences();
+		Editor editor= preferences.edit();
+		editor.putBoolean(AppConstants.ENABLED_DIALOG_SHOWN, isShown);
+		editor.commit();
+	}
+	
+	public static boolean getGPSEnabledDialogShownValue(){
+		SharedPreferences preferences= getGPSPreferences();
+		return preferences.getBoolean(AppConstants.ENABLED_DIALOG_SHOWN, false);
 	}
 
 }

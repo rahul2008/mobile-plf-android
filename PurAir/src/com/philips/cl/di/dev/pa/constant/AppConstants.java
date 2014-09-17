@@ -245,5 +245,7 @@ public class AppConstants {
 	public static final String OUTDOOR_CITY_NAME = "city_name" ;
 	public static final String OUTDOOR_AQI = "outdoor_aqi" ;
 	public static final String ALLOW_GPS = "allow_gps";
-	
+	public static final String GPS_PREFERENCE_FILE_NAME = "GPS_status";
+	public static final String DIABLED_DIALOG_SHOWN = "isGPSDisabledDialogShown";
+	public static final String ENABLED_DIALOG_SHOWN = "isGPSEnabledDialogShown";
 }

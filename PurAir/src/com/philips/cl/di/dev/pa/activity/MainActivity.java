@@ -252,6 +252,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		OutdoorController.getInstance().setLocationProvider();
+		
+		OutdoorController.getInstance().setActivity(this);
 
 		// Enable for release build
 		checkForCrashesHockeyApp(); 
@@ -336,6 +338,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
 			stopNormalMode();
 		}
+		
+		OutdoorController.getInstance().setActivity(null);
 	}
 
 	@Override

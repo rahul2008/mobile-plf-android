@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.util.Utils;
 
 public class StartFlowDialogFragment extends DialogFragment {
 
@@ -19,6 +21,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 	public static final int NO_INTERNET = 0;
 	public static final int LOCATION_SERVICES = 1;
 	public static final int LOCATION_SERVICES_TURNED_OFF = 2;
+	public static final int LOCATION_SERVICES_TURNED_ON = 3;
 	public static final int NO_WIFI = 4;
 	public static final int AP_SELCTOR = 5;
 	public static final int SEARCHING = 6;
@@ -51,11 +54,38 @@ public class StartFlowDialogFragment extends DialogFragment {
 		case SEARCHING:
 			builder = createSearchingDialog(builder);
 			break;
+		case LOCATION_SERVICES_TURNED_ON:
+			builder = createLocationServicesTurnedOnDialog(builder);
+			break;
 		default:
 			break;
 		}
 
 		return builder.create();
+	}
+
+	private AlertDialog.Builder createLocationServicesTurnedOnDialog(Builder builder) {
+		builder.setTitle(R.string.location_services_turned_on_title)
+		.setMessage(R.string.location_services_turned_on_text)
+		.setPositiveButton(R.string.turn_it_off,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// Open device location service screen, since
+				// android doesn't allow to change location
+				// settings in code
+				Intent myIntent = new Intent(
+						android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(myIntent);
+				dismiss();
+			}
+		})
+		.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+			}
+		});
+		return builder;
 	}
 
 	public void setListener(StartFlowListener listener) {
@@ -65,99 +95,102 @@ public class StartFlowDialogFragment extends DialogFragment {
 	private AlertDialog.Builder createNoInternetDialog(
 			AlertDialog.Builder builder) {
 		builder.setTitle(R.string.no_internet_title)
-				.setMessage(R.string.no_internet_text)
-				.setPositiveButton(R.string.turn_it_on,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								mWifiManager = (WifiManager) getActivity()
-										.getSystemService(MainActivity.WIFI_SERVICE);
-								mWifiManager.setWifiEnabled(true);
-								dismiss();
-								mListener.noInternetTurnOnClicked(StartFlowDialogFragment.this);
-							}
-						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dismiss();
-								mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-							}
-						});
+		.setMessage(R.string.no_internet_text)
+		.setPositiveButton(R.string.turn_it_on,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				mWifiManager = (WifiManager) getActivity()
+						.getSystemService(MainActivity.WIFI_SERVICE);
+				mWifiManager.setWifiEnabled(true);
+				dismiss();
+				mListener.noInternetTurnOnClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 
 	private AlertDialog.Builder createLocationServicesTurnedOffDialog(
 			AlertDialog.Builder builder) {
 		builder.setTitle(R.string.location_services_turned_off_title)
-				.setMessage(R.string.location_services_turned_off_text)
-				.setPositiveButton(R.string.turn_it_on,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								// Enable device location service window since
-								// android doesn't allow to change location
-								// settings in code
-								Intent myIntent = new Intent(
-										android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-								startActivity(myIntent);
-								dismiss();
-								mListener.locationServiceTurnOnClicked(StartFlowDialogFragment.this);
-							}
-						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dismiss();
-								mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-							}
-						});
+		.setMessage(R.string.location_services_turned_off_text)
+		.setPositiveButton(R.string.turn_it_on,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// Enable device location service window since
+				// android doesn't allow to change location
+				// settings in code
+				Intent myIntent = new Intent(
+						android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(myIntent);
+				dismiss();
+				
+				Utils.setGPSDisabledDialogShownValue(true);
+				Utils.setGPSEnabledDialogShownValue(false);
+				mListener.locationServiceTurnOnClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 
 	private AlertDialog.Builder createLocationServicesDialog(
 			AlertDialog.Builder builder) {
 		builder.setTitle(R.string.location_services_title)
-				.setMessage(R.string.location_services_text)
-				.setPositiveButton(R.string.allow,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								if (!GPSLocation.getInstance().isGPSEnabled()) {
-									// If GPS is not enabled, request user to
-									// enable location services here.
-								}
-								dismiss();
-								mListener.locationServiceAllowClicked(StartFlowDialogFragment.this);
-							}
-						})
-				.setNegativeButton(R.string.do_not_allow,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dismiss();
-								mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-							}
-						});
+		.setMessage(R.string.location_services_text)
+		.setPositiveButton(R.string.allow,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				if (!GPSLocation.getInstance().isGPSEnabled()) {
+					// If GPS is not enabled, request user to
+					// enable location services here.
+				}
+				dismiss();
+				mListener.locationServiceAllowClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.do_not_allow,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 
 	private AlertDialog.Builder createNoWifiDialog(AlertDialog.Builder builder) {
 		builder.setTitle(R.string.no_wifi_title)
-				.setMessage(R.string.no_wifi_text)
-				.setPositiveButton(R.string.turn_it_on,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								mWifiManager = (WifiManager) getActivity()
-										.getSystemService(MainActivity.WIFI_SERVICE);
-								mWifiManager.setWifiEnabled(true);
-								dialog.dismiss();
-								mListener.noWifiTurnOnClicked(StartFlowDialogFragment.this);
-							}
-						})
-				.setNegativeButton(R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int id) {
-								dismiss();
-								mListener.dialogCancelClicked(StartFlowDialogFragment.this);
-							}
-						});
+		.setMessage(R.string.no_wifi_text)
+		.setPositiveButton(R.string.turn_it_on,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				mWifiManager = (WifiManager) getActivity()
+						.getSystemService(MainActivity.WIFI_SERVICE);
+				mWifiManager.setWifiEnabled(true);
+				dialog.dismiss();
+				mListener.noWifiTurnOnClicked(StartFlowDialogFragment.this);
+			}
+		})
+		.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dismiss();
+				mListener.dialogCancelClicked(StartFlowDialogFragment.this);
+			}
+		});
 		return builder;
 	}
 
