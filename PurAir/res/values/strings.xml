@@ -340,7 +340,7 @@
     <string name="indoor_color_explained_intro">The Philips Smart Air app shows real-time air particle level on a scale of 1&#8211;10 measured by a smart built-in sensor. You can read update air quality information in your home, including PM2.5 concentration.</string>
     <!-- Diagnostics -->
     <string name="diagnostics">Email Diagnostics:</string>
-    <string name="diagnostics_intro">This is an automatically generated diagnostic email send by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.</string>
+    <string name="diagnostics_intro">This is an automatically generated diagnostic email sent by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.</string>
     <string name="janrain_user">Jan Rain User: </string>
     <string name="app_version">App version: </string>
     <string name="mobile_platform">Mobile platform: </string>
