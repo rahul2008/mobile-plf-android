@@ -426,7 +426,7 @@
     <string name="city_location">中国政府</string>
     <string name="date_empty">--:--</string>
     <string name="alert_auto_network_switch_title">网络自动切换</string>
-    <string name="alert_auto_network_switch_msg1">请至Wi-Fi高级设置中取消“网络自动切换或避免不良连接”功能</string>
+    <string name="alert_auto_network_switch_msg1">开始Wi-Fi设置之前请至Wi-Fi设置或Wi-Fi高级设置版块中禁用“自动网络切换/不采用状况不佳的连接”</string>
     <string name="verify_power_on_title">开启飞利浦智控净化器</string>
     <string name="verify_power_on_msg1">请将飞利浦智控净化器接入电源，并按下开关开启净化器。</string>
     <string name="verify_power_on_msg2">您的飞利浦智控净化器开启了吗？</string>

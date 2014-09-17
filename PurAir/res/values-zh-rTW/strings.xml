@@ -423,7 +423,7 @@
     <string name="city_location">中國政府</string>
     <string name="date_empty">--:--</string>
     <string name="alert_auto_network_switch_title">自動切換網絡</string>
-    <string name="alert_auto_network_switch_msg1">在 [Wi-Fi 進階設定] 中停用 [自動切換網絡] 或 [略過不佳連線]，開啟 [Wi-Fi 設定]。</string>
+    <string name="alert_auto_network_switch_msg1">開始Wi-Fi設置之前請至Wi-Fi設置或Wi-Fi高級設置界面中禁用“自動網絡切換/不啟用狀況不佳的連接”</string>
     <string name="verify_power_on_title">啟動飛利浦空氣清新機</string>
     <string name="verify_power_on_msg1">請將飛利浦智控淨化器接入電源，并按下開關開啟淨化器。</string>
     <string name="verify_power_on_msg2">Philips 智能空氣清新機是否已開啟？</string>

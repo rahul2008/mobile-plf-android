@@ -432,7 +432,7 @@
     <string name="city_location">Chinese Govt</string>
     <string name="date_empty">--:--</string>
     <string name="alert_auto_network_switch_title">Auto network Switch</string>
-    <string name="alert_auto_network_switch_msg1">Disable \"Auto network Switch or Avoid poor connections\" in Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
+    <string name="alert_auto_network_switch_msg1">Disable \"Network Switch / Avoid poor connections\" in Wi-Fi Settings / Wi-Fi Advanced Settings to start the Wi-Fi Setup.</string>
     <string name="verify_power_on_title">Switching on the Philips Smart Air Purifier</string>
     <string name="verify_power_on_msg1">Plug in the Philips Smart Air Purifier and press the Power button to switch on the purifier.</string>
     <string name="verify_power_on_msg2">Is your Philips Smart Air Purifier switched on?</string>
