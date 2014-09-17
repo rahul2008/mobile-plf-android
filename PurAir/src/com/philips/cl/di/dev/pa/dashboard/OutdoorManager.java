@@ -18,8 +18,7 @@ import com.philips.cl.di.dev.pa.util.LocationUtils;
 public class OutdoorManager implements OutdoorEventListener {
 
 	private Map<String, OutdoorCity> citiesMap;
-	private Map<String, OutdoorCity> citiesMapAll; // This is for entire city
-													// list
+	private Map<String, OutdoorCity> citiesMapAll; // This is for entire city list
 	private List<String> userCitiesList;
 	private List<String> allCitiesList;
 	private List<String> allMatchingCitiesList;
@@ -28,13 +27,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	private OutdoorDataChangeListener iListener;
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; // Suppressed
-																				// as
-																				// this
-																				// is
-																				// a
-																				// false
-																				// positive.
+	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; 
 
 	public synchronized static OutdoorManager getInstance() {
 		if (smInstance == null) {
@@ -44,20 +37,13 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void startAllCitiesTask() {
-		ALog.i(ALog.DASHBOARD, "AQI downloading from CMA");
 		OutdoorController.getInstance().startAllCitiesAQITask();
 	}
 
 	public void startCitiesTask() {
 		for (String areaID : userCitiesList) {
-			if (citiesMap == null || citiesMap.get(areaID) == null
-					|| citiesMap.get(areaID).getOutdoorAQI() == null) {
 				OutdoorController.getInstance().startCityAQITask(areaID);
-			}
-			if (citiesMap == null || citiesMap.get(areaID) == null
-					|| citiesMap.get(areaID).getOutdoorWeather() == null) {
 				OutdoorController.getInstance().startCityWeatherTask(areaID);
-			}
 		}
 	}
 
@@ -73,8 +59,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 		WeatherIcon.populateWeatherIconMap();
 		OutdoorController.getInstance().setOutdoorEventListener(this);
-		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: "
-				+ mOutdoorLocationFillAsyncTask);
+		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: " + mOutdoorLocationFillAsyncTask);
 	}
 
 	private void insertDataAndGetShortListCities() {
@@ -82,7 +67,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 			@Override
 			protected void onPostExecute(Cursor result) {
-				fillCitiesListFromDatabase(result);
+				processDataBaseInfo(result);
 			}
 		};
 
@@ -97,41 +82,37 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	}
 
-	private void fillCitiesListFromDatabase(Cursor cursor) {
+	private void processDataBaseInfo(Cursor cursor) {
 
 		if (cursor != null && cursor.getCount() > 0) {
-			ALog.i(ALog.OUTDOOR_LOCATION,
-					"Fetch list of cities already short listed from DB "
-							+ cursor.getCount());
+			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
 			cursor.moveToFirst();
 			do {
-				String city = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_CITY));
-				String cityCN = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_CITY_CN));
-				String cityTW = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_CITY_TW));
-				String areaID = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_AREA_ID));
-				float longitude = cursor.getFloat(cursor
-						.getColumnIndex(AppConstants.KEY_LONGITUDE));
-				float latitude = cursor.getFloat(cursor
-						.getColumnIndex(AppConstants.KEY_LATITUDE));
-
-				ALog.i(ALog.OUTDOOR_LOCATION,
-						"Add cities from DB to outdoor dashboard city " + city
-								+ " areaID " + areaID);
-				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN,
-						cityTW, longitude, latitude, areaID);
-				OutdoorManager.getInstance().addAreaIDToUsersList(areaID);
-				OutdoorManager.getInstance().addCityDataToMap(info, null, null,
-						areaID);
+				OutdoorCityInfo info = getOutdoorCityInfo(cursor); 
+				OutdoorManager.getInstance().addAreaIDToUsersList(info.getAreaID());
+				OutdoorManager.getInstance().addCityDataToMap(info, null, null, info.getAreaID());
 			} while (cursor.moveToNext());
-			OutdoorManager.getInstance().startCitiesTask();
+			
+			startCitiesTask();
 		}
 	}
+	
+	private OutdoorCityInfo getOutdoorCityInfo(Cursor cursor) {
+		String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
+		String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+		String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
+		String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+		float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
+		float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
+		
+		return new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaID); 
+	}
+	
+	public void removeUIChangeListener(OutdoorDataChangeListener listener) {
+		iListener = null;
+	}
 
-	public void setUIChangeListener(OutdoorDataChangeListener listener) {
+	public void addUIChangeListener(OutdoorDataChangeListener listener) {
 		iListener = listener;
 	}
 
@@ -149,15 +130,9 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	@Override
-	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather,
-			String areaID) {
+	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
 		ALog.i(ALog.DASHBOARD, "outdoorWeatherDataReceived " + outdoorWeather);
 		if (outdoorWeather != null) {
-			ALog.i(ALog.DASHBOARD,
-					"OutdoorManager$outdoorWeatherDataReceived temp "
-							+ outdoorWeather.getTemperature() + " : "
-							+ outdoorWeather.getWeatherIcon() + " : "
-							+ outdoorWeather.getHumidity());
 			addCityDataToMap(null, null, outdoorWeather, areaID);
 			if (iListener != null) {
 				iListener.updateUIOnDataChange();
