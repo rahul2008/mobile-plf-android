@@ -76,48 +76,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- <com.philips.cl.di.dev.pa.view.FontTextView -->
-    <!-- xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" -->
-    <!-- android:id="@+id/hf_outdoor_time_update_lb" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentLeft="true" -->
-    <!-- android:layout_below="@+id/top_llayt" -->
-    <!-- android:layout_marginLeft="16dp" -->
-    <!-- android:layout_marginTop="2dp" -->
-    <!-- android:text="@string/updated" -->
-    <!-- android:textColor="@color/white" -->
-    <!-- android:textSize="14sp" -->
-    <!-- android:visibility="visible" -->
-    <!-- custom:fontAssetName="fonts/gillsanslight.ttf" /> -->
-
-
-    <!-- <ImageView -->
-    <!-- android:id="@+id/hf_outdoor_weather_image" -->
-    <!-- android:layout_width="wrap_content" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_alignParentRight="true" -->
-    <!-- android:layout_below="@+id/top_llayt" -->
-    <!-- android:layout_marginRight="16dp" -->
-    <!-- android:layout_marginTop="2dp" -->
-    <!-- android:contentDescription="@string/img_description" /> -->
-
-
-    <!-- <com.philips.cl.di.dev.pa.view.FontTextView -->
-    <!-- xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa" -->
-    <!-- android:id="@+id/hf_outdoor_city" -->
-    <!-- android:layout_width="match_parent" -->
-    <!-- android:layout_height="wrap_content" -->
-    <!-- android:layout_below="@+id/top_llayt" -->
-    <!-- android:layout_centerHorizontal="true" -->
-    <!-- android:layout_marginTop="2dp" -->
-    <!-- android:ellipsize="marquee" -->
-    <!-- android:gravity="center" -->
-    <!-- android:singleLine="true" -->
-    <!-- android:textColor="@color/white" -->
-    <!-- android:textSize="22sp" -->
-    <!-- custom:fontAssetName="fonts/gillsanslight.ttf" /> -->
-
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_outdoor_city_id"

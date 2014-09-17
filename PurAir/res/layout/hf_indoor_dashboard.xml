@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_indoor_bg_2x" >
-
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_fan_mode_lb"
         android:layout_width="wrap_content"
@@ -21,7 +21,7 @@
         android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_filter_lb"
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_purifier_name"
         android:layout_width="wrap_content"
@@ -55,7 +55,7 @@
         android:textSize="@dimen/title_text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_purifier_eui64"
         android:layout_width="wrap_content"
@@ -73,7 +73,7 @@
         android:visibility="invisible"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_fan_mode"
         android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
         android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_filter"
         android:layout_width="wrap_content"
@@ -103,9 +103,9 @@
         android:id="@+id/hf_indoor_circle_layt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
         android:layout_below="@+id/hf_indoor_purifier_name"
-        android:layout_centerHorizontal="true" >
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="2dp" >
 
         <ImageView
             android:id="@+id/hf_indoor_circle_meter"
@@ -124,21 +124,21 @@
             android:contentDescription="@string/img_description"
             android:src="@drawable/grey_circle_2x" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView 
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/hf_indoor_aqi_reading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:lineSpacingExtra="5dp"
             android:gravity="center"
+            android:lineSpacingExtra="5dp"
             android:text="@string/not_connected"
             android:textColor="@color/white"
             android:textSize="@dimen/title_text_size_small"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/hf_indoor_aqi_summary"
         android:layout_width="wrap_content"
@@ -147,8 +147,9 @@
         android:layout_below="@+id/hf_indoor_circle_layt"
         android:layout_centerHorizontal="true"
         android:layout_marginRight="16dp"
-        android:paddingBottom="2dp"
         android:gravity="center"
+        android:lineSpacingExtra="5dp"
+        android:paddingBottom="2dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_large"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -161,9 +162,9 @@
         android:layout_alignParentTop="true"
         android:background="@color/philips_blue"
         android:minHeight="30dp"
-        android:padding="5dp">
-        
-        <com.philips.cl.di.dev.pa.view.FontTextView 
+        android:padding="5dp" >
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/lbl_firmware_info"
             android:layout_width="wrap_content"
@@ -176,9 +177,9 @@
             android:text="@string/i"
             android:textColor="@color/philips_blue"
             android:textSize="24sp"
-            custom:fontAssetName="fonts/opensanscondbold.ttf" />
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView 
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/lbl_firmware_update_available"
             android:layout_width="wrap_content"
@@ -201,6 +202,25 @@
             android:layout_marginBottom="16dp"
             android:layout_marginTop="5dp"
             android:progressDrawable="@drawable/download_progress_bar" />
-    </RelativeLayout> 
+    </RelativeLayout>
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/hf_indoor_dashboard_cover_missing_alart_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:minHeight="30dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:lineSpacingExtra="5dp"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_large"
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:background="@color/philips_blue"
+        android:visibility="gone" />
 
 </RelativeLayout>

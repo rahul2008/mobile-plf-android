@@ -81,6 +81,8 @@
     <string name="n_a">不適用</string>
     <string name="take_action">採取行動</string>
     <string name="no_data">無資料</string>
+    <string name="front_panel_not_closed">飛利浦智控淨化器的前面板未正確閉合。</string>
+    <string name="purifier_malfunctioning">您的空氣淨化器存在故障，請聯繫飛利浦客服。</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">良</string>

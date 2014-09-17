@@ -82,6 +82,8 @@
     <string name="take_action">Take action</string>
     <string name="no_data">No \nData</string>
     <string name="pm_2.5">PM2.5</string>
+    <string name="front_panel_not_closed">The front panel of Air Purifier has not been closed properly.</string>
+    <string name="purifier_malfunctioning">Your air purifier is malfunctioning, please contact Philips consumer care.</string>
     <!-- AQI status -->
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>

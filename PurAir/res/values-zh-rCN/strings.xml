@@ -84,6 +84,8 @@
     <string name="take_action">采取措施</string>
     <!-- <string name="no_connection">无连接</string> -->
     <string name="no_data">无数据</string>
+    <string name="front_panel_not_closed">飞利浦智控净化器的前面板未正确闭合。</string>
+    <string name="purifier_malfunctioning">您的空气净化器存在故障，请联系飞利浦客服。</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">良</string>

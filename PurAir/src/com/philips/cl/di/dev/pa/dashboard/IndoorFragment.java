@@ -45,6 +45,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private int prevIndoorAqi;
 	private float prevRotation = 0.0f;
 	
+	private FontTextView alartMessageTextView ;
 	private FontTextView fanModeTxt ;
 	private FontTextView filterStatusTxt ;
 	private FontTextView aqiStatusTxt ;
@@ -81,12 +82,17 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
+		
 		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
 		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		purifierNameTxt.setSelected(true);
+		
+		alartMessageTextView = (FontTextView) 
+				getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
+		alartMessageTextView.setVisibility(View.GONE);
 		
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
 			purifierNameTxt.setText(PurifierManager.getInstance().getCurrentPurifier().getName());
@@ -180,6 +186,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiStatusTxt.setText(getString(R.string.not_connected));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
 			prevRotation = 0.0f;
+			alartMessageTextView.setVisibility(View.GONE);
 
 		} else {
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
@@ -194,6 +201,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
 			aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
 			showIndoorMeter();
+			showAlartErrorAirPort(airPortInfo, purifier.getName());
 		}
 		
 		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
@@ -205,6 +213,19 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		prevRotation = IndoorDashboardUtils.getAqiPointerRotation(indoorAqi);
 		prevIndoorAqi = indoorAqi;
+	}
+	
+	private void showAlartErrorAirPort(AirPortInfo airPortInfo, String pName) {
+		String powerMode = airPortInfo.getPowerMode();
+		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
+			alartMessageTextView.setVisibility(View.VISIBLE);
+			alartMessageTextView.setText(pName + "\n\n" + getString(R.string.front_panel_not_closed));
+		} else if (AppConstants.POWER_STATUS_E.equalsIgnoreCase(powerMode)) {
+			alartMessageTextView.setVisibility(View.VISIBLE);
+			alartMessageTextView.setText(pName + "\n\n" + getString(R.string.purifier_malfunctioning));
+		} else {
+			alartMessageTextView.setVisibility(View.GONE);
+		}
 	}
 
 	private void showFirmwareUpdatePopup() {
