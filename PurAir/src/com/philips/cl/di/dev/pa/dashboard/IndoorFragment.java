@@ -219,10 +219,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		String powerMode = airPortInfo.getPowerMode();
 		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
 			alartMessageTextView.setVisibility(View.VISIBLE);
-			alartMessageTextView.setText(pName + "\n\n" + getString(R.string.front_panel_not_closed));
+			alartMessageTextView.setText(pName + ": " + getString(R.string.front_panel_not_closed));
 		} else if (AppConstants.POWER_STATUS_E.equalsIgnoreCase(powerMode)) {
 			alartMessageTextView.setVisibility(View.VISIBLE);
-			alartMessageTextView.setText(pName + "\n\n" + getString(R.string.purifier_malfunctioning));
+			alartMessageTextView.setText(pName + ": " + getString(R.string.purifier_malfunctioning));
 		} else {
 			alartMessageTextView.setVisibility(View.GONE);
 		}
