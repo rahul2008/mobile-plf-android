@@ -132,7 +132,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			if (outdoorAQIs.get(index) == null || outdoorAQIs.get(index).getTimeStamp() == null) return;
 			String updatedDateStr = Utils.getHistoricDataUpdateDate(outdoorAQIs.get(index).getTimeStamp());
 			float aqi = outdoorAQIs.get(index).getAQI();
-//			System.out.println("Outdoor historic aqi : " + aqi + " time: " + outdoorAQIs.get(index).getTimeStamp());
+//			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor historic aqi : " + aqi + " time: " + outdoorAQIs.get(index).getTimeStamp());
 			String dateWithHour = updatedDateStr + " " + outdoorAQIs.get(index).getTimeStamp().substring(8, 10);
 			
 			if (allHourlyAqiValueMap.containsKey(dateWithHour) 
@@ -149,8 +149,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 				allHourlyAqiValueCounterMap.put(dateWithHour, 1);
 			}
 		}
-		
 		averageHourlyAQI(allHourlyAqiValueMap, allHourlyAqiValueCounterMap);
+//		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor historic aqi dailyAqiValueMap: " + dailyAqiValueMap + " dailyAqiValueCounterMap: " + dailyAqiValueCounterMap);
 		updateWeeklyArray(dailyAqiValueMap, dailyAqiValueCounterMap);
 		
 		//Clear object
@@ -172,9 +172,11 @@ public class OutdoorDetailsActivity extends BaseActivity
 		
 		Set<String> mapKeys = allHourlyAqiValueMap.keySet();
 		for (String mapKey : mapKeys) {
+//			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor historic percentage hrly aqi avg : " + allHourlyAqiValueMap.get(mapKey) + " / " +  allHourlyAqiValueCounterMap.get(mapKey));
 			if (allHourlyAqiValueMap.containsKey(mapKey) 
 					&& allHourlyAqiValueCounterMap.containsKey(mapKey)) {
 				float aqi = allHourlyAqiValueMap.get(mapKey) / allHourlyAqiValueCounterMap.get(mapKey);
+//				ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor historic percentage hrly aqi avg : " + aqi );
 				allHourlyAqiValueMap.put(mapKey, aqi);
 				updateLastDayArray(aqi, mapKey);
 				averageDailyAQI(aqi, mapKey);
@@ -237,7 +239,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 				if (mapKey < 7) {
 					last7dayAQIReadings[6 - mapKey] = avgAqi;
 				}
-				
+//				ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor historic percentage daily aqi avg : " + avgAqi );
 				if (mapKey < 28) {
 					last4weekAQIReadings[27 - mapKey] = avgAqi;
 				}
@@ -599,24 +601,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	public void startCityAQIHistoryTask(String areaID) {
+		long daysInMillisecs = 1000 * 60 * 60 * 24 * 30l; // 30 Days
 		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
 		
-		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
-		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
-		
-		//Time difference between time zone and GMT
-		int offsetChina = timeZoneChina.getOffset(Calendar.getInstance().getTimeInMillis());
-		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
-		int offset = offsetChina - offsetCurrent;
-		
-		Calendar cal = Calendar.getInstance(timeZoneChina);
-		// cal.getTimeInMillis() selected time zone, time in milli seconds, it give same time all time zone
-		// So we implemented time zone concept to get selected time zone, time in milli seconds
-		
+		long timeInMili = Utils.getCurrentChineseDate().getTime();
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
 				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
-				Utils.getDate((cal.getTimeInMillis() + offset - (1000 * 60 * 60 * 24 * 30l))) + "," 
-				+ Utils.getDate(cal.getTimeInMillis() + offset), OutdoorController.APP_ID), 
+				Utils.getDate((timeInMili - daysInMillisecs)) + "," 
+				+ Utils.getDate(timeInMili), OutdoorController.APP_ID), 
 				areaID, PurAirApplication.getAppContext(), this);
 		aqiHistoricTask.start();
 	}
@@ -677,8 +669,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 
 	@Override
-	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {
-		// TODO Auto-generated method stub
-	}
+	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {/**NOP*/}
 	
 }

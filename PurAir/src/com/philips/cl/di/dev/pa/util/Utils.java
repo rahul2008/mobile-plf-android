@@ -96,6 +96,7 @@ public class Utils {
 	}
 
 	public static int getDifferenceBetweenDaysFromCurrentDay(String date, String date0) {
+		long dayInMillisecs = 1000 * 60 * 60 * 24 ; // 1 Day
 		int noOfDays = -2;
 		if (date == null || date.isEmpty()) return noOfDays;
 
@@ -105,7 +106,7 @@ public class Utils {
 			Date lastDate = sf.parse(date);
 			Date prevDate = sf.parse(date0);
 			timeDiff = lastDate.getTime() - prevDate.getTime();
-			noOfDays = (int) (timeDiff / (1000 * 60 * 60 * 24));
+			noOfDays = (int) (timeDiff / dayInMillisecs);
 //			ALog.i(ALog.INDOOR_RDCP, 
 //					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
 		} catch (ParseException e) {
@@ -116,7 +117,7 @@ public class Utils {
 	}
 
 	public static int getDifferenceBetweenHrFromCurrentHr(String date, String date0) {
-
+		long hourInMilliSecs = 1000 * 60 * 60 ; // 1Hour
 		int noOfHrs = -2;
 
 		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH");
@@ -130,7 +131,7 @@ public class Utils {
 				return noOfHrs;
 			}
 
-			noOfHrs = (int) (timeDiff / (1000 * 60 * 60));
+			noOfHrs = (int) (timeDiff / hourInMilliSecs);
 //			ALog.i(ALog.INDOOR_RDCP, 
 //					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
 
@@ -325,21 +326,22 @@ public class Utils {
 
 	@SuppressLint("SimpleDateFormat")
 	public static String getCPPQuery(PurAirDevice purifier) {
+		long dayInMilliSecs = 24 * 60 * 60 * 1000L ;
 		SimpleDateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
 		SimpleDateFormat formatTime = new SimpleDateFormat(":mm:ss");
 
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		int hrOffDayInt = cal.get(Calendar.HOUR_OF_DAY);
 		currentTimeHourOfDay = hrOffDayInt;
 		currentTimeDayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+		Date currentDateChinese = getCurrentChineseDate();
 		String hrOffDay = get2DigitHr(hrOffDayInt);
-		String endDate = formatDate.format(new Date());
-		String endTime = hrOffDay + formatTime.format(new Date());
+		String endDate = formatDate.format(currentDateChinese);
+		String endTime = hrOffDay + formatTime.format(currentDateChinese);
 
 		String qryPart3 = "endDate=" + endDate + "T" + endTime + ".1508314Z";
 
-		long lt28 = 28 * 24 * 60 * 60 * 1000L;
-		long startDateDiff = cal.getTimeInMillis() - lt28;
+		long startDateDiff = currentDateChinese.getTime() - (dayInMilliSecs * 28);
 		Date dateStart = new Date(startDateDiff);
 		String startDate = formatDate.format(dateStart);
 		String startTime = hrOffDay + formatTime.format(dateStart);
@@ -350,8 +352,8 @@ public class Utils {
 		String qry = String.format(AppConstants.CLIENT_ID_RDCP, eui64) + qryPart2 + qryPart3;
 
 		ALog.i(ALog.INDOOR_RDCP, "rdcp qry:   "+qry);
-		long lt1 = 24 * 60 * 60 * 1000;
-		long endDateDiff = cal.getTimeInMillis() - lt1;
+		long hourInMilliSecs = 24 * 60 * 60 * 1000; // 1 Hour
+		long endDateDiff = currentDateChinese.getTime() - hourInMilliSecs;
 		Date dateEnd = new Date(endDateDiff);
 		hrOffDayInt = hrOffDayInt + 1; 
 		if (hrOffDayInt >= 24) {
@@ -359,8 +361,7 @@ public class Utils {
 		}
 		ago24HrDate = formatDate.format(dateEnd) + " " + get2DigitHr(hrOffDayInt);
 
-		long lt27 = 27 * 24 * 60 * 60 * 1000L;
-		long startDateDiff1 = cal.getTimeInMillis() - lt27;
+		long startDateDiff1 = currentDateChinese.getTime() - (dayInMilliSecs * 27);
 		Date dateStart1 = new Date(startDateDiff1);
 		ago27DayDate = formatDate.format(dateStart1);
 
@@ -942,15 +943,6 @@ public class Utils {
 		return toast;
 	}
 	public static String getStaticIpAddress() {
-//		int Low = 2;
-//		int High = 255;
-//		Random r = new Random() ;
-//		int randomIpAddress = r.nextInt(High-Low) + Low;
-//		
-//		StringBuilder ipAddress = new StringBuilder("192.168.1.").append(randomIpAddress) ;
-//		
-//		return ipAddress.toString() ;
-		
 		return getIPAddress(true) ;
 	}
 	
@@ -994,8 +986,7 @@ public class Utils {
 		boolean isGCMRegistrationExpired = (registeredVersion != currentVersion);
 
 		if (isGCMRegistrationExpired) {
-			ALog.d(ALog.NOTIFICATION,
-					"Registration ID expired - App version changed");
+			ALog.d(ALog.NOTIFICATION, "Registration ID expired - App version changed");
 			return true;
 		}
 
@@ -1040,7 +1031,7 @@ public class Utils {
 		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
 		int offset = offsetChina - offsetCurrent;
 		
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		Calendar cal = Calendar.getInstance();
 		
 		Date currentDate = new Date(cal.getTimeInMillis() + offset);
 		return currentDate;

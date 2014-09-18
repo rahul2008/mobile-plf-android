@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.activity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -28,8 +27,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.ICPDownloadListener;
-import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
+import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData;
 import com.philips.cl.di.dev.pa.dashboard.PurifierCurrentCityData.PurifierCurrentCityPercentListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorTrendDto;
@@ -131,48 +130,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 	private void getRDCPValue() {
 		if (currentPurifier == null) return;
-		IndoorTrendDto trendDto = SessionDto.getInstance().getIndoorTrendDto(currentPurifier.getEui64());
-		
-		ALog.i(ALog.INDOOR_RDCP, "Downloaded: "+isRdcpDowloadOneHourOld(trendDto));
-		
-		if ((trendDto == null || isRdcpDowloadOneHourOld(trendDto))) {
-			rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
-			CPPController.getInstance(this).setDownloadDataListener(this) ;
-			CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
-		} else {
-			rdcpDownloadProgressBar.setVisibility(View.GONE);
-			hrlyAqiValues = trendDto.getHourlyList() ;
-			dailyAqiValues = trendDto.getDailyList() ;
-			addGoodAQIIntoList(trendDto);
-			addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
-			addAqiReading();
-		} 
-	}
-
-	private boolean isRdcpDowloadOneHourOld(IndoorTrendDto trendDto) {
-		
-		if (trendDto == null) return true;
-		
-		long prevTimeDiff = Utils.getTimeDiffInMinite(trendDto);
-		
-		if (prevTimeDiff == 0) return false;
-		
-		if (prevTimeDiff > 60 || prevTimeDiff < -60) return true;
-		
-		Calendar cal = Calendar.getInstance();
-		int currHr = cal.get(Calendar.HOUR_OF_DAY);
-		int currAmPm = cal.get(Calendar.AM_PM);
-	
-//		cal.setTimeInMillis(SessionDto.getInstance().getIndoorTrendDto().getTimeMin()* 60*1000);
-		cal.setTimeInMillis(trendDto.getTimeMin()* 60*1000);
-		int prevHr = cal.get(Calendar.HOUR_OF_DAY);
-		int prevAmPm = cal.get(Calendar.AM_PM);
-		
-		if (prevAmPm == currAmPm && currHr == prevHr) {
-			return false;
-		}else {
-			return true;
-		}
+		rdcpDownloadProgressBar.setVisibility(View.VISIBLE);
+		CPPController.getInstance(this).setDownloadDataListener(this) ;
+		CPPController.getInstance(this).downloadDataFromCPP(Utils.getCPPQuery(currentPurifier), 2048) ;
 	}
 
 	@Override

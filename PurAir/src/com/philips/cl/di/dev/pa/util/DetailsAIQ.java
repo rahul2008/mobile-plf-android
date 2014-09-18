@@ -442,7 +442,7 @@ public class DetailsAIQ {
 		
 		/**Drawing others y-axis line.*/
 		for (int i = 1; i < xCoordinates.length; i++) {
-			if (i == 7 || i == 14 || i == 21 || i == xCoordinates.length - 1) {
+			if (i == 6 || i == 13 || i == 20 || i == xCoordinates.length - 1) {
 				/**Drawing dark y-axis line.*/
 				paint.setColor(Color.GRAY);
 				canvas.drawLine(xCoordinates[i], 
