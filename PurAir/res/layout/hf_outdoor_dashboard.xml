@@ -9,7 +9,6 @@
         android:id="@+id/top_llayt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
@@ -26,7 +25,6 @@
             android:text="@string/updated"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_medium"
-            android:visibility="invisible"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <LinearLayout
@@ -57,6 +55,7 @@
                 android:singleLine="true"
                 android:textColor="@color/white"
                 android:textSize="@dimen/title_text_size_medium"
+                android:text="@string/dash_dash"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
 
@@ -73,6 +72,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:contentDescription="@string/img_description" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:id="@+id/hf_outdoor_weather_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dash_dash"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
     </LinearLayout>
 
@@ -98,6 +107,7 @@
         android:layout_below="@+id/top_llayt"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="2dp"
+        android:text="@string/dash_dash"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -125,6 +135,7 @@
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium"
+        android:text="@string/dash_dash"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout

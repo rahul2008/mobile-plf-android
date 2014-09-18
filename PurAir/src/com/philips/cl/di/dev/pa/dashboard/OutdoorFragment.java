@@ -35,6 +35,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	private FontTextView lastUpdated;
 	private FontTextView pmValue;
 	private LinearLayout pmLayout;
+	private FontTextView weatherText;
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -76,6 +77,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		aqiPointerCircle.setOnClickListener(this);
 		aqiCircleMeter = (ImageView) view.findViewById(R.id.hf_outdoor_circle_meter);
 		weatherIcon = (ImageView) view.findViewById(R.id.hf_outdoor_weather_image) ;
+		weatherText=(FontTextView)view.findViewById(R.id.hf_outdoor_weather_text);
 		lastUpdated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update_lb);
 		pmValue=(FontTextView)view.findViewById(R.id.hf_outdoor_pm_value);
 		pmLayout=(LinearLayout)view.findViewById(R.id.pm_layout);
@@ -141,6 +143,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			OutdoorWeather weather = city.getOutdoorWeather();
 			updated.setText(weather.getUpdatedTime());
 			weatherIcon.setImageResource(weather.getWeatherIcon());
+			weatherText.setVisibility(View.GONE);
 			temp.setText("" + weather.getTemperature()+AppConstants.UNICODE_DEGREE);
 			lastUpdated.setVisibility(View.VISIBLE);
 		}
