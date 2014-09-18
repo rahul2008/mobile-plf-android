@@ -16,13 +16,9 @@ public abstract class OutdoorLocationAbstractGetAsyncTask extends
 
 		try {
 			database.open();
-			ALog.i(ALog.OUTDOOR_LOCATION,
-					"OutdoorLocationAbstractGetAsyncTask before getting data from DB");
 			if (params != null) {
 				cursor = database.getDataFromOutdoorLoacation(params[0]);
 			}
-			ALog.i(ALog.OUTDOOR_LOCATION,
-					"OutdoorLocationAbstractGetAsyncTask after getting data from DB");
 			database.close();
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION,

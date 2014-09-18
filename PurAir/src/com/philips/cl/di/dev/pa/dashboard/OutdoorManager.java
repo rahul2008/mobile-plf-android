@@ -8,10 +8,12 @@ import java.util.Map;
 import java.util.Set;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteException;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 
@@ -29,7 +31,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; 
 	private long lastUpdatedTime ;
-	
+
 	private static final int UPDATE_INTERVAL = 30 ; // in mins
 
 	public synchronized static OutdoorManager getInstance() {
@@ -51,7 +53,7 @@ public class OutdoorManager implements OutdoorEventListener {
 				isUpdated = true;
 				OutdoorController.getInstance().startCityAQITask(areaID);
 			}
-			
+
 			if (citiesMap == null || citiesMap.get(areaID) == null
 					|| citiesMap.get(areaID).getOutdoorWeather() == null
 					|| lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
@@ -63,7 +65,7 @@ public class OutdoorManager implements OutdoorEventListener {
 			lastUpdatedTime = System.currentTimeMillis();
 		}
 	}
-	
+
 	private int getDiffInTimeInMins(long time) {
 		int timeDiffInMins = (int) ((System.currentTimeMillis() - time) / (1000 * 60)); 
 		return timeDiffInMins ;
@@ -98,10 +100,27 @@ public class OutdoorManager implements OutdoorEventListener {
 			@Override
 			protected void onPostExecute(Void result) {
 				mOutdoorLocationGetAsyncTask
-						.execute(new String[] { AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS });
+				.execute(new String[] { AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS });
 			}
 		}.execute(new String[] {});
 
+	}
+
+	/** Added to fetch selected city information before updating dashboard **/
+	public void fetchSelectedCityInfo(){
+		OutdoorLocationDatabase database = new OutdoorLocationDatabase();
+		Cursor cursor = null;
+
+		try {
+			database.open();
+			cursor = database.getDataFromOutdoorLoacation(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS);
+			database.close();
+			processDataBaseInfo(cursor);
+		} catch (SQLiteException e) {
+			ALog.e(ALog.OUTDOOR_LOCATION,
+					"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
+							+ e.getMessage());
+		}
 	}
 
 	private void processDataBaseInfo(Cursor cursor) {
@@ -114,11 +133,11 @@ public class OutdoorManager implements OutdoorEventListener {
 				OutdoorManager.getInstance().addAreaIDToUsersList(info.getAreaID());
 				OutdoorManager.getInstance().addCityDataToMap(info, null, null, info.getAreaID());
 			} while (cursor.moveToNext());
-			
+
 			startCitiesTask();
 		}
 	}
-	
+
 	private OutdoorCityInfo getOutdoorCityInfo(Cursor cursor) {
 		String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
 		String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
@@ -126,10 +145,10 @@ public class OutdoorManager implements OutdoorEventListener {
 		String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
 		float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 		float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
-		
+
 		return new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaID); 
 	}
-	
+
 	public void removeUIChangeListener(OutdoorDataChangeListener listener) {
 		iListener = null;
 	}

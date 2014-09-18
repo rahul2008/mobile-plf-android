@@ -172,6 +172,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
 		int count = 1 ;
+		OutdoorManager.getInstance().fetchSelectedCityInfo();
 		if( OutdoorManager.getInstance().getUsersCitiesList() != null && OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
 			count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 		}
