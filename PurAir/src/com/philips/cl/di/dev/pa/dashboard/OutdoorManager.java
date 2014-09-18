@@ -28,6 +28,9 @@ public class OutdoorManager implements OutdoorEventListener {
 	private OutdoorDataChangeListener iListener;
 	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; 
+	private long lastUpdatedTime ;
+	
+	private static final int UPDATE_INTERVAL = 30 ; // in mins
 
 	public synchronized static OutdoorManager getInstance() {
 		if (smInstance == null) {
@@ -41,10 +44,29 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void startCitiesTask() {
+		boolean isUpdated = false;
 		for (String areaID : userCitiesList) {
+			if (citiesMap == null || citiesMap.get(areaID) == null
+					|| citiesMap.get(areaID).getOutdoorAQI() == null || lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
+				isUpdated = true;
 				OutdoorController.getInstance().startCityAQITask(areaID);
+			}
+			
+			if (citiesMap == null || citiesMap.get(areaID) == null
+					|| citiesMap.get(areaID).getOutdoorWeather() == null
+					|| lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
+				isUpdated = true;
 				OutdoorController.getInstance().startCityWeatherTask(areaID);
+			}			
 		}
+		if(isUpdated) {
+			lastUpdatedTime = System.currentTimeMillis();
+		}
+	}
+	
+	private int getDiffInTimeInMins(long time) {
+		int timeDiffInMins = (int) ((System.currentTimeMillis() - time) / (1000 * 60)); 
+		return timeDiffInMins ;
 	}
 
 	private OutdoorManager() {

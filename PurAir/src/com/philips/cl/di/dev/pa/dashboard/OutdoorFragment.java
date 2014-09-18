@@ -5,7 +5,6 @@ import java.util.Locale;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,7 +23,7 @@ import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class OutdoorFragment extends BaseFragment implements OnClickListener, OnPageChangeListener {
+public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	
 	private FontTextView cityName, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId;
 	private ImageView aqiPointerCircle;
@@ -81,7 +80,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		pmValue=(FontTextView)view.findViewById(R.id.hf_outdoor_pm_value);
 		pmLayout=(LinearLayout)view.findViewById(R.id.pm_layout);
 		Bundle bundle = getArguments();
-
+		
 		if(bundle != null) {
 			int position = bundle.getInt("position");
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + OutdoorManager.getInstance().getUsersCitiesList().size());
@@ -173,18 +172,5 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener, On
 		default:
 			break;	
 		}
-	}
-	
-	@Override
-	public void onPageScrollStateChanged(int state) {
-	}
-
-	@Override
-	public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		
-	}
-
-	@Override
-	public void onPageSelected(int position) {
 	}
 }
