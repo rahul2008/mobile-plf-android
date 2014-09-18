@@ -6,7 +6,6 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 public class IndoorDashboardUtils {
 
@@ -46,40 +45,25 @@ public class IndoorDashboardUtils {
 
 		return R.drawable.blue_circle_with_arrow_2x;
 	}
-
+	
 	public static String getFilterStatus(AirPortInfo airPurifierEventDto) {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
 			Context context = PurAirApplication.getAppContext();
 			filterStatus = context.getString(R.string.good);
-			String preFilterStatus = Utils
-					.getPreFilterStatusText(airPurifierEventDto
-							.getFilterStatus1());
-			String multiCareFilterStatus = Utils
-					.getMultiCareFilterStatusText(airPurifierEventDto
-							.getFilterStatus2());
-			String activeFilterStatus = Utils
-					.getActiveCarbonFilterStatusText(airPurifierEventDto
-							.getFilterStatus3());
-			String hepaFilterStatus = Utils
-					.getHEPAFilterFilterStatusText(airPurifierEventDto
-							.getFilterStatus4());
-
-			if (multiCareFilterStatus.equals(AppConstants.ACT_NOW)
-					|| activeFilterStatus.equals(AppConstants.ACT_NOW)
-					|| hepaFilterStatus.equals(AppConstants.ACT_NOW)) {
+			//Simplified logic to calculate filter status
+			int preFilter = airPurifierEventDto.getFilterStatus1();
+			int multiCareFilter = airPurifierEventDto.getFilterStatus2();
+			int activeFilter = airPurifierEventDto.getFilterStatus3();
+			int hepaFilter = airPurifierEventDto.getFilterStatus4();
+			
+			if ( (multiCareFilter >= 840 && multiCareFilter < 960)
+					|| (activeFilter >= 2760 && activeFilter < 2880)
+					|| (hepaFilter >= 2760 && hepaFilter < 2880)) {
 				filterStatus = context.getString(R.string.change_now);
-			} else if (preFilterStatus.equals(AppConstants.CLEAN_NOW)) {
+			} else if (preFilter >= 112) {
 				filterStatus = context.getString(R.string.clean_now);
-			} else if (preFilterStatus.equals(AppConstants.CLEAN_SOON)) {
-				filterStatus = context.getString(R.string.clean_soon);
-			} else if (multiCareFilterStatus.equals(AppConstants.ACT_SOON)
-					|| activeFilterStatus.equals(AppConstants.ACT_SOON)
-					|| hepaFilterStatus.equals(AppConstants.ACT_SOON)) {
-				filterStatus = context.getString(R.string.change_now);
-			} else if (multiCareFilterStatus.equals(AppConstants.FILTER_LOCK)
-					|| activeFilterStatus.equals(AppConstants.FILTER_LOCK)
-					|| hepaFilterStatus.equals(AppConstants.FILTER_LOCK)) {
+			} else if (multiCareFilter >= 960 || activeFilter >= 2880 || hepaFilter >= 2880) {
 				filterStatus = context.getString(R.string.filter_lock);
 			}
 		}
