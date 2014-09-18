@@ -470,9 +470,7 @@ public class EWSActivity extends BaseActivity implements
 
 	// Override methods - EWSListener - Start
 	@Override
-	public void onDeviceAPMode() {
-
-	}
+	public void onDeviceAPMode() {/**NOP*/}
 
 	@Override
 	public void onSelectHomeNetwork() {
@@ -699,33 +697,21 @@ public class EWSActivity extends BaseActivity implements
 	}
 
 	@Override
-	public void noWifiTurnOnClicked(DialogFragment dialog) {
-		//NOP
-	}
+	public void noWifiTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void noInternetTurnOnClicked(DialogFragment dialog) {
-		//NOP
-	}
+	public void noInternetTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void locationServiceAllowClicked(DialogFragment dialog) {
-		//NOP
-	}
+	public void locationServiceAllowClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void locationServiceTurnOnClicked(DialogFragment dialog) {
-		//NOP
-	}
+	public void locationServiceTurnOnClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void dialogCancelClicked(DialogFragment dialog) {
-		//NOP
-	}
+	public void dialogCancelClicked(DialogFragment dialog) {/**NOP*/}
 
 	@Override
-	public void onPurifierSelect(PurAirDevice purifier) {
-		//NOP
-	}
+	public void onPurifierSelect(PurAirDevice purifier) {/**NOP*/}
 
 }

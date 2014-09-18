@@ -25,8 +25,7 @@ public class EWSStartFragment extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		((EWSActivity) getActivity())
-				.setActionBarHeading(EWSConstant.EWS_STEP_START);
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_START);
 
 		Button startEwsBtn = (Button) getView().findViewById(
 				R.id.setup_get_start_btn);
@@ -35,8 +34,7 @@ public class EWSStartFragment extends Fragment {
 
 			@Override
 			public void onClick(View v) {
-				if (getActivity() == null)
-					return;
+				if (getActivity() == null) return;
 				((EWSActivity) getActivity()).checkWifiConnectivity();
 			}
 		});

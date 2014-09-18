@@ -82,8 +82,7 @@ public class RightMenuClickListener implements OnClickListener {
 		fanSpeedTwo = (Button) activity.findViewById(R.id.fan_speed_two);
 		fanSpeedThree = (Button) activity.findViewById(R.id.fan_speed_three);
 
-		powerStatus = (FontTextView) activity
-				.findViewById(R.id.tv_rm_power_status);
+		powerStatus = (FontTextView) activity.findViewById(R.id.tv_rm_power_status);
 		powerStatus.setSelected(true);
 
 		timer = (Button) activity.findViewById(R.id.btn_rm_set_timer);

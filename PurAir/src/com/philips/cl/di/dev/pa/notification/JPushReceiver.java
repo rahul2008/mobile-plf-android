@@ -10,8 +10,6 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
-import com.philips.cl.di.dev.pa.util.ALog;
 
 /*
  * This class will receives registration ID from JPush server.

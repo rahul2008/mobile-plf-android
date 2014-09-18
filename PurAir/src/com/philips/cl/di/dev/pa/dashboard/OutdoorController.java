@@ -16,6 +16,7 @@ import android.app.Activity;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
