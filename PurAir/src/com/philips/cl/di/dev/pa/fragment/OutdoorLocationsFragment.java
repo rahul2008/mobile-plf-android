@@ -74,6 +74,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	
 	@Override
 	public void onResume() {
+		if (!selectedItemHashtable.isEmpty()) selectedItemHashtable.clear();// remove selected items
 		OutdoorLocationHandler.getInstance().setSelectedCityListener(this); 
 		OutdoorLocationHandler.getInstance().fetchSelectedCity();
 		super.onResume();
@@ -109,17 +110,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		if (LocationUtils.getCurrentLocationEnabled() 
 				&& !LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			OutdoorManager.getInstance().addAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
-			
-//			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-//
-//			database.open();
-//			Cursor c = database.getDataCurrentLoacation(OutdoorController.getCurrentLocationAreaId());
-//			if (c != null && c.getCount() == 1) {
-//				c.moveToFirst();
-//				OutdoorManager.getInstance().addAreaIDToUsersList(
-//						c.getString(c.getColumnIndex(AppConstants.KEY_AREA_ID)));
-//			}
-//			database.close();
 		}
 	}
 	
