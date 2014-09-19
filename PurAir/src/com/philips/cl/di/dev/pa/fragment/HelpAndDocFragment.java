@@ -143,7 +143,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String appEui64 = getString(R.string.app_eui64) + SessionDto.getInstance().getAppEui64();
 		List<PurAirDevice> purifiers= DiscoveryManager.getInstance().getStoreDevices();
 
-		StringBuilder data= new StringBuilder("This is an automatically generated diagnostic email send by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.");
+		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
 		data.append(lineSeparator);
 		data.append(lineSeparator);
 		data.append(jainRainUser);

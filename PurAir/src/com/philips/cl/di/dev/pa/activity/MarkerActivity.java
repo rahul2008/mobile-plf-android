@@ -198,8 +198,9 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			currentPurifierAQI = currentPurifier.getAirPortInfo().getIndoorAQI();
 		}
 		LatLng latLng = new LatLng(latitude, longitude);
-		String snippet = getResources().getString(R.string.outdoor_aqi_map_purifier_title) + " "
-				+ getResources().getString(IndoorDashboardUtils.getAqiTitle(currentPurifierAQI));
+		String aqiTitle=getResources().getString(IndoorDashboardUtils.getAqiTitle(currentPurifierAQI));
+		aqiTitle=aqiTitle.replace("\n", "");
+		String snippet = getResources().getString(R.string.outdoor_aqi_map_purifier_title) + " "+ aqiTitle;
 		
 		mArrayListMarker.add(aMap.addMarker(new MarkerOptions()
 				.anchor(0.5f, 0.5f)
