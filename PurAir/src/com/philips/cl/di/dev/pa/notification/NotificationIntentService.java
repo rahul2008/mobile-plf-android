@@ -65,8 +65,7 @@ public class NotificationIntentService extends IntentService {
 	}
 
 	// Put the message into a notification and post it.
-	public void showNotification(NotificationManager notificationMan,
-			Context context, String msg) {
+	public void showNotification(NotificationManager notificationMan, Context context, String msg) {
 		if (notificationMan == null)
 			return;
 		if (msg == null || msg.isEmpty())
@@ -82,10 +81,8 @@ public class NotificationIntentService extends IntentService {
 		PendingIntent contentIntent = PendingIntent.getActivity(context,
 				requestID, intent, 0);
 
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-				context);
-		mBuilder.setSmallIcon(R.drawable.purair_icon); // TODO change
-														// notification icon
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+		mBuilder.setSmallIcon(R.drawable.purair_icon); // TODO change notification icon
 		mBuilder.setContentTitle(context.getString(R.string.app_name));
 		mBuilder.setWhen(System.currentTimeMillis());
 		mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(msg));

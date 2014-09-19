@@ -53,13 +53,10 @@ public class NetworkUtils {
 			data = readFully(inputStream);			
 			return new ResponseDto(responseCode, data);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		finally {
@@ -163,7 +160,6 @@ public class NetworkUtils {
 				is.close() ;
 				is = null ;
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}				
 		}

@@ -20,7 +20,7 @@ public class OutdoorLocationHandler {
 	private OutdoorSelectedCityListener selectedCityListener;
 
 	private OutdoorLocationHandler() {
-		// TODO
+		// Force singleton
 	}
 
 	public synchronized static OutdoorLocationHandler getInstance() {

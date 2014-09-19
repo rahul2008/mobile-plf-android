@@ -177,7 +177,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			};
 			
 			mOutdoorLocationListView.setAdapter(mOutdoorLocationAdapter);
-			
+
 			//Add city to list
 			addAreaIdToCityList(cursor);
 		}
@@ -185,12 +185,12 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 	@Override
 	public void onConnected(Bundle arg0) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override
 	public void onDisconnected() {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 	
 	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {

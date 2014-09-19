@@ -137,7 +137,6 @@ public class CreateAccountFragment extends BaseFragment implements
 				// used when usage agreement is accepted
 				storeUserProfile();
 
-				// ((UserRegistrationActivity)getActivity()).showUsageAgreementFragment();
 				try {
 					((UserRegistrationActivity) getActivity()).createAccount();
 					((UserRegistrationActivity) getActivity())

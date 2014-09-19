@@ -526,25 +526,6 @@ public class Utils {
 		}
 	}
 
-	//TODO : Remove Unused
-	public static String getMode(String fanSpeed, Context context) {
-		String mode = "";
-		if (AppConstants.FAN_SPEED_SILENT.equals(fanSpeed)) {
-			mode = context.getString(R.string.silent);
-		} else if (AppConstants.FAN_SPEED_TURBO.equals(fanSpeed)) {
-			mode = context.getString(R.string.turbo);
-		} else if (AppConstants.FAN_SPEED_AUTO.equals(fanSpeed)) {
-			mode = context.getString(R.string.auto);
-		} else if (AppConstants.FAN_SPEED_ONE.equals(fanSpeed)) {
-			mode = context.getString(R.string.speed1);
-		} else if (AppConstants.FAN_SPEED_TWO.equals(fanSpeed)) {
-			mode = context.getString(R.string.speed2);
-		} else if (AppConstants.FAN_SPEED_THREE.equals(fanSpeed)) {
-			mode = context.getString(R.string.speed3);
-		}
-		return mode;
-	}
-
 	public static int getIndoorAQIMessage(float aqi) {
 		if (aqi <= 1.4f) {
 			return R.string.indoor_aqi_good_tip1;
@@ -558,11 +539,6 @@ public class Utils {
 		return R.string.n_a;
 	}
 
-	/**
-	 * 
-	 * @param goodAir
-	 * @param totalAir
-	 */
 	public static int getPercentage(int goodAir, int totalAir) {
 		int percent = 0;
 		if (totalAir > 0) {

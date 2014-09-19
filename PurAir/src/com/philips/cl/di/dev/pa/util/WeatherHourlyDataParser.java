@@ -18,7 +18,6 @@ public class WeatherHourlyDataParser extends DefaultHandler {
 	
 	@Override
 	public void startDocument() throws SAXException {
-		// TODO Auto-generated method stub
 		weatherList = new ArrayList<Weatherdto>() ;
 		weatherDto = new Weatherdto() ;
 		builder = new StringBuilder() ;

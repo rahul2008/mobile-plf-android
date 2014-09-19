@@ -25,7 +25,6 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
-import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -38,9 +37,9 @@ import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class NotificationsFragment extends BaseFragment implements
-		OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
-		android.widget.RadioGroup.OnCheckedChangeListener,
-		AlertDialogBtnInterface {
+OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
+android.widget.RadioGroup.OnCheckedChangeListener,
+AlertDialogBtnInterface {
 
 	private RelativeLayout enableLayout;
 	private LinearLayout detailedLayout;
@@ -49,7 +48,7 @@ public class NotificationsFragment extends BaseFragment implements
 	private LinearLayout indoorAqiLbls;
 	private RadioGroup indoorAqiRadioBtns;
 	private FontTextView radioButtonLable0, radioButtonLable1,
-			radioButtonLable2, radioButtonLable3;
+	radioButtonLable2, radioButtonLable3;
 
 	private PairingHandler pairingHandler;
 	private ProgressDialog progressDialog;
@@ -99,7 +98,7 @@ public class NotificationsFragment extends BaseFragment implements
 				// parent).getSupportFragmentManager(), null);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
 				fm.beginTransaction().add(dialog, null)
-						.commitAllowingStateLoss();
+				.commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.NOTIFICATION, e.getMessage());
 			}
@@ -108,15 +107,11 @@ public class NotificationsFragment extends BaseFragment implements
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		pairingHandler.setPermissionListener(this);
 
-		boolean notificationsEnabled = true; // TODO replace by actual pairing
-												// check
 		if (mPurifier == null) {
 			showNotificationsLayout(false);
 		} else if (mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
-			notificationsEnabled = isNotificationEnabled();
-			showNotificationsLayout(notificationsEnabled);
+			showNotificationsLayout(isNotificationEnabled());
 		} else {
-			// showNotificationsLayout(false);
 			try {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
 						R.string.notification_notpaired_title,
@@ -124,71 +119,52 @@ public class NotificationsFragment extends BaseFragment implements
 						R.string.notification_nopurifier_positivebtn);
 
 				dialog.setOnClickListener(this);
-				// dialog.show(((MainActivity)
-				// parent).getSupportFragmentManager(), null);
 				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.beginTransaction().add(dialog, null)
-						.commitAllowingStateLoss();
+				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.NOTIFICATION, e.getMessage());
 			}
 			return;
-
 		}
 	}
 
 	private void initializeAllViews(View rootView) {
-		enableLayout = (RelativeLayout) rootView
-				.findViewById(R.id.notifications_enable_layout);
-		detailedLayout = (LinearLayout) rootView
-				.findViewById(R.id.notifications_detailed_layout);
+		enableLayout = (RelativeLayout) rootView.findViewById(R.id.notifications_enable_layout);
+		detailedLayout = (LinearLayout) rootView.findViewById(R.id.notifications_detailed_layout);
 
-		TextView enableText = (TextView) rootView
-				.findViewById(R.id.notifications_enable_all_text);
+		TextView enableText = (TextView) rootView.findViewById(R.id.notifications_enable_all_text);
 		String purifierName = (mPurifier == null ? "" : mPurifier.getName());
-		enableText.setText(String.format(
-				getString(R.string.notifications_enable_all), purifierName));
+		enableText.setText(String.format(getString(R.string.notifications_enable_all), purifierName));
 
-		notificationToggle = (ToggleButton) rootView
-				.findViewById(R.id.notifications_enable_all_toggle);
+		notificationToggle = (ToggleButton) rootView.findViewById(R.id.notifications_enable_all_toggle);
 
-		indoorAqiLbls = (LinearLayout) rootView
-				.findViewById(R.id.notifications_indoor_aqi_lbls);
-		indoorAqiRadioBtns = (RadioGroup) rootView
-				.findViewById(R.id.notifications_indoor_radioGroup);
-		radioButtonLable0 = (FontTextView) rootView
-				.findViewById(R.id.notifications_indoor_label0);
-		radioButtonLable1 = (FontTextView) rootView
-				.findViewById(R.id.notifications_indoor_label1);
-		radioButtonLable2 = (FontTextView) rootView
-				.findViewById(R.id.notifications_indoor_label2);
-		radioButtonLable3 = (FontTextView) rootView
-				.findViewById(R.id.notifications_indoor_label3);
+		indoorAqiLbls = (LinearLayout) rootView.findViewById(R.id.notifications_indoor_aqi_lbls);
+		indoorAqiRadioBtns = (RadioGroup) rootView.findViewById(R.id.notifications_indoor_radioGroup);
+		radioButtonLable0 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label0);
+		radioButtonLable1 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label1);
+		radioButtonLable2 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label2);
+		radioButtonLable3 = (FontTextView) rootView.findViewById(R.id.notifications_indoor_label3);
 	}
 
 	private void setUIAqiThreshold(int aqiThreshold) {
 		switch (aqiThreshold) {
 		case 13:
-			RadioButton aqiRadioButton0 = (RadioButton) indoorAqiRadioBtns
-					.getChildAt(0);
+			RadioButton aqiRadioButton0 = (RadioButton) indoorAqiRadioBtns.getChildAt(0);
 			aqiRadioButton0.setChecked(true);
 			highLightLabel(AppConstants.INDEX_0);
 			break;
 		case 19:
-			RadioButton aqiRadioButton1 = (RadioButton) indoorAqiRadioBtns
-					.getChildAt(1);
+			RadioButton aqiRadioButton1 = (RadioButton) indoorAqiRadioBtns.getChildAt(1);
 			aqiRadioButton1.setChecked(true);
 			highLightLabel(AppConstants.INDEX_1);
 			break;
 		case 29:
-			RadioButton aqiRadioButton2 = (RadioButton) indoorAqiRadioBtns
-					.getChildAt(2);
+			RadioButton aqiRadioButton2 = (RadioButton) indoorAqiRadioBtns.getChildAt(2);
 			aqiRadioButton2.setChecked(true);
 			highLightLabel(AppConstants.INDEX_2);
 			break;
 		case 40:
-			RadioButton aqiRadioButton3 = (RadioButton) indoorAqiRadioBtns
-					.getChildAt(3);
+			RadioButton aqiRadioButton3 = (RadioButton) indoorAqiRadioBtns.getChildAt(3);
 			aqiRadioButton3.setChecked(true);
 			highLightLabel(AppConstants.INDEX_3);
 			break;
@@ -231,17 +207,6 @@ public class NotificationsFragment extends BaseFragment implements
 			radioButtonLable3.setTypeface(null, Typeface.NORMAL);
 			break;
 		}
-	}
-
-	private void showPairingLayout() {
-		if (!CPPController.getInstance(getActivity()).isSignOn()
-				|| (mPurifier != null && mPurifier.isDemoPurifier())) {
-			notificationToggle.setEnabled(false);
-			showNotificationsLayout(false);
-			return;
-		}
-		enableLayout.setVisibility(View.GONE);
-		disableDetailedNotificationsLayout();
 	}
 
 	private void showNotificationsLayout(boolean enabled) {
@@ -292,7 +257,7 @@ public class NotificationsFragment extends BaseFragment implements
 		// return false;
 		// }
 		NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
-		
+
 		if (mPurifier != null
 				&& mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 
@@ -300,11 +265,11 @@ public class NotificationsFragment extends BaseFragment implements
 
 			// Enable UI and check if permission exists
 			pairingHandler
-					.getPermission(
-							AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-							AppConstants.PAIRING_PUSH_PERMISSIONS
-									.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
-											.size()]));
+			.getPermission(
+					AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
+					AppConstants.PAIRING_PUSH_PERMISSIONS
+					.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
+					                    .size()]));
 		}
 		return true;
 	}
@@ -325,19 +290,19 @@ public class NotificationsFragment extends BaseFragment implements
 			showProgressDialog(R.string.notification_enabling_msg);
 			enableDetailedNotificationsLayout();
 			pairingHandler
-					.addPermission(
-							AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-							AppConstants.PAIRING_PUSH_PERMISSIONS
-									.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
-											.size()]));
+			.addPermission(
+					AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
+					AppConstants.PAIRING_PUSH_PERMISSIONS
+					.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
+					                    .size()]));
 		} else {
 			showProgressDialog(R.string.notification_disabling_msg);
 			pairingHandler
-					.removePermission(
-							AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
-							AppConstants.PAIRING_PUSH_PERMISSIONS
-									.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
-											.size()]));
+			.removePermission(
+					AppConstants.PAIRING_NOTIFY_RELATIONSHIP,
+					AppConstants.PAIRING_PUSH_PERMISSIONS
+					.toArray(new String[AppConstants.PAIRING_PUSH_PERMISSIONS
+					                    .size()]));
 			disableDetailedNotificationsLayout();
 		}
 	}
@@ -376,7 +341,6 @@ public class NotificationsFragment extends BaseFragment implements
 		if (getActivity() == null)
 			return;
 		ALog.i(ALog.NOTIFICATION, "Permission exists: " + permissionExists);
-		// toggleOn the notification toggle is permission Exists
 
 		getActivity().runOnUiThread(new Runnable() {
 			@Override
@@ -387,13 +351,13 @@ public class NotificationsFragment extends BaseFragment implements
 					disableDetailedNotificationsLayout();
 				}
 				notificationToggle
-						.setOnCheckedChangeListener(NotificationsFragment.this);
+				.setOnCheckedChangeListener(NotificationsFragment.this);
 				if (mPurifier != null && mPurifier.getAirPortInfo() != null) {
 					setUIAqiThreshold(mPurifier.getAirPortInfo()
 							.getAqiThreshold());
 				}
 				indoorAqiRadioBtns
-						.setOnCheckedChangeListener(NotificationsFragment.this);
+				.setOnCheckedChangeListener(NotificationsFragment.this);
 			}
 		});
 	}
@@ -438,7 +402,7 @@ public class NotificationsFragment extends BaseFragment implements
 					FragmentManager fm = getActivity()
 							.getSupportFragmentManager();
 					fm.beginTransaction().add(dialog, null)
-							.commitAllowingStateLoss();
+					.commitAllowingStateLoss();
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.NOTIFICATION, e.getMessage());
 				}
@@ -464,7 +428,7 @@ public class NotificationsFragment extends BaseFragment implements
 
 	@Override
 	public void onAirPurifierChanged() {
-		// TODO Auto-generated method stub
+		// NOP
 
 	}
 
@@ -544,12 +508,10 @@ public class NotificationsFragment extends BaseFragment implements
 										R.string.error_aqithreshold_setting,
 										R.string.ok);
 						dialog.setOnClickListener(NotificationsFragment.this);
-						// dialog.show(getActivity().getSupportFragmentManager(),
-						// null);
 						FragmentManager fm = getActivity()
 								.getSupportFragmentManager();
 						fm.beginTransaction().add(dialog, null)
-								.commitAllowingStateLoss();
+						.commitAllowingStateLoss();
 					} catch (IllegalStateException e) {
 						ALog.e(ALog.NOTIFICATION, e.getMessage());
 					}
