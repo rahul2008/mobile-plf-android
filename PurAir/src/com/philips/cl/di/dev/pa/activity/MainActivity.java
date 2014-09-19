@@ -59,7 +59,6 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
-import com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.CancelDialogFragment;
@@ -822,16 +821,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				setTitle(getString(R.string.list_item_buy_online));
 			}
 		}
-	}
-
-	public void startFirmwareUpgradeActivity() {
-		if (getCurrentPurifier() == null) {
-			ALog.d(ALog.MAINACTIVITY, "Did not start FirmwareUpdateActivity - Current Purifier null");
-			Toast.makeText(MainActivity.this, R.string.firmware_toast_nodeviceselected, Toast.LENGTH_SHORT).show();
-			return;
-		}
-		Intent firmwareIntent = new Intent(MainActivity.this, FirmwareUpdateActivity.class);
-		startActivity(firmwareIntent);
 	}
 
 	private void removeFirmwareUpdateUI() {
