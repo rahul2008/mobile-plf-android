@@ -12,7 +12,7 @@ import android.os.Handler;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
@@ -51,7 +51,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 
 	private SchedulerListener scheduleListener ;
 	
-	public static enum PURIFIER_EVENT { DEVICE_CONTROL, SCHEDULER, FIRMWARE, AQI_THRESHOLD, PAIRING } ;
+	public static enum PurifierEvent { DEVICE_CONTROL, SCHEDULER, FIRMWARE, AQI_THRESHOLD, PAIRING } ;
 
 	public static enum EWS_STATE { EWS, REGISTRATION, NONE } ;
 	private EWS_STATE ewsState = EWS_STATE.NONE;
@@ -152,7 +152,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	// TODO refactor into new architecture
-	public void setPurifierDetails(String key, String value, PURIFIER_EVENT purifierEvent) {
+	public void setPurifierDetails(String key, String value, PurifierEvent purifierEvent) {
 		ALog.i(ALog.PURIFIER_MANAGER, "Set purifier details: " + key +" = " + value) ;
 		mDeviceHandler.setPurifierEvent(purifierEvent) ;
 		mDeviceHandler.setPurifierDetails(key, value, getCurrentPurifier());
@@ -376,7 +376,7 @@ public class PurifierManager implements SubscriptionEventListener, KeyDecryptLis
 	}
 
 	@Override
-	public void onLocalEventLost(PURIFIER_EVENT purifierEvent) {
+	public void onLocalEventLost(PurifierEvent purifierEvent) {
 		switch (purifierEvent) {
 		case SCHEDULER:
 			if( scheduleListener != null ) {

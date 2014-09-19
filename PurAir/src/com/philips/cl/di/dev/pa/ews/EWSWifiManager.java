@@ -73,8 +73,7 @@ public class EWSWifiManager {
 			return null;
 
 		ALog.i(ALog.EWS, "Ssid of connected network: " + currentSsid);
-		currentSsid = currentSsid.replace("\"", ""); // TODO replace to
-														// Wifimethod
+		currentSsid = currentSsid.replace("\"", "");
 		return currentSsid;
 	}
 

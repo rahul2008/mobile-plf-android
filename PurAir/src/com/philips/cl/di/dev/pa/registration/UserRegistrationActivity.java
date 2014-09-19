@@ -145,7 +145,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 		switch (v.getId()) {
 		case R.id.user_reg_actionbar_cancel_btn:
 			if (ConnectionState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
-				showErrorDialog(Error.NO_NETWORK_CONNECTION); // TODO : Change error type to "Connect to internet"
+				showErrorDialog(Error.NO_NETWORK_CONNECTION);
 				break;
 			}
 			showFragment(new CreateAccountFragment());
@@ -196,11 +196,9 @@ public class UserRegistrationActivity extends BaseActivity implements
 
 	@Override
 	public void onRegisterFailedWithFailure(int error) {
-		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error "
-				+ new ErrorMessage().getError(error));
+		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error "	+ new ErrorMessage().getError(error));
 		cancelProgressDialog();
-		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(
-				error));
+		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
 	}
 
 	public DIUserProfile getDIUserProfile() {
@@ -212,9 +210,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 	}
 
 	public void closeUserRegistration(boolean firstUse) {
-		ALog.i(ALog.APP_START_UP,
-				"UserRegistrationActivity$closeUserRegistration listener "
-						+ mListener + " firstUse " + firstUse);
+		ALog.i(ALog.APP_START_UP, "UserRegistrationActivity$closeUserRegistration listener " + mListener + " firstUse " + firstUse);
 		if (mListener != null) {
 			mListener.userRegistrationClosed(firstUse);
 			PurifierManager.getInstance().setEwsSate(EWS_STATE.REGISTRATION);

@@ -407,7 +407,6 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 					// StartScan
 				}
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

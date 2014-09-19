@@ -105,7 +105,7 @@ public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements
 
 	@Override
 	public void onDisconnected() {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 }

@@ -30,7 +30,7 @@ import com.philips.cl.di.dev.pa.cpp.PairingHandler;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -351,7 +351,7 @@ public class NotificationsFragment extends BaseFragment implements
 		showProgressDialog(R.string.notification_send_aqi_level_msg);
 		PurifierManager.getInstance().setPurifierDetails(
 				ParserConstants.AQI_THRESHOLD, aqiThreshold,
-				PURIFIER_EVENT.AQI_THRESHOLD);
+				PurifierEvent.AQI_THRESHOLD);
 	}
 
 	private CountDownTimer aqiThresholdTimer = new CountDownTimer(
@@ -521,8 +521,8 @@ public class NotificationsFragment extends BaseFragment implements
 	 * This method is called if the call to set AQI threshold via locally fails
 	 */
 	@Override
-	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
-		if (purifierEvent != PURIFIER_EVENT.AQI_THRESHOLD)
+	public void onErrorOccurred(PurifierEvent purifierEvent) {
+		if (purifierEvent != PurifierEvent.AQI_THRESHOLD)
 			return;
 		if (aqiThresholdTimer != null)
 			aqiThresholdTimer.cancel();

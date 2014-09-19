@@ -21,9 +21,9 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
+import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
+import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo;
-import com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
@@ -31,7 +31,7 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
@@ -486,8 +486,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	@Override
-	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
-		
+	public void onErrorOccurred(PurifierEvent purifierEvent) {
+		// NOP
 	}
 
 }

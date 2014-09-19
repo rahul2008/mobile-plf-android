@@ -345,15 +345,14 @@ public class MarkerMapFragment extends BaseFragment implements
 
 	@Override
 	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
-		// TODO Auto-generated method stub
+		// NOP
 		
 	}
 
 
 	@Override
-	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather,
-			String areaID) {
-		// TODO Auto-generated method stub
+	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
+		// NOP
 		
 	}
 }

@@ -18,7 +18,7 @@ import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -436,7 +436,7 @@ public class RightMenuClickListener implements OnClickListener {
 	private void controlDevice(String key, String value) {
 		mainActivity.setVisibilityAirPortTaskProgress(View.VISIBLE);
 		PurifierManager.getInstance().setPurifierDetails(key, value,
-				PURIFIER_EVENT.DEVICE_CONTROL);
+				PurifierEvent.DEVICE_CONTROL);
 	}
 
 	private void disableControlPanelButtonsOnPowerOff() {

@@ -105,15 +105,12 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 				initializeKeyExchange();
 				return;
 			}
-			// showAlertDialogAppInDemoMode(
-			// ctx.getString(R.string.app_in_demo_mode_title),
-			// ctx.getString(R.string.app_in_demo_mode_msg));
 		}
 	}
 
 	@Override
 	public void onDisconnected() {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override

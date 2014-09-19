@@ -682,7 +682,7 @@ public class EWSActivity extends BaseActivity implements
 		
 		@Override
 		public void onTick(long millisUntilFinished) {
-			//TODO
+			// NOP
 		}
 
 		@Override

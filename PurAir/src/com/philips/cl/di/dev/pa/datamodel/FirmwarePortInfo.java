@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.firmware;
+package com.philips.cl.di.dev.pa.datamodel;
 
 public class FirmwarePortInfo {
 

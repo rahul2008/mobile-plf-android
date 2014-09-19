@@ -6,7 +6,7 @@ import java.util.Hashtable;
 import android.annotation.SuppressLint;
 import android.os.Handler;
 
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.DeviceConnection;
 import com.philips.cl.di.dev.pa.purifier.RoutingStrategy;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
@@ -17,7 +17,7 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 public class DeviceHandler implements ServerResponseListener {
 	
 	private SubscriptionEventListener mListener;
-	private PURIFIER_EVENT mPurifierEvent ;
+	private PurifierEvent mPurifierEvent ;
 	private Thread statusUpdateTaskThread ;
 	private PurAirDevice purifier ;
 	
@@ -30,12 +30,12 @@ public class DeviceHandler implements ServerResponseListener {
 		deviceDetailsTable = new Hashtable<String, String>() ;
 	}
 	
-	public DeviceHandler(SubscriptionEventListener listener, PURIFIER_EVENT purifierEvent) {
+	public DeviceHandler(SubscriptionEventListener listener, PurifierEvent purifierEvent) {
 		this(listener);
 		mPurifierEvent = purifierEvent ;
 	}
 	
-	public void setPurifierEvent(PURIFIER_EVENT purifierEvent) {
+	public void setPurifierEvent(PurifierEvent purifierEvent) {
 		mPurifierEvent = purifierEvent ;
 	}
 

@@ -8,7 +8,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionEventListener;
 import com.philips.cl.di.dev.pa.purifier.TaskPutDeviceDetails;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
@@ -157,7 +157,7 @@ public class SchedulerHandler implements ServerResponseListener {
 					purifier);
 			mListener.onLocalEventReceived(encryptedData, fromIp);
 		} else {
-			mListener.onLocalEventLost(PURIFIER_EVENT.SCHEDULER);
+			mListener.onLocalEventLost(PurifierEvent.SCHEDULER);
 		}
 	}
 }

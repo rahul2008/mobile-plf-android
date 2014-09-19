@@ -80,7 +80,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PURIFIER_EVENT;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
@@ -167,7 +167,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		setScreenWidth(displayMetrics.widthPixels);
 		setScreenHeight(displayMetrics.heightPixels);
 
-		//		mLocationTracker = new LocationTracker(this);
 		OutdoorController.getInstance();
 		try {
 			initActionBar();
@@ -552,7 +551,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				}
 				break;
 			case R.id.add_location_img:
-				//TODO : Drop down city list
 				intent = new Intent(MainActivity.this, AddOutdoorLocationActivity.class);
 				startActivity(intent);
 				break;
@@ -874,11 +872,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	@Override
-	public void onErrorOccurred(PURIFIER_EVENT purifierEvent) {
+	public void onErrorOccurred(PurifierEvent purifierEvent) {
 		if (getCurrentPurifier() == null 
 				|| getCurrentPurifier().getConnectionState() == ConnectionState.DISCONNECTED) return;
 
-		if( purifierEvent == PURIFIER_EVENT.DEVICE_CONTROL) {
+		if( purifierEvent == PurifierEvent.DEVICE_CONTROL) {
 			setVisibilityAirPortTaskProgress(View.INVISIBLE) ;
 			ivConnectionError.setVisibility(View.VISIBLE);
 			tvConnectionStatus.setText(getString(R.string.lost_connection));
@@ -1036,7 +1034,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public void signonStatus(boolean signon) {		
 		if (signon) {
 			//should be called only when signOn is successful
-			PurifierManager.getInstance().startSubscription(); // TODO fix
+			PurifierManager.getInstance().startSubscription();
 		}
 	}
 
@@ -1163,7 +1161,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 			break;
 		case DRAWER_SLIDE_END:
-			//TODO : Move showFragment and startFirmwareUpdateActivity here?
+			// NOP : Can be removed
 			break;
 		default:
 			break;

@@ -9,14 +9,9 @@ import android.graphics.Color;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AppConstants.
- */
 public class AppConstants {
 	
 	/** CONSTANTS FOR THE ICPCLIENT */
-
 	public static final String BOOT_STRAP_PRODUCT_ID = "AIR_KPSPROV";
 	public static final String CMA_APP_ID_1 = "MDI4M2" ;
 

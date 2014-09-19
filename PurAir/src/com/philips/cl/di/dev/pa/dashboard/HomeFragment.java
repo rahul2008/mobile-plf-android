@@ -266,7 +266,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				ConnectPurifier.reset();
 				ConnectPurifier.getInstance(getActivity()).startAddPurifierToAppFlow();
 			} else if (v.getId() == R.id.hf_indoor_dashboard_btn_play) {
-				//TODO play video link
 				startVideo();
 			}
 		}
@@ -332,12 +331,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
 	@Override
 	public void onPageScrollStateChanged(int arg0) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 
 	@Override
 	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// TODO Auto-generated method stub
+		// NOP
 	}
 	
 	@Override
