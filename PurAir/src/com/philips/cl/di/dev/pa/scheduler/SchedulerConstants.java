@@ -7,7 +7,7 @@ public class SchedulerConstants {
 	
 	//public static final String BOOT_STRAP_ID_2 = "AwZmZm" ;
 	public static final String BOOT_STRAP_ID_2 = "AwZmZl" ;
-	public static final String CMA_APP_ID_2 = "kZWZkOD" ;
+	public static final String CMA_APP_ID_2 = "VmMzRhM" ;
 	//Fragment IDs
 	public enum SchedulerID {
 		OVERVIEW_EVENT,

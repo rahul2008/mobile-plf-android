@@ -56,7 +56,7 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
 				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
 				Utils.getDate((timeInMili -  daysInMillisecs)) + "," 
-				+ Utils.getDate(timeInMili), OutdoorController.APP_ID), 
+				+ Utils.getDate(timeInMili), Utils.getCMA_AppID()), 
 				areaID, PurAirApplication.getAppContext(), this);
 		aqiHistoricTask.start();
 	}

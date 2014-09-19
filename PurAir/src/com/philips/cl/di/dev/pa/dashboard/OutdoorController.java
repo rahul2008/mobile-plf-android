@@ -38,9 +38,8 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class OutdoorController implements ServerResponseListener, AMapLocationListener {
 
-	public static final String APP_ID = "0283ef34a38902227fd8"; //TODO : Obscure constant
-	
-	private static String BASE_URL;
+	private static String APP_ID ;
+	private static String BASE_URL ;
 
 	public static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
 	public static final String BASE_URL_HOURLY_FORECAST = "http://data.fuwu.weather.com.cn/getareaid/areaid?id=";
@@ -59,7 +58,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private Activity mActivity;
 
 	private OutdoorController() {
-		//		APP_ID = Utils.getCMA_AppID() ;
+		APP_ID = Utils.getCMA_AppID() ;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 		setLocationProvider();

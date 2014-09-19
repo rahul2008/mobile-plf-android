@@ -4,7 +4,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 
 public class DemoModeConstant {
-	public static final String CMA_APP_ID_3 = "UwN2U5" ;
+	public static final String CMA_APP_ID_3 = "zg5MDIy" ;
 	public static final String CMA_PRIVATE_KEY_3 = "iYXBpX";
 	public static final int DEMO_MODE_STEP_INTRO = 1;
 	public static final int DEMO_MODE_STEP_SWITCHON = 20;

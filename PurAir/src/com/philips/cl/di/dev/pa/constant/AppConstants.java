@@ -18,7 +18,7 @@ public class AppConstants {
 	/** CONSTANTS FOR THE ICPCLIENT */
 
 	public static final String BOOT_STRAP_PRODUCT_ID = "AIR_KPSPROV";
-	public static final String CMA_APP_ID_1 = "MTI3NTR" ;
+	public static final String CMA_APP_ID_1 = "MDI4M2" ;
 
 	
 	/** URLS FOR WEATHER DATA. */	
