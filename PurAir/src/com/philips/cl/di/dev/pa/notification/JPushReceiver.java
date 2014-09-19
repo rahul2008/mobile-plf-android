@@ -10,6 +10,7 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 
 /*
  * This class will receives registration ID from JPush server.
@@ -66,7 +67,6 @@ public class JPushReceiver extends BroadcastReceiver {
 				.getAction())) {
 			Log.i(TAG, "[MyReceiver] Push down received a custom message: "
 					+ bundle.getString(JPushInterface.EXTRA_MESSAGE));
-
 //			if (JPushActivity.isForeground) {
 //				String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
 //				String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
@@ -97,14 +97,14 @@ public class JPushReceiver extends BroadcastReceiver {
 				.getAction())) {
 			Log.d(TAG,
 					"[MyReceiver] Users click to open the notification : Commented");
-			// JPushInterface.reportNotificationOpened(context,
-			// bundle.getString(JPushInterface.EXTRA_MSG_ID));
-			//
-			// // Open the Custom Activity
-			// Intent i = new Intent(context, TestActivity.class);
-			// i.putExtras(bundle);
-			// i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			// context.startActivity(i);
+			 JPushInterface.reportNotificationOpened(context, bundle.getString(JPushInterface.EXTRA_MSG_ID));
+			 // Open the Custom Activity
+			Intent intentNew = new Intent(context, MainActivity.class);
+			intentNew.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentNew.setAction(Intent.ACTION_MAIN);
+			intentNew.addCategory(Intent.CATEGORY_LAUNCHER);
+			intentNew.putExtras(bundle);
+			context.startActivity(intentNew);
 
 		} else if (JPushInterface.ACTION_RICHPUSH_CALLBACK.equals(intent
 				.getAction())) {
