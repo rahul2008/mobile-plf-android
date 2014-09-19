@@ -9,8 +9,10 @@ import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 import net.hockeyapp.android.UpdateManager;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -152,7 +154,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		
+
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 
@@ -208,7 +210,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		//		checkForUpdatesHockeyApp();
 
 	}
-	
+
 	private void selectPurifier() {
 		PurAirDevice current = getCurrentPurifier();
 		if (PurAirApplication.isDemoModeEnable()) {
@@ -221,7 +223,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);
-	
+
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 
@@ -247,7 +249,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		OutdoorController.getInstance().setLocationProvider();
-		
+
 		OutdoorController.getInstance().setActivity(this);
 
 		// Enable for release build
@@ -333,7 +335,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			appInDemoMode.rmoveNetworkListenerForDemoMode();
 			stopNormalMode();
 		}
-		
+
 		OutdoorController.getInstance().setActivity(null);
 	}
 
@@ -343,7 +345,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		// Ensure app is registered for notifications
 		NotificationRegisteringManager.getNotificationManager().getNotificationRegisteringManager();
 	}
-	
+
 	@Override
 	protected void onStop() {
 		if (progressDialog != null) {
@@ -385,7 +387,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			mLeftDrawerOpened = false;
 			mRightDrawerOpened = false;
 		} else if (fragment instanceof StartFlowVirginFragment) {
-			clearObjectFinish();
+			clearFinishCheckGPS();
 		} else if (fragment instanceof StartFlowChooseFragment 
 				&& getString(R.string.list_item_manage_purifier).equals(title) ) {
 			manager.popBackStackImmediate(null,
@@ -411,6 +413,15 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		} else if (fragment instanceof ProductRegistrationStepsFragment) {
 			manager.popBackStack();
 		} else {
+			clearFinishCheckGPS();
+		}
+	}
+
+	private void clearFinishCheckGPS(){
+		if(GPSLocation.getInstance().isGPSEnabled()){
+			showGPSDialogIfRequired();
+		}
+		else{
 			clearObjectFinish();
 		}
 	}
@@ -421,6 +432,39 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		GPSLocation.reset();
 		OutdoorLocationHandler.reset();
 		finish();
+	}
+
+	private void showGPSDialogIfRequired() {
+		if(!Utils.getGPSDisabledDialogShownValue() || Utils.getGPSEnabledDialogShownValue()){
+			clearObjectFinish();
+		}else{
+			Utils.setGPSEnabledDialogShownValue(true);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle(R.string.location_services_turned_on_title)
+			.setMessage(R.string.location_services_turned_on_text_without_location)
+			.setPositiveButton(R.string.turn_it_off,
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// Open device location service screen, since
+					// android doesn't allow to change location
+					// settings in code
+					Intent myIntent = new Intent(
+							android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+					startActivity(myIntent);
+					dialog.dismiss();
+					clearObjectFinish();
+				}
+			})
+			.setNegativeButton(R.string.cancel,
+					new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					dialog.dismiss();
+					clearObjectFinish();
+				}
+			});
+			AlertDialog dialog=builder.create();
+			dialog.show();
+		}
 	}
 
 	private void showFirstFragment() {
@@ -445,7 +489,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 		setTitle(getString(R.string.dashboard_title));
 	}
-	
+
 	private void showDashboardFragment() {
 		showFragment(getDashboard());
 		//		setDashboardActionbarIconVisible();
@@ -578,19 +622,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				}
 
 				break;
-				
+
 			case R.id.clean_filter_link:
 				intent = new Intent(Intent.ACTION_VIEW);
 				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_clean.mp4"), "video/mp4");
 				startActivity(Intent.createChooser(intent,""));  
 				break;
-				
+
 			case R.id.replace_filter_link:
 				intent = new Intent(Intent.ACTION_VIEW);
 				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_replace.mp4"), "video/mp4");
 				view.getContext().startActivity(Intent.createChooser(intent,""));  
 				break;
-				
+
 			default:
 				break;
 			}
@@ -720,10 +764,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		remoteControlBtn = (ToggleButton) findViewById(R.id.btn_rm_remote_enable);
 		remoteControlBtn.setOnClickListener(actionBarClickListener);
-		
+
 		TextView linkFilterClean=(TextView) findViewById(R.id.clean_filter_link);
 		linkFilterClean.setOnClickListener(actionBarClickListener);
-		
+
 		TextView linkFilterReplace=(TextView) findViewById(R.id.replace_filter_link);
 		linkFilterReplace.setOnClickListener(actionBarClickListener);
 	}

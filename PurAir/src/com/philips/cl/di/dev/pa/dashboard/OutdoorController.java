@@ -357,7 +357,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		mActivity= activity;
 	}
 	
-	private void showLocationServiceTurnedOnDialog() {
+	public void showLocationServiceTurnedOnDialog() {
 		try {
 			if(mActivity==null || !(mActivity instanceof MainActivity))return;
 			
