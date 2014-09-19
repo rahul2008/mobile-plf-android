@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.fragment;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -107,13 +105,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 			e.printStackTrace();
 		}	
 	}
-		
-	private void startVideo() {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"), "video/mp4");
-		getActivity().startActivity(Intent.createChooser(intent,"")); 
-	}
-	
+
 	private void startUseNoPurifierFlow() {
 		WifiManager wifiManager = (WifiManager) getActivity().getSystemService(MainActivity.WIFI_SERVICE);
 		if (!wifiManager.isWifiEnabled()) {
