@@ -223,13 +223,12 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 		}
 	}
 
-	//TODO : Move to UserRegistrationActivity
 	@Override
 	public void onLoginSuccess() {
 		ALog.i(ALog.USER_REGISTRATION, "onLoginSuccess");
 		cancelProgressDialog() ;
 		if(getActivity() != null && getActivity() instanceof UserRegistrationActivity) {
-			((UserRegistrationActivity) getActivity()).showSuccessFragment();
+			((UserRegistrationActivity) getActivity()).showFragment(new SignedInFragment());
 		}
 		dismiss() ;
 	}

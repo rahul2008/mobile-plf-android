@@ -148,9 +148,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
-	private Intent mIntent = null;
-//	private static NotificationRegisteringManager mNotificationManager;
-	//	private LocationTracker mLocationTracker = null;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

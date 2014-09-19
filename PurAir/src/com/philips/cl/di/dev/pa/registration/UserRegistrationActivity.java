@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -50,12 +53,10 @@ public class UserRegistrationActivity extends BaseActivity implements
 
 		initUsageAgreementActionBar();
 
-		// User registration needs the call to
-		// UserRegistrationController.getInstance() to make Janrain work
 		if (UserRegistrationController.getInstance().isUserLoggedIn()) {
-			showSuccessFragment();
+			showFragment(new SignedInFragment());
 		} else {
-			showUsageAgreementFragment();
+			showFragment(new UsageAgreementFragment());
 		}
 	}
 
@@ -66,38 +67,30 @@ public class UserRegistrationActivity extends BaseActivity implements
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
 		actionBar.setBackgroundDrawable(d);
-		View view = getLayoutInflater().inflate(
-				R.layout.user_registration_actionbar, null);
+		View view = getLayoutInflater().inflate(R.layout.user_registration_actionbar, null);
 
 		mActionbarTitle = (FontTextView) view
 				.findViewById(R.id.user_reg_actionbar_title);
 		mActionbarTitle.setText(getString(R.string.create_account));
 		// If Chinese language selected set font-type-face normal
-		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
-				"ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault())
-						.contains("ZH-HANT")) {
+		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
+				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
 			mActionbarTitle.setTypeface(Typeface.DEFAULT);
 		}
 
-		mActionBarCancelBtn = (Button) view
-				.findViewById(R.id.user_reg_actionbar_cancel_btn);
+		mActionBarCancelBtn = (Button) view.findViewById(R.id.user_reg_actionbar_cancel_btn);
 		mActionBarCancelBtn.setText(R.string.i_accept);
-		mActionBarCancelBtn.setTypeface(Fonts
-				.getGillsansLight(getApplicationContext()));
+		mActionBarCancelBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
 		mActionBarCancelBtn.setOnClickListener(this);
 		mActionBarCancelBtn.setVisibility(View.GONE);
 
-		mDeclineBtn = (Button) view
-				.findViewById(R.id.user_reg_actionbar_decline_btn);
+		mDeclineBtn = (Button) view.findViewById(R.id.user_reg_actionbar_decline_btn);
 		mDeclineBtn.setText(R.string.decline);
-		mDeclineBtn
-				.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
+		mDeclineBtn.setTypeface(Fonts.getGillsansLight(getApplicationContext()));
 		mDeclineBtn.setOnClickListener(this);
 		mDeclineBtn.setVisibility(View.GONE);
 
-		mActionBarBackBtn = (ImageView) view
-				.findViewById(R.id.user_reg_actionbar_back_img);
+		mActionBarBackBtn = (ImageView) view.findViewById(R.id.user_reg_actionbar_back_img);
 		mActionBarBackBtn.setOnClickListener(this);
 		mActionBarBackBtn.setVisibility(View.GONE);
 		actionBar.setCustomView(view);
@@ -111,73 +104,51 @@ public class UserRegistrationActivity extends BaseActivity implements
 
 		mUser.registerNewUserUsingTraditional(profileList, this, this);
 	}
-
-	private void showCreateAccountFragment() {
+	
+	public void showFragment(Fragment fragment) {
 		try {
-			getSupportFragmentManager()
-					.beginTransaction()
-					.add(R.id.fl_simple_fragment_container,
-							new CreateAccountFragment(),
-							CreateAccountFragment.class.getSimpleName())
-					.addToBackStack(null).commit();
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+			fragmentTransaction.replace(R.id.fl_simple_fragment_container, fragment, fragment.getTag());
+			fragmentTransaction.addToBackStack(fragment.getTag()) ;
+			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			e.printStackTrace();
+			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
 		}
 
-		setActionBar(R.string.create_account, View.GONE);
-		mActionBarBackBtn.setVisibility(View.VISIBLE);
-	}
+		setActionBar(fragment);
 
-	protected void showUsageAgreementFragment() {
-		try {
-			getSupportFragmentManager()
-					.beginTransaction()
-					.replace(R.id.fl_simple_fragment_container,
-							new UsageAgreementFragment(),
-							UsageAgreementFragment.class.getSimpleName())
-					.addToBackStack(null).commit();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus().getWindowToken(), 0);
+		}		
+	}
+	
+	private void setActionBar(Fragment fragment) {
+		if(fragment instanceof UsageAgreementFragment) {
+			setActionBar(R.string.usage_agreement, View.VISIBLE, View.GONE);
+		} else if (fragment instanceof CreateAccountFragment) {
+			setActionBar(R.string.create_account, View.GONE, View.VISIBLE);
+		} else if (fragment instanceof SignedInFragment) {
+			setActionBar(R.string.create_account, View.GONE, View.GONE);
 		}
-
-		setActionBar(R.string.usage_agreement, View.VISIBLE);
-		mActionBarBackBtn.setVisibility(View.GONE);
 	}
 
-	public void showSuccessFragment() {
-		try {
-			getSupportFragmentManager()
-					.beginTransaction()
-					.replace(R.id.fl_simple_fragment_container,
-							new SignedInFragment(),
-							SignedInFragment.class.getSimpleName())
-					.addToBackStack(null).commit();
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		}
-
-		setActionBar(R.string.create_account, View.GONE);
-		mActionBarBackBtn.setVisibility(View.GONE);
-	}
-
-	private void setActionBar(int textId, int cancelButtonVisisbility) {
+	private void setActionBar(int textId, int cancelButtonVisibility, int backButtonVisibility) {
 		mActionbarTitle.setText(textId);
-		mActionBarCancelBtn.setVisibility(cancelButtonVisisbility);
-		mDeclineBtn.setVisibility(cancelButtonVisisbility);
+		mActionBarCancelBtn.setVisibility(cancelButtonVisibility);
+		mDeclineBtn.setVisibility(cancelButtonVisibility);
+		mActionBarBackBtn.setVisibility(backButtonVisibility);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.user_reg_actionbar_cancel_btn:
-			if (ConnectionState.DISCONNECTED == NetworkReceiver.getInstance()
-					.getLastKnownNetworkState()) {
-				showErrorDialog(Error.NO_NETWORK_CONNECTION); // TODO : Change
-																// error type to
-																// "Connect to internet"
+			if (ConnectionState.DISCONNECTED == NetworkReceiver.getInstance().getLastKnownNetworkState()) {
+				showErrorDialog(Error.NO_NETWORK_CONNECTION); // TODO : Change error type to "Connect to internet"
 				break;
 			}
-			showCreateAccountFragment();
+			showFragment(new CreateAccountFragment());
 			break;
 		case R.id.user_reg_actionbar_decline_btn:
 		case R.id.user_reg_actionbar_back_img:
@@ -220,7 +191,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 	public void onRegisterSuccess() {
 		ALog.i(ALog.USER_REGISTRATION, "onRegisterSuccess");
 		cancelProgressDialog();
-		showSuccessFragment();
+		showFragment(new SignedInFragment());
 	}
 
 	@Override
@@ -249,11 +220,11 @@ public class UserRegistrationActivity extends BaseActivity implements
 			PurifierManager.getInstance().setEwsSate(EWS_STATE.REGISTRATION);
 		}
 		ALog.i(ALog.USER_REGISTRATION, "Before calling finish");
+		mListener = null;
 		finish();
 	}
 
-	public static void setUserRegistrationChangedListener(
-			UserRegistrationChanged listener) {
+	public static void setUserRegistrationChangedListener(UserRegistrationChanged listener) {
 		mListener = listener;
 	}
 
@@ -264,12 +235,10 @@ public class UserRegistrationActivity extends BaseActivity implements
 	@Override
 	public void onBackPressed() {
 		FragmentManager manager = getSupportFragmentManager();
-		Fragment fragment = manager
-				.findFragmentById(R.id.fl_simple_fragment_container);
+		Fragment fragment = manager.findFragmentById(R.id.fl_simple_fragment_container);
 
 		if (fragment instanceof CreateAccountFragment) {
-			setActionBar(R.string.usage_agreement, View.VISIBLE);
-			mActionBarBackBtn.setVisibility(View.GONE);
+			setActionBar(R.string.usage_agreement, View.VISIBLE, View.GONE);
 			manager.popBackStack();
 		} else if (fragment instanceof UsageAgreementFragment) {
 			finish();

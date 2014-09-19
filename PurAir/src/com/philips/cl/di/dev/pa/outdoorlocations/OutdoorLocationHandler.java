@@ -172,10 +172,6 @@ public class OutdoorLocationHandler {
 		AppConstants.KEY_LATITUDE, AppConstants.KEY_CITY_CN,
 		AppConstants.KEY_SHORTLIST, AppConstants.KEY_CITY_TW };
 
-	public interface DashBoardDataFetchListener {
-		void isCompleted(boolean isCompleted);
-	}
-
 	public static synchronized void fetchAllCityList(final OutdoorLocationDatabase database) {
 		if(OutdoorManager.getInstance().getAllCitiesList() != null 
 				&& OutdoorManager.getInstance().getAllCitiesList().size() <= 0){
