@@ -185,7 +185,8 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 
 	private void addMarkerCurrentPurifer(){
 		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
-		if(currentPurifier == null){
+		if(currentPurifier == null || currentPurifier.getLatitude() == null || currentPurifier.getLongitude() == null ||
+				currentPurifier.getLatitude().isEmpty() || currentPurifier.getLongitude().isEmpty()){
 			return;
 		}
 		
