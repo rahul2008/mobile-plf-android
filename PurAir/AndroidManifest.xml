@@ -119,10 +119,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.firmware.FirmwareUpdateActivity"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
             android:name="com.philips.cl.di.dev.pa.registration.UserRegistrationActivity"
             android:screenOrientation="portrait" >
         </activity>
