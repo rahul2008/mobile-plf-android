@@ -122,7 +122,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 					dismiss() ;
 				} else if(v.getId() == R.id.tv_reset_password) {
 					mEmail = etEmail.getText().toString();
-					if(! EmailValidator.getInstance().validate(mEmail)){
+					if(! EmailValidator.validate(mEmail)){
 						AlertDialogFragment resetPasswordSuccess = AlertDialogFragment.newInstance(R.string.invalid_email, R.string.ok);
 						resetPasswordSuccess.show(getChildFragmentManager(), getTag());
 					} else {
@@ -195,7 +195,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 
 	public ErrorType isInputValidated() {
 		ALog.i(ALog.USER_REGISTRATION, "isInputValidated: password: " + mPassword + " + emailId: " +mEmail) ;
-		if(! EmailValidator.getInstance().validate(mEmail)) return ErrorType.EMAIL;
+		if(! EmailValidator.validate(mEmail)) return ErrorType.EMAIL;
 		if(mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
 		if(!mPassword.matches("[a-zA-Z0-9@#$%^&+=_]+"))return ErrorType.WHITESPACE;
 		return ErrorType.NONE ;

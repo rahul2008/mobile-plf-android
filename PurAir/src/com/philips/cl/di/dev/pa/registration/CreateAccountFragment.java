@@ -185,7 +185,7 @@ public class CreateAccountFragment extends BaseFragment implements
 	public ErrorType isInputValidated() {
 		ALog.i(ALog.USER_REGISTRATION, "isInputValidated name " + mName	+ " pass " + mPassword + " email " + mEmail);
 		if (mName == null || mName.length() < 1) return ErrorType.NAME;
-		if (!EmailValidator.getInstance().validate(mEmail))	return ErrorType.EMAIL;
+		if (!EmailValidator.validate(mEmail))	return ErrorType.EMAIL;
 		if (mPassword == null || mPassword.length() < 6) return ErrorType.PASSWORD;
 		if (!mPassword.matches("[a-zA-Z0-9@#$%^&+=_]+")) return ErrorType.WHITESPACE;
 		return ErrorType.NONE;
