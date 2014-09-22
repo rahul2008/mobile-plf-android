@@ -22,10 +22,9 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerActivity;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class RightMenuClickListener implements OnClickListener {
+public class PurifierControlPanel implements OnClickListener {
 
-	private static final String TAG = RightMenuClickListener.class
-			.getSimpleName();
+	private static final String TAG = PurifierControlPanel.class.getSimpleName();
 
 	private MainActivity mainActivity;
 
@@ -33,26 +32,21 @@ public class RightMenuClickListener implements OnClickListener {
 
 	private RelativeLayout fanSpeedLayout, timerLayout;
 
-	// Control panel buttons
 	private Button fanSpeed, timer, schedule;
 	private ToggleButton power, childLock, indicatorLight;
 
-	// On/off states for power, child lock and indicator light.
 	private boolean isPowerOn, isChildLockOn, isIndicatorLightOn;
 	private FontTextView powerStatus;
-	// Fan speed menu buttons
+
 	private Button fanSpeedSilent, fanSpeedTurbo, fanSpeedOne, fanSpeedTwo,
 			fanSpeedThree;
 	private ToggleButton fanSpeedAuto;
 
-	// Timer buttons
 	private Button[] timerButtons = new Button[4];
-
-	// private Button connect ;
 
 	private boolean isFanSpeedMenuVisible, isTimerMenuVisible, isFanSpeedAuto;
 
-	public RightMenuClickListener(MainActivity activity) {
+	public PurifierControlPanel(MainActivity activity) {
 		mainActivity = activity;
 
 		isPowerOn = false;
@@ -64,19 +58,15 @@ public class RightMenuClickListener implements OnClickListener {
 
 		power = (ToggleButton) activity.findViewById(R.id.btn_rm_power);
 		schedule = (Button) activity.findViewById(R.id.btn_rm_scheduler);
-		childLock = (ToggleButton) activity
-				.findViewById(R.id.btn_rm_child_lock);
-		indicatorLight = (ToggleButton) activity
-				.findViewById(R.id.btn_rm_indicator_light);
+		childLock = (ToggleButton) activity.findViewById(R.id.btn_rm_child_lock);
+		indicatorLight = (ToggleButton) activity.findViewById(R.id.btn_rm_indicator_light);
 
 		fanSpeed = (Button) activity.findViewById(R.id.btn_rm_fan_speed);
 
 		fanSpeedSilent = (Button) activity.findViewById(R.id.fan_speed_silent);
-		fanSpeedAuto = (ToggleButton) activity
-				.findViewById(R.id.fan_speed_auto);
+		fanSpeedAuto = (ToggleButton) activity.findViewById(R.id.fan_speed_auto);
 		autoText = (TextView) activity.findViewById(R.id.tv_fan_speed_auto);
-		fanSpeedLayout = (RelativeLayout) activity
-				.findViewById(R.id.layout_fan_speed);
+		fanSpeedLayout = (RelativeLayout) activity.findViewById(R.id.layout_fan_speed);
 		fanSpeedTurbo = (Button) activity.findViewById(R.id.fan_speed_turbo);
 		fanSpeedOne = (Button) activity.findViewById(R.id.fan_speed_one);
 		fanSpeedTwo = (Button) activity.findViewById(R.id.fan_speed_two);
@@ -91,8 +81,6 @@ public class RightMenuClickListener implements OnClickListener {
 		timerButtons[1] = (Button) activity.findViewById(R.id.one_hour);
 		timerButtons[2] = (Button) activity.findViewById(R.id.four_hours);
 		timerButtons[3] = (Button) activity.findViewById(R.id.eight_hours);
-
-		// connect = (Button) activity.findViewById(R.id.connect) ;
 	}
 
 	/**
@@ -107,17 +95,13 @@ public class RightMenuClickListener implements OnClickListener {
 	 */
 
 	public void setSensorValues(AirPortInfo airPortInfo) {
-		// Log.i(TAG, "setSensorValues fan speed " +
-		// Utils.getFanSpeedText(airPurifierEventDto.getFanSpeed()) +
-		// " dto fan speed " + airPurifierEventDto.getFanSpeed());
-		// Log.i(TAG, "setSensorValues " + airPortInfo.getPowerMode());
 		if (airPortInfo == null || airPortInfo.getPowerMode() == null)
 			return;
 		if (airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
 			power.setChecked(getPowerButtonState(airPortInfo));
 			setFanSpeed(airPortInfo);
 			timer.setText(getTimerText(airPortInfo));
-			toggleButtonBackground(getButtonToBeHighlighted(getTimerText(airPortInfo)));
+			toggleTimerButtonBackground(getButtonToBeHighlighted(getTimerText(airPortInfo)));
 			childLock.setChecked(getOnOffStatus(airPortInfo.getChildLock()));
 			indicatorLight.setChecked(getOnOffStatus(airPortInfo.getAqiL()));
 		} else {
@@ -225,35 +209,19 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	private boolean getOnOffStatus(int status) {
-		if (status == AppConstants.ON) {
-			return true;
-		} else {
-			return false;
-		}
+		return AppConstants.ON == status;
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		// case R.id.connect:
-		// Intent intent = null;
-		// if (PurAirApplication.isDemoModeEnable()) {
-		// intent = new Intent(mainActivity, DemoModeActivity.class);
-		// } else {
-		// intent = new Intent(mainActivity, EWSActivity.class);
-		// }
-		// intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		// mainActivity.startActivity(intent) ;
-		// break;
 		case R.id.btn_rm_power:
 			if (!isPowerOn) {
 				power.setChecked(true);
 				PurAirDevice purifier = mainActivity.getCurrentPurifier();
-				AirPortInfo airPortInfo = purifier == null ? null : purifier
-						.getAirPortInfo();
+				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
 				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1");
-
 			} else {
 				power.setChecked(false);
 				disableControlPanelButtonsOnPowerOff();
@@ -306,10 +274,8 @@ public class RightMenuClickListener implements OnClickListener {
 			} else {
 				String fspd = "1";
 				if (PurifierManager.getInstance().getCurrentPurifier() != null
-						&& PurifierManager.getInstance().getCurrentPurifier()
-								.getAirPortInfo() != null) {
-					fspd = PurifierManager.getInstance().getCurrentPurifier()
-							.getAirPortInfo().getActualFanSpeed();
+						&& PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo() != null) {
+					fspd = PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo().getActualFanSpeed();
 				}
 				controlDevice(ParserConstants.FAN_SPEED, fspd);
 			}
@@ -361,25 +327,25 @@ public class RightMenuClickListener implements OnClickListener {
 			break;
 		case R.id.timer_off:
 			timer.setText(((Button) v).getText());
-			toggleButtonBackground(R.id.timer_off);
+			toggleTimerButtonBackground(R.id.timer_off);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "0");
 			break;
 		case R.id.one_hour:
 			timer.setText(((Button) v).getText());
-			toggleButtonBackground(R.id.one_hour);
+			toggleTimerButtonBackground(R.id.one_hour);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "1");
 			break;
 		case R.id.four_hours:
 			timer.setText(((Button) v).getText());
-			toggleButtonBackground(R.id.four_hours);
+			toggleTimerButtonBackground(R.id.four_hours);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "4");
 			break;
 		case R.id.eight_hours:
 			timer.setText(((Button) v).getText());
-			toggleButtonBackground(R.id.eight_hours);
+			toggleTimerButtonBackground(R.id.eight_hours);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "8");
 			break;
@@ -396,38 +362,30 @@ public class RightMenuClickListener implements OnClickListener {
 	}
 
 	private void toggleFanSpeedButtonBackground(int id) {
-		fanSpeedOne
-				.setBackgroundResource((id == fanSpeedOne.getId()) ? R.drawable.fan_speed_one
+		fanSpeedOne.setBackgroundResource((id == fanSpeedOne.getId()) ? R.drawable.fan_speed_one
 						: R.drawable.fan_speed_one_white);
-		fanSpeedTwo
-				.setBackgroundResource((id == fanSpeedTwo.getId()) ? R.drawable.fan_speed_two
+		fanSpeedTwo.setBackgroundResource((id == fanSpeedTwo.getId()) ? R.drawable.fan_speed_two
 						: R.drawable.fan_speed_two_white);
-		fanSpeedThree
-				.setBackgroundResource((id == fanSpeedThree.getId()) ? R.drawable.fan_speed_three
+		fanSpeedThree.setBackgroundResource((id == fanSpeedThree.getId()) ? R.drawable.fan_speed_three
 						: R.drawable.fan_speed_three_white);
-		fanSpeedSilent
-				.setBackgroundResource((id == fanSpeedSilent.getId()) ? R.drawable.button_blue_bg_2x
+		fanSpeedSilent.setBackgroundResource((id == fanSpeedSilent.getId()) ? R.drawable.button_blue_bg_2x
 						: R.drawable.button_bg_normal_2x);
-		fanSpeedSilent
-				.setTextColor((id == fanSpeedSilent.getId()) ? Color.WHITE
+		fanSpeedSilent.setTextColor((id == fanSpeedSilent.getId()) ? Color.WHITE
 						: Color.rgb(109, 109, 109));
-		fanSpeedTurbo
-				.setBackgroundResource((id == fanSpeedTurbo.getId()) ? R.drawable.button_blue_bg_2x
+		fanSpeedTurbo.setBackgroundResource((id == fanSpeedTurbo.getId()) ? R.drawable.button_blue_bg_2x
 						: R.drawable.button_bg_normal_2x);
 		fanSpeedTurbo.setTextColor((id == fanSpeedTurbo.getId()) ? Color.WHITE
 				: Color.rgb(109, 109, 109));
 	}
 
-	private void toggleButtonBackground(int id) {
+	private void toggleTimerButtonBackground(int id) {
 		for (int i = 0; i < timerButtons.length; i++) {
 			if (id == timerButtons[i].getId()) {
-				timerButtons[i]
-						.setBackgroundResource(R.drawable.button_blue_bg_2x);
+				timerButtons[i].setBackgroundResource(R.drawable.button_blue_bg_2x);
 				timerButtons[i].setTextColor(Color.WHITE);
 
 			} else {
-				timerButtons[i]
-						.setBackgroundResource(R.drawable.button_bg_normal_2x);
+				timerButtons[i].setBackgroundResource(R.drawable.button_bg_normal_2x);
 				timerButtons[i].setTextColor(Color.rgb(109, 109, 109));
 			}
 		}
@@ -435,14 +393,12 @@ public class RightMenuClickListener implements OnClickListener {
 
 	private void controlDevice(String key, String value) {
 		mainActivity.setVisibilityAirPortTaskProgress(View.VISIBLE);
-		PurifierManager.getInstance().setPurifierDetails(key, value,
-				PurifierEvent.DEVICE_CONTROL);
+		PurifierManager.getInstance().setPurifierDetails(key, value, PurifierEvent.DEVICE_CONTROL);
 	}
 
 	private void disableControlPanelButtonsOnPowerOff() {
 		Log.i(TAG, "disableControlPanelButtonsOnPowerOff");
-		Drawable disabledButton = mainActivity.getResources().getDrawable(
-				R.drawable.button_bg_2x);
+		Drawable disabledButton = mainActivity.getResources().getDrawable(R.drawable.button_bg_2x);
 		disabledButton.setAlpha(100);
 
 		fanSpeed.setClickable(false);
@@ -548,20 +504,11 @@ public class RightMenuClickListener implements OnClickListener {
 			power.setClickable(false);
 			power.setChecked(false);
 			disableControlPanelButtonsOnPowerOff();
-			// connect.setVisibility(View.GONE) ;
 		} else {
-			// Added if enable shop demo mode, when AirPurifier all ready
-			// connected.
-			PurAirDevice purAirDevice = PurifierManager.getInstance()
-					.getCurrentPurifier();
+			// Added if enable shop demo mode, when AirPurifier already connected.
+			PurAirDevice purAirDevice = PurifierManager.getInstance().getCurrentPurifier();
 			if (purAirDevice == null || purAirDevice.getName() == null)
 				return;
-			// if (PurAirApplication.isDemoModeEnable() &&
-			// !purAirDevice.isDemoPurifier()) {
-			// connect.setVisibility(View.GONE) ;
-			// } else {
-			// connect.setVisibility(View.GONE) ;
-			// }
 
 			if (airPurifierEventDto != null) {
 				power.setClickable(true);

@@ -49,8 +49,7 @@ public class NetworkUtils {
 			
 			inputStream = conn.getInputStream();
 
-			// Convert the InputStream into a string
-			data = readFully(inputStream);			
+			data = convertInputStreamToString(inputStream);			
 			return new ResponseDto(responseCode, data);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
@@ -60,20 +59,7 @@ public class NetworkUtils {
 			e.printStackTrace();
 		}
 		finally {
-			// Makes sure that the InputStream is closed after the app is
-			// finished using it.
-			if (inputStream != null) {
-				try {					
-					inputStream.close();
-					inputStream = null ;
-				} catch (IOException e) {
-					e.printStackTrace();
-				}				
-			} 
-			if( conn != null ) {
-				conn.disconnect() ;
-				conn = null ;
-			}
+			closeAllConnections(inputStream, null, conn);
 		}
 		return null;
 	}
@@ -108,8 +94,7 @@ public class NetworkUtils {
 	 * @param  inputStream	Input stream to convert to string 	
 	 * @return	Returns 	converted string
 	 */
-	// 
-	public static String readFully(InputStream inputStream) throws IOException, UnsupportedEncodingException {
+	public static String convertInputStreamToString(InputStream inputStream) throws IOException, UnsupportedEncodingException {
 		if (inputStream == null) return "";
 		Reader reader = new InputStreamReader(inputStream, "UTF-8");
 
@@ -132,14 +117,7 @@ public class NetworkUtils {
 	{
 		ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo netInfo = connManager.getActiveNetworkInfo();
-		if(netInfo!=null && netInfo.isConnected())
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return (netInfo!=null && netInfo.isConnected());
 		
 	}
 
