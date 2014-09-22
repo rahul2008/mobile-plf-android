@@ -92,7 +92,7 @@ import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
-import com.philips.cl.di.dev.pa.util.RightMenuClickListener;
+import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -108,7 +108,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private DrawerLayout mDrawerLayout;
 	private ListView mListViewLeft;
 	private ScrollView mScrollViewRight;
-	private RightMenuClickListener rightMenuClickListener;
+	private PurifierControlPanel rightMenuClickListener;
 
 	/** Right off canvas elements */
 	private TextView tvAirStatusAqiValue;
@@ -190,7 +190,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		/** Initiazlise right menu items and click listener */
 		mScrollViewRight = (ScrollView) findViewById(R.id.right_menu_scrollView);
-		rightMenuClickListener = new RightMenuClickListener(this);
+		rightMenuClickListener = new PurifierControlPanel(this);
 
 		ViewGroup group = (ViewGroup) findViewById(R.id.right_menu_layout);
 		setAllButtonListener(group);
@@ -699,17 +699,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		Drawable imageDrawable = null;
 
 		if (indoorAQI <= 1.4f) {
-			imageDrawable = getResources().getDrawable(
-					R.drawable.aqi_small_circle_2x);
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_2x);
 		} else if (indoorAQI > 1.4f && indoorAQI <= 2.3f) {
-			imageDrawable = getResources().getDrawable(
-					R.drawable.aqi_small_circle_100_150_2x);
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_100_150_2x);
 		} else if (indoorAQI > 2.3f && indoorAQI <= 3.5f) {
-			imageDrawable = getResources().getDrawable(
-					R.drawable.aqi_small_circle_200_300_2x);
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_200_300_2x);
 		} else if (indoorAQI > 3.5f) {
-			imageDrawable = getResources().getDrawable(
-					R.drawable.aqi_small_circle_300_500_2x);
+			imageDrawable = getResources().getDrawable(R.drawable.aqi_small_circle_300_500_2x);
 		}
 		ivAirStatusBackground.setImageDrawable(imageDrawable);
 	}
@@ -951,13 +947,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				float indoorAQIUsableValue = info.getIndoorAQI() / 10.0f;
 				setRightMenuAQIValue(indoorAQIUsableValue);
 				rightMenuClickListener.setSensorValues(info);
-				updateFilterStatus(info.getFilterStatus1(),
-						info.getFilterStatus2(),
-						info.getFilterStatus3(),
-						info.getFilterStatus4());
-				setRightMenuAirStatusMessage(getString(
-						Utils.getIndoorAQIMessage(indoorAQIUsableValue),
-						getString(R.string.philips_home)));
+				updateFilterStatus(info.getPreFilterStatus(),
+						info.getMulticareFilterStatus(),
+						info.getActiveFilterStatus(),
+						info.getHepaFilterStatus());
+				setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue),	getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
 

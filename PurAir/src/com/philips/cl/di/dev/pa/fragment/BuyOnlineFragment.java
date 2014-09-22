@@ -125,26 +125,26 @@ public class BuyOnlineFragment extends BaseFragment {
 				case 1:
 					setFilterVisibility(filterVisibility);
 					filterView
-					.setMultiCareFilterValue(airPortInfo.getFilterStatus2());
+					.setMultiCareFilterValue(airPortInfo.getMulticareFilterStatus());
 					txtFilterStatus
 					.setText(Utils
-							.getMultiCareFilterStatusText(airPortInfo.getFilterStatus2()));
+							.getMultiCareFilterStatusText(airPortInfo.getMulticareFilterStatus()));
 					break;
 				case 2:
 					setFilterVisibility(filterVisibility);
 					filterView
-					.setActiveCarbonFilterValue(airPortInfo.getFilterStatus3());
+					.setActiveCarbonFilterValue(airPortInfo.getActiveFilterStatus());
 					txtFilterStatus
 					.setText(Utils
-							.getActiveCarbonFilterStatusText(airPortInfo.getFilterStatus3()));
+							.getActiveCarbonFilterStatusText(airPortInfo.getActiveFilterStatus()));
 					break;
 				case 3:
 					setFilterVisibility(filterVisibility);
 					filterView
-					.setHEPAfilterValue(airPortInfo.getFilterStatus4());
+					.setHEPAfilterValue(airPortInfo.getHepaFilterStatus());
 					txtFilterStatus
 					.setText(Utils
-							.getHEPAFilterFilterStatusText(airPortInfo.getFilterStatus4()));
+							.getHEPAFilterFilterStatusText(airPortInfo.getHepaFilterStatus()));
 					break;
 
 				default:

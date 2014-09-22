@@ -32,30 +32,16 @@ public class IndoorDashboardUtils {
 		return R.string.empty_string;
 	}
 
-	public static int getAqiPointerBackgroundId(int indoorAQI) {
-		if (indoorAQI >= 0 && indoorAQI <= 14) {
-			return R.drawable.blue_circle_with_arrow_2x;
-		} else if (indoorAQI > 14 && indoorAQI <= 23) {
-			return R.drawable.light_pink_circle_arrow1_2x;
-		} else if (indoorAQI > 23 && indoorAQI <= 35) {
-			return R.drawable.red_circle_arrow_2x;
-		} else if (indoorAQI > 35) {
-			return R.drawable.light_red_circle_arrow_2x;
-		}
-
-		return R.drawable.blue_circle_with_arrow_2x;
-	}
-	
 	public static String getFilterStatus(AirPortInfo airPurifierEventDto) {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
 			Context context = PurAirApplication.getAppContext();
 			filterStatus = context.getString(R.string.good);
 			//Simplified logic to calculate filter status
-			int preFilter = airPurifierEventDto.getFilterStatus1();
-			int multiCareFilter = airPurifierEventDto.getFilterStatus2();
-			int activeFilter = airPurifierEventDto.getFilterStatus3();
-			int hepaFilter = airPurifierEventDto.getFilterStatus4();
+			int preFilter = airPurifierEventDto.getPreFilterStatus();
+			int multiCareFilter = airPurifierEventDto.getMulticareFilterStatus();
+			int activeFilter = airPurifierEventDto.getActiveFilterStatus();
+			int hepaFilter = airPurifierEventDto.getHepaFilterStatus();
 			
 			if ( (multiCareFilter >= 840 && multiCareFilter < 960)
 					|| (activeFilter >= 2760 && activeFilter < 2880)
@@ -70,40 +56,6 @@ public class IndoorDashboardUtils {
 		return filterStatus;
 	}
 
-	public static float getAqiPointerRotation(int indoorAqi) {
-		float rotation = 0.0f;
-		float step = 31;
-		float start = 105;
-		if (indoorAqi <= 0)
-			return 0;
-		if (indoorAqi > 0 && indoorAqi <= 14) {
-			rotation = 14;
-		} else if (indoorAqi > 14 && indoorAqi <= 23) {
-			rotation = 40;
-		} else if (indoorAqi > 23 && indoorAqi <= 35) {
-			rotation = 68;
-		} else if (indoorAqi > 35 && indoorAqi <= 95) {
-			rotation = start + (step * ((indoorAqi - 36) / 10));
-		} else {
-			rotation = start + (step * 6);
-		}
-
-		return rotation;
-	}
-
-	public static int getAqiTitle(int indoorAqi) {
-		if (indoorAqi >= 0 && indoorAqi <= 14) {
-			return R.string.good_indoor;
-		} else if (indoorAqi > 14 && indoorAqi <= 23) {
-			return R.string.moderate_indoor;
-		} else if (indoorAqi > 23 && indoorAqi <= 35) {
-			return R.string.unhealthy_indoor;
-		} else if (indoorAqi > 35) {
-			return R.string.very_unhealthy_split_indoor;
-		}
-		return R.string.empty_string;
-	}
-	
 	public static int getAqiPointerMarker(int indoorAQI) {
 		if (indoorAQI >= 0 && indoorAQI <= 14) {
 			return R.drawable.air_dashboard_indoor_map_good;
@@ -118,16 +70,49 @@ public class IndoorDashboardUtils {
 		return R.drawable.air_dashboard_indoor_map_good;
 	}
 
-	public static int getAqiSummary(int indoorAqi) {
-		if (indoorAqi >= 0 && indoorAqi <= 14) {
-			return R.string.indoor_aqi_good_tip1;
+	public static DashboardAPL getDashboardAPL(int indoorAqi) {
+		int pointerBackground;
+		int pointerRotation;
+		int title;
+		int summary;
+		
+		float step = 31;
+		float start = 105;
+		
+		if(indoorAqi <= 0) {
+			pointerBackground = R.drawable.blue_circle_with_arrow_2x;
+			pointerRotation = 0;
+			title = R.string.empty_string;
+			summary = R.string.empty_string;
+		} else if (indoorAqi >= 0 && indoorAqi <= 14) {
+			pointerBackground = R.drawable.blue_circle_with_arrow_2x;
+			pointerRotation = 14;
+			title = R.string.good_indoor; 
+			summary = R.string.indoor_aqi_good_tip1;
 		} else if (indoorAqi > 14 && indoorAqi <= 23) {
-			return R.string.indoor_aqi_moderate_tip1;
+			pointerBackground = R.drawable.light_pink_circle_arrow1_2x;
+			pointerRotation = 40;
+			title = R.string.moderate_indoor; 
+			summary = R.string.indoor_aqi_moderate_tip1;
 		} else if (indoorAqi > 23 && indoorAqi <= 35) {
-			return R.string.indoor_aqi_unhealthy_tip1;
-		} else if (indoorAqi > 35) {
-			return R.string.indoor_aqi_very_unhealthy_tip1;
+			pointerBackground = R.drawable.red_circle_arrow_2x;
+			pointerRotation = 68;
+			title = R.string.unhealthy_indoor; 
+			summary = R.string.indoor_aqi_unhealthy_tip1;
+		} else if (indoorAqi > 35 && indoorAqi <= 95) {
+			pointerBackground = R.drawable.light_red_circle_arrow_2x;
+			pointerRotation = (int) (start + (step * ((indoorAqi - 36) / 10)));
+			title = R.string.very_unhealthy_split_indoor;
+			summary = R.string.indoor_aqi_very_unhealthy_tip1;
+		} else {
+			pointerBackground = R.drawable.light_red_circle_arrow_2x;
+			pointerRotation = (int) (start + (step * 6));
+			title = R.string.very_unhealthy_split_indoor;
+			summary = R.string.indoor_aqi_very_unhealthy_tip1;
 		}
-		return R.string.empty_string;
+		
+		DashboardAPL apl = new DashboardAPL(pointerBackground, pointerRotation, title, summary);
+		
+		return apl;
 	}
 }

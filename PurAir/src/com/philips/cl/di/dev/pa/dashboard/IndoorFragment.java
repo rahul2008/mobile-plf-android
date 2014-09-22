@@ -195,24 +195,27 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			else {
 				fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
 			}
+			
+			DashboardAPL apl = IndoorDashboardUtils.getDashboardAPL(indoorAqi);
+			
 			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
-			aqiPointer.setImageResource(IndoorDashboardUtils.getAqiPointerBackgroundId(indoorAqi));
+			aqiPointer.setImageResource(apl.getPointerBackground());
 			aqiStatusTxt.setTextSize(22.0f);
-			aqiStatusTxt.setText(getString(IndoorDashboardUtils.getAqiTitle(indoorAqi)));
-			aqiSummaryTxt.setText(getString(IndoorDashboardUtils.getAqiSummary(indoorAqi)));
+			aqiStatusTxt.setText(getString(apl.getTitle()));
+			aqiSummaryTxt.setText(getString(apl.getSummary()));
 			showIndoorMeter();
 			showAlartErrorAirPort(airPortInfo, purifier.getName());
+			
+
+			ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
+			
+			aqiPointer.invalidate();
+			if(prevIndoorAqi != indoorAqi) {
+				Utils.rotateImageView(aqiPointer, prevRotation, apl.getPointerRotation());
+			}
+			prevRotation = apl.getPointerRotation();
+			prevIndoorAqi = indoorAqi;
 		}
-		
-		ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
-		
-		aqiPointer.invalidate();
-		if(prevIndoorAqi != indoorAqi) {
-//			setRotationAnimation(aqiPointer, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
-			Utils.rotateImageView(aqiPointer, prevRotation, IndoorDashboardUtils.getAqiPointerRotation(indoorAqi));
-		}
-		prevRotation = IndoorDashboardUtils.getAqiPointerRotation(indoorAqi);
-		prevIndoorAqi = indoorAqi;
 	}
 	
 	private void showAlartErrorAirPort(AirPortInfo airPortInfo, String pName) {

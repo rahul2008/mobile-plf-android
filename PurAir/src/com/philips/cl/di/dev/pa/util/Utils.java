@@ -1,21 +1,5 @@
 package com.philips.cl.di.dev.pa.util;
 
-import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.CLEAR_SKIES;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.CLOUDY;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.HEAVY_RAIN;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.HEAVY_RAIN_AT_TIMES;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.LIGHT_DRIZZLE;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.LIGHT_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.MIST;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.MODERATE_OR_HEAVY_RAIN_SHOWER;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.PARTLY_CLOUDY;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.SNOW;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.SUNNY;
-import static com.philips.cl.di.dev.pa.constant.AppConstants.TORRENTIAL_RAIN_SHOWER;
-
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.charset.Charset;
@@ -110,7 +94,7 @@ public class Utils {
 //			ALog.i(ALog.INDOOR_RDCP, 
 //					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
 		} catch (ParseException e) {
-			ALog.i(ALog.INDOOR_RDCP, "Date ParseException");
+			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + e.getMessage());
 			return noOfDays;
 		}
 		return noOfDays;
@@ -136,7 +120,7 @@ public class Utils {
 //					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
 
 		} catch (ParseException e) {
-			ALog.i(ALog.INDOOR_RDCP, "Date ParseException");
+			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + e.getMessage());
 			return -2;
 		}
 
@@ -422,18 +406,14 @@ public class Utils {
 	 * @param pSense
 	 * @return
 	 */
-	public static Drawable getIndoorAQICircleBackground(Context ctx,
-			int indoorAQI) {
+	public static Drawable getIndoorAQICircleBackground(Context ctx, int indoorAQI) {
 		Log.i(TAG, "aqi=  " + indoorAQI);
 		if(indoorAQI <= 14) {
-			return ctx.getResources()
-					.getDrawable(R.drawable.aqi_blue_circle_2x);
+			return ctx.getResources().getDrawable(R.drawable.aqi_blue_circle_2x);
 		} else if (indoorAQI > 14 && indoorAQI <= 23) {
-			return ctx.getResources().getDrawable(
-					R.drawable.aqi_purple_circle_2x);
+			return ctx.getResources().getDrawable(R.drawable.aqi_purple_circle_2x);
 		} else if (indoorAQI > 23 && indoorAQI <= 35) {
-			return ctx.getResources().getDrawable(
-					R.drawable.aqi_fusia_circle_2x);
+			return ctx.getResources().getDrawable(R.drawable.aqi_fusia_circle_2x);
 		} else if (indoorAQI > 35) {
 			return ctx.getResources().getDrawable(R.drawable.aqi_red_circle_2x);
 		}
@@ -546,104 +526,36 @@ public class Utils {
 		}
 		return percent;
 	}
-
-	public static String getDayOfWeek(Context contex, int dayInt) {
-		switch (dayInt) {
-		case 1:
-			return contex.getString(R.string.sun);
-		case 2:
-			return contex.getString(R.string.mon);
-		case 3:
-			return contex.getString(R.string.tue);
-		case 4:
-			return contex.getString(R.string.wed);
-		case 5:
-			return contex.getString(R.string.thu);
-		case 6:
-			return contex.getString(R.string.fri);
-		case 7:
-			return contex.getString(R.string.sat);
+	
+	private enum Days {
+		SUNDAY(1, R.string.sun),
+		MONDAY(2, R.string.mon),
+		TUESDAY(3, R.string.tue),
+		WEDNESDAY(4, R.string.wed),
+		THURSDAY(5, R.string.thu),
+		FRIDAY(6, R.string.fri),
+		SATURDAY(7, R.string.sat);
+		
+		private int resId;
+		private int dayInt;
+		
+		private Days(int dayInt, int resId) {
+			this.dayInt = dayInt;
+			this.resId = resId;
 		}
-		return null;
+		
+		public static int valueOf(int dayInt) {
+			for (Days days : Days.values()) {
+				if (days.dayInt == dayInt) {
+					return days.resId;
+				}
+			}
+			return R.string.empty_string;
+		}
 	}
 
-	public static Drawable getOutdoorTemperatureImage(Context contex,
-			String weatherDesc, String isDayTime) {
-		Drawable weatherImage = null;
-		if (weatherDesc == null || weatherDesc.equals("")) {
-			return null;
-		}
-
-		if (weatherDesc.compareToIgnoreCase(SUNNY) == 0) {
-			weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
-		} else if (weatherDesc.compareToIgnoreCase(MIST) == 0) {
-			weatherImage = contex.getResources().getDrawable(R.drawable.mist);
-		} else if (weatherDesc.compareToIgnoreCase(CLOUDY) == 0) {
-			weatherImage = contex.getResources().getDrawable(R.drawable.cloudy);
-		} else if (weatherDesc.compareToIgnoreCase(PARTLY_CLOUDY) == 0) {
-
-			if (isDayTime == null) {
-				return contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
-			}
-
-			if (isDayTime.compareToIgnoreCase("Yes") == 0)
-				weatherImage = contex.getResources().getDrawable(
-						R.drawable.partly_cloudy);
-			else
-				weatherImage = contex.getResources().getDrawable(
-						R.drawable.partly_cloudy_night);
-			// weatherImage =
-			// contex.getResources().getDrawable(R.drawable.partly_cloudy_night);
-		} else if (weatherDesc.compareToIgnoreCase(CLEAR_SKIES) == 0) {
-			if (isDayTime == null) {
-				return contex.getResources().getDrawable(R.drawable.clear_sky_night);
-			}
-			if (isDayTime.compareToIgnoreCase("Yes") == 0)
-				weatherImage = contex.getResources().getDrawable(
-						R.drawable.sunny);
-			else
-				weatherImage = contex.getResources().getDrawable(
-						R.drawable.clear_sky_night);
-			// weatherImage =
-			// contex.getResources().getDrawable(R.drawable.clear_sky_night);
-		} else if (weatherDesc.compareToIgnoreCase(SNOW) == 0) {
-			weatherImage = contex.getResources().getDrawable(R.drawable.snow);
-		} else if (weatherDesc.compareToIgnoreCase(LIGHT_RAIN_SHOWER) == 0
-				|| weatherDesc.compareToIgnoreCase(LIGHT_DRIZZLE) == 0) {
-			weatherImage = contex.getResources().getDrawable(
-					R.drawable.light_rain_shower);
-		} else if (weatherDesc
-				.compareToIgnoreCase(PATCHY_LIGHT_RAIN_IN_AREA_WITH_THUNDER) == 0) {
-			weatherImage = contex.getResources().getDrawable(
-					R.drawable.light_rain_with_thunder);
-		} else if (weatherDesc
-				.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_SHOWER) == 0
-				|| weatherDesc.compareToIgnoreCase(TORRENTIAL_RAIN_SHOWER) == 0
-				|| weatherDesc.compareToIgnoreCase(HEAVY_RAIN) == 0) {
-			weatherImage = contex.getResources().getDrawable(
-					R.drawable.heavy_rain);
-		} else if (weatherDesc.compareToIgnoreCase(HEAVY_RAIN_AT_TIMES) == 0) {
-			// TODO : Replace with proper icon. Icon not found, replacing with
-			// heavy raind
-			weatherImage = contex.getResources().getDrawable(
-					R.drawable.heavy_rain);
-		} else if (weatherDesc
-				.compareToIgnoreCase(MODERATE_OR_HEAVY_RAIN_IN_AREA_WITH_THUNDER) == 0) {
-			weatherImage = contex.getResources().getDrawable(
-					R.drawable.moderate_rain_with_thunder);
-		} else if (weatherDesc.compareToIgnoreCase(CLEAR) == 0) {
-			if (isDayTime == null) {
-				return contex.getResources().getDrawable(R.drawable.clear_sky_night);
-			}
-			if (isDayTime.compareToIgnoreCase("Yes") == 0)
-				weatherImage = contex.getResources().getDrawable(R.drawable.sunny);
-			else
-				weatherImage = contex.getResources().getDrawable(R.drawable.clear_sky_night);
-		} else {
-			weatherImage = contex.getResources().getDrawable(R.drawable.light_rain_shower);
-		}
-
-		return weatherImage;
+	public static String getDayOfWeek(Context context, int dayInt) {
+		return context.getString(Days.valueOf(dayInt));
 	}
 
 	public static void setOutdoorWeatherDirImg(Context contex, float windSpeed, float degree, ImageView iv) {

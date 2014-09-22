@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.test;
 import java.util.Calendar;
 
 import junit.framework.TestCase;
-import android.graphics.drawable.Drawable;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -216,30 +215,6 @@ public class UtilTest extends TestCase {
 		assertEquals(PurAirApplication.getAppContext().getString(R.string.very_unhealthy_split), statusSummaries[0]);
 	}
 	
-	public void testGetOutdoorTemperatureImageNull() {
-		Drawable weatherDrawable = 
-				Utils.getOutdoorTemperatureImage(PurAirApplication.getAppContext(), null, "yes");
-		assertNull(weatherDrawable);
-	}
-	
-	public void testGetOutdoorTemperatureImageEmpty() {
-		Drawable weatherDrawable = 
-				Utils.getOutdoorTemperatureImage(PurAirApplication.getAppContext(), "", "yes");
-		assertNull(weatherDrawable);
-	}
-	
-	public void testGetOutdoorTemperatureImageNullDay() {
-		Drawable weatherDrawable = 
-				Utils.getOutdoorTemperatureImage(PurAirApplication.getAppContext(), "Partly Cloudy", null);
-		assertNotNull(weatherDrawable);
-	}
-	
-	public void testGetOutdoorTemperatureImageEmptyDay() {
-		Drawable weatherDrawable = 
-				Utils.getOutdoorTemperatureImage(PurAirApplication.getAppContext(), "Partly Cloudy", "");
-		assertNotNull(weatherDrawable);
-	}
-
 	public void testGetTimeDiffInMinite() {
 		long timeCurr = Calendar.getInstance().getTimeInMillis() - 3*60*1000;
 		IndoorTrendDto indoorTrendDto = SessionDto.getInstance().getIndoorTrendDto();

@@ -40,7 +40,7 @@ public class WeatherReportLayout extends  LinearLayout {
 		super(context, attrs);
 		if (weatherDetails == null || weatherDetails.size() < 4 ) return;
 		nextFourDays = new String[4];
-		weatherForecatDays(context);
+		weatherForecastDays(context);
 		fourDaysWeatherForecast(context, weatherDetails);
 	}
 
@@ -134,7 +134,7 @@ public class WeatherReportLayout extends  LinearLayout {
 		}
 	}
 	
-	private void weatherForecatDays(Context context) {
+	private void weatherForecastDays(Context context) {
 		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		
 		int dayInt = cal.get(Calendar.DAY_OF_WEEK);

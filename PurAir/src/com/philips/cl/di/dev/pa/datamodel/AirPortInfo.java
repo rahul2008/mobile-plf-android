@@ -19,10 +19,10 @@ public class AirPortInfo {
 	private String fanSpeed;
 	private String powerMode;
 
-	private int filterStatus1;
-	private int filterStatus2;
-	private int filterStatus3;
-	private int filterStatus4;
+	private int preFilterStatus;
+	private int multicareFilterStatus;
+	private int activeFilterStatus;
+	private int hepaFilterStatus;
 
 	private String replaceFilter1;
 	private String replaceFilter2;
@@ -41,36 +41,36 @@ public class AirPortInfo {
 	private int outdoorAirQuality;
 	private String machineMode;
 
-	public int getFilterStatus1() {
-		return AppConstants.PRE_FILTER_MAX_VALUE - filterStatus1;
+	public int getPreFilterStatus() {
+		return AppConstants.PRE_FILTER_MAX_VALUE - preFilterStatus;
 	}
 
-	public void setFilterStatus1(int filterStatus1) {
-		this.filterStatus1 = filterStatus1;
+	public void setPreFilterStatus(int preFilterStatus) {
+		this.preFilterStatus = preFilterStatus;
 	}
 
-	public int getFilterStatus2() {
-		return AppConstants.MULTI_CARE_FILTER_MAX_VALUE - filterStatus2;
+	public int getMulticareFilterStatus() {
+		return AppConstants.MULTI_CARE_FILTER_MAX_VALUE - multicareFilterStatus;
 	}
 
-	public void setFilterStatus2(int filterStatus2) {
-		this.filterStatus2 = filterStatus2;
+	public void setMulticareFilterStatus(int multicareFilterStatus) {
+		this.multicareFilterStatus = multicareFilterStatus;
 	}
 
-	public int getFilterStatus3() {
-		return AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE - filterStatus3;
+	public int getActiveFilterStatus() {
+		return AppConstants.ACTIVE_CARBON_FILTER_MAX_VALUE - activeFilterStatus;
 	}
 
-	public void setFilterStatus3(int filterStatus3) {
-		this.filterStatus3 = filterStatus3;
+	public void setActiveFilterStatus(int activeFilterStatus) {
+		this.activeFilterStatus = activeFilterStatus;
 	}
 
-	public int getFilterStatus4() {
-		return AppConstants.HEPA_FILTER_MAX_VALUE - filterStatus4;
+	public int getHepaFilterStatus() {
+		return AppConstants.HEPA_FILTER_MAX_VALUE - hepaFilterStatus;
 	}
 
-	public void setFilterStatus4(int filterStatus4) {
-		this.filterStatus4 = filterStatus4;
+	public void setHepaFilterStatus(int hepaFilterStatus) {
+		this.hepaFilterStatus = hepaFilterStatus;
 	}
 
 	public int getChildLock() {

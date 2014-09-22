@@ -67,10 +67,10 @@ public class DataParser {
 				airPurifierEvent.setAqiL(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_LIGHT))) ;
 				airPurifierEvent.setAqiThreshold(Integer.parseInt(jsonObj.getString(ParserConstants.AQI_THRESHOLD))) ;
 				airPurifierEvent.setDtrs(Integer.parseInt(jsonObj.getString(ParserConstants.DTRS))) ;
-				airPurifierEvent.setFilterStatus1(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_1))) ;
-				airPurifierEvent.setFilterStatus2(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_2))) ;
-				airPurifierEvent.setFilterStatus3(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_3))) ;
-				airPurifierEvent.setFilterStatus4(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_4))) ;
+				airPurifierEvent.setPreFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_1))) ;
+				airPurifierEvent.setMulticareFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_2))) ;
+				airPurifierEvent.setActiveFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_3))) ;
+				airPurifierEvent.setHepaFilterStatus(Integer.parseInt(jsonObj.getString(ParserConstants.FILTER_STATUS_4))) ;
 				airPurifierEvent.setReplaceFilter1(jsonObj.getString(ParserConstants.CLEAN_FILTER_1)) ;
 				airPurifierEvent.setReplaceFilter2(jsonObj.getString(ParserConstants.REP_FILTER_2)) ;
 				airPurifierEvent.setReplaceFilter3(jsonObj.getString(ParserConstants.REP_FILTER_3)) ;
