@@ -113,6 +113,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 		setActionBarTitle();
 		getDataFromDashboard();
+		setClickEvent(false);
 	}
 	
 	/**
@@ -121,6 +122,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	@SuppressLint({ "UseSparseArrays", "SimpleDateFormat" })
 	private void addAQIHistoricData() {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Calculate Aqi value....");
+		setClickEvent(true);
 		
 		HashMap<String, Float> allHourlyAqiValueMap = new HashMap<String, Float>();
 		HashMap<String, Integer> allHourlyAqiValueCounterMap = new HashMap<String, Integer>();
@@ -530,6 +532,12 @@ public class OutdoorDetailsActivity extends BaseActivity
 		if (graphLayout.getChildCount() > 0) {
 			graphLayout.removeAllViews();
 		}
+	}
+	
+	private void setClickEvent(boolean click) {
+		lastDayBtn.setClickable(click);
+		lastWeekBtn.setClickable(click);
+		lastFourWeekBtn.setClickable(click);
 	}
 
 	/**
