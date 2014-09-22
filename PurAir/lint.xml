@@ -15,5 +15,7 @@
     <issue id ="UnusedResources" severity="ignore" />
     <issue id ="IconDuplicates" severity="ignore" />
     <issue id ="SpUsage" severity="ignore" /> 
+    <issue id ="InflateParams" severity="ignore" /> 
+    <issue id ="CommitPrefEdits" severity="ignore" /> 
     
 </lint>
