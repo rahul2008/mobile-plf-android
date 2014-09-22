@@ -454,7 +454,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		} else {
 			heading.setTypeface(Fonts.getGillsansLight(this));
 		}
-		heading.setTextSize(24);
+//		heading.setTextSize(24);
 		heading.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
 	}
 
@@ -670,5 +670,4 @@ public class OutdoorDetailsActivity extends BaseActivity
 
 	@Override
 	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {/**NOP*/}
-	
 }

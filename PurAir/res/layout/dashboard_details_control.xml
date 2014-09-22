@@ -16,7 +16,7 @@
         android:paddingTop="8dp"
         android:text="@string/lastday"
         android:textColor="@color/dodgerblue"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -31,7 +31,7 @@
         android:paddingTop="8dp"
         android:text="@string/last7day"
         android:textColor="@color/lightgrey"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -46,7 +46,7 @@
         android:paddingTop="8dp"
         android:text="@string/last4week"
         android:textColor="@color/lightgrey"
-        android:textSize="16sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </LinearLayout>

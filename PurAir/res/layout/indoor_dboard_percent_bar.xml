@@ -14,21 +14,6 @@
         android:layout_alignParentTop="true"
         android:background="@color/lightgrey" >
 
-        <!--
-             <com.philips.cl.di.dev.pa.view.FontTextView 
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:id="@+id/indoorDashboardPercentTxt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:text="100%"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-        -->
-
         <View
             android:layout_width="match_parent"
             android:layout_height="4dp"
@@ -36,7 +21,7 @@
             android:background="@color/gray" />
     </RelativeLayout>
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/indoorDashboardBarName"
         android:layout_width="60dp"
@@ -48,7 +33,7 @@
         android:paddingTop="4dp"
         android:text="@string/indoor_db"
         android:textColor="@color/gray"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_very_small_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <include

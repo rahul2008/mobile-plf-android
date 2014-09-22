@@ -22,7 +22,7 @@
         android:gravity="center"
         android:text="@string/one"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_very_small_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

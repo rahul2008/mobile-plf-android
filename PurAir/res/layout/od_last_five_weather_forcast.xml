@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:gravity="left"
         android:textColor="@color/gray"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_small_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
@@ -34,7 +34,7 @@
         android:gravity="right"
         android:text="@string/hiphen"
         android:textColor="@color/gray"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_small_dp"
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
@@ -47,7 +47,7 @@
         android:gravity="center"
         android:text="@string/hiphen"
         android:textColor="@color/lightgrey"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_small_dp"
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
@@ -59,7 +59,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/gray"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_small_dp"
         android:textStyle="bold"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 

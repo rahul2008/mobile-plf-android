@@ -14,4 +14,13 @@
 <dimen name="title_text_size_small">22sp</dimen>
 <dimen name="title_text_size_medium">24sp</dimen>
 <dimen name="title_text_size_large">26sp</dimen>
+
+<dimen name="text_size_very_very_small_dp">12dp</dimen>
+<dimen name="text_size_very_small_dp">14dp</dimen>
+<dimen name="text_size_small_dp">16dp</dimen>
+<dimen name="text_size_medium_dp">18dp</dimen>
+<dimen name="text_size_large_dp">20dp</dimen>
+<dimen name="title_text_size_small_dp">22dp</dimen>
+<dimen name="title_text_size_medium_dp">24dp</dimen>
+<dimen name="title_text_size_large_dp">26dp</dimen>
 </resources>

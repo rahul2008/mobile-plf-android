@@ -224,7 +224,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		} else {
 			heading.setTypeface(Fonts.getGillsansLight(this));
 		}
-		heading.setTextSize(24);
+//		heading.setTextSize(24);
 		if (name == null || name.trim().length() == 0) {
 			heading.setText("");
 			indoorDbIndexName.setText("");

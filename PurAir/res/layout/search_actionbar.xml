@@ -26,7 +26,7 @@
         android:paddingLeft="8dp"
         android:singleLine="true"
         android:textColor="@color/title_gray"
-        android:textSize="14sp" />
+        android:textSize="@dimen/text_size_small_dp" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -42,7 +42,7 @@
         android:paddingRight="16dp"
         android:text="@string/cancel"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_small_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

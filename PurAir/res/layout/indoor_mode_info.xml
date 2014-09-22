@@ -24,7 +24,7 @@
         android:paddingLeft="8dp"
         android:text="@string/mode"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -35,7 +35,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/inModeTxt"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
@@ -59,7 +59,7 @@
         android:paddingRight="8dp"
         android:text="@string/filters"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -70,7 +70,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/inFilterTxt"
         android:textColor="@color/white"
-        android:textSize="14sp"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

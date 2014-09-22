@@ -24,7 +24,7 @@
         android:gravity="center"
         android:text="@string/not_connected"
         android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size_small"
+        android:textSize="@dimen/title_text_size_small_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -38,7 +38,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="@dimen/text_size_large_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>

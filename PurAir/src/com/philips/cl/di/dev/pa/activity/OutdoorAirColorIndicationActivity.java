@@ -119,7 +119,7 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		} else {
 			textView.setTypeface(Fonts.getGillsansLight(this));
 		}
-		textView.setTextSize(24);
+//		textView.setTextSize(24);
 		textView.setText(this.getText(title));
 	}
 

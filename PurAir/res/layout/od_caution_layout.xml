@@ -48,7 +48,7 @@
             android:gravity="center_horizontal"
             android:text="@string/advice_od_msg2"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -60,7 +60,7 @@
             android:gravity="center_horizontal"
             android:text="@string/openwindow_od_msg2"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
@@ -72,7 +72,7 @@
             android:gravity="center_horizontal"
             android:text="@string/mask_od_msg2"
             android:textColor="@color/gray"
-            android:textSize="12sp"
+            android:textSize="@dimen/text_size_small_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 

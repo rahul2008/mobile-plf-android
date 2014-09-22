@@ -19,7 +19,7 @@
         android:paddingTop="4dp"
         android:singleLine="true"
         android:textColor="@color/philips_blue"
-        android:textSize="24sp"
+        android:textSize="@dimen/title_text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
@@ -33,7 +33,7 @@
         android:background="@drawable/blue_button_selector"
         android:text="@string/cancel"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_small_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <ImageView
@@ -58,7 +58,7 @@
         android:background="@drawable/blue_button_selector"
         android:text="@string/decline"
         android:textColor="@color/white"
-        android:textSize="12sp"
+        android:textSize="@dimen/text_size_small_dp"
         android:visibility="gone"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 

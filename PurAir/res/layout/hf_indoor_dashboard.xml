@@ -18,7 +18,7 @@
         android:drawablePadding="4dp"
         android:text="@string/mode"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -34,7 +34,7 @@
         android:drawableRight="@drawable/filter_icon_2x"
         android:text="@string/filters"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -52,7 +52,7 @@
         android:padding="4dp"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size_medium"
+        android:textSize="@dimen/title_text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -83,7 +83,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
@@ -96,7 +96,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="2dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_medium"
+        android:textSize="@dimen/text_size_medium_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
@@ -134,7 +134,7 @@
             android:lineSpacingExtra="5dp"
             android:text="@string/not_connected"
             android:textColor="@color/white"
-            android:textSize="@dimen/title_text_size_small"
+            android:textSize="@dimen/title_text_size_small_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </RelativeLayout>
 
@@ -151,7 +151,7 @@
         android:lineSpacingExtra="5dp"
         android:paddingBottom="2dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_large_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <RelativeLayout
@@ -162,6 +162,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/philips_blue"
         android:minHeight="30dp"
+        android:visibility="gone"
         android:padding="5dp" >
 
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -217,7 +218,7 @@
         android:padding="8dp"
         android:lineSpacingExtra="5dp"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_large"
+        android:textSize="@dimen/text_size_large_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf"
         android:background="@color/philips_blue"
         android:visibility="gone" />
