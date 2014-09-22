@@ -28,7 +28,7 @@ public class NetworkUtilsTest extends TestCase {
 	public void testReadFullyNullParam() {
 		String readStr = "";
 		try {
-			readStr = NetworkUtils.readFully(null);
+			readStr = NetworkUtils.convertInputStreamToString(null);
 		} catch (UnsupportedEncodingException e) {
 			fail(e.getMessage());
 		} catch (IOException e) {

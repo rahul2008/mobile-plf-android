@@ -49,7 +49,7 @@ public class LocalConnection implements DeviceConnection {
 			responseCode = conn.getResponseCode();
 			if (responseCode == 200) {
 				inputStream = conn.getInputStream();
-				result = NetworkUtils.readFully(inputStream);
+				result = NetworkUtils.convertInputStreamToString(inputStream);
 			}
 
 		} catch (IOException e) {

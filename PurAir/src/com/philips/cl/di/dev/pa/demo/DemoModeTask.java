@@ -56,7 +56,7 @@ public class DemoModeTask extends Thread {
 			responseCode = conn.getResponseCode();
 			if (responseCode == HttpURLConnection.HTTP_OK) {
 				inputStream = conn.getInputStream();
-				result = NetworkUtils.readFully(inputStream);
+				result = NetworkUtils.convertInputStreamToString(inputStream);
 			}
 
 		} catch (IOException e) {

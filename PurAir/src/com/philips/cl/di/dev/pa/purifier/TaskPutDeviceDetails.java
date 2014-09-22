@@ -66,11 +66,11 @@ public class TaskPutDeviceDetails implements Runnable {
 
 			if (responseCode == 200) {
 				inputStream = conn.getInputStream();
-				result = NetworkUtils.readFully(inputStream);
+				result = NetworkUtils.convertInputStreamToString(inputStream);
 				Log.i(TAG, result);
 			} else {
 				inputStream = conn.getErrorStream();
-				result = NetworkUtils.readFully(inputStream);
+				result = NetworkUtils.convertInputStreamToString(inputStream);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

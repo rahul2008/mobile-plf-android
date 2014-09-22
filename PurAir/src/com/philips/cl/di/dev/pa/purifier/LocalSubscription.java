@@ -47,11 +47,11 @@ public class LocalSubscription extends AsyncTask<String, Void, String> {
 
 			if ( responseCode == 200 ) {
 				inputStream = conn.getInputStream();
-				result = NetworkUtils.readFully(inputStream);
+				result = NetworkUtils.convertInputStreamToString(inputStream);
 			}
 			else {
 				inputStream = conn.getErrorStream();
-				result = NetworkUtils.readFully(inputStream);
+				result = NetworkUtils.convertInputStreamToString(inputStream);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
