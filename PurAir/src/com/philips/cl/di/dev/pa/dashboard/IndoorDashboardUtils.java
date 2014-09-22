@@ -69,6 +69,19 @@ public class IndoorDashboardUtils {
 
 		return R.drawable.air_dashboard_indoor_map_good;
 	}
+	
+	public static int getAqiTitle(int indoorAqi) {
+		if (indoorAqi >= 0 && indoorAqi <= 14) {
+			return R.string.good_indoor;
+		} else if (indoorAqi > 14 && indoorAqi <= 23) {
+			return R.string.moderate_indoor;
+		} else if (indoorAqi > 23 && indoorAqi <= 35) {
+			return R.string.unhealthy_indoor;
+		} else if (indoorAqi > 35) {
+			return R.string.very_unhealthy_split_indoor;
+		}
+		return R.string.empty_string;
+	}
 
 	public static DashboardAPL getDashboardAPL(int indoorAqi) {
 		int pointerBackground;
