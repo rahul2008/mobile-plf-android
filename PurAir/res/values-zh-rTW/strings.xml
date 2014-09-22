@@ -81,6 +81,7 @@
     <string name="n_a">不適用</string>
     <string name="take_action">採取行動</string>
     <string name="no_data">無資料</string>
+    <string name="pm_2.5">PM2.5</string>
     <string name="dash_dash">--</string>
     <string name="front_panel_not_closed">飛利浦智控淨化器的前面板未正確閉合。</string>
     <string name="purifier_malfunctioning">您的空氣淨化器存在故障，請聯繫飛利浦客服。</string>
@@ -344,6 +345,15 @@
     <string name="indoor_color_explained_intro">Philips 智能空氣應用程式由智能內置感應器以 1-10 顯示實時空氣微粒水平。您可於家裡查看最新的空氣質素，包括 PM2.5 濃度。</string>
     <!-- Diagnostics -->
     <string name="diagnostics">發送報錯郵件:</string>
+    <string name="diagnostics_intro">This is an automatically generated diagnostic email sent by the Philips smart air purifier App. The user of the App has initiated this email and likely requires assistance.</string>
+    <string name="janrain_user">Jan Rain User: </string>
+    <string name="app_version">App version: </string>
+    <string name="mobile_platform">Mobile platform: </string>
+    <string name="sdk_version">Mobile platform version: </string>
+    <string name="app_eui64">App EUI64: </string>
+    <string name="purifier">Purifier </string>
+    <string name="purifier_name">Purifier Name: </string>
+    <string name="purifier_eui64">EUI64: </string>
     <!-- EWS -->
     <string name="lbl_living_room">客廳</string>
     <string name="lbl_kitchen">廚房</string>
@@ -610,6 +620,7 @@
     <string name="add_purifier">添加一台淨化器</string>
     <string name="no_purifier_found">未找到更多淨化器</string>
     <string name="max_purifier_reached">最多只可添加20臺淨化器。還想添加新淨化器？請刪除已有淨化器。</string>
+    <string name="max_city_reached">最多只可添加20臺城市。還想添加新淨化器？請刪除已有城市。</string>
     <string name="purifier_add_fail_title">淨化器未添加</string>
     <string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
 

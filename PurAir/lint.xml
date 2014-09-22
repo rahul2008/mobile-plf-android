@@ -5,7 +5,6 @@
     <issue id="EI_EXPOSE_REP2" severity="ignore" />
     <issue id="IconDensities" severity="ignore" />
     <issue id="IconDipSize" severity="ignore" />
-    <issue id="MissingTranslation" severity="ignore" />
     <issue id="Overdraw" severity="ignore" />
     <issue id="SmallSp" severity="ignore" />
     <issue id="ViewConstructor" severity="ignore" />
