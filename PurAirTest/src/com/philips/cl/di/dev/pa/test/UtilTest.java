@@ -146,12 +146,12 @@ public class UtilTest extends TestCase {
 	
 	public void testGetDayOfWeekNine() {
 		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 9);
-		assertNull(day);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.empty_string), day);
 	}
 	
 	public void testGetDayOfWeekZero() {
 		String day = Utils.getDayOfWeek(PurAirApplication.getAppContext(), 0);
-		assertNull(day);
+		assertEquals(PurAirApplication.getAppContext().getString(R.string.empty_string), day);
 	}
 	
 	public void testGetDayOfWeekOne() {
