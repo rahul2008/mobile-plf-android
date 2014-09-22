@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.activity;
+package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,19 +29,19 @@ import com.amap.api.maps2d.model.LatLngBounds.Builder;
 import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
-import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 /**
  * 
- * MarkerActivity class will be showing AQI details of the qualified cities.
+ * MarkerMapFragment class will be showing AQI details of the qualified cities.
  * Author : Ritesh.jha@philips.com Date : 4 Aug 2014
  * 
  */
@@ -300,7 +300,7 @@ public class MarkerMapFragment extends BaseFragment implements
 		return false;
 	}
 
-	static int getAqiPointerImageResId(int p2, boolean iconOval) {
+	public static int getAqiPointerImageResId(int p2, boolean iconOval) {
 
 		if (!iconOval) {
 			if (p2 >= 0 && p2 <= 50) {

@@ -42,7 +42,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                class="com.philips.cl.di.dev.pa.activity.MarkerMapFragment" />
+                class="com.philips.cl.di.dev.pa.fragment.MarkerMapFragment" />
 
             <ImageView
                 android:id="@+id/gaodeMapZoomImg"
