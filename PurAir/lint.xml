@@ -9,11 +9,11 @@
     <issue id="Overdraw" severity="ignore" />
     <issue id="SmallSp" severity="ignore" />
     <issue id="ViewConstructor" severity="ignore" />
-    <issue id = "TypographyOther" severity="ignore" /> 
-    <issue id = "TypographyFractions" severity="ignore" /> 
-    <issue id = "TypographyDashes" severity="ignore" /> 
-    <issue id = "UnusedResources" severity="ignore" />
-    <issue id = "IconDuplicates" severity="ignore" />
-    <issue id = "SpUsage" severity="ignore" /> 
+    <issue id ="TypographyOther" severity="ignore" /> 
+    <issue id ="TypographyFractions" severity="ignore" /> 
+    <issue id ="TypographyDashes" severity="ignore" /> 
+    <issue id ="UnusedResources" severity="ignore" />
+    <issue id ="IconDuplicates" severity="ignore" />
+    <issue id ="SpUsage" severity="ignore" /> 
     
 </lint>
