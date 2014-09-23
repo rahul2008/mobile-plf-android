@@ -2,7 +2,6 @@ package com.philips.cl.di.dev.pa.outdoorlocations;
 
 import android.annotation.SuppressLint;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Handler;
 import android.os.Message;
@@ -11,7 +10,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DatabaseHelper;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class OutdoorLocationHandler {
 
@@ -69,8 +68,9 @@ public class OutdoorLocationHandler {
 
 				try {
 					database.open();
-					Cursor cursor = database
-							.getDataFromOutdoorLoacation(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_CURR_LOC);
+					String selction = AppConstants.KEY_SHORTLIST + " = '1' and " +
+							AppConstants.KEY_AREA_ID + " != '"+LocationUtils.getCurrentLocationAreaId()+"' ";
+					Cursor cursor = database.getDataFromOutdoorLoacation(selction);
 					database.close();
 					if (selectedCityListener != null) {
 						selectedCityListener.onSelectedCityLoad(cursor);
@@ -163,14 +163,6 @@ public class OutdoorLocationHandler {
 	public static void reset() {
 		mInstance = null;
 	}
-
-	private DatabaseHelper mDatabaseHelper = null;
-	private SQLiteDatabase mOutdoorLocationDatabase ;
-	private static final String[] mTableColumns = new String[] {
-		AppConstants.KEY_ID, AppConstants.KEY_CITY,
-		AppConstants.KEY_AREA_ID, AppConstants.KEY_LONGITUDE,
-		AppConstants.KEY_LATITUDE, AppConstants.KEY_CITY_CN,
-		AppConstants.KEY_SHORTLIST, AppConstants.KEY_CITY_TW };
 
 	public static synchronized void fetchAllCityList(final OutdoorLocationDatabase database) {
 		if(OutdoorManager.getInstance().getAllCitiesList() != null 

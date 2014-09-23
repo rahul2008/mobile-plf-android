@@ -44,9 +44,6 @@ public class AppConstants {
  	
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS = AppConstants.KEY_SHORTLIST + " = '1' ";
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED = AppConstants.KEY_SHORTLIST + " != '1' ";
-	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_CURR_LOC = 
-			AppConstants.KEY_SHORTLIST + " = '1' and " +
-			AppConstants.KEY_AREA_ID + " != '"+LocationUtils.getCurrentLocationAreaId()+"' ";
 	
 	
 	// AirPurifier event table

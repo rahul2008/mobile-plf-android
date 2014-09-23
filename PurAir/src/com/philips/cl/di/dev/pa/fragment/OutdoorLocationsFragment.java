@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -24,20 +25,23 @@ import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallback
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorController.CurrentCityAreaIdReceivedListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks,
-	OnConnectionFailedListener, OutdoorSelectedCityListener, OnCheckedChangeListener {
+	OnConnectionFailedListener, OutdoorSelectedCityListener, OnCheckedChangeListener, CurrentCityAreaIdReceivedListener {
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;
-	
+	private ProgressBar searchingLoctionProgress;
 	private ListView mOutdoorLocationListView;
 	private CursorAdapter mOutdoorLocationAdapter;
 	private Hashtable<String, Boolean> selectedItemHashtable;
@@ -58,32 +62,58 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		View view = inflater.inflate(R.layout.outdoor_locations_fragment, container, false);
 		currentLocation = (ToggleButton) view.findViewById(R.id.btn_current_location);
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
+		searchingLoctionProgress = (ProgressBar) view.findViewById(R.id.outdoor_current_location_progressBar);
 		
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
-		
-		if (LocationUtils.getCurrentLocationAreaId().isEmpty()) {
-			currentLocation.setClickable(false);
-			currentLocation.setEnabled(false);
-		} else {
-			currentLocation.setChecked(LocationUtils.getCurrentLocationEnabled());
-			currentLocation.setOnCheckedChangeListener(this);
-		}
-		
 		return view;
 	}
 	
 	@Override
 	public void onResume() {
+		showCurrentCityVisibility();
 		if (!selectedItemHashtable.isEmpty()) selectedItemHashtable.clear();// remove selected items
 		OutdoorLocationHandler.getInstance().setSelectedCityListener(this); 
 		OutdoorLocationHandler.getInstance().fetchSelectedCity();
+		OutdoorController.getInstance().setCurrentCityAreaIdReceivedListener(this);
 		super.onResume();
 	}
 	
 	@Override
 	public void onPause() {
 		OutdoorLocationHandler.getInstance().removeSelectedCityListener();
+		OutdoorController.getInstance().removeCurrentCityAreaIdReceivedListener();
 		super.onPause();
+	}
+	
+	private void showCurrentCityVisibility() {
+		if (LocationUtils.getCurrentLocationAreaId().isEmpty()) {
+			currentLocation.setClickable(false);
+			currentLocation.setEnabled(false);
+			if (OutdoorController.getInstance().isProviderEnabled()) {
+				searchingLoctionProgress.setVisibility(View.VISIBLE);
+			}
+			stratCurrentCityAreaIdTask();
+			
+		} else {
+			currentLocation.setClickable(true);
+			currentLocation.setEnabled(true);
+			currentLocation.setChecked(LocationUtils.getCurrentLocationEnabled());
+			currentLocation.setOnCheckedChangeListener(this);
+			searchingLoctionProgress.setVisibility(View.GONE);
+		}
+	}
+	
+	private void stratCurrentCityAreaIdTask() {
+		String lat = LocationUtils.getCurrentLocationLat();
+		String lon = LocationUtils.getCurrentLocationLon();
+		if (!lat.isEmpty() && !lon.isEmpty()) {
+			searchingLoctionProgress.setVisibility(View.VISIBLE);
+			try {
+				OutdoorController.getInstance().startGetAreaIDTask(Double.parseDouble(lon), Double.parseDouble(lat));
+			} catch (NumberFormatException e) {
+				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + e.getMessage());
+			}
+		}
 	}
 
 	@Override
@@ -249,5 +279,18 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				OutdoorManager.getInstance().removeAreaIDFromUsersList(LocationUtils.getCurrentLocationAreaId());
 			}
 		}
+	}
+
+	@Override
+	public void areaIdReceived() {
+		if (getActivity() == null) return;
+		
+		getActivity().runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				showCurrentCityVisibility();
+			}
+		});
 	}
 }

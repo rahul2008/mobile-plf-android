@@ -56,6 +56,10 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	
 	private static OutdoorController smInstance;
 	private Activity mActivity;
+	private static boolean lastKnownLocationFound = false;
+	private boolean providerEnabled = false;
+	
+	private CurrentCityAreaIdReceivedListener areaIdReceivedListener;
 
 	private OutdoorController() {
 		APP_ID = Utils.getCMA_AppID() ;
@@ -68,12 +72,19 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		mAMapLocationManager = LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
 		
 		List<String> providers = mAMapLocationManager.getAllProviders();
-		ALog.i(ALog.TEMP, "Providers " + providers);
+		ALog.i(ALog.TEMP, "Providers " + providers +": " + providerEnabled);
 		for (String provider : providers) {
 			if(mAMapLocationManager.isProviderEnabled(provider)) {
-				ALog.i(ALog.TEMP, "Enabled provider " + provider);
+				ALog.i(ALog.TEMP, "Enabled provider " + provider + " : " + providerEnabled);
+				providerEnabled = true;
 				mAMapLocationManager.setGpsEnable(true);
 				mAMapLocationManager.requestLocationUpdates(provider, 2000, 10, this);
+				Location loc = mAMapLocationManager.getLastKnownLocation(provider);
+				if(loc != null && LocationUtils.getCurrentLocationAreaId().isEmpty() && !lastKnownLocationFound) { 
+					lastKnownLocationFound = true;
+					location = loc;
+					OutdoorController.getInstance().startGetAreaIDTask(loc.getLongitude(), loc.getLatitude());
+				}
 			}
 		}
 	}
@@ -212,6 +223,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			
 			LocationUtils.saveCurrentLocationAreaId(newAreaID);
 			OutdoorManager.getInstance().addAreaIDToUsersList(newAreaID);
+			areaIdReceived();//Listen to outdoor location fragment
 			
 			//Update city in from database to map
 			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
@@ -342,6 +354,8 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 	
 	public void startGetAreaIDTask(double longitude, double latitude) {
+		//Save lat and lon in preference
+		LocationUtils.saveCurrentLocationLatLon(String.valueOf(latitude), String.valueOf(longitude));
 		//If purifier in demo mode, skip download data
 		if (isPhilipsSetupWifiSelected()) return;
 
@@ -372,6 +386,29 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		} catch (IllegalStateException e) {
 			e.printStackTrace();
 		}	
+	}
+	
+	public boolean isProviderEnabled() {
+		return providerEnabled;
+	}
+	
+	//Add listener and listen when current city areaId received
+	public void setCurrentCityAreaIdReceivedListener(CurrentCityAreaIdReceivedListener areaIdReceivedListener) {
+		this.areaIdReceivedListener = areaIdReceivedListener;
+	}
+	
+	public void removeCurrentCityAreaIdReceivedListener() {
+		areaIdReceivedListener = null;
+	}
+	
+	private void areaIdReceived() {
+		if (areaIdReceivedListener != null) {
+			areaIdReceivedListener.areaIdReceived();
+		}
+	}
+	
+	public interface CurrentCityAreaIdReceivedListener {
+		void areaIdReceived();
 	}
 	
 }
