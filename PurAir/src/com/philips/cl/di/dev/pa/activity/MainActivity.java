@@ -38,7 +38,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 import cn.jpush.android.api.JPushInterface;
 

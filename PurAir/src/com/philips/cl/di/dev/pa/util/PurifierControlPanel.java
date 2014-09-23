@@ -15,6 +15,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
+import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
@@ -124,21 +125,19 @@ public class PurifierControlPanel implements OnClickListener {
 	}
 
 	private void setFanSpeed(AirPortInfo airPurifierEventDto) {
-		String fanSpeedText = airPurifierEventDto.getFanSpeed();
+		FanSpeed fan = airPurifierEventDto.getFanSpeed();
 		String sActualFanSpeed = airPurifierEventDto.getActualFanSpeed();
 		int buttonImage = 0;
 		fanSpeedAuto.setChecked(false);
-		Log.i(TAG, "setFanSpeed " + fanSpeedText);
 		isFanSpeedAuto = false;
-		if (AppConstants.FAN_SPEED_SILENT.equals(fanSpeedText)) {
+
+		switch (fan) {
+		case SILENT:
 			fanSpeed.setText(mainActivity.getString(R.string.silent));
 			buttonImage = R.drawable.button_blue_bg_2x;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_silent);
-		} else if (AppConstants.FAN_SPEED_TURBO.equals(fanSpeedText)) {
-			fanSpeed.setText(mainActivity.getString(R.string.turbo));
-			buttonImage = R.drawable.button_blue_bg_2x;
-			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
-		} else if (AppConstants.FAN_SPEED_AUTO.equals(fanSpeedText)) {
+			break;
+		case AUTO:
 			fanSpeed.setText(mainActivity.getString(R.string.auto));
 			buttonImage = R.drawable.button_blue_bg_2x;
 			fanSpeedAuto.setChecked(true);
@@ -150,18 +149,30 @@ public class PurifierControlPanel implements OnClickListener {
 				toggleFanSpeedButtonBackground(R.id.fan_speed_two);
 			else if (sActualFanSpeed.equals("3"))
 				toggleFanSpeedButtonBackground(R.id.fan_speed_three);
-		} else if (AppConstants.FAN_SPEED_ONE.equals(fanSpeedText)) {
+			break;
+		case TURBO:
+			fanSpeed.setText(mainActivity.getString(R.string.turbo));
+			buttonImage = R.drawable.button_blue_bg_2x;
+			toggleFanSpeedButtonBackground(R.id.fan_speed_turbo);
+			break;
+		case ONE:
 			fanSpeed.setText("");
 			buttonImage = R.drawable.fan_speed_one;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_one);
-		} else if (AppConstants.FAN_SPEED_TWO.equals(fanSpeedText)) {
+			break;
+		case TWO:
 			fanSpeed.setText("");
 			buttonImage = R.drawable.fan_speed_two;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_two);
-		} else if (AppConstants.FAN_SPEED_THREE.equals(fanSpeedText)) {
+			break;
+		case THREE:
 			fanSpeed.setText("");
 			buttonImage = R.drawable.fan_speed_three;
 			toggleFanSpeedButtonBackground(R.id.fan_speed_three);
+			break;
+
+		default:
+			break;
 		}
 		fanSpeed.setBackgroundResource(buttonImage);
 	}

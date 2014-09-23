@@ -205,7 +205,7 @@ public class GraphPathDraw {
 		/**Finding in between x-coordinates.*/
 		if (upDown == 1) {
 			testStr = "upward";
-			/** Four graph drawing upward.*/
+			/** For graph drawing upward.*/
 			for (int i = 0; i < yCoordinates.length; i++) {
 				if (yCoordinates[i] > y2 && yCoordinates[i] < y1) {
 					inBetweenYcoordines.add(yCoordinates[i]);
@@ -213,7 +213,7 @@ public class GraphPathDraw {
 			}
 		} else {
 			testStr = "downward";
-			/** Four graph drawing downward.*/
+			/** For graph drawing downward.*/
 			for (int i = 0; i < yCoordinates.length; i++) {
 				if (yCoordinates[i] > y1 && yCoordinates[i] < y2) {
 					inBetweenYcoordines.add(yCoordinates[i]);
@@ -254,7 +254,12 @@ public class GraphPathDraw {
 			return;
 		}
 		
-		/**Drawing all color paths*/
+		drawAllColourPaths(canvas, upDown, paint, isOutdoor, xyCoordinates);
+	}
+
+
+	private void drawAllColourPaths(Canvas canvas, int upDown, Paint paint,
+			boolean isOutdoor, ArrayList<XYCoordinate> xyCoordinates) {
 		for (int j = 0; j < xyCoordinates.size() - 1; j++) {
 			if (isOutdoor) {
 				drawOutdoorPaths(xyCoordinates.get(j).getxCoordinate(), 
@@ -268,6 +273,7 @@ public class GraphPathDraw {
 			
 		}
 	}
+	
 	
 	/** This method check condition graph path draw towards up or down for indoor and outdoor.*/
 	public void yCoordinateConditions(float x1, float y1, float x2, 

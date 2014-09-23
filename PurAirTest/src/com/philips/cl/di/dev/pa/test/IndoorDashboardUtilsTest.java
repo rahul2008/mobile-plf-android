@@ -4,59 +4,12 @@ import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DashboardAPL;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
 public class IndoorDashboardUtilsTest extends TestCase {
-	
-	public void testGetFanSpeedTextNull() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(null);
-		assertEquals(fanSpeed, R.string.empty_string);
-	}
-	
-	public void testGetFanSpeedTextEmpty() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText("");
-		assertEquals(fanSpeed, R.string.empty_string);
-	}
-	
-	public void testGetFanSpeedTextNegative() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText("hello");
-		assertEquals(fanSpeed, R.string.empty_string);
-	}
-	
-	public void testGetFanSpeedTextCase1() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_SILENT);
-		assertEquals(R.string.silent, fanSpeed);
-	}
-	
-	public void testGetFanSpeedTextCase2() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_AUTO);
-		assertEquals(R.string.auto, fanSpeed);
-	}
-	
-	public void testGetFanSpeedTextCase3() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TURBO);
-		assertEquals(R.string.turbo, fanSpeed);
-	}
-	
-	public void testGetFanSpeedTextCase4() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_ONE);
-		assertEquals(R.string.speed1, fanSpeed);
-	}
-	
-	public void testGetFanSpeedTextCase5() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_TWO);
-		assertEquals(R.string.speed2, fanSpeed);
-	}
-	
-	public void testGetFanSpeedTextCase6() {
-		int fanSpeed = IndoorDashboardUtils.getFanSpeedText(AppConstants.FAN_SPEED_THREE);
-		assertEquals(R.string.speed3, fanSpeed);
-	}
-	
 	
 	public void testDashboardAPLNegative() {
 		DashboardAPL apl = IndoorDashboardUtils.getDashboardAPL(-1);

@@ -317,7 +317,7 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 			bounds = builder.build();
 			aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 0));
 		} catch (IllegalStateException e) {
-			ALog.d("MarkerActivity", "IllegalStateException");
+			ALog.d(ALog.MARKER_ACTIVITY, "IllegalStateException");
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 
@@ -361,14 +361,12 @@ public class MarkerActivity extends Activity implements OnMarkerClickListener,
 				R.anim.bottom_down_aqi_drawer);
 		mAqiDrawer.startAnimation(topDown);
 		isAnimationDrawableOpen = false;
-		;
 		mAqiDrawer.setVisibility(View.GONE);
 	}
 
 	private void showAqiDetails() {
 		mAqiDrawer.setVisibility(View.VISIBLE);
-		Animation bottomUp = AnimationUtils.loadAnimation(MarkerActivity.this,
-				R.anim.bottom_up_aqi_drawer);
+		Animation bottomUp = AnimationUtils.loadAnimation(MarkerActivity.this, R.anim.bottom_up_aqi_drawer);
 		mAqiDrawer.startAnimation(bottomUp);
 		isAnimationDrawableOpen = true;
 	}

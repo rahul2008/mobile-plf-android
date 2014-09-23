@@ -54,6 +54,7 @@ public class ALog {
 	public static final String TOOLS = "ToolsFragment";
 	public static final String APP_START_UP = "AppStartUp";
 	public static final String MANAGE_PUR = "ManagePurifier";
+	public static final String MARKER_ACTIVITY = "MarkerActivity";
 	
 	private static boolean isLoggingEnabled = true;
 	
@@ -97,5 +98,5 @@ public class ALog {
 		if (isLoggingEnabled) {
 			Log.w(tag, message);
 		}
-	}
+	}	
 }

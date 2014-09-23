@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.datamodel;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 
 /***
  * Air Purifier Event DTO class This contains all the Air Purifier event data
@@ -177,8 +178,15 @@ public class AirPortInfo {
 		this.timeStamp = timeStamp;
 	}
 
-	public String getFanSpeed() {
-		return fanSpeed;
+	public FanSpeed getFanSpeed() {
+		if(fanSpeed == null || fanSpeed.isEmpty()) return null;
+		if(fanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_SILENT)) return FanSpeed.SILENT;
+		if(fanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_AUTO)) return FanSpeed.AUTO;
+		if(fanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_TURBO)) return FanSpeed.TURBO;
+		if(fanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_ONE)) return FanSpeed.ONE;
+		if(fanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_TWO)) return FanSpeed.TWO;
+		if(fanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_THREE)) return FanSpeed.THREE;
+		return null;
 	}
 
 	public void setFanSpeed(String fanSpeed) {

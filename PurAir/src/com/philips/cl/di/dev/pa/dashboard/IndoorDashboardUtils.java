@@ -8,28 +8,39 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 
 public class IndoorDashboardUtils {
-
-	public static int getFanSpeedText(String fanSpeed) {
-
-		if (fanSpeed == null || fanSpeed.isEmpty()) {
-			return R.string.empty_string;
+	
+	public enum FanSpeed {
+		SILENT(AppConstants.FAN_SPEED_SILENT, R.string.silent),
+		AUTO(AppConstants.FAN_SPEED_AUTO, R.string.auto),
+		TURBO(AppConstants.FAN_SPEED_TURBO, R.string.turbo),
+		ONE(AppConstants.FAN_SPEED_ONE, R.string.speed1),
+		TWO(AppConstants.FAN_SPEED_TWO, R.string.speed2),
+		THREE(AppConstants.FAN_SPEED_THREE, R.string.speed3);
+		
+		private String fanSpeed;
+		private int fanSpeedTextResId;
+		
+		private FanSpeed(String fanSpeed, int fanSpeedTextResId) {
+			this.fanSpeed = fanSpeed;
+			this.fanSpeedTextResId = fanSpeedTextResId;
 		}
-
-		if (fanSpeed.equals(AppConstants.FAN_SPEED_SILENT)) {
-			return R.string.silent;
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_AUTO)) {
-			return R.string.auto;
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TURBO)) {
-			return R.string.turbo;
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_ONE)) {
-			return R.string.speed1;
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_TWO)) {
-			return R.string.speed2;
-		} else if (fanSpeed.equals(AppConstants.FAN_SPEED_THREE)) {
-			return R.string.speed3;
+		
+		public int getFanSpeedTextResID() {
+			return fanSpeedTextResId;
 		}
-
-		return R.string.empty_string;
+		
+		public String getFanSpeed() {
+			return fanSpeed;
+		}
+		
+		public static int getFanSpeedTextResId(String fanSpeed) {
+			for(FanSpeed fan : FanSpeed.values()) {
+				if(fan.getFanSpeed().equalsIgnoreCase(fanSpeed)) {
+					return fan.getFanSpeedTextResID();
+				}
+			}
+			throw new IllegalArgumentException("No such Fan Speed.");
+		}
 	}
 
 	public static String getFilterStatus(AirPortInfo airPurifierEventDto) {

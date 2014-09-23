@@ -193,7 +193,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				fanModeTxt.setText(getString(R.string.off));
 			}
 			else {
-				fanModeTxt.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+				fanModeTxt.setText(getString(airPortInfo.getFanSpeed().getFanSpeedTextResID()));
 			}
 			
 			DashboardAPL apl = IndoorDashboardUtils.getDashboardAPL(indoorAqi);

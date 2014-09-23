@@ -440,7 +440,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				mode.setText(getString(R.string.off));
 			}
 			else {
-				mode.setText(getString(IndoorDashboardUtils.getFanSpeedText(airPortInfo.getFanSpeed())));
+				mode.setText(getString((airPortInfo.getFanSpeed().getFanSpeedTextResID())));
 			}
 			filter.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 
