@@ -86,8 +86,8 @@ public class EWSSupportFragment extends Fragment {
 				break;
 			case R.id.contact_support_website_layout:
 				Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
-				gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
-				startActivity(gotoSupportWebisteIntent);
+				gotoSupportWebisteIntent.setData(Uri.parse("http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/"));
+				startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
 				break;
 			default:
 				ALog.i(ALog.EWS, "Default...");

@@ -101,16 +101,24 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			
 		case R.id.layout_help:
 			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
-			gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
-			startActivity(gotoSupportWebisteIntent);
+			gotoSupportWebisteIntent.setData(Uri.parse("http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/"));
+			startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
 			break;
 			
 		case R.id.faq:
-		case R.id.lbl_user_manual:
-		case R.id.app_tutorial:
 			Intent faq = new Intent(Intent.ACTION_VIEW);
-			faq.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
-			startActivity(faq);
+			faq.setData(Uri.parse("http://www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4373/00&hlt=Link_FAQs&mid=Link_FAQs&scy=CN&slg=ZHS"));
+			startActivity(Intent.createChooser(faq,""));
+			break;
+		case R.id.lbl_user_manual:
+			Intent manual = new Intent(Intent.ACTION_VIEW);
+			manual.setData(Uri.parse("http://download.p4c.philips.com/files/a/ac4373/ac4373_00_dfu_zhs.pdf"));
+			startActivity(Intent.createChooser(manual,""));
+			break;
+		case R.id.app_tutorial:
+			Intent tutorial = new Intent(Intent.ACTION_VIEW);
+			tutorial.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
+			startActivity(Intent.createChooser(tutorial,""));
 			break;
 		case R.id.opensource_lb:
 			if (getActivity() == null) return;
