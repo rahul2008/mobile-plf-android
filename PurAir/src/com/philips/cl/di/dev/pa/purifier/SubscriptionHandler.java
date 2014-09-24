@@ -10,6 +10,7 @@ import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.cpp.CppDiscoverEventListener;
 import com.philips.cl.di.dev.pa.cpp.DCSEventListener;
+import com.philips.cl.di.dev.pa.cpp.PublishEventListener;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
@@ -20,14 +21,20 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.icpinterface.data.Errors;
 
 public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
-		ServerResponseListener {
+		ServerResponseListener, PublishEventListener {
 
 	private static SubscriptionHandler mInstance;
 	private SubscriptionEventListener subscriptionEventListener;
 	private CppDiscoverEventListener cppDiscoverEventListener;
 	private UDPReceivingThread udpReceivingThread;
+	
+	private static final int MAX_RETRY_FOR_SUBSCRIPTION = 2;
+	private int retrySubscriptionCount;
+	
+	private int airPortSubscriptionMessageID ;
 
 	private SubscriptionHandler() {
 		// enforce singleton
@@ -53,15 +60,13 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	}
 
 	public void subscribeToPurifierEvents() {
+		retrySubscriptionCount = 1 ;
 		PurAirDevice purifier = PurifierManager.getInstance()
 				.getCurrentPurifier();
 		ALog.d(ALog.SUBSCRIPTION,
 				"Subscribing to Purifier events for purifier: " + purifier);
 		if (purifier == null)
 			return;
-
-		// if (PurAirApplication.isDemoModeEnable())
-		// purifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 
 		final String portUrl = Utils.getPortUrl(Port.AIR,
 				purifier.getIpAddress());
@@ -137,7 +142,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	}
 
 	private void subscribe(String url, PurAirDevice purifier) {
-
+		
 		boolean isLocal = purifier.getConnectionState().equals(
 				ConnectionState.CONNECTED_LOCALLY);
 		String subscriberId = getSubscriberId(isLocal);
@@ -156,7 +161,8 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		} else {
 			if (PurAirApplication.isDemoModeEnable())
 				return;
-			CPPController.getInstance(PurAirApplication.getAppContext())
+			CPPController.getInstance(PurAirApplication.getAppContext()).setPublishEventListener(this) ;
+			airPortSubscriptionMessageID = CPPController.getInstance(PurAirApplication.getAppContext())
 					.publishEvent(
 							JSONBuilder.getPublishEventBuilderForSubscribe(
 									AppConstants.EVENTSUBSCRIBER_KEY,
@@ -275,6 +281,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 			ALog.d(ALog.SUBSCRIPTION, "ReponseCode:  " + responseCode
 					+ "   source Ip: " + fromIp);
 			ALog.d(ALog.SUBSCRIPTION, "ReponseData:  " + responseData);
+			subscribeToPurifierEvents() ;
 			return;
 		}
 
@@ -288,5 +295,29 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	public static void setDummySubscriptionManagerForTesting(
 			SubscriptionHandler dummyManager) {
 		mInstance = dummyManager;
+	}
+
+	@Override
+	public void onPublishEventReceived(int status, int messageId) {
+		if( status == Errors.SUCCESS) {
+			return;
+		}
+		if( retrySubscriptionCount > MAX_RETRY_FOR_SUBSCRIPTION ) {
+			retrySubscriptionCount = 1 ;
+			return ;
+		}
+		String subscriberId = getSubscriberId(false) ;
+		if( airPortSubscriptionMessageID == messageId) {
+			retrySubscriptionCount ++ ;
+			airPortSubscriptionMessageID = CPPController.getInstance(PurAirApplication.getAppContext())
+					.publishEvent(
+							JSONBuilder.getPublishEventBuilderForSubscribe(
+									AppConstants.EVENTSUBSCRIBER_KEY,
+									subscriberId),
+							AppConstants.DI_COMM_REQUEST,
+							AppConstants.SUBSCRIBE, subscriberId, "", 20,
+							AppConstants.CPP_SUBSCRIPTIONTIME,
+							PurifierManager.getInstance().getCurrentPurifier().getEui64());
+		}
 	}
 }
