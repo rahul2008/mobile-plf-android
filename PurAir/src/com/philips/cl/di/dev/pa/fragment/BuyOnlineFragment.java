@@ -168,7 +168,7 @@ public class BuyOnlineFragment extends BaseFragment {
 					String uri="";
 					switch (position) {
 					case 0:
-						uri="http://www.philips-smartairpurifier.com/";
+						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072";
 						break;
 					case 1:
 						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072";
@@ -183,11 +183,8 @@ public class BuyOnlineFragment extends BaseFragment {
 						break;
 					}
 					
-					Intent intent = new Intent(
-							Intent.ACTION_VIEW,
-							Uri.parse(uri));
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
 					startActivity(intent);
-					
 				}
 			});
 
