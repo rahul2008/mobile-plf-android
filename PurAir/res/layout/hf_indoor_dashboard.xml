@@ -69,7 +69,7 @@
         android:padding="4dp"
         android:singleLine="true"
         android:textColor="@color/white"
-        android:textSize="21sp"
+        android:textSize="@dimen/title_text_size_medium_dp"
         android:visibility="invisible"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 

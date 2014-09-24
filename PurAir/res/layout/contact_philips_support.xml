@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     >
 
     <LinearLayout
@@ -70,6 +71,7 @@
                 android:id="@+id/contact_support_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
                 android:layout_below="@+id/contact_support_phone_lanbel"
                 android:layout_toRightOf="@+id/contact_support_phone_img"
                 android:drawablePadding="16dp"
@@ -83,6 +85,7 @@
                 android:id="@+id/contact_support_phone_two"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
                 android:layout_toRightOf="@+id/contact_support_phone"
                 android:layout_below="@+id/contact_support_phone_lanbel"
                 android:text="@string/contact_philips_support_phone_num_2"
@@ -180,6 +183,7 @@
                 android:id="@+id/contact_support_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
                 android:layout_below="@+id/contact_support_email_lanbel"
                 android:layout_toRightOf="@+id/contact_support_email_img"
                 android:drawablePadding="16dp"
@@ -229,6 +233,7 @@
                 android:id="@+id/contact_support_website"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
                 android:layout_below="@+id/contact_support_website_lanbel"
                 android:layout_toRightOf="@+id/contact_support_website_img"
                 android:drawablePadding="16dp"

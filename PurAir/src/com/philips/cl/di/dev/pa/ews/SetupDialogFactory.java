@@ -17,9 +17,9 @@ import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 
-public class SetupDialogFactory implements OnClickListener{
+public class SetupDialogFactory implements OnClickListener {
 
-	private Dialog errorDialogTS0101, errorDialogTS0102, errorDialogTS0103, errorDialogTS0104, errorDialogTS0105;
+	private Dialog errorDialogTS0101;
 	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
 	private Dialog supportDialogTS01PowerOn, supportDialogTS02PowerOn;
 	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
@@ -86,26 +86,6 @@ public class SetupDialogFactory implements OnClickListener{
 				errorDialogTS0101 = getErrorDialog(context.getString(R.string.error_ts01_01_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_01);
 			errorID = ERROR_TS01_01;
 			return errorDialogTS0101;
-		case ERROR_TS01_02:
-			if(errorDialogTS0102 == null)
-				errorDialogTS0102 = getErrorDialog(context.getString(R.string.error_ts01_02_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_02);
-			errorID = ERROR_TS01_02;
-			return errorDialogTS0102;
-		case ERROR_TS01_03:
-			if(errorDialogTS0103 == null)
-				errorDialogTS0103 = getErrorDialog(context.getString(R.string.error_ts01_03_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_03);
-			errorID = ERROR_TS01_03;
-			return errorDialogTS0103;
-		case ERROR_TS01_04:
-			if(errorDialogTS0104 == null)
-				errorDialogTS0104 = getErrorDialog(context.getString(R.string.error_ts01_04_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_04);
-			errorID = ERROR_TS01_04;
-			return errorDialogTS0104;
-		case ERROR_TS01_05:
-			if(errorDialogTS0105 == null)
-				errorDialogTS0105 = getErrorDialog(context.getString(R.string.error_ts01_05_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.error_purifier_not_detect_btn_txt), ERROR_TS01_05);
-			errorID = ERROR_TS01_05;
-			return errorDialogTS0105;
 		case CANCEL_WIFI_SETUP:
 			if(cancelWifiSetup == null)
 				cancelWifiSetup = getCancelWifiSetupDialog();
@@ -352,18 +332,18 @@ public class SetupDialogFactory implements OnClickListener{
 		case ERROR_TS01_01:
 			errorDialogTS0101.dismiss();
 			break;
-		case ERROR_TS01_02:
-			errorDialogTS0102.dismiss();
-			break;
-		case ERROR_TS01_03:
-			errorDialogTS0103.dismiss();
-			break;
-		case ERROR_TS01_04:
-			errorDialogTS0104.dismiss();
-			break;
-		case ERROR_TS01_05:
-			errorDialogTS0105.dismiss();
-			break;
+//		case ERROR_TS01_02:
+//			errorDialogTS0102.dismiss();
+//			break;
+//		case ERROR_TS01_03:
+//			errorDialogTS0103.dismiss();
+//			break;
+//		case ERROR_TS01_04:
+//			errorDialogTS0104.dismiss();
+//			break;
+//		case ERROR_TS01_05:
+//			errorDialogTS0105.dismiss();
+//			break;
 		default:
 			break;
 		}
@@ -435,18 +415,18 @@ public class SetupDialogFactory implements OnClickListener{
 		case ERROR_TS01_01:
 			getDialog(ERROR_TS01_01).dismiss();			
 			break;
-		case ERROR_TS01_02 : 
-			getDialog(ERROR_TS01_02).dismiss();
-			break;
-		case ERROR_TS01_03:
-			getDialog(ERROR_TS01_03).dismiss();
-			break;
-		case ERROR_TS01_04:
-			getDialog(ERROR_TS01_04).dismiss();
-			break;
-		case ERROR_TS01_05:
-			getDialog(ERROR_TS01_05).dismiss();
-			break;
+//		case ERROR_TS01_02 : 
+//			getDialog(ERROR_TS01_02).dismiss();
+//			break;
+//		case ERROR_TS01_03:
+//			getDialog(ERROR_TS01_03).dismiss();
+//			break;
+//		case ERROR_TS01_04:
+//			getDialog(ERROR_TS01_04).dismiss();
+//			break;
+//		case ERROR_TS01_05:
+//			getDialog(ERROR_TS01_05).dismiss();
+//			break;
 		default:
 			break;
 		}
@@ -462,10 +442,6 @@ public class SetupDialogFactory implements OnClickListener{
 
 	public void cleanUp() {
 		errorDialogTS0101 = null;
-		errorDialogTS0102 = null;
-		errorDialogTS0103 = null;
-		errorDialogTS0104 = null;
-		errorDialogTS0105 = null;
 
 		supportDialogTS01PowerOn = null;
 		supportDialogTS02PowerOn = null;
@@ -484,19 +460,15 @@ public class SetupDialogFactory implements OnClickListener{
 
 	//Dialog constants
 	public static final int ERROR_TS01_01 = 1001;
-	public static final int ERROR_TS01_02 = 1002;
-	public static final int ERROR_TS01_03 = 1003;
-	public static final int ERROR_TS01_04 = 1004;
-	public static final int ERROR_TS01_05 = 1005;
 
 	public static final int SUPPORT_TS01 = 2001;
 	public static final int SUPPORT_TS02 = 2002;
 	public static final int SUPPORT_TS03 = 2003;
 	public static final int SUPPORT_TS05 = 2005;
 	public static final int SUPPORT_TS01_POWERON = 2006;
-	public static final int SUPPORT_TS02_POWERON = 2007;
+	public static final int SUPPORT_TS02_POWERON = 2007; 
 
 	public static final int CHECK_SIGNAL_STRENGTH = 3001;
 	public static final int CONNECTING_TO_PRODUCT = 3002;
-	public static final int CANCEL_WIFI_SETUP = 3003;
+	public static final int CANCEL_WIFI_SETUP = 3003; 
 }
