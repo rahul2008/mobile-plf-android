@@ -114,10 +114,6 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS03));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS05));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_01));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_02));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_03));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_04));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_05));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CANCEL_WIFI_SETUP));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT));
