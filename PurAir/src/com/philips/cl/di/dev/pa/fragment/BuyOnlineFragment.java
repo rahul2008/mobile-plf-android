@@ -168,7 +168,7 @@ public class BuyOnlineFragment extends BaseFragment {
 					String uri="";
 					switch (position) {
 					case 0:
-						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072";
+						uri="http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/";
 						break;
 					case 1:
 						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072";
