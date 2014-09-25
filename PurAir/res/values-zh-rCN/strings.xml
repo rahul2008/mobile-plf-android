@@ -121,6 +121,8 @@
 	<string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
 	<string name="subtitle_we_chat">WeChat:</string>
     <string name="wechat_id">飞利浦优质生活</string>
+    <string name="user_manual_link">download.p4c.philips.com/files/a/ac4373_00/ac4373_00_dfu_zhs.pdf</string>
+    <string name="faq_link">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=ZHS</string>
 
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">主页面显示室内和室外空气质量指数的概览</string>
@@ -397,7 +399,7 @@
     <string name="contact_philips_support_msg4">给我们发邮件：</string>
     <string name="contact_philips_support_email">airpurifier.service@philips.com</string>
     <string name="contact_philips_support_msg5">访问我们的帮助板块：</string>
-    <string name="contact_philips_support_website">www.philips.com.cn/c/air-purifier/ac4373_00/prd/</string>
+    <string name="contact_philips_support_website">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4375/00&amp;slg=ZH&amp;scy=CN</string>
     <string name="support">支持</string>
     <string name="a_capital">A</string>
     <string name="b_capital">B</string>

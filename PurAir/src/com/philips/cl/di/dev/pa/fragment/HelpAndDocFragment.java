@@ -101,18 +101,18 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			
 		case R.id.layout_help:
 			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
-			gotoSupportWebisteIntent.setData(Uri.parse("http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/"));
+			gotoSupportWebisteIntent.setData(Uri.parse("http://"+ getString(R.string.contact_philips_support_website)));
 			startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
 			break;
 			
 		case R.id.faq:
 			Intent faq = new Intent(Intent.ACTION_VIEW);
-			faq.setData(Uri.parse("http://www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4373/00&hlt=Link_FAQs&mid=Link_FAQs&scy=CN&slg=ZHS"));
+			faq.setData(Uri.parse("http://"+ getString(R.string.faq_link)));
 			startActivity(Intent.createChooser(faq,""));
 			break;
 		case R.id.lbl_user_manual:
 			Intent manual = new Intent(Intent.ACTION_VIEW);
-			manual.setData(Uri.parse("http://download.p4c.philips.com/files/a/ac4373/ac4373_00_dfu_zhs.pdf"));
+			manual.setData(Uri.parse("http://"+ getString(R.string.user_manual_link)));
 			startActivity(Intent.createChooser(manual,""));
 			break;
 		case R.id.app_tutorial:
