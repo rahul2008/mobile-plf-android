@@ -103,12 +103,18 @@ public class IndoorDashboardUtils {
 		float step = 31;
 		float start = 105;
 		
-		if(indoorAqi <= 0) {
+		if( indoorAqi < 0 ) {
 			pointerBackground = R.drawable.blue_circle_with_arrow_2x;
 			pointerRotation = 0;
 			title = R.string.empty_string;
 			summary = R.string.empty_string;
-		} else if (indoorAqi >= 0 && indoorAqi <= 14) {
+		}
+		else if(indoorAqi == 0) {
+			pointerBackground = R.drawable.blue_circle_with_arrow_2x;
+			pointerRotation = 0;
+			title = R.string.good_indoor; 
+			summary = R.string.indoor_aqi_good_tip1;
+		} else if (indoorAqi > 0 && indoorAqi <= 14) {
 			pointerBackground = R.drawable.blue_circle_with_arrow_2x;
 			pointerRotation = 14;
 			title = R.string.good_indoor; 

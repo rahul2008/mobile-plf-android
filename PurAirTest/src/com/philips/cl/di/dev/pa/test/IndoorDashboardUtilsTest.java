@@ -25,8 +25,8 @@ public class IndoorDashboardUtilsTest extends TestCase {
 		
 		assertEquals(0, apl.getPointerRotation());
 		assertEquals(R.drawable.blue_circle_with_arrow_2x, apl.getPointerBackground());
-		assertEquals(R.string.empty_string, apl.getTitle());
-		assertEquals(R.string.empty_string, apl.getSummary());
+		assertEquals(R.string.good_indoor, apl.getTitle());
+		assertEquals(R.string.indoor_aqi_good_tip1, apl.getSummary());
 	}
 	
 	public void testDashboardAPLGoodBegin() {
