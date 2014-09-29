@@ -100,7 +100,7 @@ public class JPushReceiver extends BroadcastReceiver {
 			 JPushInterface.reportNotificationOpened(context, bundle.getString(JPushInterface.EXTRA_MSG_ID));
 			 // Open the Custom Activity
 			Intent intentNew = new Intent(context, MainActivity.class);
-			intentNew.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentNew.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intentNew.setAction(Intent.ACTION_MAIN);
 			intentNew.addCategory(Intent.CATEGORY_LAUNCHER);
 			intentNew.putExtras(bundle);
