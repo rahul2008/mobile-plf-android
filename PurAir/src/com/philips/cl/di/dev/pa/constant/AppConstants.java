@@ -240,4 +240,7 @@ public class AppConstants {
 	public static final String GPS_PREFERENCE_FILE_NAME = "GPS_status";
 	public static final String DIABLED_DIALOG_SHOWN = "isGPSDisabledDialogShown";
 	public static final String ENABLED_DIALOG_SHOWN = "isGPSEnabledDialogShown";
+	
+	public static final String SIMPLIFIED_CHINESE_LANGUAGE_CODE="ZH-HANS";
+	public static final String TRADITIONAL_CHINESE_LANGUAGE_CODE="ZH-HANT";
 }
