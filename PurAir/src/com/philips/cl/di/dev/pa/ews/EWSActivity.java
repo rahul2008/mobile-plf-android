@@ -455,7 +455,7 @@ public class EWSActivity extends BaseActivity implements
 		if (powerOnFailCounter > 2) {
 			showSupportFragment();
 		} else {
-			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.SUPPORT_TS01_POWERON).show() ;
+			SetupDialogFactory.getInstance(this).getDialog(SetupDialogFactory.SUPPORT_PLUG_AND_POWER_ON).show() ;
 		}
 	}	
 	

@@ -52,7 +52,6 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
         
         FontTextView tv = (FontTextView) view.findViewById(R.id.ews_step1_instruction);
         assertEquals(activity.getString(R.string.step1_instruction), tv.getText().toString());
-
 	}
 	
 	public void testActionBar() {
@@ -60,7 +59,6 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 
         assertEquals(true, button.isClickable());
         assertEquals(activity.getString(R.string.cancel), button.getText().toString());
-
 	}
 	
 	public void testStep2Screen() {
@@ -72,7 +70,6 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
          button = (Button) view.findViewById(R.id.setup_step2_no_btn);
          assertEquals(true, button.isClickable());
          assertEquals(activity.getString(R.string.no), button.getText().toString());
-
 	}
 	
 	public void testStep3Screen() {
@@ -83,7 +80,6 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 
         button = (Button) view.findViewById(R.id.ews_step3_edit_name_btn);
         assertEquals(true, button.isClickable());
-
 	}
 	
 	public void testCongratulationScreen() {
@@ -109,107 +105,13 @@ public class EwsActivityTest extends ActivityInstrumentationTestCase2<EWSActivit
 	
 	public void testGetDialog() {
 		SetupDialogFactory ewsDialogFactory = SetupDialogFactory.getInstance(activity);
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS01));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS02));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_UNPLUG_PURIFIER));
+		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_WIFI_LED_ORANGE));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS03));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.SUPPORT_TS05));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.ERROR_TS01_01));
-		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CANCEL_WIFI_SETUP));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH));
 		assertNotNull(ewsDialogFactory.getDialog(SetupDialogFactory.CONNECTING_TO_PRODUCT));
-		
 	}
 	
-	/**
-	 * SSDP
-	 *//*
-	public void testSsdpDiscoveryStart() {
-		SsdpService ssdpService = SsdpService.getInstance();
-		ssdpService.startDeviceDiscovery(activity);
-		DiscoveryServiceState mServiceState = null;
-		Field keysField;
-		try {
-			keysField = SsdpService.class.getDeclaredField("mServiceState");
-			keysField.setAccessible(true);
-			mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
-			
-			
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-		
-		if (mServiceState != null) {
-			assertEquals(DiscoveryServiceState.STARTED, mServiceState);
-		} else {
-			assertNull(mServiceState);
-		}
-		
-	}
-	
-	public void testSsdpDiscoveryStop() {
-		SsdpService ssdpService = SsdpService.getInstance();
-		ssdpService.stopDeviceDiscovery();
-		Field keysField;
-		DiscoveryServiceState mServiceState = null;
-		try {
-			keysField = SsdpService.class.getDeclaredField("mServiceState");
-			keysField.setAccessible(true);
-			mServiceState = (DiscoveryServiceState) keysField.get(ssdpService);
-			
-		} catch (NoSuchFieldException e) {
-			e.printStackTrace();
-			fail(e.getMessage());		
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-			fail(e.getMessage());
-		}
-		if (mServiceState != null) {
-			assertEquals(DiscoveryServiceState.STOPPED, mServiceState);
-		} else {
-			assertNull(mServiceState);
-		}
-		
-	}
-	
-	
-	public void testGetAliveDevice() {
-		
-		SsdpService.getInstance().startDeviceDiscovery(activity);
-		
-		Set<DeviceModel> mAliveDevices = new DeviceListModel().getAliveDevices();
-		
-		Iterator<DeviceModel> iterator = mAliveDevices.iterator();
-		
-		if (!iterator.hasNext()) {
-			assertFalse(iterator.hasNext());
-		}
-		
-		while (iterator.hasNext()) {
-			DeviceModel deviceModel = iterator.next();
-			if (deviceModel.getSsdpDevice() != null) {
-				if (deviceModel.getSsdpDevice().getModelName().contains("AirPurifier")) {
-					assertNotNull(deviceModel.getSsdpDevice().getFriendlyName());
-					assertNotNull(deviceModel.getSsdpDevice().getCppId());
-					assertNotNull(deviceModel.getIpAddress());
-					assertNotNull(deviceModel.getBootID());
-				} else {
-					assertFalse(deviceModel.getSsdpDevice().getModelName().contains("AirPurifier"));
-				}
-				
-			} else {
-				assertNull(deviceModel.getSsdpDevice());
-			}
-		}
-	}*/
- 
 }

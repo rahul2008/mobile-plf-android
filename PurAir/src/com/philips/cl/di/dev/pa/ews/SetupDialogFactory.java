@@ -20,9 +20,9 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 public class SetupDialogFactory implements OnClickListener {
 
 	private Dialog errorDialogTS0101;
-	private Dialog supportDialogTS01, supportDialogTS02, supportDialogTS03, supportDialogTS05;
-	private Dialog supportDialogTS01PowerOn, supportDialogTS02PowerOn;
-	private Dialog cancelWifiSetup, checkSignalStrength, connetToProduct;
+	private Dialog supportUnplugPurifierDialog, supportWifiLEDOrangeDialog, supportDialogTS03, supportDialogTS05;
+	private Dialog supportPlugAndPowerOnDialog, supportDialogTS02PowerOn;
+	private Dialog checkSignalStrength, connetToProduct;
 
 	private int errorID;
 	private int supportID;
@@ -51,21 +51,21 @@ public class SetupDialogFactory implements OnClickListener {
 
 	public Dialog getDialog(int id) {
 		switch (id) {
-		case SUPPORT_TS01:
-			if(supportDialogTS01 == null)
-				supportDialogTS01 = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_TS01);
-			supportID = SUPPORT_TS01;
-			return supportDialogTS01;
-		case SUPPORT_TS01_POWERON:
-			if(supportDialogTS01PowerOn == null)
-				supportDialogTS01PowerOn = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_TS01_POWERON);
-			supportID = SUPPORT_TS01_POWERON;
-			return supportDialogTS01PowerOn;
-		case SUPPORT_TS02:
-			if(supportDialogTS02 == null)
-				supportDialogTS02 = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.next), SUPPORT_TS02);
-			supportID = SUPPORT_TS02;
-			return supportDialogTS02;
+		case SUPPORT_UNPLUG_PURIFIER:
+			if(supportUnplugPurifierDialog == null)
+				supportUnplugPurifierDialog = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_UNPLUG_PURIFIER);
+			supportID = SUPPORT_UNPLUG_PURIFIER;
+			return supportUnplugPurifierDialog;
+		case SUPPORT_PLUG_AND_POWER_ON:
+			if(supportPlugAndPowerOnDialog == null)
+				supportPlugAndPowerOnDialog = getSupportAlertDialog(context.getString(R.string.support_ts01_message), R.drawable.ews_help_bg1_2x, context.getString(R.string.next), SUPPORT_PLUG_AND_POWER_ON);
+			supportID = SUPPORT_PLUG_AND_POWER_ON;
+			return supportPlugAndPowerOnDialog;
+		case SUPPORT_WIFI_LED_ORANGE:
+			if(supportWifiLEDOrangeDialog == null)
+				supportWifiLEDOrangeDialog = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.next), SUPPORT_WIFI_LED_ORANGE);
+			supportID = SUPPORT_WIFI_LED_ORANGE;
+			return supportWifiLEDOrangeDialog;
 		case SUPPORT_TS02_POWERON:
 			if(supportDialogTS02PowerOn == null)
 				supportDialogTS02PowerOn = getSupportAlertDialog(context.getString(R.string.support_ts02_message), R.drawable.ews_help_bg2_2x, context.getString(R.string.done), SUPPORT_TS02_POWERON);
@@ -86,10 +86,6 @@ public class SetupDialogFactory implements OnClickListener {
 				errorDialogTS0101 = getErrorDialog(context.getString(R.string.error_ts01_01_title), context.getString(R.string.error_ts01_01_message), context.getString(R.string.next), ERROR_TS01_01);
 			errorID = ERROR_TS01_01;
 			return errorDialogTS0101;
-		case CANCEL_WIFI_SETUP:
-			if(cancelWifiSetup == null)
-				cancelWifiSetup = getCancelWifiSetupDialog();
-			return cancelWifiSetup;
 		case CHECK_SIGNAL_STRENGTH:
 			if(checkSignalStrength == null)
 				checkSignalStrength = getCheckingSignalStrengthDialog();
@@ -214,30 +210,6 @@ public class SetupDialogFactory implements OnClickListener {
 		return temp;
 	}
 
-	private Dialog getCancelWifiSetupDialog() {
-		if( context == null ) {
-			return null ;
-		}
-		Dialog temp = new Dialog(context);
-		temp.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		RelativeLayout alertLayout = (RelativeLayout) View.inflate(context, R.layout.cancel_wifi_setup, null); 
-		TextView tvHeader = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_header);
-		tvHeader.setTypeface(Fonts.getGillsansLight(context));
-		TextView tvMessage = (TextView) alertLayout.findViewById(R.id.tv_cancel_wifi_setup_message);
-		tvMessage.setTypeface(Fonts.getGillsansLight(context));
-		Button cancelWifiYes = (Button) alertLayout.findViewById(R.id.btn_cancel_wifi_yes);
-		cancelWifiYes.setTypeface(Fonts.getGillsansLight(context));
-		cancelWifiYes.setOnClickListener(this);
-		Button cancelWifiNo = (Button) alertLayout.findViewById(R.id.btn_cancel_wifi_no);
-		cancelWifiNo.setTypeface(Fonts.getGillsansLight(context));
-		cancelWifiNo.setOnClickListener(this);
-
-		temp.setCanceledOnTouchOutside(false);
-		temp.setCancelable(false);
-		temp.setContentView(alertLayout);
-		return temp;
-	}
-
 	@Override
 	public void onClick(View v) {
 		ALog.i(ALog.EWS, "onClick");
@@ -251,7 +223,6 @@ public class SetupDialogFactory implements OnClickListener {
 			break;
 
 		case R.id.iv_close_popup:
-			//			Toast.makeText(context, "Close Pop up", Toast.LENGTH_SHORT).show();
 			closePopUp(supportID);
 			break;
 		case R.id.iv_support:
@@ -280,23 +251,6 @@ public class SetupDialogFactory implements OnClickListener {
 				activity.showSupportScreen() ;
 			} 
 			closeErrorPopUp(errorID);
-			break;
-
-		case R.id.btn_cancel_wifi_yes:
-			//			closeErrorPopUp(CANCEL_WIFI_SETUP) ;
-			getDialog(CANCEL_WIFI_SETUP).dismiss();
-			if ( context instanceof EWSActivity ) {
-				EWSActivity activity = (EWSActivity) context ;
-				activity.stopDiscovery();
-				activity.finish() ;
-			} else if ( context instanceof DemoModeActivity) {
-				DemoModeActivity activity = (DemoModeActivity) context ;
-				activity.finish() ;
-			} 
-			break;
-
-		case R.id.btn_cancel_wifi_no:
-			getDialog(CANCEL_WIFI_SETUP).dismiss();
 			break;
 
 			/** See TS05_CONFIRM_ENABLED
@@ -328,37 +282,21 @@ public class SetupDialogFactory implements OnClickListener {
 	}
 
 	private void closeErrorPopUp(int errorID2) {
-		switch (errorID2) {
-		case ERROR_TS01_01:
+		if(ERROR_TS01_01 == errorID2) {
 			errorDialogTS0101.dismiss();
-			break;
-//		case ERROR_TS01_02:
-//			errorDialogTS0102.dismiss();
-//			break;
-//		case ERROR_TS01_03:
-//			errorDialogTS0103.dismiss();
-//			break;
-//		case ERROR_TS01_04:
-//			errorDialogTS0104.dismiss();
-//			break;
-//		case ERROR_TS01_05:
-//			errorDialogTS0105.dismiss();
-//			break;
-		default:
-			break;
 		}
 	}
 
 	private void closePopUp(int supportDialogID2) {
 		switch (supportDialogID2) {
-		case SUPPORT_TS01:
-			supportDialogTS01.dismiss();
+		case SUPPORT_UNPLUG_PURIFIER:
+			supportUnplugPurifierDialog.dismiss();
 			break;
-		case SUPPORT_TS01_POWERON:
-			supportDialogTS01PowerOn.dismiss();
+		case SUPPORT_PLUG_AND_POWER_ON:
+			supportPlugAndPowerOnDialog.dismiss();
 			break;
-		case SUPPORT_TS02:
-			supportDialogTS02.dismiss();
+		case SUPPORT_WIFI_LED_ORANGE:
+			supportWifiLEDOrangeDialog.dismiss();
 			break;
 		case SUPPORT_TS02_POWERON:
 			supportDialogTS02PowerOn.dismiss();
@@ -369,9 +307,6 @@ public class SetupDialogFactory implements OnClickListener {
 		case SUPPORT_TS05:
 			supportDialogTS05.dismiss();
 			break;
-		case CANCEL_WIFI_SETUP:
-			cancelWifiSetup.dismiss() ;
-			break;
 		default:
 			break;
 		}
@@ -381,16 +316,16 @@ public class SetupDialogFactory implements OnClickListener {
 	private void handleSupportDialog(int supportDialogID2) {
 		ALog.i(ALog.EWS, "handleSupportDialog dialogId" + supportDialogID2);
 		switch (supportDialogID2) {
-		case SUPPORT_TS01:
-			getDialog(SUPPORT_TS01).dismiss();
-			getDialog(SUPPORT_TS02).show();
+		case SUPPORT_UNPLUG_PURIFIER:
+			getDialog(SUPPORT_UNPLUG_PURIFIER).dismiss();
+			getDialog(SUPPORT_WIFI_LED_ORANGE).show();
 			break;
-		case SUPPORT_TS01_POWERON:
-			getDialog(SUPPORT_TS01_POWERON).dismiss();
+		case SUPPORT_PLUG_AND_POWER_ON:
+			getDialog(SUPPORT_PLUG_AND_POWER_ON).dismiss();
 			getDialog(SUPPORT_TS02_POWERON).show();
 			break;
-		case SUPPORT_TS02:
-			getDialog(SUPPORT_TS02).dismiss();
+		case SUPPORT_WIFI_LED_ORANGE:
+			getDialog(SUPPORT_WIFI_LED_ORANGE).dismiss();
 			getDialog(SUPPORT_TS03).show();
 			break;
 		case SUPPORT_TS02_POWERON:
@@ -411,30 +346,13 @@ public class SetupDialogFactory implements OnClickListener {
 
 	private void handleErrorDialog(int errorDialogID2) {
 		ALog.i(ALog.EWS, "handleErrorDialog dialogId "  + errorDialogID2);	
-		switch (errorDialogID2) {
-		case ERROR_TS01_01:
-			getDialog(ERROR_TS01_01).dismiss();			
-			break;
-//		case ERROR_TS01_02 : 
-//			getDialog(ERROR_TS01_02).dismiss();
-//			break;
-//		case ERROR_TS01_03:
-//			getDialog(ERROR_TS01_03).dismiss();
-//			break;
-//		case ERROR_TS01_04:
-//			getDialog(ERROR_TS01_04).dismiss();
-//			break;
-//		case ERROR_TS01_05:
-//			getDialog(ERROR_TS01_05).dismiss();
-//			break;
-		default:
-			break;
+		if(ERROR_TS01_01 == errorDialogID2) {
+			getDialog(ERROR_TS01_01).dismiss();
 		}
-		getDialog(SUPPORT_TS01).show();
+		getDialog(SUPPORT_UNPLUG_PURIFIER).show();
 	}
 	
 	public void dismissSignalStrength() {
-		
 		if (checkSignalStrength != null && checkSignalStrength.isShowing()) {
 			checkSignalStrength.dismiss();
 		}
@@ -443,10 +361,10 @@ public class SetupDialogFactory implements OnClickListener {
 	public void cleanUp() {
 		errorDialogTS0101 = null;
 
-		supportDialogTS01PowerOn = null;
+		supportPlugAndPowerOnDialog = null;
 		supportDialogTS02PowerOn = null;
-		supportDialogTS01 = null;
-		supportDialogTS02 = null;
+		supportUnplugPurifierDialog = null;
+		supportWifiLEDOrangeDialog = null;
 		supportDialogTS03 = null;
 		supportDialogTS05 = null;
 
@@ -461,14 +379,13 @@ public class SetupDialogFactory implements OnClickListener {
 	//Dialog constants
 	public static final int ERROR_TS01_01 = 1001;
 
-	public static final int SUPPORT_TS01 = 2001;
-	public static final int SUPPORT_TS02 = 2002;
+	public static final int SUPPORT_UNPLUG_PURIFIER = 2001;
+	public static final int SUPPORT_WIFI_LED_ORANGE = 2002;
 	public static final int SUPPORT_TS03 = 2003;
 	public static final int SUPPORT_TS05 = 2005;
-	public static final int SUPPORT_TS01_POWERON = 2006;
+	public static final int SUPPORT_PLUG_AND_POWER_ON = 2006;
 	public static final int SUPPORT_TS02_POWERON = 2007; 
 
 	public static final int CHECK_SIGNAL_STRENGTH = 3001;
 	public static final int CONNECTING_TO_PRODUCT = 3002;
-	public static final int CANCEL_WIFI_SETUP = 3003; 
 }

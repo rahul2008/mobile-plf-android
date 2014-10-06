@@ -97,7 +97,7 @@ public class SetupDialogFragment extends DialogFragment {
 				break;
 			case R.id.btn_error_popup:
 				SetupDialogFactory.getInstance(getActivity())
-						.getDialog(SetupDialogFactory.SUPPORT_TS01).show();
+						.getDialog(SetupDialogFactory.SUPPORT_UNPLUG_PURIFIER).show();
 				break;
 			default:
 				break;
