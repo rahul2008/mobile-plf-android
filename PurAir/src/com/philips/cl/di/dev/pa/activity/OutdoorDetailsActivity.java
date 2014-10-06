@@ -616,7 +616,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
 				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
 				Utils.getDate((timeInMili - daysInMillisecs)) + "," 
-				+ Utils.getDate(timeInMili), Utils.getCMA_AppID()), 
+				+ Utils.getDate(timeInMili)), 
 				areaID, PurAirApplication.getAppContext(), this);
 		aqiHistoricTask.start();
 	}

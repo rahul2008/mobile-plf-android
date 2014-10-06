@@ -114,23 +114,21 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air", Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
 	public void startAllCitiesAQITask() {
 		if (isPhilipsSetupWifiSelected()) return;
 		
-		String areaIds = OutdoorManager.getInstance().getAllCitiesList().subList(0, 97).toString().replace("[", "").replace("]", "")
-        .replace(", ", ",");
+		//Split requesting 194 cities data into 2 requests.
+		String areaIds = OutdoorManager.getInstance().getAllCitiesList().subList(0, 97).toString().replace("[", "").replace("]", "").replace(", ", ",");
+		String areaIds2 = OutdoorManager.getInstance().getAllCitiesList().subList(98, OutdoorManager.getInstance().getAllCitiesList().size()).toString().replace("[", "").replace("]", "").replace(", ", ",");
 		
-		String areaIds2 = OutdoorManager.getInstance().getAllCitiesList().subList(98, OutdoorManager.getInstance().getAllCitiesList().size()).toString().replace("[", "").replace("]", "")
-		        .replace(", ", ",");
-		
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), "all_cities", PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds, "air", Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
 		citiesList.start();
 		
-		TaskGetHttp citiesList2 = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds2, "air", Utils.getDate(System.currentTimeMillis()), APP_ID), "all_cities", PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList2 = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds2, "air", Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
 		citiesList2.start();
 	}
 
@@ -138,7 +136,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air_his", Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air_his", Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
@@ -147,7 +145,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
@@ -155,7 +153,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL, areaID, "forecast4d", Utils.getDate(System.currentTimeMillis()), APP_ID), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL, areaID, "forecast4d", Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
@@ -237,7 +235,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 				float longitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LONGITUDE));
 				float latitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LATITUDE));
 
-				ALog.i(ALog.OUTDOOR_LOCATION, "Add cities from DB to outdoor dashboard city " + city + " areaID " + newAreaID);
 				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, newAreaID);
 				OutdoorManager.getInstance().addCityDataToMap(info, null, null, newAreaID);
 			}
@@ -245,42 +242,46 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			database.close();
 			
 			OutdoorManager.getInstance().startCitiesTask();
-//			OutdoorLocationHandler.getInstance().updateSelectedCity(newAreaID, true);
-			
 			if(LocationUtils.getCurrentLocationAreaId().isEmpty()) done=false;
 		} 
 	}
 
-	public String buildURL(String baseUrl, String areaID, String type, String date, String appID) {
-		String url = AppConstants.EMPTY_STRING;
-		String mostCertainlyTheFinalKey = AppConstants.EMPTY_STRING;
+	public String buildURL(String baseUrl, String areaID, String type, String date) {
+		String publicKey = createPublicKeyUrl(baseUrl, areaID, type, date);
+		String cmaUrlKey = generateCMAUrlKey(publicKey);
+		String url = createWeatherUrl(baseUrl, areaID, type,	date, cmaUrlKey);
+		ALog.i(ALog.OUTDOOR_LOCATION, "Final Weather URL " + url);
+		return url;
+	}
+
+	private String createPublicKeyUrl(String baseUrl, String areaID, String type, String date) {
 		StringBuilder publicKeyBuilder = new StringBuilder(baseUrl) ;
 		publicKeyBuilder.append("?areaid=").append(areaID) ;
 		publicKeyBuilder.append("&type=").append(type);
 		publicKeyBuilder.append("&date=").append(date);
 		publicKeyBuilder.append("&appid=").append(APP_ID);
-		ALog.i(ALog.OUTDOOR_LOCATION, "Public key :: " + publicKeyBuilder.toString());
-		String key = "";
+		return publicKeyBuilder.toString();
+	}
+	
+	public String generateCMAUrlKey(String publicKey) {
 		String finalKey = "";
 		try {
-			finalKey = Util.encodeToBase64(hmacSha1(publicKeyBuilder.toString(),  Utils.getCMA_PrivateKey()));
-			mostCertainlyTheFinalKey = URLEncoder.encode(finalKey.trim(), "UTF-8");
+			String base64key = Util.encodeToBase64(hmacSha1(publicKey,  Utils.getCMA_PrivateKey()));
+			finalKey = URLEncoder.encode(base64key.trim(), "UTF-8");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
-
-		ALog.i(ALog.OUTDOOR_LOCATION, "key :: " + key + " finalKey " + finalKey + " mostCertainlyTheFinalKey " + mostCertainlyTheFinalKey);
-
+		
+		return finalKey;
+	}
+	
+	private String createWeatherUrl(String baseUrl, String areaID, String type, String date, String key) {
 		StringBuilder urlBuilder = new StringBuilder() ; 
 		urlBuilder.append(baseUrl).append("?areaid=").append(areaID);
 		urlBuilder.append("&type=").append(type).append("&date=").append(date) ;
 		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
-		urlBuilder.append("&key=").append(mostCertainlyTheFinalKey);
-
-		url = urlBuilder.toString() ;
-		ALog.i(ALog.OUTDOOR_LOCATION, "Final Weather URL " + url);
-
-		return url;
+		urlBuilder.append("&key=").append(key);
+		return urlBuilder.toString();
 	}
 
 	private byte[] hmacSha1(String value, String key) {
