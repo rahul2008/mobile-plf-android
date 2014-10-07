@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.AMap.OnMapLoadedListener;
@@ -37,7 +38,6 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 
 /**
  * 
@@ -63,7 +63,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	private LayoutInflater mInflater = null;
 	private RelativeLayout mParentLayout = null;
 	private ArrayList<Marker> mArrayListMarker = null;
-	private FontTextView textView = null;
+	private TextView textView = null;
 	private Canvas mCanvas = null;
 	
 	private static final String TAG = "MapMarkerFragment";
@@ -132,7 +132,7 @@ public class MarkerMapFragment extends BaseFragment implements
 		mInflater = (LayoutInflater) 
 				getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mView = mInflater.inflate(R.layout.circle_lyt, null);
-		textView = (FontTextView) mView.findViewById(R.id.circle_txt); 
+		textView = (TextView) mView.findViewById(R.id.circle_txt); 
 		init();
 		mArrayListMarker = new ArrayList<Marker>();
 		return view;

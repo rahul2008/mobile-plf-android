@@ -31,52 +31,18 @@ import com.philips.gaode.map.MapActivity;
  */
 public class MarkerActivity extends MapActivity implements
 		OnMarkerClickListener, OnMapLoadedListener {
-	// private AMap aMap;
-	// private MapView mapView;
-	// private ImageView mFinishActivity = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;
-	// private RelativeLayout mAqiDrawer = null;
-	// private FontTextView mAqiCity = null;
-	// private FontTextView mAqiDetails = null;
-	// private ImageView mAqiMarker = null;
 	private List<String> mCitiesListAll = null;
 	private OutdoorCity mOutdoorCity = null;
-	// private boolean isAnimationDrawableOpen = false;
 	private ArrayList<Marker> mArrayListMarker = null;
-
-	// private RelativeLayout mParentLayout = null;
-	// private LayoutInflater inflater = null;
-	// private View view = null;
-	// private Bitmap mBitMap = null;
-	// private FontTextView textView = null;
-	// private Canvas mCanvas = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.marker_activity);
 		mArrayListMarker = new ArrayList<Marker>();
-		// mParentLayout = (RelativeLayout)findViewById(R.id.mapParent);
-		// mapView = (MapView) findViewById(R.id.map);
-		// mapView.onCreate(savedInstanceState);
-		// mFinishActivity = (ImageView) findViewById(R.id.gaodeMapFinish);
-		// mAqiDrawer = (RelativeLayout) findViewById(R.id.aqi_prompt_drawer);
-		// mAqiCity = (FontTextView) findViewById(R.id.aqiCity);
-		// mAqiDetails = (FontTextView) findViewById(R.id.aqiDetails);
-		// mAqiMarker = (ImageView) findViewById(R.id.aqiMarker);
-		// mFinishActivity.setVisibility(View.VISIBLE);
-		// mFinishActivity.setOnClickListener(this);
 		builder = new LatLngBounds.Builder();
-		// mapView.setOnClickListener(this);
-		// inflater = (LayoutInflater)
-		// this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		// view = inflater.inflate(R.layout.circle_lyt, null);
-		// textView = (FontTextView) view.findViewById(R.id.circle_txt);
-		// init();
-
 		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
-
 		setMarkerAnchorFirstParam(0.5f);
 		setMarkerAnchorSecondParam(0.5f);
 		setMarkerDraggable(true);
@@ -93,19 +59,16 @@ public class MarkerActivity extends MapActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		// mapView.onResume();
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		// mapView.onPause();
 	}
 
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		// mapView.onSaveInstanceState(outState);
 	}
 
 	@Override
@@ -180,7 +143,6 @@ public class MarkerActivity extends MapActivity implements
 		int so2 = outdoorCity.getOutdoorAQI().getSo2();
 		int no2 = outdoorCity.getOutdoorAQI().getNo2();
 		String cityName = null;
-		// boolean iconOval = false;
 
 		// added to support traditional and simplified Chinese in map
 		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains(
@@ -198,21 +160,12 @@ public class MarkerActivity extends MapActivity implements
 
 		if (OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(
 				cityCode)) {
-			// iconOval = true;
 			setMarkerIconOval(true);
 			mOutdoorCity = outdoorCity;
 		} else {
 			setMarkerIconOval(false);
 		}
 
-		// if(mBitMap != null){
-		// mBitMap.recycle();
-		// mBitMap = null;
-		// }
-		//
-		// int imageRes = getAqiPointerImageResId(aqiValue, iconOval);
-		// mBitMap = writeTextOnDrawable(imageRes, aqiValue);
-		//
 		setMarkerSnippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2
 				+ ", NO2: " + no2);
 		setMarkerTitle(cityName);
@@ -223,10 +176,10 @@ public class MarkerActivity extends MapActivity implements
 
 	@Override
 	public boolean onMarkerClick(final Marker marker) {
-		mAqiCity.setText(marker.getTitle());
-		mAqiDetails.setText(marker.getSnippet());
-		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap());
-		showAqiDetails();
+//		mAqiCity.setText(marker.getTitle());
+//		mAqiDetails.setText(marker.getSnippet());
+//		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap());
+//		showAqiDetails();
 		return false;
 	}
 
@@ -250,20 +203,4 @@ public class MarkerActivity extends MapActivity implements
 		}
 		aMap.moveCamera(CameraUpdateFactory.newLatLngBounds(boundsNew, 10));
 	}
-
-	// private void hideAnimation() {
-	// Animation topDown = AnimationUtils.loadAnimation(MarkerActivity.this,
-	// R.anim.bottom_down_aqi_drawer);
-	// mAqiDrawer.startAnimation(topDown);
-	// isAnimationDrawableOpen = false;
-	// mAqiDrawer.setVisibility(View.GONE);
-	// }
-	//
-	// private void showAqiDetails() {
-	// mAqiDrawer.setVisibility(View.VISIBLE);
-	// Animation bottomUp = AnimationUtils.loadAnimation(MarkerActivity.this,
-	// R.anim.bottom_up_aqi_drawer);
-	// mAqiDrawer.startAnimation(bottomUp);
-	// isAnimationDrawableOpen = true;
-	// }
 }
