@@ -1,15 +1,8 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -28,7 +21,6 @@ import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
-import com.philips.cl.di.dev.pa.security.Util;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
@@ -38,14 +30,16 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class OutdoorController implements ServerResponseListener, AMapLocationListener {
 
-	private static String APP_ID ;
 	private static String BASE_URL ;
 
 	public static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
 	public static final String BASE_URL_HOURLY_FORECAST = "http://data.fuwu.weather.com.cn/getareaid/areaid?id=";
 	
-	private static final String HASH_ALG = "HmacSHA1";
-
+	public static final String AIR = "air";
+	public static final String AIR_HISTORY = "air_his";
+	public static final String OBSERVE = "observe";
+	public static final String FORECAST_4_DAYS = "forecast4d";
+	
 	private List<OutdoorEventListener> outdoorEventListeners;
 	private OutdoorDetailsListener outdoorDetailsListener ;
 
@@ -61,11 +55,13 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	
 	private CurrentCityAreaIdReceivedListener areaIdReceivedListener;
 
+	private CMAHelper cmaHelper;
+	
 	private OutdoorController() {
-		APP_ID = Utils.getCMA_AppID() ;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 		setLocationProvider();
+		cmaHelper = new CMAHelper(Utils.getCMA_AppID());
 	}
 	
 	public void setLocationProvider() {
@@ -114,7 +110,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air", Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaID, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
@@ -125,10 +121,10 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		String areaIds = OutdoorManager.getInstance().getAllCitiesList().subList(0, 97).toString().replace("[", "").replace("]", "").replace(", ", ",");
 		String areaIds2 = OutdoorManager.getInstance().getAllCitiesList().subList(98, OutdoorManager.getInstance().getAllCitiesList().size()).toString().replace("[", "").replace("]", "").replace(", ", ",");
 		
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds, "air", Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
 		citiesList.start();
 		
-		TaskGetHttp citiesList2 = new TaskGetHttp(buildURL(BASE_URL_AQI, areaIds2, "air", Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList2 = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds2, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
 		citiesList2.start();
 	}
 
@@ -136,7 +132,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL_AQI, areaID, "air_his", Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
@@ -145,7 +141,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL,areaID, "observe", Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL,areaID, OutdoorController.OBSERVE, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
@@ -153,7 +149,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(buildURL(BASE_URL, areaID, "forecast4d", Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL, areaID, OutdoorController.FORECAST_4_DAYS, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
@@ -246,60 +242,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		} 
 	}
 
-	public String buildURL(String baseUrl, String areaID, String type, String date) {
-		String publicKey = createPublicKeyUrl(baseUrl, areaID, type, date);
-		String cmaUrlKey = generateCMAUrlKey(publicKey);
-		String url = createWeatherUrl(baseUrl, areaID, type,	date, cmaUrlKey);
-		ALog.i(ALog.OUTDOOR_LOCATION, "Final Weather URL " + url);
-		return url;
-	}
-
-	private String createPublicKeyUrl(String baseUrl, String areaID, String type, String date) {
-		StringBuilder publicKeyBuilder = new StringBuilder(baseUrl) ;
-		publicKeyBuilder.append("?areaid=").append(areaID) ;
-		publicKeyBuilder.append("&type=").append(type);
-		publicKeyBuilder.append("&date=").append(date);
-		publicKeyBuilder.append("&appid=").append(APP_ID);
-		return publicKeyBuilder.toString();
-	}
-	
-	public String generateCMAUrlKey(String publicKey) {
-		String finalKey = "";
-		try {
-			String base64key = Util.encodeToBase64(hmacSha1(publicKey,  Utils.getCMA_PrivateKey()));
-			finalKey = URLEncoder.encode(base64key.trim(), "UTF-8");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}	
-		
-		return finalKey;
-	}
-	
-	private String createWeatherUrl(String baseUrl, String areaID, String type, String date, String key) {
-		StringBuilder urlBuilder = new StringBuilder() ; 
-		urlBuilder.append(baseUrl).append("?areaid=").append(areaID);
-		urlBuilder.append("&type=").append(type).append("&date=").append(date) ;
-		urlBuilder.append("&appid=").append(APP_ID.substring(0, 6));
-		urlBuilder.append("&key=").append(key);
-		return urlBuilder.toString();
-	}
-
-	private byte[] hmacSha1(String value, String key) {
-		SecretKeySpec secret = new SecretKeySpec(key.getBytes(Charset.defaultCharset()), HASH_ALG);
-		Mac mac = null;
-		try {
-			mac = Mac.getInstance(HASH_ALG);
-			mac.init(secret);
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		} catch (InvalidKeyException e) {
-			e.printStackTrace();
-		}
-		if( mac == null ) return null ;
-		byte[] bytes = mac.doFinal(value.getBytes(Charset.defaultCharset()));
-		return bytes;
-	}
-	
 	public boolean isPhilipsSetupWifiSelected() {
 		String ssid = EWSWifiManager.getSsidOfConnectedNetwork();
 		if (ssid != null && ssid.contains(EWSWifiManager.DEVICE_SSID)) {
@@ -338,6 +280,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 	
 	private boolean done = false;
+
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
 //		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());

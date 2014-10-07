@@ -34,6 +34,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.CMAHelper;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -613,8 +614,8 @@ public class OutdoorDetailsActivity extends BaseActivity
 		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
 		
 		long timeInMili = Utils.getCurrentChineseDate().getTime();
-		TaskGetHttp aqiHistoricTask = new TaskGetHttp(OutdoorController.getInstance().buildURL(
-				OutdoorController.BASE_URL_AQI, areaID, "air_his", 
+		TaskGetHttp aqiHistoricTask = new TaskGetHttp(new CMAHelper(Utils.getCMA_AppID()).getURL(
+				OutdoorController.BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, 
 				Utils.getDate((timeInMili - daysInMillisecs)) + "," 
 				+ Utils.getDate(timeInMili)), 
 				areaID, PurAirApplication.getAppContext(), this);
