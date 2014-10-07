@@ -5,13 +5,11 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+    <TextView
         android:id="@+id/circle_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_very_very_small"
-        android:textColor="@color/white"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:textColor="@color/white"/>
 
 </LinearLayout>
