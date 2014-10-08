@@ -82,7 +82,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		allMatchingCitiesList = new ArrayList<String>();
 
 		WeatherIcon.populateWeatherIconMap();
-		OutdoorController.getInstance().setOutdoorEventListener(this);
+		
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: " + mOutdoorLocationFillAsyncTask);
 	}
 
@@ -159,7 +159,6 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	@Override
 	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
-		ALog.i(ALog.DASHBOARD, "outdoorAQIDataReceived " + outdoorAQI);
 		if (outdoorAQI != null) {
 			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorAQIDataReceived aqi "
 					+ outdoorAQI.getPM25() + " : " + outdoorAQI.getAQI());
@@ -172,7 +171,6 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	@Override
 	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
-		ALog.i(ALog.DASHBOARD, "outdoorWeatherDataReceived " + outdoorWeather);
 		if (outdoorWeather != null) {
 			addCityDataToMap(null, null, outdoorWeather, areaID);
 			if (iListener != null) {

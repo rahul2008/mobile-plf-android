@@ -57,11 +57,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public void onResume() {
 		super.onResume();
+		
 		DrawerAdapter.getInstance().addDrawerListener(this);
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		
 		((MainActivity) getActivity()).setActionBar(this);
-		
+		OutdoorController.getInstance().setOutdoorEventListener(OutdoorManager.getInstance());
 		if (indoorViewPager != null) {
 			int currentPage = indoorViewPager.getCurrentItem();
 			
@@ -78,6 +79,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		super.onPause();
 		DrawerAdapter.getInstance().removeDrawerListener(this);
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+		OutdoorController.getInstance().removeOutdoorEventListener(OutdoorManager.getInstance());
 	}
 	
 	@Override
@@ -193,7 +195,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	@Override
 	public void updateUIOnDataChange() {
-		ALog.i(ALog.DASHBOARD, "notifyUIOnDataChange " + getActivity());	
+		ALog.i(ALog.DASHBOARD, "nofifyDataSetChanged updateUI") ;
 		if (getActivity() == null) {
 			return;
 		}
@@ -201,12 +203,14 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			@Override
 			public void run() {
 				try {
+						
 					int size = 1;
 					if( OutdoorManager.getInstance().getUsersCitiesList() != null ) {
 						size = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 					}
 					outdoorPagerAdapter.mCount(size) ;
 					outdoorPagerAdapter.notifyDataSetChanged() ;
+					
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.ACTIVITY, e.getMessage());
 				}
