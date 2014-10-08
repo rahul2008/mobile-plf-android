@@ -435,42 +435,4 @@
         android:clickable="false"
         android:paddingTop="40dp" />
 
-    <ImageView
-        android:id="@+id/divider_6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btn_rm_indicator_light"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:contentDescription="@string/img_description"
-        android:src="@drawable/seperator_line_2x" />
-
-    <ToggleButton
-        android:id="@+id/btn_rm_remote_enable"
-        style="@style/Widget.Button.Toggle"
-        android:layout_width="80dp"
-        android:layout_height="40dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/divider_6"
-        android:layout_marginRight="30dp"
-        android:checked="false"
-        android:paddingTop="40dp" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_rm_remote_enable"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@+id/btn_rm_remote_enable"
-        android:layout_below="@id/divider_6"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="2dp"
-        android:layout_toLeftOf="@+id/btn_rm_remote_enable"
-        android:gravity="center_vertical"
-        android:text="@string/pair_title"
-        android:textColor="@color/gray"
-        android:textSize="16sp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
 </RelativeLayout>

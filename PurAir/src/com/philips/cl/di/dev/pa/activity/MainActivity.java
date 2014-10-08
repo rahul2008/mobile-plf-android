@@ -38,7 +38,6 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -62,7 +61,6 @@ import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
-import com.philips.cl.di.dev.pa.fragment.CancelDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
@@ -116,7 +114,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ImageView ivAirStatusBackground;
 	private ImageView ivConnectedImage;
 	private ImageView ivConnectionError;
-	private ToggleButton remoteControlBtn;
 
 	/**
 	 * Action bar
@@ -599,29 +596,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			case R.id.back_to_home_img:
 				//TODO
 				break;
-			case R.id.btn_rm_remote_enable:
-				if (getCurrentPurifier() == null) return;
-				ALog.i(ALog.MAINACTIVITY, "Remote control: " + remoteControlBtn.isChecked());
-				if(getCurrentPurifier().getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
-					ALog.i(ALog.MAINACTIVITY, "Remote control: connected remotely");
-					return;
-				}
-				if (remoteControlBtn.isChecked()) {
-					PurAirDevice purifier=getCurrentPurifier();
-					if(purifier==null) return;
-
-					purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-					setVisibilityAirPortTaskProgress(View.VISIBLE);
-					pairToPurifierIfNecessary();
-				}else{
-					if (getCurrentPurifier().getPairedStatus()== PurAirDevice.PAIRED_STATUS.PAIRED) {
-						showDialogFragment(CancelDialogFragment
-								.newInstance(getString(R.string.pair_disable_alert), 1, remoteControlBtn));
-					}					
-				}
-
-				break;
-
 			case R.id.clean_filter_link:
 				intent = new Intent(Intent.ACTION_VIEW);
 				intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/filter_clean.mp4"), "video/mp4");
@@ -756,9 +730,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		multiCareFilterText = (TextView) findViewById(R.id.tv_rm_multi_care_filter_status);
 		activeCarbonFilterText = (TextView) findViewById(R.id.tv_rm_active_carbon_filter_status);
 		hepaFilterText = (TextView) findViewById(R.id.tv_rm_hepa_filter_status);
-
-		remoteControlBtn = (ToggleButton) findViewById(R.id.btn_rm_remote_enable);
-		remoteControlBtn.setOnClickListener(actionBarClickListener);
 
 		TextView linkFilterClean=(TextView) findViewById(R.id.clean_filter_link);
 		linkFilterClean.setOnClickListener(actionBarClickListener);
@@ -953,28 +924,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				setRightMenuAirStatusMessage(getString(Utils.getIndoorAQIMessage(indoorAQIUsableValue),	getString(R.string.philips_home)));
 				setRightMenuAirStatusBackground(indoorAQIUsableValue);
 				rightMenuClickListener.toggleControlPanel(true,info);
-
-				if(purifier.getConnectionState()==ConnectionState.CONNECTED_REMOTELY){
-					remoteControlBtn.setChecked(true);
-					remoteControlBtn.setEnabled(false);
-					return;
-				}
-
-				if(PurAirApplication.isDemoModeEnable()){
-					remoteControlBtn.setClickable(false);
-					remoteControlBtn.setChecked(false);
-					return;
-				}
-
-				//For remote control enable and disable in right-canvas
-				remoteControlBtn.setClickable(true);
-				remoteControlBtn.setEnabled(true);
-				if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED)
-				{
-					remoteControlBtn.setChecked(true);
-				}else{
-					remoteControlBtn.setChecked(false);
-				}
 			}
 		});
 
@@ -1001,10 +950,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				ivAirStatusBackground.setImageResource(R.drawable.aqi_small_circle_grey);
 				tvAirStatusAqiValue.setTextSize(14.0f);
 				tvAirStatusAqiValue.setText(getString(R.string.not_connected));
-				//For remote control enable and disable in right-canvas
-				remoteControlBtn.setClickable(false);
-				remoteControlBtn.setChecked(false);
-				remoteControlBtn.setEnabled(false);
 				disableFilterStatus(); // Update filter status if purifier disconnected
 			}
 		});
