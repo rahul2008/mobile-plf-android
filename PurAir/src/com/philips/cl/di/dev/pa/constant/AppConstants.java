@@ -7,7 +7,6 @@ import java.util.List;
 import android.graphics.Color;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class AppConstants {
 	

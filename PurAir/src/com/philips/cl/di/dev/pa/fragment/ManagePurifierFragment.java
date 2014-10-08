@@ -181,12 +181,12 @@ public class ManagePurifierFragment extends BaseFragment implements
 	}
 
 	@Override
-	public void onPairingSuccess() {
+	public void onPairingSuccess(PurAirDevice purifier) {
 		// TODO
 	}
 
 	@Override
-	public void onPairingFailed() {
+	public void onPairingFailed(PurAirDevice purifier) {
 		// TODO
 	}
 }

@@ -62,6 +62,7 @@ import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
+import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
 import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
@@ -614,11 +615,17 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}; 
 
-	private void showDialogFragment(Fragment fragment) {
+	private void showAlertDialogPairingFailed(String title, String message) {
 		try {
-			FragmentManager fragMan = getSupportFragmentManager();
-			fragMan.beginTransaction().add(
-					fragment, "dialogfragment").commitAllowingStateLoss();
+			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+			
+			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("pairing_failed");
+			if (prevFrag != null) {
+				fragTransaction.remove(prevFrag);
+			}
+			
+			fragTransaction.add(DownloadAlerDialogFragement.
+					newInstance(title, message), "pairing_failed").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
 			ALog.e(ALog.MAINACTIVITY, e.getMessage());
 		}
@@ -1052,17 +1059,22 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	@Override
-	public void onPairingSuccess() {	
-		if (getCurrentPurifier() != null && getCurrentPurifier().getConnectionState()==ConnectionState.CONNECTED_REMOTELY 
-				&& getCurrentPurifier().getPairedStatus()==PAIRED_STATUS.UNPAIRED) {
+	public void onPairingSuccess(PurAirDevice purifier) {	
+		if (getCurrentPurifier() != null
+				&& getCurrentPurifier().getConnectionState() == ConnectionState.CONNECTED_REMOTELY 
+				&& getCurrentPurifier().getPairedStatus() == PAIRED_STATUS.UNPAIRED) {
 			getCurrentPurifier().setConnectionState(ConnectionState.DISCONNECTED);
 		}
 		updatePurifierUIFields();
 	}
 
 	@Override
-	public void onPairingFailed() {		
+	public void onPairingFailed(PurAirDevice purifier) {	
 		updatePurifierUIFields();
+		//If pairing failed show alert
+		String title = "";
+		if (purifier != null) title = purifier.getName();
+		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed));
 	}
 
 	public PurAirDevice getCurrentPurifier() {

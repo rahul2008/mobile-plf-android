@@ -48,16 +48,13 @@ public class DownloadAlerDialogFragement extends DialogFragment {
 		String title = getArguments().getString(EXTRA_TITLE);
 		String msg = getArguments().getString(EXTRA_MSG);
 
-		Button button = (Button) getView().findViewById(
-				R.id.alert_dialog_cancel);
+		Button button = (Button) getView().findViewById(R.id.alert_dialog_cancel);
 		button.setTypeface(Fonts.getGillsansLight(getActivity()));
 
-		FontTextView tvHeader = (FontTextView) getView().findViewById(
-				R.id.alert_dialog_title);
+		FontTextView tvHeader = (FontTextView) getView().findViewById(R.id.alert_dialog_title);
 		tvHeader.setText(title);
 
-		FontTextView tvMessage = (FontTextView) getView().findViewById(
-				R.id.alert_dialog_msg);
+		FontTextView tvMessage = (FontTextView) getView().findViewById(R.id.alert_dialog_msg);
 		tvMessage.setText(msg);
 
 		button.setOnClickListener(new OnClickListener() {

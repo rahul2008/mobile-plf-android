@@ -450,14 +450,15 @@
     <string name="eui64">Purifier Eui64: </string>
     <!-- <string name="submit">Submit</string> -->
     <!-- Pairing -->
-    <string name="pair_disable_alert">Are you sure you want to disable Remote control?</string>
-    <string name="pair_title">Allow control when on remote network</string>
-    <string name="pair_text">Do you want to control your Air Purifier outside of your home network?</string>
-    <string name="pair">Yes</string>
-    <string name="error_title">We are sorry!</string>
-    <!-- <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string> -->
-    <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string>
-    <string name="pairing_failed">Failed to enable remote control, please try again later.</string>
+    <string name="pairing_failed">Remote control can not be enabled.</string>
+<!--     <string name="pair_disable_alert">Are you sure you want to disable Remote control?</string> -->
+<!--     <string name="pair_title">Allow control when on remote network</string> -->
+<!--     <string name="pair_text">Do you want to control your Air Purifier outside of your home network?</string> -->
+<!--     <string name="pair">Yes</string> -->
+<!--     <string name="error_title">We are sorry!</string> -->
+<!--     <string name="pairing_progress">Enabling remote control. Please wait&#8230;</string> -->
+<!--     <string name="pairing_success">You can now control your AirPurifier outside of your home network!</string> -->
+<!--     <string name="pairing_failed">Failed to enable remote control, please try again later.</string> -->
     <!-- Scheduler texts -->
     <!-- <string name="days">Days</string> -->
     <string name="edit">Edit</string>
