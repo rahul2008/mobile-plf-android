@@ -1005,8 +1005,23 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				remoteControlBtn.setClickable(false);
 				remoteControlBtn.setChecked(false);
 				remoteControlBtn.setEnabled(false);
+				disableFilterStatus(); // Update filter status if purifier disconnected
 			}
 		});
+	}
+	
+	private void disableFilterStatus() {
+		/** Update filter bars */
+		preFilterView.setColorAndLength(Color.LTGRAY, 0);
+		multiCareFilterView.setColorAndLength(Color.LTGRAY, 0);
+		activeCarbonFilterView.setColorAndLength(Color.LTGRAY, 0);
+		hepaFilterView.setColorAndLength(Color.LTGRAY, 0);
+
+		/** Update filter texts */
+		preFilterText.setText(AppConstants.EMPTY_STRING);
+		multiCareFilterText.setText(AppConstants.EMPTY_STRING);
+		activeCarbonFilterText.setText(AppConstants.EMPTY_STRING);
+		hepaFilterText.setText(AppConstants.EMPTY_STRING);
 	}
 
 	private void updateFilterStatus(int preFilterStatus,
