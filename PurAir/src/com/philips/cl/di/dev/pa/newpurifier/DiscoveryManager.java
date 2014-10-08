@@ -401,7 +401,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
 			if (device.getLastKnownNetworkSsid() != null && device.getLastKnownNetworkSsid().equals(ssid)) continue; // will appear local on this network
-			if (device.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || !device.isOnlineViaCpp()) continue; // not paired or not online
+			if (device.getPairedStatus() != PurAirDevice.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not paired or not online
 
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
@@ -417,7 +417,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 		for (PurAirDevice device : mDevicesMap.values()) {
 			if (device.getConnectionState() == ConnectionState.CONNECTED_LOCALLY) continue; // already discovered
 			if (device.getConnectionState() == ConnectionState.CONNECTED_REMOTELY) continue; // already remote
-			if (device.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || !device.isOnlineViaCpp()) continue; // not online via cpp
+			if (device.getPairedStatus() != PurAirDevice.PAIRED_STATUS.PAIRED || !device.isOnlineViaCpp()) continue; // not online via cpp
 
 			device.setConnectionState(ConnectionState.CONNECTED_REMOTELY);
 			statusUpdated = true;
