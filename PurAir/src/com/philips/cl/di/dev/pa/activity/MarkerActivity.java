@@ -175,15 +175,6 @@ public class MarkerActivity extends MapActivity implements
 	}
 
 	@Override
-	public boolean onMarkerClick(final Marker marker) {
-//		mAqiCity.setText(marker.getTitle());
-//		mAqiDetails.setText(marker.getSnippet());
-//		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap());
-//		showAqiDetails();
-		return false;
-	}
-
-	@Override
 	public void onMapLoaded() {
 		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
 				OutdoorDetailsActivity.getSelectedCityCode());

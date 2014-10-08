@@ -126,8 +126,11 @@ public class MapActivity extends Activity implements OnMarkerClickListener,
 	}
 
 	@Override
-	public boolean onMarkerClick(Marker arg0) {
-		// TODO Auto-generated method stub
+	public boolean onMarkerClick(Marker marker) {
+		mAqiCity.setText(marker.getTitle());
+		mAqiDetails.setText(marker.getSnippet());
+		mAqiMarker.setImageBitmap(marker.getIcons().get(0).getBitmap());
+		showAqiDetails();
 		return false;
 	}
 
