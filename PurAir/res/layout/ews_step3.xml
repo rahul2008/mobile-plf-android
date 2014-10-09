@@ -165,7 +165,7 @@
                 android:background="@drawable/help_close"
                 android:contentDescription="@string/img_description" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_ip_lb"
                 android:layout_width="wrap_content"
@@ -190,7 +190,6 @@
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
                 android:ems="10"
-                android:enabled="false"
                 android:gravity="center"
                 android:hint=""
                 android:singleLine="true"
@@ -198,7 +197,7 @@
                 android:textSize="14sp" >
             </EditText>
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_subnet_lb"
                 android:layout_width="wrap_content"
@@ -222,7 +221,6 @@
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
                 android:ems="10"
-                android:enabled="false"
                 android:gravity="center"
                 android:hint=""
                 android:singleLine="true"
@@ -230,7 +228,7 @@
                 android:textSize="14sp" >
             </EditText>
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_router_lb"
                 android:layout_width="wrap_content"
@@ -255,7 +253,6 @@
                 android:layout_toRightOf="@+id/ews_step3_subnet_lb"
                 android:background="@drawable/ews_edit_txt_bg"
                 android:ems="10"
-                android:enabled="false"
                 android:gravity="center"
                 android:hint=""
                 android:singleLine="true"
@@ -263,7 +260,7 @@
                 android:textSize="14sp" >
             </EditText>
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_step3_wifi_add_lb"
                 android:layout_width="wrap_content"
@@ -283,7 +280,7 @@
                 android:layout_below="@+id/ews_step3_router_edittxt"
                 android:layout_marginLeft="8dp"
                 android:layout_toRightOf="@+id/ews_step3_wifi_add_lb"
-                android:text="@string/router"
+                android:text=""
                 android:textColor="@color/title_gray"
                 android:textSize="14sp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
@@ -326,7 +323,7 @@
                 android:padding="12dp"
                 android:src="@drawable/ews_setting_selector" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView 
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/ews_adv_config_lb"
                 android:layout_width="match_parent"

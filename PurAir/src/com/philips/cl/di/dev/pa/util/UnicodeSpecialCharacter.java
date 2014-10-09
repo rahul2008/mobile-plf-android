@@ -47,7 +47,7 @@ public class UnicodeSpecialCharacter {
 		addUnicodes(UNICODE10873, UNICODE10940, unicodes);
 		addUnicodes(UNICODE10999, UNICODE11002, unicodes);
 		addUnicodes(UNICODE12296, UNICODE12299, unicodes);
-		ALog.i(ALog.EWS, "Unicodes: " + unicodes);
+//		ALog.i(ALog.EWS, "Unicodes: " + unicodes);
 		return unicodes;
 	}
 

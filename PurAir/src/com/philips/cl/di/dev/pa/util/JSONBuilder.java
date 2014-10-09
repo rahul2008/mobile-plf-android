@@ -3,6 +3,9 @@ package com.philips.cl.di.dev.pa.util;
 import java.util.Hashtable;
 import java.util.Set;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.security.DISecurity;
@@ -211,6 +214,43 @@ public class JSONBuilder {
 		String dataToSend = builder.toString();
 		dataToSend = new DISecurity(null).encryptData(dataToSend, purifier);
 		return dataToSend;
+	}
+	
+	public static String getWifiPortJson(String ssid, String password, PurAirDevice purifier) {
+		ALog.i(ALog.EWS, "getWifiPortJson");
+		JSONObject holder = new JSONObject();
+		try {
+			holder.put("ssid", ssid);
+			holder.put("password", password);
+		} catch (JSONException e) {
+			ALog.e(ALog.EWS, e.getMessage());
+		}
+		String js = holder.toString();
+		ALog.i(ALog.EWS, "getWifiPortJson js: " + js);
+		String encryptedData = new DISecurity(null).encryptData(js, purifier);
+
+		return encryptedData ;
+	}
+	
+	public static String getWifiPortWithAdvConfigJson(String ssid, String password,
+			String ipAdd, String subnetMask, String gateWay, PurAirDevice purifier) {
+		ALog.i(ALog.EWS, "getWifiPortJson");
+		JSONObject holder = new JSONObject();
+		try {
+			holder.put("ssid", ssid);
+			holder.put("password", password);
+			holder.put("ipaddress", ipAdd);
+			holder.put("dhcp", false);
+			holder.put("netmask", subnetMask);
+			holder.put("gateway", gateWay);
+		} catch (JSONException e) {
+			ALog.e(ALog.EWS, e.getMessage());
+		}
+		String js = holder.toString();
+		ALog.i(ALog.EWS, "getWifiPortWithAdvConfigJson js: " + js);
+		String encryptedData = new DISecurity(null).encryptData(js, purifier);
+
+		return encryptedData ;
 	}
 
 }

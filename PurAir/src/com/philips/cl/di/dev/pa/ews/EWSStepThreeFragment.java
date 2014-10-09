@@ -53,9 +53,6 @@ public class EWSStepThreeFragment extends Fragment {
 	private boolean advSetting = false;
 	private ArrayList<Integer> unicodes;
 
-	// private String specialCharacters =
-	// "[©®°@¶•&‰%≠≈∞=±+×–—-†‡*÷/()¡!¿?´“”«»˝\":;_,.#\\≤«‹<≥»›>|¢$£₤₣₱¥€¥￦₩°•○●□■☆★♡♥》《¤◆◇…~^`§¤★πΠ√×∆♪♣♠♦↑←↓→™℅′″￥￡℃※♂♀↕↔' ]";
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -77,8 +74,7 @@ public class EWSStepThreeFragment extends Fragment {
 
 		unicodes = UnicodeSpecialCharacter.getSpecialCharaterUnicodes();
 
-		((EWSActivity) getActivity())
-				.setActionBarHeading(EWSConstant.EWS_STEP_THREE);
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_THREE);
 
 		focusListener = new EditTextFocusChangeListener();
 		buttonClickListener = new ButtonClickListener();
@@ -111,14 +107,10 @@ public class EWSStepThreeFragment extends Fragment {
 		}
 
 		if (SessionDto.getInstance().getDeviceWifiDto() != null) {
-			ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto()
-					.getIpaddress());
-			subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto()
-					.getNetmask());
-			routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto()
-					.getGateway());
-			wifiNetworkAddStep3.setText(SessionDto.getInstance()
-					.getDeviceWifiDto().getMacaddress());
+			ipAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getIpaddress());
+			subnetMaskStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getNetmask());
+			routerAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getGateway());
+			wifiNetworkAddStep3.setText(SessionDto.getInstance().getDeviceWifiDto().getMacaddress());
 		}
 
 		if (advSetting) {
@@ -134,8 +126,7 @@ public class EWSStepThreeFragment extends Fragment {
 		if (((EWSActivity) getActivity()).getEWSServiceObject()
 				.isNoPasswordSSID()) {
 			passwordStep3.setEnabled(false);
-			passwordStep3
-					.setBackgroundResource(R.drawable.ews_edit_txt_2_bg_gray);
+			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg_gray);
 		} else {
 			passwordStep3.setEnabled(true);
 			passwordStep3.setBackgroundResource(R.drawable.ews_edit_txt_2_bg);
@@ -181,7 +172,6 @@ public class EWSStepThreeFragment extends Fragment {
 				R.id.ews_step3_adv_config_layout);
 		advSettingBtnLayoutStep3 = (LinearLayout) getView().findViewById(
 				R.id.ews_adv_config_layout);
-
 	}
 
 	private void setFontStyle() {
@@ -191,8 +181,7 @@ public class EWSStepThreeFragment extends Fragment {
 		subnetMaskStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
 		routerAddStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
 		nextBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
-		editSavePlaceNameBtnStep3.setTypeface(Fonts
-				.getGillsansLight(getActivity()));
+		editSavePlaceNameBtnStep3.setTypeface(Fonts.getGillsansLight(getActivity()));
 	}
 
 	private void initializeListener() {
@@ -219,9 +208,6 @@ public class EWSStepThreeFragment extends Fragment {
 			}
 			if (source.toString().length() >= 0) {
 				for (char ch : source.toString().toCharArray()) {
-					// if (String.valueOf(ch).matches(specialCharacters)) {
-					// return source.subSequence(0, 0);
-					// }
 					if (unicodes.contains((int) ch)) {
 						return source.subSequence(0, 0);
 					}
@@ -268,14 +254,8 @@ public class EWSStepThreeFragment extends Fragment {
 				editPurifierNameClickEvent();
 				break;
 			case R.id.ews_step3_next_btn:
-				ALog.i(ALog.EWS, "step3 next button click");
-				if (ssid == null || ssid.isEmpty())
-					return;
-				((EWSActivity) getActivity()).sendNetworkDetails(ssid,
-						passwordStep3.getText().toString());
-				((EWSActivity) getActivity())
-						.setAdvSettingViewVisibility(advSettingLayoutStep3
-								.isShown());
+				if (ssid == null || ssid.isEmpty())	return;
+				nextButtonClick();
 				break;
 			default:
 				ALog.i(ALog.EWS, "Default...");
@@ -283,20 +263,31 @@ public class EWSStepThreeFragment extends Fragment {
 			}
 		}
 	}
+	
+	private void nextButtonClick() {
+		ALog.i(ALog.EWS, "step3 next button click");
+		String ipAdd = "";
+		if (ipAddStep3.getText() != null) ipAdd = ipAddStep3.getText().toString();
+		String subnetMask = "";
+		if (subnetMaskStep3.getText() != null) subnetMask = subnetMaskStep3.getText().toString();
+		String gateWay = "";
+		if (routerAddStep3.getText() != null) gateWay = routerAddStep3.getText().toString();
+		
+		((EWSActivity) getActivity()).sendNetworkDetails(
+				ssid, passwordStep3.getText().toString(), ipAdd, subnetMask, gateWay);
+		((EWSActivity) getActivity()).setAdvSettingViewVisibility(advSettingLayoutStep3.isShown());
+	}
 
 	private void passwordFieldEnableClickEvent() {
 		if (isPasswordVisibelStep3) {
 			isPasswordVisibelStep3 = false;
-			showPasswordImgStep3
-					.setImageResource(R.drawable.ews_password_off_3x);
-			passwordStep3
-					.setTransformationMethod(new PasswordTransformationMethod());
+			showPasswordImgStep3.setImageResource(R.drawable.ews_password_off_3x);
+			passwordStep3.setTransformationMethod(new PasswordTransformationMethod());
 			Editable editable = passwordStep3.getText();
 			Selection.setSelection(editable, passwordStep3.length());
 		} else {
 			isPasswordVisibelStep3 = true;
-			showPasswordImgStep3
-					.setImageResource(R.drawable.ews_password_on_2x);
+			showPasswordImgStep3.setImageResource(R.drawable.ews_password_on_2x);
 			passwordStep3.setTransformationMethod(null);
 			Editable editable = passwordStep3.getText();
 			Selection.setSelection(editable, passwordStep3.length());
@@ -311,26 +302,22 @@ public class EWSStepThreeFragment extends Fragment {
 			deviceNameStep3.setTextColor(GraphConst.COLOR_TITLE_GRAY);
 			Editable editable = deviceNameStep3.getText();
 			Selection.setSelection(editable, deviceNameStep3.length());
-			editSavePlaceNameBtnStep3.setText(getResources().getString(
-					R.string.save));
+			editSavePlaceNameBtnStep3.setText(getResources().getString(	R.string.save));
 		} else {
 			ALog.i(ALog.EWS, "step3 save name button click");
 			deviceNameStep3.setBackgroundColor(Color.WHITE);
 			deviceNameStep3.setEnabled(false);
 			deviceNameStep3.setTextColor(GraphConst.COLOR_PHILIPS_BLUE);
-			editSavePlaceNameBtnStep3.setText(getResources().getString(
-					R.string.edit));
+			editSavePlaceNameBtnStep3.setText(getResources().getString(R.string.edit));
 			String purifierName = deviceNameStep3.getText().toString();
 			ALog.i(ALog.EWS, "Edit text value: " + purifierName);
 			if (purifierName != null && purifierName.trim().length() > 0) {
-				((EWSActivity) getActivity())
-						.sendDeviceNameToPurifier(purifierName.trim());
+				((EWSActivity) getActivity()).sendDeviceNameToPurifier(purifierName.trim());
 			} else {
 				if (SessionDto.getInstance().getDeviceDto() == null) {
 					return;
 				}
-				deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto()
-						.getName());
+				deviceNameStep3.setText(SessionDto.getInstance().getDeviceDto().getName());
 			}
 		}
 	}
@@ -340,8 +327,7 @@ public class EWSStepThreeFragment extends Fragment {
 		public void onFocusChange(View v, boolean hasFocus) {
 
 			if (!hasFocus) {
-				InputMethodManager imm = (InputMethodManager) getActivity()
-						.getSystemService(Context.INPUT_METHOD_SERVICE);
+				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 				imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 			}
 		}

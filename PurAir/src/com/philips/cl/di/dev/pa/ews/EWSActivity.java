@@ -459,13 +459,13 @@ public class EWSActivity extends BaseActivity implements
 		}
 	}	
 	
-	public void sendNetworkDetails(String ssid, String password) {
+	public void sendNetworkDetails(String ssid, String password, String ipAdd, String subnetMask, String gateWay) {
 		networkSSID = ssid;
 		this.password = password;
 		showConnectToPurifierDialog();
 		ewsService.setSSID(networkSSID) ;
 		ewsService.setPassword(password) ;
-		ewsService.putWifiDetails() ;
+		ewsService.putWifiDetails(ipAdd, subnetMask, gateWay) ;
 	}
 
 	// Override methods - EWSListener - Start

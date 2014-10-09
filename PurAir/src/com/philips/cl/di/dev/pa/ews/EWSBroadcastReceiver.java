@@ -29,6 +29,7 @@ import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
+import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 
@@ -120,13 +121,13 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		di.exchangeKey(Utils.getPortUrl(Port.SECURITY, EWSConstant.PURIFIER_ADHOCIP), tempEWSPurifier.getEui64()) ;
 	}
 
-	public void putWifiDetails() {
+	public void putWifiDetails(String ipAdd, String subnetMask, String gateWay) {
 		ALog.i(ALog.EWS, "putWifiDetails");
 		startSSDPCountDownTimer();
 
 		taskType = WIFI_PUT ;
 
-		task = new EWSTasks(taskType,getWifiPortJson(),"PUT",this) ;
+		task = new EWSTasks(taskType,getWifiPortJson(ipAdd, subnetMask, gateWay),"PUT",this) ;
 		task.execute(Utils.getPortUrl(Port.WIFI, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
@@ -188,19 +189,20 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		task.execute(Utils.getPortUrl(Port.DEVICE, EWSConstant.PURIFIER_ADHOCIP));
 	}
 
-	private String getWifiPortJson() {
+	private String getWifiPortJson(String ipAdd, String subnetMask, String gateWay) {
 		ALog.i(ALog.EWS, "getWifiPortJson");
-		JSONObject holder = new JSONObject();
-		try {
-			holder.put("ssid", homeSSID);
-			holder.put("password", password);
-		} catch (JSONException e) {
-			ALog.e(ALog.EWS, e.getMessage());
+		String encryptedData = "";
+		if (ipAdd.equals(SessionDto.getInstance().getDeviceWifiDto().getIpaddress())
+				&& subnetMask.equals(SessionDto.getInstance().getDeviceWifiDto().getNetmask())
+				&& gateWay.equals(SessionDto.getInstance().getDeviceWifiDto().getGateway())) {
+			encryptedData = JSONBuilder.getWifiPortJson(homeSSID, password, tempEWSPurifier);
+		} else {
+			if (ipAdd.isEmpty()) ipAdd = SessionDto.getInstance().getDeviceWifiDto().getIpaddress();
+			if (subnetMask.isEmpty()) subnetMask = SessionDto.getInstance().getDeviceWifiDto().getNetmask();
+			if (gateWay.isEmpty()) gateWay = SessionDto.getInstance().getDeviceWifiDto().getGateway();
+			encryptedData = JSONBuilder.getWifiPortWithAdvConfigJson(
+					homeSSID, password, ipAdd, subnetMask, gateWay, tempEWSPurifier);
 		}
-		String js = holder.toString();
-		ALog.i(ALog.EWS, "js: " + js);
-		String encryptedData = new DISecurity(null).encryptData(js, tempEWSPurifier);
-
 		return encryptedData ;
 	}
 
