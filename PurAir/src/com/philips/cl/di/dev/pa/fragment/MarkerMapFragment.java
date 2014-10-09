@@ -38,6 +38,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.gaode.map.MapUtils;
 
 /**
  * 
@@ -66,7 +67,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	private TextView textView = null;
 	private Canvas mCanvas = null;
 	
-	private static final String TAG = "MapMarkerFragment";
+	private static final String TAG = "MarkerMapFragment";
 
 	@Override
 	public void onMapLoaded() {
@@ -214,7 +215,7 @@ public class MarkerMapFragment extends BaseFragment implements
 		}
 		
 		mBitMap = writeTextOnDrawable(
-				MarkerMapFragment.getAqiPointerImageResId(aqiValue,
+				MapUtils.getMapUtilsInstace().getAqiPointerImageResId(aqiValue,
 						iconOval), aqiValue);
 				
 		mArrayListMarker.add(aMap.addMarker(new MarkerOptions()
@@ -299,42 +300,6 @@ public class MarkerMapFragment extends BaseFragment implements
 	public boolean onMarkerClick(Marker marker) {
 		return false;
 	}
-
-	public static int getAqiPointerImageResId(int p2, boolean iconOval) {
-
-		if (!iconOval) {
-			if (p2 >= 0 && p2 <= 50) {
-				return R.drawable.map_circle_6;
-			} else if (p2 > 50 && p2 <= 100) {
-				return R.drawable.map_circle_5;
-			} else if (p2 > 100 && p2 <= 150) {
-				return R.drawable.map_circle_4;
-			} else if (p2 > 150 && p2 <= 200) {
-				return R.drawable.map_circle_3;
-			} else if (p2 > 200 && p2 <= 300) {
-				return R.drawable.map_circle_2;
-			} else if (p2 > 300) {
-				return R.drawable.map_circle_1;
-			}
-		} else {
-			if (p2 >= 0 && p2 <= 50) {
-				return R.drawable.map_oval_6;
-			} else if (p2 > 50 && p2 <= 100) {
-				return R.drawable.map_oval_5;
-			} else if (p2 > 100 && p2 <= 150) {
-				return R.drawable.map_oval_4;
-			} else if (p2 > 150 && p2 <= 200) {
-				return R.drawable.map_oval_3;
-			} else if (p2 > 200 && p2 <= 300) {
-				return R.drawable.map_oval_2;
-			} else if (p2 > 300) {
-				return R.drawable.map_oval_1;
-			}
-		}
-
-		return R.drawable.map_circle_6;
-	}
-
 
 	@Override
 	public void allOutdoorAQIDataReceived(List<OutdoorAQI> aqis) {

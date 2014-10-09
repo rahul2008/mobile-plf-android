@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.AMap.OnMapClickListener;
 import com.amap.api.maps2d.AMap.OnMapLoadedListener;
 import com.amap.api.maps2d.AMap.OnMarkerClickListener;
@@ -28,8 +29,9 @@ import com.amap.api.maps2d.model.MarkerOptions;
 
 /**
  * 
- * MapActivity class is  base class for GAODE MAP implementation.
- * Author : Ritesh.jha@philips.com Date : 7 Oct 2014
+ * MapActivity class is base class for GAODE MAP implementation. 
+ * Author : Ritesh.jha@philips.com 
+ * Date : 7 Oct 2014
  * 
  */
 public class MapActivity extends Activity implements OnMarkerClickListener,
@@ -44,7 +46,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener,
 	protected ImageView mAqiMarker = null;
 	protected LayoutInflater inflater = null;
 	protected View view = null;
-	protected Bitmap mBitMap = null;
 	protected TextView textView = null;
 	private boolean isAnimationDrawableOpen = false;
 	private Canvas mCanvas = null;
@@ -125,6 +126,18 @@ public class MapActivity extends Activity implements OnMarkerClickListener,
 		}
 	}
 
+	protected AMap getMarkerAMapView() {
+		return aMap;
+	}
+
+	protected MapView getMarkerMapView() {
+		return mapView;
+	}
+
+	protected UiSettings getMarkerUISettins() {
+		return aMap != null ? aMap.getUiSettings() : null;
+	}
+
 	@Override
 	public boolean onMarkerClick(Marker marker) {
 		mAqiCity.setText(marker.getTitle());
@@ -179,47 +192,6 @@ public class MapActivity extends Activity implements OnMarkerClickListener,
 		}
 	}
 
-	/*
-	 * Accepts AQI values and on that basis returns marker image.
-	 * 
-	 * Argument : aqi represents AQI value. Argument : iconOval represents the
-	 * drawable type
-	 */
-	protected int getAqiPointerImageResId(int aqi, boolean iconOval) {
-
-		if (!iconOval) {
-			if (aqi >= 0 && aqi <= 50) {
-				return R.drawable.map_circle_6;
-			} else if (aqi > 50 && aqi <= 100) {
-				return R.drawable.map_circle_5;
-			} else if (aqi > 100 && aqi <= 150) {
-				return R.drawable.map_circle_4;
-			} else if (aqi > 150 && aqi <= 200) {
-				return R.drawable.map_circle_3;
-			} else if (aqi > 200 && aqi <= 300) {
-				return R.drawable.map_circle_2;
-			} else if (aqi > 300) {
-				return R.drawable.map_circle_1;
-			}
-		} else {
-			if (aqi >= 0 && aqi <= 50) {
-				return R.drawable.map_oval_6;
-			} else if (aqi > 50 && aqi <= 100) {
-				return R.drawable.map_oval_5;
-			} else if (aqi > 100 && aqi <= 150) {
-				return R.drawable.map_oval_4;
-			} else if (aqi > 150 && aqi <= 200) {
-				return R.drawable.map_oval_3;
-			} else if (aqi > 200 && aqi <= 300) {
-				return R.drawable.map_oval_2;
-			} else if (aqi > 300) {
-				return R.drawable.map_oval_1;
-			}
-		}
-
-		return R.drawable.map_circle_6;
-	}
-
 	private void setUpMap() {
 		aMap.setOnMapLoadedListener(this);
 		aMap.setOnMarkerClickListener(this);
@@ -243,14 +215,12 @@ public class MapActivity extends Activity implements OnMarkerClickListener,
 	}
 
 	protected Marker createMarker(int imageResource) {
-		if (mBitMap != null) {
-			mBitMap.recycle();
-			mBitMap = null;
-		}
+		Bitmap mBitMap = null;
 
 		if (imageResource == DEFAULT_IMAGE_RESOURCE) {
-			imageResource = getAqiPointerImageResId(getMarkerAqiValue(),
-					isMarkerIconOval());
+			imageResource = MapUtils.getMapUtilsInstace()
+					.getAqiPointerImageResId(getMarkerAqiValue(),
+							isMarkerIconOval());
 		}
 		mBitMap = writeTextOnDrawable(imageResource);
 		Marker marker = aMap.addMarker(new MarkerOptions()
