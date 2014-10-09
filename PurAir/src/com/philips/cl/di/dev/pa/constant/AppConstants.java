@@ -242,4 +242,5 @@ public class AppConstants {
 	
 	public static final String SIMPLIFIED_CHINESE_LANGUAGE_CODE="ZH-HANS";
 	public static final String TRADITIONAL_CHINESE_LANGUAGE_CODE="ZH-HANT";
+	public static final int MAX_RETRY = 3;
 }

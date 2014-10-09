@@ -33,6 +33,11 @@ public class PurifierDatabase {
 	public long insertPurAirDevice(PurAirDevice purifier) {
 		long rowId = -1L;
 		if (purifier == null) return rowId;
+
+		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		}
+		
 		ALog.i(ALog.DATABASE, "Insert into table Usn: " + purifier.getUsn()
 				+ ", CppId: " + purifier.getEui64()
 				+ ", BootId: " + purifier.getBootId()
@@ -58,7 +63,7 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 				
 				ALog.i(ALog.DATABASE, "ordinal value of"+ purifier.getPairedStatus() +"is: "+ purifier.getPairedStatus().ordinal());
-				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
+				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal()); 
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, e.getMessage());
@@ -132,8 +137,14 @@ public class PurifierDatabase {
 	 * @return
 	 */
 	public long updatePurifier(long rowId, PurAirDevice purifier) {
-		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
 		long newRowId = -1;
+		if(purifier==null) return newRowId;
+		ALog.i(ALog.DATABASE, "Updating purifier: " + purifier);
+		
+		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		}
+		
 		try {
 			db = dbHelper.getWritableDatabase();
 
@@ -165,6 +176,12 @@ public class PurifierDatabase {
 		long newRowId = -1;
 		
 		if (purifier == null || purifier.getUsn() == null) return newRowId;
+
+		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+		}
+
+		purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 		try {
 			db = dbHelper.getWritableDatabase();
 

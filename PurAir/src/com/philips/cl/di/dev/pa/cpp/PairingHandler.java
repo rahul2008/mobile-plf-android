@@ -2,6 +2,10 @@ package com.philips.cl.di.dev.pa.cpp;
 
 import java.net.HttpURLConnection;
 import java.util.Date;
+import java.util.HashMap;
+
+import android.os.Handler;
+import android.os.Message;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -32,7 +36,7 @@ import com.philips.icpinterface.data.PairingRelationship;
 public class PairingHandler implements ICPEventListener, ServerResponseListener {
 
 	private ICPCallbackHandler callbackHandler;
-	private String currentRelationshipType = null;
+	private String currentRelationshipType ;
 	private PairingListener pairingListener;
 	private PurifierDatabase purifierDatabase;
 	private String secretKey;
@@ -40,6 +44,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	private PurAirDevice purifier;
 	private PermissionListener permissionListener = null;
 	private CPPController cppController;
+	private static HashMap<String, Integer> attemptsCount = new HashMap<String, Integer>();
 
 	private enum ENTITY {
 		PURIFIER, APP
@@ -79,7 +84,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 *            String[]
 	 */
 	public void startPairing() {
-		ALog.i(ALog.PAIRING, "Started pairing with purifier - eui64= " + purifier.getEui64());
+		ALog.i(ALog.PAIRING, "Started pairing with purifier - eui64= " + purifier.getName() + "attempt: "+getPairingAttempts(purifier.getEui64()));
 		currentRelationshipType = AppConstants.PAIRING_DI_COMM_RELATIONSHIP;
 		getRelationship(currentRelationshipType, purifier.getEui64());
 	}
@@ -174,8 +179,8 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 							new String[AppConstants.PAIRING_PERMISSIONS.size()])), getPairingInfo(secretKey));
 		} else {
 			addPSRelation.addRelationshipRequest(null, getPurifierEntity(), null, getPairingRelationshipData(
-						relationshipType,AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(
-								new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()])), null);
+					relationshipType,AppConstants.PAIRING_PUSH_PERMISSIONS.toArray(
+							new String[AppConstants.PAIRING_PUSH_PERMISSIONS.size()])), null);
 		}
 
 		addPSRelation.setPairingServiceCommand(Commands.PAIRING_ADD_RELATIONSHIP);
@@ -211,7 +216,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			return;
 		}
 		removeRelationship
-				.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
+		.setPairingServiceCommand(Commands.PAIRING_REMOVE_RELATIONSHIP);
 		retStatus = removeRelationship.executeCommand();
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -295,8 +300,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	}
 
 	/**
-	 * generates random key
-	 * 
+	 * generates random key	 * 
 	 * @return random secret key
 	 */
 	public String generateRandomSecretKey() {
@@ -304,16 +308,33 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 	}
 
+	public static int getPairingAttempts(String eui64){
+		int attempts=0;
+		if(attemptsCount.containsKey(eui64)){
+			attempts= attemptsCount.get(eui64);
+		}
+		return attempts;
+	}
+	
+	public static void clear() {
+		if( attemptsCount != null)
+			attemptsCount.clear() ;
+	}
+
+	public void setPairingAttempts(String eui64){
+		int attempts=0;
+		if(attemptsCount.containsKey(eui64)){
+			attempts= attemptsCount.get(eui64);
+		}
+		attemptsCount.put(eui64, attempts+1);
+	}
+
 	/**
 	 * Method onICPCallbackEventOccurred.
 	 * 
-	 * @param eventType
-	 *            int
-	 * @param status
-	 *            int
-	 * @param obj
-	 *            ICPClient
-	 * 
+	 * @param eventType	 *            int
+	 * @param status	 *            int
+	 * @param obj	 *            ICPClient	 * 
 	 * @see com.philips.cl.di.dev.pa.cpp.ICPEventListener#onICPCallbackEventOccurred(int,
 	 *      int, ICPClient)
 	 */
@@ -325,9 +346,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 		if (status != Errors.SUCCESS) {
 			if (permissionListener == null) {
-				ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add)");
-				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-				notifyListenerFailed();
+				ALog.e(ALog.PAIRING, "Pairing call-FAILED (get or add), pairing attempt:"+ getPairingAttempts(purifier.getEui64())+" Purifier name:" +purifier.getName());
+				notifyListenerFailed(false);
+
 			} else {
 				ALog.e(ALog.PAIRING, "get permission call failed");
 				permissionListener.onCallFailed();
@@ -341,13 +362,15 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			ALog.i(ALog.PAIRING, "GetRelation call-SUCCESS");
 			int noOfRelations = getNumberOfRelationships(pairingObj);
 			if (diCommRelationships < 1 || noOfRelations < 1) {
+
 				ALog.i(ALog.PAIRING, "No existing relationships - Requesting Purifier to start pairing");
 				startPairingPortTask(currentRelationshipType, AppConstants.PAIRING_PERMISSIONS
-								.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
+						.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
 			} else if (diCommRelationships < 2 || noOfRelations < 1) {
+
 				ALog.i(ALog.PAIRING, "Only one existing relationship (one expired) - Need to start pairing again");
 				startPairingPortTask(currentRelationshipType, AppConstants.PAIRING_PERMISSIONS
-								.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
+						.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
 			} else if (currentRelationshipType.equals(AppConstants.PAIRING_DI_COMM_RELATIONSHIP)
 					&& noOfRelations > 0) {
 				currentRelationshipType = AppConstants.PAIRING_NOTIFY_RELATIONSHIP;
@@ -363,7 +386,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 				purifierDatabase.updatePairingStatus(purifier,	PurAirDevice.PAIRED_STATUS.PAIRED);
 				//Clear indoor AQI historic data
 				SessionDto.getInstance().setIndoorTrendDto(purifier.getEui64(), null);
-				
+
 			}
 		}
 
@@ -406,8 +429,8 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 					ALog.i(ALog.PAIRING, "NOTIFY Relationship removed successfully - Pairing removed successfully");
 					notifyListenerSuccess();
 					ALog.i(ALog.PAIRING, "Paring status set to UNPAIRED");
-					purifier.setPairing(PurAirDevice.PAIRED_STATUS.UNPAIRED);
-					purifierDatabase.updatePairingStatus(purifier, PurAirDevice.PAIRED_STATUS.UNPAIRED);
+					purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+					purifierDatabase.updatePairingStatus(purifier, PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 				}
 			}
 		}
@@ -430,9 +453,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 					notifyListenerSuccess();
 				}
 			} else {
-				ALog.i(ALog.PAIRING, "Pairing status is PENDING");
-				purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-				notifyListenerFailed();
+				ALog.e(ALog.PAIRING, "Pairing status is PENDING, pairing attempt:"+ getPairingAttempts(purifier.getEui64())+" Purifier name:" +purifier.getName());
+				notifyListenerFailed(false);
+
 			}
 		} else if (eventType == Commands.PAIRING_ADD_PERMISSIONS) {
 			permissionListener.onPermissionAdded();
@@ -467,10 +490,8 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	/**
 	 * Method receiveServerResponse.
 	 * 
-	 * @param responseCode
-	 *            int
-	 * @param responseData
-	 *            String
+	 * @param responseCode	 *            int
+	 * @param responseData	 *            String
 	 * @see com.philips.cl.di.dev.pa.util.ServerResponseListener#receiveServerResponse(int,
 	 *      String)
 	 */
@@ -483,20 +504,42 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			addRelationship(currentRelationshipType, secretKey);
 		} else {
 			ALog.e(ALog.PAIRING, "PairingPort call-FAILED");
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-			notifyListenerFailed();
+			notifyListenerFailed(true);
 		}
 	}
 
 	private void notifyListenerSuccess() {
 		if (pairingListener == null) return;
-		pairingListener.onPairingSuccess(purifier);
+		pairingListener.onPairingSuccess();
 	}
 
-	private void notifyListenerFailed() {
-		if (pairingListener == null) return;
-		pairingListener.onPairingFailed(purifier);
+	private void notifyListenerFailed(boolean isPairingPortTaskFailed) {
+
+		if(getPairingAttempts(purifier.getEui64())<AppConstants.MAX_RETRY){
+			setPairingAttempts(purifier.getEui64());
+			// If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request
+			if( isPairingPortTaskFailed ) {
+				startPairingPortTask(AppConstants.PAIRING_DI_COMM_RELATIONSHIP, AppConstants.PAIRING_PERMISSIONS
+						.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
+			}
+			else {
+				startPairing();
+			}
+		}
+		else {
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+			if (pairingListener == null) return;
+			pairingListener.onPairingFailed(purifier);
+		}		
 	}
+	
+	private Handler pairingPortTaskHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			startPairingPortTask(AppConstants.PAIRING_DI_COMM_RELATIONSHIP, AppConstants.PAIRING_PERMISSIONS
+					.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
+		};
+	};
 
 	/**
 	 * Method addPermission- adds permission to a existing relationship
@@ -518,7 +561,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			return;
 		}
 		addPermission
-				.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
+		.setPairingServiceCommand(Commands.PAIRING_ADD_PERMISSIONS);
 		retStatus = addPermission.executeCommand();
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -548,7 +591,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			return;
 		}
 		getPermission
-				.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
+		.setPairingServiceCommand(Commands.PAIRING_GET_PERMISSIONS);
 		retStatus = getPermission.executeCommand();
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -577,7 +620,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			return;
 		}
 		removePermissions
-				.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
+		.setPairingServiceCommand(Commands.PAIRING_REMOVE_PERMISSIONS);
 		retStatus = removePermissions.executeCommand();
 		if (Errors.SUCCESS != retStatus) {
 			ALog.d(ALog.PAIRING, "Request Invalid/Failed Status: " + retStatus);
@@ -585,7 +628,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	}
 
 	public static boolean pairPurifierIfNecessary(PurAirDevice purifier) {
-		
+
 		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
 			return false;
 		}
@@ -595,12 +638,17 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 
 		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
-
+		
+		// First time pairing or on EWS 
+		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED ) {
+			return true;			
+		}
+		//Everyday check for pairing
 		long lastPairingCheckTime = purifier.getLastPairedTime();		
 		long diffInDays = Utils.getDiffInDays(lastPairingCheckTime);
-		// First time pairing or on EWS and Everyday check for pairing
-		if( purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || diffInDays != 0) {
-			return true;			
+		
+		if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.PAIRED && diffInDays != 0){
+			return true;
 		}
 		return false;
 	}

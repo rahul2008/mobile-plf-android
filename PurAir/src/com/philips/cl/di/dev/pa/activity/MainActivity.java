@@ -76,7 +76,6 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryEventListener;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
@@ -146,12 +145,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
-
+	
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-
+		
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 
@@ -251,6 +250,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		// Enable for release build
 		checkForCrashesHockeyApp(); 
+
+
 	}
 
 	public void startDemoMode() {
@@ -341,6 +342,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onStart();
 		// Ensure app is registered for notifications
 		NotificationRegisteringManager.getNotificationManager().getNotificationRegisteringManager();
+		PairingHandler.clear();
 	}
 
 	@Override
@@ -356,9 +358,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onDestroy() {
 		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
-		//		if(mLocationTracker !=null){
-		//			mLocationTracker.deactivate();
-		//		}
 		super.onDestroy();
 	}
 
@@ -618,12 +617,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private void showAlertDialogPairingFailed(String title, String message) {
 		try {
 			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-			
+
 			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("pairing_failed");
 			if (prevFrag != null) {
 				fragTransaction.remove(prevFrag);
 			}
-			
+
 			fragTransaction.add(DownloadAlerDialogFragement.
 					newInstance(title, message), "pairing_failed").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
@@ -934,8 +933,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 
-		if(purifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.NOT_PAIRED) return;
-		ALog.i(ALog.PAIRING, "In updatePurifierUIFields(): "+ purifier.getPairedStatus());
+		ALog.i(ALog.PAIRING, "In updatePurifierUIFields(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
 		pairToPurifierIfNecessary();
 	}
 
@@ -961,7 +959,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 	}
-	
+
 	private void disableFilterStatus() {
 		/** Update filter bars */
 		preFilterView.setColorAndLength(Color.LTGRAY, 0);
@@ -1033,44 +1031,21 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	private void pairToPurifierIfNecessary() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
-		if( PairingHandler.pairPurifierIfNecessary(purifier)) {
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
-			startPairing(purifier);			
-		}
-		else {
-			setProgressDialogInvisible() ;
-		}
-	}
-
-	public void setProgressDialogInvisible(){
-		this.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				setVisibilityAirPortTaskProgress(View.INVISIBLE);
+			if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
+				purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
+				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
+				PairingHandler pm = new PairingHandler(this, purifier);
+				pm.setPairingAttempts(purifier.getEui64());
+				pm.startPairing();
 			}
-		});
-	}
-
-	public void startPairing(PurAirDevice purifier) {
-		if (purifier == null) return; // TODO why can this happen?
-
-		PairingHandler pm = new PairingHandler(this, purifier);
-		pm.startPairing();
 	}
 
 	@Override
-	public void onPairingSuccess(PurAirDevice purifier) {	
-		if (getCurrentPurifier() != null
-				&& getCurrentPurifier().getConnectionState() == ConnectionState.CONNECTED_REMOTELY 
-				&& getCurrentPurifier().getPairedStatus() == PAIRED_STATUS.UNPAIRED) {
-			getCurrentPurifier().setConnectionState(ConnectionState.DISCONNECTED);
-		}
-		updatePurifierUIFields();
+	public void onPairingSuccess() {	
 	}
 
 	@Override
 	public void onPairingFailed(PurAirDevice purifier) {	
-		updatePurifierUIFields();
 		//If pairing failed show alert
 		String title = "";
 		if (purifier != null) title = purifier.getName();
