@@ -36,6 +36,8 @@ public class MarkerActivity extends MapActivity implements
 	private List<String> mCitiesListAll = null;
 	private OutdoorCity mOutdoorCity = null;
 	private ArrayList<Marker> mArrayListMarker = null;
+	private Thread mThread = null;
+	private PopulateMarkerThread mRunnable = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +48,27 @@ public class MarkerActivity extends MapActivity implements
 		setMarkerAnchorFirstParam(0.5f);
 		setMarkerAnchorSecondParam(0.5f);
 		setMarkerDraggable(true);
+		
+		mRunnable = new PopulateMarkerThread();
+		mThread = new Thread(mRunnable);
+		mThread.start();
+	}
 
+	class PopulateMarkerThread implements Runnable{
+		@Override
+		public void run() {
+			populateAllMarkers();
+		}
+	}
+	
+	private void populateAllMarkers() {
 		for (int i = 0; i < mCitiesListAll.size(); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance()
 					.getCityDataAll(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
 		addMarkerToMap(mOutdoorCity);
-		addMarkerCurrentPurifer();
+		addMarkerCurrentPurifer();	
 	}
 
 	@Override
@@ -79,6 +94,9 @@ public class MarkerActivity extends MapActivity implements
 			mArrayListMarker.clear();
 			mArrayListMarker = null;
 		}
+		
+		mThread = null;
+		mRunnable = null;
 
 		/*
 		 * Since calling gc() is not recommended but by using this we are able
