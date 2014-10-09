@@ -339,6 +339,12 @@ public class MarkerMapFragment extends BaseFragment implements
 	@Override
 	public void allOutdoorAQIDataReceived(List<OutdoorAQI> aqis) {
 		isAllAqiReceived = true;
+		if (aqis == null || aqis.isEmpty())
+			return;
+		for (OutdoorAQI outdoorAQI : aqis) {
+			OutdoorManager.getInstance().addAllCityDataToMap(null, outdoorAQI, null, outdoorAQI.getAreaID());
+		}
+		
 		mHandler.sendEmptyMessageDelayed(0, 500);		
 	}
 
