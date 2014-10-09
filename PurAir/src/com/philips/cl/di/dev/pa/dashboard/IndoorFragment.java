@@ -90,8 +90,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
 		purifierNameTxt.setSelected(true);
 		
-		alartMessageTextView = (FontTextView) 
-				getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
+		alartMessageTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
 		alartMessageTextView.setVisibility(View.GONE);
 		
 		if (PurifierManager.getInstance().getCurrentPurifier() != null) {
@@ -99,14 +98,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		
 		purifierEui64Txt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_eui64);
-
 		purifierEui64Txt.setText(eui64);
-
 
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 		aqiPointer.setOnClickListener(this);
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
-
 
 		initFirmwareUpdatePopup();
 	}

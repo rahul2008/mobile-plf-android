@@ -200,46 +200,56 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	@Override
 	public void receiveServerResponse(int responseCode, String data, String areaID) {
 		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode + " areaID " + areaID);
-		if(data != null && !areaID.isEmpty()) {
+		if(data != null && !areaID.isEmpty() && !areaID.equals("from_lat_long")) {
 			notifyListeners(data, areaID);
-		} else if (areaID.isEmpty() && data != null && !data.isEmpty()) {
-			
-			String[] areaIDResponse = data.split(",");
-			String newAreaID = "";
-			if (areaIDResponse != null && areaIDResponse.length > 0) {
-				String[] areaIDSplit = areaIDResponse[0].split(":");
-				if (areaIDSplit != null && areaIDSplit.length > 1) {
-					newAreaID = areaIDSplit[1];
-				}
-			}
-			
-			if (newAreaID.isEmpty()) return;
-			
-			LocationUtils.saveCurrentLocationAreaId(newAreaID);
-			OutdoorManager.getInstance().addAreaIDToUsersList(newAreaID);
-			areaIdReceived();//Listen to outdoor location fragment
-			
-			//Update city in from database to map
-			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-			database.open();
-			Cursor c = database.getDataCurrentLoacation(newAreaID);
-			if (c != null && c.getCount() == 1) {
-				c.moveToFirst();
-				String city = c.getString(c.getColumnIndex(AppConstants.KEY_CITY));
-				String cityCN = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_CN));
-				String cityTW = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_TW));
-				float longitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LONGITUDE));
-				float latitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LATITUDE));
-
-				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, newAreaID);
-				OutdoorManager.getInstance().addCityDataToMap(info, null, null, newAreaID);
-			}
-			database.updateOutdoorLocationShortListItem(newAreaID,	true);
-			database.close();
-			
-			OutdoorManager.getInstance().startCitiesTask();
-			if(LocationUtils.getCurrentLocationAreaId().isEmpty()) done=false;
+		} else if (!areaID.isEmpty() && areaID.equals("from_lat_long") && data != null && !data.isEmpty()) {
+			processAreaID(data);
 		} 
+	}
+	
+	private void processAreaID(String data) {
+		String areaId = parseAreaID(data);
+		if (areaId.isEmpty()) return;
+		
+		LocationUtils.saveCurrentLocationAreaId(areaId);
+		OutdoorManager.getInstance().addAreaIDToUsersList(areaId);
+		areaIdReceived();//Listen to outdoor location fragment
+		
+		addMyLocationToMap(areaId);
+		
+		OutdoorManager.getInstance().startCitiesTask();
+		if(LocationUtils.getCurrentLocationAreaId().isEmpty()) done=false;
+	}
+
+	private void addMyLocationToMap(String areaId) {
+		OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
+		database.open();
+		Cursor c = database.getDataCurrentLoacation(areaId);
+		if (c != null && c.getCount() == 1) {
+			c.moveToFirst();
+			String city = c.getString(c.getColumnIndex(AppConstants.KEY_CITY));
+			String cityCN = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_CN));
+			String cityTW = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_TW));
+			float longitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LONGITUDE));
+			float latitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LATITUDE));
+
+			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
+			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
+		}
+		database.updateOutdoorLocationShortListItem(areaId,	true);
+		database.close();
+	}
+
+	private String parseAreaID(String data) {
+		String[] areaIDResponse = data.split(",");
+		String newAreaID = "";
+		if (areaIDResponse != null && areaIDResponse.length > 0) {
+			String[] areaIDSplit = areaIDResponse[0].split(":");
+			if (areaIDSplit != null && areaIDSplit.length > 1) {
+				newAreaID = areaIDSplit[1];
+			}
+		}
+		return newAreaID;
 	}
 
 	public boolean isPhilipsSetupWifiSelected() {
@@ -298,12 +308,11 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 	
 	public void startGetAreaIDTask(double longitude, double latitude) {
-		//Save lat and lon in preference
 		LocationUtils.saveCurrentLocationLatLon(String.valueOf(latitude), String.valueOf(longitude));
 		//If purifier in demo mode, skip download data
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "", PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "from_lat_long", PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	

@@ -52,25 +52,10 @@ public class TaskGetHttp extends Thread {
 			e.printStackTrace();
 		}
 		finally {
-			// Makes sure that the InputStream is closed after the app is
-			// finished using it.
-			
 			if ( listener != null ) {
 				listener.receiveServerResponse(responseCode, result, areaID) ;
 			}
-			
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				inputStream = null ;
-			} 
-			if( conn != null ) {
-				conn.disconnect() ;
-				conn = null ;
-			}
+			NetworkUtils.closeAllConnections(inputStream, null, conn);
 		}
 	}
 

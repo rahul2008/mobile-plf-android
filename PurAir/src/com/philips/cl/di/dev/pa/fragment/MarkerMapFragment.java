@@ -52,7 +52,6 @@ public class MarkerMapFragment extends BaseFragment implements
 	private AMap aMap;
 	private MapView mapView;
 	private UiSettings mUiSettings;
-//	private List<String> mCitiesList = null;
 	private List<String> mCitiesListAll = null;
 	private LatLngBounds bounds = null;
 	private Builder builder = null;

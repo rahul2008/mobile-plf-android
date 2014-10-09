@@ -108,7 +108,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			ImageButton takeATourCloseButton = (ImageButton) getView().findViewById(R.id.btn_close_tour_layout);
 			takeATourCloseButton.setOnClickListener(this);
 		}
-		
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -166,8 +165,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
             indoorViewPager.setAdapter(indoorPagerAdapter);
             
-            indoorViewPager.setCurrentItem(
-            		PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
+            indoorViewPager.setCurrentItem(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
             
 		}		
 	
@@ -178,7 +176,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 		}
 		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
-		//outdoorViewPager.setOffscreenPageLimit(3);
 		outdoorViewPager.setAdapter(outdoorPagerAdapter);
 		
 		CirclePageIndicator indicator = (CirclePageIndicator)getView().findViewById(R.id.indicator);
