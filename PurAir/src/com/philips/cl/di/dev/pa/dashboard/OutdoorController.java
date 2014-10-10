@@ -364,4 +364,8 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		void areaIdReceived();
 	}
 	
+	public static void setDummyOutdoorControllerForTesting(OutdoorController controller) {
+		smInstance = controller;
+	}
+	
 }
