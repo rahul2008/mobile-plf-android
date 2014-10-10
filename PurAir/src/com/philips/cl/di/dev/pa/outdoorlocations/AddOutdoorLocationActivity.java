@@ -68,7 +68,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 	}
 	
 	private void updateAdapter(String input) {
-		String selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED + " and " + AppConstants.KEY_CITY + " like '%" + input + "%'";
+		String selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED + " and " + AppConstants.KEY_CITY + " OR " + AppConstants.KEY_CITY_CN+ " OR " + AppConstants.KEY_CITY_TW + " like '%" + input + "%'";
 		
 		OutdoorLocationHandler.getInstance().fetchCities(selection);
 	}
