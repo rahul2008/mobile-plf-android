@@ -21,11 +21,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
-import com.amap.api.location.LocationManagerProxy;
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
+import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSActivity;
@@ -44,7 +43,7 @@ import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class StartFlowChooseFragment extends BaseFragment implements
-		OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
+OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListener, OnItemClickListener {
 
 	private Button mBtnNewPurifier;
 	private ProgressBar searchingPurifierProgressBar;
@@ -75,13 +74,14 @@ public class StartFlowChooseFragment extends BaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		LocationManagerProxy mAMapLocationManager = 
-				LocationManagerProxy.getInstance(PurAirApplication.getAppContext());
-		if(!mAMapLocationManager.isProviderEnabled(LocationManagerProxy.GPS_PROVIDER)){
+		if (!GPSLocation.getInstance().isLocationEnabled()) {
+			// If GPS is not enabled, request user to
+			// enable location services here.
 			showLocationServiceTurnedOffDialog();
 		}
+
 	}
-	
+
 	private void showLocationServiceTurnedOffDialog() {
 		Bundle mBundle = new Bundle();
 		StartFlowDialogFragment mDialog;
@@ -97,14 +97,14 @@ public class StartFlowChooseFragment extends BaseFragment implements
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 		OutdoorController.getInstance().setLocationProvider();
 		showDiscoveredPurifier();
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -196,21 +196,21 @@ public class StartFlowChooseFragment extends BaseFragment implements
 				selectedPurifier.setLatitude(String.valueOf(location.getLatitude()));
 				selectedPurifier.setLongitude(String.valueOf(location.getLongitude()));
 			}
-			
+
 			PurifierManager.getInstance().setCurrentPurifier(selectedPurifier);
 
 			((MainActivity) getActivity()).setTitle(getString(R.string.congratulations));
 			((MainActivity) getActivity()).showFragment(new CongratulationFragment());
-			
-			 PurifierDatabase purifierDatabase = new PurifierDatabase();
-			 purifierDatabase.insertPurAirDevice(selectedPurifier);
-			 
+
+			PurifierDatabase purifierDatabase = new PurifierDatabase();
+			purifierDatabase.insertPurAirDevice(selectedPurifier);
+
 		} else {
 			showAlertDialog(getString(R.string.purifier_add_fail_title),
 					getString(R.string.purifier_add_fail_msg));
 		}
 	}
-	
+
 	@Override
 	public void onPurifierSelect(PurAirDevice purifier) {
 		SetupDialogFactory.getInstance(getActivity()).cleanUp();
@@ -256,7 +256,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 
 	@Override
 	public void dialogCancelClicked(DialogFragment dialog) {/**NOP*/}
-	
+
 	private void showDiscoveredPurifier() {
 		final DiscoveryManager discoveryManager = DiscoveryManager.getInstance();
 		discoveryManager.setAddNewPurifierListener(this);
@@ -266,7 +266,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 		for (int i = 0; i < appItems.size(); i++) {
 			listItemsArrayList.add(appItems.get(i).getName());
 		}
-		
+
 		showSearchingPurifierProgressBar(listItemsArrayList);
 
 		appSelectorAdapter = new ArrayAdapter<String>(getActivity(),
@@ -274,7 +274,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 		discoveredPurifierListView.setAdapter(appSelectorAdapter);
 
 	}
-	
+
 	private void showSearchingPurifierProgressBar(ArrayList<String> listItems) {
 		if (listItems.isEmpty()) {
 			searchingPurifierProgressBar.setVisibility(View.VISIBLE);
@@ -282,16 +282,16 @@ public class StartFlowChooseFragment extends BaseFragment implements
 			searchingPurifierProgressBar.setVisibility(View.GONE);
 		}
 	}
-	
+
 	private void clearDiscoveredPurifierObject() {
 		DiscoveryManager.getInstance().removeAddNewPurifierListener();
 		appSelectorAdapter = null;
 		listItemsArrayList = null;
 	}
-	
+
 	@Override
 	public void onNewPurifierDiscover() {
-		
+
 		if (getActivity() == null || appSelectorAdapter == null || listItemsArrayList == null) return;
 		getActivity().runOnUiThread(new Runnable() {
 
@@ -304,7 +304,7 @@ public class StartFlowChooseFragment extends BaseFragment implements
 				for (int i = 0; i < appItems.size(); i++) {
 					listItemsArrayList.add(appItems.get(i).getName());
 				}
-				
+
 				showSearchingPurifierProgressBar(listItemsArrayList);
 				appSelectorAdapter.notifyDataSetChanged();
 			}
