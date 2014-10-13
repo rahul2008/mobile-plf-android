@@ -1029,7 +1029,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}
 
-	private void pairToPurifierIfNecessary() {
+	public void pairToPurifierIfNecessary() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 			if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
 				purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
@@ -1041,15 +1041,64 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	@Override
-	public void onPairingSuccess() {	
+	public void onPairingSuccess(PurAirDevice purifier) {	
+		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
+			cancelPairingDialog();
+			
+			FragmentManager manager = getSupportFragmentManager();
+			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
+			if(fragment instanceof NotificationsFragment) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						((NotificationsFragment) fragment).refreshNotificationLayout() ;
+					}
+				});
+				
+			}
+		}
 	}
 
 	@Override
-	public void onPairingFailed(PurAirDevice purifier) {	
+	public void onPairingFailed(PurAirDevice purifier) {
+		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
+			cancelPairingDialog();
+			FragmentManager manager = getSupportFragmentManager();
+			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
+			if(fragment instanceof NotificationsFragment) {
+				runOnUiThread(new Runnable() {
+					
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						((NotificationsFragment) fragment).disableNotificationLayout() ;
+					}
+				});
+				
+			}
+		}
 		//If pairing failed show alert
 		String title = "";
 		if (purifier != null) title = purifier.getName();
 		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed));
+	}
+	
+	private void cancelPairingDialog(){
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				FragmentManager fragmentManager = getSupportFragmentManager();
+				FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+				Fragment progressDialog= fragmentManager.findFragmentByTag(NotificationsFragment.NOTIFICATION_PROGRESS_DIALOG);
+				if(progressDialog != null){
+					fragmentTransaction.remove(progressDialog);
+					fragmentTransaction.commitAllowingStateLoss();
+				}
+			}
+		});
 	}
 
 	public PurAirDevice getCurrentPurifier() {

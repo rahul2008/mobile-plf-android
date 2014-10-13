@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class ProgressDialogFragment extends DialogFragment {
 
@@ -25,12 +26,20 @@ public class ProgressDialogFragment extends DialogFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater
-				.inflate(R.layout.progress_dialog, container, false);
+		View view = inflater.inflate(R.layout.progress_dialog, container, false);
 		getDialog().requestWindowFeature(STYLE_NO_TITLE);
 		setCancelable(false);
 
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle arg0) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(arg0);
+		if(getArguments() != null){
+			FontTextView message=(FontTextView)getView().findViewById(R.id.pbd_message);
+			message.setText(getArguments().getString(EXTRA_MESSAGE));
+		}
+	}
 }

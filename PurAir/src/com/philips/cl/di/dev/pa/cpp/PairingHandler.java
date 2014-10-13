@@ -4,9 +4,6 @@ import java.net.HttpURLConnection;
 import java.util.Date;
 import java.util.HashMap;
 
-import android.os.Handler;
-import android.os.Message;
-
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
@@ -328,6 +325,10 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 		attemptsCount.put(eui64, attempts+1);
 	}
+	
+	public void resetPairingAttempts(String eui64){
+		attemptsCount.put(eui64, 0);
+	}
 
 	/**
 	 * Method onICPCallbackEventOccurred.
@@ -510,7 +511,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 	private void notifyListenerSuccess() {
 		if (pairingListener == null) return;
-		pairingListener.onPairingSuccess();
+		pairingListener.onPairingSuccess(purifier);
 	}
 
 	private void notifyListenerFailed(boolean isPairingPortTaskFailed) {
@@ -532,14 +533,6 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			pairingListener.onPairingFailed(purifier);
 		}		
 	}
-	
-	private Handler pairingPortTaskHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			startPairingPortTask(AppConstants.PAIRING_DI_COMM_RELATIONSHIP, AppConstants.PAIRING_PERMISSIONS
-					.toArray(new String[AppConstants.PAIRING_PERMISSIONS.size()]));
-		};
-	};
 
 	/**
 	 * Method addPermission- adds permission to a existing relationship

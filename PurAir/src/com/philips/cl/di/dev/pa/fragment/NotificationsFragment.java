@@ -7,7 +7,9 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +59,7 @@ AlertDialogBtnInterface {
 
 	private String aqiThreshold;
 	private static final int AQI_THRESHOLD_TIMEOUT = 120 * 1000;
+	public static final String NOTIFICATION_PROGRESS_DIALOG="pairing_dialog";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -112,7 +115,15 @@ AlertDialogBtnInterface {
 		} else if (mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 			showNotificationsLayout(isNotificationEnabled());
 		} else {
-			try {
+
+			if(mPurifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
+				showPairingProgressDialog();
+			}
+			if(mPurifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED){
+				pairingHandler.resetPairingAttempts(mPurifier.getEui64());
+				((MainActivity)getActivity()).pairToPurifierIfNecessary();
+			}
+			/*try {
 				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
 						R.string.notification_notpaired_title,
 						R.string.notification_notpaired_text,
@@ -124,7 +135,20 @@ AlertDialogBtnInterface {
 			} catch (IllegalStateException e) {
 				ALog.e(ALog.NOTIFICATION, e.getMessage());
 			}
-			return;
+			return;*/
+		}
+	}
+
+	private void showPairingProgressDialog(){
+		if (getActivity() == null) return;
+		Fragment progressDialog= ProgressDialogFragment.newInstance(getString(R.string.please_wait));
+		try {
+			FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+			fragmentTransaction.add(progressDialog, NOTIFICATION_PROGRESS_DIALOG);
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			ALog.e(ALog.NOTIFICATION, e.getMessage());
 		}
 	}
 
@@ -250,6 +274,11 @@ AlertDialogBtnInterface {
 		}
 
 	}
+	
+	public void disableNotificationLayout() {
+		disableDetailedNotificationsLayout();
+		notificationToggle.setEnabled(false);
+	}
 
 	private boolean isNotificationEnabled() {
 		// if(!Utils.isGooglePlayServiceAvailable()){
@@ -333,6 +362,18 @@ AlertDialogBtnInterface {
 			showErrorDialog();
 		}
 	};
+	
+	public void refreshNotificationLayout() {
+		showNotificationsLayout(true) ;
+		if (mPurifier != null && mPurifier.getAirPortInfo() != null) {
+			setUIAqiThreshold(mPurifier.getAirPortInfo()
+					.getAqiThreshold());
+			
+		}
+		notificationToggle.setOnCheckedChangeListener(NotificationsFragment.this);
+		indoorAqiRadioBtns.setOnCheckedChangeListener(NotificationsFragment.this);
+		
+	}
 
 	@Override
 	public void onPermissionReturned(final boolean permissionExists) {
