@@ -58,6 +58,8 @@ public class IndoorDashboardUtils {
 					|| (activeFilter >= 2760 && activeFilter < 2880)
 					|| (hepaFilter >= 2760 && hepaFilter < 2880)) {
 				filterStatus = context.getString(R.string.change_now);
+			} else if (preFilter >= 96 && preFilter < 112) {
+				filterStatus = context.getString(R.string.clean_soon);
 			} else if (preFilter >= 112) {
 				filterStatus = context.getString(R.string.clean_now);
 			} else if (multiCareFilter >= 960 || activeFilter >= 2880 || hepaFilter >= 2880) {
