@@ -614,20 +614,28 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}; 
 
-	private void showAlertDialogPairingFailed(String title, String message) {
-		try {
-			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+	private void showAlertDialogPairingFailed(final String title, final String message) {
+		runOnUiThread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
 
-			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("pairing_failed");
-			if (prevFrag != null) {
-				fragTransaction.remove(prevFrag);
+					Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("pairing_failed");
+					if (prevFrag != null) {
+						fragTransaction.remove(prevFrag);
+					}
+
+					fragTransaction.add(DownloadAlerDialogFragement.
+							newInstance(title, message), "pairing_failed").commitAllowingStateLoss();
+				} catch (IllegalStateException e) {
+					ALog.e(ALog.MAINACTIVITY, e.getMessage());
+				}
+
+				
 			}
-
-			fragTransaction.add(DownloadAlerDialogFragement.
-					newInstance(title, message), "pairing_failed").commitAllowingStateLoss();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.MAINACTIVITY, e.getMessage());
-		}
+		});
 	}
 
 	/** Create the left menu items. */
