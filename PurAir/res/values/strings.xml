@@ -450,7 +450,7 @@
     <string name="eui64">Purifier Eui64: </string>
     <!-- <string name="submit">Submit</string> -->
     <!-- Pairing -->
-    <string name="pairing_failed">Remote control can not be enabled.</string>
+    <string name="pairing_failed">Remote control can’t be enabled.</string>
 <!--     <string name="pair_disable_alert">Are you sure you want to disable Remote control?</string> -->
 <!--     <string name="pair_title">Allow control when on remote network</string> -->
 <!--     <string name="pair_text">Do you want to control your Air Purifier outside of your home network?</string> -->

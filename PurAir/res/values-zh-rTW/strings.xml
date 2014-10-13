@@ -450,7 +450,7 @@
     <string name="eui64">Purifier Eui64: </string>
     <!-- <string name="submit">Submit</string> -->
     <!-- Pairing -->
-    <string name="pairing_failed">Remote control can not be enabled.</string>
+    <string name="pairing_failed">無法開啟遠程控制。</string>
 <!--     <string name="pair_disable_alert">您確定要禁用遠程遙控功能嗎？</string> -->
 <!--     <string name="pair_title">在非家庭Wi-Fi網絡環境下開啟遠程控制</string> -->
 <!--     <string name="pair_text">您是否想於家庭網絡以外操控空氣清新機？</string> -->
