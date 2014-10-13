@@ -31,12 +31,16 @@ public class GPSLocation implements LocationListener {
 		requestGPSLocation();
 	}
 	
-	public boolean isGPSEnabled() {
-		return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+	public boolean isLocationEnabled() {
+		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) 
+				|| locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+			return true;
+		}
+		return false;
 	}
 	
 	public void requestGPSLocation() {
-		if (isGPSEnabled()) {
+		if (isLocationEnabled()) {
 			locationManager.requestLocationUpdates(
 					LocationManager.GPS_PROVIDER,
 					MIN_TIME_BW_UPDATES,
@@ -45,7 +49,7 @@ public class GPSLocation implements LocationListener {
 	}
 	
 	public Location getGPSLocation() {
-		if (location == null && isGPSEnabled()) {
+		if (location == null && isLocationEnabled()) {
 			location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 		}
 		if (location != null) {

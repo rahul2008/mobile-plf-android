@@ -145,12 +145,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		
+
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 
@@ -414,7 +414,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void clearFinishCheckGPS(){
-		if(GPSLocation.getInstance().isGPSEnabled()){
+		if(GPSLocation.getInstance().isLocationEnabled()){
 			showGPSDialogIfRequired();
 		}
 		else{
@@ -430,37 +430,33 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		finish();
 	}
 
-	private void showGPSDialogIfRequired() {
-		if(!Utils.getGPSDisabledDialogShownValue() || Utils.getGPSEnabledDialogShownValue()){
-			clearObjectFinish();
-		}else{
-			Utils.setGPSEnabledDialogShownValue(true);
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setTitle(R.string.location_services_turned_on_title)
-			.setMessage(R.string.location_services_turned_on_text_without_location)
-			.setPositiveButton(R.string.turn_it_off,
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// Open device location service screen, since
-					// android doesn't allow to change location
-					// settings in code
-					Intent myIntent = new Intent(
-							android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-					startActivity(myIntent);
-					dialog.dismiss();
-					clearObjectFinish();
-				}
-			})
-			.setNegativeButton(R.string.cancel,
-					new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					dialog.dismiss();
-					clearObjectFinish();
-				}
-			});
-			AlertDialog dialog=builder.create();
-			dialog.show();
-		}
+	private void showGPSDialogIfRequired() {		
+		Utils.setGPSEnabledDialogShownValue(true);
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setTitle(R.string.location_services_turned_on_title)
+		.setMessage(R.string.location_services_turned_on_text_without_location)
+		.setPositiveButton(R.string.turn_it_off,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// Open device location service screen, since
+				// android doesn't allow to change location
+				// settings in code
+				Intent myIntent = new Intent(
+						android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(myIntent);
+				dialog.dismiss();
+				clearObjectFinish();
+			}
+		})
+		.setNegativeButton(R.string.cancel,
+				new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				dialog.dismiss();
+				clearObjectFinish();
+			}
+		});
+		AlertDialog dialog=builder.create();
+		dialog.show();
 	}
 
 	private void showFirstFragment() {
@@ -1039,32 +1035,32 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	public void pairToPurifierIfNecessary() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
-			if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
-				purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
-				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
-				PairingHandler pm = new PairingHandler(this, purifier);
-				pm.setPairingAttempts(purifier.getEui64());
-				pm.startPairing();
-			}
+		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
+			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
+			PairingHandler pm = new PairingHandler(this, purifier);
+			pm.setPairingAttempts(purifier.getEui64());
+			pm.startPairing();
+		}
 	}
 
 	@Override
 	public void onPairingSuccess(PurAirDevice purifier) {	
 		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
 			cancelPairingDialog();
-			
+
 			FragmentManager manager = getSupportFragmentManager();
 			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
 			if(fragment instanceof NotificationsFragment) {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
 						((NotificationsFragment) fragment).refreshNotificationLayout() ;
 					}
 				});
-				
+
 			}
 		}
 	}
@@ -1077,14 +1073,14 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			final Fragment fragment = manager.findFragmentById(R.id.llContainer);
 			if(fragment instanceof NotificationsFragment) {
 				runOnUiThread(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						// TODO Auto-generated method stub
 						((NotificationsFragment) fragment).disableNotificationLayout() ;
 					}
 				});
-				
+
 			}
 		}
 		//If pairing failed show alert
@@ -1092,10 +1088,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (purifier != null) title = purifier.getName();
 		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed));
 	}
-	
+
 	private void cancelPairingDialog(){
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				FragmentManager fragmentManager = getSupportFragmentManager();

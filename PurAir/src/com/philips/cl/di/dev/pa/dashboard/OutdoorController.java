@@ -296,7 +296,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 //		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());
 		location = aLocation;
 		
-		if(location!=null && location.getLatitude()>0 && location.getLongitude()>0 && !LocationUtils.getCurrentLocationAreaId().isEmpty() && GPSLocation.getInstance().isGPSEnabled())
+		if(location!=null && location.getLatitude()>0 && location.getLongitude()>0 && !LocationUtils.getCurrentLocationAreaId().isEmpty() && (GPSLocation.getInstance().isLocationEnabled()))
 			showLocationServiceTurnedOnDialog();
 		
 		if(aLocation != null && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {

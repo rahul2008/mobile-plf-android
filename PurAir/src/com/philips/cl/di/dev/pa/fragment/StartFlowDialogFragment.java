@@ -153,7 +153,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 		.setPositiveButton(R.string.allow,
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
-				if (!GPSLocation.getInstance().isGPSEnabled()) {
+				if (!GPSLocation.getInstance().isLocationEnabled()) {
 					// If GPS is not enabled, request user to
 					// enable location services here.
 				}

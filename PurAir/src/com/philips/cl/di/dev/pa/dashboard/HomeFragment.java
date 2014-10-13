@@ -119,7 +119,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		Bundle bundle = getArguments();
 		GPSLocation.getInstance().requestGPSLocation();
 		if (bundle != null) {
-			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isGPSEnabled()) {
+			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isLocationEnabled()) {
 				//TODO : Show pop-up inviting the user to enable GPS
 			} else {
 				//Add user location to dashboard

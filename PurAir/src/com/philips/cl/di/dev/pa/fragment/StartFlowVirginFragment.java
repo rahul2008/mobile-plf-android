@@ -122,7 +122,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		} else {
 			// Ask user if we are allowed to use there location
 //			showLocationServiceDialog();
-			if(!GPSLocation.getInstance().isGPSEnabled()) {
+			if(!GPSLocation.getInstance().isLocationEnabled()) {
 				showLocationServiceTurnedOffDialog();
 			} else {
 				startHomeScreenWithoutAPLayout();
@@ -154,7 +154,7 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		@Override
 		public void noInternetTurnOnClicked(DialogFragment dialog) {
 //			showLocationServiceDialog();
-			if(!GPSLocation.getInstance().isGPSEnabled()) {
+			if(!GPSLocation.getInstance().isLocationEnabled()) {
 				showLocationServiceTurnedOffDialog();
 			} else {
 				startHomeScreenWithoutAPLayout();
