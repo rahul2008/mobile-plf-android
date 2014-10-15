@@ -15,6 +15,7 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.cma.CMAHelper;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -61,7 +62,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 		setLocationProvider();
-		cmaHelper = new CMAHelper(Utils.getCMA_AppID());
+		cmaHelper = new CMAHelper(Utils.getCMA_AppID(),Utils.getCMA_PrivateKey());
 	}
 	
 	public void setLocationProvider() {

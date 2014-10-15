@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.cma.CMAHelper;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
@@ -53,7 +54,7 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 		if (areaID.isEmpty())  return;
 		
 		long timeInMili = Utils.getCurrentChineseDate().getTime();
-		TaskGetHttp aqiHistoricTask = new TaskGetHttp(new CMAHelper(Utils.getCMA_AppID()).getURL(
+		TaskGetHttp aqiHistoricTask = new TaskGetHttp(new CMAHelper(Utils.getCMA_AppID(),Utils.getCMA_PrivateKey()).getURL(
 				OutdoorController.BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, 
 				Utils.getDate((timeInMili -  daysInMillisecs)) + "," 
 				+ Utils.getDate(timeInMili)), 
