@@ -964,4 +964,33 @@ public class Utils {
 		return preferences.getBoolean(AppConstants.ENABLED_DIALOG_SHOWN, false);
 	}
 
+	public static String getCountryLocale(){
+
+		Locale loc=Locale.getDefault();
+		if (loc == null) return "en";
+
+		String language = loc.getLanguage();
+
+		String localeString= Locale.getDefault().toString();
+		String languageCode="en";
+
+		if(language.equalsIgnoreCase("zh")){
+			languageCode= AppConstants.SIMPLIFIED_CHINESE_LANGUAGE_CODE;
+		}
+		
+		if(localeString.equalsIgnoreCase("zh_TW")){
+			languageCode= AppConstants.TRADITIONAL_CHINESE_LANGUAGE_CODE;
+		}
+
+		languageCode= languageCode.toLowerCase();
+		return languageCode;		
+	}
+	
+	public static String getCountryCode() {
+		String  countryCode = Locale.getDefault().getCountry();
+		if (countryCode == null || countryCode.isEmpty()) {
+			countryCode = "NL";
+		}
+		return countryCode;
+	}
 }

@@ -44,7 +44,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
 	
 
-	private SignOn signon;
+	private static SignOn signon;
 	private boolean isSignOn;
 	private List<SignonListener> signOnListeners;
 	
@@ -112,6 +112,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			icpStateInstance = new CPPController(appContext);
 			// init and signon
 		}
+		setLocale();
 		return icpStateInstance;
 	}
 	
@@ -690,4 +691,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		return new CPPController();
 	}
 	
+	private static void setLocale(){
+		if (signon == null) return;
+		
+		signon.setNewLocale(Utils.getCountryCode(), Utils.getCountryLocale());
+	}
 }

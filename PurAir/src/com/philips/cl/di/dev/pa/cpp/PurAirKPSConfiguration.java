@@ -18,21 +18,19 @@ Version 1:
     Description: Initial version    
 ----------------------------------------------------------------------------*/
 
-import java.util.Locale;
-
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.security.Util;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.icpinterface.configuration.KeyProvisioningConfiguration;
 import com.philips.icpinterface.data.NVMComponentInfo;
 
 /**
-*This class provide interface to set ICP Client configuration. 
-*configuration parameters set by the application.
-*Set the necessary parameters, as per the request. 
-*/
+ *This class provide interface to set ICP Client configuration. 
+ *configuration parameters set by the application.
+ *Set the necessary parameters, as per the request. 
+ */
 public class PurAirKPSConfiguration extends KeyProvisioningConfiguration 
 {
 
@@ -45,16 +43,17 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 		FilterString = "TEST";
 		MaxNrOfRetry = 2;
 	}
-	
+
 	public void setNVMConfigParams() {		
 		//TODO - Obscure the below constants.
 		this.ICPClientBootStrapID = Util.getBootStrapID();
 		this.ICPClientBootStrapKey = Utils.getBootStrapKey();
 		this.ICPClientBootStrapProductId = AppConstants.BOOT_STRAP_PRODUCT_ID;
 		this.ICPClientproductVersion = 0;
-		this.ICPClientproductCountry = getCountryCode();
-		this.ICPClientproductLanguage = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-		
+		this.ICPClientproductCountry = Utils.getCountryCode();
+		this.ICPClientproductLanguage = Utils.getCountryLocale();
+		ALog.i(ALog.ICPCLIENT, "setNVMConfigParams, getCountryLocale: "+Utils.getCountryLocale());
+
 		this.ICPClientComponentCount = 1;
 		NVMComponentInfo appComponentInfo = new NVMComponentInfo();
 		appComponentInfo.componentID = "AC4373-AND";//AC4373APP
@@ -63,13 +62,5 @@ public class PurAirKPSConfiguration extends KeyProvisioningConfiguration
 
 		this.ICPClientdevicePortalURL1="https://dp.cpp.philips.com.cn/DevicePortalICPRequestHandler/RequestHandler.ashx";
 	}
-	
-	private String getCountryCode() {
-		String  countryCode = Locale.getDefault().getCountry();
-		if (countryCode == null || countryCode.isEmpty()) {
-			countryCode = "NL";
-		}
-		return countryCode;
-	}
-	
+
 }
