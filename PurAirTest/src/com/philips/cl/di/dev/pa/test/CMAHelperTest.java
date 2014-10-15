@@ -2,14 +2,14 @@ package com.philips.cl.di.dev.pa.test;
 
 import junit.framework.TestCase;
 
-import com.philips.cl.di.dev.pa.dashboard.CMAHelper;
+import com.philips.cl.di.dev.pa.cma.CMAHelper;
 
 public class CMAHelperTest extends TestCase {
 	
 	private CMAHelper cmaHelper;
 	@Override
 	protected void setUp() throws Exception {
-		cmaHelper = new CMAHelper("0283ef34a38902227fd8");
+		cmaHelper = new CMAHelper("0283ef34a38902227fd8","feilipu_test_twoweek");
 		super.setUp();
 	}
 	
