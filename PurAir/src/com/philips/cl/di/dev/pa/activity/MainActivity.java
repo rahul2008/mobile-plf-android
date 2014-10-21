@@ -1046,6 +1046,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	@Override
 	public void onPairingSuccess(PurAirDevice purifier) {	
+		if(getCurrentPurifier()==null) return;
+		
 		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
 			cancelPairingDialog();
 
@@ -1067,6 +1069,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	@Override
 	public void onPairingFailed(PurAirDevice purifier) {
+		if(getCurrentPurifier()==null) return;
+		
 		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
 			cancelPairingDialog();
 			FragmentManager manager = getSupportFragmentManager();
