@@ -57,7 +57,6 @@ import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.dashboard.URLExistAsyncTask;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -90,9 +89,11 @@ import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
+import com.philips.cl.di.dev.pa.util.URLExistAsyncTask;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -174,6 +175,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
 		}
 
+		// Checking internet connection. TRAC#1439
+		if(!isInternetOff()){
+			//TODO : update UI
+			ALog.i("testing", "In pairToPurifierIfNecessary(): inside");
+		}
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -206,8 +212,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		initializeCPPController();
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
-		//		checkForUpdatesHockeyApp();
-
+//		checkForUpdatesHockeyApp();
 	}
 
 	private void selectPurifier() {
@@ -1039,10 +1044,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public void pairToPurifierIfNecessary() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
-			if(!isInternetOff()){
-				//TODO : update UI
-				ALog.i("testing", "In pairToPurifierIfNecessary(): inside");
-			}
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
 			PairingHandler pm = new PairingHandler(this, purifier);
@@ -1227,7 +1228,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
             NetworkInfo networkInfo = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             ALog.d("testing", ALog.MAINACTIVITY + " We have internet : networkInfo : " + networkInfo);
             if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
-            	URLExistAsyncTask.getInstance().testConnection();
+            	URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere(){
+					@Override
+					public void onTaskComplete(boolean result) {
+						if(!result){
+							//TRAC#1439. Show alert when there is no network conenction.
+							String title = "";
+							showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
+						}
+					}
+            	});
             }
             return false;
         }

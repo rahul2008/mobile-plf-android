@@ -65,11 +65,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.hf_indoor_dashboard, null);
-		if(URLExistAsyncTask.getInstance()!=null){
-			URLExistAsyncTask.getInstance().setCallback(this);
-			ALog.i("testing","IndoorFragment onCreateView URLExistAsyncTask.getInstance().setCallback(this)");
-		}
+			View view = inflater.inflate(R.layout.hf_indoor_dashboard, null);
 		return view;
 	}
 

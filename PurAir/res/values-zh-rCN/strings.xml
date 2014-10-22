@@ -582,6 +582,7 @@
     <!-- Start flow -->
     <string name="no_internet_title">无网络连接</string>
     <string name="no_internet_text">若要继续请连接网络</string>
+    <string name="check_network_connection">无法连接网络。请开启网络以完成净化器配置。</string>
     <string name="location_services_title">定位服务</string>
     <string name="location_services_text">请提供您的位置以便我们向您提供您所在方位的实时空气质量信息</string>
     <string name="location_services_turned_off_title">定位服务已关闭</string>

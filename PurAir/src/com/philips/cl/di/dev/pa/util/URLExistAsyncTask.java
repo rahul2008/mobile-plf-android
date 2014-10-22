@@ -1,4 +1,4 @@
-package com.philips.cl.di.dev.pa.dashboard;
+package com.philips.cl.di.dev.pa.util;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -7,8 +7,6 @@ import java.net.URL;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 
 /*
  * This class will be designed to check the network availability
@@ -27,19 +25,14 @@ public class URLExistAsyncTask extends AsyncTask<String, Void, Boolean> {
 	}
 
 	public static URLExistAsyncTask getInstance() {
-		//if (mTask == null) {
-	//	}
+		mTask = new URLExistAsyncTask();
 		return mTask;
 	}
 
-	public void setCallback(AsyncTaskCompleteListenere callback) {
+	public void testConnection(AsyncTaskCompleteListenere callback) {
 		this.callback = callback;
-	}
-
-	public void testConnection() {
 		Log.i("testing","testConnection URLExistAsyncTask");
-		try{
-			mTask = new URLExistAsyncTask();
+		try {
 			mTask.execute(new String[] { URL });
 		}
 		catch(IllegalStateException e){
@@ -78,8 +71,8 @@ public class URLExistAsyncTask extends AsyncTask<String, Void, Boolean> {
 		if(!result){
 			Log.i("testing","No Internet");
 		}
-//		if (callback != null) {
-//			callback.onTaskComplete(result);
-//		}
+		if (callback != null) {
+			callback.onTaskComplete(result);
+		}
 	}
 }

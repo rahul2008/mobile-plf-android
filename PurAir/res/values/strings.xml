@@ -555,6 +555,7 @@
     <string name="configuration_failed">Configuration failed</string>
     <string name="invalid_params">Invalid parameters</string>
     <string name="no_network_connection">Please check internet connection</string>
+    <string name="check_network_connection">Internet is not accessible. Please enable internet access to complete configuration of the purifier.</string>
     <string name="invalid_username_or_password">Invalid Username or Password</string>
     <string name="usage_agreement">User agreement</string>
     <string name="i_accept">I accept</string>
