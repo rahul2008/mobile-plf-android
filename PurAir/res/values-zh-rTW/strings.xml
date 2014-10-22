@@ -627,9 +627,9 @@
     <string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
 
     <!--  App update Notification -->
-    <string name="app_update">App update</string>
-    <string name="app_update_msg">New version of Smart Air App is available</string>
-    <string name="app_update_notif_title">Smart Air update</string>
-    <string name="app_update_failed">Smart Air App update failed.</string>
-    <string name="external_storage_unavailable">External storage not available</string>
+    <string name="app_update">應用程式更新</string>
+    <string name="app_update_msg">智能空氣有新版本</string>
+    <string name="app_update_notif_title">智能空氣更新</string>
+    <string name="app_update_failed">智能空氣更新失敗</string>
+    <string name="external_storage_unavailable">外部存儲不可用</string>
 </resources>
