@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicensActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -116,9 +117,8 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			startActivity(Intent.createChooser(manual,""));
 			break;
 		case R.id.app_tutorial:
-			Intent tutorial = new Intent(Intent.ACTION_VIEW);
-			tutorial.setData(Uri.parse("http://www.philips.com.cn/AC4373_00/prd"));
-			startActivity(Intent.createChooser(tutorial,""));
+			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
+			startActivity(intentOd);
 			break;
 		case R.id.opensource_lb:
 			if (getActivity() == null) return;
