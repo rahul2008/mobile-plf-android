@@ -17,6 +17,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -55,6 +57,7 @@ import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.dashboard.URLExistAsyncTask;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
@@ -1036,6 +1039,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	public void pairToPurifierIfNecessary() {
 		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
+			if(!isInternetOff()){
+				//TODO : update UI
+				ALog.i("testing", "In pairToPurifierIfNecessary(): inside");
+			}
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
 			PairingHandler pm = new PairingHandler(this, purifier);
@@ -1210,4 +1217,21 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		// TODO Remove this for store builds!
 		UpdateManager.register(this, AppConstants.HOCKEY_APPID);
 	}
+	
+	// CHECK INTERNET METHOD
+    private final boolean isInternetOff() {
+        ALog.d("testing"/*ALog.MAINACTIVITY*/, ALog.MAINACTIVITY + " Checking connectivity ...isInternetOff()");
+        ConnectivityManager connec = null;
+        connec =  (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ( connec != null){
+            NetworkInfo networkInfo = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            ALog.d("testing", ALog.MAINACTIVITY + " We have internet : networkInfo : " + networkInfo);
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
+            	URLExistAsyncTask.getInstance().testConnection();
+            }
+            return false;
+        }
+        ALog.d("testing", ALog.MAINACTIVITY + " No internet connection found");
+        return false;	
+    }
 }

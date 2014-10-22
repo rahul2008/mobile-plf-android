@@ -35,11 +35,12 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
-	DrawerEventListener, AlertDialogBtnInterface {
+	DrawerEventListener, AlertDialogBtnInterface, AsyncTaskCompleteListenere {
 
 	private RelativeLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -65,6 +66,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.hf_indoor_dashboard, null);
+		if(URLExistAsyncTask.getInstance()!=null){
+			URLExistAsyncTask.getInstance().setCallback(this);
+			ALog.i("testing","IndoorFragment onCreateView URLExistAsyncTask.getInstance().setCallback(this)");
+		}
 		return view;
 	}
 
@@ -223,6 +228,17 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			alartMessageTextView.setVisibility(View.VISIBLE);
 			alartMessageTextView.setText(pName + ": " + getString(R.string.purifier_malfunctioning));
 		} else {
+			alartMessageTextView.setVisibility(View.GONE);
+		}
+	}
+	
+	private void showAlartErrorAirPort(boolean result) {
+		ALog.i("testing","IndoorFragment showAlartErrorAirPort result : " + result);
+		if(!result){
+			alartMessageTextView.setVisibility(View.VISIBLE);
+			alartMessageTextView.setText("Ritesh"/*getString(R.string.front_panel_not_closed)*/);
+		}
+		else{
 			alartMessageTextView.setVisibility(View.GONE);
 		}
 	}
@@ -489,4 +505,8 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		// NOP
 	}
 
+	@Override
+	public void onTaskComplete(boolean result) {
+		showAlartErrorAirPort(result);
+	}
 }
