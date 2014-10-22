@@ -71,6 +71,9 @@ public class URLExistAsyncTask extends AsyncTask<String, Void, Boolean> {
 		if(!result){
 			Log.i("testing","No Internet");
 		}
+		else{
+			Log.i("testing","Internet is working");
+		}
 		if (callback != null) {
 			callback.onTaskComplete(result);
 		}

@@ -176,10 +176,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		// Checking internet connection. TRAC#1439
-		if(!isInternetOff()){
-			//TODO : update UI
-			ALog.i("testing", "In pairToPurifierIfNecessary(): inside");
-		}
+		isInternetWorking();
+		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -1220,8 +1218,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 	
 	// CHECK INTERNET METHOD
-    private final boolean isInternetOff() {
-        ALog.d("testing"/*ALog.MAINACTIVITY*/, ALog.MAINACTIVITY + " Checking connectivity ...isInternetOff()");
+    private final void isInternetWorking() {
+        ALog.d("testing"/*ALog.MAINACTIVITY*/, ALog.MAINACTIVITY + " Checking connectivity ...isInternetWorking()");
         ConnectivityManager connec = null;
         connec =  (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
         if ( connec != null){
@@ -1239,9 +1237,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 					}
             	});
             }
-            return false;
+            return;
         }
         ALog.d("testing", ALog.MAINACTIVITY + " No internet connection found");
-        return false;	
+        return;	
     }
 }
