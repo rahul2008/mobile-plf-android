@@ -631,4 +631,5 @@
     <string name="app_update_msg">New version of Smart Air App is available</string>
     <string name="app_update_notif_title">Smart Air update</string>
     <string name="app_update_failed">Smart Air App update failed.</string>
+    <string name="external_storage_unavailable">External storage not available</string>
 </resources>

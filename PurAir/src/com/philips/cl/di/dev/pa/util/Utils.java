@@ -971,10 +971,8 @@ public class Utils {
 	public static File getExternalStorageDirectory(String dirName) {
 		File file = new File(Environment.getExternalStorageDirectory(), dirName);
 		if (!file.exists() && !file.mkdirs()) {
-			file = PurAirApplication.getAppContext().getDir(dirName, Context.MODE_WORLD_WRITEABLE); //Creating an internal dir;
-			if(!file.exists() && !file.mkdirs()) {
-				ALog.e(ALog.FILE_DOWNLOAD, "Error creating file!");
-			}
+			ALog.e(ALog.FILE_DOWNLOAD, "Error creating file!");
+			file=null;
 		}
 		return file;
 	}

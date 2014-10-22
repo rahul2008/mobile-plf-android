@@ -116,8 +116,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 
 	private CPPController() {
 		// Only used for testing
-		//Make dir if not exist
-		Utils.getExternalStorageDirectory(AppConstants.APP_UPDATE_DIRECTORY);
 	}
 
 	/**
@@ -733,6 +731,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		try {
 			createAppNotificationBuilder() ;
 			File sdcardWithDirFile = Utils.getExternalStorageDirectory(AppConstants.APP_UPDATE_DIRECTORY);
+			if(sdcardWithDirFile==null){
+				fos=null;
+				return;
+			}
 			File outFile = new File(sdcardWithDirFile, AppConstants.APP_UPDATE_FILE_NAME);
 			if (outFile != null) filePath = outFile.toString(); 
 			fos = new FileOutputStream(outFile);
@@ -783,6 +785,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private void downloadNewApplication(ComponentInfo componentInfo) {
+		File sdcardWithDirFile = Utils.getExternalStorageDirectory(AppConstants.APP_UPDATE_DIRECTORY);
+		
+		if (sdcardWithDirFile == null && appUpdateNotificationListener != null) {
+			appUpdateNotificationListener.onAppUpdateFailed("External storage not available");
+			return;
+		}
+		
 		FileDownload fileDownload = new FileDownload(callbackHandler);
 
 		fileSize = componentInfo.size;
@@ -897,7 +906,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			mNotifyManager.cancel(APP_UPDATE_NOTIFICATION_BUILDER_ID) ;
 		}
 		if( appUpdateNotificationListener != null ) {
-			appUpdateNotificationListener.onAppUpdateFailed() ;
+			appUpdateNotificationListener.onAppUpdateFailed(AppConstants.EMPTY_STRING) ;
 		}
 	}
 	

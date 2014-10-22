@@ -2,5 +2,5 @@ package com.philips.cl.di.dev.pa.cpp;
 
 public interface AppUpdateNotificationListener {
 	public void onAppUpdate() ;
-	public void onAppUpdateFailed() ;
+	public void onAppUpdateFailed(String message) ;
 }
