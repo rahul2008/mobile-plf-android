@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.util;
 
+import java.io.File;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.nio.charset.Charset;
@@ -22,6 +23,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -74,7 +76,7 @@ public class Utils {
 		}
 		return String.format(AppConstants.URL_BASEALLPORTS, ipAddress, port.port,port.urlPart) ;
 	}
-	
+
 	public static String getScheduleDetailsUrl(String ipAddress, int scheduleNumber) {
 		return String.format(AppConstants.URL_GET_SCHEDULES, ipAddress,scheduleNumber) ;
 	}
@@ -91,8 +93,8 @@ public class Utils {
 			Date prevDate = sf.parse(date0);
 			timeDiff = lastDate.getTime() - prevDate.getTime();
 			noOfDays = (int) (timeDiff / dayInMillisecs);
-//			ALog.i(ALog.INDOOR_RDCP, 
-//					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
+			//			ALog.i(ALog.INDOOR_RDCP, 
+			//					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + e.getMessage());
 			return noOfDays;
@@ -116,8 +118,8 @@ public class Utils {
 			}
 
 			noOfHrs = (int) (timeDiff / hourInMilliSecs);
-//			ALog.i(ALog.INDOOR_RDCP, 
-//					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
+			//			ALog.i(ALog.INDOOR_RDCP, 
+			//					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
 
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + e.getMessage());
@@ -126,7 +128,7 @@ public class Utils {
 
 		return noOfHrs;
 	}
-	
+
 	public static String getDate(long timeMillis) {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
 		String date = dateFormat.format(new Date(timeMillis));
@@ -142,7 +144,7 @@ public class Utils {
 
 		HashMap<Integer, Float> dailyAqiValueMap = new HashMap<Integer, Float>();
 		HashMap<Integer, Integer> dailyAqiValueCounterMap = new HashMap<Integer, Integer>();
-		
+
 		List<Integer> goodAirQualityList = new ArrayList<Integer>();
 		int totalAqi = 0;
 		int goodAqi = 0;
@@ -150,7 +152,7 @@ public class Utils {
 		int monthlyGoodAqi = 0;
 		int weeklyTotalAqi = 0;
 		int weeklyGoodAqi = 0;
-		
+
 		if (downloadedData != null) {
 			List<IndoorHistoryDto> indoorAQIHistory = DataParser.parseHistoryData(downloadedData);
 
@@ -158,7 +160,7 @@ public class Utils {
 
 				for (int index = 0; index < indoorAQIHistory.size(); index++) {
 					String date = indoorAQIHistory.get(index).getTimeStamp();
-//					ALog.i(ALog.INDOOR_RDCP, "Date: " + date +",  " + indoorAQIHistory.get(index).getAqi());
+					//					ALog.i(ALog.INDOOR_RDCP, "Date: " + date +",  " + indoorAQIHistory.get(index).getAqi());
 					/**
 					 * Hourly
 					 */
@@ -178,14 +180,14 @@ public class Utils {
 							hrlyAqiValueCounterMap.put(diffOfHrs, 1);
 							hrlyAqiValueMap.put(diffOfHrs, indoorAQIHistory.get(index).getAqi());
 						}
-						
+
 						totalAqi = totalAqi + 1;
 						if (indoorAQIHistory.get(index).getAqi() <= 14) {
 							goodAqi = goodAqi + 1; 
 						}
-//						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; goodAqi: " + goodAqi +"; Total: "+ totalAqi);
+						//						ALog.i(ALog.INDOOR_RDCP, "Hourly AQI: "+ indoorAQIHistory.get(index).getAqi() + "; goodAqi: " + goodAqi +"; Total: "+ totalAqi);
 					}
-					
+
 					/**
 					 * Daily
 					 */
@@ -206,22 +208,22 @@ public class Utils {
 							dailyAqiValueCounterMap.put(numberOfDays, 1);
 							dailyAqiValueMap.put(numberOfDays, indoorAQIHistory.get(index).getAqi());
 						}
-						
+
 						if (numberOfDays > 20) {
 							weeklyTotalAqi = weeklyTotalAqi + 1;
 							if (indoorAQIHistory.get(index).getAqi() <= 14) {
 								weeklyGoodAqi = weeklyGoodAqi + 1; 
 							}
-//							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; weeklyGoodAqi: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
+							//							ALog.i(ALog.INDOOR_RDCP, "Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; weeklyGoodAqi: " + weeklyGoodAqi +"; Total: "+ weeklyTotalAqi);
 						}
-						
+
 						monthlyTotalAqi = monthlyTotalAqi + 1;
 						if (indoorAQIHistory.get(index).getAqi() <= 14) {
 							monthlyGoodAqi = monthlyGoodAqi + 1; 
 						}
-//						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; monthlyGoodAqi: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
+						//						ALog.i(ALog.INDOOR_RDCP, "4Week AQI: "+ indoorAQIHistory.get(index).getAqi() + "; monthlyGoodAqi: " + monthlyGoodAqi +"; Total: "+ monthlyTotalAqi);
 					}
-					
+
 				}
 				goodAirQualityList.add(getPercentage(goodAqi, totalAqi));
 				goodAirQualityList.add(getPercentage(weeklyGoodAqi, weeklyTotalAqi));
@@ -233,7 +235,7 @@ public class Utils {
 			}
 		}
 	}
-	
+
 	private static void setIndoorAqiHistory(HashMap<Integer, Float> hrlyAqiValueMap,
 			HashMap<Integer, Integer> hrlyAqiValueCounterMap, 
 			HashMap<Integer, Float> dailyAqiValueMap, 
@@ -243,23 +245,23 @@ public class Utils {
 		IndoorTrendDto indoorTrend = new IndoorTrendDto();
 		List<Float> hrlyAqiValues = getIndoorAqiHistoryLastDay(hrlyAqiValueMap, hrlyAqiValueCounterMap);
 
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValueMap: " + hrlyAqiValueMap);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues counter: " + hrlyAqiValueCounterMap);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp hrlyAqiValues: " + hrlyAqiValues);
 
 		indoorTrend.setHourlyList(hrlyAqiValues);
 
 		hrlyAqiValueMap = null;
 		hrlyAqiValueCounterMap = null;
 		hrlyAqiValues = null;
-		
+
 		List<Float> dailyAqiValues = getIndoorAqiHistoryLastMonth(dailyAqiValueMap, dailyAqiValueCounterMap);
 
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp goodAirQualityList: " + goodAirQualityList);
-//		ALog.i(ALog.INDOOR_RDCP, "Rdcp downloaded time: " + Calendar.getInstance().get(Calendar.DATE));
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValueMap: " + dailyAqiValueMap);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues counter: " + dailyAqiValueCounterMap);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp dailyAqiValues: " + dailyAqiValues);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp goodAirQualityList: " + goodAirQualityList);
+		//		ALog.i(ALog.INDOOR_RDCP, "Rdcp downloaded time: " + Calendar.getInstance().get(Calendar.DATE));
 
 		indoorTrend.setDailyList(dailyAqiValues);
 		indoorTrend.setGoodAirQualityList(goodAirQualityList);
@@ -272,7 +274,7 @@ public class Utils {
 
 		SessionDto.getInstance().setIndoorTrendDto(eui64,indoorTrend);
 	}
-	
+
 	private static List<Float> getIndoorAqiHistoryLastDay(HashMap<Integer, Float> hrlyAqiValueMap, 
 			HashMap<Integer, Integer> hrlyAqiValueCounterMap) {
 		List<Float> hrlyAqiValues = new ArrayList<Float>();
@@ -290,7 +292,7 @@ public class Utils {
 
 		return hrlyAqiValues;
 	}
-	
+
 	private static List<Float> getIndoorAqiHistoryLastMonth(HashMap<Integer, Float> dailyAqiValueMap, 
 			HashMap<Integer, Integer> dailyAqiValueCounterMap) {
 		List<Float> dailyAqiValues = new ArrayList<Float>();
@@ -351,11 +353,11 @@ public class Utils {
 
 		return qry;
 	}
-	
+
 	public static int getCurrentTimeHourOfDay() {
 		return currentTimeHourOfDay;
 	}
-	
+
 	public static int getCurrentTimeDayOfWeek() {
 		return currentTimeDayOfWeek;
 	}
@@ -526,7 +528,7 @@ public class Utils {
 		}
 		return percent;
 	}
-	
+
 	private enum Days {
 		SUNDAY(1, R.string.sun),
 		MONDAY(2, R.string.mon),
@@ -535,15 +537,15 @@ public class Utils {
 		THURSDAY(5, R.string.thu),
 		FRIDAY(6, R.string.fri),
 		SATURDAY(7, R.string.sat);
-		
+
 		private int resId;
 		private int dayInt;
-		
+
 		private Days(int dayInt, int resId) {
 			this.dayInt = dayInt;
 			this.resId = resId;
 		}
-		
+
 		public static int valueOf(int dayInt) {
 			for (Days days : Days.values()) {
 				if (days.dayInt == dayInt) {
@@ -572,18 +574,18 @@ public class Utils {
 		rotateImageView(iv, 0, degree);
 		Log.i("degree", "Wind degree: " + degree);
 	}
-	
+
 	public static void rotateImageView(ImageView imageView, float prevRotation, float newRotation) {
 		Drawable drawable = imageView.getDrawable();
 		ALog.i(ALog.OUTDOOR_DETAILS, "Utils$setRotationAnimation rotation " + newRotation + " aqiPointer.getWidth()/2 " + (imageView.getWidth()/2) + " drawable " + drawable.getMinimumHeight());
 
 		Animation rotateAnim = new RotateAnimation(prevRotation, newRotation, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-		
-	    rotateAnim.setDuration(2000);
-	    rotateAnim.setRepeatCount(0);
-	    rotateAnim.setFillAfter(true);
-	 
-	    imageView.setAnimation(rotateAnim);
+
+		rotateAnim.setDuration(2000);
+		rotateAnim.setRepeatCount(0);
+		rotateAnim.setFillAfter(true);
+
+		imageView.setAnimation(rotateAnim);
 	}
 
 	public static float getPxWithRespectToDip(Context context, float dip) {
@@ -657,7 +659,7 @@ public class Utils {
 		}
 		return aqiStatusArray;
 	}
-	
+
 	public static int getBackgroundResource(int indoorAQI) {
 		int resId = R.drawable.home_indoor_bg_2x;
 		if(indoorAQI > -1 && indoorAQI <= 14) {
@@ -684,7 +686,7 @@ public class Utils {
 	public static String getFilterFormattedText(int days){
 		return PurAirApplication.getAppContext().getString(R.string.change_soon, days);		
 	}
-	
+
 	public static boolean isGooglePlayServiceAvailable()
 	{
 		int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(PurAirApplication.getAppContext());
@@ -694,7 +696,7 @@ public class Utils {
 		}
 		return false;
 	}
-	
+
 	public static String getBootStrapKey() {
 		String bootStrapKey = AppConstants.EMPTY_STRING ;
 		StringBuilder bootStrapBuilder = new StringBuilder(SchedulerUtil.BOOTSTRAP_KEY_1);
@@ -709,7 +711,7 @@ public class Utils {
 		}
 		return bootStrapKey;
 	}
-	
+
 	public static String getCMA_AppID() {
 		String cmaAppId = AppConstants.EMPTY_STRING ;
 		StringBuilder cmaAppIdBuilder = new StringBuilder(AppConstants.CMA_APP_ID_1);
@@ -723,7 +725,7 @@ public class Utils {
 		}
 		return cmaAppId;
 	}
-	
+
 	public static String getCMA_PrivateKey() {
 		String cmaPrivateKey = AppConstants.EMPTY_STRING ;
 		StringBuilder cmaPrivateKeyBuilder = new StringBuilder(EWSConstant.CMA_PRIVATE_KEY_1);
@@ -738,7 +740,7 @@ public class Utils {
 		cmaPrivateKey = "feilipu_test_twoweek";
 		return cmaPrivateKey;
 	}
-	
+
 	public static String getCMA_BaseURL() {
 		String cmaBaseURL = AppConstants.EMPTY_STRING ;
 		StringBuilder cmaBaseURLBuilder = new StringBuilder(ParserConstants.CMA_BASEURL_1);
@@ -752,14 +754,14 @@ public class Utils {
 		}
 		return cmaBaseURL;
 	}
-	
+
 	public static int getTimeDiffInMinite(IndoorTrendDto trendDto) {
 		if( trendDto == null) return 0;
 		long currTime = Calendar.getInstance().getTimeInMillis() / 60000;
 		int diff = (int) (currTime - trendDto.getTimeMin());
 		return diff;
 	}
-	
+
 	public static void saveNoOfVisit(int count) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.NO_OF_VISIT_PREF, Context.MODE_PRIVATE);
@@ -767,13 +769,13 @@ public class Utils {
 		editor.putInt(AppConstants.NO_OF_VISIT_PREF_KEY, ++count);
 		editor.commit();
 	}
-	
+
 	public static int getNoOfVisit() {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.NO_OF_VISIT_PREF, Context.MODE_PRIVATE);
 		return preferences.getInt(AppConstants.NO_OF_VISIT_PREF_KEY, 0);
 	}
-	
+
 	public static void saveAppFirstUse(boolean firstUse) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.START_FLOW_PREF, Context.MODE_PRIVATE);
@@ -781,13 +783,13 @@ public class Utils {
 		editor.putBoolean(AppConstants.START_FLOW_PREF_KEY, firstUse);
 		editor.commit();
 	}
-	
+
 	public static boolean getAppFirstUse() {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.START_FLOW_PREF, Context.MODE_PRIVATE);
 		return preferences.getBoolean(AppConstants.START_FLOW_PREF_KEY, true);
 	}
-	
+
 	public static void saveFirmwareVersion(String purifierEui64, String firmwareVersion) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.FIRMWARE_VERSION, Context.MODE_PRIVATE);
@@ -795,13 +797,13 @@ public class Utils {
 		editor.putString(purifierEui64, firmwareVersion);
 		editor.commit();
 	}
-	
+
 	public static String getFirmwareVersion(String purifierEui64) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.FIRMWARE_VERSION, Context.MODE_PRIVATE);
 		return preferences.getString(purifierEui64, "");
 	}
-	
+
 	public static void saveUserGPSPermission(boolean allowGPS) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.ALLOW_GPS, Context.MODE_PRIVATE);
@@ -809,13 +811,13 @@ public class Utils {
 		editor.putBoolean("allow_gps", allowGPS);
 		editor.commit();
 	}
-	
+
 	public static boolean getUserGPSPermission( ) {
 		SharedPreferences preferences = 
 				PurAirApplication.getAppContext().getSharedPreferences(AppConstants.ALLOW_GPS, Context.MODE_PRIVATE);
 		return preferences.getBoolean("allow_gps", true);
 	}
-	
+
 	public static Toast getCustomToast(String message) {
 		LayoutInflater inflater = (LayoutInflater)PurAirApplication.getAppContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -833,38 +835,38 @@ public class Utils {
 	public static String getStaticIpAddress() {
 		return getIPAddress(true) ;
 	}
-	
-	 /**
-     * Get IP address from first non-localhost interface
-     * @param ipv4  true=return ipv4, false=return ipv6
-     * @return  address or empty string
-     */
-    public static String getIPAddress(boolean useIPv4) {
-        try {
-            List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
-            for (NetworkInterface intf : interfaces) {
-                List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
-                for (InetAddress addr : addrs) {
-                    if (!addr.isLoopbackAddress()) {
-                        String sAddr = addr.getHostAddress().toUpperCase();
-                        boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr); 
-                        if (useIPv4) {
-                            if (isIPv4) 
-                                return sAddr;
-                        } else {
-                            if (!isIPv4) {
-                                int delim = sAddr.indexOf('%'); // drop ip6 port suffix
-                                return delim<0 ? sAddr : sAddr.substring(0, delim);
-                            }
-                        }
-                    }
-                }
-            }
-        } catch (Exception ex) { } // for now eat exceptions
-        return "";
-    }
-    
-    public static boolean isVersionChanged() {
+
+	/**
+	 * Get IP address from first non-localhost interface
+	 * @param ipv4  true=return ipv4, false=return ipv6
+	 * @return  address or empty string
+	 */
+	public static String getIPAddress(boolean useIPv4) {
+		try {
+			List<NetworkInterface> interfaces = Collections.list(NetworkInterface.getNetworkInterfaces());
+			for (NetworkInterface intf : interfaces) {
+				List<InetAddress> addrs = Collections.list(intf.getInetAddresses());
+				for (InetAddress addr : addrs) {
+					if (!addr.isLoopbackAddress()) {
+						String sAddr = addr.getHostAddress().toUpperCase();
+						boolean isIPv4 = InetAddressUtils.isIPv4Address(sAddr); 
+						if (useIPv4) {
+							if (isIPv4) 
+								return sAddr;
+						} else {
+							if (!isIPv4) {
+								int delim = sAddr.indexOf('%'); // drop ip6 port suffix
+								return delim<0 ? sAddr : sAddr.substring(0, delim);
+							}
+						}
+					}
+				}
+			}
+		} catch (Exception ex) { } // for now eat exceptions
+		return "";
+	}
+
+	public static boolean isVersionChanged() {
 		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
 				getGCMPreferences();
 
@@ -880,12 +882,12 @@ public class Utils {
 
 		return false;
 	}
-    
-    public static boolean isLocaleChanged() {
+
+	public static boolean isLocaleChanged() {
 		final SharedPreferences prefs = CPPController.getInstance(PurAirApplication.getAppContext()).
 				getGCMPreferences();
 		String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-		
+
 		String registeredLocale = prefs.getString(AppConstants.PROPERTY_APP_LOCALE,
 				LanguageUtils.DEFAULT_LANGUAGE);
 		boolean isLocalChanged = registeredLocale.equalsIgnoreCase(languageLocale);
@@ -898,8 +900,8 @@ public class Utils {
 
 		return false;
 	}
-    
-    public static String getVersionNumber() {
+
+	public static String getVersionNumber() {
 		String versionCode = "";
 		try {
 			versionCode = PurAirApplication.getAppContext().getPackageManager().getPackageInfo(PurAirApplication.getAppContext().getPackageName(),
@@ -909,23 +911,23 @@ public class Utils {
 		}
 		return versionCode;
 	}
-    
-    public static Date getCurrentChineseDate() {
+
+	public static Date getCurrentChineseDate() {
 		TimeZone timeZoneChina = TimeZone.getTimeZone("GMT+8");
 		TimeZone timeZoneCurrent = Calendar.getInstance().getTimeZone();
-		
+
 		//Time difference between time zone and GMT
 		int offsetChina = timeZoneChina.getOffset(Calendar.getInstance().getTimeInMillis());
 		int offsetCurrent = timeZoneCurrent.getOffset(Calendar.getInstance().getTimeInMillis());
 		int offset = offsetChina - offsetCurrent;
-		
+
 		Calendar cal = Calendar.getInstance();
-		
+
 		Date currentDate = new Date(cal.getTimeInMillis() + offset);
 		return currentDate;
 	}
-    
-    public static String getHistoricDataUpdateDate(String timeStamp) {
+
+	public static String getHistoricDataUpdateDate(String timeStamp) {
 		if (timeStamp == null || timeStamp.isEmpty()) return null;
 		StringBuilder builder = new StringBuilder();
 		builder.append(timeStamp.substring(0, 4)).append("-");
@@ -933,36 +935,50 @@ public class Utils {
 		builder.append(timeStamp.substring(6, 8));
 		return builder.toString();
 	}
-    
+
 	private static SharedPreferences getGPSPreferences() {
 		return PurAirApplication.getAppContext().getSharedPreferences(
 				AppConstants.GPS_PREFERENCE_FILE_NAME,
 				Context.MODE_PRIVATE);
 	}
-	
+
 	public static void setGPSDisabledDialogShownValue(boolean isShown){
 		SharedPreferences preferences= getGPSPreferences();
 		Editor editor= preferences.edit();
 		editor.putBoolean(AppConstants.DIABLED_DIALOG_SHOWN, isShown);
 		editor.commit();
 	}
-	
+
 	public static boolean getGPSDisabledDialogShownValue(){
 		SharedPreferences preferences= getGPSPreferences();
 		return preferences.getBoolean(AppConstants.DIABLED_DIALOG_SHOWN, false);
 	}
-	
+
 	public static void setGPSEnabledDialogShownValue(boolean isShown){
 		SharedPreferences preferences= getGPSPreferences();
 		Editor editor= preferences.edit();
 		editor.putBoolean(AppConstants.ENABLED_DIALOG_SHOWN, isShown);
 		editor.commit();
 	}
-	
+
 	public static boolean getGPSEnabledDialogShownValue(){
 		SharedPreferences preferences= getGPSPreferences();
 		return preferences.getBoolean(AppConstants.ENABLED_DIALOG_SHOWN, false);
 	}
+
+
+	@SuppressWarnings("deprecation")
+	public static File getExternalStorageDirectory(String dirName) {
+		File file = new File(Environment.getExternalStorageDirectory(), dirName);
+		if (!file.exists() && !file.mkdirs()) {
+			file = PurAirApplication.getAppContext().getDir(dirName, Context.MODE_WORLD_WRITEABLE); //Creating an internal dir;
+			if(!file.exists() && !file.mkdirs()) {
+				ALog.e(ALog.FILE_DOWNLOAD, "Error creating file!");
+			}
+		}
+		return file;
+	}
+
 
 	public static String getCountryLocale(){
 

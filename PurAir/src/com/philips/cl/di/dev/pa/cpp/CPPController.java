@@ -1,6 +1,9 @@
 package com.philips.cl.di.dev.pa.cpp;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
@@ -8,13 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.widget.RemoteViews;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
@@ -22,9 +32,11 @@ import com.philips.cl.di.dev.pa.notification.SendNotificationRegistrationIdListe
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.icpinterface.ComponentDetails;
 import com.philips.icpinterface.DownloadData;
 import com.philips.icpinterface.EventPublisher;
 import com.philips.icpinterface.EventSubscription;
+import com.philips.icpinterface.FileDownload;
 import com.philips.icpinterface.GlobalStore;
 import com.philips.icpinterface.ICPClient;
 import com.philips.icpinterface.ICPClientToAppInterface;
@@ -33,40 +45,38 @@ import com.philips.icpinterface.SignOn;
 import com.philips.icpinterface.ThirdPartyNotification;
 import com.philips.icpinterface.configuration.Params;
 import com.philips.icpinterface.data.Commands;
+import com.philips.icpinterface.data.ComponentInfo;
 import com.philips.icpinterface.data.Errors;
 
 public class CPPController implements ICPClientToAppInterface, ICPEventListener {
-	
-	private static CPPController icpStateInstance;
 
+	private static CPPController icpStateInstance;
+	private static final int APP_UPDATE_NOTIFICATION_BUILDER_ID = 128272;
 	private static final String CERTIFICATE_EXTENSION = ".cer";
-	
 	public static final String BOOT_STRAP_ID_1 = "MDAwMD";
-	
 
 	private static SignOn signon;
 	private boolean isSignOn;
 	private List<SignonListener> signOnListeners;
-	
+
 	private SendNotificationRegistrationIdListener notificationListener;
+	private AppUpdateNotificationListener appUpdateNotificationListener ; 
 
 	private ICPCallbackHandler callbackHandler;
-
 	private Params configParams;
-
 	private Context context;
 
 	private EventSubscription eventSubscription; 
 	private DCSEventListener dcsEventListener;
 	private DCSResponseListener dcsResponseListener ;
 	private boolean isDCSRunning;
-	
+
 	//DCS client state
 	private enum ICP_CLIENT_DCS_STATE { STARTED, STARTING, STOPPED, STOPPING } ;
 	// App Requested State
 	//This is required if the callback has delay in Starting and Stopping
 	private enum APP_REQUESTED_STATE { NONE, START, STOP };
-	
+
 	private ICP_CLIENT_DCS_STATE dcsState = ICP_CLIENT_DCS_STATE.STOPPED;
 	private APP_REQUESTED_STATE appDcsRequestState = APP_REQUESTED_STATE.NONE ;
 
@@ -77,28 +87,37 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private StringBuilder downloadDataBuilder;
 	private PublishEventListener publishEventListener ;
 	private String provider = null;
-//	ArrayList<PeripheralDevice> periPheralDevices = new ArrayList<PeripheralDevice>();
-	
+	private int cntOffset  = 0;
+	private int fileSize = 0;
+	private int percentage ;
+	private FileOutputStream fos = null;
+	private int byteOffset = 0;
+	private NotificationManager mNotifyManager;
+	private Notification notification;
+	private String filePath = "";
+
 	private enum KEY_PROVISION {
 		NOT_PROVISIONED,
 		PROVISIONING,
 		PROVISIONED
 	}
-	
+
 	private KEY_PROVISION keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
-	
+
 	private CPPController(Context context) {
 		this.context = context;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
 		eventPublisher = new EventPublisher(callbackHandler);
 		signOnListeners = new ArrayList<SignonListener>();
-		
+
 		init() ;
 	}
-	
+
 	private CPPController() {
 		// Only used for testing
+		//Make dir if not exist
+		Utils.getExternalStorageDirectory(AppConstants.APP_UPDATE_DIRECTORY);
 	}
 
 	/**
@@ -115,60 +134,55 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		setLocale();
 		return icpStateInstance;
 	}
-	
-	public void signOnWithProvisioning()
-	{
-		if( getKeyProvisioningState() == KEY_PROVISION.NOT_PROVISIONED)
-		{
-			ALog.i(ALog.ICPCLIENT, "startprovisioning on network change if not provisioned") ;
+
+	public void signOnWithProvisioning() {
+		if (getKeyProvisioningState() == KEY_PROVISION.NOT_PROVISIONED) {
+			ALog.i(ALog.ICPCLIENT, "startprovisioning on network change if not provisioned");
 			startKeyProvisioning();
-		}
-		else if(getKeyProvisioningState() == KEY_PROVISION.PROVISIONED
-				&& !isSignOn()) {
-			ALog.i(ALog.ICPCLIENT, "startsignon on network change if not signed on") ;
-			
+		} else if (getKeyProvisioningState() == KEY_PROVISION.PROVISIONED && !isSignOn()) {
+			ALog.i(ALog.ICPCLIENT, "startsignon on network change if not signed on");
 			signOn();
 		}
 	}
 
 	private void startKeyProvisioning() {
 		ALog.i(ALog.KPS, "Start provision");
-		
-			keyProvisioningState = KEY_PROVISION.PROVISIONING ;
-			String appID = null;
-			String appVersion = null;
-			int rv = 0;
-			
-			// set Peripheral Information
-			Provision prv = new Provision(callbackHandler, configParams,
-					null, context);
-	
-			// Set Application Info
-			PackageManager pm = context.getPackageManager();
-			appID = "1_com.philips.cl.di.air";
+
+		keyProvisioningState = KEY_PROVISION.PROVISIONING ;
+		String appID = null;
+		String appVersion = null;
+		int rv = 0;
+
+		// set Peripheral Information
+		Provision prv = new Provision(callbackHandler, configParams,
+				null, context);
+
+		// Set Application Info
+		PackageManager pm = context.getPackageManager();
+		appID = "1_com.philips.cl.di.air";
+		try {
+			appVersion = ""
+					+ pm.getPackageInfo(context.getPackageName(), 0).versionCode;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
+		prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
+
+		rv = prv.executeCommand();
+		if (rv != Errors.SUCCESS) {
+			ALog.i(ALog.KPS, "PROVISION-FAILED");
 			try {
-				appVersion = ""
-						+ pm.getPackageInfo(context.getPackageName(), 0).versionCode;
+				Thread.sleep(1000);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
-			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
-	
 			rv = prv.executeCommand();
-			if (rv != Errors.SUCCESS) {
-				ALog.i(ALog.KPS, "PROVISION-FAILED");
-				try {
-					Thread.sleep(1000);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				rv = prv.executeCommand();
-				if(rv != Errors.SUCCESS ) {
-					keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
-				}
+			if(rv != Errors.SUCCESS ) {
+				keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
 			}
-		
+		}
+
 	}
 
 	public boolean isSignOn() {
@@ -190,27 +204,25 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		// Provision
 		configParams = new PurAirKPSConfiguration();
 		((PurAirKPSConfiguration) configParams).setNVMConfigParams();
-		
+
 		int rv = 0;
 
-		if(signon == null)
-		{
+		if (signon == null) {
 			signon = SignOn.getInstance(callbackHandler, configParams);
 		}
 
 		// For TLS/KPS enabled case to load-certificates/chek network & other
 		// information
 		// Need android context
-//		if (SignOn.isTLSEnabled() || SignOn.isKPSEnabled()) {
-			signon.setInterfaceAndContextObject(this, context);
-//		}
-	
+		// if (SignOn.isTLSEnabled() || SignOn.isKPSEnabled()) {
+		signon.setInterfaceAndContextObject(this, context);
+		// }
+
 		rv = signon.init();
 
 		if (rv == Errors.SUCCESS) {
 			startKeyProvisioning();
 		}
-
 	}
 
 	/**
@@ -221,10 +233,10 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if(! isSignOn ) {
 			ALog.i(ALog.ICPCLIENT, "onSignOn");
 			isSignOn = true ;
-			
+
 			ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
 			callbackHandler.setHandler(this);
-			
+
 			signon.setIsFirstTime(true);
 			int rv = signon.executeCommand();
 			if( rv != Errors.SUCCESS ) {
@@ -232,7 +244,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	public void addSignOnListener(SignonListener signOnListener) {
 		synchronized (signOnListeners) {
 			if (!signOnListeners.contains(signOnListener)) {
@@ -241,7 +253,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	public void removeSignOnListener(SignonListener signOnListener) {
 		synchronized (signOnListeners) {
 			if (signOnListeners.contains(signOnListener)) {
@@ -254,7 +266,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void setNotificationListener(SendNotificationRegistrationIdListener listener) {
 		notificationListener = listener;
 	}
-	
+
 	public void setDownloadDataListener(ICPDownloadListener downloadDataListener) {
 		ALog.i(ALog.INDOOR_RDCP, "setDownloadDataListener");
 		this.downloadDataListener = downloadDataListener;
@@ -267,7 +279,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public void setDCSResponseListener(DCSResponseListener dcsResponseListener) {
 		this.dcsResponseListener = dcsResponseListener ;
 	}
-	
+
 	public void setPublishEventListener(PublishEventListener publishEventListener) {
 		this.publishEventListener = publishEventListener ;
 	}
@@ -287,7 +299,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 						numberOfEvents);
 				eventSubscription.setFilter("");
 				eventSubscription.setServiceTag("");
-	
+
 				eventSubscription.executeCommand();
 			} else {
 				ALog.i(ALog.CPPCONTROLLER, "Failed to start DCS - not signed on");
@@ -316,7 +328,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 	}
 
-	
+
 	private void notifySignOnListeners(boolean signOnStatus) {
 		synchronized (signOnListeners) {
 			for (SignonListener listener : signOnListeners) {
@@ -324,7 +336,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 		}
 	}
-	
+
 	private void notifyNotificationListener(boolean success) {
 		if (notificationListener == null) return;
 		if (success) {
@@ -333,7 +345,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			notificationListener.onRegistrationIdSentFailed();
 		}
 	}
-	
+
 	public void notifyDCSListener(String data, String fromEui64, String action) {
 		if( action == null ) return ;
 		if( action.equalsIgnoreCase("RESPONSE") && dcsResponseListener != null) {
@@ -384,23 +396,25 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - not signed on");
 			return false;
 		}
-		
+
 		NotificationRegisteringManager.getNotificationManager();
-		if(NotificationRegisteringManager.getRegitrationProvider().equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_JPUSH) || !Utils.isGooglePlayServiceAvailable()){
+		if(NotificationRegisteringManager.getRegitrationProvider().equalsIgnoreCase(
+				AppConstants.NOTIFICATION_PROVIDER_JPUSH) || !Utils.isGooglePlayServiceAvailable()){
 			provider = AppConstants.NOTIFICATION_PROVIDER_JPUSH;
 		}
 		else{
 			provider = AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
 		}
-		
+
 		ALog.i(ALog.NOTIFICATION, "CPPController sendNotificationRegistrationId provider : " + provider 
 				+"------------RegId : " + gcmRegistrationId);
-		
-		ThirdPartyNotification thirdParty = new ThirdPartyNotification(callbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
+
+		ThirdPartyNotification thirdParty = new ThirdPartyNotification(
+				callbackHandler, AppConstants.NOTIFICATION_SERVICE_TAG);
 		thirdParty.setProtocolDetails(AppConstants.NOTIFICATION_PROTOCOL, provider/* = 
 				Utils.isGooglePlayServiceAvailable() ? AppConstants.NOTIFICATION_PROVIDER_GOOGLE : 
 					AppConstants.NOTIFICATION_PROVIDER_JPUSH*/, gcmRegistrationId);
-		
+
 		int retStatus =  thirdParty.executeCommand();
 		if (Errors.SUCCESS != retStatus)	{
 			ALog.e(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - immediate");
@@ -408,16 +422,17 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		}
 		return true;
 	}
-	
+
 	public SharedPreferences getGCMPreferences() {
 		return PurAirApplication.getAppContext().getSharedPreferences(
 				AppConstants.NOTIFICATION_PREFERENCE_FILE_NAME,
 				Context.MODE_PRIVATE);
 	}
-	
+
 	public String getNotificationProvider() {
 		final SharedPreferences prefs = getGCMPreferences();
-		String previousProvider = prefs.getString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER, AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
+		String previousProvider = prefs.getString(AppConstants.PROPERTY_NOTIFICATION_PROVIDER,
+				AppConstants.PROPERTY_NOTIFICATION_PROVIDER);
 
 		if (previousProvider.equalsIgnoreCase(AppConstants.NOTIFICATION_PROVIDER_GOOGLE)) {
 			return AppConstants.NOTIFICATION_PROVIDER_GOOGLE;
@@ -429,7 +444,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			return AppConstants.PROPERTY_NOTIFICATION_PROVIDER;
 		}
 	}
-	
+
 	private void storeProviderInPref(String provider) {
 		final SharedPreferences prefs = getGCMPreferences();
 
@@ -441,7 +456,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		editor.commit();
 	}
 
-	
+
 	/**
 	 * This method will download the data from the cpp given the query and the
 	 * buffer size callback from the download will happen in
@@ -476,10 +491,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			e.printStackTrace();
 		} 
 	}
-	
+
 	public void setDefaultDcsState() {
 		dcsState = ICP_CLIENT_DCS_STATE.STOPPED ;
 		appDcsRequestState = APP_REQUESTED_STATE.NONE ;
+	}
+
+	public void setAppUpdateNotificationListener(AppUpdateNotificationListener listener) {
+		this.appUpdateNotificationListener = listener ;
 	}
 
 	/***
@@ -491,15 +510,14 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	@Override
 	public void onICPCallbackEventOccurred(int eventType, int status,
 			ICPClient obj) {
-		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
+//		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
 		switch (eventType) {
-		
+
 		case Commands.SIGNON:
 			if (status == Errors.SUCCESS) {
 				ALog.i(ALog.ICPCLIENT, "SIGNON-SUCCESSFUL") ;
 				isSignOn = true;
 				notifySignOnListeners(true);
-				// startDCSService();
 			} else {
 				ALog.e(ALog.ICPCLIENT, "SIGNON-FAILED") ;
 				isSignOn = false ;
@@ -513,117 +531,284 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			}
 			break;
 		case Commands.KEY_PROVISION:
-			if (status == Errors.SUCCESS) {
-				ALog.i(ALog.KPS, "PROVISION-SUCCESS");
-				keyProvisioningState = KEY_PROVISION.PROVISIONED ;
-				Provision provision = (Provision) obj;
-				ALog.i(ALog.KPS, "EUI64(APP-KEY): "+provision.getEUI64());
-				SessionDto.getInstance().setAppEui64(provision.getEUI64());
-				signOn();
-			}
-			else {
-				ALog.e(ALog.KPS, "PROVISION-FAILED");
-				keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+			keyProvisionEvent(status, obj);
+			break;
+		case Commands.EVENT_NOTIFICATION:
+			ALog.i(ALog.ICPCLIENT, "Event Notification: "+status) ;
+			if( status == Errors.SUCCESS ) {
+				if( appUpdateNotificationListener != null ) {
+					appUpdateNotificationListener.onAppUpdate() ;
+				}
 			}
 			break;
-			
-		case Commands.FETCH_EVENTS:
+		case Commands.GET_COMPONENT_DETAILS:
+			componentDetailsEvent(status, obj);
 			break;
-			
 		case Commands.SUBSCRIBE_EVENTS:
-			String dcsEvents = "";
-			String fromEui64 = "";
-			String action = "";
-			//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
-			if (status == Errors.SUCCESS) {
-				ALog.i(ALog.ICPCLIENT,"State :"+eventSubscription.getState())  ;
-				dcsState = ICP_CLIENT_DCS_STATE.STARTED;
-				if(eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
-					dcsState = ICP_CLIENT_DCS_STATE.STOPPED ;
-					if( appDcsRequestState == APP_REQUESTED_STATE.START) {
-						startDCSService() ;
-					}
-					return ;
-				}
-				else if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
-					int noOfEvents = 0;
-					noOfEvents = eventSubscription.getNumberOfEventsReturned();
-					for (int i = 0; i < noOfEvents; i++) {
-						dcsEvents = eventSubscription.getData(i);
-						fromEui64 = eventSubscription.getReplyTo(i);
-						action = eventSubscription.getAction(i);
-						
-						ALog.d(ALog.ICPCLIENT, "DCS event received from: " +fromEui64 + "    action: " + action);
-						ALog.d(ALog.ICPCLIENT, "DCS event received: " +dcsEvents);
-						notifyDCSListener(dcsEvents, fromEui64, action);
-					}
-				}
-				else if( eventSubscription.getState() != EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
-					int noOfEvents = 0;
-					noOfEvents = eventSubscription.getNumberOfEventsReturned();
-					for (int i = 0; i < noOfEvents; i++) {
-						dcsEvents = eventSubscription.getData(i);
-						fromEui64 = eventSubscription.getReplyTo(i);
-						action = eventSubscription.getAction(i);
-						
-						ALog.d(ALog.ICPCLIENT, "DCS event received from: " +fromEui64 + "    action: " + action);
-						ALog.d(ALog.ICPCLIENT, "DCS event received: " +dcsEvents);
-					
-					}
-				}
-				if (appDcsRequestState == APP_REQUESTED_STATE.STOP) {
-					stopDCSService();
-				}
-			}
+			subscribeEvents(status, obj);
 			break;
-			
 		case Commands.THIRDPARTY_REGISTER_PROTOCOLADDRS :
-			ThirdPartyNotification tpns = (ThirdPartyNotification) obj;			
-			if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
-				ALog.i(ALog.CPPCONTROLLER, "Successfully registered with CPP");
-				ALog.i(ALog.NOTIFICATION, "Successfully registered with CPP");
-				storeProviderInPref(provider);
-				NotificationRegisteringManager.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
-				String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
-				NotificationRegisteringManager.getNotificationManager().storeLocale(context, languageLocale);
-				notifyNotificationListener(true);
-			} else {
-				ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
-				notifyNotificationListener(false);
-			}
+			thirdPartyRegisterProtocolAddressEvent(status, obj);
 			break;
-			
 		case Commands.DOWNLOAD_DATA:
-			if (status==Errors.SUCCESS) {
-				byte[] bufferOriginal = new byte[((DownloadData)obj).getBuffer().capacity()];
-				for(int i = 0 ;i < ((DownloadData)obj).getBuffer().capacity(); i++)
-				{
-					bufferOriginal[i] = ((DownloadData)obj).getBuffer().get(i);
-				}
-				
-				byte[] buffer = bufferOriginal.clone();
-	
-				if (downloadDataBuilder == null) {
-					downloadDataBuilder = new StringBuilder();
-				}
-	
-				downloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
-	
-				if (((DownloadData) obj).getIsDownloadComplete()) {
-					ALog.d(ALog.CPPCONTROLLER, "Download complete");
-					if (downloadDataListener != null) {
-						String downloadedData = downloadDataBuilder.toString();
-						downloadDataBuilder.setLength(0);
-						downloadDataListener.onDataDownload(status, downloadedData);
-					}
-				}
-			} else {
-				downloadDataListener.onDataDownload(status, null);
-			}
+			rdcpDownloadEvent(status, obj);
+			break;
+		case Commands.DOWNLOAD_FILE:
+			fileDownloadEvent(status, obj);
 			break;
 		default:
 			break;
 		}
+	}
+	
+	private void keyProvisionEvent(int status, ICPClient obj) {
+		if (status == Errors.SUCCESS) {
+			ALog.i(ALog.KPS, "PROVISION-SUCCESS");
+			keyProvisioningState = KEY_PROVISION.PROVISIONED ;
+			Provision provision = (Provision) obj;
+			ALog.i(ALog.KPS, "EUI64(APP-KEY): "+provision.getEUI64());
+			SessionDto.getInstance().setAppEui64(provision.getEUI64());
+			signOn();
+		}
+		else {
+			ALog.e(ALog.KPS, "PROVISION-FAILED");
+			keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+		}
+	}
+	
+	private void componentDetailsEvent(int status, ICPClient obj) {
+		if (status == Errors.SUCCESS) {
+			ALog.i(ALog.CPPCONTROLLER, "ICPCallback FetchComponentDetails success" );
+			ComponentDetails componentDetails = (ComponentDetails) obj;
+			int numberOfComponents = componentDetails.getNumberOfComponentReturned() ;
+			ALog.i(ALog.ICPCLIENT, "Number of components: "+numberOfComponents) ;
+			for( int index = 0 ; index < numberOfComponents; index ++ ) {
+				if( componentDetails.getComponentInfo(index).id.equals(AppConstants.COMPONENT_ID)) {
+					// Start software download
+					if(isUpgradeAvailable(componentDetails.getComponentInfo(index).versionNumber)) {
+						downloadNewApplication(componentDetails.getComponentInfo(index));
+						break;
+					}
+				}
+			}
+		}
+		else {
+			downloadFailed() ;
+			ALog.e(ALog.CPPCONTROLLER, "ICPCallback FetchComponentDetails failed: " + status);
+		}
+	}
+	
+	private void subscribeEvents(int status, ICPClient obj) {
+		String dcsEvents = "";
+		String fromEui64 = "";
+		String action = "";
+		//TODO : Handle SUBSCRIBE_EVENTS_STOPPED and SUBSCRIBE_EVENTS_DISCONNECTED 
+		if (status == Errors.SUCCESS) {
+			ALog.i(ALog.ICPCLIENT,"State :"+eventSubscription.getState())  ;
+			dcsState = ICP_CLIENT_DCS_STATE.STARTED;
+			if(eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
+				dcsState = ICP_CLIENT_DCS_STATE.STOPPED ;
+				if( appDcsRequestState == APP_REQUESTED_STATE.START) {
+					startDCSService() ;
+				}
+				return ;
+			}
+			else if (eventSubscription.getState() == EventSubscription.SUBSCRIBE_EVENTS_RECEIVED) {
+				int noOfEvents = 0;
+				noOfEvents = eventSubscription.getNumberOfEventsReturned();
+				for (int i = 0; i < noOfEvents; i++) {
+					dcsEvents = eventSubscription.getData(i);
+					fromEui64 = eventSubscription.getReplyTo(i);
+					action = eventSubscription.getAction(i);
+
+					ALog.d(ALog.ICPCLIENT, "DCS event received from: " +fromEui64 + "    action: " + action);
+					ALog.d(ALog.ICPCLIENT, "DCS event received: " +dcsEvents);
+					notifyDCSListener(dcsEvents, fromEui64, action);
+				}
+			}
+			else if( eventSubscription.getState() != EventSubscription.SUBSCRIBE_EVENTS_STOPPED) {
+				int noOfEvents = 0;
+				noOfEvents = eventSubscription.getNumberOfEventsReturned();
+				for (int i = 0; i < noOfEvents; i++) {
+					dcsEvents = eventSubscription.getData(i);
+					fromEui64 = eventSubscription.getReplyTo(i);
+					action = eventSubscription.getAction(i);
+
+					ALog.d(ALog.ICPCLIENT, "DCS event received from: " +fromEui64 + "    action: " + action);
+					ALog.d(ALog.ICPCLIENT, "DCS event received: " +dcsEvents);
+				}
+			}
+			if (appDcsRequestState == APP_REQUESTED_STATE.STOP) {
+				stopDCSService();
+			}
+		}
+	}
+	
+	private void thirdPartyRegisterProtocolAddressEvent(int status, ICPClient obj) {
+		ThirdPartyNotification tpns = (ThirdPartyNotification) obj;			
+		if (status == Errors.SUCCESS && tpns.getRegistrationStatus()) {
+			ALog.i(ALog.CPPCONTROLLER, "Successfully registered with CPP");
+			ALog.i(ALog.NOTIFICATION, "Successfully registered with CPP");
+			storeProviderInPref(provider);
+			NotificationRegisteringManager.getNotificationManager().storeVersion(context, PurAirApplication.getAppVersion());
+			String languageLocale = LanguageUtils.getLanguageForLocale(Locale.getDefault());
+			NotificationRegisteringManager.getNotificationManager().storeLocale(context, languageLocale);
+			notifyNotificationListener(true);
+		} else {
+			ALog.i(ALog.CPPCONTROLLER, "Failed to send registration ID to CPP - errorCode: " + status);
+			notifyNotificationListener(false);
+		}
+	}
+	
+	private void rdcpDownloadEvent(int status, ICPClient obj) {
+		if (status == Errors.SUCCESS) {
+			byte[] bufferOriginal = new byte[((DownloadData) obj)
+			                                 .getBuffer().capacity()];
+			for (int i = 0; i < ((DownloadData) obj).getBuffer().capacity(); i++) {
+				bufferOriginal[i] = ((DownloadData) obj).getBuffer().get(i);
+			}
+
+			byte[] buffer = bufferOriginal.clone();
+
+			if (downloadDataBuilder == null) {
+				downloadDataBuilder = new StringBuilder();
+			}
+
+			downloadDataBuilder.append(new String(buffer, Charset.defaultCharset()));
+
+			if (((DownloadData) obj).getIsDownloadComplete()) {
+				ALog.d(ALog.CPPCONTROLLER, "Download complete");
+				if (downloadDataListener != null) {
+					String downloadedData = downloadDataBuilder.toString();
+					downloadDataBuilder.setLength(0);
+					downloadDataListener.onDataDownload(status,	downloadedData);
+				}
+			}
+		} else {
+			downloadDataListener.onDataDownload(status, null);
+		}
+	}
+	
+	private void fileDownloadEvent(int status, ICPClient obj) {
+		if(status == Errors.SUCCESS) {
+
+			if (fos == null) {
+				createFileOutputStream(obj);
+			}
+			if (fos != null) {
+				try {
+					byte[] bufferOriginal = new byte[((FileDownload)obj).getBuffer().capacity()];
+					if (bufferOriginal != null) {
+						for(int i = 0; i < ((FileDownload)obj).getBuffer().capacity(); i++)	{
+							bufferOriginal[i] = ((FileDownload)obj).getBuffer().get(i);
+						}
+
+						byte[] buffer = bufferOriginal.clone();
+
+						fos.write(buffer);
+						byteOffset += buffer.length;
+						float currentPercentage = (byteOffset / (float) fileSize) * 100;
+						if(percentage != (int)currentPercentage) {
+							percentage = (int)currentPercentage;
+							notification.contentView.setProgressBar(R.id.notification_progressbar, 100, percentage, false);        
+					        notification.contentView.setTextViewText(R.id.notification_progressbar_percent, percentage + "%");    
+					        mNotifyManager.notify(APP_UPDATE_NOTIFICATION_BUILDER_ID, notification);
+						}
+					}
+					if(((FileDownload)obj).getDownloadStatus() == true) {
+						fileDownloadCompleted();
+					}
+				} catch (IOException e) {
+					downloadFailed() ;
+					e.printStackTrace();
+				}
+			}
+		}
+		else {
+			downloadFailed() ;
+		}
+	}
+	
+	private void createFileOutputStream(ICPClient obj) {
+		try {
+			createAppNotificationBuilder() ;
+			File sdcardWithDirFile = Utils.getExternalStorageDirectory(AppConstants.APP_UPDATE_DIRECTORY);
+			File outFile = new File(sdcardWithDirFile, AppConstants.APP_UPDATE_FILE_NAME);
+			if (outFile != null) filePath = outFile.toString(); 
+			fos = new FileOutputStream(outFile);
+			byteOffset = 0;
+			fileSize = ((FileDownload)obj).getFileSize();
+		} catch (FileNotFoundException e) {
+			downloadFailed() ;
+			e.printStackTrace();
+			fos = null;
+		}
+	}
+	
+	@SuppressWarnings("deprecation")
+	private void createAppNotificationBuilder() {
+		mNotifyManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notification = new Notification(R.drawable.purair_icon, 
+        		context.getString(R.string.app_update_notif_title), System.currentTimeMillis());
+        RemoteViews contentView = new RemoteViews(context.getPackageName(), R.layout.custom_notification_layout);
+        contentView.setProgressBar(R.id.notification_progressbar, 100, percentage, false);        
+        contentView.setTextViewText(R.id.notification_progressbar_percent, percentage + "%");        
+        notification.contentView = contentView;
+
+        PendingIntent dummyIntent = PendingIntent.getActivity(context, 0, new Intent(), 0);
+        notification.contentIntent = dummyIntent;
+        mNotifyManager.notify(APP_UPDATE_NOTIFICATION_BUILDER_ID, notification);
+	}
+	
+	private void fileDownloadCompleted() {
+		
+		notification.contentView.setProgressBar(R.id.notification_progressbar, 100, 100, false);        
+        notification.contentView.setTextViewText(R.id.notification_progressbar_percent, percentage + "%");   
+		
+        mNotifyManager.notify(APP_UPDATE_NOTIFICATION_BUILDER_ID, notification);
+        mNotifyManager.cancel(APP_UPDATE_NOTIFICATION_BUILDER_ID);
+        // Reset the offset
+        percentage = 0 ;
+        byteOffset = 0;
+		closeFileOutputStream() ;
+		showPackageInstaller();
+	}
+	
+	private void showPackageInstaller() {
+		Intent intentInstaller = new Intent(Intent.ACTION_VIEW);
+		intentInstaller.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		Uri uri = Uri.fromFile(new File(filePath));
+		intentInstaller.setDataAndType(uri, "application/vnd.android.package-archive");
+		context.startActivity(intentInstaller);
+	}
+
+	private void downloadNewApplication(ComponentInfo componentInfo) {
+		FileDownload fileDownload = new FileDownload(callbackHandler);
+
+		fileSize = componentInfo.size;
+
+		fileDownload.setURL(componentInfo.url);
+		fileDownload.setSecurityKey(componentInfo.secuirtyKey);
+		fileDownload.setCRC(componentInfo.crc);
+		fileDownload.setChunkSize(10240);
+		fileDownload.setSize(componentInfo.size);
+		fileDownload.setOffset(cntOffset);
+
+		int rv = fileDownload.executeCommand();
+		if (rv == Errors.SUCCESS) {
+			ALog.i(ALog.ICPCLIENT, "File download parameters are correct");
+		}
+
+	}
+
+	private boolean isUpgradeAvailable(int versionAvailableInCPP) {
+		// TODO Auto-generated method stub
+		ALog.i(ALog.ICPCLIENT, "Version at CPP:"+versionAvailableInCPP) ;
+		if( PurAirApplication.getAppVersion() < versionAvailableInCPP) {
+			ALog.i(ALog.ICPCLIENT, "Version:"+PurAirApplication.getAppVersion()) ;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
@@ -673,7 +858,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			return;
 		}
 		throw new Exception("No Network Exist");
-
 	}
 
 	/*
@@ -683,14 +867,52 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (signon == null) {
 			signon = SignOn.getInstance(callbackHandler, configParams);
 		}
-
 		return signon.clientVersion();
 	}
 
 	public static final CPPController getCppControllerForTesting() {
 		return new CPPController();
 	}
+
+	public void fetchICPComponents() {
+		ComponentInfo[] componentInfo = new ComponentInfo[1];
+
+		componentInfo[0] = new ComponentInfo();
+		componentInfo[0].id = AppConstants.COMPONENT_ID;
+		componentInfo[0].versionNumber = PurAirApplication.getAppVersion();
+
+		ComponentDetails componentDetails = new ComponentDetails(callbackHandler, componentInfo);
+
+		int responseCode = componentDetails.executeCommand();
+		if (responseCode == Errors.SUCCESS) {
+			ALog.i(ALog.CPPCONTROLLER, "fetchICPComponentDetails success");
+		} else {
+			downloadFailed() ;
+			ALog.e(ALog.CPPCONTROLLER, "fetchICPComponentDetails failed");
+		}
+	}
 	
+	private void downloadFailed() {
+		if( mNotifyManager != null ) {
+			mNotifyManager.cancel(APP_UPDATE_NOTIFICATION_BUILDER_ID) ;
+		}
+		if( appUpdateNotificationListener != null ) {
+			appUpdateNotificationListener.onAppUpdateFailed() ;
+		}
+	}
+	
+	private void closeFileOutputStream() {
+		try {
+			if (fos != null) {
+				fos.close();
+				fos = null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	private static void setLocale(){
 		if (signon == null) return;
 		

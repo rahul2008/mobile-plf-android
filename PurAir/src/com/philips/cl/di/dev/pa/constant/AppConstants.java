@@ -13,6 +13,7 @@ public class AppConstants {
 	/** CONSTANTS FOR THE ICPCLIENT */
 	public static final String BOOT_STRAP_PRODUCT_ID = "AIR_KPSPROV";
 	public static final String CMA_APP_ID_1 = "MDI4M2" ;
+	public static final String COMPONENT_ID = "AC4373-AND";
 
 	
 	/** URLS FOR WEATHER DATA. */	
@@ -243,4 +244,7 @@ public class AppConstants {
 	public static final String SIMPLIFIED_CHINESE_LANGUAGE_CODE="ZH-HANS";
 	public static final String TRADITIONAL_CHINESE_LANGUAGE_CODE="ZH-HANT";
 	public static final int MAX_RETRY = 3;
+	
+	public static final String APP_UPDATE_DIRECTORY = "SmartAir";
+	public static final String APP_UPDATE_FILE_NAME = "PurAir.apk";
 }

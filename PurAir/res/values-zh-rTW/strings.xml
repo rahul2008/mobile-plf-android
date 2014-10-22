@@ -626,4 +626,9 @@
     <string name="purifier_add_fail_title">淨化器未添加</string>
     <string name="purifier_add_fail_msg">您選中的飛利浦智控淨化器無法與您的手機進行通訊</string>
 
+    <!--  App update Notification -->
+    <string name="app_update">App update</string>
+    <string name="app_update_msg">New version of Smart Air App is available</string>
+    <string name="app_update_notif_title">Smart Air update</string>
+    <string name="app_update_failed">Smart Air App update failed.</string>
 </resources>

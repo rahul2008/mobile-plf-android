@@ -78,7 +78,7 @@ public class ICPCallbackHandler implements CallbackHandler
 			break;
 
 		case Commands.DOWNLOAD_FILE:
-			//icpClientDownloadFile_CB(status, obj);
+			icpClientDownloadFile_CB(status, obj);
 			break;
 
 		case Commands.EVENT_NOTIFICATION:
@@ -187,6 +187,10 @@ public class ICPCallbackHandler implements CallbackHandler
 		listener.onICPCallbackEventOccurred(Commands.GET_COMPONENT_DETAILS,status,obj) ;
 	}
 
+	public void icpClientDownloadFile_CB(int status, ICPClient obj)
+	{
+		listener.onICPCallbackEventOccurred(Commands.DOWNLOAD_FILE, status,obj) ;
+	}
 
 	public void eventNotificationCB(int status, ICPClient obj)
 	{

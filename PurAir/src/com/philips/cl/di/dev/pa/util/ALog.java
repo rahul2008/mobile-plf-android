@@ -55,6 +55,7 @@ public class ALog {
 	public static final String APP_START_UP = "AppStartUp";
 	public static final String MANAGE_PUR = "ManagePurifier";
 	public static final String MARKER_ACTIVITY = "MarkerActivity";
+	public static final String FILE_DOWNLOAD = "FileDownload";
 	
 	private static boolean isLoggingEnabled = true;
 	
