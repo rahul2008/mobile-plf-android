@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.philips.cl.di.dev.pa"
-    android:versionCode="49"
-    android:versionName="1.22.0"
+    android:versionCode="50"
+    android:versionName="1.22.1"
     android:installLocation="preferExternal" >
 
     <uses-sdk
