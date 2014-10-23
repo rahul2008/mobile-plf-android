@@ -7,7 +7,6 @@ import java.util.Locale;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
-import net.hockeyapp.android.UpdateManager;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -176,7 +175,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		// Checking internet connection. TRAC#1439
-		isInternetWorking();
+//		isInternetWorking();// This is commented due to it not working all cases.
 		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
@@ -210,7 +209,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		initializeCPPController();
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
-//		checkForUpdatesHockeyApp();
 	}
 
 	private void selectPurifier() {
@@ -256,8 +254,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		// Enable for release build
 		checkForCrashesHockeyApp(); 
-
-
 	}
 
 	public void startDemoMode() {
@@ -1210,11 +1206,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				return true;
 			}
 		});
-	}
-
-	private void checkForUpdatesHockeyApp() {
-		// TODO Remove this for store builds!
-		UpdateManager.register(this, AppConstants.HOCKEY_APPID);
 	}
 	
 	// CHECK INTERNET METHOD
