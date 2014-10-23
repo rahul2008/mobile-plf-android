@@ -97,7 +97,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		@Override
 		public void onClick(View v) {
 			// For demo mode
-			if (PurAirApplication.isDemoModeEnable() || Utils.getAppFirstUse())
+			if (PurAirApplication.isDemoModeEnable())
 				return;
 
 			if (v.getId() == R.id.manage_pur_add_img) {
