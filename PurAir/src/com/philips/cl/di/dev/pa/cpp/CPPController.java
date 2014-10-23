@@ -713,8 +713,15 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 					        mNotifyManager.notify(APP_UPDATE_NOTIFICATION_BUILDER_ID, notification);
 						}
 					}
+					
 					if(((FileDownload)obj).getDownloadStatus() == true) {
-						fileDownloadCompleted();
+						//In downloading time, if Internet disconnect, then we are getting getDownloadStatus() true.
+						// So we added double check as file size.
+						if (((FileDownload)obj).getDownloadProgress() == fileSize) {
+							fileDownloadCompleted();
+						} else {
+							downloadFailed();
+						}
 					}
 				} catch (IOException e) {
 					downloadFailed() ;
