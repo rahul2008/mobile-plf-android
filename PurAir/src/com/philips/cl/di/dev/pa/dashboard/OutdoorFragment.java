@@ -129,7 +129,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			String outdoorAQISummary [] = outdoorAQI.getAqiSummary() ;
 			if( outdoorAQISummary != null && outdoorAQISummary.length > 1 ) {
 //				aqiSummary1.setText(outdoorAQI.getAqiSummary()[0]);
-				aqiSummary2.setText(outdoorAQI.getAqiSummary()[1]);
+				aqiSummary2.setText(outdoorAQI.getAqiSummary()[0]);
 			}
 			aqiPointerCircle.setImageResource(outdoorAQI.getAqiPointerImageResId());
 			Utils.rotateImageView(aqiPointerCircle, prevRotation, outdoorAQI.getAqiPointerRotaion());
