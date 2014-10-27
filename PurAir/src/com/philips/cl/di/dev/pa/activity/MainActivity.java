@@ -1234,16 +1234,14 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 	@Override
 	public void onInternetAvailable() {
-		//TRAC#1439. Show alert when there is no network conenction.
 		ALog.i(ALog.MAINACTIVITY, " MainActivity onInternetAvailable()");
-		String title = "";
-		showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
-		
 	}
 
 	@Override
 	public void onInternetNotAvailable() {
-		// TODO Auto-generated method stub
 		ALog.i("testing", " MainActivity onInternetNotAvailable()");
+		//TRAC#1439. Show alert when there is no network conenction.
+		String title = "";
+		showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
 	}
 }
