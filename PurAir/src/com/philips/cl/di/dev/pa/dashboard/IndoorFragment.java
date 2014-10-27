@@ -35,12 +35,11 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
-import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
-	DrawerEventListener, AlertDialogBtnInterface, AsyncTaskCompleteListenere {
+	DrawerEventListener, AlertDialogBtnInterface{
 
 	private RelativeLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -499,10 +498,5 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onErrorOccurred(PurifierEvent purifierEvent) {
 		// NOP
-	}
-
-	@Override
-	public void onTaskComplete(boolean result) {
-		showAlartErrorAirPort(result);
 	}
 }
