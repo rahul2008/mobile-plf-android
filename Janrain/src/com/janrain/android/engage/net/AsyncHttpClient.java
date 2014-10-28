@@ -49,12 +49,10 @@
 
 package com.janrain.android.engage.net;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Arrays;
-import java.util.zip.GZIPInputStream;
-
+import android.os.Handler;
+import com.janrain.android.engage.net.async.HttpResponseHeaders;
+import com.janrain.android.utils.IoUtils;
+import com.janrain.android.utils.LogUtils;
 import org.apache.http.Header;
 import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
@@ -73,12 +71,13 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
 
-import android.os.Handler;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.zip.GZIPInputStream;
 
-import com.janrain.android.engage.net.JRConnectionManager.ManagedConnection;
-import com.janrain.android.engage.net.async.HttpResponseHeaders;
-import com.janrain.android.utils.IoUtils;
-import com.janrain.android.utils.LogUtils;
+import static com.janrain.android.engage.net.JRConnectionManager.ManagedConnection;
 
 /**
  * @internal
@@ -89,7 +88,6 @@ import com.janrain.android.utils.LogUtils;
     private static String USER_AGENT;
     private static final String HEADER_ACCEPT_ENCODING = "Accept-Encoding";
     private static final String ENCODING_GZIP = "gzip";
-    private static InternetAccessibilityListener mInternetAccessibilityListener;
 
     private AsyncHttpClient() {}
 
@@ -143,11 +141,7 @@ import com.janrain.android.utils.LogUtils;
                 HttpResponse response;
                 try {
                     response = mHttpClient.execute(request);
-                    // Internet is available and working fine.
-                    mInternetAccessibilityListener.onInternetAvailable();
                 } catch (IOException e) {
-                	//	Internet is not available.
-                	mInternetAccessibilityListener.onInternetNotAvailable();
                     // XXX Mediocre way to match exceptions from aborted requests:
                     if (request.isAborted() && e.getMessage().contains("abort")) {
                         throw new AbortedRequestException();
@@ -340,9 +334,5 @@ import com.janrain.android.utils.LogUtils;
 
     public static void setCustomUserAgent(String customUserAgent) {
              USER_AGENT = "Smart Air";
-    }
-    
-    static void setInternetAccessibilityListener(InternetAccessibilityListener internetAccessibilityListener){
-    	mInternetAccessibilityListener = internetAccessibilityListener;
     }
 }

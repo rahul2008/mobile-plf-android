@@ -16,6 +16,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,8 +41,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import cn.jpush.android.api.JPushInterface;
 
-import com.janrain.android.engage.net.InternetAccessibilityListener;
-import com.janrain.android.engage.net.JRConnectionManager;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -88,9 +88,11 @@ import com.philips.cl.di.dev.pa.registration.CreateAccountFragment;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationActivity;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
+import com.philips.cl.di.dev.pa.util.URLExistAsyncTask;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -99,7 +101,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
-PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener, InternetAccessibilityListener {
+PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
 
 	private static int screenWidth, screenHeight;
 
@@ -151,7 +153,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-		JRConnectionManager.setInternetAccessibilityListener(this);
+
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 
@@ -173,7 +175,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		// Checking internet connection. TRAC#1439
-//		isInternetWorking();// This is commented due to it not working all cases.
+		isInternetWorking();// This is commented due to it not working all cases.
 		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
@@ -1206,42 +1208,29 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		});
 	}
 	
-//	// CHECK INTERNET METHOD
-//    private final void isInternetWorking() {
-//        ALog.d("testing"/*ALog.MAINACTIVITY*/, ALog.MAINACTIVITY + " Checking connectivity ...isInternetWorking()");
-//        ConnectivityManager connec = null;
-//        connec =  (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        if ( connec != null){
-//            NetworkInfo networkInfo = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-//            ALog.d("testing", ALog.MAINACTIVITY + " We have internet : networkInfo : " + networkInfo);
-//            if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
-//            	URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere(){
-//					@Override
-//					public void onTaskComplete(boolean result) {
-//						if(!result){
-//							//TRAC#1439. Show alert when there is no network conenction.
-//							String title = "";
-//							showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
-//						}
-//					}
-//            	});
-//            }
-//            return;
-//        }
-//        ALog.d("testing", ALog.MAINACTIVITY + " No internet connection found");
-//        return;	
-//    }
-
-	@Override
-	public void onInternetAvailable() {
-		ALog.i(ALog.MAINACTIVITY, " MainActivity onInternetAvailable()");
-	}
-
-	@Override
-	public void onInternetNotAvailable() {
-		ALog.i("testing", " MainActivity onInternetNotAvailable()");
-		//TRAC#1439. Show alert when there is no network conenction.
-		String title = "";
-		showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
-	}
+	// CHECK INTERNET METHOD
+    private final void isInternetWorking() {
+        ALog.d("testing"/*ALog.MAINACTIVITY*/, ALog.MAINACTIVITY + " Checking connectivity ...isInternetWorking()");
+        ConnectivityManager connec = null;
+        connec =  (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if ( connec != null){
+            NetworkInfo networkInfo = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+            ALog.d("testing", ALog.MAINACTIVITY + " We have internet : networkInfo : " + networkInfo);
+            if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
+            	URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere(){
+					@Override
+					public void onTaskComplete(boolean result) {
+						if(!result){
+							//TRAC#1439. Show alert when there is no network conenction.
+							String title = "";
+							showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
+						}
+					}
+            	});
+            }
+            return;
+        }
+        ALog.d("testing", ALog.MAINACTIVITY + " No internet connection found");
+        return;	
+    }
 }

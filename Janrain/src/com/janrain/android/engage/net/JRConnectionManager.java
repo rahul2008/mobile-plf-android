@@ -31,13 +31,10 @@
  */
 package com.janrain.android.engage.net;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.WeakHashMap;
-
+import android.os.Handler;
+import android.os.Looper;
+import com.janrain.android.utils.ApacheSetFromMap;
+import com.janrain.android.utils.ThreadUtils;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -45,20 +42,20 @@ import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.params.HttpClientParams;
 import org.apache.http.entity.ByteArrayEntity;
 
-import android.os.Handler;
-import android.os.Looper;
-
-import com.janrain.android.utils.ApacheSetFromMap;
-import com.janrain.android.utils.ThreadUtils;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
 
 /**
  * @internal
  *
  * @class JRConnectionManager
  **/
-public class JRConnectionManager implements InternetAccessibilityListener {
+public class JRConnectionManager {
     private static JRConnectionManager sInstance;
-    private static InternetAccessibilityListener mInternetAccessibilityListener;
 
     // createConnection can be called from a BG thread so this is wrapped in a synced map for thread
     // safety
@@ -66,7 +63,7 @@ public class JRConnectionManager implements InternetAccessibilityListener {
             Collections.synchronizedMap(
                     new WeakHashMap<JRConnectionManagerDelegate, Set<ManagedConnection>>());
 
-    private JRConnectionManager() {    }
+    private JRConnectionManager() {}
 
     public static synchronized JRConnectionManager getInstance() {
         if (sInstance == null) sInstance = new JRConnectionManager();
@@ -131,7 +128,7 @@ public class JRConnectionManager implements InternetAccessibilityListener {
             }
             connections.add(managedConnection);
         }
-        
+
         if (Looper.myLooper() != null) {
             // if we're on a Looper thread then operate asynchronously, and post a message back to the Looper
             // later
@@ -147,11 +144,6 @@ public class JRConnectionManager implements InternetAccessibilityListener {
             Set<ManagedConnection> connections = sDelegateConnections.get(delegate);
             if (connections != null) for (ManagedConnection c : connections) c.mDelegate = null;
         }
-    }
-    
-    public static void setInternetAccessibilityListener(InternetAccessibilityListener internetAccessibilityListener){
-    	mInternetAccessibilityListener = internetAccessibilityListener;
-    	AsyncHttpClient.setInternetAccessibilityListener(mInternetAccessibilityListener);
     }
 
     /*package*/ static class ManagedConnection {
@@ -236,18 +228,4 @@ public class JRConnectionManager implements InternetAccessibilityListener {
     public static void setCustomUserAgent(String customUserAgent) {
         AsyncHttpClient.setCustomUserAgent(customUserAgent + "" + System.getProperty("http.agent"));
     }
-
-    /*
-     * Checking the internet status.
-     */
-
-	@Override
-	public void onInternetNotAvailable() {
-		mInternetAccessibilityListener.onInternetNotAvailable();			
-	}
-
-	@Override
-	public void onInternetAvailable() {
-		mInternetAccessibilityListener.onInternetAvailable();		
-	}
 }

@@ -227,17 +227,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 	}
 	
-	private void showAlartErrorAirPort(boolean result) {
-		ALog.i("testing","IndoorFragment showAlartErrorAirPort result : " + result);
-		if(!result){
-			alartMessageTextView.setVisibility(View.VISIBLE);
-			alartMessageTextView.setText("Ritesh"/*getString(R.string.front_panel_not_closed)*/);
-		}
-		else{
-			alartMessageTextView.setVisibility(View.GONE);
-		}
-	}
-
 	private void showFirmwareUpdatePopup() {
 		if(View.VISIBLE != firmwareUpdatePopup.getVisibility()) {
 			firmwareUpdatePopup.setVisibility(View.VISIBLE);
