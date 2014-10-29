@@ -148,6 +148,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private ProgressDialog progressDialog;
 	private ProgressBar airPortTaskProgress;
 	private AppInDemoMode appInDemoMode;
+	private boolean internetDialogShown;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -174,9 +175,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
 		}
 
-		// Checking internet connection. TRAC#1439
-		isInternetWorking();// This is commented due to it not working all cases.
-		
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
 		mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -209,6 +207,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		initializeCPPController();
 		selectPurifier();
 		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
+		internetDialogShown=false;
 	}
 
 	private void selectPurifier() {
@@ -612,15 +611,15 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 	}; 
 
-	private void showAlertDialogPairingFailed(final String title, final String message) {
+	public void showAlertDialogPairingFailed(final String title, final String message, final String fragTag) {
 		runOnUiThread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
 					FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
 
-					Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("pairing_failed");
+					Fragment prevFrag = getSupportFragmentManager().findFragmentByTag(fragTag);
 					if (prevFrag != null) {
 						fragTransaction.remove(prevFrag);
 					}
@@ -631,7 +630,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 					ALog.e(ALog.MAINACTIVITY, e.getMessage());
 				}
 
-				
+
 			}
 		});
 	}
@@ -1036,20 +1035,43 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	public void pairToPurifierIfNecessary() {
-		PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
+		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
+			showInternetAlertDialog();
+		}		
+		
+		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
-			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
-			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
-			PairingHandler pm = new PairingHandler(this, purifier);
-			pm.setPairingAttempts(purifier.getEui64());
-			pm.startPairing();
+			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
+			URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere() {
+				
+				@Override
+				public void onTaskComplete(boolean result) {
+					if(result){
+						purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
+						ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
+						PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+						pm.setPairingAttempts(purifier.getEui64());
+						pm.startPairing();
+					}else {
+						showInternetAlertDialog();
+					}
+				}
+			});
+		}
+	}
+	
+	private void showInternetAlertDialog(){
+		if(!internetDialogShown){
+		internetDialogShown=true;
+		String title = "";
+		showAlertDialogPairingFailed(title, getString(R.string.check_network_connection), "internet_check");
 		}
 	}
 
 	@Override
 	public void onPairingSuccess(PurAirDevice purifier) {	
 		if(getCurrentPurifier()==null) return;
-		
+
 		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
 			cancelPairingDialog();
 
@@ -1072,7 +1094,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	public void onPairingFailed(PurAirDevice purifier) {
 		if(getCurrentPurifier()==null) return;
-		
+
 		if(purifier.getEui64()==getCurrentPurifier().getEui64()){
 			cancelPairingDialog();
 			FragmentManager manager = getSupportFragmentManager();
@@ -1092,7 +1114,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		//If pairing failed show alert
 		String title = "";
 		if (purifier != null) title = purifier.getName();
-		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed));
+		showAlertDialogPairingFailed(title, getString(R.string.pairing_failed), "pairing_failed");
 	}
 
 	private void cancelPairingDialog(){
@@ -1207,30 +1229,4 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 	}
-	
-	// CHECK INTERNET METHOD
-    private final void isInternetWorking() {
-        ALog.d("testing"/*ALog.MAINACTIVITY*/, ALog.MAINACTIVITY + " Checking connectivity ...isInternetWorking()");
-        ConnectivityManager connec = null;
-        connec =  (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if ( connec != null){
-            NetworkInfo networkInfo = connec.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            ALog.d("testing", ALog.MAINACTIVITY + " We have internet : networkInfo : " + networkInfo);
-            if (networkInfo != null && networkInfo.isConnectedOrConnecting()){
-            	URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere(){
-					@Override
-					public void onTaskComplete(boolean result) {
-						if(!result){
-							//TRAC#1439. Show alert when there is no network conenction.
-							String title = "";
-							showAlertDialogPairingFailed(title, getString(R.string.check_network_connection));
-						}
-					}
-            	});
-            }
-            return;
-        }
-        ALog.d("testing", ALog.MAINACTIVITY + " No internet connection found");
-        return;	
-    }
 }

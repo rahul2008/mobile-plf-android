@@ -622,13 +622,14 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 	public static boolean pairPurifierIfNecessary(PurAirDevice purifier) {
 
-		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
+		if(PurAirApplication.isDemoModeEnable()){
 			return false;
 		}
 
 		if (purifier == null || purifier.getConnectionState() != ConnectionState.CONNECTED_LOCALLY) {
 			return false;
-		}
+		}	
+		
 
 		ALog.i(ALog.PAIRING, "In PairToPurifier: "+ purifier.getPairedStatus());
 		

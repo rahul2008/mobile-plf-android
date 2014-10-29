@@ -123,19 +123,6 @@ AlertDialogBtnInterface {
 				pairingHandler.resetPairingAttempts(mPurifier.getEui64());
 				((MainActivity)getActivity()).pairToPurifierIfNecessary();
 			}
-			/*try {
-				AlertDialogFragment dialog = AlertDialogFragment.newInstance(
-						R.string.notification_notpaired_title,
-						R.string.notification_notpaired_text,
-						R.string.notification_nopurifier_positivebtn);
-
-				dialog.setOnClickListener(this);
-				FragmentManager fm = getActivity().getSupportFragmentManager();
-				fm.beginTransaction().add(dialog, null).commitAllowingStateLoss();
-			} catch (IllegalStateException e) {
-				ALog.e(ALog.NOTIFICATION, e.getMessage());
-			}
-			return;*/
 		}
 	}
 
