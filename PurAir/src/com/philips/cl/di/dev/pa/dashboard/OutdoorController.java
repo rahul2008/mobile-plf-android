@@ -300,7 +300,8 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		if(location!=null && location.getLatitude()>0 && location.getLongitude()>0 && !LocationUtils.getCurrentLocationAreaId().isEmpty() && (GPSLocation.getInstance().isLocationEnabled()))
 			showLocationServiceTurnedOnDialog();
 		
-		if(aLocation != null && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
+		if(aLocation != null && aLocation.getLatitude() > 0 &&
+				aLocation.getLongitude() > 0 && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
 			startGetAreaIDTask(longitude, latitude);
@@ -309,9 +310,9 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 	
 	public void startGetAreaIDTask(double longitude, double latitude) {
-		LocationUtils.saveCurrentLocationLatLon(String.valueOf(latitude), String.valueOf(longitude));
 		//If purifier in demo mode, skip download data
-		if (isPhilipsSetupWifiSelected()) return;
+		if (isPhilipsSetupWifiSelected() || (longitude <= 0 && latitude <= 0)) return;
+		LocationUtils.saveCurrentLocationLatLon(String.valueOf(latitude), String.valueOf(longitude));
 
 		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "from_lat_long", PurAirApplication.getAppContext(), this);
 		citiesList.start();
