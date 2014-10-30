@@ -1035,18 +1035,18 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	public void pairToPurifierIfNecessary() {
-		if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
-			showInternetAlertDialog();
-		}		
-		
+
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere() {
-				
+
 				@Override
 				public void onTaskComplete(boolean result) {
 					if(result){
+						if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
+							return;
+						}	
 						purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 						ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
 						PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
@@ -1062,9 +1062,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	
 	private void showInternetAlertDialog(){
 		if(!internetDialogShown){
-		internetDialogShown=true;
-		String title = "";
-		showAlertDialogPairingFailed(title, getString(R.string.check_network_connection), "internet_check");
+			internetDialogShown=true;
+			String title = "";
+			showAlertDialogPairingFailed(title, getString(R.string.check_network_connection), "internet_check");
 		}
 	}
 
