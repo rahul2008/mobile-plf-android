@@ -66,7 +66,6 @@ public class WeatherReportLayout extends  LinearLayout {
 			weatherDetails.get(i).getDate();
 			String time = weatherDetails.get(i).getTime().substring(10,16);
 			String weatherDesc = weatherDetails.get(i).getWeatherDesc();
-			String isdaytime = weatherDetails.get(i).getIsdaytime();
 			
 			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -79,7 +78,7 @@ public class WeatherReportLayout extends  LinearLayout {
 			ImageView weatherImg = (ImageView) v.findViewById(R.id.odTodyWeatherImg);
 			
 			timeTxt.setText(time);
-			tempTxt.setText(tempInCentigrade + "\u00B0");
+			tempTxt.setText(Math.round(tempInCentigrade) + "\u00B0");
 			weatherImg.setImageResource(WeatherIcon.getWeatherIconResId(weatherDesc));
 			LinearLayout.LayoutParams parentParams = new LinearLayout.LayoutParams(
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -119,11 +118,11 @@ public class WeatherReportLayout extends  LinearLayout {
 			}
 			
 			if (dayTemprature != null && !dayTemprature.isEmpty()) {
-				dayTemp.setText(dayTemprature + "\u00B0");
+				dayTemp.setText(Math.round(getTempratureInFloat(dayTemprature)) + "\u00B0");
 			} 
 			
 			if (nightTemprature != null	&& !nightTemprature.isEmpty()) {
-				nightTemp.setText(weatherDetails.get(i).getTemperatureNight() + "\u00B0");
+				nightTemp.setText(Math.round(getTempratureInFloat(nightTemprature)) + "\u00B0");
 			} 
 			
 			windSpeedTxt.setText(windSpeed + context.getString(R.string.kmph));
@@ -132,6 +131,16 @@ public class WeatherReportLayout extends  LinearLayout {
 					LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			this.addView(v, parentParams);
 		}
+	}
+	
+	private float getTempratureInFloat(String temprature) {
+		float ftemprature = 0;
+		try {
+			ftemprature = Float.parseFloat(temprature);
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		return ftemprature;
 	}
 	
 	private void weatherForecastDays(Context context) {
