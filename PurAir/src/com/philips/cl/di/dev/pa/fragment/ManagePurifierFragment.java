@@ -28,7 +28,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.UpdateListener;
-import com.philips.cl.di.dev.pa.util.Utils;
 
 public class ManagePurifierFragment extends BaseFragment implements
 		UpdateListener, PairingListener {

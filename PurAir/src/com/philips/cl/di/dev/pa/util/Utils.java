@@ -967,7 +967,6 @@ public class Utils {
 	}
 
 
-	@SuppressWarnings("deprecation")
 	public static File getExternalStorageDirectory(String dirName) {
 		File file = new File(Environment.getExternalStorageDirectory(), dirName);
 		if (!file.exists() && !file.mkdirs()) {

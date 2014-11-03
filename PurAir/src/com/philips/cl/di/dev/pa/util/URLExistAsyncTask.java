@@ -3,7 +3,9 @@ package com.philips.cl.di.dev.pa.util;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import android.os.AsyncTask;
+
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 
 /*
