@@ -14,12 +14,15 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.HorizontalScrollView;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -46,29 +49,27 @@ import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
-import com.philips.cl.di.dev.pa.util.PercentDetailsClickListener;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.AirView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
-import com.philips.cl.di.dev.pa.view.PercentBarLayout;
 import com.philips.icpinterface.data.Errors;
 
 public class IndoorDetailsActivity extends BaseActivity implements OnClickListener,
-			PercentDetailsClickListener, ICPDownloadListener, AirPurifierEventListener, PurifierCurrentCityPercentListener {
+			ICPDownloadListener, AirPurifierEventListener, PurifierCurrentCityPercentListener {
 
 	private PurAirDevice currentPurifier;
 
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
-	private ImageView circleImg;
+	private ImageView circleImg, indoorDashboardBarTopNumBg;
 	private ImageView backgroundImage;
 	private FontTextView msgFirst, msgSecond, indoorDbIndexName;
+	private ViewGroup indoorBarChart, outdoorBarChart;
 	private ImageView indexBottBg;
-	private HorizontalScrollView horizontalScrollView;
 	private ProgressBar rdcpDownloadProgressBar;
-	private PercentBarLayout percentBarLayout;
-	private FontTextView barTopNum, barTopName, selectedIndexBottom;
+	private FontTextView barTopName;
 	private FontTextView mode, filter, aqiStatusTxt, aqiSummary;
 	private List<int[]> powerOnReadingsValues;
 	private List<float[]> lastDayRDCPValues;
@@ -107,7 +108,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 		setContentView(R.layout.activity_trends_indoor);
 		coordinates = Coordinates.getInstance(this);
-		initializeUI();
+		init();
 		
 		//Purifier current city good air quality historic data download
 		PurifierCurrentCityData.getInstance().setListener(this);
@@ -152,13 +153,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	/**
 	 * Initialize UI widget
 	 * */
-	private void initializeUI() {
-		powerOnReadingsValues = new ArrayList<int[]>();
-		lastDayRDCPValues = new ArrayList<float[]>();
-		last7daysRDCPValues = new ArrayList<float[]>();
-		last4weeksRDCPValues = new ArrayList<float[]>();
-		goodAirInfos = new ArrayList<Integer>();
-		currentCityGoodAirInfos = new ArrayList<Integer>();
+	private void init() {
+		initList();
 
 		graphLayout = (LinearLayout) findViewById(R.id.trendsOutdoorlayoutGraph);
 
@@ -169,6 +165,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg); 
 		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
 		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
+		indoorDashboardBarTopNumBg = (ImageView) findViewById(R.id.indoorDashboardBarTopNumBg);
 
 		msgFirst = (FontTextView) findViewById(R.id.idFirstMsg);
 		msgSecond = (FontTextView) findViewById(R.id.idSecondMsg);
@@ -177,15 +174,25 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		aqiStatusTxt = (FontTextView) findViewById(R.id.inDetailsDbStatus);
 		aqiSummary = (FontTextView) findViewById(R.id.inDetailsDbSummary);
 		indoorDbIndexName = (FontTextView) findViewById(R.id.indoorDbIndexName);
-
-		horizontalScrollView = (HorizontalScrollView) findViewById(R.id.indoorDbHorizontalScroll);
-		barTopNum = (FontTextView) findViewById(R.id.indoorDbBarTopNum);
 		barTopName = (FontTextView) findViewById(R.id.indoorDbBarTopName);
-		selectedIndexBottom = (FontTextView) findViewById(R.id.indoorDbIndexBott);
-		selectedIndexBottom.setText(String.valueOf(1));
 
 		rdcpDownloadProgressBar = (ProgressBar) findViewById(R.id.rdcpDownloadProgressBar);
+		indoorBarChart = (RelativeLayout) findViewById(R.id.indoorDashboardBarPerc);
+		outdoorBarChart = (RelativeLayout) findViewById(R.id.outdoorDashboardBarPerc);
 
+		initClickListener();
+	}
+	
+	private void initList() {
+		powerOnReadingsValues = new ArrayList<int[]>();
+		lastDayRDCPValues = new ArrayList<float[]>();
+		last7daysRDCPValues = new ArrayList<float[]>();
+		last4weeksRDCPValues = new ArrayList<float[]>();
+		goodAirInfos = new ArrayList<Integer>();
+		currentCityGoodAirInfos = new ArrayList<Integer>();
+	}
+	
+	private void initClickListener() {
 		/**
 		 * Set click listener
 		 * */
@@ -224,15 +231,14 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		} else {
 			heading.setTypeface(Fonts.getGillsansLight(this));
 		}
-//		heading.setTextSize(24);
 		if (name == null || name.trim().length() == 0) {
 			heading.setText("");
-			indoorDbIndexName.setText("");
 			barTopName.setText("");
+			indoorDbIndexName.setText("");
 		} else {
 			heading.setText(name);
-			indoorDbIndexName.setText(name);
 			barTopName.setText(name);
+			indoorDbIndexName.setText(name);
 		}
 	}
 
@@ -274,7 +280,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				}
 				last4weeksRDCPVal[i] = dailyAqiValues.get(i);
 			}
-
 		}
 		last7daysRDCPValues.add(last7daysRDCPVal);
 		last4weeksRDCPValues.add(last4weeksRDCPVal);
@@ -319,24 +324,41 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		default:
 			break;
 		}
-
 	}
 
 	private void callGraphViewOnClickEvent(int index, List<float[]> rdcpValues) {
 		dayIndex = index;
 		setViewOnClick(index);
 		removeChildViewFromBar();
-		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
-			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this,
-					null, goodAirInfos, currentCityGoodAirInfos, this, index, 0);
-			percentBarLayout.setClickable(true);
-			horizontalScrollView.addView(percentBarLayout);
-		}
-
+		addBarChartView(indoorBarChart, goodAirInfos, index);
+		addBarChartView(outdoorBarChart, currentCityGoodAirInfos, index);
+		
 		if (rdcpValues != null && rdcpValues.size() > 0) {
 			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0, indexBottBg));
 		}	
-
+	}
+	
+	private void addBarChartView(ViewGroup viewGroup, List<Integer> goodAirList, int index) {
+		if (goodAirList != null && goodAirList.size() > 2) {
+			FontTextView percentTxt = new FontTextView(this);
+			RelativeLayout.LayoutParams percentTxtParams = new RelativeLayout.LayoutParams(
+					LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			percentTxtParams.addRule(RelativeLayout.CENTER_IN_PARENT);
+			percentTxt.setGravity(Gravity.CENTER);
+			percentTxt.setTextColor(Color.WHITE);
+			percentTxt.setTextSize(21);
+			if (viewGroup.getChildCount() > 0) {
+				viewGroup.removeAllViews();
+			}
+			viewGroup.addView(new AirView(this, goodAirList.get(index), 60, 80));
+			percentTxt.setText(goodAirList.get(index) + "%");
+			viewGroup.addView(percentTxt, percentTxtParams);
+			if (viewGroup.getId() == R.id.indoorDashboardBarPerc && goodAirList.get(index) < 50) {
+				indoorDashboardBarTopNumBg.setImageResource(R.drawable.circle_1);
+			} else if (viewGroup.getId() == R.id.indoorDashboardBarPerc) {
+				indoorDashboardBarTopNumBg.setImageResource(R.drawable.circle_5);
+			}
+		}
 	}
 
 	private void setViewOnClick(int index) {
@@ -368,37 +390,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void removeChildViewFromBar() {
-
-		barTopNum.setText("1");
-		//barTopName.setText("Living room");
-		selectedIndexBottom.setText("1");
-
-		if (horizontalScrollView.getChildCount() > 0) {
-			horizontalScrollView.removeAllViews();
-		}
-
 		if (graphLayout.getChildCount() > 0) {
 			graphLayout.removeAllViews();
-		}
-	}
-
-	@Override
-	public void clickedPosition(int position, int index) {
-		selectedIndexBottom.setText(""+(position+1));
-		barTopNum.setText(""+(position+1));
-
-		if (horizontalScrollView.getChildCount() > 0) {
-			horizontalScrollView.removeAllViews();
-		}
-		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
-			percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, 
-					null, goodAirInfos, currentCityGoodAirInfos, this, index, position);
-			percentBarLayout.setClickable(true);
-			horizontalScrollView.addView(percentBarLayout);
-		}
-
-		if (graphLayout.getChildCount() > 0) {
-			graphLayout.removeViewAt(0);
 		}
 	}
 
@@ -591,19 +584,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			@Override
 			public void run() {
 				if (currentPurifier == null) return;
-				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance().getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
-				
-				//Remove child view if exists
-				if (horizontalScrollView.getChildCount() > 0) {
-					horizontalScrollView.removeAllViews();
-				}
-
-				if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
-					percentBarLayout = new PercentBarLayout(IndoorDetailsActivity.this, null,
-							goodAirInfos, currentCityGoodAirInfos, IndoorDetailsActivity.this, dayIndex, 0);
-					percentBarLayout.setClickable(true);
-					horizontalScrollView.addView(percentBarLayout);
-				}
+				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
+						.getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
+				addBarChartView(outdoorBarChart, currentCityGoodAirInfos, dayIndex);
 				ALog.i(ALog.INDOOR_DETAILS, "Updated purifier current city good air: " + currentCityGoodAirInfos);
 			}
 		});

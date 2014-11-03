@@ -8,8 +8,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
-import android.graphics.Path;
 import android.graphics.Rect;
 import android.util.Log;
 import android.widget.ImageView;
@@ -142,68 +140,11 @@ public class DetailsAIQ {
 		}
 	}
 	
-	private void drawRectOutdoor(Canvas canvas, Paint paint) {
-		float tempYs[] = {8.5F, 7.0F, 5.5F, 4.0F, 2.5F, 1.0F, 0.0F};
-		for (int i = 0; i < yAxisValues.size(); i++) {
-			Path path;
-			
-			paint.setColor(Color.GRAY);
-	        paint.setStrokeWidth(2);
-			paint.setAntiAlias(true);
-			paint.setStyle(Paint.Style.STROKE);
-			
-			/**Straight path after graph*/
-			path = new Path();
-			int len = yAxisValues.get(i).length;
-			for (int index = 0; index < len; index++) {
-				
-				float tempF = yAxisValues.get(i)[len - 1 - index];
-				if (tempF != -1) {
-					
-					/**Outer circle*/
-					if (i == position) {
-						mPathDraw.drawOuterCircle(displayWidth + coordinates.getOuterCirclePadd(),
-								mPathDraw.getIndoorYcoordinate(tempYs[i]), canvas, paint, true, 
-								yCoordinates[len - 1 - index]);
-						paint.setColor(mPathDraw.getColorIndoor(yCoordinates[len - 1 - index]));
-						paint.setStrokeWidth(coordinates.getStrokeWidth());
-					}
-					
-					path.moveTo(xCoordinates[len - 1 - index], 
-							mPathDraw.getIndoorYcoordinate(yAxisValues.get(i)[len - 1 - index]));
-			        path.lineTo(displayWidth, 
-			        		mPathDraw.getIndoorYcoordinate(yAxisValues.get(i)[len - 1 - index]));
-					canvas.drawPath(path, paint);
-					
-					/** Path between circle and last point*/
-					path = new Path();
-					path.moveTo(displayWidth,
-							mPathDraw.getIndoorYcoordinate(yAxisValues.get(i)[len - 1 - index]));
-					
-			        path.lineTo(displayWidth +
-			        		coordinates.getOuterCirclePadd(), mPathDraw.getIndoorYcoordinate(tempYs[i]));
-					canvas.drawPath(path, paint);
-					
-					/**Outer circle index*/
-					paint.setTextSize(coordinates.getIdTxtSize());
-					paint.setColor(Color.WHITE);
-					paint.setTextAlign(Align.CENTER);
-					canvas.drawText(""+(i+1), displayWidth + coordinates.getOuterCirclePadd(),
-							mPathDraw.getIndoorYcoordinate(tempYs[i] - 0.1F), paint);
-					break;
-				}
-			}
-		}
-	}
 	
 	/**The method draw view*/
 	public void draw(Canvas canvas, Paint paint) {
 		
 		drawVerticalLineXLable(canvas, paint);
-		
-		if (!isOutdoor) {
-			drawRectOutdoor(canvas, paint);
-		}
 		
 		for (int i = 0; i < xCoordinates.length - 1; i++) {
 			mPathDraw.yCoordinateConditions(xCoordinates[i], yCoordinates[i],
@@ -229,13 +170,13 @@ public class DetailsAIQ {
 			if (y != -1) {
 				if (y > coordinates.getIdY2()) {
 					/**Blue color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_pink_circle_2x);
+					indexBgImg.setImageResource(R.drawable.aqi_blue_circle_2x);
 				} else if (y > coordinates.getIdY3() && y <= coordinates.getIdY2()) {
 					/**Navy color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_light_pink_circle_2x);
+					indexBgImg.setImageResource(R.drawable.aqi_purple_circle_2x);
 				} else if (y > coordinates.getIdY4() && y <= coordinates.getIdY3()) {
 					/**Purple color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_purple_circle_2x);
+					indexBgImg.setImageResource(R.drawable.aqi_fusia_circle_2x);
 				} else {
 					/**Red color circle*/
 					indexBgImg.setImageResource(R.drawable.aqi_red_circle_2x);

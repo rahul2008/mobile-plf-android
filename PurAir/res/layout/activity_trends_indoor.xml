@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" 
-    android:background="@android:color/white">
+    android:layout_height="wrap_content"
+    android:background="@android:color/white" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -41,51 +41,67 @@
 
         <!-- First Message -->
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idFirstMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:lineSpacingExtra="5dp"
             android:text="@string/aqi_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="@dimen/title_text_size_medium_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
+        
+         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp" >
+
+            <ImageView
+                android:id="@+id/indoorDashboardBarTopNumBg"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/aqi_small_circle_grey" />
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+               android:id="@+id/indoorDbBarTopName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
+                android:singleLine="true"
+                android:text="@string/lbl_living_room"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_medium_dp"
+                custom:fontAssetName="fonts/gillsanslight.ttf" />
+        </LinearLayout>
+        
 
         <!-- Detail Percentage Bar -->
 
-        <RelativeLayout
+        <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="8dp" >
-
-            <include
-                android:id="@+id/indoorDbBarTop"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                layout="@layout/indoor_db_bar_top_layout" />
-
-            <HorizontalScrollView
-                android:id="@+id/indoorDbHorizontalScroll"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/indoorDbBarTop"
-                android:layout_centerHorizontal="true"
-                android:fadeScrollbars="false" >
-            </HorizontalScrollView>
-        </RelativeLayout>
+            layout="@layout/indoor_detail_bar_chart"
+            android:padding="8dp" />
 
         <!-- Second Message -->
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/idSecondMsg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
+            android:lineSpacingExtra="5dp"
             android:text="@string/detail_aiq_message_last_day"
             android:textColor="@color/dodgerblue"
             android:textSize="@dimen/title_text_size_medium_dp"
@@ -93,51 +109,36 @@
 
         <!-- Graph Layout -->
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:padding="16dp" >
 
             <ImageView
                 android:id="@+id/indoorDbIndexBottBg"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
                 android:contentDescription="@string/img_description"
-                android:src="@drawable/indoorcircle" />
+                android:src="@drawable/aqi_small_circle_grey" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView 
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-                android:id="@+id/indoorDbIndexBott"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="12sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView 
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/indoorDbIndexName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/indoorDbIndexBott"
-                android:layout_alignBottom="@+id/indoorDbIndexBott"
                 android:layout_marginLeft="10dp"
-                android:paddingTop="4dp"
-       			android:paddingBottom="4dp"
-                android:layout_toRightOf="@+id/indoorDbIndexBottBg"
                 android:ellipsize="end"
                 android:gravity="center_vertical"
+                android:paddingBottom="4dp"
+                android:paddingTop="4dp"
                 android:singleLine="true"
                 android:text="@string/lbl_living_room"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_medium_dp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -148,8 +149,8 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/progress_circle"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/progress_circle" />
 
             <LinearLayout
                 android:id="@+id/trendsOutdoorlayoutGraph"
@@ -177,8 +178,8 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/outdoor_aiq_analysis_head1"
-            android:textSize="@dimen/text_size_medium_dp"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
