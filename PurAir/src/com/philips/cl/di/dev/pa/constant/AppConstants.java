@@ -247,4 +247,9 @@ public class AppConstants {
 	
 	public static final String APP_UPDATE_DIRECTORY = "SmartAir";
 	public static final String APP_UPDATE_FILE_NAME = "PurAir.apk";
+	
+	public static final String ACTIVITY="Activity";
+	public static final int PRIVACY_POLICY_SCREEN=1;
+	public static final int EULA_SCREEN=2;
+	public static final int TERMS_AND_CONDITIONS_SCREEN=3;
 }

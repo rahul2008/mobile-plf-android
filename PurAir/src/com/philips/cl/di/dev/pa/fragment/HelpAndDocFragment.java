@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
@@ -70,6 +71,9 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		RelativeLayout contactUs = (RelativeLayout) rootView.findViewById(R.id.layout_help);
 		contactUs.setOnClickListener(this);
 		
+		RelativeLayout weChat = (RelativeLayout) rootView.findViewById(R.id.layout_we_chat);
+		weChat.setOnClickListener(this);
+		
 		lblFAQ.setOnClickListener(this);
 		lblUserManual.setOnClickListener(this);
 		
@@ -124,10 +128,31 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			if (getActivity() == null) return;
 			startActivity(new Intent(getActivity(), OpenSourceLibLicensActivity.class));
 			break;
+		case R.id.layout_we_chat:
+			startNewActivity(getActivity(), "com.tencent.mm");
 			
 		default:
 			break;
 		}
+	}
+	
+	private void startNewActivity(Context context, String packageName)
+	{
+	    Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+	    if (intent != null)
+	    {
+	        /* we found the activity now start the activity */
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        startActivity(intent);
+	    }
+	    else
+	    {
+	        /* bring user to the market or let them choose an app? */
+	        intent = new Intent(Intent.ACTION_VIEW);
+	        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	        intent.setData(Uri.parse("market://details?id="+packageName));
+	        startActivity(intent);
+	    }
 	}
 	
 	

@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.PrivacyPolicyActivity;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.demo.DemoModeTask;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
@@ -27,11 +28,6 @@ import com.philips.cl.di.dev.pa.util.Utils;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
 
-	private TextView versionNumber;
-
-	private ToggleButton demoModeTButton;
-	private TextView privacyPolicy;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -42,25 +38,44 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 
 	private void initViews(View view) {
 
-		versionNumber = (TextView) view.findViewById(R.id.tv_version_number);
+		TextView versionNumber = (TextView) view.findViewById(R.id.tv_version_number);
 		versionNumber.setText(getString(R.string.version_number) + " " +Utils.getVersionNumber()); //Should probably change it to version name.
 
-		demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
+		ToggleButton demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
 
 		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());
 		demoModeTButton.setOnCheckedChangeListener(this);
 
-		privacyPolicy = (TextView) view.findViewById(R.id.tv_privacy_policy);
+		TextView privacyPolicy = (TextView) view.findViewById(R.id.tv_privacy_policy);
 		privacyPolicy.setOnClickListener(this);
-
 		
+		TextView eula = (TextView) view.findViewById(R.id.tv_eula);
+		eula.setOnClickListener(this);		
+		
+		TextView terms = (TextView) view.findViewById(R.id.tv_terms_and_conditions);
+		terms.setOnClickListener(this);	
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.tv_privacy_policy:
-			getActivity().startActivity(new Intent(getActivity(), PrivacyPolicyActivity.class));
+			intent=new Intent(getActivity(), PrivacyPolicyActivity.class);
+			intent.putExtra(AppConstants.ACTIVITY, AppConstants.PRIVACY_POLICY_SCREEN);
+			getActivity().startActivity(intent);
+			break;
+			
+		case R.id.tv_eula:
+			intent=new Intent(getActivity(), PrivacyPolicyActivity.class);
+			intent.putExtra(AppConstants.ACTIVITY, AppConstants.EULA_SCREEN);
+			getActivity().startActivity(intent);
+			break;
+			
+		case R.id.tv_terms_and_conditions:
+			intent=new Intent(getActivity(), PrivacyPolicyActivity.class);
+			intent.putExtra(AppConstants.ACTIVITY, AppConstants.TERMS_AND_CONDITIONS_SCREEN);
+			getActivity().startActivity(intent);
 			break;
 
 		default:

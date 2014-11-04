@@ -3,7 +3,7 @@
     android:layout_height="fill_parent"
     android:background="@android:color/white" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/settings_demo_mode_lb"
         android:layout_width="match_parent"
@@ -24,19 +24,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="4dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
         android:checked="false" />
 
-      <ImageView
+    <ImageView
         android:id="@+id/divider3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@+id/settings_demo_mode_toggle"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
-    
+
     <ImageView
         android:id="@+id/divider2"
         android:layout_width="match_parent"
@@ -45,29 +45,71 @@
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_version_number"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:layout_marginBottom="19dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:lineSpacingExtra="5dp"
         android:text="@string/version_number"
         android:textColor="@color/gray"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
+    
+        <ImageView
+        android:id="@+id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/tv_version_number"
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
+    
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_privacy_policy"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/policy_layout"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="19dp"
-        android:layout_marginRight="20dp"
-        android:text="@string/privacy_policy"
-        android:textColor="@color/gray"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:layout_above="@id/divider4"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" >
 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_privacy_policy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/privacy_policy"
+            android:textColor="@color/gray"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_eula"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.50"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/eula"
+            android:textColor="@color/gray"
+            android:gravity="center_horizontal"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_terms_and_conditions"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/terms_and_conditions"
+            android:textColor="@color/gray"
+            android:gravity="right"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+    </LinearLayout>
 </RelativeLayout>
