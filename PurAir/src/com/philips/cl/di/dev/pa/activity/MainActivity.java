@@ -455,6 +455,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}
 		});
 		AlertDialog dialog=builder.create();
+		dialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
+		    @Override
+		    public void onCancel(DialogInterface dialog){
+		    	clearObjectFinish();
+		    }
+		});
 		dialog.show();
 	}
 
