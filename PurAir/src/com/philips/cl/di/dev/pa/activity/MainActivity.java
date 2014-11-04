@@ -16,8 +16,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -1038,6 +1036,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
 			URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere() {
 
@@ -1047,12 +1046,12 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 						if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
 							return;
 						}	
-						purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 						ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
 						PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
 						pm.setPairingAttempts(purifier.getEui64());
 						pm.startPairing();
 					}else {
+						purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
 						showInternetAlertDialog();
 					}
 				}
