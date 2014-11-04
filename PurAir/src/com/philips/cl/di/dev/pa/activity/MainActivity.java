@@ -665,13 +665,13 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	private void setRightMenuAQIValue(float indoorAQI) {
 		tvAirStatusAqiValue.setTextSize(18.0f);
 		if (indoorAQI <= 1.4f) {
-			tvAirStatusAqiValue.setText(getString(R.string.good));
+			tvAirStatusAqiValue.setText(getString(R.string.good_indoor));
 		} else if (indoorAQI > 1.4f && indoorAQI <= 2.3f) {
-			tvAirStatusAqiValue.setText(getString(R.string.moderate));
+			tvAirStatusAqiValue.setText(getString(R.string.moderate_indoor));
 		} else if (indoorAQI > 2.3f && indoorAQI <= 3.5f) {
-			tvAirStatusAqiValue.setText(getString(R.string.unhealthy));
+			tvAirStatusAqiValue.setText(getString(R.string.unhealthy_indoor));
 		} else if (indoorAQI > 3.5f) {
-			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy_split));
+			tvAirStatusAqiValue.setText(getString(R.string.very_unhealthy_split_indoor));
 		}
 	}
 
