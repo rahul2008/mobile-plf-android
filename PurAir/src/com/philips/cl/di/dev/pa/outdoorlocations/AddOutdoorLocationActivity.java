@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorCityListener {
@@ -68,7 +71,20 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 	}
 	
 	private void updateAdapter(String input) {
-		String selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED + " and " + AppConstants.KEY_CITY + " like '%" + input + "%' OR " + AppConstants.KEY_CITY_CN+ " like '%" + input + "%' OR " + AppConstants.KEY_CITY_TW + " like '%" + input + "%' ";
+		String cityColumn = AppConstants.KEY_CITY;
+		
+		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+			cityColumn = AppConstants.KEY_CITY_CN;
+		} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			cityColumn = AppConstants.KEY_CITY_TW;
+		}
+		
+		String selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED;  
+		
+		if (!input.isEmpty()) {
+			selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED + " and " 
+					+ cityColumn + " like '%" + input + "%' ";
+		}
 		
 		OutdoorLocationHandler.getInstance().fetchCities(selection);
 	}
@@ -136,10 +152,14 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 					deleteSign.setVisibility(View.GONE);
 					
 					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-					String province = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
-					String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-
-					tvName.setText(city + ", " + province + ", "+cityTW);
+					
+					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+					} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
+					}
+					
+					tvName.setText(city);
 				}
 			};
 			

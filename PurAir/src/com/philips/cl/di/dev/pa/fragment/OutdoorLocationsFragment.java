@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.Hashtable;
+import java.util.Locale;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -32,6 +33,7 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -168,10 +170,15 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					deleteSign.setVisibility(View.VISIBLE);
 					
 					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-					String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
-					String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-
-					tvName.setText(city + ", " + cityCN+ ", "+ cityTW);
+					
+					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
+					} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
+					}
+					
+					tvName.setText(city);
+					
 					tvName.setTag(cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
 					
 					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
