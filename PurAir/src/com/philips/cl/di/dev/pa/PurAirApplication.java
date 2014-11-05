@@ -11,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 
 public class PurAirApplication extends Application {
@@ -26,11 +27,11 @@ public class PurAirApplication extends Application {
 		configureUrlConnectionSocketReuse();
 		toggleLogging();
 		
+		MetricsTracker.initContext(getApplicationContext());
+		
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
 		
-//		// Ensure app is registered for notifications
-//		getNotificationRegisteringManager();
 	}
 	
 	
@@ -117,4 +118,5 @@ public class PurAirApplication extends Application {
 	private void printCurrentLanguage() {
 		ALog.i(ALog.APPLICATION, "Current language: " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
 	}
+	
 }
