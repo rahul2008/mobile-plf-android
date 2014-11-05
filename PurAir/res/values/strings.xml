@@ -6,6 +6,8 @@
     <string name="action_settings">Settings</string>
     <string name="philips_home">Philips</string>
     <string name="empty_string"></string>
+    <string name ="purifier_ac4373">AC4373</string>
+    <string name ="purifier_ac4375">AC4375</string>
     <!-- Left menu items -->
     <string name="list_item_home">Home</string>
     <string name="list_item_manage_purifier">Manage purifiers</string>
@@ -118,8 +120,10 @@
     <string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
     <string name="subtitle_we_chat">WeChat:</string>
     <string name="wechat_id">philipslifestyle</string>
-    <string name="user_manual_link">download.p4c.philips.com/files/a/ac4373_00/ac4373_00_dfu_aen.pdf</string>
-    <string name="faq_link">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=AEN</string>
+    <string name="user_manual_link_ac4373">download.p4c.philips.com/files/a/ac4373_00/ac4373_00_dfu_aen.pdf</string>
+    <string name="user_manual_link_ac4375">download.p4c.philips.com/files/a/ac4375_00/ac4375_00_dfu_aen.pdf</string>
+    <string name="faq_link_ac4373">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4373/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=AEN</string>
+    <string name="faq_link_ac4375">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=AEN</string>
     
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">Dashboard displays overview of both indoor and outdoor Air Quality</string>

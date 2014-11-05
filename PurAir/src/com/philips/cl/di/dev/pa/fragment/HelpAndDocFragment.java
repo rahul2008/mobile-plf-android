@@ -24,12 +24,15 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 
 public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	
 	private char lineSeparator='\n';
+	private FontTextView faqAC4373, faqAC4375;
+	private FontTextView userManualAC4373, userManualAC4375;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -47,6 +50,10 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		TextView lblCallUs=(TextView) rootView.findViewById(R.id.lbl_call_us);
 		TextView lblSupport=(TextView) rootView.findViewById(R.id.lbl_support);	
 		TextView lblOpensource = (TextView) rootView.findViewById(R.id.opensource_lb);
+		faqAC4373 = (FontTextView) rootView.findViewById(R.id.faq_ac4373);
+		faqAC4375 = (FontTextView) rootView.findViewById(R.id.faq_ac4375);
+		userManualAC4373 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4373);
+		userManualAC4375 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4375);
 		
 		lblAppTutorial.setTypeface(Fonts.getGillsans(getActivity()));		
 		lblFAQ.setTypeface(Fonts.getGillsans(getActivity()));
@@ -80,6 +87,11 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		RelativeLayout diagnostics = (RelativeLayout) rootView.findViewById(R.id.layout_email_us);
 		diagnostics.setOnClickListener(this);
 		lblOpensource.setOnClickListener(this);
+		
+		faqAC4373.setOnClickListener(this);
+		faqAC4375.setOnClickListener(this);
+		userManualAC4373.setOnClickListener(this);
+		userManualAC4375.setOnClickListener(this);
 	}	
 	
 
@@ -92,33 +104,45 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 			break;
-			
 		case R.id.phone_number_two:
 			//TODO : Move to one place.
 			Intent callIntent = new Intent(Intent.ACTION_DIAL);
 			callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));
 			startActivity(Intent.createChooser(callIntent, "Air Purifier support"));
 			break;
-			
 		case R.id.layout_email_us:
 			diagnosticData();
 			break;
-			
 		case R.id.layout_help:
 			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
 			gotoSupportWebisteIntent.setData(Uri.parse("http://"+ getString(R.string.contact_philips_support_website)));
 			startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
 			break;
-			
 		case R.id.faq:
-			Intent faq = new Intent(Intent.ACTION_VIEW);
-			faq.setData(Uri.parse("http://"+ getString(R.string.faq_link)));
-			startActivity(Intent.createChooser(faq,""));
+			setVisibility(faqAC4373, faqAC4375);
+			break;
+		case R.id.faq_ac4373:
+			Intent faqAc4373 = new Intent(Intent.ACTION_VIEW);
+			faqAc4373.setData(Uri.parse("http://"+ getString(R.string.faq_link_ac4373)));
+			startActivity(Intent.createChooser(faqAc4373,""));
+			break;
+		case R.id.faq_ac4375:
+			Intent faqAC4375 = new Intent(Intent.ACTION_VIEW);
+			faqAC4375.setData(Uri.parse("http://"+ getString(R.string.faq_link_ac4375)));
+			startActivity(Intent.createChooser(faqAC4375,""));
 			break;
 		case R.id.lbl_user_manual:
-			Intent manual = new Intent(Intent.ACTION_VIEW);
-			manual.setData(Uri.parse("http://"+ getString(R.string.user_manual_link)));
-			startActivity(Intent.createChooser(manual,""));
+			setVisibility(userManualAC4373, userManualAC4375);
+			break;
+		case R.id.user_manual_ac4373:
+			Intent manualAc4373 = new Intent(Intent.ACTION_VIEW);
+			manualAc4373.setData(Uri.parse("http://"+ getString(R.string.user_manual_link_ac4373)));
+			startActivity(Intent.createChooser(manualAc4373,""));
+			break;
+		case R.id.user_manual_ac4375:
+			Intent manualAc4375 = new Intent(Intent.ACTION_VIEW);
+			manualAc4375.setData(Uri.parse("http://"+ getString(R.string.user_manual_link_ac4375)));
+			startActivity(Intent.createChooser(manualAc4375,""));
 			break;
 		case R.id.app_tutorial:
 			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
@@ -130,29 +154,40 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			break;
 		case R.id.layout_we_chat:
 			startNewActivity(getActivity(), "com.tencent.mm");
-			
+			break;
 		default:
 			break;
 		}
 	}
 	
+	private void setVisibility(FontTextView ac4373View, FontTextView ac4375View) {
+		if (ac4373View.getVisibility() == View.GONE 
+				&& ac4375View.getVisibility() == View.GONE) {
+			ac4373View.setVisibility(View.VISIBLE);
+			ac4375View.setVisibility(View.VISIBLE);
+		} else {
+			ac4373View.setVisibility(View.GONE);
+			ac4375View.setVisibility(View.GONE);
+		}
+	}
+	
 	private void startNewActivity(Context context, String packageName)
 	{
-	    Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
-	    if (intent != null)
-	    {
-	        /* we found the activity now start the activity */
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	        startActivity(intent);
-	    }
-	    else
-	    {
-	        /* bring user to the market or let them choose an app? */
-	        intent = new Intent(Intent.ACTION_VIEW);
-	        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	        intent.setData(Uri.parse("market://details?id="+packageName));
-	        startActivity(intent);
-	    }
+		Intent intent = context.getPackageManager().getLaunchIntentForPackage(packageName);
+		if (intent != null)
+		{
+			/* we found the activity now start the activity */
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			startActivity(intent);
+		}
+		else
+		{
+			/* bring user to the market or let them choose an app? */
+			intent = new Intent(Intent.ACTION_VIEW);
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intent.setData(Uri.parse("market://details?id="+packageName));
+			startActivity(intent);
+		}
 	}
 	
 	
