@@ -18,6 +18,7 @@ import com.philips.cl.di.dev.pa.adapter.ViewPagerAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class TutorialPagerActivity extends BaseActivity {
@@ -82,6 +83,19 @@ public class TutorialPagerActivity extends BaseActivity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
+	}
+	
 
 	/* Initialize action bar */
 	private void initActionBar() throws ClassCastException {
