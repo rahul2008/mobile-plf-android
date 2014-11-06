@@ -45,7 +45,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		OutdoorController.getInstance().startAllCitiesAQITask();
 	}
 
-	public void startCitiesTask() {
+	public synchronized void startCitiesTask() {
 		boolean isUpdated = false;
 		for (String areaID : userCitiesList) {
 			if (citiesMap == null || citiesMap.get(areaID) == null
@@ -219,6 +219,9 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public synchronized void addAreaIDToUsersList(String areaID) {
+		if (areaID.equals(LocationUtils.getCurrentLocationAreaId())) {
+			removeAreaIDFromUsersList(areaID);
+		}
 		if (!userCitiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION,
 					"OutdoorManager$addToUserCitiesList areaID " + areaID);
@@ -247,12 +250,15 @@ public class OutdoorManager implements OutdoorEventListener {
 		if (city == null) {
 			city = new OutdoorCity();
 		}
-		if (info != null)
+		if (info != null) {
 			city.setOutdoorCityInfo(info);
-		if (aqi != null)
+		}
+		if (aqi != null) {
 			city.setOutdoorAQI(aqi);
-		if (weather != null)
+		}
+		if (weather != null) {
 			city.setOutdoorWeather(weather);
+		}
 		citiesMap.put(areaID, city);
 	}
 

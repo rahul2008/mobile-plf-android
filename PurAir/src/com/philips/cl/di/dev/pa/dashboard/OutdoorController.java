@@ -59,6 +59,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private CMAHelper cmaHelper;
 	
 	private OutdoorController() {
+		lastKnownLocationFound = false;
 		BASE_URL = Utils.getCMA_BaseURL() ;
 		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 		setLocationProvider();
@@ -77,10 +78,9 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 				mAMapLocationManager.setGpsEnable(true);
 				mAMapLocationManager.requestLocationUpdates(provider, 2000, 10, this);
 				Location loc = mAMapLocationManager.getLastKnownLocation(provider);
-				if(loc != null && LocationUtils.getCurrentLocationAreaId().isEmpty() && !lastKnownLocationFound) { 
-					lastKnownLocationFound = true;
+				if(loc != null) { 
 					location = loc;
-					OutdoorController.getInstance().startGetAreaIDTask(loc.getLongitude(), loc.getLatitude());
+					startGetAreaIDTask(loc.getLongitude(), loc.getLatitude());
 				}
 			}
 		}
@@ -210,16 +210,25 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	
 	private void processAreaID(String data) {
 		String areaId = parseAreaID(data);
-		if (areaId.isEmpty()) return;
+		if (areaId.isEmpty()) {
+			lastKnownLocationFound = false;
+			done=false;
+			ALog.i(ALog.OUTDOOR_LOCATION, "Current location task failed");
+			return;
+		}
 		
+		if (!LocationUtils.getCurrentLocationAreaId().isEmpty() && !areaId.isEmpty() 
+				&& LocationUtils.getCurrentLocationAreaId().equals(areaId)) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "Current location same");
+			return;
+		}
+		ALog.i(ALog.OUTDOOR_LOCATION, "Current location new");
 		LocationUtils.saveCurrentLocationAreaId(areaId);
 		OutdoorManager.getInstance().addAreaIDToUsersList(areaId);
 		areaIdReceived();//Listen to outdoor location fragment
 		
 		addMyLocationToMap(areaId);
-		
 		OutdoorManager.getInstance().startCitiesTask();
-		if(LocationUtils.getCurrentLocationAreaId().isEmpty()) done=false;
 	}
 
 	private void addMyLocationToMap(String areaId) {
@@ -300,8 +309,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		if(location!=null && location.getLatitude()>0 && location.getLongitude()>0 && !LocationUtils.getCurrentLocationAreaId().isEmpty() && (GPSLocation.getInstance().isLocationEnabled()))
 			showLocationServiceTurnedOnDialog();
 		
-		if(aLocation != null && aLocation.getLatitude() > 0 &&
-				aLocation.getLongitude() > 0 && !done && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
+		if(aLocation != null && aLocation.getLatitude() > 0 && aLocation.getLongitude() > 0 && !done) {
 			latitude = aLocation.getLatitude();
 			longitude = aLocation.getLongitude();
 			startGetAreaIDTask(longitude, latitude);
@@ -310,8 +318,13 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 	
 	public void startGetAreaIDTask(double longitude, double latitude) {
-		//If purifier in demo mode, skip download data
-		if (isPhilipsSetupWifiSelected() || (longitude <= 0 && latitude <= 0)) return;
+		/**If purifier in demo mode, skip download data*/
+		if (isPhilipsSetupWifiSelected() || (longitude <= 0 && latitude <= 0) || lastKnownLocationFound) {
+			ALog.i(ALog.OUTDOOR_LOCATION, "Current location task all ready started");
+			return;
+		}
+		ALog.i(ALog.OUTDOOR_LOCATION, "Current location task started");
+		lastKnownLocationFound = true;
 		LocationUtils.saveCurrentLocationLatLon(String.valueOf(latitude), String.valueOf(longitude));
 
 		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "from_lat_long", PurAirApplication.getAppContext(), this);

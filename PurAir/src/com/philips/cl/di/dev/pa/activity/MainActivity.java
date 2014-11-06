@@ -357,7 +357,16 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onDestroy() {
 		CPPController.getInstance(getApplicationContext()).removeSignOnListener(this);
+		clearObjects();
 		super.onDestroy();
+	}
+	
+	private void clearObjects() {
+		OutdoorManager.getInstance().clearCityOutdoorInfo() ;
+		ConnectPurifier.reset() ;
+		GPSLocation.reset();
+		OutdoorLocationHandler.reset();
+		OutdoorController.reset();
 	}
 
 	@SuppressLint("NewApi")
@@ -417,18 +426,10 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			showGPSDialogIfRequired();
 		}
 		else{
-			clearObjectFinish();
+			finish();
 		}
 	}
-
-	private void clearObjectFinish() {
-		OutdoorManager.getInstance().clearCityOutdoorInfo() ;
-		ConnectPurifier.reset() ;
-		GPSLocation.reset();
-		OutdoorLocationHandler.reset();
-		finish();
-	}
-
+	
 	private void showGPSDialogIfRequired() {		
 		Utils.setGPSEnabledDialogShownValue(true);
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -444,21 +445,21 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 						android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 				startActivity(myIntent);
 				dialog.dismiss();
-				clearObjectFinish();
+				finish();
 			}
 		})
 		.setNegativeButton(R.string.cancel,
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				dialog.dismiss();
-				clearObjectFinish();
+				finish();
 			}
 		});
 		AlertDialog dialog=builder.create();
 		dialog.setOnCancelListener(new DialogInterface.OnCancelListener(){
 		    @Override
 		    public void onCancel(DialogInterface dialog){
-		    	clearObjectFinish();
+		    	finish();
 		    }
 		});
 		dialog.show();
