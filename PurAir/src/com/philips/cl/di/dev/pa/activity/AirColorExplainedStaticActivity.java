@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class AirColorExplainedStaticActivity extends BaseActivity {
 
@@ -75,7 +76,18 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 		} else {
 			textView.setTypeface(Fonts.getGillsansLight(this));
 		}
-//		textView.setTextSize(24);
 		textView.setText(this.getText(tutorialTitle));
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
 	}
 }

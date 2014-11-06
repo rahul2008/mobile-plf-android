@@ -220,6 +220,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
 		JPushInterface.onResume(this);
 		MetricsTracker.trackPage("MainActivity");
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
@@ -335,6 +336,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		}
 
 		OutdoorController.getInstance().setActivity(null);
+		
+		MetricsTracker.stopCollectLifecycleData();
 	}
 
 	@Override

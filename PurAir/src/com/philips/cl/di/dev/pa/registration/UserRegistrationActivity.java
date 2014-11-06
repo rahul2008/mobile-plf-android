@@ -59,7 +59,18 @@ public class UserRegistrationActivity extends BaseActivity implements
 		} else {
 			showFragment(new UsageAgreementFragment());
 		}
-		MetricsTracker.trackPage("UserRegistration");
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
 	}
 
 	private void initUsageAgreementActionBar() {

@@ -34,6 +34,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SchedulerActivity extends BaseActivity implements OnClickListener,
@@ -433,11 +434,14 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		super.onPause();
 		DiscoveryManager.getInstance().stop();
 		setCancelled(true);
+		
+		MetricsTracker.stopCollectLifecycleData();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
 		DiscoveryManager.getInstance().start(this);
 		if (schedulesList == null || schedulesList.size() == 0) {
 			getSchedulesFromPurifier();

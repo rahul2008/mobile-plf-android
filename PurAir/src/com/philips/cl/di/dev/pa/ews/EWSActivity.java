@@ -39,6 +39,7 @@ import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -95,6 +96,18 @@ public class EWSActivity extends BaseActivity implements
 		PurifierManager.getInstance().setEwsSate(EWS_STATE.EWS);
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
+	}
+	
 	/*Initialize action bar */
 	private void initActionBar() throws ClassCastException {
 		ActionBar actionBar = getSupportActionBar();

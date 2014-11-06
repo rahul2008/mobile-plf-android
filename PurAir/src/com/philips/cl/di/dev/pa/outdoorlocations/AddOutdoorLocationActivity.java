@@ -32,6 +32,7 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorCityListener {
@@ -64,7 +65,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 	
 	@Override
 	public void onResume() {
-		
+		MetricsTracker.startCollectLifecycleData(this);
 		OutdoorLocationHandler.getInstance().setCityListener(this);
 		OutdoorLocationHandler.getInstance().fetchCities(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED);
 		super.onResume();
@@ -92,6 +93,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 	@Override
 	public void onPause() {
 		OutdoorLocationHandler.getInstance().removeCityListener();
+		MetricsTracker.stopCollectLifecycleData();
 		super.onPause();
 	}
 

@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class PrivacyPolicyActivity extends BaseActivity {
 
@@ -35,5 +36,17 @@ public class PrivacyPolicyActivity extends BaseActivity {
 				finish();
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
 	}
 }

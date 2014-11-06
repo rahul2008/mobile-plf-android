@@ -18,6 +18,7 @@ import com.philips.cl.di.dev.pa.adapter.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class OutdoorAirColorIndicationActivity extends BaseActivity {
 
@@ -145,5 +146,17 @@ public class OutdoorAirColorIndicationActivity extends BaseActivity {
 		final float scale = getResources().getDisplayMetrics().density;
 		// Convert the dps to pixels, based on density scale
 		return (int) (pixels * scale + 0.5f);
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
 	}
 }

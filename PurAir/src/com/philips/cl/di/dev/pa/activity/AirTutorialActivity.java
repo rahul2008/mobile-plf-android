@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class AirTutorialActivity extends BaseActivity implements OnClickListener {
 	
@@ -50,6 +51,18 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
 		btnIndoorAIQReadings.setOnClickListener(this);
 		btnFinish.setOnClickListener(this);
 	}	
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		MetricsTracker.stopCollectLifecycleData();
+	}
 
 	public void setMargins (Button v, int l, int t, int r, int b) {   	
     	

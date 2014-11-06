@@ -49,6 +49,7 @@ import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.AirView;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -139,6 +140,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MetricsTracker.startCollectLifecycleData(this);
 		DiscoveryManager.getInstance().start(null);
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 	}
@@ -148,6 +150,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		super.onPause();
 		DiscoveryManager.getInstance().stop();
 		PurifierManager.getInstance().removeAirPurifierEventListener(this);
+		MetricsTracker.stopCollectLifecycleData();
 	}
 
 	/**
