@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.Log;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
@@ -160,31 +159,6 @@ public class DetailsAIQ {
 		}
 	}
 	
-	/**
-	 * Set bottom index background for indoor
-	 * */
-	public void setIndexImgBg (ImageView indexBgImg) {
-		int len = yCoordinates.length;
-		for (int index = 0; index < len; index++) {
-			float y = yCoordinates[len - 1 - index];
-			if (y != -1) {
-				if (y > coordinates.getIdY2()) {
-					/**Blue color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_blue_circle_2x);
-				} else if (y > coordinates.getIdY3() && y <= coordinates.getIdY2()) {
-					/**Navy color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_purple_circle_2x);
-				} else if (y > coordinates.getIdY4() && y <= coordinates.getIdY3()) {
-					/**Purple color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_fusia_circle_2x);
-				} else {
-					/**Red color circle*/
-					indexBgImg.setImageResource(R.drawable.aqi_red_circle_2x);
-				}
-				break;
-			}
-		}
-	}
 	
 	/**
 	 * The method adding x-label into string array.

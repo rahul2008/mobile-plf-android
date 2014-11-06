@@ -53,7 +53,7 @@
             android:textSize="@dimen/title_text_size_medium_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
         
-         <LinearLayout
+        <!--   <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -82,7 +82,7 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_medium_dp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
-        </LinearLayout>
+        </LinearLayout>-->
         
 
         <!-- Detail Percentage Bar -->
@@ -109,7 +109,7 @@
 
         <!-- Graph Layout -->
 
-        <LinearLayout
+      <!--  <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -139,7 +139,7 @@
                 android:textSize="@dimen/text_size_medium_dp"
                 custom:fontAssetName="fonts/gillsanslight.ttf" />
         </LinearLayout>
-
+-->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="320dp" >

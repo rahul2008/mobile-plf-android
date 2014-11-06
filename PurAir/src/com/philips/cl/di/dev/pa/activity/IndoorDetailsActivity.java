@@ -64,13 +64,11 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 	private LinearLayout graphLayout;
 	private TextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private TextView heading;
-	private ImageView circleImg, indoorDashboardBarTopNumBg;
+	private ImageView circleImg;
 	private ImageView backgroundImage;
-	private FontTextView msgFirst, msgSecond, indoorDbIndexName;
+	private FontTextView msgFirst, msgSecond;
 	private ViewGroup indoorBarChart, outdoorBarChart;
-	private ImageView indexBottBg;
 	private ProgressBar rdcpDownloadProgressBar;
-	private FontTextView barTopName;
 	private FontTextView mode, filter, aqiStatusTxt, aqiSummary;
 	private List<int[]> powerOnReadingsValues;
 	private List<float[]> lastDayRDCPValues;
@@ -167,8 +165,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 
 		backgroundImage = (ImageView) findViewById(R.id.detailsOutdoorDbImg); 
 		circleImg = (ImageView) findViewById(R.id.inDetailsDbCircle); 
-		indexBottBg= (ImageView) findViewById(R.id.indoorDbIndexBottBg); 
-		indoorDashboardBarTopNumBg = (ImageView) findViewById(R.id.indoorDashboardBarTopNumBg);
 
 		msgFirst = (FontTextView) findViewById(R.id.idFirstMsg);
 		msgSecond = (FontTextView) findViewById(R.id.idSecondMsg);
@@ -176,8 +172,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		filter = (FontTextView) findViewById(R.id.inFilterType);
 		aqiStatusTxt = (FontTextView) findViewById(R.id.inDetailsDbStatus);
 		aqiSummary = (FontTextView) findViewById(R.id.inDetailsDbSummary);
-		indoorDbIndexName = (FontTextView) findViewById(R.id.indoorDbIndexName);
-		barTopName = (FontTextView) findViewById(R.id.indoorDbBarTopName);
 
 		rdcpDownloadProgressBar = (ProgressBar) findViewById(R.id.rdcpDownloadProgressBar);
 		indoorBarChart = (RelativeLayout) findViewById(R.id.indoorDashboardBarPerc);
@@ -236,12 +230,8 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		}
 		if (name == null || name.trim().length() == 0) {
 			heading.setText("");
-			barTopName.setText("");
-			indoorDbIndexName.setText("");
 		} else {
 			heading.setText(name);
-			barTopName.setText(name);
-			indoorDbIndexName.setText(name);
 		}
 	}
 
@@ -337,7 +327,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		addBarChartView(outdoorBarChart, currentCityGoodAirInfos, index);
 		
 		if (rdcpValues != null && rdcpValues.size() > 0) {
-			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0, indexBottBg));
+			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0));
 		}	
 	}
 	
@@ -356,11 +346,6 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			viewGroup.addView(new AirView(this, goodAirList.get(index), 60, 80));
 			percentTxt.setText(goodAirList.get(index) + "%");
 			viewGroup.addView(percentTxt, percentTxtParams);
-			if (viewGroup.getId() == R.id.indoorDashboardBarPerc && goodAirList.get(index) < 50) {
-				indoorDashboardBarTopNumBg.setImageResource(R.drawable.circle_1);
-			} else if (viewGroup.getId() == R.id.indoorDashboardBarPerc) {
-				indoorDashboardBarTopNumBg.setImageResource(R.drawable.circle_5);
-			}
 		}
 	}
 

@@ -11,7 +11,6 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -84,7 +83,7 @@ public class GraphView extends View {
 	 * @param indexBgImage
 	 */
 	public GraphView(Context context, List<float[]> yCoordinates,
-			int powerOnFlgs[], Coordinates coordinates, int position, ImageView indexBgImage) {
+			int powerOnFlgs[], Coordinates coordinates, int position) {
 		super(context);
 		
 		this.isOutdoor = false;
@@ -107,7 +106,6 @@ public class GraphView extends View {
 			mDetailsAIQ = new DetailsAIQ(context, graphWidh, yCoordinates, coordinates, position);
 		}
 		
-		mDetailsAIQ.setIndexImgBg(indexBgImage);
 	}
 	
 	@Override
