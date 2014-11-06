@@ -360,6 +360,7 @@
     <string name="purifier">Purifier </string>
     <string name="purifier_name">Purifier Name: </string>
     <string name="purifier_eui64">EUI64: </string>
+    <string name="purifier_firmware_version">Firmware Version: </string>
     <!-- EWS -->
     <string name="lbl_living_room">Living Room</string>
     <string name="lbl_kitchen">Kitchen</string>

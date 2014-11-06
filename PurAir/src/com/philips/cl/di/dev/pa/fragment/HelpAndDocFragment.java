@@ -21,6 +21,7 @@ import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicensActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -209,6 +210,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		String platform= getString(R.string.mobile_platform) +"Android";
 		String osVersion = getString(R.string.sdk_version) + Build.VERSION.RELEASE ;
 		String appEui64 = getString(R.string.app_eui64) + SessionDto.getInstance().getAppEui64();
+		
 		List<PurAirDevice> purifiers= DiscoveryManager.getInstance().getStoreDevices();
 
 		StringBuilder data= new StringBuilder(getString(R.string.diagnostics_intro));
@@ -232,6 +234,10 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			data.append(lineSeparator);
 			data.append(getString(R.string.purifier_eui64)).append(purifiers.get(i).getEui64());
 			data.append(lineSeparator);
+			if(purifiers.get(i).getFirmwarePortInfo()!=null){
+			data.append(getString(R.string.purifier_firmware_version)).append(purifiers.get(i).getFirmwarePortInfo().getVersion());
+			data.append(lineSeparator);
+			}
 			data.append(lineSeparator);
 		}
 		sendMail(data.toString(), getString(R.string.contact_philips_support_email), userEmail);
