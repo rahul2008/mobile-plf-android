@@ -89,6 +89,7 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.PurifierControlPanel;
 import com.philips.cl.di.dev.pa.util.URLExistAsyncTask;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -220,7 +221,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	protected void onResume() {
 		super.onResume();
 		JPushInterface.onResume(this);
-
+		MetricsTracker.trackPage("MainActivity");
 		mListViewLeft.setAdapter(new ListItemAdapter(this, getLeftMenuItems()));
 		mListViewLeft.setOnItemClickListener(new MenuItemClickListener());
 
