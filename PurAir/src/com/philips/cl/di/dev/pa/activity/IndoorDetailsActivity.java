@@ -586,7 +586,9 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				if (currentPurifier == null) return;
 				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
 						.getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
-				addBarChartView(outdoorBarChart, currentCityGoodAirInfos, dayIndex);
+				if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
+					addBarChartView(outdoorBarChart, currentCityGoodAirInfos, dayIndex);
+				}
 				ALog.i(ALog.INDOOR_DETAILS, "Updated purifier current city good air: " + currentCityGoodAirInfos);
 			}
 		});
