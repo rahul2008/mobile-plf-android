@@ -363,6 +363,7 @@
     <string name="purifier">Purifier </string>
     <string name="purifier_name">Purifier Name: </string>
     <string name="purifier_eui64">EUI64: </string>
+    <string name="purifier_firmware_version">Firmware Version: </string>
     <!-- EWS -->
     <string name="lbl_living_room">客厅</string>
     <string name="lbl_kitchen">厨房</string>
@@ -461,7 +462,7 @@
 <!--     <string name="pair_title">在非家庭Wi-Fi网络环境下开启远程控制</string> -->
 <!--     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string> -->
 <!--     <string name="pair">是</string> -->
-<!--     <string name="error_title">很抱歉！</string> -->
+    <string name="error_title">很抱歉！</string> 
 <!--     <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string> -->
 <!--     <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string> -->
 <!--     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string> -->

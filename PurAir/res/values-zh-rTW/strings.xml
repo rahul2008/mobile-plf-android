@@ -360,6 +360,7 @@
     <string name="purifier">Purifier </string>
     <string name="purifier_name">Purifier Name: </string>
     <string name="purifier_eui64">EUI64: </string>
+    <string name="purifier_firmware_version">Firmware Version: </string>
     <!-- EWS -->
     <string name="lbl_living_room">客廳</string>
     <string name="lbl_kitchen">廚房</string>
@@ -459,7 +460,7 @@
 <!--     <string name="pair_title">在非家庭Wi-Fi網絡環境下開啟遠程控制</string> -->
 <!--     <string name="pair_text">您是否想於家庭網絡以外操控空氣清新機？</string> -->
 <!--     <string name="pair">是</string> -->
-<!--     <string name="error_title">抱歉！</string> -->
+    <string name="error_title">抱歉！</string> 
 <!--     <string name="pairing_progress">啟用遙控器中。請稍後..</string> -->
 <!--     <string name="pairing_success">您現在可以於家庭網絡以外操控空氣清新機！</string> -->
 <!--     <string name="pairing_failed">未能啟用遙控器，請稍後再試。</string> -->
