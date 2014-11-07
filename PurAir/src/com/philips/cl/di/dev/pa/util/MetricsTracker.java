@@ -37,6 +37,8 @@ public class MetricsTracker {
 	// private static final String KEY_FIRMWARE_VERSION = "firmwareVersion";
 	private static final String KEY_PRODUCT_MODEL = "productModel";
 	private static final String KEY_APP_ID = "appId";
+	private static final String KEY_LOGIN_CHANNEL = "loginChannel";
+	private static final String KEY_REGISTRATION_CHANNEL = "registrationChannel";
 
 	/* ---------------ACTION LIST ----------------------- */
 	private static final String ACTION_VIDEO_START = "videoStart";
@@ -50,6 +52,7 @@ public class MetricsTracker {
 
 	/*----------------PAGE LIST------------------------*/
 	private static final String PAGE_USER_REGISTRATION = "UserRegistration";
+	private static final String PAGE_USER_LOGIN = "UserLogin";
 
 	/* ---------------VALUE LIST ----------------------- */
 	private static final String VALUE_APPNAME = "PurAir";
@@ -66,8 +69,10 @@ public class MetricsTracker {
 	private static final String VALUE_SCHEDULE_ADDED = "schedule added";
 	private static final String VALUE_TECHNICAL_ERROR = "we're having trouble connecting to your Air Purifier";
 	private static final String VALUE_USER_ERROR = "incorrect e-mail address";
-	private static final String VALUE_SUCCESS_PRODUCT_REGISTRATION = "successProductRegistration";
-	private static final String VALUE_START_PRODUCT_REGISTRATION = "startProductRegistration";
+	private static final String VALUE_SUCCESS_USER_REGISTRATION = "successUserRegistration";
+	private static final String VALUE_START_USER_REGISTRATION = "startUserRegistration";
+	private static final String VALUE_MY_PHILIPS = "myPhilips";
+	private static final String VALUE_SUCCESS_LOGIN = "successLogin";
 
 	public static void initContext(Context context) {
 		Config.setContext(context);
@@ -88,15 +93,30 @@ public class MetricsTracker {
 		Analytics.trackState(pageName, addAnalyticsDataObject());
 	}
 
-	public static void trackPageStartUserRegistration() {
+	public static void trackActionUserLoginChannel() {
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put(KEY_PAGE_EVENT, VALUE_START_PRODUCT_REGISTRATION);
+		contextData.put(KEY_LOGIN_CHANNEL, VALUE_MY_PHILIPS);
+		// TODO : Need to clarify PAGE_USER_LOGIN key.
+		Analytics.trackState(PAGE_USER_LOGIN, contextData);
+	}
+
+	public static void trackPageStartUserRegistration(String registrationChannel) {
+		// @argument: registration channel means facebook, twitter etc.
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put(KEY_PAGE_EVENT, VALUE_START_USER_REGISTRATION);
+		contextData.put(KEY_REGISTRATION_CHANNEL, registrationChannel);
 		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
 	}
 
 	public static void trackPageFinishedUserRegistration() {
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_PRODUCT_REGISTRATION);
+		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_USER_REGISTRATION);
+		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
+	}
+
+	public static void trackPageSuccessLoginUser() {
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_LOGIN);
 		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
 	}
 
