@@ -16,16 +16,13 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 public class MetricsTracker {
 
 	/* ---------------DEFAULT LIST ----------------------- */
-	private static final String DEFAULT_COUNTRY = "NL";
 	private static final String DEFAULT_LANGUAGE = "en";
 	private static final String DEFAULT_CURRENCY = "EUR";
 
 	/* ---------------KEY LIST ----------------------- */
-	private static final String KEY_CP = "sector";
 	private static final String KEY_APPNAME = "app.name";
 	private static final String KEY_VERSION = "app.version";
 	private static final String KEY_OS = "app.os";
-	private static final String KEY_COUNTRY = "locale.country";
 	private static final String KEY_LANGUAGE = "locale.language";
 	private static final String KEY_CURRENCY = "locale.currency";
 	private static final String KEY_FILENAME = "fileName";
@@ -55,7 +52,6 @@ public class MetricsTracker {
 	private static final String PAGE_USER_REGISTRATION = "UserRegistration";
 
 	/* ---------------VALUE LIST ----------------------- */
-	private static final String VALUE_CP = "CP";
 	private static final String VALUE_APPNAME = "PurAir";
 	private static final String ANDROID = "Android ";
 	private static final String VALUE_ADVANCE_NETWORK_NO = "advance_network:no";
@@ -243,26 +239,15 @@ public class MetricsTracker {
 	private static Map<String, Object> addAnalyticsDataObject() {
 		System.out.println("ADBMobile.addAnalyticsDataObject()");
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_CP, VALUE_CP);
 		contextData.put(KEY_APPNAME, VALUE_APPNAME);
 		contextData.put(KEY_VERSION, PurAirApplication.getAppVersion());
 		contextData.put(KEY_OS, ANDROID + Build.VERSION.RELEASE);
-		contextData.put(KEY_COUNTRY, getCountry());
 		contextData.put(KEY_LANGUAGE, getLanguage());
 		contextData.put(KEY_CURRENCY, getCurrency());
 		// contextData.put(KEY_FIRMWARE_VERSION, "TODO");
 		contextData.put(KEY_PRODUCT_MODEL, "TODO");
 		contextData.put(KEY_APP_ID, "TODO");
 		return contextData;
-	}
-
-	private static String getCountry() {
-		String country = PurAirApplication.getAppContext().getResources()
-				.getConfiguration().locale.getCountry().toLowerCase(
-				Locale.getDefault());
-		if (country == null)
-			country = DEFAULT_COUNTRY;
-		return country;
 	}
 
 	private static String getLanguage() {
