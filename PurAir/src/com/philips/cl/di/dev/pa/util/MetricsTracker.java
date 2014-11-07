@@ -16,9 +16,9 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 public class MetricsTracker {
 
 	/* ---------------DEFAULT LIST ----------------------- */
-	private static String DEFAULT_COUNTRY = "NL";
-	private static String DEFAULT_LANGUAGE = "en";
-	private static String DEFAULT_CURRENCY = "EUR";
+	private static final String DEFAULT_COUNTRY = "NL";
+	private static final String DEFAULT_LANGUAGE = "en";
+	private static final String DEFAULT_CURRENCY = "EUR";
 
 	/* ---------------KEY LIST ----------------------- */
 	private static final String KEY_CP = "sector";
@@ -55,8 +55,23 @@ public class MetricsTracker {
 	private static final String PAGE_USER_REGISTRATION = "UserRegistration";
 
 	/* ---------------VALUE LIST ----------------------- */
-	private static String VALUE_CP = "CP";
-	private static String VALUE_APPNAME = "PurAir";
+	private static final String VALUE_CP = "CP";
+	private static final String VALUE_APPNAME = "PurAir";
+	private static final String ANDROID = "Android ";
+	private static final String VALUE_ADVANCE_NETWORK_NO = "advance_network:no";
+	private static final String VALUE_ADVANCE_NETWORK_YES = "advance_network:yes";
+	private static final String VALUE_REMOTE_CONTROL_OFF = "remote control off";
+	private static final String VALUE_REMOTE_CONTROL_ON = "remote control on";
+	private static final String VALUE_NOTIFICATION_OFF = "notification off";
+	private static final String VALUE_NOTIFICATION_ON = "notification on";
+	private static final String VALUE_SPEED = "speed ";
+	private static final String VALUE_NOTIFICATION_AIR_QUALITY = "notification air quality:";
+	private static final String VALUE_TIMER = "timer ";
+	private static final String VALUE_SCHEDULE_ADDED = "schedule added";
+	private static final String VALUE_TECHNICAL_ERROR = "we're having trouble connecting to your Air Purifier";
+	private static final String VALUE_USER_ERROR = "incorrect e-mail address";
+	private static final String VALUE_SUCCESS_PRODUCT_REGISTRATION = "successProductRegistration";
+	private static final String VALUE_START_PRODUCT_REGISTRATION = "startProductRegistration";
 
 	public static void initContext(Context context) {
 		Config.setContext(context);
@@ -79,26 +94,25 @@ public class MetricsTracker {
 
 	public static void trackPageStartUserRegistration() {
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put(KEY_PAGE_EVENT, "startProductRegistration");
+		contextData.put(KEY_PAGE_EVENT, VALUE_START_PRODUCT_REGISTRATION);
 		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
 	}
 
 	public static void trackPageFinishedUserRegistration() {
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put(KEY_PAGE_EVENT, "successProductRegistration");
+		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_PRODUCT_REGISTRATION);
 		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
 	}
 
 	public static void trackActionUserError() {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_ERROR_USER, "incorrect e-mail address");
+		contextData.put(KEY_ERROR_USER, VALUE_USER_ERROR);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
 	}
 
 	public static void trackActionTechnicalError() {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_ERROR_TECHNICAL,
-				"we're having trouble connecting to your Air Purifier");
+		contextData.put(KEY_ERROR_TECHNICAL, VALUE_TECHNICAL_ERROR);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
 	}
 
@@ -159,26 +173,26 @@ public class MetricsTracker {
 
 	public static void trackActionScheduleAdd() {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, "schedule added");
+		contextData.put(KEY_OPTION_DETAILS, VALUE_SCHEDULE_ADDED);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionTimerAdded(String time) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, "timer " + time);
+		contextData.put(KEY_OPTION_DETAILS, VALUE_TIMER + time);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionNotificationAirQuality(String airQuality) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, "notification air quality:"
+		contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_AIR_QUALITY
 				+ airQuality);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionFanSpeed(String speed) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, "speed " + speed);
+		contextData.put(KEY_OPTION_DETAILS, VALUE_SPEED + speed);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
@@ -191,9 +205,9 @@ public class MetricsTracker {
 	public static void trackActionNotification(boolean notification) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (notification) {
-			contextData.put(KEY_OPTION_DETAILS, "notification_on");
+			contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_ON);
 		} else {
-			contextData.put(KEY_OPTION_DETAILS, "notification_off");
+			contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_OFF);
 		}
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -201,9 +215,9 @@ public class MetricsTracker {
 	public static void trackActionRemoteControl(Boolean remote) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (remote) {
-			contextData.put(KEY_OPTION_DETAILS, "remote_control_on");
+			contextData.put(KEY_OPTION_DETAILS, VALUE_REMOTE_CONTROL_ON);
 		} else {
-			contextData.put(KEY_OPTION_DETAILS, "remote_control_off");
+			contextData.put(KEY_OPTION_DETAILS, VALUE_REMOTE_CONTROL_OFF);
 		}
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -211,9 +225,9 @@ public class MetricsTracker {
 	public static void trackActionAdvanceNetworkConfig(Boolean config) {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (config) {
-			contextData.put(KEY_OPTION_DETAILS, "advance_network:yes");
+			contextData.put(KEY_OPTION_DETAILS, VALUE_ADVANCE_NETWORK_YES);
 		} else {
-			contextData.put(KEY_OPTION_DETAILS, "advance_network:no");
+			contextData.put(KEY_OPTION_DETAILS, VALUE_ADVANCE_NETWORK_NO);
 		}
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -232,7 +246,7 @@ public class MetricsTracker {
 		contextData.put(KEY_CP, VALUE_CP);
 		contextData.put(KEY_APPNAME, VALUE_APPNAME);
 		contextData.put(KEY_VERSION, PurAirApplication.getAppVersion());
-		contextData.put(KEY_OS, "Android " + Build.VERSION.RELEASE);
+		contextData.put(KEY_OS, ANDROID + Build.VERSION.RELEASE);
 		contextData.put(KEY_COUNTRY, getCountry());
 		contextData.put(KEY_LANGUAGE, getLanguage());
 		contextData.put(KEY_CURRENCY, getCurrency());
