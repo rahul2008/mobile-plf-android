@@ -31,7 +31,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -98,18 +97,6 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		actionBar.setCustomView(view);	
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		MetricsTracker.startCollectLifecycleData(this);
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		MetricsTracker.stopCollectLifecycleData();
-	}
-
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.setup_actionbar_cancel_btn) {

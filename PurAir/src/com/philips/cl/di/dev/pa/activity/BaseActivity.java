@@ -17,7 +17,6 @@ import com.philips.cl.di.dev.pa.cpp.AppUpdateNotificationListener;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.fragment.AppUpdateDialogFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 
 /**
@@ -49,7 +48,6 @@ public class BaseActivity extends ActionBarActivity implements AppUpdateNotifica
 		ALog.d(ALog.ACTIVITY, "OnResume on " + this.getClass().getSimpleName());
 		super.onResume();
 		Tracking.startUsage(this);
-		MetricsTracker.startCollectLifecycleData(this);
 		NetworkReceiver.getInstance().registerNetworkReceiver();
 	}
 
@@ -57,7 +55,6 @@ public class BaseActivity extends ActionBarActivity implements AppUpdateNotifica
 	protected void onPause() {
 		ALog.d(ALog.ACTIVITY, "OnPause on " + this.getClass().getSimpleName());
 		Tracking.stopUsage(this);
-		MetricsTracker.stopCollectLifecycleData();
 		NetworkReceiver.getInstance().unregisterNetworkReceiver();
 		super.onPause();
 	}

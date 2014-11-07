@@ -25,7 +25,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -61,18 +60,6 @@ public class UserRegistrationActivity extends BaseActivity implements
 		}
 	}
 	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		MetricsTracker.startCollectLifecycleData(this);
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		MetricsTracker.stopCollectLifecycleData();
-	}
-
 	private void initUsageAgreementActionBar() {
 		ActionBar actionBar;
 		actionBar = getSupportActionBar();

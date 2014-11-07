@@ -6,7 +6,6 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class OpenSourceLibLicensActivity extends BaseActivity {
 	@Override
@@ -22,18 +21,6 @@ public class OpenSourceLibLicensActivity extends BaseActivity {
 				finish();
 			}
 		});
-	}
-	
-	@Override
-	protected void onResume() {
-		super.onResume();
-		MetricsTracker.startCollectLifecycleData(this);
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		MetricsTracker.stopCollectLifecycleData();
 	}
 
 }
