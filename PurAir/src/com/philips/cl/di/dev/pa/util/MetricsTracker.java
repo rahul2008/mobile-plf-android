@@ -39,6 +39,8 @@ public class MetricsTracker {
 	private static final String KEY_APP_ID = "appId";
 	private static final String KEY_LOGIN_CHANNEL = "loginChannel";
 	private static final String KEY_REGISTRATION_CHANNEL = "registrationChannel";
+	private static final String KEY_APP_STATUS = "appStatus";
+	private static final String KEY_CONTROL_CONNECTION_TYPE = "controlConnectionType";
 
 	/* ---------------ACTION LIST ----------------------- */
 	private static final String ACTION_VIDEO_START = "videoStart";
@@ -49,6 +51,8 @@ public class MetricsTracker {
 	private static final String ACTION_LOCATION_NEW_PURIFIER = "newPurifierRequest";
 	private static final String ACTION_LOCATION_NEW_WEATHER = "newWeatherRequest";
 	private static final String ACTION_SET_OPTION = "setOption";
+	private static final String ACTION_SET_APP_STATUS = "setAppStatus";
+	private static final String ACTION_SET_CONTROL_CONNECTION_TYPE = "setControl";
 
 	/*----------------PAGE LIST------------------------*/
 	private static final String PAGE_USER_REGISTRATION = "UserRegistration";
@@ -73,6 +77,7 @@ public class MetricsTracker {
 	private static final String VALUE_START_USER_REGISTRATION = "startUserRegistration";
 	private static final String VALUE_MY_PHILIPS = "myPhilips";
 	private static final String VALUE_SUCCESS_LOGIN = "successLogin";
+	private static final String VALUE_PRODUCT_VIEW = "prodView";
 
 	public static void initContext(Context context) {
 		Config.setContext(context);
@@ -93,31 +98,42 @@ public class MetricsTracker {
 		Analytics.trackState(pageName, addAnalyticsDataObject());
 	}
 
-	public static void trackActionUserLoginChannel() {
+	public static void trackActionUserLoginChannel(String pageName) {
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_LOGIN_CHANNEL, VALUE_MY_PHILIPS);
 		// TODO : Need to clarify PAGE_USER_LOGIN key.
-		Analytics.trackState(PAGE_USER_LOGIN, contextData);
+		Analytics.trackState((pageName == null) ? PAGE_USER_LOGIN : pageName,
+				contextData);
 	}
 
-	public static void trackPageStartUserRegistration(String registrationChannel) {
+	public static void trackPageStartUserRegistration(String pageName,
+			String registrationChannel) {
 		// @argument: registration channel means facebook, twitter etc.
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_START_USER_REGISTRATION);
 		contextData.put(KEY_REGISTRATION_CHANNEL, registrationChannel);
-		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
+		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
+				: pageName, contextData);
 	}
 
-	public static void trackPageFinishedUserRegistration() {
+	public static void trackPageFinishedUserRegistration(String pageName) {
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_USER_REGISTRATION);
-		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
+		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
+				: pageName, contextData);
 	}
 
-	public static void trackPageSuccessLoginUser() {
+	public static void trackPageSuccessLoginUser(String pageName) {
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_LOGIN);
-		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
+		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
+				: pageName, contextData);
+	}
+
+	public static void trackPageProductView(String pageName) {
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put(KEY_PAGE_EVENT, VALUE_PRODUCT_VIEW);
+		Analytics.trackState(pageName, contextData);
 	}
 
 	public static void trackActionUserError() {
@@ -130,6 +146,20 @@ public class MetricsTracker {
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_ERROR_TECHNICAL, VALUE_TECHNICAL_ERROR);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
+	}
+
+	// @argument "appStatus": Allowed values: "Background" or "Foreground"
+	public static void trackActionAppStatus(String appStatus) {
+		Map<String, Object> contextData = new HashMap<String, Object>();
+		contextData.put(KEY_APP_STATUS, appStatus);
+		Analytics.trackAction(ACTION_SET_APP_STATUS, contextData);
+	}
+
+	// @argument "appStatus": Allowed values: "Local" or "Remote"
+	public static void trackActionControlConnection(String controlConnectionType) {
+		Map<String, Object> contextData = new HashMap<String, Object>();
+		contextData.put(KEY_CONTROL_CONNECTION_TYPE, controlConnectionType);
+		Analytics.trackAction(ACTION_SET_CONTROL_CONNECTION_TYPE, contextData);
 	}
 
 	/*
