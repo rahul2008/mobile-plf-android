@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
@@ -110,12 +111,11 @@ AlertDialogBtnInterface {
 		PurifierManager.getInstance().addAirPurifierEventListener(this);
 		pairingHandler.setPermissionListener(this);
 
-		if (mPurifier == null) {
+		if (mPurifier == null || PurAirApplication.isDemoModeEnable()) {
 			showNotificationsLayout(false);
 		} else if (mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 			showNotificationsLayout(isNotificationEnabled());
 		} else {
-
 			if(mPurifier.getPairedStatus()!=PurAirDevice.PAIRED_STATUS.PAIRED){
 				showPairingProgressDialog();
 			}
