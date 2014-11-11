@@ -152,7 +152,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		super.onCreate(savedInstanceState);
 		ALog.i(ALog.MAINACTIVITY, "onCreate mainActivity");
 		setContentView(R.layout.activity_main_aj);
-
+		
+		CPPController.getInstance(this).setAppUpdateStatus(false);
+		
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 

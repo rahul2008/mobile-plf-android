@@ -103,6 +103,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	}
 
 	private KEY_PROVISION keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+	private boolean appUpdateAlertShown;
 
 	private CPPController(Context context) {
 		this.context = context;
@@ -111,6 +112,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		eventPublisher = new EventPublisher(callbackHandler);
 		signOnListeners = new ArrayList<SignonListener>();
 
+		appUpdateAlertShown=false;
 		init() ;
 	}
 
@@ -534,8 +536,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		case Commands.EVENT_NOTIFICATION:
 			ALog.i(ALog.ICPCLIENT, "Event Notification: "+status) ;
 			if( status == Errors.SUCCESS ) {
-				if( appUpdateNotificationListener != null ) {
+				if( appUpdateNotificationListener != null && !appUpdateAlertShown) {
 					appUpdateNotificationListener.onAppUpdate() ;
+					appUpdateAlertShown=true;
 				}
 			}
 			break;
@@ -933,5 +936,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (signon == null) return;
 		
 		signon.setNewLocale(Utils.getCountryCode(), Utils.getCountryLocale());
+	}
+	
+	public void setAppUpdateStatus(boolean shown){
+		appUpdateAlertShown=shown;
 	}
 }
