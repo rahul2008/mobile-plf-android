@@ -14,6 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true" />
+        
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator_indoor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="2dp" />
 
         <RelativeLayout
             android:id="@+id/hf_indoor_dashboard_rl_no_purifier"
@@ -61,7 +69,7 @@
             android:layout_alignParentTop="true" />
 
         <com.viewpagerindicator.CirclePageIndicator
-            android:id="@+id/indicator"
+            android:id="@+id/indicator_outdoor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

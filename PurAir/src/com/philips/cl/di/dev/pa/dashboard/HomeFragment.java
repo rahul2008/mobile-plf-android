@@ -33,7 +33,6 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
-import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -41,7 +40,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class HomeFragment extends BaseFragment implements OutdoorDataChangeListener, OnClickListener,
-		AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener, OnPageChangeListener {
+		AlertDialogBtnInterface, DrawerEventListener, NetworkStateListener {
 
 	private ViewPager indoorViewPager;
 	private ViewPager outdoorViewPager;
@@ -115,7 +114,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
-		indoorViewPager.setOnPageChangeListener(this);
+//		indoorViewPager.setOnPageChangeListener(this);
 		Bundle bundle = getArguments();
 		GPSLocation.getInstance().requestGPSLocation();
 		if (bundle != null) {
@@ -165,6 +164,16 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
             indoorViewPager.setAdapter(indoorPagerAdapter);
             
+            CirclePageIndicator indicator = 
+    				(CirclePageIndicator)getView().findViewById(R.id.indicator_indoor);
+    		indicator.setViewPager(indoorViewPager);
+    		indicator.setSnap(true);
+    		/**IndoorViewPager listener, We are using CirclePageIndicator for showing page indicator.
+    		 *CirclePageIndicator block normal page change listener
+    		 */
+    		indicator.setOnPageChangeListener(indoorPageChangeListener);
+    		setViewPagerIndicatorSetting(indicator, View.VISIBLE);
+            
             indoorViewPager.setCurrentItem(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
             
 		}		
@@ -172,16 +181,34 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
 		int count = 1 ;
 		OutdoorManager.getInstance().fetchSelectedCityInfo();
-		if( OutdoorManager.getInstance().getUsersCitiesList() != null && OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
+		if( OutdoorManager.getInstance().getUsersCitiesList() != null 
+				&& OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
 			count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 		}
 		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
 		outdoorViewPager.setAdapter(outdoorPagerAdapter);
 		
+		CirclePageIndicator indicator = 
+				(CirclePageIndicator)getView().findViewById(R.id.indicator_outdoor);
+		indicator.setViewPager(outdoorViewPager);
+		indicator.setSnap(true);
+		setViewPagerIndicatorSetting(indicator, View.VISIBLE);
+		
+		/*
 		CirclePageIndicator indicator = (CirclePageIndicator)getView().findViewById(R.id.indicator);
 		indicator.setViewPager(outdoorViewPager);
 		indicator.setSnap(true);
 
+		final float density = getResources().getDisplayMetrics().density;
+		indicator.setPageColor(0xFF5D6577);
+		indicator.setFillColor(0xFFB9BBC7);   
+		indicator.setStrokeWidth(0.1f*density);
+		indicator.setClickable(false);
+		indicator.setVisibility(View.VISIBLE);
+		*/
+	}
+	
+	private void setViewPagerIndicatorSetting(CirclePageIndicator indicator, int visibility) {
 		final float density = getResources().getDisplayMetrics().density;
 		indicator.setPageColor(0xFF5D6577);
 		indicator.setFillColor(0xFFB9BBC7);   
@@ -231,7 +258,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	private void showTutorialDialog() {
 		try {
-			AlertDialogFragment dialog = AlertDialogFragment.newInstance(R.string.alert_take_tour, R.string.alert_taketour_text, R.string.alert_take_tour, R.string.close);
+			AlertDialogFragment dialog = AlertDialogFragment.newInstance(
+					R.string.alert_take_tour, R.string.alert_taketour_text, R.string.alert_take_tour, R.string.close);
 			dialog.setOnClickListener(this);
 			dialog.show(getActivity().getSupportFragmentManager(), "");
 		} catch (IllegalStateException e) {
@@ -279,9 +307,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	}
 
 	@Override
-	public void onNegativeButtonClicked() {
-		// NOP
-	}
+	public void onNegativeButtonClicked() {/**NOP*/}
 	
 	@Override
 	public void onDrawerEvent(DrawerEvent event, View drawerView) {
@@ -326,35 +352,33 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	}
 
 	@Override
-	public void onDisconnected() {
-		
-	}
+	public void onDisconnected() {/**NOP*/}
 
-	@Override
-	public void onPageScrollStateChanged(int arg0) {
-		// NOP
-	}
+	private OnPageChangeListener indoorPageChangeListener = new OnPageChangeListener() {
+		
+		@Override
+		public void onPageScrollStateChanged(int arg0) {/**NOP*/}
 
-	@Override
-	public void onPageScrolled(int arg0, float arg1, int arg2) {
-		// NOP
-	}
-	
-	@Override
-	public void onPageSelected(int position) {
-		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
-		if (PurAirApplication.isDemoModeEnable()) {
-			setRightMenuIconVisibilityDemoMode(position);
-			return;
-		}
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {/**NOP*/}
 		
-		setRightMenuIconVisibilityNormalMode(position);
+		@Override
+		public void onPageSelected(int position) {
+			PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(position);
+			if (PurAirApplication.isDemoModeEnable()) {
+				setRightMenuIconVisibilityDemoMode(position);
+				return;
+			}
+			
+			setRightMenuIconVisibilityNormalMode(position);
+			
+			if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
+				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
+				if (purifier == null) return;
 		
-		if( position < DiscoveryManager.getInstance().getStoreDevices().size()) {
-			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
-			if (purifier == null) return;
-	
-			PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+				PurifierManager.getInstance().setCurrentPurifier(purifier) ;
+			}
 		}
-	}
+	};
+	
 }
