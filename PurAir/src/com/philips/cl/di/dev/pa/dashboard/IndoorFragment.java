@@ -1,16 +1,23 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -20,6 +27,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
+import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils.FanSpeed;
 import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
@@ -35,11 +43,13 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.PurifierEvent;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.Coordinates;
+import com.philips.cl.di.dev.pa.util.DashboardUtil;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorFragment extends BaseFragment implements AirPurifierEventListener, OnClickListener,
-	DrawerEventListener, AlertDialogBtnInterface{
+	DrawerEventListener, AlertDialogBtnInterface {
 
 	private RelativeLayout firmwareUpdatePopup;
 	private int prevIndoorAqi;
@@ -60,6 +70,31 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private ProgressBar firmwareProgress;
 	private AlertDialogFragment firmwareInfoDialog;
 	private int position ;
+	private ArrayList<Point> points;
+	private ViewGroup dotContainer;
+	private int prevFanSpeedResId;
+	
+	private int operationMode = -1;
+	private int indexToHighLighted = -1;
+	private int prevDotOnePosition = -1;
+	private int prevDotTwoPosition = -1;
+	private int prevDotThreePosition = -1;
+	private int marginCenter;
+	private int marginRadius;
+	private boolean silentModeAnimationStarted = false;
+	private static final int ANIMATION_DELAY = 120;//milli second
+	private int animationDelay = ANIMATION_DELAY;
+	private static final int FAN_SPEED_ONE = 1;
+	private static final int FAN_SPEED_TWO = 2;
+	private static final int FAN_SPEED_THREE = 3;
+	private static final int FAN_SPEED_SILENT = 4;
+	private static final int FAN_SPEED_TURBO = 5;
+	private static final int ALPHA_LIGHT_INT = 255;
+	private static final int ALPHA_DIM_INT = 50;
+	private static final float ALPHA_LIGHT_FLOAT = 1.0f;
+	private static final float ALPHA_DIM_FLOAT = .2f;
+	
+	private Handler handler = new Handler();
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,8 +106,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		String eui64 = "";
 		
+		marginCenter = (int) Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 2); //margin 2F
+		marginRadius = (int) Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 6); //margin 6F
+		
+		String eui64 = "";
 		if(getArguments() != null) {
 			position = getArguments().getInt("position");
 			PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(position);
@@ -82,6 +120,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		}
 		
 		ALog.i(ALog.DASHBOARD, "IndoorFragmet$onActivityCreated position: " + position);
+		dotContainer = (RelativeLayout) getView().findViewById(R.id.hf_indoor_circle_layt);
 		
 		fanModeTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode);
 		filterStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_filter);
@@ -183,7 +222,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
 			prevRotation = 0.0f;
 			alartMessageTextView.setVisibility(View.GONE);
-
+			removeWhiteDots();
 		} else {
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
 				fanModeTxt.setText(getString(R.string.off));
@@ -196,12 +235,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			
 			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 			aqiPointer.setImageResource(apl.getPointerBackground());
+			
 			aqiStatusTxt.setTextSize(22.0f);
 			aqiStatusTxt.setText(getString(apl.getTitle()));
 			aqiSummaryTxt.setText(getString(apl.getSummary()));
 			showIndoorMeter();
-			showAlartErrorAirPort(airPortInfo, purifier.getName());
-			
+			showAlertErrorAirPort(airPortInfo, purifier.getName());
 
 			ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
 			
@@ -211,10 +250,38 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 			prevRotation = apl.getPointerRotation();
 			prevIndoorAqi = indoorAqi;
+			drawWhiteDots();
+			
+			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
+				handler.removeCallbacks(animateRunnable);
+				prevFanSpeedResId = 0;
+				resetWhiteDots();
+				return;
+			}
+			FanSpeed fsd = getFanSpeed(airPortInfo.getActualFanSpeed());
+			int resourceId = fsd.getFanSpeedTextResID();
+			
+			if (prevFanSpeedResId != resourceId ) {
+				prevFanSpeedResId = resourceId;
+				showWhiteDotsAsPerFanSpeed(resourceId);
+			}
 		}
 	}
 	
-	private void showAlartErrorAirPort(AirPortInfo airPortInfo, String pName) {
+	public FanSpeed getFanSpeed(String actualFanSpeed) {
+		if(actualFanSpeed == null || actualFanSpeed.isEmpty()) return null;
+		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_SILENT)) return FanSpeed.SILENT;
+		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_AUTO)) return FanSpeed.AUTO;
+		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_TURBO)) return FanSpeed.TURBO;
+		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_ONE)) return FanSpeed.ONE;
+		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_TWO)) return FanSpeed.TWO;
+		if(actualFanSpeed.equalsIgnoreCase(AppConstants.FAN_SPEED_THREE)) return FanSpeed.THREE;
+		return null;
+	}
+	
+	
+	
+	private void showAlertErrorAirPort(AirPortInfo airPortInfo, String pName) {
 		String powerMode = airPortInfo.getPowerMode();
 		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
 			alartMessageTextView.setVisibility(View.VISIBLE);
@@ -256,7 +323,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-//					showIndoorMeter();
 					updateDashboardUI();
 				}
 			});
@@ -265,7 +331,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			getActivity().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-//					hideIndoorMeter();
 					updateDashboardUI();
 				}
 			});
@@ -485,7 +550,230 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	}
 
 	@Override
-	public void onErrorOccurred(PurifierEvent purifierEvent) {
-		// NOP
+	public void onErrorOccurred(PurifierEvent purifierEvent) {/**NOP*/}
+	
+	@Override
+	public void onDestroy() {
+		handler.removeCallbacks(animateRunnable);
+		clearPrevPosition();
+		super.onDestroy();
+	}
+	
+	//White dot animation on the circle
+	
+	private void showWhiteDotsAsPerFanSpeed(int fanSpeedResID) {
+		animationDelay = ANIMATION_DELAY;
+		switch (fanSpeedResID) {
+		case R.string.speed1:
+			operationMode = FAN_SPEED_ONE;
+			animationDelay = ANIMATION_DELAY;
+			break;
+		case R.string.speed2:
+			operationMode = FAN_SPEED_TWO;
+			animationDelay = ANIMATION_DELAY / 2;
+			break;
+		case R.string.speed3:
+			operationMode = FAN_SPEED_THREE;
+			animationDelay = ANIMATION_DELAY / 3;
+			break;
+		case R.string.silent:
+			operationMode = FAN_SPEED_SILENT;
+			animationDelay = ANIMATION_DELAY;
+			break;
+		case R.string.turbo:
+			operationMode = FAN_SPEED_TURBO;
+			animationDelay = ANIMATION_DELAY / 3;
+			break;
+		default:
+			break;
+		}
+		
+		resetWhiteDots();
+		indexToHighLighted = -1;
+		handler.removeCallbacks(animateRunnable);
+		handler.post(animateRunnable);
+	}
+	
+	private void drawWhiteDots() {
+		ImageView lastWhiteDotDrawn = (ImageView) dotContainer.findViewWithTag(0);
+		if (lastWhiteDotDrawn != null) return;
+		// Get center of the circle
+		Point imageCenter = new Point();
+		imageCenter.x = aqiPointer.getLeft() + aqiPointer.getWidth() / 2;
+		imageCenter.y = aqiPointer.getTop() + aqiPointer.getHeight() / 2;
+		imageCenter.x = imageCenter.x - marginCenter;
+		imageCenter.y = imageCenter.y - marginCenter;
+		
+		if (imageCenter.x < 1 && imageCenter.y < 1 ) return; //Pointer image width and height zero
+		
+		int radius = (aqiPointer.getHeight() / 2) - marginRadius;
+		points = DashboardUtil.getCircularBoundary(imageCenter, radius, AppConstants.NUM_OFF_POINTS);
+		if (points.isEmpty()) return;
+		
+		//Draw white dots
+		for (int index = 0; index < AppConstants.NUM_OFF_POINTS; index++) {
+			ImageView prevImage = (ImageView) dotContainer.findViewWithTag(index);
+			if (prevImage == null) {
+				ImageView whiteDot = new ImageView(getActivity());
+				whiteDot.setImageResource(R.drawable.white_circle_small);
+				DashboardUtil.setAplha(whiteDot, ALPHA_DIM_INT, ALPHA_DIM_FLOAT);
+				RelativeLayout.LayoutParams lParam = new RelativeLayout.LayoutParams(
+						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+				lParam.setMargins(points.get(index).x, points.get(index).y, 0, 0);
+				whiteDot.setLayoutParams(lParam);
+				whiteDot.setTag(index);
+				dotContainer.addView(whiteDot);
+			}
+		}
+	}
+	
+	private void resetWhiteDots() {
+		silentModeAnimationStarted = false;
+		clearPrevPosition();
+		for (int tag = 0; tag < AppConstants.NUM_OFF_POINTS; tag++) {
+			ImageView whiteDot = (ImageView) dotContainer.findViewWithTag(tag);
+			if (whiteDot != null) {
+				whiteDot.clearAnimation();
+				DashboardUtil.setAplha(whiteDot, ALPHA_DIM_INT, ALPHA_DIM_FLOAT);
+			}
+		}
+	}
+	
+	void removeWhiteDots() {
+		clearAnimation();
+		handler.removeCallbacks(animateRunnable);
+		prevFanSpeedResId = 0;
+		clearPrevPosition();
+		for (int tag = 0; tag < AppConstants.NUM_OFF_POINTS; tag++) {
+			ImageView whiteDot = (ImageView) dotContainer.findViewWithTag(tag);
+			if (whiteDot != null) {
+				whiteDot.clearAnimation();
+				dotContainer.removeView(whiteDot);
+			}
+		}
+	}
+	
+	private Runnable animateRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			handler.removeCallbacks(animateRunnable);
+			indexToHighLighted = 
+					(indexToHighLighted + 1 == AppConstants.NUM_OFF_POINTS ? 0 : indexToHighLighted + 1);
+			animateDotOnCircle(indexToHighLighted);
+			handler.postDelayed(animateRunnable, animationDelay);
+		}
+	};
+	
+	private void clearAnimation() {
+		for (int tag = 0; tag < AppConstants.NUM_OFF_POINTS; tag++) {
+			ImageView whiteDot = (ImageView) dotContainer.findViewWithTag(tag);
+			if (whiteDot != null) whiteDot.clearAnimation();
+		}
+	}
+	
+	private void animateDotOnCircle(final int position) {
+		switch (operationMode) {
+		//Fan speed auto can be any fan speed
+		case FAN_SPEED_ONE: 
+			animateWhiteDotsInFanSpeedOne(position);
+			break;
+		case FAN_SPEED_TWO: 
+			animateWhiteDotsInFanSpeedTwo(position);
+			break;
+		case FAN_SPEED_THREE: 
+			animateWhiteDotsInFanSpeedThree(position);
+			break;
+		case FAN_SPEED_TURBO: 
+			animateWhiteDotsInFanSpeedTurbo(position);
+			break;
+		case FAN_SPEED_SILENT:
+			if (!silentModeAnimationStarted) animateWhiteDotsInFanSpeedSilent();
+			break;
+		default:
+			//NOP
+			break;
+		}
+	}
+	
+	private int swapHighLightToDim(int currentPosition, int prevPosition) {
+		highLightImageView(currentPosition);
+		dimImageView(prevPosition);
+		return currentPosition;
+	}
+	
+	private void animateWhiteDotsInFanSpeedOne(int position) {
+		prevDotOnePosition = swapHighLightToDim(position, prevDotOnePosition);
+	}
+	
+	private void animateWhiteDotsInFanSpeedTwo(int position) {
+		prevDotOnePosition = swapHighLightToDim(position, prevDotOnePosition);
+		
+		prevDotTwoPosition = 
+				swapHighLightToDim((position + 12) % AppConstants.NUM_OFF_POINTS, prevDotTwoPosition);
+	}
+	
+	private void animateWhiteDotsInFanSpeedThree(int position) {
+		prevDotOnePosition = swapHighLightToDim(position, prevDotOnePosition);
+		
+		prevDotTwoPosition = 
+				swapHighLightToDim((position + 8) % AppConstants.NUM_OFF_POINTS, prevDotTwoPosition);
+		
+		prevDotThreePosition = 
+				swapHighLightToDim((position + 16) % AppConstants.NUM_OFF_POINTS, prevDotThreePosition);
+	}
+	
+	private void animateWhiteDotsInFanSpeedSilent() {
+		final Animation animationFadeIn = 
+				AnimationUtils.loadAnimation(getActivity(), R.anim.fadein_dashboard_dot);
+		final Animation animationFadeOut = 
+				AnimationUtils.loadAnimation(getActivity(), R.anim.fadeout_dashboard_dot);
+
+		for (int tag = 0; tag < AppConstants.NUM_OFF_POINTS; tag++) {
+			ImageView whiteDot = (ImageView) dotContainer.findViewWithTag(tag);
+			if (whiteDot != null) {
+				DashboardUtil.setAplha(whiteDot, ALPHA_LIGHT_INT, ALPHA_LIGHT_FLOAT);
+				silentModeAnimationStarted = true;
+				if (tag % 2 == 0) {
+					whiteDot.startAnimation(animationFadeOut);
+				} else {
+					whiteDot.startAnimation(animationFadeIn);
+				}
+			}
+		}
+	}
+	
+	private void animateWhiteDotsInFanSpeedTurbo(int position) {
+		prevDotOnePosition = swapHighLightToDim(position, prevDotOnePosition);
+		highLightImageView((position + 1) % AppConstants.NUM_OFF_POINTS);
+		highLightImageView((position + 2) % AppConstants.NUM_OFF_POINTS);
+		
+		prevDotTwoPosition = 
+				swapHighLightToDim((position + 8) % AppConstants.NUM_OFF_POINTS, prevDotTwoPosition);
+		highLightImageView((position + 9) % AppConstants.NUM_OFF_POINTS);
+		highLightImageView((position + 10) % AppConstants.NUM_OFF_POINTS);
+		
+		prevDotThreePosition = 
+				swapHighLightToDim((position + 16) % AppConstants.NUM_OFF_POINTS, prevDotThreePosition);
+		highLightImageView((position + 17) % AppConstants.NUM_OFF_POINTS);
+		highLightImageView((position + 18) % AppConstants.NUM_OFF_POINTS);
+	}
+	
+	private void highLightImageView(int position) {
+		ImageView brightImage = (ImageView) dotContainer.findViewWithTag(position);
+		DashboardUtil.setAplha(brightImage, ALPHA_LIGHT_INT, ALPHA_LIGHT_FLOAT);
+	}
+	
+	private void dimImageView(int position) {
+		if (position != -1) {
+			ImageView dimImage = (ImageView) dotContainer.findViewWithTag(position);
+			DashboardUtil.setAplha(dimImage, ALPHA_DIM_INT, ALPHA_DIM_FLOAT);
+		}
+	}
+	
+	private void clearPrevPosition() {
+		prevDotOnePosition = -1;
+		prevDotTwoPosition = -1;
+		prevDotThreePosition = -1;
 	}
 }

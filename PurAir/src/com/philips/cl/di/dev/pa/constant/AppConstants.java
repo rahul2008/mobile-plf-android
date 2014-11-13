@@ -252,4 +252,6 @@ public class AppConstants {
 	public static final int PRIVACY_POLICY_SCREEN=1;
 	public static final int EULA_SCREEN=2;
 	public static final int TERMS_AND_CONDITIONS_SCREEN=3;
+	
+	public static final int NUM_OFF_POINTS = 24;
 }
