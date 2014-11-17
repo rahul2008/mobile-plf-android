@@ -40,9 +40,9 @@ import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class NotificationsFragment extends BaseFragment implements
-OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
-android.widget.RadioGroup.OnCheckedChangeListener,
-AlertDialogBtnInterface {
+		OnCheckedChangeListener, PermissionListener, AirPurifierEventListener,
+		android.widget.RadioGroup.OnCheckedChangeListener,
+		AlertDialogBtnInterface {
 
 	private RelativeLayout enableLayout;
 	private LinearLayout detailedLayout;
@@ -112,7 +112,7 @@ AlertDialogBtnInterface {
 		pairingHandler.setPermissionListener(this);
 
 		if (mPurifier == null || PurAirApplication.isDemoModeEnable()) {
-			showNotificationsLayout(false);
+			disableNotificationLayout();
 		} else if (mPurifier.getPairedStatus() == PurAirDevice.PAIRED_STATUS.PAIRED) {
 			showNotificationsLayout(isNotificationEnabled());
 		} else {
