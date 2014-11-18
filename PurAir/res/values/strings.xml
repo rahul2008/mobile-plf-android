@@ -102,9 +102,9 @@
     <string name="very_unhealthy_split_indoor">Very \n unhealthy</string>
     <string name="good_outdoor">Good</string>
     <string name="moderate_outdoor">Moderate</string>
-    <string name="slightly_polluted_outdoor">Slightly polluted</string>
-    <string name="moderately_polluted_outdoor">Moderately polluted</string>
-    <string name="unhealthy_outdoor">Unhealthy</string>
+    <string name="slightly_polluted_outdoor">Unhealthy for sensitive groups</string>
+    <string name="moderately_polluted_outdoor">Unhealthy</string>
+    <string name="unhealthy_outdoor">Very unhealthy</string>
     <string name="hazardous_outdoor">Hazardous</string>
 
     <!-- Help and Documentation -->
@@ -242,9 +242,9 @@
     <string name="outdoor_aiq_analysis_head4">Indoor air quality explained</string>
     <string name="outdoor_aiq_analysis_head5">Outdoor air quality explained</string>
     <string name="outdoor_aiq_analysis_title1">300+, Hazardous</string>
-    <string name="outdoor_aiq_analysis_title2">201&#8211;300, Unhealthy</string>
-    <string name="outdoor_aiq_analysis_title3">151&#8211;200, Moderately polluted</string>
-    <string name="outdoor_aiq_analysis_title4">101&#8211;150, Slightly polluted</string>
+    <string name="outdoor_aiq_analysis_title2">201&#8211;300, Very unhealthy</string>
+    <string name="outdoor_aiq_analysis_title3">151&#8211;200, Unhealthy</string>
+    <string name="outdoor_aiq_analysis_title4">101&#8211;150, Unhealthy for sensitive groups</string>
     <string name="outdoor_aiq_analysis_title5">51&#8211;100, Moderate</string>
     <string name="outdoor_aiq_analysis_title6">0&#8211;50, Good</string>
     <string name="indoor_aiq_analysis_title1">4+, Very unhealthy</string>
