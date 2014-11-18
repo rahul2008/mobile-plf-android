@@ -77,7 +77,7 @@ public class AppInDemoMode implements NetworkStateListener, KeyDecryptListener {
 					"app_in_demo_mode").commitAllowingStateLoss();
 
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
+			ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 		}
 	}
 

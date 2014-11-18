@@ -119,7 +119,7 @@ public class OutdoorManager implements OutdoorEventListener {
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION,
 					"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-							+ e.getMessage());
+							+ "Error: " + e.getMessage());
 		}
 	}
 

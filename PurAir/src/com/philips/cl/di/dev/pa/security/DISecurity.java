@@ -115,7 +115,7 @@ public class DISecurity implements ServerResponseListener {
 			ALog.i(ALog.SECURITY, "Encrypted data: " + encryptedBase64Str);
 		} catch (Exception e) {
 			e.printStackTrace();
-			ALog.i(ALog.SECURITY, "Failed to encrypt data with key - " + e.getMessage());
+			ALog.i(ALog.SECURITY, "Failed to encrypt data with key - " + "Error: " + e.getMessage());
 		}
 		return encryptedBase64Str;
 	}

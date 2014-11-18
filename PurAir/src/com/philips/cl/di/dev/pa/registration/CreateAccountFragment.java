@@ -102,7 +102,7 @@ public class CreateAccountFragment extends BaseFragment implements
 			FragmentManager fragMan = getFragmentManager();
 			dialog.show(fragMan, null);
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 	}
 
@@ -114,7 +114,7 @@ public class CreateAccountFragment extends BaseFragment implements
 			FragmentManager fragMan = getFragmentManager();
 			dialog.show(fragMan, null);
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 	}
 
@@ -143,7 +143,7 @@ public class CreateAccountFragment extends BaseFragment implements
 							.showProgressDialog();
 				} catch (Exception e) {
 					ALog.e(ALog.USER_REGISTRATION,
-							"Create account error " + e.getMessage());
+							"Create account error " + "Error: " + e.getMessage());
 					showErrorDialog(Error.GENERIC_ERROR);
 				}
 				dismissKeyBoard();

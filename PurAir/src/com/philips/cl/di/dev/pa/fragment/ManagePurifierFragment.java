@@ -130,7 +130,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 					DownloadAlerDialogFragement.newInstance(title, message),
 					"max_purifier_reached").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.MANAGE_PUR, e.getMessage());
+			ALog.e(ALog.MANAGE_PUR, "Error: " + e.getMessage());
 		}
 	}
 

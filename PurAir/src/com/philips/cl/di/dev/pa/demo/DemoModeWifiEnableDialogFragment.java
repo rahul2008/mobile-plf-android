@@ -97,7 +97,7 @@ public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements
 				dismiss();
 				((DemoModeActivity) getActivity()).showStepSwitchOnScreen();
 			} catch (Exception e) {
-				ALog.e(ALog.DEMO_MODE, "Failed to dissmiss wifi enable dialog " + e.getMessage());
+				ALog.e(ALog.DEMO_MODE, "Failed to dissmiss wifi enable dialog " + "Error: " + e.getMessage());
 			}
 		}
 		

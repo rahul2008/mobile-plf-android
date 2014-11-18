@@ -421,10 +421,10 @@ public class DataParser {
 
 		} catch (JSONException e) {
 			schedulesList = null ;
-			ALog.e(ALog.PARSER, "JsonIOException: " + e.getMessage());
+			ALog.e(ALog.PARSER, "JsonIOException: " + "Error: " + e.getMessage());
 		} catch(Exception e) {
 			schedulesList = null ;
-			ALog.e(ALog.PARSER, "JsonIOException : " + e.getMessage());
+			ALog.e(ALog.PARSER, "JsonIOException : " + "Error: " + e.getMessage());
 		}
 		return schedulesList ;
 	}
@@ -445,10 +445,10 @@ public class DataParser {
 			schedulePortInfo.setScheduleTime(scheduleJson.getString("time")) ;
  		} catch (JSONException e) {
 			schedulePortInfo = null ;
-			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
+			ALog.e(ALog.PARSER, "Exception: " + "Error: " + e.getMessage());
 		} catch (Exception e) {
 			schedulePortInfo = null ;
-			ALog.e(ALog.PARSER, "Exception: " + e.getMessage());
+			ALog.e(ALog.PARSER, "Exception: " + "Error: " + e.getMessage());
 		}
 		return schedulePortInfo ;
 	}
@@ -477,7 +477,7 @@ public class DataParser {
 			cityJson = new JSONObject(dataToParse);
 		} catch (JSONException e) {
 			e.printStackTrace();
-			ALog.e(ALog.PARSER, "Parse ERROR in parseForecastCityData " + e.getMessage());
+			ALog.e(ALog.PARSER, "Parse ERROR in parseForecastCityData " + "Error: " + e.getMessage());
 			return null;
 		}
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
@@ -517,7 +517,7 @@ public class DataParser {
 				weatherDtos.add(dto);
 //				return weatherDtos;
 			} catch (JSONException e) {
-				ALog.e(ALog.PARSER, "Parse ERROR in parseFourDaysForecastData " + e.getMessage());
+				ALog.e(ALog.PARSER, "Parse ERROR in parseFourDaysForecastData " + "Error: " + e.getMessage());
 			}
 		}
 		

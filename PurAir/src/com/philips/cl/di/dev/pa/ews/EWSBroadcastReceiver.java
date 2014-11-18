@@ -212,7 +212,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 		try {
 			holder.put("name", tempEWSPurifier.getName());
 		} catch (JSONException e) {
-			ALog.e(ALog.EWS, e.getMessage());
+			ALog.e(ALog.EWS, "Error: " + e.getMessage());
 		}
 
 		String js = holder.toString();
@@ -459,7 +459,7 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				try {
 					Thread.sleep(TIME_INTERVAL);
 				} catch (InterruptedException e) {
-					ALog.e(ALog.EWS, "EWSBroadcastReceiver$ssdpCountDownTimer: " + e.getMessage());
+					ALog.e(ALog.EWS, "EWSBroadcastReceiver$ssdpCountDownTimer: " + "Error: " + e.getMessage());
 				}
 				timeCount ++;
 			}

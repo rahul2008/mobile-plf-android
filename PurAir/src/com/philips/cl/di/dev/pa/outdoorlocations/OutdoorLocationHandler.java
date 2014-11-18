@@ -78,7 +78,7 @@ public class OutdoorLocationHandler {
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-									+ e.getMessage());
+									+ "Error: " + e.getMessage());
 				} finally {
 					handler.sendEmptyMessage(0);// TODO change
 				}
@@ -102,7 +102,7 @@ public class OutdoorLocationHandler {
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-									+ e.getMessage());
+									+ "Error: " + e.getMessage());
 				} finally {
 					handler.sendEmptyMessage(0);// TODO change
 				}
@@ -128,7 +128,7 @@ public class OutdoorLocationHandler {
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-									+ e.getMessage());
+									+ "Error: " + e.getMessage());
 				} finally {
 					handler.sendEmptyMessage(0);// TODO change
 				}
@@ -152,7 +152,7 @@ public class OutdoorLocationHandler {
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: "
-									+ e.getMessage());
+									+ "Error: " + e.getMessage());
 				} finally {
 					handler.sendEmptyMessage(0);// TODO change
 				}

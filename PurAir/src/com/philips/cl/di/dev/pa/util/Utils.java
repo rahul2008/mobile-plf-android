@@ -96,7 +96,7 @@ public class Utils {
 			//			ALog.i(ALog.INDOOR_RDCP, 
 			//					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
 		} catch (ParseException e) {
-			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + e.getMessage());
+			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + "Error: " + e.getMessage());
 			return noOfDays;
 		}
 		return noOfDays;
@@ -122,7 +122,7 @@ public class Utils {
 			//					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
 
 		} catch (ParseException e) {
-			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + e.getMessage());
+			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + "Error: " + e.getMessage());
 			return -2;
 		}
 

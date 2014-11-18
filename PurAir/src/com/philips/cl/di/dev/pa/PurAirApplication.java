@@ -96,7 +96,7 @@ public class PurAirApplication extends Application {
 		try {
             Class.forName("android.os.AsyncTask");
         } catch (ClassNotFoundException e) {
-        	ALog.i(ALog.APPLICATION, e.getMessage());
+        	ALog.i(ALog.APPLICATION, "Error: " + e.getMessage());
         }
 	}
 	

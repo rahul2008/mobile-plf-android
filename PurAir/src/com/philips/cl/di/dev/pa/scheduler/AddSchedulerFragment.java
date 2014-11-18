@@ -166,7 +166,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 			getFragmentManager().beginTransaction()
 			.replace(R.id.ll_scheduler_container, fragment, fragTag).commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.SCHEDULER, e.getMessage());
+			ALog.e(ALog.SCHEDULER, "Error: " + e.getMessage());
 		}
 	}
 

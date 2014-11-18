@@ -27,7 +27,7 @@ public class AirColorExplainedStaticActivity extends BaseActivity {
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.ERROR, "Actionbar: " + e.getMessage());
+			ALog.e(ALog.ERROR, "Actionbar: " + "Error: " + e.getMessage());
 		}
 		Intent in = getIntent();
 		activity = in.getIntExtra("AIR_QUALITY_ACTIVITY", -1);

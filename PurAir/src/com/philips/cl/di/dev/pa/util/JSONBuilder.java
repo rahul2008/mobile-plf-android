@@ -223,7 +223,7 @@ public class JSONBuilder {
 			holder.put("ssid", ssid);
 			holder.put("password", password);
 		} catch (JSONException e) {
-			ALog.e(ALog.EWS, e.getMessage());
+			ALog.e(ALog.EWS, "Error: " + e.getMessage());
 		}
 		String js = holder.toString();
 		ALog.i(ALog.EWS, "getWifiPortJson js: " + js);
@@ -244,7 +244,7 @@ public class JSONBuilder {
 			holder.put("netmask", subnetMask);
 			holder.put("gateway", gateWay);
 		} catch (JSONException e) {
-			ALog.e(ALog.EWS, e.getMessage());
+			ALog.e(ALog.EWS, "Error: " + e.getMessage());
 		}
 		String js = holder.toString();
 		ALog.i(ALog.EWS, "getWifiPortWithAdvConfigJson js: " + js);

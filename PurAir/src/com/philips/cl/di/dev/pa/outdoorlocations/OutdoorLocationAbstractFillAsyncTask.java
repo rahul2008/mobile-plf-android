@@ -21,7 +21,7 @@ public class OutdoorLocationAbstractFillAsyncTask extends AsyncTask<String, Void
 			database.close();
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION, 
-					"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: " + e.getMessage());
+					"OutdoorLocationAbstractFillAsyncTask failed to retive data from DB: " + "Error: " + e.getMessage());
 		}
 		return null;
 	}

@@ -110,7 +110,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.OUTDOOR_DETAILS, "Actionbar: " + e.getMessage());
+			ALog.e(ALog.OUTDOOR_DETAILS, "Actionbar: " + "Error: " + e.getMessage());
 		}
 		setActionBarTitle();
 		getDataFromDashboard();
@@ -551,7 +551,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			fragMan.beginTransaction().add(
 					OutdoorAQIExplainedDialogFragment.newInstance(), "outdoorexplained").commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.OUTDOOR_DETAILS, e.getMessage());
+			ALog.e(ALog.OUTDOOR_DETAILS, "Error: " + e.getMessage());
 		}
 	}
 
@@ -605,7 +605,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 			fragTransaction.add(DownloadAlerDialogFragement.
 					newInstance(title, message), "outdoor_download_failed").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.ERROR, e.getMessage());
+			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		}
 	}
 	

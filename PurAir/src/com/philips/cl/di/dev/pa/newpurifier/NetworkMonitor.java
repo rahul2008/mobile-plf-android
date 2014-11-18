@@ -67,7 +67,7 @@ public class NetworkMonitor {
 		try {
 			context.unregisterReceiver(mNetworkChangedReceiver);
 		} catch (IllegalArgumentException e) {
-			ALog.e(ALog.NETWORKMONITOR, e.getMessage());
+			ALog.e(ALog.NETWORKMONITOR, "Error: " + e.getMessage());
 		}
 		if (mLooper ==  null || mLooper.mHandler == null || mLooper.mHandler.getLooper() == null) return;
 		mLooper.mHandler.getLooper().quit();

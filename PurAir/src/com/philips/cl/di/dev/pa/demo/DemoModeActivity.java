@@ -69,7 +69,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.DEMO_MODE, "Action bar cast exception: " + e.getMessage());
+			ALog.e(ALog.DEMO_MODE, "Action bar cast exception: " + "Error: " + e.getMessage());
 		}
 	}
 	
@@ -105,7 +105,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 				fragMan.beginTransaction().add(
 						SetupCancelDialogFragment.newInstance(), "demo_cancel").commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
-				ALog.e(ALog.DEMO_MODE, e.getMessage());
+				ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 			}
 		}
 	}
@@ -222,7 +222,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			fragmentTransaction.replace(R.id.setup_fragment_container, fragment, "demo_mode_fragment");
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.DEMO_MODE, e.getMessage());
+			ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 		}
 	}
 	
@@ -306,7 +306,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 									getString(R.string.error_ts01_01_message),
 									getString(R.string.error_purifier_not_detect_btn_txt));
 						} catch (Exception e) {
-							ALog.e(ALog.DEMO_MODE, e.getMessage());
+							ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 						}
 					}
 					break;
@@ -323,7 +323,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			fragMan.beginTransaction().add(
 					fragment, "dialogfragment").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.DEMO_MODE, e.getMessage());
+			ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 		}
 	}
 	
@@ -334,7 +334,7 @@ public class DemoModeActivity extends BaseActivity implements OnClickListener, D
 			.add(SetupDialogFragment.newInstance(title, msg, btnTxt), "demo_error")
 					.commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.DEMO_MODE, e.getMessage());
+			ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 		}
 	}
 	

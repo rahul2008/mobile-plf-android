@@ -51,7 +51,7 @@ public class EWSErrorPurifierDiscoverFragment extends Fragment {
 											getString(R.string.error_purifier_not_detect_btn_txt)),
 									"ews_error").commitAllowingStateLoss();
 				} catch (IllegalStateException e) {
-					ALog.e(ALog.EWS, e.getMessage());
+					ALog.e(ALog.EWS, "Error: " + e.getMessage());
 				}
 			}
 		});

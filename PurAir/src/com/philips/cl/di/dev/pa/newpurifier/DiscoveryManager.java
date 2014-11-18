@@ -633,7 +633,7 @@ public class DiscoveryManager implements Callback, KeyDecryptListener, NetworkCh
 			DeviceModel device = (DeviceModel) ((InternalMessage) msg.obj).obj;
 			return device;
 		} catch (Exception e) {
-			ALog.d(ALog.DISCOVERY, "Invalid device detected: " + e.getMessage());
+			ALog.d(ALog.DISCOVERY, "Invalid device detected: " + "Error: " + e.getMessage());
 		}
 		return null;
 	}

@@ -60,7 +60,7 @@ public class DemoModeTask extends Thread {
 			}
 
 		} catch (IOException e) {
-			ALog.e(ALog.DEMO_MODE, e.getMessage());
+			ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 		} finally {
 
 			if (listener != null && !stop) {
@@ -71,7 +71,7 @@ public class DemoModeTask extends Thread {
 				try {
 					inputStream.close();
 				} catch (IOException e) {
-					ALog.e(ALog.DEMO_MODE, e.getMessage());
+					ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 				}
 				inputStream = null;
 			}
@@ -80,7 +80,7 @@ public class DemoModeTask extends Thread {
 				try {
 					os.close();
 				} catch (IOException e) {
-					ALog.e(ALog.DEMO_MODE, e.getMessage());
+					ALog.e(ALog.DEMO_MODE, "Error: " + e.getMessage());
 				}
 				os = null;
 			}

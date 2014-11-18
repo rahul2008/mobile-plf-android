@@ -118,7 +118,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.INDOOR_DETAILS, "Actionbar: " + e.getMessage());
+			ALog.e(ALog.INDOOR_DETAILS, "Actionbar: " + "Error: " + e.getMessage());
 		}
 
 		getRDCPValue();
@@ -447,7 +447,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			fragTransaction.add(IndoorAQIExplainedDialogFragment.
 					newInstance(outdoorTitle, outdoorTitle), "indoor_aqi_analysis").commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
+			ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 		}
 	}
 	
@@ -466,7 +466,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			fragTransaction.add(DownloadAlerDialogFragement.
 					newInstance(title, message), "alert_aqi_historic_download_failed").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.INDOOR_DETAILS, e.getMessage());
+			ALog.e(ALog.INDOOR_DETAILS, "Error: " + e.getMessage());
 		}
 	}
 

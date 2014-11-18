@@ -143,7 +143,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 			fragTransaction.add(DownloadAlerDialogFragement.newInstance(title, message),
 					"no_purifier_found").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.ERROR, e.getMessage());
+			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		}
 	}
 

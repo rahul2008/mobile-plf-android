@@ -113,7 +113,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			try {
 				OutdoorController.getInstance().startGetAreaIDTask(Double.parseDouble(lon), Double.parseDouble(lat));
 			} catch (NumberFormatException e) {
-				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + e.getMessage());
+				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + "Error: " + e.getMessage());
 			}
 		}
 	}

@@ -58,9 +58,9 @@ public class URLExistAsyncTask extends AsyncTask<String, Void, Boolean> {
 //			response = NetworkUtils.convertInputStreamToString(hConn.getInputStream()) ;
 			
 		} catch (IOException e) {
-			ALog.e(ALog.ERROR, e.getMessage());
+			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		} catch (Exception e) {
-			ALog.e(ALog.ERROR, e.getMessage());
+			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		}
 		if( code == HttpURLConnection.HTTP_FORBIDDEN 
 				|| code == HttpURLConnection.HTTP_PAYMENT_REQUIRED) {

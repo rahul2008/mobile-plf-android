@@ -104,7 +104,7 @@ public class NotificationsFragment extends BaseFragment implements
 				fm.beginTransaction().add(dialog, null)
 				.commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
-				ALog.e(ALog.NOTIFICATION, e.getMessage());
+				ALog.e(ALog.NOTIFICATION, "Error: " + e.getMessage());
 			}
 			return;
 		}
@@ -135,7 +135,7 @@ public class NotificationsFragment extends BaseFragment implements
 			fragmentTransaction.add(progressDialog, NOTIFICATION_PROGRESS_DIALOG);
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.NOTIFICATION, e.getMessage());
+			ALog.e(ALog.NOTIFICATION, "Error: " + e.getMessage());
 		}
 	}
 
@@ -432,7 +432,7 @@ public class NotificationsFragment extends BaseFragment implements
 					fm.beginTransaction().add(dialog, null)
 					.commitAllowingStateLoss();
 				} catch (IllegalStateException e) {
-					ALog.e(ALog.NOTIFICATION, e.getMessage());
+					ALog.e(ALog.NOTIFICATION, "Error: " + e.getMessage());
 				}
 			}
 		});
@@ -541,7 +541,7 @@ public class NotificationsFragment extends BaseFragment implements
 						fm.beginTransaction().add(dialog, null)
 						.commitAllowingStateLoss();
 					} catch (IllegalStateException e) {
-						ALog.e(ALog.NOTIFICATION, e.getMessage());
+						ALog.e(ALog.NOTIFICATION, "Error: " + e.getMessage());
 					}
 				}
 			});

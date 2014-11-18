@@ -855,7 +855,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 				}
 			}
 		} catch (IOException e) {
-			ALog.e(ALog.CPPCONTROLLER, e.getMessage());
+			ALog.e(ALog.CPPCONTROLLER, "Error: " + e.getMessage());
 		}
 		if (gs.getNumberOfCertificates() > 0) {
 			return true;

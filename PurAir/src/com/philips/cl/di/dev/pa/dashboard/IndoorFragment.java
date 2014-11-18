@@ -435,7 +435,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 				prevFirmwareVersion = Integer.parseInt(Utils.getFirmwareVersion(purifierEui64));
 				currentFirmwareVersion = Integer.parseInt(firmwarePortInfo.getVersion());
 			} catch (NumberFormatException e) {
-				ALog.e(ALog.FIRMWARE, "Error parsing firmware version " + e.getMessage());
+				ALog.e(ALog.FIRMWARE, "Error parsing firmware version " + "Error: " + e.getMessage());
 			}
 			
 			ALog.i(ALog.FIRMWARE, "IDLE prevVersion " + prevFirmwareVersion + " currentVersion " + currentFirmwareVersion);

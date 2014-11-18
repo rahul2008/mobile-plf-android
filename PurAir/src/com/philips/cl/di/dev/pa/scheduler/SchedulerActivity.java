@@ -333,7 +333,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 					.replace(R.id.ll_scheduler_container, schFragment,
 							"SchedulerOverviewFragment").commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.SCHEDULER, e.getMessage());
+			ALog.e(ALog.SCHEDULER, "Error: " + e.getMessage());
 		}
 	}
 
@@ -356,7 +356,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 					.replace(R.id.ll_scheduler_container, fragAddSch,
 							"AddSchedulerFragment").commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.SCHEDULER, e.getMessage());
+			ALog.e(ALog.SCHEDULER, "Error: " + e.getMessage());
 		}
 	}
 
@@ -550,7 +550,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 					DownloadAlerDialogFragement.newInstance(title, message),
 					"error_schedules").commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.SCHEDULER, e.getMessage());
+			ALog.e(ALog.SCHEDULER, "Error: " + e.getMessage());
 		}
 	}
 

@@ -42,7 +42,7 @@ public class TutorialPagerActivity extends BaseActivity {
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + "Error: " + e.getMessage());
 		}
 
 		mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this);

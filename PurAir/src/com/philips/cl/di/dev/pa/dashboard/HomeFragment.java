@@ -236,7 +236,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 					outdoorPagerAdapter.notifyDataSetChanged() ;
 					
 				} catch (IllegalStateException e) {
-					ALog.e(ALog.ACTIVITY, e.getMessage());
+					ALog.e(ALog.ACTIVITY, "Error: " + e.getMessage());
 				}
 			}
 		});

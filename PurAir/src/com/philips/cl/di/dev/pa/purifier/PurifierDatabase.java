@@ -66,7 +66,7 @@ public class PurifierDatabase {
 				values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal()); 
 				rowId = db.insert(AppConstants.TABLE_AIRPUR_INFO, null, values);
 			} catch (Exception e) {
-				ALog.e(ALog.DATABASE, e.getMessage());
+				ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 			} finally {
 				closeCursor(cursor);
 				closeDb();
@@ -121,7 +121,7 @@ public class PurifierDatabase {
 				ALog.i(ALog.DATABASE,"Empty device table");
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
 			closeDb();
@@ -164,7 +164,7 @@ public class PurifierDatabase {
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_ID + "= ?", new String[] {String.valueOf(rowId)});
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
+			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
 			closeDb();
 		}
@@ -201,7 +201,7 @@ public class PurifierDatabase {
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
+			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
 			closeDb();
 		}
@@ -223,7 +223,7 @@ public class PurifierDatabase {
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_AIRPUR_USN + "= ?", new String[] {purifier.getUsn()});
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to update row with location co-ordinate " +e.getMessage());
+			ALog.e(ALog.DATABASE, "Failed to update row with location co-ordinate " +"Error: " + e.getMessage());
 		} finally {
 			closeDb();
 		}
@@ -240,7 +240,7 @@ public class PurifierDatabase {
 			effectedRowId = db.delete(AppConstants.TABLE_AIRPUR_INFO, 
 					AppConstants.KEY_AIRPUR_USN + "= ?", new String[]{usn});
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to delete row "+e.getMessage());
+			ALog.e(ALog.DATABASE, "Failed to delete row "+"Error: " + e.getMessage());
 		} finally {
 			closeDb();
 		}
@@ -269,7 +269,7 @@ public class PurifierDatabase {
 			newRowId = db.update(AppConstants.TABLE_AIRPUR_INFO, 
 					values, AppConstants.KEY_AIRPUR_CPP_ID + "= ?", new String[] {String.valueOf(purifier.getEui64())});
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to update row " +e.getMessage());
+			ALog.e(ALog.DATABASE, "Failed to update row " +"Error: " + e.getMessage());
 		} finally {
 			closeDb();
 		}
@@ -297,8 +297,8 @@ public class PurifierDatabase {
 				lastPaired = cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_AIRPUR_LAST_PAIRED));
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, "Failed to get Last paired on: " +e.getMessage());
-			ALog.e(ALog.DATABASE, e.getMessage());
+			ALog.e(ALog.DATABASE, "Failed to get Last paired on: " +"Error: " + e.getMessage());
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
 			closeDb();
@@ -322,7 +322,7 @@ public class PurifierDatabase {
 				id = cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_ID));
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		} finally {
 			closeCursor(cursor);
 			closeDb();
@@ -339,7 +339,7 @@ public class PurifierDatabase {
 				db.close();
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		}
 	}
 	/**
@@ -351,7 +351,7 @@ public class PurifierDatabase {
 				c.close();
 			}
 		} catch (Exception e) {
-			ALog.e(ALog.DATABASE, e.getMessage());
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 		}
 
 	}

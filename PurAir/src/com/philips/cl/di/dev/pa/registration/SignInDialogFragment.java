@@ -217,7 +217,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 			FragmentManager fragMan = getFragmentManager();
 			dialog.show(fragMan, null);
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 	}
 

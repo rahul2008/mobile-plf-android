@@ -65,7 +65,7 @@ public class UDPReceivingThread extends Thread {
 				
 				
 			} catch (IOException e) {
-				ALog.d(ALog.UDP, "UDP exception: " + e.getMessage()) ;
+				ALog.d(ALog.UDP, "UDP exception: " + "Error: " + e.getMessage()) ;
 			} catch (NullPointerException e2) {
 				// NOP -  Received after attempt to close socket.
 				ALog.d(ALog.UDP, "UDP exception: " + e2.getMessage());

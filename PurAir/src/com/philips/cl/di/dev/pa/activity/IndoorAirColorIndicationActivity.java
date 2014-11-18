@@ -72,7 +72,7 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + e.getMessage());
+			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + "Error: " + e.getMessage());
 		}
 		TextView indoorColorExplained=(TextView) findViewById(R.id.color_explained_intro);
 		indoorColorExplained.setText(R.string.indoor_color_explained_intro);

@@ -86,7 +86,7 @@ public class EWSActivity extends BaseActivity implements
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
-			ALog.e(ALog.EWS, "Action bar cast exception: " + e.getMessage());
+			ALog.e(ALog.EWS, "Action bar cast exception: " + "Error: " + e.getMessage());
 		}
 		
 		wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -194,7 +194,7 @@ public class EWSActivity extends BaseActivity implements
 				fragMan.beginTransaction().add(
 						SetupCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
-				ALog.e(ALog.EWS, e.getMessage());
+				ALog.e(ALog.EWS, "Error: " + e.getMessage());
 			}
 			break;
 		default:
@@ -220,7 +220,7 @@ public class EWSActivity extends BaseActivity implements
 				fragMan.beginTransaction().add(
 						SetupCancelDialogFragment.newInstance(), "ews_cancel").commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
-				ALog.e(ALog.EWS, e.getMessage());
+				ALog.e(ALog.EWS, "Error: " + e.getMessage());
 			}
 			return true;
 		case EWSConstant.EWS_STEP_CHANGE_NETWORK:
@@ -397,7 +397,7 @@ public class EWSActivity extends BaseActivity implements
 				fragMan.beginTransaction().add(
 						AlertDialogAutoNetworkSwitchOn.newInstance(), "auto_networ_switch").commitAllowingStateLoss();
 			} catch (IllegalStateException e) {
-				ALog.e(ALog.EWS, e.getMessage());
+				ALog.e(ALog.EWS, "Error: " + e.getMessage());
 			}
 		} else {
 			mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
@@ -585,7 +585,7 @@ public class EWSActivity extends BaseActivity implements
 			.add(SetupDialogFragment.newInstance(title, msg, btnTxt), "ews_error")
 					.commitAllowingStateLoss();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.EWS, e.getMessage());
+			ALog.e(ALog.EWS, "Error: " + e.getMessage());
 		}
 	}
 	
@@ -622,7 +622,7 @@ public class EWSActivity extends BaseActivity implements
 			fragmentTransaction.replace(R.id.setup_fragment_container, fragment, tag);
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.EWS, e.getMessage());
+			ALog.e(ALog.EWS, "Error: " + e.getMessage());
 		}
 	}
 	

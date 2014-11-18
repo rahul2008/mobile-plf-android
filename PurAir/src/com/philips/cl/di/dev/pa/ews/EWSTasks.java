@@ -86,7 +86,7 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 				responseCode = conn.getResponseCode();
 			} catch (Exception e) {
 				responseCode = HttpURLConnection.HTTP_BAD_GATEWAY;
-				ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
+				ALog.e(ALog.EWS, "EWSTask: " + "Error: " + e.getMessage());
 			}
 			ALog.i(ALog.EWS, "Response code: " + responseCode);
 			if( responseCode == 200 ) {
@@ -100,11 +100,11 @@ public class EWSTasks extends AsyncTask<String, Void, String>{
 				data = readFully(inputStream);
 			}
 		} catch (MalformedURLException e) {
-			ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
+			ALog.e(ALog.EWS, "EWSTask: " + "Error: " + e.getMessage());
 		} catch (ProtocolException e) {
-			ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
+			ALog.e(ALog.EWS, "EWSTask: " + "Error: " + e.getMessage());
 		} catch (IOException e) {
-			ALog.e(ALog.EWS, "EWSTask: " + e.getMessage());
+			ALog.e(ALog.EWS, "EWSTask: " + "Error: " + e.getMessage());
 		}
 		finally {
 			// Makes sure that the InputStream is closed after the app is

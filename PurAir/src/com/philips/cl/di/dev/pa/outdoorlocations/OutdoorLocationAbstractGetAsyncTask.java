@@ -23,7 +23,7 @@ public abstract class OutdoorLocationAbstractGetAsyncTask extends
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION,
 					"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-							+ e.getMessage());
+							+ "Error: " + e.getMessage());
 		}
 		return cursor;
 	}

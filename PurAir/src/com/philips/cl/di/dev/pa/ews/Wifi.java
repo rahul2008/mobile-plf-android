@@ -113,7 +113,7 @@ public class Wifi {
 		try {
 			id = wifiMgr.addNetwork(config);
 		} catch(NullPointerException e) {
-			ALog.e(ALog.WIFI, "Weird!! Really!! What's wrong??  " + e.getMessage());
+			ALog.e(ALog.WIFI, "Weird!! Really!! What's wrong??  " + "Error: " + e.getMessage());
 		}
 		if(id == -1) {
 			return false;

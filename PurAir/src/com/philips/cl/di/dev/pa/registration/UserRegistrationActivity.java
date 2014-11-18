@@ -112,7 +112,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 			fragmentTransaction.addToBackStack(fragment.getTag()) ;
 			fragmentTransaction.commit();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 
 		setActionBar(fragment);
@@ -166,7 +166,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 			FragmentManager fragMan = getSupportFragmentManager();
 			dialog.show(fragMan, null);
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 	}
 
@@ -177,7 +177,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 			mProgressDialog.setCancelable(false);
 			mProgressDialog.show();
 		} catch (IllegalStateException e) {
-			ALog.e(ALog.USER_REGISTRATION, e.getMessage());
+			ALog.e(ALog.USER_REGISTRATION, "Error: " + e.getMessage());
 		}
 	}
 

@@ -59,7 +59,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 					// StartScan
 				}
 			} catch (InterruptedException e) {
-				ALog.e(ALog.DEMO_MODE, "Runnable thread: " + e.getMessage());
+				ALog.e(ALog.DEMO_MODE, "Runnable thread: " + "Error: " + e.getMessage());
 			}
 		}
 	}
