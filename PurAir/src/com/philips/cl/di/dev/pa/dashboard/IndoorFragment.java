@@ -594,7 +594,16 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		handler.post(animateRunnable);
 	}
 	
-	private void drawWhiteDots() {
+	private Runnable addDotRunnable = new Runnable() {
+		
+		@Override
+		public void run() {
+			handler.removeCallbacks(addDotRunnable);
+			drawWhiteDots();
+		}
+	};
+	
+	private synchronized void drawWhiteDots() {
 		ImageView lastWhiteDotDrawn = (ImageView) dotContainer.findViewWithTag(0);
 		if (lastWhiteDotDrawn != null) return;
 		// Get center of the circle
@@ -604,7 +613,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		imageCenter.x = imageCenter.x - marginCenter;
 		imageCenter.y = imageCenter.y - marginCenter;
 		
-		if (imageCenter.x < 1 && imageCenter.y < 1 ) return; //Pointer image width and height zero
+		if (imageCenter.x < 1 && imageCenter.y < 1 ) {
+			handler.removeCallbacks(addDotRunnable);
+			handler.postDelayed(addDotRunnable, animationDelay);
+			return; //Pointer image width and height zero
+		}
 		
 		int radius = (aqiPointer.getHeight() / 2) - marginRadius;
 		points = DashboardUtil.getCircularBoundary(imageCenter, radius, AppConstants.NUM_OFF_POINTS);
