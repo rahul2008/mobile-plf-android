@@ -10,7 +10,6 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class OutdoorLocationHandler {
 
@@ -68,8 +67,7 @@ public class OutdoorLocationHandler {
 
 				try {
 					database.open();
-					String selction = AppConstants.KEY_SHORTLIST + " = '1' and " +
-							AppConstants.KEY_AREA_ID + " != '"+LocationUtils.getCurrentLocationAreaId()+"' ";
+					String selction = AppConstants.KEY_SHORTLIST + " = '1'";
 					Cursor cursor = database.getDataFromOutdoorLoacation(selction);
 					database.close();
 					if (selectedCityListener != null) {
@@ -77,8 +75,7 @@ public class OutdoorLocationHandler {
 					}
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
-							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-									+ "Error: " + e.getMessage());
+							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "+ e.getMessage());
 				} finally {
 					handler.sendEmptyMessage(0);// TODO change
 				}

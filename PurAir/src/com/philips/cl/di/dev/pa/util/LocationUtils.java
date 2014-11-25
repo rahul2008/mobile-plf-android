@@ -10,10 +10,8 @@ public class LocationUtils {
 	public final static String CURR_LOC_AREAID = "current_loc_aid";
 	public final static String CURR_LOC_LAT = "current_loc_lat";
 	public final static String CURR_LOC_LON = "current_loc_lon";
-	public final static String EWS_STATE = "ews_state";
 	public final static String OUTDOOR_LOCATION_VISITED = "outdoor_location_visited";
 	public final static String CURR_LOC_ENABLEB = "current_loc_enabled";
-	public final static String LOC_ADDED = "loc_added";
 	
 	public static void saveCurrentLocationAreaId(String areaId) {
 		SharedPreferences pref = PurAirApplication.getAppContext()
@@ -60,24 +58,10 @@ public class LocationUtils {
 		ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorController$current location enabled " + enabled);
 	}
 	
-	public static boolean getCurrentLocationEnabled() {
+	public static boolean isCurrentLocationEnabled() {
 		SharedPreferences pref = PurAirApplication.getAppContext()
 				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
 		return pref.getBoolean(CURR_LOC_ENABLEB, true);
-	}
-	
-	public static void saveFirstTimeEWSState(boolean state) {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		SharedPreferences.Editor edit = pref.edit();
-		edit.putBoolean(EWS_STATE, state);
-		edit.commit();
-	}
-	
-	public static boolean getFirstTimeEWSState() {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		return pref.getBoolean(EWS_STATE, false);
 	}
 	
 	public static void saveDashboardWithoutPurifierState(boolean state) {
@@ -92,19 +76,5 @@ public class LocationUtils {
 		SharedPreferences pref = PurAirApplication.getAppContext()
 				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
 		return pref.getBoolean(OUTDOOR_LOCATION_VISITED, false);
-	}
-	
-	public static void saveOutdoorLocationInsertedIntoDB(boolean state) {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		SharedPreferences.Editor edit = pref.edit();
-		edit.putBoolean(LOC_ADDED, state);
-		edit.commit();
-	}
-	
-	public static boolean isOutdoorLocationInsertedIntoDB() {
-		SharedPreferences pref = PurAirApplication.getAppContext()
-				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
-		return pref.getBoolean(LOC_ADDED, false);
 	}
 }

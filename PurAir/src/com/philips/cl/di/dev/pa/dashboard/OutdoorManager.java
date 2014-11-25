@@ -99,8 +99,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 			@Override
 			protected void onPostExecute(Void result) {
-				mOutdoorLocationGetAsyncTask
-				.execute(new String[] { AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS });
+				mOutdoorLocationGetAsyncTask.execute(new String[] { AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS });
 			}
 		}.execute(new String[] {});
 
@@ -118,8 +117,8 @@ public class OutdoorManager implements OutdoorEventListener {
 			processDataBaseInfo(cursor);
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION,
-					"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-							+ "Error: " + e.getMessage());
+				"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
+							
 		}
 	}
 
@@ -130,11 +129,20 @@ public class OutdoorManager implements OutdoorEventListener {
 			cursor.moveToFirst();
 			do {
 				OutdoorCityInfo info = getOutdoorCityInfo(cursor); 
-				OutdoorManager.getInstance().addAreaIDToUsersList(info.getAreaID());
-				OutdoorManager.getInstance().addCityDataToMap(info, null, null, info.getAreaID());
+				addAreaIDToUsersList(info.getAreaID());
+				addCityDataToMap(info, null, null, info.getAreaID());
 			} while (cursor.moveToNext());
-
+			// Current city information does not contain in cursor, that why adding current city info.
+			addCurrentCityInfo();
 			startCitiesTask();
+		}
+	}
+	
+	public void addCurrentCityInfo() {
+		String currentCityAreaId = LocationUtils.getCurrentLocationAreaId();
+		if (LocationUtils.isCurrentLocationEnabled() && !currentCityAreaId.isEmpty()) {
+			addCurrentCityAreaIDToUsersList(currentCityAreaId);
+			OutdoorController.getInstance().addMyLocationToMap(currentCityAreaId);
 		}
 	}
 
@@ -219,18 +227,22 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public synchronized void addAreaIDToUsersList(String areaID) {
-		if (areaID.equals(LocationUtils.getCurrentLocationAreaId())) {
-			removeAreaIDFromUsersList(areaID);
-		}
 		if (!userCitiesList.contains(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION,
 					"OutdoorManager$addToUserCitiesList areaID " + areaID);
 			// Add current location first position in the list
-			if (areaID.equals(LocationUtils.getCurrentLocationAreaId())) {
+			if (LocationUtils.getCurrentLocationAreaId().equals(areaID) && LocationUtils.isCurrentLocationEnabled()) {
 				userCitiesList.add(0, areaID);
 			} else {
 				userCitiesList.add(areaID);
 			}
+		}
+	}
+	
+	public void addCurrentCityAreaIDToUsersList(String areaID) {
+		if (LocationUtils.getCurrentLocationAreaId().equals(areaID)) {
+			removeAreaIDFromUsersList(areaID);
+			userCitiesList.add(0, areaID);
 		}
 	}
 

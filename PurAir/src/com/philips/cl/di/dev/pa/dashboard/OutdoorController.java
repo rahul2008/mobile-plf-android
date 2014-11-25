@@ -224,14 +224,14 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		}
 		ALog.i(ALog.OUTDOOR_LOCATION, "Current location new");
 		LocationUtils.saveCurrentLocationAreaId(areaId);
-		OutdoorManager.getInstance().addAreaIDToUsersList(areaId);
+		OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(areaId);
 		areaIdReceived();//Listen to outdoor location fragment
 		
 		addMyLocationToMap(areaId);
 		OutdoorManager.getInstance().startCitiesTask();
 	}
 
-	private void addMyLocationToMap(String areaId) {
+	public void addMyLocationToMap(String areaId) {
 		OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
 		database.open();
 		Cursor c = database.getDataCurrentLoacation(areaId);
@@ -246,7 +246,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
 			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
 		}
-		database.updateOutdoorLocationShortListItem(areaId,	true);
 		database.close();
 	}
 

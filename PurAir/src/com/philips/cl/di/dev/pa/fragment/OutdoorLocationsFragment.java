@@ -48,6 +48,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private CursorAdapter mOutdoorLocationAdapter;
 	private Hashtable<String, Boolean> selectedItemHashtable;
 	private ToggleButton currentLocation;
+	private Cursor selectedCursor;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -99,7 +100,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		} else {
 			currentLocation.setClickable(true);
 			currentLocation.setEnabled(true);
-			currentLocation.setChecked(LocationUtils.getCurrentLocationEnabled());
+			currentLocation.setChecked(LocationUtils.isCurrentLocationEnabled());
 			currentLocation.setOnCheckedChangeListener(this);
 			searchingLoctionProgress.setVisibility(View.GONE);
 		}
@@ -139,9 +140,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		}
 		
 		//If current location get, add into outdoor location info list
-		if (LocationUtils.getCurrentLocationEnabled() 
+		if (LocationUtils.isCurrentLocationEnabled()
 				&& !LocationUtils.getCurrentLocationAreaId().isEmpty()) {
-			OutdoorManager.getInstance().addAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
+			OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 		}
 	}
 	
@@ -215,20 +216,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			mOutdoorLocationListView.setAdapter(mOutdoorLocationAdapter);
 
+			selectedCursor = cursor;
 			//Add city to list
 			addAreaIdToCityList(cursor);
 		}
 	}
 
 	@Override
-	public void onConnected(Bundle arg0) {
-		// NOP
-	}
+	public void onConnected(Bundle arg0) {/**NOP*/}
 
 	@Override
-	public void onDisconnected() {
-		// NOP
-	}
+	public void onDisconnected() {/**NOP*/}
 	
 	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {
 
@@ -272,18 +270,11 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		if (buttonView.getId() == R.id.btn_current_location) {
 			LocationUtils.saveCurrentLocationEnabled(isChecked);
 			
-			//Update database
-			OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-
-			database.open();
-			database.updateOutdoorLocationShortListItem(LocationUtils.getCurrentLocationAreaId(), isChecked);
-			database.close();
-			
 			//Update outdoor location info list;
 			if (isChecked) {
-				OutdoorManager.getInstance().addAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
+				OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 			} else {
-				OutdoorManager.getInstance().removeAreaIDFromUsersList(LocationUtils.getCurrentLocationAreaId());
+				addAreaIdToCityList(selectedCursor);
 			}
 		}
 	}
