@@ -87,6 +87,8 @@
     <string name="dash_dash">--</string>
     <string name="front_panel_not_closed">The front panel of Air Purifier has not been closed properly.</string>
     <string name="purifier_malfunctioning">Your air purifier is malfunctioning, please contact Philips consumer care.</string>
+    <string name="cover_open">Cover open</string>
+    <string name="error_air_port">Error</string>
     <!-- AQI status -->
     <string name="good">Good</string>
     <string name="moderate">Moderate</string>
@@ -401,7 +403,9 @@
     <string name="contact_philips_support_msg4">Send us an email:</string>
     <string name="contact_philips_support_email">airpurifier.service@philips.com</string>
     <string name="contact_philips_support_msg5">Visit our help section:</string>
-    <string name="contact_philips_support_website">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4375/00&amp;slg=EN&amp;scy=CN</string>
+    <string name="contact_philips_support_website">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4373/00&amp;slg=EN&amp;scy=CN</string>
+    <string name="contact_philips_support_website_ac4373">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4373/00&amp;slg=EN&amp;scy=CN</string>
+    <string name="contact_philips_support_website_ac4375">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4375/00&amp;slg=EN&amp;scy=CN</string>
     <string name="support">Support</string>
     <string name="a_capital">A</string>
     <string name="b_capital">B</string>

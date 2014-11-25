@@ -6,8 +6,8 @@
     <string name="action_settings">设置</string>
     <string name="philips_home">飞利</string>
     <string name="empty_string"></string>
-    <string name ="purifier_ac4373">AC4373</string>
-    <string name ="purifier_ac4375">AC4375</string>
+    <string name="purifier_ac4373">AC4373</string>
+    <string name="purifier_ac4375">AC4375</string>
     <!-- Left menu items -->
     <string name="list_item_home">主页</string>
     <string name="list_item_air_quality_explained">空气质量说明</string>
@@ -90,6 +90,8 @@
     <string name="dash_dash">--</string>
     <string name="front_panel_not_closed">飞利浦智控净化器的前面板未正确闭合。</string>
     <string name="purifier_malfunctioning">您的空气净化器存在故障，请联系飞利浦客服。</string>
+    <string name="cover_open">前面板被开启</string>
+    <string name="error_air_port">错误</string>
     <!-- AQI status -->
     <string name="good">良好</string>
     <string name="moderate">良</string>
@@ -120,14 +122,14 @@
     <string name="subtitle_email_us">给我们发邮件：</string>
     <string name="subtitle_help_section">访问我们的帮助板块：</string>
     <string name="subtitle_opensource_lib">Open source libraries license</string>
-	<string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
-	<string name="subtitle_we_chat">WeChat:</string>
+    <string name="opensource_licens"><b>Gson library:</b>\n\nCopyright (c) 2008-2009 Google Inc.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.\n\n\n<b>Jake Wharton ViewpagerIndicator:</b>\n\nCopyright 2012 Jake Wharton\nCopyright 2011 Patrik Åkerfeldt\nCopyright 2011 Francisco Figueiredo Jr.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\n<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    <string name="subtitle_we_chat">WeChat:</string>
     <string name="wechat_id">飞利浦优质生活</string>
     <string name="user_manual_link_ac4373">download.p4c.philips.com/files/a/ac4373_00/ac4373_00_dfu_zhs.pdf</string>
     <string name="user_manual_link_ac4375">download.p4c.philips.com/files/a/ac4375_00/ac4375_00_dfu_zhs.pdf</string>
     <string name="faq_link_ac4373">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4373/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=ZHS</string>
     <string name="faq_link_ac4375">www.p4c.philips.com/cgi-bin/cpindex.pl?ctn=AC4375/00&amp;hlt=Link_FAQs&amp;mid=Link_FAQs&amp;scy=CN&amp;slg=ZHS</string>
-    
+
     <!-- Air Tutorial -->
     <string name="tutorial_dashboard_desc">主页面显示室内和室外空气质量指数的概览</string>
     <string name="tutorial_lOC_desc">主页面左上角包含前至应用程序不同部分的链接</string>
@@ -404,7 +406,9 @@
     <string name="contact_philips_support_msg4">给我们发邮件：</string>
     <string name="contact_philips_support_email">airpurifier.service@philips.com</string>
     <string name="contact_philips_support_msg5">访问我们的帮助板块：</string>
-    <string name="contact_philips_support_website">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4375/00&amp;slg=ZH&amp;scy=CN</string>
+    <string name="contact_philips_support_website">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4373/00&amp;slg=ZH&amp;scy=CN</string>
+    <string name="contact_philips_support_website_ac4373">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4373/00&amp;slg=ZH&amp;scy=CN</string>
+    <string name="contact_philips_support_website_ac4375">www.p4c.philips.com/cgi-bin/dcbint/cpindex.pl?ctn=AC4375/00&amp;slg=ZH&amp;scy=CN</string>
     <string name="support">支持</string>
     <string name="a_capital">A</string>
     <string name="b_capital">B</string>
@@ -458,14 +462,14 @@
     <string name="eui64">Purifier Eui64: </string>
     <!-- Pairing -->
     <string name="pairing_failed">无法开启远程控制。</string>
-<!--     <string name="pair_disable_alert">您确定要禁用远程遥控功能吗？</string> -->
-<!--     <string name="pair_title">在非家庭Wi-Fi网络环境下开启远程控制</string> -->
-<!--     <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string> -->
-<!--     <string name="pair">是</string> -->
-    <string name="error_title">很抱歉！</string> 
-<!--     <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string> -->
-<!--     <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string> -->
-<!--     <string name="pairing_failed">启用遥控器失败。请稍后重试。</string> -->
+    <!-- <string name="pair_disable_alert">您确定要禁用远程遥控功能吗？</string> -->
+    <!-- <string name="pair_title">在非家庭Wi-Fi网络环境下开启远程控制</string> -->
+    <!-- <string name="pair_text">是否要在家庭网络之外控制空气净化器？</string> -->
+    <!-- <string name="pair">是</string> -->
+    <string name="error_title">很抱歉！</string>
+    <!-- <string name="pairing_progress">正在启用遥控器。请稍候&#8230;</string> -->
+    <!-- <string name="pairing_success">您现在可以在家庭网络之外控制空气净化器！</string> -->
+    <!-- <string name="pairing_failed">启用遥控器失败。请稍后重试。</string> -->
     <!-- Scheduler texts -->
     <string name="edit">编辑</string>
     <string name="enable">启用</string>
@@ -629,10 +633,11 @@
     <string name="purifier_add_fail_title">净化器未添加</string>
     <string name="purifier_add_fail_msg">您选中的飞利浦智控净化器无法与您的手机进行通讯</string>
 
-    <!--  App update Notification -->
+    <!-- App update Notification -->
     <string name="app_update">APP更新</string>
     <string name="app_update_msg">智能空气APP有新版本</string>
     <string name="app_update_notif_title">智能空气APP更新</string>
     <string name="app_update_failed">智能空气APP更新失败</string>
     <string name="external_storage_unavailable">外部存储不可用</string>
+
 </resources>

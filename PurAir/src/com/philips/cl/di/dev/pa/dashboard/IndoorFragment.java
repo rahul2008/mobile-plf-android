@@ -213,16 +213,9 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		int indoorAqi = airPortInfo.getIndoorAQI();
 		if (ConnectionState.DISCONNECTED == purifier.getConnectionState()) {
 			hideFirmwareUpdatePopup();
-			hideIndoorMeter();
-			fanModeTxt.setText(getString(R.string.off));
-			filterStatusTxt.setText(AppConstants.EMPTY_STRING);
-			aqiStatusTxt.setTextSize(18.0f);
-			aqiPointer.setImageResource(R.drawable.grey_circle_2x);
-			aqiStatusTxt.setText(getString(R.string.not_connected));
+			disconnect(getString(R.string.not_connected));
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
-			prevRotation = 0.0f;
 			alartMessageTextView.setVisibility(View.GONE);
-			removeWhiteDots();
 		} else {
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
 				fanModeTxt.setText(getString(R.string.off));
@@ -239,10 +232,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiStatusTxt.setTextSize(22.0f);
 			aqiStatusTxt.setText(getString(apl.getTitle()));
 			aqiSummaryTxt.setText(getString(apl.getSummary()));
+			
+			if (showAlertErrorAirPort(airPortInfo, purifier.getName())) return;
+			
 			showIndoorMeter();
-			showAlertErrorAirPort(airPortInfo, purifier.getName());
-
-			ALog.i(ALog.DASHBOARD, "currentPurifier.getConnectionState() " + purifier.getConnectionState());
 			
 			aqiPointer.invalidate();
 			if(prevIndoorAqi != indoorAqi) {
@@ -279,19 +272,37 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		return null;
 	}
 	
-	
-	
-	private void showAlertErrorAirPort(AirPortInfo airPortInfo, String pName) {
+	private boolean showAlertErrorAirPort(AirPortInfo airPortInfo, String pName) {
+		boolean errorMode = false;
 		String powerMode = airPortInfo.getPowerMode();
 		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
-			alartMessageTextView.setVisibility(View.VISIBLE);
-			alartMessageTextView.setText(pName + ": " + getString(R.string.front_panel_not_closed));
+			errorMode = showErrorMessage(pName, 
+					getString(R.string.front_panel_not_closed), getString(R.string.cover_open));
 		} else if (AppConstants.POWER_STATUS_E.equalsIgnoreCase(powerMode)) {
-			alartMessageTextView.setVisibility(View.VISIBLE);
-			alartMessageTextView.setText(pName + ": " + getString(R.string.purifier_malfunctioning));
+			errorMode = showErrorMessage(pName, 
+					getString(R.string.purifier_malfunctioning), getString(R.string.error_air_port));
 		} else {
 			alartMessageTextView.setVisibility(View.GONE);
 		}
+		return errorMode;
+	}
+	
+	private boolean showErrorMessage(String purifierName, String message1, String message2) {
+		alartMessageTextView.setVisibility(View.VISIBLE);
+		alartMessageTextView.setText(purifierName + ": " + message1);
+		disconnect(message2);
+		return true;
+	}
+	
+	private void disconnect(String message) {
+		hideIndoorMeter();
+		fanModeTxt.setText(getString(R.string.off));
+		filterStatusTxt.setText(AppConstants.EMPTY_STRING);
+		aqiStatusTxt.setTextSize(18.0f);
+		aqiPointer.setImageResource(R.drawable.grey_circle_2x);
+		aqiStatusTxt.setText(message);
+		prevRotation = 0.0f;
+		removeWhiteDots();
 	}
 	
 	private void showFirmwareUpdatePopup() {
