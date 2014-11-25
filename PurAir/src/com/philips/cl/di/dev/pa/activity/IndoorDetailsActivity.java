@@ -321,7 +321,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		setViewOnClick(index);
 		removeChildViewFromBar();
 		addBarChartView(indoorBarChart, goodAirInfos, index);
-		addBarChartView(outdoorBarChart, currentCityGoodAirInfos, index);
+		showOutdoorBarChart();
 		
 		if (rdcpValues != null && rdcpValues.size() > 0) {
 			graphLayout.addView(new GraphView(this, rdcpValues, null, coordinates, 0));
@@ -554,6 +554,12 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		// NOP
 	}
 	
+	private void showOutdoorBarChart() {
+		if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
+			addBarChartView(outdoorBarChart, currentCityGoodAirInfos, dayIndex);
+		}
+	}
+	
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
@@ -571,9 +577,7 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 				if (currentPurifier == null) return;
 				addCurrentCityGoodAQIIntoList(PurifierCurrentCityData.getInstance()
 						.getPurifierCurrentCityGoodAQ(currentPurifier.getEui64()));
-				if (goodAirInfos != null && !goodAirInfos.isEmpty()) {
-					addBarChartView(outdoorBarChart, currentCityGoodAirInfos, dayIndex);
-				}
+				showOutdoorBarChart();
 				ALog.i(ALog.INDOOR_DETAILS, "Updated purifier current city good air: " + currentCityGoodAirInfos);
 			}
 		});
