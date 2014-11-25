@@ -110,7 +110,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
 		
 		if (LocationUtils.getCurrentLocationAreaId().equals(areaID) 
-				&& LocationUtils.getCurrentLocationEnabled()) {
+				&& LocationUtils.isCurrentLocationEnabled()) {
 			myLocArrowImg.setVisibility(View.VISIBLE);
 		} else {
 			myLocArrowImg.setVisibility(View.GONE);
