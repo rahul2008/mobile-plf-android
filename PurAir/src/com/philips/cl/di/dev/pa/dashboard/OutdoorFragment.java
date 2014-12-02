@@ -1,7 +1,9 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.text.SimpleDateFormat;
 import java.util.Locale;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -13,10 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
@@ -24,36 +28,39 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener {
-	
+
 	private FontTextView cityName, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private RelativeLayout rootLayout;
 	private ImageView aqiCircleMeter, myLocArrowImg ;
 	private float prevRotation;
-	
+
 	private FontTextView lastUpdated;
 	private FontTextView pmValue;
 	private LinearLayout pmLayout;
 	private FontTextView weatherText;
 	
+	private OutdoorAQI outdoorAQI ;
+	private OutdoorWeather weather;
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState); 
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment onActivityCreated");
 		initViews(getView());
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 	}
-	
+
 	@Override
 	public void onPause() {
 		super.onPause();
 	}
-	
+
 	private void initViews(View view) {
 		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
 		myLocArrowImg = (ImageView) view.findViewById(R.id.hf_my_loc_image);
@@ -82,7 +89,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		pmValue=(FontTextView)view.findViewById(R.id.hf_outdoor_pm_value);
 		pmLayout=(LinearLayout)view.findViewById(R.id.pm_layout);
 		Bundle bundle = getArguments();
-		
+
 		if(bundle != null) {
 			int position = bundle.getInt("position");
 			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + OutdoorManager.getInstance().getUsersCitiesList().size());
@@ -102,26 +109,26 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 				}
 			}
 		} 
-		
+
 	}
-	
-	private OutdoorAQI outdoorAQI ;
+
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
-		
+
 		if (LocationUtils.getCurrentLocationAreaId().equals(areaID) 
 				&& LocationUtils.isCurrentLocationEnabled()) {
 			myLocArrowImg.setVisibility(View.VISIBLE);
 		} else {
 			myLocArrowImg.setVisibility(View.GONE);
 		}
-		
+
 		cityName.setText(outdoorCityName);
 		cityId.setText(areaID);
-		outdoorAQI = null;
-		if(city.getOutdoorAQI() != null) {
-			outdoorAQI = city.getOutdoorAQI();
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$updateUI AQI " + city.getOutdoorAQI().getAQI());
+		outdoorAQI = city.getOutdoorAQI();
+		weather = city.getOutdoorWeather();
+
+		addDummyDataForDemoMode(areaID);
+		if(outdoorAQI != null) {
 			//Set outdoor background
 			rootLayout.setBackgroundResource(OutdoorImage.valueOf(areaID, outdoorAQI.getAQI()));
 			aqi.setText("" + outdoorAQI.getAQI());
@@ -139,8 +146,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			pmValue.setText(""+outdoorAQI.getPM25());
 			lastUpdated.setVisibility(View.VISIBLE);
 		}
-		if(city.getOutdoorWeather() != null) {
-			OutdoorWeather weather = city.getOutdoorWeather();
+		if(weather != null) {
 			updated.setText(weather.getUpdatedTime());
 			weatherIcon.setImageResource(weather.getWeatherIcon());
 			weatherText.setVisibility(View.GONE);
@@ -148,25 +154,22 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			lastUpdated.setVisibility(View.VISIBLE);
 		}
 	}
-	
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		ALog.i(ALog.DASHBOARD, "OutdoorFragment$onCreateView");
-		
+
 		View view = inflater.inflate(R.layout.hf_outdoor_dashboard, null);
 		return view;
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.hf_outdoor_circle_pointer:
 			if (cityId.getText() == null || outdoorAQI == null) return;
-//			if((OutdoorManager.getInstance().getAllCitiesList() != null) 
-//					&& (OutdoorManager.getInstance().getAllCitiesList().size() < 100)){
-				OutdoorManager.getInstance().startAllCitiesTask();
-//			}
+			OutdoorManager.getInstance().startAllCitiesTask();
 			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
 			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
 			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
@@ -174,6 +177,26 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			break;
 		default:
 			break;	
+		}
+	}
+
+	//Dummy data for demo mode, if actual data not available
+	@SuppressLint("SimpleDateFormat")
+	private void addDummyDataForDemoMode(String areaID) {
+		if (PurAirApplication.isDemoModeEnable() && outdoorAQI == null) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+			String date = dateFormat.format(Utils.getCurrentChineseDate());
+			int aqi = DummyOutdoor.getInstance().getAqi(areaID);
+			int pm2Point5 = DummyOutdoor.getInstance().getPmTwoPointFive(aqi, areaID);
+			int pm10 = 35;
+			int so2 = 3;
+			int no2 = 11;
+			String time = "201411121905";
+			outdoorAQI = new OutdoorAQI(pm2Point5, aqi, pm10, so2, no2, areaID, time);
+			int temprature = 6;
+			int humidity = 16;
+			int weatherIconId = 0;
+			weather = new OutdoorWeather(temprature, humidity, weatherIconId, areaID, date);
 		}
 	}
 }

@@ -21,6 +21,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorImage;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
+import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -107,6 +109,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
 		initializeUI();
+		setClickEvent(false);
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
@@ -114,7 +117,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 		setActionBarTitle();
 		getDataFromDashboard();
-		setClickEvent(false);
 	}
 	
 	/**
@@ -594,18 +596,22 @@ public class OutdoorDetailsActivity extends BaseActivity
 	};
 	
 	private void showAlertDialog(String title, String message) {
-		try {
-			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-			
-			Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("outdoor_download_failed");
-			if (prevFrag != null) {
-				fragTransaction.remove(prevFrag);
+		if (PurAirApplication.isDemoModeEnable()) {
+			addDummyDataForDemoMode();
+		} else {
+			try {
+				FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+
+				Fragment prevFrag = getSupportFragmentManager().findFragmentByTag("outdoor_download_failed");
+				if (prevFrag != null) {
+					fragTransaction.remove(prevFrag);
+				}
+
+				fragTransaction.add(DownloadAlerDialogFragement.
+						newInstance(title, message), "outdoor_download_failed").commitAllowingStateLoss();
+			} catch (IllegalStateException e) {
+				ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 			}
-			
-			fragTransaction.add(DownloadAlerDialogFragement.
-					newInstance(title, message), "outdoor_download_failed").commitAllowingStateLoss();
-		} catch (IllegalStateException e) {
-			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		}
 	}
 	
@@ -620,6 +626,42 @@ public class OutdoorDetailsActivity extends BaseActivity
 				+ Utils.getDate(timeInMili)), 
 				areaID, PurAirApplication.getAppContext(), this);
 		aqiHistoricTask.start();
+	}
+	
+	private void addDummyDataForDemoMode() {
+		currentCityHourOfDay = calenderGMTChinese.get(Calendar.HOUR_OF_DAY);
+		currentCityDayOfWeek = calenderGMTChinese.get(Calendar.DAY_OF_WEEK);
+		lastDayAQIReadings= DummyOutdoor.getInstance().getLastDayAqis(areaId);
+		last7dayAQIReadings= DummyOutdoor.getInstance().getLastWeekAqis(areaId);
+		last4weekAQIReadings = DummyOutdoor.getInstance().getLastMonthAqis(areaId);
+
+		if (aqiValue.getText() != null) {
+			try {
+				float lastValueOfLastDayAqi = Float.parseFloat(aqiValue.getText().toString());
+				lastDayAQIReadings[lastDayAQIReadings.length - 1] = lastValueOfLastDayAqi;
+			} catch (NumberFormatException e) {
+				Log.e(ALog.ERROR, "Error: " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+
+		setViewlastDayAQIReadings();
+		setClickEvent(true);
+
+		if (wetherScrollView.getChildCount() > 0) {
+			wetherScrollView.removeAllViews();
+		}
+		wetherScrollView.addView(new WeatherReportLayout(
+				OutdoorDetailsActivity.this, null, DummyOutdoor.getInstance().getTodayWeatherForecast()));
+
+		if (weatherReportLayout != null && weatherReportLayout.getChildCount() > 0) {
+			weatherReportLayout.removeAllViews();
+		}
+
+		weatherReportLayout = new WeatherReportLayout(
+				OutdoorDetailsActivity.this, null, 0, DummyOutdoor.getInstance().getFourDayWeatherForecast());
+		weatherReportLayout.setOrientation(LinearLayout.VERTICAL);
+		wetherForcastLayout.addView(weatherReportLayout);
 	}
 
 	@Override

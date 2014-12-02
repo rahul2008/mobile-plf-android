@@ -254,4 +254,6 @@ public class AppConstants {
 	public static final int TERMS_AND_CONDITIONS_SCREEN=3;
 	
 	public static final int NUM_OFF_POINTS = 24;
+	public static  final String SHANGHAI_AREA_ID = "101020100";
+	public static  final String BEIJING_AREA_ID = "101010100";
 }

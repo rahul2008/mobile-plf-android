@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.util;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.annotation.SuppressLint;
 import android.graphics.Point;
@@ -36,5 +37,12 @@ public class DashboardUtil {
 	
 	public static boolean isAPILessThanHoneycomb() {
 		return Build.VERSION.SDK_INT < 11 ? true : false;
+	}
+	
+	public static int getRundomNumber(int min, int max) {
+		int num = 450;
+		Random random = new Random();
+		num = random.nextInt(max - min) + 1 + min;
+		return num;
 	}
 }

@@ -125,6 +125,7 @@ public class ALog {
 	}	
 	
 	public static BufferedWriter out;
+	@SuppressWarnings("deprecation")
 	private static void createFileOnDevice(Boolean append) throws IOException {
 		if(!isSaveToFileEnabled) return;
 		File root = Environment.getExternalStorageDirectory();
