@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">DigitalCare</string>
+    <string name="how_can_we_help">How can we help?</string>
+    <string name="action_settings">Settings</string>
+    <string name="opt_contact_us">Contact us</string>
+    <string name="opt_view_product_details">View product details</string>
+    <string name="opt_view_faq">View F.A.Q\'s</string>
+    <string name="opt_find_philips_near_you">Find Philips near you</string>
+    <string name="opt_what_you_think">Tell us what you think</string>
+    <string name="opt_register_my_product">Register my product</string>
+
+</resources>
