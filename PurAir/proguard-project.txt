@@ -125,7 +125,7 @@
 -keep class com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto { *; }
 -keep class com.philips.cl.di.dev.pa.datamodel.CityDetails { *; }
 -keep class com.philips.cl.di.dev.pa.datamodel.DiscoverInfo { *; }
--keep class com.philips.cl.di.dev.pa.firmware.FirmwarePortInfo { *; }
+-keep class com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo { *; }
 -keep class com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto { *; }
 -keep class com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto { *; }
 -keep class com.philips.cl.di.dev.pa.dashboard.WeatherIcon { *; }
