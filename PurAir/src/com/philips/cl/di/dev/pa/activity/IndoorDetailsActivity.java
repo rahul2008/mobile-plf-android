@@ -404,14 +404,10 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 		 */
 
 		if (ConnectionState.DISCONNECTED == currentPurifier.getConnectionState()) {
-			mode.setText(getString(R.string.off));
-			aqiStatusTxt.setText(getString(R.string.not_connected));
-			aqiStatusTxt.setTextSize(18.0f);
+			disconnect(getString(R.string.not_connected));
 			//set image background
 			backgroundImage.setImageResource(R.drawable.home_indoor_bg_2x);
-			circleImg.setImageResource(R.drawable.grey_circle_2x);
 			aqiSummary.setText(AppConstants.EMPTY_STRING) ;
-			filter.setText(AppConstants.EMPTY_STRING);
 		} 
 		else {
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
@@ -432,7 +428,25 @@ public class IndoorDetailsActivity extends BaseActivity implements OnClickListen
 			aqiStatusTxt.setTextSize(22.0f);
 			aqiSummary.setText(aqiStatusAndCommentArray[1]) ;
 			backgroundImage.setImageResource(Utils.getBackgroundResource(indoorAQI));
+			showAlertErrorAirPort(airPortInfo);
 		}
+	}
+	
+	private void showAlertErrorAirPort(AirPortInfo airPortInfo) {
+		String powerMode = airPortInfo.getPowerMode();
+		if (AppConstants.POWER_STATUS_C.equalsIgnoreCase(powerMode)) {
+			disconnect(getString(R.string.cover_open));
+		} else if (AppConstants.POWER_STATUS_E.equalsIgnoreCase(powerMode)) {
+			disconnect(getString(R.string.error_air_port));
+		}
+	}
+	
+	private void disconnect(String message) {
+		mode.setText(getString(R.string.off));
+		filter.setText(AppConstants.EMPTY_STRING);
+		circleImg.setImageResource(R.drawable.grey_circle_2x);
+		aqiStatusTxt.setTextSize(18.0f);
+		aqiStatusTxt.setText(message);
 	}
 
 	public void aqiAnalysisClick(View v) {
