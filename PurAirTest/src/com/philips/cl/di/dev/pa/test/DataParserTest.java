@@ -693,6 +693,11 @@ public class DataParserTest extends TestCase {
 		assertNotSame("sunny", hourlyWeatherList.get(0).getWeatherDesc()) ;
 	}
 	
+	//{"observe":
+	//{"101010100":{"l":{"l1":"-1","l2":"21","l3":"3","l4":"5","l5":"00","l7":"12:15"}},
+	//"101070301":{"l":{"l1":"-6","l2":"21","l3":"3","l4":"6","l5":"00","l7":"12:20"}},
+	//"101200509":{"l":{"l1":"6","l2":"52","l3":"2","l4":"2","l5":"01","l7":"12:35"}},
+	//"101270201":{"l":{"l1":"17","l2":"51","l3":"1","l4":"1","l5":"01","l7":"12:05"}}},"api_version":"4.0"}
 //	//TODO : Rewrite dataparser tests for Outdoor dashboard.
 //	public void testParseLocationEventWeatherWithInvalidJson() {
 //		String data = "{\"observe\":{\"101270101\":{\"l\":{\",\"l2\":\"84\",\"l3\":\"1\",\"l4\":\"7\",\"l5\":\"03\",\"l7\":\"19:15\"}}}}" ;
@@ -736,53 +741,46 @@ public class DataParserTest extends TestCase {
 //		assertEquals("19:15", outdoorWeather.getUpdatedTime()) ;
 //	}
 //	
+	
 	public void testLocationOutdoorAQIWithInvalidJson( ) {
 		String data = "{\"air\":{\"101270101\":{\"p\":{\"p1\":\"14\",\"p2\":\"36201406191800\"}}}}" ;
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
+		List<OutdoorAQI> outdoorAQI = DataParser.parseLocationAQI(data) ;
 		assertNull(outdoorAQI) ;
 	}
 	
 	public void testLocationOutdoorAQIWithNullData() {
 		String data = null ;
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
+		List<OutdoorAQI> outdoorAQI = DataParser.parseLocationAQI(data) ;
 		assertNull(outdoorAQI) ;
 	}
 	
 
 	public void testLocationOutdoorAQI_PM25( ) {
-		String data = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
-		assertEquals(205, outdoorAQI.getPM25()) ;
+		String data = "{\"p\":[{\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}";
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseLocationAQI(data) ;
+		assertEquals(66, outdoorAQIs.get(0).getPM25());
 	}
 	
 	public void testLocationOutdoorAQI_index( ) {
-		String data = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
-		assertEquals(255, outdoorAQI.getAQI()) ;
+		String data = "{\"p\":[{\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}";
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseLocationAQI(data) ;
+		assertEquals(62, outdoorAQIs.get(0).getAQI());
 	}
-	
-//	public void testLocationOutdoorAQI_time( ) {
-//		String data = "{\"p\":[{\"101010100\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-//		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
-//		assertEquals("201406191800", outdoorAQI.getPublishTime()) ;
-//	}
-	
-//	public void testLocationOutdoorAQI_time_invalid( ) {
-//		String data = "{\"p\":[{\"101010100\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-//		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
-//		assertNotSame("2014061918", outdoorAQI.getPublishTime()) ;
-//	}
 	
 	public void testLocationOutdoorAQI_AreaID( ) {
-		String data = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
-		assertEquals("101270101", outdoorAQI.getAreaID()) ;
+		String data = "{\"p\":[{\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}";
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseLocationAQI(data) ;
+		assertEquals("101200509", outdoorAQIs.get(0).getAreaID());
 	}
 	
-	public void testLocationOutdoorAQI( ) {
-		String data = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}" ;
-		OutdoorAQI outdoorAQI = DataParser.parseLocationAQI(data, "101270101") ;
-		assertNotNull(outdoorAQI) ;
+	public void testOutdoorAQIListSize( ) {
+		String data = "{\"p\":[{\"101270201\":{\"p1\":\"40\",\"p2\":\"71\",\"p3\":\"86\",\"p4\":\"22\",\"p5\":\"33\",\"updatetime\":\"201412021207\"},"
+				 + "\"101070301\":{\"p1\":\"47\",\"p2\":\"118\",\"p3\":\"174\",\"p4\":\"102\",\"p5\":\"42\",\"updatetime\":\"201412021206\"},"
+				 + "\"101010100\":{\"p1\":\"14\",\"p2\":\"33\",\"p3\":\"29\",\"p4\":\"12\",\"p5\":\"46\",\"updatetime\":\"201412021205\"},"
+				 + "\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}"; 
+				
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseLocationAQI(data) ;
+		assertEquals(4, outdoorAQIs.size()) ;
 	}
 	
 	public void testParseHistoricalAQIData_invalidJson() {

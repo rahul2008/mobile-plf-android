@@ -207,7 +207,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());
 			OutdoorManager.getInstance().addAreaIDToUsersList(areaId);
 			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
-			
+			OutdoorManager.getInstance().resetUpdatedTime();
 			OutdoorLocationHandler.getInstance().updateSelectedCity(areaId, true);
 			finish();
 		}

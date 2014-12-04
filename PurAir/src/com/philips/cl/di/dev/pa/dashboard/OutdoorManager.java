@@ -47,23 +47,22 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	public synchronized void startCitiesTask() {
 		boolean isUpdated = false;
-		for (String areaID : userCitiesList) {
-			if (citiesMap == null || citiesMap.get(areaID) == null
-					|| citiesMap.get(areaID).getOutdoorAQI() == null || lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
-				isUpdated = true;
-				OutdoorController.getInstance().startCityAQITask(areaID);
-			}
-
-			if (citiesMap == null || citiesMap.get(areaID) == null
-					|| citiesMap.get(areaID).getOutdoorWeather() == null
-					|| lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
-				isUpdated = true;
-				OutdoorController.getInstance().startCityWeatherTask(areaID);
-			}			
+		if (lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
+			isUpdated = true;
+			OutdoorController.getInstance().startCityAQITask(userCitiesList);
 		}
+
+		if (lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
+			isUpdated = true;
+			OutdoorController.getInstance().startCityWeatherTask(userCitiesList);
+		}			
 		if(isUpdated) {
 			lastUpdatedTime = System.currentTimeMillis();
 		}
+	}
+	
+	public void resetUpdatedTime() {
+		lastUpdatedTime = 0;
 	}
 
 	private int getDiffInTimeInMins(long time) {

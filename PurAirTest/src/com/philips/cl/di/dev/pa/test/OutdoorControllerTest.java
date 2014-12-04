@@ -60,13 +60,26 @@ public class OutdoorControllerTest extends InstrumentationTestCase{
 	}
 	
 	public void testReceivedCityAQI1() {
-		String data = "{\"p\":[{\"101270101\":{\"p1\":\"205\",\"p2\":\"255\",\"p3\":\"403\",\"p4\":\"4\",\"p5\":\"25\",\"updatetime\":\"201407311706\"}}],\"api_version\":\"4.0\"}";
-		String areaId = "101270101";
+		String data = "{\"p\":[{\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}";
+		String areaId = "101200509";
 		
 		controller.receiveServerResponse(200, data, areaId);
 		
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, times(1)).outdoorAQIDataReceived((OutdoorAQI) any(), eq(areaId));
+		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+	}
+	
+	public void testReceivedMultipleCityAQI() {
+		String data = "{\"p\":[{\"101270201\":{\"p1\":\"40\",\"p2\":\"71\",\"p3\":\"86\",\"p4\":\"22\",\"p5\":\"33\",\"updatetime\":\"201412021207\"},"
+				 + "\"101070301\":{\"p1\":\"47\",\"p2\":\"118\",\"p3\":\"174\",\"p4\":\"102\",\"p5\":\"42\",\"updatetime\":\"201412021206\"},"
+				 + "\"101010100\":{\"p1\":\"14\",\"p2\":\"33\",\"p3\":\"29\",\"p4\":\"12\",\"p5\":\"46\",\"updatetime\":\"201412021205\"},"
+				 + "\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}"; 
+		
+		controller.receiveServerResponse(200, data, "user_cities");
+		
+		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
+		verify(eventListener, times(4)).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
 		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
 	}
 }

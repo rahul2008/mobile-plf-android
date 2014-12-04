@@ -105,13 +105,12 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		outdoorEventListeners.remove(outdoorEventListener);
 	}
 
-	@SuppressLint("SimpleDateFormat")
-	public void startCityAQITask(String areaID) {
-		//If purifier in demo mode, skip download data
-//		if (PurAirApplication.isDemoModeEnable()) return;
+	public void startCityAQITask(List<String> cities) {
 		if (isPhilipsSetupWifiSelected()) return;
+		
+		String areaIds = cities.toString().replace("[", "").replace("]", "").replace(", ", ",");
 
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaID, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), "user_cities", PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 	
@@ -130,24 +129,22 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 
 	public void startCityAQIHistoryTask(String areaID) {
-//		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
-	public void startCityWeatherTask(String areaID) {
-		//If purifier in demo mode, skip download data
-//		if (PurAirApplication.isDemoModeEnable()) return;
+	public void startCityWeatherTask(List<String> cities) {
 		if (isPhilipsSetupWifiSelected()) return;
 
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL,areaID, OutdoorController.OBSERVE, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
+		String areaIds = cities.toString().replace("[", "").replace("]", "").replace(", ", ",");
+		
+		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL, areaIds, OutdoorController.OBSERVE, Utils.getDate(System.currentTimeMillis())), "user_cities", PurAirApplication.getAppContext(), this);
 		citiesList.start();
 	}
 
 	public void startCityFourDayForecastTask(String areaID) {
-//		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL, areaID, OutdoorController.FORECAST_4_DAYS, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
@@ -155,7 +152,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	}
 
 	public void startCityOneDayForecastTask(String areaID) {
-//		if (PurAirApplication.isDemoModeEnable()) return;
 		if (isPhilipsSetupWifiSelected()) return;
 
 		TaskGetHttp citiesList = new TaskGetHttp(BASE_URL_HOURLY_FORECAST + areaID + "&time=day", areaID, PurAirApplication.getAppContext(), this);
@@ -165,7 +161,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	private void notifyListeners(String data, String areaID) {
 		if(outdoorEventListeners == null) return;
 
-		OutdoorAQI outdoorAQIList = DataParser.parseLocationAQI(data, areaID);
+		List<OutdoorAQI> outdoorAQIList = DataParser.parseLocationAQI(data);
 		List<OutdoorWeather> outdoorWeatherList = DataParser.parseLocationWeather(data);
 
 		if(areaID.equals("all_cities")) {
@@ -184,14 +180,18 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			}
 		} else {
 			for(int index = 0; index < outdoorEventListeners.size(); index++) {
-				if(outdoorAQIList != null) {
-					outdoorEventListeners.get(index).outdoorAQIDataReceived(outdoorAQIList, areaID);
+				if(outdoorAQIList != null && !outdoorAQIList.isEmpty()) {
+					Iterator<OutdoorAQI> iter = outdoorAQIList.iterator();
+					while(iter.hasNext()) {
+						OutdoorAQI aqi = iter.next();
+						outdoorEventListeners.get(index).outdoorAQIDataReceived(aqi, aqi.getAreaID());
+					}
 				}
 				if(outdoorWeatherList != null && !outdoorWeatherList.isEmpty()) {
 					Iterator<OutdoorWeather> iter = outdoorWeatherList.iterator();
 					while(iter.hasNext()) {
 						OutdoorWeather outdoorWeather = iter.next();
-						outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, areaID);
+						outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, outdoorWeather.getAreaID());
 					}
 				}
 			}

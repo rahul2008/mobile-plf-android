@@ -302,22 +302,33 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-	public static OutdoorAQI parseLocationAQI(String dataToParse, String areaID) {
+	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		if( dataToParse == null ) return null ;
+		
+		List<OutdoorAQI> aqis = new ArrayList<OutdoorAQI>();
+		
 		try {
 			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("p");
 			if(responseObject == null) return null;
-			JSONObject cityData = responseObject.getJSONObject(0); //Area code
-			int pm25 = cityData.getJSONObject(areaID).optInt("p1");
-			int aqi = cityData.getJSONObject(areaID).optInt("p2");
-			int pm10 = 	cityData.getJSONObject(areaID).optInt("p3");
-			int so2 = cityData.getJSONObject(areaID).optInt("p4");
-			int no2 = cityData.getJSONObject(areaID).optInt("p5");
-			String timeStamp = cityData.getJSONObject(areaID).optString("updatetime");
-			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-
-			return new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp);
+			JSONObject observeObject = responseObject.getJSONObject(0);
+			
+			Iterator<String> areaIDIterator = observeObject.keys();
+			while(areaIDIterator.hasNext()) {
+				String areaID = areaIDIterator.next();
+				JSONObject cityData = observeObject.getJSONObject(areaID); //Area codes
+				int pm25 = cityData.optInt("p1");
+				int aqi = cityData.optInt("p2");
+				int pm10 = 	cityData.optInt("p3");
+				int so2 = cityData.optInt("p4");
+				int no2 = cityData.optInt("p5");
+				String timeStamp = cityData.optString("updatetime");
+				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
+				
+				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
+			}
+			
+			return aqis;
 			
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
@@ -529,14 +540,12 @@ public class DataParser {
 	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
-//			ALog.i(ALog.PARSER, "historicalAQIObject " + historicalAQIObject);
 			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("p");
 			if(historicalAQIs == null) return null;
 			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
 			ALog.i(ALog.PARSER, "historicalAQIs length " + historicalAQIs.length());
 			
 			for (int i = 0; i < historicalAQIs.length(); i++) {
-//				ALog.i(ALog.PARSER, "historicalAQIs.getJSONObject(i) " + historicalAQIs.getJSONObject(i));
 				int pm25 = historicalAQIs.getJSONObject(i).optInt("p1");
 				int aqi = historicalAQIs.getJSONObject(i).optInt("p2");
 				int pm10 = historicalAQIs.getJSONObject(i).optInt("p3");
