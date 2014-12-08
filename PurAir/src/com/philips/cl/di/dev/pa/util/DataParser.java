@@ -302,6 +302,7 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
+
 	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		if( dataToParse == null ) return null ;
@@ -329,7 +330,6 @@ public class DataParser {
 			}
 			
 			return aqis;
-			
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
 			return null;

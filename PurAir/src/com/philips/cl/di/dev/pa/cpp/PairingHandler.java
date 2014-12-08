@@ -60,6 +60,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 *            String
 	 */
 	public PairingHandler(PairingListener iPairingListener,	PurAirDevice purifier) {
+		if(purifier==null)return;
 		this.purifier = purifier;
 		purifierDatabase = new PurifierDatabase();
 		pairingListener = iPairingListener;
@@ -81,6 +82,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 	 *            String[]
 	 */
 	public void startPairing() {
+		if(purifier==null)return;
 		ALog.i(ALog.PAIRING, "Started pairing with purifier - eui64= " + purifier.getName() + "attempt: "+getPairingAttempts(purifier.getEui64()));
 		currentRelationshipType = AppConstants.PAIRING_DI_COMM_RELATIONSHIP;
 		getRelationship(currentRelationshipType, purifier.getEui64());
@@ -138,6 +140,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 			final String[] permission) {
 
 		if (relationshipType.equals(AppConstants.PAIRING_DI_COMM_RELATIONSHIP)) {
+			if(purifier==null)return;
 			secretKey = generateRandomSecretKey();
 			String pairing_url = Utils.getPortUrl(Port.PAIRING,	purifier.getIpAddress());
 			String appEui64 = SessionDto.getInstance().getAppEui64();
@@ -516,6 +519,7 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 
 	private void notifyListenerFailed(boolean isPairingPortTaskFailed) {
 
+		if(purifier==null)return;
 		if(getPairingAttempts(purifier.getEui64())<AppConstants.MAX_RETRY){
 			setPairingAttempts(purifier.getEui64());
 			// If DI-COMM local (Pairing Port) request fails, then retry only the DI-COMM request

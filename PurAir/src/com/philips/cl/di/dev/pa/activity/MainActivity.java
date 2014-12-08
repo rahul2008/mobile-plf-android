@@ -1052,7 +1052,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				@Override
 				public void onTaskComplete(boolean result) {
 					if(result){
-						if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()){
+						if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn() || purifier==null){
 							return;
 						}	
 						ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
