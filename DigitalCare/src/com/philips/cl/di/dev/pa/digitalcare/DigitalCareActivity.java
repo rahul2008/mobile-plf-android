@@ -1,83 +1,67 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
-import java.util.Locale;
-
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.util.Log;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.view.inputmethod.InputMethodManager;
 
-import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
+import com.philips.cl.di.dev.pa.digitalcare.fragment.SupportHomeFragment;
+import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
+/*
+ *	DigitalCareActivity  is the main container class for Digital Care fragments.
+ * 
+ * Author : Ritesh.jha@philips.com
+ * 
+ * Creation Date : 5 Dec 2014
+ */
 public class DigitalCareActivity extends BaseActivity {
-	private static final int OPTION_CONTACT_US = 1;
-	private static final int OPTION_PRODUCS_DETAILS = 2;
-	private static final int OPTION_FAQ = 3;
-	private static final int OPTION_FIND_PHILIPS_NEARBY = 4;
-	private static final int OPTION_WHAT_ARE_YOU_THINKING = 5;
-	private static final int OPTION_REGISTER_PRODUCT = 6;
-
-	private LinearLayout mParentLayout = null;
-	private RelativeLayout mContactUs = null;
-	private RelativeLayout mProductDetails = null;
-	private RelativeLayout mFaq = null;
-	private RelativeLayout mFindPhilips = null;
-	private RelativeLayout mWhatYouThink = null;
-	private RelativeLayout mRegisterProduct = null;
+	private static final String TAG = "DigitalCareActivity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_digi_care);
 
-		mParentLayout = (LinearLayout) findViewById(R.id.optionParent);
-
-		mContactUs = (RelativeLayout) findViewById(R.id.optionContactUs);
-		mProductDetails = (RelativeLayout) findViewById(R.id.optionProdDetails);
-		mFaq = (RelativeLayout) findViewById(R.id.optionFaq);
-		mFindPhilips = (RelativeLayout) findViewById(R.id.optionFindPhilips);
-		mWhatYouThink = (RelativeLayout) findViewById(R.id.optionThinking);
-		mRegisterProduct = (RelativeLayout) findViewById(R.id.optionRegProd);
+		try {
+			initActionBar();
+		} catch (ClassCastException e) {
+			ALog.e(TAG, "Actionbar: " + e.getMessage());
+		}
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		int[] keys = getResources().getIntArray(R.array.options_available);
-
-		Log.i("testing", "key length: " + keys.length);
-		for (int btnOption : keys) {
-			enableOptionButtons(btnOption);
-			Log.i("testing", "key : " + btnOption);
-		}
+		showFragment(new SupportHomeFragment());
 	}
 
-	private void enableOptionButtons(int option) {
-		switch (option) {
-		case OPTION_CONTACT_US:
-			mContactUs.setVisibility(View.VISIBLE);
-			break;
-		case OPTION_PRODUCS_DETAILS:
-			mProductDetails.setVisibility(View.VISIBLE);
-			break;
-		case OPTION_FAQ:
-			mFaq.setVisibility(View.VISIBLE);
-			break;
-		case OPTION_FIND_PHILIPS_NEARBY:
-			mFindPhilips.setVisibility(View.VISIBLE);
-			break;
-		case OPTION_WHAT_ARE_YOU_THINKING:
-			mWhatYouThink.setVisibility(View.VISIBLE);
-			break;
-		case OPTION_REGISTER_PRODUCT:
-			mRegisterProduct.setVisibility(View.VISIBLE);
-			break;
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+
+	public void showFragment(Fragment fragment) {
+		try {
+			getSupportFragmentManager().popBackStackImmediate(null,
+					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			FragmentTransaction fragmentTransaction = getSupportFragmentManager()
+					.beginTransaction();
+			fragmentTransaction.add(R.id.mainContainer, fragment,
+					fragment.getTag());
+			fragmentTransaction.addToBackStack(fragment.getTag());
+			fragmentTransaction.commit();
+		} catch (IllegalStateException e) {
+			ALog.e(TAG, e.getMessage());
+		}
+
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (getWindow() != null && getWindow().getCurrentFocus() != null) {
+			imm.hideSoftInputFromWindow(getWindow().getCurrentFocus()
+					.getWindowToken(), 0);
 		}
 	}
 }

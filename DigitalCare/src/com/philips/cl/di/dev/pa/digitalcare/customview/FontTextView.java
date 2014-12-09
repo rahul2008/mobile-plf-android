@@ -7,6 +7,13 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
+/*
+ *	FontTextView is the custom Text View.
+ * 
+ * Author : Ritesh.jha@philips.com
+ * 
+ * Creation Date : 5 Dec 2014
+ */
 public class FontTextView extends TextView {
 
 	public FontTextView(Context context) {

@@ -1,12 +1,19 @@
 package com.philips.cl.di.dev.pa.digitalcare.customview;
 
-import com.philips.cl.di.dev.pa.digitalcare.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.Button;
 
+import com.philips.cl.di.dev.pa.digitalcare.R;
+
+/*
+ * FontButton is the custom Button View.
+ * 
+ * Author : Ritesh.jha@philips.com
+ * 
+ * Creation Date : 5 Dec 2014
+ */
 public class FontButton extends Button {
 	public FontButton(Context context) {
 		super(context);

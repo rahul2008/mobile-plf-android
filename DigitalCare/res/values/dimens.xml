@@ -6,5 +6,5 @@
     <dimen name="activity_vertical_margin">26dp</dimen>
     <dimen name="btn_text_size_large">20sp</dimen>
     <dimen name="help_text_size_large">30sp</dimen>
-
+	<dimen name="actionbar_title_text_size">21dp</dimen>
 </resources>

@@ -10,5 +10,6 @@
     <string name="opt_find_philips_near_you">Find Philips near you</string>
     <string name="opt_what_you_think">Tell us what you think</string>
     <string name="opt_register_my_product">Register my product</string>
-
+ 	<string name="img_description">description</string>
+ 	<string name="actionbar_title_support">Support</string>
 </resources>
