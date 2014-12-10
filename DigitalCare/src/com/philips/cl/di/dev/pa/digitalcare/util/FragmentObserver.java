@@ -11,21 +11,30 @@ import java.util.Observable;
  * Creation Date : 8 Dec 2014
  */
 public class FragmentObserver extends Observable {
-	private String mName = null;
+	private String mActionbaTitle = null;
+	private int mOptionSelected = -1;
 
 	/**
 	 * @return the value
 	 */
-	public String getValue() {
-		return mName;
+	public String getActionbarTitle() {
+		return mActionbaTitle;
+	}
+
+	/**
+	 * @return the option selected.
+	 */
+	public int getOptionSelected() {
+		return mOptionSelected;
 	}
 
 	/**
 	 * @param value
 	 *            the value to set
 	 */
-	public void setValue(String name) {
-		this.mName = name;
+	public void setValue(String name, int optionSelected) {
+		this.mActionbaTitle = name;
+		this.mOptionSelected = optionSelected;
 		setChanged();
 		notifyObservers();
 	}

@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
+import com.philips.cl.di.dev.pa.digitalcare.ConfigurationManager;
 import com.philips.cl.di.dev.pa.digitalcare.DigitalCareApplication;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
@@ -41,6 +42,8 @@ public class SupportHomeFragment extends BaseFragment {
 	private FontButton mOptionBtnThinking = null;
 	private FontButton mOptionBtnRegisterProduct = null;
 
+	private static final String TAG = "SupportHomeFragment";
+
 	private FragmentObserver mAppObserver = DigitalCareApplication
 			.getAppContext().getObserver();
 
@@ -56,8 +59,10 @@ public class SupportHomeFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		int[] keys = getResources().getIntArray(R.array.options_available);
-		for (int btnOption : keys) {
+
+		ConfigurationManager configManagerinstance = ConfigurationManager
+				.getInstance();
+		for (int btnOption : configManagerinstance.getFeatureListKeys()) {
 			enableOptionButtons(btnOption);
 		}
 	}
@@ -117,6 +122,7 @@ public class SupportHomeFragment extends BaseFragment {
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
 		CharSequence actionbarTitle = null;
+		int optionSelected = -1;
 
 		public void onClick(View view) {
 			Log.i("testing", "onClickListener view : " + view);
@@ -124,31 +130,37 @@ public class SupportHomeFragment extends BaseFragment {
 			case R.id.optionBtnContactUs:
 				actionbarTitle = getResources()
 						.getText(R.string.opt_contact_us);
+				optionSelected = DigiCareContants.OPTION_CONTACT_US;
 				break;
 			case R.id.optionBtnFaq:
 				actionbarTitle = getResources().getText(R.string.opt_view_faq);
+				optionSelected = DigiCareContants.OPTION_FAQ;
 				break;
 			case R.id.optionBtnProdDetails:
 				actionbarTitle = getResources().getText(
 						R.string.opt_view_product_details);
+				optionSelected = DigiCareContants.OPTION_PRODUCS_DETAILS;
 				break;
 			case R.id.optionBtnFindPhilips:
 				actionbarTitle = getResources().getText(
 						R.string.opt_find_philips_near_you);
+				optionSelected = DigiCareContants.OPTION_FIND_PHILIPS_NEARBY;
 				break;
 			case R.id.optionBtnThinking:
 				actionbarTitle = getResources().getText(
 						R.string.opt_what_you_think);
+				optionSelected = DigiCareContants.OPTION_WHAT_ARE_YOU_THINKING;
 				break;
 			case R.id.optionBtnRegProd:
 				actionbarTitle = getResources().getText(
 						R.string.opt_register_my_product);
+				optionSelected = DigiCareContants.OPTION_REGISTER_PRODUCT;
 				break;
 			default:
 				actionbarTitle = getResources().getText(
 						R.string.actionbar_title_support);
 			}
-			mAppObserver.setValue(actionbarTitle.toString());
+			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
 		}
 	};
 }
