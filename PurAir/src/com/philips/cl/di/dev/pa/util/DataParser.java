@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -20,7 +21,9 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastCityDto;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
@@ -585,4 +588,89 @@ public class DataParser {
 		}
 		return weatherList;
 	}
+	
+	public static List<OutdoorAQI> parseUSEmbassyLocationAQI(String dataToParse) {
+		ALog.i(ALog.PARSER, "parseUSEmbassyLocationAQI dataToParse " + dataToParse);
+		if( dataToParse == null ) return null ;
+		
+		List<OutdoorAQI> aqis = new ArrayList<OutdoorAQI>();
+		
+		try {
+			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("Result");
+			if(responseObject == null) return null;
+			
+			JSONObject cityData = responseObject.getJSONObject(0);
+			if(cityData == null) return null;
+			
+				String cityName = cityData.optString("City"); //Area codes
+				int pm25 = cityData.optInt("PM2.5");
+				int aqi = cityData.optInt("AQI");
+				int pm10 = 	cityData.optInt("PM10");
+				int so2 = cityData.optInt("CO");
+				int no2 = cityData.optInt("NO2");
+				String timeStamp = cityData.optString("time");
+				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
+				
+				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName, timeStamp));			
+			
+			return aqis;
+		} catch (JSONException e) {
+			ALog.e(ALog.PARSER, "JSONException parseUSEmbassyLocationAQI");
+			return null;
+		}
+	}
+	
+	public static List<OutdoorAQI> parseUSEmbassyHistoricalAQIData(String dataToParse, String areaID) {
+		try {
+			JSONObject historicalAQIObject = new JSONObject(dataToParse);
+			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("result");
+			if(historicalAQIs == null) return null;
+			
+			JSONObject AQIData = historicalAQIs.getJSONObject(0);
+			if(AQIData == null) return null;
+			
+			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
+
+			JSONObject lastTwoWeeksData= AQIData.getJSONObject("lastTwoWeeks");			
+			if (lastTwoWeeksData != null) {
+                for (int j = 0; j < lastTwoWeeksData.length() ; j++) {
+                     JSONObject individualAQIData = lastTwoWeeksData.getJSONObject(String.valueOf(j + 1));
+                     outdoorAQIs.add(getOutdoorAQIValues(individualAQIData));
+                }
+          }
+          
+          JSONObject cityNowData = AQIData.getJSONObject("citynow");
+          outdoorAQIs.add(getOutdoorAQIValues(cityNowData));
+          return outdoorAQIs;
+			
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	
+	private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {
+        String regex = "[-: ]";
+
+        String city = jsonObject.optString("city");
+        int aqi = jsonObject.optInt("AQI");
+        String quality = jsonObject.optString("quality");
+        String timeStamp = jsonObject.optString("date");
+        timeStamp = getTimeStampWithTime(timeStamp);
+        if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
+        
+        System.out.println("quality: " + quality);
+        return new OutdoorAQI(0, aqi, 0, 0, 0, city, timeStamp);
+  }
+  
+  private static String getTimeStampWithTime(String timeStamp) {
+        if (!timeStamp.contains(":")) {
+             String time = AppConstants.TIME_FORMAT.format(Utils.getCurrentChineseDate());
+             timeStamp = timeStamp + " " +  time;
+        }
+        return timeStamp;
+  }
+
 }
