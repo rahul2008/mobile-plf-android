@@ -847,4 +847,47 @@ public class DataParserTest extends TestCase {
 		List<ForecastWeatherDto> dtos = DataParser.parseFourDaysForecastData(data, "101270101");
 		assertEquals(dtos.get(0).getTemperatureDay(), "");
 	}
+	
+	public void testUSEmbassyLocationOutdoorAQIWithInvalidJson( ) {
+		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",\"time\":\"2013-08-01 13:00:00\"}}";
+		List<OutdoorAQI> outdoorAQI = DataParser.parseLocationAQI(data) ;
+		assertNull(outdoorAQI) ;
+	}
+	
+	public void testUSEmbassyLocationOutdoorAQIWithNullData() {
+		String data = null ;
+		List<OutdoorAQI> outdoorAQI = DataParser.parseUSEmbassyLocationAQI(data) ;
+		assertNull(outdoorAQI) ;
+	}
+	
+
+	public void testUSEmbassyLocationOutdoorAQI_PM25( ) {
+		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":[{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",	\"O3\":\"192\",\"SO2\":\"17\",\"time\":\"2013-08-01 13:00:00\"}]}";
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data) ;
+		assertEquals(52, outdoorAQIs.get(0).getPM25());
+	}
+	
+	public void testUSEmbassyLocationOutdoorAQI_index( ) {
+		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":[{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",	\"O3\":\"192\",\"SO2\":\"17\",\"time\":\"2013-08-01 13:00:00\"}]}";
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data) ;
+		assertEquals(89, outdoorAQIs.get(0).getAQI());
+	}
+	
+	public void testUSEmbassyLocationOutdoorAQI_timestamp( ) {
+		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":[{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",	\"O3\":\"192\",\"SO2\":\"17\",\"time\":\"2013-08-01 13:00:00\"}]}";
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data) ;
+		assertEquals("20130801130000", outdoorAQIs.get(0).getTimeStamp());
+	}
+	
+	public void testParseUSEmbassyHistoricalAQIData_invalidJson() {
+		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"error_code\":0,\"result\":[{\"citynow\":{\"city\":\"suzhou\",\"AQI\"\"\",\"quality\":\"良\",\"date\":\"2014-05-09 14:00\"},\"lastTwoWeeks\":{\"1\":{\"city\":\"suzhou\",\"AQI\":\"100\",\"quality\":\"良\",\"date\":\"2014-05-08\"},\"2\":{\"city\":\"suzhou\",\"AQI\":\"99\",\"quality\":\"良\",\"date\":\"2014-05-07\"},\"3\":{\"city\":\"suzhou\",\"AQI\":\"77\",\"quality\":\"良\",\"date\":\"2014-05-06\"},\"4\":{\"city\":\"suzhou\",\"AQI\":\"75\",\"quality\":\"良\",\"date\":\"2014-05-05\"},\"5\":{\"city\":\"suzhou\",\"AQI\":\"78\",\"quality\":\"良\",\"date\":\"2014-05-04\"}}}]}";
+		List<OutdoorAQI> aqis = DataParser.parseUSEmbassyHistoricalAQIData(data, "suzhou");
+		assertNull(aqis);
+	}
+	
+	public void testParseUSEmbassyHistoricalAQIData_validJson() {
+		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"error_code\":0,\"result\":[{\"citynow\":{\"city\":\"suzhou\",\"AQI\":\"77\",\"quality\":\"良\",\"date\":\"2014-05-09 14:00\"},\"lastTwoWeeks\":{\"1\":{\"city\":\"suzhou\",\"AQI\":\"100\",\"quality\":\"良\",\"date\":\"2014-05-08\"},\"2\":{\"city\":\"suzhou\",\"AQI\":\"99\",\"quality\":\"良\",\"date\":\"2014-05-07\"},\"3\":{\"city\":\"suzhou\",\"AQI\":\"77\",\"quality\":\"良\",\"date\":\"2014-05-06\"},\"4\":{\"city\":\"suzhou\",\"AQI\":\"75\",\"quality\":\"良\",\"date\":\"2014-05-05\"},\"5\":{\"city\":\"suzhou\",\"AQI\":\"78\",\"quality\":\"良\",\"date\":\"2014-05-04\"}}}]}";
+		List<OutdoorAQI> aqis = DataParser.parseUSEmbassyHistoricalAQIData(data, "suzhou");
+		assertNotNull(aqis);
+	}
 }
