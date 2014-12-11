@@ -193,8 +193,8 @@ public class PurifierDatabase {
 			values.put(AppConstants.KEY_LATITUDE, purifier.getLatitude());
 			values.put(AppConstants.KEY_LONGITUDE, purifier.getLongitude());
 			values.put(AppConstants.KEY_AIRPUR_IS_PAIRED, purifier.getPairedStatus().ordinal());
-			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED || purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED)
-			{
+			if(purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.NOT_PAIRED 
+					|| purifier.getPairedStatus()==PurAirDevice.PAIRED_STATUS.UNPAIRED) {
 				values.put(AppConstants.KEY_AIRPUR_LAST_PAIRED, -1);
 			}
 			
@@ -352,6 +352,34 @@ public class PurifierDatabase {
 			}
 		} catch (Exception e) {
 			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		}
+
+	}
+	
+	//Test
+	public void getProviderDetail() {
+		Cursor cursor = null;
+		try {
+			db = dbHelper.getReadableDatabase();
+			cursor = db.query(AppConstants.TABLE_USER_SELECTED_CITY, null,
+					null, null, null, null, null);
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				do {
+					String id = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_ID));
+					String fk = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+					String provider = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_DATA_PROVIDER));
+					System.out.println("manzer: id: " + id +"; fk:" + fk+"; provider:" + provider);
+				} while (cursor.moveToNext());
+
+			} else {
+				ALog.i(ALog.DATABASE,"Empty device table");
+			}
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
+		} finally {
+			closeCursor(cursor);
+			closeDb();
 		}
 
 	}
