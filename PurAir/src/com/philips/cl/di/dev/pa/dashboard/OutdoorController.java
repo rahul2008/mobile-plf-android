@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.database.Cursor;
 import android.location.Location;
@@ -228,6 +227,8 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		areaIdReceived();//Listen to outdoor location fragment
 		
 		addMyLocationToMap(areaId);
+		//For download outdoor AQI and weather detail, resetting lastUpdatedTime to zero
+		OutdoorManager.getInstance().resetUpdatedTime();
 		OutdoorManager.getInstance().startCitiesTask();
 	}
 

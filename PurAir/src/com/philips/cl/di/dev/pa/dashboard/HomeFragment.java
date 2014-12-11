@@ -61,7 +61,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		NetworkReceiver.getInstance().addNetworkStateListener(this);
 		
 		((MainActivity) getActivity()).setActionBar(this);
-		OutdoorController.getInstance().setOutdoorEventListener(OutdoorManager.getInstance());
 		if (indoorViewPager != null) {
 			int currentPage = indoorViewPager.getCurrentItem();
 			
@@ -78,7 +77,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		super.onPause();
 		DrawerAdapter.getInstance().removeDrawerListener(this);
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
+	}
+	@Override
+	public void onDestroy() {
 		OutdoorController.getInstance().removeOutdoorEventListener(OutdoorManager.getInstance());
+		super.onDestroy();
 	}
 	
 	@Override
@@ -94,6 +97,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initDashboardViewPager();
+		OutdoorController.getInstance().setOutdoorEventListener(OutdoorManager.getInstance());
 		OutdoorManager.getInstance().setUIChangeListener(this);
 		OutdoorManager.getInstance().startCitiesTask();
 		
@@ -114,7 +118,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
 		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
 		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
-//		indoorViewPager.setOnPageChangeListener(this);
 		Bundle bundle = getArguments();
 		GPSLocation.getInstance().requestGPSLocation();
 		if (bundle != null) {
@@ -193,19 +196,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		indicator.setViewPager(outdoorViewPager);
 		indicator.setSnap(true);
 		setViewPagerIndicatorSetting(indicator, View.VISIBLE);
-		
-		/*
-		CirclePageIndicator indicator = (CirclePageIndicator)getView().findViewById(R.id.indicator);
-		indicator.setViewPager(outdoorViewPager);
-		indicator.setSnap(true);
-
-		final float density = getResources().getDisplayMetrics().density;
-		indicator.setPageColor(0xFF5D6577);
-		indicator.setFillColor(0xFFB9BBC7);   
-		indicator.setStrokeWidth(0.1f*density);
-		indicator.setClickable(false);
-		indicator.setVisibility(View.VISIBLE);
-		*/
 	}
 	
 	private void setViewPagerIndicatorSetting(CirclePageIndicator indicator, int visibility) {
@@ -227,14 +217,14 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			@Override
 			public void run() {
 				try {
-						
+
 					int size = 1;
 					if( OutdoorManager.getInstance().getUsersCitiesList() != null ) {
 						size = OutdoorManager.getInstance().getUsersCitiesList().size() ;
 					}
 					outdoorPagerAdapter.mCount(size) ;
 					outdoorPagerAdapter.notifyDataSetChanged() ;
-					
+
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.ACTIVITY, "Error: " + e.getMessage());
 				}

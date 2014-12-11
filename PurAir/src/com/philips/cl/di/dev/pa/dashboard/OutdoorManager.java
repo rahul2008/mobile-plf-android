@@ -43,9 +43,11 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	public void startAllCitiesTask() {
 		OutdoorController.getInstance().startAllCitiesAQITask();
+		
 	}
 
 	public synchronized void startCitiesTask() {
+		if (userCitiesList.isEmpty()) return;
 		boolean isUpdated = false;
 		if (lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
 			isUpdated = true;
@@ -71,6 +73,8 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	private OutdoorManager() {
+		
+		OutdoorController.getInstance().setOutdoorEventListener(this);
 
 		insertDataAndGetShortListCities();
 
@@ -108,7 +112,6 @@ public class OutdoorManager implements OutdoorEventListener {
 	public void fetchSelectedCityInfo(){
 		OutdoorLocationDatabase database = new OutdoorLocationDatabase();
 		Cursor cursor = null;
-
 		try {
 			database.open();
 			cursor = database.getDataFromOutdoorLoacation(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS);
@@ -122,7 +125,6 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	private void processDataBaseInfo(Cursor cursor) {
-
 		if (cursor != null && cursor.getCount() > 0) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
 			cursor.moveToFirst();
@@ -131,10 +133,12 @@ public class OutdoorManager implements OutdoorEventListener {
 				addAreaIDToUsersList(info.getAreaID());
 				addCityDataToMap(info, null, null, info.getAreaID());
 			} while (cursor.moveToNext());
-			// Current city information does not contain in cursor, that why adding current city info.
-			addCurrentCityInfo();
-			startCitiesTask();
-		}
+		} 
+		
+		// Added outside if condition, some time user may delete all outdoor city except current city
+		// Current city information does not contain in cursor, that why adding current city info.
+		addCurrentCityInfo();
+		startCitiesTask();
 	}
 	
 	public void addCurrentCityInfo() {
@@ -227,8 +231,6 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	public synchronized void addAreaIDToUsersList(String areaID) {
 		if (!userCitiesList.contains(areaID)) {
-			ALog.i(ALog.OUTDOOR_LOCATION,
-					"OutdoorManager$addToUserCitiesList areaID " + areaID);
 			// Add current location first position in the list
 			if (LocationUtils.getCurrentLocationAreaId().equals(areaID) && LocationUtils.isCurrentLocationEnabled()) {
 				userCitiesList.add(0, areaID);

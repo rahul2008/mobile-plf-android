@@ -130,8 +130,9 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	}
 	
 	private void addAreaIdToCityList(Cursor cursor) {
+		//Added out side some time cursor does not have data
+		OutdoorManager.getInstance().clearCitiesList();
 		if (cursor.getCount() > 0) {
-			OutdoorManager.getInstance().clearCitiesList();
 			cursor.moveToFirst();
 			do {
 				OutdoorManager.getInstance().addAreaIDToUsersList(
@@ -143,7 +144,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		if (LocationUtils.isCurrentLocationEnabled()
 				&& !LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
-		}
+		} 
 	}
 	
 	private void fillListViewFromDatabase(Cursor cursor) {
@@ -269,9 +270,10 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (buttonView.getId() == R.id.btn_current_location) {
 			LocationUtils.saveCurrentLocationEnabled(isChecked);
-			
 			//Update outdoor location info list;
 			if (isChecked) {
+				//For download outdoor AQI and weather detail, resetting lastUpdatedTime to zero
+				OutdoorManager.getInstance().resetUpdatedTime();
 				OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 			} else {
 				addAreaIdToCityList(selectedCursor);
