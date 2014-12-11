@@ -44,8 +44,6 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
-import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
@@ -98,7 +96,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private HashMap<Integer, Float> dailyAqiValueMap;
 	private HashMap<Integer, Integer> dailyAqiValueCounterMap;
-	private OutdoorDataProvider outdoorDetailProvider = OutdoorDataProvider.CMA;
 
 	@SuppressLint("SimpleDateFormat")
 	@Override
@@ -619,29 +616,15 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 	
 	public void startCityAQIHistoryTask(String areaID) {
-		
-		if (outdoorDetailProvider == OutdoorDataProvider.US_EMBASSY) {
-			startCityAQIHistoryTaskUSEmbassy("shanghai");
-			return;
-		}
-		
 		long daysInMillisecs = 1000 * 60 * 60 * 24 * 30l; // 30 Days
 		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
+		
 		long timeInMili = Utils.getCurrentChineseDate().getTime();
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(new CMAHelper(Utils.getCMA_AppID(),Utils.getCMA_PrivateKey()).getURL(
 				OutdoorController.BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, 
 				Utils.getDate((timeInMili - daysInMillisecs)) + "," 
 				+ Utils.getDate(timeInMili)), 
 				areaID, PurAirApplication.getAppContext(), this);
-		aqiHistoricTask.start();
-	}
-	
-	public void startCityAQIHistoryTaskUSEmbassy(String city) {
-		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
-		
-		String url = "http://222.73.255.34/?city=" + city;
-		
-		TaskGetHttp aqiHistoricTask = new TaskGetHttp(url, city, OutdoorDetailsActivity.this, this);
 		aqiHistoricTask.start();
 	}
 	
@@ -685,11 +668,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	public void receiveServerResponse(int responseCode, String responseData, String areaID) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
 		if (responseCode == 200) {
-			if (outdoorDetailProvider == OutdoorDataProvider.US_EMBASSY) {
-				outdoorAQIs = DataParser.parseUSEmbassyHistoricalAQIData(responseData, areaID);
-			} else {
-				outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
-			}
+			outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
 			if (outdoorAQIs != null && !outdoorAQIs.isEmpty()) {
 				addAQIHistoricData();
 			}
