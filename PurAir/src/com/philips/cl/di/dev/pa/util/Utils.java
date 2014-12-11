@@ -93,6 +93,8 @@ public class Utils {
 			Date prevDate = sf.parse(date0);
 			timeDiff = lastDate.getTime() - prevDate.getTime();
 			noOfDays = (int) (timeDiff / dayInMillisecs);
+			//			ALog.i(ALog.INDOOR_RDCP, 
+			//					"Download data date: " + date + " - 28 day ago date: " + date0 +" = " + noOfDays);
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + "Error: " + e.getMessage());
 			return noOfDays;
@@ -116,6 +118,9 @@ public class Utils {
 			}
 
 			noOfHrs = (int) (timeDiff / hourInMilliSecs);
+			//			ALog.i(ALog.INDOOR_RDCP, 
+			//					"Download data date: " + date + " - 24 hr ago date: " + date0 +" = " + noOfHrs);
+
 		} catch (ParseException e) {
 			ALog.i(ALog.INDOOR_RDCP, "Date ParseException " + "Error: " + e.getMessage());
 			return -2;
