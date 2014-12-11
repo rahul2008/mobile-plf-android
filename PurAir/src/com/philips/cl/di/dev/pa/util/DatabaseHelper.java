@@ -78,10 +78,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ AppConstants.KEY_SHORTLIST + " NUMERIC" 
 				+ ")";
 		
+		String createCityProviderTableSQL = getUserSelectedCityQuery();
+		
 		db.execSQL(createTableAirPurifierEvent) ;
 		db.execSQL(createDeviceInfo);
 		db.execSQL(createCityDetailsTableSQL);
-
+		db.execSQL(createCityProviderTableSQL);
+	}
+	
+	private String getUserSelectedCityQuery() {
+		String query = "CREATE TABLE  IF NOT EXISTS " + AppConstants.TABLE_USER_SELECTED_CITY + " ("
+				+ AppConstants.KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ AppConstants.KEY_AREA_ID + " TEXT,"
+				+ AppConstants.KEY_DATA_PROVIDER + " NUMERIC" 
+				+ ")";
+		return query;
 	}
 
 	/*
@@ -120,6 +131,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		try {
+			db.execSQL(getUserSelectedCityQuery());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

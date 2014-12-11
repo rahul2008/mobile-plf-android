@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 
 import com.philips.cl.di.dev.pa.activity.MainActivity;
@@ -26,10 +27,10 @@ public class AppConstants {
 
 	/** CONSTANTS NECESSARY FOR THE DATABASE */
 	public static final String PURIFIERDB_NAME = "smart_air.db";
-	public static final int PURIFIERDB_VERSION = 9;
+	public static final int PURIFIERDB_VERSION = 10;
 	public static final String KEY_ID = "_id";
 
-	// City table
+	// City detail table
 	public static final String TABLE_CITYDETAILS = "CityDetails";
 	public static final String KEY_AREA_ID = "AREA_ID";
 	public static final String KEY_CITY = "CITY";
@@ -42,10 +43,13 @@ public class AppConstants {
 	public static final String KEY_SHORTLIST = "SHORTLIST";
 	public static final String KEY_LONGITUDE = "LONGITUDE";
 	public static final String KEY_LATITUDE = "LATITUDE";
+	
+	//City data provider table
+	public static final String TABLE_USER_SELECTED_CITY = "UserSelectedCity";
+	public static final String KEY_DATA_PROVIDER = "DATA_PROVIDER";// 0 CMA and 1 US Embassy
  	
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS = AppConstants.KEY_SHORTLIST + " = '1' ";
 	public static final String SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED = AppConstants.KEY_SHORTLIST + " != '1' ";
-	
 	
 	// AirPurifier event table
 	public static final String TABLE_AIRPURIFIER_EVENT = "AirPurifierEvent";
@@ -255,8 +259,18 @@ public class AppConstants {
 	public static final int TERMS_AND_CONDITIONS_SCREEN=3;
 	
 	public static final int NUM_OFF_POINTS = 24;
-	public static  final String SHANGHAI_AREA_ID = "101020100";
-	public static  final String BEIJING_AREA_ID = "101010100";
+	public static final String SHANGHAI_AREA_ID = "101020100";
+	public static final String BEIJING_AREA_ID = "101010100";
+	
+	public static final String WECHAT_PAKAGE = "com.tencent.mm";
+	public static final String WEIBO_PAKAGE = "com.sina.weibo";
+	public static final String EMAIL_PAKAGE = "com.android.email";
+	public static final String MMS_PAKAGE = "com.android.mms";
+	public static final String FACEBOOK_PAKAGE = "com.facebook.android";
+	public static final String TWITTER_PAKAGE = "com.twitter.android";
+	
+	public static final String[] USEMBASSY_CITIES = {"Shanghai", "Beijing", "Guangzhou", "Chongqing"};
+	@SuppressLint("SimpleDateFormat")
 	public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
 }
