@@ -80,9 +80,9 @@ public class OutdoorLocationDatabase {
     		String outdoorLocation = "";
             StringTokenizer stringTokenizer = null;
             
+            //CMA
     		OutdoorManager.getInstance().addAreaIDToUsersList("101010100");
     		OutdoorManager.getInstance().addCityDataToMap(null, null, null, "101010100");
-    		
     		
     		if (mOutdoorLocationDatabase == null) return;//Due to synchronized DB open null
     		
@@ -94,7 +94,7 @@ public class OutdoorLocationDatabase {
 	            	
 	                ContentValues values = new ContentValues();
 	                values.put(AppConstants.KEY_CITY, stringTokenizer.nextToken());
-
+	                
 	                String areaID = stringTokenizer.nextToken();
 	        		values.put(AppConstants.KEY_AREA_ID, areaID);
 	        		values.put(AppConstants.KEY_LONGITUDE, stringTokenizer.nextToken());
@@ -102,10 +102,13 @@ public class OutdoorLocationDatabase {
 	        		values.put(AppConstants.KEY_CITY_CN, stringTokenizer.nextToken());
 	        		values.put(AppConstants.KEY_CITY_TW, stringTokenizer.nextToken());
 
-	        		values.put(AppConstants.KEY_SHORTLIST,
-	        				OutdoorManager.getInstance().getUsersCitiesList().contains(areaID) ? 1 : 0);
-	        		mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
-	            }
+	        		int state = OutdoorManager.getInstance().getUsersCitiesList().contains(areaID) ? 1 : 0;
+	        		values.put(AppConstants.KEY_SHORTLIST, state);
+	        		long rowId = mOutdoorLocationDatabase.insert(AppConstants.TABLE_CITYDETAILS, null, values);
+	        		if (rowId != -1 && state == 1) {
+	        			insertCityProviderDataIntoTable(mOutdoorLocationDatabase, areaID, OutdoorDataProvider.CMA.ordinal());
+	        		}
+	        	}
 	            
 	            mOutdoorLocationDatabase.setTransactionSuccessful();
 	        } catch (IOException e) {
@@ -119,6 +122,23 @@ public class OutdoorLocationDatabase {
 	        	mOutdoorLocationDatabase.endTransaction();
 	        }
         }
+	}
+	
+	/*
+	private boolean isOutdoorDetailProviderUSEmbassy(String city) {
+		List<String> usEmbassyCitiesList = Arrays.asList(AppConstants.USEMBASSY_CITIES);
+		if (usEmbassyCitiesList.contains(city)) return true;
+		return false;
+	}
+	*/
+	
+	private void insertCityProviderDataIntoTable(SQLiteDatabase sqLiteDatabase,
+			String areaID,  int provider) {
+		if (sqLiteDatabase == null) return;
+		ContentValues values = new ContentValues();
+		values.put(AppConstants.KEY_DATA_PROVIDER, provider);
+		values.put(AppConstants.KEY_AREA_ID, areaID);
+		sqLiteDatabase.insert(AppConstants.TABLE_USER_SELECTED_CITY, null, values);
 	}
 	/**
 	 * Get outdoor locations that matches the filter
@@ -139,6 +159,23 @@ public class OutdoorLocationDatabase {
 				cursor = mOutdoorLocationDatabase.query(true, AppConstants.TABLE_CITYDETAILS, mTableColumns, 
 						filterText, null, null, null, AppConstants.KEY_CITY + " ASC", null);
 			}
+			if (cursor != null) {
+				cursor.moveToFirst();
+			}
+		} catch (SQLiteConstraintException e) {
+			e.printStackTrace();
+		} catch (SQLiteException e) {
+			e.printStackTrace();
+		}
+		return cursor;
+	}
+	
+	public synchronized Cursor getUserSelectedCityData() {
+		if (mOutdoorLocationDatabase == null) return null; //Due to synchronized DB open null
+		Cursor cursor = null;
+		try {
+			cursor = mOutdoorLocationDatabase.query(AppConstants.TABLE_USER_SELECTED_CITY, null, 
+					null, null, null, null, null);
 			if (cursor != null) {
 				cursor.moveToFirst();
 			}
@@ -204,7 +241,39 @@ public class OutdoorLocationDatabase {
 			Log.e(ALog.DATABASE, "CityDetails database not yet filled " + e);
 			return false;
 		}
+		addOldDataToUserTable();
 		return true;
+	}
+	
+	private void addOldDataToUserTable() {
+		if (isUserSelectedTableEmpty()) {
+			try {
+				String selction = AppConstants.KEY_SHORTLIST + " = '1'";
+				Cursor cursor = getDataFromOutdoorLoacation(selction);
+				if (cursor != null && cursor.getCount() > 0) {
+					do {
+						String areaId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
+						insertCityProviderDataIntoTable(mOutdoorLocationDatabase, areaId, OutdoorDataProvider.CMA.ordinal());
+					} while(cursor.moveToNext());
+				}
+			} catch (SQLiteException e) {
+				e.printStackTrace();
+			} 
+		}
+	}
+	
+	private boolean isUserSelectedTableEmpty() {
+		if (mOutdoorLocationDatabase == null) return true;//Due to synchronized DB open null
+		try {
+			Cursor cursor = mOutdoorLocationDatabase.query(
+					AppConstants.TABLE_USER_SELECTED_CITY, null,null, null, null, null, null);
+			if (cursor == null || cursor.getCount() < 1) return true;
+			cursor.moveToFirst();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return true;
+		}
+		return false;
 	}
 	
 	/**
