@@ -37,6 +37,7 @@ import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
 /***
@@ -328,8 +329,7 @@ public class DataParser {
 				int no2 = cityData.optInt("p5");
 				String timeStamp = cityData.optString("updatetime");
 				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-
-				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
+				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp, OutdoorDataProvider.CMA.ordinal()));
 			}
 
 			return aqis;
@@ -360,9 +360,7 @@ public class DataParser {
 				int pm10 = 	cityData.optInt("p3");
 				int so2 = cityData.optInt("p4");
 				int no2 = cityData.optInt("p5");
-
-				outdoorAQIList.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, ""));
-
+				outdoorAQIList.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, "", OutdoorDataProvider.CMA.ordinal()));
 			}
 			return outdoorAQIList;
 		} catch (JSONException e) {
@@ -555,8 +553,7 @@ public class DataParser {
 				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
 				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
 				String timeStamp = historicalAQIs.getJSONObject(i).optString("updatetime");
-
-				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
+				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp, OutdoorDataProvider.CMA.ordinal()));
 			}
 			return outdoorAQIs;
 
@@ -614,9 +611,7 @@ public class DataParser {
 			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-
-			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName, timeStamp));			
-
+			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName.toLowerCase(), timeStamp, OutdoorDataProvider.US_EMBASSY.ordinal()));
 			return aqis;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseUSEmbassyLocationAQI");
@@ -666,7 +661,7 @@ public class DataParser {
 		if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 		System.out.println("quality: " + quality);
-		return new OutdoorAQI(0, aqi, 0, 0, 0, city, timeStamp);
+		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp, OutdoorDataProvider.US_EMBASSY.ordinal());
 	}
 
 	private static String getTimeStampWithTime(String timeStamp) {
