@@ -21,7 +21,6 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
@@ -37,6 +36,7 @@ import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
 import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
@@ -648,7 +648,24 @@ public class DataParser {
 
 		return null;
 	}
-
+	
+	public static CMACityData parseCMACityData(String data) {
+		if (data == null || data.isEmpty()) {
+			return null;
+		}
+		Gson gson = new GsonBuilder().create() ;
+		CMACityData cmaCityData = null;
+		try {
+			cmaCityData = gson.fromJson(data, CMACityData.class) ;
+		} catch (JsonSyntaxException e) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+		}
+		return cmaCityData;
+	}
 
 	private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {
 		String regex = "[-: ]";
