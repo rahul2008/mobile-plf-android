@@ -80,7 +80,7 @@ public class UserRegistrationController implements NetworkStateListener {
 
 	@Override
 	public void onConnected(String ssid) {
-		if (!isJRInitilised) {
+		if (!isJRInitilised && !isUserLoggedIn()) {
 			JanrainConfigurationSettings config = new JanrainConfigurationSettings();
 			config.init(PurAirApplication.getAppContext(),
 					CAPTURE_CLIENT_ID_PROD, MICRO_SITE_ID,
