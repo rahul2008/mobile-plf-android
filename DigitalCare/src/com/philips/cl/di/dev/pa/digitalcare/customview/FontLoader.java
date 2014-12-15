@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import android.graphics.Typeface;
-import android.os.Build;
 import android.widget.TextView;
 
 /*
@@ -51,15 +50,15 @@ public class FontLoader {
 		}
 	}
 	
-	private String getDeviceName() {
-		  String manufacturer = Build.MANUFACTURER;
-		  String model = Build.MODEL;
-
-		  if (model.startsWith(manufacturer)) {
-		    return model;
-		  } else {
-		    return manufacturer + " " + model;
-		  }
-		}
+//	private String getDeviceName() {
+//		  String manufacturer = Build.MANUFACTURER;
+//		  String model = Build.MODEL;
+//
+//		  if (model.startsWith(manufacturer)) {
+//		    return model;
+//		  } else {
+//		    return manufacturer + " " + model;
+//		  }
+//		}
 
 }

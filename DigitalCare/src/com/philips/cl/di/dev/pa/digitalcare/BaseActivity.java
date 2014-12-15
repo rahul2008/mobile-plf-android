@@ -9,7 +9,6 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ProductRegistrationFragment;
-import com.philips.cl.di.dev.pa.digitalcare.fragment.SupportHomeFragment;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;

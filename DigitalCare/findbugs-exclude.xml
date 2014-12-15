@@ -1,0 +1,75 @@
+<FindBugsFilter>
+
+    <Match>
+
+        <Class name="~.*\.R\$.*" />
+
+        <Bug pattern="NM_CLASS_NAMING_CONVENTION" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.app" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.content" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.util" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.view" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v4.widget" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.app" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.appcompat" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.internal.view.menu" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.internal.widget" />
+    </Match>
+
+    <Match>
+
+        <Package name="android.support.v7.widget" />
+    </Match>
+
+    <Match>
+
+        <Package name="net.hockeyapp.android" />
+    </Match>
+
+    <Match>
+
+        <Package name="net.hockeyapp.android.d" />
+    </Match>
+
+    <Match>
+
+        <Package name="net.hockeyapp.android.views" />
+    </Match>
+
+</FindBugsFilter>

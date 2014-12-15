@@ -1,12 +1,5 @@
 package com.philips.cl.di.dev.pa.digitalcare.util;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
-
-import android.os.Environment;
 import android.util.Log;
 
 /**
@@ -27,9 +20,9 @@ public class ALog {
 
 	private static boolean isLoggingEnabled = true;
 
-	private static boolean isSaveToFileEnabled = false;
+//	private static boolean isSaveToFileEnabled = false;
 
-	public static void initLoggingToFile() {
+/*	public static void initLoggingToFile() {
 		if (!isSaveToFileEnabled)
 			return;
 		try {
@@ -37,7 +30,7 @@ public class ALog {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 
 	public static void enableLogging() {
 		isLoggingEnabled = true;
@@ -54,39 +47,39 @@ public class ALog {
 	public static void d(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.d(tag, message);
-			writeToFile(tag + " : " + message);
+		//	writeToFile(tag + " : " + message);
 		}
 	}
 
 	public static void e(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.e(tag, message);
-			writeToFile(tag + " : " + message);
+			//writeToFile(tag + " : " + message);
 		}
 	}
 
 	public static void i(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.i(tag, message);
-			writeToFile(tag + " : " + message);
+			//writeToFile(tag + " : " + message);
 		}
 	}
 
 	public static void v(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.v(tag, message);
-			writeToFile(tag + " : " + message);
+		//	writeToFile(tag + " : " + message);
 		}
 	}
 
 	public static void w(String tag, String message) {
 		if (isLoggingEnabled) {
 			Log.w(tag, message);
-			writeToFile(tag + " : " + message);
+			//writeToFile(tag + " : " + message);
 		}
 	}
 
-	public static BufferedWriter out;
+/*	public static BufferedWriter out;
 
 	private static void createFileOnDevice(Boolean append) throws IOException {
 		if (!isSaveToFileEnabled)
@@ -105,8 +98,8 @@ public class ALog {
 					+ String.valueOf(date.getHours() + ":" + date.getMinutes()
 							+ ":" + date.getSeconds() + "\n"));
 		}
-	}
-
+	}*/
+/*
 	private static boolean isExternalStorageWritable() {
 		if (!isSaveToFileEnabled)
 			return false;
@@ -115,8 +108,8 @@ public class ALog {
 			return true;
 		}
 		return false;
-	}
-
+	}*/
+/*
 	private static void writeToFile(String message) {
 		if (!isSaveToFileEnabled)
 			return;
@@ -138,5 +131,5 @@ public class ALog {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
+	}*/
 }

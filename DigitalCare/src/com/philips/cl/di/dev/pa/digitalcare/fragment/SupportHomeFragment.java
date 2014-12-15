@@ -14,6 +14,7 @@ import com.philips.cl.di.dev.pa.digitalcare.ConfigurationManager;
 import com.philips.cl.di.dev.pa.digitalcare.DigitalCareApplication;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
 
@@ -53,6 +54,7 @@ public class SupportHomeFragment extends BaseFragment {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
 		mAppObserver.addObserver((Observer) getActivity());
+		ALog.i(TAG, "onCreateView");
 		return view;
 	}
 
