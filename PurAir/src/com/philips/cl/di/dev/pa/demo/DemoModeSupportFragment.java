@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class DemoModeSupportFragment extends Fragment {
@@ -34,7 +36,7 @@ public class DemoModeSupportFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		MetricsTracker.trackPage(TrackPageConstants.DEMO_SUPPORT);
 		DemoModeActivity demoActivity = (DemoModeActivity) getActivity();
 		
 		if (demoActivity.getApModeFailCounter() > 2 
@@ -60,11 +62,15 @@ public class DemoModeSupportFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.contact_support_phone_layout:
+				MetricsTracker.trackActionServiceRequest("phone");
+				MetricsTracker.trackActionExitLink("phone_activity : " + getString(R.string.contact_philips_support_phone_num));
 				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_email_layout:
+				MetricsTracker.trackActionServiceRequest("email");
+				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_email));
 				Intent supportEmailIntent = new Intent(
 						Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contact_philips_support_email), null));
 				supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
@@ -72,6 +78,8 @@ public class DemoModeSupportFragment extends Fragment {
 				startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_website_layout:
+				MetricsTracker.trackActionServiceRequest("web");
+				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_website));
 				Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
 				gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
 				startActivity(gotoSupportWebisteIntent);

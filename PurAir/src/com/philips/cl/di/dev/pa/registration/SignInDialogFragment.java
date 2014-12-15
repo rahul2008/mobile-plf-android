@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.registration.CreateAccountFragment.ErrorType;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
 import com.philips.cl.di.reg.errormapping.Error;
@@ -88,7 +89,7 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 			title.setText(R.string.sign_in_to_twitter);
 			break;
 		}
-
+		MetricsTracker.trackPageUserLoginChannel(dialog.toString().toLowerCase());
 		final EditText etEmail = (EditText) view.findViewById(R.id.etEmailAddress);
 		final EditText etPassword = (EditText) view.findViewById(R.id.etPassword);
 		
@@ -181,9 +182,11 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 			}
 			break;
 		case EMAIL:
+			MetricsTracker.trackPageUserError("UserRegistration", "Error : Invalid email");
 			showErrorDialog(Error.INVALID_EMAILID) ;
 			break ;
 		case PASSWORD:
+			MetricsTracker.trackPageUserError("UserRegistration", "Error : Invalid password");
 			showErrorDialog(Error.INVALID_PASSWORD) ;
 			break ;
 		default:

@@ -15,14 +15,14 @@ public class UserRegistrationController implements NetworkStateListener {
 	// private static final String CAPTURE_CLIENT_ID_EVAL =
 	// "yakfnsg2hph355fhga2mcac5ywn6fgzt";
 	private static final String CAPTURE_CLIENT_ID_PROD = "ypzud56u92tqa7xhfqry6np9f5zpr3bu";
-	private static final String CAPTURE_CLIENT_ID_DEV = "4gc24tp5rr84ftrfu3nn4hnrkwuyqxyp";
+//	private static final String CAPTURE_CLIENT_ID_DEV = "4gc24tp5rr84ftrfu3nn4hnrkwuyqxyp";
 
 	private static final String MICRO_SITE_ID = "81374";
 
 	// private static final String REGISTRATION_TYPE_EVAL =
 	// "REGISTRATION_USE_EVAL";
 	private static final String REGISTRATION_TYPE_PROD = "REGISTRATION_USE_PRODUCTION";
-	private static final String REGISTRATION_TYPE_DEV = "REGISTRATION_USE_DEVICE";
+//	private static final String REGISTRATION_TYPE_DEV = "REGISTRATION_USE_DEVICE";
 
 	private UserRegistrationController() {
 		// ALog.i(ALog.USER_REGISTRATION,
@@ -40,8 +40,7 @@ public class UserRegistrationController implements NetworkStateListener {
 
 	public boolean isUserLoggedIn() {
 		User user = new User(PurAirApplication.getAppContext());
-		DIUserProfile profile = user.getUserInstance(PurAirApplication
-				.getAppContext());
+		DIUserProfile profile = user.getUserInstance(PurAirApplication.getAppContext());
 
 		return (null != profile);
 	}

@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class EWSStartFragment extends Fragment {
 
@@ -24,7 +25,7 @@ public class EWSStartFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		MetricsTracker.trackActionEWSStart();
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_START);
 
 		Button startEwsBtn = (Button) getView().findViewById(

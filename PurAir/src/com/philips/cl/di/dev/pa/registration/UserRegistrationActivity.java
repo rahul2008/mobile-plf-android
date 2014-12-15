@@ -25,6 +25,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager.EWS_STATE;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver.ConnectionState;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -190,6 +191,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 	@Override
 	public void onRegisterSuccess() {
 		ALog.i(ALog.USER_REGISTRATION, "onRegisterSuccess");
+		MetricsTracker.trackPageFinishedUserRegistration();
 		cancelProgressDialog();
 		showFragment(new SignedInFragment());
 	}
@@ -198,6 +200,7 @@ public class UserRegistrationActivity extends BaseActivity implements
 	public void onRegisterFailedWithFailure(int error) {
 		ALog.i(ALog.USER_REGISTRATION, "onRegisterFailedWithFailure error "	+ new ErrorMessage().getError(error));
 		cancelProgressDialog();
+		MetricsTracker.trackPageTechnicalError("UserRegistration", "Error : " + new ErrorMessage().getError(error));
 		showErrorDialog(UserRegistrationController.getInstance().getErrorEnum(error));
 	}
 

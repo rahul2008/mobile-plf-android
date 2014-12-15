@@ -47,7 +47,7 @@ public class SetupDialogFragment extends DialogFragment {
 	@Override
 	public void onActivityCreated(Bundle arg0) {
 		super.onActivityCreated(arg0);
-
+		
 		if (getActivity() == null) {
 			return;
 		}

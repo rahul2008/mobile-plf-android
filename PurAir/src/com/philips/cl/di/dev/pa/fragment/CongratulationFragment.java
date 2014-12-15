@@ -17,6 +17,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class CongratulationFragment extends BaseFragment {
@@ -31,6 +33,7 @@ public class CongratulationFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.EWS_NEW_PURIFIER_ADDED);
 		Button startControlPurifierBtn = (Button) getView().findViewById(R.id.finish_congratulation_btn);
 		startControlPurifierBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		startControlPurifierBtn.setOnClickListener(new OnClickListener() {

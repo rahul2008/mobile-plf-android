@@ -52,8 +52,10 @@ import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.GraphView;
@@ -464,10 +466,13 @@ public class OutdoorDetailsActivity extends BaseActivity
 //		heading.setTextSize(24);
 		heading.setText(getIntent().getStringExtra(AppConstants.OUTDOOR_CITY_NAME));
 	}
-
-	/**
-	 * onClick
-	 * */
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS);
+	}
+	
 	@Override
 	public void onClick(View v) {
 
@@ -476,22 +481,21 @@ public class OutdoorDetailsActivity extends BaseActivity
 				Intent gaodeMapIntent = new Intent(OutdoorDetailsActivity.this, MarkerActivity.class);
 				startActivity(gaodeMapIntent);
 				break;
-			case R.id.detailsOutdoorLastDayLabel: {
+			case R.id.detailsOutdoorLastDayLabel:
+				MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS + "LastDay");
 				setViewlastDayAQIReadings();
 				break;
-			}
-			case R.id.detailsOutdoorLastWeekLabel: {
+			case R.id.detailsOutdoorLastWeekLabel: 
+				MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS + "LastWeek");
 				setViewlast7DayAQIReadings();
 				break;
-			}
-			case R.id.detailsOutdoorLastFourWeekLabel: {
+			case R.id.detailsOutdoorLastFourWeekLabel: 
+				MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS + "LastFourWeeks");
 				setViewlast4WeeksAQIReadings();
 				break;
-			}
-			case R.id.back_to_home_img: {
+			case R.id.back_to_home_img: 
 				finish();
 				break;
-			}
 			default:
 				break;
 		}

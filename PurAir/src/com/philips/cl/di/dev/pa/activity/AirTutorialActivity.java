@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class AirTutorialActivity extends BaseActivity implements OnClickListener {
 	
@@ -57,6 +59,12 @@ public class AirTutorialActivity extends BaseActivity implements OnClickListener
     	params.setMargins(l, t, r, b);       
     	v.setLayoutParams(params);
     }
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.trackPage(TrackPageConstants.APP_TUTORIAL);
+	}
 
 	@Override
 	public void onClick(View v) {

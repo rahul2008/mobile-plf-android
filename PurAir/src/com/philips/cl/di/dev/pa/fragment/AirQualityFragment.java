@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.AirColorExplainedStaticActivity;
+import com.philips.cl.di.dev.pa.activity.AirQualityExplainedStaticActivity;
 import com.philips.cl.di.dev.pa.activity.IndoorAirColorIndicationActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorAirColorIndicationActivity;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class AirQualityFragment extends BaseFragment implements OnClickListener {
 	public static final int INDOOR_POLLUTANT_SCREEN = 11;
@@ -26,18 +28,19 @@ public class AirQualityFragment extends BaseFragment implements OnClickListener 
 		initializeView(view);
 		return view;
 	}
-
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.AIR_QUALITY_EXPLAINED);
+	}
+	
 	private void initializeView(View view) {
-		TextView lblOutdoorColorExplained = (TextView) view
-				.findViewById(R.id.lbl_outdoor_colors_explained);
-		TextView lblIndoorColorExplained = (TextView) view
-				.findViewById(R.id.lbl_indoor_colors_explained);
-		TextView lblIndoorPollutant = (TextView) view
-				.findViewById(R.id.lbl_indoor_pollutant);
-		TextView lblVistashield = (TextView) view
-				.findViewById(R.id.lbl_vistashield);
-		TextView lblGuardEnv = (TextView) view
-				.findViewById(R.id.lbl_guard_environment);
+		TextView lblOutdoorColorExplained = (TextView) view.findViewById(R.id.lbl_outdoor_colors_explained);
+		TextView lblIndoorColorExplained = (TextView) view.findViewById(R.id.lbl_indoor_colors_explained);
+		TextView lblIndoorPollutant = (TextView) view.findViewById(R.id.lbl_indoor_pollutant);
+		TextView lblVistashield = (TextView) view.findViewById(R.id.lbl_vistashield);
+		TextView lblGuardEnv = (TextView) view.findViewById(R.id.lbl_guard_environment);
 		lblOutdoorColorExplained.setOnClickListener(this);
 		lblIndoorColorExplained.setOnClickListener(this);
 		lblIndoorPollutant.setOnClickListener(this);
@@ -71,19 +74,19 @@ public class AirQualityFragment extends BaseFragment implements OnClickListener 
 			break;
 		case R.id.lbl_indoor_pollutant:
 			in = new Intent(getActivity(),
-					AirColorExplainedStaticActivity.class);
+					AirQualityExplainedStaticActivity.class);
 			in.putExtra("AIR_QUALITY_ACTIVITY", INDOOR_POLLUTANT_SCREEN);
 			startActivity(in);
 			break;
 		case R.id.lbl_vistashield:
 			in = new Intent(getActivity(),
-					AirColorExplainedStaticActivity.class);
+					AirQualityExplainedStaticActivity.class);
 			in.putExtra("AIR_QUALITY_ACTIVITY", VITASHIELD_SCREEN);
 			startActivity(in);
 			break;
 		case R.id.lbl_guard_environment:
 			in = new Intent(getActivity(),
-					AirColorExplainedStaticActivity.class);
+					AirQualityExplainedStaticActivity.class);
 			in.putExtra("AIR_QUALITY_ACTIVITY", GUARD_EVNVIRONMENT_SCREEN);
 			startActivity(in);
 			break;

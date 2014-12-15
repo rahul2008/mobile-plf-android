@@ -17,10 +17,12 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.Error;
+import com.philips.cl.di.reg.errormapping.ErrorMessage;
 
 public class CreateAccountFragment extends BaseFragment implements
 		OnClickListener {
@@ -56,6 +58,12 @@ public class CreateAccountFragment extends BaseFragment implements
 		initViews(view);
 
 		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPageStartUserRegistration("my_philips");
 	}
 
 	private void initViews(View view) {
@@ -136,7 +144,7 @@ public class CreateAccountFragment extends BaseFragment implements
 				// Store user profile in UserRegistrationActivity so it can be
 				// used when usage agreement is accepted
 				storeUserProfile();
-
+				
 				try {
 					((UserRegistrationActivity) getActivity()).createAccount();
 					((UserRegistrationActivity) getActivity())
@@ -149,15 +157,19 @@ public class CreateAccountFragment extends BaseFragment implements
 				dismissKeyBoard();
 				break;
 			case PASSWORD:
+				MetricsTracker.trackPageUserError("UserRegistration", "Error : Invalid password");
 				showErrorDialog(Error.INVALID_PASSWORD);
 				break;
 			case WHITESPACE:
+				MetricsTracker.trackPageUserError("UserRegistration", "Error : Invalid username or password");
 				showErrorDialog(Error.INVALID_USERNAME_OR_PASSWORD);
 				break;
 			case EMAIL:
+				MetricsTracker.trackPageUserError("UserRegistration", "Error : Invalid email");
 				showErrorDialog(Error.INVALID_EMAILID);
 				break;
 			case NAME:
+				MetricsTracker.trackPageUserError("UserRegistration", "Error : Invalid username");
 				showErrorDialog(Error.INVALID_USERNAME_OR_PASSWORD);
 				break;
 			default:

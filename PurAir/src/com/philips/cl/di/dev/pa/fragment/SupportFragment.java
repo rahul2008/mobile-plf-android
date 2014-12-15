@@ -11,6 +11,8 @@ import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class SupportFragment extends BaseFragment {
@@ -20,7 +22,6 @@ public class SupportFragment extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
 		buttonClickListener = new ButtonClickListener();
 	}
 	@Override
@@ -43,6 +44,8 @@ public class SupportFragment extends BaseFragment {
 				(R.id.contact_support_email_layout)).setOnClickListener(buttonClickListener);  						
 		((RelativeLayout)getView().findViewById
 				(R.id.contact_support_website_layout)).setOnClickListener(buttonClickListener); 
+		
+		MetricsTracker.trackPage(TrackPageConstants.SUPPORT);
 	}
 	
 	private class ButtonClickListener implements OnClickListener {
@@ -51,11 +54,15 @@ public class SupportFragment extends BaseFragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.contact_support_phone_layout:
+				MetricsTracker.trackActionServiceRequest("phone");
+				MetricsTracker.trackActionExitLink("phone_activity " + getString(R.string.contact_philips_support_phone_num));
 				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_email_layout:
+				MetricsTracker.trackActionServiceRequest("email");
+				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_email));
 				Intent supportEmailIntent = new Intent(
 						Intent.ACTION_SENDTO, Uri.fromParts("mailto",getString(R.string.contact_philips_support_email), null));
 				supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
@@ -63,12 +70,14 @@ public class SupportFragment extends BaseFragment {
 				startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_website_layout:
+				MetricsTracker.trackActionServiceRequest("web");
+				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_website));
 				Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
 				gotoSupportWebisteIntent.setData(Uri.parse("http://" + getString(R.string.contact_philips_support_website)));
 				startActivity(gotoSupportWebisteIntent);
 				break;
 			default:
-				ALog.i(ALog.EWS, "Default...");
+				ALog.i(ALog.FRAGMENT, "Default...");
 				break;
 			}
 		}

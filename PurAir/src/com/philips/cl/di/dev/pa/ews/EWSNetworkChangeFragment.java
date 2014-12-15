@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class EWSNetworkChangeFragment extends Fragment {
 
@@ -20,7 +22,7 @@ public class EWSNetworkChangeFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		MetricsTracker.trackPage(TrackPageConstants.EWS_NETWORK_CHANGE);
 		((EWSActivity) getActivity())
 				.setActionBarHeading(EWSConstant.EWS_STEP_CHANGE_NETWORK);
 	}

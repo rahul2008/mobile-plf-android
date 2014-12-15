@@ -39,6 +39,7 @@ import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -546,27 +547,33 @@ public class EWSActivity extends BaseActivity implements
 						getString(R.string.error_ts01_01_message), 
 						getString(R.string.next));
 			}
+			MetricsTracker.trackPageTechnicalError("EWS", "Error : Philips Setup not found");
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_RECEIVE_DATA_FROM_DEVICE:
 			if (step2FailCounter > 2) {
 				showSupportFragment();
+				MetricsTracker.trackPageTechnicalError("EWS", "Error : Unable to reveive data from purifier");
 				break;
 			}
 		case EWSListener.ERROR_CODE_COULDNOT_SEND_DATA_TO_DEVICE:
 			showErrorDialog(getString(R.string.error_ts01_04_title), 
 					getString(R.string.error_ts01_01_message), 
 					getString(R.string.error_purifier_not_detect_btn_txt));
+			MetricsTracker.trackPageTechnicalError("EWS", "Error : Unable to send data to purifier");
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_CONNECT_HOME_NETWORK:	
 			stopDiscovery();
 			showErrorSSIDFragement();
+			MetricsTracker.trackPageTechnicalError("EWS", "Error : Unable to connect to home network");
 			break;
 		case EWSListener.ERROR_CODE_COULDNOT_FIND_DEVICE:	
 			stopDiscovery();
 			showErrorDiscoveryFragement();
+			MetricsTracker.trackPageTechnicalError("EWS", "Error : Unable to find purifier");
 			break;
 		case EWSListener.ERROR_CODE_INVALID_PASSWORD:
 			Toast.makeText(this, getString(R.string.wrong_wifi_password), Toast.LENGTH_LONG).show() ;
+			MetricsTracker.trackPageUserError("EWS", "Error : Invalid WiFi password");
 			break;
 		default:
 			break;

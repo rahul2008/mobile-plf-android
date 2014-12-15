@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSSupportFragment extends Fragment {
@@ -35,7 +37,7 @@ public class EWSSupportFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		MetricsTracker.trackPage(TrackPageConstants.EWS_SUPPORT);
 		EWSActivity ewsActivity = (EWSActivity) getActivity();
 		
 		if (ewsActivity.getApModeFailCounter() > 2 
@@ -68,16 +70,22 @@ public class EWSSupportFragment extends Fragment {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.contact_support_phone:
+				MetricsTracker.trackActionServiceRequest("phone_1");
+				MetricsTracker.trackActionExitLink("phone_activity " + getString(R.string.contact_philips_support_phone_num));
 				Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 				dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 				startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_phone_two:
+				MetricsTracker.trackActionServiceRequest("phone_2");
+				MetricsTracker.trackActionExitLink("phone_activity " + getString(R.string.contact_philips_support_phone_num_2));
 				Intent callIntent = new Intent(Intent.ACTION_DIAL);
 				callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));
 				startActivity(Intent.createChooser(callIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_email_layout:
+				MetricsTracker.trackActionServiceRequest("email");
+				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_email));
 				Intent supportEmailIntent = new Intent(
 						Intent.ACTION_SENDTO, Uri.fromParts("mailto", getString(R.string.contact_philips_support_email), null));
 				supportEmailIntent.putExtra(Intent.EXTRA_SUBJECT, "Support");
@@ -85,12 +93,14 @@ public class EWSSupportFragment extends Fragment {
 				startActivity(Intent.createChooser(supportEmailIntent, "Air Purifier support"));
 				break;
 			case R.id.contact_support_website_layout:
+				MetricsTracker.trackActionServiceRequest("web");
+				MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_website));
 				Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
 				gotoSupportWebisteIntent.setData(Uri.parse("http://"+ getString(R.string.contact_philips_support_website)));
 				startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
 				break;
 			default:
-				ALog.i(ALog.EWS, "Default...");
+				ALog.i(ALog.ERROR, "Default...");
 				break;
 			}
 		}

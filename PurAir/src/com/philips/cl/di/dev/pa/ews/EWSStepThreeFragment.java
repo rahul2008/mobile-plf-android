@@ -29,6 +29,8 @@ import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.UnicodeSpecialCharacter;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -63,7 +65,7 @@ public class EWSStepThreeFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		MetricsTracker.trackPage(TrackPageConstants.EWS_CONNECT_TO_HOME_WIFI);
 		Bundle bundle = getArguments();
 		if (bundle != null) {
 			password = bundle.getString(EXTRA_PASSWORD);
@@ -273,8 +275,7 @@ public class EWSStepThreeFragment extends Fragment {
 		String gateWay = "";
 		if (routerAddStep3.getText() != null) gateWay = routerAddStep3.getText().toString();
 		
-		((EWSActivity) getActivity()).sendNetworkDetails(
-				ssid, passwordStep3.getText().toString(), ipAdd, subnetMask, gateWay);
+		((EWSActivity) getActivity()).sendNetworkDetails(ssid, passwordStep3.getText().toString(), ipAdd, subnetMask, gateWay);
 		((EWSActivity) getActivity()).setAdvSettingViewVisibility(advSettingLayoutStep3.isShown());
 	}
 

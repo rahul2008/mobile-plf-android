@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class DemoModeStepOneFragment extends Fragment {
@@ -25,7 +27,7 @@ public class DemoModeStepOneFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		MetricsTracker.trackPage(TrackPageConstants.DEMO_CONFIRM_WIFI_ON);
 		((DemoModeActivity) getActivity())
 				.setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_ONE);
 

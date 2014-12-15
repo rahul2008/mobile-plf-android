@@ -34,10 +34,10 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class SchedulerActivity extends BaseActivity implements OnClickListener,
-		OnTimeSetListener, SchedulerListener, DiscoveryEventListener {
+public class SchedulerActivity extends BaseActivity implements OnTimeSetListener, SchedulerListener, DiscoveryEventListener {
 
 	private static boolean cancelled;
 	private Button actionBarCancelBtn;
@@ -98,7 +98,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 		actionBarCancelBtn = (Button) view
 				.findViewById(R.id.scheduler_actionbar_add_btn);
 		actionBarCancelBtn.setTypeface(Fonts.getGillsansLight(this));
-		actionBarCancelBtn.setOnClickListener(this);
 		actionBarCancelBtn.setOnClickListener(onClickListener);
 
 		actionBarBackBtn = (ImageButton) view.findViewById(R.id.larrow);
@@ -438,6 +437,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 	@Override
 	protected void onResume() {
 		super.onResume();
+		MetricsTracker.trackPage("schedule");
 		DiscoveryManager.getInstance().start(this);
 		if (schedulesList == null || schedulesList.size() == 0) {
 			getSchedulesFromPurifier();
@@ -447,10 +447,6 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 			schFragment.updateList();
 		}
 		setCancelled(false);
-	}
-
-	@Override
-	public void onClick(View v) {
 	}
 
 	public List<SchedulePortInfo> getSchedulerList() {
@@ -475,6 +471,7 @@ public class SchedulerActivity extends BaseActivity implements OnClickListener,
 				public void run() {
 					cancelProgressDialog();
 					if (scheduleType == SCHEDULE_TYPE.ADD) {
+						MetricsTracker.trackActionAddSchedule();
 						showSchedulerOverviewFragment();
 					} else {
 						schFragment.updateList();

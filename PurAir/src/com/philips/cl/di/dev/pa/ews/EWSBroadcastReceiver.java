@@ -30,6 +30,7 @@ import com.philips.cl.di.dev.pa.security.KeyDecryptListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 
@@ -196,12 +197,14 @@ public class EWSBroadcastReceiver extends BroadcastReceiver
 				&& subnetMask.equals(SessionDto.getInstance().getDeviceWifiDto().getNetmask())
 				&& gateWay.equals(SessionDto.getInstance().getDeviceWifiDto().getGateway())) {
 			encryptedData = JSONBuilder.getWifiPortJson(homeSSID, password, tempEWSPurifier);
+			MetricsTracker.trackActionAdvanceNetworkConfig(false);
 		} else {
 			if (ipAdd.isEmpty()) ipAdd = SessionDto.getInstance().getDeviceWifiDto().getIpaddress();
 			if (subnetMask.isEmpty()) subnetMask = SessionDto.getInstance().getDeviceWifiDto().getNetmask();
 			if (gateWay.isEmpty()) gateWay = SessionDto.getInstance().getDeviceWifiDto().getGateway();
 			encryptedData = JSONBuilder.getWifiPortWithAdvConfigJson(
 					homeSSID, password, ipAdd, subnetMask, gateWay, tempEWSPurifier);
+			MetricsTracker.trackActionAdvanceNetworkConfig(true);
 		}
 		return encryptedData ;
 	}

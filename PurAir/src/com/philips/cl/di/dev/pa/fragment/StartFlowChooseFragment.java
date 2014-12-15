@@ -39,7 +39,9 @@ import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.security.DISecurity;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class StartFlowChooseFragment extends BaseFragment implements
@@ -79,7 +81,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 			// enable location services here.
 			showLocationServiceTurnedOffDialog();
 		}
-
+		MetricsTracker.trackPage(TrackPageConstants.ADD_PURIFIER);
 	}
 
 	private void showLocationServiceTurnedOffDialog() {

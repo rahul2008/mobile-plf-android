@@ -15,6 +15,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AddSchedulerFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
@@ -33,6 +35,7 @@ public class AddSchedulerFragment extends BaseFragment implements OnClickListene
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.ADD_SCHEDULE);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.ADD_EVENT);
 		initViews(getView());
 	}

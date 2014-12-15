@@ -11,6 +11,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 
 public class PurAirApplication extends Application {
@@ -20,7 +21,7 @@ public class PurAirApplication extends Application {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+		MetricsTracker.initContext(this);
 		printCurrentLanguage();
 		preventOSFromDestroyingAsyncTasks();
 		configureUrlConnectionSocketReuse();
@@ -30,7 +31,6 @@ public class PurAirApplication extends Application {
 		setApplication(this);
 		
 	}
-	
 	
 	public static int getAppVersion() {
 		try {

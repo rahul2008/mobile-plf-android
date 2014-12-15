@@ -38,66 +38,35 @@ public class AirTutorialViewFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		View view = inflater.inflate(R.layout.air_tutorial_view, container,
-				false);
+		View view = inflater.inflate(R.layout.air_tutorial_view, container,	false);
 		initializeView(view);
 		return view;
 	}
 
 	private void initializeView(View view) {
 
-		ImageView tutorialImg = (ImageView) view
-				.findViewById(R.id.tutorial_img);
-		TextView tutorialDesc = (TextView) view
-				.findViewById(R.id.tutorial_desc);
-		TextView tutorialInstruction = (TextView) view
-				.findViewById(R.id.lbl_instruction);
+		ImageView tutorialImg = (ImageView) view.findViewById(R.id.tutorial_img);
+		TextView tutorialDesc = (TextView) view.findViewById(R.id.tutorial_desc);
+		TextView tutorialInstruction = (TextView) view.findViewById(R.id.lbl_instruction);
 
 		tutorialDesc.setTypeface(Fonts.getGillsans(getActivity()));
 		tutorialInstruction.setTypeface(Fonts.getGillsans(getActivity()));
 
 		tutorialDesc.setText(getActivity().getText(mTutorialDesc));
 		tutorialImg.setImageResource(mTutorialImage);
-		tutorialInstruction
-				.setText(getActivity().getText(mTutorialInstruction));
+		tutorialInstruction.setText(getActivity().getText(mTutorialInstruction));
 
-		/*
-		 * if(mInstructionList!=null){
-		 * 
-		 * TextView instruction1=(TextView)
-		 * view.findViewById(R.id.dashboard_instruction_1); TextView
-		 * instruction2=(TextView)
-		 * view.findViewById(R.id.dashboard_instruction_2); TextView
-		 * instruction3=(TextView)
-		 * view.findViewById(R.id.dashboard_instruction_3); TextView
-		 * instruction4=(TextView)
-		 * view.findViewById(R.id.dashboard_instruction_4);
-		 * 
-		 * instruction1.setTypeface(Fonts.getGillsans(getActivity()));
-		 * instruction2.setTypeface(Fonts.getGillsans(getActivity()));
-		 * instruction3.setTypeface(Fonts.getGillsans(getActivity()));
-		 * instruction4.setTypeface(Fonts.getGillsans(getActivity()));
-		 * 
-		 * instruction1.setVisibility(View.VISIBLE);
-		 * instruction2.setVisibility(View.VISIBLE);
-		 * instruction3.setVisibility(View.VISIBLE);
-		 * instruction4.setVisibility(View.VISIBLE);
-		 * 
-		 * }
-		 */
 	}
 
 	public void setMargins(TextView v, int l, int t, int r, int b) {
 		Resources resources = getResources();
-		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
-				resources.getDisplayMetrics());
+		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, resources.getDisplayMetrics());
 		int processedPx = Math.round(px);
 
 		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
 				new LayoutParams(LayoutParams.WRAP_CONTENT,
 						LayoutParams.WRAP_CONTENT));
-		params.setMargins(l * processedPx, t * processedPx, r * processedPx, b
-				* processedPx);
+		params.setMargins(l * processedPx, t * processedPx, r * processedPx, b * processedPx);
 		v.setLayoutParams(params);
 	}
 

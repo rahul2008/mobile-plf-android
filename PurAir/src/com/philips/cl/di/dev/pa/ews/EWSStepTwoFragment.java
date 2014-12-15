@@ -11,6 +11,8 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSStepTwoFragment extends Fragment {
@@ -26,7 +28,7 @@ public class EWSStepTwoFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		MetricsTracker.trackPage(TrackPageConstants.EWS_CONFIRM_WIFI_ON);
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_TWO);
 		
 		String orangeStr = "<font color=#EF6921>"+getString(R.string.orange)+"</font>";

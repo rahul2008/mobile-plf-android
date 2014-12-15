@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSPurifierSwitchOnFragment extends Fragment {
@@ -25,7 +27,7 @@ public class EWSPurifierSwitchOnFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		MetricsTracker.trackPage(TrackPageConstants.EWS_SWITCH_ON_PURIFIER);
 		((EWSActivity) getActivity())
 				.setActionBarHeading(EWSConstant.EWS_STEP_TWO);
 

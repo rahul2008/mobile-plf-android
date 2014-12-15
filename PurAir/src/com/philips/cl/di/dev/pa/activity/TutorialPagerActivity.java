@@ -18,6 +18,8 @@ import com.philips.cl.di.dev.pa.adapter.ViewPagerAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.viewpagerindicator.CirclePageIndicator;
 
 public class TutorialPagerActivity extends BaseActivity {
@@ -63,6 +65,7 @@ public class TutorialPagerActivity extends BaseActivity {
 			mPager.setCurrentItem(mCurrentItemId);
 			setActionBarTitle(TITLE_LIST[mCurrentItemId]);
 			indicator.setCurrentItem(mCurrentItemId);
+			MetricsTracker.trackPage(TrackPageConstants.APP_TUTORIAL + "Page " + mCurrentItemId);
 		}
 
 		// to change ActionBar title on each swipe
@@ -70,6 +73,7 @@ public class TutorialPagerActivity extends BaseActivity {
 			@Override
 			public void onPageSelected(int position) {
 				setActionBarTitle(TITLE_LIST[position]);
+				MetricsTracker.trackPage(TrackPageConstants.APP_TUTORIAL + "Page " + position);
 			}
 
 			@Override
@@ -81,6 +85,12 @@ public class TutorialPagerActivity extends BaseActivity {
 			public void onPageScrollStateChanged(int state) {
 			}
 		});
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.trackPage(TrackPageConstants.APP_TUTORIAL);
 	}
 	
 	/* Initialize action bar */

@@ -11,6 +11,8 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedListener {
 	private ListView listView;
@@ -29,6 +31,7 @@ public class FanspeedFragment extends BaseFragment implements SchedulerFanspeedL
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE_FAN_SPEED);
 		((SchedulerActivity) getActivity()).setActionBar(SchedulerID.FAN_SPEED);
 		
 		String fanSpeedTemp = getArguments().getString(SchedulerConstants.SPEED);

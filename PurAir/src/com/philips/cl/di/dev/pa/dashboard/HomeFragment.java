@@ -33,6 +33,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
@@ -138,6 +140,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				
 		if(mNoPurifierMode) {
 			((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
+			MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_NO_PURIFIER);
 			noPurifierFlowLayout.setVisibility(View.VISIBLE);
 			indoorViewPager.setVisibility(View.INVISIBLE);
 			Button connectPurifier = (Button) getView().findViewById(R.id.hf_indoor_dashboard_btn_connect);

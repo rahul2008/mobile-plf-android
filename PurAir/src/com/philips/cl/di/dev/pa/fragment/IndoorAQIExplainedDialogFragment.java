@@ -10,6 +10,8 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorAQIExplainedDialogFragment extends DialogFragment {
@@ -59,6 +61,12 @@ public class IndoorAQIExplainedDialogFragment extends DialogFragment {
 		((FontTextView) view.findViewById(R.id.aqiAnalysisMsg11)).setText(aqiAnalysis);
 		
 		return view; 
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle arg0) {
+		super.onActivityCreated(arg0);
+		MetricsTracker.trackPage(TrackPageConstants.INDOOR_AIR_ANALYSIS_EXPLAINED);
 	}
 
 }

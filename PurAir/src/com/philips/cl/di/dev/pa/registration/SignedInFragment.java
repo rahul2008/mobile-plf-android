@@ -9,6 +9,8 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class SignedInFragment extends BaseFragment {
@@ -20,6 +22,7 @@ public class SignedInFragment extends BaseFragment {
 		View view = inflater.inflate(R.layout.air_registration_signed_in_fragment, container, false);
 		
 		Button closeBtn = (Button) view.findViewById(R.id.air_registration_close_btn);
+		MetricsTracker.trackPage(TrackPageConstants.USER_SIGNED_IN);
 		closeBtn.setOnClickListener(new OnClickListener() {
 			
 			@Override

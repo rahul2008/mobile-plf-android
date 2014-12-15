@@ -24,6 +24,7 @@ import com.philips.cl.di.dev.pa.datamodel.ProductDto;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FilterStatusView;
 
@@ -70,6 +71,11 @@ public class BuyOnlineFragment extends BaseFragment {
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPageProductView("AC4373, AC4151, AC4153, AC4154");
+	}
 
 	/* Custom Adapter to inflate custom rows of list */
 	class BuyDataAdapter extends ArrayAdapter<ProductDto> {
@@ -166,6 +172,7 @@ public class BuyOnlineFragment extends BaseFragment {
 				@Override
 				public void onClick(View v) {
 					String uri="";
+					MetricsTracker.trackActionBuyButton();
 					switch (position) {
 					case 0:
 						uri="http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/";

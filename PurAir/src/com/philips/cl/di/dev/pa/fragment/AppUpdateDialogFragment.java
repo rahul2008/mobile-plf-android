@@ -14,6 +14,8 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.cpp.CPPController;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class AppUpdateDialogFragment extends DialogFragment {
 
@@ -36,7 +38,7 @@ public class AppUpdateDialogFragment extends DialogFragment {
 	@Override
 	public void onActivityCreated(Bundle bundle) {
 		super.onActivityCreated(bundle);
-
+		MetricsTracker.trackPage(TrackPageConstants.APP_UPDATE_AVAILABLE);
 		if (getActivity() == null) {
 			return;
 		}

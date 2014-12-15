@@ -23,6 +23,8 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class StartFlowVirginFragment extends BaseFragment implements OnClickListener {
 
@@ -47,6 +49,12 @@ public class StartFlowVirginFragment extends BaseFragment implements OnClickList
 		mBtnNoPurifier.setOnClickListener(this);
 		
 		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.INTRODUCTION_PAGE);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class BaseFragment extends Fragment {
 
@@ -91,6 +92,7 @@ public class BaseFragment extends Fragment {
 	
 	protected void startVideo() {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
+		MetricsTracker.trackActionExitLink("http://www.philips-smartairpurifier.com/movies/infomercial.mp4");
 		intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"), "video/mp4");
 		startActivity(Intent.createChooser(intent,"")); 
 	}

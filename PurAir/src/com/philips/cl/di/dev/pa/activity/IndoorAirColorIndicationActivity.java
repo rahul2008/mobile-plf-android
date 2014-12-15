@@ -18,6 +18,8 @@ import com.philips.cl.di.dev.pa.adapter.ExpandableListAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class IndoorAirColorIndicationActivity extends BaseActivity {
 
@@ -82,6 +84,12 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 		listAdapter = new ExpandableListAdapter(this, ARR_GROUP_ELEMENTS, ARR_CHILD_ELEMENTS,COLOR_LIST,COLOR_LIST_LABEL);
 		expListView.setAdapter(listAdapter);
 		setGroupIndicatorToRight();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.trackPage(TrackPageConstants.INDOOR_AIR_QUALITY_COLOURS_EXPLAINED);
 	}
 	
 	/*Initialize action bar */

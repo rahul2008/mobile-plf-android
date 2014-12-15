@@ -24,6 +24,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.JSONBuilder;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class SettingsFragment extends BaseFragment implements OnClickListener, OnCheckedChangeListener {
@@ -34,6 +36,12 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 		View view = inflater.inflate(R.layout.settings_fragment, container, false);
 		initViews(view);
 		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.SETTINGS);
 	}
 
 	private void initViews(View view) {

@@ -18,6 +18,7 @@ import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 @SuppressLint("UseSparseArrays")
@@ -53,6 +54,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList());
 		}
 		setListData();
+		MetricsTracker.trackPage("schedule_overview");
 	}
 	
 	private void setListData() {

@@ -32,6 +32,8 @@ import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorCityListener {
@@ -67,6 +69,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 		OutdoorLocationHandler.getInstance().setCityListener(this);
 		OutdoorLocationHandler.getInstance().fetchCities(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED);
 		super.onResume();
+		MetricsTracker.trackPage(TrackPageConstants.ADD_OUTDOOR_LOCATION);
 	}
 	
 	private void updateAdapter(String input) {
@@ -202,6 +205,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 			float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 			float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 
+			MetricsTracker.trackActionLocationWeather(city);
 			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
 			
 			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());

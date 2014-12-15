@@ -7,6 +7,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.ews.EWSConstant;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 /**
  * @author Jeroen Mols
@@ -126,6 +127,7 @@ public class PurAirDevice extends Observable {
 	public void setConnectionState(ConnectionState connectionState) {
 		synchronized(this) { // notifyObservers called from same Thread
 			if (connectionState.equals(mConnectionState)) return;
+			MetricsTracker.trackActionConnectionType(connectionState);
 			this.mConnectionState = connectionState;
 		}
 		setChanged();

@@ -27,6 +27,8 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.UpdateListener;
 
 public class ManagePurifierFragment extends BaseFragment implements
@@ -59,15 +61,12 @@ public class ManagePurifierFragment extends BaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-		// progressDialogFragment = ProgressDialogFragment.newInstance("");
-
+		MetricsTracker.trackPage(TrackPageConstants.MANAGE_PURIFIERS);
 		ImageView addPurifier = (ImageView) getView().findViewById(
 				R.id.manage_pur_add_img);
 		addPurifier.setOnClickListener(addPurifierClickEvent);
 
 		listView = (ListView) getView().findViewById(R.id.manage_pur_list);
-		// listView.setOnItemClickListener(managePurifierItemClickListener);
 	}
 
 	@Override

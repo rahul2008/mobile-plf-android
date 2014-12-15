@@ -16,6 +16,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.FontLoader;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class UsageAgreementFragment extends BaseFragment {
 
@@ -70,7 +72,7 @@ public class UsageAgreementFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		MetricsTracker.trackPage(TrackPageConstants.USAGE_AGREEMENT);
 		mExpListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
 			
 			@Override

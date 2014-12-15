@@ -10,6 +10,7 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class EWSFinalStepFragment extends Fragment {
 
@@ -23,14 +24,11 @@ public class EWSFinalStepFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackActionEWSSuccess();
+		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_FINAL);
 
-		((EWSActivity) getActivity())
-				.setActionBarHeading(EWSConstant.EWS_STEP_FINAL);
-
-		Button startControlPurifierBtn = (Button) getView().findViewById(
-				R.id.finish_congratulation_btn);
-		startControlPurifierBtn.setTypeface(Fonts
-				.getGillsansLight(getActivity()));
+		Button startControlPurifierBtn = (Button) getView().findViewById(R.id.finish_congratulation_btn);
+		startControlPurifierBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		startControlPurifierBtn.setOnClickListener(new OnClickListener() {
 
 			@Override

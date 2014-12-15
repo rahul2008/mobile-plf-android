@@ -27,7 +27,7 @@ public class EWSErrorPurifierDiscoverFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		
 		((EWSActivity) getActivity())
 				.setActionBarHeading(EWSConstant.EWS_STEP_ERROR_DISCOVERY);
 

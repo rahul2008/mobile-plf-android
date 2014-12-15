@@ -18,6 +18,7 @@ import android.view.ContextThemeWrapper;
 import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class TimePickerFragment extends DialogFragment implements
 		TimePickerDialog.OnTimeSetListener {
@@ -60,8 +61,8 @@ public class TimePickerFragment extends DialogFragment implements
 		TimePickerDialog picker = new TimePickerDialog(wrapper, mListener,
 				hour, minute, false);
 		picker.setCanceledOnTouchOutside(true);
-		ALog.i("Scheduler",
-				"TimePickerFragment::onCreateDialog method ending is called");
+		ALog.i("Scheduler", "TimePickerFragment::onCreateDialog method ending is called");
+		MetricsTracker.trackPage("schedule:pick_time");
 		return picker;
 	}
 

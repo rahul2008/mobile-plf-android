@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class PrivacyPolicyActivity extends BaseActivity {
 
@@ -36,4 +38,11 @@ public class PrivacyPolicyActivity extends BaseActivity {
 			}
 		});
 	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		MetricsTracker.trackPage(TrackPageConstants.PRIVACY_POLICY);
+	}
+	
 }

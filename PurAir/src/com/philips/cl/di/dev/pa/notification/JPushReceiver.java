@@ -11,6 +11,7 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 /*
  * This class will receives registration ID from JPush server.
@@ -41,9 +42,6 @@ public class JPushReceiver extends BroadcastReceiver {
 		JPushInterface.setDebugMode(true); 
 		
 		if (JPushInterface.ACTION_REGISTRATION_ID.equals(intent.getAction())) {
-//			if(!NotificationRegisteringManager.getNotificationManager().isRegistrationNeeded()) {
-//				return;
-//			}
 			String regKey = bundle
 					.getString(JPushInterface.EXTRA_REGISTRATION_ID);
 			Log.d(TAG, "[MyReceiver] Receive Registration Id : " + regKey);
@@ -53,40 +51,12 @@ public class JPushReceiver extends BroadcastReceiver {
 			editor.putString("regKey", regKey);
 			editor.apply();
 			
-//			PurAirApplication.getAppContext()
-//					.getNotificationRegisteringManager()
-//					.registerAppForNotification();
-//			NotificationRegisteringManager.getNotificationManager().setRegistered(false);
-//			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn()) {
-//				ALog.e(ALog.NOTIFICATION, "JPushReceiver Failed to send registration ID to CPP - not signed on");
-//				return;
-//			}
-			
 			NotificationRegisteringManager.getNotificationManager().registerAppForNotification();
 		} else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent
 				.getAction())) {
 			Log.i(TAG, "[MyReceiver] Push down received a custom message: "
 					+ bundle.getString(JPushInterface.EXTRA_MESSAGE));
-//			if (JPushActivity.isForeground) {
-//				String message = bundle.getString(JPushInterface.EXTRA_MESSAGE);
-//				String extras = bundle.getString(JPushInterface.EXTRA_EXTRA);
-//				Intent msgIntent = new Intent(
-//						JPushInterface.ACTION_MESSAGE_RECEIVED);
-//				msgIntent.putExtra(JPushActivity.KEY_MESSAGE, message);
-//				if (!isEmpty(extras)) {
-//					try {
-//						JSONObject extraJson = new JSONObject(extras);
-//						if (null != extraJson && extraJson.length() > 0) {
-//							msgIntent
-//									.putExtra(JPushActivity.KEY_EXTRAS, extras);
-//						}
-//					} catch (JSONException e) {
-//					}
-//				}
-//				context.sendBroadcast(msgIntent);
-//			}
-		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent
-				.getAction())) {
+		} else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
 			Log.d(TAG, "[MyReceiver] Push down the notifications received");
 			int notifactionId = bundle
 					.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);

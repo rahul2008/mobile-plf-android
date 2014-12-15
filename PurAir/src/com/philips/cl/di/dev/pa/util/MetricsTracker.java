@@ -10,8 +10,13 @@ import android.content.Context;
 import android.os.Build;
 
 import com.adobe.mobile.Analytics;
+import com.adobe.mobile.Analytics.TimedActionBlock;
 import com.adobe.mobile.Config;
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.datamodel.SessionDto;
+import com.philips.cl.di.dev.pa.newpurifier.ConnectionState;
+import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 
 public class MetricsTracker {
 
@@ -31,16 +36,17 @@ public class MetricsTracker {
 	private static final String KEY_ERROR_TECHNICAL = "technicalerror";
 	private static final String KEY_PAGE_EVENT = "pageEvents";
 	private static final String KEY_LOCATION_PURIFIER = "newPurifyLocation";
-	private static final String KEY_LOCATION_WEATHER = "newPurifyLocation";
+	private static final String KEY_LOCATION_WEATHER = "newWeatherLocation";
 	private static final String KEY_OPTION_DETAILS = "optionDetail";
 	private static final String KEY_VIDEO_NAME = "videoName";
-	// private static final String KEY_FIRMWARE_VERSION = "firmwareVersion";
+	private static final String KEY_FIRMWARE_VERSION = "firmwareVersion";
 	private static final String KEY_PRODUCT_MODEL = "productModel";
 	private static final String KEY_APP_ID = "appId";
 	private static final String KEY_LOGIN_CHANNEL = "loginChannel";
 	private static final String KEY_REGISTRATION_CHANNEL = "registrationChannel";
 	private static final String KEY_APP_STATUS = "appStatus";
 	private static final String KEY_CONTROL_CONNECTION_TYPE = "controlConnectionType";
+	private static final String KEY_MACHINE_ID = "machineId";
 
 	/* ---------------ACTION LIST ----------------------- */
 	private static final String ACTION_VIDEO_START = "videoStart";
@@ -71,13 +77,12 @@ public class MetricsTracker {
 	private static final String VALUE_NOTIFICATION_AIR_QUALITY = "notification air quality:";
 	private static final String VALUE_TIMER = "timer ";
 	private static final String VALUE_SCHEDULE_ADDED = "schedule added";
-	private static final String VALUE_TECHNICAL_ERROR = "we're having trouble connecting to your Air Purifier";
-	private static final String VALUE_USER_ERROR = "incorrect e-mail address";
 	private static final String VALUE_SUCCESS_USER_REGISTRATION = "successUserRegistration";
 	private static final String VALUE_START_USER_REGISTRATION = "startUserRegistration";
 	private static final String VALUE_MY_PHILIPS = "myPhilips";
 	private static final String VALUE_SUCCESS_LOGIN = "successLogin";
 	private static final String VALUE_PRODUCT_VIEW = "prodView";
+	private static final String VALUE_MODEL_AC4373 = "AC4373";
 
 	public static void initContext(Context context) {
 		Config.setContext(context);
@@ -85,7 +90,7 @@ public class MetricsTracker {
 
 	// This needs to call on onResume() of every activity.
 	public static void startCollectLifecycleData(Activity activity) {
-		Config.collectLifecycleData(activity);
+		Config.collectLifecycleData();
 	}
 
 	// This needs to call on onPause() of every activity.
@@ -93,72 +98,120 @@ public class MetricsTracker {
 		Config.pauseCollectingLifecycleData();
 	}
 
-	// This has to be tracked by each page.
 	public static void trackPage(String pageName) {
+		ALog.i(ALog.TAGGING, "Track page " + pageName);
 		Analytics.trackState(pageName, addAnalyticsDataObject());
 	}
-
-	public static void trackActionUserLoginChannel(String pageName) {
+	
+	public static void trackPageUserLoginChannel(String loginChannel) {
+		ALog.i(ALog.TAGGING, "TrackPage : loginChannel : " + loginChannel); 
 		Map<String, Object> contextData = addAnalyticsDataObject();
-		contextData.put(KEY_LOGIN_CHANNEL, VALUE_MY_PHILIPS);
-		// TODO : Need to clarify PAGE_USER_LOGIN key.
-		Analytics.trackState((pageName == null) ? PAGE_USER_LOGIN : pageName,
-				contextData);
+		contextData.put(KEY_LOGIN_CHANNEL, loginChannel);
+		Analytics.trackState(PAGE_USER_LOGIN, contextData);
+	}
+	
+	public static void trackActionEWSStart() {
+		ALog.i(ALog.TAGGING, "TrackPage : EWSStart");
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put(KEY_PAGE_EVENT, "startConnection");
+		Analytics.trackTimedActionStart("startConnection", contextData);
+	}
+	
+	public static void trackActionEWSSuccess() {
+		ALog.i(ALog.TAGGING, "TrackPage : EWSSuccess");
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put(KEY_PAGE_EVENT, "successConnection");
+		Analytics.trackTimedActionEnd("endConnection", new TimedActionBlock<Boolean>() {
+			@Override
+			public Boolean call(long inAppDuration, long totalDuration, Map<String, Object> contextData) {
+				return true;
+			}
+		});
+	}
+	
+	public static void trackUserError(String action, String errorMsg) {
+		ALog.i(ALog.TAGGING, "TrackUserError : action " + action + " errorMessage " + errorMsg);
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put(KEY_PAGE_EVENT, "startConnection");
 	}
 
-	public static void trackPageStartUserRegistration(String pageName,
-			String registrationChannel) {
+	public static void trackActionServiceRequest(String serviceChannel) {
+		ALog.i(ALog.TAGGING, "TrackAction : ServiceRequest : " + serviceChannel);
+		Map<String, Object> contextData = addAnalyticsDataObject();
+		contextData.put("serviceChannel", serviceChannel);
+		Analytics.trackAction("serviceRequest", contextData);
+	}
+	
+	public static void trackPageStartUserRegistration(String registrationChannel) {
 		// @argument: registration channel means facebook, twitter etc.
+		ALog.i(ALog.TAGGING, "TrackPage : StartUserRegistration : channel " + registrationChannel);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_START_USER_REGISTRATION);
 		contextData.put(KEY_REGISTRATION_CHANNEL, registrationChannel);
-		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
-				: pageName, contextData);
+		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
 	}
 
-	public static void trackPageFinishedUserRegistration(String pageName) {
+	public static void trackPageFinishedUserRegistration() {
+		ALog.i(ALog.TAGGING, "TrackPage : user registration successful");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_USER_REGISTRATION);
-		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
-				: pageName, contextData);
+		Analytics.trackState(PAGE_USER_REGISTRATION, contextData);
 	}
 
 	public static void trackPageSuccessLoginUser(String pageName) {
+		ALog.i(ALog.TAGGING, "TrackPage : SuccessLogin " + pageName);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_LOGIN);
 		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
 				: pageName, contextData);
 	}
 
-	public static void trackPageProductView(String pageName) {
+	public static void trackPageProductView(String products) {
+		ALog.i(ALog.TAGGING, "TrackPage : PageProductView " + products);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_PRODUCT_VIEW);
+		Analytics.trackState(products, contextData);
+	}
+	
+	public static void trackPageUserError(String pageName, String errorMsg) {
+		ALog.i(ALog.TAGGING, "TrackPage : UserError " + errorMsg);
+		Map<String, Object> contextData = new HashMap<String, Object>();
+		contextData.put(KEY_ERROR_USER, errorMsg);
 		Analytics.trackState(pageName, contextData);
 	}
 
-	public static void trackActionUserError() {
+	public static void trackActionUserError(String errorMsg) {
+		ALog.i(ALog.TAGGING, "TrackAction : UserError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_ERROR_USER, VALUE_USER_ERROR);
+		contextData.put(KEY_ERROR_USER, errorMsg);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
 	}
 
-	public static void trackActionTechnicalError() {
+	public static void trackPageTechnicalError(String pageName, String errorMsg) {
+		ALog.i(ALog.TAGGING, "TrackPage : TechnicalError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_ERROR_TECHNICAL, VALUE_TECHNICAL_ERROR);
+		contextData.put(KEY_ERROR_TECHNICAL, errorMsg);
+		Analytics.trackState(pageName, contextData);
+	}
+	
+	public static void trackActionTechnicalError(String errorMsg) {
+		ALog.i(ALog.TAGGING, "TrackAction : TechnicalError " + errorMsg);
+		Map<String, Object> contextData = new HashMap<String, Object>();
+		contextData.put(KEY_ERROR_TECHNICAL, errorMsg);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
 	}
 
-	// @argument "appStatus": Allowed values: "Background" or "Foreground"
 	public static void trackActionAppStatus(String appStatus) {
+		ALog.i(ALog.TAGGING, "TrackAction : AppStatus " + appStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_APP_STATUS, appStatus);
 		Analytics.trackAction(ACTION_SET_APP_STATUS, contextData);
 	}
 
-	// @argument "appStatus": Allowed values: "Local" or "Remote"
-	public static void trackActionControlConnection(String controlConnectionType) {
+	public static void trackActionConnectionType(ConnectionState connectionType) {
+		ALog.i(ALog.TAGGING, "TrackAction : ConnectionType " + connectionType);
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_CONTROL_CONNECTION_TYPE, controlConnectionType);
+		contextData.put(KEY_CONTROL_CONNECTION_TYPE, connectionType);
 		Analytics.trackAction(ACTION_SET_CONTROL_CONNECTION_TYPE, contextData);
 	}
 
@@ -167,25 +220,36 @@ public class MetricsTracker {
 	 * triggered by a link/button/functionality of the app. Do not use this when
 	 * the visitor swiches using the home button.
 	 */
-	public static void trackActionExit(String link) {
+	public static void trackActionExitLink(String link) {
+		ALog.i(ALog.TAGGING, "TrackAction : ExitLink " + link);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_EXIT_LINK, link);
 		Analytics.trackAction(ACTION_EXIT_LINK, contextData);
 	}
 
+	public static void trackActionBuyButton() {
+		ALog.i(ALog.TAGGING, "TrackAction : BuyButton");
+		Map<String, Object> contextData = new HashMap<String, Object>();
+		contextData.put("leadinfo", "Philips lead");
+		Analytics.trackAction("buyButton", contextData);
+	}
+	
 	public static void trackActionDownloaded(String fileName) {
+		ALog.i(ALog.TAGGING, "TrackAction : DownloadFile " + fileName);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_FILENAME, fileName);
 		Analytics.trackAction(ACTION_DOWNLOAD, contextData);
 	}
 
 	public static void trackActionLocationPurifier(String location) {
+		ALog.i(ALog.TAGGING, "TrackAction : Puirifer location " + location);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_LOCATION_PURIFIER, location);
 		Analytics.trackAction(ACTION_LOCATION_NEW_PURIFIER, contextData);
 	}
 
 	public static void trackActionLocationWeather(String location) {
+		ALog.i(ALog.TAGGING, "TrackAction : weather location " + location);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_LOCATION_WEATHER, location);
 		Analytics.trackAction(ACTION_LOCATION_NEW_WEATHER, contextData);
@@ -203,52 +267,65 @@ public class MetricsTracker {
 		Analytics.trackAction(ACTION_VIDEO_END, contextData);
 	}
 
-	/*------------------------------ CONTROL AIR PURIFIER -----------START----------*/
-
 	public static void trackActionTogglePower(String powerStatus) {
+		ALog.i(ALog.TAGGING, "TrackAction : Power " + powerStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, powerStatus);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionIndicatorLight(String lightStatus) {
+		ALog.i(ALog.TAGGING, "TrackAction : IndicatorLight " + lightStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, lightStatus);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionScheduleAdd() {
+		ALog.i(ALog.TAGGING, "TrackAction : ScheduleAdd");
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_SCHEDULE_ADDED);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionTimerAdded(String time) {
+		ALog.i(ALog.TAGGING, "TrackAction : TimerAdded " + time);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_TIMER + time);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionNotificationAirQuality(String airQuality) {
+		ALog.i(ALog.TAGGING, "TrackAction : NotificationAQI " + airQuality);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_AIR_QUALITY
 				+ airQuality);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
+	
+//	public static void trackActionNotificationReceived() {
+//		ALog.i(ALog.TAGGING, "TrackAction : NotificationReceived " + airQuality);
+//		Map<String, Object> contextData = new HashMap<String, Object>();
+//		contextData.put("messageValue", VALUE_NOTIFICATION_AIR_QUALITY + airQuality);
+//		Analytics.trackAction(ACTION_SET_OPTION, contextData);
+//	}
 
 	public static void trackActionFanSpeed(String speed) {
+		ALog.i(ALog.TAGGING, "TrackAction : FanSpeed " + speed);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_SPEED + speed);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionChildLock(String childLockStatus) {
+		ALog.i(ALog.TAGGING, "TrackAction : ChildLock " + childLockStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, childLockStatus);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
 	public static void trackActionNotification(boolean notification) {
+		ALog.i(ALog.TAGGING, "TrackAction : NotificationEnabled " + notification);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (notification) {
 			contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_ON);
@@ -258,7 +335,8 @@ public class MetricsTracker {
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
-	public static void trackActionRemoteControl(Boolean remote) {
+	public static void trackActionRemoteControl(boolean remote) {
+		ALog.i(ALog.TAGGING, "TrackAction : RemoteEnabled " + remote);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (remote) {
 			contextData.put(KEY_OPTION_DETAILS, VALUE_REMOTE_CONTROL_ON);
@@ -268,7 +346,8 @@ public class MetricsTracker {
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
-	public static void trackActionAdvanceNetworkConfig(Boolean config) {
+	public static void trackActionAdvanceNetworkConfig(boolean config) {
+		ALog.i(ALog.TAGGING, "TrackAction : AdvancedNetworkConfig " + config);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (config) {
 			contextData.put(KEY_OPTION_DETAILS, VALUE_ADVANCE_NETWORK_YES);
@@ -278,28 +357,44 @@ public class MetricsTracker {
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
-	public static void trackActionTFanSpeed(String speed) {
+	public static void trackActionAddSchedule() {
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, speed);
+		contextData.put(KEY_OPTION_DETAILS, "schedule added");
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
-
-	/*------------------------------ CONTROL AIR PURIFIER -----------------END----------*/
-
+	
 	private static Map<String, Object> addAnalyticsDataObject() {
-		System.out.println("ADBMobile.addAnalyticsDataObject()");
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_APPNAME, VALUE_APPNAME);
 		contextData.put(KEY_VERSION, PurAirApplication.getAppVersion());
 		contextData.put(KEY_OS, ANDROID + Build.VERSION.RELEASE);
 		contextData.put(KEY_LANGUAGE, getLanguage());
 		contextData.put(KEY_CURRENCY, getCurrency());
-		// contextData.put(KEY_FIRMWARE_VERSION, "TODO");
-		contextData.put(KEY_PRODUCT_MODEL, "TODO");
-		contextData.put(KEY_APP_ID, "TODO");
+		contextData.put(KEY_FIRMWARE_VERSION, getFirmwareVersion());
+		contextData.put(KEY_MACHINE_ID, getDeviceEui64());
+		contextData.put(KEY_PRODUCT_MODEL, VALUE_MODEL_AC4373);
+		contextData.put(KEY_APP_ID, SessionDto.getInstance().getAppEui64());
 		return contextData;
 	}
 
+	private static String getFirmwareVersion() {
+		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier != null && currentPurifier.getFirmwarePortInfo() != null) {
+			String version = currentPurifier.getFirmwarePortInfo().getVersion();
+			return version;
+		}
+		return "Not found";
+	}
+
+	private static String getDeviceEui64() {
+		PurAirDevice currentPurifier = PurifierManager.getInstance().getCurrentPurifier();
+		if(currentPurifier != null) {
+			String eui64 = currentPurifier.getEui64();
+			return eui64;
+		}
+		return "Not found";
+	}
+	
 	private static String getLanguage() {
 		String language = PurAirApplication.getAppContext().getResources()
 				.getConfiguration().locale.getLanguage();

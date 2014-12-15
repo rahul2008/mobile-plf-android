@@ -11,6 +11,8 @@ import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class DemoModePurifierSwitchOnFragment extends Fragment {
@@ -26,7 +28,7 @@ public class DemoModePurifierSwitchOnFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
+		MetricsTracker.trackPage(TrackPageConstants.DEMO_SWITCH_ON_PURIFIER);
 		((DemoModeActivity) getActivity()).setActionbarTitle(DemoModeConstant.DEMO_MODE_STEP_SWITCHON);
 		
 		((FontTextView) getView().findViewById(

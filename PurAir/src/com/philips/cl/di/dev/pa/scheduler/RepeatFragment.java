@@ -9,6 +9,8 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class RepeatFragment extends BaseFragment implements SchedulerRepeatListener {
 	
@@ -36,6 +38,8 @@ public class RepeatFragment extends BaseFragment implements SchedulerRepeatListe
 		repeatAdapter = new RepeatAdapter(getActivity(), R.layout.repeat_scheduler_item, days, daysSelected, this);
 		lstDays.setAdapter(repeatAdapter);
 		((SchedulerActivity)getActivity()).setDays(setDaysString());
+		
+		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE_DAYS);
 	}
 	
 	private String setDaysString() {

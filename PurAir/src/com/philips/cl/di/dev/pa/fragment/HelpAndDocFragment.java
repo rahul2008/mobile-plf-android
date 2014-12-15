@@ -17,13 +17,14 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
-import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicensActivity;
+import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
-import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.User;
@@ -42,6 +43,11 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		return view;
 	}
 
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.HELP_AND_DOCUMENTATION);
+	}
 	private void initializeView(View rootView) {
 		
 		TextView lblAppTutorial=(TextView) rootView.findViewById(R.id.app_tutorial);
@@ -101,20 +107,28 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.phone_number_one:
 			//TODO : Move to one place.
+			MetricsTracker.trackActionServiceRequest("phone_1");
+			MetricsTracker.trackActionExitLink("phone : " + getString(R.string.contact_philips_support_phone_num));
 			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
 			startActivity(Intent.createChooser(dialSupportIntent, "Air Purifier support"));
 			break;
 		case R.id.phone_number_two:
 			//TODO : Move to one place.
+			MetricsTracker.trackActionServiceRequest("phone_2");
+			MetricsTracker.trackActionExitLink("phone : " + getString(R.string.contact_philips_support_phone_num_2));
 			Intent callIntent = new Intent(Intent.ACTION_DIAL);
 			callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));
 			startActivity(Intent.createChooser(callIntent, "Air Purifier support"));
 			break;
 		case R.id.layout_email_us:
+			MetricsTracker.trackActionServiceRequest("email");
+			MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_email));
 			diagnosticData();
 			break;
 		case R.id.layout_help:
+			MetricsTracker.trackActionServiceRequest("help");
+			MetricsTracker.trackActionExitLink(getString(R.string.contact_philips_support_website));
 			Intent gotoSupportWebisteIntent = new Intent(Intent.ACTION_VIEW);
 			gotoSupportWebisteIntent.setData(Uri.parse("http://"+ getString(R.string.contact_philips_support_website)));
 			startActivity(Intent.createChooser(gotoSupportWebisteIntent,""));
@@ -123,11 +137,15 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			setVisibility(faqAC4373, faqAC4375);
 			break;
 		case R.id.faq_ac4373:
+			MetricsTracker.trackActionServiceRequest("faq_ac4373");
+			MetricsTracker.trackActionExitLink(getString(R.string.faq_link_ac4373));
 			Intent faqAc4373 = new Intent(Intent.ACTION_VIEW);
 			faqAc4373.setData(Uri.parse("http://"+ getString(R.string.faq_link_ac4373)));
 			startActivity(Intent.createChooser(faqAc4373,""));
 			break;
 		case R.id.faq_ac4375:
+			MetricsTracker.trackActionServiceRequest("faq_ac4375");
+			MetricsTracker.trackActionExitLink(getString(R.string.faq_link_ac4375));
 			Intent faqAC4375 = new Intent(Intent.ACTION_VIEW);
 			faqAC4375.setData(Uri.parse("http://"+ getString(R.string.faq_link_ac4375)));
 			startActivity(Intent.createChooser(faqAC4375,""));
@@ -136,24 +154,31 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			setVisibility(userManualAC4373, userManualAC4375);
 			break;
 		case R.id.user_manual_ac4373:
+			MetricsTracker.trackActionServiceRequest("user_manual_ac4373");
+			MetricsTracker.trackActionExitLink(getString(R.string.user_manual_link_ac4373));
 			Intent manualAc4373 = new Intent(Intent.ACTION_VIEW);
 			manualAc4373.setData(Uri.parse("http://"+ getString(R.string.user_manual_link_ac4373)));
 			startActivity(Intent.createChooser(manualAc4373,""));
 			break;
 		case R.id.user_manual_ac4375:
+			MetricsTracker.trackActionServiceRequest("user_manual_ac4375");
+			MetricsTracker.trackActionExitLink(getString(R.string.user_manual_link_ac4375));
 			Intent manualAc4375 = new Intent(Intent.ACTION_VIEW);
 			manualAc4375.setData(Uri.parse("http://"+ getString(R.string.user_manual_link_ac4375)));
 			startActivity(Intent.createChooser(manualAc4375,""));
 			break;
 		case R.id.app_tutorial:
+			MetricsTracker.trackActionServiceRequest("app_tutorial");
 			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
 			startActivity(intentOd);
 			break;
 		case R.id.opensource_lb:
 			if (getActivity() == null) return;
-			startActivity(new Intent(getActivity(), OpenSourceLibLicensActivity.class));
+			startActivity(new Intent(getActivity(), OpenSourceLibLicenseActivity.class));
 			break;
 		case R.id.layout_we_chat:
+			MetricsTracker.trackActionServiceRequest("we_chat");
+			MetricsTracker.trackActionExitLink("we_chat");
 			startNewActivity(getActivity(), "com.tencent.mm");
 			break;
 		default:

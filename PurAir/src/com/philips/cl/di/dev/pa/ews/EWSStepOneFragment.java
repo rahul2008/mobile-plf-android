@@ -10,6 +10,8 @@ import android.widget.Button;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class EWSStepOneFragment extends Fragment {
@@ -25,7 +27,7 @@ public class EWSStepOneFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+		MetricsTracker.trackPage(TrackPageConstants.EWS_CONFIRM_SSID);
 		((EWSActivity) getActivity()).setActionBarHeading(EWSConstant.EWS_STEP_ONE);
 		
 		Button noBtn = (Button) getView().findViewById(R.id.ews_step1_no_btn);

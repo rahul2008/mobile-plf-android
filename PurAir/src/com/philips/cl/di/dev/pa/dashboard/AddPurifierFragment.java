@@ -42,7 +42,6 @@ public class AddPurifierFragment extends BaseFragment implements
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
 		ivAddNewPurifier = (ImageView) getActivity().findViewById(
 				R.id.iv_circle_add_purifier);
 		ivAddNewPurifier.setOnClickListener(this);
@@ -99,5 +98,4 @@ public class AddPurifierFragment extends BaseFragment implements
 			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		}
 	}
-
 }

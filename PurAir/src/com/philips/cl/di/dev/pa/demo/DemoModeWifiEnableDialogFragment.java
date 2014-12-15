@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.util.networkutils.NetworkStateListener;
 
@@ -39,7 +41,7 @@ public class DemoModeWifiEnableDialogFragment  extends DialogFragment implements
 	@Override
 	public void onActivityCreated(Bundle saveInstanceState) {
 		super.onActivityCreated(saveInstanceState);
-		
+		MetricsTracker.trackPage(TrackPageConstants.DEMO_ENABLE_WIFI);
 		ImageView support = (ImageView) getView().findViewById(R.id.wifi_enable_dialog_support);
 		support.setOnClickListener(wifiClickListener);
 		

@@ -233,10 +233,12 @@ public class PurifierControlPanel implements OnClickListener {
 				AirPortInfo airPortInfo = purifier == null ? null : purifier.getAirPortInfo();
 				enableButtonsOnPowerOn(airPortInfo);
 				controlDevice(ParserConstants.POWER_MODE, "1");
+				MetricsTracker.trackActionTogglePower("power_on");
 			} else {
 				power.setChecked(false);
 				disableControlPanelButtonsOnPowerOff();
 				controlDevice(ParserConstants.POWER_MODE, "0");
+				MetricsTracker.trackActionTogglePower("power_off");
 			}
 			isPowerOn = !isPowerOn;
 			collapseFanSpeedMenu(true);
@@ -246,9 +248,11 @@ public class PurifierControlPanel implements OnClickListener {
 			if (!isChildLockOn) {
 				childLock.setChecked(true);
 				controlDevice(ParserConstants.CHILD_LOCK, "1");
+				MetricsTracker.trackActionChildLock("childlock_on");
 			} else {
 				childLock.setChecked(false);
 				controlDevice(ParserConstants.CHILD_LOCK, "0");
+				MetricsTracker.trackActionChildLock("childlock_off");
 			}
 			isChildLockOn = !isChildLockOn;
 			collapseFanSpeedMenu(true);
@@ -258,9 +262,11 @@ public class PurifierControlPanel implements OnClickListener {
 			if (!isIndicatorLightOn) {
 				indicatorLight.setChecked(true);
 				controlDevice(ParserConstants.AQI_LIGHT, "1");
+				MetricsTracker.trackActionIndicatorLight("indicator_light_on");
 			} else {
 				indicatorLight.setChecked(false);
 				controlDevice(ParserConstants.AQI_LIGHT, "0");
+				MetricsTracker.trackActionIndicatorLight("indicator_light_off");
 			}
 			isIndicatorLightOn = !isIndicatorLightOn;
 			collapseFanSpeedMenu(true);
@@ -278,10 +284,12 @@ public class PurifierControlPanel implements OnClickListener {
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "s");
+			MetricsTracker.trackActionFanSpeed("speed_silent");
 			break;
 		case R.id.fan_speed_auto:
 			if (!isFanSpeedAuto) {
 				controlDevice(ParserConstants.FAN_SPEED, "a");
+				MetricsTracker.trackActionFanSpeed("speed_auto_on");
 			} else {
 				String fspd = "1";
 				if (PurifierManager.getInstance().getCurrentPurifier() != null
@@ -289,6 +297,7 @@ public class PurifierControlPanel implements OnClickListener {
 					fspd = PurifierManager.getInstance().getCurrentPurifier().getAirPortInfo().getActualFanSpeed();
 				}
 				controlDevice(ParserConstants.FAN_SPEED, fspd);
+				MetricsTracker.trackActionFanSpeed("speed_auto_off");
 			}
 			toggleFanSpeedButtonBackground(R.id.fan_speed_auto);
 			isFanSpeedAuto = !isFanSpeedAuto;
@@ -303,6 +312,7 @@ public class PurifierControlPanel implements OnClickListener {
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "t");
+			MetricsTracker.trackActionFanSpeed("speed_turbo");
 			break;
 		case R.id.fan_speed_one:
 			fanSpeed.setText(((Button) v).getText());
@@ -312,6 +322,7 @@ public class PurifierControlPanel implements OnClickListener {
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "1");
+			MetricsTracker.trackActionFanSpeed("speed_one");
 			break;
 		case R.id.fan_speed_two:
 			fanSpeed.setText(((Button) v).getText());
@@ -321,6 +332,7 @@ public class PurifierControlPanel implements OnClickListener {
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "2");
+			MetricsTracker.trackActionFanSpeed("speed_two");
 			break;
 		case R.id.fan_speed_three:
 			fanSpeed.setText(((Button) v).getText());
@@ -330,6 +342,7 @@ public class PurifierControlPanel implements OnClickListener {
 			isFanSpeedAuto = false;
 			collapseFanSpeedMenu(true);
 			controlDevice(ParserConstants.FAN_SPEED, "3");
+			MetricsTracker.trackActionFanSpeed("speed_three");
 			break;
 
 		case R.id.btn_rm_set_timer:
@@ -341,24 +354,28 @@ public class PurifierControlPanel implements OnClickListener {
 			toggleTimerButtonBackground(R.id.timer_off);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "0");
+			MetricsTracker.trackActionTimerAdded("timer_off");
 			break;
 		case R.id.one_hour:
 			timer.setText(((Button) v).getText());
 			toggleTimerButtonBackground(R.id.one_hour);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "1");
+			MetricsTracker.trackActionTimerAdded("timer_1h");
 			break;
 		case R.id.four_hours:
 			timer.setText(((Button) v).getText());
 			toggleTimerButtonBackground(R.id.four_hours);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "4");
+			MetricsTracker.trackActionTimerAdded("timer_4h");
 			break;
 		case R.id.eight_hours:
 			timer.setText(((Button) v).getText());
 			toggleTimerButtonBackground(R.id.eight_hours);
 			collapseTimerMenu(true);
 			controlDevice(ParserConstants.DEVICE_TIMER, "8");
+			MetricsTracker.trackActionTimerAdded("timer_8h");
 			break;
 		case R.id.btn_rm_scheduler:
 			collapseFanSpeedMenu(true);

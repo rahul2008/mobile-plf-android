@@ -37,6 +37,8 @@ import com.philips.cl.di.dev.pa.notification.NotificationRegisteringManager;
 import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class NotificationsFragment extends BaseFragment implements
@@ -85,6 +87,7 @@ public class NotificationsFragment extends BaseFragment implements
 		if (parent == null)
 			return;
 
+		MetricsTracker.trackPage(TrackPageConstants.PUSH_NOTIFICATION);
 		ALog.i(ALog.NOTIFICATION, "Right menu icon is orange "
 				+ ((MainActivity) parent).getRightMenuDisconnectionState());
 		if (mPurifier == null
@@ -158,6 +161,7 @@ public class NotificationsFragment extends BaseFragment implements
 	}
 
 	private void setUIAqiThreshold(int aqiThreshold) {
+		MetricsTracker.trackActionNotificationAirQuality("notification_air_quality:" + aqiThreshold);
 		switch (aqiThreshold) {
 		case 13:
 			RadioButton aqiRadioButton0 = (RadioButton) indoorAqiRadioBtns.getChildAt(0);
@@ -295,6 +299,7 @@ public class NotificationsFragment extends BaseFragment implements
 		switch (button.getId()) {
 		case R.id.notifications_enable_all_toggle:
 			updateNotificationPermission(isChecked);
+			MetricsTracker.trackActionNotification(isChecked);
 			break;
 		default:
 			break;
@@ -520,7 +525,7 @@ public class NotificationsFragment extends BaseFragment implements
 			aqiThresholdTimer.cancel();
 		if (progressDialog != null)
 			progressDialog.dismiss();
-
+		MetricsTracker.trackActionTechnicalError("Notification enabling failed");
 		showErrorDialog();
 	}
 

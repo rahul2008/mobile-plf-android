@@ -63,6 +63,7 @@ public class ALog {
 	public static final String MANAGE_PUR = "ManagePurifier";
 	public static final String MARKER_ACTIVITY = "MarkerActivity";
 	public static final String FILE_DOWNLOAD = "FileDownload";
+	public static final String TAGGING = "Tagging";
 	
 	private static boolean isLoggingEnabled = true;
 	

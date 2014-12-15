@@ -35,6 +35,8 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -69,6 +71,12 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
 		return view;
+	}
+	
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_LOCATIONS);
 	}
 	
 	@Override

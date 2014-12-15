@@ -45,6 +45,8 @@ import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.DashboardUtil;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -107,6 +109,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		
+		MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_INDOOR);
 		marginCenter = (int) Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 2); //margin 2F
 		marginRadius = (int) Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 6); //margin 6F
 		
