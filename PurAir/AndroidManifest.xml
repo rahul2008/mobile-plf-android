@@ -136,7 +136,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name="com.philips.cl.di.dev.pa.activity.OpenSourceLibLicensActivity"
+            android:name="com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity"
             android:screenOrientation="portrait" >
         </activity>
         
