@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 import java.lang.reflect.Field;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,7 +22,9 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
  */
 public class BaseFragment extends Fragment{
 
+	private static String TAG = "BaseFragment";
 	private static final Field sChildFragmentManagerField;
+	
 	static {
 		Field f = null;
 		try {
@@ -37,6 +40,7 @@ public class BaseFragment extends Fragment{
 	public void onCreate(Bundle savedInstanceState) {
 		ALog.d(ALog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
+		TAG = this.getClass().getSimpleName();
 	}
 
 	@Override
@@ -96,6 +100,12 @@ public class BaseFragment extends Fragment{
 						"Error setting mChildFragmentManager field");
 			}
 		}
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		ALog.i(TAG, TAG + " : onConfigurationChanged ");
 	}
 
 	protected void startVideo() {

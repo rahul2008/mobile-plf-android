@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
@@ -65,7 +66,8 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
 		actionBar.setBackgroundDrawable(d);
 		View viewActionbar = getLayoutInflater().inflate(
-				R.layout.home_action_bar, null);
+				R.layout.home_action_bar,
+				(ViewGroup) findViewById(R.id.action_bar_lyt));
 		leftMenu = (ImageView) viewActionbar.findViewById(R.id.left_menu_img);
 		backToHome = (ImageView) viewActionbar
 				.findViewById(R.id.back_to_home_img);
@@ -82,6 +84,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
+		ALog.i(TAG, TAG + " : onConfigurationChanged ");
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
@@ -102,14 +105,14 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	};
 
 	private void optionSelected(int value) {
-		Log.i("testing",
-				"BaseActivity optionSelected : "
-						+ mFragmentObserver.getOptionSelected());
+//		Log.i(TAG,
+//				"BaseActivity optionSelected : "
+//						+ mFragmentObserver.getOptionSelected());
 		switch (value) {
 		case DigiCareContants.OPTION_CONTACT_US:
 			break;
 		case DigiCareContants.OPTION_PRODUCS_DETAILS:
-			break;	
+			break;
 		case DigiCareContants.OPTION_FAQ:
 			break;
 		case DigiCareContants.OPTION_FIND_PHILIPS_NEARBY:
@@ -131,8 +134,8 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	protected void showFragment(Fragment fragment) {
 		try {
-//			getSupportFragmentManager().popBackStackImmediate(null,
-//					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			// getSupportFragmentManager().popBackStackImmediate(null,
+			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 					.beginTransaction();
 			fragmentTransaction.add(R.id.mainContainer, fragment,

@@ -57,7 +57,7 @@ public class SupportHomeFragment extends BaseFragment {
 		ALog.i(TAG, "onCreateView");
 		return view;
 	}
-
+	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);

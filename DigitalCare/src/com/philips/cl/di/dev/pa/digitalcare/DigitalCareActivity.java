@@ -1,7 +1,6 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -37,11 +36,6 @@ public class DigitalCareActivity extends BaseActivity {
 	protected void onResume() {
 		super.onResume();
 //		showFragment(new SupportHomeFragment());
-	}
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
 	}
 
 	public void showFragment() {
