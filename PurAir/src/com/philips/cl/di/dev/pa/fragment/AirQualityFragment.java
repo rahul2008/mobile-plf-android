@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.AirQualityExplainedStaticActivity;
+import com.philips.cl.di.dev.pa.activity.AirColorExplainedStaticActivity;
 import com.philips.cl.di.dev.pa.activity.IndoorAirColorIndicationActivity;
 import com.philips.cl.di.dev.pa.activity.OutdoorAirColorIndicationActivity;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -74,19 +74,19 @@ public class AirQualityFragment extends BaseFragment implements OnClickListener 
 			break;
 		case R.id.lbl_indoor_pollutant:
 			in = new Intent(getActivity(),
-					AirQualityExplainedStaticActivity.class);
+					AirColorExplainedStaticActivity.class);
 			in.putExtra("AIR_QUALITY_ACTIVITY", INDOOR_POLLUTANT_SCREEN);
 			startActivity(in);
 			break;
 		case R.id.lbl_vistashield:
 			in = new Intent(getActivity(),
-					AirQualityExplainedStaticActivity.class);
+					AirColorExplainedStaticActivity.class);
 			in.putExtra("AIR_QUALITY_ACTIVITY", VITASHIELD_SCREEN);
 			startActivity(in);
 			break;
 		case R.id.lbl_guard_environment:
 			in = new Intent(getActivity(),
-					AirQualityExplainedStaticActivity.class);
+					AirColorExplainedStaticActivity.class);
 			in.putExtra("AIR_QUALITY_ACTIVITY", GUARD_EVNVIRONMENT_SCREEN);
 			startActivity(in);
 			break;
