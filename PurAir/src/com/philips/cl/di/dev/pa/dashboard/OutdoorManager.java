@@ -311,6 +311,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void clearCityOutdoorInfo() {
+		resetUpdatedTime();
 		if (citiesMap != null && !citiesMap.isEmpty()) {
 			Set<String> keys = citiesMap.keySet();
 			Iterator<String> i = keys.iterator();
