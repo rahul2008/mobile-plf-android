@@ -17,24 +17,6 @@
             android:text="@string/how_can_we_help" />
 
         <RelativeLayout
-            android:id="@+id/optionContactUs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
-            android:visibility="gone" >
-
-            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                android:id="@+id/optionBtnContactUs"
-                style="@style/optionFontButton"
-                android:text="@string/opt_contact_us" />
-
-            <ImageView
-                android:id="@+id/optionImgContactUs"
-                style="@style/optionImageButton"
-                android:src="@drawable/ic_launcher" />
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/optionProdDetails"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -49,7 +31,8 @@
             <ImageView
                 android:id="@+id/optionImgProdDetails"
                 style="@style/optionImageButton"
-                android:src="@drawable/ic_launcher" />
+                android:contentDescription="@string/opt_view_product_details"
+                android:src="@drawable/support_btn_product_info" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -67,7 +50,27 @@
             <ImageView
                 android:id="@+id/optionImgFaq"
                 style="@style/optionImageButton"
-                android:src="@drawable/ic_launcher" />
+                android:contentDescription="@string/opt_view_faq"
+                android:src="@drawable/support_btn_read_faq" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/optionContactUs"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:visibility="gone" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/optionBtnContactUs"
+                style="@style/optionFontButton"
+                android:text="@string/opt_contact_us" />
+
+            <ImageView
+                android:id="@+id/optionImgContactUs"
+                style="@style/optionImageButton"
+                android:contentDescription="@string/opt_contact_us"
+                android:src="@drawable/support_btn_contact_us" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -85,7 +88,8 @@
             <ImageView
                 android:id="@+id/optionImgFindPhilips"
                 style="@style/optionImageButton"
-                android:src="@drawable/ic_launcher" />
+                android:contentDescription="@string/opt_find_philips_near_you"
+                android:src="@drawable/support_btn_find_philips" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -103,7 +107,8 @@
             <ImageView
                 android:id="@+id/optionImgThinking"
                 style="@style/optionImageButton"
-                android:src="@drawable/ic_launcher" />
+                android:contentDescription="@string/opt_what_you_think"
+                android:src="@drawable/support_btn_tell_us" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -121,7 +126,8 @@
             <ImageView
                 android:id="@+id/optionImgRegProd"
                 style="@style/optionImageButton"
-                android:src="@drawable/ic_launcher" />
+                android:contentDescription="@string/opt_register_my_product"
+                android:src="@drawable/support_btn_register_product" />
         </RelativeLayout>
     </LinearLayout>
 

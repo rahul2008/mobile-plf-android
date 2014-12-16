@@ -15,7 +15,7 @@
         <TextView
             android:id="@+id/optionProdRegTitle"
             style="@style/optionHelpText"
-            android:text="Product Registration" />
+            android:text="@string/opt_register_my_product" />
     </LinearLayout>
 
 </ScrollView>
