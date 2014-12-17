@@ -2,7 +2,7 @@
     android:id="@+id/parentActivity"
     android:layout_width="fill_parent"
     android:layout_height="match_parent" 
-    android:background="@color/gray">
+    android:background="#F0F4F9">
 
     <RelativeLayout
         android:id="@+id/mainContainer"

@@ -2,8 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:paddingLeft="@dimen/activity_margin"
-    android:paddingRight="@dimen/activity_margin"
-    android:paddingTop="@dimen/activity_margin" >
+    android:paddingRight="@dimen/activity_margin" >
 
     <LinearLayout
         android:id="@+id/optionParent"
@@ -13,7 +12,7 @@
 
         <TextView
             android:id="@+id/optionHelp"
-            style="@style/optionHelpText"
+            style="@style/supportHomeHelpText"
             android:text="@string/how_can_we_help" />
 
         <RelativeLayout
@@ -25,12 +24,12 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnProdDetails"
-                style="@style/optionFontButton"
+                style="@style/supportHomeFontButton"
                 android:text="@string/opt_view_product_details" />
 
             <ImageView
                 android:id="@+id/optionImgProdDetails"
-                style="@style/optionImageButton"
+                style="@style/supportHomeImageButton"
                 android:contentDescription="@string/opt_view_product_details"
                 android:src="@drawable/support_btn_product_info" />
         </RelativeLayout>
@@ -44,12 +43,12 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnFaq"
-                style="@style/optionFontButton"
+                style="@style/supportHomeFontButton"
                 android:text="@string/opt_view_faq" />
 
             <ImageView
                 android:id="@+id/optionImgFaq"
-                style="@style/optionImageButton"
+                style="@style/supportHomeImageButton"
                 android:contentDescription="@string/opt_view_faq"
                 android:src="@drawable/support_btn_read_faq" />
         </RelativeLayout>
@@ -63,12 +62,12 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnContactUs"
-                style="@style/optionFontButton"
+                style="@style/supportHomeFontButton"
                 android:text="@string/opt_contact_us" />
 
             <ImageView
                 android:id="@+id/optionImgContactUs"
-                style="@style/optionImageButton"
+                style="@style/supportHomeImageButton"
                 android:contentDescription="@string/opt_contact_us"
                 android:src="@drawable/support_btn_contact_us" />
         </RelativeLayout>
@@ -82,12 +81,12 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnFindPhilips"
-                style="@style/optionFontButton"
+                style="@style/supportHomeFontButton"
                 android:text="@string/opt_find_philips_near_you" />
 
             <ImageView
                 android:id="@+id/optionImgFindPhilips"
-                style="@style/optionImageButton"
+                style="@style/supportHomeImageButton"
                 android:contentDescription="@string/opt_find_philips_near_you"
                 android:src="@drawable/support_btn_find_philips" />
         </RelativeLayout>
@@ -101,12 +100,12 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnThinking"
-                style="@style/optionFontButton"
+                style="@style/supportHomeFontButton"
                 android:text="@string/opt_what_you_think" />
 
             <ImageView
                 android:id="@+id/optionImgThinking"
-                style="@style/optionImageButton"
+                style="@style/supportHomeImageButton"
                 android:contentDescription="@string/opt_what_you_think"
                 android:src="@drawable/support_btn_tell_us" />
         </RelativeLayout>
@@ -120,12 +119,12 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnRegProd"
-                style="@style/optionFontButton"
+                style="@style/supportHomeFontButton"
                 android:text="@string/opt_register_my_product" />
 
             <ImageView
                 android:id="@+id/optionImgRegProd"
-                style="@style/optionImageButton"
+                style="@style/supportHomeImageButton"
                 android:contentDescription="@string/opt_register_my_product"
                 android:src="@drawable/support_btn_register_product" />
         </RelativeLayout>

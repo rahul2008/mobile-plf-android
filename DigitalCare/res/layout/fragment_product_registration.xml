@@ -1,21 +1,76 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
+    android:background="#F0F4F9"
     android:paddingLeft="@dimen/activity_margin"
-    android:paddingRight="@dimen/activity_margin"
-    android:paddingTop="@dimen/activity_margin" 
-    android:background="@color/gray">
+    android:paddingRight="@dimen/activity_margin">
 
     <LinearLayout
-        android:id="@+id/optionParentProdReg"
+        android:id="@+id/prodRegParent"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
         <TextView
-            android:id="@+id/optionProdRegTitle"
-            style="@style/optionHelpText"
-            android:text="@string/opt_register_my_product" />
+            android:id="@+id/prodRegTitle"
+            style="@style/prodRegHelpText"
+            android:text="@string/login_to_social_media" />
+
+        <RelativeLayout
+            android:id="@+id/prodRegTwitter"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="17dp" 
+            android:background="@drawable/prod_reg_social_border_btn">
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/prodRegTwitterBtn"
+                style="@style/prodRegFontButton"
+                android:background="@drawable/prod_reg_social_twitter_btn"
+                android:text="@string/twitter" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/prodRegFacebook"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/prod_reg_social_border_btn" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/prodRegFacebookBtn"
+                style="@style/prodRegFontButton"
+                android:background="@drawable/prod_reg_social_fb_btn"
+                android:text="@string/facebook" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/prodRegLinkedin"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/prod_reg_social_border_btn" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/prodRegLinkedinBtn"
+                style="@style/prodRegFontButton"
+                android:background="@drawable/prod_reg_social_linkedin_btn"
+                android:text="@string/linkedin" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/prodRegGooglePlus"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="17dp"
+            android:background="@drawable/prod_reg_social_border_btn" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/prodRegGooglePlusBtn"
+                style="@style/prodRegFontButton"
+                android:background="@drawable/prod_reg_social_gooleplus_btn"
+                android:text="@string/googleplus" />
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>

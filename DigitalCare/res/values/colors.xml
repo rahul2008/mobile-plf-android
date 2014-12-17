@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
 
-    <color name="white">#FFFFFF</color>
+    <color name="option_button_bg_blue">#003478</color>
+    <color name="option_button_bg_blue_pressed">#005A8B</color>
+    <color name="text_color_white">#FFFFFF</color>
+
     <color name="ivory">#FFFFF0</color>
     <color name="lightyellow">#FFFFE0</color>
     <color name="yellow">#FFFF00</color>
