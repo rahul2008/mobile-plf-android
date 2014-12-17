@@ -47,6 +47,7 @@ public class SupportHomeFragment extends BaseFragment {
 	private FontButton mOptionBtnRegisterProduct = null;
 
 	private LinearLayout mOptionParent = null;
+	private FrameLayout.LayoutParams mParams = null;
 
 	private static final String TAG = "SupportHomeFragment";
 
@@ -74,16 +75,27 @@ public class SupportHomeFragment extends BaseFragment {
 		}
 		mOptionParent = (LinearLayout) getActivity().findViewById(
 				R.id.optionParent);
+		mParams = (android.widget.FrameLayout.LayoutParams) mOptionParent
+				.getLayoutParams();
+		Configuration config = getResources().getConfiguration();
+		setViewParams(config);
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mOptionParent
-				.getLayoutParams();
-		params.leftMargin = params.rightMargin = (int) getActivity()
-				.getResources().getDimension(R.dimen.activity_margin);
-		mOptionParent.setLayoutParams(params);
+	public void onConfigurationChanged(Configuration config) {
+		super.onConfigurationChanged(config);
+
+		setViewParams(config);
+	}
+
+	private void setViewParams(Configuration config) {
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+		} else {
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+		}
+		ALog.i("testing", "left right margin : " + mParams.leftMargin);
+		mOptionParent.setLayoutParams(mParams);
 	}
 
 	private void enableOptionButtons(int option) {
@@ -144,7 +156,7 @@ public class SupportHomeFragment extends BaseFragment {
 		int optionSelected = -1;
 
 		public void onClick(View view) {
-			Log.i("testing", "onClickListener view : " + view);
+			Log.i(TAG, "onClickListener view : " + view);
 			switch (view.getId()) {
 			case R.id.optionBtnContactUs:
 				actionbarTitle = getResources()

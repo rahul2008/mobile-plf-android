@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 
 /*
@@ -24,6 +26,8 @@ public class BaseFragment extends Fragment{
 
 	private static String TAG = "BaseFragment";
 	private static final Field sChildFragmentManagerField;
+	protected int mLeftRightMarginPort = 0;
+	protected int mLeftRightMarginLand = 0;
 	
 	static {
 		Field f = null;
@@ -41,6 +45,15 @@ public class BaseFragment extends Fragment{
 		ALog.d(ALog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
+	}
+	
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		mLeftRightMarginPort = (int) getActivity().getResources().getDimension(
+				R.dimen.activity_margin_port);
+		mLeftRightMarginLand = (int) getActivity().getResources().getDimension(
+				R.dimen.activity_margin_land);
 	}
 
 	@Override

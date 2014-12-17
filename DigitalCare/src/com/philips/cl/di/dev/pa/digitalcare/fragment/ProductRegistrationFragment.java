@@ -21,6 +21,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 public class ProductRegistrationFragment extends BaseFragment {
 	private LinearLayout mProdRegParentFirst = null;
 	private LinearLayout mProdRegParentSecond = null;
+	private LinearLayout.LayoutParams mParams = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,16 +38,25 @@ public class ProductRegistrationFragment extends BaseFragment {
 				R.id.prodRegParentFirst);
 		mProdRegParentSecond = (LinearLayout) getActivity().findViewById(
 				R.id.prodRegParentSecond);
+
+		mParams = (LayoutParams) mProdRegParentFirst.getLayoutParams();
+		Configuration config = getResources().getConfiguration();
+		setViewParams(config);
 	}
 
 	@Override
-	public void onConfigurationChanged(Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		LinearLayout.LayoutParams params = (LayoutParams) mProdRegParentFirst
-				.getLayoutParams();
-		params.leftMargin = params.rightMargin = (int) getActivity()
-				.getResources().getDimension(R.dimen.activity_margin);
-		mProdRegParentFirst.setLayoutParams(params);
-		mProdRegParentSecond.setLayoutParams(params);
+	public void onConfigurationChanged(Configuration config) {
+		super.onConfigurationChanged(config);
+		setViewParams(config);
+	}
+
+	private void setViewParams(Configuration config) {
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginPort;
+		} else {
+			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
+		}
+		mProdRegParentFirst.setLayoutParams(mParams);
+		mProdRegParentSecond.setLayoutParams(mParams);
 	}
 }
