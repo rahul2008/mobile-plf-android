@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
@@ -115,6 +117,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
 
@@ -148,9 +151,19 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			pmLayout.setVisibility(View.VISIBLE);
 			pmValue.setText(""+outdoorAQI.getPM25());
 			lastUpdated.setVisibility(View.VISIBLE);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm"); //201411121905
+			SimpleDateFormat requiredDateFormat = new SimpleDateFormat("HH:mm");
+			String date;
+			try {
+				Date dt=dateFormat.parse(outdoorAQI.getTimeStamp());
+				date = requiredDateFormat.format(dt);
+				updated.setText(date);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
 		}
 		if(weather != null) {
-			updated.setText(weather.getUpdatedTime());
 			weatherIcon.setImageResource(weather.getWeatherIcon());
 			weatherText.setVisibility(View.GONE);
 			temp.setText("" + weather.getTemperature()+AppConstants.UNICODE_DEGREE);
