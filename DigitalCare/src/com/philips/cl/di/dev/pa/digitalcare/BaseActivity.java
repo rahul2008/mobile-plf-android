@@ -20,8 +20,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ProductRegistrationFragment;
@@ -89,11 +87,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		ALog.i(TAG, TAG + " : onConfigurationChanged ");
-		RelativeLayout.LayoutParams params = (LayoutParams) actionBarTitle
-				.getLayoutParams();
-		params.leftMargin = (int) getResources()
-				.getDimension(R.dimen.actionbar_title_text_margin_left);
-		actionBarTitle.setLayoutParams(params);
 	}
 
 	@Override
