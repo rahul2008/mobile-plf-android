@@ -2,12 +2,15 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
 import java.util.Observer;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.ConfigurationManager;
@@ -43,6 +46,8 @@ public class SupportHomeFragment extends BaseFragment {
 	private FontButton mOptionBtnThinking = null;
 	private FontButton mOptionBtnRegisterProduct = null;
 
+	private LinearLayout mOptionParent = null;
+
 	private static final String TAG = "SupportHomeFragment";
 
 	private FragmentObserver mAppObserver = DigitalCareApplication
@@ -57,7 +62,7 @@ public class SupportHomeFragment extends BaseFragment {
 		ALog.i(TAG, "onCreateView");
 		return view;
 	}
-	
+
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -67,6 +72,18 @@ public class SupportHomeFragment extends BaseFragment {
 		for (int btnOption : configManagerinstance.getFeatureListKeys()) {
 			enableOptionButtons(btnOption);
 		}
+		mOptionParent = (LinearLayout) getActivity().findViewById(
+				R.id.optionParent);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		FrameLayout.LayoutParams params = (android.widget.FrameLayout.LayoutParams) mOptionParent
+				.getLayoutParams();
+		params.leftMargin = params.rightMargin = (int) getActivity()
+				.getResources().getDimension(R.dimen.activity_margin);
+		mOptionParent.setLayoutParams(params);
 	}
 
 	private void enableOptionButtons(int option) {

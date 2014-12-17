@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -13,11 +14,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ProductRegistrationFragment;
@@ -85,6 +90,40 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		ALog.i(TAG, TAG + " : onConfigurationChanged ");
+		RelativeLayout.LayoutParams params = (LayoutParams) actionBarTitle
+				.getLayoutParams();
+		params.leftMargin = (int) getResources()
+				.getDimension(R.dimen.actionbar_title_text_margin_left);
+		actionBarTitle.setLayoutParams(params);
+	}
+
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		switch (keyCode) {
+		case KeyEvent.KEYCODE_BACK:
+			List<Fragment> fragmentList = getSupportFragmentManager()
+					.getFragments();
+			ALog.i("testing", " KEYCODE_BACK : fragmentList : " + fragmentList
+					+ " -- fragmentList.size() : " + fragmentList.size());
+			if (fragmentList != null) {
+				int size = fragmentList.size();
+				if (fragmentList.get(size - 1) != null) {
+					ALog.i(TAG,
+							" KEYCODE_BACK : "
+									+ fragmentList.get(fragmentList.size() - 1));
+					if (size == 1) {
+						finish();
+					}
+				} else /* if(fragmentList.get(size - 1) == null) */{
+					// ALog.i(TAG,
+					// " KEYCODE_BACK : "
+					// + fragmentList.get(fragmentList.size() - 2));
+					finish();
+				}
+			}
+			break;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
@@ -105,9 +144,9 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	};
 
 	private void optionSelected(int value) {
-//		Log.i(TAG,
-//				"BaseActivity optionSelected : "
-//						+ mFragmentObserver.getOptionSelected());
+		// Log.i(TAG,
+		// "BaseActivity optionSelected : "
+		// + mFragmentObserver.getOptionSelected());
 		switch (value) {
 		case DigiCareContants.OPTION_CONTACT_US:
 			break;
