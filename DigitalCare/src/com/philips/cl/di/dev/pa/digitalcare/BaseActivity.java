@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -35,7 +34,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
  * Creation Date : 5 Dec 2014
  */
 public class BaseActivity extends ActionBarActivity implements Observer {
-	private ImageView leftMenu;
+	// private ImageView leftMenu;
 	private ImageView backToHome;
 	private FontTextView actionBarTitle;
 
@@ -70,14 +69,15 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		View viewActionbar = getLayoutInflater().inflate(
 				R.layout.home_action_bar,
 				(ViewGroup) findViewById(R.id.action_bar_lyt));
-		leftMenu = (ImageView) viewActionbar.findViewById(R.id.left_menu_img);
+		// leftMenu = (ImageView)
+		// viewActionbar.findViewById(R.id.left_menu_img);
 		backToHome = (ImageView) viewActionbar
 				.findViewById(R.id.back_to_home_img);
 		actionBarTitle = (FontTextView) viewActionbar
 				.findViewById(R.id.action_bar_title);
 		actionBarTitle.setTypeface(Typeface.DEFAULT);
 
-		leftMenu.setOnClickListener(actionBarClickListener);
+		// leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
 
 		actionBar.setCustomView(viewActionbar);
@@ -91,31 +91,44 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		switch (keyCode) {
-		case KeyEvent.KEYCODE_BACK:
-			List<Fragment> fragmentList = getSupportFragmentManager()
-					.getFragments();
-			ALog.i("testing", " KEYCODE_BACK : fragmentList : " + fragmentList
-					+ " -- fragmentList.size() : " + fragmentList.size());
-			if (fragmentList != null) {
-				int size = fragmentList.size();
-				if (fragmentList.get(size - 1) != null) {
-					ALog.i(TAG,
-							" KEYCODE_BACK : "
-									+ fragmentList.get(fragmentList.size() - 1));
-					if (size == 1) {
-						finish();
-					}
-				} else /* if(fragmentList.get(size - 1) == null) */{
-					// ALog.i(TAG,
-					// " KEYCODE_BACK : "
-					// + fragmentList.get(fragmentList.size() - 2));
-					finish();
-				}
-			}
-			break;
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			return backstackFragment();
 		}
+
 		return super.onKeyDown(keyCode, event);
+	}
+
+	private boolean backstackFragment() {
+		ALog.i("testing",
+				"getSupportFragmentManager().getBackStackEntryCount() : "
+						+ getSupportFragmentManager().getBackStackEntryCount());
+		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+			this.finish();
+			return false;
+		} else {
+			getSupportFragmentManager().popBackStack();
+			removeCurrentFragment();
+			return false;
+		}
+	}
+
+	private void removeCurrentFragment() {
+		FragmentTransaction transaction = getSupportFragmentManager()
+				.beginTransaction();
+
+		Fragment currentFrag = getSupportFragmentManager().findFragmentById(
+				R.id.mainContainer);
+//		String fragName = "NONE";
+//
+//		if (currentFrag != null)
+//			fragName = currentFrag.getClass().getSimpleName();
+
+		if (currentFrag != null){
+			transaction.remove(currentFrag);
+		}
+		
+		transaction.commit();
+
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
@@ -123,11 +136,11 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		@Override
 		public void onClick(View view) {
 			switch (view.getId()) {
-			case R.id.left_menu_img:
-				finish();
-				break;
+			// case R.id.left_menu_img:
+			// finish();
+			// break;
 			case R.id.back_to_home_img:
-				finish();
+				backstackFragment();
 				break;
 			default:
 				break;
