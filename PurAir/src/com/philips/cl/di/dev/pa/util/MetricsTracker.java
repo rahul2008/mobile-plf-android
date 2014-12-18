@@ -83,27 +83,34 @@ public class MetricsTracker {
 	private static final String VALUE_SUCCESS_LOGIN = "successLogin";
 	private static final String VALUE_PRODUCT_VIEW = "prodView";
 	private static final String VALUE_MODEL_AC4373 = "AC4373";
+	
+	private static boolean trackMetrics = false;
 
 	public static void initContext(Context context) {
+		if(!trackMetrics) return;
 		Config.setContext(context);
 	}
 
 	// This needs to call on onResume() of every activity.
 	public static void startCollectLifecycleData(Activity activity) {
+		if(!trackMetrics) return;
 		Config.collectLifecycleData();
 	}
 
 	// This needs to call on onPause() of every activity.
 	public static void stopCollectLifecycleData() {
+		if(!trackMetrics) return;
 		Config.pauseCollectingLifecycleData();
 	}
 
 	public static void trackPage(String pageName) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "Track page " + pageName);
 		Analytics.trackState(pageName, addAnalyticsDataObject());
 	}
 	
 	public static void trackPageUserLoginChannel(String loginChannel) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : loginChannel : " + loginChannel); 
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_LOGIN_CHANNEL, loginChannel);
@@ -111,6 +118,7 @@ public class MetricsTracker {
 	}
 	
 	public static void trackActionEWSStart() {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : EWSStart");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, "startConnection");
@@ -118,6 +126,7 @@ public class MetricsTracker {
 	}
 	
 	public static void trackActionEWSSuccess() {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : EWSSuccess");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, "successConnection");
@@ -130,12 +139,14 @@ public class MetricsTracker {
 	}
 	
 	public static void trackUserError(String action, String errorMsg) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackUserError : action " + action + " errorMessage " + errorMsg);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, "startConnection");
 	}
 
 	public static void trackActionServiceRequest(String serviceChannel) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ServiceRequest : " + serviceChannel);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put("serviceChannel", serviceChannel);
@@ -143,6 +154,7 @@ public class MetricsTracker {
 	}
 	
 	public static void trackPageStartUserRegistration(String registrationChannel) {
+		if(!trackMetrics) return;
 		// @argument: registration channel means facebook, twitter etc.
 		ALog.i(ALog.TAGGING, "TrackPage : StartUserRegistration : channel " + registrationChannel);
 		Map<String, Object> contextData = addAnalyticsDataObject();
@@ -152,6 +164,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackPageFinishedUserRegistration() {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : user registration successful");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_USER_REGISTRATION);
@@ -159,6 +172,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackPageSuccessLoginUser(String pageName) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : SuccessLogin " + pageName);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_LOGIN);
@@ -167,6 +181,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackPageProductView(String products) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : PageProductView " + products);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_PRODUCT_VIEW);
@@ -174,6 +189,7 @@ public class MetricsTracker {
 	}
 	
 	public static void trackPageUserError(String pageName, String errorMsg) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : UserError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_ERROR_USER, errorMsg);
@@ -181,6 +197,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionUserError(String errorMsg) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : UserError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_ERROR_USER, errorMsg);
@@ -188,6 +205,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackPageTechnicalError(String pageName, String errorMsg) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : TechnicalError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_ERROR_TECHNICAL, errorMsg);
@@ -195,6 +213,7 @@ public class MetricsTracker {
 	}
 	
 	public static void trackActionTechnicalError(String errorMsg) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : TechnicalError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_ERROR_TECHNICAL, errorMsg);
@@ -202,6 +221,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionAppStatus(String appStatus) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : AppStatus " + appStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_APP_STATUS, appStatus);
@@ -209,6 +229,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionConnectionType(ConnectionState connectionType) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ConnectionType " + connectionType);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_CONTROL_CONNECTION_TYPE, connectionType);
@@ -221,6 +242,7 @@ public class MetricsTracker {
 	 * the visitor swiches using the home button.
 	 */
 	public static void trackActionExitLink(String link) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ExitLink " + link);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_EXIT_LINK, link);
@@ -228,6 +250,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionBuyButton() {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : BuyButton");
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put("leadinfo", "Philips lead");
@@ -235,6 +258,7 @@ public class MetricsTracker {
 	}
 	
 	public static void trackActionDownloaded(String fileName) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : DownloadFile " + fileName);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_FILENAME, fileName);
@@ -242,6 +266,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionLocationPurifier(String location) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : Puirifer location " + location);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_LOCATION_PURIFIER, location);
@@ -249,6 +274,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionLocationWeather(String location) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : weather location " + location);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_LOCATION_WEATHER, location);
@@ -256,18 +282,21 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionVideoStart(String videoName) {
+		if(!trackMetrics) return;
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_VIDEO_NAME, videoName);
 		Analytics.trackAction(ACTION_VIDEO_START, contextData);
 	}
 
 	public static void trackActionVideoEnd(String videoName) {
+		if(!trackMetrics) return;
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_VIDEO_NAME, videoName);
 		Analytics.trackAction(ACTION_VIDEO_END, contextData);
 	}
 
 	public static void trackActionTogglePower(String powerStatus) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : Power " + powerStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, powerStatus);
@@ -275,6 +304,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionIndicatorLight(String lightStatus) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : IndicatorLight " + lightStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, lightStatus);
@@ -282,6 +312,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionScheduleAdd() {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ScheduleAdd");
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_SCHEDULE_ADDED);
@@ -289,6 +320,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionTimerAdded(String time) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : TimerAdded " + time);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_TIMER + time);
@@ -296,6 +328,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionNotificationAirQuality(String airQuality) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : NotificationAQI " + airQuality);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_AIR_QUALITY
@@ -311,6 +344,7 @@ public class MetricsTracker {
 //	}
 
 	public static void trackActionFanSpeed(String speed) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : FanSpeed " + speed);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, VALUE_SPEED + speed);
@@ -318,6 +352,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionChildLock(String childLockStatus) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ChildLock " + childLockStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, childLockStatus);
@@ -325,6 +360,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionNotification(boolean notification) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : NotificationEnabled " + notification);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (notification) {
@@ -336,6 +372,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionRemoteControl(boolean remote) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : RemoteEnabled " + remote);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (remote) {
@@ -347,6 +384,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionAdvanceNetworkConfig(boolean config) {
+		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : AdvancedNetworkConfig " + config);
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		if (config) {
@@ -358,6 +396,7 @@ public class MetricsTracker {
 	}
 
 	public static void trackActionAddSchedule() {
+		if(!trackMetrics) return;
 		Map<String, Object> contextData = new HashMap<String, Object>();
 		contextData.put(KEY_OPTION_DETAILS, "schedule added");
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
