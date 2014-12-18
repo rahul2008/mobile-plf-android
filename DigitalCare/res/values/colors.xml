@@ -4,8 +4,10 @@
     <color name="option_button_bg_blue">#003478</color>
     <color name="option_button_bg_blue_pressed">#005A8B</color>
     <color name="text_color_white">#FFFFFF</color>
-     <color name="black">#000000</color>
-
+    <color name="black">#000000</color>
+    <color name="actionbar_bg_start_color">#003478</color>
+    <color name="actionbar_bg_end_color">#0066A1</color>
+    
     <color name="ivory">#FFFFF0</color>
     <color name="lightyellow">#FFFFE0</color>
     <color name="yellow">#FFFF00</color>
@@ -146,7 +148,6 @@
     <color name="mediumblue">#0000CD</color>
     <color name="darkblue">#00008B</color>
     <color name="navy">#000080</color>
-   
     <color name="progressbar_gray">#E0E0E0</color>
     <color name="progressbar_gray2">#CCE5FF</color>
     <color name="filter_good">#0E5C8D</color>

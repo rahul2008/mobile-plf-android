@@ -38,7 +38,7 @@
             android:id="@+id/optionFaq"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
@@ -57,7 +57,7 @@
             android:id="@+id/optionContactUs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
@@ -76,7 +76,7 @@
             android:id="@+id/optionFindPhilips"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
@@ -95,7 +95,7 @@
             android:id="@+id/optionThinking"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
@@ -114,7 +114,8 @@
             android:id="@+id/optionRegProd"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="20dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton

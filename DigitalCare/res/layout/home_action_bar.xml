@@ -2,13 +2,14 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/action_bar_lyt"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="@drawable/shape_gradient_actionbar_bg">
 
     <ImageView
         android:id="@+id/left_menu_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_image_bg_selector"
+        android:background="@drawable/selector_clickable_image_bg"
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:src="@drawable/left_slidermenu_icon_2x"
@@ -18,7 +19,7 @@
         android:id="@+id/back_to_home_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/clickable_image_bg_selector"
+        android:background="@drawable/selector_clickable_image_bg"
         android:contentDescription="@string/img_description"
         android:src="@drawable/lef_arrow_blue_2x" />
 
@@ -31,7 +32,7 @@
         android:layout_centerInParent="true"
         android:singleLine="true"
         android:text="@string/actionbar_title_support"
-        android:textColor="@color/philips_blue"
+        android:textColor="@color/text_color_white"
         android:textSize="@dimen/actionbar_title_text_size"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
