@@ -99,13 +99,12 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	}
 
 	private boolean backstackFragment() {
-		ALog.i("testing",
-				"getSupportFragmentManager().getBackStackEntryCount() : "
-						+ getSupportFragmentManager().getBackStackEntryCount());
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			this.finish();
 			return false;
 		} else {
+			actionBarTitle.setText(getResources().getString(
+					R.string.actionbar_title_support));
 			getSupportFragmentManager().popBackStack();
 			removeCurrentFragment();
 			return false;
@@ -118,15 +117,15 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 		Fragment currentFrag = getSupportFragmentManager().findFragmentById(
 				R.id.mainContainer);
-//		String fragName = "NONE";
-//
-//		if (currentFrag != null)
-//			fragName = currentFrag.getClass().getSimpleName();
+		// String fragName = "NONE";
+		//
+		// if (currentFrag != null)
+		// fragName = currentFrag.getClass().getSimpleName();
 
-		if (currentFrag != null){
+		if (currentFrag != null) {
 			transaction.remove(currentFrag);
 		}
-		
+
 		transaction.commit();
 
 	}
