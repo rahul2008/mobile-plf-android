@@ -94,7 +94,6 @@ public class SupportHomeFragment extends BaseFragment {
 		} else {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
-		ALog.i("testing", "left right margin : " + mParams.leftMargin);
 		mOptionParent.setLayoutParams(mParams);
 	}
 

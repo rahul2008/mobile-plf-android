@@ -6,17 +6,16 @@ import java.util.Observer;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
@@ -46,6 +45,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
 		Log.i(TAG, "onCreate");
+		requestWindowFeature(Window.FEATURE_NO_TITLE);  
 	}
 
 	public void setFragmentDetails(String actionbarTitle) {
@@ -60,12 +60,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	}
 
 	protected void initActionBar() throws ClassCastException {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setHomeButtonEnabled(false);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d = getResources().getDrawable(R.drawable.ews_nav_bar_2x);
-		actionBar.setBackgroundDrawable(d);
 		View viewActionbar = getLayoutInflater().inflate(
 				R.layout.home_action_bar,
 				(ViewGroup) findViewById(R.id.action_bar_lyt));
@@ -79,8 +73,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 		// leftMenu.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
-
-		actionBar.setCustomView(viewActionbar);
 	}
 
 	@Override

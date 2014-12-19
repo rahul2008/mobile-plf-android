@@ -35,7 +35,6 @@ public class DigitalCareActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-//		showFragment(new SupportHomeFragment());
 	}
 
 	public void showFragment() {
