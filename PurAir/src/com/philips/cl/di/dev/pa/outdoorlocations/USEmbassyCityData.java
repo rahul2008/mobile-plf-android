@@ -3,14 +3,15 @@ package com.philips.cl.di.dev.pa.outdoorlocations;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CMACityData {
-	private List<CMACityDetail> cmaCityDetail = new ArrayList<CMACityDetail>();
+public class USEmbassyCityData {
 	
-	public List<CMACityDetail> getCmaCitiesData() {
-		return cmaCityDetail;
+	private List<USEmbassyCityDetail> usembassyCityDetail = new ArrayList<USEmbassyCityDetail>();
+	
+	public List<USEmbassyCityDetail> getUSEmbassyCitiesData() {
+		return usembassyCityDetail;
 	}
 	
-	public class CMACityDetail {
+	public class USEmbassyCityDetail {
 		private String nameEN;
 		private String areaID;
 		private String longitude;

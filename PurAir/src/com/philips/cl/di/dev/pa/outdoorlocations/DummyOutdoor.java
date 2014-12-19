@@ -170,7 +170,7 @@ public class DummyOutdoor {
 	}
 
 	public List<ForecastWeatherDto> getFourDayWeatherForecast() {
-		return DataParser.parseFourDaysForecastData(fourDayWeatherForecastJson, "101270101");
+		return DataParser.parseFourDaysForecastData(fourDayWeatherForecastJson);
 	}
 
 	public List<Weatherdto> getTodayWeatherForecast() {

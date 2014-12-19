@@ -53,9 +53,12 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
 		if (areaID.isEmpty())  return;
 		
+		//TODO : Make this all from OutdoorManager
+		final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
+		final String AIR_HISTORY = "air_his";
 		long timeInMili = Utils.getCurrentChineseDate().getTime();
 		TaskGetHttp aqiHistoricTask = new TaskGetHttp(new CMAHelper(Utils.getCMA_AppID(),Utils.getCMA_PrivateKey()).getURL(
-				OutdoorController.BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, 
+				BASE_URL_AQI, areaID, AIR_HISTORY, 
 				Utils.getDate((timeInMili -  daysInMillisecs)) + "," 
 				+ Utils.getDate(timeInMili)), 
 				areaID, PurAirApplication.getAppContext(), this);
@@ -75,7 +78,7 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor percent download response: " + responseCode);
 		if (responseCode == 200) {
 			if (responseData != null && !areaID.isEmpty()) {
-				List<OutdoorAQI> outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
+				List<OutdoorAQI> outdoorAQIs = DataParser.parseHistoricalAQIData(responseData);
 				calculateAqiPercentage(outdoorAQIs);
 			} else if (areaID.isEmpty() && responseData != null && !responseData.isEmpty()) {
 				

@@ -34,27 +34,23 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.cma.CMAHelper;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorImage;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
-import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.GraphConst;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
-import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
@@ -62,7 +58,7 @@ import com.philips.cl.di.dev.pa.view.GraphView;
 import com.philips.cl.di.dev.pa.view.WeatherReportLayout;
 
 public class OutdoorDetailsActivity extends BaseActivity 
-	implements OnClickListener, ServerResponseListener, OutdoorDetailsListener {
+	implements OnClickListener, OutdoorDetailsListener {
 
 	private LinearLayout graphLayout, wetherForcastLayout;
 	private WeatherReportLayout weatherReportLayout;
@@ -99,7 +95,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	private HashMap<Integer, Float> dailyAqiValueMap;
 	private HashMap<Integer, Integer> dailyAqiValueCounterMap;
-	private OutdoorDataProvider outdoorDataProvider = OutdoorDataProvider.CMA;
 
 	@SuppressLint("SimpleDateFormat")
 	@Override
@@ -273,8 +268,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
-		OutdoorController.getInstance().setOutdoorDetailsListener(this) ;
-		
 		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
 		
 		if( aqiValue != null) {
@@ -301,9 +294,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 				showAlertDialog("", getString(R.string.outdoor_download_failed));
 				return;
 			}
-			startCityAQIHistoryTask(areaId, aqiValue.getDataProvider());
-			OutdoorController.getInstance().startCityOneDayForecastTask(areaId) ;
-			OutdoorController.getInstance().startCityFourDayForecastTask(areaId) ;
+			OutdoorManager.getInstance().startHistoricalAQITask(areaId);
+			OutdoorManager.getInstance().startOneDayWeatherForecastTask(areaId);
+			OutdoorManager.getInstance().startCityFourDayForecastTask(areaId);
 		}
 	}
 	
@@ -471,6 +464,13 @@ public class OutdoorDetailsActivity extends BaseActivity
 	protected void onResume() {
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_DETAILS);
+		OutdoorManager.getInstance().setOutdoorDetailsListener(this);
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		OutdoorManager.getInstance().removeOutdoorDetailsListener(this);
 	}
 	
 	@Override
@@ -610,30 +610,6 @@ public class OutdoorDetailsActivity extends BaseActivity
 		}
 	}
 	
-	public void startCityAQIHistoryTask(String areaID, int dataProvider) { 
-		long daysInMillisecs = 1000 * 60 * 60 * 24 * 30l; // 30 Days
-		if (OutdoorController.getInstance().isPhilipsSetupWifiSelected()) return;
-		
-		String url = "";
-		
-		if (dataProvider == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-			//TODO remove next line code
-			areaID = "shanghai";
-			url = "http://222.73.255.34/?city=" + areaID;
-			outdoorDataProvider = OutdoorDataProvider.US_EMBASSY;
-		} else {
-			long timeInMili = Utils.getCurrentChineseDate().getTime();
-			url = new CMAHelper(Utils.getCMA_AppID(),Utils.getCMA_PrivateKey()).getURL(
-					OutdoorController.BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, 
-					Utils.getDate((timeInMili - daysInMillisecs)) + "," 
-					+ Utils.getDate(timeInMili));
-			outdoorDataProvider = OutdoorDataProvider.CMA;
-		}
-		
-		TaskGetHttp aqiHistoricTask = new TaskGetHttp(url, areaID, PurAirApplication.getAppContext(), this);
-		aqiHistoricTask.start();
-	}
-	
 	private void addDummyDataForDemoMode() {
 		currentCityHourOfDay = calenderGMTChinese.get(Calendar.HOUR_OF_DAY);
 		currentCityDayOfWeek = calenderGMTChinese.get(Calendar.DAY_OF_WEEK);
@@ -671,24 +647,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String areaID) {
-		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Aqi downloaded response code: " + responseCode);
-		if (responseCode == 200) {
-			if (outdoorDataProvider == OutdoorDataProvider.US_EMBASSY) {
-				outdoorAQIs = DataParser.parseUSEmbassyHistoricalAQIData(responseData, areaID);
-			} else {
-				outdoorAQIs = DataParser.parseHistoricalAQIData(responseData, areaID);
-			}
-			if (outdoorAQIs != null && !outdoorAQIs.isEmpty()) {
-				addAQIHistoricData();
-			}
-		} else {
-			handler.sendEmptyMessage(2);
-		}
-	}
-
-	@Override
-	public void onHourlyWeatherForecastReceived(final List<Weatherdto> weatherList) {
+	public void onOneDayWeatherForecastReceived(final List<Weatherdto> weatherList) {
 		if( weatherList != null ) {
 			ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
 			runOnUiThread(new Runnable() {
@@ -706,7 +665,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	}
 
 	@Override
-	public void onWeatherForecastReceived(final List<ForecastWeatherDto> weatherList) {
+	public void onFourDayWeatherForecastReceived(final List<ForecastWeatherDto> weatherList) {
 
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor Weather received: "+weatherList.size()) ;
 		runOnUiThread(new Runnable() {
@@ -729,6 +688,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 		});
 	}
 
+	//TODO : Show error message when no data is shown. handler.sendEmptyMessage(2);
 	@Override
-	public void onAQIHisttReceived(List<OutdoorAQI> outdoorAQIHistory) {/**NOP*/}
+	public void onAQIHistoricalDataReceived(List<OutdoorAQI> outdoorAQIHistory) {
+		outdoorAQIs = outdoorAQIHistory;
+		addAQIHistoricData();
+	}
 }

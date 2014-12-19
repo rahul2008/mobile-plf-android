@@ -6,7 +6,6 @@ import android.content.Context;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 
 public class OutdoorAQI implements  Serializable {
 
@@ -21,7 +20,7 @@ public class OutdoorAQI implements  Serializable {
 	private int p5;
 	private String timeStamp;
 	private String areaID;
-	private int dataProvider;
+	private int dataProvider; //TODO : Move to Info?
 
 	public OutdoorAQI(int p1, int p2, int pm10, int so2, 
 			int no2, String areaID, String timeStamp, int dataProvider) {

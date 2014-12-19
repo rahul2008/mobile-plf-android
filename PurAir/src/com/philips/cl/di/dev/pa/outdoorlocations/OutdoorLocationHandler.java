@@ -143,7 +143,6 @@ public class OutdoorLocationHandler {
 				try {
 					database.open();
 					database.fillDatabaseForCSV();
-					fetchAllCityList(database) ;
 					database.close();
 
 				} catch (SQLiteException e) {
@@ -159,45 +158,5 @@ public class OutdoorLocationHandler {
 
 	public static void reset() {
 		mInstance = null;
-	}
-
-	public static synchronized void fetchAllCityList(final OutdoorLocationDatabase database) {
-		if(OutdoorManager.getInstance().getAllCitiesList() != null 
-				&& OutdoorManager.getInstance().getAllCitiesList().size() <= 0){
-			Cursor cursor = database.getDataFromOutdoorLoacation(null);
-			fillAllCitiesListFromDatabase(cursor);
-		}
-
-	}
-
-	private static synchronized void fillAllCitiesListFromDatabase(Cursor cursor) {
-
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			do {
-				String city = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_CITY));
-				String cityCN = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_CITY_CN));
-				String cityTW = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_CITY_TW));
-				String areaID = cursor.getString(cursor
-						.getColumnIndex(AppConstants.KEY_AREA_ID));
-				float longitude = cursor.getFloat(cursor
-						.getColumnIndex(AppConstants.KEY_LONGITUDE));
-				float latitude = cursor.getFloat(cursor
-						.getColumnIndex(AppConstants.KEY_LATITUDE));
-
-				ALog.i(ALog.OUTDOOR_LOCATION,
-						"Add cities from DB to outdoor dashboard city " + city
-						+ " areaID " + areaID);
-				OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN,
-						cityTW, longitude, latitude, areaID);
-				OutdoorManager.getInstance().addAreaIdToAllCitiesList(areaID);
-				OutdoorManager.getInstance().addAllCityDataToMap(info, null,
-						null, areaID);
-			} while (cursor.moveToNext());
-			// mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
-		}
 	}
 }

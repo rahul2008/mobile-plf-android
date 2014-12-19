@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -14,34 +12,18 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.cma.CMAHelper;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
-import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 import com.philips.cl.di.dev.pa.util.ServerResponseListener;
 import com.philips.cl.di.dev.pa.util.Utils;
 
+//TODO : Remove this class for next version.
 public class OutdoorController implements ServerResponseListener, AMapLocationListener {
-
-	private static String BASE_URL ;
-
-	public static final String BASE_URL_AQI = "http://api.fuwu.weather.com.cn/wis_forcastdata/data/getData.php";
-	public static final String BASE_URL_HOURLY_FORECAST = "http://data.fuwu.weather.com.cn/getareaid/areaid?id=";
-	
-	public static final String AIR = "air";
-	public static final String AIR_HISTORY = "air_his";
-	public static final String OBSERVE = "observe";
-	public static final String FORECAST_4_DAYS = "forecast4d";
-	
-	private List<OutdoorEventListener> outdoorEventListeners;
-	private OutdoorDetailsListener outdoorDetailsListener ;
 
 	private LocationManagerProxy mAMapLocationManager;
 	private double latitude;
@@ -55,14 +37,9 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	
 	private CurrentCityAreaIdReceivedListener areaIdReceivedListener;
 
-	private CMAHelper cmaHelper;
-	
 	private OutdoorController() {
 		lastKnownLocationFound = false;
-		BASE_URL = Utils.getCMA_BaseURL() ;
-		outdoorEventListeners = new ArrayList<OutdoorEventListener>();
 		setLocationProvider();
-		cmaHelper = new CMAHelper(Utils.getCMA_AppID(),Utils.getCMA_PrivateKey());
 	}
 	
 	public void setLocationProvider() {
@@ -92,117 +69,10 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		return smInstance;
 	}
 
-	public void setOutdoorDetailsListener(OutdoorDetailsListener outdoorDetailsListener) {
-		this.outdoorDetailsListener = outdoorDetailsListener ;
-	}
-
-	public void setOutdoorEventListener(OutdoorEventListener outdoorEventListener) {
-		outdoorEventListeners.add(outdoorEventListener);
-	}
-
-	public void removeOutdoorEventListener(OutdoorEventListener outdoorEventListener) {
-		outdoorEventListeners.remove(outdoorEventListener);
-	}
-
-	public void startCityAQITask(List<String> cities) {
-		if (isPhilipsSetupWifiSelected()) return;
-		
-		String areaIds = cities.toString().replace("[", "").replace("]", "").replace(", ", ",");
-
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), "user_cities", PurAirApplication.getAppContext(), this);
-		citiesList.start();
-	}
-	
-	public void startAllCitiesAQITask() {
-		if (isPhilipsSetupWifiSelected()) return;
-		
-		//Split requesting 194 cities data into 2 requests.
-		String areaIds = OutdoorManager.getInstance().getAllCitiesList().subList(0, 97).toString().replace("[", "").replace("]", "").replace(", ", ",");
-		String areaIds2 = OutdoorManager.getInstance().getAllCitiesList().subList(98, OutdoorManager.getInstance().getAllCitiesList().size()).toString().replace("[", "").replace("]", "").replace(", ", ",");
-		
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
-		citiesList.start();
-		
-		TaskGetHttp citiesList2 = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaIds2, OutdoorController.AIR, Utils.getDate(System.currentTimeMillis())), "all_cities", PurAirApplication.getAppContext(), this);
-		citiesList2.start();
-	}
-
-	public void startCityAQIHistoryTask(String areaID) {
-		if (isPhilipsSetupWifiSelected()) return;
-
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, areaID, OutdoorController.AIR_HISTORY, Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
-		citiesList.start();
-	}
-
-	public void startCityWeatherTask(List<String> cities) {
-		if (isPhilipsSetupWifiSelected()) return;
-
-		String areaIds = cities.toString().replace("[", "").replace("]", "").replace(", ", ",");
-		
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL, areaIds, OutdoorController.OBSERVE, Utils.getDate(System.currentTimeMillis())), "user_cities", PurAirApplication.getAppContext(), this);
-		citiesList.start();
-	}
-
-	public void startCityFourDayForecastTask(String areaID) {
-		if (isPhilipsSetupWifiSelected()) return;
-
-		TaskGetHttp citiesList = new TaskGetHttp(cmaHelper.getURL(BASE_URL, areaID, OutdoorController.FORECAST_4_DAYS, Utils.getDate(System.currentTimeMillis())), areaID, PurAirApplication.getAppContext(), this);
-		citiesList.start();
-	}
-
-	public void startCityOneDayForecastTask(String areaID) {
-		if (isPhilipsSetupWifiSelected()) return;
-
-		TaskGetHttp citiesList = new TaskGetHttp(BASE_URL_HOURLY_FORECAST + areaID + "&time=day", areaID, PurAirApplication.getAppContext(), this);
-		citiesList.start();
-	}
-
-	private void notifyListeners(String data, String areaID) {
-		if(outdoorEventListeners == null) return;
-
-		List<OutdoorAQI> outdoorAQIList = DataParser.parseLocationAQI(data);
-		List<OutdoorWeather> outdoorWeatherList = DataParser.parseLocationWeather(data);
-
-		if(areaID.equals("all_cities")) {
-			List<OutdoorAQI> aqis = DataParser.parseAllLocationAQI(data);
-			for(int index = 0; index < outdoorEventListeners.size(); index++) {
-				outdoorEventListeners.get(index).allOutdoorAQIDataReceived(aqis);
-			}
-		} else if( outdoorAQIList == null && outdoorWeatherList == null ) {
-			if( outdoorDetailsListener == null ) return ;
-			List<Weatherdto>  weatherList = DataParser.getHourlyWeatherData(data) ;
-			if( weatherList != null)
-				outdoorDetailsListener.onHourlyWeatherForecastReceived(weatherList) ;
-			List<ForecastWeatherDto> forecastWeatherDto = DataParser.parseFourDaysForecastData(data, areaID) ;
-			if( forecastWeatherDto != null ) {
-				outdoorDetailsListener.onWeatherForecastReceived(forecastWeatherDto) ;
-			}
-		} else {
-			for(int index = 0; index < outdoorEventListeners.size(); index++) {
-				if(outdoorAQIList != null && !outdoorAQIList.isEmpty()) {
-					Iterator<OutdoorAQI> iter = outdoorAQIList.iterator();
-					while(iter.hasNext()) {
-						OutdoorAQI aqi = iter.next();
-						outdoorEventListeners.get(index).outdoorAQIDataReceived(aqi, aqi.getAreaID());
-					}
-				}
-				if(outdoorWeatherList != null && !outdoorWeatherList.isEmpty()) {
-					Iterator<OutdoorWeather> iter = outdoorWeatherList.iterator();
-					while(iter.hasNext()) {
-						OutdoorWeather outdoorWeather = iter.next();
-						outdoorEventListeners.get(index).outdoorWeatherDataReceived(outdoorWeather, outdoorWeather.getAreaID());
-					}
-				}
-			}
-		}
-	}
-
 	@Override
 	public void receiveServerResponse(int responseCode, String data, String areaID) {
 		ALog.i(ALog.DASHBOARD, "OutdoorController data received " + data + " responseCode " + responseCode + " areaID " + areaID);
-		if(data != null && !areaID.isEmpty() && !areaID.equals("from_lat_long")) {
-			notifyListeners(data, areaID);
-		} else if (!areaID.isEmpty() && areaID.equals("from_lat_long") && data != null && !data.isEmpty()) {
+		if (!areaID.isEmpty() && areaID.equals("from_lat_long") && data != null && !data.isEmpty()) {
 			processAreaID(data);
 		} 
 	}
@@ -303,7 +173,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 
 	@Override
 	public void onLocationChanged(AMapLocation aLocation) {
-//		ALog.i(ALog.OUTDOOR_LOCATION, "onLocationChanged aLocation " + aLocation + " exists current loc aid: " + LocationUtils.getCurrentLocationAreaId());
 		location = aLocation;
 		
 		if(location!=null && location.getLatitude()>0 && location.getLongitude()>0 && !LocationUtils.getCurrentLocationAreaId().isEmpty() && (GPSLocation.getInstance().isLocationEnabled()))
@@ -378,9 +247,4 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 	public interface CurrentCityAreaIdReceivedListener {
 		void areaIdReceived();
 	}
-	
-	public static void setDummyOutdoorControllerForTesting(OutdoorController controller) {
-		smInstance = controller;
-	}
-	
 }

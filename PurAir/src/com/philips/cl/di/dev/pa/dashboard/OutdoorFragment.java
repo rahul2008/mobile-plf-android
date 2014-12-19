@@ -27,7 +27,6 @@ import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -114,7 +113,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 				}
 			}
 		} 
-
 	}
 
 	@SuppressLint("SimpleDateFormat")
@@ -207,7 +205,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			int pm10 = 35;
 			int so2 = 3;
 			int no2 = 11;
-			String time = "201411121905";
+			String time = "201411121905"; //This time is not used, added this to avoid null value in OutdoorAQI object.
 			outdoorAQI = new OutdoorAQI(pm2Point5, aqi, pm10, so2, no2, areaID, time, OutdoorDataProvider.CMA.ordinal());
 			int temprature = 6;
 			int humidity = 16;

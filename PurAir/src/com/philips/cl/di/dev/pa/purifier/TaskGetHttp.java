@@ -15,19 +15,19 @@ public class TaskGetHttp extends Thread {
 
 	private String url ;
 	private ServerResponseListener listener ;
-	private String areaID ;
+	private String type ;
 	private int responseCode;
 	private String result = "" ;
 
-	public TaskGetHttp(String url,Context context, ServerResponseListener listener) {
+	public TaskGetHttp(String url, Context context, ServerResponseListener listener) {
 		ALog.i(ALog.TASK_GET, "Url: " + url);
 		this.url = url ;
 		this.listener = listener ;
 	}
 	
-	public TaskGetHttp(String url,String areaID, Context context, ServerResponseListener listener) {
+	public TaskGetHttp(String url, String type, Context context, ServerResponseListener listener) {
 		this(url,context,listener) ;
-		this.areaID = areaID ;
+		this.type = type ;
 	}
 
 
@@ -35,6 +35,7 @@ public class TaskGetHttp extends Thread {
 	public void run() {
 		InputStream inputStream = null;
 		HttpURLConnection conn = null ;
+		
 		try {
 			URL urlConn = new URL(url);
 			conn = (HttpURLConnection) urlConn.openConnection() ;
@@ -53,7 +54,7 @@ public class TaskGetHttp extends Thread {
 		}
 		finally {
 			if ( listener != null ) {
-				listener.receiveServerResponse(responseCode, result, areaID) ;
+				listener.receiveServerResponse(responseCode, result, type) ;
 			}
 			NetworkUtils.closeAllConnections(inputStream, null, conn);
 		}

@@ -46,7 +46,7 @@ public class MarkerActivity extends MapActivity implements
 		super.onCreate(savedInstanceState);
 		mArrayListMarker = new ArrayList<Marker>();
 		builder = new LatLngBounds.Builder();
-		mCitiesListAll = OutdoorManager.getInstance().getAllCitiesList();
+		mCitiesListAll = OutdoorManager.getInstance().getCMACities();
 		setMarkerAnchorFirstParam(0.5f);
 		setMarkerAnchorSecondParam(0.5f);
 		setMarkerDraggable(true);
@@ -78,8 +78,7 @@ public class MarkerActivity extends MapActivity implements
 	
 	private void populateAllMarkers() {
 		for (int i = 0; i < mCitiesListAll.size(); i++) {
-			OutdoorCity outdoorCity = OutdoorManager.getInstance()
-					.getCityDataAll(mCitiesListAll.get(i));
+			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
 		addMarkerToMap(mOutdoorCity);

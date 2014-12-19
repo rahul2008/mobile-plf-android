@@ -31,12 +31,9 @@ import com.amap.api.maps2d.model.Marker;
 import com.amap.api.maps2d.model.MarkerOptions;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
+import com.philips.cl.di.dev.pa.dashboard.AllOutdoorDataListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorEventListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.gaode.map.MapUtils;
 
@@ -47,7 +44,7 @@ import com.philips.gaode.map.MapUtils;
  * 
  */
 public class MarkerMapFragment extends BaseFragment implements
-		OnMarkerClickListener, OnMapLoadedListener, OutdoorEventListener {
+		OnMarkerClickListener, OnMapLoadedListener, AllOutdoorDataListener {
 
 	private AMap aMap;
 	private MapView mapView;
@@ -91,7 +88,6 @@ public class MarkerMapFragment extends BaseFragment implements
 				fillMapWithMarker();
 				break;
 			}
-			
 		};
 	};
 	
@@ -121,6 +117,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		OutdoorManager.getInstance().setAllOutdoorDataListener(this);
 		View view;
 		/* We inflate the xml which gives us a view */
 		view = inflater.inflate(R.layout.marker_activity, container, false);
@@ -128,7 +125,6 @@ public class MarkerMapFragment extends BaseFragment implements
 		mapView.onCreate(savedInstanceState);
 		mParentLayout = (RelativeLayout)view.findViewById(R.id.mapParent);
 		builder = new LatLngBounds.Builder();
-		OutdoorController.getInstance().setOutdoorEventListener(this);
 		mInflater = (LayoutInflater) 
 				getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mView = mInflater.inflate(R.layout.circle_lyt, null);
@@ -159,12 +155,11 @@ public class MarkerMapFragment extends BaseFragment implements
 		float longitudePlus = selectedLongitude + 4;
 		float longitudeMinus = selectedLongitude - 4;
 		
-		mCitiesListAll = OutdoorManager.getInstance().getAllMatchingCitiesList(latitudePlus, 
+		mCitiesListAll = OutdoorManager.getInstance().getNearbyCitiesList(latitudePlus, 
 				latitudeMinus, longitudePlus, longitudeMinus);
 		
 		for (int i = 0; i < (mCitiesListAll.size()); i++) {
-			OutdoorCity outdoorCity = OutdoorManager.getInstance()
-					.getCityDataAll(mCitiesListAll.get(i));
+			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
 		}
 		addMarkerToMap(mOutdoorCity);
@@ -256,7 +251,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		OutdoorController.getInstance().removeOutdoorEventListener(this);
+		OutdoorManager.getInstance().removeAllOutdoorDataListener(this);
 		mView = null;
 		mInflater = null;
 		
@@ -301,28 +296,8 @@ public class MarkerMapFragment extends BaseFragment implements
 	}
 
 	@Override
-	public void allOutdoorAQIDataReceived(List<OutdoorAQI> aqis) {
+	public void updateUIOnAllDataReceived() {
 		isAllAqiReceived = true;
-		if (aqis == null || aqis.isEmpty())
-			return;
-		for (OutdoorAQI outdoorAQI : aqis) {
-			OutdoorManager.getInstance().addAllCityDataToMap(null, outdoorAQI, null, outdoorAQI.getAreaID());
-		}
-		
-		mHandler.sendEmptyMessageDelayed(0, 500);		
-	}
-
-
-	@Override
-	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
-		// NOP
-		
-	}
-
-
-	@Override
-	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
-		// NOP
-		
+		mHandler.sendEmptyMessageDelayed(0, 500);
 	}
 }

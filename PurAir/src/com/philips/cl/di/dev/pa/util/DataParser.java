@@ -38,6 +38,7 @@ import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
+import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
 /***
@@ -46,9 +47,6 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
  *
  */
 public class DataParser {
-
-	private DataParser() {
-	}
 
 	public static AirPortInfo parseAirPurifierEventData(String dataToParse) {
 		AirPortInfo airPurifierEvent = null ;
@@ -306,7 +304,7 @@ public class DataParser {
 		return deviceWifiDto;
 	}
 
-
+	@SuppressWarnings("unchecked")
 	public static List<OutdoorAQI> parseLocationAQI(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseLocationAQI dataToParse " + dataToParse);
 		if( dataToParse == null ) return null ;
@@ -337,39 +335,6 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "JSONException parseLocationAQI");
 			return null;
 		}
-	}
-
-	public static List<OutdoorAQI> parseAllLocationAQI(String dataToParse) {
-
-		if( dataToParse == null ) return null ;
-
-		List<OutdoorAQI> outdoorAQIList = new ArrayList<OutdoorAQI>();
-
-		try {
-			JSONArray responseObject = new JSONObject(dataToParse).optJSONArray("p");
-			if(responseObject == null) return null;
-			JSONObject observeObject = responseObject.getJSONObject(0);
-
-			Iterator<String> areaIDIterator = observeObject.keys();
-			while(areaIDIterator.hasNext()) {
-				String areaID = areaIDIterator.next();
-				JSONObject cityData = observeObject.getJSONObject(areaID); //Area code
-
-				int pm25 = cityData.optInt("p1");
-				int aqi = cityData.optInt("p2");
-				int pm10 = 	cityData.optInt("p3");
-				int so2 = cityData.optInt("p4");
-				int no2 = cityData.optInt("p5");
-				outdoorAQIList.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, "", OutdoorDataProvider.CMA.ordinal()));
-			}
-			return outdoorAQIList;
-		} catch (JSONException e) {
-			ALog.e(ALog.PARSER, "ERROR parseLocationWeather");
-			return null;
-		}catch(Exception e) {
-			return null ;
-		}
-
 	}
 
 	@SuppressWarnings("unchecked")
@@ -503,7 +468,8 @@ public class DataParser {
 		return cityDto;
 	}
 
-	public static List<ForecastWeatherDto> parseFourDaysForecastData(String dataToParse, String areaID) {
+	@SuppressWarnings("unchecked")
+	public static List<ForecastWeatherDto> parseFourDaysForecastData(String dataToParse) {
 		ALog.i(ALog.PARSER, "parseFourDaysForecastDat dataToParse: " + dataToParse);
 		JSONObject cityJson = null;
 		try {
@@ -512,7 +478,14 @@ public class DataParser {
 			e.printStackTrace();
 			return null ;
 		}
+		String areaID = "";
 		JSONObject temp = cityJson.optJSONObject("forecast4d");
+		if(temp == null) return null;
+		Iterator<String> iter = temp.keys();
+		if(iter.hasNext()) {
+			areaID = iter.next();
+		}
+		
 		if(temp == null || temp.isNull(areaID)) return null;
 		if(temp.optJSONObject(areaID) == null) return null;
 		if(temp.optJSONObject(areaID).optJSONObject("f") == null) return null;
@@ -538,13 +511,19 @@ public class DataParser {
 		return weatherDtos;
 	}
 
-	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse, String areaID) {
+	@SuppressWarnings("unchecked")
+	public static List<OutdoorAQI> parseHistoricalAQIData(String dataToParse) {
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
 			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("p");
 			if(historicalAQIs == null) return null;
 			List<OutdoorAQI> outdoorAQIs = new ArrayList<OutdoorAQI>();
 			ALog.i(ALog.PARSER, "historicalAQIs length " + historicalAQIs.length());
+			String areaID = "";
+			Iterator<String> iter = historicalAQIs.getJSONObject(0).keys();
+			if(iter != null) {
+				areaID = iter.next();
+			}
 
 			for (int i = 0; i < historicalAQIs.length(); i++) {
 				int pm25 = historicalAQIs.getJSONObject(i).optInt("p1");
@@ -611,7 +590,7 @@ public class DataParser {
 			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName.toLowerCase(), timeStamp, OutdoorDataProvider.US_EMBASSY.ordinal()));
+			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName, timeStamp, OutdoorDataProvider.US_EMBASSY.ordinal()));
 			return aqis;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseUSEmbassyLocationAQI");
@@ -619,7 +598,7 @@ public class DataParser {
 		}
 	}
 
-	public static List<OutdoorAQI> parseUSEmbassyHistoricalAQIData(String dataToParse, String areaID) {
+	public static List<OutdoorAQI> parseUSEmbassyHistoricalAQIData(String dataToParse) {
 		try {
 			JSONObject historicalAQIObject = new JSONObject(dataToParse);
 			JSONArray historicalAQIs = historicalAQIObject.optJSONArray("result");
@@ -665,6 +644,24 @@ public class DataParser {
 			ALog.e(ALog.PARSER, "Exception");
 		}
 		return cmaCityData;
+	}
+	
+	public static USEmbassyCityData parseUSEmbassyCityData(String data) {
+		if (data == null || data.isEmpty()) {
+			return null;
+		}
+		Gson gson = new GsonBuilder().create() ;
+		USEmbassyCityData usEmbassyCityData = null;
+		try {
+			usEmbassyCityData = gson.fromJson(data, USEmbassyCityData.class) ;
+		} catch (JsonSyntaxException e) {
+			ALog.e(ALog.PARSER, "JsonSyntaxException");
+		} catch (JsonIOException e) {
+			ALog.e(ALog.PARSER, "JsonIOException");
+		} catch (Exception e2) {
+			ALog.e(ALog.PARSER, "Exception");
+		}
+		return usEmbassyCityData;
 	}
 
 	private static OutdoorAQI getOutdoorAQIValues(JSONObject jsonObject) {

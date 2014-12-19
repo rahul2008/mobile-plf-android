@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,28 +12,43 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
+import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
+import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
+import com.philips.cl.di.dev.pa.outdoorlocations.DataCommunicatorStrategy;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorJsonReader;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
+import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
+import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData.USEmbassyCityDetail;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
+import com.philips.cl.di.dev.pa.util.OutdoorDetailsListener;
 
-public class OutdoorManager implements OutdoorEventListener {
+public class OutdoorManager implements OutdoorDataListener {
 
 	private Map<String, OutdoorCity> citiesMap;
-	private Map<String, OutdoorCity> citiesMapAll; // This is for entire city list
+	private List<String> cmaCities;
+	private List<String> usEmbassyCities;
 	private List<String> userCitiesList;
-	private List<String> allCitiesList;
-	private List<String> allMatchingCitiesList;
+	private List<String> nearbyCities;
+	
+	private OutdoorJsonReader outdoorJsonReader;
+	private DataCommunicatorStrategy dataCommunicatorStrategy;
 
 	private static OutdoorManager smInstance;
 
-	private OutdoorDataChangeListener iListener;
-	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask;
-	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; 
+	private OutdoorDataChangeListener outdoorDataChangeListener;
+	private AllOutdoorDataListener allOutdoorDataListener;
+	private OutdoorDetailsListener outdoorDetailsListener ;
+
+	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask; //TODO : Remove in next version.
+	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; //TODO : Remove in next version.
 	private long lastUpdatedTime ;
 
-	private static final int UPDATE_INTERVAL = 30 ; // in mins
+	private static final int UPDATE_INTERVAL = 10 ; // in mins
 
 	public synchronized static OutdoorManager getInstance() {
 		if (smInstance == null) {
@@ -42,8 +58,7 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void startAllCitiesTask() {
-		OutdoorController.getInstance().startAllCitiesAQITask();
-		
+		dataCommunicatorStrategy.requestAllCityData(cmaCities);
 	}
 
 	public synchronized void startCitiesTask() {
@@ -51,16 +66,40 @@ public class OutdoorManager implements OutdoorEventListener {
 		boolean isUpdated = false;
 		if (lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
 			isUpdated = true;
-			OutdoorController.getInstance().startCityAQITask(userCitiesList);
+			dataCommunicatorStrategy.requestCityAQIData(userCitiesList);
 		}
 
 		if (lastUpdatedTime == 0 || getDiffInTimeInMins(lastUpdatedTime)  >= UPDATE_INTERVAL) {
 			isUpdated = true;
-			OutdoorController.getInstance().startCityWeatherTask(userCitiesList);
+			dataCommunicatorStrategy.requestCityWeatherData(userCitiesList);
 		}			
 		if(isUpdated) {
 			lastUpdatedTime = System.currentTimeMillis();
 		}
+	}
+	
+	public void startHistoricalAQITask(String areaId) {
+		List<String> city = new ArrayList<String>();
+		city.add(areaId);
+		dataCommunicatorStrategy.requestHistoricalAQIData(city);
+	}
+	
+	public void startOneDayWeatherForecastTask(String areaId) {
+		List<String> city = new ArrayList<String>();
+		city.add(areaId);
+		dataCommunicatorStrategy.requestOneDayWeatherForecastData(city);
+	}
+	
+	public void startCityFourDayForecastTask(String areaId) {
+		List<String> city = new ArrayList<String>();
+		city.add(areaId);
+		dataCommunicatorStrategy.requestFourDayWeatherForecastData(city);
+	}
+	
+	public void startFourDayWeatherForecastTask(String areaId) {
+		List<String> city = new ArrayList<String>();
+		city.add(areaId);
+		dataCommunicatorStrategy.requestFourDayWeatherForecastData(city);
 	}
 	
 	public void resetUpdatedTime() {
@@ -72,23 +111,78 @@ public class OutdoorManager implements OutdoorEventListener {
 		return timeDiffInMins ;
 	}
 
+	
 	private OutdoorManager() {
 		
-		OutdoorController.getInstance().setOutdoorEventListener(this);
-
 		insertDataAndGetShortListCities();
-
+		outdoorJsonReader = new OutdoorJsonReader();
+		dataCommunicatorStrategy = new DataCommunicatorStrategy(this);
 		citiesMap = new HashMap<String, OutdoorCity>();
-		citiesMapAll = new HashMap<String, OutdoorCity>();
 		userCitiesList = new ArrayList<String>();
-		allCitiesList = new ArrayList<String>();
-		allMatchingCitiesList = new ArrayList<String>();
+		cmaCities = new ArrayList<String>();
+		usEmbassyCities = new ArrayList<String>();
+		saveCMACitiesInMapAndList(outdoorJsonReader.readCMACityJsonAsString());
+		saveUSEmbassyCitiesInMapAndList(outdoorJsonReader.readUSEmbassyCityJsonAsString());
+		
+		nearbyCities = new ArrayList<String>();
 
 		WeatherIcon.populateWeatherIconMap();
 		
 		ALog.i(ALog.DASHBOARD, "OutdoorManager$startCitiesTask: " + mOutdoorLocationFillAsyncTask);
 	}
 
+	private void saveCMACitiesInMapAndList(String cmaCitiesJsonAsString) {
+		CMACityData cmaCityData = DataParser.parseCMACityData(cmaCitiesJsonAsString);
+		List<CMACityDetail> cmList = cmaCityData.getCmaCitiesData();
+		for (CMACityDetail cmaCityDetail : cmList) {
+			OutdoorCityInfo info = new OutdoorCityInfo(cmaCityDetail.getNameEN(), cmaCityDetail.getNameCN(), cmaCityDetail.getNameTW(), Float.parseFloat(cmaCityDetail.getLongitude()), Float.parseFloat(cmaCityDetail.getLatitude()), cmaCityDetail.getAreaID());
+			String areaId = cmaCityDetail.getAreaID();
+			cmaCities.add(areaId);
+			addCityDataToMap(info, null, null, areaId);
+		}
+	}
+	
+	private void saveUSEmbassyCitiesInMapAndList(String usEmbassyCityJsonAsString) {
+		USEmbassyCityData usEmbassyCityData = DataParser.parseUSEmbassyCityData(usEmbassyCityJsonAsString);
+		List<USEmbassyCityDetail> usEmbassyList = usEmbassyCityData.getUSEmbassyCitiesData();
+		for (USEmbassyCityDetail embassyCityDetail : usEmbassyList) {
+			OutdoorCityInfo info = new OutdoorCityInfo(embassyCityDetail.getNameEN(), embassyCityDetail.getNameCN(), embassyCityDetail.getNameTW(), Float.parseFloat(embassyCityDetail.getLongitude()), Float.parseFloat(embassyCityDetail.getLatitude()), embassyCityDetail.getAreaID());
+			String areaId = embassyCityDetail.getNameEN();
+			usEmbassyCities.add(areaId);
+			addCityDataToMap(info, null, null, areaId);
+		}
+	}
+
+	public List<String> getCMACities() {
+		return cmaCities;
+	}
+	
+	public List<String> getUSEmbassyCities() {
+		return usEmbassyCities;
+	}
+	
+	public String getAreaIdFromCityName(String cityName) {
+		OutdoorCity city = citiesMap.get(cityName);
+		if(city != null) {
+			OutdoorCityInfo info = city.getOutdoorCityInfo();
+			if(info != null) {
+				return info.getAreaID();
+			}
+		}
+		return "";
+	}
+	
+	public String getCityNameFromAreaId(String areaId) {
+		OutdoorCity city = citiesMap.get(areaId);
+		if(city != null) {
+			OutdoorCityInfo info = city.getOutdoorCityInfo();
+			if(info != null) {
+				return info.getCityName().toLowerCase();
+			}
+		}
+		return "";
+	}
+	
 	private void insertDataAndGetShortListCities() {
 		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
 
@@ -105,7 +199,6 @@ public class OutdoorManager implements OutdoorEventListener {
 				mOutdoorLocationGetAsyncTask.execute(new String[] { AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS });
 			}
 		}.execute(new String[] {});
-
 	}
 
 	/** Added to fetch selected city information before updating dashboard **/
@@ -120,7 +213,6 @@ public class OutdoorManager implements OutdoorEventListener {
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION,
 				"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
-							
 		}
 	}
 
@@ -161,21 +253,37 @@ public class OutdoorManager implements OutdoorEventListener {
 	}
 
 	public void removeUIChangeListener(OutdoorDataChangeListener listener) {
-		iListener = null;
+		outdoorDataChangeListener = null;
 	}
 
 	public void setUIChangeListener(OutdoorDataChangeListener listener) {
-		iListener = listener;
+		outdoorDataChangeListener = listener;
 	}
-
+	
+	public void removeOutdoorDetailsListener(OutdoorDetailsListener listener) {
+		outdoorDetailsListener = null;
+	}
+	
+	public void setOutdoorDetailsListener(OutdoorDetailsListener listener) {
+		outdoorDetailsListener = listener;
+	}
+	
+	public void removeAllOutdoorDataListener(AllOutdoorDataListener listener) {
+		allOutdoorDataListener = null;
+	}
+	
+	public void setAllOutdoorDataListener(AllOutdoorDataListener listener) {
+		allOutdoorDataListener = listener;
+	}
+	
 	@Override
 	public void outdoorAQIDataReceived(OutdoorAQI outdoorAQI, String areaID) {
 		if (outdoorAQI != null) {
-			ALog.i(ALog.DASHBOARD, "OutdoorManager$outdoorAQIDataReceived aqi "
-					+ outdoorAQI.getPM25() + " : " + outdoorAQI.getAQI());
 			addCityDataToMap(null, outdoorAQI, null, areaID);
-			if (iListener != null) {
-				iListener.updateUIOnDataChange();
+			if(userCitiesList.contains(areaID)) {
+				if (outdoorDataChangeListener != null) {
+					outdoorDataChangeListener.updateUIOnDataChange();
+				}
 			}
 		}
 	}
@@ -183,33 +291,49 @@ public class OutdoorManager implements OutdoorEventListener {
 	@Override
 	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
 		if (outdoorWeather != null) {
-			addCityDataToMap(null, null, outdoorWeather, areaID);
-			if (iListener != null) {
-				iListener.updateUIOnDataChange();
+			if(userCitiesList.contains(areaID)) {
+				addCityDataToMap(null, null, outdoorWeather, areaID);
+			}
+			String cityName = getCityNameFromAreaId(areaID);
+			if(userCitiesList.contains(cityName)) {
+				addCityDataToMap(null, null, outdoorWeather, cityName.toLowerCase());
+			}
+			if (outdoorDataChangeListener != null) {
+				outdoorDataChangeListener.updateUIOnDataChange();
 			}
 		}
 	}
+	
+	@Override
+	public void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis) {
+		outdoorDetailsListener.onAQIHistoricalDataReceived(aqis);
+	}
+	
+	@Override
+	public void outdoorOneDayForecastDataReceived(List<Weatherdto> weatherdtos) {
+		outdoorDetailsListener.onOneDayWeatherForecastReceived(weatherdtos);
+	}
 
-	public List<String> getAllMatchingCitiesList(float latitudePlus,
+	@Override
+	public void outdoorFourDayForecastDataReceived(List<ForecastWeatherDto> weatherDtos) {
+		outdoorDetailsListener.onFourDayWeatherForecastReceived(weatherDtos);
+	}
+
+	public List<String> getNearbyCitiesList(float latitudePlus,
 			float latitudeMinus, float longitudePlus, float longitudeMinus) {
-		allMatchingCitiesList.clear();
-		for (int i = 0; i < getAllCitiesList().size(); i++) {
-			OutdoorCity outdoorCity = OutdoorManager.getInstance()
-					.getCityDataAll(getAllCitiesList().get(i));
+		nearbyCities.clear();
+		for (int i = 0; i < cmaCities.size(); i++) {
+			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(cmaCities.get(i));
 			float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 			float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 
 			if ((longitude <= longitudePlus && longitude >= longitudeMinus)
 					&& (latitude <= latitudePlus && latitude >= latitudeMinus)) {
-				allMatchingCitiesList.add(getAllCitiesList().get(i));
+				nearbyCities.add(cmaCities.get(i));
 			}
 		}
 
-		return allMatchingCitiesList;
-	}
-
-	public synchronized List<String> getAllCitiesList() {
-		return allCitiesList;
+		return nearbyCities;
 	}
 
 	public synchronized List<String> getUsersCitiesList() {
@@ -219,14 +343,6 @@ public class OutdoorManager implements OutdoorEventListener {
 	public synchronized void clearCitiesList() {
 		if (userCitiesList != null && !userCitiesList.isEmpty())
 			userCitiesList.clear();
-	}
-
-	public synchronized void addAreaIdToAllCitiesList(String areaID) {
-		if (!allCitiesList.contains(areaID)) {
-			ALog.i(ALog.OUTDOOR_LOCATION,
-					"OutdoorManager$addToAllCitiesList areaID " + areaID);
-			allCitiesList.add(areaID);
-		}
 	}
 
 	public synchronized void addAreaIDToUsersList(String areaID) {
@@ -249,8 +365,7 @@ public class OutdoorManager implements OutdoorEventListener {
 
 	public void removeAreaIDFromUsersList(String areaID) {
 		if (userCitiesList.contains(areaID)) {
-			ALog.i(ALog.OUTDOOR_LOCATION,
-					"OutdoorManager$removeAreaIDFromList areaID " + areaID);
+			ALog.i(ALog.OUTDOOR_LOCATION, "OutdoorManager$removeAreaIDFromList areaID " + areaID);
 			userCitiesList.remove(areaID);
 		}
 	}
@@ -275,23 +390,6 @@ public class OutdoorManager implements OutdoorEventListener {
 		citiesMap.put(areaID, city);
 	}
 
-	public void addAllCityDataToMap(OutdoorCityInfo info, OutdoorAQI aqi,
-			OutdoorWeather weather, String areaID) {
-		ALog.i(ALog.OUTDOOR_LOCATION,
-				"OutdoorManager$addAllCityDataToMap areaID " + areaID);
-		OutdoorCity city = citiesMapAll.get(areaID);
-		if (city == null) {
-			city = new OutdoorCity();
-		}
-		if (info != null)
-			city.setOutdoorCityInfo(info);
-		if (aqi != null)
-			city.setOutdoorAQI(aqi);
-		if (weather != null)
-			city.setOutdoorWeather(weather);
-		citiesMapAll.put(areaID, city);
-	}
-
 	public void removeCityDataFromMap(String areaID) {
 		if (citiesMap != null && citiesMap.containsKey(areaID)) {
 			ALog.i(ALog.OUTDOOR_LOCATION,
@@ -305,11 +403,6 @@ public class OutdoorManager implements OutdoorEventListener {
 		return citiesMap.get(areaID);
 	}
 
-	public OutdoorCity getCityDataAll(String areaID) {
-		ALog.i(ALog.DASHBOARD, "OutdoorManager$getCityDataAll " + areaID);
-		return citiesMapAll.get(areaID);
-	}
-
 	public void clearCityOutdoorInfo() {
 		resetUpdatedTime();
 		if (citiesMap != null && !citiesMap.isEmpty()) {
@@ -320,7 +413,6 @@ public class OutdoorManager implements OutdoorEventListener {
 				citiesMap.get(areadID).setOutdoorAQI(null);
 				citiesMap.get(areadID).setOutdoorWeather(null);
 			}
-
 		}
 	}
 
@@ -329,7 +421,14 @@ public class OutdoorManager implements OutdoorEventListener {
 		if (aqis == null || aqis.isEmpty())
 			return;
 		for (OutdoorAQI outdoorAQI : aqis) {
-			addAllCityDataToMap(null, outdoorAQI, null, outdoorAQI.getAreaID());
+			addCityDataToMap(null, outdoorAQI, null, outdoorAQI.getAreaID());
+		}
+		if (outdoorDataChangeListener != null) {
+			outdoorDataChangeListener.updateUIOnDataChange();
+		}
+		if(allOutdoorDataListener != null) {
+			allOutdoorDataListener.updateUIOnAllDataReceived();
 		}
 	}
+
 }

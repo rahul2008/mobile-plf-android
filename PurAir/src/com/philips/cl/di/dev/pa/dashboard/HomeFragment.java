@@ -80,11 +80,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		DrawerAdapter.getInstance().removeDrawerListener(this);
 		NetworkReceiver.getInstance().removeNetworkStateListener(this);
 	}
-	@Override
-	public void onDestroy() {
-		OutdoorController.getInstance().removeOutdoorEventListener(OutdoorManager.getInstance());
-		super.onDestroy();
-	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,7 +94,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		initDashboardViewPager();
-		OutdoorController.getInstance().setOutdoorEventListener(OutdoorManager.getInstance());
 		OutdoorManager.getInstance().setUIChangeListener(this);
 		OutdoorManager.getInstance().startCitiesTask();
 		
