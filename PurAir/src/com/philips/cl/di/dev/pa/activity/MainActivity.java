@@ -437,6 +437,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setTitle(R.string.location_services_turned_on_title)
 		.setMessage(R.string.location_services_turned_on_text_without_location)
+		.setCancelable(false)
 		.setPositiveButton(R.string.turn_it_off,
 				new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
