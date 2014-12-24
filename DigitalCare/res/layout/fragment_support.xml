@@ -121,6 +121,7 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnRegProd"
                 style="@style/supportHomeFontButton"
+                android:background="@drawable/selector_option_prod_reg_button_bg"
                 android:text="@string/opt_register_my_product" />
 
             <ImageView

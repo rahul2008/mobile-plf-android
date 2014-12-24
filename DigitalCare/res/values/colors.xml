@@ -3,6 +3,7 @@
 
     <color name="option_button_bg_blue">#003478</color>
     <color name="option_button_bg_blue_pressed">#005A8B</color>
+    <color name="option_button_prodReg_bg_blue_pressed">#005AAB</color>
     <color name="text_color_white">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="actionbar_bg_start_color">#003478</color>
