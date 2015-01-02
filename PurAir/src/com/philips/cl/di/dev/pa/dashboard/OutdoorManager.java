@@ -306,17 +306,20 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	@Override
 	public void outdoorHistoricalAQIDataReceived(List<OutdoorAQI> aqis) {
-		outdoorDetailsListener.onAQIHistoricalDataReceived(aqis);
+		if( outdoorDetailsListener != null )
+			outdoorDetailsListener.onAQIHistoricalDataReceived(aqis);
 	}
 	
 	@Override
 	public void outdoorOneDayForecastDataReceived(List<Weatherdto> weatherdtos) {
-		outdoorDetailsListener.onOneDayWeatherForecastReceived(weatherdtos);
+		if( outdoorDetailsListener != null )
+			outdoorDetailsListener.onOneDayWeatherForecastReceived(weatherdtos);
 	}
 
 	@Override
 	public void outdoorFourDayForecastDataReceived(List<ForecastWeatherDto> weatherDtos) {
-		outdoorDetailsListener.onFourDayWeatherForecastReceived(weatherDtos);
+		if( outdoorDetailsListener != null )
+			outdoorDetailsListener.onFourDayWeatherForecastReceived(weatherDtos);
 	}
 
 	public List<String> getNearbyCitiesList(float latitudePlus,
