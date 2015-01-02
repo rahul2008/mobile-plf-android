@@ -33,7 +33,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
  * Creation Date : 5 Dec 2014
  */
 public class BaseActivity extends ActionBarActivity implements Observer {
-	// private ImageView leftMenu;
+	private ImageView homeIcon;
 	private ImageView backToHome;
 	private FontTextView actionBarTitle;
 
@@ -45,12 +45,12 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
 		Log.i(TAG, "onCreate");
-		requestWindowFeature(Window.FEATURE_NO_TITLE);  
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
-	public void setFragmentDetails(String actionbarTitle) {
-		actionBarTitle.setText(actionbarTitle);
-	}
+//	private void setFragmentDetails(String actionbarTitle) {
+//		actionBarTitle.setText(actionbarTitle);
+//	}
 
 	@Override
 	protected void onResume() {
@@ -63,16 +63,16 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		View viewActionbar = getLayoutInflater().inflate(
 				R.layout.home_action_bar,
 				(ViewGroup) findViewById(R.id.action_bar_lyt));
-		// leftMenu = (ImageView)
-		// viewActionbar.findViewById(R.id.left_menu_img);
+		homeIcon = (ImageView) viewActionbar.findViewById(R.id.home_icon);
 		backToHome = (ImageView) viewActionbar
 				.findViewById(R.id.back_to_home_img);
 		actionBarTitle = (FontTextView) viewActionbar
 				.findViewById(R.id.action_bar_title);
 		actionBarTitle.setTypeface(Typeface.DEFAULT);
 
-		// leftMenu.setOnClickListener(actionBarClickListener);
+		homeIcon.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
+		enableActionBarHome();
 	}
 
 	@Override
@@ -83,6 +83,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		ALog.i("testing", "onKey");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return backstackFragment();
 		}
@@ -91,12 +92,17 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	}
 
 	private boolean backstackFragment() {
+		ALog.i("testing",
+				"getSupportFragmentManager().getBackStackEntryCount() : "
+						+ getSupportFragmentManager().getBackStackEntryCount());
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			this.finish();
+			overridePendingTransition(R.anim.left_in, R.anim.right_out);
 			return false;
 		} else {
-			actionBarTitle.setText(getResources().getString(
-					R.string.actionbar_title_support));
+			enableActionBarHome();
+//			actionBarTitle.setText(getResources().getString(
+//					R.string.actionbar_title_support));
 			getSupportFragmentManager().popBackStack();
 			removeCurrentFragment();
 			return false;
@@ -126,10 +132,12 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 		@Override
 		public void onClick(View view) {
+			ALog.i("testing", "actionBarClickListener");
 			switch (view.getId()) {
-			// case R.id.left_menu_img:
-			// finish();
-			// break;
+			case R.id.home_icon:
+				finish();
+				overridePendingTransition(R.anim.left_in, R.anim.right_out);
+				break;
 			case R.id.back_to_home_img:
 				backstackFragment();
 				break;
@@ -143,6 +151,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		// Log.i(TAG,
 		// "BaseActivity optionSelected : "
 		// + mFragmentObserver.getOptionSelected());
+		enableActionBarLeftArrow();
 		switch (value) {
 		case DigiCareContants.OPTION_CONTACT_US:
 			break;
@@ -163,8 +172,27 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	@Override
 	public void update(Observable observable, Object title) {
-		actionBarTitle.setText(mFragmentObserver.getActionbarTitle());
+		ALog.i("testing", "-- : " + mFragmentObserver.getActionbarTitle());
 		optionSelected(mFragmentObserver.getOptionSelected());
+		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+
+		}
+	}
+
+	private void enableActionBarLeftArrow() {
+		ALog.i("testing", "enableActionBarLeftArrow -- " + mFragmentObserver.getActionbarTitle());
+		homeIcon.setVisibility(View.GONE);
+		backToHome.setVisibility(View.VISIBLE);
+		backToHome.bringToFront();
+	}
+
+	private void enableActionBarHome() {
+		ALog.i("testing", "enableActionBarHome");
+		homeIcon.setVisibility(View.VISIBLE);
+		homeIcon.bringToFront();
+		backToHome.setVisibility(View.GONE);
+		actionBarTitle.setText(getResources().getString(
+		R.string.actionbar_title_support));
 	}
 
 	protected void showFragment(Fragment fragment) {

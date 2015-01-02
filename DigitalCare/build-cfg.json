@@ -1,0 +1,11 @@
+{
+    "copy_resources": [
+		{
+		    "from": "../../../res/xml",
+		    "to": "xml",
+		    "exclude": [
+		        "folder"
+		    ]
+		}		
+    ]
+}

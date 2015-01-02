@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+ <!-- This xml file will hold app level configuration settings -->
+ 
     <integer-array name="options_available">
         <item>1</item>  <!-- "CONTACT_US" -->
         <item>2</item>  <!-- "VIEW_PRODUCT_DETAILS" -->
@@ -10,7 +11,10 @@
         <item>6</item>  <!-- "REGISTER_MY_PRODUCT" -->
     </integer-array>
     
-    <declare-styleable name="FontTextView">
+     <declare-styleable name="FontTextView">
         <attr name="fontAssetName" format="string" />
     </declare-styleable>
+    
+     
+   
 </resources>
