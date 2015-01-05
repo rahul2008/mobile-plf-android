@@ -12,4 +12,14 @@
     <color name="button_bg_pressed">#A2AABC</color>
     <color name="button_prodReg_bg_pressed">#A2AABC</color>
     
+    <style name="actionbarIconArrowImageView">
+        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:src">@drawable/actionbar_back_arrow_blue_2x</item>
+    </style>
+
+    <style name="actionbarIconHomeImageView">
+        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:src">@drawable/actionbar_home_icon_blue_2x</item>
+    </style>
+    
 </resources>

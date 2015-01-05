@@ -16,5 +16,6 @@
     <dimen name="font_button_prod_reg_text_margin_left">95dp</dimen>
     <dimen name="support_btn_height">60dp</dimen>
     <dimen name="prod_reg_btn_height">55dp</dimen>
+     <dimen name="actionbar_height">55dp</dimen>
 
 </resources>
