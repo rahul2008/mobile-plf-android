@@ -327,12 +327,14 @@ public class OutdoorManager implements OutdoorDataListener {
 		nearbyCities.clear();
 		for (int i = 0; i < cmaCities.size(); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(cmaCities.get(i));
-			float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
-			float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
-
-			if ((longitude <= longitudePlus && longitude >= longitudeMinus)
-					&& (latitude <= latitudePlus && latitude >= latitudeMinus)) {
-				nearbyCities.add(cmaCities.get(i));
+			if( outdoorCity != null ) {
+				float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
+				float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
+	
+				if ((longitude <= longitudePlus && longitude >= longitudeMinus)
+						&& (latitude <= latitudePlus && latitude >= latitudeMinus)) {
+					nearbyCities.add(cmaCities.get(i));
+				}
 			}
 		}
 

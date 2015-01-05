@@ -57,12 +57,19 @@ public class CMACommunicator implements DataCommunicator {
 
 	@Override
 	public void requestHistoricalAQI(String city) {
-		TaskGetHttp requestHistoricalAQITask = new TaskGetHttp(cmaHelper.getURL(BASE_URL_AQI, city, AIR_HISTORY, Utils.getDate((System.currentTimeMillis() - (1000 * 60 * 60 * 24 * 30l))) + "," + Utils.getDate(System.currentTimeMillis())), RequestType.HISTORIAL_AQI.getRequestTypeString(), PurAirApplication.getAppContext(), this);
+		long daysInMillisecs = 1000 * 60 * 60 * 24 * 30l; // 30 Days
+		long currentChineseDateInMillis = Utils.getCurrentChineseDate().getTime();
+		long startDateInMillis = currentChineseDateInMillis - daysInMillisecs ;
+		String dateFormat = Utils.getDate(startDateInMillis) + "," + Utils.getDate(currentChineseDateInMillis) ;
+		
+		String url = cmaHelper.getURL(BASE_URL_AQI, city, AIR_HISTORY, dateFormat) ;
+		TaskGetHttp requestHistoricalAQITask = new TaskGetHttp(url,RequestType.HISTORIAL_AQI.getRequestTypeString(), PurAirApplication.getAppContext(), this);
 		requestHistoricalAQITask.start();
 	}
 
 	@Override
 	public void requestOneDayForecast(String city) {
+		
 		TaskGetHttp requestOneDayForecastTask = new TaskGetHttp(BASE_URL_HOURLY_FORECAST + city + "&time=day", RequestType.FORECAST_ONE_DAY.getRequestTypeString(), PurAirApplication.getAppContext(), this);
 		requestOneDayForecastTask.start();
 	}
