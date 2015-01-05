@@ -37,7 +37,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AnimatorConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.constant.AppConstants.Port;
 import com.philips.cl.di.dev.pa.constant.ParserConstants;
@@ -700,7 +699,7 @@ public class Utils {
 	public static String getBootStrapKey() {
 		String bootStrapKey = AppConstants.EMPTY_STRING ;
 		StringBuilder bootStrapBuilder = new StringBuilder(SchedulerUtil.BOOTSTRAP_KEY_1);
-		bootStrapBuilder.append(AnimatorConstants.BOOT_STRAP_KEY_2);
+		bootStrapBuilder.append(TrackPageConstants.BOOT_STRAP_KEY_2);
 		bootStrapBuilder.append(ParserConstants.BOOT_STRAP_KEY_3) ;
 		bootStrapBuilder.append(Fonts.BOOT_STRAP_KEY_4) ;
 		bootStrapBuilder.append(EWSConstant.BOOT_STRAP_KEY_5) ;
@@ -717,7 +716,7 @@ public class Utils {
 		StringBuilder cmaAppIdBuilder = new StringBuilder(AppConstants.CMA_APP_ID_1);
 		cmaAppIdBuilder.append(SchedulerConstants.CMA_APP_ID_2);
 		cmaAppIdBuilder.append(DemoModeConstant.CMA_APP_ID_3) ;
-		cmaAppIdBuilder.append(AnimatorConstants.CMA_APP_ID_4) ;
+		cmaAppIdBuilder.append(TrackPageConstants.CMA_APP_ID_4) ;
 		try {
 			cmaAppId = new String(Util.decodeFromBase64(cmaAppIdBuilder.toString()), Charset.defaultCharset()) ;
 		} catch (Exception e) {
@@ -729,7 +728,7 @@ public class Utils {
 	public static String getCMA_PrivateKey() {
 		String cmaPrivateKey = AppConstants.EMPTY_STRING ;
 		StringBuilder cmaPrivateKeyBuilder = new StringBuilder(EWSConstant.CMA_PRIVATE_KEY_1);
-		cmaPrivateKeyBuilder.append(AnimatorConstants.CMA_PRIVATE_KEY_2);
+		cmaPrivateKeyBuilder.append(TrackPageConstants.CMA_PRIVATE_KEY_2);
 		cmaPrivateKeyBuilder.append(DemoModeConstant.CMA_PRIVATE_KEY_3) ;
 		cmaPrivateKeyBuilder.append(GraphConst.CMA_PRIVATE_KEY_4) ;
 		try {
