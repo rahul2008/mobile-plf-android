@@ -77,6 +77,8 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return backstackFragment();
+		} else if (keyCode == KeyEvent.KEYCODE_MENU) {
+			return true;
 		}
 
 		return super.onKeyDown(keyCode, event);
@@ -103,17 +105,12 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 		Fragment currentFrag = getSupportFragmentManager().findFragmentById(
 				R.id.mainContainer);
-		// String fragName = "NONE";
-		//
-		// if (currentFrag != null)
-		// fragName = currentFrag.getClass().getSimpleName();
 
 		if (currentFrag != null) {
 			transaction.remove(currentFrag);
 		}
 
 		transaction.commit();
-
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
@@ -135,9 +132,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	};
 
 	private void optionSelected(int value) {
-		// Log.i(TAG,
-		// "BaseActivity optionSelected : "
-		// + mFragmentObserver.getOptionSelected());
 		switch (value) {
 		case DigiCareContants.OPTION_CONTACT_US:
 			break;
