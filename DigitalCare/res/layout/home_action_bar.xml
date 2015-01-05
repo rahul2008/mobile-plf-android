@@ -12,8 +12,10 @@
         android:background="@drawable/selector_clickable_image_bg"
         android:clickable="true"
         android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:layout_alignParentLeft="true"
         android:contentDescription="@string/img_description"
-        android:src="@drawable/left_slidermenu_icon_2x" 
+        android:src="@drawable/actionbar_home_icon_white_1x" 
         android:visibility="gone"/>
 
     <ImageView
@@ -37,7 +39,7 @@
         android:gravity="center_horizontal"
         android:singleLine="true"
         android:text="@string/actionbar_title_support"
-        android:textColor="@color/text_color_white"
+        android:textColor="@color/actionbar_title_text_color"
         android:textSize="@dimen/actionbar_title_text_size"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 

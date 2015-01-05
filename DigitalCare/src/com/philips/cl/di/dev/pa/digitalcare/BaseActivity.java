@@ -12,6 +12,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -48,9 +50,9 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
-//	private void setFragmentDetails(String actionbarTitle) {
-//		actionBarTitle.setText(actionbarTitle);
-//	}
+	// private void setFragmentDetails(String actionbarTitle) {
+	// actionBarTitle.setText(actionbarTitle);
+	// }
 
 	@Override
 	protected void onResume() {
@@ -101,8 +103,8 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 			return false;
 		} else {
 			enableActionBarHome();
-//			actionBarTitle.setText(getResources().getString(
-//					R.string.actionbar_title_support));
+			// actionBarTitle.setText(getResources().getString(
+			// R.string.actionbar_title_support));
 			getSupportFragmentManager().popBackStack();
 			removeCurrentFragment();
 			return false;
@@ -151,7 +153,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		// Log.i(TAG,
 		// "BaseActivity optionSelected : "
 		// + mFragmentObserver.getOptionSelected());
-		enableActionBarLeftArrow();
 		switch (value) {
 		case DigiCareContants.OPTION_CONTACT_US:
 			break;
@@ -165,6 +166,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 			break;
 		case DigiCareContants.OPTION_REGISTER_PRODUCT:
 			showFragment(new ProductRegistrationFragment());
+			enableActionBarLeftArrow();
 			break;
 		default:
 		}
@@ -180,7 +182,9 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	}
 
 	private void enableActionBarLeftArrow() {
-		ALog.i("testing", "enableActionBarLeftArrow -- " + mFragmentObserver.getActionbarTitle());
+		ALog.i("testing",
+				"enableActionBarLeftArrow -- "
+						+ mFragmentObserver.getActionbarTitle());
 		homeIcon.setVisibility(View.GONE);
 		backToHome.setVisibility(View.VISIBLE);
 		backToHome.bringToFront();
@@ -192,7 +196,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		homeIcon.bringToFront();
 		backToHome.setVisibility(View.GONE);
 		actionBarTitle.setText(getResources().getString(
-		R.string.actionbar_title_support));
+				R.string.actionbar_title_support));
 	}
 
 	protected void showFragment(Fragment fragment) {

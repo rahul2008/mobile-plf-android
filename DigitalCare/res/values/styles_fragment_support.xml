@@ -14,7 +14,7 @@
         <item name="android:background">@drawable/selector_option_button_bg</item>
         <item name="android:gravity">left|center</item>
         <item name="android:paddingLeft">@dimen/font_button_text_margin_left</item>
-        <item name="android:textColor">@color/text_color_white</item>
+        <item name="android:textColor">@color/button_text_color</item>
         <item name="android:textSize">@dimen/btn_text_size_large</item>
     </style>
 
@@ -23,7 +23,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:paddingBottom">13dp</item>
-        <item name="android:textColor">@color/option_button_bg_blue</item>
+        <item name="android:textColor">@color/button_bg</item>
         <item name="android:textSize">@dimen/title_text_size_large</item>
     </style>
 

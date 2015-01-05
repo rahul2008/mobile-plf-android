@@ -1,20 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
- <!-- This xml file will hold app level configuration settings -->
- 
-    <integer-array name="options_available">
-        <item>1</item>  <!-- "CONTACT_US" -->
-        <item>2</item>  <!-- "VIEW_PRODUCT_DETAILS" -->
-        <item>3</item>  <!-- "FAQ" -->
-        <item>4</item>  <!-- "FIND_PHILIPS_NEARBY" -->
-        <item>5</item>  <!-- "TELL_US_YOUR_THINKING" -->
-        <item>6</item>  <!-- "REGISTER_MY_PRODUCT" -->
-    </integer-array>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- Actionbar related -->
+    <color name="actionbar_bg_start_color">#003478</color>
+    <color name="actionbar_bg_end_color">#0066A1</color>
+    <color name="actionbar_title_text_color">#FFFFFF</color>
+
     
-     <declare-styleable name="FontTextView">
-        <attr name="fontAssetName" format="string" />
-    </declare-styleable>
-    
-     
-   
+    <color name="button_text_color">@color/actionbar_title_text_color</color>
+    <color name="button_bg">#003478</color>
+    <color name="button_bg_pressed">#005A8B</color>
+    <color name="button_prodReg_bg_pressed">#005AAB</color>
+
 </resources>
