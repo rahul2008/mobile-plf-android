@@ -58,16 +58,6 @@ public class SessionDto {
 		return indoorTrendDto;
 	}
 
-	private OutdoorAQIEventDto outdoorEventDto ;
-	
-	public OutdoorAQIEventDto getOutdoorEventDto() {
-		return outdoorEventDto;
-	}
-
-	public void setOutdoorEventDto(OutdoorAQIEventDto outdoorEventDto) {
-		this.outdoorEventDto = outdoorEventDto;
-	}
-
 	public List<Weatherdto> getWeatherDetails() {
 		return weatherDetails;
 	}

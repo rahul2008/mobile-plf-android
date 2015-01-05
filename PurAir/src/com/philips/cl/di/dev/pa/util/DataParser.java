@@ -34,10 +34,8 @@ import com.philips.cl.di.dev.pa.datamodel.DeviceWifiDto;
 import com.philips.cl.di.dev.pa.datamodel.DiscoverInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.IndoorHistoryDto;
-import com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 import com.philips.cl.di.dev.pa.scheduler.SchedulePortInfo;
 
@@ -165,27 +163,6 @@ public class DataParser {
 			Log.i("PARSE", "Size: "+indoorHistoryList.size()) ;
 		}
 		return indoorHistoryList ;
-	}
-
-	public static OutdoorAQIEventDto parseOutdoorAQIData(String dataToParse) {
-		ALog.i(ALog.OUTDOOR_DETAILS, "parseOutdoorAQIData parsing");
-		if (dataToParse == null) {
-			return null;
-		}
-		try {
-			Gson gson = new GsonBuilder().create() ;
-			OutdoorAQIEventDto outdoorAQI = gson.fromJson(dataToParse, OutdoorAQIEventDto.class) ;
-			return outdoorAQI;
-		} catch (JsonSyntaxException e) {
-			ALog.e(ALog.PARSER, "JsonSyntaxException");
-			return null;
-		} catch (JsonIOException ioe) {
-			ALog.e(ALog.PARSER, "JsonIOException");
-			return null;
-		} catch (Exception e2) {
-			ALog.e(ALog.PARSER, "Exception");
-			return null;
-		}
 	}
 
 	public static List<Weatherdto> parseWeatherData(String dataToParse) {
