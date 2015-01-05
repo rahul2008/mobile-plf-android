@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData.USEmbassyCityDetail;
 import com.philips.cl.di.dev.pa.util.DataParser;
@@ -98,7 +99,7 @@ public class USEmbassyCityDataTest extends TestCase {
 		List<USEmbassyCityDetail> usEmbassyList = usEmbassyCityData.getUSEmbassyCitiesData();
 		Map<String, OutdoorCityInfo> usEmbassyMap = new HashMap<String, OutdoorCityInfo>(); 
 		for (USEmbassyCityDetail embassyCityDetail : usEmbassyList) {
-			usEmbassyMap.put(embassyCityDetail.getAreaID(), new OutdoorCityInfo(embassyCityDetail.getNameEN(), embassyCityDetail.getNameCN(), embassyCityDetail.getNameTW(), Float.parseFloat(embassyCityDetail.getLongitude()), Float.parseFloat(embassyCityDetail.getLatitude()), embassyCityDetail.getAreaID()));
+			usEmbassyMap.put(embassyCityDetail.getAreaID(), new OutdoorCityInfo(embassyCityDetail.getNameEN(), embassyCityDetail.getNameCN(), embassyCityDetail.getNameTW(), Float.parseFloat(embassyCityDetail.getLongitude()), Float.parseFloat(embassyCityDetail.getLatitude()), embassyCityDetail.getAreaID(), OutdoorDataProvider.US_EMBASSY.ordinal()));
 		}
 	}
 }

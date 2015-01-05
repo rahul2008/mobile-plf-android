@@ -10,6 +10,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.DataParser;
 
 import junit.framework.TestCase;
@@ -112,7 +113,7 @@ public class CMACityDataTest extends TestCase {
 		List<CMACityDetail> cmList = cmaCityData.getCmaCitiesData();
 		Map<String, OutdoorCityInfo> cmaMap = new HashMap<String, OutdoorCityInfo>(); 
 		for (CMACityDetail cmaCityDetail : cmList) {
-			cmaMap.put(cmaCityDetail.getAreaID(), new OutdoorCityInfo(cmaCityDetail.getNameEN(), cmaCityDetail.getNameCN(), cmaCityDetail.getNameTW(), Float.parseFloat(cmaCityDetail.getLongitude()), Float.parseFloat(cmaCityDetail.getLatitude()), cmaCityDetail.getAreaID()));
+			cmaMap.put(cmaCityDetail.getAreaID(), new OutdoorCityInfo(cmaCityDetail.getNameEN(), cmaCityDetail.getNameCN(), cmaCityDetail.getNameTW(), Float.parseFloat(cmaCityDetail.getLongitude()), Float.parseFloat(cmaCityDetail.getLatitude()), cmaCityDetail.getAreaID(), OutdoorDataProvider.CMA.ordinal()));
 		}
 	}
 }
