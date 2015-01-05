@@ -114,7 +114,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			float longitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LONGITUDE));
 			float latitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LATITUDE));
 
-			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
+			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId,  999/*TODO : Remove this*/);
 			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
 		}
 		database.close();

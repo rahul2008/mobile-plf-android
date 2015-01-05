@@ -8,14 +8,16 @@ public class OutdoorCityInfo {
 	private float latitude;
 	private String areaID;
 	private String cityNameTW;
+	private int dataProvider;
 	
-	public OutdoorCityInfo(String cityName, String cityNameCN, String cityNameTW, float longitude, float latitude, String areaID) {
+	public OutdoorCityInfo(String cityName, String cityNameCN, String cityNameTW, float longitude, float latitude, String areaID, int dataProvider) {
 		this.areaID = areaID;
 		this.cityName = cityName;
 		this.cityNameCN = cityNameCN;
 		this.cityNameTW= cityNameTW;
 		this.longitude = longitude;
 		this.latitude = latitude;
+		this.dataProvider = dataProvider;
 	}
 
 	public String getCityName() {
@@ -41,7 +43,8 @@ public class OutdoorCityInfo {
 	public String getAreaID() {
 		return areaID;
 	}
-	
-	
-	
+
+	public int getDataProvider() {
+		return dataProvider;
+	}
 }

@@ -327,7 +327,7 @@ public class DataParser {
 				int no2 = cityData.optInt("p5");
 				String timeStamp = cityData.optString("updatetime");
 				ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp, OutdoorDataProvider.CMA.ordinal()));
+				aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			}
 
 			return aqis;
@@ -532,7 +532,7 @@ public class DataParser {
 				int so2 = historicalAQIs.getJSONObject(i).optInt("p4");
 				int no2 = historicalAQIs.getJSONObject(i).optInt("p5");
 				String timeStamp = historicalAQIs.getJSONObject(i).optString("updatetime");
-				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp, OutdoorDataProvider.CMA.ordinal()));
+				outdoorAQIs.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			}
 			return outdoorAQIs;
 
@@ -590,7 +590,7 @@ public class DataParser {
 			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName, timeStamp, OutdoorDataProvider.US_EMBASSY.ordinal()));
+			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName, timeStamp));
 			return aqis;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseUSEmbassyLocationAQI");
@@ -675,7 +675,7 @@ public class DataParser {
 		if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 		System.out.println("quality: " + quality);
-		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp, OutdoorDataProvider.US_EMBASSY.ordinal());
+		return new OutdoorAQI(0, aqi, 0, 0, 0, city.toLowerCase(), timeStamp);
 	}
 
 	private static String getTimeStampWithTime(String timeStamp) {

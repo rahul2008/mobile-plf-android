@@ -52,7 +52,9 @@ public class DataCommunicatorStrategy {
 		List<String> usEmbassyCities = getUSEmbassyUserList(userCities);
 		for (String cityName : usEmbassyCities) {
 			String areaId = OutdoorManager.getInstance().getAreaIdFromCityName(cityName);
-			cmaCities.add(areaId);
+			if(!cmaCities.contains(areaId)) {
+				cmaCities.add(areaId);
+			}
 		}
 		return cmaCities;
 	}

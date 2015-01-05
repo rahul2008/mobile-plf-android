@@ -9,9 +9,6 @@ import com.philips.cl.di.dev.pa.R;
 
 public class OutdoorAQI implements  Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int p1;
 	private int p2;
@@ -20,10 +17,9 @@ public class OutdoorAQI implements  Serializable {
 	private int p5;
 	private String timeStamp;
 	private String areaID;
-	private int dataProvider; //TODO : Move to Info?
 
 	public OutdoorAQI(int p1, int p2, int pm10, int so2, 
-			int no2, String areaID, String timeStamp, int dataProvider) {
+			int no2, String areaID, String timeStamp) {
 		this.p1 = p1;
 		this.p2 = p2;
 		this.p3 = pm10;
@@ -32,7 +28,6 @@ public class OutdoorAQI implements  Serializable {
 		this.areaID = areaID;
 		this.timeStamp = timeStamp;
 		this.areaID = areaID;
-		this.dataProvider = dataProvider;
 	}
 	
 	public String getTimeStamp() {
@@ -61,10 +56,6 @@ public class OutdoorAQI implements  Serializable {
 		return p5;
 	}
 	
-	public int getDataProvider() {
-		return dataProvider;
-	}
-
 	public String getAqiTitle() {
 		if(p2 >= 0 && p2 <= 50) {
 			return PurAirApplication.getAppContext().getString(R.string.good_outdoor);

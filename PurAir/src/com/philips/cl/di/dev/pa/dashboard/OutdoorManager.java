@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
 import com.philips.cl.di.dev.pa.outdoorlocations.DataCommunicatorStrategy;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorJsonReader;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
@@ -135,7 +136,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		CMACityData cmaCityData = DataParser.parseCMACityData(cmaCitiesJsonAsString);
 		List<CMACityDetail> cmList = cmaCityData.getCmaCitiesData();
 		for (CMACityDetail cmaCityDetail : cmList) {
-			OutdoorCityInfo info = new OutdoorCityInfo(cmaCityDetail.getNameEN(), cmaCityDetail.getNameCN(), cmaCityDetail.getNameTW(), Float.parseFloat(cmaCityDetail.getLongitude()), Float.parseFloat(cmaCityDetail.getLatitude()), cmaCityDetail.getAreaID());
+			OutdoorCityInfo info = new OutdoorCityInfo(cmaCityDetail.getNameEN(), cmaCityDetail.getNameCN(), cmaCityDetail.getNameTW(), Float.parseFloat(cmaCityDetail.getLongitude()), Float.parseFloat(cmaCityDetail.getLatitude()), cmaCityDetail.getAreaID(), OutdoorDataProvider.CMA.ordinal());
 			String areaId = cmaCityDetail.getAreaID();
 			cmaCities.add(areaId);
 			addCityDataToMap(info, null, null, areaId);
@@ -146,7 +147,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		USEmbassyCityData usEmbassyCityData = DataParser.parseUSEmbassyCityData(usEmbassyCityJsonAsString);
 		List<USEmbassyCityDetail> usEmbassyList = usEmbassyCityData.getUSEmbassyCitiesData();
 		for (USEmbassyCityDetail embassyCityDetail : usEmbassyList) {
-			OutdoorCityInfo info = new OutdoorCityInfo(embassyCityDetail.getNameEN(), embassyCityDetail.getNameCN(), embassyCityDetail.getNameTW(), Float.parseFloat(embassyCityDetail.getLongitude()), Float.parseFloat(embassyCityDetail.getLatitude()), embassyCityDetail.getAreaID());
+			OutdoorCityInfo info = new OutdoorCityInfo(embassyCityDetail.getNameEN(), embassyCityDetail.getNameCN(), embassyCityDetail.getNameTW(), Float.parseFloat(embassyCityDetail.getLongitude()), Float.parseFloat(embassyCityDetail.getLatitude()), embassyCityDetail.getAreaID(), OutdoorDataProvider.US_EMBASSY.ordinal());
 			String areaId = embassyCityDetail.getNameEN();
 			usEmbassyCities.add(areaId);
 			addCityDataToMap(info, null, null, areaId);
@@ -249,7 +250,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
 		float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 
-		return new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaID); 
+		return new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaID,  9999/*TODO : Remove this*/); 
 	}
 
 	public void removeUIChangeListener(OutdoorDataChangeListener listener) {

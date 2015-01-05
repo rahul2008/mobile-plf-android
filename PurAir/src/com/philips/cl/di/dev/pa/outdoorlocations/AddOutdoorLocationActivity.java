@@ -206,7 +206,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 			float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
 
 			MetricsTracker.trackActionLocationWeather(city);
-			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId);
+			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId, 99999/*TODO : Remove this*/);
 			
 			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());
 			OutdoorManager.getInstance().addAreaIDToUsersList(areaId);

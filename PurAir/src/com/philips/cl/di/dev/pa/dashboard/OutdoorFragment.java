@@ -206,7 +206,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			int so2 = 3;
 			int no2 = 11;
 			String time = "201411121905"; //This time is not used, added this to avoid null value in OutdoorAQI object.
-			outdoorAQI = new OutdoorAQI(pm2Point5, aqi, pm10, so2, no2, areaID, time, OutdoorDataProvider.CMA.ordinal());
+			outdoorAQI = new OutdoorAQI(pm2Point5, aqi, pm10, so2, no2, areaID, time);
 			int temprature = 6;
 			int humidity = 16;
 			int weatherIconId = 0;
