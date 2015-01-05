@@ -185,12 +185,14 @@ public class SupportHomeFragment extends BaseFragment {
 				actionbarTitle = getResources().getText(
 						R.string.opt_register_my_product);
 				optionSelected = DigiCareContants.OPTION_REGISTER_PRODUCT;
+				mAppObserver
+						.setValue(actionbarTitle.toString(), optionSelected);
 				break;
 			default:
 				actionbarTitle = getResources().getText(
 						R.string.actionbar_title_support);
 			}
-			mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
+			// mAppObserver.setValue(actionbarTitle.toString(), optionSelected);
 		}
 	};
 }

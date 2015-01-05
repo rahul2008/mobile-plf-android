@@ -5,18 +5,14 @@ import java.util.Observer;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
@@ -50,9 +46,9 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 	}
 
-	// private void setFragmentDetails(String actionbarTitle) {
-	// actionBarTitle.setText(actionbarTitle);
-	// }
+	private void setFragmentDetails(String actionbarTitle) {
+		actionBarTitle.setText(actionbarTitle);
+	}
 
 	@Override
 	protected void onResume() {
@@ -62,15 +58,9 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	}
 
 	protected void initActionBar() throws ClassCastException {
-		View viewActionbar = getLayoutInflater().inflate(
-				R.layout.home_action_bar,
-				(ViewGroup) findViewById(R.id.action_bar_lyt));
-		homeIcon = (ImageView) viewActionbar.findViewById(R.id.home_icon);
-		backToHome = (ImageView) viewActionbar
-				.findViewById(R.id.back_to_home_img);
-		actionBarTitle = (FontTextView) viewActionbar
-				.findViewById(R.id.action_bar_title);
-		actionBarTitle.setTypeface(Typeface.DEFAULT);
+		homeIcon = (ImageView) findViewById(R.id.home_icon);
+		backToHome = (ImageView) findViewById(R.id.back_to_home_img);
+		actionBarTitle = (FontTextView) findViewById(R.id.action_bar_title);
 
 		homeIcon.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
@@ -85,7 +75,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		ALog.i("testing", "onKey");
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			return backstackFragment();
 		}
@@ -94,9 +83,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	}
 
 	private boolean backstackFragment() {
-		ALog.i("testing",
-				"getSupportFragmentManager().getBackStackEntryCount() : "
-						+ getSupportFragmentManager().getBackStackEntryCount());
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			this.finish();
 			overridePendingTransition(R.anim.left_in, R.anim.right_out);
@@ -134,7 +120,6 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 		@Override
 		public void onClick(View view) {
-			ALog.i("testing", "actionBarClickListener");
 			switch (view.getId()) {
 			case R.id.home_icon:
 				finish();
@@ -174,24 +159,17 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	@Override
 	public void update(Observable observable, Object title) {
-		ALog.i("testing", "-- : " + mFragmentObserver.getActionbarTitle());
 		optionSelected(mFragmentObserver.getOptionSelected());
-		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
-
-		}
+		setFragmentDetails(mFragmentObserver.getActionbarTitle());
 	}
 
 	private void enableActionBarLeftArrow() {
-		ALog.i("testing",
-				"enableActionBarLeftArrow -- "
-						+ mFragmentObserver.getActionbarTitle());
 		homeIcon.setVisibility(View.GONE);
 		backToHome.setVisibility(View.VISIBLE);
 		backToHome.bringToFront();
 	}
 
 	private void enableActionBarHome() {
-		ALog.i("testing", "enableActionBarHome");
 		homeIcon.setVisibility(View.VISIBLE);
 		homeIcon.bringToFront();
 		backToHome.setVisibility(View.GONE);

@@ -29,7 +29,7 @@ public class DigitalCareActivity extends BaseActivity {
 		} catch (ClassCastException e) {
 			ALog.e(TAG, "Actionbar: " + e.getMessage());
 		}
-		showFragment(new SupportHomeFragment());	
+		showFragment(new SupportHomeFragment());
 	}
 
 	@Override
@@ -40,8 +40,8 @@ public class DigitalCareActivity extends BaseActivity {
 	public void showFragment() {
 		Fragment fragment = new SupportHomeFragment();
 		try {
-//			getSupportFragmentManager().popBackStackImmediate(null,
-//					FragmentManager.POP_BACK_STACK_INCLUSIVE);
+			// getSupportFragmentManager().popBackStackImmediate(null,
+			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager()
 					.beginTransaction();
 			fragmentTransaction.add(R.id.mainContainer, fragment,
