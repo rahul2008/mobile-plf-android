@@ -93,14 +93,6 @@ public class SessionDto {
 		indoorTrendsHashMap = new HashMap<String, IndoorTrendDto>();
 	}
 	
-	public static SessionDto getSessionDto() {
-		return sessionDto;
-	}
-
-	public static void setSessionDto(SessionDto sessionDto) {
-		SessionDto.sessionDto = sessionDto;
-	}
-
 	public  FilterStatusDto getFilterStatusDto() {
 		return filterStatusDto;
 	}
@@ -120,9 +112,5 @@ public class SessionDto {
 			}
 		}
 		return sessionDto ;
-	}
-	
-	public static void reset() {
-		sessionDto = new SessionDto() ;
 	}
 }

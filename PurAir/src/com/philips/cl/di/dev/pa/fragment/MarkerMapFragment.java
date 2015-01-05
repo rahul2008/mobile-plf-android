@@ -92,8 +92,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	};
 	
 	private void fillMapWithMarker(){
-		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(
-				OutdoorDetailsActivity.getSelectedCityCode());
+		OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(OutdoorDetailsActivity.getSelectedCityCode());
 		
 		addMarker();
 
@@ -130,13 +129,12 @@ public class MarkerMapFragment extends BaseFragment implements
 		mView = mInflater.inflate(R.layout.circle_lyt, null);
 		textView = (TextView) mView.findViewById(R.id.circle_txt); 
 		init();
-		mArrayListMarker = new ArrayList<Marker>();
+		mArrayListMarker = new ArrayList<Marker>();	
 		return view;
 	}
 
 	private void addMarker() {
 		String selectedCityCode = OutdoorDetailsActivity.getSelectedCityCode();
-//		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityDataAll(selectedCityCode);
 		OutdoorCity selectedOutdoorCity = OutdoorManager.getInstance().getCityData(selectedCityCode);
 		float selectedLatitude = 50f;
 		float selectedLongitude = 50f;
