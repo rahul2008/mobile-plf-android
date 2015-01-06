@@ -46,7 +46,6 @@ public class PurifierDatabase {
 
 		
 		rowId = getRowIdOfPurifier(purifier);
-		Cursor cursor = null;
 		if (rowId == -1L) {
 			ALog.i(ALog.DATABASE, "First time adding");
 			try {
@@ -68,7 +67,6 @@ public class PurifierDatabase {
 			} catch (Exception e) {
 				ALog.e(ALog.DATABASE, "Error: " + e.getMessage());
 			} finally {
-				closeCursor(cursor);
 				closeDb();
 			}
 		} else {

@@ -241,7 +241,7 @@ public class OutdoorLocationDatabase {
 			Log.e(ALog.DATABASE, "CityDetails database not yet filled " + e);
 			return false;
 		}
-		addOldDataToUserTable();
+//		addOldDataToUserTable();
 		return true;
 	}
 	

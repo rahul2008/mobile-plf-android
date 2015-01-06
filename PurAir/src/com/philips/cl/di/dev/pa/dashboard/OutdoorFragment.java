@@ -23,7 +23,6 @@ import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;

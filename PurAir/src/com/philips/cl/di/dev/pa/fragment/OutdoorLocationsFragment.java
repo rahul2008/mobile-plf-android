@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
@@ -29,9 +30,12 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController.CurrentCityAreaIdReceivedListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
+import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
+import com.philips.cl.di.dev.pa.outdoorlocations.UserSelectedCitiesAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
@@ -51,6 +55,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private Hashtable<String, Boolean> selectedItemHashtable;
 	private ToggleButton currentLocation;
 	private Cursor selectedCursor;
+	private UserSelectedCitiesAdapter userSelectedCitiesAdapter;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +81,10 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		UserCitiesDatabase userCitiesDatabase = new UserCitiesDatabase();
+		List<String> userCities = userCitiesDatabase.getAllCities();
+		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, userCities);
+		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_LOCATIONS);
 	}
 	
@@ -84,7 +93,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		showCurrentCityVisibility();
 		if (!selectedItemHashtable.isEmpty()) selectedItemHashtable.clear();// remove selected items
 		OutdoorLocationHandler.getInstance().setSelectedCityListener(this); 
-		OutdoorLocationHandler.getInstance().fetchSelectedCity();
+//		OutdoorLocationHandler.getInstance().fetchSelectedCity();
 		OutdoorController.getInstance().setCurrentCityAreaIdReceivedListener(this);
 		super.onResume();
 	}
@@ -159,7 +168,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		if (cursor != null) {
 			
 			if (mOutdoorLocationAdapter != null) mOutdoorLocationAdapter = null;
-			
 			mOutdoorLocationAdapter = new CursorAdapter(getActivity(), cursor, false) {
 				
 				@Override
@@ -173,7 +181,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				@Override
 				public void bindView(View view, Context context, Cursor cursor) {
 					final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
-					
+					ALog.i(ALog.DATABASE, "Inserting old data into new table " + areaId);
 					ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 					FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
 					
@@ -189,7 +197,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					
 					tvName.setText(city);
 					
-					tvName.setTag(cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
+					tvName.setTag(areaId);
 					
 					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 					
@@ -230,7 +238,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			addAreaIdToCityList(cursor);
 		}
 	}
-
+	
 	@Override
 	public void onConnected(Bundle arg0) {/**NOP*/}
 
@@ -273,6 +281,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			}
 		});
 	}
+	
+	
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

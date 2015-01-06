@@ -1,5 +1,7 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
+import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -53,7 +55,6 @@ public class OutdoorLocationHandler {
 			@Override
 			public void run() {
 				OutdoorLocationDatabase database = new OutdoorLocationDatabase();
-
 				try {
 					database.open();
 					String selction = AppConstants.KEY_SHORTLIST + " = '1'";

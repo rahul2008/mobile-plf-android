@@ -35,8 +35,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	 * @param version
 	 *            the version
 	 */
-	public DatabaseHelper(Context context, String name, CursorFactory factory,
-			int version) {
+	public DatabaseHelper(Context context, String name, CursorFactory factory, int version) {
 		super(context, name, factory, version);
 	}
 
