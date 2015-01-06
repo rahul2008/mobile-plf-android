@@ -436,5 +436,9 @@ public class OutdoorManager implements OutdoorDataListener {
 			allOutdoorDataListener.updateUIOnAllDataReceived();
 		}
 	}
+	
+	public Map<String, OutdoorCity> getCitiesMap() {
+		return citiesMap;
+	}
 
 }

@@ -48,7 +48,7 @@ public class AddOutdoorLocationHelperTest extends ActivityInstrumentationTestCas
 	}
 	
 	public void testMaptoList() {
-		Map<String, OutdoorCity> outdoorCityMap = OutdoorManager.getInstance().getCityMap() ;
+		Map<String, OutdoorCity> outdoorCityMap = OutdoorManager.getInstance().getCitiesMap() ;
 		
 		List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getAllCityInfoList(outdoorCityMap) ;
 		List<String> userCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
