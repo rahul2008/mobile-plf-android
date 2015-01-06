@@ -7,14 +7,11 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.philips.cl.di.dev.pa.constant.AppConstants;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
-import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class OutdoorLocationHandler {
 
 	private static OutdoorLocationHandler mInstance;
-	private OutdoorCityListener cityListener;
 	private OutdoorSelectedCityListener selectedCityListener;
 
 	private OutdoorLocationHandler() {
@@ -27,14 +24,6 @@ public class OutdoorLocationHandler {
 			readFromFileAddToDatabase();
 		}
 		return mInstance;
-	}
-
-	public void setCityListener(OutdoorCityListener cityListener) {
-		this.cityListener = cityListener;
-	}
-
-	public void removeCityListener() {
-		cityListener = null;
 	}
 
 	public void setSelectedCityListener(
@@ -119,9 +108,6 @@ public class OutdoorLocationHandler {
 					database.open();
 					Cursor cursor = database.getDataFromOutdoorLoacation(selection);
 					database.close();
-					if (cityListener != null) {
-						cityListener.onCityLoad(cursor);
-					}
 				} catch (SQLiteException e) {
 					ALog.e(ALog.OUTDOOR_LOCATION,
 							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "

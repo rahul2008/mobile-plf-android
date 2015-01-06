@@ -1,31 +1,28 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
-import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
@@ -34,12 +31,11 @@ import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorCityListener {
+public class AddOutdoorLocationActivity extends BaseActivity {
 	
 	private ListView mOutdoorLocationListView;
-	private CursorAdapter mOutdoorLocationAdapter;
+	private AddOutdoorLocationAdapter mAdapter;
 	
 	private Button mActionBarCancelBtn;
 	private EditText mEnteredCityName;
@@ -62,41 +58,47 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 		
 		initActionBar();
 		
+		populateOutdoorLocations();
 	}
 	
 	@Override
 	public void onResume() {
-		OutdoorLocationHandler.getInstance().setCityListener(this);
-		OutdoorLocationHandler.getInstance().fetchCities(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED);
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.ADD_OUTDOOR_LOCATION);
 	}
-	
+
 	private void updateAdapter(String input) {
-		String cityColumn = AppConstants.KEY_CITY;
+		List<OutdoorCityInfo> tempOutdoorCityInfoList = new ArrayList<OutdoorCityInfo>() ;
+		for (OutdoorCityInfo outdoorCityInfo : outdoorCityInfoList) {
+			
+			String cityName = getCityNameWithRespectToLanguage(outdoorCityInfo);
+			
+			input = input.toLowerCase();
+			if( !input.isEmpty() && cityName.contains(input)) {
+				tempOutdoorCityInfoList.add(outdoorCityInfo) ;
+			}
+		}
+		
+		if( !input.isEmpty() || !tempOutdoorCityInfoList.isEmpty()) {
+			mAdapter = new AddOutdoorLocationAdapter(this, R.layout.simple_list_item, tempOutdoorCityInfoList);
+		}
+		else {
+			mAdapter = new AddOutdoorLocationAdapter(this, R.layout.simple_list_item, outdoorCityInfoList);
+		}
+		mOutdoorLocationListView.setAdapter(mAdapter);
+	}
+	
+	private String getCityNameWithRespectToLanguage(OutdoorCityInfo outdoorCityInfo) {
+		String cityName = outdoorCityInfo.getCityName().toLowerCase();;
 		
 		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-			cityColumn = AppConstants.KEY_CITY_CN;
+			cityName = outdoorCityInfo.getCityNameCN() ;
 		} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			cityColumn = AppConstants.KEY_CITY_TW;
+			cityName = outdoorCityInfo.getCityNameTW() ;
 		}
 		
-		String selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED;  
-		
-		if (!input.isEmpty()) {
-			selection = AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS_EXCEPT_SELECTED + " and " 
-					+ cityColumn + " like '%" + input + "%' ";
-		}
-		
-		OutdoorLocationHandler.getInstance().fetchCities(selection);
+		return cityName;
 	}
-	
-	@Override
-	public void onPause() {
-		OutdoorLocationHandler.getInstance().removeCityListener();
-		super.onPause();
-	}
-
 	
 	private void initActionBar() {
 		ActionBar actionBar;
@@ -121,7 +123,7 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 			
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				updateAdapter(s.toString());
+				updateAdapter(s.toString().trim());
 			}
 			
 			@Override
@@ -133,42 +135,6 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 		
 		actionBar.setCustomView(view);
 	}
-	
-	private void fillListViewFromDatabase(Cursor cursor) {
-		if (cursor != null) {
-			mOutdoorLocationAdapter = new CursorAdapter(this, cursor, false) {
-				
-				@Override
-				public View newView(Context context, Cursor cursor, ViewGroup parent) {
-					LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-					View retView = inflater.inflate(R.layout.simple_list_item, parent, false);
-					
-					return retView;
-				}
-				
-				@Override
-				public void bindView(View view, Context context, Cursor cursor) {
-					ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
-					FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
-					
-					deleteSign.setVisibility(View.GONE);
-					
-					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-					
-					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
-					} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-					}
-					
-					tvName.setText(city);
-				}
-			};
-			
-			mOutdoorLocationListView.setAdapter(mOutdoorLocationAdapter);
-		}
-	}
-	
 	private void showAlertDialog(String title, String message) {
 		try {
 			FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
@@ -195,37 +161,35 @@ public class AddOutdoorLocationActivity extends BaseActivity implements OutdoorC
 				return;
 			}
 			
-			Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
-			cursor.moveToPosition(position);
+			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) mAdapter.getItem(position);
 			
-			String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-			String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
-			String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-			String areaId = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
-			float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
-			float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
+			String city = outdoorCityInfo.getCityName();
+			String key = getCityKeyWithRespectDataProvider(outdoorCityInfo);
 
 			MetricsTracker.trackActionLocationWeather(city);
-			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId, 99999/*TODO : Remove this*/);
-			
-			ALog.i(ALog.OUTDOOR_LOCATION, "AddOutdoorLocationActivity areaID " + areaId + " cityname " + info.getCityName());
-			OutdoorManager.getInstance().addAreaIDToUsersList(areaId);
-			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
+			OutdoorManager.getInstance().addAreaIDToUsersList(key);
 			OutdoorManager.getInstance().resetUpdatedTime();
-			OutdoorLocationHandler.getInstance().updateSelectedCity(areaId, true);
+			OutdoorLocationHandler.getInstance().updateSelectedCity(key, true);
 			finish();
 		}
 	};
-
-	@Override
-	public void onCityLoad(final Cursor cursor) {
-		runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				fillListViewFromDatabase(cursor);
-			}
-		});
-		
+	
+	private String getCityKeyWithRespectDataProvider(OutdoorCityInfo outdoorCityInfo) {
+		String key = outdoorCityInfo.getAreaID();
+		if (outdoorCityInfo.getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+			key = outdoorCityInfo.getCityName();
+		}
+		return key;
 	}
+
+	private List<OutdoorCityInfo> outdoorCityInfoList ;
+	private void populateOutdoorLocations() {
+		Map<String, OutdoorCity> outdoorCityMap = OutdoorManager.getInstance().getCitiesMap() ;
+		
+		outdoorCityInfoList = AddOutdoorLocationHelper.getAllCityInfoList(outdoorCityMap) ;
+		
+		mAdapter = new AddOutdoorLocationAdapter(this, R.layout.simple_list_item, outdoorCityInfoList);
+		mOutdoorLocationListView.setAdapter(mAdapter);
+	}
+	
 }

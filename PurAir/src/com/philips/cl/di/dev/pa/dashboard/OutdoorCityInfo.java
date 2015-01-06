@@ -60,10 +60,9 @@ public class OutdoorCityInfo implements Comparable<OutdoorCityInfo> {
 	public int getDataProvider() {
 		return dataProvider;
 	}
-
+	
 	@Override
 	public int compareTo(OutdoorCityInfo another) {
-		// TODO Auto-generated method stub
-		return this.cityName.compareTo(another.cityName);
+		return this.cityName.compareToIgnoreCase(another.cityName);
 	}
 }

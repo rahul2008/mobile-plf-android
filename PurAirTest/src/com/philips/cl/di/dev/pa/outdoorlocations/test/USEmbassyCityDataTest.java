@@ -67,7 +67,7 @@ public class USEmbassyCityDataTest extends TestCase {
 	public void testParseUSEmbassyCityNameEN() {
 		USEmbassyCityData usEmbassyCityData = DataParser.parseUSEmbassyCityData(json);
 		USEmbassyCityDetail embassyCityDetail = usEmbassyCityData.getUSEmbassyCitiesData().get(0);
-		assertEquals("Beijing", embassyCityDetail.getNameEN());
+		assertEquals("beijing", embassyCityDetail.getNameEN());
 	}
 	
 	public void testParseUSEmbassyCityNameCN() {
