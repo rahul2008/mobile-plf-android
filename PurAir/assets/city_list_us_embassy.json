@@ -1,6 +1,6 @@
 {"usembassyCityDetail":[
   {
-    "nameEN":"beijing",
+    "nameEN":"Beijing",
     "areaID":101010100,
     "longitude":116.391,
     "latitude":39.904,
@@ -8,7 +8,7 @@
     "nameTW":"北京"
   },
   {
-    "nameEN":"chengdu",
+    "nameEN":"Chengdu",
     "areaID":101270101,
     "longitude":104.071,
     "latitude":30.67,
@@ -16,7 +16,7 @@
     "nameTW":"成都"
   },
   {
-    "nameEN":"guangzhou",
+    "nameEN":"Guangzhou",
     "areaID":101280101,
     "longitude":113.265,
     "latitude":23.108,
@@ -24,7 +24,7 @@
     "nameTW":"廣州"
   },
   {
-    "nameEN":"shanghai",
+    "nameEN":"Shanghai",
     "areaID":101020100,
     "longitude":121.445,
     "latitude":31.213,
@@ -32,7 +32,7 @@
     "nameTW":"上海"
   },
   {
-    "nameEN":"shenyang",
+    "nameEN":"Shenyang",
     "areaID":101070101,
     "longitude":123.418,
     "latitude":41.799,

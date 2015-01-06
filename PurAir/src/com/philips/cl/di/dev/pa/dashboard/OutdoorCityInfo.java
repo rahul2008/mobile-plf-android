@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
-public class OutdoorCityInfo {
+
+public class OutdoorCityInfo implements Comparable<OutdoorCityInfo> {
 
 	private String cityName;
 	private String cityNameCN;
@@ -18,6 +19,18 @@ public class OutdoorCityInfo {
 		this.longitude = longitude;
 		this.latitude = latitude;
 		this.dataProvider = dataProvider;
+	}
+	
+	public void setCityName(String cityName) {
+		this.cityName = cityName;
+	}
+	
+	public void setCityNameCN(String cityNameCN) {
+		this.cityNameCN = cityNameCN;
+	}
+	
+	public void setCityNameTW(String cityNameTW) {
+		this.cityNameTW = cityNameTW;
 	}
 
 	public String getCityName() {
@@ -43,8 +56,14 @@ public class OutdoorCityInfo {
 	public String getAreaID() {
 		return areaID;
 	}
-
+	
 	public int getDataProvider() {
 		return dataProvider;
+	}
+
+	@Override
+	public int compareTo(OutdoorCityInfo another) {
+		// TODO Auto-generated method stub
+		return this.cityName.compareTo(another.cityName);
 	}
 }

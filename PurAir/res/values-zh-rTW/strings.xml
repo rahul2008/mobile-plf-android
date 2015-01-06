@@ -642,5 +642,7 @@
     <string name="app_update_notif_title">智能空氣更新</string>
     <string name="app_update_failed">智能空氣更新失敗</string>
     <string name="external_storage_unavailable">外部存儲不可用</string>
+    
+    <string name="us_embassy">美國駐華使館</string>
 
 </resources>
