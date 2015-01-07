@@ -70,6 +70,9 @@ public class DeviceHandler implements ServerResponseListener {
 	}
 	
 	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
+	
+	@Override
 	public void receiveServerResponse(int responseCode, String encryptedData, String fromIp) {
 		ALog.i(ALog.DEVICEHANDLER, "Receive response");
 		notifyListener(responseCode,encryptedData, fromIp) ;

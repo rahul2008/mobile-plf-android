@@ -216,8 +216,7 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 	}
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData,
-			String ipStr) {
+	public void receiveServerResponse(int responseCode, String responseData, String ipStr) {
 
 		stop = true;
 		ALog.i(ALog.DEMO_MODE, "onTaskCompleted:" + responseCode);
@@ -267,4 +266,8 @@ public class DemoModeBroadcastReceiver extends BroadcastReceiver implements
 			break;
 		}
 	}
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
+
 }

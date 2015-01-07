@@ -16,6 +16,7 @@ public class TaskGetHttp extends Thread {
 	private String url ;
 	private ServerResponseListener listener ;
 	private String type ;
+	private String areaId;
 	private int responseCode;
 	private String result = "" ;
 
@@ -30,6 +31,11 @@ public class TaskGetHttp extends Thread {
 		this.type = type ;
 	}
 
+	public TaskGetHttp(String url, String type, String areaId, Context context, ServerResponseListener listener) {
+		this(url,context,listener) ;
+		this.type = type ;
+		this.areaId = areaId;
+	}
 
 	@Override
 	public void run() {
@@ -54,7 +60,11 @@ public class TaskGetHttp extends Thread {
 		}
 		finally {
 			if ( listener != null ) {
-				listener.receiveServerResponse(responseCode, result, type) ;
+				if(areaId == null || areaId.isEmpty()) {
+					listener.receiveServerResponse(responseCode, result, type);
+				} else {
+					listener.receiveServerResponse(responseCode, result, type, areaId) ;
+				}
 			}
 			NetworkUtils.closeAllConnections(inputStream, null, conn);
 		}

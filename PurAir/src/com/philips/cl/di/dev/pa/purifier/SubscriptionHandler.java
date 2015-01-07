@@ -273,8 +273,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 	}
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData,
-			String fromIp) {
+	public void receiveServerResponse(int responseCode, String responseData, String fromIp) {
 		// TODO if response code not 200? retry?
 		if (responseCode != HttpURLConnection.HTTP_OK) {
 			ALog.i(ALog.SUBSCRIPTION, "Subscription failed");
@@ -291,6 +290,9 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 													// events, treat as UDP
 		// TODO fix this
 	}
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
 	public static void setDummySubscriptionManagerForTesting(
 			SubscriptionHandler dummyManager) {

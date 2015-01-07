@@ -145,6 +145,9 @@ public class SchedulerHandler implements ServerResponseListener {
 			String fromIp) {
 		notifyListener(responseCode, responseData, fromIp);
 	}
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
 	private void notifyListener(int responseCode, String data, String fromIp) {
 		ALog.i(ALog.DEVICEHANDLER, "Response Code: " + responseCode);

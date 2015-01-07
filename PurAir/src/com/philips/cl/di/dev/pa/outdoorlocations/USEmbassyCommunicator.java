@@ -24,7 +24,7 @@ public class USEmbassyCommunicator implements DataCommunicator {
 	@Override
 	public void requestAQIData(List<String> cities) {
 		for (String cityName : cities) {
-			TaskGetHttp requestAQITask = new TaskGetHttp(US_EMBASSY_CITY_AQI_URL + cityName, RequestType.CITIES_AQI.getRequestTypeString(), PurAirApplication.getAppContext(), this);
+			TaskGetHttp requestAQITask = new TaskGetHttp(US_EMBASSY_CITY_AQI_URL + cityName, RequestType.CITIES_AQI.getRequestTypeString(), cityName, PurAirApplication.getAppContext(), this);
 			requestAQITask.start();
 		}
 	}
@@ -34,7 +34,7 @@ public class USEmbassyCommunicator implements DataCommunicator {
 
 	@Override
 	public void requestHistoricalAQI(String cityName) {
-		TaskGetHttp requestAQITask = new TaskGetHttp(US_EMBASSY_CITY_HISTORICAL_AQI_URL + cityName, RequestType.HISTORIAL_AQI.getRequestTypeString(), PurAirApplication.getAppContext(), this);
+		TaskGetHttp requestAQITask = new TaskGetHttp(US_EMBASSY_CITY_HISTORICAL_AQI_URL + cityName, RequestType.HISTORIAL_AQI.getRequestTypeString(), cityName, PurAirApplication.getAppContext(), this);
 		requestAQITask.start();
 	}
 
@@ -45,9 +45,12 @@ public class USEmbassyCommunicator implements DataCommunicator {
 	public void requestFourDayForecast(String city) { /** NOP */ }
 
 	@Override
-	public void receiveServerResponse(int responseCode, String responseData, String type) {
+	public void receiveServerResponse(int responseCode, String responseData, String type) { /**NOP*/ }
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {
 		if(isResponseValid(responseCode, responseData, type)) {
-			notifyListeners(responseData, RequestType.valueOf(type));
+			notifyListeners(responseData, RequestType.valueOf(type), areaId);
 		}
 	}
 
@@ -56,11 +59,11 @@ public class USEmbassyCommunicator implements DataCommunicator {
 				&& !responseData.isEmpty() && type != null && !type.isEmpty();
 	}
 
-	private void notifyListeners(String responseData, RequestType type) {
+	private void notifyListeners(String responseData, RequestType type, String areaId) {
 		if(RequestType.CITIES_AQI.equals(type)) {
 			List<OutdoorAQI> outdoorAQIList = DataParser.parseUSEmbassyLocationAQI(responseData);
 			for (OutdoorAQI outdoorAQI : outdoorAQIList) {
-				outdoorDataListener.outdoorAQIDataReceived(outdoorAQI, outdoorAQI.getAreaID());
+				outdoorDataListener.outdoorAQIDataReceived(outdoorAQI, areaId);
 			}
 		} else if (RequestType.HISTORIAL_AQI.equals(type)) {
 			List<OutdoorAQI> historicalOutdoorAQIs = DataParser.parseUSEmbassyHistoricalAQIData(responseData);

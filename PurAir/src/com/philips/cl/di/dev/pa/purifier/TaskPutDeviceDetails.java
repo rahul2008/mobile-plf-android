@@ -80,8 +80,7 @@ public class TaskPutDeviceDetails implements Runnable {
 			ALog.i(ALog.SCHEDULER, "Finally: " + result);
 			NetworkUtils.closeAllConnections(inputStream, out, conn);
 			if (responseListener != null)
-				responseListener.receiveServerResponse(responseCode, result,
-						targetIpAddress);
+				responseListener.receiveServerResponse(responseCode, result, targetIpAddress);
 		}
 	}
 }

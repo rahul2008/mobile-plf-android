@@ -10,11 +10,6 @@ package com.philips.cl.di.dev.pa.util;
  */
 public interface ServerResponseListener {
 	
-	/**
-	 * Receive server response.
-	 *
-	 * @param responseCode the response code
-	 * @param responseData the response data
-	 */
-	public void receiveServerResponse(int responseCode, String responseData, String fromIp) ;
+	void receiveServerResponse(int responseCode, String responseData, String type);
+	void receiveServerResponse(int responseCode, String responseData, String type, String areaId) ;
 }

@@ -65,6 +65,9 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		}
 		return smInstance;
 	}
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
 	@Override
 	public void receiveServerResponse(int responseCode, String data, String areaID) {

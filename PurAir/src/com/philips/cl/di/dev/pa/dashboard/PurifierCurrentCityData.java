@@ -74,6 +74,9 @@ public class PurifierCurrentCityData implements ServerResponseListener {
 	}
 
 	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
+	
+	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String areaID) {
 		ALog.i(ALog.OUTDOOR_DETAILS, "Outdoor percent download response: " + responseCode);
 		if (responseCode == 200) {

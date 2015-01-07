@@ -221,6 +221,9 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		SetupDialogFactory.getInstance(getActivity()).getDialog(SetupDialogFactory.CHECK_SIGNAL_STRENGTH).show();
 		getWifiDetails();
 	}
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
 	@Override
 	public void receiveServerResponse(int responseCode, String responseData,

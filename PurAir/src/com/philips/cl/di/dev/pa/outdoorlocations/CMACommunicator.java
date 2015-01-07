@@ -69,7 +69,7 @@ public class CMACommunicator implements DataCommunicator {
 
 	@Override
 	public void requestOneDayForecast(String city) {
-		
+		ALog.i(ALog.OUTDOOR_DETAILS, "CMACommuicator$requestOneDayForecast " + city);
 		TaskGetHttp requestOneDayForecastTask = new TaskGetHttp(BASE_URL_HOURLY_FORECAST + city + "&time=day", RequestType.FORECAST_ONE_DAY.getRequestTypeString(), PurAirApplication.getAppContext(), this);
 		requestOneDayForecastTask.start();
 	}
@@ -93,6 +93,9 @@ public class CMACommunicator implements DataCommunicator {
 	}
 	
 	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
+	
+	@Override
 	public void receiveServerResponse(int responseCode, String responseData, String type) {
 		ALog.i(ALog.OUTDOOR_LOCATION, "CMACommunicator : response " + responseData);
 		if(isResponseValid(responseCode, responseData, type)) {
@@ -106,6 +109,7 @@ public class CMACommunicator implements DataCommunicator {
 	}
 	
 	private void notifyListeners(String responseData, RequestType type) {
+		ALog.i(ALog.OUTDOOR_DETAILS, "CMACommunicator$notifyListeners " + type);
 		switch(type) {
 		case CITIES_AQI:
 			List<OutdoorAQI> outdoorAQIs = DataParser.parseLocationAQI(responseData);

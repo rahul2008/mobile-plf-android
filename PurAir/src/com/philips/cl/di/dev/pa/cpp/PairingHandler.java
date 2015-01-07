@@ -490,6 +490,9 @@ public class PairingHandler implements ICPEventListener, ServerResponseListener 
 		}
 		return noOfRelationReturned;
 	}
+	
+	@Override
+	public void receiveServerResponse(int responseCode, String responseData, String type, String areaId) {/**NOP*/}
 
 	/**
 	 * Method receiveServerResponse.
