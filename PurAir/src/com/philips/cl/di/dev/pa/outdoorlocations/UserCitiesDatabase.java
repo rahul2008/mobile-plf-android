@@ -73,7 +73,9 @@ public class UserCitiesDatabase {
 		Cursor cursor = null;
 		try {
 			db = dbHelper.getReadableDatabase();
-			cursor = db.query(AppConstants.TABLE_USER_SELECTED_CITY, new String[]{AppConstants.KEY_ID, AppConstants.KEY_AREA_ID}, AppConstants.KEY_AREA_ID + "= ?", new String[]{areaID}, null, null, null);
+			cursor = db.query(AppConstants.TABLE_USER_SELECTED_CITY, 
+					new String[]{AppConstants.KEY_ID, AppConstants.KEY_AREA_ID},
+					AppConstants.KEY_AREA_ID + "= ?", new String[]{areaID}, null, null, null);
 			if(cursor != null && cursor.getCount() > 0) {
 				cursor.moveToFirst();
 				return cursor.getLong(cursor.getColumnIndex(AppConstants.KEY_ID));
@@ -85,6 +87,22 @@ public class UserCitiesDatabase {
 			closeDb();
 		}
 		return -1;
+	}
+	
+	public int deleteCity(String areaId) {
+		int effectedRowId = -1;
+		if (areaId == null) return effectedRowId;
+		try {
+			db = dbHelper.getWritableDatabase();
+
+			effectedRowId = db.delete(AppConstants.TABLE_USER_SELECTED_CITY, 
+					AppConstants.KEY_AREA_ID + "= ?", new String[]{areaId});
+		} catch (Exception e) {
+			ALog.e(ALog.DATABASE, "Failed to delete row "+"Error: " + e.getMessage());
+		} finally {
+			closeDb();
+		}
+		return effectedRowId;
 	}
 	
 	private void closeDb() {

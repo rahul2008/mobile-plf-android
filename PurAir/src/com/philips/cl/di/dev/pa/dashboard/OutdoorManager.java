@@ -8,10 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteException;
-
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACityData.CMACityDetail;
@@ -19,8 +15,6 @@ import com.philips.cl.di.dev.pa.outdoorlocations.DataCommunicatorStrategy;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorJsonReader;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractFillAsyncTask;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationAbstractGetAsyncTask;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData;
 import com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData.USEmbassyCityDetail;
 import com.philips.cl.di.dev.pa.util.ALog;
@@ -45,7 +39,6 @@ public class OutdoorManager implements OutdoorDataListener {
 	private AllOutdoorDataListener allOutdoorDataListener;
 	private OutdoorDetailsListener outdoorDetailsListener ;
 
-	private OutdoorLocationAbstractGetAsyncTask mOutdoorLocationGetAsyncTask; //TODO : Remove in next version.
 	private OutdoorLocationAbstractFillAsyncTask mOutdoorLocationFillAsyncTask; //TODO : Remove in next version.
 	private long lastUpdatedTime ;
 
@@ -115,15 +108,15 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	private OutdoorManager() {
 		
-		insertDataAndGetShortListCities();
 		outdoorJsonReader = new OutdoorJsonReader();
 		dataCommunicatorStrategy = new DataCommunicatorStrategy(this);
 		citiesMap = new HashMap<String, OutdoorCity>();
 		userCitiesList = new ArrayList<String>();
 		cmaCities = new ArrayList<String>();
 		usEmbassyCities = new ArrayList<String>();
-		saveCMACitiesInMapAndList(outdoorJsonReader.readCMACityJsonAsString());
 		saveUSEmbassyCitiesInMapAndList(outdoorJsonReader.readUSEmbassyCityJsonAsString());
+		saveCMACitiesInMapAndList(outdoorJsonReader.readCMACityJsonAsString());
+		insertDataAndGetShortListCities();
 		
 		nearbyCities = new ArrayList<String>();
 
@@ -185,51 +178,31 @@ public class OutdoorManager implements OutdoorDataListener {
 	}
 	
 	private void insertDataAndGetShortListCities() {
-		mOutdoorLocationGetAsyncTask = (OutdoorLocationAbstractGetAsyncTask) new OutdoorLocationAbstractGetAsyncTask() {
-
-			@Override
-			protected void onPostExecute(Cursor result) {
-				processDataBaseInfo(result);
-			}
-		};
-
 		mOutdoorLocationFillAsyncTask = (OutdoorLocationAbstractFillAsyncTask) new OutdoorLocationAbstractFillAsyncTask() {
 
 			@Override
 			protected void onPostExecute(Void result) {
-				mOutdoorLocationGetAsyncTask.execute(new String[] { AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS });
+				processDataBaseInfo();
 			}
 		}.execute(new String[] {});
 	}
 
 	/** Added to fetch selected city information before updating dashboard **/
 	public void fetchSelectedCityInfo(){
-		OutdoorLocationDatabase database = new OutdoorLocationDatabase();
+		/*OutdoorLocationDatabase database = new OutdoorLocationDatabase();
 		Cursor cursor = null;
 		try {
 			database.open();
 			cursor = database.getDataFromOutdoorLoacation(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS);
 			database.close();
-			processDataBaseInfo(cursor);
+//			processDataBaseInfo(cursor);
 		} catch (SQLiteException e) {
 			ALog.e(ALog.OUTDOOR_LOCATION,
 				"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
-		}
+		}*/
 	}
 
-	private void processDataBaseInfo(Cursor cursor) {
-		if (cursor != null && cursor.getCount() > 0) {
-			ALog.i(ALog.OUTDOOR_LOCATION, "Fetch list of cities already short listed from DB " + cursor.getCount());
-			cursor.moveToFirst();
-			do {
-				OutdoorCityInfo info = getOutdoorCityInfo(cursor); 
-				addAreaIDToUsersList(info.getAreaID());
-				addCityDataToMap(info, null, null, info.getAreaID());
-			} while (cursor.moveToNext());
-		} 
-		
-		// Added outside if condition, some time user may delete all outdoor city except current city
-		// Current city information does not contain in cursor, that why adding current city info.
+	private void processDataBaseInfo() {
 		addCurrentCityInfo();
 		startCitiesTask();
 	}
@@ -238,19 +211,8 @@ public class OutdoorManager implements OutdoorDataListener {
 		String currentCityAreaId = LocationUtils.getCurrentLocationAreaId();
 		if (LocationUtils.isCurrentLocationEnabled() && !currentCityAreaId.isEmpty()) {
 			addCurrentCityAreaIDToUsersList(currentCityAreaId);
-			OutdoorController.getInstance().addMyLocationToMap(currentCityAreaId);
+//			OutdoorController.getInstance().addMyLocationToMap(currentCityAreaId);
 		}
-	}
-
-	private OutdoorCityInfo getOutdoorCityInfo(Cursor cursor) {
-		String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-		String cityCN = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
-		String cityTW = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-		String areaID = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID));
-		float longitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LONGITUDE));
-		float latitude = cursor.getFloat(cursor.getColumnIndex(AppConstants.KEY_LATITUDE));
-
-		return new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaID,  9999/*TODO : Remove this*/); 
 	}
 
 	public void removeUIChangeListener(OutdoorDataChangeListener listener) {

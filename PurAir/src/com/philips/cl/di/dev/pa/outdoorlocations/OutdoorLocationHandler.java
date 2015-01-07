@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.outdoorlocations;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteException;
@@ -23,7 +21,7 @@ public class OutdoorLocationHandler {
 	public synchronized static OutdoorLocationHandler getInstance() {
 		if (mInstance == null) {
 			mInstance = new OutdoorLocationHandler();
-			readFromFileAddToDatabase();
+//			readFromFileAddToDatabase();
 		}
 		return mInstance;
 	}
@@ -97,8 +95,7 @@ public class OutdoorLocationHandler {
 		}).start();
 	}
 
-	public void fetchCities(final String selection) {
-
+	/*private static void readFromFileAddToDatabase() {
 		new Thread(new Runnable() {
 
 			@Override
@@ -107,29 +104,7 @@ public class OutdoorLocationHandler {
 
 				try {
 					database.open();
-					Cursor cursor = database.getDataFromOutdoorLoacation(selection);
-					database.close();
-				} catch (SQLiteException e) {
-					ALog.e(ALog.OUTDOOR_LOCATION,
-							"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: "
-									+ "Error: " + e.getMessage());
-				} finally {
-					handler.sendEmptyMessage(0);// TODO change
-				}
-			}
-		}).start();
-	}
-
-	private static void readFromFileAddToDatabase() {
-		new Thread(new Runnable() {
-
-			@Override
-			public void run() {
-				OutdoorLocationDatabase database = new OutdoorLocationDatabase();
-
-				try {
-					database.open();
-					database.fillDatabaseForCSV();
+					database.readDataFromDatabase();
 					database.close();
 
 				} catch (SQLiteException e) {
@@ -141,7 +116,7 @@ public class OutdoorLocationHandler {
 				}
 			}
 		}).start();
-	}
+	}*/
 
 	public static void reset() {
 		mInstance = null;

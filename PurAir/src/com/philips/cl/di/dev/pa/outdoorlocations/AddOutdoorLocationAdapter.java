@@ -35,24 +35,26 @@ public class AddOutdoorLocationAdapter extends ArrayAdapter<OutdoorCityInfo> {
 		ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 		deleteSign.setVisibility(View.GONE);
 		FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
-		
-		String city = outdoorCityInfoList.get(position).getCityName();
-		
-		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-			city = outdoorCityInfoList.get(position).getCityNameCN();
-		} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			city = outdoorCityInfoList.get(position).getCityNameTW();
-		}
-		
-		//Replace first latter Capital and append US Embassy
-		if( outdoorCityInfoList.get(position).getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-			StringBuilder builder = new StringBuilder() ;
-			builder.append(city.substring(0,1).toUpperCase()).append(city.substring(1)) ;
-			builder.append(" (").append(context.getString(R.string.us_embassy)).append(" )") ;
+		if (outdoorCityInfoList.get(position) != null) {
+			String city = outdoorCityInfoList.get(position).getCityName();
 			
-			city = builder.toString() ;
+			if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+				city = outdoorCityInfoList.get(position).getCityNameCN();
+			} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+				city = outdoorCityInfoList.get(position).getCityNameTW();
+			}
+		
+		
+			//Replace first latter Capital and append US Embassy
+			if( outdoorCityInfoList.get(position).getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+				StringBuilder builder = new StringBuilder() ;
+				builder.append(city.substring(0,1).toUpperCase()).append(city.substring(1)) ;
+				builder.append(" (").append(context.getString(R.string.us_embassy)).append(" )") ;
+				
+				city = builder.toString() ;
+			}
+			tvName.setText(city);
 		}
-		tvName.setText(city);
 		
 		return view;
 	}

@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.widget.CursorAdapter;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +13,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
@@ -26,16 +25,13 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController.CurrentCityAreaIdReceivedListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationHandler;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorSelectedCityListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
-import com.philips.cl.di.dev.pa.outdoorlocations.UserSelectedCitiesAdapter;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
@@ -45,17 +41,16 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks,
-	OnConnectionFailedListener, OutdoorSelectedCityListener, OnCheckedChangeListener, CurrentCityAreaIdReceivedListener {
+	OnConnectionFailedListener, OnCheckedChangeListener, CurrentCityAreaIdReceivedListener {
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;
 	private ProgressBar searchingLoctionProgress;
 	private ListView mOutdoorLocationListView;
-	private CursorAdapter mOutdoorLocationAdapter;
 	private Hashtable<String, Boolean> selectedItemHashtable;
 	private ToggleButton currentLocation;
-	private Cursor selectedCursor;
 	private UserSelectedCitiesAdapter userSelectedCitiesAdapter;
+	private UserCitiesDatabase userCitiesDatabase;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -73,18 +68,15 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		currentLocation = (ToggleButton) view.findViewById(R.id.btn_current_location);
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
 		searchingLoctionProgress = (ProgressBar) view.findViewById(R.id.outdoor_current_location_progressBar);
-		
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
+		
 		return view;
 	}
 	
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		UserCitiesDatabase userCitiesDatabase = new UserCitiesDatabase();
-		List<String> userCities = userCitiesDatabase.getAllCities();
-		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, userCities);
-		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+		userCitiesDatabase = new UserCitiesDatabase();
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_LOCATIONS);
 	}
 	
@@ -92,15 +84,19 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public void onResume() {
 		showCurrentCityVisibility();
 		if (!selectedItemHashtable.isEmpty()) selectedItemHashtable.clear();// remove selected items
-		OutdoorLocationHandler.getInstance().setSelectedCityListener(this); 
-//		OutdoorLocationHandler.getInstance().fetchSelectedCity();
 		OutdoorController.getInstance().setCurrentCityAreaIdReceivedListener(this);
+		
+		List<String> userCities = userCitiesDatabase.getAllCities();
+		List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCities) ;
+		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
+		
+		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+		addAreaIdToCityList();
 		super.onResume();
 	}
 	
 	@Override
 	public void onPause() {
-		OutdoorLocationHandler.getInstance().removeSelectedCityListener();
 		OutdoorController.getInstance().removeCurrentCityAreaIdReceivedListener();
 		super.onPause();
 	}
@@ -146,15 +142,18 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		}
 	}
 	
-	private void addAreaIdToCityList(Cursor cursor) {
+	private void addAreaIdToCityList() {
 		//Added out side some time cursor does not have data
 		OutdoorManager.getInstance().clearCitiesList();
-		if (cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			do {
-				OutdoorManager.getInstance().addAreaIDToUsersList(
-						cursor.getString(cursor.getColumnIndex(AppConstants.KEY_AREA_ID)));
-			} while (cursor.moveToNext());
+		List<String> userCities = userCitiesDatabase.getAllCities();
+		List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCities) ;
+		
+		if (!outdoorCityInfoList.isEmpty()) {
+			
+			for (OutdoorCityInfo outdoorCityInfo : outdoorCityInfoList) {
+				String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
+				OutdoorManager.getInstance().addAreaIDToUsersList(key);
+			}
 		}
 		
 		//If current location get, add into outdoor location info list
@@ -162,81 +161,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				&& !LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 			OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 		} 
-	}
-	
-	private void fillListViewFromDatabase(Cursor cursor) {
-		if (cursor != null) {
-			
-			if (mOutdoorLocationAdapter != null) mOutdoorLocationAdapter = null;
-			mOutdoorLocationAdapter = new CursorAdapter(getActivity(), cursor, false) {
-				
-				@Override
-				public View newView(Context context, Cursor cursor, ViewGroup parent) {
-					LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-					View retView = inflater.inflate(R.layout.simple_list_item, parent, false);
-					
-					return retView;
-				}
-				
-				@Override
-				public void bindView(View view, Context context, Cursor cursor) {
-					final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
-					ALog.i(ALog.DATABASE, "Inserting old data into new table " + areaId);
-					ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
-					FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
-					
-					deleteSign.setVisibility(View.VISIBLE);
-					
-					String city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY));
-					
-					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_CN));
-					} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-						city = cursor.getString(cursor.getColumnIndex(AppConstants.KEY_CITY_TW));
-					}
-					
-					tvName.setText(city);
-					
-					tvName.setTag(areaId);
-					
-					FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-					
-					if (selectedItemHashtable.containsKey(areaId) && selectedItemHashtable.get(areaId)) {
-						delete.setVisibility(View.VISIBLE);
-						deleteSign.setImageResource(R.drawable.delete_t2b);
-					} else {
-						delete.setVisibility(View.GONE);
-						deleteSign.setImageResource(R.drawable.delete_l2r);
-					}
-					
-					delete.setOnClickListener(new OnClickListener() {
-
-						@Override
-						public void onClick(View v) {
-							OutdoorManager.getInstance().removeAreaIDFromUsersList(areaId);
-							OutdoorManager.getInstance().removeCityDataFromMap(areaId);
-							
-							OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-
-							database.open();
-							database.updateOutdoorLocationShortListItem(areaId, false);
-							database.close();
-							
-							if (selectedItemHashtable.containsKey(areaId)) {
-								selectedItemHashtable.remove(areaId);
-							}
-							OutdoorLocationHandler.getInstance().fetchSelectedCity();
-						}
-					});
-				}
-			};
-			
-			mOutdoorLocationListView.setAdapter(mOutdoorLocationAdapter);
-
-			selectedCursor = cursor;
-			//Add city to list
-			addAreaIdToCityList(cursor);
-		}
 	}
 	
 	@Override
@@ -252,37 +176,20 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			
-			Cursor cursor = (Cursor) mOutdoorLocationAdapter.getItem(position);
-			cursor.moveToPosition(position);
-			
-			final String areaId = cursor.getString(cursor.getColumnIndexOrThrow(AppConstants.KEY_AREA_ID));
+			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
+			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
 			
 			if(delete.getVisibility() == View.GONE) {
 				delete.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.delete_t2b);
-				selectedItemHashtable.put(areaId, true);
+				selectedItemHashtable.put(key, true);
 			} else {
 				delete.setVisibility(View.GONE);
 				deleteSign.setImageResource(R.drawable.delete_l2r);
-				selectedItemHashtable.put(areaId, false);
+				selectedItemHashtable.put(key, false);
 			}
 		}
 	};
-
-	@Override
-	public void onSelectedCityLoad(final Cursor cursor) {
-		if (getActivity() == null) return;
-		
-		getActivity().runOnUiThread(new Runnable() {
-			
-			@Override
-			public void run() {
-				fillListViewFromDatabase(cursor);
-			}
-		});
-	}
-	
-	
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -294,7 +201,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				OutdoorManager.getInstance().resetUpdatedTime();
 				OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 			} else {
-				addAreaIdToCityList(selectedCursor);
+				addAreaIdToCityList();
 			}
 		}
 	}
@@ -311,4 +218,82 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			}
 		});
 	}
+	
+	
+	private class UserSelectedCitiesAdapter extends ArrayAdapter<OutdoorCityInfo> {
+
+		private Context context;
+		private List<OutdoorCityInfo> outdoorCityInfoList;
+		
+		public UserSelectedCitiesAdapter(Context context, int resource, List<OutdoorCityInfo> outdoorCityInfoList) {
+			super(context, resource, outdoorCityInfoList);
+			this.context = context;
+			this.outdoorCityInfoList = outdoorCityInfoList;
+		}
+		
+		@Override
+		public View getView(int position, View convertView, ViewGroup parent) {
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = inflater.inflate(R.layout.simple_list_item, null);
+
+			OutdoorCityInfo info = outdoorCityInfoList.get(position);
+			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(info);
+			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
+			FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
+			
+			deleteSign.setVisibility(View.VISIBLE);
+			
+			String cityName = info.getCityName();
+
+			if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+				cityName = info.getCityNameCN();
+			} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+				cityName = info.getCityNameTW();
+			}
+
+			//Replace first latter Capital and append US Embassy
+			if( info.getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+				StringBuilder builder = new StringBuilder() ;
+				builder.append(cityName.substring(0,1).toUpperCase()).append(cityName.substring(1)) ;
+				builder.append(" (").append(context.getString(R.string.us_embassy)).append(" )") ;
+
+				cityName = builder.toString() ;
+			}
+			tvName.setText(cityName);
+			
+			tvName.setTag(key);
+			
+			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
+			
+			if (selectedItemHashtable.containsKey(key) && selectedItemHashtable.get(key)) {
+				delete.setVisibility(View.VISIBLE);
+				deleteSign.setImageResource(R.drawable.delete_t2b);
+			} else {
+				delete.setVisibility(View.GONE);
+				deleteSign.setImageResource(R.drawable.delete_l2r);
+			}
+			
+			delete.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					OutdoorManager.getInstance().removeAreaIDFromUsersList(key);
+					new UserCitiesDatabase().deleteCity(key);
+					
+					if (selectedItemHashtable.containsKey(key)) {
+						selectedItemHashtable.remove(key);
+					}
+					List<String> userCities = userCitiesDatabase.getAllCities();
+					List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCities) ;
+					userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
+					
+					mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+					addAreaIdToCityList();
+				}
+			});
+
+			return view;
+		}
+	}
+
 }

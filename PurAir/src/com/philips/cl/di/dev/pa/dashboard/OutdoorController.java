@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.dashboard;
 import java.util.List;
 
 import android.app.Activity;
-import android.database.Cursor;
 import android.location.Location;
 import android.os.Bundle;
 
@@ -12,10 +11,8 @@ import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.fragment.StartFlowDialogFragment;
-import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorLocationDatabase;
 import com.philips.cl.di.dev.pa.purifier.TaskGetHttp;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
@@ -96,28 +93,9 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 		OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(areaId);
 		areaIdReceived();//Listen to outdoor location fragment
 		
-		addMyLocationToMap(areaId);
 		//For download outdoor AQI and weather detail, resetting lastUpdatedTime to zero
 		OutdoorManager.getInstance().resetUpdatedTime();
 		OutdoorManager.getInstance().startCitiesTask();
-	}
-
-	public void addMyLocationToMap(String areaId) {
-		OutdoorLocationDatabase database =  new OutdoorLocationDatabase();
-		database.open();
-		Cursor c = database.getDataCurrentLoacation(areaId);
-		if (c != null && c.getCount() == 1) {
-			c.moveToFirst();
-			String city = c.getString(c.getColumnIndex(AppConstants.KEY_CITY));
-			String cityCN = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_CN));
-			String cityTW = c.getString(c.getColumnIndex(AppConstants.KEY_CITY_TW));
-			float longitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LONGITUDE));
-			float latitude = c.getFloat(c.getColumnIndex(AppConstants.KEY_LATITUDE));
-
-			OutdoorCityInfo info = new OutdoorCityInfo(city, cityCN, cityTW, longitude, latitude, areaId,  999/*TODO : Remove this*/);
-			OutdoorManager.getInstance().addCityDataToMap(info, null, null, areaId);
-		}
-		database.close();
 	}
 
 	private String parseAreaID(String data) {

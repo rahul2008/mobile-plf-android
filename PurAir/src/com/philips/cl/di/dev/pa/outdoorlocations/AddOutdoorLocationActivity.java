@@ -164,23 +164,15 @@ public class AddOutdoorLocationActivity extends BaseActivity {
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) mAdapter.getItem(position);
 			
 			String city = outdoorCityInfo.getCityName();
-			String key = getCityKeyWithRespectDataProvider(outdoorCityInfo);
+			String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
 
 			MetricsTracker.trackActionLocationWeather(city);
 			OutdoorManager.getInstance().addAreaIDToUsersList(key);
 			OutdoorManager.getInstance().resetUpdatedTime();
-			OutdoorLocationHandler.getInstance().updateSelectedCity(key, true);
+			new UserCitiesDatabase().insertCity(key, outdoorCityInfo.getDataProvider());
 			finish();
 		}
 	};
-	
-	private String getCityKeyWithRespectDataProvider(OutdoorCityInfo outdoorCityInfo) {
-		String key = outdoorCityInfo.getAreaID();
-		if (outdoorCityInfo.getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-			key = outdoorCityInfo.getCityName();
-		}
-		return key;
-	}
 
 	private List<OutdoorCityInfo> outdoorCityInfoList ;
 	private void populateOutdoorLocations() {
