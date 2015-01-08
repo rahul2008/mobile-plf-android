@@ -11,9 +11,9 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 
 public class AddOutdoorLocationHelper {
-	
+	private static List<String> userCitiesList;
 	public static List<OutdoorCityInfo> getAllCityInfoList(Map<String, OutdoorCity> cityMap) {
-		
+		userCitiesList = new UserCitiesDatabase().getAllCities();
 		List<OutdoorCityInfo> outdoorCityInfoList = new ArrayList<OutdoorCityInfo>() ;
 		if(!cityMap.isEmpty())  {
 			Iterator<String> keySetIterator = cityMap.keySet().iterator() ;
@@ -30,7 +30,6 @@ public class AddOutdoorLocationHelper {
 	}
 	
 	private static boolean isCityAddedUserSelectedList(String areaId) {
-		List<String> userCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
 		return userCitiesList.contains(areaId);
 	}
 	

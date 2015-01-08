@@ -34,13 +34,11 @@ public class DataCommunicatorStrategy {
 	}
 	
 	public void requestOneDayWeatherForecastData(List<String> userCity) {
-		List<String> city = getCMACitiesFromCityNames(userCity);
-		requestCMAData(city, RequestType.FORECAST_ONE_DAY);
+		requestCMAData(userCity, RequestType.FORECAST_ONE_DAY);
 	}
 	
 	public void requestFourDayWeatherForecastData(List<String> userCity) {
-		List<String> city = getCMACitiesFromCityNames(userCity);
-		requestCMAData(city, RequestType.FORECAST_FOUR_DAYS);
+		requestCMAData(userCity, RequestType.FORECAST_FOUR_DAYS);
 	}
 	
 	public void requestAllCityData(List<String> allCMACities) {

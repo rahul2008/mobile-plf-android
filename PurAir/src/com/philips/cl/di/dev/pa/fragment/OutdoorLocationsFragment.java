@@ -51,6 +51,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private ToggleButton currentLocation;
 	private UserSelectedCitiesAdapter userSelectedCitiesAdapter;
 	private UserCitiesDatabase userCitiesDatabase;
+	private List<String> userCitiesId;
+	private List<OutdoorCityInfo> outdoorCityInfoList;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -85,13 +87,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		showCurrentCityVisibility();
 		if (!selectedItemHashtable.isEmpty()) selectedItemHashtable.clear();// remove selected items
 		OutdoorController.getInstance().setCurrentCityAreaIdReceivedListener(this);
-		
-		List<String> userCities = userCitiesDatabase.getAllCities();
-		List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCities) ;
-		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
-		
-		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
-		addAreaIdToCityList();
+		setAdapter();
 		super.onResume();
 	}
 	
@@ -145,10 +141,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private void addAreaIdToCityList() {
 		//Added out side some time cursor does not have data
 		OutdoorManager.getInstance().clearCitiesList();
-		List<String> userCities = userCitiesDatabase.getAllCities();
-		List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCities) ;
 		
-		if (!outdoorCityInfoList.isEmpty()) {
+		if (outdoorCityInfoList != null && !outdoorCityInfoList.isEmpty()) {
 			
 			for (OutdoorCityInfo outdoorCityInfo : outdoorCityInfoList) {
 				String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
@@ -283,17 +277,19 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					if (selectedItemHashtable.containsKey(key)) {
 						selectedItemHashtable.remove(key);
 					}
-					List<String> userCities = userCitiesDatabase.getAllCities();
-					List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCities) ;
-					userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
-					
-					mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
-					addAreaIdToCityList();
+					setAdapter();
 				}
 			});
 
 			return view;
 		}
+	}
+	private void setAdapter() {
+		userCitiesId = userCitiesDatabase.getAllCities();
+		outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCitiesId) ;
+		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
+		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+		addAreaIdToCityList();
 	}
 
 }

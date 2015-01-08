@@ -156,6 +156,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		
 		CPPController.getInstance(this).setAppUpdateStatus(false);
 		
+		//Fetch database data
+		OutdoorManager.getInstance();
 		//Read data from CLV
 		OutdoorLocationHandler.getInstance();
 

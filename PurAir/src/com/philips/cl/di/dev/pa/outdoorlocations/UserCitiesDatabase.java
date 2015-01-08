@@ -69,7 +69,7 @@ public class UserCitiesDatabase {
 		return userCities;
 	}
 
-	private long getRowIdOfCity(String areaID) {
+	public long getRowIdOfCity(String areaID) {
 		Cursor cursor = null;
 		try {
 			db = dbHelper.getReadableDatabase();

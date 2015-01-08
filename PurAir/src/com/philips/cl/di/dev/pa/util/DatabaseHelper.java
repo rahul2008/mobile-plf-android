@@ -81,7 +81,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		
 		db.execSQL(createTableAirPurifierEvent) ;
 		db.execSQL(createDeviceInfo);
-		db.execSQL(createCityDetailsTableSQL);
+//		db.execSQL(createCityDetailsTableSQL);
 		db.execSQL(createCityProviderTableSQL);
 	}
 	

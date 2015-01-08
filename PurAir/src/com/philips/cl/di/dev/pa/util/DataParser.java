@@ -542,7 +542,7 @@ public class DataParser {
 		return weatherList;
 	}
 
-	public static List<OutdoorAQI> parseUSEmbassyLocationAQI(String dataToParse) {
+	public static List<OutdoorAQI> parseUSEmbassyLocationAQI(String dataToParse, String areaID) {
 		ALog.i(ALog.PARSER, "parseUSEmbassyLocationAQI dataToParse " + dataToParse);
 		if( dataToParse == null ) return null ;
 
@@ -556,7 +556,7 @@ public class DataParser {
 			if(cityData == null) return null;
 
 			String regex = "[-: ]";
-			String cityName = cityData.optString("city"); //Area codes
+		//	String cityName = cityData.optString("city"); //Area codes
 			int pm25 = cityData.optInt("PM2.5");
 			int aqi = cityData.optInt("AQI");
 			int pm10 = 	cityData.optInt("PM10");
@@ -567,7 +567,7 @@ public class DataParser {
 			if (timeStamp != null) timeStamp = Pattern.compile(regex).matcher(timeStamp).replaceAll("");
 
 			ALog.i(ALog.PARSER, "pm25 " + pm25 + " aqi " + aqi);
-			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, cityName, timeStamp));
+			aqis.add(new OutdoorAQI(pm25, aqi, pm10, so2, no2, areaID, timeStamp));
 			return aqis;
 		} catch (JSONException e) {
 			ALog.e(ALog.PARSER, "JSONException parseUSEmbassyLocationAQI");

@@ -12,6 +12,7 @@ public class LocationUtils {
 	public final static String CURR_LOC_LON = "current_loc_lon";
 	public final static String OUTDOOR_LOCATION_VISITED = "outdoor_location_visited";
 	public final static String CURR_LOC_ENABLEB = "current_loc_enabled";
+	public final static String DEFAULT_OR_OLD_CITY_ADDED= "default_old_city";
 	
 	public static void saveCurrentLocationAreaId(String areaId) {
 		SharedPreferences pref = PurAirApplication.getAppContext()
@@ -76,5 +77,19 @@ public class LocationUtils {
 		SharedPreferences pref = PurAirApplication.getAppContext()
 				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
 		return pref.getBoolean(OUTDOOR_LOCATION_VISITED, false);
+	}
+	
+	public static void saveDefaultOldCityAddedState(boolean state) {
+		SharedPreferences pref = PurAirApplication.getAppContext()
+				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
+		SharedPreferences.Editor edit = pref.edit();
+		edit.putBoolean(DEFAULT_OR_OLD_CITY_ADDED, state);
+		edit.commit();
+	}
+	
+	public static boolean getDefaultOldCityAddedState() {
+		SharedPreferences pref = PurAirApplication.getAppContext()
+				.getSharedPreferences(CURR_LOC_PREF, Activity.MODE_PRIVATE);
+		return pref.getBoolean(DEFAULT_OR_OLD_CITY_ADDED, false);
 	}
 }

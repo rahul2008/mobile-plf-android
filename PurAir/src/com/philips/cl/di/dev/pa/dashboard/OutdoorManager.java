@@ -79,12 +79,14 @@ public class OutdoorManager implements OutdoorDataListener {
 	}
 	
 	public void startOneDayWeatherForecastTask(String areaId) {
-		List<String> city = new ArrayList<String>();
+		areaId = OutdoorManager.getInstance().getAreaIdFromCityName(areaId);
+		List<String> city = new ArrayList<String>();		
 		city.add(areaId);
 		dataCommunicatorStrategy.requestOneDayWeatherForecastData(city);
 	}
 	
 	public void startCityFourDayForecastTask(String areaId) {
+		areaId = OutdoorManager.getInstance().getAreaIdFromCityName(areaId);
 		List<String> city = new ArrayList<String>();
 		city.add(areaId);
 		dataCommunicatorStrategy.requestFourDayWeatherForecastData(city);
@@ -187,22 +189,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		}.execute(new String[] {});
 	}
 
-	/** Added to fetch selected city information before updating dashboard **/
-	public void fetchSelectedCityInfo(){
-		/*OutdoorLocationDatabase database = new OutdoorLocationDatabase();
-		Cursor cursor = null;
-		try {
-			database.open();
-			cursor = database.getDataFromOutdoorLoacation(AppConstants.SQL_SELECTION_GET_SHORTLIST_ITEMS);
-			database.close();
-//			processDataBaseInfo(cursor);
-		} catch (SQLiteException e) {
-			ALog.e(ALog.OUTDOOR_LOCATION,
-				"OutdoorLocationAbstractGetAsyncTask failed to retive data from DB: " + e.getMessage());
-		}*/
-	}
-
-	private void processDataBaseInfo() {
+	public void processDataBaseInfo() {
 		addCurrentCityInfo();
 		startCitiesTask();
 	}

@@ -27,7 +27,6 @@ public class OutdoorAQI implements  Serializable {
 		this.p5 = no2;
 		this.areaID = areaID;
 		this.timeStamp = timeStamp;
-		this.areaID = areaID;
 	}
 	
 	public String getTimeStamp() {
