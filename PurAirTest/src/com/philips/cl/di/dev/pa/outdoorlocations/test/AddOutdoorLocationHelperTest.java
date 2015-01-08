@@ -57,4 +57,45 @@ public class AddOutdoorLocationHelperTest extends ActivityInstrumentationTestCas
 		assertEquals(outdoorCityMap.size() - userCitiesListSize, outdoorCityInfoList.size()) ;
 	}
 	
+	public void testGetFirstWordCapitalInSentence() {
+		String cityName = AddOutdoorLocationHelper.getFirstWordCapitalInSentence("beijing");
+		assertEquals("Beijing", cityName) ;
+	}
+	
+	public void testGetCityKeyWithRespectDataProviderUSEmbassy() {
+		OutdoorCityInfo outdoorCityInfo = new OutdoorCityInfo("beijing", "beijing", "beijing", 1F, 2F, "1011010", 1);
+		String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
+		assertEquals("beijing", key);
+	}
+	
+	public void testGetCityKeyWithRespectDataProviderCMA() {
+		OutdoorCityInfo outdoorCityInfo = new OutdoorCityInfo("beijing", "beijing", "beijing", 1F, 2F, "1011010", 0);
+		String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
+		assertEquals("1011010", key);
+	}
+	
+	public void testGetSortedUserSelectedCitiesInfo1() {
+		List<String> ids = new ArrayList<String>();
+		ids.add("101090701");//Cangzhou
+		ids.add("101010100");//Beijing
+		ids.add("101161301");//Baiyin
+		ids.add("chengdu");//chengdu
+		ids.add("shanghai");//shanghai
+		ids.add("101050503");//Anda
+		List<OutdoorCityInfo> outdoorCityInfos = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(ids);
+		assertEquals("101050503", outdoorCityInfos.get(0).getAreaID());
+	}
+	
+	public void testGetSortedUserSelectedCitiesInfo2() {
+		List<String> ids = new ArrayList<String>();
+		ids.add("101090701");//Cangzhou
+		ids.add("101010100");//Beijing
+		ids.add("101161301");//Baiyin
+		ids.add("chengdu");//chengdu
+		ids.add("shanghai");//shanghai
+		ids.add("101050503");//Anda
+		List<OutdoorCityInfo> outdoorCityInfos = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(ids);
+		assertEquals("101020100", outdoorCityInfos.get(5).getAreaID());
+	}
+	
 }
