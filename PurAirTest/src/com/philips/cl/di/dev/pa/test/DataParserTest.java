@@ -862,26 +862,26 @@ public class DataParserTest extends TestCase {
 	
 	public void testUSEmbassyLocationOutdoorAQIWithNullData() {
 		String data = null ;
-		List<OutdoorAQI> outdoorAQI = DataParser.parseUSEmbassyLocationAQI(data) ;
+		List<OutdoorAQI> outdoorAQI = DataParser.parseUSEmbassyLocationAQI(data, "101010100") ;
 		assertNull(outdoorAQI) ;
 	}
 	
 
 	public void testUSEmbassyLocationOutdoorAQI_PM25( ) {
 		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":[{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",	\"O3\":\"192\",\"SO2\":\"17\",\"time\":\"2013-08-01 13:00:00\"}]}";
-		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data) ;
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data, "101010100") ;
 		assertEquals(52, outdoorAQIs.get(0).getPM25());
 	}
 	
 	public void testUSEmbassyLocationOutdoorAQI_index( ) {
 		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":[{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",	\"O3\":\"192\",\"SO2\":\"17\",\"time\":\"2013-08-01 13:00:00\"}]}";
-		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data) ;
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data, "101010100") ;
 		assertEquals(89, outdoorAQIs.get(0).getAQI());
 	}
 	
 	public void testUSEmbassyLocationOutdoorAQI_timestamp( ) {
 		String data = "{\"resultcode\":\"200\",\"reason\":\"SUCCESSED!\",\"result\":[{\"city\":\"苏州\",	\"PM2.5\":\"52\",\"AQI\":\"89\",\"PM10\":\"85\",\"CO\":\"0.73\",\"NO2\":\"14\",	\"O3\":\"192\",\"SO2\":\"17\",\"time\":\"2013-08-01 13:00:00\"}]}";
-		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data) ;
+		List<OutdoorAQI> outdoorAQIs = DataParser.parseUSEmbassyLocationAQI(data, "101010100") ;
 		assertEquals("20130801130000", outdoorAQIs.get(0).getTimeStamp());
 	}
 	
