@@ -16,9 +16,12 @@ import com.amap.api.maps2d.model.Marker;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.IndoorDashboardUtils;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -77,8 +80,15 @@ public class MarkerActivity extends MapActivity implements
 	}
 	
 	private void populateAllMarkers() {
+		String selectedCityKey = OutdoorDetailsActivity.getSelectedCityCode();
+		String areaId = OutdoorManager.getInstance().getAreaIdFromCityName(selectedCityKey);
+		
 		for (int i = 0; i < mCitiesListAll.size(); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(mCitiesListAll.get(i));
+			if (areaId.equalsIgnoreCase(outdoorCity.getOutdoorCityInfo().getAreaID())) {
+				outdoorCity = OutdoorManager.getInstance().getCityData(selectedCityKey);
+			}
+			
 			addMarkerToMap(outdoorCity);
 		}
 		addMarkerToMap(mOutdoorCity);
@@ -159,7 +169,8 @@ public class MarkerActivity extends MapActivity implements
 
 		float latitude = outdoorCity.getOutdoorCityInfo().getLatitude();
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
-		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
+		String cityCode = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCity.getOutdoorCityInfo());
+//		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
 		int pm25 = outdoorCity.getOutdoorAQI().getPM25();
 		int pm10 = outdoorCity.getOutdoorAQI().getPm10();
 		int so2 = outdoorCity.getOutdoorAQI().getSo2();
@@ -180,8 +191,7 @@ public class MarkerActivity extends MapActivity implements
 		LatLng latLng = new LatLng(latitude, longitude);
 		builder.include(latLng);
 
-		if (OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(
-				cityCode)) {
+		if (OutdoorDetailsActivity.getSelectedCityCode().equalsIgnoreCase(cityCode)) {
 			setMarkerIconOval(true);
 			mOutdoorCity = outdoorCity;
 		} else {
@@ -190,6 +200,14 @@ public class MarkerActivity extends MapActivity implements
 
 		setMarkerSnippet("PM2.5: " + pm25 + ", PM10: " + pm10 + ", SO2: " + so2
 				+ ", NO2: " + no2);
+		
+		//Replace first latter Capital and append US Embassy
+		if( outdoorCity.getOutdoorCityInfo().getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+			StringBuilder builder = new StringBuilder(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(cityName)) ;				
+			builder.append(" (").append(getString(R.string.us_embassy)).append(" )") ;				
+			cityName = builder.toString() ;
+		}
+		
 		setMarkerTitle(cityName);
 		setMarkerPositionLatLng(latLng);
 

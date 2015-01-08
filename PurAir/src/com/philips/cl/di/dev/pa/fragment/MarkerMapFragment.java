@@ -34,6 +34,8 @@ import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.dashboard.AllOutdoorDataListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.gaode.map.MapUtils;
 
@@ -156,6 +158,10 @@ public class MarkerMapFragment extends BaseFragment implements
 		mCitiesListAll = OutdoorManager.getInstance().getNearbyCitiesList(latitudePlus, 
 				latitudeMinus, longitudePlus, longitudeMinus);
 		
+		if (selectedOutdoorCity.getOutdoorCityInfo().getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+			mCitiesListAll.add(selectedCityCode);
+		}
+		
 		for (int i = 0; i < (mCitiesListAll.size()); i++) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(mCitiesListAll.get(i));
 			addMarkerToMap(outdoorCity);
@@ -185,8 +191,8 @@ public class MarkerMapFragment extends BaseFragment implements
 		float longitude = outdoorCity.getOutdoorCityInfo().getLongitude();
 		String cityName = outdoorCity.getOutdoorCityInfo().getCityName();
 		boolean iconOval = false;
-		String cityCode = outdoorCity.getOutdoorCityInfo().getAreaID();
-
+		String cityCode = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCity.getOutdoorCityInfo());
+		
 		LatLng latLng = new LatLng(latitude, longitude);
 		builder.include(latLng);
 
@@ -194,9 +200,8 @@ public class MarkerMapFragment extends BaseFragment implements
 		if (outdoorCity.getOutdoorAQI() != null)
 			aqiValue = outdoorCity.getOutdoorAQI().getAQI();
 
-		if (OutdoorDetailsActivity.getSelectedCityCode() != null
-				&& OutdoorDetailsActivity.getSelectedCityCode()
-						.equalsIgnoreCase(cityCode)) {
+		String selectedCityAreaId = OutdoorDetailsActivity.getSelectedCityCode();
+		if (selectedCityAreaId != null && selectedCityAreaId.equalsIgnoreCase(cityCode)) {
 			mOutdoorCity = outdoorCity;
 			iconOval = true;
 		}
