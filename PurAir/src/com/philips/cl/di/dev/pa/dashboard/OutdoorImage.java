@@ -80,16 +80,16 @@ public enum OutdoorImage {
 	}
 
 	private static int initializeAQIValue(String areaId) {
-		if (areaId.equals("101020100")) {
+		if (areaId.equals("101020100") || areaId.equalsIgnoreCase("Shanghai")) {
 			// Shanghai
 			return 100;
-		} else if (areaId.equals("101010100")) {
+		} else if (areaId.equals("101010100") || areaId.equalsIgnoreCase("Beijing")) {
 			// Beijing
 			return 200;
-		} else if (areaId.equals("101040100")) {
+		} else if (areaId.equals("101040100") || areaId.equalsIgnoreCase("Chongqing")) {
 			// Chongqing
 			return 300;
-		} else if (areaId.equals("101280101")) {
+		} else if (areaId.equals("101280101") || areaId.equalsIgnoreCase("Guangzhou")) {
 			// Guangzhou
 			return 400;
 		} else {

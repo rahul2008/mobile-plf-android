@@ -26,7 +26,6 @@ import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -139,7 +138,6 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		cityId.setText(areaID);
 		outdoorAQI = city.getOutdoorAQI();
 		weather = city.getOutdoorWeather();
-
 		
 		addDummyDataForDemoMode(areaID);
 		if(outdoorAQI != null) {
