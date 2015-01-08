@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
-import com.philips.cl.di.dev.pa.util.DataParser;
 
 public class OutdoorJsonReader {
 	
@@ -12,8 +11,8 @@ public class OutdoorJsonReader {
 	private USEmbassyCityData usEmbassyCityData;
 	
 	public OutdoorJsonReader() {
-		cmaCityData = DataParser.parseCMACityData(readCMACityJsonAsString());
-		usEmbassyCityData = DataParser.parseUSEmbassyCityData(readUSEmbassyCityJsonAsString());
+//		cmaCityData = DataParser.parseCMACityData(readCMACityJsonAsString());
+//		usEmbassyCityData = DataParser.parseUSEmbassyCityData(readUSEmbassyCityJsonAsString());
 	}
 	
 	public CMACityData getCmaCityData() {

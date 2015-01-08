@@ -6,6 +6,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import android.annotation.SuppressLint;
+
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
@@ -53,4 +55,13 @@ public class AddOutdoorLocationHelper {
 		}
 		return key;
 	}
+	
+	@SuppressLint("DefaultLocale")
+	public static String getFirstWordCapitalInSentence(String cityName) {
+		StringBuilder builder = new StringBuilder() ;
+		builder.append(cityName.substring(0,1).toUpperCase()).append(cityName.substring(1)) ;
+		
+		return builder.toString() ;
+	}
+	
 }

@@ -11,6 +11,21 @@
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/img_description"
         android:src="@drawable/aqi_blue_circle_2x" />
+    
+    <com.philips.cl.di.dev.pa.view.FontTextView
+        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+        android:id="@+id/dataproviderLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:text="@string/us_embassy"
+        android:layout_below="@id/od_detail_circle_pointer"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small_dp"
+        custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

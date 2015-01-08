@@ -633,5 +633,5 @@
     <string name="app_update_failed">智能空气APP更新失败</string>
     <string name="external_storage_unavailable">外部存储不可用</string>
     
-	<string name="us_embassy">美国驻华使馆</string>
+	<string name="us_embassy">美国领事馆</string>
 </resources>

@@ -642,6 +642,6 @@
     <string name="app_update_failed">Smart Air App update failed</string>
     <string name="external_storage_unavailable">External storage not available</string>
     
-    <string name="us_embassy">US Embassy</string>
+    <string name="us_embassy">US Consulate</string>
 
 </resources>

@@ -44,6 +44,7 @@ import com.philips.cl.di.dev.pa.datamodel.Weatherdto;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.OutdoorAQIExplainedDialogFragment;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Coordinates;
 import com.philips.cl.di.dev.pa.util.Fonts;
@@ -64,7 +65,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private WeatherReportLayout weatherReportLayout;
 	private HorizontalScrollView wetherScrollView;
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
-	private FontTextView aqiValue, summaryTitle, summary;
+	private FontTextView aqiValue, summaryTitle, summary, tvOutdoorProvider;
 	private TextView heading;
 	private ImageView circleImg, backgroundImage;
 	private ImageView avoidImg, openWindowImg, maskImg;
@@ -270,6 +271,10 @@ public class OutdoorDetailsActivity extends BaseActivity
 		 */
 		OutdoorAQI aqiValue = (OutdoorAQI) getIntent().getSerializableExtra(AppConstants.OUTDOOR_AQI) ;
 		
+		if(getIntent().getIntExtra(AppConstants.OUTDOOR_DATAPROVIDER, 0) == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+			tvOutdoorProvider.setVisibility(View.VISIBLE) ;
+		}
+		
 		if( aqiValue != null) {
 			setOutdoorCityCode(aqiValue.getAreaID());
 			areaId = aqiValue.getAreaID() ;
@@ -391,6 +396,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		aqiValue = (FontTextView) findViewById(R.id.od_detail_aqi_reading);
 		summaryTitle = (FontTextView) findViewById(R.id.odStatusTitle);
 		summary = (FontTextView) findViewById(R.id.odStatusDescr);
+		tvOutdoorProvider = (FontTextView) findViewById(R.id.dataproviderLabel);
 		
 		pmValue=(FontTextView)findViewById(R.id.hf_outdoor_pm_value);
 		pmLayout=(LinearLayout)findViewById(R.id.pm_layout);

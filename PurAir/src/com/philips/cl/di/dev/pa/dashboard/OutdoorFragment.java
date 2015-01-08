@@ -22,8 +22,11 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
+import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.DummyOutdoor;
+import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.cl.di.dev.pa.util.DataParser;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -31,7 +34,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener {
 
-	private FontTextView cityName, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId;
+	private FontTextView cityName, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId, tvOutdoorDataProvider;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private RelativeLayout rootLayout;
@@ -45,6 +48,8 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	
 	private OutdoorAQI outdoorAQI ;
 	private OutdoorWeather weather;
+	
+	private int outdoorDataProvider;
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
@@ -68,6 +73,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
 		myLocArrowImg = (ImageView) view.findViewById(R.id.hf_my_loc_image);
 		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
+		tvOutdoorDataProvider = (FontTextView) view.findViewById(R.id.hf_outdoor_location);
 		cityName.setSelected(true);
 		//If Chinese language selected set font-type-face normal
 		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
@@ -117,19 +123,24 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	@SuppressLint("SimpleDateFormat")
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
-
+		outdoorDataProvider = city.getOutdoorCityInfo().getDataProvider() ;
 		if (LocationUtils.getCurrentLocationAreaId().equals(areaID) 
 				&& LocationUtils.isCurrentLocationEnabled()) {
 			myLocArrowImg.setVisibility(View.VISIBLE);
 		} else {
 			myLocArrowImg.setVisibility(View.GONE);
 		}
-
-		cityName.setText(outdoorCityName);
+		
+		if( outdoorDataProvider == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+			tvOutdoorDataProvider.setVisibility(View.VISIBLE) ;
+			tvOutdoorDataProvider.setText(getString(R.string.us_embassy)) ;
+		}
+		cityName.setText(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(outdoorCityName));
 		cityId.setText(areaID);
 		outdoorAQI = city.getOutdoorAQI();
 		weather = city.getOutdoorWeather();
 
+		
 		addDummyDataForDemoMode(areaID);
 		if(outdoorAQI != null) {
 			//Set outdoor background
@@ -186,6 +197,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
 			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
 			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
+			intent.putExtra(AppConstants.OUTDOOR_DATAPROVIDER, outdoorDataProvider) ;
 			startActivity(intent);
 			break;
 		default:

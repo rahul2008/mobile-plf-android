@@ -47,10 +47,8 @@ public class AddOutdoorLocationAdapter extends ArrayAdapter<OutdoorCityInfo> {
 		
 			//Replace first latter Capital and append US Embassy
 			if( outdoorCityInfoList.get(position).getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-				StringBuilder builder = new StringBuilder() ;
-				builder.append(city.substring(0,1).toUpperCase()).append(city.substring(1)) ;
-				builder.append(" (").append(context.getString(R.string.us_embassy)).append(" )") ;
-				
+				StringBuilder builder = new StringBuilder(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(city)) ;				
+				builder.append(" (").append(context.getString(R.string.us_embassy)).append(" )") ;				
 				city = builder.toString() ;
 			}
 			tvName.setText(city);

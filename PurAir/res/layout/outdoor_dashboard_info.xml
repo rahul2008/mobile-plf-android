@@ -14,24 +14,12 @@
         android:src="@drawable/air_dashboard_outdoor_generic_city_50" />
 
     <include
+        android:id="@+id/circle_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="30dp"
         layout="@layout/od_details_aqi_layout" />
-
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/detailsOutdoorDbLabel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:gravity="center_horizontal"
-        android:text=""
-        android:textColor="@color/white"
-        android:textSize="@dimen/title_text_size_fourty_eight_dp"
-        android:textStyle="bold"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
+    
     <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
