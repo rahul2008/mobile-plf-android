@@ -70,6 +70,7 @@ public class MarkerMapFragment extends BaseFragment implements
 	@Override
 	public void onMapLoaded() {
 		isMapLoaded = true;
+		fillMapWithMarker();
 	}
 	
 	@SuppressLint("HandlerLeak")

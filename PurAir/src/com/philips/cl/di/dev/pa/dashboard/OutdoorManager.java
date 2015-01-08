@@ -51,7 +51,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		return smInstance;
 	}
 
-	public void startAllCitiesTask() {
+	public synchronized void startAllCitiesTask() {
 		dataCommunicatorStrategy.requestAllCityData(cmaCities);
 	}
 
@@ -72,27 +72,28 @@ public class OutdoorManager implements OutdoorDataListener {
 		}
 	}
 	
-	public void startHistoricalAQITask(String areaId) {
+	public synchronized void startHistoricalAQITask(String areaId) {
 		List<String> city = new ArrayList<String>();
 		city.add(areaId);
 		dataCommunicatorStrategy.requestHistoricalAQIData(city);
 	}
 	
-	public void startOneDayWeatherForecastTask(String areaId) {
+	public synchronized void startOneDayWeatherForecastTask(String areaId) {
+		ALog.i(ALog.OUTDOOR_DETAILS, "OutdoorManager$startOneDayWeatherForecastTask " + areaId);
 		areaId = OutdoorManager.getInstance().getAreaIdFromCityName(areaId);
 		List<String> city = new ArrayList<String>();		
 		city.add(areaId);
 		dataCommunicatorStrategy.requestOneDayWeatherForecastData(city);
 	}
 	
-	public void startCityFourDayForecastTask(String areaId) {
+	public synchronized void startCityFourDayForecastTask(String areaId) {
 		areaId = OutdoorManager.getInstance().getAreaIdFromCityName(areaId);
 		List<String> city = new ArrayList<String>();
 		city.add(areaId);
 		dataCommunicatorStrategy.requestFourDayWeatherForecastData(city);
 	}
 	
-	public void startFourDayWeatherForecastTask(String areaId) {
+	public synchronized void startFourDayWeatherForecastTask(String areaId) {
 		List<String> city = new ArrayList<String>();
 		city.add(areaId);
 		dataCommunicatorStrategy.requestFourDayWeatherForecastData(city);
@@ -381,7 +382,7 @@ public class OutdoorManager implements OutdoorDataListener {
 		if (outdoorDataChangeListener != null) {
 			outdoorDataChangeListener.updateUIOnDataChange();
 		}
-		if(allOutdoorDataListener != null) {
+		if (allOutdoorDataListener != null) {
 			allOutdoorDataListener.updateUIOnAllDataReceived();
 		}
 	}

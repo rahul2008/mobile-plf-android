@@ -312,6 +312,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	@Override
 	public void onConnected(String ssid) {
 		ALog.i(ALog.DASHBOARD, "HomeFragment$onConnected");
+		OutdoorManager.getInstance().resetUpdatedTime();
 		OutdoorManager.getInstance().startCitiesTask();
 	}
 	
