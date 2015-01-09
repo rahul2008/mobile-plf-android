@@ -22,7 +22,6 @@ import com.philips.cl.di.dev.pa.util.networkutils.NetworkReceiver;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.reg.dao.DIUserProfile;
 import com.philips.cl.di.reg.errormapping.Error;
-import com.philips.cl.di.reg.errormapping.ErrorMessage;
 
 public class CreateAccountFragment extends BaseFragment implements
 		OnClickListener {

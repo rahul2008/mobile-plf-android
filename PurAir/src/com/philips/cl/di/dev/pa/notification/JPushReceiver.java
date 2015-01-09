@@ -11,7 +11,6 @@ import cn.jpush.android.api.JPushInterface;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
-import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 /*
  * This class will receives registration ID from JPush server.
