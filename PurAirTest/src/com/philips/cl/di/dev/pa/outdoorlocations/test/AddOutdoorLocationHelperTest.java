@@ -12,6 +12,8 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
+import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class AddOutdoorLocationHelperTest extends ActivityInstrumentationTestCase2<MainActivity> {
 	
@@ -51,7 +53,8 @@ public class AddOutdoorLocationHelperTest extends ActivityInstrumentationTestCas
 		Map<String, OutdoorCity> outdoorCityMap = OutdoorManager.getInstance().getCitiesMap() ;
 		
 		List<OutdoorCityInfo> outdoorCityInfoList = AddOutdoorLocationHelper.getAllCityInfoList(outdoorCityMap) ;
-		List<String> userCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
+		List<String> userCitiesList = new UserCitiesDatabase().getAllCities();
+		
 		int userCitiesListSize = userCitiesList.size();
 		
 		assertEquals(outdoorCityMap.size() - userCitiesListSize, outdoorCityInfoList.size()) ;
