@@ -129,6 +129,8 @@
 -keep class com.philips.cl.di.dev.pa.datamodel.OutdoorAQIEventDto { *; }
 -keep class com.philips.cl.di.dev.pa.dashboard.ForecastWeatherDto { *; }
 -keep class com.philips.cl.di.dev.pa.dashboard.WeatherIcon { *; }
+-keep class com.philips.cl.di.dev.pa.outdoorlocations.CMACityData { *; }
+-keep class com.philips.cl.di.dev.pa.outdoorlocations.USEmbassyCityData { *; }
 
 -keepclasseswithmembers class * {
     public <init>(android.content.Context, android.util.AttributeSet);
