@@ -247,8 +247,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 			//Replace first latter Capital and append US Embassy
 			if( info.getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-				StringBuilder builder = new StringBuilder() ;
-				builder.append(cityName.substring(0,1).toUpperCase()).append(cityName.substring(1)) ;
+				StringBuilder builder = new StringBuilder(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(cityName)) ;
 				builder.append(" (").append(context.getString(R.string.us_embassy)).append(" )") ;
 
 				cityName = builder.toString() ;

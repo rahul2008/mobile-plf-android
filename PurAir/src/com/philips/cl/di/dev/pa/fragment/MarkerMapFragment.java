@@ -33,6 +33,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity;
 import com.philips.cl.di.dev.pa.dashboard.AllOutdoorDataListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
+import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
@@ -158,9 +159,11 @@ public class MarkerMapFragment extends BaseFragment implements
 		
 		mCitiesListAll = OutdoorManager.getInstance().getNearbyCitiesList(latitudePlus, 
 				latitudeMinus, longitudePlus, longitudeMinus);
-		
-		if (selectedOutdoorCity.getOutdoorCityInfo().getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
-			mCitiesListAll.add(selectedCityCode);
+		if (selectedOutdoorCity != null) {
+			OutdoorCityInfo outdoorCityInfo = selectedOutdoorCity.getOutdoorCityInfo();
+			if (outdoorCityInfo != null && outdoorCityInfo.getDataProvider() == OutdoorDataProvider.US_EMBASSY.ordinal()) {
+				mCitiesListAll.add(selectedCityCode);
+			}
 		}
 		
 		for (int i = 0; i < (mCitiesListAll.size()); i++) {
