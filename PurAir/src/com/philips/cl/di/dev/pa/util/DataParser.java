@@ -330,15 +330,18 @@ public class DataParser {
 				JSONObject cityData = observeObject.getJSONObject(areaID); //Area code
 
 				JSONObject cityJsonObject = cityData.getJSONObject("l") ;
-				int temperature = cityJsonObject.getInt("l1");
-				int humidity = cityJsonObject.getInt("l2");
-				int weatherIcon = cityJsonObject.getInt("l5");
 				String time = cityJsonObject.getString("l7") ;
-
+				int temperature = 0, humidity = 0, weatherIcon = 0 ;
+				try {
+					temperature = Integer.parseInt(cityJsonObject.getString("l1"));
+					humidity = Integer.parseInt(cityJsonObject.getString("l2"));
+					weatherIcon = Integer.parseInt(cityJsonObject.getString("l5"));
+					
+					outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time));
+				}catch(NumberFormatException nfe) {
+					
+				}
 				ALog.i(ALog.PARSER, "parseLocationWeather temp : " + temperature + " humidity " + humidity + " weatherIcon " + weatherIcon);
-				outdoorWeatherList.add(new OutdoorWeather(temperature, humidity, weatherIcon, areaID, time));
-
-
 			}
 			return outdoorWeatherList;
 		} catch (JSONException e) {
