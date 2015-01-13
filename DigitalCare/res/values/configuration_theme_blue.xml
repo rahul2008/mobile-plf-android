@@ -10,12 +10,12 @@
     <color name="button_bg_pressed">#005A8B</color>
     <color name="button_prodReg_bg_pressed">#005AAB</color>
 
-    <style name="actionbarIconArrowImageView">
+    <style name="actionbarIconArrowImageViewParent">
         <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_back_arrow_white</item>
     </style>
 
-    <style name="actionbarIconHomeImageView">
+    <style name="actionbarIconHomeImageViewParent">
         <item name="android:background">@drawable/selector_clickable_image_bg</item>
         <item name="android:src">@drawable/actionbar_home_icon_white_1x</item>
     </style>
