@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="actionbarIconHomeImageView" parent="actionbarIconHomeImageView">
+    <style name="actionbarIconHomeImageView" parent="actionbarIconHomeImageViewParent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
@@ -10,7 +10,7 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <style name="actionbarIconArrowImageView" parent="actionbarIconArrowImageView">
+    <style name="actionbarIconArrowImageView" parent="actionbarIconArrowImageViewParent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center_horizontal</item>
