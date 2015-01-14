@@ -54,14 +54,58 @@
 -dontpreverify
 
 # ICP Proguard rules ---- START -----
-
--keep class com.philips.icpinterface.* {
+-keep class com.philips.icpinterface.ComponentDetails {
 	<fields>;
 	private void  callbackFunction(int,int);
-	private boolean deleteFile(java.lang.String);
 }
 
--keepclasseswithmembernames class com.philips.icpinterface.* {
+-keep class com.philips.icpinterface.DataCollection {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.DataCollection$* {
+	<fields>;
+}
+
+-keep class com.philips.icpinterface.DateTimeInfo {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.DeProvision {
+	<fields>;
+	private boolean deleteFile(java.lang.String);
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.DownloadData {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.Event {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.EventPublisher {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.EventSubscription {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.FileDownload {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+
+-keep class com.philips.icpinterface.SSLConnectivity {
     private javax.net.ssl.SSLSocketFactory initializeSession();
     private boolean loadCertificates(com.philips.icpinterface.ICPClientToAppInterface);
 	private void checkNetworkSate(com.philips.icpinterface.ICPClientToAppInterface);
@@ -69,10 +113,54 @@
 	private void setCertificateExpiry(int);
 }
 
+-keep class com.philips.icpinterface.ICPClientToAppInterface {
+}
 
--keep class com.philips.icpinterface.data.ComponentInfo {
+-keep class com.philips.icpinterface.PairingService {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.Provision {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+
+-keep class com.philips.icpinterface.ResetDevice {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.ServicePortal {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.ServicePortal$* {
 	<fields>;
 }
+
+-keep class com.philips.icpinterface.SignOn {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+
+-keep class com.philips.icpinterface.ThirdPartyNotification {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.TimeZones {
+	<fields>;
+	private void  callbackFunction(int,int);
+}
+
+-keep class com.philips.icpinterface.TimeZones$*{
+	<fields>;
+}
+
 -keep class com.philips.icpinterface.data.DateTime {
 	<fields>;
 }
@@ -110,12 +198,12 @@
 	<fields>;
 }
 
-
 -keepclasseswithmembernames class * {
     native <methods>;
 }
 
 # ICP Proguard rules ---- END -----
+
 
 
 -keep class android.support.v7.** { *; }
