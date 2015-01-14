@@ -67,8 +67,9 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private FontTextView lastDayBtn, lastWeekBtn, lastFourWeekBtn;
 	private FontTextView aqiValue, summaryTitle, summary, tvOutdoorProvider;
 	private TextView heading;
-	private ImageView circleImg, backgroundImage;
+	private ImageView circleImg, backgroundImage, gaodeMapZoom ;
 	private ImageView avoidImg, openWindowImg, maskImg;
+	private ImageView dummyMapImage;
 	private FontTextView avoidTxt, openWindowTxt, maskTxt;
 	private FontTextView msgSecond;
 	private ProgressBar aqiProgressBar;
@@ -266,6 +267,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	
 	/** Getting data from Main screen*/
 	private void getDataFromDashboard() {
+		disableMapZoomImage();
 		/**
 		 * Updating all the details in the screen, which is passed from Dashboard
 		 */
@@ -302,6 +304,14 @@ public class OutdoorDetailsActivity extends BaseActivity
 			OutdoorManager.getInstance().startHistoricalAQITask(areaId);
 			OutdoorManager.getInstance().startOneDayWeatherForecastTask(areaId);
 			OutdoorManager.getInstance().startCityFourDayForecastTask(areaId);
+		}
+	}
+	
+	private void disableMapZoomImage() {
+		if (PurAirApplication.isDemoModeEnable()  
+				&& OutdoorController.getInstance().isPhilipsSetupWifiSelected()) {
+			dummyMapImage.setVisibility(View.VISIBLE);
+			gaodeMapZoom.setVisibility(View.INVISIBLE);
 		}
 	}
 	
@@ -406,6 +416,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 		avoidImg = (ImageView) findViewById(R.id.avoidOutdoorImg);  
 		openWindowImg = (ImageView) findViewById(R.id.openWindowImg);  
 		maskImg = (ImageView) findViewById(R.id.maskImg); 
+		dummyMapImage = (ImageView) findViewById(R.id.dummy_map_img);
 
 		msgSecond = (FontTextView) findViewById(R.id.detailsOutdoorSecondMsg);
 		avoidTxt = (FontTextView) findViewById(R.id.avoidOutdoorTxt); 
@@ -429,7 +440,7 @@ public class OutdoorDetailsActivity extends BaseActivity
 	private void setupGaodeMap() {
 		mapGaodeLayout.setVisibility(View.VISIBLE);
 		
-		ImageView gaodeMapZoom = (ImageView) findViewById(R.id.gaodeMapZoomImg);
+		gaodeMapZoom = (ImageView) findViewById(R.id.gaodeMapZoomImg);
 		gaodeMapZoom.setOnClickListener(this);
 	}
 	

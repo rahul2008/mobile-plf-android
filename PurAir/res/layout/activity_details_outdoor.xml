@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             layout="@layout/od_caution_layout" />
-        
+
         <!-- Map layout -->
 
         <RelativeLayout
@@ -56,6 +56,15 @@
                 android:contentDescription="@string/img_description"
                 android:padding="8dp"
                 android:src="@drawable/zoom_arrow_icon_2x" />
+
+            <ImageView
+                android:id="@+id/dummy_map_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/beijing_map"
+                android:contentDescription="@string/img_description"
+                android:visibility="gone" />
+
         </RelativeLayout>
 
         <!-- <include -->
@@ -103,8 +112,8 @@
                 style="?android:attr/progressBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/progress_circle"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:indeterminateDrawable="@drawable/progress_circle" />
 
             <LinearLayout
                 android:id="@+id/odWetherForcastLL"
@@ -150,8 +159,8 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:indeterminateDrawable="@drawable/progress_circle"
-                android:layout_centerInParent="true" />
+                android:layout_centerInParent="true"
+                android:indeterminateDrawable="@drawable/progress_circle" />
 
             <LinearLayout
                 android:id="@+id/detailsOutdoorlayoutGraph"
@@ -174,9 +183,9 @@
             android:onClick="aqiAnalysisClick"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:textSize="@dimen/text_size_medium_dp"
             android:text="@string/outdoor_aiq_analysis_head1"
             android:textColor="@color/white"
+            android:textSize="@dimen/text_size_medium_dp"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
