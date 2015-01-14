@@ -11,9 +11,10 @@
         android:paddingRight="@dimen/activity_margin" >
 
         <TextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
-            android:text="@string/how_can_we_help" />
+            android:text="@string/how_can_we_help"            custom:fontAssetName="fonts/centralesans-light.otf" />
 
         <RelativeLayout
             android:id="@+id/optionProdDetails"
@@ -23,9 +24,11 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnProdDetails"
                 style="@style/supportHomeFontButton"
-                android:text="@string/opt_view_product_details" />
+                android:text="@string/opt_view_product_details"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <ImageView
                 android:id="@+id/optionImgProdDetails"
@@ -42,9 +45,11 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnFaq"
                 style="@style/supportHomeFontButton"
-                android:text="@string/opt_view_faq" />
+                android:text="@string/opt_view_faq"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <ImageView
                 android:id="@+id/optionImgFaq"
@@ -61,9 +66,11 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnContactUs"
                 style="@style/supportHomeFontButton"
-                android:text="@string/opt_contact_us" />
+                android:text="@string/opt_contact_us"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <ImageView
                 android:id="@+id/optionImgContactUs"
@@ -80,9 +87,11 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnFindPhilips"
                 style="@style/supportHomeFontButton"
-                android:text="@string/opt_find_philips_near_you" />
+                android:text="@string/opt_find_philips_near_you"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <ImageView
                 android:id="@+id/optionImgFindPhilips"
@@ -99,9 +108,11 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnThinking"
                 style="@style/supportHomeFontButton"
-                android:text="@string/opt_what_you_think" />
+                android:text="@string/opt_what_you_think"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <ImageView
                 android:id="@+id/optionImgThinking"
@@ -114,15 +125,17 @@
             android:id="@+id/optionRegProd"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="50dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnRegProd"
                 style="@style/supportHomeFontButton"
                 android:background="@drawable/selector_option_prod_reg_button_bg"
-                android:text="@string/opt_register_my_product" />
+                android:text="@string/opt_register_my_product"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <ImageView
                 android:id="@+id/optionImgRegProd"

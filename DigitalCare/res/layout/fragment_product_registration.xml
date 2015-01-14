@@ -18,9 +18,11 @@
             android:paddingRight="@dimen/activity_margin" >
 
             <TextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegTitle"
                 style="@style/prodRegHelpText"
-                android:text="@string/login_to_social_media" />
+                android:text="@string/login_to_social_media"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <RelativeLayout
                 android:id="@+id/prodRegTwitter"
@@ -30,10 +32,12 @@
                 android:background="@drawable/prod_reg_social_border_btn" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegTwitterBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_twitter_btn"
-                    android:text="@string/twitter" />
+                    android:text="@string/twitter"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -44,10 +48,12 @@
                 android:background="@drawable/prod_reg_social_border_btn" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegFacebookBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_fb_btn"
-                    android:text="@string/facebook" />
+                    android:text="@string/facebook"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -58,10 +64,12 @@
                 android:background="@drawable/prod_reg_social_border_btn" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegLinkedinBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_linkedin_btn"
-                    android:text="@string/linkedin" />
+                    android:text="@string/linkedin"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -72,10 +80,12 @@
                 android:background="@drawable/prod_reg_social_border_btn" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegGooglePlusBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_gooleplus_btn"
-                    android:text="@string/googleplus" />
+                    android:text="@string/googleplus"
+                    custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
         </LinearLayout>
 
@@ -95,37 +105,49 @@
             android:paddingRight="@dimen/activity_margin" >
 
             <TextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegSubTitle"
                 style="@style/prodRegHelpText"
-                android:text="@string/login_with_philips_account" />
+                android:text="@string/login_with_philips_account"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <EditText
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegEmail"
                 style="@style/prodRegEditTextg"
                 android:layout_marginTop="10dp"
-                android:hint="@string/email" />
+                android:hint="@string/email"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <EditText
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegPassword"
                 style="@style/prodRegEditTextg"
                 android:layout_marginTop="10dp"
-                android:hint="@string/password" />
+                android:hint="@string/password"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegSignUpBtn"
                 style="@style/prodRegFontButtonSignUp"
-                android:text="@string/sign_into_my_philips" />
-            
-             <TextView
+                android:text="@string/sign_into_my_philips"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <TextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegForgotPwd"
                 style="@style/prodRegBottomText"
-                android:text="@string/forgot_my_password" />
-             
-              <TextView
+                android:text="@string/forgot_my_password"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <TextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegCreateAcc"
                 style="@style/prodRegBottomText"
-                android:text="@string/create_account" 
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:text="@string/create_account"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
         </LinearLayout>
     </LinearLayout>
 
