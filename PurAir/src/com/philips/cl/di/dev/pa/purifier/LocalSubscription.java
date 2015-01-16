@@ -68,7 +68,7 @@ public class LocalSubscription extends AsyncTask<String, Void, String> {
 	@Override
 	protected void onPostExecute(String result) {
 		if(listener != null )
-			listener.receiveServerResponse(responseCode, result, targerIpAddress, null);
+			listener.receiveServerResponse(responseCode, result, targerIpAddress);
 		super.onPostExecute(result);
 	}
 }
