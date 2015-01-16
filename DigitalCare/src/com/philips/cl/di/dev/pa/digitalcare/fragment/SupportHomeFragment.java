@@ -175,6 +175,8 @@ public class SupportHomeFragment extends BaseFragment {
 				actionbarTitle = getResources().getText(
 						R.string.opt_find_philips_near_you);
 				optionSelected = DigiCareContants.OPTION_FIND_PHILIPS_NEARBY;
+				mAppObserver
+						.setValue(actionbarTitle.toString(), optionSelected);
 				break;
 			case R.id.optionBtnThinking:
 				actionbarTitle = getResources().getText(
