@@ -26,4 +26,20 @@
 	<string name="sign_into_my_philips"> Sign into My Philips</string>
 	<string name="forgot_my_password"> I forgot my password > </string>
 	<string name="create_account"> Create account ></string>
+	
+	 <!-- values for Locate Near You Screen -->
+    <string name="loading">Loading</string>
+   	<string name="please_wait">Please wait...</string>
+   	
+   	 <!-- values for Contact Us Screen -->
+   	<string name="leave_us_a_message">Leave us a message:</string>
+   	<string name="contact_us">Contact us:</string>
+    <string name="opening_hours">Opening hours</string>
+    <string name="opening_hours_first_row">Monday - Friday: 7:30 AM - 8:00 PM</string>
+    <string name="opening_hours_second_row">Saturday: 7:30 AM - 8:00 PM</string>
+    <string name="live_chat"> Live chat</string>
+    <string name="send_email"> Send email</string>
+    <string name="call_number"> Call 99999999999</string>
+    
+   
 </resources>

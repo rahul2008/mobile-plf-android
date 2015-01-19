@@ -18,6 +18,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
+import com.philips.cl.di.dev.pa.digitalcare.fragment.ContactUsFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.LocateNearYouFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ProductRegistrationFragment;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
@@ -135,6 +136,7 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 	private void optionSelected(int value) {
 		switch (value) {
 		case DigiCareContants.OPTION_CONTACT_US:
+			showFragment(new ContactUsFragment());
 			break;
 		case DigiCareContants.OPTION_PRODUCS_DETAILS:
 			break;
@@ -142,13 +144,11 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 			break;
 		case DigiCareContants.OPTION_FIND_PHILIPS_NEARBY:
 			showFragment(new LocateNearYouFragment());
-			enableActionBarLeftArrow();
 			break;
 		case DigiCareContants.OPTION_WHAT_ARE_YOU_THINKING:
 			break;
 		case DigiCareContants.OPTION_REGISTER_PRODUCT:
 			showFragment(new ProductRegistrationFragment());
-			enableActionBarLeftArrow();
 			break;
 		default:
 		}
@@ -176,6 +176,8 @@ public class BaseActivity extends ActionBarActivity implements Observer {
 
 	protected void showFragment(Fragment fragment) {
 		try {
+			enableActionBarLeftArrow();
+			
 			// getSupportFragmentManager().popBackStackImmediate(null,
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager()

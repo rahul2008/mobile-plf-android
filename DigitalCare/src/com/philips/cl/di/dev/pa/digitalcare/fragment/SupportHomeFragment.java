@@ -161,6 +161,8 @@ public class SupportHomeFragment extends BaseFragment {
 				actionbarTitle = getResources()
 						.getText(R.string.opt_contact_us);
 				optionSelected = DigiCareContants.OPTION_CONTACT_US;
+				mAppObserver
+						.setValue(actionbarTitle.toString(), optionSelected);
 				break;
 			case R.id.optionBtnFaq:
 				actionbarTitle = getResources().getText(R.string.opt_view_faq);

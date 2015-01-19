@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -40,11 +41,12 @@ public class LocateNearYouFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.webViewParent);
 		mLinearLayout.setOnTouchListener(clickListner);
-		mDialog = ProgressDialog.show(getActivity(), "Loading",
-				"Please wait...", true);
+		mDialog = ProgressDialog.show(getActivity(), resource.getString(R.string.loading),
+				resource.getString(R.string.please_wait), true);
 		mDialog.setCancelable(true);
 
 		mWebView = (WebView) getActivity().findViewById(R.id.webView);

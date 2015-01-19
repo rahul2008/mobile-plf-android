@@ -2,9 +2,7 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
 import java.lang.reflect.Field;
 
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,7 +20,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
  * 
  * Creation Date : 5 Dec 2014
  */
-public class BaseFragment extends Fragment{
+public abstract class BaseFragment extends Fragment{
 
 	private static String TAG = "BaseFragment";
 	private static final Field sChildFragmentManagerField;
@@ -120,12 +118,13 @@ public class BaseFragment extends Fragment{
 		super.onConfigurationChanged(newConfig);
 		ALog.i(TAG, TAG + " : onConfigurationChanged ");
 	}
+	
 
-	protected void startVideo() {
-		Intent intent = new Intent(Intent.ACTION_VIEW);
-		intent.setDataAndType(
-				Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"),
-				"video/mp4");
-		startActivity(Intent.createChooser(intent, ""));
-	}
+//	protected void startVideo() {
+//		Intent intent = new Intent(Intent.ACTION_VIEW);
+//		intent.setDataAndType(
+//				Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"),
+//				"video/mp4");
+//		startActivity(Intent.createChooser(intent, ""));
+//	}
 }
