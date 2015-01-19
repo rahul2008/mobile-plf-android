@@ -36,21 +36,21 @@
 
         <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/contactUsSignUpBtn"
+            android:id="@+id/contactUsChat"
             style="@style/contactUsFontButton"
             android:text="@string/live_chat"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/contactUsSignUpBtn"
+            android:id="@+id/contactUsEmail"
             style="@style/contactUsFontButton"
             android:text="@string/send_email"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/contactUsSignUpBtn"
+            android:id="@+id/contactUsCall"
             style="@style/contactUsFontButton"
             android:layout_marginBottom="10dp"
             android:text="@string/call_number"

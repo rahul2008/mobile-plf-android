@@ -26,38 +26,6 @@
             
             <include layout="@layout/common_view_social_login"/>
 
-            <!-- <RelativeLayout
-                android:id="@+id/prodRegTwitter"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/prod_reg_btn_height"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/prod_reg_social_border_btn" >
-
-                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/prodRegTwitterBtn"
-                    style="@style/prodRegFontButton"
-                    android:background="@drawable/prod_reg_social_twitter_btn"
-                    android:text="@string/twitter"
-                    custom:fontAssetName="fonts/centralesans-bold.otf" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/prodRegFacebook"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/prod_reg_btn_height"
-                android:layout_marginTop="17dp"
-                android:background="@drawable/prod_reg_social_border_btn" >
-
-                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/prodRegFacebookBtn"
-                    style="@style/prodRegFontButton"
-                    android:background="@drawable/prod_reg_social_fb_btn"
-                    android:text="@string/facebook"
-                    custom:fontAssetName="fonts/centralesans-bold.otf" />
-            </RelativeLayout>
- -->
             <RelativeLayout
                 android:id="@+id/prodRegLinkedin"
                 android:layout_width="fill_parent"

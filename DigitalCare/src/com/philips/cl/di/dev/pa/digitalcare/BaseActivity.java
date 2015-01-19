@@ -32,7 +32,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
  * 
  * Creation Date : 5 Dec 2014
  */
-public class BaseActivity extends ActionBarActivity implements Observer {
+public abstract class BaseActivity extends ActionBarActivity implements Observer {
 	private ImageView homeIcon;
 	private ImageView backToHome;
 	private FontTextView actionBarTitle;
