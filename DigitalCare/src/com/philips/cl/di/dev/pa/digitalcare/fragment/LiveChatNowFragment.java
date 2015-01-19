@@ -11,35 +11,43 @@ import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
+import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 
 /*
- *	ContactUsFragment will help to provide options to contact Philips.
+ *	LiveChatNowFragment will help to provide options to start Philips chat.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 19 Jan 2014
  */
-public class ContactUsFragment extends BaseFragment {
-	private LinearLayout mConactUsParent = null;
+public class LiveChatNowFragment extends BaseFragment {
+	private LinearLayout mChatNowParent = null;
+	// private LinearLayout mProdRegParentSecond = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private FontButton mChat = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_contact_us, container,
-				false);
+		View view = inflater.inflate(R.layout.fragment_live_chat_now,
+				container, false);
+		mAppObserver.setValue(
+				getActivity().getResources().getString(
+						R.string.chat_with_philips), DigiCareContants.OPTION_NOTHING);
 		return view;
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mConactUsParent = (LinearLayout) getActivity().findViewById(
-				R.id.contactUsParent);
+		mChatNowParent = (LinearLayout) getActivity().findViewById(
+				R.id.chatNowParent);
 		mChat = (FontButton) getActivity().findViewById(R.id.contactUsChat);
 		mChat.setOnClickListener(actionBarClickListener);
-		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
+		// mProdRegParentSecond = (LinearLayout) getActivity().findViewById(
+		// R.id.prodRegParentSecond);
+		//
+		mParams = (FrameLayout.LayoutParams) mChatNowParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
 	}
@@ -48,6 +56,18 @@ public class ContactUsFragment extends BaseFragment {
 	public void onConfigurationChanged(Configuration config) {
 		super.onConfigurationChanged(config);
 		setViewParams(config);
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		/*
+		 * Updating previous screen(contact us) from here only because at
+		 * contact_us screen not receiving any call back.
+		 */
+		mAppObserver.setValue(
+				getActivity().getResources().getString(
+						R.string.opt_contact_us), DigiCareContants.OPTION_NOTHING);
 	}
 
 	private OnClickListener actionBarClickListener = new OnClickListener() {
@@ -68,6 +88,7 @@ public class ContactUsFragment extends BaseFragment {
 		} else {
 			mParams.leftMargin = mParams.rightMargin = mLeftRightMarginLand;
 		}
-		mConactUsParent.setLayoutParams(mParams);
+		mChatNowParent.setLayoutParams(mParams);
+		// mProdRegParentSecond.setLayoutParams(mParams);
 	}
 }

@@ -32,7 +32,8 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
  * 
  * Creation Date : 5 Dec 2014
  */
-public abstract class BaseActivity extends ActionBarActivity implements Observer {
+public abstract class BaseActivity extends ActionBarActivity implements
+		Observer {
 	private ImageView homeIcon;
 	private ImageView backToHome;
 	private FontTextView actionBarTitle;
@@ -66,7 +67,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Observer
 
 		homeIcon.setOnClickListener(actionBarClickListener);
 		backToHome.setOnClickListener(actionBarClickListener);
-		enableActionBarHome();
+//		enableActionBarHome();
 	}
 
 	@Override
@@ -90,15 +91,18 @@ public abstract class BaseActivity extends ActionBarActivity implements Observer
 		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
 			this.finish();
 			overridePendingTransition(R.anim.left_in, R.anim.right_out);
-			return false;
-		} else {
+		}
+
+		else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
 			enableActionBarHome();
-			// actionBarTitle.setText(getResources().getString(
-			// R.string.actionbar_title_support));
 			getSupportFragmentManager().popBackStack();
 			removeCurrentFragment();
-			return false;
 		}
+		else {
+			getSupportFragmentManager().popBackStack();
+			removeCurrentFragment();
+		}
+		return false;
 	}
 
 	private void removeCurrentFragment() {
@@ -150,7 +154,8 @@ public abstract class BaseActivity extends ActionBarActivity implements Observer
 		case DigiCareContants.OPTION_REGISTER_PRODUCT:
 			showFragment(new ProductRegistrationFragment());
 			break;
-		default:
+		case DigiCareContants.OPTION_NOTHING:
+			break;
 		}
 	}
 
@@ -166,7 +171,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Observer
 		backToHome.bringToFront();
 	}
 
-	private void enableActionBarHome() {
+	protected void enableActionBarHome() {
 		homeIcon.setVisibility(View.VISIBLE);
 		homeIcon.bringToFront();
 		backToHome.setVisibility(View.GONE);
@@ -177,7 +182,7 @@ public abstract class BaseActivity extends ActionBarActivity implements Observer
 	protected void showFragment(Fragment fragment) {
 		try {
 			enableActionBarLeftArrow();
-			
+
 			// getSupportFragmentManager().popBackStackImmediate(null,
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = getSupportFragmentManager()

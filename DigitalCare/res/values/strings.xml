@@ -37,9 +37,10 @@
     <string name="opening_hours">Opening hours</string>
     <string name="opening_hours_first_row">Monday - Friday: 7:30 AM - 8:00 PM</string>
     <string name="opening_hours_second_row">Saturday: 7:30 AM - 8:00 PM</string>
-    <string name="live_chat"> Live chat</string>
-    <string name="send_email"> Send email</string>
-    <string name="call_number"> Call 99999999999</string>
+    <string name="live_chat">Live chat</string>
+    <string name="send_email">Send email</string>
+    <string name="call_number">Call 99999999999</string>
+    <string name="chat_with_philips">Chat with Philips</string>
     
    	 <!-- values for Live Chat Screen -->
    	<string name="can_we_help_you">Can we help you?</string>

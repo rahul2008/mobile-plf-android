@@ -1,7 +1,5 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
-import java.util.Observer;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +12,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.ConfigurationManager;
-import com.philips.cl.di.dev.pa.digitalcare.DigitalCareApplication;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
-import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
 
 /*
  *	SupportHomeFragment is the first screen of Support app.
@@ -51,15 +47,11 @@ public class SupportHomeFragment extends BaseFragment {
 
 	private static final String TAG = "SupportHomeFragment";
 
-	private FragmentObserver mAppObserver = DigitalCareApplication
-			.getAppContext().getObserver();
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_support, container,
 				false);
-		mAppObserver.addObserver((Observer) getActivity());
 		ALog.i(TAG, "onCreateView");
 		return view;
 	}

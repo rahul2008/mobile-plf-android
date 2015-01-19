@@ -8,6 +8,7 @@ package com.philips.cl.di.dev.pa.digitalcare.util;
  * Creation Date : 5 Dec 2014
  */
 public class DigiCareContants {
+	public static final int OPTION_NOTHING = -1;
 	public static final int OPTION_CONTACT_US = 1;
 	public static final int OPTION_PRODUCS_DETAILS = 2;
 	public static final int OPTION_FAQ = 3;

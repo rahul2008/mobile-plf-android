@@ -26,6 +26,7 @@ public class DigitalCareActivity extends BaseActivity {
 			ALog.e(TAG, "Actionbar: " + e.getMessage());
 		}
 		showFragment(new SupportHomeFragment());
+		enableActionBarHome();
 	}
 
 	@Override
