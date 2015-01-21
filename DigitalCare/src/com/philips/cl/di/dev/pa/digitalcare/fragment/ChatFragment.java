@@ -14,22 +14,22 @@ import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
 
 /*
- *	LiveChatNowFragment will help to provide options to start Philips chat.
+ *	ChatFragment will help to provide options to start Philips chat.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 19 Jan 2014
  */
-public class LiveChatNowFragment extends BaseFragment {
+public class ChatFragment extends BaseFragment {
 	private LinearLayout mChatNowParent = null;
 	// private LinearLayout mProdRegParentSecond = null;
 	private FrameLayout.LayoutParams mParams = null;
-	private FontButton mChat = null;
+	private FontButton mChatNow = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_live_chat_now,
+		View view = inflater.inflate(R.layout.fragment_chat,
 				container, false);
 		mAppObserver.setValue(
 				getActivity().getResources().getString(
@@ -42,8 +42,8 @@ public class LiveChatNowFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 		mChatNowParent = (LinearLayout) getActivity().findViewById(
 				R.id.chatNowParent);
-		mChat = (FontButton) getActivity().findViewById(R.id.contactUsChat);
-		mChat.setOnClickListener(actionBarClickListener);
+		mChatNow = (FontButton) getActivity().findViewById(R.id.chatNow);
+		mChatNow.setOnClickListener(actionBarClickListener);
 		// mProdRegParentSecond = (LinearLayout) getActivity().findViewById(
 		// R.id.prodRegParentSecond);
 		//
@@ -75,8 +75,8 @@ public class LiveChatNowFragment extends BaseFragment {
 		public void onClick(View view) {
 			int id = view.getId();
 			switch (id) {
-			case R.id.contactUsChat:
-				showFragment(new LiveChatNowFragment());
+			case R.id.chatNow:
+				showFragment(new ChatNowFragment());
 				break;
 			}
 		};

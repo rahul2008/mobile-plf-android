@@ -20,20 +20,20 @@
     <string name="facebook"> On Facebook</string>
     <string name="linkedin"> On LinkedIn</string>
     <string name="googleplus"> On Google Plus</string>
-	<string name="login_with_philips_account"> Or log in with My Philips account</string>
-	<string name="email"> Email address</string>
-	<string name="password"> Password</string>
-	<string name="sign_into_my_philips"> Sign into My Philips</string>
-	<string name="forgot_my_password"> I forgot my password > </string>
-	<string name="create_account"> Create account ></string>
-	
-	 <!-- values for Locate Near You Screen -->
+    <string name="login_with_philips_account"> Or log in with My Philips account</string>
+    <string name="email"> Email address</string>
+    <string name="password"> Password</string>
+    <string name="sign_into_my_philips"> Sign into My Philips</string>
+    <string name="forgot_my_password"> I forgot my password > </string>
+    <string name="create_account"> Create account ></string>
+
+    <!-- values for Locate Near You Screen -->
     <string name="loading">Loading</string>
-   	<string name="please_wait">Please wait...</string>
-   	
-   	 <!-- values for Contact Us Screen -->
-   	<string name="leave_us_a_message">Leave us a message:</string>
-   	<string name="contact_us">Contact us:</string>
+    <string name="please_wait">Please wait...</string>
+
+    <!-- values for Contact Us Screen -->
+    <string name="leave_us_a_message">Leave us a message:</string>
+    <string name="contact_us">Contact us:</string>
     <string name="opening_hours">Opening hours</string>
     <string name="opening_hours_first_row">Monday - Friday: 7:30 AM - 8:00 PM</string>
     <string name="opening_hours_second_row">Saturday: 7:30 AM - 8:00 PM</string>
@@ -41,13 +41,16 @@
     <string name="send_email">Send email</string>
     <string name="call_number">Call 99999999999</string>
     <string name="chat_with_philips">Chat with Philips</string>
-    
-   	 <!-- values for Live Chat Screen -->
-   	<string name="can_we_help_you">Can we help you?</string>
-	
-	<!-- View Product Details -->
-   	<string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
-   	<string name="product_variant">s9721/84</string>
-   	<string name="product_videos">Product Videos</string>
-	
+
+    <!-- values for Live Chat Screen -->
+    <string name="can_we_help_you">Can we help you?</string>
+    <string name="chat_now">Chat now</string>
+    <string name="no_thanks">No, thanks</string>
+    <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
+
+    <!-- View Product Details -->
+    <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
+    <string name="product_variant">s9721/84</string>
+    <string name="product_videos">Product Videos</string>
+
 </resources>
