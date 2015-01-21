@@ -2,6 +2,7 @@
 <resources>
  <!-- This xml file will hold app level configuration settings -->
  
+ 	<!-- Suppport page contains which all fetaures -->
     <integer-array name="options_available">
         <item>1</item>  <!-- "CONTACT_US" -->
         <item>2</item>  <!-- "VIEW_PRODUCT_DETAILS" -->
@@ -14,7 +15,9 @@
      <declare-styleable name="FontTextView">
         <attr name="fontAssetName" format="string" />
     </declare-styleable>
-    
+
      
-   
+    <!-- URL -->
+    <string name="url_chat">http://www.support.philips.com/support/contact/contact_page.jsp?userLanguage=en\u0026userCountry=gb</string>
+    <string name="url_locate_near_you">http://www.philips.co.in/c/retail-store-locator/page/</string>
 </resources>

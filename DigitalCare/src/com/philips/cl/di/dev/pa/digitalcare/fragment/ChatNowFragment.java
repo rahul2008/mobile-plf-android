@@ -17,14 +17,14 @@ import android.widget.LinearLayout;
 import com.philips.cl.di.dev.pa.digitalcare.R;
 
 /*
- *	LocateNearYouFragment will help to inflate webpage on the screen.
+ *	ChatNowFragment will help to inflate chat webpage on the screen.
  * 
  * Author : Ritesh.jha@philips.com
  * 
  * Creation Date : 16 Jan 2015
  */
 @SuppressLint("SetJavaScriptEnabled")
-public class LocateNearYouFragment extends BaseFragment {
+public class ChatNowFragment extends BaseFragment {
 	private WebView mWebView = null;
 	private static String mUrl = null;
 	private ProgressDialog mDialog = null;
@@ -34,8 +34,7 @@ public class LocateNearYouFragment extends BaseFragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.common_webview, container, false);
-		mUrl = getActivity().getResources().getString(
-				R.string.url_locate_near_you);
+		mUrl = getActivity().getResources().getString(R.string.url_chat);
 		return view;
 	}
 

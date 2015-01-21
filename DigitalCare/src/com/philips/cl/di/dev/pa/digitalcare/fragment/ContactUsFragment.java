@@ -56,7 +56,7 @@ public class ContactUsFragment extends BaseFragment {
 			int id = view.getId();
 			switch (id) {
 			case R.id.contactUsChat:
-				showFragment(new LiveChatNowFragment());
+				showFragment(new ChatFragment());
 				break;
 			}
 		};
