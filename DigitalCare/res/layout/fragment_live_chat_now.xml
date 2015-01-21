@@ -1,0 +1,29 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#F0F4F9" >
+
+    <LinearLayout
+        android:id="@+id/chatNowParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <FrameLayout
+            android:id="@+id/chatNowImageParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:src="@drawable/live_chat_bg"/>
+
+            <TextView
+                android:id="@+id/helpText"
+				style="@style/chatNowHelpText" />
+        </FrameLayout>
+    </LinearLayout>
+
+</ScrollView>

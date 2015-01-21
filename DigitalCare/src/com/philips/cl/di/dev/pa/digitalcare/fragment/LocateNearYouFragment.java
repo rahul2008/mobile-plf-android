@@ -26,16 +26,15 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 @SuppressLint("SetJavaScriptEnabled")
 public class LocateNearYouFragment extends BaseFragment {
 	private WebView mWebView = null;
-	private static String mUrl = null;
+	private static final String mUrl = "http://www.philips.co.in/c/retail-store-locator/page/";
 	private ProgressDialog mDialog = null;
 	private LinearLayout mLinearLayout = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.common_webview, container, false);
-		mUrl = getActivity().getResources().getString(
-				R.string.url_locate_near_you);
+		View view = inflater.inflate(R.layout.fragment_locate_near_you,
+				container, false);
 		return view;
 	}
 
@@ -46,8 +45,7 @@ public class LocateNearYouFragment extends BaseFragment {
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.webViewParent);
 		mLinearLayout.setOnTouchListener(clickListner);
-		mDialog = ProgressDialog.show(getActivity(),
-				resource.getString(R.string.loading),
+		mDialog = ProgressDialog.show(getActivity(), resource.getString(R.string.loading),
 				resource.getString(R.string.please_wait), true);
 		mDialog.setCancelable(true);
 
@@ -57,8 +55,7 @@ public class LocateNearYouFragment extends BaseFragment {
 		WebSettings websettings = mWebView.getSettings();
 		websettings.setJavaScriptEnabled(true);
 		websettings.setLoadWithOverviewMode(true);
-		websettings.setUseWideViewPort(true);
-		websettings.setBuiltInZoomControls(true);
+		// websettings.setUseWideViewPort(true);
 	}
 
 	@Override
