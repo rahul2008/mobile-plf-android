@@ -1,0 +1,144 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#F0F4F9" >
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:id="@+id/toplayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/productimage"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/productimage"
+                android:text="@string/product_name"
+                android:textSize="20dp"
+                android:lines="3"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <TextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/variant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/name"
+                android:layout_below="@+id/name"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="15dp"
+                android:lines="1"
+                android:text="@string/product_variant"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/topline"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/toplayout"
+            android:background="#c0c0c0" />
+
+        <!-- Buttons -->
+
+        <RelativeLayout
+            android:id="@+id/prodbuttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topline" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/manual_open"
+                style="@style/contactUsFontButton"
+                android:text="open interactive manual"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/manual_download"
+                style="@style/contactUsFontButton"
+                android:layout_below="@+id/manual_open"
+                android:text="Download Product  manual"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/prodinfo_button"
+                style="@style/contactUsFontButton"
+                android:layout_below="@+id/manual_download"
+                android:text="products information(on philips.com)"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/middleline"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/prodbuttons"
+            android:layout_marginTop="5dp"
+            android:background="#c0c0c0" />
+
+        <!-- Video Ads -->
+
+        <RelativeLayout
+            android:id="@+id/prodads_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/middleline"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/adimage"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/leftarrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="26dp"
+                android:src="@drawable/ic_launcher" />
+
+            <ImageView
+                android:id="@+id/rightarrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="26dp"
+                android:src="@drawable/ic_launcher" />
+
+            <Button
+                android:id="@+id/button1"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="Play" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>
