@@ -26,7 +26,7 @@ import com.philips.cl.di.dev.pa.digitalcare.R;
 @SuppressLint("SetJavaScriptEnabled")
 public class LocateNearYouFragment extends BaseFragment {
 	private WebView mWebView = null;
-	private static String mUrl = null;
+	private String mUrl = null;
 	private ProgressDialog mDialog = null;
 	private LinearLayout mLinearLayout = null;
 
