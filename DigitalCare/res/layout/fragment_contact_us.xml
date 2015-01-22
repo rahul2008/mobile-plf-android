@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="#F0F4F9" >
@@ -12,8 +13,7 @@
         android:paddingRight="@dimen/activity_margin" >
 
         <TextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/contactUsTitle"
+            android:id="@+id/leaveMsgTitle"
             style="@style/contactUsHelpText"
             android:text="@string/leave_us_a_message"
             custom:fontAssetName="fonts/centralesans-book.otf" />
@@ -28,28 +28,24 @@
             android:background="#cccccc" />
 
         <TextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/contactUsTitle"
             style="@style/contactUsHelpText"
             android:text="@string/contact_us"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
         <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/contactUsChat"
             style="@style/contactUsFontButton"
             android:text="@string/live_chat"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/contactUsEmail"
             style="@style/contactUsFontButton"
             android:text="@string/send_email"
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/contactUsCall"
             style="@style/contactUsFontButton"
             android:layout_marginBottom="10dp"
@@ -57,7 +53,6 @@
             custom:fontAssetName="fonts/centralesans-bold.otf" />
 
         <TextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/contactUsForgotPwd"
             style="@style/contactUsHelpText"
             android:layout_marginBottom="0dp"
@@ -65,15 +60,13 @@
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
         <TextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/contactUsCreateAcc"
+            android:id="@+id/firstRowText"
             style="@style/contactUsBottomText"
             android:text="@string/opening_hours_first_row"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
         <TextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/contactUsCreateAcc"
+            android:id="@+id/secondRowText"
             style="@style/contactUsBottomText"
             android:layout_marginBottom="10dp"
             android:text="@string/opening_hours_second_row"
