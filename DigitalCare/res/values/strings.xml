@@ -48,9 +48,17 @@
     <string name="no_thanks">No, thanks</string>
     <string name="chat_desc">Start a live chat with our product specialist. 24/7 available in English</string>
 
-    <!-- View Product Details -->
+     <!-- View Product Details -->
     <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant">s9721/84</string>
     <string name="product_videos">Product Videos</string>
+    
+    <!-- Application Rate & Review  -->
+    <string name="rate_playstore_headertext">How would you rate this app?</string>
+    <string name="rate_playstore_description">write a review and help other people make the right choice for them</string>
+    <string name="rate_playstore_buttontext">Write an app-review</string>
+    <string name="rate_philips_headertext">Submit a product review</string>
+    <string name="rate_philips_description">write a review and help other people make the right choice for them</string>
+    <string name="rate_philips_buttontext">Sign into My Philips</string>
 
 </resources>
