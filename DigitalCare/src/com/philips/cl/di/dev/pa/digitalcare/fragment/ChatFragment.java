@@ -6,10 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
@@ -23,17 +20,14 @@ import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
  * Creation Date : 19 Jan 2014
  */
 public class ChatFragment extends BaseFragment {
-	private LinearLayout mChatNowParent = null;
-	private FrameLayout.LayoutParams mChatNowParentParams = null;
+//	private LinearLayout mChatNowParent = null;
 	private FontButton mChatNow = null;
-	private ImageView mImageView = null;
-	private FrameLayout.LayoutParams mChatNowImageParentParams = null;
+	private FontButton mChatNowLand = null;
+//	private ImageView mImageView = null;
 	private LinearLayout.LayoutParams mChatNowParentBottom = null;
 
-	private long mWidthLandDefault = 0;
-	private long mWidthPortDefault = 0;
-	private RelativeLayout mChatNowPort = null;
-	private RelativeLayout mChatNowLand = null;
+	private LinearLayout mChatNowParentPort = null;
+	private LinearLayout mChatNowParentLand = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,21 +43,22 @@ public class ChatFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mChatNowParent = (LinearLayout) getActivity().findViewById(
-				R.id.chatNowParent);
+		// mChatNowParent = (LinearLayout) getActivity().findViewById(
+		// R.id.chatNowParent);
 		mChatNow = (FontButton) getActivity().findViewById(R.id.chatNow);
 		mChatNow.setOnClickListener(actionBarClickListener);
-		mChatNowParentParams = (FrameLayout.LayoutParams) mChatNowParent
-				.getLayoutParams();
-		mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
-		mChatNowImageParentParams = (FrameLayout.LayoutParams) mImageView
-				.getLayoutParams();
-		mChatNowPort = (RelativeLayout) getActivity().findViewById(
-				R.id.chatNowPort);
-		mChatNowLand = (RelativeLayout) getActivity().findViewById(
-				R.id.chatNowLand);
 
-		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowPort
+		mChatNowLand = (FontButton) getActivity()
+				.findViewById(R.id.chatNowLand);
+		mChatNowLand.setOnClickListener(actionBarClickListener);
+
+//		mImageView = (ImageView) getActivity().findViewById(R.id.imageView);
+		mChatNowParentPort = (LinearLayout) getActivity().findViewById(
+				R.id.chatNowParentPort);
+		mChatNowParentLand = (LinearLayout) getActivity().findViewById(
+				R.id.chatNowParentLand);
+
+		mChatNowParentBottom = (LinearLayout.LayoutParams) mChatNowParentPort
 				.getLayoutParams();
 
 		Configuration config = getResources().getConfiguration();
@@ -96,6 +91,7 @@ public class ChatFragment extends BaseFragment {
 			int id = view.getId();
 			switch (id) {
 			case R.id.chatNow:
+			case R.id.chatNowLand:
 				showFragment(new ChatNowFragment());
 				break;
 			}
@@ -104,12 +100,14 @@ public class ChatFragment extends BaseFragment {
 
 	private void setViewParams(Configuration config) {
 		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			// mChatNowPort.setVisibility(View.VISIBLE);
-			// mChatNowLand.setVisibility(View.GONE);
+			mChatNowParentPort.setVisibility(View.VISIBLE);
+			mChatNowParentLand.setVisibility(View.GONE);
 			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginPort;
 		} else {
+			mChatNowParentLand.setVisibility(View.VISIBLE);
+			mChatNowParentPort.setVisibility(View.GONE);
 			mChatNowParentBottom.leftMargin = mChatNowParentBottom.rightMargin = mLeftRightMarginLand;
 		}
-		mChatNowPort.setLayoutParams(mChatNowParentBottom);
+		mChatNowParentPort.setLayoutParams(mChatNowParentBottom);
 	}
 }

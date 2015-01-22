@@ -14,7 +14,8 @@
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
-            android:text="@string/how_can_we_help"            custom:fontAssetName="fonts/centralesans-light.otf" />
+            android:text="@string/how_can_we_help"
+            custom:fontAssetName="fonts/centralesans-light.otf" />
 
         <RelativeLayout
             android:id="@+id/optionProdDetails"
