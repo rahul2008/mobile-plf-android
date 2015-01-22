@@ -53,7 +53,7 @@
                     xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegGooglePlusBtn"
                     style="@style/prodRegFontButton"
-                    android:background="@drawable/prod_reg_social_gooleplus_btn"
+                    android:background="@drawable/prod_reg_social_googleplus_btn"
                     android:text="@string/googleplus"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
