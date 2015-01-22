@@ -12,7 +12,7 @@
         <FrameLayout
             android:id="@+id/chatNowImageParent"
             android:layout_width="match_parent"
-            android:layout_height="300dp" >
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:id="@+id/imageView"
@@ -34,19 +34,52 @@
             android:text="@string/chat_desc"
             custom:fontAssetName="fonts/centralesans-book.otf" />
 
-        <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/chatNow"
-            style="@style/chatNowFontButton"
-            android:text="@string/chat_now"
-            custom:fontAssetName="fonts/centralesans-bold.otf" />
+        <RelativeLayout
+            android:id="@+id/chatNowPort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
 
-        <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-            android:id="@+id/chatNoThanks"
-            style="@style/chatNowFontButton"
-            android:text="@string/no_thanks"
-            custom:fontAssetName="fonts/centralesans-bold.otf" />
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/chatNow"
+                style="@style/chatNowFontButton"
+                android:text="@string/chat_now"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/chatNoThanks"
+                style="@style/chatNowFontButton"
+                android:layout_below="@id/chatNow"
+                android:text="@string/no_thanks"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/chatNowLand"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/chatNoThanks"
+                style="@style/chatNowFontButton"
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/no_thanks"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
+                android:id="@+id/chatNow"
+                style="@style/chatNowFontButton"
+                android:layout_width="wrap_content"
+                android:layout_toRightOf="@id/chatNoThanks"
+                android:layout_weight="1"
+                android:text="@string/chat_now"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+        </RelativeLayout>
     </LinearLayout>
 
 </ScrollView>
