@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
     android:layout_width="match_parent"
     android:layout_height="fill_parent" >
 
@@ -11,7 +12,6 @@
         android:paddingRight="@dimen/activity_margin" >
 
         <TextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
             android:id="@+id/optionHelp"
             style="@style/supportHomeHelpText"
             android:text="@string/how_can_we_help"
@@ -25,7 +25,6 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnProdDetails"
                 style="@style/supportHomeFontButton"
                 android:text="@string/opt_view_product_details"
@@ -46,7 +45,6 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnFaq"
                 style="@style/supportHomeFontButton"
                 android:text="@string/opt_view_faq"
@@ -67,7 +65,6 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnContactUs"
                 style="@style/supportHomeFontButton"
                 android:text="@string/opt_contact_us"
@@ -88,7 +85,6 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnFindPhilips"
                 style="@style/supportHomeFontButton"
                 android:text="@string/opt_find_philips_near_you"
@@ -109,7 +105,6 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnThinking"
                 style="@style/supportHomeFontButton"
                 android:text="@string/opt_what_you_think"
@@ -131,7 +126,6 @@
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/optionBtnRegProd"
                 style="@style/supportHomeFontButton"
                 android:background="@drawable/selector_option_prod_reg_button_bg"

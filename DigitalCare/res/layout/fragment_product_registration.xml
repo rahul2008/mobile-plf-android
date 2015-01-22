@@ -1,4 +1,5 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="#F0F4F9" >
@@ -18,13 +19,12 @@
             android:paddingRight="@dimen/activity_margin" >
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegTitle"
                 style="@style/prodRegHelpText"
                 android:text="@string/login_to_social_media"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
-            
-            <include layout="@layout/common_view_social_login"/>
+
+            <include layout="@layout/common_view_social_login" />
 
             <RelativeLayout
                 android:id="@+id/prodRegLinkedin"
@@ -34,7 +34,6 @@
                 android:background="@drawable/prod_reg_social_border_btn" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegLinkedinBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_linkedin_btn"
@@ -50,7 +49,6 @@
                 android:background="@drawable/prod_reg_social_border_btn" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                     android:id="@+id/prodRegGooglePlusBtn"
                     style="@style/prodRegFontButton"
                     android:background="@drawable/prod_reg_social_googleplus_btn"
@@ -75,14 +73,12 @@
             android:paddingRight="@dimen/activity_margin" >
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegSubTitle"
                 style="@style/prodRegHelpText"
                 android:text="@string/login_with_philips_account"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <EditText
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegEmail"
                 style="@style/prodRegEditTextg"
                 android:layout_marginTop="10dp"
@@ -90,7 +86,6 @@
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <EditText
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegPassword"
                 style="@style/prodRegEditTextg"
                 android:layout_marginTop="10dp"
@@ -98,21 +93,18 @@
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegSignUpBtn"
                 style="@style/prodRegFontButtonSignUp"
                 android:text="@string/sign_into_my_philips"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegForgotPwd"
                 style="@style/prodRegBottomText"
                 android:text="@string/forgot_my_password"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/prodRegCreateAcc"
                 style="@style/prodRegBottomText"
                 android:layout_marginBottom="10dp"
