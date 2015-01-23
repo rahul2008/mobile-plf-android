@@ -186,7 +186,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
-			
 			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId()) && position == 0 && edittogglebutton.isChecked()) {
 				return;
 			}
@@ -195,8 +194,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				position = 0;
 			}
 			
-			gotoPage(position);
 			
+			gotoPage(position);
 			
 			if(delete.getVisibility() == View.GONE) {
 				
@@ -225,9 +224,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		if (buttonView.getId() == R.id.outdoor_location_edit_tb) {
-			selectedItemHashtable.clear();
-			userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
-			mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+			setAdapter();
 		}
 	}
 
@@ -268,8 +265,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			deleteSign.setClickable(false);
 		    deleteSign.setFocusable(false);
-			
-			if ( position == 0 && LocationUtils.getCurrentLocationAreaId().equals(info.getAreaID())) {
+			//Added By Basanta
+			if ( LocationUtils.getCurrentLocationAreaId().equals(info.getAreaID())) {
 				tvName.setText(getString(R.string.current_location));
 				deleteSign.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.location_white);
