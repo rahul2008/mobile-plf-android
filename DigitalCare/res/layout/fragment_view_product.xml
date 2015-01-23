@@ -1,198 +1,141 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:background="#F0F4F9" >
 
-    <LinearLayout
-        android:id="@+id/contactUsParent"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="100dp"
-        android:paddingRight="100dp" >
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
 
         <RelativeLayout
+            android:id="@+id/toplayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
-            <!-- Product Names -->
+            <ImageView
+                android:id="@+id/productimage"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/viewproduct_productimage" />
 
-            <RelativeLayout
-                android:id="@+id/prodnames"
+            <TextView
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-
-                <TextView
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="20dp"
-                    android:lines="2"
-                    android:text="@string/product_name"
-                    android:textColor="#003377"
-                    android:textSize="20dp"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-
-                <TextView
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/variant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_below="@+id/name"
-                    android:layout_marginTop="3dp"
-                    android:text="@string/product_variant"
-                    android:textColor="#5D5D5D"
-                    android:textSize="10dp"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-            </RelativeLayout>
-
-            <!-- Product Images -->
-
-            <RelativeLayout
-                android:id="@+id/prodimages"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/prodnames"
-                android:layout_marginTop="20dp" >
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/productimage"
+                android:lines="3"
+                android:text="@string/product_name"
+                android:textSize="20dp"
+                android:textColor="#003377"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/viewproduct_productimage" />
-            </RelativeLayout>
-
-            <!-- Buttons -->
-
-            <RelativeLayout
-                android:id="@+id/prodbuttons"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/variant"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/prodimages"
-                android:layout_marginTop="40dp" >
-
-                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/manual_open"
-                    style="@style/contactUsFontButton"
-                    android:text="open interactive manual"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-
-                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/manual_download"
-                    style="@style/contactUsFontButton"
-                    android:layout_below="@+id/manual_open"
-                    android:text="Download Product  manual"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-
-                <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/prodinfo_button"
-                    style="@style/contactUsFontButton"
-                    android:layout_below="@+id/manual_download"
-                    android:text="products information(on philips.com)"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-            </RelativeLayout>
-
-            <!-- Video Ads -->
-
-            <RelativeLayout
-                android:id="@+id/prod_ads"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/prodbuttons"
-                android:layout_marginTop="20dp" >
-
-                <TextView
-                    xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
-                    android:id="@+id/ads_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:text="@string/product_videos"
-                    android:textColor="#000000"
-                    android:textSize="13dp"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
-
-                <LinearLayout
-                    android:id="@+id/videoAds_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ads_description"
-                    android:layout_marginTop="15dp"
-                    android:orientation="horizontal" >
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true" >
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/viewproduct_video_image" />
-
-                        <ImageButton
-                            android:id="@+id/button1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/viewproduct_video_play" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="13dp" >
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/viewproduct_video_image" />
-
-                        <ImageButton
-                            android:id="@+id/button2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/viewproduct_video_play" />
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="13dp" >
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/viewproduct_video_image" />
-
-                        <ImageButton
-                            android:id="@+id/button3"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/viewproduct_video_play" />
-                    </RelativeLayout>
-                </LinearLayout>
-            </RelativeLayout>
+                android:layout_alignLeft="@+id/name"
+                android:layout_below="@+id/name"
+                android:layout_centerVertical="true"
+                android:lines="1"
+                android:text="@string/product_variant"
+                android:textColor="#003377"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
         </RelativeLayout>
-    </LinearLayout>
+
+        <View
+            android:id="@+id/topline"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/toplayout"
+            android:background="#c0c0c0" />
+
+        <!-- Buttons -->
+
+        <RelativeLayout
+            android:id="@+id/prodbuttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/topline" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/manual_open"
+                style="@style/contactUsFontButton"
+                android:text="open interactive manual"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/manual_download"
+                style="@style/contactUsFontButton"
+                android:layout_below="@+id/manual_open"
+                android:text="Download Product  manual"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/prodinfo_button"
+                style="@style/contactUsFontButton"
+                android:layout_below="@+id/manual_download"
+                android:text="products information(on philips.com)"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/middleline"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/prodbuttons"
+            android:layout_marginTop="5dp"
+            android:background="#c0c0c0" />
+
+        <!-- Video Ads -->
+
+        <RelativeLayout
+            android:id="@+id/prodads_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/middleline"
+            android:layout_marginTop="5dp" >
+
+            <ImageView
+                android:id="@+id/adimage"
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/viewproduct_video_image_phone" />
+
+            <ImageView
+                android:id="@+id/leftarrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="26dp"
+                android:src="@drawable/viewproduct_video_leftarrow" />
+
+            <ImageView
+                android:id="@+id/rightarrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="26dp"
+                android:src="@drawable/viewproduct_videorightarrow" />
+
+            <ImageButton
+                android:id="@+id/button1"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/viewproduct_video_play" />
+        </RelativeLayout>
+    </RelativeLayout>
 
 </ScrollView>
