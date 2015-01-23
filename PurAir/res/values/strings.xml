@@ -605,10 +605,11 @@
     <string name="no_wifi_title">No wifi</string>
     <string name="no_wifi_text">We need a working wifi connection to continue</string>
     <string name="do_not_allow">Do not allow</string>
-    <string name="allow">Allow</string>
+    <string name="allow">Allow</string>N
     <string name="turn_it_on">Turn it on</string>
     <string name="welcome">Welcome</string>
     <string name="connect_your_purifier">Connect your purifier</string>
+    <string name="healthy_air_always">Healthy air, always.</string>
     <string name="benefits_of_the_purifier">Benefits of the Air purifier ></string>
     <string name="did_you_know">Did you know?</string>
     <string name="did_you_know_text">This app can give you Air Quality of different locations, as well as other information about air quality</string>
@@ -628,7 +629,7 @@
     <string name="take_me_to_shop">Take me to the shop</string>
     <!-- Mangage Purifier -->
     <string name="add_purifier_heading">Manage purifiers</string>
-    <string name="add_purifier">Add a purifier</string>
+    <string name="add_purifier">Add an Air Purifier</string>
     <string name="no_purifier_found">There are no additional Purifiers found</string>
     <string name="max_purifier_reached">Maximum 20 purifier can be added. Please delete existing purifier to add a new purifier</string>
     <string name="max_city_reached">A Maximum of 20 cities can be added. Please delete an existing city to add a new city.</string>
@@ -643,5 +644,6 @@
     <string name="external_storage_unavailable">External storage not available</string>
     
     <string name="us_embassy">US Consulate</string>
+    <string name="my_purifiers">My Purifiers</string>
 
 </resources>

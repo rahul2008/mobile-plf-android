@@ -640,7 +640,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		//Draw white dots
 		for (int index = 0; index < AppConstants.NUM_OFF_POINTS; index++) {
 			ImageView prevImage = (ImageView) dotContainer.findViewWithTag(index);
-			if (prevImage == null) {
+			if (prevImage == null && getActivity() != null) {
 				ImageView whiteDot = new ImageView(getActivity());
 				whiteDot.setImageResource(R.drawable.white_circle_small);
 				DashboardUtil.setAplha(whiteDot, ALPHA_DIM_INT, ALPHA_DIM_FLOAT);

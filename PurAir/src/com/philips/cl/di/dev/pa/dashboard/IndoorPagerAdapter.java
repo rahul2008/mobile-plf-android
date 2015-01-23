@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
+import com.philips.cl.di.dev.pa.fragment.*;
+import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -47,33 +49,36 @@ public class IndoorPagerAdapter extends FragmentStatePagerAdapter implements OnP
 			IndoorFragment fragment = new IndoorFragment();
 			fragment.setArguments(bundle);
 			return fragment;
-		}
-		else {
-			MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_ADD_PURIFIER);
-			return new AddPurifierFragment() ;
+		} else {
+            if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+                return new ManagePurifierFragment();
+            } else {
+                MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_ADD_PURIFIER);
+                return new AddPurifierFragment();
+            }
 		}
 	}
-	
+
 	@Override
 	public int getItemPosition(Object object) {
 		return POSITION_NONE;
 	}
-	
+
 	@Override
 	public int getCount() {
 		return count + 1;
 	}
-	
+
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
 		ALog.i(ALog.DASHBOARD, "Object in indoor view: "+object.toString()) ;
 	    return ((Fragment)object).getView() == view;
 	}
-	
+
 	public void setCount(int count) {
         this.count = count ;
 	}
-	
+
 	@Override
 	public Parcelable saveState() {
 		return null;

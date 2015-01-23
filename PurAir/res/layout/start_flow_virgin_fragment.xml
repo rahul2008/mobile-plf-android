@@ -10,14 +10,28 @@
         android:layout_weight="1"
         android:background="@drawable/intro_indoor_2x" >
 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            android:lineSpacingExtra="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:text="@string/healthy_air_always"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
         <com.philips.cl.di.dev.pa.view.FontButton
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/start_flow_virgin_btn_connect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="22dp"
-            android:background="@drawable/blue_button_selector"
+            android:background="@drawable/philips_blue_btn"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="@string/connect_your_purifier"
@@ -29,11 +43,10 @@
             android:id="@+id/start_flow_virgin_btn_play"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_below="@id/start_flow_virgin_btn_connect"
-            android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/img_description"
             android:src="@drawable/air_intro_play_2x" />
+        </LinearLayout>
     </RelativeLayout>
 
     <include

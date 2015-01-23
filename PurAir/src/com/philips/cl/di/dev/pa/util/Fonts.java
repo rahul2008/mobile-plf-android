@@ -35,10 +35,26 @@ public class Fonts {
 		}
 		return opensansCondLightItalic;
 	}
+
+    public static Typeface getCentraleSansLight(Context context) {
+        if(centraleSansLight == null) {
+            centraleSansLight = Typeface.createFromAsset(context.getAssets(), "fonts/centralesanslight.ttf");
+        }
+        return centraleSansLight;
+    }
+
+    public static Typeface getCentraleSansMedium(Context context) {
+        if(centraleSansMedium == null) {
+            centraleSansMedium = Typeface.createFromAsset(context.getAssets(), "fonts/centralesanslight.ttf");
+        }
+        return centraleSansMedium;
+    }
 	
 	private static Typeface gillsans;
 	private static Typeface gillsansLight;
 	private static Typeface opensansCondBold;
 	private static Typeface opensansCondLight;
 	private static Typeface opensansCondLightItalic;
+    private static Typeface centraleSansLight;
+    private static Typeface centraleSansMedium;
 }

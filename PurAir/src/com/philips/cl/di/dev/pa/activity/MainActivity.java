@@ -254,7 +254,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		OutdoorController.getInstance().setActivity(this);
 
 		// Enable for release build
-//		checkForCrashesHockeyApp(); 
+    	checkForCrashesHockeyApp();
 	}
 
 	public void startDemoMode() {
@@ -396,12 +396,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			mRightDrawerOpened = false;
 		} else if (fragment instanceof StartFlowVirginFragment) {
 			clearFinishCheckGPS();
-		} else if (fragment instanceof StartFlowChooseFragment 
-				&& getString(R.string.list_item_manage_purifier).equals(title) ) {
-			manager.popBackStackImmediate(null,
-					FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			showFragment(new ManagePurifierFragment());
-		} else if (fragment instanceof StartFlowChooseFragment 
+		} else if (fragment instanceof StartFlowChooseFragment
 				&& getString(R.string.welcome).equals(title) ) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -661,10 +656,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				R.drawable.icon_5_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_settings,
 				R.drawable.icon_6_2x));
-		if(UserRegistrationController.getInstance().isUserLoggedIn()){
-			leftMenuItems.add(new ListViewItem(R.string.list_item_manage_purifier,
-					R.drawable.icon_7_2x));
-		}
 		leftMenuItems.add(new ListViewItem(R.string.list_item_user_reg,
 				R.drawable.icon_8_2x));		
 		leftMenuItems.add(new ListViewItem(R.string.list_item_buy_online,
@@ -798,9 +789,6 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
-			if(UserRegistrationController.getInstance().isUserLoggedIn()){
-				leftMenuItems.add(new ManagePurifierFragment());
-			}
 			leftMenuItems.add(new CreateAccountFragment());
 			leftMenuItems.add(new BuyOnlineFragment());
 		}
@@ -835,14 +823,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				// Settings
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_settings));
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_manage_purifier))){
-				if(UserRegistrationController.getInstance().isUserLoggedIn()){
-					showFragment(leftMenuItems.get(position));
-					setTitle(getString(R.string.list_item_manage_purifier));
-				}else{
-					return;
-				}
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_user_reg))){
+			} else if(leftMenuItemName.equals(getString(R.string.list_item_user_reg))){
 				// User registration
 				Intent userRegistrationIntent = new Intent(MainActivity.this, UserRegistrationActivity.class);
 				startActivity(userRegistrationIntent);

@@ -39,7 +39,7 @@
         android:layout_below="@id/start_flow_bottom_tv_text"
         android:layout_centerHorizontal="true"
         android:layout_margin="16dp"
-        android:background="@drawable/blue_button_selector"
+        android:background="@drawable/philips_blue_btn"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="@string/continue_without_smart_air_purifier"

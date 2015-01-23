@@ -53,7 +53,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	
 	private LinearLayout takeATourPopup;
 	
-	private boolean mNoPurifierMode;
+    private CirclePageIndicator indicator;
+    int countIndoor;
 	
 	@Override
 	public void onResume() {
@@ -108,100 +109,119 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			takeATourCloseButton.setOnClickListener(this);
 		}
 	}
-	
+
+    private boolean getNoPurifierMode() {
+        boolean noPurifierMode = false;
+        Bundle bundle = getArguments();
+        GPSLocation.getInstance().requestGPSLocation();
+        if (bundle != null) {
+            if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isLocationEnabled()) {
+                //TODO : Show pop-up inviting the user to enable GPS
+            } else {
+                //Add user location to dashboard
+                Location location = GPSLocation.getInstance().getGPSLocation();
+                ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
+                if(location != null) {
+                    OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
+                }
+            }
+            noPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
+        } else {
+            noPurifierMode = false;
+        }
+        return noPurifierMode;
+    }
+
+    private void initIndoorViewPager() {
+        noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
+        indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
+        indoorViewPager.setOffscreenPageLimit(0);
+
+        boolean noPurifierMode = getNoPurifierMode();
+
+        if(noPurifierMode) {
+            ((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
+            MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_NO_PURIFIER);
+            noPurifierFlowLayout.setVisibility(View.VISIBLE);
+            indoorViewPager.setVisibility(View.INVISIBLE);
+            Button connectPurifier = (Button) getView().findViewById(R.id.hf_indoor_dashboard_btn_connect);
+            ImageView playVideo = (ImageView) getView().findViewById(R.id.hf_indoor_dashboard_btn_play);
+
+            connectPurifier.setOnClickListener(withoutPurifierClickListener);
+            playVideo.setOnClickListener(withoutPurifierClickListener);
+        } else {
+            noPurifierFlowLayout.setVisibility(View.GONE);
+            noPurifierFlowLayout.setBackgroundDrawable(null); //Releases background from memory, this image is not used anymore.
+            indoorViewPager.setVisibility(View.VISIBLE);
+
+            countIndoor = getIndoorPageCount();
+
+            indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
+            indoorViewPager.setAdapter(indoorPagerAdapter);
+
+            indicator =
+                    (CirclePageIndicator)getView().findViewById(R.id.indicator_indoor);
+            indicator.setViewPager(indoorViewPager);
+            indicator.setSnap(true);
+            /**IndoorViewPager listener, We are using CirclePageIndicator for showing page indicator.
+             *CirclePageIndicator block normal page change listener
+             */
+            indicator.setOnPageChangeListener(indoorPageChangeListener);
+            setViewPagerIndicatorSetting(indicator, View.VISIBLE);
+
+            indoorViewPager.setCurrentItem(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
+        }
+    }
+
+    private int getIndoorPageCount() {
+        int countIndoor = 0;
+        //For demo mode
+        if (PurAirApplication.isDemoModeEnable()) {
+            countIndoor = 1;
+        } else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
+            countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+
+            PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
+            if(purifier != null) {
+                PurifierManager.getInstance().setCurrentPurifier(purifier);
+            }
+        }
+        return countIndoor;
+    }
+
+    private void initOutdoorViewPager() {
+        outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
+        int count = 1 ;
+        OutdoorManager.getInstance().processDataBaseInfo();
+        if( OutdoorManager.getInstance().getUsersCitiesList() != null
+                && OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
+            count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
+        }
+        outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
+        outdoorViewPager.setAdapter(outdoorPagerAdapter);
+
+        CirclePageIndicator indicator =
+                (CirclePageIndicator)getView().findViewById(R.id.indicator_outdoor);
+        indicator.setViewPager(outdoorViewPager);
+        indicator.setSnap(true);
+        setViewPagerIndicatorSetting(indicator, View.VISIBLE);
+    }
+
 	@SuppressWarnings("deprecation")
 	private void initDashboardViewPager() {
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
-		noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
-		indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
-		Bundle bundle = getArguments();
-		GPSLocation.getInstance().requestGPSLocation();
-		if (bundle != null) {
-			if(Utils.getUserGPSPermission() && !GPSLocation.getInstance().isLocationEnabled()) {
-				//TODO : Show pop-up inviting the user to enable GPS
-			} else {
-				//Add user location to dashboard
-				Location location = GPSLocation.getInstance().getGPSLocation();
-				ALog.i(ALog.OUTDOOR_LOCATION, "My location " + location);
-				if(location != null) { 
-					OutdoorController.getInstance().startGetAreaIDTask(location.getLongitude(), location.getLatitude());
-				}
-			}
-			mNoPurifierMode = bundle.getBoolean(AppConstants.NO_PURIFIER_FLOW, false);
-		} else {
-			mNoPurifierMode = false;
-		}
-				
-		if(mNoPurifierMode) {
-			((MainActivity)getActivity()).setTitle(getString(R.string.welcome));
-			MetricsTracker.trackPage(TrackPageConstants.DASHBOARD_NO_PURIFIER);
-			noPurifierFlowLayout.setVisibility(View.VISIBLE);
-			indoorViewPager.setVisibility(View.INVISIBLE);
-			Button connectPurifier = (Button) getView().findViewById(R.id.hf_indoor_dashboard_btn_connect);
-			ImageView playVideo = (ImageView) getView().findViewById(R.id.hf_indoor_dashboard_btn_play);
-			
-			connectPurifier.setOnClickListener(withoutPurifierClickListener);
-			playVideo.setOnClickListener(withoutPurifierClickListener);
-		} else {
-			noPurifierFlowLayout.setVisibility(View.GONE);
-			noPurifierFlowLayout.setBackgroundDrawable(null); //Releases background from memory, this image is not used anymore.
-			indoorViewPager.setVisibility(View.VISIBLE);
-			
-			int countIndoor = 0;
-			
-			//For demo mode
-			if (PurAirApplication.isDemoModeEnable()) {
-				countIndoor = 1;
-			} else if (DiscoveryManager.getInstance().getStoreDevices().size() > 0) {
-				countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
-
-				PurAirDevice purifier = DiscoveryManager.getInstance().getStoreDevices().get(0);
-				if(purifier != null) {
-					PurifierManager.getInstance().setCurrentPurifier(purifier);
-				}
-			}
-            
-            indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
-            indoorViewPager.setAdapter(indoorPagerAdapter);
-            
-            CirclePageIndicator indicator = 
-    				(CirclePageIndicator)getView().findViewById(R.id.indicator_indoor);
-    		indicator.setViewPager(indoorViewPager);
-    		indicator.setSnap(true);
-    		/**IndoorViewPager listener, We are using CirclePageIndicator for showing page indicator.
-    		 *CirclePageIndicator block normal page change listener
-    		 */
-    		indicator.setOnPageChangeListener(indoorPageChangeListener);
-    		setViewPagerIndicatorSetting(indicator, View.VISIBLE);
-            
-            indoorViewPager.setCurrentItem(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
-            
-		}		
-	
-		outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
-		int count = 1 ;
-		OutdoorManager.getInstance().processDataBaseInfo();
-		if( OutdoorManager.getInstance().getUsersCitiesList() != null 
-				&& OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
-			count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
-		}
-		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
-		outdoorViewPager.setAdapter(outdoorPagerAdapter);
-		
-		CirclePageIndicator indicator = 
-				(CirclePageIndicator)getView().findViewById(R.id.indicator_outdoor);
-		indicator.setViewPager(outdoorViewPager);
-		indicator.setSnap(true);
-		setViewPagerIndicatorSetting(indicator, View.VISIBLE);
+        initIndoorViewPager();
+        initOutdoorViewPager();
 	}
 	
 	private void setViewPagerIndicatorSetting(CirclePageIndicator indicator, int visibility) {
 		final float density = getResources().getDisplayMetrics().density;
 		indicator.setPageColor(0xFF5D6577);
-		indicator.setFillColor(0xFFB9BBC7);   
-		indicator.setStrokeWidth(0.1f*density);
+		indicator.setFillColor(0xFFB9BBC7);
+        indicator.setRadius(4*density);
+        indicator.setStrokeWidth(0.1f*density);
 		indicator.setClickable(false);
-		indicator.setVisibility(View.VISIBLE);
+		indicator.setVisibility(visibility);
 	}
 	
 	@Override
@@ -368,5 +388,21 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			}
 		}
 	};
-	
+
+    public void reloadIndoorViewPagerAfterDeletePurifier() {
+        countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
+        PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(countIndoor);
+        if (indoorPagerAdapter != null) indoorPagerAdapter = null;
+
+        indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
+        indoorViewPager.setAdapter(indoorPagerAdapter);
+        //indoorPagerAdapter.notifyDataSetChanged();
+        indoorViewPager.setCurrentItem(countIndoor, true);
+    }
+
+    public void gotoPage(int position) {
+        if (indoorViewPager != null) {
+            indoorViewPager.setCurrentItem(position, true);
+        }
+    }
 }
