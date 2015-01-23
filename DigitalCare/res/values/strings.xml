@@ -55,7 +55,6 @@
     
     <!-- Application Rate & Review  -->
     <string name="rate_playstore_headertext">How would you rate this app?</string>
-    <string name="rate_playstore_description">Content Required!!</string>
     <string name="rate_playstore_buttontext">Write an app-review</string>
     <string name="rate_philips_headertext">Submit a product review</string>
     <string name="rate_philips_description">Write a review and help other people make the right choice for them</string>

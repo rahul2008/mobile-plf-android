@@ -30,7 +30,7 @@
                 style="@style/supportHomeHelpText"
                 android:layout_gravity="fill_horizontal"
                 android:layout_marginTop="0dp"
-                android:text="@string/rate_playstore_description"
+                android:text="@string/rate_philips_description"
                 android:textColor="@color/text_sub_header_color"
                 android:textSize="@dimen/title_text_size_medium"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
