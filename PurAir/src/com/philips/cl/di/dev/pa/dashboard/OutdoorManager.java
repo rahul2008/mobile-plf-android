@@ -306,8 +306,10 @@ public class OutdoorManager implements OutdoorDataListener {
 			// Add current location first position in the list
 			if (LocationUtils.getCurrentLocationAreaId().equals(areaID) && LocationUtils.isCurrentLocationEnabled()) {
 				userCitiesList.add(0, areaID);
+				setOutdoorViewPagerCurrentPage(0);
 			} else {
 				userCitiesList.add(areaID);
+				setOutdoorViewPagerCurrentPage(userCitiesList.size() - 1);
 			}
 		}
 	}
@@ -389,6 +391,15 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	public Map<String, OutdoorCity> getCitiesMap() {
 		return citiesMap;
+	}
+	
+	private int position;
+	public void setOutdoorViewPagerCurrentPage(int position) {
+		this.position = position;
+	}
+	
+	public int getOutdoorViewPagerCurrentPage() {
+		return position;
 	}
 
 }

@@ -70,12 +70,6 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
 
         setContentView(R.layout.outdoor_locations_fragment);
 
-        View btn = findViewById(R.id.btn_current_location);
-        btn.setVisibility(View.GONE);
-
-        View text = findViewById(R.id.tv_lm_outdoor_locations_title);
-        text.setVisibility(View.GONE);
-
         mOutdoorLocationListView = (ListView) findViewById(R.id.outdoor_locations_list);
 
         mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);

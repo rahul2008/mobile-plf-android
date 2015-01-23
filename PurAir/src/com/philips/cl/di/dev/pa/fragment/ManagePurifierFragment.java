@@ -77,7 +77,7 @@ public class ManagePurifierFragment extends BaseFragment implements
             //padding left
             editTB.setPadding(16,0,0,0);
         }
-        editTB.setTypeface(Fonts.getCentraleSansMedium(getActivity()));
+        editTB.setTypeface(Fonts.getCentraleSansLight(getActivity()));
         addPurifier.setOnClickListener(addPurifierClickEvent);
 
         listView = (ListView) getView().findViewById(R.id.manage_pur_list);
@@ -146,7 +146,7 @@ public class ManagePurifierFragment extends BaseFragment implements
     public void onItemClickGoToPage(int position) {
         HomeFragment homeFragment = (HomeFragment) getParentFragment();
         if (homeFragment != null) {
-            homeFragment.gotoPage(position);
+            homeFragment.gotoIndoorViewPage(position);
         }
     }
 

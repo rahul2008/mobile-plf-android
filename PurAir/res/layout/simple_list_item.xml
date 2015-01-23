@@ -21,7 +21,7 @@
         android:clickable="true"
         android:contentDescription="@string/img_description"
         android:scaleType="centerCrop"
-        android:src="@drawable/white_cross"
+        android:src="@drawable/delete_l2r"
         android:textColor="@color/white"
         android:visibility="gone" />
 

@@ -646,5 +646,6 @@
     
     <string name="us_embassy">美國領事館</string>
     <string name="my_purifiers">My Purifiers</string>
+    <string name="my_location">My locations</string>
 
 </resources>

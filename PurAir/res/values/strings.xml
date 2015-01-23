@@ -625,6 +625,7 @@
     <string name="no_already_connected">Already connected? Choose a Smart Air Purifier below&#8230;</string>
     <string name="how_clean_is_your_air">How clean is your air in your home?</string>
     <string name="add_new_purifier">Add an air purifier</string>
+    <string name="add_outdoor_location">Add locations</string>
     <string name="buy_new_purifier">Or buy a new one</string>
     <string name="take_me_to_shop">Take me to the shop</string>
     <!-- Mangage Purifier -->
@@ -645,5 +646,6 @@
     
     <string name="us_embassy">US Consulate</string>
     <string name="my_purifiers">My Purifiers</string>
+    <string name="my_location">My locations</string>
 
 </resources>

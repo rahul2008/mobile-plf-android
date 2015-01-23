@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.dashboard;
 
 
+import java.util.List;
+
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
@@ -73,6 +75,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			}
 			setRightMenuIconVisibilityNormalMode(currentPage);
 		}
+		reloadOutdoorViewPager();
 	}
 
 	@Override
@@ -191,7 +194,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
     private void initOutdoorViewPager() {
         outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
-        int count = 1 ;
+        int count = 0 ;
         OutdoorManager.getInstance().processDataBaseInfo();
         if( OutdoorManager.getInstance().getUsersCitiesList() != null
                 && OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
@@ -204,7 +207,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
                 (CirclePageIndicator)getView().findViewById(R.id.indicator_outdoor);
         indicator.setViewPager(outdoorViewPager);
         indicator.setSnap(true);
+        /**IndoorViewPager listener, We are using CirclePageIndicator for showing page indicator.
+         *CirclePageIndicator block normal page change listener
+         */
+        indicator.setOnPageChangeListener(outdoorPageChangeListener);
         setViewPagerIndicatorSetting(indicator, View.VISIBLE);
+        outdoorViewPager.setCurrentItem(OutdoorManager.getInstance().getOutdoorViewPagerCurrentPage(), true);
     }
 
 	@SuppressWarnings("deprecation")
@@ -388,6 +396,20 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			}
 		}
 	};
+	
+	private OnPageChangeListener outdoorPageChangeListener = new OnPageChangeListener() {
+		
+		@Override
+		public void onPageScrollStateChanged(int arg0) {/**NOP*/}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {/**NOP*/}
+		
+		@Override
+		public void onPageSelected(int position) {
+			OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(position);
+		}
+	};
 
     public void reloadIndoorViewPagerAfterDeletePurifier() {
         countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
@@ -400,9 +422,29 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         indoorViewPager.setCurrentItem(countIndoor, true);
     }
 
-    public void gotoPage(int position) {
+    public void gotoIndoorViewPage(int position) {
         if (indoorViewPager != null) {
             indoorViewPager.setCurrentItem(position, true);
         }
     }
+    
+    public void gotoOutdoorViewPage(int position) {
+        if (outdoorViewPager != null) {
+        	outdoorViewPager.setCurrentItem(position, true);
+        }
+    }
+    
+	public void reloadOutdoorViewPager() {
+		int count = 0;
+		OutdoorManager.getInstance().processDataBaseInfo();
+		List<String> myCityList = OutdoorManager.getInstance().getUsersCitiesList() ;
+		if( myCityList != null ) {
+			count = myCityList.size() ;
+		}
+		
+		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
+		outdoorViewPager.setAdapter(outdoorPagerAdapter);
+		outdoorViewPager.setCurrentItem(OutdoorManager.getInstance().getOutdoorViewPagerCurrentPage(), true);
+	}
+	
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
@@ -33,6 +34,7 @@ public class AddOutdoorLocationAdapter extends ArrayAdapter<OutdoorCityInfo> {
 		View view = inflater.inflate(R.layout.simple_list_item, null);
 		
 		ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
+		
 		deleteSign.setVisibility(View.GONE);
 		FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
 		if (outdoorCityInfoList.get(position) != null) {

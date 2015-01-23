@@ -11,6 +11,7 @@ import android.annotation.SuppressLint;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 
 public class AddOutdoorLocationHelper {
 	private static List<String> userCitiesList;
@@ -37,14 +38,22 @@ public class AddOutdoorLocationHelper {
 	
 	public static List<OutdoorCityInfo> getSortedUserSelectedCitiesInfo(List<String> userCities) {
 		List<OutdoorCityInfo> outdoorCityInfoList = new ArrayList<OutdoorCityInfo>() ;
+		String currentLocationAreaId = LocationUtils.getCurrentLocationAreaId();
+		OutdoorCityInfo currentLocation = null ;
 		for (String areaId : userCities) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(areaId);	
-			if( outdoorCity != null) {		
+			if (areaId.equals(currentLocationAreaId) && outdoorCity != null) {
+				currentLocation = outdoorCity.getOutdoorCityInfo() ;
+			} else if( outdoorCity != null) {	 
 				outdoorCityInfoList.add(outdoorCity.getOutdoorCityInfo()) ;
 			}
 		}
 		
 		Collections.sort(outdoorCityInfoList) ;
+		if( currentLocation != null ) {
+			outdoorCityInfoList.add(0,currentLocation) ;
+		}
+		
 		return outdoorCityInfoList ;
 	}
 	
