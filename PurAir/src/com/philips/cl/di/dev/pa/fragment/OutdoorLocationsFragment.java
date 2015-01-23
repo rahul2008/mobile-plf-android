@@ -186,9 +186,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
-			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId())) position = 0;
+			
+			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId()) && position == 0 && edittogglebutton.isChecked()) {
+				return;
+			}
+			
+			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId())) {
+				position = 0;
+			}
 			
 			gotoPage(position);
+			
 			
 			if(delete.getVisibility() == View.GONE) {
 				
