@@ -2,6 +2,7 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,17 +11,20 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
 import com.philips.cl.di.dev.pa.digitalcare.customview.FontButton;
 
-public class RatethiappFragment extends BaseFragment {
+public class RateThisappFragment extends BaseFragment {
 
-	private static String TAG = RatethiappFragment.class.getSimpleName();
+	private static String TAG = RateThisappFragment.class.getSimpleName();
 	private Button RatePlayStore, RatePhilips;
 	private String mWeblink = "http://www.philips.co.uk/c-p/BT9280_33/beardtrimmer-series-9000-waterproof-beard-trimmer-with-worlds-first-laser-guide/reviewandawards";
-
+	private FrameLayout.LayoutParams mLayoutParams = null;
+	private LinearLayout mLayoutParent = null;
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -38,9 +42,31 @@ public class RatethiappFragment extends BaseFragment {
 		RatePlayStore = (FontButton) getActivity().findViewById(
 				R.id.tellus_PlayStoreReviewButton);
 		RatePhilips = (FontButton) getActivity().findViewById(
-				R.id.tellus_PlayStoreReviewButton);
+				R.id.tellus_PhilipsReviewButton);
+		mLayoutParent = (LinearLayout) getActivity().findViewById(
+				R.id.parentLayout);
 		RatePlayStore.setOnClickListener(ClickListener);
 		RatePhilips.setOnClickListener(ClickListener);
+		
+		mLayoutParams = (android.widget.FrameLayout.LayoutParams) mLayoutParent.getLayoutParams();
+		Configuration config = getResources().getConfiguration();
+		setViewParams(config);
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration config) {
+		super.onConfigurationChanged(config);
+
+		setViewParams(config);
+	}
+	
+	private void setViewParams(Configuration config) {
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginPort;
+		} else {
+			mLayoutParams.leftMargin = mLayoutParams.rightMargin = mLeftRightMarginLand;
+		}
+		mLayoutParent.setLayoutParams(mLayoutParams);
 	}
 
 	private void rateTheAirFryerApplication() {

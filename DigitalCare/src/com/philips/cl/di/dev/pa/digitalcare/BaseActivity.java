@@ -21,7 +21,7 @@ import com.philips.cl.di.dev.pa.digitalcare.customview.FontTextView;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ContactUsFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.LocateNearYouFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ProductRegistrationFragment;
-import com.philips.cl.di.dev.pa.digitalcare.fragment.RatethiappFragment;
+import com.philips.cl.di.dev.pa.digitalcare.fragment.RateThisappFragment;
 import com.philips.cl.di.dev.pa.digitalcare.fragment.ViewProductDetailsFragment;
 import com.philips.cl.di.dev.pa.digitalcare.util.ALog;
 import com.philips.cl.di.dev.pa.digitalcare.util.DigiCareContants;
@@ -153,7 +153,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 			showFragment(new LocateNearYouFragment());
 			break;
 		case DigiCareContants.OPTION_WHAT_ARE_YOU_THINKING:
-			showFragment(new RatethiappFragment());
+			showFragment(new RateThisappFragment());
 			break;
 		case DigiCareContants.OPTION_REGISTER_PRODUCT:
 			showFragment(new ProductRegistrationFragment());

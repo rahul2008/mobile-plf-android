@@ -1,94 +1,81 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF" >
+    android:layout_height="fill_parent"
+    android:background="#F0F4F9" >
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:orientation="vertical" >
+        android:id="@+id/parentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin" >
 
-        <RelativeLayout
+        <LinearLayout
+            android:id="@+id/firstParent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_weight="1.0" >
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/tellus_philips_submitreview_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="20dp"
+                style="@style/supportHomeHelpText"
+                android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_playstore_headertext"
-                android:textColor="#003377"
-                android:textSize="25sp"
+                android:textStyle="bold"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                style="@style/supportHomeHelpText"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginTop="0dp"
                 android:text="@string/rate_playstore_description"
-                android:textColor="#003377"
+                android:textColor="@color/text_sub_header_color"
+                android:textSize="@dimen/title_text_size_medium"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/tellus_PlayStoreReviewButton"
                 style="@style/tellus_app_review_phone"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginBottom="23dp"
                 android:text="@string/rate_playstore_buttontext"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
-        </RelativeLayout>
+        </LinearLayout>
 
         <View
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:background="#c0c0c0" />
-
-        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_weight="1.0" >
+            android:layout_height="1dp"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="40dp"
+            android:background="#cccccc" />
+
+        <LinearLayout
+            android:id="@+id/secondParent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="20dp"
+                style="@style/supportHomeHelpText"
+                android:layout_gravity="fill_horizontal"
                 android:text="@string/rate_philips_headertext"
-                android:textColor="#003377"
-                android:textSize="25sp"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
+                style="@style/supportHomeHelpText"
+                android:layout_gravity="fill_horizontal"
+                android:layout_marginTop="0dp"
                 android:text="@string/rate_philips_description"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:textColor="#003377" />
+                android:textColor="@color/text_sub_header_color"
+                android:textSize="@dimen/title_text_size_medium"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/tellus_PhilipsReviewButton"
                 style="@style/tellus_app_review_phone"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_marginBottom="23dp"
                 android:text="@string/rate_philips_buttontext"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
-</RelativeLayout>
+</ScrollView>
