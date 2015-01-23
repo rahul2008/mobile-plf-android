@@ -648,8 +648,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				R.drawable.icon_1_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_air_quality_explained,
 				R.drawable.icon_2_2x));
-		leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
-				R.drawable.icon_3_2x));
+		/*leftMenuItems.add(new ListViewItem(R.string.list_item_outdoor_loc,
+				R.drawable.icon_3_2x));*/
 		leftMenuItems.add(new ListViewItem(R.string.list_item_notifications,
 				R.drawable.icon_4_2x));
 		leftMenuItems.add(new ListViewItem(R.string.list_item_help_and_doc,
@@ -785,7 +785,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		private void initLeftMenu() {
 			leftMenuItems.add(getDashboard());
 			leftMenuItems.add(new AirQualityFragment());
-			leftMenuItems.add(new OutdoorLocationsFragment());
+//			leftMenuItems.add(new OutdoorLocationsFragment());
 			leftMenuItems.add(new NotificationsFragment());
 			leftMenuItems.add(new HelpAndDocFragment());
 			leftMenuItems.add(new SettingsFragment());
@@ -807,11 +807,11 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			}else if(leftMenuItemName.equals(getString(R.string.list_item_air_quality_explained))){
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_air_quality_explained));
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_outdoor_loc))){
+			}/*else if(leftMenuItemName.equals(getString(R.string.list_item_outdoor_loc))){
 				// Outdoor locations
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_outdoor_loc));
-			}else if(leftMenuItemName.equals(getString(R.string.list_item_notifications))){
+			}*/else if(leftMenuItemName.equals(getString(R.string.list_item_notifications))){
 				// Notifications
 				showFragment(leftMenuItems.get(position));
 				setTitle(getString(R.string.list_item_notifications));
