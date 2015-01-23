@@ -162,11 +162,14 @@
     <color name="light_gray">#949494</color>
     <color name="darker_red">#C55959</color>
     <color name="darker_blue">#27509F</color>
+    <color name="dictionary_background_color">#DCDCDC</color>
+    <color name="dictionary_overylay_background_color">#553299FE</color>
     
     <color name="light_sky_blue">#85D3EF</color>
     <color name="transparent_white">#CAFFFFFF</color>
     <color name="blue_list_item">#0E1F4A</color>
     <color name="blue_title">#0065A0</color>
     <color name="red_delete">#CC1F2C</color>
+    
    
     </resources>
