@@ -42,6 +42,7 @@
             android:layout_marginRight="16dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/info"/>
 
     </RelativeLayout>
@@ -60,6 +61,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/img_description"
             android:src="@drawable/white_plus"/>
 
         <com.philips.cl.di.dev.pa.view.FontTextView
