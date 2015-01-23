@@ -38,22 +38,21 @@ public class AddOutdoorLocationHelper {
 	
 	public static List<OutdoorCityInfo> getSortedUserSelectedCitiesInfo(List<String> userCities) {
 		List<OutdoorCityInfo> outdoorCityInfoList = new ArrayList<OutdoorCityInfo>() ;
-		String currentLocationAreaId = LocationUtils.getCurrentLocationAreaId();
-		OutdoorCityInfo currentLocation = null ;
 		for (String areaId : userCities) {
 			OutdoorCity outdoorCity = OutdoorManager.getInstance().getCityData(areaId);	
-			if (areaId.equals(currentLocationAreaId) && outdoorCity != null) {
-				currentLocation = outdoorCity.getOutdoorCityInfo() ;
-			} else if( outdoorCity != null) {	 
+			if( outdoorCity != null) {		
 				outdoorCityInfoList.add(outdoorCity.getOutdoorCityInfo()) ;
 			}
 		}
 		
 		Collections.sort(outdoorCityInfoList) ;
-		if( currentLocation != null ) {
-			outdoorCityInfoList.add(0,currentLocation) ;
+		String currentLocationAreaId = LocationUtils.getCurrentLocationAreaId();
+		if (!currentLocationAreaId.isEmpty()) {
+			OutdoorCity currentoutdoorCity = OutdoorManager.getInstance().getCityData(currentLocationAreaId);	
+			if( currentoutdoorCity != null) {		
+				outdoorCityInfoList.add(0, currentoutdoorCity.getOutdoorCityInfo()) ;
+			}
 		}
-		
 		return outdoorCityInfoList ;
 	}
 	

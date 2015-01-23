@@ -186,6 +186,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
+			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId())) position = 0;
 			
 			gotoPage(position);
 			
@@ -259,8 +260,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			deleteSign.setClickable(false);
 		    deleteSign.setFocusable(false);
-			//Added By Basanta
-			if ( LocationUtils.getCurrentLocationAreaId().equals(info.getAreaID())) {
+			
+			if ( position == 0 && LocationUtils.getCurrentLocationAreaId().equals(info.getAreaID())) {
 				tvName.setText(getString(R.string.current_location));
 				deleteSign.setVisibility(View.VISIBLE);
 				deleteSign.setImageResource(R.drawable.location_white);
