@@ -234,8 +234,8 @@ public class CirclePageIndicator extends View implements PageIndicator {
             longOffset += ((longSize - longPaddingBefore - longPaddingAfter) / 2.0f) - ((count * threeRadius) / 2.0f);
         }
 
-        float dX;
-        float dY;
+        float dX = 0f;
+        float dY = 0f;
 
         float pageFillRadius = mRadius;
         if (mPaintStroke.getStrokeWidth() > 0) {
@@ -264,16 +264,20 @@ public class CirclePageIndicator extends View implements PageIndicator {
         }
 
         //Draw the filled circle according to the current scroll
-        float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
-        if (!mSnap) {
-            cx += mPageOffset * threeRadius;
-        }
-        if (mOrientation == HORIZONTAL) {
-            dX = longOffset + cx;
-            dY = shortOffset;
-        } else {
-            dX = shortOffset;
-            dY = longOffset + cx;
+        //Author : Manzer Hassan
+        // count == 1, In this case we have only one circle, that why use stroked circles x and y co-ordinate to draw highlighted circle
+        if (count > 1) {
+            float cx = (mSnap ? mSnapPage : mCurrentPage) * threeRadius;
+            if (!mSnap) {
+                cx += mPageOffset * threeRadius;
+            }
+            if (mOrientation == HORIZONTAL) {
+                dX = longOffset + cx;
+                dY = shortOffset;
+            } else {
+                dX = shortOffset;
+                dY = longOffset + cx;
+            }
         }
         canvas.drawCircle(dX, dY, mRadius, mPaintFill);
     }
