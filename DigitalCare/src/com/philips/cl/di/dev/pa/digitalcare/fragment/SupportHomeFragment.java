@@ -164,6 +164,8 @@ public class SupportHomeFragment extends BaseFragment {
 				actionbarTitle = getResources().getText(
 						R.string.opt_view_product_details);
 				optionSelected = DigiCareContants.OPTION_PRODUCS_DETAILS;
+				mAppObserver
+				.setValue(actionbarTitle.toString(), optionSelected);
 				break;
 			case R.id.optionBtnFindPhilips:
 				actionbarTitle = getResources().getText(
@@ -176,6 +178,8 @@ public class SupportHomeFragment extends BaseFragment {
 				actionbarTitle = getResources().getText(
 						R.string.opt_what_you_think);
 				optionSelected = DigiCareContants.OPTION_WHAT_ARE_YOU_THINKING;
+				mAppObserver
+				.setValue(actionbarTitle.toString(), optionSelected);
 				break;
 			case R.id.optionBtnRegProd:
 				actionbarTitle = getResources().getText(
