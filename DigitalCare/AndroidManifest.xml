@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     package="com.philips.cl.di.dev.pa.digitalcare"
     android:versionCode="1"
     android:versionName="1.0" >

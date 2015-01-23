@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF" >
@@ -19,7 +20,6 @@
             android:layout_weight="1.0" >
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/tellus_philips_submitreview_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -31,7 +31,6 @@
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -41,7 +40,6 @@
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/tellus_PlayStoreReviewButton"
                 style="@style/tellus_app_review_phone"
                 android:layout_alignParentBottom="true"
@@ -64,7 +62,6 @@
             android:layout_weight="1.0" >
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -75,7 +72,6 @@
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <TextView
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -85,7 +81,6 @@
                 android:textColor="#003377" />
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
-                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa.digitalcare"
                 android:id="@+id/tellus_PhilipsReviewButton"
                 style="@style/tellus_app_review_phone"
                 android:layout_alignParentBottom="true"
