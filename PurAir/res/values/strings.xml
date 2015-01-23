@@ -577,7 +577,7 @@
     <string name="reset_password">Forgot password? Reset on Philips.com</string>
     <!-- Demo Mode -->
     <string name="app_in_demo_mode_title">App is in demo mode</string>
-    <string name="app_in_demo_mode_msg">The App is in demo mode, please make sure you are connected to the PHILIPS_SETUP network.</string>
+    <string name="app_in_demo_mode_msg">The App is in demo mode</string>
     <string name="demo">Demo</string>
     <string name="shop_demo_mode">Shop demo mode</string>
     <string name="demo_mode_title">Demo setup</string>

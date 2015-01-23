@@ -577,7 +577,7 @@
     <string name="reset_password">忘記密碼？請至Philips.com進行重置。</string>
     <!-- Demo Mode -->
     <string name="app_in_demo_mode_title">APP正處於商店演示模式</string>
-    <string name="app_in_demo_mode_msg">APP正處於商店演示模式，請確保您已連接到PHILIPS_SETUP。</string>
+    <string name="app_in_demo_mode_msg">APP正處於商店演示模式 </string>
     <string name="demo">演示</string>
     <string name="shop_demo_mode">商店示範模式</string>
     <string name="demo_mode_title">示範設定</string>
