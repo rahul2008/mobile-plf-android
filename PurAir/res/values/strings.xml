@@ -605,7 +605,7 @@
     <string name="no_wifi_title">No wifi</string>
     <string name="no_wifi_text">We need a working wifi connection to continue</string>
     <string name="do_not_allow">Do not allow</string>
-    <string name="allow">Allow</string>N
+    <string name="allow">Allow</string>
     <string name="turn_it_on">Turn it on</string>
     <string name="welcome">Welcome</string>
     <string name="connect_your_purifier">Connect your purifier</string>

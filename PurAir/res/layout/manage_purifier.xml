@@ -6,7 +6,6 @@
     android:background="@drawable/manage_purifier_bg">
 
     <RelativeLayout
-        android:layout_alignParentTop="true"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
