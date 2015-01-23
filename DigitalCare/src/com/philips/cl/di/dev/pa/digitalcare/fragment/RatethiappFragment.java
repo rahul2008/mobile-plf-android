@@ -58,7 +58,10 @@ public class RatethiappFragment extends BaseFragment {
 	
 	private void tempRatePhilipsTrimmer()
 	{
-		Toast.makeText(getActivity(), "Philips Products review button!!", Toast.LENGTH_SHORT).show();
+		String url = mWeblink;
+		Intent i = new Intent(Intent.ACTION_VIEW);
+		i.setData(Uri.parse(url));
+		startActivity(i);
 	}
 
 	private OnClickListener ClickListener = new OnClickListener() {
