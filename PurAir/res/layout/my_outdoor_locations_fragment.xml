@@ -10,16 +10,20 @@
         android:background="@drawable/ews_nav_bar_2x"
         android:minHeight="50dp"
         android:visibility="visible" >
-
-        <ToggleButton
-            android:id="@+id/outdoor_location_edit_tb"
-            style="@style/Widget.Button.Toggle.Text"
+        
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/outdoor_location_edit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
+            android:clickable="true"
             android:textColor="@color/blue_title"
-            android:textSize="@dimen/text_size_medium" />
+            android:textSize="@dimen/text_size_medium"
+            android:layout_marginLeft="16dp"
+            android:text="@string/edit"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

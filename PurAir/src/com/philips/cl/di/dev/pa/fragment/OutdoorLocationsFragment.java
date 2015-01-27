@@ -6,7 +6,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,12 +15,9 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -37,7 +33,6 @@ import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
 import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -46,18 +41,17 @@ import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorLocationsFragment extends BaseFragment implements ConnectionCallbacks,
-	OnConnectionFailedListener, OnCheckedChangeListener, CurrentCityAreaIdReceivedListener {
+	OnConnectionFailedListener, CurrentCityAreaIdReceivedListener {
 	private static final String TAG = OutdoorLocationsFragment.class.getSimpleName();
 	
 	private boolean isGooglePlayServiceAvailable;
-	//private ProgressBar searchingLoctionProgress;
 	private ListView mOutdoorLocationListView;
 	private Hashtable<String, Boolean> selectedItemHashtable;
-	private ToggleButton edittogglebutton;
 	private UserSelectedCitiesAdapter userSelectedCitiesAdapter;
 	private UserCitiesDatabase userCitiesDatabase;
 	private List<String> userCitiesId;
 	private List<OutdoorCityInfo> outdoorCityInfoList;
+	private FontTextView editTV;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -72,20 +66,17 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		Log.i(TAG, "onCreateView");
 		View view = inflater.inflate(R.layout.my_outdoor_locations_fragment, container, false);
-		edittogglebutton = (ToggleButton) view.findViewById(R.id.outdoor_location_edit_tb);
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            //padding left
-			edittogglebutton.setPadding(16,0,0,0);
-        }
-		edittogglebutton.setTypeface(Fonts.getCentraleSansLight(getActivity()));
+		
+		editTV = (FontTextView) view.findViewById(R.id.outdoor_location_edit_tv);
+		editTV.setText(getString(R.string.edit));
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
 		LinearLayout addlocation = (LinearLayout)view.findViewById(R.id.add_outdoor_location_ll);
 		LinearLayout currentlocation = (LinearLayout)view.findViewById(R.id.current_location_ll);
 		addlocation.setOnClickListener(locationOnClickListener);
 		currentlocation.setOnClickListener(locationOnClickListener);
-		edittogglebutton.setChecked(false);
-		edittogglebutton.setOnCheckedChangeListener(this);
+		editTV.setOnClickListener(locationOnClickListener);
+		
 		return view;
 	}
 	
@@ -172,13 +163,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (buttonView.getId() == R.id.outdoor_location_edit_tb) {
-			setAdapter();
-		}
-	}
-
-	@Override
 	public void areaIdReceived() {
 		if (getActivity() == null) return;
 		
@@ -207,7 +191,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		public View getView(int position, View convertView, ViewGroup parent) {
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view = inflater.inflate(R.layout.simple_list_item, null);
-
 			OutdoorCityInfo info = outdoorCityInfoListAdapter.get(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(info);
 			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
@@ -233,7 +216,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			tvName.setTag(key);
 			
-			if (!edittogglebutton.isChecked()) {
+			if (getString(R.string.edit).equals(editTV.getText().toString())) {
 				deleteSign.setVisibility(View.GONE);
 				delete.setVisibility(View.GONE);
 			} else {
@@ -290,7 +273,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
 			
-			if (edittogglebutton.isChecked()) {
+			if (getString(R.string.done).equals(editTV.getText().toString())) {
 				ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 				FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 				
@@ -321,6 +304,13 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 				break;
 			case R.id.current_location_ll:
 				gotoPage(0);
+			case R.id.outdoor_location_edit_tv:
+				if (getString(R.string.edit).equals(editTV.getText().toString())) {
+					editTV.setText(getString(R.string.done));
+				} else {
+					editTV.setText(getString(R.string.edit));
+				}
+				setAdapter();
 				break;
 			default:
 				break;
