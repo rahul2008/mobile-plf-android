@@ -129,7 +129,7 @@
         <activity
             android:name="com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden" >
+            android:windowSoftInputMode="stateHidden|adjustPan" >
         </activity>
         <activity
             android:name="com.philips.cl.di.dev.pa.activity.PrivacyPolicyActivity"
