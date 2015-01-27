@@ -21,12 +21,13 @@
             android:id="@+id/optionProdDetails"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="7dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnProdDetails"
-                style="@style/supportHomeFontButton"
+                style="@style/fontButton"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_view_product_details"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -41,12 +42,13 @@
             android:id="@+id/optionFaq"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnFaq"
-                style="@style/supportHomeFontButton"
+                style="@style/fontButton"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_view_faq"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -61,12 +63,13 @@
             android:id="@+id/optionContactUs"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnContactUs"
-                style="@style/supportHomeFontButton"
+                style="@style/fontButton"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_contact_us"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -81,12 +84,13 @@
             android:id="@+id/optionFindPhilips"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnFindPhilips"
-                style="@style/supportHomeFontButton"
+                style="@style/fontButton"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_find_philips_near_you"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -101,12 +105,13 @@
             android:id="@+id/optionThinking"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnThinking"
-                style="@style/supportHomeFontButton"
+                style="@style/fontButton"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_what_you_think"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -121,14 +126,16 @@
             android:id="@+id/optionRegProd"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="50dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="40dp"
             android:visibility="gone" >
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnRegProd"
-                style="@style/supportHomeFontButton"
+                style="@style/fontButton"
                 android:background="@drawable/selector_option_prod_reg_button_bg"
+                android:gravity="left|center"
+                android:paddingLeft="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_register_my_product"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 

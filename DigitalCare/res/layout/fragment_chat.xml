@@ -19,8 +19,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:contentDescription="@string/chat_desc"
-                android:background="@drawable/live_chat_bg" />
+                android:background="@drawable/live_chat_bg"
+                android:contentDescription="@string/chat_desc" />
 
             <TextView
                 android:id="@+id/helpText"
@@ -43,20 +43,26 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/chatNow"
-                style="@style/chatNowFontButton"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:text="@string/chat_now"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />
 
             <RelativeLayout
                 android:id="@+id/chatNoThanksParent"
-                style="@style/chatNowFontButton"
+                style="@style/fontButton"
                 android:layout_weight="1"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:padding="2dp" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/chatNoThanks"
-                    style="@style/noThanksFontButton"
+                    style="@style/fontButton"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/no_thanks"
                     android:textColor="@color/button_bg"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
@@ -72,21 +78,27 @@
 
             <RelativeLayout
                 android:id="@+id/chatNoThanksParentLand"
-                style="@style/chatNowFontButton"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:padding="2dp" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/chatNoThanksLand"
-                    style="@style/noThanksFontButton"
+                    style="@style/fontButton"
+                    android:background="@drawable/selector_no_thanks_button_bg"
                     android:text="@string/no_thanks"
+                    android:layout_marginTop="0dp"
                     android:textColor="@color/button_bg"
                     custom:fontAssetName="fonts/centralesans-bold.otf" />
             </RelativeLayout>
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/chatNowLand"
-                style="@style/chatNowFontButton"
+                style="@style/fontButton"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_marginRight="@dimen/activity_margin"
                 android:layout_weight="1"
                 android:text="@string/chat_now"
                 custom:fontAssetName="fonts/centralesans-bold.otf" />

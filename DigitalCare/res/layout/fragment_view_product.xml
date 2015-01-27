@@ -70,14 +70,14 @@
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/manual_open"
-                    style="@style/contactUsFontButton"
+                    style="@style/fontButton"
                     android:contentDescription="@string/product_name"
                     android:text="Open interactive manual"
                     custom:fontAssetName="fonts/centralesans-book.otf" />
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/manual_download"
-                    style="@style/contactUsFontButton"
+                    style="@style/fontButton"
                     android:layout_below="@+id/manual_open"
                     android:contentDescription="@string/product_name"
                     android:text="Download Product  manual"
@@ -85,7 +85,7 @@
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/prodinfo_button"
-                    style="@style/contactUsFontButton"
+                    style="@style/fontButton"
                     android:layout_below="@+id/manual_download"
                     android:contentDescription="@string/product_name"
                     android:text="Products information(on philips.com)"

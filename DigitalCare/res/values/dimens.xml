@@ -17,4 +17,5 @@
     <dimen name="support_btn_height">60dp</dimen>
     <dimen name="prod_reg_btn_height">55dp</dimen>
 	<dimen name="chat_img_height">300dp</dimen>
+	<dimen name="marginTopButton">12dp</dimen>
 </resources>

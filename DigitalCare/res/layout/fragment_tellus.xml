@@ -37,7 +37,7 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/tellus_PlayStoreReviewButton"
-                style="@style/tellus_app_review_phone"
+                style="@style/fontButton"
                 android:text="@string/rate_playstore_buttontext"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
         </LinearLayout>
@@ -72,7 +72,7 @@
 
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/tellus_PhilipsReviewButton"
-                style="@style/tellus_app_review_phone"
+                style="@style/fontButton"
                 android:text="@string/rate_philips_buttontext"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
         </LinearLayout>
