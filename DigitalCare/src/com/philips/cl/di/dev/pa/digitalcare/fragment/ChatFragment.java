@@ -89,11 +89,8 @@ public class ChatFragment extends BaseFragment {
 
 		public void onClick(View view) {
 			int id = view.getId();
-			switch (id) {
-			case R.id.chatNow:
-			case R.id.chatNowLand:
+			if (id == R.id.chatNow || id == R.id.chatNowLand) {
 				showFragment(new ChatNowFragment());
-				break;
 			}
 		};
 	};

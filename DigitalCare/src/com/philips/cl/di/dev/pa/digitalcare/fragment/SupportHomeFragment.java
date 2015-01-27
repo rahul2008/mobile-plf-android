@@ -148,47 +148,41 @@ public class SupportHomeFragment extends BaseFragment {
 
 		public void onClick(View view) {
 			Log.i(TAG, "onClickListener view : " + view);
-			switch (view.getId()) {
-			case R.id.optionBtnContactUs:
+			int id = view.getId();
+			if (id == R.id.optionBtnContactUs) {
 				actionbarTitle = getResources()
 						.getText(R.string.opt_contact_us);
 				optionSelected = DigiCareContants.OPTION_CONTACT_US;
 				mAppObserver
 						.setValue(actionbarTitle.toString(), optionSelected);
-				break;
-			case R.id.optionBtnFaq:
+			} else if (id == R.id.optionBtnFaq) {
 				actionbarTitle = getResources().getText(R.string.opt_view_faq);
 				optionSelected = DigiCareContants.OPTION_FAQ;
-				break;
-			case R.id.optionBtnProdDetails:
+			} else if (id == R.id.optionBtnProdDetails) {
 				actionbarTitle = getResources().getText(
 						R.string.opt_view_product_details);
 				optionSelected = DigiCareContants.OPTION_PRODUCS_DETAILS;
 				mAppObserver
-				.setValue(actionbarTitle.toString(), optionSelected);
-				break;
-			case R.id.optionBtnFindPhilips:
+						.setValue(actionbarTitle.toString(), optionSelected);
+			} else if (id == R.id.optionBtnFindPhilips) {
 				actionbarTitle = getResources().getText(
 						R.string.opt_find_philips_near_you);
 				optionSelected = DigiCareContants.OPTION_FIND_PHILIPS_NEARBY;
 				mAppObserver
 						.setValue(actionbarTitle.toString(), optionSelected);
-				break;
-			case R.id.optionBtnThinking:
+			} else if (id == R.id.optionBtnThinking) {
 				actionbarTitle = getResources().getText(
 						R.string.opt_what_you_think);
 				optionSelected = DigiCareContants.OPTION_WHAT_ARE_YOU_THINKING;
 				mAppObserver
-				.setValue(actionbarTitle.toString(), optionSelected);
-				break;
-			case R.id.optionBtnRegProd:
+						.setValue(actionbarTitle.toString(), optionSelected);
+			} else if (id == R.id.optionBtnRegProd) {
 				actionbarTitle = getResources().getText(
 						R.string.opt_register_my_product);
 				optionSelected = DigiCareContants.OPTION_REGISTER_PRODUCT;
 				mAppObserver
 						.setValue(actionbarTitle.toString(), optionSelected);
-				break;
-			default:
+			} else {
 				actionbarTitle = getResources().getText(
 						R.string.actionbar_title_support);
 			}

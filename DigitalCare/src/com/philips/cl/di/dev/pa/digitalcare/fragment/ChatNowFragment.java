@@ -69,10 +69,9 @@ public class ChatNowFragment extends BaseFragment {
 
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
-			switch (v.getId()) {
-			case R.id.webViewParent:
+			int id = v.getId();
+			if (id == R.id.webViewParent) {
 				mDialog.dismiss();
-				break;
 			}
 			return false;
 		}

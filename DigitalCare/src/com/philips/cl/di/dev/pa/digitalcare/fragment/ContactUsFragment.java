@@ -54,10 +54,8 @@ public class ContactUsFragment extends BaseFragment {
 
 		public void onClick(View view) {
 			int id = view.getId();
-			switch (id) {
-			case R.id.contactUsChat:
+			if (id == R.id.contactUsChat) {
 				showFragment(new ChatFragment());
-				break;
 			}
 		};
 	};

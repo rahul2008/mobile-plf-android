@@ -94,13 +94,10 @@ public class RateThisappFragment extends BaseFragment {
 
 		public void onClick(View view) {
 			int id = view.getId();
-			switch (id) {
-			case R.id.tellus_PhilipsReviewButton:
+			if (id == R.id.tellus_PhilipsReviewButton) {
 				tempRatePhilipsTrimmer();
-				break;
-			case R.id.tellus_PlayStoreReviewButton:
+			} else if (id == R.id.tellus_PlayStoreReviewButton) {
 				rateTheAirFryerApplication();
-				break;
 			}
 		};
 	};

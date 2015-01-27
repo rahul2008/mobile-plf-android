@@ -125,17 +125,12 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
 		@Override
 		public void onClick(View view) {
-			switch (view.getId()) {
-			case R.id.home_icon:
+			int _id = view.getId();
+			if (_id == R.id.home_icon) {
 				finish();
 				overridePendingTransition(R.anim.left_in, R.anim.right_out);
-				break;
-			case R.id.back_to_home_img:
+			} else if (_id == R.id.back_to_home_img)
 				backstackFragment();
-				break;
-			default:
-				break;
-			}
 		}
 	};
 
