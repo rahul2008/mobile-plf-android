@@ -111,7 +111,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 					updateUI(city, cityName, areaID);
 				}
 				if (areaID.isEmpty() && city == null) {
-					updateUI(city, getString(R.string.not_connected), areaID);
+					updateUI(city, getString(R.string.locating), areaID);
 				}
 			}
 		} 

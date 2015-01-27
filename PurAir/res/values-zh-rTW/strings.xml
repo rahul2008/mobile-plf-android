@@ -630,7 +630,7 @@
     <string name="take_me_to_shop">我想去商店逛逛</string>
     <!-- Mangage Purifier -->
     <string name="add_purifier_heading">管理淨化器</string>
-    <string name="add_purifier">添加一台淨化器</string>
+    <string name="add_purifier">添加一台空氣清新機</string>
     <string name="no_purifier_found">未找到更多淨化器</string>
     <string name="max_purifier_reached">最多只可添加20臺淨化器。還想添加新淨化器？請刪除已有淨化器。</string>
     <string name="max_city_reached">最多只可添加20臺城市。還想添加新淨化器？請刪除已有城市。</string>
@@ -645,7 +645,9 @@
     <string name="external_storage_unavailable">外部存儲不可用</string>
     
     <string name="us_embassy">美國領事館</string>
-    <string name="my_purifiers">My Purifiers</string>
+    <string name="my_purifiers">我的清新機</string>
     <string name="my_location">My locations</string>
+    <string name="add_outdoor_location">添加位置</string>
+    <string name="locating">定位中</string>
 
 </resources>
