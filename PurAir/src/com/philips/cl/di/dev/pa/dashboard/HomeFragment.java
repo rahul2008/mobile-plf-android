@@ -35,6 +35,7 @@ import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
+import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -75,7 +76,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			}
 			setRightMenuIconVisibilityNormalMode(currentPage);
 		}
-		reloadOutdoorViewPager();
+		notifyOutdoorPager();
 	}
 
 	@Override
@@ -135,6 +136,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         return noPurifierMode;
     }
 
+    @SuppressWarnings("deprecation")
     private void initIndoorViewPager() {
         noPurifierFlowLayout = (RelativeLayout) getView().findViewById(R.id.hf_indoor_dashboard_rl_no_purifier);
         indoorViewPager = (ViewPager) getView().findViewById(R.id.hf_indoor_dashboard_viewpager);
@@ -158,12 +160,9 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
             indoorViewPager.setVisibility(View.VISIBLE);
 
             countIndoor = getIndoorPageCount();
+            setIndoorPagerAdapter(countIndoor);
 
-            indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
-            indoorViewPager.setAdapter(indoorPagerAdapter);
-
-            indicator =
-                    (CirclePageIndicator)getView().findViewById(R.id.indicator_indoor);
+            indicator = (CirclePageIndicator)getView().findViewById(R.id.indicator_indoor);
             indicator.setViewPager(indoorViewPager);
             indicator.setSnap(true);
             /**IndoorViewPager listener, We are using CirclePageIndicator for showing page indicator.
@@ -174,6 +173,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
             indoorViewPager.setCurrentItem(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition(), true);
         }
+    }
+    
+    private void setIndoorPagerAdapter(int count) {
+    	indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
+        indoorViewPager.setAdapter(indoorPagerAdapter);
     }
 
     private int getIndoorPageCount() {
@@ -194,15 +198,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 
     private void initOutdoorViewPager() {
         outdoorViewPager = (ViewPager) getView().findViewById(R.id.hf_outdoor_dashboard_viewpager);
-        int count = 0 ;
-        OutdoorManager.getInstance().processDataBaseInfo();
-        if( OutdoorManager.getInstance().getUsersCitiesList() != null
-                && OutdoorManager.getInstance().getUsersCitiesList().size() > 0 ) {
-            count = OutdoorManager.getInstance().getUsersCitiesList().size() ;
-        }
-        outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
-        outdoorViewPager.setAdapter(outdoorPagerAdapter);
-
+        int count = outdoorPageCount();
+		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
+		outdoorViewPager.setAdapter(outdoorPagerAdapter);
+		
         CirclePageIndicator indicator =
                 (CirclePageIndicator)getView().findViewById(R.id.indicator_outdoor);
         indicator.setViewPager(outdoorViewPager);
@@ -215,7 +214,6 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         outdoorViewPager.setCurrentItem(OutdoorManager.getInstance().getOutdoorViewPagerCurrentPage(), true);
     }
 
-	@SuppressWarnings("deprecation")
 	private void initDashboardViewPager() {
 		ALog.i(ALog.DASHBOARD, "HomeFragment$initDashboardViewPager");
         initIndoorViewPager();
@@ -242,14 +240,7 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			@Override
 			public void run() {
 				try {
-
-					int size = 1;
-					if( OutdoorManager.getInstance().getUsersCitiesList() != null ) {
-						size = OutdoorManager.getInstance().getUsersCitiesList().size() ;
-					}
-					outdoorPagerAdapter.mCount(size) ;
-					outdoorPagerAdapter.notifyDataSetChanged() ;
-
+					notifyOutdoorPager();
 				} catch (IllegalStateException e) {
 					ALog.e(ALog.ACTIVITY, "Error: " + e.getMessage());
 				}
@@ -408,17 +399,19 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		@Override
 		public void onPageSelected(int position) {
 			OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(position);
+			if (position == 0 && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
+				startCurrentCityAreaIdTask();
+			}
+			
+			
 		}
 	};
 
-    public void reloadIndoorViewPagerAfterDeletePurifier() {
+    public void notifyIndoorPager() {
         countIndoor = DiscoveryManager.getInstance().getStoreDevices().size() ;
         PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(countIndoor);
-        if (indoorPagerAdapter != null) indoorPagerAdapter = null;
-
-        indoorPagerAdapter = new IndoorPagerAdapter(getChildFragmentManager(), countIndoor);
-        indoorViewPager.setAdapter(indoorPagerAdapter);
-        //indoorPagerAdapter.notifyDataSetChanged();
+        indoorPagerAdapter.setCount(countIndoor) ;
+        indoorPagerAdapter.notifyDataSetChanged();
         indoorViewPager.setCurrentItem(countIndoor, true);
     }
 
@@ -434,17 +427,34 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
         }
     }
     
-	public void reloadOutdoorViewPager() {
-		int count = 0;
+    private int outdoorPageCount() {
+    	int count = 0;
 		OutdoorManager.getInstance().processDataBaseInfo();
 		List<String> myCityList = OutdoorManager.getInstance().getUsersCitiesList() ;
 		if( myCityList != null ) {
 			count = myCityList.size() ;
 		}
 		
-		outdoorPagerAdapter = new OutdoorPagerAdapter(getChildFragmentManager(),count);
-		outdoorViewPager.setAdapter(outdoorPagerAdapter);
+		return count;
+    }
+    
+	public synchronized void notifyOutdoorPager() {
+		int count = outdoorPageCount();
+		outdoorPagerAdapter.setCount(count) ;
+		outdoorPagerAdapter.notifyDataSetChanged() ;
 		outdoorViewPager.setCurrentItem(OutdoorManager.getInstance().getOutdoorViewPagerCurrentPage(), true);
+	}
+	
+	private void startCurrentCityAreaIdTask() {
+		String lat = LocationUtils.getCurrentLocationLat();
+		String lon = LocationUtils.getCurrentLocationLon();
+		if (!lat.isEmpty() && !lon.isEmpty()) {
+			try {
+				OutdoorController.getInstance().startGetAreaIDTask(Double.parseDouble(lon), Double.parseDouble(lat));
+			} catch (NumberFormatException e) {
+				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + "Error: " + e.getMessage());
+			}
+		}
 	}
 	
 }

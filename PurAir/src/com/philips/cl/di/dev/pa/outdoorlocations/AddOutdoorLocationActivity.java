@@ -238,6 +238,8 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
             OutdoorManager.getInstance().addAreaIDToUsersList(key);
             OutdoorManager.getInstance().resetUpdatedTime();
             new UserCitiesDatabase().insertCity(key, outdoorCityInfo.getDataProvider());
+            OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(
+            		OutdoorManager.getInstance().getUsersCitiesList().size());
             finish();
         }
     };

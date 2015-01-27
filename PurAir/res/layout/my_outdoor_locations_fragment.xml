@@ -1,14 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/add_location_bg"
-    android:paddingTop="0dp" >
+    android:orientation="vertical" >
 
     <RelativeLayout
-        android:id="@+id/current_location_lyt"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:background="@drawable/ews_nav_bar_2x"
         android:minHeight="50dp"
         android:visibility="visible" >
@@ -37,19 +35,17 @@
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
 
-     <LinearLayout
+    <LinearLayout
         android:id="@+id/add_outdoor_location_ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/current_location_lyt"
         android:background="@drawable/list_item_selector"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="12dp"
         android:paddingLeft="16dp"
         android:paddingRight="8dp"
-        android:paddingTop="12dp"
-        android:visibility="visible" >
+        android:paddingTop="12dp" >
 
         <ImageView
             android:layout_width="wrap_content"
@@ -65,15 +61,51 @@
             android:gravity="center_vertical"
             android:paddingLeft="8dp"
             android:text="@string/add_outdoor_location"
-            android:textColor="@color/title_gray"
+            android:textColor="@color/blue_list_item"
             android:textSize="@dimen/text_size_large"
             custom:fontAssetName="fonts/gillsanslight.ttf" />
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/separtor"
         android:layout_width="match_parent"
-        android:layout_below="@+id/add_outdoor_location_ll"
+        android:layout_height="1dp"
+        android:background="@drawable/seperator_line_2x"
+        android:contentDescription="@string/img_description" />
+
+    <LinearLayout
+        android:id="@+id/current_location_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/list_item_selector"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="8dp"
+        android:paddingTop="12dp" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/location_white" />
+
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:text="@string/current_location"
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_large"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
@@ -82,16 +114,14 @@
         android:id="@+id/outdoor_locations_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/separtor"
         android:divider="@drawable/seperator_line_2x"
         android:dividerHeight="0dp" >
     </ListView>
-    
+
     <ImageView
         android:layout_width="match_parent"
-        android:layout_below="@+id/outdoor_locations_list"
         android:layout_height="1dp"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
 
-</RelativeLayout>
+</LinearLayout>

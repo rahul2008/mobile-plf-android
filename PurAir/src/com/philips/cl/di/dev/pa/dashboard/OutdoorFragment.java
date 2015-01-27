@@ -3,6 +3,7 @@ package com.philips.cl.di.dev.pa.dashboard;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import android.annotation.SuppressLint;
@@ -33,7 +34,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class OutdoorFragment extends BaseFragment implements OnClickListener {
 
-	private FontTextView cityName, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId, tvOutdoorDataProvider;
+	private FontTextView cityNameTV, updated, temp, aqi, aqiTitle, aqiSummary1, aqiSummary2, cityId, tvOutdoorDataProvider;
 	private ImageView aqiPointerCircle;
 	private ImageView weatherIcon ;
 	private RelativeLayout rootLayout;
@@ -71,13 +72,13 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 	private void initViews(View view) {
 		rootLayout = (RelativeLayout) view.findViewById(R.id.hf_outdoor_root_lyt);
 		myLocArrowImg = (ImageView) view.findViewById(R.id.hf_my_loc_image);
-		cityName = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
+		cityNameTV = (FontTextView) view.findViewById(R.id.hf_outdoor_city);
 		tvOutdoorDataProvider = (FontTextView) view.findViewById(R.id.hf_outdoor_location);
-		cityName.setSelected(true);
+		cityNameTV.setSelected(true);
 		//If Chinese language selected set font-type-face normal
 		if( LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
 				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			cityName.setTypeface(Typeface.DEFAULT);
+			cityNameTV.setTypeface(Typeface.DEFAULT);
 		}
 		cityId  = (FontTextView) view.findViewById(R.id.hf_outdoor_city_id);
 		updated = (FontTextView) view.findViewById(R.id.hf_outdoor_time_update);
@@ -100,33 +101,41 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 
 		if(bundle != null) {
 			int position = bundle.getInt("position");
-			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + OutdoorManager.getInstance().getUsersCitiesList().size());
-			if(OutdoorManager.getInstance().getUsersCitiesList().size() > 0) {
-				String areaID = OutdoorManager.getInstance().getUsersCitiesList().get(position);
+			List<String> userCitiesList = OutdoorManager.getInstance().getUsersCitiesList();
+			ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews bundle " + position + " list size " + userCitiesList.size());
+			if(userCitiesList.size() > 0) {
+				String areaID = userCitiesList.get(position);
 				OutdoorCity city = OutdoorManager.getInstance().getCityData(areaID);
 				if(city != null && city.getOutdoorCityInfo() != null) {
-					ALog.i(ALog.DASHBOARD, "OutdoorFragment$initViews city data " + city.getOutdoorCityInfo().getCityName() + " areaID " + areaID);
-					ALog.i(ALog.DASHBOARD, "LanguageUtils.getLanguageForLocale(Locale.getDefault()); " + LanguageUtils.getLanguageForLocale(Locale.getDefault()));
-					if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
-						updateUI(city, city.getOutdoorCityInfo().getCityNameCN(), areaID);
-					} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-						updateUI(city, city.getOutdoorCityInfo().getCityNameTW(), areaID);
-					}else {
-						updateUI(city, city.getOutdoorCityInfo().getCityName(), areaID);
-					}
+					String cityName = getCityWithRespectToLocale(city.getOutdoorCityInfo());
+					updateUI(city, cityName, areaID);
+				}
+				if (areaID.isEmpty() && city == null) {
+					updateUI(city, getString(R.string.not_connected), areaID);
 				}
 			}
 		} 
+	}
+	
+	private String getCityWithRespectToLocale(OutdoorCityInfo cityInfo) {
+		String cityName = cityInfo.getCityName();
+		if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
+			cityName = cityInfo.getCityNameCN();
+		} else if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
+			cityName = cityInfo.getCityNameTW();
+		}
+		return cityName;
 	}
 
 	@SuppressLint("SimpleDateFormat")
 	private void updateUI(OutdoorCity city, String outdoorCityName, String areaID) {
 		ALog.i(ALog.DASHBOARD, "UpdateUI");		
+		cityNameTV.setText(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(outdoorCityName));
+		myLocArrowImg.setVisibility(View.VISIBLE);
+		if (city == null) return;
+		
 		outdoorDataProvider = city.getOutdoorCityInfo().getDataProvider() ;
-		if (LocationUtils.getCurrentLocationAreaId().equals(areaID) 
-				&& LocationUtils.isCurrentLocationEnabled()) {
-			myLocArrowImg.setVisibility(View.VISIBLE);
-		} else {
+		if (!LocationUtils.getCurrentLocationAreaId().equals(areaID)) {
 			myLocArrowImg.setVisibility(View.GONE);
 		}
 		
@@ -134,7 +143,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			tvOutdoorDataProvider.setVisibility(View.VISIBLE) ;
 			tvOutdoorDataProvider.setText(getString(R.string.us_embassy)) ;
 		}
-		cityName.setText(AddOutdoorLocationHelper.getFirstWordCapitalInSentence(outdoorCityName));
+		
 		cityId.setText(areaID);
 		outdoorAQI = city.getOutdoorAQI();
 		weather = city.getOutdoorWeather();
@@ -193,7 +202,7 @@ public class OutdoorFragment extends BaseFragment implements OnClickListener {
 			if (cityId.getText() == null || outdoorAQI == null) return;
 			OutdoorManager.getInstance().startAllCitiesTask();
 			Intent intent = new Intent(getActivity(), OutdoorDetailsActivity.class);
-			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityName.getText().toString());
+			intent.putExtra(AppConstants.OUTDOOR_CITY_NAME, cityNameTV.getText().toString());
 			intent.putExtra(AppConstants.OUTDOOR_AQI, outdoorAQI) ;
 			intent.putExtra(AppConstants.OUTDOOR_DATAPROVIDER, outdoorDataProvider) ;
 			startActivity(intent);

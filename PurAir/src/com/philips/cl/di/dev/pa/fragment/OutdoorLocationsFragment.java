@@ -21,15 +21,12 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.ToggleButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.HomeFragment;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCityInfo;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorController;
@@ -61,7 +58,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private UserCitiesDatabase userCitiesDatabase;
 	private List<String> userCitiesId;
 	private List<OutdoorCityInfo> outdoorCityInfoList;
-	private LinearLayout addlocation;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,20 +79,12 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
         }
 		edittogglebutton.setTypeface(Fonts.getCentraleSansLight(getActivity()));
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
-		//searchingLoctionProgress = (ProgressBar) view.findViewById(R.id.outdoor_current_location_progressBar);
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
-		addlocation = (LinearLayout)view.findViewById(R.id.add_outdoor_location_ll);
-		
-		addlocation.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-			Intent	intent = new Intent(getActivity(), AddOutdoorLocationActivity.class);
-				startActivity(intent);
-				
-			}
-		});
-		
+		LinearLayout addlocation = (LinearLayout)view.findViewById(R.id.add_outdoor_location_ll);
+		LinearLayout currentlocation = (LinearLayout)view.findViewById(R.id.current_location_ll);
+		addlocation.setOnClickListener(locationOnClickListener);
+		currentlocation.setOnClickListener(locationOnClickListener);
+		edittogglebutton.setChecked(false);
 		edittogglebutton.setOnCheckedChangeListener(this);
 		return view;
 	}
@@ -153,7 +141,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	}
 	
 	private void addAreaIdToCityList() {
-		//Added out side some time cursor does not have data
 		OutdoorManager.getInstance().clearCitiesList();
 		
 		if (outdoorCityInfoList != null && !outdoorCityInfoList.isEmpty()) {
@@ -164,9 +151,8 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			}
 		}
 		
-		//If current location get, add into outdoor location info list
-		if (LocationUtils.isCurrentLocationEnabled()
-				&& !LocationUtils.getCurrentLocationAreaId().isEmpty()) {
+		//Add current location 
+		if (LocationUtils.isCurrentLocationEnabled()) {
 			OutdoorManager.getInstance().addCurrentCityAreaIDToUsersList(LocationUtils.getCurrentLocationAreaId());
 		} 
 	}
@@ -177,47 +163,11 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	@Override
 	public void onDisconnected() {/**NOP*/}
 	
-	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
-			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
-			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-			
-			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
-			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
-			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId()) && position == 0 && edittogglebutton.isChecked()) {
-				return;
-			}
-			
-			if (outdoorCityInfo.getAreaID().equals(LocationUtils.getCurrentLocationAreaId())) {
-				position = 0;
-			}
-			
-			
-			gotoPage(position);
-			
-			if(delete.getVisibility() == View.GONE) {
-				
-				if ( edittogglebutton.isChecked() ) {
-					delete.setVisibility(View.VISIBLE);
-				}
-				deleteSign.setImageResource(R.drawable.red_cross);
-				selectedItemHashtable.put(key, true);
-			} else {
-				delete.setVisibility(View.GONE);
-				deleteSign.setImageResource(R.drawable.white_cross);
-				selectedItemHashtable.put(key, false);
-			}
-		}
-	};
 	
 	private void gotoPage(int position) {
-		if ( !edittogglebutton.isChecked() ) {
-			HomeFragment homeFragment = (HomeFragment) getParentFragment();
-			if (homeFragment != null) {
-				homeFragment.gotoOutdoorViewPage(position);
-			}
+		HomeFragment homeFragment = (HomeFragment) getParentFragment();
+		if (homeFragment != null) {
+			homeFragment.gotoOutdoorViewPage(position);
 		}
 	}
 
@@ -245,12 +195,12 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	private class UserSelectedCitiesAdapter extends ArrayAdapter<OutdoorCityInfo> {
 
 		private Context context;
-		private List<OutdoorCityInfo> outdoorCityInfoList;
+		private List<OutdoorCityInfo> outdoorCityInfoListAdapter;
 		
 		public UserSelectedCitiesAdapter(Context context, int resource, List<OutdoorCityInfo> outdoorCityInfoList) {
 			super(context, resource, outdoorCityInfoList);
 			this.context = context;
-			this.outdoorCityInfoList = outdoorCityInfoList;
+			this.outdoorCityInfoListAdapter = outdoorCityInfoList;
 		}
 		
 		@Override
@@ -258,20 +208,14 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			View view = inflater.inflate(R.layout.simple_list_item, null);
 
-			OutdoorCityInfo info = outdoorCityInfoList.get(position);
+			OutdoorCityInfo info = outdoorCityInfoListAdapter.get(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(info);
 			ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 			FontTextView tvName = (FontTextView) view.findViewById(R.id.list_item_name);
 			FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
 			deleteSign.setClickable(false);
 		    deleteSign.setFocusable(false);
-			//Added By Basanta
-			if ( LocationUtils.getCurrentLocationAreaId().equals(info.getAreaID())) {
-				tvName.setText(getString(R.string.current_location));
-				deleteSign.setVisibility(View.VISIBLE);
-				deleteSign.setImageResource(R.drawable.location_white);
-				return view;
-			}
+			
 			String cityName = info.getCityName();
 			if(LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")) {
 				cityName = info.getCityNameCN();
@@ -289,42 +233,26 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			tvName.setTag(key);
 			
-			if (selectedItemHashtable.containsKey(key) && selectedItemHashtable.get(key)) {
-				delete.setVisibility(View.VISIBLE);
-				deleteSign.setImageResource(R.drawable.red_cross);
-			} else {
-				delete.setVisibility(View.GONE);
-				deleteSign.setImageResource(R.drawable.white_cross);
-			}
-			if (edittogglebutton.isChecked()) {
-				deleteSign.setVisibility(View.VISIBLE);
-				
-			}else {
+			if (!edittogglebutton.isChecked()) {
 				deleteSign.setVisibility(View.GONE);
 				delete.setVisibility(View.GONE);
+			} else {
+				deleteSign.setVisibility(View.VISIBLE);
+				if (selectedItemHashtable.containsKey(key) && selectedItemHashtable.get(key)) {
+					delete.setVisibility(View.VISIBLE);
+					deleteSign.setImageResource(R.drawable.red_cross);
+				} else {
+					delete.setVisibility(View.GONE);
+					deleteSign.setImageResource(R.drawable.white_cross);
+				}
 			}
+			
 			delete.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					OutdoorManager.getInstance().removeAreaIDFromUsersList(key);
-					new UserCitiesDatabase().deleteCity(key);
-					
-					if (selectedItemHashtable.containsKey(key)) {
-						selectedItemHashtable.remove(key);
-					}
-					//setAdapter();
-					HomeFragment homeFragment = (HomeFragment) getParentFragment();
-					if (homeFragment != null) {
-						int count = 0;
-						OutdoorManager.getInstance().processDataBaseInfo();
-						List<String> myCitiesList = OutdoorManager.getInstance().getUsersCitiesList()  ;
-						if(myCitiesList != null ) {
-							count = myCitiesList.size() ;
-						}
-						OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(count);
-						homeFragment.reloadOutdoorViewPager();
-					}
+					deleteItem(key);
+					reloadList();
 				}
 			});
 
@@ -332,7 +260,74 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		}
 	}
 	
+	private void deleteItem(String key) {
+		OutdoorManager.getInstance().removeAreaIDFromUsersList(key);
+		new UserCitiesDatabase().deleteCity(key);
+		
+		if (selectedItemHashtable.containsKey(key)) {
+			selectedItemHashtable.remove(key);
+		}
+	}
 	
+	private void reloadList() {
+		HomeFragment homeFragment = (HomeFragment) getParentFragment();
+		if (homeFragment != null) {
+			int count = 0;
+			OutdoorManager.getInstance().processDataBaseInfo();
+			List<String> myCitiesList = OutdoorManager.getInstance().getUsersCitiesList()  ;
+			if(myCitiesList != null ) {
+				count = myCitiesList.size() ;
+			}
+			OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(count);
+			homeFragment.notifyOutdoorPager();
+		}
+	}
+	
+	private OnItemClickListener mOutdoorLocationsItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
+			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
+			
+			if (edittogglebutton.isChecked()) {
+				ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
+				FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
+				
+				if(delete.getVisibility() == View.GONE) {
+					delete.setVisibility(View.VISIBLE);
+					deleteSign.setImageResource(R.drawable.red_cross);
+					selectedItemHashtable.put(key, true);
+				} else {
+					delete.setVisibility(View.GONE);
+					deleteSign.setImageResource(R.drawable.white_cross);
+					selectedItemHashtable.put(key, false);
+				}
+			} else {
+				int index = OutdoorManager.getInstance().getUsersCitiesList().indexOf(key);
+				gotoPage(index);
+			}
+		}
+	};
+	
+	private OnClickListener locationOnClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.add_outdoor_location_ll:
+				Intent	intent = new Intent(getActivity(), AddOutdoorLocationActivity.class);
+				startActivity(intent);
+				break;
+			case R.id.current_location_ll:
+				gotoPage(0);
+				break;
+			default:
+				break;
+			}
+			
+		}
+	};
 	
 	private void setAdapter() {
 		userCitiesId = userCitiesDatabase.getAllCities();

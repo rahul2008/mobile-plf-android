@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
 
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
-import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.util.ALog;
 
 public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
@@ -20,14 +19,12 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 		this.count = count ;
 	}
 	
-	public void mCount(int count) {
+	public void setCount(int count) {
 		this.count = count ;
 	}
 
 	@Override
 	public Fragment getItem(int position) {
-		
-		//Added by Basanta
 		if (position < OutdoorManager.getInstance().getUsersCitiesList().size()) {
 			ALog.i(ALog.DASHBOARD, "OutdoorPagerAdapter$getItem position " + position);
 			Bundle bundle = new Bundle();
@@ -38,7 +35,6 @@ public class OutdoorPagerAdapter extends FragmentStatePagerAdapter {
 		} else {
 			return new OutdoorLocationsFragment() ;
 		}
-		//End By Basanta
 	}
 
 	@Override

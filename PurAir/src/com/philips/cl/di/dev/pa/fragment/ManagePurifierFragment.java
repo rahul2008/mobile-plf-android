@@ -172,7 +172,7 @@ public class ManagePurifierFragment extends BaseFragment implements
     private void reloadViewPager() {
         HomeFragment homeFragment = (HomeFragment) getParentFragment();
         if (homeFragment != null) {
-            homeFragment.reloadIndoorViewPagerAfterDeletePurifier();
+            homeFragment.notifyIndoorPager();
         }
     }
 

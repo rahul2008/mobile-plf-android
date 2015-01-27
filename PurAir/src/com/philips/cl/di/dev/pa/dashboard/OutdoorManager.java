@@ -197,7 +197,7 @@ public class OutdoorManager implements OutdoorDataListener {
 	
 	public void addCurrentCityInfo() {
 		String currentCityAreaId = LocationUtils.getCurrentLocationAreaId();
-		if (LocationUtils.isCurrentLocationEnabled() && !currentCityAreaId.isEmpty()) {
+		if (LocationUtils.isCurrentLocationEnabled()) {
 			addCurrentCityAreaIDToUsersList(currentCityAreaId);
 //			OutdoorController.getInstance().addMyLocationToMap(currentCityAreaId);
 		}
@@ -306,18 +306,23 @@ public class OutdoorManager implements OutdoorDataListener {
 			// Add current location first position in the list
 			if (LocationUtils.getCurrentLocationAreaId().equals(areaID) && LocationUtils.isCurrentLocationEnabled()) {
 				userCitiesList.add(0, areaID);
-				setOutdoorViewPagerCurrentPage(0);
 			} else {
 				userCitiesList.add(areaID);
-				setOutdoorViewPagerCurrentPage(userCitiesList.size() - 1);
 			}
 		}
 	}
 	
 	public void addCurrentCityAreaIDToUsersList(String areaID) {
-		if (LocationUtils.getCurrentLocationAreaId().equals(areaID)) {
+//		if (LocationUtils.getCurrentLocationAreaId().equals(areaID)) {
 			removeAreaIDFromUsersList(areaID);
+			removeEmptyFromUserCitiesList();
 			userCitiesList.add(0, areaID);
+//		}
+	}
+	
+	private void removeEmptyFromUserCitiesList() {
+		if (userCitiesList.size() > 0 && userCitiesList.get(0).equals("")) {
+			userCitiesList.remove(0);
 		}
 	}
 
@@ -399,7 +404,6 @@ public class OutdoorManager implements OutdoorDataListener {
 	}
 	
 	public int getOutdoorViewPagerCurrentPage() {
-		return position;
+		return this.position;
 	}
-
 }

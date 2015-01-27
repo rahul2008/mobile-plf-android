@@ -371,6 +371,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		GPSLocation.reset();
 		OutdoorLocationHandler.reset();
 		OutdoorController.reset();
+		OutdoorManager.getInstance().setOutdoorViewPagerCurrentPage(0);
 	}
 
 	@SuppressLint("NewApi")
