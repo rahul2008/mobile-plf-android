@@ -15,7 +15,9 @@
      <declare-styleable name="FontTextView">
         <attr name="fontAssetName" format="string" />
     </declare-styleable>
-
+    
+     <!--  Activity background -->
+     <color name="activity_bg">#F0F4F9</color>
      
     <!-- URL -->
     <string name="url_chat">http://www.support.philips.com/support/contact/contact_page.jsp?userLanguage=en\u0026userCountry=gb</string>

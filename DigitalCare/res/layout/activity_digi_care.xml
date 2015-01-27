@@ -2,7 +2,7 @@
     android:id="@+id/parentActivity"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:background="#F0F4F9" >
+    android:background="@color/activity_bg" >
 
     <include layout="@layout/home_action_bar" />
 

@@ -6,7 +6,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -45,7 +44,7 @@ public class LocateNearYouFragment extends BaseFragment {
 		Resources resource = getActivity().getResources();
 		mLinearLayout = (LinearLayout) getActivity().findViewById(
 				R.id.webViewParent);
-		mLinearLayout.setOnTouchListener(clickListner);
+		mLinearLayout.setOnClickListener(clickListner);
 		mDialog = ProgressDialog.show(getActivity(),
 				resource.getString(R.string.loading),
 				resource.getString(R.string.please_wait), true);
@@ -66,15 +65,14 @@ public class LocateNearYouFragment extends BaseFragment {
 		super.onConfigurationChanged(config);
 	}
 
-	private View.OnTouchListener clickListner = new View.OnTouchListener() {
+	private View.OnClickListener clickListner = new View.OnClickListener() {
 
 		@Override
-		public boolean onTouch(View v, MotionEvent event) {
+		public void onClick(View v) {
 			int id = v.getId();
 			if (id == R.id.webViewParent) {
 				mDialog.dismiss();
 			}
-			return false;
 		}
 	};
 
