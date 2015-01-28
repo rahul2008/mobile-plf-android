@@ -8,12 +8,14 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
+import java.util.List;
+
+import android.test.InstrumentationTestCase;
+
 import com.philips.cl.di.dev.pa.dashboard.OutdoorAQI;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorDataListener;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorWeather;
 import com.philips.cl.di.dev.pa.outdoorlocations.CMACommunicator;
-
-import android.test.InstrumentationTestCase;
 
 @SuppressWarnings("unchecked")
 public class CMACommunicatorTest extends InstrumentationTestCase {
@@ -44,7 +46,7 @@ public class CMACommunicatorTest extends InstrumentationTestCase {
 		cmaCommunicator.receiveServerResponse(200, null, "CITIES_AQI");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testNullTypeReceived() {
@@ -52,7 +54,7 @@ public class CMACommunicatorTest extends InstrumentationTestCase {
 		cmaCommunicator.receiveServerResponse(200, data, null);
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testNoTypeReceived() {
@@ -60,29 +62,29 @@ public class CMACommunicatorTest extends InstrumentationTestCase {
 		cmaCommunicator.receiveServerResponse(200, data, "");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testNoDataReceived() {
 		cmaCommunicator.receiveServerResponse(200, "", "CITIES_AQI");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testInvalidAQIDataReceived() {
 		cmaCommunicator.receiveServerResponse(200, "Data", "CITIES_AQI");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testAQIDataReceived() {
 		String data = "{\"p\":[{\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}";
 		cmaCommunicator.receiveServerResponse(200, data, "CITIES_AQI");
-		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
-		verify(eventListener, times(1)).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, times(1)).allOutdoorAQIDataReceived(anyList());
+		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testMultipleCityAQIDataReceived() {
@@ -92,16 +94,16 @@ public class CMACommunicatorTest extends InstrumentationTestCase {
 				 + "\"101200509\":{\"p1\":\"66\",\"p2\":\"62\",\"p3\":\"142\",\"p4\":\"5\",\"p5\":\"14\",\"updatetime\":\"201412021206\"}}],\"api_version\":\"4.0\"}"; 
 				
 		cmaCommunicator.receiveServerResponse(200, data, "CITIES_AQI");
-		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
-		verify(eventListener, times(4)).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, times(1)).allOutdoorAQIDataReceived(anyList());
+		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testInvalidWeatherDataReceived() {
 		cmaCommunicator.receiveServerResponse(200, "Data", "CITIES_WEATHER");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, never()).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, never()).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testCityWeatherDataReceived() {
@@ -109,7 +111,7 @@ public class CMACommunicatorTest extends InstrumentationTestCase {
 		cmaCommunicator.receiveServerResponse(200, data, "CITIES_WEATHER");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, times(1)).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, times(1)).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 	
 	public void testMultipleCityWeatherDataReceived() {
@@ -119,6 +121,6 @@ public class CMACommunicatorTest extends InstrumentationTestCase {
 		cmaCommunicator.receiveServerResponse(200, data, "CITIES_WEATHER");
 		verify(eventListener, never()).allOutdoorAQIDataReceived(anyList());
 		verify(eventListener, never()).outdoorAQIDataReceived((OutdoorAQI) any(), anyString());
-		verify(eventListener, times(2)).outdoorWeatherDataReceived((OutdoorWeather) any(), anyString());
+		verify(eventListener, times(1)).outdoorWeatherDataReceived((List<OutdoorWeather>) any());
 	}
 }
