@@ -240,15 +240,21 @@ public class OutdoorManager implements OutdoorDataListener {
 	}
 
 	@Override
-	public void outdoorWeatherDataReceived(OutdoorWeather outdoorWeather, String areaID) {
-		if (outdoorWeather != null) {
-			if(userCitiesList.contains(areaID)) {
-				addCityDataToMap(null, null, outdoorWeather, areaID);
+	public void outdoorWeatherDataReceived(List<OutdoorWeather> outdoorWeatherList) {
+		String areaID = "" ;
+		if (outdoorWeatherList != null) {
+			for (OutdoorWeather outdoorWeather : outdoorWeatherList) {
+				areaID = outdoorWeather.getAreaID() ;
+				if(userCitiesList.contains(areaID)) {
+					addCityDataToMap(null, null, outdoorWeather, areaID);
+					String cityName = getCityNameFromAreaId(areaID);
+					if(userCitiesList.contains(cityName)) {
+						addCityDataToMap(null, null, outdoorWeather, cityName.toLowerCase());
+					}
+				}
 			}
-			String cityName = getCityNameFromAreaId(areaID);
-			if(userCitiesList.contains(cityName)) {
-				addCityDataToMap(null, null, outdoorWeather, cityName.toLowerCase());
-			}
+			
+			
 			if (outdoorDataChangeListener != null) {
 				outdoorDataChangeListener.updateUIOnDataChange();
 			}

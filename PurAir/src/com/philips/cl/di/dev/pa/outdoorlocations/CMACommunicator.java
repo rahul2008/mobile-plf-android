@@ -114,16 +114,12 @@ public class CMACommunicator implements DataCommunicator {
 		case CITIES_AQI:
 			List<OutdoorAQI> outdoorAQIs = DataParser.parseLocationAQI(responseData);
 			if(outdoorAQIs == null || outdoorAQIs.isEmpty()) return;
-			for (OutdoorAQI outdoorAQI : outdoorAQIs) {
-				outdoorDataListener.outdoorAQIDataReceived(outdoorAQI,outdoorAQI.getAreaID());
-			}
+			outdoorDataListener.allOutdoorAQIDataReceived(outdoorAQIs) ;
 			break;
 		case CITIES_WEATHER:
 			List<OutdoorWeather> outdoorWeathers = DataParser.parseLocationWeather(responseData);
 			if(outdoorWeathers == null || outdoorWeathers.isEmpty()) return;
-			for (OutdoorWeather outdoorWeather : outdoorWeathers) {
-				outdoorDataListener.outdoorWeatherDataReceived(outdoorWeather, outdoorWeather.getAreaID());
-			}
+			outdoorDataListener.outdoorWeatherDataReceived(outdoorWeathers) ;
 			break;
 		case FORECAST_FOUR_DAYS:
 			List<ForecastWeatherDto> forecastWeatherDtos = DataParser.parseFourDaysForecastData(responseData) ;
