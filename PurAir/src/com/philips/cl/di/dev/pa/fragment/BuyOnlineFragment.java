@@ -175,16 +175,16 @@ public class BuyOnlineFragment extends BaseFragment {
 					MetricsTracker.trackActionBuyButton();
 					switch (position) {
 					case 0:
-						uri="http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/";
+						uri="http://www.philips.com.cn/c/air-purifier/ac4373_00/prd/?origin=15_global_en_purifier-app_purifier-app";
 						break;
 					case 1:
-						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072";
+						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.4pERVR&id=39880338072&origin=15_global_en_purifier-app_purifier-app";
 						break;
 					case 2:
-						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.zulDHJ&id=39911620022";
+						uri="http://detail.tmall.com/item.htm?spm=0.0.0.0.zulDHJ&id=39911620022&origin=15_global_en_purifier-app_purifier-app";
 						break;
 					case 3:
-						uri="http://detail.tmall.com/item.htm?id=39899461374";
+						uri="http://detail.tmall.com/item.htm?id=39899461374&origin=15_global_en_purifier-app_purifier-app";
 						break;
 					default:
 						break;
