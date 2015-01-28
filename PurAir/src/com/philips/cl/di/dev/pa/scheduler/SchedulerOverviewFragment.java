@@ -19,12 +19,13 @@ import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SCHEDULE_TYPE;
 import com.philips.cl.di.dev.pa.scheduler.SchedulerConstants.SchedulerID;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 @SuppressLint("UseSparseArrays")
 public class SchedulerOverviewFragment extends BaseFragment implements OnClickListener, SchedulerEditListener {
-	
-	private FontTextView editTxt;
+
+    private FontTextView editTxt;
 	private ImageView add;
 	private ListView lstView;
 	private SchedulerOverViewAdapter schOverviewAdapter;
@@ -54,7 +55,7 @@ public class SchedulerOverviewFragment extends BaseFragment implements OnClickLi
 			lstSchedulers.addAll(((SchedulerActivity) getActivity()).getSchedulerList());
 		}
 		setListData();
-		MetricsTracker.trackPage("schedule_overview");
+		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE_OVERVIEW);
 	}
 	
 	private void setListData() {

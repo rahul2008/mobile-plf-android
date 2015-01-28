@@ -16,6 +16,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class SetupDialogFactory implements OnClickListener {
 
@@ -319,14 +320,17 @@ public class SetupDialogFactory implements OnClickListener {
 		case SUPPORT_UNPLUG_PURIFIER:
 			getDialog(SUPPORT_UNPLUG_PURIFIER).dismiss();
 			getDialog(SUPPORT_WIFI_LED_ORANGE).show();
+            MetricsTracker.trackPage("WiFi Setup : Powercycle Purifier");
 			break;
 		case SUPPORT_PLUG_AND_POWER_ON:
 			getDialog(SUPPORT_PLUG_AND_POWER_ON).dismiss();
 			getDialog(SUPPORT_TS02_POWERON).show();
+            MetricsTracker.trackPage("WiFi Setup : Power on Purifier");
 			break;
 		case SUPPORT_WIFI_LED_ORANGE:
 			getDialog(SUPPORT_WIFI_LED_ORANGE).dismiss();
 			getDialog(SUPPORT_TS03).show();
+            MetricsTracker.trackPage("WiFi Setup : Enter setup mode");
 			break;
 		case SUPPORT_TS02_POWERON:
 			getDialog(SUPPORT_TS02_POWERON).dismiss();
@@ -334,6 +338,7 @@ public class SetupDialogFactory implements OnClickListener {
 		case SUPPORT_TS03:
 			getDialog(SUPPORT_TS03).dismiss();
 			getDialog(SUPPORT_TS05).show();
+            MetricsTracker.trackPage("WiFi Setup : Check WiFi LED");
 			break;
 		case SUPPORT_TS05:
 			getDialog(SUPPORT_TS05).dismiss();
@@ -350,6 +355,7 @@ public class SetupDialogFactory implements OnClickListener {
 			getDialog(ERROR_TS01_01).dismiss();
 		}
 		getDialog(SUPPORT_UNPLUG_PURIFIER).show();
+        MetricsTracker.trackPage("WiFi Setup : Unplug purifier");
 	}
 	
 	public void dismissSignalStrength() {

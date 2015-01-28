@@ -161,7 +161,7 @@ public class NotificationsFragment extends BaseFragment implements
 	}
 
 	private void setUIAqiThreshold(int aqiThreshold) {
-		MetricsTracker.trackActionNotificationAirQuality("notification_air_quality:" + aqiThreshold);
+		MetricsTracker.trackActionNotificationAirQuality("NotificationAirQuality " + aqiThreshold);
 		switch (aqiThreshold) {
 		case 13:
 			RadioButton aqiRadioButton0 = (RadioButton) indoorAqiRadioBtns.getChildAt(0);

@@ -33,7 +33,7 @@ public class CongratulationFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		MetricsTracker.trackPage(TrackPageConstants.EWS_NEW_PURIFIER_ADDED);
+		MetricsTracker.trackPage(TrackPageConstants.NEW_PURIFIER_ADDED);
 		Button startControlPurifierBtn = (Button) getView().findViewById(R.id.finish_congratulation_btn);
 		startControlPurifierBtn.setTypeface(Fonts.getGillsansLight(getActivity()));
 		startControlPurifierBtn.setOnClickListener(new OnClickListener() {

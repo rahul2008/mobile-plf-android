@@ -13,6 +13,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.dashboard.GPSLocation;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.Utils;
 
 public class StartFlowDialogFragment extends DialogFragment {
@@ -118,6 +119,7 @@ public class StartFlowDialogFragment extends DialogFragment {
 
 	private AlertDialog.Builder createLocationServicesTurnedOffDialog(
 			AlertDialog.Builder builder) {
+        MetricsTracker.trackActionInAppNotification(getString(R.string.location_services_turned_off_title));
 		builder.setTitle(R.string.location_services_turned_off_title)
 		.setMessage(R.string.location_services_turned_off_text)
 		.setPositiveButton(R.string.turn_it_on,
@@ -126,8 +128,8 @@ public class StartFlowDialogFragment extends DialogFragment {
 				// Enable device location service window since
 				// android doesn't allow to change location
 				// settings in code
-				Intent myIntent = new Intent(
-						android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                MetricsTracker.trackActionInAppNotificationPositiveResponse(getString(R.string.turn_it_on));
+				Intent myIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
 				startActivity(myIntent);
 				dismiss();
 				

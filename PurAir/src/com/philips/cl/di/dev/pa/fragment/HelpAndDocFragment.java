@@ -107,7 +107,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.phone_number_one:
 			//TODO : Move to one place.
-			MetricsTracker.trackActionServiceRequest("phone_1");
+			MetricsTracker.trackActionServiceRequest("phone");
 			MetricsTracker.trackActionExitLink("phone : " + getString(R.string.contact_philips_support_phone_num));
 			Intent dialSupportIntent = new Intent(Intent.ACTION_DIAL);
 			dialSupportIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num)));
@@ -115,7 +115,7 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			break;
 		case R.id.phone_number_two:
 			//TODO : Move to one place.
-			MetricsTracker.trackActionServiceRequest("phone_2");
+			MetricsTracker.trackActionServiceRequest("phone");
 			MetricsTracker.trackActionExitLink("phone : " + getString(R.string.contact_philips_support_phone_num_2));
 			Intent callIntent = new Intent(Intent.ACTION_DIAL);
 			callIntent.setData(Uri.parse("tel:" + getString(R.string.contact_philips_support_phone_num_2)));

@@ -165,6 +165,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 
 	private void showErrorOnConnectPurifier() {
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
+        MetricsTracker.trackActionTechnicalError(getString(R.string.purifier_add_fail_title));
 		showAlertDialog(getString(R.string.purifier_add_fail_title),
 				getString(R.string.purifier_add_fail_msg));
 	}
@@ -189,7 +190,7 @@ OnClickListener, StartFlowListener, ServerResponseListener, AddNewPurifierListen
 		SetupDialogFactory.getInstance(getActivity()).dismissSignalStrength();
 		Location location = OutdoorController.getInstance().getCurrentLocation();
 		if (selectedPurifier != null) {
-			clearDiscoveredPurifierObject();//Clear adapter object 
+			clearDiscoveredPurifierObject();//Clear adapter object
 			selectedPurifier.setConnectionState(ConnectionState.CONNECTED_LOCALLY);
 			selectedPurifier.setLastKnownNetworkSsid(EWSWifiManager.getSsidOfConnectedNetwork());
 			if (location != null) {

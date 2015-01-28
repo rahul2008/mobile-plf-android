@@ -116,8 +116,7 @@ public class CreateAccountFragment extends BaseFragment implements
 	private void showErrorDialog(Error type) {
 		ALog.i(ALog.USER_REGISTRATION, "Error " + type);
 		try {
-			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment
-					.newInstance(type);
+			RegistrationErrorDialogFragment dialog = RegistrationErrorDialogFragment.newInstance(type);
 			FragmentManager fragMan = getFragmentManager();
 			dialog.show(fragMan, null);
 		} catch (IllegalStateException e) {
@@ -132,8 +131,7 @@ public class CreateAccountFragment extends BaseFragment implements
 		case R.id.rbReceiveInformation:
 			break;
 		case R.id.btnCreateAccount:
-			ALog.i(ALog.CONNECTIVITY, "onClick$btnCreateAccount "
-					+ NetworkReceiver.getInstance().getLastKnownNetworkState());
+			ALog.i(ALog.CONNECTIVITY, "onClick$btnCreateAccount " + NetworkReceiver.getInstance().getLastKnownNetworkState());
 
 			// Get input from form
 			getInput();
@@ -149,8 +147,8 @@ public class CreateAccountFragment extends BaseFragment implements
 					((UserRegistrationActivity) getActivity())
 							.showProgressDialog();
 				} catch (Exception e) {
-					ALog.e(ALog.USER_REGISTRATION,
-							"Create account error " + "Error: " + e.getMessage());
+					ALog.e(ALog.USER_REGISTRATION, "Create account error " + "Error: " + e.getMessage());
+                    MetricsTracker.trackPageTechnicalError("UserRegistration", "Error : Unable to process");
 					showErrorDialog(Error.GENERIC_ERROR);
 				}
 				dismissKeyBoard();

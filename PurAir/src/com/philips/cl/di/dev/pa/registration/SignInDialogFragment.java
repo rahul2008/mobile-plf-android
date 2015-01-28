@@ -177,7 +177,8 @@ public class SignInDialogFragment extends DialogFragment implements TraditionalL
 				user.loginUsingTraditional(mEmail, mPassword, SignInDialogFragment.this, PurAirApplication.getAppContext());
 				showProgressDialog() ;
 			} catch (Exception e) {
-				e.printStackTrace();
+                ALog.e(ALog.USER_REGISTRATION, "ERROR : Login " + e.getMessage());
+                MetricsTracker.trackPageTechnicalError("UserRegistration", "Error : Unable to process");
 				showErrorDialog(Error.GENERIC_ERROR);
 			}
 			break;

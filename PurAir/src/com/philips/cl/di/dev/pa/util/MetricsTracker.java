@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.util;
 
+import java.text.SimpleDateFormat;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -30,6 +32,7 @@ public class MetricsTracker {
 	private static final String KEY_OS = "app.os";
 	private static final String KEY_LANGUAGE = "locale.language";
 	private static final String KEY_CURRENCY = "locale.currency";
+    private static final String KEY_TIMESTAMP = "timestamp";
 	private static final String KEY_FILENAME = "fileName";
 	private static final String KEY_EXIT_LINK = "exitLinkName";
 	private static final String KEY_ERROR_USER = "userError";
@@ -71,11 +74,11 @@ public class MetricsTracker {
 	private static final String VALUE_ADVANCE_NETWORK_YES = "advance_network:yes";
 	private static final String VALUE_REMOTE_CONTROL_OFF = "remote control off";
 	private static final String VALUE_REMOTE_CONTROL_ON = "remote control on";
-	private static final String VALUE_NOTIFICATION_OFF = "notification off";
-	private static final String VALUE_NOTIFICATION_ON = "notification on";
-	private static final String VALUE_SPEED = "speed ";
+	private static final String VALUE_NOTIFICATION_OFF = "Remote Notification off";
+	private static final String VALUE_NOTIFICATION_ON = "Remote Notification on";
+	private static final String VALUE_SPEED = "FanSpeed ";
 	private static final String VALUE_NOTIFICATION_AIR_QUALITY = "notification air quality:";
-	private static final String VALUE_TIMER = "timer ";
+	private static final String VALUE_TIMER = "Timer ";
 	private static final String VALUE_SCHEDULE_ADDED = "schedule added";
 	private static final String VALUE_SUCCESS_USER_REGISTRATION = "successUserRegistration";
 	private static final String VALUE_START_USER_REGISTRATION = "startUserRegistration";
@@ -84,7 +87,7 @@ public class MetricsTracker {
 	private static final String VALUE_PRODUCT_VIEW = "prodView";
 	private static final String VALUE_MODEL_AC4373 = "AC4373";
 	
-	private static boolean trackMetrics = false;
+	private static boolean trackMetrics = true;
 
 	public static void initContext(Context context) {
 		if(!trackMetrics) return;
@@ -119,7 +122,7 @@ public class MetricsTracker {
 	
 	public static void trackActionEWSStart() {
 		if(!trackMetrics) return;
-		ALog.i(ALog.TAGGING, "TrackPage : EWSStart");
+		ALog.i(ALog.TAGGING, "TrackTimedAction : EWSStart");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, "startConnection");
 		Analytics.trackTimedActionStart("startConnection", contextData);
@@ -127,7 +130,7 @@ public class MetricsTracker {
 	
 	public static void trackActionEWSSuccess() {
 		if(!trackMetrics) return;
-		ALog.i(ALog.TAGGING, "TrackPage : EWSSuccess");
+		ALog.i(ALog.TAGGING, "TrackTimedAction : EWSSuccess");
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, "successConnection");
 		Analytics.trackTimedActionEnd("endConnection", new TimedActionBlock<Boolean>() {
@@ -156,7 +159,7 @@ public class MetricsTracker {
 	public static void trackPageStartUserRegistration(String registrationChannel) {
 		if(!trackMetrics) return;
 		// @argument: registration channel means facebook, twitter etc.
-		ALog.i(ALog.TAGGING, "TrackPage : StartUserRegistration : channel " + registrationChannel);
+		ALog.i(ALog.TAGGING, "TrackState : StartUserRegistration : channel " + registrationChannel);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_START_USER_REGISTRATION);
 		contextData.put(KEY_REGISTRATION_CHANNEL, registrationChannel);
@@ -176,8 +179,7 @@ public class MetricsTracker {
 		ALog.i(ALog.TAGGING, "TrackPage : SuccessLogin " + pageName);
 		Map<String, Object> contextData = addAnalyticsDataObject();
 		contextData.put(KEY_PAGE_EVENT, VALUE_SUCCESS_LOGIN);
-		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION
-				: pageName, contextData);
+		Analytics.trackState((pageName == null) ? PAGE_USER_REGISTRATION : pageName, contextData);
 	}
 
 	public static void trackPageProductView(String products) {
@@ -192,6 +194,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : UserError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_ERROR_USER, errorMsg);
 		Analytics.trackState(pageName, contextData);
 	}
@@ -200,6 +203,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : UserError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_ERROR_USER, errorMsg);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
 	}
@@ -208,6 +212,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackPage : TechnicalError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_ERROR_TECHNICAL, errorMsg);
 		Analytics.trackState(pageName, contextData);
 	}
@@ -216,6 +221,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : TechnicalError " + errorMsg);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_ERROR_TECHNICAL, errorMsg);
 		Analytics.trackAction(ACTION_ERROR_SET, contextData);
 	}
@@ -224,14 +230,17 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : AppStatus " + appStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_APP_STATUS, appStatus);
 		Analytics.trackAction(ACTION_SET_APP_STATUS, contextData);
 	}
 
+    //TODO : Verify String value
 	public static void trackActionConnectionType(ConnectionState connectionType) {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ConnectionType " + connectionType);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_CONTROL_CONNECTION_TYPE, connectionType);
 		Analytics.trackAction(ACTION_SET_CONTROL_CONNECTION_TYPE, contextData);
 	}
@@ -241,10 +250,12 @@ public class MetricsTracker {
 	 * triggered by a link/button/functionality of the app. Do not use this when
 	 * the visitor swiches using the home button.
 	 */
+    // TODO : Doesn't match with iOS. Align
 	public static void trackActionExitLink(String link) {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ExitLink " + link);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_EXIT_LINK, link);
 		Analytics.trackAction(ACTION_EXIT_LINK, contextData);
 	}
@@ -253,14 +264,32 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : BuyButton");
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put("leadinfo", "Philips lead");
 		Analytics.trackAction("buyButton", contextData);
 	}
-	
+
+    public static void trackActionInAppNotification(String message) {
+        ALog.i(ALog.TAGGING, "TrackAction : InAppNotification");
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+        contextData.put("messageValue", message);
+        Analytics.trackAction("popupMessage", contextData);
+    }
+
+    public static void trackActionInAppNotificationPositiveResponse(String message) {
+        ALog.i(ALog.TAGGING, "TrackAction : InAppNotification");
+        Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+        contextData.put("messageValue", message);
+        Analytics.trackAction("acceptMessage", contextData);
+    }
+
 	public static void trackActionDownloaded(String fileName) {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : DownloadFile " + fileName);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_FILENAME, fileName);
 		Analytics.trackAction(ACTION_DOWNLOAD, contextData);
 	}
@@ -269,6 +298,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : Puirifer location " + location);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_LOCATION_PURIFIER, location);
 		Analytics.trackAction(ACTION_LOCATION_NEW_PURIFIER, contextData);
 	}
@@ -277,6 +307,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : weather location " + location);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_LOCATION_WEATHER, location);
 		Analytics.trackAction(ACTION_LOCATION_NEW_WEATHER, contextData);
 	}
@@ -284,6 +315,7 @@ public class MetricsTracker {
 	public static void trackActionVideoStart(String videoName) {
 		if(!trackMetrics) return;
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_VIDEO_NAME, videoName);
 		Analytics.trackAction(ACTION_VIDEO_START, contextData);
 	}
@@ -291,6 +323,7 @@ public class MetricsTracker {
 	public static void trackActionVideoEnd(String videoName) {
 		if(!trackMetrics) return;
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_VIDEO_NAME, videoName);
 		Analytics.trackAction(ACTION_VIDEO_END, contextData);
 	}
@@ -299,6 +332,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : Power " + powerStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_OPTION_DETAILS, powerStatus);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -307,6 +341,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : IndicatorLight " + lightStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_OPTION_DETAILS, lightStatus);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -315,6 +350,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ScheduleAdd");
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_OPTION_DETAILS, VALUE_SCHEDULE_ADDED);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -323,7 +359,8 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : TimerAdded " + time);
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, VALUE_TIMER + time);
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put(KEY_OPTION_DETAILS, VALUE_TIMER + " " + time);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
@@ -331,8 +368,8 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : NotificationAQI " + airQuality);
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_AIR_QUALITY
-				+ airQuality);
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_AIR_QUALITY	+ airQuality);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 	
@@ -347,7 +384,8 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : FanSpeed " + speed);
 		Map<String, Object> contextData = new HashMap<String, Object>();
-		contextData.put(KEY_OPTION_DETAILS, VALUE_SPEED + speed);
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
+		contextData.put(KEY_OPTION_DETAILS, VALUE_SPEED + " " + speed);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
 
@@ -355,6 +393,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : ChildLock " + childLockStatus);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_OPTION_DETAILS, childLockStatus);
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -363,6 +402,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : NotificationEnabled " + notification);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		if (notification) {
 			contextData.put(KEY_OPTION_DETAILS, VALUE_NOTIFICATION_ON);
 		} else {
@@ -375,6 +415,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : RemoteEnabled " + remote);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		if (remote) {
 			contextData.put(KEY_OPTION_DETAILS, VALUE_REMOTE_CONTROL_ON);
 		} else {
@@ -387,6 +428,7 @@ public class MetricsTracker {
 		if(!trackMetrics) return;
 		ALog.i(ALog.TAGGING, "TrackAction : AdvancedNetworkConfig " + config);
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		if (config) {
 			contextData.put(KEY_OPTION_DETAILS, VALUE_ADVANCE_NETWORK_YES);
 		} else {
@@ -397,7 +439,9 @@ public class MetricsTracker {
 
 	public static void trackActionAddSchedule() {
 		if(!trackMetrics) return;
+        ALog.i(ALog.TAGGING, "TrackAction : schedule added");
 		Map<String, Object> contextData = new HashMap<String, Object>();
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_OPTION_DETAILS, "schedule added");
 		Analytics.trackAction(ACTION_SET_OPTION, contextData);
 	}
@@ -409,9 +453,10 @@ public class MetricsTracker {
 		contextData.put(KEY_OS, ANDROID + Build.VERSION.RELEASE);
 		contextData.put(KEY_LANGUAGE, getLanguage());
 		contextData.put(KEY_CURRENCY, getCurrency());
+        contextData.put(KEY_TIMESTAMP, getTimestamp(System.currentTimeMillis()));
 		contextData.put(KEY_FIRMWARE_VERSION, getFirmwareVersion());
 		contextData.put(KEY_MACHINE_ID, getDeviceEui64());
-		contextData.put(KEY_PRODUCT_MODEL, VALUE_MODEL_AC4373);
+		contextData.put(KEY_PRODUCT_MODEL, PurifierManager.getInstance().getCurrentPurifier() != null ? VALUE_MODEL_AC4373 : "Not Found");
 		contextData.put(KEY_APP_ID, SessionDto.getInstance().getAppEui64());
 		return contextData;
 	}
@@ -449,4 +494,10 @@ public class MetricsTracker {
 			currencyCode = DEFAULT_CURRENCY;
 		return currencyCode;
 	}
+
+    private static String getTimestamp(long timeMillis) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String date = dateFormat.format(new Date(timeMillis));
+        return date;
+    }
 }

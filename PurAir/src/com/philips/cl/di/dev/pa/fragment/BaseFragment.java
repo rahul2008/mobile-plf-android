@@ -93,6 +93,7 @@ public class BaseFragment extends Fragment {
 	protected void startVideo() {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		MetricsTracker.trackActionExitLink("http://www.philips-smartairpurifier.com/movies/infomercial.mp4");
+        MetricsTracker.trackActionVideoStart("Smart Air Infomercial");
 		intent.setDataAndType(Uri.parse("http://www.philips-smartairpurifier.com/movies/infomercial.mp4"), "video/mp4");
 		startActivity(Intent.createChooser(intent,"")); 
 	}

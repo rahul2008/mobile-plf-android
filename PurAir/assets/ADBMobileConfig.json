@@ -6,13 +6,13 @@
 
     "analytics" : {
         "referrerTimeout": 5, 
-        "rsids" : "philipsmobairpurifierdev",
+        "rsids" : "philipsmobairpurifierprod",
         "server" : "philips.112.2o7.net",
         "charset" : "UTF-8",
         "ssl" : false,
         "offlineEnabled" : true,
         "lifecycleTimeout" : 30,
-        "batchLimit" : 1,
+        "batchLimit" : 0,
         "privacyDefault" : "optedin",
   "poi" : [
   ]

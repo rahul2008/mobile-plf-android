@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class SetupCancelDialogFragment extends DialogFragment {
 
@@ -40,6 +41,7 @@ public class SetupCancelDialogFragment extends DialogFragment {
 			return;
 		}
 
+        MetricsTracker.trackActionInAppNotification(getString(R.string.cancel_demo_setup_title));
 		TextView tvHeader = (TextView) getView().findViewById(
 				R.id.tv_cancel_wifi_setup_header);
 		tvHeader.setTypeface(Fonts.getGillsansLight(getActivity()));
@@ -60,6 +62,7 @@ public class SetupCancelDialogFragment extends DialogFragment {
 
 			@Override
 			public void onClick(View v) {
+                MetricsTracker.trackActionInAppNotificationPositiveResponse(getString(R.string.cancel_demo_setup_title));
 				getActivity().finish();
 			}
 		});

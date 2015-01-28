@@ -19,11 +19,12 @@ import android.widget.TimePicker;
 
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
+import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 
 public class TimePickerFragment extends DialogFragment implements
 		TimePickerDialog.OnTimeSetListener {
 
-	private int hourSelected = -1;
+    private int hourSelected = -1;
 	private int minSelected = -1;
 	private OnTimeSetListener mListener;
 
@@ -62,7 +63,7 @@ public class TimePickerFragment extends DialogFragment implements
 				hour, minute, false);
 		picker.setCanceledOnTouchOutside(true);
 		ALog.i("Scheduler", "TimePickerFragment::onCreateDialog method ending is called");
-		MetricsTracker.trackPage("schedule:pick_time");
+		MetricsTracker.trackPage(TrackPageConstants.SCHEDULE_PICK_TIME);
 		return picker;
 	}
 

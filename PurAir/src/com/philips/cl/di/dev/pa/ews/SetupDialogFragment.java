@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
 import com.philips.cl.di.dev.pa.util.Fonts;
+import com.philips.cl.di.dev.pa.util.MetricsTracker;
 
 public class SetupDialogFragment extends DialogFragment {
 
@@ -98,6 +99,7 @@ public class SetupDialogFragment extends DialogFragment {
 			case R.id.btn_error_popup:
 				SetupDialogFactory.getInstance(getActivity())
 						.getDialog(SetupDialogFactory.SUPPORT_UNPLUG_PURIFIER).show();
+                MetricsTracker.trackPage("WiFi Setup : Unplug purifier");
 				break;
 			default:
 				break;

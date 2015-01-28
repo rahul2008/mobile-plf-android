@@ -74,7 +74,7 @@ public class BuyOnlineFragment extends BaseFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		MetricsTracker.trackPageProductView("AC4373, AC4151, AC4153, AC4154");
+		MetricsTracker.trackPageProductView("Buy online");
 	}
 
 	/* Custom Adapter to inflate custom rows of list */

@@ -11,7 +11,7 @@ public interface TrackPageConstants {
 	String EWS_CONNECT_TO_HOME_WIFI = "EWS:ConnectToHomeWifi";
 	String EWS_NETWORK_CHANGE = "EWS:NetworkChange";
 	String EWS_SUPPORT = "EWS:Support";
-	String EWS_NEW_PURIFIER_ADDED = "EWS:NewPurifierAdded";
+	String NEW_PURIFIER_ADDED = "NewPurifierAdded";
 	String AIR_QUALITY_EXPLAINED = "AirQualityExplained";
 	String INDOOR_POLLUTANTS = "AirQualityExplained:IndoorPollutants";
 	String VITASHIELD = "AirQualityExplained:VitaShield";
@@ -32,9 +32,9 @@ public interface TrackPageConstants {
 	String DASHBOARD_INDOOR = "Dashboard:Indoor";
 	String DEMO_MODE_ADD_PURIFIER_SUCCESS = "DemoMode:AddPurifierSuccess";
 	String DEMO_SWITCH_ON_PURIFIER = "DemoMode:SwitchOnPurifier";
-	String DEMO_CONFIRM_WIFI_ON = "Demo:ConfirmWifiOn";
-	String DEMO_SUPPORT = "Demo:Support";
-	String DEMO_ENABLE_WIFI = "Demo:EnableWifi";
+	String DEMO_CONFIRM_WIFI_ON = "DemoMode:ConfirmWifiOn";
+	String DEMO_SUPPORT = "DemoMode:Support";
+	String DEMO_ENABLE_WIFI = "DemoMode:EnableWifi";
 	String APP_UPDATE_AVAILABLE = "AppUpdateAvailable";
 	String INDOOR_AIR_ANALYSIS_EXPLAINED = "IndoorDetails:AirAnalysisExplained";
 	String OUTDOOR_AIR_ANALYSIS_EXPLAINED = "OutdoorDetails:AirAnalysisExplained";
@@ -52,5 +52,8 @@ public interface TrackPageConstants {
 	public static final String BOOT_STRAP_KEY_2 = "N2NmMmQ0" ;
 	public static final String CMA_PRIVATE_KEY_2 = "Vfd2V";
 	public static final String CMA_APP_ID_4 = "MjdmZDg=" ;
-	
+
+    String SCHEDULE = "Schedule";
+    String SCHEDULE_OVERVIEW = "Schedule:Overview";
+    String SCHEDULE_PICK_TIME = "Schedule:PickTime";
 }
