@@ -16,7 +16,6 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -31,6 +30,7 @@ import com.philips.cl.di.dev.pa.dashboard.OutdoorManager;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationActivity;
 import com.philips.cl.di.dev.pa.outdoorlocations.AddOutdoorLocationHelper;
 import com.philips.cl.di.dev.pa.outdoorlocations.OutdoorDataProvider;
+import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
 import com.philips.cl.di.dev.pa.outdoorlocations.UserCitiesDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
@@ -71,10 +71,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		editTV.setText(getString(R.string.edit));
 		mOutdoorLocationListView = (ListView) view.findViewById(R.id.outdoor_locations_list);
 		mOutdoorLocationListView.setOnItemClickListener(mOutdoorLocationsItemClickListener);
-		LinearLayout addlocation = (LinearLayout)view.findViewById(R.id.add_outdoor_location_ll);
-		LinearLayout currentlocation = (LinearLayout)view.findViewById(R.id.current_location_ll);
-		addlocation.setOnClickListener(locationOnClickListener);
-		currentlocation.setOnClickListener(locationOnClickListener);
 		editTV.setOnClickListener(locationOnClickListener);
 		
 		return view;
@@ -85,7 +81,28 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		userCitiesDatabase = new UserCitiesDatabase();
+		
+		userCitiesId = userCitiesDatabase.getAllCities();
+		outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCitiesId) ;
+		addCurrentLocationIntoList();
+		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
+		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+		addAreaIdToCityList();
+		
 		MetricsTracker.trackPage(TrackPageConstants.OUTDOOR_LOCATIONS);
+		HomeFragment homeFragment = (HomeFragment) getParentFragment();
+		if (homeFragment != null) {
+			homeFragment.setUpdateMyLocationsListner(new UpdateMyLocationsListener() {
+				
+				@Override
+				public void onUpdate() {
+					if (getString(R.string.done).equals(editTV.getText().toString())) {
+						editTV.setText(getString(R.string.edit));
+						setAdapter();
+					}
+				}
+			});
+		}
 	}
 	
 	@Override
@@ -101,6 +118,14 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	public void onPause() {
 		OutdoorController.getInstance().removeCurrentCityAreaIdReceivedListener();
 		super.onPause();
+	}
+	@Override
+	public void onStop() {
+		HomeFragment homeFragment = (HomeFragment) getParentFragment();
+		if (homeFragment != null) {
+			homeFragment.setUpdateMyLocationsListner(null);
+		}
+		super.onStop();
 	}
 	
 	private void showCurrentCityVisibility() {
@@ -216,6 +241,18 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 			
 			tvName.setTag(key);
 			
+			if (position == 0) {
+				deleteSign.setVisibility(View.VISIBLE);
+				deleteSign.setImageResource(R.drawable.white_plus);
+				return view;
+			}
+			
+			if (position == 1) {
+				deleteSign.setVisibility(View.VISIBLE);
+				deleteSign.setImageResource(R.drawable.location_white);
+				return view;
+			}
+			
 			if (getString(R.string.edit).equals(editTV.getText().toString())) {
 				deleteSign.setVisibility(View.GONE);
 				delete.setVisibility(View.GONE);
@@ -270,13 +307,24 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long arg3) {
+			if (position == 0) {
+				Intent	intent = new Intent(getActivity(), AddOutdoorLocationActivity.class);
+				startActivity(intent);
+				return;
+			}
+			if (position == 1) {
+				if (getString(R.string.edit).equals(editTV.getText().toString())) {
+					gotoPage(0);
+				} 
+				return;
+			}
 			OutdoorCityInfo outdoorCityInfo = (OutdoorCityInfo) userSelectedCitiesAdapter.getItem(position);
 			final String key = AddOutdoorLocationHelper.getCityKeyWithRespectDataProvider(outdoorCityInfo);
 			
 			if (getString(R.string.done).equals(editTV.getText().toString())) {
 				ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
 				FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-				
+//				selectedItemHashtable.clear();
 				if(delete.getVisibility() == View.GONE) {
 					delete.setVisibility(View.VISIBLE);
 					deleteSign.setImageResource(R.drawable.red_cross);
@@ -286,6 +334,7 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 					deleteSign.setImageResource(R.drawable.white_cross);
 					selectedItemHashtable.put(key, false);
 				}
+//				setAdapter();
 			} else {
 				int index = OutdoorManager.getInstance().getUsersCitiesList().indexOf(key);
 				gotoPage(index);
@@ -298,12 +347,6 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.add_outdoor_location_ll:
-				Intent	intent = new Intent(getActivity(), AddOutdoorLocationActivity.class);
-				startActivity(intent);
-				break;
-			case R.id.current_location_ll:
-				gotoPage(0);
 			case R.id.outdoor_location_edit_tv:
 				if (getString(R.string.edit).equals(editTV.getText().toString())) {
 					editTV.setText(getString(R.string.done));
@@ -321,10 +364,23 @@ public class OutdoorLocationsFragment extends BaseFragment implements Connection
 	
 	private void setAdapter() {
 		userCitiesId = userCitiesDatabase.getAllCities();
-		outdoorCityInfoList = AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCitiesId) ;
-		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
-		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
+		outdoorCityInfoList.clear();
+		outdoorCityInfoList.addAll(AddOutdoorLocationHelper.getSortedUserSelectedCitiesInfo(userCitiesId)) ;
+		addCurrentLocationIntoList();
+		userSelectedCitiesAdapter.notifyDataSetChanged();
+//		userSelectedCitiesAdapter = new UserSelectedCitiesAdapter(getActivity(), R.layout.simple_list_item, outdoorCityInfoList);
+//		mOutdoorLocationListView.setAdapter(userSelectedCitiesAdapter);
 		addAreaIdToCityList();
+	}
+	
+	private void addCurrentLocationIntoList() {
+		String addLoc = getString(R.string.add_outdoor_location);
+		String currentLoc = getString(R.string.current_location);
+		OutdoorCityInfo outdoorCityInfo = new OutdoorCityInfo(addLoc, addLoc, addLoc, 0f, 0f, "", 0);
+		outdoorCityInfoList.add(0, outdoorCityInfo);
+		outdoorCityInfo = new OutdoorCityInfo(currentLoc, currentLoc, currentLoc, 0f, 0f, LocationUtils.getCurrentLocationAreaId(), 0);
+		outdoorCityInfoList.add(1, outdoorCityInfo);
+		
 	}
 
 }

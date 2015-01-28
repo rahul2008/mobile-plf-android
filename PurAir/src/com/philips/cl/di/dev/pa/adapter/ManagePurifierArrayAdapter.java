@@ -26,17 +26,17 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 	private int resource;
 	private HashMap<String, Boolean> selectedItems;
 	private DashboardUpdateListener listener;
-    private boolean isEditable;
+    private String edit;
 
 	public ManagePurifierArrayAdapter(Context context, int resource,
-			List<PurAirDevice> purifiers, ListView listView, boolean isEditable,
+			List<PurAirDevice> purifiers, ListView listView, String edit,
 			HashMap<String, Boolean> selectedItems, DashboardUpdateListener listener) {
 		super(context, resource, purifiers);
 		this.purifiers = purifiers;
 		this.context = context;
 		this.resource = resource;
 		this.selectedItems = selectedItems;
-        this.isEditable = isEditable;
+        this.edit = edit;
 		this.listener = listener;
 		listView.setOnItemClickListener(managePurifierItemClickListener);
 	}
@@ -64,6 +64,12 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 
 		purifierNameTxt.setText(purifierName);
 		purifierNameTxt.setTag(usn);
+		
+		if (position == 0) {
+			deleteSign.setVisibility(View.VISIBLE);
+			deleteSign.setImageResource(R.drawable.white_plus);
+			return view;
+		}
 
         setDeleteIconVisibility(deleteSign, delete, usn);
 
@@ -83,7 +89,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 	}
 
     private void setEditableIconVisibility(ImageView deleteSign) {
-        if (isEditable) {
+        if (context.getString(R.string.done).equals(edit)) {
             deleteSign.setVisibility(View.VISIBLE);
         } else {
             deleteSign.setVisibility(View.GONE);
@@ -106,8 +112,14 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
 
 			// For demo mode
 			if (PurAirApplication.isDemoModeEnable()) return;
+			
+			if (position == 0) {
+				listener.onItemClickGoToAddPurifier();
+				return;
+			}
+			
             FontTextView delete = (FontTextView) view.findViewById(R.id.list_item_right_text);
-            if (isEditable) {
+            if (context.getString(R.string.done).equals(edit)) {
                 ImageView deleteSign = (ImageView) view.findViewById(R.id.list_item_delete);
                 deleteSign.setClickable(false);
                 deleteSign.setFocusable(false);
@@ -118,7 +130,7 @@ public class ManagePurifierArrayAdapter extends ArrayAdapter<PurAirDevice> {
                 addToDeleteMap(deleteSign, delete, usn);
             } else {
                 delete.setVisibility(View.GONE);
-                listener.onItemClickGoToPage(position);
+                listener.onItemClickGoToPage(position - 1);
             }
 		}
 	};

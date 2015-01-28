@@ -85,7 +85,7 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			ALog.i(ALog.OUTDOOR_LOCATION, "Current location task failed");
 			return;
 		}
-		
+		lastKnownLocationFound = true;
 		if (!LocationUtils.getCurrentLocationAreaId().isEmpty() && !areaId.isEmpty() 
 				&& LocationUtils.getCurrentLocationAreaId().equals(areaId)) {
 			ALog.i(ALog.OUTDOOR_LOCATION, "Current location same");
@@ -174,7 +174,6 @@ public class OutdoorController implements ServerResponseListener, AMapLocationLi
 			return;
 		}
 		ALog.i(ALog.OUTDOOR_LOCATION, "Current location task started");
-		lastKnownLocationFound = true;
 		LocationUtils.saveCurrentLocationLatLon(String.valueOf(latitude), String.valueOf(longitude));
 
 		TaskGetHttp citiesList = new TaskGetHttp("http://data.fuwu.weather.com.cn/getareaid/findId?lat=" + latitude + "&lon=" + longitude, "from_lat_long", PurAirApplication.getAppContext(), this);

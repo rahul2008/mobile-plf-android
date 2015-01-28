@@ -17,7 +17,7 @@
 
         <com.viewpagerindicator.CirclePageIndicator
             android:id="@+id/indicator_indoor"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
@@ -84,14 +84,11 @@
 
         <com.viewpagerindicator.CirclePageIndicator
             android:id="@+id/indicator_outdoor"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp" 
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"/>
+            android:padding="2dp"/>
 
         <LinearLayout
             android:id="@+id/take_tour_prompt_drawer"

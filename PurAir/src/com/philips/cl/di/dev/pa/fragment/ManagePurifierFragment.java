@@ -3,7 +3,6 @@ package com.philips.cl.di.dev.pa.fragment;
 import java.util.HashMap;
 import java.util.List;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -11,10 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ToggleButton;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
@@ -29,24 +25,23 @@ import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice.PAIRED_STATUS;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.purifier.PurifierDatabase;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.DashboardUpdateListener;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
-
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class ManagePurifierFragment extends BaseFragment implements
-        DashboardUpdateListener, PairingListener, OnCheckedChangeListener {
+        DashboardUpdateListener, PairingListener {
 
 	private ManagePurifierArrayAdapter arrayAdapter;
 	private PurifierDatabase database;
 	private ListView listView;
 	private List<PurAirDevice> purifiers;
 	private HashMap<String, Boolean> selectedItems;
-    private ToggleButton editTB;
+    private FontTextView editTV;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -68,20 +63,27 @@ public class ManagePurifierFragment extends BaseFragment implements
 		super.onActivityCreated(savedInstanceState);
 		MetricsTracker.trackPage(TrackPageConstants.MANAGE_PURIFIERS);
         initView();
+        HomeFragment homeFragment = (HomeFragment) getParentFragment();
+        if (homeFragment != null) {
+			homeFragment.setUpdateMyPurifiersListner(new UpdateMyPurifierListener() {
+				
+				@Override
+				public void onUpdate() {
+					if (getString(R.string.done).equals(editTV.getText().toString())) {
+						editTV.setText(getString(R.string.edit));
+						loadDataFromDatabase();
+			            if (!selectedItems.isEmpty()) selectedItems.clear();
+					}
+				}
+			});
+		}
 	}
 
     private void initView(){
-        ViewGroup addPurifier = (LinearLayout) getView().findViewById(R.id.manage_purifier_add_ll);
-        editTB = (ToggleButton) getView().findViewById(R.id.manage_purifier_edit_tb);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-            //padding left
-            editTB.setPadding(16,0,0,0);
-        }
-        editTB.setTypeface(Fonts.getCentraleSansLight(getActivity()));
-        addPurifier.setOnClickListener(addPurifierClickEvent);
-
+        editTV = (FontTextView) getView().findViewById(R.id.manage_purifier_edit_tv);
+        editTV.setText(getString(R.string.edit));
+        editTV.setOnClickListener(addPurifierClickEvent);
         listView = (ListView) getView().findViewById(R.id.manage_pur_list);
-        editTB.setOnCheckedChangeListener(this);
     }
 
 	@Override
@@ -89,13 +91,24 @@ public class ManagePurifierFragment extends BaseFragment implements
 		super.onResume();
 		loadDataFromDatabase();
 	}
+	
+	@Override
+	public void onStop() {
+		HomeFragment homeFragment = (HomeFragment) getParentFragment();
+        if (homeFragment != null) {
+			homeFragment.setUpdateMyPurifiersListner(null);
+        }
+		super.onStop();
+	}
 
 	private void loadDataFromDatabase() {
 		purifiers = DiscoveryManager.getInstance().getStoreDevices();
+		PurAirDevice addPurifierDevice = new PurAirDevice("", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
+		purifiers.add(0, addPurifierDevice);
         PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection
 		arrayAdapter = new ManagePurifierArrayAdapter(getActivity(),
-				R.layout.simple_list_item, purifiers, listView, editTB.isChecked(), selectedItems, this);
+				R.layout.simple_list_item, purifiers, listView, editTV.getText().toString(), selectedItems, this);
 		listView.setAdapter(arrayAdapter);
 
 		if (purifiers.isEmpty()) {
@@ -110,13 +123,14 @@ public class ManagePurifierFragment extends BaseFragment implements
 			// For demo mode
 			if (PurAirApplication.isDemoModeEnable()) return;
 
-			if (v.getId() == R.id.manage_purifier_add_ll) {
-				List<PurAirDevice> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
-				if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
-					showAlertDialog("",	getString(R.string.max_purifier_reached));
+			if (v.getId() == R.id.manage_purifier_edit_tv) {
+				if (getString(R.string.edit).equals(editTV.getText().toString())) {
+					editTV.setText(getString(R.string.done));
 				} else {
-					((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+					editTV.setText(getString(R.string.edit));
 				}
+				loadDataFromDatabase();
+	            if (!selectedItems.isEmpty()) selectedItems.clear();
 			}
 		}
 	};
@@ -217,11 +231,13 @@ public class ManagePurifierFragment extends BaseFragment implements
 		// TODO
 	}
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (buttonView.getId() == R.id.manage_purifier_edit_tb) {
-            loadDataFromDatabase();
-            if (!selectedItems.isEmpty()) selectedItems.clear();
-        }
-    }
+	@Override
+	public void onItemClickGoToAddPurifier() {
+		List<PurAirDevice> storePurifiers = DiscoveryManager.getInstance().updateStoreDevices();
+		if (storePurifiers.size() >= AppConstants.MAX_PURIFIER_LIMIT) {
+			showAlertDialog("",	getString(R.string.max_purifier_reached));
+		} else {
+			((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+		}
+	}
 }

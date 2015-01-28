@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.BaseActivity;
 import com.philips.cl.di.dev.pa.dashboard.OutdoorCity;

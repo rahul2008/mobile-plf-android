@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ews_nav_bar_2x"
-        android:minHeight="50dp"
+        android:minHeight="40dp"
         android:visibility="visible" >
         
         <com.philips.cl.di.dev.pa.view.FontTextView
@@ -38,75 +38,6 @@
             android:textSize="21sp"
             custom:fontAssetName="fonts/centralesanslight.ttf" />
     </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/add_outdoor_location_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="8dp"
-        android:paddingTop="12dp" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/img_description"
-            android:src="@drawable/white_plus" />
-
-        <com.philips.cl.di.dev.pa.view.FontTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dp"
-            android:text="@string/add_outdoor_location"
-            android:textColor="@color/blue_list_item"
-            android:textSize="@dimen/text_size_large"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-    </LinearLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
-
-    <LinearLayout
-        android:id="@+id/current_location_ll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/list_item_selector"
-        android:clickable="true"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="8dp"
-        android:paddingTop="12dp" >
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/img_description"
-            android:src="@drawable/location_white" />
-
-        <com.philips.cl.di.dev.pa.view.FontTextView
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:paddingLeft="8dp"
-            android:text="@string/current_location"
-            android:textColor="@color/blue_list_item"
-            android:textSize="@dimen/text_size_large"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-    </LinearLayout>
 
     <ImageView
         android:layout_width="match_parent"

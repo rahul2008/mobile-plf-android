@@ -33,6 +33,8 @@ import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.newpurifier.PurifierManager;
+import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyLocationsListener;
+import com.philips.cl.di.dev.pa.outdoorlocations.UpdateMyPurifierListener;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AlertDialogBtnInterface;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
@@ -57,7 +59,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 	private LinearLayout takeATourPopup;
 	
     private CirclePageIndicator indicator;
-    int countIndoor;
+    private int countIndoor;
+    private UpdateMyPurifierListener updateMyPurifiersListener;
+    private UpdateMyLocationsListener updateMyLocationsListener;
+    private int prevPositionOutdoor;
+    private int prevPositionIndoor;
 	
 	@Override
 	public void onResume() {
@@ -385,6 +391,11 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		
 				PurifierManager.getInstance().setCurrentPurifier(purifier) ;
 			}
+			
+			if (prevPositionIndoor == indoorPagerAdapter.getCount() - 1 && updateMyPurifiersListener != null) {
+				updateMyPurifiersListener.onUpdate();
+			}
+			prevPositionIndoor = position;
 		}
 	};
 	
@@ -402,8 +413,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			if (position == 0 && LocationUtils.getCurrentLocationAreaId().isEmpty()) {
 				startCurrentCityAreaIdTask();
 			}
-			
-			
+			if (prevPositionOutdoor == outdoorPagerAdapter.getCount() - 1 && updateMyLocationsListener != null) {
+				updateMyLocationsListener.onUpdate();
+			}
+			prevPositionOutdoor = position;
 		}
 	};
 
@@ -455,6 +468,14 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 				ALog.e(ALog.ERROR, "OutdoorLocationFragment$showCurrentCityVisibility: " + "Error: " + e.getMessage());
 			}
 		}
+	}
+	
+	public void setUpdateMyLocationsListner(UpdateMyLocationsListener updateMyLocationsListener) {
+		this.updateMyLocationsListener = updateMyLocationsListener;
+	}
+	
+	public void setUpdateMyPurifiersListner(UpdateMyPurifierListener updateMyPurifiersListener) {
+		this.updateMyPurifiersListener = updateMyPurifiersListener;
 	}
 	
 }
