@@ -47,7 +47,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:contentDescription="@string/img_description"
-            android:src="@drawable/info"/>
+            android:src="@drawable/info"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 

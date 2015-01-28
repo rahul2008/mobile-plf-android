@@ -71,6 +71,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 				public void onUpdate() {
 					if (getString(R.string.done).equals(editTV.getText().toString())) {
 						editTV.setText(getString(R.string.edit));
+						saveLastPageCurrentPage();
 						loadDataFromDatabase();
 			            if (!selectedItems.isEmpty()) selectedItems.clear();
 					}
@@ -78,11 +79,16 @@ public class ManagePurifierFragment extends BaseFragment implements
 			});
 		}
 	}
+	
+	private void saveLastPageCurrentPage() {
+		int size = DiscoveryManager.getInstance().getStoreDevices().size() + 1;
+		PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(size);
+	}
 
     private void initView(){
         editTV = (FontTextView) getView().findViewById(R.id.manage_purifier_edit_tv);
         editTV.setText(getString(R.string.edit));
-        editTV.setOnClickListener(addPurifierClickEvent);
+        editTV.setOnClickListener(editPurifierClickEvent);
         listView = (ListView) getView().findViewById(R.id.manage_pur_list);
     }
 
@@ -105,7 +111,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		purifiers = DiscoveryManager.getInstance().getStoreDevices();
 		PurAirDevice addPurifierDevice = new PurAirDevice("", "", "", getString(R.string.add_purifier), 0, ConnectionState.CONNECTED_LOCALLY);
 		purifiers.add(0, addPurifierDevice);
-        PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(purifiers.size());
+        PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(PurifierManager.getInstance().getCurrentIndoorViewPagerPosition());
 		if (arrayAdapter != null) arrayAdapter = null;// For GarbageCollection
 		arrayAdapter = new ManagePurifierArrayAdapter(getActivity(),
 				R.layout.simple_list_item, purifiers, listView, editTV.getText().toString(), selectedItems, this);
@@ -116,7 +122,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 		}
 	}
 
-	private OnClickListener addPurifierClickEvent = new OnClickListener() {
+	private OnClickListener editPurifierClickEvent = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
@@ -129,6 +135,7 @@ public class ManagePurifierFragment extends BaseFragment implements
 				} else {
 					editTV.setText(getString(R.string.edit));
 				}
+				saveLastPageCurrentPage();
 				loadDataFromDatabase();
 	            if (!selectedItems.isEmpty()) selectedItems.clear();
 			}
@@ -198,8 +205,7 @@ public class ManagePurifierFragment extends BaseFragment implements
             }
             // Updates store device from DB
             DiscoveryManager.getInstance().updateStoreDevices();
-            // At least one page exists in IndoorDashboard
-            //PurifierManager.getInstance().setCurrentIndoorViewPagerPosition(0);
+            saveLastPageCurrentPage();
             loadDataFromDatabase();
         }
     }
