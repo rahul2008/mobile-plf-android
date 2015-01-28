@@ -283,4 +283,15 @@ public class AddOutdoorLocationActivity extends BaseActivity implements  OnTouch
         handler.postDelayed(overlayThread, 1200);
         
     }
+    
+    @Override
+    protected void onDestroy() {
+    	if (null != windowManager && overLayout != null) {
+			windowManager.removeView(overLayout);
+		}
+		windowManager = null;
+		overLayout = null;
+    	super.onDestroy();
+    }
+    
 }

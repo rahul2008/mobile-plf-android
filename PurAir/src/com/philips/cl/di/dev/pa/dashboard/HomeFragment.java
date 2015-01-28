@@ -78,9 +78,10 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			
 			if (PurAirApplication.isDemoModeEnable()) {
 				setRightMenuIconVisibilityDemoMode(currentPage);
-				return;
 			}
-			setRightMenuIconVisibilityNormalMode(currentPage);
+			else {
+				setRightMenuIconVisibilityNormalMode(currentPage);
+			}
 		}
 		notifyOutdoorPager();
 	}
