@@ -245,12 +245,12 @@ public class OutdoorManager implements OutdoorDataListener {
 		if (outdoorWeatherList != null) {
 			for (OutdoorWeather outdoorWeather : outdoorWeatherList) {
 				areaID = outdoorWeather.getAreaID() ;
+				String cityName = getCityNameFromAreaId(areaID);
 				if(userCitiesList.contains(areaID)) {
-					addCityDataToMap(null, null, outdoorWeather, areaID);
-					String cityName = getCityNameFromAreaId(areaID);
-					if(userCitiesList.contains(cityName)) {
-						addCityDataToMap(null, null, outdoorWeather, cityName.toLowerCase());
-					}
+					addCityDataToMap(null, null, outdoorWeather, areaID);					
+				}
+				if(userCitiesList.contains(cityName)) {
+					addCityDataToMap(null, null, outdoorWeather, cityName.toLowerCase());
 				}
 			}
 			
