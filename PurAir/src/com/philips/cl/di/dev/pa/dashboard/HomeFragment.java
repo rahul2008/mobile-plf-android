@@ -436,9 +436,13 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
     }
     
     public void gotoOutdoorViewPage(int position) {
-        if (outdoorViewPager != null) {
-        	outdoorViewPager.setCurrentItem(position, true);
-        }
+    	try {
+	        if (outdoorViewPager != null) {
+	        	outdoorViewPager.setCurrentItem(position, true);
+	        }
+    	} catch(IllegalStateException ies) {
+    		ALog.e(ALog.ERROR, "IllegalStateException") ;
+    	}
     }
     
     private int outdoorPageCount() {
