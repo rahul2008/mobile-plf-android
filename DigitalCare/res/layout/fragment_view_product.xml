@@ -81,47 +81,30 @@
 
         <RelativeLayout
             android:id="@+id/prodads_layout"
-            android:layout_width="match_parent"
-            android:layout_height="165dp"
-            android:layout_below="@+id/subContainer"
-            android:layout_marginTop="10dp" >
+            style="@style/viewProductDetails_Ads_Container" >
 
             <ImageView
                 android:id="@+id/adimage"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                style="@style/viewProductDetails_Ads_Image"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:contentDescription="@string/product_name"
-                android:scaleType="fitXY"
                 android:src="@drawable/viewproduct_video_image_phone" />
 
             <ImageView
                 android:id="@+id/leftarrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="26dp"
+                style="@style/viewProductDetails_Ads_LeftArrow"
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_video_leftarrow" />
 
             <ImageView
                 android:id="@+id/rightarrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="26dp"
+                style="@style/viewProductDetails_Ads_RightArrow"
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_videorightarrow" />
 
             <ImageButton
                 android:id="@+id/button1"
-                style="?android:attr/buttonStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+               style="@style/viewProductDetails_Ads_PlayButton"
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_video_play" />
         </RelativeLayout>
