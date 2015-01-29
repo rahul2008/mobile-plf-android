@@ -51,6 +51,10 @@
      <!-- View Product Details -->
     <string name="product_name">Norelco Shaver 9700 series 9000 wet &amp; dry electric shaver</string>
     <string name="product_variant">s9721/84</string>
+	
+	<string name="product_open_manual">Open interactive manual</string>
+    <string name="product_download_manual">Download Product  manual</string>
+    <string name="product_information">Products information(on philips.com)</string>
     
     <!-- Application Rate & Review  -->
     <string name="rate_playstore_headertext">How would you rate this app?</string>
