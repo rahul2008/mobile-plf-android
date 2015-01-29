@@ -1,55 +1,41 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/activity_bg" >
+    android:layout_height="wrap_content" >
 
-    <RelativeLayout
-        android:id="@+id/container"
+    <LinearLayout
+        android:id="@+id/products_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="#F0F4F9"
+        android:orientation="vertical" >
 
         <RelativeLayout
-            android:id="@+id/subContainer"
+            android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/activity_margin"
-            android:paddingRight="@dimen/activity_margin" >
+            android:layout_height="wrap_content" >
 
             <RelativeLayout
                 android:id="@+id/toplayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="25dp" >
+                style="@style/viewProductDetails_TopContainer" >
 
                 <ImageView
                     android:id="@+id/productimage"
-                    android:layout_width="150dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
+                    style="@style/viewProductDetails_ProdImage"
                     android:contentDescription="@string/product_name"
-                    android:layout_marginTop="25dp"
                     android:src="@drawable/viewproduct_productimage" />
 
                 <TextView
                     android:id="@+id/name"
-                    style="@style/supportHomeHelpText"
-                    android:layout_toRightOf="@+id/productimage"
+                    style="@style/viewProductDetails_Product_Header"
+                    android:layout_alignTop="@+id/productimage"
                     android:text="@string/product_name"
-                    android:textSize="@dimen/title_text_size_medium"
                     custom:fontAssetName="fonts/centralesans-book.otf" />
 
                 <TextView
                     android:id="@+id/variant"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/name"
-                    android:layout_below="@+id/name"
-                    android:layout_centerVertical="true"
-                    android:lines="1"
+                    style="@style/viewProductDetails_Product_Variant"
                     android:text="@string/product_variant"
-                    android:textColor="@color/text_sub_header_color"
                     custom:fontAssetName="fonts/centralesans-book.otf" />
             </RelativeLayout>
 
@@ -64,31 +50,29 @@
 
             <RelativeLayout
                 android:id="@+id/prodbuttons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/topline" >
+                style="@style/viewProductDetails_ManualButtons_Container" >
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/manual_open"
-                    style="@style/fontButton"
+                    style="@style/viewProductDetails_Buttons"
                     android:contentDescription="@string/product_name"
-                    android:text="Open interactive manual"
-                    custom:fontAssetName="fonts/centralesans-book.otf" />
+                    android:text="@string/product_open_manual"
+                     />
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/manual_download"
-                    style="@style/fontButton"
+                    style="@style/viewProductDetails_Buttons"
                     android:layout_below="@+id/manual_open"
                     android:contentDescription="@string/product_name"
-                    android:text="Download Product  manual"
+                    android:text="@string/product_download_manual"
                     custom:fontAssetName="fonts/centralesans-book.otf" />
 
                 <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                     android:id="@+id/prodinfo_button"
-                    style="@style/fontButton"
+                    style="@style/viewProductDetails_Buttons"
                     android:layout_below="@+id/manual_download"
                     android:contentDescription="@string/product_name"
-                    android:text="Products information(on philips.com)"
+                    android:text="@string/product_information"
                     custom:fontAssetName="fonts/centralesans-book.otf" />
             </RelativeLayout>
         </RelativeLayout>
@@ -98,9 +82,9 @@
         <RelativeLayout
             android:id="@+id/prodads_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="165dp"
             android:layout_below="@+id/subContainer"
-            android:layout_marginTop="25dp" >
+            android:layout_marginTop="10dp" >
 
             <ImageView
                 android:id="@+id/adimage"
@@ -141,6 +125,6 @@
                 android:contentDescription="@string/product_name"
                 android:src="@drawable/viewproduct_video_play" />
         </RelativeLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
 </ScrollView>
