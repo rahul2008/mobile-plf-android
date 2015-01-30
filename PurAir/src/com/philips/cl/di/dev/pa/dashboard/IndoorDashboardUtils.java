@@ -47,7 +47,7 @@ public class IndoorDashboardUtils {
 		String filterStatus = "-";
 		if (airPurifierEventDto != null) {
 			Context context = PurAirApplication.getAppContext();
-			filterStatus = context.getString(R.string.good);
+			filterStatus = context.getString(R.string.good); // priority 5
 			//Simplified logic to calculate filter status
 			int preFilter = airPurifierEventDto.getPreFilterStatus();
 			int multiCareFilter = airPurifierEventDto.getMulticareFilterStatus();
@@ -57,13 +57,13 @@ public class IndoorDashboardUtils {
 			if ( (multiCareFilter >= 840 && multiCareFilter < 960)
 					|| (activeFilter >= 2760 && activeFilter < 2880)
 					|| (hepaFilter >= 2760 && hepaFilter < 2880)) {
-				filterStatus = context.getString(R.string.change_now);
-			} else if (preFilter >= 96 && preFilter < 112) {
-				filterStatus = context.getString(R.string.clean_soon);
-			} else if (preFilter >= 112) {
-				filterStatus = context.getString(R.string.clean_now);
+				filterStatus = context.getString(R.string.change_now); // priority 2
 			} else if (multiCareFilter >= 960 || activeFilter >= 2880 || hepaFilter >= 2880) {
-				filterStatus = context.getString(R.string.filter_lock);
+				filterStatus = context.getString(R.string.filter_lock); // priority 1
+			} else if (preFilter >= 96 && preFilter < 112) {
+				filterStatus = context.getString(R.string.clean_today); // priority 4
+			} else if (preFilter >= 112) {
+				filterStatus = context.getString(R.string.clean_now); // priority 3
 			}
 		}
 		return filterStatus;
