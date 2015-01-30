@@ -63,4 +63,13 @@
     <string name="rate_philips_description">Write a review and help other people make the right choice for them</string>
     <string name="rate_philips_buttontext">Sign into My Philips</string>
 
+    <!--  ContactUS - Twitter  Login-->
+    <string name="twitter_login_header">Log in to Twitter</string>
+    <string  name="twitter_login_button">Log in</string>
+    <string name="twitter_login_forgotPassword">I forgot my password</string>
+    <string name="twitter_login_createAccount">Create Account</string>
+    <string name="twitter_login_hint_username">Username</string>
+    <string name="twitter_login_hint_password">Password</string>
+    <string name="twiiter_login_logo_description">Twitter Logo</string>
+    
 </resources>

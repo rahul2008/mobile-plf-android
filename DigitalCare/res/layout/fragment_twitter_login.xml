@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F9" >
+
+    <LinearLayout
+        android:id="@+id/TwitterLoginContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin" >
+
+        <LinearLayout
+            android:id="@+id/Twitter_Login_HeaderLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/Twitter_LoginHeaderText"
+                style="@style/twitter_login_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <ImageView
+                android:id="@+id/Twitter_Login_Logo"
+                style="@style/twitter_login_logo_portrait"
+                android:contentDescription="@string/twiiter_login_logo_description"
+                android:src="@drawable/ic_launcher" />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/Twitter_Social_uname"
+            style="@style/prodRegEditTextg"
+            android:layout_marginTop="20dp"
+            android:hint="@string/twitter_login_hint_username" />
+
+        <EditText
+            android:id="@+id/Twitter_Social_pwd"
+            style="@style/prodRegEditTextg"
+            android:layout_marginTop="10dp"
+            android:hint="@string/twitter_login_hint_password" />
+
+        <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+            android:id="@+id/Twitter_Social_LogIn_Button"
+            style="@style/twitter_login_Login_button"
+            android:contentDescription="@string/twitter_login_button"
+            android:text="@string/twitter_login_button" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/Twitter_Social_Forgot_Password"
+                style="@style/twitter_login_forgot_password" />
+
+            <ImageView
+                style="@style/twitter_login_create_Fotgot_image"
+                android:contentDescription="@string/twiiter_login_logo_description"
+                android:src="@drawable/ic_launcher" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/Twitter_Social_CreateAccount"
+                style="@style/twitter_login_create_account" />
+
+            <ImageView
+                style="@style/twitter_login_create_Fotgot_image"
+                android:contentDescription="@string/twiiter_login_logo_description"
+                android:src="@drawable/ic_launcher" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
