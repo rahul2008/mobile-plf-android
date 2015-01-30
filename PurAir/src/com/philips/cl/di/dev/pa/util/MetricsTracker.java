@@ -44,7 +44,7 @@ public class MetricsTracker {
 	private static final String KEY_VIDEO_NAME = "videoName";
 	private static final String KEY_FIRMWARE_VERSION = "firmwareVersion";
 	private static final String KEY_PRODUCT_MODEL = "productModel";
-	private static final String KEY_APP_ID = "appId2";
+	private static final String KEY_APP_ID = "appsId";
 	private static final String KEY_LOGIN_CHANNEL = "loginChannel";
 	private static final String KEY_REGISTRATION_CHANNEL = "registrationChannel";
 	private static final String KEY_APP_STATUS = "appStatus";
