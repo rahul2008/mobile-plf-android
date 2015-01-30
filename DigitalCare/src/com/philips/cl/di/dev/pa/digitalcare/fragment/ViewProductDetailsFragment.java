@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.philips.cl.di.dev.pa.digitalcare.R;
@@ -21,7 +22,7 @@ public class ViewProductDetailsFragment extends BaseFragment {
 	 * PORTRAIT PHONE
 	 */
 	private RelativeLayout mSubContainer;
-	private RelativeLayout.LayoutParams mSubContainerParams = null;
+	private LinearLayout.LayoutParams mSubContainerParams = null;
 
 	// mProductButtonsContainer,
 	// mProductVideoAdsContainer;
@@ -42,9 +43,10 @@ public class ViewProductDetailsFragment extends BaseFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		Log.d(TAG, "onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-		mSubContainer = (RelativeLayout) getActivity().findViewById(
-				R.id.subContainer);
-		mSubContainerParams = (RelativeLayout.LayoutParams) mSubContainer
+		mSubContainer = (android.widget.RelativeLayout) getActivity()
+				.findViewById(R.id.container);
+
+		mSubContainerParams = (android.widget.LinearLayout.LayoutParams) mSubContainer
 				.getLayoutParams();
 		// init();
 		Configuration config = getResources().getConfiguration();
@@ -59,12 +61,20 @@ public class ViewProductDetailsFragment extends BaseFragment {
 	}
 
 	private void setViewParams(Configuration config) {
-		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-			mSubContainerParams.leftMargin = mSubContainerParams.rightMargin = mLeftRightMarginPort;
-		} else {
-			mSubContainerParams.leftMargin = mSubContainerParams.rightMargin = mLeftRightMarginLand;
+
+		if (isTablet()) {
+
+			if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+				mSubContainerParams.leftMargin = mSubContainerParams.rightMargin = mLeftRightMarginLand;
+			} else {
+				mSubContainerParams.leftMargin = mSubContainerParams.rightMargin = mLeftRightMarginLand;
+			}
 		}
 		mSubContainer.setLayoutParams(mSubContainerParams);
+	}
+
+	private boolean isTablet() {
+		return (this.getActivity().getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
 	}
 
 	// private void init() {
