@@ -8,8 +8,8 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/title_text_size_largest</item>
         <item name="android:text">@string/can_we_help_you</item>
-        <item name="android:paddingRight">@dimen/activity_margin</item>
-        <item name="android:paddingLeft">@dimen/activity_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_margin</item>
+        <item name="android:paddingStart">@dimen/activity_margin</item>
     </style>
 
     <style name="chatNowDesc">
@@ -21,8 +21,8 @@
         <item name="android:textColor">@color/text_sub_header_color</item>
         <item name="android:text">@string/chat_desc</item>
         <item name="android:textSize">@dimen/title_text_size_medium</item>
-        <item name="android:paddingRight">@dimen/activity_margin</item>
-        <item name="android:paddingLeft">@dimen/activity_margin</item>
+        <item name="android:paddingEnd">@dimen/activity_margin</item>
+        <item name="android:paddingStart">@dimen/activity_margin</item>
     </style>
 
 </resources>
