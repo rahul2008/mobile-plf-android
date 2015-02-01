@@ -15,8 +15,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/activity_margin"
-            android:paddingEnd="@dimen/activity_margin" >
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin" >
 
             <TextView
                 android:id="@+id/prodRegTitle"
@@ -69,8 +69,8 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="@dimen/activity_margin"
-            android:paddingEnd="@dimen/activity_margin" >
+            android:paddingLeft="@dimen/activity_margin"
+            android:paddingRight="@dimen/activity_margin" >
 
             <TextView
                 android:id="@+id/prodRegSubTitle"
