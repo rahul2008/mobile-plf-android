@@ -19,12 +19,12 @@
 
     <!--  Action bar -->
     <style name="actionbarIconArrowImageViewParent">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
-        <item name="android:src">@drawable/actionbar_back_arrow_orange</item>
+<!--         <item name="android:background">@color/actionbar_menu_bg_color</item> -->
+         <item name="android:src">@drawable/actionbar_back_arrow_orange</item>
     </style>
 
     <style name="actionbarIconHomeImageViewParent">
-        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:background">@drawable/selector_clickable_image_bg_orange</item>
         <item name="android:src">@drawable/actionbar_home_icon_orange</item>
     </style>
 
