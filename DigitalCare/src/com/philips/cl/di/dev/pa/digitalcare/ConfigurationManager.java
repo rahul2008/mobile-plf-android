@@ -1,5 +1,6 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
+import android.content.Context;
 import android.content.res.Resources;
 
 public class ConfigurationManager {
@@ -8,14 +9,14 @@ public class ConfigurationManager {
 	private static Resources mResources = null;
 	private static int[] keys = {};
 
-	private ConfigurationManager() {
-		mResources = DigitalCareApplication.getAppContext().getResources();
+	private ConfigurationManager(Context context) {
+		mResources = context.getResources();
 		keys = mResources.getIntArray(R.array.options_available);
 	}
 
-	public static ConfigurationManager getInstance() {
+	public static ConfigurationManager getConfigucationInstance(Context context) {
 		if (mConfigurationManager == null) {
-			mConfigurationManager = new ConfigurationManager();
+			mConfigurationManager = new ConfigurationManager(context);
 		}
 		return mConfigurationManager;
 	}

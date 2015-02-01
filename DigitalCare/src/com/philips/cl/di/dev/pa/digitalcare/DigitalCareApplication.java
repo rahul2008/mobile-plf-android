@@ -1,37 +1,23 @@
 package com.philips.cl.di.dev.pa.digitalcare;
 
-import android.app.Application;
-
 import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
 
 /*
- *	DigitalCareApplication is Application class for DigitalCare app.
+ *	DigitalCareApplication is Application class for DigitalCare app. 
+ *  Here we can maintain the instances at digital care app level.
  * 
- * Author : Ritesh.jha@philips.com
+ * @author : Ritesh.jha@philips.com
  * 
- * Creation Date : 5 Dec 2014
+ * @creation Date : 5 Dec 2014
  */
-public class DigitalCareApplication extends Application {
+public class DigitalCareApplication {
 
-	private static DigitalCareApplication mDigitalCareApplication = null;
-	private FragmentObserver mFragmentObserver = null;
+	private static FragmentObserver mFragmentObserver = null;
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		setApplication(this);
-		mFragmentObserver = new FragmentObserver();
-	}
-
-	private static void setApplication(Application application) {
-		mDigitalCareApplication = (DigitalCareApplication) application;
-	}
-
-	public static DigitalCareApplication getAppContext() {
-		return mDigitalCareApplication;
-	}
-
-	public FragmentObserver getObserver() {
+	public static FragmentObserver getFragmentObserverInstance() {
+		if (mFragmentObserver == null) {
+			mFragmentObserver = new FragmentObserver();
+		}
 		return mFragmentObserver;
 	}
 }

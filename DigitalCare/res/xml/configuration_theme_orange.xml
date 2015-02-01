@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="UnusedResources">
+
+    <!-- Actionbar related -->
+    <color name="actionbar_bg_start_color">#FFFFFF</color>
+    <color name="actionbar_bg_end_color">#FFFFFF</color>
+    <color name="actionbar_menu_bg_color">@color/button_bg</color> <!-- Orange -->
+    <color name="actionbar_title_text_color">#000000</color>
+    <color name="button_text_color">@color/actionbar_bg_start_color</color>
+    <color name="button_bg">#EEAF00</color>
+    <color name="no_thanks_button_bg">@color/actionbar_bg_start_color</color>
+    <color name="text_header_color">@color/actionbar_title_text_color</color>
+    <color name="text_sub_header_color">@color/actionbar_title_text_color</color>
+    <color name="button_bg_pressed">#005A8B</color>
+    <color name="button_prodReg_bg_pressed">#005AAB</color>
+
+    <!-- Activity -->
+    <color name="activity_bg">#FEFBF2</color>
+
+    <!--  Action bar -->
+    <style name="actionbarIconArrowImageViewParent">
+        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:src">@drawable/actionbar_back_arrow_orange</item>
+    </style>
+
+    <style name="actionbarIconHomeImageViewParent">
+        <item name="android:background">@drawable/selector_clickable_image_bg</item>
+        <item name="android:src">@drawable/actionbar_home_icon_orange</item>
+    </style>
+
+</resources>

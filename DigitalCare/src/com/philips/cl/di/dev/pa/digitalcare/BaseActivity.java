@@ -3,12 +3,13 @@ package com.philips.cl.di.dev.pa.digitalcare;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -34,7 +35,7 @@ import com.philips.cl.di.dev.pa.digitalcare.util.FragmentObserver;
  * 
  * Creation Date : 5 Dec 2014
  */
-public abstract class BaseActivity extends ActionBarActivity implements
+public abstract class BaseActivity extends Activity implements
 		Observer {
 	private ImageView homeIcon;
 	private ImageView backToHome;
@@ -49,6 +50,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		TAG = this.getClass().getSimpleName();
 		Log.i(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_out_bottom);
 	}
 
 	private void setFragmentDetails(String actionbarTitle) {
@@ -58,8 +60,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 	@Override
 	protected void onResume() {
 		super.onResume();
-		mFragmentObserver = DigitalCareApplication.getAppContext()
-				.getObserver();
+		mFragmentObserver = DigitalCareApplication.getFragmentObserverInstance();
 	}
 
 	protected void initActionBar() throws ClassCastException {
@@ -89,29 +90,31 @@ public abstract class BaseActivity extends ActionBarActivity implements
 		return super.onKeyDown(keyCode, event);
 	}
 
+	private FragmentManager fragmentManager = getFragmentManager();
+	
 	private boolean backstackFragment() {
-		if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+		
+		if (fragmentManager.getBackStackEntryCount() == 1) {
 			this.finish();
 			overridePendingTransition(R.anim.left_in, R.anim.right_out);
 		}
 
-		else if (getSupportFragmentManager().getBackStackEntryCount() == 2) {
+		else if (fragmentManager.getBackStackEntryCount() == 2) {
 			enableActionBarHome();
-			getSupportFragmentManager().popBackStack();
+			fragmentManager.popBackStack();
 			removeCurrentFragment();
 		}
 		else {
-			getSupportFragmentManager().popBackStack();
+			fragmentManager.popBackStack();
 			removeCurrentFragment();
 		}
 		return false;
 	}
 
 	private void removeCurrentFragment() {
-		FragmentTransaction transaction = getSupportFragmentManager()
-				.beginTransaction();
+		FragmentTransaction transaction = fragmentManager.beginTransaction();
 
-		Fragment currentFrag = getSupportFragmentManager().findFragmentById(
+		android.app.Fragment currentFrag = fragmentManager.findFragmentById(
 				R.id.mainContainer);
 
 		if (currentFrag != null) {
@@ -184,8 +187,7 @@ public abstract class BaseActivity extends ActionBarActivity implements
 
 			// getSupportFragmentManager().popBackStackImmediate(null,
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
-			FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-					.beginTransaction();
+			FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 			fragmentTransaction.add(R.id.mainContainer, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());

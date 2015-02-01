@@ -3,13 +3,12 @@ package com.philips.cl.di.dev.pa.digitalcare.fragment;
 import java.lang.reflect.Field;
 import java.util.Observer;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +33,8 @@ public abstract class BaseFragment extends Fragment {
 	private static final Field sChildFragmentManagerField;
 	protected int mLeftRightMarginPort = 0;
 	protected int mLeftRightMarginLand = 0;
-	private FragmentActivity mFragmentActivityContext = null;
-	protected FragmentObserver mAppObserver = DigitalCareApplication
-			.getAppContext().getObserver();
+	private Activity mFragmentActivityContext = null;
+	protected static FragmentObserver mAppObserver = null;
 
 	static {
 		Field f = null;
@@ -54,17 +52,18 @@ public abstract class BaseFragment extends Fragment {
 		ALog.d(ALog.FRAGMENT, "OnCreate on " + this.getClass().getSimpleName());
 		super.onCreate(savedInstanceState);
 		TAG = this.getClass().getSimpleName();
+		mAppObserver = DigitalCareApplication.getFragmentObserverInstance();
 		mFragmentActivityContext = getActivity();
 		mAppObserver.addObserver((Observer) mFragmentActivityContext);
 	}
 
 	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		mLeftRightMarginPort = (int) mFragmentActivityContext.getResources().getDimension(
-				R.dimen.activity_margin_port);
-		mLeftRightMarginLand = (int) mFragmentActivityContext.getResources().getDimension(
-				R.dimen.activity_margin_land);
+		mLeftRightMarginPort = (int) mFragmentActivityContext.getResources()
+				.getDimension(R.dimen.activity_margin_port);
+		mLeftRightMarginLand = (int) mFragmentActivityContext.getResources()
+				.getDimension(R.dimen.activity_margin_land);
 	}
 
 	@Override
@@ -134,24 +133,25 @@ public abstract class BaseFragment extends Fragment {
 
 	private void enableActionBarLeftArrow() {
 
-		ImageView backToHome = (ImageView) mFragmentActivityContext.findViewById(
-				R.id.back_to_home_img);
-		ImageView homeIcon= (ImageView) mFragmentActivityContext.findViewById(R.id.home_icon);
+		ImageView backToHome = (ImageView) mFragmentActivityContext
+				.findViewById(R.id.back_to_home_img);
+		ImageView homeIcon = (ImageView) mFragmentActivityContext
+				.findViewById(R.id.home_icon);
 		// FontTextView actionBarTitle = (FontTextView)
 		// mFragmentActivityContext.findViewById(R.id.action_bar_title);
-		 homeIcon.setVisibility(View.GONE);
-//		homeIcon.setVisibility(View.INVISIBLE);
+		homeIcon.setVisibility(View.GONE);
+		// homeIcon.setVisibility(View.INVISIBLE);
 		backToHome.setVisibility(View.VISIBLE);
 		backToHome.bringToFront();
 	}
 
 	protected void showFragment(Fragment fragment) {
 		try {
-			 enableActionBarLeftArrow();
+			enableActionBarLeftArrow();
 			// getSupportFragmentManager().popBackStackImmediate(null,
 			// FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			FragmentTransaction fragmentTransaction = mFragmentActivityContext
-					.getSupportFragmentManager().beginTransaction();
+					.getFragmentManager().beginTransaction();
 			fragmentTransaction.add(R.id.mainContainer, fragment,
 					fragment.getTag());
 			fragmentTransaction.addToBackStack(fragment.getTag());

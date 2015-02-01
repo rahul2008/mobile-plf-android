@@ -61,7 +61,7 @@ public class SupportHomeFragment extends BaseFragment {
 		super.onActivityCreated(savedInstanceState);
 
 		ConfigurationManager configManagerinstance = ConfigurationManager
-				.getInstance();
+				.getConfigucationInstance(getActivity());
 		for (int btnOption : configManagerinstance.getFeatureListKeys()) {
 			enableOptionButtons(btnOption);
 		}
