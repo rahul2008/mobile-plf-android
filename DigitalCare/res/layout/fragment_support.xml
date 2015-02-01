@@ -8,7 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="@dimen/activity_margin"
+        android:paddingStart="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin" 
         android:background="@color/activity_bg" >
 
@@ -27,9 +27,9 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnProdDetails"
                 style="@style/fontButton"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
+                android:paddingStart="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_view_product_details"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -49,9 +49,9 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnFaq"
                 style="@style/fontButton"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
+                android:paddingStart="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_view_faq"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -71,9 +71,9 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnContactUs"
                 style="@style/fontButton"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
+                android:paddingStart="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_contact_us"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -93,9 +93,9 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnFindPhilips"
                 style="@style/fontButton"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
+                android:paddingStart="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_find_philips_near_you"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -115,9 +115,9 @@
             <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
                 android:id="@+id/optionBtnThinking"
                 style="@style/fontButton"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
+                android:paddingStart="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_what_you_think"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
@@ -140,9 +140,9 @@
                 android:id="@+id/optionBtnRegProd"
                 style="@style/fontButton"
                 android:background="@drawable/selector_option_prod_reg_button_bg"
-                android:gravity="left|center"
+                android:gravity="start|center"
                 android:layout_centerInParent="true"
-                android:paddingLeft="@dimen/font_button_text_margin_left"
+                android:paddingStart="@dimen/font_button_text_margin_left"
                 android:text="@string/opt_register_my_product"
                 custom:fontAssetName="fonts/centralesans-book.otf" />
 
