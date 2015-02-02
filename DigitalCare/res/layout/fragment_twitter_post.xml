@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/activity_bg" >
+
+    <LinearLayout
+        android:id="@+id/TwitterPostContainer"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin" >
+
+        <LinearLayout
+            android:id="@+id/Twitter_Post_HeaderLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            s=""
+            android:orientation="horizontal"
+            android:visibility="visible" >
+
+            <TextView
+                android:id="@+id/Twitter_Post_ToHeaderText"
+                style="@style/twitter_login_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.0"
+                android:text="@string/twitter_post_header"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <ImageView
+                android:id="@+id/Twitter_PostLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|top"
+                android:layout_marginRight="18dp"
+                android:layout_weight="0.5"
+                android:src="@drawable/ic_launcher" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/Twitter_Post_FromHeaderText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/Twitter_Post_HeaderLayout"
+            android:text="@string/twitter_post_fromAddressHeader"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <CheckBox
+                android:id="@+id/Twitter_Post_CheckBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/twitter_post_optoutHeader" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp" >
+
+            <EditText
+                android:id="@+id/Twitter_Post_TestComposingEditer"
+                style="@style/prodRegEditTextg"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:hint="@string/email"
+                custom:fontAssetName="fonts/centralesans-book.otf" />
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/ic_launcher" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/Twitter_Post_TestComposingEditer"
+                android:text="85" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/Twitter_Post_Send"
+                style="@style/prodRegFontButtonSignUp"
+                android:text="Send"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+
+            <com.philips.cl.di.dev.pa.digitalcare.customview.FontButton
+                android:id="@+id/Twitter_Post_Cancel"
+                style="@style/fontButton"
+                android:background="@drawable/selector_no_thanks_button_bg"
+                android:text="Cancel"
+                android:textColor="@color/button_bg"
+                custom:fontAssetName="fonts/centralesans-bold.otf" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>
