@@ -27,6 +27,7 @@ import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEvent;
 import com.philips.cl.di.dev.pa.dashboard.DrawerAdapter.DrawerEventListener;
+import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.newpurifier.ConnectPurifier;
@@ -108,6 +109,8 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 		initDashboardViewPager();
 		OutdoorManager.getInstance().setUIChangeListener(this);
 		OutdoorManager.getInstance().startCitiesTask();
+		ImageButton infoImgBtn = (ImageButton) getView().findViewById(R.id.home_fragment_info_img_btn);
+		infoImgBtn.setOnClickListener(this);
 		
 		if(((MainActivity)getActivity()).getVisits()<3 && !((MainActivity)getActivity()).isTutorialPromptShown){
 			takeATourPopup = (LinearLayout) getView().findViewById(R.id.take_tour_prompt_drawer);			
@@ -295,6 +298,12 @@ public class HomeFragment extends BaseFragment implements OutdoorDataChangeListe
 			hideTakeATourPopup();
 			showTutorialDialog();
 			break;
+		case R.id.home_fragment_info_img_btn:
+		    MainActivity activity = (MainActivity) getActivity();
+		    if (activity != null) {
+		    	activity.showFragment(new AboutFragment());
+		    }
+		break;
 		default:
 			break;
 		}

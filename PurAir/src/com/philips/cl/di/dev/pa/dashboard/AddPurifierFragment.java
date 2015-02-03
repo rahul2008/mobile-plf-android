@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -19,6 +20,7 @@ import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.demo.DemoModeActivity;
+import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.StartFlowChooseFragment;
@@ -31,6 +33,7 @@ public class AddPurifierFragment extends BaseFragment implements
 
 	private ImageView ivAddNewPurifier;
 	private Button btnGotoShop;
+	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,6 +50,8 @@ public class AddPurifierFragment extends BaseFragment implements
 		ivAddNewPurifier.setOnClickListener(this);
 		btnGotoShop = (Button) getActivity().findViewById(R.id.btn_go_to_shop);
 		btnGotoShop.setOnClickListener(this);
+		ImageButton infoImgBtn = (ImageButton) getView().findViewById(R.id.add_new_purifier_info_img_btn);
+		infoImgBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -72,7 +77,12 @@ public class AddPurifierFragment extends BaseFragment implements
 					Uri.parse(AppConstants.PURIFIER_BUY_LINK));
 			startActivity(intent);
 			break;
-
+		case R.id.add_new_purifier_info_img_btn:
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity != null) {
+				activity.showFragment(new AboutFragment());
+			}
+			break;
 		default:
 			break;
 		}

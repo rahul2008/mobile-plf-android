@@ -19,7 +19,19 @@
         android:text="@string/mode"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:visibility="invisible" />
+    <ImageButton
+                android:id="@+id/connecting_info_img_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/img_description"
+                android:layout_marginTop="12dp"
+                android:src="@drawable/info"
+                android:visibility="visible" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -35,7 +47,8 @@
         android:text="@string/filters"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_medium_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/gillsanslight.ttf"
+        android:visibility="invisible" />
 
     <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"

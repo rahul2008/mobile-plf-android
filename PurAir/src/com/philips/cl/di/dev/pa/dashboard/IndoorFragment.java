@@ -8,12 +8,14 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -32,6 +34,7 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo;
 import com.philips.cl.di.dev.pa.datamodel.FirmwarePortInfo.FirmwareState;
 import com.philips.cl.di.dev.pa.demo.DemoModeConstant;
+import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AlertDialogFragment;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
 import com.philips.cl.di.dev.pa.fragment.SupportFragment;
@@ -64,8 +67,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	private FontTextView aqiSummaryTxt ;
 	private FontTextView purifierNameTxt ;
 	private FontTextView purifierEui64Txt;
+	private FontTextView modeTextView;
+	private FontTextView filtersTextView;
+	
 	private ImageView aqiPointer ;
 	private ImageView aqiMeter ;
+	private ImageButton infoImgBtn;
 	
 	private FontTextView firmwareUpdateText;
 	private FontTextView firmwareInfoButton;
@@ -130,7 +137,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiStatusTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_reading);
 		aqiSummaryTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_aqi_summary);
 		purifierNameTxt = (FontTextView) getView().findViewById(R.id.hf_indoor_purifier_name);
+		modeTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_fan_mode_lb);
+		filtersTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_filter_lb);
 		purifierNameTxt.setSelected(true);
+		infoImgBtn = (ImageButton) getView().findViewById(R.id.connecting_info_img_btn);
+		infoImgBtn.setOnClickListener(this);
 		
 		alartMessageTextView = (FontTextView) getView().findViewById(R.id.hf_indoor_dashboard_cover_missing_alart_tv);
 		alartMessageTextView.setVisibility(View.GONE);
@@ -145,7 +156,7 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 		aqiPointer = (ImageView) getView().findViewById(R.id.hf_indoor_circle_pointer);
 		aqiPointer.setOnClickListener(this);
 		aqiMeter = (ImageView) getView().findViewById(R.id.hf_indoor_circle_meter);
-
+		
 		initFirmwareUpdatePopup();
 	}
 	
@@ -220,6 +231,10 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			aqiSummaryTxt.setText(AppConstants.EMPTY_STRING);
 			alartMessageTextView.setVisibility(View.GONE);
 		} else {
+			fanModeTxt.setVisibility(View.VISIBLE);
+			modeTextView.setVisibility(View.VISIBLE);
+			filtersTextView.setVisibility(View.VISIBLE);
+			infoImgBtn.setVisibility(View.GONE);
 			if(!airPortInfo.getPowerMode().equals(AppConstants.POWER_ON)) {
 				fanModeTxt.setText(getString(R.string.off));
 			}
@@ -228,7 +243,6 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 			}
 			
 			DashboardAPL apl = IndoorDashboardUtils.getDashboardAPL(indoorAqi);
-			
 			filterStatusTxt.setText(IndoorDashboardUtils.getFilterStatus(airPortInfo));
 			aqiPointer.setImageResource(apl.getPointerBackground());
 			
@@ -299,7 +313,11 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 	
 	private void disconnect(String message) {
 		hideIndoorMeter();
-		fanModeTxt.setText(getString(R.string.off));
+		fanModeTxt.setVisibility(View.GONE);
+		//fanModeTxt.setText(getString(R.string.off));
+		modeTextView.setVisibility(View.INVISIBLE);
+		filtersTextView.setVisibility(View.INVISIBLE);
+		infoImgBtn.setVisibility(View.VISIBLE);
 		filterStatusTxt.setText(AppConstants.EMPTY_STRING);
 		aqiStatusTxt.setTextSize(18.0f);
 		aqiPointer.setImageResource(R.drawable.grey_circle_2x);
@@ -529,6 +547,12 @@ public class IndoorFragment extends BaseFragment implements AirPurifierEventList
 					Toast.makeText(getActivity(), 
 							getString(R.string.purifier_not_connect_error), Toast.LENGTH_LONG).show();
 				}
+			}
+			break;
+		case R.id.connecting_info_img_btn:
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity != null) {
+				activity.showFragment(new AboutFragment());
 			}
 			break;
 		default:

@@ -1,8 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="2dp"
-    android:background="@drawable/air_dashboard_indoor_v_android" >
+    android:background="@drawable/air_dashboard_indoor_v_android"
+    android:paddingBottom="2dp" >
 
     <ImageView
         android:id="@+id/iv_circle_add_purifier"
@@ -14,19 +14,38 @@
         android:contentDescription="@string/img_description"
         android:src="@drawable/center_plus_2x" />
 
-    <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-        xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-        android:id="@+id/tv_add_air_purifier"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/add_new_purifier"
-        android:padding="8dp"
-        android:textSize="@dimen/text_size_large_dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        android:background="@drawable/ews_nav_bar_2x"
+        android:minHeight="40dp" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+        <com.philips.cl.di.dev.pa.view.FontTextView
+            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+            android:id="@+id/tv_add_air_purifier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:lineSpacingExtra="5dp"
+            android:padding="8dp"
+            android:text="@string/add_new_purifier"
+            android:textSize="@dimen/text_size_large_dp"
+            custom:fontAssetName="fonts/gillsanslight.ttf" />
+
+        <ImageButton
+            android:id="@+id/add_new_purifier_info_img_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/img_description"
+            android:src="@drawable/info" />
+    </RelativeLayout>
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/tv_bur_purifier"
         android:layout_width="wrap_content"
@@ -34,8 +53,8 @@
         android:layout_above="@+id/btn_go_to_shop"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:textSize="@dimen/text_size_large_dp"
         android:text="@string/buy_new_purifier"
+        android:textSize="@dimen/text_size_large_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
     <com.philips.cl.di.dev.pa.view.FontButton
@@ -46,14 +65,14 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="5dp"
-        android:paddingRight="8dp"
-        android:paddingLeft="8dp"
         android:background="@drawable/blue_button_selector"
         android:focusable="false"
         android:focusableInTouchMode="false"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:text="@string/take_me_to_shop"
-        android:textSize="@dimen/text_size_large_dp"
         android:textColor="#ffffff"
+        android:textSize="@dimen/text_size_large_dp"
         custom:fontAssetName="fonts/gillsanslight.ttf" />
 
 </RelativeLayout>
