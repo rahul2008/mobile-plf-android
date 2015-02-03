@@ -11,18 +11,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
 import com.philips.cl.di.dev.pa.newpurifier.PurAirDevice;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
-import com.philips.cl.di.dev.pa.util.Fonts;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.util.Utils;
@@ -49,31 +50,22 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		MetricsTracker.trackPage(TrackPageConstants.HELP_AND_DOCUMENTATION);
 	}
 	private void initializeView(View rootView) {
-		
-		TextView lblAppTutorial=(TextView) rootView.findViewById(R.id.app_tutorial);
-		TextView lblFAQ= (TextView) rootView.findViewById(R.id.faq);
-		TextView lblUserManual=(TextView) rootView.findViewById(R.id.lbl_user_manual);
-		TextView lblPhilipsSupport=(TextView) rootView.findViewById(R.id.lbl_philips_support);
-		TextView lblCallUs=(TextView) rootView.findViewById(R.id.lbl_call_us);
-		TextView lblSupport=(TextView) rootView.findViewById(R.id.lbl_support);	
-		TextView lblOpensource = (TextView) rootView.findViewById(R.id.opensource_lb);
+		ImageButton backButton = (ImageButton) rootView.findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		FontTextView heading=(FontTextView) rootView.findViewById(R.id.heading_name_tv);
+		heading.setText(getString(R.string.list_item_help_and_doc));
+		FontTextView lblAppAirQualityExplain=(FontTextView) rootView.findViewById(R.id.app_air_quality_explain);
+		FontTextView lblAppTutorial=(FontTextView) rootView.findViewById(R.id.app_tutorial);
+		FontTextView lblFAQ= (FontTextView) rootView.findViewById(R.id.faq);
+		FontTextView lblUserManual=(FontTextView) rootView.findViewById(R.id.lbl_user_manual);
+		FontTextView lblOpensource = (FontTextView) rootView.findViewById(R.id.opensource_lb);
 		faqAC4373 = (FontTextView) rootView.findViewById(R.id.faq_ac4373);
 		faqAC4375 = (FontTextView) rootView.findViewById(R.id.faq_ac4375);
 		userManualAC4373 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4373);
 		userManualAC4375 = (FontTextView) rootView.findViewById(R.id.user_manual_ac4375);
 		
-		lblAppTutorial.setTypeface(Fonts.getGillsans(getActivity()));		
-		lblFAQ.setTypeface(Fonts.getGillsans(getActivity()));
-		lblUserManual.setTypeface(Fonts.getGillsans(getActivity()));
-		lblPhilipsSupport.setTypeface(Fonts.getGillsans(getActivity()));
-		lblCallUs.setTypeface(Fonts.getGillsans(getActivity()));
-		lblSupport.setTypeface(Fonts.getGillsans(getActivity()));	
-		lblOpensource.setTypeface(Fonts.getGillsans(getActivity()));	
-		
 		lblAppTutorial.setOnClickListener(this);
-		
-		//RelativeLayout callUs = (RelativeLayout) rootView.findViewById(R.id.layout_call_us);
-		//callUs.setOnClickListener(this);
+		lblAppAirQualityExplain.setOnClickListener(this);
 		
 		TextView phoneNumber1= (TextView) rootView.findViewById(R.id.phone_number_one);
 		TextView phoneNumber2= (TextView) rootView.findViewById(R.id.phone_number_two);
@@ -99,12 +91,16 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		faqAC4375.setOnClickListener(this);
 		userManualAC4373.setOnClickListener(this);
 		userManualAC4375.setOnClickListener(this);
+		backButton.setOnClickListener(this);
 	}	
 	
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.heading_back_imgbtn:
+			//TODO : Back
+			break;
 		case R.id.phone_number_one:
 			//TODO : Move to one place.
 			MetricsTracker.trackActionServiceRequest("phone");
@@ -171,6 +167,11 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 			MetricsTracker.trackActionServiceRequest("app_tutorial");
 			Intent intentOd = new Intent(getActivity(), AirTutorialActivity.class);
 			startActivity(intentOd);
+			break;
+		case R.id.app_air_quality_explain:
+			MetricsTracker.trackActionServiceRequest("app_air_quality_explain");
+			Intent intentAQE = new Intent(getActivity(), AirQualityActivity.class);
+			startActivity(intentAQE);
 			break;
 		case R.id.opensource_lb:
 			if (getActivity() == null) return;

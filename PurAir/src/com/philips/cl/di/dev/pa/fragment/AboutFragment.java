@@ -1,6 +1,7 @@
 package com.philips.cl.di.dev.pa.fragment;
 
 import com.philips.cl.di.dev.pa.R;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.util.Utils;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
@@ -53,12 +54,17 @@ public class AboutFragment extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
+		MainActivity mainActivity = (MainActivity) getActivity();
 		switch (view.getId()) {
 		case R.id.about_setting_tv:
-			
+			if (mainActivity != null) {
+				mainActivity.showFragment(new SettingsFragment());
+			}
 			break;
 		case R.id.about_help_tv:
-			
+			if (mainActivity != null) {
+				mainActivity.showFragment(new HelpAndDocFragment());
+			}
 			break;
 		case R.id.about_close_img_btn:
 			

@@ -45,10 +45,6 @@ public class SettingsFragment extends BaseFragment implements OnClickListener, O
 	}
 
 	private void initViews(View view) {
-
-		TextView versionNumber = (TextView) view.findViewById(R.id.tv_version_number);
-		versionNumber.setText(getString(R.string.version_number) + " " +Utils.getVersionNumber()); //Should probably change it to version name.
-
 		ToggleButton demoModeTButton = (ToggleButton) view.findViewById(R.id.settings_demo_mode_toggle);
 
 		demoModeTButton.setChecked(PurAirApplication.isDemoModeEnable());

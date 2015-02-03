@@ -49,6 +49,13 @@ public class Fonts {
         }
         return centraleSansMedium;
     }
+    
+    public static Typeface getCentraleSansBook(Context context) {
+        if(centraleSansBook == null) {
+        	centraleSansBook = Typeface.createFromAsset(context.getAssets(), "fonts/centralesansbook.ttf");
+        }
+        return centraleSansBook;
+    }
 	
 	private static Typeface gillsans;
 	private static Typeface gillsansLight;
@@ -57,4 +64,5 @@ public class Fonts {
 	private static Typeface opensansCondLightItalic;
     private static Typeface centraleSansLight;
     private static Typeface centraleSansMedium;
+    private static Typeface centraleSansBook;
 }

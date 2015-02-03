@@ -83,6 +83,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.philips.cl.di.dev.pa.activity.AirQualityActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.philips.cl.di.dev.pa.activity.OutdoorDetailsActivity"
             android:screenOrientation="portrait" >
         </activity>

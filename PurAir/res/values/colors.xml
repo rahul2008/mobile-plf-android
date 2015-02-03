@@ -168,6 +168,7 @@
     <color name="light_sky_blue">#85D3EF</color>
     <color name="transparent_white">#CAFFFFFF</color>
     <color name="blue_list_item">#0E1F4A</color>
+    <color name="blue_list_sub_item">#003377</color>
     <color name="blue_title">#0065A0</color>
     <color name="red_delete">#CC1F2C</color>
     
