@@ -31,7 +31,7 @@ public class RemoteConnection implements DeviceConnection, DCSResponseListener, 
 	public String setPurifierDetails() {
 		//TODO - Add publish event listener for handling error cases 
 		cppController.setDCSResponseListener(this) ;
-		cppController.setPublishEventListener(this) ;
+		cppController.addPublishEventListener(this) ;
 		messageId = cppController.publishEvent(eventData,AppConstants.DI_COMM_REQUEST, AppConstants.PUT_PROPS, 
 				SessionDto.getInstance().getAppEui64(), "", 20, 120, purifier.getEui64()) ;
 		try {

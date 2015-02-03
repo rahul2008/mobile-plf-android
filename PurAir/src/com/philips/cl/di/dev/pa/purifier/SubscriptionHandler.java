@@ -161,7 +161,7 @@ public class SubscriptionHandler implements UDPEventListener, DCSEventListener,
 		} else {
 			if (PurAirApplication.isDemoModeEnable())
 				return;
-			CPPController.getInstance(PurAirApplication.getAppContext()).setPublishEventListener(this) ;
+			CPPController.getInstance(PurAirApplication.getAppContext()).addPublishEventListener(this) ;
 			airPortSubscriptionMessageID = CPPController.getInstance(PurAirApplication.getAppContext())
 					.publishEvent(
 							JSONBuilder.getPublishEventBuilderForSubscribe(

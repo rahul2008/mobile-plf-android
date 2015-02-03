@@ -5,13 +5,17 @@ import com.philips.cl.di.dev.pa.constant.AppConstants;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.purifier.SubscriptionHandler;
 import com.philips.cl.di.dev.pa.util.ALog;
+import com.philips.icpinterface.data.Errors;
 
-public class CppDiscoveryHelper implements SignonListener {
+public class CppDiscoveryHelper implements SignonListener, PublishEventListener {
 	
 	private CPPController mCppController;
 	private SubscriptionHandler mSubHandler;
 	private CppDiscoverEventListener mCppDiscListener;
 	private boolean isCppDiscoveryPending = false;
+	private int retrySubscriptionCount ;
+	private static final int MAX_RETRY_FOR_DISCOVER = 2 ;
+	private int discoverEventMessageID ;
 	
 	public CppDiscoveryHelper(CPPController controller, SubscriptionHandler subHandler, CppDiscoverEventListener cppDiscListener) {
 		mCppController = controller;
@@ -31,13 +35,15 @@ public class CppDiscoveryHelper implements SignonListener {
 		ALog.d(ALog.CPPDISCHELPER, "Stop discovery via CPP - disabling subscription");
 		isCppDiscoveryPending = false;
 		mSubHandler.disableRemoteSubscription(PurAirApplication.getAppContext());
+		mCppController.removePublishEventListener(this) ;
 	}
 	
 	private void startDiscoveryViaCpp(boolean isSignedOnToCpp) {
 		if (isSignedOnToCpp) {
 			mCppDiscListener.onSignedOnViaCpp();
 			mSubHandler.enableRemoteSubscription(PurAirApplication.getAppContext());
-			mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance()
+			mCppController.addPublishEventListener(this) ;
+			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance()
 							.getAppEui64(), "", 20, 120, SessionDto.getInstance().getAppEui64());
 			isCppDiscoveryPending = false;
 			ALog.i(ALog.CPPDISCHELPER, "Starting discovery via Cpp - IMMEDIATE");
@@ -64,5 +70,21 @@ public class CppDiscoveryHelper implements SignonListener {
 	// UTILITY METHODS TO ALLOW TESTING
 	public boolean getCppDiscoveryPendingForTesting() {
 		return isCppDiscoveryPending;
+	}
+
+	
+	@Override
+	public void onPublishEventReceived(int status, int messageId) {
+		if( status != Errors.SUCCESS) {
+			return;
+		}
+		if( retrySubscriptionCount > MAX_RETRY_FOR_DISCOVER ) {
+			retrySubscriptionCount = 1 ;			
+		}
+		else if(discoverEventMessageID == messageId) {
+			retrySubscriptionCount ++ ;
+			discoverEventMessageID = mCppController.publishEvent(null, AppConstants.DISCOVERY_REQUEST, AppConstants.DISCOVER, SessionDto.getInstance()
+					.getAppEui64(), "", 20, 120, SessionDto.getInstance().getAppEui64());
+		}
 	}
 }

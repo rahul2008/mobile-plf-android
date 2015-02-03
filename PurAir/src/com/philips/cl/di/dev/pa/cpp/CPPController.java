@@ -80,12 +80,11 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private ICP_CLIENT_DCS_STATE dcsState = ICP_CLIENT_DCS_STATE.STOPPED;
 	private APP_REQUESTED_STATE appDcsRequestState = APP_REQUESTED_STATE.NONE ;
 
-	private EventPublisher eventPublisher; 
 
 	private DownloadData downloadData;
 	private ICPDownloadListener downloadDataListener;
 	private StringBuilder downloadDataBuilder;
-	private PublishEventListener publishEventListener ;
+	private List<PublishEventListener> publishEventListeners ;
 	private String provider = null;
 	private int cntOffset  = 0;
 	private int fileSize = 0;
@@ -95,7 +94,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	private NotificationManager mNotifyManager;
 	private Notification notification;
 	private String filePath = "";
-
+	private EventPublisher eventPublisher ;
+	
 	private enum KEY_PROVISION {
 		NOT_PROVISIONED,
 		PROVISIONING,
@@ -109,8 +109,9 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		this.context = context;
 		callbackHandler = new ICPCallbackHandler();
 		callbackHandler.setHandler(this);
-		eventPublisher = new EventPublisher(callbackHandler);
+		
 		signOnListeners = new ArrayList<SignonListener>();
+		publishEventListeners = new ArrayList<PublishEventListener>() ;
 
 		appUpdateAlertShown=false;
 		init() ;
@@ -143,46 +144,45 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.i(ALog.ICPCLIENT, "startsignon on network change if not signed on");
 			signOn();
 		}
+				
 	}
 
 	private void startKeyProvisioning() {
-		ALog.i(ALog.KPS, "Start provision");
-
-		keyProvisioningState = KEY_PROVISION.PROVISIONING ;
-		String appID = null;
-		String appVersion = null;
-		int rv = 0;
-
-		// set Peripheral Information
-		Provision prv = new Provision(callbackHandler, configParams,
-				null, context);
-
-		// Set Application Info
-		PackageManager pm = context.getPackageManager();
-		appID = "1_com.philips.cl.di.air";
-		try {
-			appVersion = ""
-					+ pm.getPackageInfo(context.getPackageName(), 0).versionCode;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
-		prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
-
-		rv = prv.executeCommand();
-		if (rv != Errors.SUCCESS) {
-			ALog.i(ALog.KPS, "PROVISION-FAILED");
+			ALog.i(ALog.KPS, "Start provision");
+			keyProvisioningState = KEY_PROVISION.PROVISIONING ;
+			String appID = null;
+			String appVersion = null;
+			int rv = 0;
+	
+			// set Peripheral Information
+			Provision prv = new Provision(callbackHandler, configParams,
+					null, context);
+	
+			// Set Application Info
+			PackageManager pm = context.getPackageManager();
+			appID = "1_com.philips.cl.di.air";
 			try {
-				Thread.sleep(1000);
+				appVersion = ""
+						+ pm.getPackageInfo(context.getPackageName(), 0).versionCode;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			ALog.i(ALog.KPS, appID + ":" + AppConstants.APP_TYPE + ":" + appVersion);
+			prv.setApplicationInfo(appID, AppConstants.APP_TYPE, appVersion);
+	
 			rv = prv.executeCommand();
-			if(rv != Errors.SUCCESS ) {
-				keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
-			}
+			if (rv != Errors.SUCCESS) {
+				ALog.i(ALog.KPS, "PROVISION-FAILED");
+				try {
+					Thread.sleep(1000);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				rv = prv.executeCommand();
+				if(rv != Errors.SUCCESS ) {
+					keyProvisioningState = KEY_PROVISION.NOT_PROVISIONED ;
+				}
 		}
-
 	}
 
 	public boolean isSignOn() {
@@ -210,7 +210,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		if (signon == null) {
 			signon = SignOn.getInstance(callbackHandler, configParams);
 		}
-
+		
 		// For TLS/KPS enabled case to load-certificates/chek network & other
 		// information
 		// Need android context
@@ -234,10 +234,13 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			ALog.i(ALog.ICPCLIENT, "onSignOn");
 			isSignOn = true ;
 
-			ICPCallbackHandler callbackHandler = new ICPCallbackHandler();
-			callbackHandler.setHandler(this);
+			if( callbackHandler == null) {
+				callbackHandler = new ICPCallbackHandler();
+				callbackHandler.setHandler(this);
+			}
 
 			signon.setIsFirstTime(true);
+			ALog.i(ALog.ICPCLIENT,"Version: "+signon.clientVersion()) ;
 			int rv = signon.executeCommand();
 			if( rv != Errors.SUCCESS ) {
 				isSignOn = false ;
@@ -280,36 +283,51 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		this.dcsResponseListener = dcsResponseListener ;
 	}
 
-	public void setPublishEventListener(PublishEventListener publishEventListener) {
-		this.publishEventListener = publishEventListener ;
+	public void addPublishEventListener(PublishEventListener publishEventListener) {
+		synchronized (publishEventListeners) {
+			if (!publishEventListeners.contains(publishEventListener)) {
+				this.publishEventListeners.add(publishEventListener) ;
+			}
+		}
 	}
+	
+	public void removePublishEventListener(PublishEventListener publishEventListener) {
+		synchronized (publishEventListeners) {
+			if (publishEventListeners.contains(publishEventListener)) {
+				publishEventListeners.remove(publishEventListener);
+			}
+		}
+	}
+	
 	/** Subcribe event methods **/
 	/**
 	 * This method will subscribe to events
 	 */
 	public void startDCSService() {
 		ALog.d(ALog.CPPCONTROLLER, "Start DCS: " + isDCSRunning + " isSIgnOn" + isSignOn +"DCS state: " +dcsState);
-		if( dcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
-			dcsState = ICP_CLIENT_DCS_STATE.STARTING ;
-			appDcsRequestState = APP_REQUESTED_STATE.NONE ;
-			if (isSignOn) {
-				ALog.i(ALog.CPPCONTROLLER, "Starting DCS - Already Signed On");
-				int numberOfEvents = 1;
-				eventSubscription = EventSubscription.getInstance(callbackHandler,
-						numberOfEvents);
-				eventSubscription.setFilter("");
-				eventSubscription.setServiceTag("");
-
-				eventSubscription.executeCommand();
-			} else {
-				ALog.i(ALog.CPPCONTROLLER, "Failed to start DCS - not signed on");
-				signOnWithProvisioning() ;
+		
+			if( dcsState == ICP_CLIENT_DCS_STATE.STOPPED) {
+				dcsState = ICP_CLIENT_DCS_STATE.STARTING ;
+				appDcsRequestState = APP_REQUESTED_STATE.NONE ;
+				if (isSignOn) {
+					ALog.i(ALog.CPPCONTROLLER, "Starting DCS - Already Signed On");
+					int numberOfEvents = 1;
+					eventSubscription = EventSubscription.getInstance(callbackHandler,
+							numberOfEvents);
+					eventSubscription.setFilter("");
+					eventSubscription.setServiceTag("");
+	
+					eventSubscription.executeCommand();
+				} else {
+					ALog.i(ALog.CPPCONTROLLER, "Failed to start DCS - not signed on");
+					signOnWithProvisioning() ;
+				}
 			}
-		}
-		else {
-			appDcsRequestState = APP_REQUESTED_STATE.START ;
-		}
-	}
+			else {
+				appDcsRequestState = APP_REQUESTED_STATE.START ;
+			}
+	
+	}		
 
 	/**
 	 * Stop the DCS service
@@ -355,7 +373,6 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 		dcsEventListener.onDCSEventReceived(data, fromEui64, action);
 	}
 
-
 	/**
 	 * This method will be used to publish the events from App to Air Purifier
 	 * via CPP
@@ -371,6 +388,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	public int publishEvent(String eventData, String eventType,
 			String actionName, String replyTo, String conversationId,
 			int priority, int ttl, String purifierEui64) {
+		eventPublisher = new EventPublisher(callbackHandler);
 		int messageID = -1 ;
 		ALog.i(ALog.ICPCLIENT, "publishEvent eventData " + eventData + " eventType "
 				+ eventType + " Action Name: " +actionName +
@@ -510,7 +528,7 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 	@Override
 	public void onICPCallbackEventOccurred(int eventType, int status,
 			ICPClient obj) {
-//		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
+		ALog.i(ALog.ICPCLIENT, "onICPCallbackEventOccurred eventType " + eventType + " status " + status);
 		switch (eventType) {
 
 		case Commands.SIGNON:
@@ -526,8 +544,8 @@ public class CPPController implements ICPClientToAppInterface, ICPEventListener 
 			break;
 		case Commands.PUBLISH_EVENT:
 			EventPublisher eventPublisher = (EventPublisher) obj;
-			if( publishEventListener != null ) {
-				publishEventListener.onPublishEventReceived(status, eventPublisher.getMessageId()) ;
+			for(PublishEventListener listener: publishEventListeners) {
+				listener.onPublishEventReceived(status, eventPublisher.getMessageId()) ;
 			}
 			break;
 		case Commands.KEY_PROVISION:
