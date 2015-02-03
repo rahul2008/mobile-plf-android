@@ -1,6 +1,8 @@
 package com.philips.cl.di.dev.pa.digitalcare.fragment;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ public class ContactUsFragment extends BaseFragment {
 	private LinearLayout mConactUsParent = null;
 	private FrameLayout.LayoutParams mParams = null;
 	private FontButton mChat = null;
+	private FontButton mCallPhilips = null;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,7 +41,12 @@ public class ContactUsFragment extends BaseFragment {
 		mConactUsParent = (LinearLayout) getActivity().findViewById(
 				R.id.contactUsParent);
 		mChat = (FontButton) getActivity().findViewById(R.id.contactUsChat);
+		mCallPhilips = (FontButton) getActivity().findViewById(
+				R.id.contactUsCall);
+
 		mChat.setOnClickListener(actionBarClickListener);
+		mCallPhilips.setOnClickListener(actionBarClickListener);
+
 		mParams = (FrameLayout.LayoutParams) mConactUsParent.getLayoutParams();
 		Configuration config = getResources().getConfiguration();
 		setViewParams(config);
@@ -56,7 +64,17 @@ public class ContactUsFragment extends BaseFragment {
 			int id = view.getId();
 			if (id == R.id.contactUsChat) {
 				showFragment(new ChatFragment());
+			} else if (id == R.id.contactUsCall) {
+				callPhilips();
 			}
+		}
+
+		private void callPhilips() {
+			Intent myintent = new Intent(Intent.ACTION_CALL);
+			myintent.setData(Uri.parse("tel:" + "9986202179"));
+			myintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(myintent);
+
 		};
 	};
 
