@@ -171,6 +171,7 @@
     <color name="blue_list_sub_item">#003377</color>
     <color name="blue_title">#0065A0</color>
     <color name="red_delete">#CC1F2C</color>
+    <color name="gray_message">#878787</color>
     
    
     </resources>

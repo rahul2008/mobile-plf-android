@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ImageButton;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -27,6 +28,10 @@ public class AirQualityActivity extends Activity implements OnClickListener {
 	}
 	
 	private void initializeView() {
+		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		FontTextView heading=(FontTextView) findViewById(R.id.heading_name_tv);
+		heading.setText(getString(R.string.list_item_air_quality_explained));
 		FontTextView lblOutdoorColorExplained = (FontTextView) findViewById(R.id.lbl_outdoor_colors_explained);
 		FontTextView lblIndoorColorExplained = (FontTextView) findViewById(R.id.lbl_indoor_colors_explained);
 		FontTextView lblIndoorPollutant = (FontTextView) findViewById(R.id.lbl_indoor_pollutant);
@@ -38,12 +43,16 @@ public class AirQualityActivity extends Activity implements OnClickListener {
 		lblIndoorPollutant.setOnClickListener(this);
 		lblVistashield.setOnClickListener(this);
 		lblGuardEnv.setOnClickListener(this);
+		backButton.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View view) {
 		Intent in;
 		switch (view.getId()) {
+		case R.id.heading_back_imgbtn:
+			//TODO : Back
+			break;
 		case R.id.lbl_outdoor_colors_explained:
 			in = new Intent(AirQualityActivity.this, OutdoorAirColorIndicationActivity.class);
 			startActivity(in);
