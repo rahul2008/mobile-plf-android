@@ -639,4 +639,9 @@
     <string name="my_location">我的位置</string>
     <string name="add_outdoor_location">添加位置</string>
     <string name="locating">定位中</string>
+    
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
 </resources>

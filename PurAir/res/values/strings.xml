@@ -648,5 +648,9 @@
     <string name="my_location">My locations</string>
     <string name="add_outdoor_location">Add locations</string>
     <string name="locating">Locating</string>
-
+    
+    <!-- About -->
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="copy_right">\u00A9 Koninklijke Philips N.V, 2014</string>
 </resources>

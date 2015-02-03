@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebView.FindListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import com.philips.cl.di.dev.pa.PurAirApplication;
@@ -34,7 +36,7 @@ import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class ManagePurifierFragment extends BaseFragment implements
-        DashboardUpdateListener, PairingListener {
+        DashboardUpdateListener, PairingListener, OnClickListener {
 
 	private ManagePurifierArrayAdapter arrayAdapter;
 	private PurifierDatabase database;
@@ -90,6 +92,8 @@ public class ManagePurifierFragment extends BaseFragment implements
         editTV.setText(getString(R.string.edit));
         editTV.setOnClickListener(editPurifierClickEvent);
         listView = (ListView) getView().findViewById(R.id.manage_pur_list);
+        ImageButton infoButton = (ImageButton) getView().findViewById(R.id.manage_purifier_info_img_btn);
+        infoButton.setOnClickListener(this);
     }
 
 	@Override
@@ -244,6 +248,16 @@ public class ManagePurifierFragment extends BaseFragment implements
 			showAlertDialog("",	getString(R.string.max_purifier_reached));
 		} else {
 			((MainActivity) getActivity()).showFragment(new StartFlowChooseFragment());
+		}
+	}
+
+	@Override
+	public void onClick(View view) {
+		if (view.getId() == R.id.manage_purifier_info_img_btn) {
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity != null) {
+				activity.showFragment(new AboutFragment());
+			}
 		}
 	}
 }
