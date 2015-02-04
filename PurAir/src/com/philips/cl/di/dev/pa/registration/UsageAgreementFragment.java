@@ -14,10 +14,9 @@ import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.fragment.BaseFragment;
-import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.FontLoader;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class UsageAgreementFragment extends BaseFragment {
 
@@ -120,13 +119,13 @@ public class UsageAgreementFragment extends BaseFragment {
 		@Override
 		public View getChildView(int groupPosition, int childPosition,
 	            boolean isLastChild, View convertView, ViewGroup parent) {
-			TextView childText= new TextView(mContext);
-	    	childText.setPadding(0, 20, 0, 20);
-	    	FontLoader.getInstance().setTypeface(childText, "fonts/gillsanslight.ttf");
-	    	childText.setTextColor(mContext.getResources().getColor(R.color.gray));
-	    	childText.setText(mListChildData[groupPosition][childPosition]);
-	    	childText.setLineSpacing(Coordinates.getPxWithRespectToDip(mContext, 7F), 1);
-	        return childText;
+	    	LayoutInflater infalInflater = 
+	    			(LayoutInflater) this.mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			View view = infalInflater.inflate(R.layout.expandable_list_child,	null);
+			
+			FontTextView childTV = (FontTextView) view.findViewById(R.id.expandable_list_child_tv);
+			childTV.setText(mListChildData[groupPosition][childPosition]);
+			return view;
 		}
 
 		@Override
@@ -161,12 +160,12 @@ public class UsageAgreementFragment extends BaseFragment {
 	        ImageView imgView =  (ImageView) convertView.findViewById(R.id.iv_agreement_icon);
 	        
 	        if (expandCollapse[groupPosition]) {
-	        	imgView.setImageResource(R.drawable.minus_blue_reg);
+	        	imgView.setImageResource(R.drawable.up_arrow_list_item);
 	        } else {
-	        	imgView.setImageResource(R.drawable.plus_blue_reg);
+	        	imgView.setImageResource(R.drawable.down_arrow_list_item);
 	        }
 	        
-	        TextView lblListHeader = (TextView) convertView.findViewById(R.id.tv_agreement_description);
+	        FontTextView lblListHeader = (FontTextView) convertView.findViewById(R.id.tv_agreement_description);
 	        lblListHeader.setText(mListHeader[groupPosition]);
 	        
 	        return convertView;

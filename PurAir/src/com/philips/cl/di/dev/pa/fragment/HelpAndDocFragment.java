@@ -19,6 +19,7 @@ import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.activity.AirQualityActivity;
 import com.philips.cl.di.dev.pa.activity.AirTutorialActivity;
+import com.philips.cl.di.dev.pa.activity.MainActivity;
 import com.philips.cl.di.dev.pa.activity.OpenSourceLibLicenseActivity;
 import com.philips.cl.di.dev.pa.datamodel.SessionDto;
 import com.philips.cl.di.dev.pa.newpurifier.DiscoveryManager;
@@ -99,7 +100,10 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.heading_back_imgbtn:
-			//TODO : Back
+			MainActivity activity = (MainActivity) getActivity();
+			if (activity != null) {
+				activity.showFragment(new AboutFragment());
+			}
 			break;
 		case R.id.phone_number_one:
 			//TODO : Move to one place.
@@ -277,4 +281,6 @@ public class HelpAndDocFragment extends BaseFragment implements OnClickListener{
 		email.setType("message/rfc822");
 		startActivity(Intent.createChooser(email, "Send this mail via:"));
 	}
+	
+	
 }

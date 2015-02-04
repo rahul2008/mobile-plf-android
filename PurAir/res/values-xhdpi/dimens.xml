@@ -23,4 +23,5 @@
 <dimen name="title_text_size_small_dp">20dp</dimen>
 <dimen name="title_text_size_medium_dp">22dp</dimen>
 <dimen name="title_text_size_large_dp">24dp</dimen>
+<dimen name="heading_text_size_dp">16dp</dimen>
 </resources>

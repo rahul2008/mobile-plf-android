@@ -11,10 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/img_description"
-        android:padding="4dp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingRight="8dp"
+        android:paddingLeft="12dp"
         android:src="@drawable/back_arrow"
         android:visibility="invisible" />
 
@@ -27,7 +29,7 @@
         android:gravity="center"
         android:text=""
         android:textColor="@color/blue_title"
-        android:textSize="@dimen/title_text_size_medium_dp"
+        android:textSize="@dimen/heading_text_size_dp"
         custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ImageButton
@@ -39,7 +41,10 @@
         android:layout_marginRight="8dp"
         android:background="@android:color/transparent"
         android:contentDescription="@string/img_description"
-        android:padding="8dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="16dp"
+        android:paddingLeft="8dp"
         android:src="@drawable/cross_close"
         android:visibility="invisible" />
 

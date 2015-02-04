@@ -1,17 +1,14 @@
 package com.philips.cl.di.dev.pa.adapter;
 
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.TextView;
+import android.widget.ImageView;
 
-import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
-import com.philips.cl.di.dev.pa.util.Coordinates;
-import com.philips.cl.di.dev.pa.util.FontLoader;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
@@ -44,17 +41,13 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	@Override
 	public View getChildView(int groupPosition, final int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
-
-		TextView childText = new TextView(context);
-		childText.setPadding(0, 20, 0, 20);
-		FontLoader.getInstance().setTypeface(childText,
-				"fonts/gillsanslight.ttf");
-		childText.setTextColor(context.getResources().getColor(R.color.gray));
-		childText.setTextSize(TypedValue.COMPLEX_UNIT_PX, (float) context
-				.getResources().getDimension(R.dimen.text_size_small));
-		childText.setText(colorListChildData[groupPosition][childPosition]);
-		childText.setLineSpacing(Coordinates.getPxWithRespectToDip(PurAirApplication.getAppContext(), 7F), 1) ;
-		return childText;
+		
+		LayoutInflater infalInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = infalInflater.inflate(R.layout.expandable_list_child,	null);
+		
+		FontTextView childTV = (FontTextView) view.findViewById(R.id.expandable_list_child_tv);
+		childTV.setText(colorListChildData[groupPosition][childPosition]);
+		return view;
 	}
 
 	@Override
@@ -83,17 +76,22 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this.context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			convertView = infalInflater.inflate(R.layout.air_color_group_item,
-					null);
+			convertView = infalInflater.inflate(R.layout.air_color_group_item,	null);
 		}
 
-		TextView lblListHeader = (TextView) convertView
-				.findViewById(R.id.color_indication_text);
+		FontTextView lblListHeader = (FontTextView) convertView.findViewById(R.id.color_indication_text);
 		lblListHeader.setText(colorListHeader[groupPosition]);
 
-		TextView lblColor = (TextView) convertView.findViewById(R.id.color_lbl);
+		FontTextView lblColor = (FontTextView) convertView.findViewById(R.id.color_lbl);
 		lblColor.setBackgroundResource(colorList[groupPosition]);
 		lblColor.setText(colorListLbl[groupPosition]);
+		
+		ImageView indicator = (ImageView)convertView.findViewById(R.id.expandable_list_indicator);
+		if (isExpanded) {
+			indicator.setImageResource(R.drawable.up_arrow_list_item);
+		} else {
+			indicator.setImageResource(R.drawable.down_arrow_list_item);
+		}
 
 		return convertView;
 	}

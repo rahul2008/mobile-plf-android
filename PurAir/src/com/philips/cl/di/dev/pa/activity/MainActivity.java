@@ -58,12 +58,12 @@ import com.philips.cl.di.dev.pa.datamodel.AirPortInfo;
 import com.philips.cl.di.dev.pa.demo.AppInDemoMode;
 import com.philips.cl.di.dev.pa.ews.EWSWifiManager;
 import com.philips.cl.di.dev.pa.ews.SetupDialogFactory;
+import com.philips.cl.di.dev.pa.fragment.AboutFragment;
 import com.philips.cl.di.dev.pa.fragment.AirQualityFragment;
 import com.philips.cl.di.dev.pa.fragment.BuyOnlineFragment;
 import com.philips.cl.di.dev.pa.fragment.CongratulationFragment;
 import com.philips.cl.di.dev.pa.fragment.DownloadAlerDialogFragement;
 import com.philips.cl.di.dev.pa.fragment.HelpAndDocFragment;
-import com.philips.cl.di.dev.pa.fragment.ManagePurifierFragment;
 import com.philips.cl.di.dev.pa.fragment.NotificationsFragment;
 import com.philips.cl.di.dev.pa.fragment.OutdoorLocationsFragment;
 import com.philips.cl.di.dev.pa.fragment.ProductRegistrationStepsFragment;
@@ -409,13 +409,14 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			showFragment(homeFragment);
 		}else if (fragment instanceof CongratulationFragment) {
 			return;
-		}else if (!(fragment instanceof HomeFragment)
-				&& !(fragment instanceof ProductRegistrationStepsFragment)) {
+		}else if (fragment instanceof ProductRegistrationStepsFragment) {
+			manager.popBackStack();
+		} else if (fragment instanceof HelpAndDocFragment) {
+			showFragment(new AboutFragment());
+		} else if (!(fragment instanceof HomeFragment)) {
 			manager.popBackStackImmediate(null,
 					FragmentManager.POP_BACK_STACK_INCLUSIVE);
 			showFirstFragment();
-		} else if (fragment instanceof ProductRegistrationStepsFragment) {
-			manager.popBackStack();
 		} else {
 			clearFinishCheckGPS();
 		}

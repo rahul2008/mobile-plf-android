@@ -1,25 +1,19 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import java.util.Locale;
-
 import android.annotation.TargetApi;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ExpandableListAdapter;
-import com.philips.cl.di.dev.pa.util.ALog;
-import com.philips.cl.di.dev.pa.util.Fonts;
-import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
+import com.philips.cl.di.dev.pa.view.FontTextView;
 
 public class IndoorAirColorIndicationActivity extends BaseActivity {
 
@@ -71,55 +65,32 @@ public class IndoorAirColorIndicationActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.air_quality_indication);
-		try {
-			initActionBar();
-		} catch (ClassCastException e) {
-			ALog.e(ALog.MAINACTIVITY, "Actionbar: " + "Error: " + e.getMessage());
-		}
+		this.getSupportActionBar().hide();
 		TextView indoorColorExplained=(TextView) findViewById(R.id.color_explained_intro);
 		indoorColorExplained.setText(R.string.indoor_color_explained_intro);
+		ImageButton backButton = (ImageButton) findViewById(R.id.heading_back_imgbtn);
+		backButton.setVisibility(View.VISIBLE);
+		FontTextView heading=(FontTextView) findViewById(R.id.heading_name_tv);
+		heading.setText(getString(R.string.indoor_colors_explained));
 
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.colors_list); 
 		listAdapter = new ExpandableListAdapter(this, ARR_GROUP_ELEMENTS, ARR_CHILD_ELEMENTS,COLOR_LIST,COLOR_LIST_LABEL);
 		expListView.setAdapter(listAdapter);
 		setGroupIndicatorToRight();
+		backButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				finish();
+			}
+		});
 	}
 	
 	@Override
 	protected void onResume() {
 		super.onResume();
 		MetricsTracker.trackPage(TrackPageConstants.INDOOR_AIR_QUALITY_COLOURS_EXPLAINED);
-	}
-	
-	/*Initialize action bar */
-	private void initActionBar() throws ClassCastException {
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setIcon(null);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		Drawable d=getResources().getDrawable(R.drawable.ews_nav_bar_2x);  
-		actionBar.setBackgroundDrawable(d);
-		View view = getLayoutInflater().inflate(R.layout.home_action_bar, null);
-		((ImageView)view.findViewById(R.id.right_menu_img)).setVisibility(View.GONE);
-		((ImageView)view.findViewById(R.id.left_menu_img)).setVisibility(View.GONE);
-		((ImageView)view.findViewById(R.id.back_to_home_img)).setVisibility(View.GONE);
-		((ImageView)view.findViewById(R.id.add_location_img)).setVisibility(View.GONE);
-		actionBar.setCustomView(view);
-		setActionBarTitle(R.string.indoor_colors_explained);
-	}
-
-	/*Sets Action bar title */
-	public void setActionBarTitle(int tutorialTitle) {    	
-		TextView textView = (TextView) findViewById(R.id.action_bar_title);
-		//If Chinese language selected set font-type-face normal
-		if (LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANS")
-				|| LanguageUtils.getLanguageForLocale(Locale.getDefault()).contains("ZH-HANT")) {
-			textView.setTypeface(Typeface.DEFAULT);
-		} else {
-			textView.setTypeface(Fonts.getGillsansLight(this));
-		}
-//		textView.setTextSize(24);
-		textView.setText(this.getText(tutorialTitle));
 	}
 
 	@TargetApi(18)

@@ -1,278 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fillViewport="true" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:orientation="vertical"
-        android:padding="15dp" >
+        layout="@layout/heading" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/vistashield_ips_system_intro"
-            android:textColor="#7F8595"
-            android:textSize="@dimen/text_size_small"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/vistashield_ips_system_subheading"
-            android:textColor="@color/philips_blue"
-            android:textSize="@dimen/text_size_large"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-        <!-- Sieving -->
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:orientation="vertical"
+            android:padding="15dp" >
 
-            <ImageView
-                android:id="@+id/sieving_imgView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/sieving" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/vistashield_ips_system_intro"
+                android:textColor="@color/gray_message"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/vistashield_ips_system_subheading"
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <!-- Sieving -->
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/sieving_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/sieving_imgView"
+                android:drawableLeft="@drawable/sieving"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/vistashield_heading_1"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/sieving_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/sieving_heading"
-                android:layout_below="@+id/sieving_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_1"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-             <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/sieving_heading"
-                android:layout_below="@+id/sieving_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-            
-        </RelativeLayout>
+            <!-- Inertial Impaction -->
 
-        <!-- Inertial Impaction -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/inertial_impaction_imgView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/inertial_impaction" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/inertial_impaction_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/inertial_impaction_imgView"
+                android:drawableLeft="@drawable/inertial_impaction"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/vistashield_heading_2"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/inertial_impaction_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/inertial_impaction_heading"
-                android:layout_below="@+id/inertial_impaction_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_2"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-             <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/inertial_impaction_heading"
-                android:layout_below="@+id/inertial_impaction_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-            
-        </RelativeLayout>
+            <!-- Interception -->
 
-        <!-- Interception -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/interception_imgView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="3dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/interception" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/interception_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/interception_imgView"
+                android:drawableLeft="@drawable/interception"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/vistashield_heading_3"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/interception_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/interception_heading"
-                android:layout_below="@+id/interception_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_3"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/interception_heading"
-                android:layout_below="@+id/interception_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
+            <!-- Diffusion and Absorbtion -->
 
-        <!-- Diffusion and Absorbtion -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/diffusion_absorbtion_imgView"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="3dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/diffusion_absorbtion" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/diffusion_absorbtion_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/diffusion_absorbtion_imgView"
+                android:drawableLeft="@drawable/diffusion_absorbtion"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/vistashield_heading_4"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/diffusion_absorbtion_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/diffusion_absorbtion_heading"
-                android:layout_below="@+id/diffusion_absorbtion_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="16dp"
                 android:text="@string/vistashield_intro_4"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
-        </RelativeLayout>
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="25dp"
-            android:text="@string/vistashield_nanometer_ques"
-            android:textColor="@color/philips_blue"
-            android:textSize="@dimen/text_size_large"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="25dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/vistashield_nanometer_ques"
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf"  />
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:contentDescription="@string/img_description"
-            android:src="@drawable/nanometer_desc" />
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/img_description"
+                android:src="@drawable/nanometer_desc" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="25dp"
-            android:text="@string/vistashield_performance_subheading"
-            android:textColor="@color/philips_blue"
-            android:textSize="@dimen/text_size_large"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/vistashield_performance_subheading"
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf"  />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/vistashield_performance_intro"
-            android:textColor="#7F8595"
-            android:textSize="@dimen/text_size_small"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-    </LinearLayout>
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/vistashield_performance_intro"
+                android:textColor="@color/gray_message"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+        </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>

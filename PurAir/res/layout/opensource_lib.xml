@@ -24,8 +24,9 @@
                 android:layout_weight="1"
                 android:lineSpacingExtra="5dp"
                 android:text="@string/subtitle_opensource_lib"
-                android:textSize="18sp"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansbook.ttf" />
 
             <ImageButton
                 android:id="@+id/close_opensource_lib_imgbtn"
@@ -35,7 +36,7 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/img_description"
                 android:padding="16dp"
-                android:src="@drawable/close_icon_2x" />
+                android:src="@drawable/cross_close" />
         </LinearLayout>
 
         <ImageView
@@ -54,8 +55,9 @@
     	    android:linksClickable="true"
             android:lineSpacingExtra="7dp"
             android:text="@string/opensource_licens"
-            android:textSize="16sp"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            android:textColor="@color/gray_message"
+                android:textSize="@dimen/text_size_medium"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>

@@ -3,35 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFF"
-    android:orientation="vertical"
-    android:padding="15dp" >
+    android:orientation="vertical" >
 
-    <com.philips.cl.di.dev.pa.view.FontTextView 
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        layout="@layout/heading" />
+
+    <com.philips.cl.di.dev.pa.view.FontTextView
         xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
         android:id="@+id/color_explained_intro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="24dp"
         android:autoLink="web"
-        android:linksClickable="true"
-        android:text="@string/outdoor_color_explained_intro"
-        android:textColor="#7F8595"
-        android:textSize="@dimen/text_size_small"
         android:lineSpacingExtra="5dp"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="1dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/seperator_line_2x"
-        android:contentDescription="@string/img_description" />
+        android:linksClickable="true"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="@string/outdoor_color_explained_intro"
+        android:textColor="@color/gray_message"
+        android:textSize="@dimen/text_size_medium"
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ExpandableListView
         android:id="@+id/colors_list"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent" >
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="16dp"
+        android:groupIndicator="@android:color/transparent" >
     </ExpandableListView>
 
 </LinearLayout>

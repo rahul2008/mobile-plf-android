@@ -1,6 +1,5 @@
 package com.philips.cl.di.dev.pa.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,7 @@ import com.philips.cl.di.dev.pa.util.MetricsTracker;
 import com.philips.cl.di.dev.pa.util.TrackPageConstants;
 import com.philips.cl.di.dev.pa.view.FontTextView;
 
-public class AirQualityActivity extends Activity implements OnClickListener {
+public class AirQualityActivity extends BaseActivity implements OnClickListener {
 	
 	public static final int INDOOR_POLLUTANT_SCREEN = 11;
 	public static final int VITASHIELD_SCREEN = 12;
@@ -21,6 +20,7 @@ public class AirQualityActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.getSupportActionBar().hide();
 		MetricsTracker.trackPage(TrackPageConstants.AIR_QUALITY_EXPLAINED);
 		setContentView(R.layout.air_quality_fragment);
 		initializeView();
@@ -51,7 +51,7 @@ public class AirQualityActivity extends Activity implements OnClickListener {
 		Intent in;
 		switch (view.getId()) {
 		case R.id.heading_back_imgbtn:
-			//TODO : Back
+			finish();
 			break;
 		case R.id.lbl_outdoor_colors_explained:
 			in = new Intent(AirQualityActivity.this, OutdoorAirColorIndicationActivity.class);

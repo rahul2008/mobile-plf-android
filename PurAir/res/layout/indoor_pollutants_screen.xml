@@ -1,349 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
 
-    <LinearLayout
+    <include
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:orientation="vertical"
-        android:padding="15dp" >
+        layout="@layout/heading" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/indoor_pollutants_intro"
-            android:textColor="#7F8595"
-            android:textSize="@dimen/text_size_small"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
-            xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="20dp"
-            android:text="@string/indoor_pollutants_subheading"
-            android:textColor="@color/philips_blue"
-            android:textSize="@dimen/title_text_size_small"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
-
-        <!-- Formaldehyde -->
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:background="#FFF"
+            android:orientation="vertical"
+            android:padding="15dp" >
 
-            <ImageView
-                android:id="@+id/formaldehyde_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/formaldehyde" />
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/indoor_pollutants_intro"
+                android:textColor="@color/gray_message"
+                android:textSize="@dimen/text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
+                xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/indoor_pollutants_subheading"
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+
+            <!-- Formaldehyde -->
+
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/formaldehyde_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/formaldehyde_imgView"
                 android:text="@string/pollutant_heading_1"
-                android:textColor="#7F8595"
+                android:drawableLeft="@drawable/formaldehyde"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
+                android:textColor="@color/blue_title"
                 android:textSize="@dimen/title_text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/formaldehyde_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/formaldehyde_heading"
-                android:layout_below="@+id/formaldehyde_heading"
+                android:layout_marginBottom="24dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/pollutant_intro_1"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
-			 <ImageView
-               android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/formaldehyde_heading"
-                android:layout_below="@+id/formaldehyde_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-        <!-- TVOC -->
+            <!-- TVOC -->
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/tvoc_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/tvoc" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tvoc_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/tvoc_imgView"
+                android:drawableLeft="@drawable/tvoc"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/pollutant_heading_2"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/tvoc_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tvoc_heading"
-                android:layout_below="@+id/tvoc_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_2"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-             <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/tvoc_heading"
-                android:layout_below="@+id/tvoc_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
+            <!-- Airborne Pathogens -->
 
-        <!-- Airborne Pathogens -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/airborne_pathogens_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/airborne_pathogens" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/airborne_pathogens_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/airborne_pathogens_imgView"
+                android:drawableLeft="@drawable/airborne_pathogens"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/pollutant_heading_3"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/airborne_pathogens_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/airborne_pathogens_heading"
-                android:layout_below="@+id/airborne_pathogens_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_3"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            <ImageView
-               android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/airborne_pathogens_heading"
-                android:layout_below="@+id/airborne_pathogens_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
+            <!-- Pet hair and dust mites -->
 
-        <!-- Pet hair and dust mites -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/pet_hair_dust_mites_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/pet_hair_dust_mites" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/pet_hair_dust_mites_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/pet_hair_dust_mites_imgView"
+                android:drawableLeft="@drawable/pet_hair_dust_mites"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/pollutant_heading_4"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/pet_hair_dust_mites_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/pet_hair_dust_mites_heading"
-                android:layout_below="@+id/pet_hair_dust_mites_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_4"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            
-            <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/pet_hair_dust_mites_heading"
-                android:layout_below="@+id/pet_hair_dust_mites_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
+            <!-- outdoor particles -->
 
-        <!-- Airborne Pathogens -->
-
-
-        <!-- outdoor particles -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/outdoor_particles_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/outdoor_particles" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/outdoor_particles_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/outdoor_particles_imgView"
+                android:drawableLeft="@drawable/outdoor_particles"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/pollutant_heading_5"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/outdoor_particles_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/outdoor_particles_heading"
-                android:layout_below="@+id/outdoor_particles_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_5"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
 
-            
-              <ImageView
-                android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/outdoor_particles_heading"
-                android:layout_below="@+id/outdoor_particles_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
+            <!-- particulate matter -->
 
-        <!-- particulate matter -->
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" >
-
-            <ImageView
-                android:id="@+id/particulate_matter_imgView"
-                android:layout_width="55dp"
-                android:layout_height="55dp"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/img_description"
-                android:scaleType="centerInside"
-                android:src="@drawable/particulate_matter" />
-
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/particulate_matter_heading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="3dp"
-                android:layout_toRightOf="@+id/particulate_matter_imgView"
+                android:drawableLeft="@drawable/particulate_matter"
+                android:drawablePadding="8dp"
+                android:lineSpacingExtra="5dp"
                 android:text="@string/pollutant_heading_6"
-                android:textColor="#7F8595"
-                android:textSize="@dimen/text_size_large"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
+                android:textColor="@color/blue_title"
+                android:textSize="@dimen/title_text_size_small"
+                custom:fontAssetName="fonts/centralesansmedium.ttf" />
 
-            <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+            <com.philips.cl.di.dev.pa.view.FontTextView
                 xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
                 android:id="@+id/particulate_matter_intro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/particulate_matter_heading"
-                android:layout_below="@+id/particulate_matter_heading"
+                android:lineSpacingExtra="5dp"
+                android:layout_marginBottom="24dp"
                 android:text="@string/pollutant_intro_6"
-                android:textColor="#7F8595"
+                android:textColor="@color/gray_message"
                 android:textSize="@dimen/text_size_small"
-                custom:fontAssetName="fonts/gillsanslight.ttf" />
-			<ImageView
-			    android:layout_width="fill_parent"
-                android:layout_height="1dp"
-                android:layout_alignLeft="@+id/particulate_matter_heading"
-                android:layout_below="@+id/particulate_matter_intro"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/seperator_line_2x"
-                android:contentDescription="@string/img_description" />
-        </RelativeLayout>
-    </LinearLayout>
+                custom:fontAssetName="fonts/centralesanslight.ttf" />
+        </LinearLayout>
+    </ScrollView>
 
-</ScrollView>
+</LinearLayout>
