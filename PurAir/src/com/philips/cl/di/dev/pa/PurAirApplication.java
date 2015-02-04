@@ -25,7 +25,7 @@ public class PurAirApplication extends Application {
 		printCurrentLanguage();
 		preventOSFromDestroyingAsyncTasks();
 		configureUrlConnectionSocketReuse();
-		toggleLogging();
+		toggleLoggingAndTagging();
 		
 		ALog.i(ALog.APPLICATION, "New application start");
 		setApplication(this);
@@ -104,11 +104,13 @@ public class PurAirApplication extends Application {
 		return (0 != (getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE));
 	}
 	
-	private void toggleLogging() {
+	private void toggleLoggingAndTagging() {
 		if (isDebugBuild()) {
 			ALog.enableLogging();
+			MetricsTracker.enableTagging();
 		} else {
 			ALog.disableLogging();
+			MetricsTracker.disableTagging();
 		}
 	}
 	
