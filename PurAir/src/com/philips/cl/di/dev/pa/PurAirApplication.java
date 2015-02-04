@@ -107,10 +107,10 @@ public class PurAirApplication extends Application {
 	private void toggleLoggingAndTagging() {
 		if (isDebugBuild()) {
 			ALog.enableLogging();
-			MetricsTracker.enableTagging();
+			MetricsTracker.disableTagging();
 		} else {
 			ALog.disableLogging();
-			MetricsTracker.disableTagging();
+			MetricsTracker.enableTagging();
 		}
 	}
 	
