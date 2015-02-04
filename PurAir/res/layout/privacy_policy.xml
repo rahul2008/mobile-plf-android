@@ -19,13 +19,16 @@
             android:padding="8dp"
             android:src="@drawable/close_icon_2x" />
 
-        <com.philips.cl.di.dev.pa.view.FontTextView android:lineSpacingExtra="5dp"
+        <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
             android:id="@+id/tv_privacy_policy_full"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
             android:text="@string/privacy_policy_text"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_medium"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
 
 </ScrollView>

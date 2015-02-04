@@ -14,9 +14,9 @@
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="@string/shop_demo_mode"
-        android:textColor="@color/gray"
+        android:textColor="@color/blue_list_item"
         android:textSize="@dimen/text_size_medium"
-        custom:fontAssetName="fonts/gillsanslight.ttf" />
+        custom:fontAssetName="fonts/centralesanslight.ttf" />
 
     <ToggleButton
         android:id="@+id/settings_demo_mode_toggle"
@@ -36,7 +36,7 @@
         android:layout_below="@+id/settings_demo_mode_toggle"
         android:background="@drawable/seperator_line_2x"
         android:contentDescription="@string/img_description" />
-    
+
     <LinearLayout
         android:id="@+id/policy_layout"
         android:layout_width="fill_parent"
@@ -53,8 +53,9 @@
             android:layout_weight="1"
             android:lineSpacingExtra="5dp"
             android:text="@string/privacy_policy"
-            android:textColor="@color/gray"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_very_small"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -65,8 +66,9 @@
             android:gravity="center_horizontal"
             android:lineSpacingExtra="5dp"
             android:text="@string/eula"
-            android:textColor="@color/gray"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_very_small"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
 
         <com.philips.cl.di.dev.pa.view.FontTextView
             xmlns:custom="http://schemas.android.com/apk/res/com.philips.cl.di.dev.pa"
@@ -77,10 +79,9 @@
             android:gravity="right"
             android:lineSpacingExtra="5dp"
             android:text="@string/terms_and_conditions"
-            android:textColor="@color/gray"
-            custom:fontAssetName="fonts/gillsanslight.ttf" />
+            android:textColor="@color/blue_list_item"
+            android:textSize="@dimen/text_size_very_small"
+            custom:fontAssetName="fonts/centralesanslight.ttf" />
     </LinearLayout>
-    
 
-    
 </RelativeLayout>
