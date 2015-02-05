@@ -15,31 +15,25 @@ import android.os.AsyncTask;
  */
 public class URLExistAsyncTask extends AsyncTask<String, Void, Boolean> {
 	private AsyncTaskCompleteListenere callback ;
-	private static URLExistAsyncTask mTask;
-//	private static final String URL = "http://www.example.com";
+	//private static final String URL = "http://www.example.com";
 //	private static final String URL = "http://www.ecdinterface.philips.com";//Bat CPP server
 	private static final String URL = "http://dp.cpp.philips.com.cn";//China CPP server
 
 	private static final int CONNECTION_TIMEOUT = 5000 ;
 
-	private URLExistAsyncTask(/* AsyncTaskCompleteListenere callback */) {
+	public URLExistAsyncTask(/* AsyncTaskCompleteListenere callback */) {
 
 	}
 
-	public static URLExistAsyncTask getInstance() {
-		mTask = new URLExistAsyncTask();
-		return mTask;
-	}
-
+	
 	public void testConnection(AsyncTaskCompleteListenere callback) {
 		this.callback = callback;
 		try {
-			mTask.execute(new String[] { URL });
+			execute(new String[] { URL });			
 		}
 		catch(IllegalStateException e){
-			mTask.cancel(true);
-			mTask = new URLExistAsyncTask();
-			mTask.execute(new String[] { URL });
+			cancel(true);
+			execute(new String[] { URL });
 		}
 	}
 
@@ -53,25 +47,25 @@ public class URLExistAsyncTask extends AsyncTask<String, Void, Boolean> {
 			hConn.setRequestMethod("GET");
 			hConn.setReadTimeout(CONNECTION_TIMEOUT);
 			hConn.connect();
-			code = hConn.getResponseCode();
-			
-//			response = NetworkUtils.convertInputStreamToString(hConn.getInputStream()) ;
-			
+			code = hConn.getResponseCode();			
 		} catch (IOException e) {
 			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		} catch (Exception e) {
 			ALog.e(ALog.ERROR, "Error: " + e.getMessage());
 		}
-		if( code == HttpURLConnection.HTTP_FORBIDDEN 
-				|| code == HttpURLConnection.HTTP_PAYMENT_REQUIRED) {
-			isInternetAvailable = true;
+		finally {
+			if( code == HttpURLConnection.HTTP_FORBIDDEN 
+					|| code == HttpURLConnection.HTTP_PAYMENT_REQUIRED) {
+				isInternetAvailable = true;
+			}
 		}
 		return isInternetAvailable;
 	}
 
 	protected void onPostExecute(Boolean result) {
+		ALog.i("INTERNETC", "onPostExecute: "+result + " "+ callback) ;
 		if (callback != null) {
-			callback.onTaskComplete(result);
+				callback.onTaskComplete(result);
 		}
 	}
 }

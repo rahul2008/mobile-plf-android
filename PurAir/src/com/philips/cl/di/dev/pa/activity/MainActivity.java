@@ -1,10 +1,7 @@
 package com.philips.cl.di.dev.pa.activity;
-
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.CrashManagerListener;
 import android.annotation.SuppressLint;
@@ -38,7 +35,6 @@ import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import cn.jpush.android.api.JPushInterface;
-
 import com.philips.cl.di.dev.pa.PurAirApplication;
 import com.philips.cl.di.dev.pa.R;
 import com.philips.cl.di.dev.pa.adapter.ListItemAdapter;
@@ -83,6 +79,8 @@ import com.philips.cl.di.dev.pa.purifier.AirPurifierEventListener;
 import com.philips.cl.di.dev.pa.registration.UserRegistrationController;
 import com.philips.cl.di.dev.pa.util.ALog;
 import com.philips.cl.di.dev.pa.util.AsyncTaskCompleteListenere;
+import com.philips.cl.di.dev.pa.util.InternetConnectionHandler;
+import com.philips.cl.di.dev.pa.util.InternetConnectionListener;
 import com.philips.cl.di.dev.pa.util.LanguageUtils;
 import com.philips.cl.di.dev.pa.util.LocationUtils;
 import com.philips.cl.di.dev.pa.util.MetricsTracker;
@@ -96,7 +94,7 @@ import com.philips.cl.di.dev.pa.view.FontTextView;
 import com.philips.cl.di.dev.pa.view.ListViewItem;
 
 public class MainActivity extends BaseActivity implements AirPurifierEventListener, SignonListener, 
-PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener {
+PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListener, InternetConnectionListener {
 
 	private static int screenWidth, screenHeight;
 
@@ -169,6 +167,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		setScreenHeight(displayMetrics.heightPixels);
 
 		OutdoorController.getInstance();
+		//DiscoveryManager.getInstance() ;
 		try {
 			initActionBar();
 		} catch (ClassCastException e) {
@@ -250,8 +249,8 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 
 		OutdoorController.getInstance().setActivity(this);
 
-		// Enable for release build
     	checkForCrashesHockeyApp();
+
 	}
 
 	public void startDemoMode() {
@@ -494,8 +493,9 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 	}
 
 	private void initializeCPPController() {
-		CPPController.getInstance(this).setDefaultDcsState() ;
-		CPPController.getInstance(this).addSignOnListener(this) ;
+			CPPController.getInstance(this).setDefaultDcsState() ;
+			CPPController.getInstance(this).addSignOnListener(this) ;
+		
 	}
 
 	public DrawerLayout getDrawerLayout() {
@@ -1021,33 +1021,19 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 			//should be called only when signOn is successful
 			PurifierManager.getInstance().startSubscription();
 		}
-	}
+	} 
 
 	public void pairToPurifierIfNecessary() {
-
 		final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
 		if( PairingHandler.pairPurifierIfNecessary(purifier) && PairingHandler.getPairingAttempts(purifier.getEui64()) < AppConstants.MAX_RETRY) {
 			purifier.setPairing(PurAirDevice.PAIRED_STATUS.PAIRING);
 			ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ " Start internet connection check.");
-			URLExistAsyncTask.getInstance().testConnection(new AsyncTaskCompleteListenere() {
-
-				@Override
-				public void onTaskComplete(boolean result) {
-					if(result){
-						if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn() || purifier==null){
-							return;
-						}	
-						ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
-						PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
-						pm.setPairingAttempts(purifier.getEui64());
-						pm.startPairing();
-					}else {
-						purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
-						showInternetAlertDialog();
-					}
-				}
-			});
+			checkInternetConnection() ;			
 		}
+	}
+	
+	private void checkInternetConnection() {
+		new InternetConnectionHandler(this).checkInternetConnection() ;
 	}
 	
 	private void showInternetAlertDialog(){
@@ -1165,7 +1151,7 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 		if (PurAirApplication.isDemoModeEnable()) {
 			updateUIInDemoMode();
 		} else {
-			CPPController.getInstance(this).signOnWithProvisioning();
+			CPPController.getInstance(this).signOnWithProvisioning();			
 		}
 	}
 
@@ -1218,5 +1204,37 @@ PairingListener, DiscoveryEventListener, NetworkStateListener, DrawerEventListen
 				return true;
 			}
 		});
+	}
+	
+	@Override
+	public void internetStatus(boolean internetAvailable) {
+		if ( internetAvailable ) {
+			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;			
+			if (!CPPController.getInstance(PurAirApplication.getAppContext()).isSignOn() || purifier==null) {
+				CPPController.getInstance(PurAirApplication.getAppContext()).signOnWithProvisioning() ;
+				CPPController.getInstance(PurAirApplication.getAppContext()).addSignOnListener(new SignonListener() {
+					@Override
+					public void signonStatus(boolean signon) {
+						if( signon ) {
+							ALog.i(ALog.PAIRING, "Start pairing process" ) ;
+							PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+							pm.setPairingAttempts(purifier.getEui64());
+							pm.startPairing();
+						}
+					}
+				});
+			}
+			else {
+				ALog.i(ALog.PAIRING, "In pairToPurifierIfNecessary(): "+ purifier.getPairedStatus()+ " "+ purifier.getName());
+				PairingHandler pm = new PairingHandler(MainActivity.this, purifier);
+				pm.setPairingAttempts(purifier.getEui64());
+				pm.startPairing();
+			}
+		}
+		else {
+			final PurAirDevice purifier = PurifierManager.getInstance().getCurrentPurifier() ;
+			purifier.setPairing(PurAirDevice.PAIRED_STATUS.NOT_PAIRED);
+			showInternetAlertDialog();
+		}
 	}
 }
